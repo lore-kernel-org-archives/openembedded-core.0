@@ -1,1108 +1,1215 @@
-Return-Path: <rak3033@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A68C77B7E
-	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 10:09:09 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.27025.1685614147898952229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBD0C7EE23
+	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 10:43:49 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.27822.1685616226222412363
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 03:09:08 -0700
+ Thu, 01 Jun 2023 03:43:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=g8xQybaB;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: rak3033@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-64d3e5e5980so840972b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 03:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685614147; x=1688206147;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/aKz3Mpl8I2Riw1xEYHR5gjIewVX6T4s80IhRUENcq8=;
-        b=g8xQybaBJfKF43aaWFlpOKSCVIYwIQhFLOPdF0WUw5t01wuSmnnmWSimvLacSYmxER
-         ml0cng3VkaCrWq2nNRtP6IA6+MEouMvejOaKacq/0x/BGmxOYBIuyPOATDyrjB4WxKO7
-         ZQU1rOeEDHwYl4UxC/nE8SreFmNGeRvFcgLW0n4oXMXZtP299/k/Hwfq6rVlZohmBIV8
-         5ZbFQXuRv3iIzDBPrzocZmNPVCf2e4id5zvLtZB4YOppqdMoRjwnzV6z6NUZuiig8Wia
-         Aaq+N/do9PbX2EnxWbRUpoOFHs7NxpDEeDSIdQb+AfVxJhYsCkLhVbK4zaaOAF6KASLG
-         /s4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685614147; x=1688206147;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/aKz3Mpl8I2Riw1xEYHR5gjIewVX6T4s80IhRUENcq8=;
-        b=TWgzna7eEX0e7GzEydlxhyYWqLglkKgJKm38oxztE7Ew28cW6M1ioMd6PJ7nsqvbHX
-         vq7N+YywxsEXaaqmUQ8yKRxEoYD69ulHzDC61ta0GR1ZlgOKl/gSjRmROah6ooHT2jFl
-         hEuPYRHxuGVR237YEd4CIvsaS4ttF0YcyH2ngPAMqJuASMpmWFgf7Y1gBqn9HHZRjWdJ
-         1XtXBZbAzY26iISnAOC+ewmxfj99KKdfE2EqAZQExg0JCK7Ln3TAWFMNHNFrdeHmUg1v
-         4I1U90lQYHmSYG6exLDFLqNh91OLjkfL1YRIyWyGS2slKiSlDBF/I5yKdNeBS8Mw90O+
-         oI6g==
-X-Gm-Message-State: AC+VfDzYbD5UaPHlTdFx2Ws5b3wp9izqkwyAfv1jNUn+8TNCQWi4CJwy
-	yXpZGpBA+TxzF5zCc4AP8+Jh9+BGoqbpag==
-X-Google-Smtp-Source: ACHHUZ5GWTh+24c8jOJVXdvw6lRoDxvQlGlQ/lNRMBBVtBeUQDC/6PyBhUDNtHrY0AejCBEmAm/r2w==
-X-Received: by 2002:a05:6a00:23c8:b0:64d:1333:6f3d with SMTP id g8-20020a056a0023c800b0064d13336f3dmr10988892pfc.10.1685614146822;
-        Thu, 01 Jun 2023 03:09:06 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:369d:2ff5:c9ca:209b:f771:d5c1])
-        by smtp.gmail.com with ESMTPSA id e6-20020aa78246000000b0064f76992905sm4654600pfn.202.2023.06.01.03.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 03:09:06 -0700 (PDT)
-From: Riyaz Khan <rak3033@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	rak3033@gmail.com
-Cc: riyaz.khan@kpit.com,
-	ranjitsinh.rathod@kpit.com,
-	Riyaz Khan <Riyaz.Khan@kpit.com>
-Subject: [OE-core][master][PATCH v3] openssh: Remove BSD-4-clause contents completely from codebase
-Date: Thu,  1 Jun 2023 15:38:54 +0530
-Message-Id: <20230601100854.16004-1-rak3033@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YUFEnvRW;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685616223;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=su2XWmWeRexDgK7f1ejvG2A5fGYOMyXlVhmL3os6yWs=;
+	b=YUFEnvRWXQm78txpO4fx3m+WNDOH+rHhdG1ICws0tLscK86ZZ3QuT3l2RPpM4XwTNYFQ9B
+	cB1A2iFHYCuFXOZFaBw9rpSaKWnM/b4einQW1l7ULLJpxlqSAAFC777od/GkoaKxekPAg1
+	KTXe6jHAuKbheq3KaC7cECkx5gKWZmyjcAJ3aTI8I0cfen8kpZZuAEXwn9FK5BM/16Tp08
+	Uk4YkPQx7YcvD4X1tJCwRBmp1S5TkZQb0F3lZmy6VedI95TZhzRAgkCZNIxFil+FsmVxAP
+	hpmYlSifnrhsyGFr9jWLBUQmATxs3pFOwbOwu4JxsCqElg/SpYedWx+p2NZkDA==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D606E60003;
+	Thu,  1 Jun 2023 10:43:42 +0000 (UTC)
+Date: Thu, 1 Jun 2023 12:43:42 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: mark.hatle@amd.com
+Cc: openembedded-core@lists.openembedded.org, zhangjialing@loongson.cn,
+	seebs@seebs.net
+Subject: Re: [OE-core] [PATCH][pseudo] Move __*xstat* and __xmknod functions
+ to new subport 'old__x'
+Message-ID: <20230601104342472d20fd@mail.local>
+References: <20230531030126.5837-1-mark.hatle@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230531030126.5837-1-mark.hatle@amd.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 10:09:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182096
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 10:43:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182097
 
-From: Riyaz Khan <Riyaz.Khan@kpit.com>
+Hello Mark,
 
-Below upstream commit removed BSD-4-Clause from the LICENSE variable,
-Link: https://git.yoctoproject.org/poky/commit/?id=2c86f586d55d0f6b99053e3e4d14c9ee36fa8aa8
-But actually if we check from the source code of the openssh for this
-version (8.9p1), there are some files (openbsd-compat/libressl-api-compat.c)
-still affected.
+This causes failures on opensuse154 and debian11 workers. I've tried to
+get pseudo.log for the failures but they are not present on debian11 and
+are not interesting for opensuse154.
 
-As upstream removed this BSD-4-clause license, there are still some files
-has this license. Below file is affected by this BSD-4-clause contents when
-the below command is executed
-grep -rl "All advertising materials mentioning features or use of this software" *|grep -v \.1|grep -v \.5|grep -v \.8 | sort
-openbsd-compat/libressl-api-compat.c
+debian11 failures look like that:
 
-All advertising materials mentioning features or use of this software
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/7184/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/7184/steps/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/7152/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/7152/steps/13/logs/stdio
 
-Reason for backporting is some of the product restrict the BSD-4-Clause usage and the purpose of this commit is
-to completely remove the BSD-4-Clause license from the openssh.
+opensuse:
 
-When checked in the master branch, openssh upstream removes the bsd-4 license compeletely from this commit
-https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0
-Hence Backport this commit completely to remove license of BSD-4-clause contents from code. Hunks are refreshed.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/2819/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/7597/steps/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/7211/steps/13/logs/stdio
 
-Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
----
- ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 994 ++++++++++++++++++
- .../openssh/openssh_9.3p1.bb                  |   1 +
- 2 files changed, 995 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
+stream8 is similar:
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
-new file mode 100644
-index 0000000000..4c8aa085f3
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
-@@ -0,0 +1,994 @@
-+From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:00 2001
-+From: Damien Miller <djm@mindrot.org>
-+Date: Fri, 24 Mar 2023 13:56:25 +1100
-+Subject: [PATCH] remove support for old libcrypto
-+
-+OpenSSH now requires LibreSSL 3.1.0 or greater or
-+OpenSSL 1.1.1 or greater
-+
-+with/ok dtucker@
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0]
-+Comment: Hunks are refreshed.
-+Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-+
-+---
-+ .github/workflows/c-cpp.yml          |   7 -
-+ INSTALL                              |   8 +-
-+ cipher-aes.c                         |   2 +-
-+ configure.ac                         |  96 ++---
-+ openbsd-compat/libressl-api-compat.c | 556 +--------------------------
-+ openbsd-compat/openssl-compat.h      | 151 +-------
-+ 6 files changed, 40 insertions(+), 780 deletions(-)
-+
-+diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.yml
-+index 3d9aa22dba5..d299a32468d 100644
-+--- a/.github/workflows/c-cpp.yml
-++++ b/.github/workflows/c-cpp.yml
-+@@ -47,9 +47,6 @@ jobs:
-+           - { target: ubuntu-20.04, config: tcmalloc }
-+           - { target: ubuntu-20.04, config: musl }
-+           - { target: ubuntu-latest, config: libressl-master }
-+-          - { target: ubuntu-latest, config: libressl-2.2.9 }
-+-          - { target: ubuntu-latest, config: libressl-2.8.3 }
-+-          - { target: ubuntu-latest, config: libressl-3.0.2 }
-+           - { target: ubuntu-latest, config: libressl-3.2.6 }
-+           - { target: ubuntu-latest, config: libressl-3.3.6 }
-+           - { target: ubuntu-latest, config: libressl-3.4.3 }
-+@@ -58,10 +55,6 @@ jobs:
-+           - { target: ubuntu-latest, config: libressl-3.7.0 }
-+           - { target: ubuntu-latest, config: openssl-master }
-+           - { target: ubuntu-latest, config: openssl-noec }
-+-          - { target: ubuntu-latest, config: openssl-1.0.1 }
-+-          - { target: ubuntu-latest, config: openssl-1.0.1u }
-+-          - { target: ubuntu-latest, config: openssl-1.0.2u }
-+-          - { target: ubuntu-latest, config: openssl-1.1.0h }
-+           - { target: ubuntu-latest, config: openssl-1.1.1 }
-+           - { target: ubuntu-latest, config: openssl-1.1.1k }
-+           - { target: ubuntu-latest, config: openssl-1.1.1n }
-+diff --git a/INSTALL b/INSTALL
-+index 68b15e13190..f99d1e2a809 100644
-+--- a/INSTALL
-++++ b/INSTALL
-+@@ -21,12 +21,8 @@ https://zlib.net/
-+ 
-+ libcrypto from either of LibreSSL or OpenSSL.  Building without libcrypto
-+ is supported but severely restricts the available ciphers and algorithms.
-+- - LibreSSL (https://www.libressl.org/)
-+- - OpenSSL (https://www.openssl.org) with any of the following versions:
-+-   - 1.0.x >= 1.0.1 or 1.1.0 >= 1.1.0g or any 1.1.1
-+-
-+-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions prior to
-+-1.1.0g can't be used.
-++ - LibreSSL (https://www.libressl.org/) 3.1.0 or greater
-++ - OpenSSL (https://www.openssl.org) 1.1.1 or greater
-+ 
-+ LibreSSL/OpenSSL should be compiled as a position-independent library
-+ (i.e. -fPIC, eg by configuring OpenSSL as "./config [options] -fPIC"
-+diff --git a/cipher-aes.c b/cipher-aes.c
-+index 8b101727284..87c763353d8 100644
-+--- a/cipher-aes.c
-++++ b/cipher-aes.c
-+@@ -69,7 +69,7 @@ ssh_rijndael_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-+ 
-+ static int
-+ ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src,
-+-    LIBCRYPTO_EVP_INL_TYPE len)
-++    size_t len)
-+ {
-+ 	struct ssh_rijndael_ctx *c;
-+ 	u_char buf[RIJNDAEL_BLOCKSIZE];
-+diff --git a/configure.ac b/configure.ac
-+index 22fee70f604..1c0ccdf19c5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2802,42 +2802,40 @@ if test "x$openssl" = "xyes" ; then
-+ 	#include <openssl/crypto.h>
-+ 	#define DATA "conftest.ssllibver"
-+ 		]], [[
-+-		FILE *fd;
-+-		int rc;
-++		FILE *f;
-+ 
-+-		fd = fopen(DATA,"w");
-+-		if(fd == NULL)
-++		if ((f = fopen(DATA, "w")) == NULL)
-+ 			exit(1);
-+-#ifndef OPENSSL_VERSION
-+-# define OPENSSL_VERSION SSLEAY_VERSION
-+-#endif
-+-#ifndef HAVE_OPENSSL_VERSION
-+-# define OpenSSL_version	SSLeay_version
-+-#endif
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+-		if ((rc = fprintf(fd, "%08lx (%s)\n",
-++		if (fprintf(f, "%08lx (%s)",
-+ 		    (unsigned long)OpenSSL_version_num(),
-+-		    OpenSSL_version(OPENSSL_VERSION))) < 0)
-++		    OpenSSL_version(OPENSSL_VERSION)) < 0)
-++			exit(1);
-++#ifdef LIBRESSL_VERSION_NUMBER
-++		if (fprintf(f, " libressl-%08lx", LIBRESSL_VERSION_NUMBER) < 0)
-++			exit(1);
-++#endif
-++		if (fputc('\n', f) == EOF || fclose(f) == EOF)
-+ 			exit(1);
-+-
-+ 		exit(0);
-+ 		]])],
-+ 		[
-+-			ssl_library_ver=`cat conftest.ssllibver`
-++			sslver=`cat conftest.ssllibver`
-++			ssl_showver=`echo "$sslver" | sed 's/ libressl-.*//'`
-+ 			# Check version is supported.
-+-			case "$ssl_library_ver" in
-+-			10000*|0*)
-+-				AC_MSG_ERROR([OpenSSL >= 1.0.1 required (have "$ssl_library_ver")])
-+-		                ;;
-+-			100*)   ;; # 1.0.x
-+-			101000[[0123456]]*)
-+-				# https://github.com/openssl/openssl/pull/4613
-+-				AC_MSG_ERROR([OpenSSL 1.1.x versions prior to 1.1.0g have a bug that breaks their use with OpenSSH (have "$ssl_library_ver")])
-++			case "$sslver" in
-++			100*|10100*) # 1.0.x, 1.1.0x
-++				AC_MSG_ERROR([OpenSSL >= 1.1.1 required (have "$ssl_showver")])
-+ 				;;
-+ 			101*)   ;; # 1.1.x
-+-			200*)   ;; # LibreSSL
-++			200*)   # LibreSSL
-++				lver=`echo "$sslver" | sed 's/.*libressl-//'`
-++				case "$lver" in
-++				2*|300*) # 2.x, 3.0.0
-++					AC_MSG_ERROR([LibreSSL >= 3.1.0 required (have "$ssl_showver")])
-++					;;
-++				*) ;;	# Assume all other versions are good.
-++				esac
-++				;;
-+ 			300*)
-+ 				# OpenSSL 3; we use the 1.1x API
-+ 				CPPFLAGS="$CPPFLAGS -DOPENSSL_API_COMPAT=0x10100000L"
-+@@ -2847,10 +2845,10 @@ if test "x$openssl" = "xyes" ; then
-+ 				CPPFLAGS="$CPPFLAGS -DOPENSSL_API_COMPAT=0x10100000L"
-+ 				;;
-+ 		        *)
-+-				AC_MSG_ERROR([Unknown/unsupported OpenSSL version ("$ssl_library_ver")])
-++				AC_MSG_ERROR([Unknown/unsupported OpenSSL version ("$ssl_showver")])
-+ 		                ;;
-+ 			esac
-+-			AC_MSG_RESULT([$ssl_library_ver])
-++			AC_MSG_RESULT([$ssl_showver])
-+ 		],
-+ 		[
-+ 			AC_MSG_RESULT([not found])
-+@@ -2863,7 +2861,7 @@ if test "x$openssl" = "xyes" ; then
-+ 
-+ 	case "$host" in
-+ 	x86_64-*)
-+-		case "$ssl_library_ver" in
-++		case "$sslver" in
-+ 		3000004*)
-+ 			AC_MSG_ERROR([OpenSSL 3.0.4 has a potential RCE in its RSA implementation (CVE-2022-2274)])
-+ 			;;
-+@@ -2879,9 +2877,6 @@ if test "x$openssl" = "xyes" ; then
-+ 	#include <openssl/opensslv.h>
-+ 	#include <openssl/crypto.h>
-+ 		]], [[
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+ 		exit(OpenSSL_version_num() == OPENSSL_VERSION_NUMBER ? 0 : 1);
-+ 		]])],
-+ 		[
-+@@ -2955,44 +2950,13 @@ if test "x$openssl" = "xyes" ; then
-+ 	    )
-+ 	)
-+ 
-+-	# LibreSSL/OpenSSL 1.1x API
-++	# LibreSSL/OpenSSL API differences
-+ 	AC_CHECK_FUNCS([ \
-+-		OPENSSL_init_crypto \
-+-		DH_get0_key \
-+-		DH_get0_pqg \
-+-		DH_set0_key \
-+-		DH_set_length \
-+-		DH_set0_pqg \
-+-		DSA_get0_key \
-+-		DSA_get0_pqg \
-+-		DSA_set0_key \
-+-		DSA_set0_pqg \
-+-		DSA_SIG_get0 \
-+-		DSA_SIG_set0 \
-+-		ECDSA_SIG_get0 \
-+-		ECDSA_SIG_set0 \
-+ 		EVP_CIPHER_CTX_iv \
-+ 		EVP_CIPHER_CTX_iv_noconst \
-+ 		EVP_CIPHER_CTX_get_iv \
-+ 		EVP_CIPHER_CTX_get_updated_iv \
-+ 		EVP_CIPHER_CTX_set_iv \
-+-		RSA_get0_crt_params \
-+-		RSA_get0_factors \
-+-		RSA_get0_key \
-+-		RSA_set0_crt_params \
-+-		RSA_set0_factors \
-+-		RSA_set0_key \
-+-		RSA_meth_free \
-+-		RSA_meth_dup \
-+-		RSA_meth_set1_name \
-+-		RSA_meth_get_finish \
-+-		RSA_meth_set_priv_enc \
-+-		RSA_meth_set_priv_dec \
-+-		RSA_meth_set_finish \
-+-		EVP_PKEY_get0_RSA \
-+-		EVP_MD_CTX_new \
-+-		EVP_MD_CTX_free \
-+-		EVP_chacha20 \
-+ 	])
-+ 
-+ 	if test "x$openssl_engine" = "xyes" ; then
-+@@ -3050,8 +3014,8 @@ if test "x$openssl" = "xyes" ; then
-+ 		]
-+ 	)
-+ 
-+-	# Check for SHA256, SHA384 and SHA512 support in OpenSSL
-+-	AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512])
-++	# Check for various EVP support in OpenSSL
-++	AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512 EVP_chacha20])
-+ 
-+ 	# Check complete ECC support in OpenSSL
-+ 	AC_MSG_CHECKING([whether OpenSSL has NID_X9_62_prime256v1])
-+diff --git a/openbsd-compat/libressl-api-compat.c b/openbsd-compat/libressl-api-compat.c
-+index 498180dc894..59be17397c5 100644
-+--- a/openbsd-compat/libressl-api-compat.c
-++++ b/openbsd-compat/libressl-api-compat.c
-+@@ -1,129 +1,5 @@
-+-/* $OpenBSD: dsa_lib.c,v 1.29 2018/04/14 07:09:21 tb Exp $ */
-+-/* $OpenBSD: rsa_lib.c,v 1.37 2018/04/14 07:09:21 tb Exp $ */
-+-/* $OpenBSD: evp_lib.c,v 1.17 2018/09/12 06:35:38 djm Exp $ */
-+-/* $OpenBSD: dh_lib.c,v 1.32 2018/05/02 15:48:38 tb Exp $ */
-+-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */
-+-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-+-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
-+- * All rights reserved.
-+- *
-+- * This package is an SSL implementation written
-+- * by Eric Young (eay@cryptsoft.com).
-+- * The implementation was written so as to conform with Netscapes SSL.
-+- *
-+- * This library is free for commercial and non-commercial use as long as
-+- * the following conditions are aheared to.  The following conditions
-+- * apply to all code found in this distribution, be it the RC4, RSA,
-+- * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
-+- * included with this distribution is covered by the same copyright terms
-+- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
-+- *
-+- * Copyright remains Eric Young's, and as such any Copyright notices in
-+- * the code are not to be removed.
-+- * If this package is used in a product, Eric Young should be given attribution
-+- * as the author of the parts of the library used.
-+- * This can be in the form of a textual message at program startup or
-+- * in documentation (online or textual) provided with the package.
-+- *
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- * 1. Redistributions of source code must retain the copyright
-+- *    notice, this list of conditions and the following disclaimer.
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in the
-+- *    documentation and/or other materials provided with the distribution.
-+- * 3. All advertising materials mentioning features or use of this software
-+- *    must display the following acknowledgement:
-+- *    "This product includes cryptographic software written by
-+- *     Eric Young (eay@cryptsoft.com)"
-+- *    The word 'cryptographic' can be left out if the rouines from the library
-+- *    being used are not cryptographic related :-).
-+- * 4. If you include any Windows specific code (or a derivative thereof) from
-+- *    the apps directory (application code) you must include an acknowledgement:
-+- *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
-+- *
-+- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
-+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-+- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+- * SUCH DAMAGE.
-+- *
-+- * The licence and distribution terms for any publically available version or
-+- * derivative of this code cannot be changed.  i.e. this code cannot simply be
-+- * copied and put under another distribution licence
-+- * [including the GNU Public Licence.]
-+- */
-+-
-+-/* $OpenBSD: dsa_asn1.c,v 1.22 2018/06/14 17:03:19 jsing Exp $ */
-+-/* $OpenBSD: ecs_asn1.c,v 1.9 2018/03/17 15:24:44 tb Exp $ */
-+-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-+-/* Written by Dr Stephen N Henson (steve@openssl.org) for the OpenSSL
-+- * project 2000.
-+- */
-+-/* ====================================================================
-+- * Copyright (c) 2000-2005 The OpenSSL Project.  All rights reserved.
-+- *
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- *
-+- * 1. Redistributions of source code must retain the above copyright
-+- *    notice, this list of conditions and the following disclaimer.
-+- *
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in
-+- *    the documentation and/or other materials provided with the
-+- *    distribution.
-+- *
-+- * 3. All advertising materials mentioning features or use of this
-+- *    software must display the following acknowledgment:
-+- *    "This product includes software developed by the OpenSSL Project
-+- *    for use in the OpenSSL Toolkit. (http://www.OpenSSL.org/)"
-+- *
-+- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
-+- *    endorse or promote products derived from this software without
-+- *    prior written permission. For written permission, please contact
-+- *    licensing@OpenSSL.org.
-+- *
-+- * 5. Products derived from this software may not be called "OpenSSL"
-+- *    nor may "OpenSSL" appear in their names without prior written
-+- *    permission of the OpenSSL Project.
-+- *
-+- * 6. Redistributions of any form whatsoever must retain the following
-+- *    acknowledgment:
-+- *    "This product includes software developed by the OpenSSL Project
-+- *    for use in the OpenSSL Toolkit (http://www.OpenSSL.org/)"
-+- *
-+- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
-+- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-+- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
-+- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-+- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-+- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-+- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-+- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-+- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-+- * OF THE POSSIBILITY OF SUCH DAMAGE.
-+- * ====================================================================
-+- *
-+- * This product includes cryptographic software written by Eric Young
-+- * (eay@cryptsoft.com).  This product includes software written by Tim
-+- * Hudson (tjh@cryptsoft.com).
-+- *
-+- */
-+-
-+-/*	$OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:35:38 djm Exp $	*/
-+ /*
-+- * Copyright (c) 2018 Theo Buehler <tb@openbsd.org>
-++ * Copyright (c) 2018 Damien Miller <djm@mindrot.org>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -147,192 +23,7 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ 
-+-#include <openssl/err.h>
-+-#include <openssl/bn.h>
-+-#include <openssl/dsa.h>
-+-#include <openssl/rsa.h>
-+ #include <openssl/evp.h>
-+-#ifdef OPENSSL_HAS_ECC
-+-#include <openssl/ecdsa.h>
-+-#endif
-+-#include <openssl/dh.h>
-+-
-+-#ifndef HAVE_DSA_GET0_PQG
-+-void
-+-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
-+-{
-+-	if (p != NULL)
-+-		*p = d->p;
-+-	if (q != NULL)
-+-		*q = d->q;
-+-	if (g != NULL)
-+-		*g = d->g;
-+-}
-+-#endif /* HAVE_DSA_GET0_PQG */
-+-
-+-#ifndef HAVE_DSA_SET0_PQG
-+-int
-+-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-+-{
-+-	if ((d->p == NULL && p == NULL) || (d->q == NULL && q == NULL) ||
-+-	    (d->g == NULL && g == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(d->p);
-+-		d->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(d->q);
-+-		d->q = q;
-+-	}
-+-	if (g != NULL) {
-+-		BN_free(d->g);
-+-		d->g = g;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SET0_PQG */
-+-
-+-#ifndef HAVE_DSA_GET0_KEY
-+-void
-+-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM **priv_key)
-+-{
-+-	if (pub_key != NULL)
-+-		*pub_key = d->pub_key;
-+-	if (priv_key != NULL)
-+-		*priv_key = d->priv_key;
-+-}
-+-#endif /* HAVE_DSA_GET0_KEY */
-+-
-+-#ifndef HAVE_DSA_SET0_KEY
-+-int
-+-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)
-+-{
-+-	if (d->pub_key == NULL && pub_key == NULL)
-+-		return 0;
-+-
-+-	if (pub_key != NULL) {
-+-		BN_free(d->pub_key);
-+-		d->pub_key = pub_key;
-+-	}
-+-	if (priv_key != NULL) {
-+-		BN_free(d->priv_key);
-+-		d->priv_key = priv_key;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_KEY
-+-void
-+-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, const BIGNUM **d)
-+-{
-+-	if (n != NULL)
-+-		*n = r->n;
-+-	if (e != NULL)
-+-		*e = r->e;
-+-	if (d != NULL)
-+-		*d = r->d;
-+-}
-+-#endif /* HAVE_RSA_GET0_KEY */
-+-
-+-#ifndef HAVE_RSA_SET0_KEY
-+-int
-+-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
-+-{
-+-	if ((r->n == NULL && n == NULL) || (r->e == NULL && e == NULL))
-+-		return 0;
-+-
-+-	if (n != NULL) {
-+-		BN_free(r->n);
-+-		r->n = n;
-+-	}
-+-	if (e != NULL) {
-+-		BN_free(r->e);
-+-		r->e = e;
-+-	}
-+-	if (d != NULL) {
-+-		BN_free(r->d);
-+-		r->d = d;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-+-void
-+-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM **dmq1,
-+-    const BIGNUM **iqmp)
-+-{
-+-	if (dmp1 != NULL)
-+-		*dmp1 = r->dmp1;
-+-	if (dmq1 != NULL)
-+-		*dmq1 = r->dmq1;
-+-	if (iqmp != NULL)
-+-		*iqmp = r->iqmp;
-+-}
-+-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-+-int
-+-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp)
-+-{
-+-	if ((r->dmp1 == NULL && dmp1 == NULL) ||
-+-	    (r->dmq1 == NULL && dmq1 == NULL) ||
-+-	    (r->iqmp == NULL && iqmp == NULL))
-+-		return 0;
-+-
-+-	if (dmp1 != NULL) {
-+-		BN_free(r->dmp1);
-+-		r->dmp1 = dmp1;
-+-	}
-+-	if (dmq1 != NULL) {
-+-		BN_free(r->dmq1);
-+-		r->dmq1 = dmq1;
-+-	}
-+-	if (iqmp != NULL) {
-+-		BN_free(r->iqmp);
-+-		r->iqmp = iqmp;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_GET0_FACTORS
-+-void
-+-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)
-+-{
-+-	if (p != NULL)
-+-		*p = r->p;
-+-	if (q != NULL)
-+-		*q = r->q;
-+-}
-+-#endif /* HAVE_RSA_GET0_FACTORS */
-+-
-+-#ifndef HAVE_RSA_SET0_FACTORS
-+-int
-+-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)
-+-{
-+-	if ((r->p == NULL && p == NULL) || (r->q == NULL && q == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(r->p);
-+-		r->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(r->q);
-+-		r->q = q;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_FACTORS */
-+ 
-+ #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-+ int
-+@@ -392,249 +83,4 @@ EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx, const unsigned char *iv, size_t len)
-+ }
-+ #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-+ 
-+-#ifndef HAVE_DSA_SIG_GET0
-+-void
-+-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps)
-+-{
-+-	if (pr != NULL)
-+-		*pr = sig->r;
-+-	if (ps != NULL)
-+-		*ps = sig->s;
-+-}
-+-#endif /* HAVE_DSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_DSA_SIG_SET0
-+-int
-+-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-+-{
-+-	if (r == NULL || s == NULL)
-+-		return 0;
-+-
-+-	BN_clear_free(sig->r);
-+-	sig->r = r;
-+-	BN_clear_free(sig->s);
-+-	sig->s = s;
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SIG_SET0 */
-+-
-+-#ifdef OPENSSL_HAS_ECC
-+-#ifndef HAVE_ECDSA_SIG_GET0
-+-void
-+-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps)
-+-{
-+-	if (pr != NULL)
-+-		*pr = sig->r;
-+-	if (ps != NULL)
-+-		*ps = sig->s;
-+-}
-+-#endif /* HAVE_ECDSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_ECDSA_SIG_SET0
-+-int
-+-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-+-{
-+-	if (r == NULL || s == NULL)
-+-		return 0;
-+-
-+-	BN_clear_free(sig->r);
-+-	BN_clear_free(sig->s);
-+-	sig->r = r;
-+-	sig->s = s;
-+-	return 1;
-+-}
-+-#endif /* HAVE_ECDSA_SIG_SET0 */
-+-#endif /* OPENSSL_HAS_ECC */
-+-
-+-#ifndef HAVE_DH_GET0_PQG
-+-void
-+-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
-+-{
-+-	if (p != NULL)
-+-		*p = dh->p;
-+-	if (q != NULL)
-+-		*q = dh->q;
-+-	if (g != NULL)
-+-		*g = dh->g;
-+-}
-+-#endif /* HAVE_DH_GET0_PQG */
-+-
-+-#ifndef HAVE_DH_SET0_PQG
-+-int
-+-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-+-{
-+-	if ((dh->p == NULL && p == NULL) || (dh->g == NULL && g == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(dh->p);
-+-		dh->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(dh->q);
-+-		dh->q = q;
-+-	}
-+-	if (g != NULL) {
-+-		BN_free(dh->g);
-+-		dh->g = g;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET0_PQG */
-+-
-+-#ifndef HAVE_DH_GET0_KEY
-+-void
-+-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key)
-+-{
-+-	if (pub_key != NULL)
-+-		*pub_key = dh->pub_key;
-+-	if (priv_key != NULL)
-+-		*priv_key = dh->priv_key;
-+-}
-+-#endif /* HAVE_DH_GET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET0_KEY
-+-int
-+-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
-+-{
-+-	if (pub_key != NULL) {
-+-		BN_free(dh->pub_key);
-+-		dh->pub_key = pub_key;
-+-	}
-+-	if (priv_key != NULL) {
-+-		BN_free(dh->priv_key);
-+-		dh->priv_key = priv_key;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET_LENGTH
-+-int
-+-DH_set_length(DH *dh, long length)
-+-{
-+-	if (length < 0 || length > INT_MAX)
-+-		return 0;
-+-
-+-	dh->length = length;
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET_LENGTH */
-+-
-+-#ifndef HAVE_RSA_METH_FREE
-+-void
-+-RSA_meth_free(RSA_METHOD *meth)
-+-{
-+-	if (meth != NULL) {
-+-		free((char *)meth->name);
-+-		free(meth);
-+-	}
-+-}
-+-#endif /* HAVE_RSA_METH_FREE */
-+-
-+-#ifndef HAVE_RSA_METH_DUP
-+-RSA_METHOD *
-+-RSA_meth_dup(const RSA_METHOD *meth)
-+-{
-+-	RSA_METHOD *copy;
-+-
-+-	if ((copy = calloc(1, sizeof(*copy))) == NULL)
-+-		return NULL;
-+-	memcpy(copy, meth, sizeof(*copy));
-+-	if ((copy->name = strdup(meth->name)) == NULL) {
-+-		free(copy);
-+-		return NULL;
-+-	}
-+-
-+-	return copy;
-+-}
-+-#endif /* HAVE_RSA_METH_DUP */
-+-
-+-#ifndef HAVE_RSA_METH_SET1_NAME
-+-int
-+-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)
-+-{
-+-	char *copy;
-+-
-+-	if ((copy = strdup(name)) == NULL)
-+-		return 0;
-+-	free((char *)meth->name);
-+-	meth->name = copy;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET1_NAME */
-+-
-+-#ifndef HAVE_RSA_METH_GET_FINISH
-+-int
-+-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)
-+-{
-+-	return meth->finish;
-+-}
-+-#endif /* HAVE_RSA_METH_GET_FINISH */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-+-int
-+-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding))
-+-{
-+-	meth->rsa_priv_enc = priv_enc;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-+-int
-+-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding))
-+-{
-+-	meth->rsa_priv_dec = priv_dec;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_FINISH
-+-int
-+-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
-+-{
-+-	meth->finish = finish;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_FINISH */
-+-
-+-#ifndef HAVE_EVP_PKEY_GET0_RSA
-+-RSA *
-+-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
-+-{
-+-	if (pkey->type != EVP_PKEY_RSA) {
-+-		/* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */
-+-		return NULL;
-+-	}
-+-	return pkey->pkey.rsa;
-+-}
-+-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_NEW
-+-EVP_MD_CTX *
-+-EVP_MD_CTX_new(void)
-+-{
-+-	return calloc(1, sizeof(EVP_MD_CTX));
-+-}
-+-#endif /* HAVE_EVP_MD_CTX_NEW */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_FREE
-+-void
-+-EVP_MD_CTX_free(EVP_MD_CTX *ctx)
-+-{
-+-	if (ctx == NULL)
-+-		return;
-+-
-+-	EVP_MD_CTX_cleanup(ctx);
-+-
-+-	free(ctx);
-+-}
-+-#endif /* HAVE_EVP_MD_CTX_FREE */
-+-
-+ #endif /* WITH_OPENSSL */
-+diff --git a/openbsd-compat/openssl-compat.h b/openbsd-compat/openssl-compat.h
-+index 61a69dd56eb..d0dd2c3450d 100644
-+--- a/openbsd-compat/openssl-compat.h
-++++ b/openbsd-compat/openssl-compat.h
-+@@ -33,26 +33,13 @@
-+ int ssh_compatible_openssl(long, long);
-+ void ssh_libcrypto_init(void);
-+ 
-+-#if (OPENSSL_VERSION_NUMBER < 0x1000100fL)
-+-# error OpenSSL 1.0.1 or greater is required
-++#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
-++# error OpenSSL 1.1.0 or greater is required
-+ #endif
-+-
-+-#ifndef OPENSSL_VERSION
-+-# define OPENSSL_VERSION	SSLEAY_VERSION
-+-#endif
-+-
-+-#ifndef HAVE_OPENSSL_VERSION
-+-# define OpenSSL_version(x)	SSLeay_version(x)
-+-#endif
-+-
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+-
-+-#if OPENSSL_VERSION_NUMBER < 0x10000001L
-+-# define LIBCRYPTO_EVP_INL_TYPE unsigned int
-+-#else
-+-# define LIBCRYPTO_EVP_INL_TYPE size_t
-++#ifdef LIBRESSL_VERSION_NUMBER
-++# if LIBRESSL_VERSION_NUMBER < 0x3010000fL
-++#  error LibreSSL 3.1.0 or greater is required
-++# endif
-+ #endif
-+ 
-+ #ifndef OPENSSL_RSA_MAX_MODULUS_BITS
-+@@ -68,25 +55,6 @@ void ssh_libcrypto_init(void);
-+ # endif
-+ #endif
-+ 
-+-/* LibreSSL/OpenSSL 1.1x API compat */
-+-#ifndef HAVE_DSA_GET0_PQG
-+-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q,
-+-    const BIGNUM **g);
-+-#endif /* HAVE_DSA_GET0_PQG */
-+-
-+-#ifndef HAVE_DSA_SET0_PQG
-+-int DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-+-#endif /* HAVE_DSA_SET0_PQG */
-+-
-+-#ifndef HAVE_DSA_GET0_KEY
-+-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,
-+-    const BIGNUM **priv_key);
-+-#endif /* HAVE_DSA_GET0_KEY */
-+-
-+-#ifndef HAVE_DSA_SET0_KEY
-+-int DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key);
-+-#endif /* HAVE_DSA_SET0_KEY */
-+-
-+ #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-+ # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV
-+ #  define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated_iv
-+@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx,
-+     const unsigned char *iv, size_t len);
-+ #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-+ 
-+-#ifndef HAVE_RSA_GET0_KEY
-+-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
-+-    const BIGNUM **d);
-+-#endif /* HAVE_RSA_GET0_KEY */
-+-
-+-#ifndef HAVE_RSA_SET0_KEY
-+-int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
-+-#endif /* HAVE_RSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-+-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM **dmq1,
-+-    const BIGNUM **iqmp);
-+-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-+-int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp);
-+-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_GET0_FACTORS
-+-void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q);
-+-#endif /* HAVE_RSA_GET0_FACTORS */
-+-
-+-#ifndef HAVE_RSA_SET0_FACTORS
-+-int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
-+-#endif /* HAVE_RSA_SET0_FACTORS */
-+-
-+-#ifndef DSA_SIG_GET0
-+-void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps);
-+-#endif /* DSA_SIG_GET0 */
-+-
-+-#ifndef DSA_SIG_SET0
-+-int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-+-#endif /* DSA_SIG_SET0 */
-+-
-+-#ifdef OPENSSL_HAS_ECC
-+-#ifndef HAVE_ECDSA_SIG_GET0
-+-void ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps);
-+-#endif /* HAVE_ECDSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_ECDSA_SIG_SET0
-+-int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-+-#endif /* HAVE_ECDSA_SIG_SET0 */
-+-#endif /* OPENSSL_HAS_ECC */
-+-
-+-#ifndef HAVE_DH_GET0_PQG
-+-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
-+-    const BIGNUM **g);
-+-#endif /* HAVE_DH_GET0_PQG */
-+-
-+-#ifndef HAVE_DH_SET0_PQG
-+-int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-+-#endif /* HAVE_DH_SET0_PQG */
-+-
-+-#ifndef HAVE_DH_GET0_KEY
-+-void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key);
-+-#endif /* HAVE_DH_GET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET0_KEY
-+-int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
-+-#endif /* HAVE_DH_SET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET_LENGTH
-+-int DH_set_length(DH *dh, long length);
-+-#endif /* HAVE_DH_SET_LENGTH */
-+-
-+-#ifndef HAVE_RSA_METH_FREE
-+-void RSA_meth_free(RSA_METHOD *meth);
-+-#endif /* HAVE_RSA_METH_FREE */
-+-
-+-#ifndef HAVE_RSA_METH_DUP
-+-RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
-+-#endif /* HAVE_RSA_METH_DUP */
-+-
-+-#ifndef HAVE_RSA_METH_SET1_NAME
-+-int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
-+-#endif /* HAVE_RSA_METH_SET1_NAME */
-+-
-+-#ifndef HAVE_RSA_METH_GET_FINISH
-+-int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
-+-#endif /* HAVE_RSA_METH_GET_FINISH */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-+-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding));
-+-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-+-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding));
-+-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_FINISH
-+-int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa));
-+-#endif /* HAVE_RSA_METH_SET_FINISH */
-+-
-+-#ifndef HAVE_EVP_PKEY_GET0_RSA
-+-RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
-+-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_new
-+-EVP_MD_CTX *EVP_MD_CTX_new(void);
-+-#endif /* HAVE_EVP_MD_CTX_new */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_free
-+-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
-+-#endif /* HAVE_EVP_MD_CTX_free */
-+-
-+ #endif /* WITH_OPENSSL */
-+ #endif /* _OPENSSL_COMPAT_H */
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.3p1.bb b/meta/recipes-connectivity/openssh/openssh_9.3p1.bb
-index d3dedd1a5a..42ce814523 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.3p1.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-+           file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch \
-            "
- SRC_URI[sha256sum] = "e9baba7701a76a51f3d85a62c383a3c9dcd97fa900b859bc7db114c1868af8a8"
- 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2939/steps/13/logs/stdio
+
+
+I also suspect this causes:
+
+ERROR: cmdline-shebang-wrapper-test-1.0-r0 do_install: Wrapper permissions for /home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-1782300/tmp/work/core2-64-poky-linux/cmdline-shebang-wrapper-test/1.0-r0/image/usr/bin/test.real not preserved. Found 600 but expected 400
+ERROR: cmdline-shebang-wrapper-test-1.0-r0 do_install: ExecutionError('/home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-1782300/tmp/work/core2-64-poky-linux/cmdline-shebang-wrapper-test/1.0-r0/temp/run.do_install.322689', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-1782300/tmp/work/core2-64-poky-linux/cmdline-shebang-wrapper-test/1.0-r0/temp/log.do_install.322689
+NOTE: recipe cmdline-shebang-wrapper-test-1.0-r0: task do_install: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-1782300/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb:do_install) failed with exit code '1'
+
+
+
+On 30/05/2023 20:01:26-0700, Mark Hatle via lists.openembedded.org wrote:
+> Changes to eliminate __*.c function usage were based on the patch:
+> 
+>    From: JiaLing Zhang <zhangjialing@loongson.cn>
+>    Subject: [OE-core] [PATCH v4] Fixes pseudo build in loongarch64
+> 
+>    Fixes [YOCTO #15110]
+> 
+>    Some functions used in the project have been removed from glibc. After the removal of these functions,
+>    the architecture in glibc will not include the removed functions.
+>    This patch resolves the usage and compilation issues on the loongarch64 architecture
+> 
+>    Signed-off-by: JiaLing Zhang <zhangjialing@loongson.cn>
+> 
+> This code is NOT loongarch64 specific, but implements support for newer
+> glibc where the __*x*stat and __xmknod* functions are no longer present
+> in headers as of roughly glibc 2.33.
+> 
+> The functions, on x86, x86_64 and aarch64 may still be present for
+> compatibility but new software should no longer be using it.  Pseudo
+> can likely change it's default behavior unless support for really old
+> hosts is still desired.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+> ---
+>  ports/linux/guts/fopen64.c                   |  4 +-
+>  ports/linux/guts/freopen64.c                 |  4 +-
+>  ports/linux/guts/fstat.c                     |  8 ++-
+>  ports/linux/guts/fstat64.c                   | 14 +++-
+>  ports/linux/guts/fstatat.c                   |  9 ++-
+>  ports/linux/guts/fstatat64.c                 | 42 +++++++++++-
+>  ports/linux/guts/lstat.c                     |  2 +-
+>  ports/linux/guts/lstat64.c                   |  2 +-
+>  ports/linux/guts/mknod.c                     |  2 +-
+>  ports/linux/guts/mknodat.c                   | 71 +++++++++++++++++++-
+>  ports/linux/guts/mkostemp64.c                |  2 +-
+>  ports/linux/guts/openat.c                    | 18 ++---
+>  ports/linux/guts/stat.c                      |  2 +-
+>  ports/linux/guts/stat64.c                    |  2 +-
+>  ports/linux/old__x/README                    | 28 ++++++++
+>  ports/linux/{ => old__x}/guts/__fxstat.c     |  0
+>  ports/linux/{ => old__x}/guts/__fxstat64.c   |  0
+>  ports/linux/{ => old__x}/guts/__fxstatat.c   |  0
+>  ports/linux/{ => old__x}/guts/__fxstatat64.c |  0
+>  ports/linux/{ => old__x}/guts/__lxstat.c     |  0
+>  ports/linux/{ => old__x}/guts/__lxstat64.c   |  0
+>  ports/linux/{ => old__x}/guts/__xmknod.c     |  0
+>  ports/linux/{ => old__x}/guts/__xmknodat.c   |  0
+>  ports/linux/{ => old__x}/guts/__xstat.c      |  0
+>  ports/linux/{ => old__x}/guts/__xstat64.c    |  0
+>  ports/linux/old__x/guts/fstat.c              | 15 +++++
+>  ports/linux/old__x/guts/fstat64.c            | 15 +++++
+>  ports/linux/old__x/guts/fstatat.c            | 15 +++++
+>  ports/linux/old__x/guts/fstatat64.c          | 15 +++++
+>  ports/linux/old__x/guts/lstat.c              | 15 +++++
+>  ports/linux/old__x/guts/lstat64.c            | 15 +++++
+>  ports/linux/old__x/guts/mknod.c              | 15 +++++
+>  ports/linux/old__x/guts/mknodat.c            | 15 +++++
+>  ports/linux/old__x/guts/mkostemp64.c         | 53 +++++++++++++++
+>  ports/linux/old__x/portdefs.h                | 40 +++++++++++
+>  ports/linux/old__x/pseudo_wrappers.c         | 48 +++++++++++++
+>  ports/linux/old__x/wrapfuncs.in              | 18 +++++
+>  ports/linux/portdefs.h                       | 19 ------
+>  ports/linux/pseudo_wrappers.c                | 43 ------------
+>  ports/linux/subports                         | 15 +++++
+>  ports/linux/wrapfuncs.in                     | 26 +++----
+>  pseudo_client.h                              | 38 +++++++++--
+>  42 files changed, 520 insertions(+), 110 deletions(-)
+>  create mode 100644 ports/linux/old__x/README
+>  rename ports/linux/{ => old__x}/guts/__fxstat.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__fxstat64.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__fxstatat.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__fxstatat64.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__lxstat.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__lxstat64.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__xmknod.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__xmknodat.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__xstat.c (100%)
+>  rename ports/linux/{ => old__x}/guts/__xstat64.c (100%)
+>  create mode 100644 ports/linux/old__x/guts/fstat.c
+>  create mode 100644 ports/linux/old__x/guts/fstat64.c
+>  create mode 100644 ports/linux/old__x/guts/fstatat.c
+>  create mode 100644 ports/linux/old__x/guts/fstatat64.c
+>  create mode 100644 ports/linux/old__x/guts/lstat.c
+>  create mode 100644 ports/linux/old__x/guts/lstat64.c
+>  create mode 100644 ports/linux/old__x/guts/mknod.c
+>  create mode 100644 ports/linux/old__x/guts/mknodat.c
+>  create mode 100644 ports/linux/old__x/guts/mkostemp64.c
+>  create mode 100644 ports/linux/old__x/portdefs.h
+>  create mode 100644 ports/linux/old__x/pseudo_wrappers.c
+>  create mode 100644 ports/linux/old__x/wrapfuncs.in
+> 
+> diff --git a/ports/linux/guts/fopen64.c b/ports/linux/guts/fopen64.c
+> index e76da69..33ccd3a 100644
+> --- a/ports/linux/guts/fopen64.c
+> +++ b/ports/linux/guts/fopen64.c
+> @@ -11,7 +11,7 @@
+>   	struct stat64 buf;
+>  	int save_errno;
+>  
+> -	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
+> +	int existed = (base_stat64(path, &buf) != -1);
+>  
+>  	rc = real_fopen64(path, mode);
+>  	save_errno = errno;
+> @@ -20,7 +20,7 @@
+>  		int fd = fileno(rc);
+>  
+>  		pseudo_debug(PDBGF_FILE, "fopen64 '%s': fd %d <FILE %p>\n", path, fd, (void *) rc);
+> -		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
+> +		if (base_fstat64(fd, &buf) != -1) {
+>  			if (!existed) {
+>  				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
+>  				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
+> diff --git a/ports/linux/guts/freopen64.c b/ports/linux/guts/freopen64.c
+> index 5fc9073..9bcc06a 100644
+> --- a/ports/linux/guts/freopen64.c
+> +++ b/ports/linux/guts/freopen64.c
+> @@ -10,7 +10,7 @@
+>   */
+>   	struct stat64 buf;
+>  	int save_errno;
+> -	int existed = (real___xstat64(_STAT_VER, path, &buf) != -1);
+> +	int existed = (base_stat64(path, &buf) != -1);
+>  
+>  	rc = real_freopen64(path, mode, stream);
+>  	save_errno = errno;
+> @@ -19,7 +19,7 @@
+>  		int fd = fileno(rc);
+>  
+>  		pseudo_debug(PDBGF_FILE, "freopen64 '%s': fd %d\n", path, fd);
+> -		if (real___fxstat64(_STAT_VER, fd, &buf) != -1) {
+> +		if (base_fstat64(fd, &buf) != -1) {
+>  			if (!existed) {
+>  				real_fchmod(fd, PSEUDO_FS_MODE(0666 & ~pseudo_umask, 0));
+>  				pseudo_client_op(OP_CREAT, 0, -1, -1, path, &buf);
+> diff --git a/ports/linux/guts/fstat.c b/ports/linux/guts/fstat.c
+> index b089b15..80933e2 100644
+> --- a/ports/linux/guts/fstat.c
+> +++ b/ports/linux/guts/fstat.c
+> @@ -8,7 +8,13 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstat(_STAT_VER, fd, buf);
+> +	struct stat64 buf64;
+> +	/* populate buffer with complete data */
+> +	real_fstat(fd, buf);
+> +	/* obtain fake data */
+> +	rc = wrap_fstat64(fd, &buf64);
+> +	/* overwrite */
+> +	pseudo_stat32_from64(buf, &buf64);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/fstat64.c b/ports/linux/guts/fstat64.c
+> index 6dd97da..22d46a9 100644
+> --- a/ports/linux/guts/fstat64.c
+> +++ b/ports/linux/guts/fstat64.c
+> @@ -8,8 +8,20 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstat64(_STAT_VER, fd, buf);
+> +	pseudo_msg_t *msg;
+> +	int save_errno;
+>  
+> +	rc = real_fstat64(fd, buf);
+> +	save_errno = errno;
+> +	if (rc == -1) {
+> +		return rc;
+> +	}
+> +	msg = pseudo_client_op(OP_FSTAT, 0, fd, -1, 0, buf);
+> +	if (msg && msg->result == RESULT_SUCCEED) {
+> +		pseudo_stat_msg(buf, msg);
+> +	}
+> +
+> +	errno = save_errno;
+>  /*	return rc;
+>   * }
+>   */
+> diff --git a/ports/linux/guts/fstatat.c b/ports/linux/guts/fstatat.c
+> index 3267641..7b9652d 100644
+> --- a/ports/linux/guts/fstatat.c
+> +++ b/ports/linux/guts/fstatat.c
+> @@ -1,4 +1,5 @@
+>  /*
+> + * Copyright (c) 2008-2010 Wind River Systems; see
+>   * Copyright (c) 2021 Linux Foundation; see
+>   * guts/COPYRIGHT for information.
+>   *
+> @@ -8,7 +9,13 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
+> +	struct stat64 buf64;
+> +	/* populate buffer with complete data */
+> +	real_fstatat(dirfd, path, buf, flags);
+> +	/* obtain fake data */
+> +	rc = wrap_fstatat64(dirfd, path, &buf64, flags);
+> +	/* overwrite */
+> +	pseudo_stat32_from64(buf, &buf64);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/fstatat64.c b/ports/linux/guts/fstatat64.c
+> index c981e14..13c1143 100644
+> --- a/ports/linux/guts/fstatat64.c
+> +++ b/ports/linux/guts/fstatat64.c
+> @@ -1,4 +1,5 @@
+>  /*
+> + * Copyright (c) 2008-2010 Wind River Systems;
+>   * Copyright (c) 2021 Linux Foundation; see
+>   * guts/COPYRIGHT for information.
+>   *
+> @@ -8,7 +9,46 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
+> +	pseudo_msg_t *msg;
+> +	int save_errno;
+> +
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +	if (dirfd != AT_FDCWD) {
+> +		errno = ENOSYS;
+> +		return -1;
+> +	}
+> +#endif
+> +	if (flags & AT_SYMLINK_NOFOLLOW) {
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +		rc = real_lstat64(path, buf);
+> +#else
+> +		rc = real_fstatat64(dirfd, path, buf, flags);
+> +#endif
+> +		if (rc == -1) {
+> +			return rc;
+> +		}
+> +	} else {
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +		rc = real_stat64(path, buf);
+> +#else
+> +		rc = real_fstatat64(dirfd, path, buf, flags);
+> +#endif
+> +		if (rc == -1) {
+> +			return rc;
+> +		}
+> +	}
+> +	save_errno = errno;
+> +
+> +	/* query database
+> +	 * note that symlink canonicalizing is now automatic, so we
+> +	 * don't need to check for a symlink on this end
+> +	 */
+> +	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, buf);
+> +	if (msg && msg->result == RESULT_SUCCEED) {
+> +		pseudo_stat_msg(buf, msg);
+> +	}
+> +
+> +	errno = save_errno;
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/lstat.c b/ports/linux/guts/lstat.c
+> index d2c4d50..0bc9362 100644
+> --- a/ports/linux/guts/lstat.c
+> +++ b/ports/linux/guts/lstat.c
+> @@ -8,7 +8,7 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+> +	rc = wrap_fstatat(AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/lstat64.c b/ports/linux/guts/lstat64.c
+> index 43d0ce1..9e0ff19 100644
+> --- a/ports/linux/guts/lstat64.c
+> +++ b/ports/linux/guts/lstat64.c
+> @@ -8,7 +8,7 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+> +	rc = wrap_fstatat64(AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/mknod.c b/ports/linux/guts/mknod.c
+> index 61fd320..66787c0 100644
+> --- a/ports/linux/guts/mknod.c
+> +++ b/ports/linux/guts/mknod.c
+> @@ -8,7 +8,7 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___xmknod(_MKNOD_VER, path, mode, &dev);
+> +	rc = wrap_mknodat(AT_FDCWD, path, mode, dev);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/mknodat.c b/ports/linux/guts/mknodat.c
+> index a7e4293..c51a82d 100644
+> --- a/ports/linux/guts/mknodat.c
+> +++ b/ports/linux/guts/mknodat.c
+> @@ -1,4 +1,5 @@
+>  /*
+> + * Copyright (c) 2008-2010 Wind River Systems; see
+>   * Copyright (c) 2016 Wind River Systems; see
+>   * guts/COPYRIGHT for information.
+>   *
+> @@ -8,7 +9,75 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
+> +	pseudo_msg_t *msg;
+> +	struct stat64 buf;
+> +
+> +	/* mask out mode bits appropriately */
+> +	mode = mode & ~pseudo_umask;
+> +        /* if you don't specify a type, assume regular file */
+> +        if (!(mode & S_IFMT)) {
+> +                mode |= S_IFREG;
+> +        }
+> +        pseudo_debug(PDBGF_FILE, "mknodat creating '%s', mode 0%o\n",
+> +                path ? path : "<no name>", (int) mode);
+> +
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +	if (dirfd != AT_FDCWD) {
+> +		errno = ENOSYS;
+> +		return -1;
+> +	}
+> +	rc = real_stat64(path, &buf);
+> +#else
+> +	rc = real_fstatat64(dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
+> +#endif
+> +	if (rc != -1) {
+> +		/* if we can stat the file, you can't mknod it */
+> +		errno = EEXIST;
+> +		return -1;
+> +	}
+> +	if (!dev) {
+> +		errno = EINVAL;
+> +		return -1;
+> +	}
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +	rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
+> +		PSEUDO_FS_MODE(mode, 0));
+> +#else
+> +	rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
+> +		PSEUDO_FS_MODE(mode, 0));
+> +#endif
+> +	if (rc == -1) {
+> +		return -1;
+> +	}
+> +	real_fchmod(rc, PSEUDO_FS_MODE(mode, 0));
+> +	real_fstat64(rc, &buf);
+> +	/* mknod does not really open the file.  We don't have
+> +	 * to use wrap_close because we've never exposed this file
+> +	 * descriptor to the client code.
+> +	 */
+> +	real_close(rc);
+> +
+> +	/* mask in the mode type bits again */
+> +	buf.st_mode = (PSEUDO_DB_MODE(buf.st_mode, mode) & 07777) |
+> +			(mode & ~07777);
+> +	buf.st_rdev = dev;
+> +	msg = pseudo_client_op(OP_MKNOD, 0, -1, dirfd, path, &buf);
+> +	if (msg && msg->result != RESULT_SUCCEED) {
+> +		errno = EPERM;
+> +		rc = -1;
+> +	} else {
+> +		/* just pretend we worked */
+> +		rc = 0;
+> +	}
+> +	if (rc == -1) {
+> +		int save_errno = errno;
+> +#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+> +		real_unlink(path);
+> +#else
+> +		real_unlinkat(dirfd, path, AT_SYMLINK_NOFOLLOW);
+> +#endif
+> +		errno = save_errno;
+> +	}
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/mkostemp64.c b/ports/linux/guts/mkostemp64.c
+> index 502211b..694070b 100644
+> --- a/ports/linux/guts/mkostemp64.c
+> +++ b/ports/linux/guts/mkostemp64.c
+> @@ -35,7 +35,7 @@
+>  	if (rc != -1) {
+>  		save_errno = errno;
+>  
+> -		if (real___fxstat64(_STAT_VER, rc, &buf) != -1) {
+> +		if (base_fstat64(rc, &buf) != -1) {
+>  			real_fchmod(rc, PSEUDO_FS_MODE(0600, 0));
+>  			pseudo_client_op(OP_CREAT, 0, -1, -1, tmp_template, &buf);
+>  			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, &buf);
+> diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
+> index 656ac2b..d027154 100644
+> --- a/ports/linux/guts/openat.c
+> +++ b/ports/linux/guts/openat.c
+> @@ -56,12 +56,12 @@
+>  		save_errno = errno;
+>  #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+>  		if (flags & O_NOFOLLOW) {
+> -			rc = real___lxstat64(_STAT_VER, path, &buf);
+> +			rc = base_lstat64(path, &buf);
+>  		} else {
+> -			rc = real___xstat64(_STAT_VER, path, &buf);
+> +			rc = base_stat64(path, &buf);
+>  		}
+>  #else
+> -		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+> +		rc = base_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+>  #endif
+>  		existed = (rc != -1);
+>  		if (!existed)
+> @@ -77,12 +77,12 @@
+>  		save_errno = errno;
+>  #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+>  		if (flags & O_NOFOLLOW) {
+> -			rc = real___lxstat64(_STAT_VER, path, &buf);
+> +			rc = base_lstat64(path, &buf);
+>  		} else {
+> -			rc = real___xstat64(_STAT_VER, path, &buf);
+> +			rc = base_stat64(path, &buf);
+>  		}
+>  #else
+> -		rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+> +		rc = base_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+>  #endif
+>  		if (rc != -1 && S_ISFIFO(buf.st_mode)) {
+>  			overly_magic_nonblocking = 1;
+> @@ -135,12 +135,12 @@
+>  #endif
+>  #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
+>  		if (flags & O_NOFOLLOW) {
+> -			stat_rc = real___lxstat64(_STAT_VER, path, &buf);
+> +			stat_rc = base_lstat64(path, &buf);
+>  		} else {
+> -			stat_rc = real___xstat64(_STAT_VER, path, &buf);
+> +			stat_rc = base_xstat64(path, &buf);
+>  		}
+>  #else
+> -		stat_rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+> +		stat_rc = base_fstatat64(dirfd, path, &buf, (flags & O_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+>  #endif
+>  
+>  		pseudo_debug(PDBGF_FILE, "openat(path %s), flags %o, stat rc %d, stat mode %o\n",
+> diff --git a/ports/linux/guts/stat.c b/ports/linux/guts/stat.c
+> index f8c73f7..ccd00db 100644
+> --- a/ports/linux/guts/stat.c
+> +++ b/ports/linux/guts/stat.c
+> @@ -8,7 +8,7 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, 0);
+> +	rc = wrap_fstatat(AT_FDCWD, path, buf, 0);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/guts/stat64.c b/ports/linux/guts/stat64.c
+> index d8b3f36..391a73f 100644
+> --- a/ports/linux/guts/stat64.c
+> +++ b/ports/linux/guts/stat64.c
+> @@ -8,7 +8,7 @@
+>   *	int rc = -1;
+>   */
+>  
+> -	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, 0);
+> +	rc = wrap_fstatat64(AT_FDCWD, path, buf, 0);
+>  
+>  /*	return rc;
+>   * }
+> diff --git a/ports/linux/old__x/README b/ports/linux/old__x/README
+> new file mode 100644
+> index 0000000..c94413f
+> --- /dev/null
+> +++ b/ports/linux/old__x/README
+> @@ -0,0 +1,28 @@
+> +Older glibcs contain stat functions such as:
+> +
+> +__fxstat
+> +__fxstatat
+> +__lxstat
+> +__xstat
+> +
+> +__fxstat64
+> +__fxstatat64
+> +__lxstat64
+> +__xstat64
+> +
+> +The format of these functions use the _STAT_VER defintion.  New glibc no
+> +longer define or utilize these functions, so neither can we.
+> +
+> +We only use this subport when the functions are present, this is checked
+> +by with the existence of _STAT_VER.
+> +
+> +Older glibcs also contain mknod functions such as:
+> +
+> +__xmknod
+> +__xmknodat
+> +
+> +The format of these functions use the _MKNOD_VER defintion.  New glibc no
+> +longer define or utilize these functions, so neither can we.
+> +
+> +We only use this subport when the functions are present, this is checked
+> +by with the existence of _MKNOD_VER.
+> diff --git a/ports/linux/guts/__fxstat.c b/ports/linux/old__x/guts/__fxstat.c
+> similarity index 100%
+> rename from ports/linux/guts/__fxstat.c
+> rename to ports/linux/old__x/guts/__fxstat.c
+> diff --git a/ports/linux/guts/__fxstat64.c b/ports/linux/old__x/guts/__fxstat64.c
+> similarity index 100%
+> rename from ports/linux/guts/__fxstat64.c
+> rename to ports/linux/old__x/guts/__fxstat64.c
+> diff --git a/ports/linux/guts/__fxstatat.c b/ports/linux/old__x/guts/__fxstatat.c
+> similarity index 100%
+> rename from ports/linux/guts/__fxstatat.c
+> rename to ports/linux/old__x/guts/__fxstatat.c
+> diff --git a/ports/linux/guts/__fxstatat64.c b/ports/linux/old__x/guts/__fxstatat64.c
+> similarity index 100%
+> rename from ports/linux/guts/__fxstatat64.c
+> rename to ports/linux/old__x/guts/__fxstatat64.c
+> diff --git a/ports/linux/guts/__lxstat.c b/ports/linux/old__x/guts/__lxstat.c
+> similarity index 100%
+> rename from ports/linux/guts/__lxstat.c
+> rename to ports/linux/old__x/guts/__lxstat.c
+> diff --git a/ports/linux/guts/__lxstat64.c b/ports/linux/old__x/guts/__lxstat64.c
+> similarity index 100%
+> rename from ports/linux/guts/__lxstat64.c
+> rename to ports/linux/old__x/guts/__lxstat64.c
+> diff --git a/ports/linux/guts/__xmknod.c b/ports/linux/old__x/guts/__xmknod.c
+> similarity index 100%
+> rename from ports/linux/guts/__xmknod.c
+> rename to ports/linux/old__x/guts/__xmknod.c
+> diff --git a/ports/linux/guts/__xmknodat.c b/ports/linux/old__x/guts/__xmknodat.c
+> similarity index 100%
+> rename from ports/linux/guts/__xmknodat.c
+> rename to ports/linux/old__x/guts/__xmknodat.c
+> diff --git a/ports/linux/guts/__xstat.c b/ports/linux/old__x/guts/__xstat.c
+> similarity index 100%
+> rename from ports/linux/guts/__xstat.c
+> rename to ports/linux/old__x/guts/__xstat.c
+> diff --git a/ports/linux/guts/__xstat64.c b/ports/linux/old__x/guts/__xstat64.c
+> similarity index 100%
+> rename from ports/linux/guts/__xstat64.c
+> rename to ports/linux/old__x/guts/__xstat64.c
+> diff --git a/ports/linux/old__x/guts/fstat.c b/ports/linux/old__x/guts/fstat.c
+> new file mode 100644
+> index 0000000..b089b15
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/fstat.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2011 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int fstat(int fd, struct stat *buf)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstat(_STAT_VER, fd, buf);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/fstat64.c b/ports/linux/old__x/guts/fstat64.c
+> new file mode 100644
+> index 0000000..6dd97da
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/fstat64.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2012 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int fstat64(int fd, struct stat *buf)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstat64(_STAT_VER, fd, buf);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/fstatat.c b/ports/linux/old__x/guts/fstatat.c
+> new file mode 100644
+> index 0000000..3267641
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/fstatat.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2021 Linux Foundation; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int fstatat(int dirfd, const char *path, struct stat *buf, int flags)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/fstatat64.c b/ports/linux/old__x/guts/fstatat64.c
+> new file mode 100644
+> index 0000000..c981e14
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/fstatat64.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2021 Linux Foundation; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int fstatat64(int dirfd, const char *path, struct stat64 *buf, int flags)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/lstat.c b/ports/linux/old__x/guts/lstat.c
+> new file mode 100644
+> index 0000000..d2c4d50
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/lstat.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2011 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int lstat(const char *path, struct stat *buf)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstatat(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/lstat64.c b/ports/linux/old__x/guts/lstat64.c
+> new file mode 100644
+> index 0000000..43d0ce1
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/lstat64.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2012 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int lstat64(const char *path, struct stat *buf)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___fxstatat64(_STAT_VER, AT_FDCWD, path, buf, AT_SYMLINK_NOFOLLOW);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/mknod.c b/ports/linux/old__x/guts/mknod.c
+> new file mode 100644
+> index 0000000..61fd320
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/mknod.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2016 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int mknod(const char *path, mode_t mode, dev_t dev)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___xmknod(_MKNOD_VER, path, mode, &dev);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/mknodat.c b/ports/linux/old__x/guts/mknodat.c
+> new file mode 100644
+> index 0000000..a7e4293
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/mknodat.c
+> @@ -0,0 +1,15 @@
+> +/*
+> + * Copyright (c) 2016 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev)
+> + *	int rc = -1;
+> + */
+> +
+> +	rc = wrap___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
+> +
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/guts/mkostemp64.c b/ports/linux/old__x/guts/mkostemp64.c
+> new file mode 100644
+> index 0000000..502211b
+> --- /dev/null
+> +++ b/ports/linux/old__x/guts/mkostemp64.c
+> @@ -0,0 +1,53 @@
+> +/* 
+> + * Copyright (c) 2010 Wind River Systems; see
+> + * guts/COPYRIGHT for information.
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + * static int
+> + * wrap_mkstemp64(char *template, int oflags) {
+> + *	int rc = -1;
+> + */
+> +	struct stat64 buf;
+> + 	int save_errno;
+> +	size_t len;
+> +	char *tmp_template;
+> +
+> +	if (!template) {
+> +		errno = EFAULT;
+> +		return 0;
+> +	}
+> +
+> +	len = strlen(template);
+> +	tmp_template = PSEUDO_ROOT_PATH(AT_FDCWD, template, AT_SYMLINK_NOFOLLOW);
+> +
+> +	if (!tmp_template) {
+> +		errno = ENOENT;
+> +		return -1;
+> +	}
+> +
+> +	/* mkstemp64 wrapper uses this code and mkostemp64 not present in some glibc versions */
+> +	if (oflags == 0)
+> +		rc = real_mkstemp64(tmp_template);
+> +	else
+> +		rc = real_mkostemp64(tmp_template, oflags);
+> +
+> +	if (rc != -1) {
+> +		save_errno = errno;
+> +
+> +		if (real___fxstat64(_STAT_VER, rc, &buf) != -1) {
+> +			real_fchmod(rc, PSEUDO_FS_MODE(0600, 0));
+> +			pseudo_client_op(OP_CREAT, 0, -1, -1, tmp_template, &buf);
+> +			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, &buf);
+> +		} else {
+> +			pseudo_debug(PDBGF_CONSISTENCY, "mkstemp (fd %d) succeeded, but fstat failed (%s).\n",
+> +				rc, strerror(errno));
+> +			pseudo_client_op(OP_OPEN, PSA_READ | PSA_WRITE, rc, -1, tmp_template, 0);
+> +		}
+> +		errno = save_errno;
+> +	}
+> +	/* mkstemp only changes the XXXXXX at the end. */
+> +	memcpy(template + len - 6, tmp_template + strlen(tmp_template) - 6, 6);
+> +/*	return rc;
+> + * }
+> + */
+> diff --git a/ports/linux/old__x/portdefs.h b/ports/linux/old__x/portdefs.h
+> new file mode 100644
+> index 0000000..f2bdc22
+> --- /dev/null
+> +++ b/ports/linux/old__x/portdefs.h
+> @@ -0,0 +1,40 @@
+> +/*
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + */
+> +
+> +/* If the subport was enabled, and these are not defined provide a default */
+> +#ifndef _STAT_VER
+> +#if defined (__aarch64__)
+> +#define _STAT_VER 0
+> +#elif defined (__x86_64__)
+> +#define _STAT_VER 1
+> +#else
+> +#define _STAT_VER 3
+> +#endif
+> +#endif
+> +
+> +#if PSEUDO_STATBUF_64
+> +#define base_fstat(fd, buf) real___fxstat64(_STAT_VER, fd, buf)
+> +#define base_stat(path, buf) real___xstat64(_STAT_VER, path, buf)
+> +#define base_fstatat(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
+> +#else
+> +#define base_fstat(fd, buf) real___fxstat(_STAT_VER, fd, buf)
+> +#define base_stat(path, buf) real___xstat(_STAT_VER, path, buf)
+> +#define base_fstatat(dirfd, path, buf, flags) real___fxstatat(_STAT_VER, dirfd, path, buf, flags)
+> +#endif
+> +
+> +#define base_fstat64(path, buf) real___fxstat64(_STAT_VER, path, buf)
+> +#define base_stat64(path, buf) real___xstat64(_STAT_VER, path, buf)
+> +#define base_fstatat64(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
+> +
+> +/* If the subport was enabled, and these are not defined provide a default */
+> +#ifndef _MKNOD_VER
+> +#if defined (__aarch64__)
+> +#define _MKNOD_VER 0
+> +#elif defined (__x86_64__)
+> +#define _MKNOD_VER 0
+> +#else
+> +#define _MKNOD_VER 1
+> +#endif
+> +#endif
+> diff --git a/ports/linux/old__x/pseudo_wrappers.c b/ports/linux/old__x/pseudo_wrappers.c
+> new file mode 100644
+> index 0000000..455bc09
+> --- /dev/null
+> +++ b/ports/linux/old__x/pseudo_wrappers.c
+> @@ -0,0 +1,48 @@
+> +/*
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + */
+> +/* the unix port wants to know that real_stat() and
+> + * friends exist.  So they do. And because the Linux
+> + * port really uses stat64 for those...
+> + */
+> +int
+> +pseudo_stat(const char *path, struct stat *buf) {
+> +	return real___xstat(_STAT_VER, path, buf);
+> +}
+> +
+> +int
+> +pseudo_lstat(const char *path, struct stat *buf) {
+> +	return real___lxstat(_STAT_VER, path, buf);
+> +}
+> +
+> +int
+> +pseudo_fstat(int fd, struct stat *buf) {
+> +	return real___fxstat(_STAT_VER, fd, buf);
+> +}
+> +
+> +int
+> +pseudo_stat64(const char *path, struct stat64 *buf) {
+> +	return real___xstat64(_STAT_VER, path, buf);
+> +}
+> +
+> +int
+> +pseudo_lstat64(const char *path, struct stat64 *buf) {
+> +	return real___lxstat64(_STAT_VER, path, buf);
+> +}
+> +
+> +int
+> +pseudo_fstat64(int fd, struct stat64 *buf) {
+> +	return real___fxstat64(_STAT_VER, fd, buf);
+> +}
+> +
+> +/* similar thing happens with mknod */
+> +int
+> +pseudo_mknod(const char *path, mode_t mode, dev_t dev) {
+> +	return real___xmknod(_MKNOD_VER, path, mode, &dev);
+> +}
+> +
+> +int
+> +pseudo_mknodat(int dirfd, const char *path, mode_t mode, dev_t dev) {
+> +	return real___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
+> +}
+> diff --git a/ports/linux/old__x/wrapfuncs.in b/ports/linux/old__x/wrapfuncs.in
+> new file mode 100644
+> index 0000000..de24e63
+> --- /dev/null
+> +++ b/ports/linux/old__x/wrapfuncs.in
+> @@ -0,0 +1,18 @@
+> +int __xstat(int ver, const char *path, struct stat *buf);
+> +int __lxstat(int ver, const char *path, struct stat *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int __fxstat(int ver, int fd, struct stat *buf);
+> +int __fxstatat(int ver, int dirfd, const char *path, struct stat *buf, int flags);
+> +int __xstat64(int ver, const char *path, struct stat64 *buf);
+> +int __lxstat64(int ver, const char *path, struct stat64 *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int __fxstat64(int ver, int fd, struct stat64 *buf);
+> +int __fxstatat64(int ver, int dirfd, const char *path, struct stat64 *buf, int flags);
+> +
+> +int stat(const char *path, struct stat *buf); /* real_func=pseudo_stat */
+> +int lstat(const char *path, struct stat *buf); /* real_func=pseudo_lstat, flags=AT_SYMLINK_NOFOLLOW */
+> +int lstat64(const char *path, struct stat64 *buf); /* real_func=pseudo_lstat64, flags=AT_SYMLINK_NOFOLLOW */
+> +int fstat64(int fd, struct stat64 *buf); /* real_func=pseudo_fstat64 */
+> +
+> +int __xmknod(int ver, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int __xmknodat(int ver, int dirfd, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int mknod(const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknod */
+> +int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknodat */
+> diff --git a/ports/linux/portdefs.h b/ports/linux/portdefs.h
+> index 9545550..a92e969 100644
+> --- a/ports/linux/portdefs.h
+> +++ b/ports/linux/portdefs.h
+> @@ -34,22 +34,3 @@ GLIBC_COMPAT_SYMBOL(memcpy,2.0);
+>  #include <sys/syscall.h>
+>  #include <sys/prctl.h>
+>  #include <linux/seccomp.h>
+> -
+> -#ifndef _STAT_VER
+> -#if defined (__aarch64__)
+> -#define _STAT_VER 0
+> -#elif defined (__x86_64__)
+> -#define _STAT_VER 1
+> -#else
+> -#define _STAT_VER 3
+> -#endif
+> -#endif
+> -#ifndef _MKNOD_VER
+> -#if defined (__aarch64__)
+> -#define _MKNOD_VER 0
+> -#elif defined (__x86_64__)
+> -#define _MKNOD_VER 0
+> -#else
+> -#define _MKNOD_VER 1
+> -#endif
+> -#endif
+> diff --git a/ports/linux/pseudo_wrappers.c b/ports/linux/pseudo_wrappers.c
+> index 7659897..7a4f549 100644
+> --- a/ports/linux/pseudo_wrappers.c
+> +++ b/ports/linux/pseudo_wrappers.c
+> @@ -2,50 +2,7 @@
+>   * SPDX-License-Identifier: LGPL-2.1-only
+>   *
+>   */
+> -/* the unix port wants to know that real_stat() and
+> - * friends exist.  So they do. And because the Linux
+> - * port really uses stat64 for those...
+> - */
+> -int
+> -pseudo_stat(const char *path, struct stat *buf) {
+> -	return real___xstat(_STAT_VER, path, buf);
+> -}
+> -
+> -int
+> -pseudo_lstat(const char *path, struct stat *buf) {
+> -	return real___lxstat(_STAT_VER, path, buf);
+> -}
+> -
+> -int
+> -pseudo_fstat(int fd, struct stat *buf) {
+> -	return real___fxstat(_STAT_VER, fd, buf);
+> -}
+> -
+> -int
+> -pseudo_stat64(const char *path, struct stat64 *buf) {
+> -	return real___xstat64(_STAT_VER, path, buf);
+> -}
+> -
+> -int
+> -pseudo_lstat64(const char *path, struct stat64 *buf) {
+> -	return real___lxstat64(_STAT_VER, path, buf);
+> -}
+> -
+> -int
+> -pseudo_fstat64(int fd, struct stat64 *buf) {
+> -	return real___fxstat64(_STAT_VER, fd, buf);
+> -}
+> -
+>  /* similar thing happens with mknod */
+> -int
+> -pseudo_mknod(const char *path, mode_t mode, dev_t dev) {
+> -	return real___xmknod(_MKNOD_VER, path, mode, &dev);
+> -}
+> -
+> -int
+> -pseudo_mknodat(int dirfd, const char *path, mode_t mode, dev_t dev) {
+> -	return real___xmknodat(_MKNOD_VER, dirfd, path, mode, &dev);
+> -}
+>  
+>  int pseudo_capset(cap_user_header_t hdrp, const cap_user_data_t datap) {
+>  	(void)hdrp;
+> diff --git a/ports/linux/subports b/ports/linux/subports
+> index 099ea59..53f6696 100755
+> --- a/ports/linux/subports
+> +++ b/ports/linux/subports
+> @@ -70,3 +70,18 @@ else
+>  fi
+>  rm -f dummy.c dummy.o
+>  
+> +# Check if _STAT_VER is defined.  This is an indication that the old internal __*xstat* functions are available
+> +# Check if _MKNOD_VER is defined.  This is an indication that the old internal __xmknod* functions are available
+> +cat > dummy.c <<EOF
+> +#include <sys/stat.h>
+> +#ifndef _STAT_VER
+> +#error _STAT_VER not defined
+> +#endif
+> +#ifndef _MKNOD_VER
+> +#error _MKNOD_VER not defined
+> +#endif
+> +EOF
+> +if ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
+> +        echo "linux/old__x"
+> +fi
+> +rm -f dummy.c dummy.o
+> diff --git a/ports/linux/wrapfuncs.in b/ports/linux/wrapfuncs.in
+> index 97b16c2..5187fd8 100644
+> --- a/ports/linux/wrapfuncs.in
+> +++ b/ports/linux/wrapfuncs.in
+> @@ -1,17 +1,11 @@
+>  int open(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
+>  char *get_current_dir_name(void);
+> -int __xstat(int ver, const char *path, struct stat *buf);
+> -int __lxstat(int ver, const char *path, struct stat *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> -int __fxstat(int ver, int fd, struct stat *buf);
+>  int lchmod(const char *path, mode_t mode); /* flags=AT_SYMLINK_NOFOLLOW */
+>  int lchown(const char *path, uid_t owner, gid_t group); /* flags=AT_SYMLINK_NOFOLLOW */
+> -int __fxstatat(int ver, int dirfd, const char *path, struct stat *buf, int flags);
+>  int openat(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
+>  int __openat_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
+> -int mknod(const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknod */
+> -int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknodat */
+> -int __xmknod(int ver, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
+> -int __xmknodat(int ver, int dirfd, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int mknod(const char *path, mode_t mode, dev_t dev);
+> +int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev);
+>  int fcntl(int fd, int cmd, ...{struct flock *lock});  /* noignore_path=1 */
+>  int fcntl64(int fd, int cmd, ...{struct flock *lock});  /* noignore_path=1 */
+>  # just so we know the inums of symlinks
+> @@ -21,18 +15,14 @@ int open64(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFO
+>  int openat64(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
+>  int __openat64_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
+>  int creat64(const char *path, mode_t mode);
+> -int stat(const char *path, struct stat *buf); /* real_func=pseudo_stat */
+> -int lstat(const char *path, struct stat *buf); /* real_func=pseudo_lstat, flags=AT_SYMLINK_NOFOLLOW */
+> -int fstat(int fd, struct stat *buf); /* real_func=pseudo_fstat */
+> +int stat(const char *path, struct stat *buf);
+> +int lstat(const char *path, struct stat *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int fstat(int fd, struct stat *buf);
+>  int fstatat(int dirfd, const char *path, struct stat *buf, int flags);
+> -int stat64(const char *path, struct stat64 *buf); /* real_func=pseudo_stat64 */
+> -int lstat64(const char *path, struct stat64 *buf); /* real_func=pseudo_lstat64, flags=AT_SYMLINK_NOFOLLOW */
+> -int fstat64(int fd, struct stat64 *buf); /* real_func=pseudo_fstat64 */
+> +int stat64(const char *path, struct stat64 *buf);
+> +int lstat64(const char *path, struct stat64 *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> +int fstat64(int fd, struct stat64 *buf);
+>  int fstatat64(int dirfd, const char *path, struct stat64 *buf, int flags);
+> -int __xstat64(int ver, const char *path, struct stat64 *buf);
+> -int __lxstat64(int ver, const char *path, struct stat64 *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+> -int __fxstat64(int ver, int fd, struct stat64 *buf);
+> -int __fxstatat64(int ver, int dirfd, const char *path, struct stat64 *buf, int flags);
+>  FILE *fopen64(const char *path, const char *mode); /* noignore_path=1 */
+>  int nftw64(const char *path, int (*fn)(const char *, const struct stat64 *, int, struct FTW *), int nopenfd, int flag); /* noignore_path=1 */
+>  FILE *freopen64(const char *path, const char *mode, FILE *stream);  /* noignore_path=1 */
+> diff --git a/pseudo_client.h b/pseudo_client.h
+> index d7944ce..8d05e4f 100644
+> --- a/pseudo_client.h
+> +++ b/pseudo_client.h
+> @@ -12,15 +12,41 @@ extern int pseudo_client_ignore_fd(int fd);
+>  extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath);
+>  #if PSEUDO_STATBUF_64
+>  #define base_lstat real_lstat64
+> -#define base_fstat real_fstat64
+> -#define base_stat real_stat64
+> -#define base_fstatat(dirfd, path, buf, flags) real___fxstatat64(_STAT_VER, dirfd, path, buf, flags)
+> +#ifndef base_fstat
+> + #define base_fstat real_fstat64
+> +#endif
+> +#ifndef base_stat
+> + #define base_stat real_stat64
+> +#endif
+> +#ifndef base_fstatat
+> + #define base_fstatat real_fstatat64
+> +#endif
+>  #else
+>  #define base_lstat real_lstat
+> -#define base_fstat real_fstat
+> -#define base_stat real_stat
+> -#define base_fstatat(dirfd, path, buf, flags) real___fxstatat(_STAT_VER, dirfd, path, buf, flags)
+> +#ifndef base_fstat
+> + #define base_fstat real_fstat
+> +#endif
+> +#ifndef base_stat
+> + #define base_stat real_stat
+> +#endif
+> +#ifndef base_fstatat
+> + #define base_fstatat real_fstatat
+> +#endif
+>  #endif
+> +
+> +#ifndef base_lstat64
+> + #define base_lstat64 real_lstat64
+> +#endif
+> +#ifndef base_fstat64
+> + #define base_fstat64 real_fstat64
+> +#endif
+> +#ifndef base_stat64
+> + #define base_stat64 real_stat64
+> +#endif
+> +#ifndef base_fstatat64
+> + #define base_fstatat64 real_fstatat64
+> +#endif
+> +
+>  extern void pseudo_antimagic(void);
+>  extern void pseudo_magic(void);
+>  extern void pseudo_client_touchuid(void);
+> -- 
+> 2.17.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#181983): https://lists.openembedded.org/g/openembedded-core/message/181983
+> Mute This Topic: https://lists.openembedded.org/mt/99234918/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.17.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
