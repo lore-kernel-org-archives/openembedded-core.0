@@ -1,136 +1,397 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D96F9C7EE29
-	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:28 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web11.26620.1685610258654342845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23A09C77B7E
+	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:17:39 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.26420.1685611052775303140
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 02:04:19 -0700
+ Thu, 01 Jun 2023 02:17:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="98458953"
-X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="98458953"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:12 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 90465C3F81
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:09 +0900 (JST)
-Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id D3341D3F3B
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:08 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 0E71288864;
-	Thu,  1 Jun 2023 18:04:07 +0900 (JST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=U4KwCLcl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
+X-GND-Sasl: michael.opdenacker@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685611050;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Rwk+nXpTXjybRQRpHI5qQbwKwozGc3kW5n64u4bkVOI=;
+	b=U4KwCLcllUmDBx5RoopH+Xpg36AH3tMBY6naWLOdAzXot3VKgTB60Y9dIj3d4Bge0RGadL
+	4gcVUjCrGkcXaPJChOP6IHLf4y6wbxiWZD3e/UFj5YDMEusvqCU7aixAv/LR7B9ErHXYkv
+	PHNAY3pYYbYlUXUinBoOWcIXndZH9wt5Ah0dIVdPxZEHvFu8pGBeEfoXNrkKeK3ao0BDcK
+	z1XTwYFo70T4HmXYBabD5KPhIdIo252NNv3eVNv+HXy/LVnopL1qI00OKylZjrlccL2r/+
+	AIPDWMk3Nm8haLozin+PiwwWl4FxHSMGONQjZO1iOErmxRi99SpWpSJOtAYHCw==
+X-GND-Sasl: michael.opdenacker@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 301931C000D;
+	Thu,  1 Jun 2023 09:17:29 +0000 (UTC)
+From: michael.opdenacker@bootlin.com
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-typing-extensions: upgrade 4.5.0 -> 4.6.2
-Date: Thu,  1 Jun 2023 17:03:38 +0800
-Message-Id: <1685610221-29015-32-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
-References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10--3.874400-10.000000
-X-TMASE-MatchedRID: h8nmbN2t+rqjz0nOeth/yUIIxwDaU5mrTfK5j0EZbyvJt7aD46KTu/tN
-	2vjEPERNff1/prWVq6FfiUXRhIg6ak8HitdqBBn7Of/Bx1+MuMJxXefgn/TNQzVjvc93O9dks77
-	E1Sddu5xY5Eh/SzoiVjue5HN6v4cMQbet2SV2daHGRAAE2aJ30+9Bi8r8zoNMWqbaOadHHHDK/e
-	L8n0LPmd8cCkA5p5qg/HyfiRbsgEXIRZRfI7CCoQXlKcEciy76QR7lWMXPA1t0I1CuCkvnDck/W
-	Ck9r5yu93Q24p8sE2d4Xern/Fx5bArTXUi+zTMUNT0Qrj4fxTWOQOsE4nDCdFBn/9KQLS7SvqnF
-	tM6Nq/L7tBxFpWhrycYoh/qEF/tVoYY7KoErjW8ReM8i8p3vgBCE2NlBjIjcKXqmmYTGpxiUg5U
-	D6AlF0rF9uGobEuT7gDLqnrRlXrZ8nn9tnqel2MZW5ai5WKlyoPZea/vmsAXJ0wHGbMkGIdOsi4
-	YK9p0hNfS05JQb+Uz6grPp5+AT6AOEixxB3mn1+lnJwxOYm6mhcLwNTjrJ2JexAfLmFD8H/r/b+
-	dmSKFo6AH9/PcRd1xUpPR4VGZ8OzhiFp8LOC6Mh1j2M6LiVMg==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH RESEND] alsa-utils: upgrade 1.2.8 -> 1.2.9
+Date: Thu,  1 Jun 2023 11:16:34 +0200
+Message-Id: <20230601091634.2970623-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182089
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:17:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182092
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-Changelog:
-============
--  Fix use of @deprecated on classes with __new__ but no __init__.
--  Fix regression in version 4.6.1 where comparing a generic class against a
-   runtime-checkable protocol using isinstance() would cause AttributeError to
-   be raised if using Python 3.7.
--  Change deprecated @runtime to formal API @runtime_checkable in the error message.
--  Fix regression in 4.6.0 where attempting to define a Protocol that was generic
-   over a ParamSpec or a TypeVarTuple would cause TypeError to be raised.
--  typing_extensions is now documented at https://typing-extensions.readthedocs.io/en/latest/.
--  Add typing_extensions.Buffer, a marker class for buffer types, as proposed
-   by PEP 688. Equivalent to collections.abc.Buffer in Python 3.12.
--  Backport two CPython PRs fixing various issues with typing.Literal:
-   python/cpython#23294 and python/cpython#23383. Both CPython PRs were originally,
-   and both were backported to Python >=3.9.1, but no earlier.
--  A side effect of one of the changes is that equality comparisons of Literal
-   objects will now raise a TypeError if one of the Literal objects being compared
-   has a mutable parameter. (Using mutable parameters with Literal is not
-   supported by PEP 586 or by any major static type checkers.)
--  Literal is now reimplemented on all Python versions <= 3.10.0.
--  Backport CPython PR 26067, ensuring that isinstance() calls on protocols raise
-   TypeError when the protocol is not decorated with @runtime_checkable.
--  Backport several significant performance improvements to runtime-checkable protocols
-   that have been made in Python 3.12 (see python/cpython#74690 for details).
--  A side effect of one of the performance improvements is that the members of a
-   runtime-checkable protocol are now considered "frozen" at runtime as soon as the
-   class has been created. Monkey-patching attributes onto a runtime-checkable
-   protocol will still work, but will have no impact on isinstance() checks comparing
-   objects to the protocol. See "What's New in Python 3.12" for more details.
--  isinstance() checks against runtime-checkable protocols now use inspect.getattr_static()
-   rather than hasattr() to lookup whether attributes exist (backporting python/cpython#103034).
--  Backport the ability to define __init__ methods on Protocol classes, a change
-   made in Python 3.11 (originally implemented in python/cpython#31628
--  Speedup isinstance(3, typing_extensions.SupportsIndex) by >10x on Python <3.12.
--  Add typing_extensions versions of SupportsInt, SupportsFloat, SupportsComplex,
-   SupportsBytes, SupportsAbs and SupportsRound. These have the same semantics as
-   the versions from the typing module, but isinstance() checks against the
-   typing_extensions versions are >10x faster at runtime on Python <3.12.
--  Add __orig_bases__ to non-generic TypedDicts, call-based TypedDicts, and call-based NamedTuples.
--  Add typing_extensions.get_original_bases, a backport of types.get_original_bases,
-   introduced in Python 3.12 (CPython PR python/cpython#101827, originally
--  This function should always produce correct results when called on classes
-   constructed using features from typing_extensions.
--  Constructing a call-based TypedDict using keyword arguments for the fields
-   now causes a DeprecationWarning to be emitted. This matches the behaviour
-   of typing.TypedDict on 3.11 and 3.12.
--  Backport the implementation of NewType from 3.10 (where it is implemented as
-   a class rather than a function). This allows user-defined NewTypes to be pickled.
--  Fix tests and import on Python 3.12, where typing.TypeVar can no longer be subclassed.
--  Add typing_extensions.TypeAliasType, a backport of typing.TypeAliasType from PEP 695.
--  Backport changes to the repr of typing.Unpack that were made in order
-   to implement PEP 692 (backport of python/cpython#104048).
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ---
- ...g-extensions_4.5.0.bb => python3-typing-extensions_4.6.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.5.0.bb => python3-typing-extensions_4.6.2.bb} (91%)
+ ...ompilation-when-building-in-a-subdir.patch |  35 +++
+ ...lay-axfer-Replace-off64_t-with-off_t.patch | 272 ------------------
+ ...lsa-utils_1.2.8.bb => alsa-utils_1.2.9.bb} |   6 +-
+ 3 files changed, 38 insertions(+), 275 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-fix-compilation-when-building-in-a-subdir.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-aplay-axfer-Replace-off64_t-with-off_t.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.8.bb => alsa-utils_1.2.9.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.5.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.6.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.5.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.6.2.bb
-index 80f87cae84..be43fe4a64 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.6.2.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f16b323917992e0f8a6f0071bc9913e2"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-fix-compilation-when-building-in-a-subdir.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-fix-compilation-when-building-in-a-subdir.patch
+new file mode 100644
+index 0000000000..3b3fe5345a
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-fix-compilation-when-building-in-a-subdir.patch
+@@ -0,0 +1,35 @@
++From 44636a7c5862538def0d2fac074772cc39a22a15 Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Tue, 16 May 2023 02:27:59 +1000
++Subject: [PATCH] alsactl: fix compilation when building in a subdir
++
++Fixes: 613372d
++Fixes: cff2d1c
++
++Compile errors when building in a subdir:
++alsactl/alsactl.c:33:10: fatal error: os_compat.h: No such file or directory
++   33 | #include "os_compat.h"
++      |          ^~~~~~~~~~~~~
++alsactl/lock.c:34:10: fatal error: os_compat.h: No such file or directory
++   34 | #include "os_compat.h"
++      |          ^~~~~~~~~~~~~
++
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Upstream-Status: Submitted [https://github.com/alsa-project/alsa-utils/pull/213]
++---
++ alsactl/Makefile.am | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
++index 80dba69d..fb32c4f3 100644
++--- a/alsactl/Makefile.am
+++++ b/alsactl/Makefile.am
++@@ -9,6 +9,8 @@ EXTRA_DIST=alsactl.1 alsactl_init.xml
++ 
++ AM_CFLAGS = -D_GNU_SOURCE
++ 
+++AM_CPPFLAGS = -I$(top_srcdir)/include
+++
++ alsactl_SOURCES=alsactl.c state.c lock.c utils.c init_parse.c init_ucm.c \
++ 		daemon.c monitor.c clean.c info.c
++ 
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-aplay-axfer-Replace-off64_t-with-off_t.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-aplay-axfer-Replace-off64_t-with-off_t.patch
+deleted file mode 100644
+index 356c5964ae..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/0001-aplay-axfer-Replace-off64_t-with-off_t.patch
++++ /dev/null
+@@ -1,272 +0,0 @@
+-From 03553ccc6284a437576349b5a3c2ed0d7d4265e1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 15 Dec 2022 14:04:10 -0800
+-Subject: [PATCH] aplay,axfer: Replace off64_t with off_t
+-
+-Also replace lseek64 with lseek.
+-
+-_FILE_OFFSET_BITS=64 is passed to needed platforms since configure uses
+-AC_SYS_LARGEFILE macro. Therefore off_t is already 64-bit and lseek is
+-same as lseek64.
+-
+-Additionally this fixes buils with latest musl where these lfs64
+-functions are moved out from _GNU_SOURCE and under _LARGEFILE64_SOURCE
+-macro alone. This makes the builds fail on 32-bit platforms even though
+-default off_t on musl is 64-bit always.
+-
+-Upstream-Status: Submitted [https://github.com/alsa-project/alsa-utils/pull/183]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- aplay/aplay.c               | 44 ++++++++++++++++++-------------------
+- axfer/container-voc.c       |  2 +-
+- axfer/container.c           |  6 ++---
+- axfer/container.h           |  2 +-
+- axfer/test/container-test.c |  4 ++--
+- axfer/test/mapper-test.c    |  2 +-
+- 6 files changed, 30 insertions(+), 30 deletions(-)
+-
+-diff --git a/aplay/aplay.c b/aplay/aplay.c
+-index 6ce7191..bd93be3 100644
+---- a/aplay/aplay.c
+-+++ b/aplay/aplay.c
+-@@ -141,7 +141,7 @@ static long term_c_lflag = -1;
+- static int dump_hw_params = 0;
+- 
+- static int fd = -1;
+--static off64_t pbrec_count = LLONG_MAX, fdcount;
+-+static off_t pbrec_count = LLONG_MAX, fdcount;
+- static int vocmajor, vocminor;
+- 
+- static char *pidfile_name = NULL;
+-@@ -2356,7 +2356,7 @@ static void voc_play(int fd, int ofs, char *name)
+- 	u_char *data, *buf;
+- 	char was_extended = 0, output = 0;
+- 	u_short *sp, repeat = 0;
+--	off64_t filepos = 0;
+-+	off_t filepos = 0;
+- 
+- #define COUNT(x)	nextblock -= x; in_buffer -= x; data += x
+- #define COUNT1(x)	in_buffer -= x; data += x
+-@@ -2490,7 +2490,7 @@ static void voc_play(int fd, int ofs, char *name)
+- 				d_printf("Repeat loop %d times\n", repeat);
+- #endif
+- 				if (filepos >= 0) {	/* if < 0, one seek fails, why test another */
+--					if ((filepos = lseek64(fd, 0, 1)) < 0) {
+-+					if ((filepos = lseek(fd, 0, 1)) < 0) {
+- 						error(_("can't play loops; %s isn't seekable\n"), name);
+- 						repeat = 0;
+- 					} else {
+-@@ -2512,7 +2512,7 @@ static void voc_play(int fd, int ofs, char *name)
+- 					else
+- 						d_printf("Neverending loop\n");
+- #endif
+--					lseek64(fd, filepos, 0);
+-+					lseek(fd, filepos, 0);
+- 					in_buffer = 0;	/* clear the buffer */
+- 					goto Fill_the_buffer;
+- 				}
+-@@ -2578,9 +2578,9 @@ static void init_raw_data(void)
+- }
+- 
+- /* calculate the data count to read from/to dsp */
+--static off64_t calc_count(void)
+-+static off_t calc_count(void)
+- {
+--	off64_t count;
+-+	off_t count;
+- 
+- 	if (timelimit == 0)
+- 		if (sampleslimit == 0)
+-@@ -2589,7 +2589,7 @@ static off64_t calc_count(void)
+- 			count = snd_pcm_format_size(hwparams.format, sampleslimit * hwparams.channels);
+- 	else {
+- 		count = snd_pcm_format_size(hwparams.format, hwparams.rate * hwparams.channels);
+--		count *= (off64_t)timelimit;
+-+		count *= (off_t)timelimit;
+- 	}
+- 	return count < pbrec_count ? count : pbrec_count;
+- }
+-@@ -2750,7 +2750,7 @@ static void begin_au(int fd, size_t cnt)
+- /* closing .VOC */
+- static void end_voc(int fd)
+- {
+--	off64_t length_seek;
+-+	off_t length_seek;
+- 	VocBlockType bt;
+- 	size_t cnt;
+- 	char dummy = 0;		/* Write a Terminator */
+-@@ -2770,15 +2770,15 @@ static void end_voc(int fd)
+- 	bt.datalen = (u_char) (cnt & 0xFF);
+- 	bt.datalen_m = (u_char) ((cnt & 0xFF00) >> 8);
+- 	bt.datalen_h = (u_char) ((cnt & 0xFF0000) >> 16);
+--	if (lseek64(fd, length_seek, SEEK_SET) == length_seek)
+-+	if (lseek(fd, length_seek, SEEK_SET) == length_seek)
+- 		xwrite(fd, &bt, sizeof(VocBlockType));
+- }
+- 
+- static void end_wave(int fd)
+- {				/* only close output */
+- 	WaveChunkHeader cd;
+--	off64_t length_seek;
+--	off64_t filelen;
+-+	off_t length_seek;
+-+	off_t filelen;
+- 	u_int rifflen;
+- 	
+- 	length_seek = sizeof(WaveHeader) +
+-@@ -2788,20 +2788,20 @@ static void end_wave(int fd)
+- 	cd.length = fdcount > 0x7fffffff ? LE_INT(0x7fffffff) : LE_INT(fdcount);
+- 	filelen = fdcount + 2*sizeof(WaveChunkHeader) + sizeof(WaveFmtBody) + 4;
+- 	rifflen = filelen > 0x7fffffff ? LE_INT(0x7fffffff) : LE_INT(filelen);
+--	if (lseek64(fd, 4, SEEK_SET) == 4)
+-+	if (lseek(fd, 4, SEEK_SET) == 4)
+- 		xwrite(fd, &rifflen, 4);
+--	if (lseek64(fd, length_seek, SEEK_SET) == length_seek)
+-+	if (lseek(fd, length_seek, SEEK_SET) == length_seek)
+- 		xwrite(fd, &cd, sizeof(WaveChunkHeader));
+- }
+- 
+- static void end_au(int fd)
+- {				/* only close output */
+- 	AuHeader ah;
+--	off64_t length_seek;
+-+	off_t length_seek;
+- 	
+- 	length_seek = (char *)&ah.data_size - (char *)&ah;
+- 	ah.data_size = fdcount > 0xffffffff ? 0xffffffff : BE_INT(fdcount);
+--	if (lseek64(fd, length_seek, SEEK_SET) == length_seek)
+-+	if (lseek(fd, length_seek, SEEK_SET) == length_seek)
+- 		xwrite(fd, &ah.data_size, sizeof(ah.data_size));
+- }
+- 
+-@@ -2828,11 +2828,11 @@ static void header(int rtype, char *name)
+- 
+- /* playing raw data */
+- 
+--static void playback_go(int fd, size_t loaded, off64_t count, int rtype, char *name)
+-+static void playback_go(int fd, size_t loaded, off_t count, int rtype, char *name)
+- {
+- 	int l, r;
+--	off64_t written = 0;
+--	off64_t c;
+-+	off_t written = 0;
+-+	off_t c;
+- 
+- 	header(rtype, name);
+- 	set_params();
+-@@ -3202,7 +3202,7 @@ static void capture(char *orig_name)
+- 	int filecount=0;	/* number of files written */
+- 	char *name = orig_name;	/* current filename */
+- 	char namebuf[PATH_MAX+2];
+--	off64_t count, rest;		/* number of bytes to capture */
+-+	off_t count, rest;		/* number of bytes to capture */
+- 	struct stat statbuf;
+- 
+- 	/* get number of bytes to capture */
+-@@ -3273,7 +3273,7 @@ static void capture(char *orig_name)
+- 		/* capture */
+- 		fdcount = 0;
+- 		while (rest > 0 && recycle_capture_file == 0 && !in_aborting) {
+--			size_t c = (rest <= (off64_t)chunk_bytes) ?
+-+			size_t c = (rest <= (off_t)chunk_bytes) ?
+- 				(size_t)rest : chunk_bytes;
+- 			size_t f = c * 8 / bits_per_frame;
+- 			size_t read = pcm_read(audiobuf, f);
+-@@ -3314,7 +3314,7 @@ static void capture(char *orig_name)
+- 	} while ((file_type == FORMAT_RAW && !timelimit && !sampleslimit) || count > 0);
+- }
+- 
+--static void playbackv_go(int* fds, unsigned int channels, size_t loaded, off64_t count, int rtype, char **names)
+-+static void playbackv_go(int* fds, unsigned int channels, size_t loaded, off_t count, int rtype, char **names)
+- {
+- 	int r;
+- 	size_t vsize;
+-@@ -3368,7 +3368,7 @@ static void playbackv_go(int* fds, unsigned int channels, size_t loaded, off64_t
+- 	}
+- }
+- 
+--static void capturev_go(int* fds, unsigned int channels, off64_t count, int rtype, char **names)
+-+static void capturev_go(int* fds, unsigned int channels, off_t count, int rtype, char **names)
+- {
+- 	size_t c;
+- 	ssize_t r;
+-diff --git a/axfer/container-voc.c b/axfer/container-voc.c
+-index ec0cfff..5941003 100644
+---- a/axfer/container-voc.c
+-+++ b/axfer/container-voc.c
+-@@ -775,7 +775,7 @@ static int write_block_terminator(struct container_context *cntr)
+- static int write_data_size(struct container_context *cntr, uint64_t byte_count)
+- {
+- 	struct builder_state *state = cntr->private_data;
+--	off64_t offset;
+-+	off_t offset;
+- 	uint8_t size_field[3];
+- 	int err;
+- 
+-diff --git a/axfer/container.c b/axfer/container.c
+-index 8c88d5c..379b72f 100644
+---- a/axfer/container.c
+-+++ b/axfer/container.c
+-@@ -113,11 +113,11 @@ enum container_format container_format_from_path(const char *path)
+- 	return CONTAINER_FORMAT_RAW;
+- }
+- 
+--int container_seek_offset(struct container_context *cntr, off64_t offset)
+-+int container_seek_offset(struct container_context *cntr, off_t offset)
+- {
+--	off64_t pos;
+-+	off_t pos;
+- 
+--	pos = lseek64(cntr->fd, offset, SEEK_SET);
+-+	pos = lseek(cntr->fd, offset, SEEK_SET);
+- 	if (pos < 0)
+- 		return -errno;
+- 	if (pos != offset)
+-diff --git a/axfer/container.h b/axfer/container.h
+-index 71017a6..f6ce689 100644
+---- a/axfer/container.h
+-+++ b/axfer/container.h
+-@@ -107,7 +107,7 @@ int container_recursive_read(struct container_context *cntr, void *buf,
+- 			     unsigned int byte_count);
+- int container_recursive_write(struct container_context *cntr, void *buf,
+- 			      unsigned int byte_count);
+--int container_seek_offset(struct container_context *cntr, off64_t offset);
+-+int container_seek_offset(struct container_context *cntr, off_t offset);
+- 
+- extern const struct container_parser container_parser_riff_wave;
+- extern const struct container_builder container_builder_riff_wave;
+-diff --git a/axfer/test/container-test.c b/axfer/test/container-test.c
+-index e5b62dd..45b6c6a 100644
+---- a/axfer/test/container-test.c
+-+++ b/axfer/test/container-test.c
+-@@ -153,7 +153,7 @@ static int callback(struct test_generator *gen, snd_pcm_access_t access,
+- 
+- 	for (i = 0; i < ARRAY_SIZE(entries); ++i) {
+- 		int fd;
+--		off64_t pos;
+-+		off_t pos;
+- 
+- 		frames_per_second = entries[i];
+- 
+-@@ -172,7 +172,7 @@ static int callback(struct test_generator *gen, snd_pcm_access_t access,
+- 			     frames_per_second, frame_buffer, frame_count,
+- 			     trial->verbose);
+- 
+--		pos = lseek64(fd, 0, SEEK_SET);
+-+		pos = lseek(fd, 0, SEEK_SET);
+- 		if (pos < 0) {
+- 			err = -errno;
+- 			break;
+-diff --git a/axfer/test/mapper-test.c b/axfer/test/mapper-test.c
+-index 477871d..6a389e9 100644
+---- a/axfer/test/mapper-test.c
+-+++ b/axfer/test/mapper-test.c
+-@@ -257,7 +257,7 @@ static int test_mapper(struct mapper_trial *trial, snd_pcm_access_t access,
+- 		goto end;
+- 
+- 	for (i = 0; i < cntr_count; ++i) {
+--		off64_t pos = lseek64(cntr_fds[i], 0, SEEK_SET);
+-+		off_t pos = lseek(cntr_fds[i], 0, SEEK_SET);
+- 		if (pos != 0) {
+- 			err = -EIO;
+- 			goto end;
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.8.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
+similarity index 96%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.8.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
+index 46d39b0de8..2f344015a9 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.8.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
+@@ -25,9 +25,9 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
  
--SRC_URI[sha256sum] = "5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb"
-+SRC_URI[sha256sum] = "06006244c70ac8ee83fa8282cb188f697b8db25bc8b4df07be1873c43897060c"
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://0001-aplay-axfer-Replace-off64_t-with-off_t.patch \
+-           "
+-SRC_URI[sha256sum] = "e140fa604c351f36bd72167c8860c69d81b964ae6ab53992d6434dde38e9333c"
++           file://0001-alsactl-fix-compilation-when-building-in-a-subdir.patch \
++          "
++SRC_URI[sha256sum] = "e7623d4525595f92e11ce25ee9a97f2040a14c6e4dcd027aa96e06cbce7817bd"
  
- inherit pypi python_flit_core
- 
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
 -- 
 2.34.1
 
