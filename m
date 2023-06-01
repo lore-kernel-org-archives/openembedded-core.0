@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A4BC7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA1AC7EE33
 	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:08 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web10.26248.1685610245892189895
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.26241.1685610238393525359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 02:04:06 -0700
+ Thu, 01 Jun 2023 02:04:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="107150190"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="119084619"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="107150190"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:00 +0900
+   d="scan'208";a="119084619"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:02 +0900
 Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id CEF32CD7E3
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:57 +0900 (JST)
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id D9F9DCA1E6
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:59 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 0F048D9A7F
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:57 +0900 (JST)
+	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id D95E9D95F3
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:58 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 16492887D8;
-	Thu,  1 Jun 2023 18:03:56 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 0B99B887D8;
+	Thu,  1 Jun 2023 18:03:57 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] bind: upgrade 9.18.14 -> 9.18.15
-Date: Thu,  1 Jun 2023 17:03:18 +0800
-Message-Id: <1685610221-29015-12-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libuv: upgrade 1.44.2 -> 1.45.0
+Date: Thu,  1 Jun 2023 17:03:21 +0800
+Message-Id: <1685610221-29015-15-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
 References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
@@ -37,133 +37,61 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10--4.578400-10.000000
-X-TMASE-MatchedRID: 19A9OAtP7iyjz0nOeth/yUIIxwDaU5mrWQ3R4k5PTnB0Vj5gY98rDDsX
-	0C3LJPaoOuzeNmOGKnNHkly7AY5JBVMkQcMo3ZChkCThXPqsqisxXH/dlhvLvw/me6cegHsDmjO
-	aVrPYQAG3/D6zGTXG40COxT/rF8+/4iXZcg3LMcp9SSAOK4bGf2HWZvjZxlUHoxCLfriDzzgVJR
-	X8M7KslgBiMVL8tkeMmEKHz5YiYlS8U6c9s1viyf7FEhWgo0y8EITY2UGMiNwH8UzOewTxw+79D
-	JRUi35p5shPFSKOueShgqRXf9ZDmi/7QU2czuUNnVTWWiNp+v8Ea8g1x8eqF5SQTn9jH7ua/pns
-	SQNXjXSxfbhqGxLk+4Ay6p60ZV62fJ5/bZ6npdjGVuWouVipct64Na1gfIlZmrqV3kUhUZFlIsc
-	bwATLTLCfdcXmnyLAJqwN9LEaBkdYql3HMeDnZDY6t5uUMVFc9k3oSBmQmfnhWZon9NDSMv6/2/
-	nZkihaOgB/fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
+X-TMASE-Result: 10-2.347200-10.000000
+X-TMASE-MatchedRID: u4ys6248rQyjz0nOeth/yZAk4Vz6rKorRpgtqnD1BD6H4I6QZJ07ka+G
+	dsnegAa6+BtDYmoqPpZKtne3LfonHbSt2Tg2e/jrr7+qhZS/khnsbTWwP5iBzJTx+2LIqNmt0yO
+	PBv1B9XYILxoCYZ47qVXTT7CHDFVDL/tBTZzO5Q2dVNZaI2n6/xeN9Hd3TB5G4+xf2pXdquRG1z
+	aoYFqfLoGQRIwjTl3ioe/KDVmzFN+XC3sMAGu+n3V7tdtvoibarixttRG+E/OBbptjxI6rdaPFj
+	JEFr+olwXCBO/GKkVqOhzOa6g8Krd9oxEtwNpeES6uDnlL3Fp1vGH7+t2AqIGhGFvH7hXJfbiDl
+	sYuM2isrQVyVngFWLg4pOB1i8DrZcHcso3MqGMmuJMirQge6yR0m4Rm5hspVxSSu8i52URmXTt0
+	OuyJi/IIuEVM/dBEMBtjAKW7+qHc=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182076
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182070
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+License-Update:  doc: clean up license file (#3876)
+ GitHub gets confused by the non-standard format of the LICENSE file.
+ Move the extra bits into the creatively named LICENSE-extra file.
+
 Changelog:
-=========
-[bug]  Set the rndc idle read timeout back to 60 seconds,
-       from the netmgr default of 30 seconds, in order to
-       match the behavior of 9.16 and earlier. [GL #4046]
-
-[bug]  Fix log file rotation when using absolute path as
-       file. [GL #3991]
-
-[bug]  When removing delegations in an OPTOUT range
-       empty-non-terminal NSEC3 records generated by
-       those delegations were not removed. [GL #4027]
-
-[bug]  Reimplement the maximum and idle timeouts for incoming
-       zone tranfers. [GL #4004]
-
-[bug]  Treat ISC_R_INVALIDPROTO as a networking error
-       in the dispatch code to avoid retrying with the
-       same server. [GL #4005]
-
-[bug]  In dispatch, honour the configured source-port
-       selection when UDP connection fails with address
-       in use error.
-
-       Also treat ISC_R_NOPERM same as ISC_R_ADDRINUSE.
-       [GL #3986]
-
-[test] As a workaround, include an OpenSSL header file before
-       including cmocka.h in the unit tests, because OpenSSL
-       3.1.0 uses __attribute__(malloc), conflicting with a
-       redefined malloc in cmocka.h. [GL #4000]
-
+==========
+ linux: introduce io_uring support #3952
+ src: add new metrics APIs #3749
+ unix,win: give thread pool threads an 8 MB stack #3787
+ win,unix: change execution order of timers #3927
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.18.14 => bind-9.18.15}/bind9                   | 0
- .../bind/{bind-9.18.14 => bind-9.18.15}/conf.patch              | 0
- .../bind/{bind-9.18.14 => bind-9.18.15}/generate-rndc-key.sh    | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.18.14 => bind-9.18.15}/named.service           | 0
- .../bind/{bind_9.18.14.bb => bind_9.18.15.bb}                   | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.14.bb => bind_9.18.15.bb} (97%)
+ .../libuv/{libuv_1.44.2.bb => libuv_1.45.0.bb}              | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.44.2.bb => libuv_1.45.0.bb} (75%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/bind9 b/meta/recipes-connectivity/bind/bind-9.18.15/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.15/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/named.service b/meta/recipes-connectivity/bind/bind-9.18.15/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.14/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.15/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.14.bb b/meta/recipes-connectivity/bind/bind_9.18.15.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.14.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.15.bb
-index c513cbc8b6..80164aad87 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.14.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.15.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.44.2.bb b/meta/recipes-connectivity/libuv/libuv_1.45.0.bb
+similarity index 75%
+rename from meta/recipes-connectivity/libuv/libuv_1.44.2.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.45.0.bb
+index 27e79276b5..45b3a96f12 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.45.0.bb
+@@ -3,10 +3,10 @@ HOMEPAGE = "https://github.com/libuv/libuv"
+ DESCRIPTION = "libuv is a multi-platform support library with a focus on asynchronous I/O. It was primarily developed for use by Node.js, but it's also used by Luvit, Julia, pyuv, and others."
+ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=74b6f2f7818a4e3a80d03556f71b129b"
  
--SRC_URI[sha256sum] = "9ae12edf6ac3c430b33ecd1a7c0c0c60875d255185eb87850fa9a5e794a64a09"
-+SRC_URI[sha256sum] = "28ae8db14862801bc2bd4fd820db00667d3f1ff9ae9cc2d06a0ef7810fed7a4e"
+-SRCREV = "0c1fa696aa502eb749c2c4735005f41ba00a27b8"
+-SRC_URI = "git://github.com/libuv/libuv.git;branch=v1.x;protocol=https"
++SRCREV = "96e05543f53b19d9642b4b0dd73b86ad3cea313e"
++SRC_URI = "git://github.com/libuv/libuv.git;branch=master;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ S = "${WORKDIR}/git"
 -- 
 2.34.1
 
