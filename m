@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD87C7EE3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE06C7EE37
 	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:08 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.26243.1685610239733103081
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web10.26241.1685610238393525359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 02:04:00 -0700
+ Thu, 01 Jun 2023 02:04:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="98556104"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="119084614"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="98556104"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:03:57 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 13E86D3EA3
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:55 +0900 (JST)
+   d="scan'208";a="119084614"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:00 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 69871CA1E8
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:58 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 5B8C6CF7EF
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:54 +0900 (JST)
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 907CCD88BF
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:57 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8652A887D8;
-	Thu,  1 Jun 2023 18:03:53 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id AE81388857;
+	Thu,  1 Jun 2023 18:03:56 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libxft: upgrade 2.3.7 -> 2.3.8
-Date: Thu,  1 Jun 2023 17:03:14 +0800
-Message-Id: <1685610221-29015-8-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] ccache: upgrade 4.8 -> 4.8.1
+Date: Thu,  1 Jun 2023 17:03:19 +0800
+Message-Id: <1685610221-29015-13-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
 References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
@@ -37,50 +37,55 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10--2.199900-10.000000
-X-TMASE-MatchedRID: wgzGQ0X+yFqjz0nOeth/yUIIxwDaU5mregIHHX2L4Yzfc2Xd6VJ+yufD
-	otHL7Yhsqkujfu+HuWmi/kPRIP9FBGJZXQNDzktSP0HVIeixJdA3l2plwgrtWCD1HdXyqDnEvwU
-	evDt+uW5tMXimGWsZZJwK/rsCokmW5UcZtwNsCroURSScn+QSXmVV1G+Ck2l7+gtHj7OwNO2eVW
-	/ZdL52jwnBU/HuY01orTdxVUQ3NGgJhiVlc+aimOOKDjhnqDvc2fLuSATKXcTp5o3NqvSYDoCGP
-	yUB2U3l2plIgV5VXrTL9oxtQv8yz/IMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
+X-TMASE-Result: 10--3.519900-10.000000
+X-TMASE-MatchedRID: rofoCPeR2CGjz0nOeth/ySAWHOR37+ATjbv3ERJ0uO2U8ftiyKjZrdMj
+	jwb9QfV2CC8aAmGeO6lV00+whwxVQy/7QU2czuUN71Wx2uUbPLcAtH/ey8zRp8SiwizsgluQ1vZ
+	7s3YIVDI6NmtdFz2VVHzoX6MtOvdEK6km+od/UDw6N/cDgNNi4SBr3Ab7SNDaAhn751acftuem2
+	vw+cenKeLzNWBegCW24nmFeyfGnuMWeMpVNhsMwMRB0bsfrpPIcSqbxBgG0w6i2ewKHTJAnb0QL
+	sTz3fVNpI2QwNynUCoZD6NAm1s47Ip3Hr5s2WUNBaI+CwpmPMsegHb0s6WZIC/bse56gCDpQx4l
+	egAKa5SCvqWrFsheUcLe0zBjeZrbFQOP52BRBXJMTsKj18q/fA==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182064
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182068
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-=========
-add check for missing glyph in XftFontCheckGlyph()
-issue 17: libxft-2.3.7: Bold fonts in urxvt missing leftmost pixels
-issue 18: Problems with rotated text (monospace font only)
-configure: Use LT_INIT from libtool 2 instead of deprecated AC_PROG_LIBTOOL
-Clears autoconf warnings
+License-Update:
+ cpp-httplib updated to v0.12.3
+ Copyright year updated to 2023
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../xorg-lib/{libxft_2.3.7.bb => libxft_2.3.8.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxft_2.3.7.bb => libxft_2.3.8.bb} (92%)
+ .../ccache/{ccache_4.8.bb => ccache_4.8.1.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.8.bb => ccache_4.8.1.bb} (82%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb
-rename to meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb
-index ad126d2092..2699c1dfd7 100644
---- a/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb
-@@ -20,7 +20,7 @@ PROVIDES = "xft"
+diff --git a/meta/recipes-devtools/ccache/ccache_4.8.bb b/meta/recipes-devtools/ccache/ccache_4.8.1.bb
+similarity index 82%
+rename from meta/recipes-devtools/ccache/ccache_4.8.bb
+rename to meta/recipes-devtools/ccache/ccache_4.8.1.bb
+index 6cad0dd7c6..b0ae7fb25c 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.8.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.8.1.bb
+@@ -7,14 +7,14 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
  
- PE = "1"
+ LICENSE = "GPL-3.0-or-later"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=43a02b74c9eb73a0b978ae5082f5f1b6"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=1601d62d6828fbe19b6f6c2d01fdff4c"
  
--SRC_URI[sha256sum] = "79f0b37c45007381c371a790c2754644ad955166dbf2a48e3625032e9bdd4f71"
-+SRC_URI[sha256sum] = "5e8c3c4bc2d4c0a40aef6b4b38ed2fb74301640da29f6528154b5009b1c6dd49"
+ DEPENDS = "zstd"
  
- XORG_PN = "libXft"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
+            "
+-SRC_URI[sha256sum] = "ac4b01748fd59cfe07e070c34432b91bdd0fd8640e1e653a80b01d6a523186b0"
++SRC_URI[sha256sum] = "869903c1891beb8bee87f1ec94d8a0dad18c2add4072c456acbc85cdfc23ca63"
+ 
+ inherit cmake github-releases
  
 -- 
 2.34.1
