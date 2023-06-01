@@ -2,63 +2,63 @@ Return-Path: <rak3033@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C5DC77B7E
-	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 10:08:09 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.27005.1685614084508740209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A68C77B7E
+	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 10:09:09 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.27025.1685614147898952229
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 03:08:04 -0700
+ Thu, 01 Jun 2023 03:09:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=cW4YfjgL;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: rak3033@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b025d26f4fso5585305ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 03:08:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=g8xQybaB;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: rak3033@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-64d3e5e5980so840972b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 03:09:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685614083; x=1688206083;
+        d=gmail.com; s=20221208; t=1685614147; x=1688206147;
         h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=/aKz3Mpl8I2Riw1xEYHR5gjIewVX6T4s80IhRUENcq8=;
-        b=cW4YfjgL/xNAFUe+CCCtvKqrywmjDFdAWSND6e8tCwojWt1+2kgfHLbA24aUe8cwQQ
-         +LzT0CIkI3zrd0ZAuMXZcdwhswOmOy6rRzJKy6e9YYYr78zBdXQ1RbAc5ZxkMkEWiMg/
-         VWjEsR6JmE6H1/gQ5FENUIXhOdd872+Z1BPHK/9t4tZDFMvnIu+vGzDgouyUGrAsswgL
-         xH8m61+lEhaLpkKQ+/RTGI1KNVlSa6NCWok0wBfaaFI0gZvM3rOIOOWauT/GNcldXoQa
-         xeQTPyUjQF89Lw6+WBT11MCFMelv+7Tc+ynzdJhoxGDxQ5/WPlcSfhRQ77V7JCHJRL8H
-         4eag==
+        b=g8xQybaBJfKF43aaWFlpOKSCVIYwIQhFLOPdF0WUw5t01wuSmnnmWSimvLacSYmxER
+         ml0cng3VkaCrWq2nNRtP6IA6+MEouMvejOaKacq/0x/BGmxOYBIuyPOATDyrjB4WxKO7
+         ZQU1rOeEDHwYl4UxC/nE8SreFmNGeRvFcgLW0n4oXMXZtP299/k/Hwfq6rVlZohmBIV8
+         5ZbFQXuRv3iIzDBPrzocZmNPVCf2e4id5zvLtZB4YOppqdMoRjwnzV6z6NUZuiig8Wia
+         Aaq+N/do9PbX2EnxWbRUpoOFHs7NxpDEeDSIdQb+AfVxJhYsCkLhVbK4zaaOAF6KASLG
+         /s4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685614083; x=1688206083;
+        d=1e100.net; s=20221208; t=1685614147; x=1688206147;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=/aKz3Mpl8I2Riw1xEYHR5gjIewVX6T4s80IhRUENcq8=;
-        b=YkASpr7N/0mk5wO3Uy7jQi19xX7PHU/z7hL5VOJhLWotEgxVfofdrbrLTMB2OWDvkC
-         1hQyG4b3dYoEyORIt0RaZyBXA+HB7eY3tzfcfxiHM7caF4NGwaDwaGGU0Nk+OOhCpgN1
-         D+TSNYbbYazvaTKJIxUgMG3juhA/CjDP7BWQJi6BCcQCpb+D/mUUKd2ous9PiUSUUN42
-         l2Wwr6xOdYSwkGztmCp5Kkn7E5MzWG3ZG/zjPE2jMseLVIHE2jTkPZwHKTC5CsNsCT6a
-         BNr6SeaDCc+OtZ7wYEFY0xjZpcJEVaEUx1pQVwPo0g19eaQJ9zMOTwc6oBuBnBO5ERkw
-         T5Jg==
-X-Gm-Message-State: AC+VfDyJHIDGY5EHvMwnUNoFRtTQjU4+5CPX+Nd3Cl1aH+lPeUfMWqLL
-	5US5WrVEr9Akpb4WvaR+1+Is31ZjwCcCCQ==
-X-Google-Smtp-Source: ACHHUZ66PPppWd5/mPyB51VriPhwTX/u+jbBXDoD6YC6IXXDSZPqSM/TxBGpi3vHbLRx5HmJVMHoXA==
-X-Received: by 2002:a17:902:e5c4:b0:1b0:6e16:b92c with SMTP id u4-20020a170902e5c400b001b06e16b92cmr8242701plf.54.1685614083033;
-        Thu, 01 Jun 2023 03:08:03 -0700 (PDT)
+        b=TWgzna7eEX0e7GzEydlxhyYWqLglkKgJKm38oxztE7Ew28cW6M1ioMd6PJ7nsqvbHX
+         vq7N+YywxsEXaaqmUQ8yKRxEoYD69ulHzDC61ta0GR1ZlgOKl/gSjRmROah6ooHT2jFl
+         hEuPYRHxuGVR237YEd4CIvsaS4ttF0YcyH2ngPAMqJuASMpmWFgf7Y1gBqn9HHZRjWdJ
+         1XtXBZbAzY26iISnAOC+ewmxfj99KKdfE2EqAZQExg0JCK7Ln3TAWFMNHNFrdeHmUg1v
+         4I1U90lQYHmSYG6exLDFLqNh91OLjkfL1YRIyWyGS2slKiSlDBF/I5yKdNeBS8Mw90O+
+         oI6g==
+X-Gm-Message-State: AC+VfDzYbD5UaPHlTdFx2Ws5b3wp9izqkwyAfv1jNUn+8TNCQWi4CJwy
+	yXpZGpBA+TxzF5zCc4AP8+Jh9+BGoqbpag==
+X-Google-Smtp-Source: ACHHUZ5GWTh+24c8jOJVXdvw6lRoDxvQlGlQ/lNRMBBVtBeUQDC/6PyBhUDNtHrY0AejCBEmAm/r2w==
+X-Received: by 2002:a05:6a00:23c8:b0:64d:1333:6f3d with SMTP id g8-20020a056a0023c800b0064d13336f3dmr10988892pfc.10.1685614146822;
+        Thu, 01 Jun 2023 03:09:06 -0700 (PDT)
 Received: from localhost.localdomain ([2401:4900:369d:2ff5:c9ca:209b:f771:d5c1])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170902c20200b001ac741dfd29sm2989994pll.295.2023.06.01.03.07.58
+        by smtp.gmail.com with ESMTPSA id e6-20020aa78246000000b0064f76992905sm4654600pfn.202.2023.06.01.03.09.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 03:08:02 -0700 (PDT)
+        Thu, 01 Jun 2023 03:09:06 -0700 (PDT)
 From: Riyaz Khan <rak3033@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	rak3033@gmail.com
 Cc: riyaz.khan@kpit.com,
 	ranjitsinh.rathod@kpit.com,
 	Riyaz Khan <Riyaz.Khan@kpit.com>
-Subject: [meta][master][PATCH v2] openssh: Remove BSD-4-clause contents completely from codebase
-Date: Thu,  1 Jun 2023 15:37:42 +0530
-Message-Id: <20230601100742.30373-1-rak3033@gmail.com>
+Subject: [OE-core][master][PATCH v3] openssh: Remove BSD-4-clause contents completely from codebase
+Date: Thu,  1 Jun 2023 15:38:54 +0530
+Message-Id: <20230601100854.16004-1-rak3033@gmail.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 10:08:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182095
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 10:09:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182096
 
 From: Riyaz Khan <Riyaz.Khan@kpit.com>
 
