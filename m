@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE06EC7EE45
-	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:08 +0000 (UTC)
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
- by mx.groups.io with SMTP id smtpd.web10.26239.1685610236204720410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE44CC7EE23
+	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:18 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web10.26250.1685610249308344175
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 02:04:07 -0700
+ Thu, 01 Jun 2023 02:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="106808164"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="118599344"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="106808164"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:05 +0900
+   d="scan'208";a="118599344"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:07 +0900
 Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 5F9F1CD7E2
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:03 +0900 (JST)
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id B5DC4D29E6
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:04 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 86B43D88BF
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:02 +0900 (JST)
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id AAD56D88B8
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:03 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id A78CC88857;
-	Thu,  1 Jun 2023 18:04:01 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id E435188857;
+	Thu,  1 Jun 2023 18:04:02 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-cython: upgrade 0.29.34 -> 0.29.35
-Date: Thu,  1 Jun 2023 17:03:27 +0800
-Message-Id: <1685610221-29015-21-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-hatch-fancy-pypi-readme: upgrade 22.8.0 -> 23.1.0
+Date: Thu,  1 Jun 2023 17:03:29 +0800
+Message-Id: <1685610221-29015-23-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
 References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
@@ -37,74 +37,46 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10-0.717200-10.000000
-X-TMASE-MatchedRID: KEcVumlYY7qjz0nOeth/yUIIxwDaU5mrOWgzXROorb2BAXl9LkPp6VKC
-	SV79DbqwErrreIt6gngcArgWyCtRqmKAhP1Vz3pkPPov5T+l6PFNLPQl0QAltCEmvGbUwmBUeWw
-	Yle3v1YzwBGyWWbI3Lg7YGloFeMEOsyouFe32gde5x7uAXGEprVym+pP6FijCkNPbWj4LfSzu/Q
-	yUVIt+aYYEgVe6BkuPDcq+tTLukTqrUIsIb6+8FE7nLUqYrlslFIuBIWrdOeNfBKBbkRhUdWBQc
-	oax9FB3WyXEB937q1d5OPD8XJFfpB8TzIzimOwPC24oEZ6SpSmcfuxsiY4QFI+emGHjZphcLSGU
-	tS0NQW0yG98wRLHok1wpOk7WSlscmy+b7+Zsqfmjx+KP9+83THta/RviuoUtEi7rHPEfJEbTMjp
-	9aUB+UOx9n1XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
+X-TMASE-Result: 10--1.264800-10.000000
+X-TMASE-MatchedRID: 7cZymtcOvx2jz0nOeth/yUIIxwDaU5mregIHHX2L4YzfUZT83lbkEKRN
+	FH7T4P1T+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74BV4BnlVId1nZsoi2XrUn/J8m+
+	hzBStantdY+ZoWiLImydET58jp62Spe9yhw6GB9Jios1GUjg/IKr4R3W7cmJmDxqwZR7TUp9heD
+	zTZJqfuoCLgo33kyFThydg6KaZLGgefdmPSApS20PzO8njtE2xS7+RMq/2CK6rA4c7UV2fQpvi2
+	PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182077
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182080
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-* A garbage collection enabled subtype of a non-GC extension type could call into the
-  deallocation function of the super type with GC tracking enabled.  This could lead
-  to crashes during deallocation if GC was triggered on the type at the same time.
-  (Github issue :issue:'5432')
-
-* Some C compile failures and crashes in CPython 3.12 were resolved.
-
-* "except + nogil" was syntactically not allowed.
-  "except +nogil" (i.e. defining a C++ exception handling function called "nogil")
-  is now disallowed to prevent typos.
-  (Github issue :issue:'5430')
-
-* A C compile failure in PyPy 3.10 was resolved.
-  Patch by Matti Picus.  (Github issue :issue:'5408')
-
-* Cython modules now use PEP-489 multi-phase init by default in PyPy 3.9 and later.
-  Original patch by Matti Picus.  (Github issue :issue:'5413')
-
-* API header files generated by different Cython versions can now be included in the
-  same C file.
-  (Github issue :issue:'5383')
-
-* Function signatures containing a type like 'tuple[()]' could not be printed.
-  Patch by Lisandro Dalcin.  (Github issue :issue:'5355')
+ Add CLI support for hatch.toml.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/python/python-cython.inc                  | 2 +-
- .../{python3-cython_0.29.34.bb => python3-cython_0.29.35.bb}    | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.34.bb => python3-cython_0.29.35.bb} (100%)
+ ...adme_22.8.0.bb => python3-hatch-fancy-pypi-readme_23.1.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hatch-fancy-pypi-readme_22.8.0.bb => python3-hatch-fancy-pypi-readme_23.1.0.bb} (81%)
 
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 2b778493cd..71596caedd 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
- PYPI_PACKAGE = "Cython"
+diff --git a/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_22.8.0.bb b/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_23.1.0.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_22.8.0.bb
+rename to meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_23.1.0.bb
+index 4c256d155b..8f6e996a44 100644
+--- a/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_22.8.0.bb
++++ b/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_23.1.0.bb
+@@ -7,7 +7,7 @@ inherit pypi python_hatchling
+ 
+ PYPI_PACKAGE = "hatch_fancy_pypi_readme"
+ 
+-SRC_URI[sha256sum] = "da91282ca09601c18aded8e378daf8b578c70214866f0971156ee9bb9ce6c26a"
++SRC_URI[sha256sum] = "b1df44063094af1e8248ceacd47a92c9cf313d6b9823bf66af8a927c3960287d"
+ 
  BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[sha256sum] = "1909688f5d7b521a60c396d20bba9e47a1b2d2784bfb085401e1e1e7d29a29a8"
-+SRC_URI[sha256sum] = "6e381fa0bf08b3c26ec2f616b19ae852c06f5750f4290118bf986b6f85c8c527"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
- 
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.34.bb b/meta/recipes-devtools/python/python3-cython_0.29.35.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-cython_0.29.34.bb
-rename to meta/recipes-devtools/python/python3-cython_0.29.35.bb
 -- 
 2.34.1
 
