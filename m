@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B42CC7EE2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A4BC7EE2A
 	for <webhook@archiver.kernel.org>; Thu,  1 Jun 2023 09:04:08 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.26615.1685610245593289228
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.web10.26248.1685610245892189895
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Jun 2023 02:04:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="119146820"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="107150190"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681138800"; 
-   d="scan'208";a="119146820"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:04 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id C00E8DAE13
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:00 +0900 (JST)
+   d="scan'208";a="107150190"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 18:04:00 +0900
+Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id CEF32CD7E3
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:57 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 05FF2D3F3E
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:04:00 +0900 (JST)
+	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 0F048D9A7F
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Jun 2023 18:03:57 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 47C1788857;
-	Thu,  1 Jun 2023 18:03:59 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 16492887D8;
+	Thu,  1 Jun 2023 18:03:56 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-psutil: upgrade 5.9.4 -> 5.9.5
-Date: Thu,  1 Jun 2023 17:03:23 +0800
-Message-Id: <1685610221-29015-17-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] bind: upgrade 9.18.14 -> 9.18.15
+Date: Thu,  1 Jun 2023 17:03:18 +0800
+Message-Id: <1685610221-29015-12-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
 References: <1685610221-29015-1-git-send-email-wangmy@fujitsu.com>
@@ -37,48 +37,133 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27664.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27664.006
-X-TMASE-Result: 10-6.027100-10.000000
-X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/ySrLqyE6Ur/jwXotg6ps9+GU8ftiyKjZrdMj
-	jwb9QfV2CC8aAmGeO6lV00+whwxVQy/7QU2czuUNCTeoveN0UE2HqfCKxjr5zWAN6i+va16u0p9
-	DaZRzoN0NUccATRyd1Fs77BeaP4G0rWL/xQJnm46eAiCmPx4NwGmRqNBHmBveVDC1CbuJXmMqtq
-	5d3cxkNQipDIxmUueQea0gvMKsSEVmrK+9M4NI/Zmw3Ou4JFRXtTFg5RvJK2tKSZWzbv0yVNJPf
-	YekT2drNvtKSdGIF6nUgymUJU0fBR/BXqwE9HSW
+X-TMASE-Result: 10--4.578400-10.000000
+X-TMASE-MatchedRID: 19A9OAtP7iyjz0nOeth/yUIIxwDaU5mrWQ3R4k5PTnB0Vj5gY98rDDsX
+	0C3LJPaoOuzeNmOGKnNHkly7AY5JBVMkQcMo3ZChkCThXPqsqisxXH/dlhvLvw/me6cegHsDmjO
+	aVrPYQAG3/D6zGTXG40COxT/rF8+/4iXZcg3LMcp9SSAOK4bGf2HWZvjZxlUHoxCLfriDzzgVJR
+	X8M7KslgBiMVL8tkeMmEKHz5YiYlS8U6c9s1viyf7FEhWgo0y8EITY2UGMiNwH8UzOewTxw+79D
+	JRUi35p5shPFSKOueShgqRXf9ZDmi/7QU2czuUNnVTWWiNp+v8Ea8g1x8eqF5SQTn9jH7ua/pns
+	SQNXjXSxfbhqGxLk+4Ay6p60ZV62fJ5/bZ6npdjGVuWouVipct64Na1gfIlZmrqV3kUhUZFlIsc
+	bwATLTLCfdcXmnyLAJqwN9LEaBkdYql3HMeDnZDY6t5uUMVFc9k3oSBmQmfnhWZon9NDSMv6/2/
+	nZkihaOgB/fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 09:04:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182074
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182076
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-License-Update: Fix license: extra open quote.
+Changelog:
+=========
+[bug]  Set the rndc idle read timeout back to 60 seconds,
+       from the netmgr default of 30 seconds, in order to
+       match the behavior of 9.16 and earlier. [GL #4046]
+
+[bug]  Fix log file rotation when using absolute path as
+       file. [GL #3991]
+
+[bug]  When removing delegations in an OPTOUT range
+       empty-non-terminal NSEC3 records generated by
+       those delegations were not removed. [GL #4027]
+
+[bug]  Reimplement the maximum and idle timeouts for incoming
+       zone tranfers. [GL #4004]
+
+[bug]  Treat ISC_R_INVALIDPROTO as a networking error
+       in the dispatch code to avoid retrying with the
+       same server. [GL #4005]
+
+[bug]  In dispatch, honour the configured source-port
+       selection when UDP connection fails with address
+       in use error.
+
+       Also treat ISC_R_NOPERM same as ISC_R_ADDRINUSE.
+       [GL #3986]
+
+[test] As a workaround, include an OpenSSL header file before
+       including cmocka.h in the unit tests, because OpenSSL
+       3.1.0 uses __attribute__(malloc), conflicting with a
+       redefined malloc in cmocka.h. [GL #4000]
+
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-psutil_5.9.4.bb => python3-psutil_5.9.5.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-psutil_5.9.4.bb => python3-psutil_5.9.5.bb} (82%)
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.14 => bind-9.18.15}/bind9                   | 0
+ .../bind/{bind-9.18.14 => bind-9.18.15}/conf.patch              | 0
+ .../bind/{bind-9.18.14 => bind-9.18.15}/generate-rndc-key.sh    | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.14 => bind-9.18.15}/named.service           | 0
+ .../bind/{bind_9.18.14.bb => bind_9.18.15.bb}                   | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.14 => bind-9.18.15}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.14.bb => bind_9.18.15.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-psutil_5.9.4.bb b/meta/recipes-devtools/python/python3-psutil_5.9.5.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-psutil_5.9.4.bb
-rename to meta/recipes-devtools/python/python3-psutil_5.9.5.bb
-index 019ea2dec1..c84e2225b8 100644
---- a/meta/recipes-devtools/python/python3-psutil_5.9.4.bb
-+++ b/meta/recipes-devtools/python/python3-psutil_5.9.5.bb
-@@ -1,9 +1,9 @@
- SUMMARY = "A cross-platform process and system utilities module for Python"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e35fd9f271d19d5f742f20a9d1f8bb8b"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
- HOMEPAGE = "https://pypi.org/project/psutil/"
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/bind9 b/meta/recipes-connectivity/bind/bind-9.18.15/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.15/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.14/named.service b/meta/recipes-connectivity/bind/bind-9.18.15/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.14/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.15/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.14.bb b/meta/recipes-connectivity/bind/bind_9.18.15.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.14.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.15.bb
+index c513cbc8b6..80164aad87 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.14.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.15.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
--SRC_URI[sha256sum] = "3d7f9739eb435d4b1338944abe23f49584bde5395f27487d2ee25ad9a8774a62"
-+SRC_URI[sha256sum] = "5410638e4df39c54d957fc51ce03048acd8e6d60abc0f5107af51e5fb566eb3c"
+-SRC_URI[sha256sum] = "9ae12edf6ac3c430b33ecd1a7c0c0c60875d255185eb87850fa9a5e794a64a09"
++SRC_URI[sha256sum] = "28ae8db14862801bc2bd4fd820db00667d3f1ff9ae9cc2d06a0ef7810fed7a4e"
  
- inherit pypi setuptools3
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.34.1
 
