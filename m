@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF358CA9EDE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5274CCA460
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:45 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.7530.1685693432522898609
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.7632.1685693432454653899
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DaTurziE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101887b288020-c7490ccf-1490-4b50-b057-c751685cf981-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DxRF8xwh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101887b28804a-363403a4-e214-4b29-b8a5-40e11e59617a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CexDPB6zVpiAxGuI5t4fP+DKDO8ZBIw0J9RPqIBEU/E=;
-	b=DaTurziEEK6v6sbZXdTlsCU28gUmP3eYIPnwQkmPxMvds4fTSO6weh59seGoo/Ue
-	1DK1XWDt0PcGQYPU6GHy6XTqWelO8/Gbeo/+qunXEnwc/5AWVXST2iKZX8bOwi3CD6J
-	mK0rFn4oELnVVNRLT5l1UCBYAR4eeQlGw2yALyCc=
+	bh=Kh/ct6L1xFsW9FFqWspFlRUST/e6yRNUq1JqH2ZYAXw=;
+	b=DxRF8xwheyS5ub9i1BMZx/xOkpKqMDu8Cc+xBd55lujont7E3eZusdFIfxe1bkq+
+	v9Y6h/MYtJaYq2bt+kYmn9v/Nr70AGbKR0VePRek8EgpG0IVkx+TOfrmUIHRTHYh8CU
+	Vwg14KMM/KvYwglGJ8NO4y0GH0BVKNc0xAj2YbNM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CexDPB6zVpiAxGuI5t4fP+DKDO8ZBIw0J9RPqIBEU/E=;
-	b=X4nCYZSQy85oEQmymslVij5PEvWx4EiczvEdn/OPj2u0eq8ZIqf0ScJ/tEWSpY+v
-	AissyfFoG9YhWFwKA6yXIXrcQaQzWA3v34FLnyQpFkeFSlbqhidXL5Tc/Pqya540Ba6
-	0cAhiJKDFJgYqNRec5NReJWRgpGDrJJqWSQSI7JM=
-Content-Type: multipart/mixed; boundary="===============3396149182000495501=="
+	bh=Kh/ct6L1xFsW9FFqWspFlRUST/e6yRNUq1JqH2ZYAXw=;
+	b=Q/EyDqWigJRobLOfVTPSIZeIRT1zEiF6qdHCtbOORBJTU8OnnCf5xRQ2wFFQYgDZ
+	DFhstb2Qlzmr4M9/byyD9158/vXVnMjc94/I90nle8ytGXesq94XQGuu/PthuSXIjfu
+	csLdeFbQK1pvG7DQdlJVv8tmToJnBHpOwmzE8lQo=
+Content-Type: multipart/mixed; boundary="===============2755927762579059510=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] orc: upgrading to 0.4.34 SUCCEEDED
-Message-ID: <010101887b288020-c7490ccf-1490-4b50-b057-c751685cf981-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cryptography-vectors: upgrading to 41.0.0 FAILED
+Message-ID: <010101887b28804a-363403a4-e214-4b29-b8a5-40e11e59617a-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:10:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.45
+X-SES-Outgoing: 2023.06.02-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182182
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182181
 
---===============3396149182000495501==
+--===============2755927762579059510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *orc* to *0.4.34* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-cryptography-vectors* to *41.0.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-orc-upgrade-0.4.33-0.4.34.patch
+    - apply the patch: git am 0001-python3-cryptography-vectors-upgrade-39.0.2-41.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,104 +75,120 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3396149182000495501==
+--===============2755927762579059510==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-orc-upgrade-0.4.33-0.4.34.patch"
+ filename="0001-python3-cryptography-vectors-upgrade-39.0.2-41.0.0.patch"
 
-RnJvbSA1ZDE0NzI3MjkxYWY2NTcwODUyMDc1MWE5OWI0OTQ3YTY5NWUwM2JkIE1vbiBTZXAgMTcg
+RnJvbSBiNjA3ZjNiZWFmZDkyNWJlYzIzZjI5M2IyOThiMmJmOWFjZjgwN2Q1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxMzoxNjo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9y
-YzogdXBncmFkZSAwLjQuMzMgLT4gMC40LjM0CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9v
-cmMve29yY18wLjQuMzMuYmIgPT4gb3JjXzAuNC4zNC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvb3JjL3tvcmNfMC40LjMzLmJiID0+IG9yY18wLjQuMzQuYmJ9ICg5MiUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zMy5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM0LmJiCmluZGV4IDg3M2ZlMzkyMGIu
-LjgwMWQ2MDRiZGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAu
-NC4zMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzQuYmIKQEAg
-LTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiQlNELTItQ2xhdXNlICYgQlNELTMtQ2xhdXNlIgogTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5ZWM5
-ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
-cmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg0NGU2
-ZDdkYjgwODZmNzkzZjU3NjE4ZDNkNGI2OGQyOWQ5OWIxNjAzNGU3MTQzMGRmM2MyMWNmZDNjMzU0
-MmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGY0N2FiYjNmMDk3MTcxZTQ0ZWI4MDdhZGNkYWJk
-ODYwZmJhMmVmZmQzN2Q4ZDNjNGZiZDVmMzQxY2FkZDQxZiIKIAogaW5oZXJpdCBtZXNvbiBwa2dj
-b25maWcgZ3RrLWRvYwogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxMzo0NToyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnM6IHVwZ3JhZGUgMzkuMC4yIC0+IDQxLjAuMAoKLS0t
+CiAuLi52ZWN0b3JzXzM5LjAuMi5iYiA9PiBweXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzQx
+LjAuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNyeXB0
+b2dyYXBoeS12ZWN0b3JzXzM5LjAuMi5iYiA9PiBweXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3Jz
+XzQxLjAuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnNfMzkuMC4yLmJiIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzXzQxLjAuMC5iYgpz
+aW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnNfMzkuMC4yLmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnNfNDEu
+MC4wLmJiCmluZGV4IDc5NWUyN2Y3NWIuLmM2NGNjNjRhMjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVjdG9yc18zOS4wLjIu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBo
+eS12ZWN0b3JzXzQxLjAuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vTElDRU5TRTttZDU9OGMzNjE3ZGI0ZmI2ZmFlMDFmMWQyNTNhYjkxNTExZTQgXAogIyBO
+T1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lwZSBhdCB0aGUgc2FtZSB2ZXJzaW9uIGFz
+IHB5dGhvbjMtY3J5cHRvZ3JhcGh5CiAjICAgICAgIFVwZ3JhZGUgYm90aCByZWNpcGVzIGF0IHRo
+ZSBzYW1lIHRpbWUKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE2OGYxMDZmN2E0MzIyY2YxZTdl
+ZDUxZTNmYzZkNWMxZTBiMTFkMzM3ZWQ5MThlYzg3OWU4YWZlMGMyYTUyMjAiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiN2M3Nzc4N2Y2ZjFlMzA2NWFlZDBhZjliMDExM2QzNzM2ZjJkMGE4MGUwZWQx
+ZGRiZDI5NmNmNWFjNjM4ZGYwMCIKIAogUFlQSV9QQUNLQUdFID0gImNyeXB0b2dyYXBoeV92ZWN0
+b3JzIgogCi0tIAoyLjM5LjIKCg==
 
---===============3396149182000495501==
+--===============2755927762579059510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 91710 to 0 (-100%)
-packages/core2-32-poky-linux/orc/orc-staticdev: FILELIST: removed all items "/usr/lib/liborc-test-0.4.a"
-Changes to packages/core2-32-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.33.0 to liborc-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.33.0 to liborc-test-0.4.so.0.34.0
-  /usr/lib/liborc-0.4.so.0.33.0 moved to /usr/lib/liborc-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.so.0.33.0 moved to /usr/lib/liborc-test-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.a was removed
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1800 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 897 .bb files complete (896 cached, 1 parsed). 1800 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============3396149182000495501==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:19a882dde2ec39c550a4c6248c2ab455b8d60e8e"
+workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
 
-packages/core2-32-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz"
-packages/core2-32-poky-linux/orc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/liborc-0.4: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/orc-dbg: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-dbg: PKGSIZE changed from 1249280 to 1264784 (+1%)
-packages/core2-32-poky-linux/orc/orc-dbg: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-0.4.so.0.33.0 /usr/lib/.debug/liborc-test-0.4.so.0.33.0", added "/usr/lib/.debug/liborc-0.4.so.0.34.0 /usr/lib/.debug/liborc-test-0.4.so.0.34.0"
-packages/core2-32-poky-linux/orc/orc-dev: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 193890 to 197705 (+2%)
-packages/core2-32-poky-linux/orc/orc-dev: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-doc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-doc: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-examples: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-examples: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-locale: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-locale: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-src: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1437847 to 1456700 (+1%)
-packages/core2-32-poky-linux/orc/orc-src: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-src: FILELIST: directory renamed /usr/src/debug/orc/0.4.33-r0/tools -> /usr/src/debug/orc/0.4.34-r0/tools, directory renamed /usr/src/debug/orc/0.4.33-r0/orc-test -> /usr/src/debug/orc/0.4.34-r0/orc-test, removed "/usr/src/debug/orc/0.4.33-r0/orc/orccpu-x86.c /usr/src/debug/orc/0.4.33-r0/orc/orc.c /usr/src/debug/orc/0.4.33-r0/orc/orccodemem.c /usr/src/debug/orc/0.4.33-r0/orc/orc.h /usr/src/debug/orc/0.4.33-r0/orc/orccode.c /usr/src/debug/orc/0.4.33-r0/orc/orcmips.c /usr/src/debug/orc/0.4.33-r0/orc/orconce.c /usr/src/debug/orc/0.4.33-r0/orc/orcrule.c /usr/src/debug/orc/0.4.33-r0/orc/orccompiler.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-sse.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.33-r0/orc/opcodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcmips.h /usr/src/debug/orc/0.4.33-r0/orc/orcneon.h /usr/src/debug/orc/0.4.33-r0/orc/orconce.h /usr/src/debug/orc/0.4.33-r0/orc/orccode.h /usr/src/debug/orc/0.4.33-r0/orc/orcinstruc
- tion.h /usr/src/debug/orc/0.4.33-r0/orc/orccompiler.h /usr/src/debug/orc/0.4.33-r0/orc/orcrule.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.33-r0/orc/orcexecutor.c /usr/src/debug/orc/0.4.33-r0/orc/orctarget.h /usr/src/debug/orc/0.4.33-r0/orc/orcutils.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-sse.c /usr/src/debug/orc/0.4.33-r0/orc/orcexecutor.h /usr/src/debug/orc/0.4.33-r0/orc/orcutils.c /usr/src/debug/orc/0.4.33-r0/orc/orcpowerpc.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-neon.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86insn.c /usr/src/debug/orc/0.4.33-r0/orc/orcpowerpc.c /usr/src/debug/orc/0.4.33-r0/orc/orccpuinsn.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-neon.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86insn.h /usr/src/debug/orc/0.4.33-r0/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcparse.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram.h /usr/src/debug/orc/0.4.33-r0/orc/orcopcodes.c /us
- r/src/debug/orc/0.4.33-r0/orc/orcparse.c /usr/src/debug/orc/0.4.33-r0/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.33-r0/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram.c /usr/src/debug/orc/0.4.33-r0/orc/orcdebug.h /usr/src/debug/orc/0.4.33-r0/orc/orcbytecodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.33-r0/orc/orcconstant.h /usr/src/debug/orc/0.4.33-r0/orc/orcinternal.h /usr/src/debug/orc/0.4.33-r0/orc/orcbytecode.c /usr/src/debug/orc/0.4.33-r0/orc/orcrules-mips.c /usr/src/debug/orc/0.4.33-r0/orc/orcdebug.c /usr/src/debug/orc/0.4.33-r0/orc/orcbytecode.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.33-r0/orc/orcopcode.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-c.c /usr/src/debug/orc/0.4.33-r0/orc/orcarm.h /usr/src/debug/orc/0.4.33-r0/orc/orccpu.h /usr/src/debug/orc/0.4.33-r0/orc/orcmmx.h /usr/src/debug/orc/0.4.33-r0/orc/orcsse.h /usr/src/debug/orc/0.4.33-r0/orc/orcx86.h /usr/src/debug/orc/0.4.33-
- r0/orc/orcvariable.h /usr/src/debug/orc/0.4.33-r0/orc/orcarm.c /usr/src/debug/orc/0.4.33-r0/orc/orcmmx.c /usr/src/debug/orc/0.4.33-r0/orc/orcsse.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86.c /usr/src/debug/orc/0.4.33-r0/orc/orclimits.h /usr/src/debug/orc/0.4.33-r0/orc/orcfunctions.c", added "/usr/src/debug/orc/0.4.34-r0/orc/orclimits.h /usr/src/debug/orc/0.4.34-r0/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.34-r0/orc/orconce.c /usr/src/debug/orc/0.4.34-r0/orc/orccode.c /usr/src/debug/orc/0.4.34-r0/orc/orcmips.c /usr/src/debug/orc/0.4.34-r0/orc/orcrule.c /usr/src/debug/orc/0.4.34-r0/orc/orcvariable.h /usr/src/debug/orc/0.4.34-r0/orc/opcodes.h /usr/src/debug/orc/0.4.34-r0/orc/orccode.h /usr/src/debug/orc/0.4.34-r0/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.34-r0/orc/orcmips.h /usr/src/debug/orc/0.4.34-r0/orc/orcneon.h /usr/src/debug/orc/0.4.34-r0/orc/orconce.h /usr/src/debug/orc/0.4.34-r0/orc/orcrule.h /usr/src/debug/orc/0.4.34-r0/orc/orcdebug.c /usr/src/debug/orc/0.4.34-r0/orc/o
- rcpowerpc.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-sse.c /usr/src/debug/orc/0.4.34-r0/orc/orcpowerpc.h /usr/src/debug/orc/0.4.34-r0/orc/orcdebug.h /usr/src/debug/orc/0.4.34-r0/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.34-r0/orc/orcarm.c /usr/src/debug/orc/0.4.34-r0/orc/orcutils.h /usr/src/debug/orc/0.4.34-r0/orc/orcconstant.h /usr/src/debug/orc/0.4.34-r0/orc/orcutils.c /usr/src/debug/orc/0.4.34-r0/orc/orcx86.c /usr/src/debug/orc/0.4.34-r0/orc/orc.h /usr/src/debug/orc/0.4.34-r0/orc/orcmmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.34-r0/orc/orccpu-x86.c /usr/src/debug/orc/0.4.34-r0/orc/orccodemem.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-neon.c /usr/src/debug/orc/0.4.34-r0/orc/orc.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram.h /usr/src/debug/orc/0.4.34-r0/orc/orcbytecodes.h /usr/src/debug/orc/0.4.34-r0/orc/orcexecutor.c /usr/src/debug/orc/0.4
- .34-r0/orc/orcprogram-c.c /usr/src/debug/orc/0.4.34-r0/orc/orcexecutor.h /usr/src/debug/orc/0.4.34-r0/orc/orccompiler.h /usr/src/debug/orc/0.4.34-r0/orc/orccpuinsn.h /usr/src/debug/orc/0.4.34-r0/orc/orcx86insn.h /usr/src/debug/orc/0.4.34-r0/orc/orccompiler.c /usr/src/debug/orc/0.4.34-r0/orc/orcx86insn.c /usr/src/debug/orc/0.4.34-r0/orc/orcbytecode.c /usr/src/debug/orc/0.4.34-r0/orc/orcutils-private.h /usr/src/debug/orc/0.4.34-r0/orc/orcrules-mips.c /usr/src/debug/orc/0.4.34-r0/orc/orcparse.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-neon.c /usr/src/debug/orc/0.4.34-r0/orc/orcbytecode.h /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcfunctions.c /usr/src/debug/orc/0.4.34-r0/orc/orcparse.h /usr/src/debug/orc/0.4.34-r0/orc/orcopcode.h /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-sse.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcarm.h /usr/src/debug/orc/0.4.
- 34-r0/orc/orccpu.h /usr/src/debug/orc/0.4.34-r0/orc/orcinstruction.h /usr/src/debug/orc/0.4.34-r0/orc/orcinternal.h /usr/src/debug/orc/0.4.34-r0/orc/orcmmx.h /usr/src/debug/orc/0.4.34-r0/orc/orcsse.h /usr/src/debug/orc/0.4.34-r0/orc/orcx86.h /usr/src/debug/orc/0.4.34-r0/orc/orcopcodes.c /usr/src/debug/orc/0.4.34-r0/orc/orcsse.c /usr/src/debug/orc/0.4.34-r0/orc/orctarget.h"
-packages/core2-32-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 91710 to 0 (-100%)
-packages/core2-32-poky-linux/orc/orc-staticdev: PV changed from "0.4.33" to "0.4.34"
-packages/core2-32-poky-linux/orc/orc-staticdev: FILELIST: removed all items "/usr/lib/liborc-test-0.4.a"
-packages/core2-32-poky-linux/orc/orc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
-packages/core2-32-poky-linux/orc/orc: PV changed from "0.4.33" to "0.4.34"
-Changes to packages/core2-32-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.33.0 to liborc-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.33.0 to liborc-test-0.4.so.0.34.0
-  /usr/lib/liborc-0.4.so.0.33.0 moved to /usr/lib/liborc-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.so.0.33.0 moved to /usr/lib/liborc-test-0.4.so.0.34.0
-  /usr/lib/liborc-test-0.4.a was removed
+Initialising tasks...done.
+Sstate summary: Wanted 99 Local 92 Mirrors 0 Missed 7 Current 264 (92% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1179 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_fetch)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1396 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_unpack)
+NOTE: Running task 1397 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1398 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_patch)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_patch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_patch: Succeeded
+NOTE: Running task 1399 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1400 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_populate_lic)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1401 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_configure: Succeeded
+NOTE: Running task 1402 of 1409 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_compile)
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/cryptography_vectors-41.0.0/setup.py': [Errno 2] No such file or directory
+| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694:180 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694, line 180
+| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694, line 170
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694, line 152
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694, line 184
+NOTE: recipe python3-cryptography-vectors-41.0.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1402 tasks of which 1394 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
 
---===============3396149182000495501==--
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_compile
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: python3-cryptography-vectors-41.0.0-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
+ERROR: python3-cryptography-vectors-41.0.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/run.do_compile.1867694', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-cryptography-vectors/41.0.0-r0/temp/log.do_compile.1867694
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.0.bb:do_compile) failed with exit code '1'
+
+--===============2755927762579059510==--
 
