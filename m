@@ -1,357 +1,189 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CFEC7EE31
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 02:22:49 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.3377.1685672559458481188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D9E3C7EE2A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 02:36:49 +0000 (UTC)
+Received: from esa17.fujitsucc.c3s2.iphmx.com (esa17.fujitsucc.c3s2.iphmx.com [216.71.158.34])
+ by mx.groups.io with SMTP id smtpd.web11.3733.1685673401761521871
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 19:22:39 -0700
+ Thu, 01 Jun 2023 19:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=19vuWr+P;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-652a6bf4e6aso395446b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 19:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685672558; x=1688264558;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0F/OzLl1EPD00b1NI1jLQHtge3aU+odfR0DOXS09vtY=;
-        b=19vuWr+PJLIwidl3VGnSdQe045JI+FDPUyeC/T71NfCqbYKTc+3b4mHakK3buyAYIC
-         hLakcMMmO1FuB7vfEJ29qbZoHcR8BWdleJmcXIlcffO8JdGSRNwrwzON0GzCcRm+iY4p
-         Xd5BdZWdHV+VW2vfWgeV93ysHY/wn14gePoyOk4S2LaeyZ3i/vMHiZqKsdlmIg+bElHG
-         e+dIa7/FBcbR6lsPnuTffRPwqMQMj2wtb2BsOKpNZuIiK/S6dPrInZedCoDBZ7gltKsQ
-         +d+xyvrRdjtyT4BisTmupxmXWhL6asuUjtpw1Bg2X5/AWwM43Wct5il4/L5DZIpkJZx7
-         Y5GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685672558; x=1688264558;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0F/OzLl1EPD00b1NI1jLQHtge3aU+odfR0DOXS09vtY=;
-        b=NwwSH6I6e4220hN5tfWXNShnb1QyEBBms3saD1Atw3hPadQr/MGNNbA3v9uB2snjNX
-         E6wp0BUknBeJ/JxCiNJImoJ+7FGxXuNNNKDX0VAXVSI1VtqZT3bl+H3bFzawyJgziEXz
-         Gmf5FcnrZMnqq5O7iJuZvvQsDr4UaP7baWCIObmrnla40CqlGXRl8NXE6FWTr+n6FwHg
-         3HqgTqno8rnNbFXk9a2NREtUVJd4afR7nCm1h+zRTJciObck6ky222JPeDoYZDBnurHU
-         2l9RCqPm3HYsPz+tMyfSasuUZy/LEqC4zxl+qGk0umXZjGQO65cwq/DxVr/RBtD4SUQX
-         2qtQ==
-X-Gm-Message-State: AC+VfDzczzjUfeMTwahACB2kwPJ7plQ5LiO0X3pgm+zp+oGvZF0w64ws
-	dR1extojbyLtbaZb6FH2cJiQOLaZJEaModF0uYA=
-X-Google-Smtp-Source: ACHHUZ6dGoFP/y9f9WmwBcCFLFQ2xxHkgPZKDVDRryIruy3Gi6vkTR2mlQ+KdipZMZDo8FmtE8rDQw==
-X-Received: by 2002:a05:6a00:1915:b0:64f:3fc8:5d26 with SMTP id y21-20020a056a00191500b0064f3fc85d26mr9389553pfi.9.1685672558272;
-        Thu, 01 Jun 2023 19:22:38 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id z16-20020aa785d0000000b0064fc715b380sm5850234pfn.176.2023.06.01.19.22.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 19:22:37 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 09/13] tiff: Remove unused patch from tiff
-Date: Thu,  1 Jun 2023 16:22:08 -1000
-Message-Id: <b61e75037ed92e6bf4d9d506ffedfc5d50085522.1685672395.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1685672395.git.steve@sakoman.com>
-References: <cover.1685672395.git.steve@sakoman.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=asObpksk;
+ spf=neutral (domain: fujitsu.com, ip: 216.71.158.34, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1685673402; x=1717209402;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=dYjBFKJ605Z3TcDN9JkWMIA9cyWYtcKRUlQHWdyB9CQ=;
+  b=asObpkskJyaI427k9aYor6soIOG3C5M64gDBcoceWSJVSfF1rzfTSsaW
+   Okd6bNKjX0gi6GCk9PRS/Aru5LZUxrgRi0/rD8G1nPworhyXYI2yBDTzK
+   wej5euaLLxjqGGeE+Yb1P1FPBQ+m00weBcDQRk6vSc2A/Mlg2FDMO+lNW
+   m6Pkgt+EPke78Y5zSwJ76OfVtJn07GfAlXjfg/4uokLFIhaBwN2Yd86mX
+   WvLIN8PPj0S4tKafYP1IgiAkmQFnIOubFo2Go6iFFiHhJOSCB3VJw859T
+   9iu7n/srI5SsjtE838eeg5mA8j2jZzoecsJePWxOH7Wz2OCWr2HPzJg3N
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="85975796"
+X-IronPort-AV: E=Sophos;i="6.00,211,1681138800"; 
+   d="scan'208";a="85975796"
+Received: from mail-tycjpn01lp2177.outbound.protection.outlook.com (HELO JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.177])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:36:39 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z/2H01CDBXedDHKtjVAcasSy8+s0DRuP+x/PAZ+nuumBFoo316458QDKcw1jYX5SesepupKQmEOVUEdnHKDeHuxoAp8QJZOaV6ybt0OoI64KY+07kTj1YP8cnS4aOzjCm71LciANgOCbkaQVGJEIlRYptFhhPr/5C2Mw9YqbILju7adtGcUzYqmDaJkvujGYNu0MRCiKwnbtMvKGK97WK5u3eOZ7gHBr/lNh+NX4PAHlLl/KCN4Cal/mIH4lBVPWHQZsELJh4yWguN0s9WEcYPjQeAZxj10E0H57fodKc9QRpyzVCae3PkGCvikZPmhOq8eRunWfKfHITM9J+f6x9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dYjBFKJ605Z3TcDN9JkWMIA9cyWYtcKRUlQHWdyB9CQ=;
+ b=fVxFlwmVeb9deCqAJKMzM41Va19B6OqMZflkuRdcuT3Weh+9pt/REZq3LNzfn6HNpIISFGO4tR6HM2gNhyQo5JeP1sCm8eYcQEYBaOBRMWSGXuG0anfaHrS2ErQycbLW8uCLvAJS1MVvo+d3N3hUWbTXtSYwZCQm/IxZOLj0hX+wivAleVjk4y5nvBn3ndEhWCOk1SHQEnntkRCLItEwJiAu7K8JiG2u5l6XUJ4zNJadM115moj5U9yLO1JYqOXapwNZJUFBkc+PAx4plKkRmYs/+22CQ6VtxR7C+hRTkZtxgOa+c3yKFzoBy+0wgxfGKVcdHROxe8fTFnV3SHToKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com (2603:1096:604:cd::13)
+ by TY3PR01MB11101.jpnprd01.prod.outlook.com (2603:1096:400:3d5::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.23; Fri, 2 Jun
+ 2023 02:36:35 +0000
+Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com
+ ([fe80::f53:b8cf:2bf5:39ad]) by OS0PR01MB6178.jpnprd01.prod.outlook.com
+ ([fe80::f53:b8cf:2bf5:39ad%7]) with mapi id 15.20.6433.025; Fri, 2 Jun 2023
+ 02:36:35 +0000
+From: "Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] Is aarch64_be under maintenance?
+Thread-Topic: [OE-core] Is aarch64_be under maintenance?
+Thread-Index: AdmUVJ7Lf/hFeIQFSMaBIHGjw7h/EgAA3joAACiRHyA=
+Date: Fri, 2 Jun 2023 02:36:35 +0000
+Message-ID: 
+ <OS0PR01MB6178318FC4E138CE82A7D60FA04EA@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+References: 
+ <TYCPR01MB61918B757CBA93C6AD0BD80EA0499@TYCPR01MB6191.jpnprd01.prod.outlook.com>
+ <fcf04863048c9e529df03a0bc034a8f86e468865.camel@linuxfoundation.org>
+In-Reply-To: 
+ <fcf04863048c9e529df03a0bc034a8f86e468865.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9Nzk1MWYxOTEtMDZiYS00MzJmLTgwZGItODljM2RmZTgy?=
+ =?utf-8?B?ZDg1O01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFRO+/ou++gA==?=
+ =?utf-8?B?776LO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX1NldERhdGU9MjAyMy0wNi0wMlQwMjozMTozOVo7TVNJUF9MYWJl?=
+ =?utf-8?B?bF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfU2l0ZUlk?=
+ =?utf-8?Q?=3Da19f121d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB6178:EE_|TY3PR01MB11101:EE_
+x-ms-office365-filtering-correlation-id: 8d0c95ce-68bf-4f59-53b5-08db63122f41
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ tQdOSmTtURAqiWzvn/yRpLzToK69cbEFrzWx8cWHDMdxOKUIJD5B4jR4Sb2GQzxXgCpjaAFFZP6KXKkQbhiPXfo+I50jQnilWhaKASEf26+xBhdwneqL2uAIJDK5O07KYevlDdiOWOTLwsHvQNd2E2CcBHkJdDifavH+PpgasGOPPwS/fSqfHR+4oAYBYnac5aP5xUo9MD8z0LiNXLKfYZV67PDu7Bkadh4av8VwRSF/Qcj5Rw2IVA0w2cFL2ZAx9EiuHNOu9bsqJkOVOtlyFlJDzuLqZfnQ4ked2N9Mi2x+Go/QQ3+TuXpWg0Wq+N0YG8mBif0PsoekRr2ypg88TIQDki7Lleosbnu3DU5dpTSDHZxDBxFu02KmTLKmkLUi3LTcL60FzLfZEoK+5BDOHkoDzSwnBjj3GITp2Vcw2eixqiVwFaXYrKnsQAFVn7rRzLLh0WdSqCzJSz+xp4RWRKD/chK0zdlwDl1cc+PI4O10mJ+nIKfE7yVlZRNUFzahprlScPIFxTOo1ViT+YwBjXGN4IvlOACVHDTLzo8UprmccUjCiOoT5g0AC28xb0paIx5QXr0mmtB+Ix/dFD6o9UzfclKk5YoFMM+zHYMYDgxkaVi42oBzakQXuFqyvXbX0kXDirTc6Tzex7E3oaEBSg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB6178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(1590799018)(451199021)(82960400001)(122000001)(38100700002)(1580799015)(2906002)(7696005)(86362001)(110136005)(38070700005)(478600001)(76116006)(66476007)(66446008)(66556008)(64756008)(66946007)(55016003)(85182001)(33656002)(71200400001)(186003)(9686003)(6506007)(53546011)(26005)(52536014)(8676002)(8936002)(5660300002)(41300700001)(316002)(83380400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZDk5czMyZ0paaVpsQnVZV3pNWVNlTFlFSUtTRjZ5Qy9qMU53SFlTdDJMSm1p?=
+ =?utf-8?B?ZHM4bDBUajcvRWxUN0FvZHU2ZlNyYWhCQjlJci9GN0Zwb3A1STFUZldlUktJ?=
+ =?utf-8?B?TWxxOTd2RnBMQW1IdTl6REttSUwzT21BZlRnVzFuR2lqSjZIQk5HMktoVS9J?=
+ =?utf-8?B?WWwyUGIxQkNwVGtPaE1hamtmVk4vYXBMaU1hWll5dUVyS080c3dBZ0c1c0xS?=
+ =?utf-8?B?WVFLRlFHclNzWE16SlhkVXQvMVFjaFVtKzZMZTR4SmlXcFdvUXBTNERjZUJO?=
+ =?utf-8?B?YkoweUJmbjJMZ2tNNnZ3TDhUSUs1SUxrVVFWWHhiMlgvM0tyM1VPSjUraGhN?=
+ =?utf-8?B?NjIrUFQ1TEpySkRlTzlQMXdoUWx3dUZ5Qk12T1RhdEJuOGNSVmxHU2lqczJH?=
+ =?utf-8?B?Vm5PclFTQ1NlRzN2T3l4b2p5TzVJSDlraDRrUnJVYUdPdkV4aG1WMlNBaGdK?=
+ =?utf-8?B?VGNJdnNvUmYxSTdQcGdQVDFkSmgwTUlhSnV2VCtHajZNM0pRQlREVU1GLy9l?=
+ =?utf-8?B?VHAyU2xLaDBFNmgyNUZoZU9iZjMyL09pVnNJUzFVOUxhRDNXekw5T0VlR2Yy?=
+ =?utf-8?B?WFFQZHZkMEp4cDhqVld5cUM3VFFYdkVWaW44MFAyUlJ1T1hjMlB2b2thMCtD?=
+ =?utf-8?B?ckRkc1FjL2VhNDNwZEUzZmxVOGtnU3RRb3Zxd1pTVDh5cUdsWDVDN0NBNThC?=
+ =?utf-8?B?QVJXek1RZjJhaDRETzBzT0JjRnlaczdYOGgxYjBWdUsveFc5dlgwRi9LNGE4?=
+ =?utf-8?B?Y0ZSQS9EK2o0UmJrTVdyeHloMm5sYlJTY3ZpNk5lY1FoYzY3NjcrSmVLRnpC?=
+ =?utf-8?B?S0U4TG1JL1dhNlhZb25KbG1KNWxZQkFaTTVIanByNFB2WXlxREorT09NcDhu?=
+ =?utf-8?B?c3hxVXBsTUNSRnUySjBOZzN1bmM2SjA1dVBxdTFEWHo4TGxNbExMYUwrejNC?=
+ =?utf-8?B?VFBiM0VhL0dtZnVYa1gzSjl3b092VmliMUFMOEQ5VEU5a2x5VUx3RGJjUFBE?=
+ =?utf-8?B?ZTNqS2FsZUpqYmZwWTJNdWRoZG91c1paaUNaYjcrUTZxbXhNU0o0ckRaSjRJ?=
+ =?utf-8?B?blQxNHd5UjF2TldDc1VrWWh5WXMzTWF3ZFlmZGhDVXpuN2pGc2pEMUc4WGhh?=
+ =?utf-8?B?blpPVXY3UmRld0h4V0dlanVjZkpXbTlPRXJZeVlXMTlKRnNHbVY4YUFIVDA0?=
+ =?utf-8?B?VDBWUEJUQU9HakJXdTU2S0M0R1JQbnhRMGxXVkpuajNVTE8rM2VSNUlQVWsw?=
+ =?utf-8?B?VE15UGZIWm5SakxwNjBEdmJmMmNSTXJCOTR4Y09DMGd0QTZNK0FmQXVaUFEv?=
+ =?utf-8?B?OWRHNjNkZkxmSndsZ085cGo1WklNbjQzRG1DOTQweU9CZ1pDYkJJT2phUWx2?=
+ =?utf-8?B?YzduR2t1SXNyaWpneW0xUmZoMjFIL3oxZE5mN01lMzdpUmw5cUttazNadTdS?=
+ =?utf-8?B?L1hXTUR6SkxSb0kyQWVHTlNZaDZUZmV0VXpHU0ZYK3lJZGRUK3kwOWlUcWZG?=
+ =?utf-8?B?bWNhR1RMNzg4WFFMSVhwTG9URm9PMTRWdDZhYjFEUmdySGJEaEV6ZW9Vb1Nw?=
+ =?utf-8?B?Zkl0UDZab3JZU3RWMmoxekl2ZzhtZkd0eFBJVWZvR1NjS2l4ekVsZ0k4dUpo?=
+ =?utf-8?B?ZVRWM1g0VXJUaDBzLzdrT1plLzRKY1VaNEJWNGIvSG51TFl2OHBka2tBN1Ex?=
+ =?utf-8?B?YjdRQ0RiRjVyZGZsUEZ4c3AxZTdpZVByeGUvL1VHcVlWTkVIOGdKc1hzblVv?=
+ =?utf-8?B?L0JpUFBtRDFjL29rUU5HaU5aSG5jYzl6V2JIMmN6NXNYYjJPRUwvcjlIMkRK?=
+ =?utf-8?B?Qk1OdDdOMG52VEt4VWZkZ3l3alViamRBZjFUcUQzWTBQQ2NLWW0vN2c1d0pT?=
+ =?utf-8?B?enBoc3YyeDBQTmo1dVFCZzRITm1jZExYcmk3UUtrbFliakFZY1hvS0VPREpj?=
+ =?utf-8?B?TzNCTS95U01sMThJamJlOWc3OUJmaC93TTV3TEF3eTZURHlpYlJCbE9GU2g0?=
+ =?utf-8?B?VmNiZk0zaVE5VHRKZUNKMCtnTnNMdHJuM2o4Z0JwRVZOMXAxMld2aGRjWnB2?=
+ =?utf-8?B?alBTNG1iOWdRUFdQdGoxQ3hOSVhhRHN1L2oyYkxCUm8vT2w1L2pkS29JeFAr?=
+ =?utf-8?Q?9VCfsQO6H+WntIcIZ4awzwV0T?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	7KNLmz7lGmcq/gtNJRWSXZPNymLla++NUTK/Ddg/4IliSQew8Inme7nVDFLtozxE9PsoMVLgcGceZJR9Cw2qgBHlTmQd2lxuB83yPrLy91oH/cmxejYUrt0Ds/9Ky4caGNB5McAZGubCLmmdLdurKkUeeMtI8Z3Axu3z7BYqBb++jgaDBlNReaOaNxrcf/3nAQehjzouMw374OWRAmQukmlZ6RUvBrp9XZT2yQx0eHUS8Z8vaDM9BhOTk7IC8aCkHzfCtQQjoazAF6ZuWSP01sE0XV5DyzigORVHHtJXPzDx7GIK4JVU+MAD5824vX9DjtEfbyu7Vun7I3gbYnDriPfpWCOd8kksxMDPzF0EJZA6Xs4sFNnqb6pWzT4Claryr6HxQGQ0zt/PRfvUcYhLKy14+tPw5IfpHwO/Sn+5vzbYVeph44T95xVgRpHnkWhPtvYBqGL1OQVUloOKQethN3RJnfoTmYVsbG5nDQ9gp2cvqe4lW926b10rI20zgym9/zGBwkuoYsxVe/WITZJVSs0utvzhnJQPCE1VbpSjyCdQYKR/04japy7wOcGHaUbJwoINzj90ebv+TXAHf2Gz9pXYTWB6nFJdNAXKrPomWflbw5EX6ubbWw4N+tN7ZDXGnTAmFfTHDKF6uji7zW0n/CzzWPg9ZAW+3/lRow5bzV4DiCcIlnHwg1VGMl42giqlWEBNEkHMnAjlmZ1jnBIJcIy92R2VToXzEvGNlUatQWqHWnVZP5xWtx+cI00AAocMVca6kaqNtI8yFpzpNBiNG0hHBlRwJ+ID9nwG7ExD3wRVixM/2Rjy89OxJOhdgRY/TKsGH70tVwms6nhqXvijkg==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB6178.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d0c95ce-68bf-4f59-53b5-08db63122f41
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2023 02:36:35.6188
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: csLN6w2qpjo8srgizEUybiswywHbCDuLKihkTBo/dSJbPky8ysT9HwPdGTw7LxyqCxxSPuSIdSovCwKvc7VYlw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11101
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 02:22:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182132
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 02:36:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182137
 
-From: nikhil <nikhilar2410@gmail.com>
-
-Remove 0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-file from tiff as it was removed while upgrading tiff from
-4.4.0 -> 4.5.0
-
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c53abdb5ce9cdbfb0f9e48b64b800c45549d18a6)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 267 ------------------
- 1 file changed, 267 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-
-diff --git a/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-deleted file mode 100644
-index 17b37be041..0000000000
---- a/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
-+++ /dev/null
-@@ -1,267 +0,0 @@
--From f00484b9519df933723deb38fff943dc291a793d Mon Sep 17 00:00:00 2001
--From: Su_Laus <sulau@freenet.de>
--Date: Tue, 30 Aug 2022 16:56:48 +0200
--Subject: [PATCH] Revised handling of TIFFTAG_INKNAMES and related
-- TIFFTAG_NUMBEROFINKS value
--
--In order to solve the buffer overflow issues related to TIFFTAG_INKNAMES and related TIFFTAG_NUMBEROFINKS value, a revised handling of those tags within LibTiff is proposed:
--
--Behaviour for writing:
--    `NumberOfInks`  MUST fit to the number of inks in the `InkNames` string.
--    `NumberOfInks` is automatically set when `InkNames` is set.
--    If `NumberOfInks` is different to the number of inks within `InkNames` string, that will be corrected and a warning is issued.
--    If `NumberOfInks` is not equal to samplesperpixel only a warning will be issued.
--
--Behaviour for reading:
--    When reading `InkNames` from a TIFF file, the `NumberOfInks` will be set automatically to the number of inks in `InkNames` string.
--    If `NumberOfInks` is different to the number of inks within `InkNames` string, that will be corrected and a warning is issued.
--    If  `NumberOfInks` is not equal to samplesperpixel only a warning will be issued.
--
--This allows the safe use of the NumberOfInks value to read out the InkNames without buffer overflow
--
--This MR will close the following issues:  #149, #150, #152, #168 (to be checked), #250, #269, #398 and #456.
--
--It also fixes the old bug at http://bugzilla.maptools.org/show_bug.cgi?id=2599, for which the limitation of `NumberOfInks = SPP` was introduced, which is in my opinion not necessary and does not solve the general issue.
--
--CVE: CVE-2022-3599 CVE-2022-4645
--Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246.patch]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
-----
-- libtiff/tif_dir.c      | 119 ++++++++++++++++++++++++-----------------
-- libtiff/tif_dir.h      |   2 +
-- libtiff/tif_dirinfo.c  |   2 +-
-- libtiff/tif_dirwrite.c |   5 ++
-- libtiff/tif_print.c    |   4 ++
-- 5 files changed, 82 insertions(+), 50 deletions(-)
--
--diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
--index 793e8a79..816f7756 100644
----- a/libtiff/tif_dir.c
--+++ b/libtiff/tif_dir.c
--@@ -136,32 +136,30 @@ setExtraSamples(TIFF* tif, va_list ap, uint32_t* v)
-- }
-- 
-- /*
--- * Confirm we have "samplesperpixel" ink names separated by \0.  Returns 
--+ * Count ink names separated by \0.  Returns
--  * zero if the ink names are not as expected.
--  */
---static uint32_t
---checkInkNamesString(TIFF* tif, uint32_t slen, const char* s)
--+static uint16_t
--+countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
-- {
---	TIFFDirectory* td = &tif->tif_dir;
---	uint16_t i = td->td_samplesperpixel;
--+	uint16_t i = 0;
--+	const char *ep = s + slen;
--+	const char *cp = s;
-- 
-- 	if (slen > 0) {
---		const char* ep = s+slen;
---		const char* cp = s;
---		for (; i > 0; i--) {
--+		do {
-- 			for (; cp < ep && *cp != '\0'; cp++) {}
-- 			if (cp >= ep)
-- 				goto bad;
-- 			cp++;				/* skip \0 */
---		}
---		return ((uint32_t)(cp - s));
--+			i++;
--+		} while (cp < ep);
--+		return (i);
-- 	}
-- bad:
-- 	TIFFErrorExt(tif->tif_clientdata, "TIFFSetField",
---	    "%s: Invalid InkNames value; expecting %"PRIu16" names, found %"PRIu16,
---	    tif->tif_name,
---	    td->td_samplesperpixel,
---	    (uint16_t)(td->td_samplesperpixel-i));
--+		"%s: Invalid InkNames value; no NUL at given buffer end location %"PRIu32", after %"PRIu16" ink",
--+		tif->tif_name, slen, i);
-- 	return (0);
-- }
-- 
--@@ -478,13 +476,61 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
-- 		_TIFFsetFloatArray(&td->td_refblackwhite, va_arg(ap, float*), 6);
-- 		break;
-- 	case TIFFTAG_INKNAMES:
---		v = (uint16_t) va_arg(ap, uint16_vap);
---		s = va_arg(ap, char*);
---		v = checkInkNamesString(tif, v, s);
---		status = v > 0;
---		if( v > 0 ) {
---			_TIFFsetNString(&td->td_inknames, s, v);
---			td->td_inknameslen = v;
--+		{
--+			v = (uint16_t) va_arg(ap, uint16_vap);
--+			s = va_arg(ap, char*);
--+			uint16_t ninksinstring;
--+			ninksinstring = countInkNamesString(tif, v, s);
--+			status = ninksinstring > 0;
--+			if(ninksinstring > 0 ) {
--+				_TIFFsetNString(&td->td_inknames, s, v);
--+				td->td_inknameslen = v;
--+				/* Set NumberOfInks to the value ninksinstring */
--+				if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS))
--+				{
--+					if (td->td_numberofinks != ninksinstring) {
--+						TIFFErrorExt(tif->tif_clientdata, module,
--+							"Warning %s; Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the number of inks %"PRIu16".\n  -> NumberOfInks value adapted to %"PRIu16"",
--+							tif->tif_name, fip->field_name, td->td_numberofinks, ninksinstring, ninksinstring);
--+						td->td_numberofinks = ninksinstring;
--+					}
--+				} else {
--+					td->td_numberofinks = ninksinstring;
--+					TIFFSetFieldBit(tif, FIELD_NUMBEROFINKS);
--+				}
--+				if (TIFFFieldSet(tif, FIELD_SAMPLESPERPIXEL))
--+				{
--+					if (td->td_numberofinks != td->td_samplesperpixel) {
--+						TIFFErrorExt(tif->tif_clientdata, module,
--+							"Warning %s; Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the SamplesPerPixel value %"PRIu16"",
--+							tif->tif_name, fip->field_name, td->td_numberofinks, td->td_samplesperpixel);
--+					}
--+				}
--+			}
--+		}
--+		break;
--+	case TIFFTAG_NUMBEROFINKS:
--+		v = (uint16_t)va_arg(ap, uint16_vap);
--+		/* If InkNames already set also NumberOfInks is set accordingly and should be equal */
--+		if (TIFFFieldSet(tif, FIELD_INKNAMES))
--+		{
--+			if (v != td->td_numberofinks) {
--+				TIFFErrorExt(tif->tif_clientdata, module,
--+					"Error %s; Tag %s:\n  It is not possible to set the value %"PRIu32" for NumberOfInks\n  which is different from the number of inks in the InkNames tag (%"PRIu16")",
--+					tif->tif_name, fip->field_name, v, td->td_numberofinks);
--+				/* Do not set / overwrite number of inks already set by InkNames case accordingly. */
--+				status = 0;
--+			}
--+		} else {
--+			td->td_numberofinks = (uint16_t)v;
--+			if (TIFFFieldSet(tif, FIELD_SAMPLESPERPIXEL))
--+			{
--+				if (td->td_numberofinks != td->td_samplesperpixel) {
--+					TIFFErrorExt(tif->tif_clientdata, module,
--+						"Warning %s; Tag %s:\n  Value %"PRIu32" of NumberOfInks is different from the SamplesPerPixel value %"PRIu16"",
--+						tif->tif_name, fip->field_name, v, td->td_samplesperpixel);
--+				}
--+			}
-- 		}
-- 		break;
-- 	case TIFFTAG_PERSAMPLE:
--@@ -986,34 +1032,6 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_list ap)
-- 	if (fip->field_bit == FIELD_CUSTOM) {
-- 		standard_tag = 0;
-- 	}
---	
---        if( standard_tag == TIFFTAG_NUMBEROFINKS )
---        {
---            int i;
---            for (i = 0; i < td->td_customValueCount; i++) {
---                uint16_t val;
---                TIFFTagValue *tv = td->td_customValues + i;
---                if (tv->info->field_tag != standard_tag)
---                    continue;
---                if( tv->value == NULL )
---                    return 0;
---                val = *(uint16_t *)tv->value;
---                /* Truncate to SamplesPerPixel, since the */
---                /* setting code for INKNAMES assume that there are SamplesPerPixel */
---                /* inknames. */
---                /* Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2599 */
---                if( val > td->td_samplesperpixel )
---                {
---                    TIFFWarningExt(tif->tif_clientdata,"_TIFFVGetField",
---                                   "Truncating NumberOfInks from %u to %"PRIu16,
---                                   val, td->td_samplesperpixel);
---                    val = td->td_samplesperpixel;
---                }
---                *va_arg(ap, uint16_t*) = val;
---                return 1;
---            }
---            return 0;
---        }
-- 
-- 	switch (standard_tag) {
-- 		case TIFFTAG_SUBFILETYPE:
--@@ -1195,6 +1213,9 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_list ap)
-- 		case TIFFTAG_INKNAMES:
-- 			*va_arg(ap, const char**) = td->td_inknames;
-- 			break;
--+		case TIFFTAG_NUMBEROFINKS:
--+			*va_arg(ap, uint16_t *) = td->td_numberofinks;
--+			break;
-- 		default:
-- 			{
-- 				int i;
--diff --git a/libtiff/tif_dir.h b/libtiff/tif_dir.h
--index 09065648..0c251c9e 100644
----- a/libtiff/tif_dir.h
--+++ b/libtiff/tif_dir.h
--@@ -117,6 +117,7 @@ typedef struct {
-- 	/* CMYK parameters */
-- 	int     td_inknameslen;
-- 	char*   td_inknames;
--+	uint16_t td_numberofinks;                 /* number of inks in InkNames string */
-- 
-- 	int     td_customValueCount;
--         TIFFTagValue *td_customValues;
--@@ -174,6 +175,7 @@ typedef struct {
-- #define FIELD_TRANSFERFUNCTION         44
-- #define FIELD_INKNAMES                 46
-- #define FIELD_SUBIFD                   49
--+#define FIELD_NUMBEROFINKS             50
-- /*      FIELD_CUSTOM (see tiffio.h)    65 */
-- /* end of support for well-known tags; codec-private tags follow */
-- #define FIELD_CODEC                    66  /* base of codec-private tags */
--diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
--index 3371cb5c..3b4bcd33 100644
----- a/libtiff/tif_dirinfo.c
--+++ b/libtiff/tif_dirinfo.c
--@@ -114,7 +114,7 @@ tiffFields[] = {
-- 	{ TIFFTAG_SUBIFD, -1, -1, TIFF_IFD8, 0, TIFF_SETGET_C16_IFD8, TIFF_SETGET_UNDEFINED, FIELD_SUBIFD, 1, 1, "SubIFD", (TIFFFieldArray*) &tiffFieldArray },
-- 	{ TIFFTAG_INKSET, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "InkSet", NULL },
-- 	{ TIFFTAG_INKNAMES, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_C16_ASCII, TIFF_SETGET_UNDEFINED, FIELD_INKNAMES, 1, 1, "InkNames", NULL },
---	{ TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "NumberOfInks", NULL },
--+	{ TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TIFF_SETGET_UNDEFINED, FIELD_NUMBEROFINKS, 1, 0, "NumberOfInks", NULL },
-- 	{ TIFFTAG_DOTRANGE, 2, 2, TIFF_SHORT, 0, TIFF_SETGET_UINT16_PAIR, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "DotRange", NULL },
-- 	{ TIFFTAG_TARGETPRINTER, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_ASCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "TargetPrinter", NULL },
-- 	{ TIFFTAG_EXTRASAMPLES, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C16_UINT16, TIFF_SETGET_UNDEFINED, FIELD_EXTRASAMPLES, 0, 1, "ExtraSamples", NULL },
--diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
--index 6c86fdca..062e4610 100644
----- a/libtiff/tif_dirwrite.c
--+++ b/libtiff/tif_dirwrite.c
--@@ -626,6 +626,11 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64_t* pdiroff)
-- 				if (!TIFFWriteDirectoryTagAscii(tif,&ndir,dir,TIFFTAG_INKNAMES,tif->tif_dir.td_inknameslen,tif->tif_dir.td_inknames))
-- 					goto bad;
-- 			}
--+			if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS))
--+			{
--+				if (!TIFFWriteDirectoryTagShort(tif, &ndir, dir, TIFFTAG_NUMBEROFINKS, tif->tif_dir.td_numberofinks))
--+					goto bad;
--+			}
-- 			if (TIFFFieldSet(tif,FIELD_SUBIFD))
-- 			{
-- 				if (!TIFFWriteDirectoryTagSubifd(tif,&ndir,dir))
--diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
--index 16ce5780..a91b9e7b 100644
----- a/libtiff/tif_print.c
--+++ b/libtiff/tif_print.c
--@@ -397,6 +397,10 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
-- 		}
--                 fputs("\n", fd);
-- 	}
--+	if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS)) {
--+		fprintf(fd, "  NumberOfInks: %d\n",
--+			td->td_numberofinks);
--+	}
-- 	if (TIFFFieldSet(tif,FIELD_THRESHHOLDING)) {
-- 		fprintf(fd, "  Thresholding: ");
-- 		switch (td->td_threshholding) {
---- 
--2.34.1
--
--- 
-2.34.1
-
+SGksIFJpY2hhcmQNCg0KPiBJdCBoYXMgd29ya2VkIGF0IHNvbWUgcG9pbnRzIGluIHRpbWUgYnV0
+IGlzbid0IHBhcnQgb2Ygb3VyIGF1dG9tYXRlZCB0ZXN0IG1hdHJpeA0KPiBzbyBpdCBsb29rcyBs
+aWtlIGl0IGhhcyBzdWZmZXJlZCBmcm9tIGJpdHJvdCA6KA0KDQpJIGhhdmUgbm8gaWRlYSBhYm91
+dCBob3cgdG8gZml4IHRoZXNlIGJ1Z3MsIENhbiB5b3UgZ2l2ZSBtZSBzb21lIHN1Z2dlc3Rpb25z
+PyBPciBjYW4gYWFjaDY0X2JlIGJlIGFkZGVkIGludG8gdGhlIHdvcmsgb2YgbmV4dCByZWxlYXNl
+Pw0KDQoNCkJlc3QgcmVnYXJkcw0KTGVpDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
+cmc+DQo+IFNlbnQ6IFRodXJzZGF5LCBKdW5lIDEsIDIwMjMgMzoxMCBQTQ0KPiBUbzogTGVpLCBN
+YW9odWkgPGxlaW1hb2h1aUBmdWppdHN1LmNvbT47DQo+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBJcyBhYXJjaDY0X2Jl
+IHVuZGVyIG1haW50ZW5hbmNlPw0KPiANCj4gT24gVGh1LCAyMDIzLTA2LTAxIGF0IDA2OjU4ICsw
+MDAwLCBsZWltYW9odWkgd3JvdGU6DQo+ID4gSGkgYWxsDQo+ID4NCj4gPiBSZWNlbnRseSwgSSB3
+YW50IHRvIGJ1aWxkIGFuIGltYWdlIG9mIGFhcmNoNjRfYmUsIGJ1dCBpdCBzZWVtcyBnbyBiYWRs
+eS4gVGhvc2UNCj4gcmVjaXBlcyB0aGF0ICJpbmhlcml0IG1lc29uIiBoYXZlIHRoZSBmb2xsb3dp
+bmcgZXJyb3I6DQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+PiA+ID4gLi4vZnJpYmlkaS0xLjAuMTIvbWVzb24uYnVpbGQ6MTowOiBFUlJPUjogRXhlY3V0YWJs
+ZXMgY3JlYXRlZCBieSBjIGNvbXBpbGVyDQo+IGFhcmNoNjRfYmUtcG9reS1saW51eC1nY2MgLWZz
+dGFjay1wcm90ZWN0b3Itc3Ryb25nIC1PMiAtRF9GT1JUSUZZX1NPVVJDRT0yDQo+IC1XZm9ybWF0
+IC1XZm9ybWF0LXNlY3VyaXR5IC1XZXJyb3I9Zm9ybWF0LXNlY3VyaXR5DQo+IC0tc3lzcm9vdD0v
+dWJpbnV4LWRldi91YmludXgwMDEvYnVpbGQtdWJpbnV4L3ViaW51eC0yMDIzMDcvYnVpbGQtcG9r
+eS10ZXN0LWENCj4gcnY4YmUvdG1wL3dvcmsvYWFyY2g2NF9iZS1wb2t5LWxpbnV4L2ZyaWJpZGkv
+MS4wLjEyLXIwL3JlY2lwZS1zeXNyb290IGFyZSBub3QNCj4gcnVubmFibGUuDQo+ID4gPg0KPiA+
+ID4gQSBmdWxsIGxvZyBjYW4gYmUgZm91bmQgYXQNCj4gPiA+IC91YmludXgtZGV2L3ViaW51eDAw
+MS9idWlsZC11YmludXgvdWJpbnV4LTIwMjMwNy9idWlsZC1wb2t5LXRlc3QtYXJ2DQo+ID4gPiA4
+YmUvdG1wL3dvcmsvYWFyY2g2NF9iZS1wb2t5LWxpbnV4L2ZyaWJpZGkvMS4wLjEyLXIwL2J1aWxk
+L21lc29uLWxvZw0KPiA+ID4gcy9tZXNvbi1sb2cudHh0DQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IEl0IHNlZW1zIHRoYXQgcWVtdS1hYXJjaDY0X2Jl
+IGRvZXNuJ3Qgd29yayB3ZWxsLg0KPiA+IEFuZCBnbGliLTIuMCBhbHNvIGZhaWxlZCBpbiBkb19j
+b25maWd1cmUuDQo+ID4gU28sIGlzIGFhcmNoNjRfYmUgdW5kZXIgbWFpbnRlbmFuY2U/IE9yIGlz
+IHRoZXJlIHNvbWUgaXNzdWVzIGluIG15IHVzYWdlPw0KPiANCj4gSXQgaGFzIHdvcmtlZCBhdCBz
+b21lIHBvaW50cyBpbiB0aW1lIGJ1dCBpc24ndCBwYXJ0IG9mIG91ciBhdXRvbWF0ZWQgdGVzdCBt
+YXRyaXgNCj4gc28gaXQgbG9va3MgbGlrZSBpdCBoYXMgc3VmZmVyZWQgZnJvbSBiaXRyb3QgOigN
+Cj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg==
 
