@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C56C7EE37
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89AAECA9ED7
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:45 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.7624.1685693431682253217
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.7533.1685693432784147975
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VuqiUsIY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101887b2882bf-bba725e0-79ec-4ec6-ab28-f140ddd04a3d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xu43+MiR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101887b288133-17f6ca41-3f9e-4375-b50b-afadd4ceb375-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6NdMM9HDLl19wHtYUNbtSOYSPdi0Rbc+NqS4143CUpM=;
-	b=VuqiUsIYBBL38nHgNF+PAln77KASQ0sJ8IMo+vTyVEBe8ECriUc9H55XQfRYxEoi
-	WKfKOvESmY8idy627n66+AiowegbAYbXwtKtjH3IiC+iw24vk3mMJogtYQhov2qlKIC
-	xiTuk1zAiq6W+EfhFHLFxEvoR1l/vdbmAvJxIVHs=
+	bh=DBYmnXcyI0rdrzKQXS/F5ajdrvOEQzgyNqCd3EqloeI=;
+	b=Xu43+MiRo6tJTVv/qYKYTlwW1+jTapXOg84bbPZYo39HggFF7XbTR2e3q2X1Est3
+	VtKTrYcoFYntn8KApfXqA+izB+VlYTgOeByUPc/zInlxCyPFuQXThRc9DjVRAES6gBb
+	e4xQLGrwV/vUENXlCRohXqYWwsA3pHbBNDsD/ugk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6NdMM9HDLl19wHtYUNbtSOYSPdi0Rbc+NqS4143CUpM=;
-	b=KRfbHpQ6Tv8swokBVOb3XwyorqKH5t26hIQROGmdUeKDO/UP5lJiMXVErwKmqxZn
-	Bk2iCv85kL+asMUT+acDoSEgpfrh0Y6dNRqi60bFCEItKrAmgGndKp9hhOKrTGcx1Rv
-	oquA4xliUUDcv/WCmS/2N4n1JaLAdne8bvsnnsIA=
-Content-Type: multipart/mixed; boundary="===============9180916538120066306=="
+	bh=DBYmnXcyI0rdrzKQXS/F5ajdrvOEQzgyNqCd3EqloeI=;
+	b=KfXA80d6zglsS8uQrfPZDPdgrOynKHmslYxIg67jydxE2y3L0iYsvajX3tDArESV
+	5d2v1yEZts+qaMC+pXSIom+TYHJjX94GrFpvKpINFqBuReR1wpaWHUintM7AwAhcaqQ
+	bU9VWNktD0PXLXb2T98f3ZGvQaI2JWNuQ857Y3X8=
+Content-Type: multipart/mixed; boundary="===============4765736396876910923=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-poetry-core: upgrading to 1.6.1 FAILED
-Message-ID: <010101887b2882bf-bba725e0-79ec-4ec6-ab28-f140ddd04a3d-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cython: upgrading to 0.29.35 SUCCEEDED
+Message-ID: <010101887b288133-17f6ca41-3f9e-4375-b50b-afadd4ceb375-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:10:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.192
+X-SES-Outgoing: 2023.06.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182190
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182189
 
---===============9180916538120066306==
+--===============4765736396876910923==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,105 +50,96 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-poetry-core* to *1.6.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-cython* to *0.29.35* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.34-0.29.35.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-poetry-core -V 1.6.1
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (15:27:53.837938)
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1801 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6411acb9d84a222862019d7a27f1605c3666253a"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1801 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (896 cached, 2 parsed). 1802 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6411acb9d84a222862019d7a27f1605c3666253a"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/poetry-core/poetry_core-1.6.1.tar.gz;downloadfilename=poetry_core-1.6.1.tar.gz...
-INFO: Rebasing devtool onto d6250e20993adbb835d83c63ff189f430cdc39c6
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 336, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 565, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-poetry-core/src/poetry/core/_vendor/tomlkit/LICENSE'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============9180916538120066306==--
+--===============4765736396876910923==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-0.29.34.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.35.dist-info
+
+--===============4765736396876910923==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-cython-upgrade-0.29.34-0.29.35.patch"
+
+RnJvbSAwZjBlN2NkNGNmMzkxN2FmNWQ2MGZmMGI5OWYyMDAzNjY4ZjI2MWEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxNDowMjo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtY3l0aG9uOiB1cGdyYWRlIDAuMjkuMzQgLT4gMC4yOS4zNQoKLS0tCiBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jICAgICAgICAgICAgICAgICAgfCAy
+ICstCiAuLi4ve3B5dGhvbjMtY3l0aG9uXzAuMjkuMzQuYmIgPT4gcHl0aG9uMy1jeXRob25fMC4y
+OS4zNS5iYn0gICAgfCAwCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jeXRo
+b25fMC4yOS4zNC5iYiA9PiBweXRob24zLWN5dGhvbl8wLjI5LjM1LmJifSAoMTAwJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYwppbmRleCAyYjc3
+ODQ5M2NkLi43MTU5NmNhZWRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbi1jeXRob24uaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uLWN5dGhvbi5pbmMKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmls
+ZTovL0xJQ0VOU0UudHh0O21kNT1lMjNmYWRkNmNlZWY4YzYxOGZjMWM2NTE5MWQ4NDZmYSIKIFBZ
+UElfUEFDS0FHRSA9ICJDeXRob24iCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsi
+CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxOTA5Njg4ZjVkN2I1MjFhNjBjMzk2ZDIwYmJhOWU0
+N2ExYjJkMjc4NGJmYjA4NTQwMWUxZTFlN2QyOWEyOWE4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjZlMzgxZmEwYmYwOGIzYzI2ZWMyZjYxNmIxOWFlODUyYzA2ZjU3NTBmNDI5MDExOGJmOTg2YjZm
+ODVjOGM1MjciCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJDeXRob24tKD9QPHB2ZXI+LiopXC50
+YXIiCiAKIGluaGVyaXQgcHlwaQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM1LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9uXzAuMjku
+MzQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRo
+b25fMC4yOS4zNS5iYgotLSAKMi4zOS4yCgo=
+
+--===============4765736396876910923==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.34.tar.gz;downloadfilename=Cython-0.29.34.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.35.tar.gz;downloadfilename=Cython-0.29.35.tar.gz"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7838848 to 7838956 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8578776 to 8582915 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.34" to "0.29.35"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10312310 to 10315845 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.34 [default] to 0.29.35 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.34" to "0.29.35"
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-0.29.34.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.35.dist-info
+
+--===============4765736396876910923==--
 
