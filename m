@@ -1,85 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BA4C7EE29
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 12:21:47 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.11130.1685708498118003384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1557DC7EE24
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 12:39:18 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.11477.1685709552812864879
  for <Openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 05:21:38 -0700
+ Fri, 02 Jun 2023 05:39:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Fp6npdvk;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b1a3fa2cd2so23310251fa.1
-        for <Openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 05:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685708496; x=1688300496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rqWorUDQXtcfjjeWSK/mwKHdot91jzN0mvPYSXoREhs=;
-        b=Fp6npdvkDNlw6UVjFr4KaE9MPXwN8alRA+YOcC1krnFawyiYKrk2Beh6XuhhvgzTfp
-         deoe1nVC4jUxRyKnzDOska4PqnYr/H26pc3Q22v9YFUYXgeIjH3QKUr0blYxKGdY8Qs+
-         Q1Wtav6yeDZWWXOcli7/hFzPWaGeB7bWsmMroKRj1s4TG1MXz42a3/PED+++xG8qNuCF
-         vKRvCIpcB9QwjwWUfh+N+EB1sbiW3Wy5WysSlyH6Vf2wkPEkaoyjLvI9xVjdpfTXDmCo
-         QAeExm1JAlgE7982A9k4ajCS7/mh3l8idm/zaUP1pxxbNlRJB0cF1mACqque/3vlcIh/
-         E0gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685708496; x=1688300496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rqWorUDQXtcfjjeWSK/mwKHdot91jzN0mvPYSXoREhs=;
-        b=F2BTu94j7U+PXXnOiVZh0uFl1DAa2MPrcnfGs/QCZXa0ur38Qwfdv+hCiB+7OaOR2O
-         Uz2snSlrz2UOTVzi5iVR4pryKLHw7nsWW9QYOf03NzjquxukEF/RJPLkKU5bqDGUISlJ
-         ShQStciwe7UEvwOV4SvPiDSSHRaziqDHWkM3++jJScQd1c2X1P30muFi8MceFLlMHXkK
-         6ezeTBjLrlPls2IzaFvvJKiMoBIaysyStLpw5NKK4icKw/et5KZwe9l2doMEBd25blhE
-         M9CF/nLl+JAC/pHXTKmMfxIPzx/cw5FT9CsVMKOgUOlJkuN14nqiD4fhFs97xwfZqqFo
-         E5Ng==
-X-Gm-Message-State: AC+VfDzF1BxzAzzkRFhemSXEsHtpmobF/u9xmlMDRIYMyK9OemUph+O/
-	y5FUZL04kLOjKhP4LAmo4NMoa7SR4uLPdRE5BfE=
-X-Google-Smtp-Source: ACHHUZ6HAO0sQvlwP8rcWta7zS3CKwbcjxzWPUCQ34xIOy3X0lAO9qUUE4G3rQN95iP0mTOxjA+FYu5+jsSNKN8M32E=
-X-Received: by 2002:a2e:9790:0:b0:2a8:bd1f:a377 with SMTP id
- y16-20020a2e9790000000b002a8bd1fa377mr1581374lji.20.1685708495927; Fri, 02
- Jun 2023 05:21:35 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Y1fdOpF9;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexis.lothore@bootlin.com)
+X-GND-Sasl: alexis.lothore@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685709550;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nhPNKjEawlr7q+hyctYwGh6kCbFj3j4nnl4XVjc4eaQ=;
+	b=Y1fdOpF9ye1hEqOGCNkzp3XrlOuqinK7zYRZHb/U+Eh3f0tea55FB5XerqSQVMIPFtH+Qo
+	/UYAFX6BUGnAOb9Z6IeW8BZM3naDXBcCVSu5APUxNaZpOK3WZbDA3eJ9pFrOYcsnEo8uTX
+	csXabrWisRBV7sbKwNAiLCwao9hPHLobyA/m9VoP6Ztymo1s3me4FyL9iageSZfwI6ZC31
+	ChhV9nfm8sr32eKUeeP45Gq0IvuW9p2nJcuTRwNkDMxcP7meWtpmLj8z7bsLJGzPZ2xZdX
+	PUVRooEuTLCJHEaopa/+gP8FwLTgeffqRVQouotWe5Q2K2LVKh4+7sgu7Ng3Kg==
+X-GND-Sasl: alexis.lothore@bootlin.com
+X-GND-Sasl: alexis.lothore@bootlin.com
+X-GND-Sasl: alexis.lothore@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AA45460006;
+	Fri,  2 Jun 2023 12:39:09 +0000 (UTC)
+Message-ID: <fdc10ec6-515f-c844-2928-ea121efe39d5@bootlin.com>
+Date: Fri, 2 Jun 2023 14:39:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [OE-Core][RFC][PATCH 2/3] testimage: shut down DUT later
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
 References: <20230602095037.97981-1-alexis.lothore@bootlin.com>
- <20230602095037.97981-4-alexis.lothore@bootlin.com> <CANNYZj8vV1=GOacn_vHpfeJ1h29AdLNJsO6X-wXPrW9vahc_5Q@mail.gmail.com>
- <ZHnYGjE3ahdytp+g@nuoska> <228e247a-2121-d1c6-95bf-51f18ec95e03@bootlin.com>
-In-Reply-To: <228e247a-2121-d1c6-95bf-51f18ec95e03@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 2 Jun 2023 14:21:24 +0200
-Message-ID: <CANNYZj_1AJCrsAmzyS7gu02oZF3oC8h4iHL0SnGSAqTWEt4KLg@mail.gmail.com>
-Subject: Re: [OE-Core][RFC][PATCH 3/3] testimage: implement test artifacts
- retriever for failing tests
-To: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, Openembedded-core@lists.openembedded.org, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20230602095037.97981-3-alexis.lothore@bootlin.com>
+ <88493a5e4afaa5917192c9d7baa2f5c3357a0185.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Alexis_Lothor=c3=a9?= <alexis.lothore@bootlin.com>
+In-Reply-To: <88493a5e4afaa5917192c9d7baa2f5c3357a0185.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:21:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182313
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182314
 
-On Fri, 2 Jun 2023 at 14:14, Alexis Lothor=C3=A9 <alexis.lothore@bootlin.co=
-m> wrote:
-> I wondered about this possibility while adding this variable, and at this=
- time I
-> thought it would encode to much "CI logic" in testimage class. But since =
-you
-> raise the suggestion, I can update to pass directly the file list, which =
-could
-> indeed be overridden by CI tests runners. We can start with those three p=
-aths in
-> the default value.
+Hello Richard,
+On 6/2/23 13:55, Richard Purdie wrote:
+> On Fri, 2023-06-02 at 11:50 +0200, Alexis Lothoré via
+> lists.openembedded.org wrote:
+>> Move target stop (for Qemu targets: qemu image stop) later in testimage
+>> main function, especially _after_ having access to general test results, to
+>> allow executing some other actions (like retrieving some files) on DUT
+>> depending on test results (e.g. : retrieve some log files)
+>>
+>> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+>> ---
+>>  meta/classes-recipe/testimage.bbclass | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+>> index 1bf0cb450ce4..6b10c1db09f9 100644
+>> --- a/meta/classes-recipe/testimage.bbclass
+>> +++ b/meta/classes-recipe/testimage.bbclass
+>> @@ -393,7 +393,6 @@ def testimage_main(d):
+>>          results = tc.results
+>>      finally:
+>>          signal.signal(signal.SIGTERM, orig_sigterm_handler)
+>> -        tc.target.stop()
+>>  
+>>      # Show results (if we have them)
+>>      if results:
+>> @@ -404,6 +403,8 @@ def testimage_main(d):
+>>                          dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
+>>          results.logSummary(pn)
+>>  
+>> +    tc.target.stop()
+>> +
+> 
+> I've not really had a chance to think about this properly, sorry but
+> there is an issue that jumps out at me in this patch.
+> 
+> The stop is delibverately in a finally: clause so it always runs even
+> if there is an exception in the code. You've moved it outside of this
+> so the target would no longer be shut down any more in such an
+> exception case. This would potentially leave images running in the case
+> of exceptions and we want to avoid that.
 
-But this isn't CI logic. It's bitbake's QA logic, which can and should
-be available in local builds. Running testimage locally is a supported
-and regularly used operation, so it should work exactly same as in CI.
+I felt the danger while touching this part (and tested at least with a Ctrl-C
+that everything was behaving correctly), but indeed I did not think enough about
+the "any exception other than KeyboardInterrupt or BlockingIOError". I'll then
+drop the patch moving this stop, and if it's ok, move the artifacts retrieval in
+the finally clause, just before the stop.
 
-Alex
+> Cheers,
+> 
+> Richard
+
+-- 
+Alexis Lothoré, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
