@@ -1,105 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A16E4C77B7A
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 13:43:38 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.13431.1685713409224118679
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 06:43:29 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B6AC77B7A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 14:27:58 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web11.14578.1685716071460779560
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 02 Jun 2023 07:27:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=ajo8qOcT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f601c57d8dso16241695e9.0
-        for <Openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:43:28 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=QIg77vJT;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.181, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-3f83971680eso18947021cf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 07:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685713407; x=1688305407;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VbXl8+ZwsaqPl65CjKAP5+tpjnNcmeYtAzqZVL0P/g8=;
-        b=ajo8qOcT29vT0HJ4z950T8b/M2OOD3rRlWglnn+bBLfevnVE4fJxfNMhgO/+3S0gN9
-         ewjNadAgli10mLIxsiusMoD754PaL9X4tZXR3fl3s/VCzHzyy3anRjin4TeRr97e9G8+
-         YR0B91Av5i3touYWicW9ZatPVJHg9oH/nOMN8=
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685716070; x=1688308070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kO6MWK4vtMr2ox655ffp1xyanRxqi6sIqqJ8oAIO/fw=;
+        b=QIg77vJTfVJyCjM/7Z2t01kGw1CSFTKxoszRLNqKcidvofBruWqY1wK/UdFrytj8YQ
+         Qk7SlTFWwd2R+d+tlPFA52P1qVGuDqdilN0NGA+SZkE2C2qmwTtdWM59+1/Caz0MKSlJ
+         o/lZ0eeS6gvuqrR92IylRzPW5JxGwKyJXF33T5DVcc//hJ9nfjEWktO/06mJpJEFz3RA
+         mQE635xgDAC6yuFvjlhc5MlD6liP9b7FPm+T4nSJRefjVY041FW0YF4sxYh7QjRah0oF
+         oNvvt6fhAa3Tz9Lj10praNLYgalpNVQf65YHV2uM3ptFjVHtUcP8CtTN+aGyha+XcW6g
+         nLug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685713407; x=1688305407;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VbXl8+ZwsaqPl65CjKAP5+tpjnNcmeYtAzqZVL0P/g8=;
-        b=bYPPBInz051VfHmiSWGDOYIs2nboq/Hm6QZQRLi4uvKtrmUc12gFRa2n1Q6Hjk3ZzB
-         9YtdLYk/wiYiuFb1FVIaX/KZWtgbOAisR7OJ69REmHSQfUOyzgctD+o8vf/0iyYLaeA1
-         RBMCrhFvurNX7q6JzPvn1Oy+AdXdVg/GgDg1fIzmQj39bL1QAOuGq3aP1kvuGAIGZAb0
-         9bfYhz1GzrfbFTTfyZ1JaVnmYmE8X+jRSj/U127aBalCJSDPMWeFVrMgYaLu5bzT0zIn
-         N5cNiuxpicDFnNb/kw9eBP7oLcm+P6FMkpV6tgj/2pYAdD1/6ZxqHilR3uoi3WldYmLH
-         AzWw==
-X-Gm-Message-State: AC+VfDxmIpGmgXu0ad277TwZpgJ/EgetmHUtOar+egbWMNB/t15sOAbZ
-	JosxIZDN3+6hvUgvms1HNhduYJGbX2JTR6yN2vQ=
-X-Google-Smtp-Source: ACHHUZ6HSshs5sWNMHM5m2wAWM8PCK7JONnUkv6NMAg8V4utSWwWksrX+743b/H2ThBArd3mt9fLyA==
-X-Received: by 2002:a05:600c:cc4:b0:3f4:ed2a:4347 with SMTP id fk4-20020a05600c0cc400b003f4ed2a4347mr2092699wmb.16.1685713407680;
-        Fri, 02 Jun 2023 06:43:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:527f:ecab:4831:c523? ([2001:8b0:aba:5f3c:527f:ecab:4831:c523])
-        by smtp.gmail.com with ESMTPSA id a7-20020adffb87000000b002ca864b807csm1778932wrr.0.2023.06.02.06.43.26
+        d=1e100.net; s=20221208; t=1685716070; x=1688308070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kO6MWK4vtMr2ox655ffp1xyanRxqi6sIqqJ8oAIO/fw=;
+        b=X0J5iztmvZT8aP8d8IaZD1ZZ/96rTDnldHDq+atMKB93itNPVZ4bHu2yf+MBo/iFxc
+         wJJ/R3a4oeNI8L4dpoobHFJ3cpOkYp7W4IgL9/9S8Ro0Sy21Qs/g/c6EB6a2DW/4KlgI
+         lnxAXeuE49jfZBkYG+J5evBqHx30pKuvYpaNR/xpKjaSxEQKRwgQDKBsbdKNq7u92l0C
+         /Pbg7Ja9XJuSl47YXepfXJH40Kh4vy8CTy0ZALL/irorWQTI/2Qnl312HievWKxgvKTp
+         SJzxOrkzt2axq4qSlFi1684Z3tiTuHEJHfvDT1YP9y1/bt969/Qo8Fpf2dKuvXNg8xjg
+         QCGQ==
+X-Gm-Message-State: AC+VfDxudVVQ5V0YMaoLWljiOYMbtdXSzKTD7BmN7XTPDR2qhLewZPX8
+	bVp55hUPUp1ptS+GLW+UZpicOr/PipEmABUBwX0=
+X-Google-Smtp-Source: ACHHUZ7927l7YNzff7ccObplpS9i67ZutQ6EKwlsi7OR2FHATyW/wNgF9pDWwwQwacgo1aO8ivJ+wQ==
+X-Received: by 2002:a05:6214:d6d:b0:5ef:8b6e:583c with SMTP id 13-20020a0562140d6d00b005ef8b6e583cmr7388326qvs.5.1685716070020;
+        Fri, 02 Jun 2023 07:27:50 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id d10-20020a0cea8a000000b00626256884edsm870961qvp.64.2023.06.02.07.27.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 06:43:27 -0700 (PDT)
-Message-ID: <060764275154579bc2d7fcd72f1b37b991bae74e.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][RFC][PATCH 1/3] oeqa/target/ssh: update options for
- SCP
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexis =?ISO-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>, 
-	Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Fri, 02 Jun 2023 14:43:26 +0100
-In-Reply-To: <a57ca55e-b65d-0e4a-8c77-9c74c90d1484@bootlin.com>
-References: <20230602095037.97981-1-alexis.lothore@bootlin.com>
-	 <20230602095037.97981-2-alexis.lothore@bootlin.com>
-	 <7f52a730227e60bb145201b27fc3fe827e2cc63a.camel@linuxfoundation.org>
-	 <a57ca55e-b65d-0e4a-8c77-9c74c90d1484@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Fri, 02 Jun 2023 07:27:49 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] util-linux: upgrade 2.38.1 -> 2.39
+Date: Fri,  2 Jun 2023 10:27:48 -0400
+Message-Id: <20230602142748.921949-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 13:43:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182331
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 14:27:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182332
 
-On Fri, 2023-06-02 at 15:41 +0200, Alexis Lothor=C3=A9 wrote:
-> On 6/2/23 14:02, Richard Purdie wrote:
-> > On Fri, 2023-06-02 at 11:50 +0200, Alexis Lothor=C3=A9 via
-> > lists.openembedded.org wrote:
-> > > Add two options for SCP:
-> > > - by default scp expects sftp server to be available on target, which=
- is
-> > >   not always true (e.g: core-image-minimal image). Pass -O to force S=
-CP to
-> > >   fallback to legacy SCP protocol
-> >=20
-> > We deliberately switched away from SCP since it is deprecated and will
-> > be removed in a later openssh release. This is therefore a step
-> > backwards, we really need to do something different.
->=20
-> Understood. Digging a bit about the deprecation issue and why it did not =
-work on
-> my machine without this option, and based on fixes seen in mailing list a=
-round
-> this issue, I found out that my image was not configured properly (adding
-> dropbear package instead of enabling it as an IMAGE_FEATURE, which brings=
- in
-> sftp support)
-> I guess keeping scp command but with sftp support instead of legacy scp s=
-upport
-> is ok ? Or you are in fact talking about completely stopping using the sc=
-p
-> binary, even with sftp support ?
+util-linux's ChangeLog file simply points to the git log, and there are
+numerous changes between 2.38.1 and 2.39:
 
-Using scp is fine but I don't think we can rely on the SCP protocol
-staying around.
+https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/log
 
-Cheers,
+There is a notable license change - README.licensing adds the
+BSD-2-Clause variant between these versions, but there is no
+corresponding file in Documentation/licenses; it's been added it under
+LICENSE in the recipe along with a reference to the common-licenses
+version. The README.licensing file also lists GPL-3.0-or-later for
+some of the code, so add it as well and include a checksum.
 
-Richard
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...ux-libuuid_2.38.1.bb => util-linux-libuuid_2.39.bb} |  0
+ meta/recipes-core/util-linux/util-linux.inc            | 10 +++++-----
+ .../{util-linux_2.38.1.bb => util-linux_2.39.bb}       |  0
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.38.1.bb => util-linux-libuuid_2.39.bb} (100%)
+ rename meta/recipes-core/util-linux/{util-linux_2.38.1.bb => util-linux_2.39.bb} (100%)
+
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 3868b1c41d..f9e6fb7d21 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -6,16 +6,18 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+ 
+ SECTION = "base"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause & BSD-4-Clause"
++LICENSE = "GPL-3.0-or-later & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause"
+ LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
+ LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
+ LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
+ LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
+ 
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
++LIC_FILES_CHKSUM = "file://README.licensing;md5=12ae7768a65ec8f2e44d930df9cb43fa \
+                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.GPL-3.0-or-later;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
++                    file://${COREBASE}/meta/files/common-licenses/BSD-2-Clause;md5=cb641bc04cda31daea161b1bc15da69f \
+                     file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
+                     file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
+                     file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
+@@ -35,8 +37,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://run-ptest \
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
+-           file://0001-check-for-sys-pidfd.h.patch \
+-           file://0001-configure.ac-Improve-check-for-magic.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f"
++SRC_URI[sha256sum] = "32b30a336cda903182ed61feb3e9b908b762a5e66fe14e43efb88d37162075cb"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/recipes-core/util-linux/util-linux_2.39.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux_2.38.1.bb
+rename to meta/recipes-core/util-linux/util-linux_2.39.bb
+-- 
+2.40.1
+
 
