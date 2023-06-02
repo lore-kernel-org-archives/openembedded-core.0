@@ -1,115 +1,79 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <sbabic@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A38AC77B7A
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 12:15:08 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.10995.1685708098389292871
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 05:14:59 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1572CC7EE29
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 12:20:48 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.11110.1685708441661340097
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 02 Jun 2023 05:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kgXhTDIv;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexis.lothore@bootlin.com)
-X-GND-Sasl: alexis.lothore@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685708095;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VslDx5XPaJx2K86QwTIRrJQFssOiWc4DvZBIcE2K9tc=;
-	b=kgXhTDIvxroP+9/ylkN0+uSNE+hJHtdD9+x58+JsPpNSpL2+1rZ1GuJjJ8y321PLrOBgDI
-	L8yeZD04g5+1RI4L8Xp6GYQ2w635D4Fp8tjJbEaKXKJdry6JPKDpsogZlupn8IHeUdKJkh
-	OG2ZQ5ix3iQWKXyAFUEp5HpKTgXabWez5TRALc0xAlGlg1xB5bv+q1pDzAHidD7atIFnbU
-	yLHqmRqiL5FpEeDqXoN7pmjjLpXWlQ7/MBga8OlohmvWf+aaq01KhKoI7GhZ1JB9aY+EZh
-	jTnPRHiNxNTWtpYh6i3nBEc78CocGjHNxR+32l1j4zv4/vdoIKnmfC9g9lXEcQ==
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-GND-Sasl: alexis.lothore@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 29DA74000A;
-	Fri,  2 Jun 2023 12:14:55 +0000 (UTC)
-Message-ID: <228e247a-2121-d1c6-95bf-51f18ec95e03@bootlin.com>
-Date: Fri, 2 Jun 2023 14:15:16 +0200
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=KwkLNx1U;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: sbabic@denx.de)
+Received: from [IPV6:2001:a61:6143:6401:59fc:84b2:b547:73c3] (unknown [IPv6:2001:a61:6143:6401:59fc:84b2:b547:73c3])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: sbabic@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 823CC847A2;
+	Fri,  2 Jun 2023 14:20:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1685708438;
+	bh=4QLnjSFqJBuNS/tPrWtseY1zUZ9hO9uJU6PTDGowGmQ=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=KwkLNx1UmicuFsPEb2KFXXvdO2SptvumaStHez2BSapAEIgbZVHaFQRBeec+GCsFe
+	 QBuUjizHAN4d+NscDoaOKTruabf5hn6gCdaNd+YSv1m0d3fNe0GIS8730qJZ9s3OWn
+	 3LZLiE0/CRbjtReLkx5re0ueayGQwQeY+Voj0jlnxEuc/s4O6IRzhC/Fei1hmTyJ9R
+	 EGQwk62zSeQJleg873xT+6PWMWqXmtrfeFoMIHe586EJehzceGU716SD551V9hzrsg
+	 Sc0L1QljeNBQm4R3K83pwXKOkvd39xszMjVRBCBu3WPKVDzYnKgFjW7jPbzoLuyh0j
+	 SOGpxFG9qo9xg==
+Message-ID: <c97eecc4-4b2e-76ac-5002-594bc6943d07@denx.de>
+Date: Fri, 2 Jun 2023 14:20:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [OE-Core][RFC][PATCH 3/3] testimage: implement test artifacts
- retriever for failing tests
-Content-Language: en-US
-To: Mikko Rapeli <mikko.rapeli@linaro.org>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20230602095037.97981-1-alexis.lothore@bootlin.com>
- <20230602095037.97981-4-alexis.lothore@bootlin.com>
- <CANNYZj8vV1=GOacn_vHpfeJ1h29AdLNJsO6X-wXPrW9vahc_5Q@mail.gmail.com>
- <ZHnYGjE3ahdytp+g@nuoska>
-From: =?UTF-8?Q?Alexis_Lothor=c3=a9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <ZHnYGjE3ahdytp+g@nuoska>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.11.0
+Subject: Re: [OE-core] [PATCH] mtd-utils: export headers and libraries for MTD
+ and UBI
+Content-Language: de-DE
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Stefano Babic <sbabic@denx.de>, openembedded-core@lists.openembedded.org
+References: <20230602112426.28353-1-sbabic@denx.de>
+ <1c1b9977e8ef107c5469ba8a3a63b21fdb3a1729.camel@linuxfoundation.org>
+From: Stefano Babic <sbabic@denx.de>
+In-Reply-To: <1c1b9977e8ef107c5469ba8a3a63b21fdb3a1729.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:15:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182311
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:20:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182312
 
-Hello Alexander, Mikko,
+Hi Richard,
 
-On 6/2/23 13:52, Mikko Rapeli wrote:
-> Hi,
+On 02.06.23 14:02, Richard Purdie wrote:
+> On Fri, 2023-06-02 at 13:24 +0200, Stefano Babic wrote:
+>> Mtd-utils has internal libraries (libmtd and libubi) that simplify the
+>> usage and access, and they can be used by applications to access MTD
+>> devices without reinventing the code.
 > 
-> On Fri, Jun 02, 2023 at 01:46:03PM +0200, Alexander Kanavin wrote:
->> On Fri, 2 Jun 2023 at 11:50, Alexis Lothoré via lists.openembedded.org
->> <alexis.lothore=bootlin.com@lists.openembedded.org> wrote:
->>> +# When any test fails, if path to an artifacts configuration (listing
->>> +# files/directories to retrieve on target) has been provided, all listed
->>> +# elements will be downloaded from target before shutting it down
->>> +
->>> +ARTIFACTS_LIST_PATH ??= ""
->>
->> I think this should be simplified further by simply specifying the
->> default list directly instead:
->>
->> TESTIMAGE_FAILED_QA_ARTIFACTS ?= "${libdir}/*/ptest/ /var/log/ /etc/version"
+> Does upstream plan to turn these into a shared library if people are
+> using them like this?
 
-I wondered about this possibility while adding this variable, and at this time I
-thought it would encode to much "CI logic" in testimage class. But since you
-raise the suggestion, I can update to pass directly the file list, which could
-indeed be overridden by CI tests runners. We can start with those three paths in
-the default value.
+Not yet, I will push changes if this happen. I am not sure if tthis can 
+be done soon: mtd-utils and these libraries are GPL-2 and not LGPL, and 
+they can be used just by GPL2 compliant projects.
 
-Another point raised by your example is the lack of wildcards management in
-artifacts path, which would clearly ease the listing, especially for ptests.
-I'll see if I can come up with something better for this
-> 
-> Try fetching /etc/os-release too, please.
-
-ACK, will add it to default list
-> 
-> I like this patch, thanks!
-> 
-> Cheers,
-> 
-> -Mikko
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182307): https://lists.openembedded.org/g/openembedded-core/message/182307
-> Mute This Topic: https://lists.openembedded.org/mt/99283034/7394887
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexis.lothore@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Best regards,
+Stefano
 
 -- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+=====================================================================
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich,   Office: Kirchenstr.5, 82194 Groebenzell, Germany
+Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
+=====================================================================
 
 
