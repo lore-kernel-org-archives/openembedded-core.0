@@ -2,53 +2,53 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B55BC7EE3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85174C7EE39
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 13:35:08 +0000 (UTC)
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.13232.1685712900813745672
+ by mx.groups.io with SMTP id smtpd.web10.13234.1685712901995388716
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 06:35:01 -0700
+ Fri, 02 Jun 2023 06:35:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IbVLmXV6;
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=iUkd7/6D;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-30aa1eb95a0so2099625f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:35:00 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3078a3f3b5fso2047761f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685712899; x=1688304899;
+        d=linuxfoundation.org; s=google; t=1685712900; x=1688304900;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U3yeS4RdBIE6jJ9bW2aOkbiHNkgwrOmJSuKeV9jYuwk=;
-        b=IbVLmXV61LFNLcFdO1TzILazSCDarTdvpvVodzjRLrazP8qk8JVQDaXKBjLbauKhqN
-         Nwwlr8e+RaLy/U/1wVLz2y5SUgeOh/WMIPIvV6KNQWfnb+FTRd+4F9D4qtWH+wlk+/Ly
-         muXglu3n7Wjihfyet3svK2wjWqG21GY7sHouY=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+07BB2F06dmMl33PwubqMzCPIremYoAqfE9RxL6LqGU=;
+        b=iUkd7/6DtCwMjA+Kz8zLNasFQbEMGWsnVuUtT7X/PSUxVCFnOTliRxjYALTj+On+UR
+         XQ9TWCOD0xKPUMZ5gRG9iGIHeh6mRGBY+jMQd3Nwjjk5eMuxzkeyTCggExAFwTrUWzoY
+         49MYr/+AA/eyTGyQzBZlDQySdJeyXZsSQHSXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685712899; x=1688304899;
+        d=1e100.net; s=20221208; t=1685712900; x=1688304900;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U3yeS4RdBIE6jJ9bW2aOkbiHNkgwrOmJSuKeV9jYuwk=;
-        b=MTYTdTnyluUQVS77+2MvWa/7QW6lKysRrMtrqbkZs3jIeiLjuB6Ng2ZH1XY6C8Tolu
-         OJ8lxMjRWzdcAN2FDHI0C/+vRZCYQiOPh0Kk3vt7IARfnUEafDnUKUOrEVoXOoyUguIy
-         VVB0EXC+RwB7QuQmwK7+Ymqsg6INDZzXZmDEkE72zho1gSkxx+U+6aZ9Q+sQBdNoh6MU
-         vMVKK3hp9/FdZ9LzoBhqdwqnaCVFYRFyr6l1Jgp8VXVeZvbl2aP1DWoaRvmExS4QJXlt
-         iPWwyUN+2pNP6mKdaHIfgqwjnbjiRZ9SqTwiZNotGaFsdWjxywswfsM76hfD7Uk7kdMa
-         0quA==
-X-Gm-Message-State: AC+VfDxX5rVE/6PPrgrrfj4NtzeJXKHtdyAYp1XOvjD09FHy2yY/7iZ4
-	RF2TxzdfyBMpK3H0wnEC1ZqEsE+nW73vETjSqdg=
-X-Google-Smtp-Source: ACHHUZ58KEVfitx+lgxTY2GIyZBxg2zMhQNLnvHxZCoY6tcyeYJWLDgs5KQ5LJwEwFGI4csNkPB+jQ==
-X-Received: by 2002:adf:f9c9:0:b0:30a:bda7:f16f with SMTP id w9-20020adff9c9000000b0030abda7f16fmr54301wrr.0.1685712897187;
-        Fri, 02 Jun 2023 06:34:57 -0700 (PDT)
+        bh=+07BB2F06dmMl33PwubqMzCPIremYoAqfE9RxL6LqGU=;
+        b=LJ7vubMCxl4EHJDimlcXIGv2TI0msiDOy+UA2YYtOt7DbBP/7EXRkdRkupC5B0Qntg
+         +HKEXEgKROO6gPwNSurqjsay49ejnocw7UuFgsvs6EStVRcAtuf/JFWml1qOBsWHOE0p
+         Ef3qgJbkH9uZUlwHNUaOYBKB/P7rG2CNyUtZ8hyechm7vxf96PlTAotqHle2RDaiuZcM
+         CXcgJvjgn7sCFsZS0aGo0vW0YRgj3s8+2rFCo2UJMfBSmfQBegRCmZ8484tS5L1cLQh2
+         Up5k/Qf6jKoJD3qvHWC/dvA/ojIxPNmoU8RM6dD0VMLVncE9RpF4W0aZEem+hNsdu1il
+         rN9w==
+X-Gm-Message-State: AC+VfDw5QCPHkZRU5fed5kWp+uG9tTL1EC46LFgqEjckOv4J3WdC/u2k
+	a97ZZv7zqeryRXfGDGHwpssUIyEd1Bq2Pf6Daz0=
+X-Google-Smtp-Source: ACHHUZ7fdWLXphDx3yJcAcG0Gf6TZF7teDQWnm8Lha57cV4ascsFCe/LG+qvucO42I3CyYgSqSD01w==
+X-Received: by 2002:a5d:61ca:0:b0:2fb:1d3a:93ff with SMTP id q10-20020a5d61ca000000b002fb1d3a93ffmr4956720wrv.61.1685712900382;
+        Fri, 02 Jun 2023 06:35:00 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:527f:ecab:4831:c523])
-        by smtp.gmail.com with ESMTPSA id z10-20020a056000110a00b003063a92bbf5sm1734262wrw.70.2023.06.02.06.34.56
+        by smtp.gmail.com with ESMTPSA id z10-20020a056000110a00b003063a92bbf5sm1734262wrw.70.2023.06.02.06.34.59
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 06:34:56 -0700 (PDT)
+        Fri, 02 Jun 2023 06:35:00 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [PATCH 04/11] classes/create-spdx-2.2: Fix runtime dependency calculations
-Date: Fri,  2 Jun 2023 14:34:46 +0100
-Message-Id: <20230602133453.229023-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 06/11] create-spdx-2.2: Add missing variable exclusions
+Date: Fri,  2 Jun 2023 14:34:48 +0100
+Message-Id: <20230602133453.229023-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230602133453.229023-1-richard.purdie@linuxfoundation.org>
 References: <20230602133453.229023-1-richard.purdie@linuxfoundation.org>
@@ -58,65 +58,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 13:35:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182322
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182324
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+Some variables cause issues with taskhashes and are accounted for in the
+output in other ways, or don't affect it. Exclude these to improve the
+taskhashes with create-spdx and allow the sstate selftests to work better.
 
-Fixes the runtime dependency calculations to also only follow direct
-dependencies of the current task instead of all transient dependencies
-in a similar way as the build time dependencies.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/create-spdx-2.2.bbclass | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ meta/classes/create-spdx-2.2.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index c461c77744a..f9cb3add387 100644
+index b8728c5705b..7569f8792b2 100644
 --- a/meta/classes/create-spdx-2.2.bbclass
 +++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -454,7 +454,7 @@ def add_download_packages(d, doc, recipe):
-             # but this should be sufficient for now
-             doc.add_relationship(package, "BUILD_DEPENDENCY_OF", recipe)
+@@ -338,6 +338,8 @@ def add_package_sources_from_debug(d, package_doc, spdx_package, package, packag
  
--def collect_deps(d, dep_task):
-+def collect_direct_deps(d, dep_task):
-     current_task = "do_" + d.getVar("BB_CURRENTTASK")
-     pn = d.getVar("PN")
+             package_doc.add_relationship(pkg_file, "GENERATED_FROM", ref_id, comment=debugsrc)
  
-@@ -474,8 +474,8 @@ def collect_deps(d, dep_task):
++add_package_sources_from_debug[vardepsexclude] += "STAGING_KERNEL_DIR"
++
+ def collect_dep_recipes(d, doc, spdx_recipe):
+     import json
+     from pathlib import Path
+@@ -684,6 +686,7 @@ python do_create_spdx() {
  
-     return sorted(deps)
+             oe.sbom.write_doc(d, package_doc, d.getVar("SSTATE_PKGARCH"), "packages", indent=get_json_indent(d))
+ }
++do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
+ # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
+ addtask do_create_spdx after do_package do_packagedata do_unpack do_collect_spdx_deps before do_populate_sdk do_build do_rm_work
  
--collect_deps[vardepsexclude] += "BB_TASKDEPDATA"
--collect_deps[vardeps] += "DEPENDS"
-+collect_direct_deps[vardepsexclude] += "BB_TASKDEPDATA"
-+collect_direct_deps[vardeps] += "DEPENDS"
+@@ -854,6 +857,8 @@ python do_create_runtime_spdx() {
+             oe.sbom.write_doc(d, runtime_doc, d.getVar("SSTATE_PKGARCH"), "runtime", spdx_deploy, indent=get_json_indent(d))
+ }
  
- python do_collect_spdx_deps() {
-     # This task calculates the build time dependencies of the recipe, and is
-@@ -489,7 +489,7 @@ python do_collect_spdx_deps() {
++do_create_runtime_spdx[vardepsexclude] += "OVERRIDES"
++
+ addtask do_create_runtime_spdx after do_create_spdx before do_build do_rm_work
+ SSTATETASKS += "do_create_runtime_spdx"
+ do_create_runtime_spdx[sstate-inputdirs] = "${SPDXRUNTIMEDEPLOY}"
+@@ -920,6 +925,8 @@ def spdx_get_src(d):
+     finally:
+         d.setVar("WORKDIR", workdir)
  
-     spdx_deps_file = Path(d.getVar("SPDXDEPS"))
++spdx_get_src[vardepsexclude] += "STAGING_KERNEL_DIR"
++
+ do_rootfs[recrdeptask] += "do_create_spdx do_create_runtime_spdx"
+ do_rootfs[cleandirs] += "${SPDXIMAGEWORK}"
  
--    deps = collect_deps(d, "do_create_spdx")
-+    deps = collect_direct_deps(d, "do_create_spdx")
+@@ -1125,3 +1132,5 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+             info.gname = "root"
  
-     with spdx_deps_file.open("w") as f:
-         json.dump(deps, f)
-@@ -710,10 +710,7 @@ def collect_package_providers(d):
- 
-     providers = {}
- 
--    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
--    deps = sorted(set(
--        (dep[0], dep[7]) for dep in taskdepdata.values() if dep[0] != d.getVar("PN")
--    ))
-+    deps = collect_direct_deps(d, "do_create_spdx")
-     deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME")))
- 
-     for dep_pn, dep_hashfn in deps:
+             tar.addfile(info, fileobj=index_str)
++
++combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
 -- 
 2.39.2
 
