@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E17C7EE39
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:46 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.7522.1685693431123642157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D1EECAA42
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:47 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.7519.1685693430907126789
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fuSj//Rn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101887b2879db-b33264e3-009e-4b8c-b0f5-07be95bd5d49-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Omx0Tbl6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101887b287847-4e615491-26a4-4e7f-af6e-148930ffa7a2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693430;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MXBhP2sdO8gOBmQ5zg1fhONeeClBb5EWlZDInMtOd8o=;
-	b=fuSj//RnBndhfDKXaP/Jx1xf65bgkzKoxmZBD+dx0w8jF6bRoqeZ2F1fOhKaq5Rm
-	aLgNuJslIiqnht8h7IpPJZ5e2+DV3z/o7hWb0AUQLN+yFOZ4FdcZpDh1EyWMQz1uDmT
-	wP0XL6Sybw6/KgRnXs7hRJizZqrP9uwozQaYf3nU=
+	bh=KWb0dnpiAFbybUCoZVox6CLd/euHoWOIq+pPF8ucTws=;
+	b=Omx0Tbl6v/VD378ZDas+MS4uMHu4R9Sisk3MfcyWLYURXMNTZNvzhz2PmX2eIKvf
+	d6NkJudedLRjYSnP1EdMN3WO5Knuv80caQulG8e5ox6m5bzBRNeDhBTGxgWN5AjsrTl
+	whfiYZNqSoCA4bgmO0TPmqFlMyfmxcY9eOVgflQ4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693430;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MXBhP2sdO8gOBmQ5zg1fhONeeClBb5EWlZDInMtOd8o=;
-	b=bunsS4pVwAHgjyiD5b0J+3cMq3i8/Z8tAVjzgbCCICy3WvvUclRVo5gxmPBem6PT
-	dyJElZBJ4ls0oMXSxW+VKxhWVjJhaD+kHcEoBCBMfETA14C6gVEnuQjjG7zC5xMxt6D
-	HbNgJPEQoD1hR0Jd1xam3m/nbrPAGAvD3hEqsxKw=
-Content-Type: multipart/mixed; boundary="===============5328588626286533161=="
+	bh=KWb0dnpiAFbybUCoZVox6CLd/euHoWOIq+pPF8ucTws=;
+	b=q/6TNVCg6r+hVVi7H0paHwUkfubNot5CA9FL3VjZozonQYiHddAgyOCNXW9gbVtT
+	tULkfCylqKiAk9hpryaWU+lxYVeOnBYo06SKCBZMpNB7i3ywtzg7qWqyj7NFg1HTfGj
+	YJkYZqb3Gf+YHXQ+Vjehh1UAKuOIEE5938LeZ3cM=
+Content-Type: multipart/mixed; boundary="===============3732128207523307625=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-networking: upgrading to 2.76.0 SUCCEEDED
-Message-ID: <010101887b2879db-b33264e3-009e-4b8c-b0f5-07be95bd5d49-000000@us-west-2.amazonses.com>
-Date: Fri, 2 Jun 2023 08:10:30 +0000
+Subject: [AUH] nfs-utils: upgrading to 2.6.3 FAILED
+Message-ID: <010101887b287847-4e615491-26a4-4e7f-af6e-148930ffa7a2-000000@us-west-2.amazonses.com>
+Date: Fri, 2 Jun 2023 08:10:29 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.45
+X-SES-Outgoing: 2023.06.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182158
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182154
 
---===============5328588626286533161==
+--===============3732128207523307625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-networking* to *2.76.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *nfs-utils* to *2.6.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-glib-networking-upgrade-2.74.0-2.76.0.patch
+    - apply the patch: git am 0001-nfs-utils-upgrade-2.6.2-2.6.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,567 +75,26 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5328588626286533161==
+--===============3732128207523307625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1803 entries from dependency cache.
+Loaded 1800 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 897 .bb files complete (896 cached, 1 parsed). 1801 targets, 36 skipped, 0 masked, 0 errors.
+Parsing of 897 .bb files complete (896 cached, 1 parsed). 1800 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:099031d60f3d960586ddcc716fc7f6292a46e3a8"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 23 Local 4 Mirrors 0 Missed 19 Current 417 (17% match, 95% complete)
-Removing 1 stale sstate objects for arch core2-64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 430 of 440 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-protocols-1.31-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1021 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_fetch)
-NOTE: recipe wayland-protocols-1.31-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1060 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_write_config)
-NOTE: Setscene tasks completed
-NOTE: Running task 1099 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_fetch)
-NOTE: Running task 1166 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_write_config)
-NOTE: Running task 1219 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 1387 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1562 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_unpack)
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: Running task 1563 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
-NOTE: Running task 1564 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_unpack)
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1565 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: Running task 1566 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1567 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1568 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1569 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1570 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1571 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1572 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic unihash changed to ccba8ec42248c5a2c5e8610f804767f997dca587b8cbe5b3b802472c0d4bd5c1
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1573 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_patch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe coreutils-9.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_patch: Succeeded
-NOTE: Running task 1575 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1576 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Succeeded
-NOTE: Running task 1577 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1578 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Succeeded
-NOTE: Running task 1579 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1580 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Succeeded
-NOTE: Running task 1581 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1582 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Succeeded
-NOTE: Running task 1583 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1584 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_populate_sysroot)
-NOTE: Running task 1585 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_package)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1586 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1587 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1588 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1589 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Succeeded
-NOTE: Running task 1590 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1591 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Succeeded
-NOTE: Running task 1592 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1593 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Succeeded
-NOTE: Running task 1594 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1595 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
-NOTE: Running task 1596 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
-NOTE: Running task 1597 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Succeeded
-NOTE: Running task 1598 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1599 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package)
-NOTE: Running task 1600 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
-NOTE: Running task 1601 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1602 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Succeeded
-NOTE: Running task 1603 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure_ptest_base)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1604 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile)
-NOTE: recipe coreutils-9.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Succeeded
-NOTE: Running task 1605 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_packagedata)
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1606 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_write_rpm)
-NOTE: Running task 1607 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_qa)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_compile: Succeeded
-NOTE: Running task 1608 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1609 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install)
-NOTE: recipe coreutils-9.1-r0: task do_install: Started
-NOTE: recipe coreutils-9.1-r0: task do_install: Succeeded
-NOTE: Running task 1610 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1611 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_package)
-NOTE: recipe coreutils-9.1-r0: task do_package: Started
-NOTE: recipe coreutils-9.1-r0: task do_package: Succeeded
-NOTE: Running task 1612 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1612 tasks of which 1555 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-src went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dbg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-ptest went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-staticdev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-doc went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-stdbuf went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-af went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-be went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-bg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ca went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-cs went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-da went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-de went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-el went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eo went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-es went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-et went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ga went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-gl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ia went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-id went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-it went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ja went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-kk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ko went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ms went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nb went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt-br went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ro went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ru went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sv went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-tr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-uk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-vi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-cn went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-tw went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/coreutils/9.1-r0/temp/log.do_packagedata.1954045
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata) failed with exit code '1'
-
---===============5328588626286533161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (0 cached, 897 parsed). 1801 targets, 54 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:099031d60f3d960586ddcc716fc7f6292a46e3a8"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 22 Local 3 Mirrors 0 Missed 19 Current 418 (13% match, 95% complete)
-Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1021 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_fetch)
-NOTE: Running task 1060 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_write_config)
-NOTE: Running task 1099 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_fetch)
-NOTE: Running task 1166 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_write_config)
-NOTE: Running task 1217 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 1387 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
-NOTE: Running task 1562 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1563 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_unpack)
-NOTE: Running task 1564 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1565 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: Running task 1566 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Succeeded
-NOTE: Running task 1567 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1568 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1569 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1570 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1571 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1572 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1573 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_patch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic unihash changed to ccba8ec42248c5a2c5e8610f804767f997dca587b8cbe5b3b802472c0d4bd5c1
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_patch: Succeeded
-NOTE: Running task 1575 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1576 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Succeeded
-NOTE: Running task 1577 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1578 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Succeeded
-NOTE: Running task 1579 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1580 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Succeeded
-NOTE: Running task 1581 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1582 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Succeeded
-NOTE: Running task 1583 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1584 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_populate_sysroot)
-NOTE: Running task 1585 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_package)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1586 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1587 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1588 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1589 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Succeeded
-NOTE: Running task 1590 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1591 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Succeeded
-NOTE: Running task 1592 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1593 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Succeeded
-NOTE: Running task 1594 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1595 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
-NOTE: Running task 1596 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
-NOTE: Running task 1597 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_configure: Succeeded
-NOTE: Running task 1598 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1599 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile)
-NOTE: recipe coreutils-9.1-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Succeeded
-NOTE: Running task 1600 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1601 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package)
-NOTE: Running task 1602 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
-NOTE: Running task 1603 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1604 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Succeeded
-NOTE: Running task 1605 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_packagedata)
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1606 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_write_rpm)
-NOTE: Running task 1607 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_qa)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_compile: Succeeded
-NOTE: Running task 1608 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1609 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install)
-NOTE: recipe coreutils-9.1-r0: task do_install: Started
-NOTE: recipe coreutils-9.1-r0: task do_install: Succeeded
-NOTE: Running task 1610 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1611 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_package)
-NOTE: recipe coreutils-9.1-r0: task do_package: Started
-NOTE: recipe coreutils-9.1-r0: task do_package: Succeeded
-NOTE: Running task 1612 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1612 tasks of which 1555 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-src went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dbg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-ptest went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-staticdev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-doc went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-stdbuf went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-af went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-be went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-bg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ca went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-cs went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-da went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-de went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-el went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eo went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-es went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-et went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ga went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-gl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ia went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-id went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-it went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ja went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-kk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ko went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ms went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nb went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt-br went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ro went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ru went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sv went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-tr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-uk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-vi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-cn went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-tw went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/coreutils/9.1-r0/temp/log.do_packagedata.2329088
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata) failed with exit code '1'
-
---===============5328588626286533161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (0 cached, 897 parsed). 1801 targets, 48 skipped, 0 masked, 0 errors.
-Removing 63 recipes from the core2-32 sysroot...done.
-Removing 72 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
+TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
@@ -637,1199 +102,892 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:099031d60f3d960586ddcc716fc7f6292a46e3a8"
+meta-yocto-bsp       = "tmp-auh-upgrades:a457d5b8c927275d1340aba157395637a829d564"
 workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
 
 Initialising tasks...done.
-Sstate summary: Wanted 159 Local 140 Mirrors 0 Missed 19 Current 163 (88% match, 94% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 48 Local 41 Mirrors 0 Missed 7 Current 456 (85% match, 98% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 164 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 169 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 172 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 178 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 179 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 180 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 181 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 182 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 183 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 184 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 185 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 186 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 194 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 195 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 197 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_packagedata_setscene)
-NOTE: Running setscene task 198 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.68.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 199 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 200 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 201 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 202 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 203 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.36.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 708 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_fetch)
-NOTE: Running task 724 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_write_config)
-NOTE: Running task 725 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_fetch)
-NOTE: Running task 726 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_write_config)
-NOTE: Running task 727 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 729 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Started
-NOTE: recipe libcap-2.68-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: recipe libcap-2.68-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 208 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 210 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: Running task 747 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_unpack)
-NOTE: Running task 751 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Started
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 217 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 218 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe openssl-3.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 772 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_unpack)
-NOTE: Running task 774 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Started
-NOTE: recipe openssl-3.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 227 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_package_setscene)
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 233 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 235 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 236 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
-NOTE: Running task 791 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 800 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: Running task 801 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 242 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 243 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 245 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 246 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 247 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 248 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 820 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 821 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic)
-NOTE: recipe coreutils-9.1-r0: task do_patch: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 822 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
-NOTE: Running task 823 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 252 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 253 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 255 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 256 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic unihash changed to ccba8ec42248c5a2c5e8610f804767f997dca587b8cbe5b3b802472c0d4bd5c1
-NOTE: recipe bash-5.2.15-r0: task do_package_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_patch: Succeeded
-NOTE: Running task 840 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Succeeded
-NOTE: Running task 845 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 266 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 267 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe bash-5.2.15-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 269 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 270 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 271 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-5.2.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-5.2.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.36.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 277 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 278 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 279 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 280 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 282 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 289 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 290 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 292 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 295 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 297 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 299 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 301 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 302 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 303 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 305 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 309 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 310 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 316 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 319 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 320 of 322 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1054 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1134 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1200 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1201 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Succeeded
-NOTE: Running task 1202 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1203 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Succeeded
-NOTE: Running task 1204 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1205 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Succeeded
-NOTE: Running task 1206 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1207 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_populate_sysroot)
-NOTE: Running task 1208 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_package)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1209 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1210 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1211 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1212 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Succeeded
-NOTE: Running task 1213 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1214 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Succeeded
-NOTE: Running task 1215 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1216 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Succeeded
-NOTE: Running task 1217 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1218 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_configure: Succeeded
-NOTE: Running task 1219 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1220 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile)
-NOTE: recipe coreutils-9.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
-NOTE: Running task 1221 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
-NOTE: Running task 1222 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Succeeded
-NOTE: Running task 1223 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1224 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package)
-NOTE: Running task 1225 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile: Succeeded
-NOTE: Running task 1226 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1227 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
-NOTE: Running task 1228 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1229 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Succeeded
-NOTE: Running task 1230 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_install: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Started
-NOTE: Running task 1231 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1232 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_write_rpm)
-NOTE: Running task 1233 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_qa)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Started
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1234 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_package)
-NOTE: recipe coreutils-9.1-r0: task do_package: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_package: Succeeded
-NOTE: Running task 1235 of 1237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1235 tasks of which 1178 didn't need to be rerun and 1 failed.
+NOTE: Running task 1588 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_fetch)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_fetch: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1817 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_unpack)
+NOTE: Running task 1818 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_unpack: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1819 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_patch)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_patch: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nfs-utils-2.6.3-r0: task do_patch: Succeeded
+NOTE: Running task 1820 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1821 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_populate_lic)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_populate_lic: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe nfs-utils-2.6.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1822 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_configure)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_configure: Started
+NOTE: recipe nfs-utils-2.6.3-r0: task do_configure: Succeeded
+NOTE: Running task 1823 of 1830 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile)
+NOTE: recipe nfs-utils-2.6.3-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| Making clean in support
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| Making clean in export
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| test -z "mount_clnt.c  mount_xdr.c mount.h ../../support/include/mount.h" || rm -f mount_clnt.c  mount_xdr.c mount.h ../../support/include/mount.h
+| rm -rf .libs _libs
+| test -z "libexport.a" || rm -f libexport.a
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| Making clean in include
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| Making clean in nfs
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
+| Making clean in rpcsvc
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
+| Making clean in sys
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| Making clean in fs
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| Making clean in misc
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
+| rm -rf .libs _libs
+| test -z "libmisc.a" || rm -f libmisc.a
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
+| Making clean in nfs
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
+| rm -rf .libs _libs
+| test -z "" || rm -f
+| test -z "libnfs.la libnfsconf.la" || rm -f libnfs.la libnfsconf.la
+| rm -f ./so_locations
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
+| Making clean in nsm
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| test -z "sm_inter_clnt.c sm_inter_svc.c sm_inter_xdr.c sm_inter.h ../../support/include/sm_inter.h" || rm -f sm_inter_clnt.c sm_inter_svc.c sm_inter_xdr.c sm_inter.h ../../support/include/sm_inter.h
+| rm -rf .libs _libs
+| test -z "libnsm.a" || rm -f libnsm.a
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| Making clean in reexport
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
+| rm -rf .libs _libs
+| test -z "libreexport.a" || rm -f libreexport.a
+|  rm -f fsidd
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| Making clean in tools
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
+| Making clean in locktest
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/locktest'
+| rm -rf .libs _libs
+|  rm -f testlk
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/locktest'
+| Making clean in rpcdebug
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcdebug'
+| rm -rf .libs _libs
+|  rm -f rpcdebug
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcdebug'
+| Making clean in nlmtest
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nlmtest'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nlmtest'
+| Making clean in mountstats
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/mountstats'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/mountstats'
+| Making clean in nfs-iostat
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfs-iostat'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfs-iostat'
+| Making clean in rpcctl
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcctl'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcctl'
+| Making clean in nfsdclnts
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsdclnts'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsdclnts'
+| Making clean in nfsconf
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsconf'
+| rm -rf .libs _libs
+|  rm -f nfsconf
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsconf'
+| Making clean in nfsrahead
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsrahead'
+|  rm -f nfsrahead
+| rm -rf .libs _libs
+| rm -f 99-nfs.rules
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsrahead'
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
+| Making clean in utils
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
+| Making clean in exportfs
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/exportfs'
+| rm -rf .libs _libs
+|  rm -f exportfs
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/exportfs'
+| Making clean in mountd
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mountd'
+| rm -rf .libs _libs
+|  rm -f mountd
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mountd'
+| Making clean in nfsd
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsd'
+| rm -rf .libs _libs
+|  rm -f nfsd
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsd'
+| Making clean in nfsstat
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsstat'
+| rm -rf .libs _libs
+|  rm -f nfsstat
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsstat'
+| Making clean in showmount
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/showmount'
+| rm -rf .libs _libs
+|  rm -f showmount
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/showmount'
+| Making clean in statd
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/statd'
+| test -z "" || rm -f
+| rm -rf .libs _libs
+|  rm -f statd sm-notify
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/statd'
+| Making clean in mount
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mount'
+| rm -rf .libs _libs
+|  rm -f mount.nfs
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mount'
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
+| Making clean in linux-nfs
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/linux-nfs'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/linux-nfs'
+| Making clean in tests
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
+| Making clean in nsm_client
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests/nsm_client'
+|  rm -f nsm_client
+| test -z "nlm_sm_inter_clnt.c nlm_sm_inter_svc.c nlm_sm_inter_xdr.c nlm_sm_inter.h" || rm -f nlm_sm_inter_clnt.c nlm_sm_inter_svc.c nlm_sm_inter_xdr.c nlm_sm_inter.h
+| rm -rf .libs _libs
+| rm -f *.o
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests/nsm_client'
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
+|  rm -f statdb_dump
+| rm -rf .libs _libs
+| rm -f *.o
+| test -z "t0001-statd-basic-mon-unmon.sh.log" || rm -f t0001-statd-basic-mon-unmon.sh.log
+| test -z "t0001-statd-basic-mon-unmon.sh.trs" || rm -f t0001-statd-basic-mon-unmon.sh.trs
+| test -z "test-suite.log" || rm -f test-suite.log
+| rm -f *.lo
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
+| Making clean in systemd
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/systemd'
+| rm -rf .libs _libs
+| rm -f *.o
+| rm -f *.lo
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/systemd'
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3'
+| rm -rf .libs _libs
+| rm -f *.lo
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3'
+| NOTE: make -j 56
+| Making all in support
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| Making all in export
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| test -f mount_clnt.c && rm -rf mount_clnt.c || true
+| test -f mount_xdr.c && rm -rf mount_xdr.c || true
+| test -f mount.h && rm -rf mount.h || true
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -l -o mount_clnt.c mount.x
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -c -i 0 -o mount_xdr.c mount.x
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -h -o mount.h mount.x
+| rm -f ../../support/include/mount.h
+| ln -s ../export/mount.h ../../support/include/mount.h
+| make  all-am
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-client.o `test -f 'client.c' || echo './'`client.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-export.o `test -f 'export.c' || echo './'`export.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-hostname.o `test -f 'hostname.c' || echo './'`hostname.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-xtab.o `test -f 'xtab.c' || echo './'`xtab.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-mount_clnt.o `test -f 'mount_clnt.c' || echo './'`mount_clnt.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-mount_xdr.o `test -f 'mount_xdr.c' || echo './'`mount_xdr.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-cache.o `test -f 'cache.c' || echo './'`cache.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-auth.o `test -f 'auth.c' || echo './'`auth.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-v4root.o `test -f 'v4root.c' || echo './'`v4root.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-fsloc.o `test -f 'fsloc.c' || echo './'`fsloc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
+ tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
+ /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-v4clients.o `test -f 'v4clients.c' || echo './'`v4clients.c
+| rm -f libexport.a
+| i686-poky-linux-gcc-ar crD libexport.a libexport_a-client.o libexport_a-export.o libexport_a-hostname.o libexport_a-xtab.o libexport_a-mount_clnt.o libexport_a-mount_xdr.o libexport_a-cache.o libexport_a-auth.o libexport_a-v4root.o libexport_a-fsloc.o libexport_a-v4clients.o
+| i686-poky-linux-gcc-ranlib libexport.a
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
+| Making all in include
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| make  all-recursive
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| Making all in nfs
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
+| make[4]: Nothing to be done for 'all'.
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
+| Making all in rpcsvc
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
+| make[4]: Nothing to be done for 'all'.
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
+| Making all in sys
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| Making all in fs
+| make[5]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
+| make[5]: Nothing to be done for 'all'.
+| make[5]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
+| make[5]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| make[5]: Nothing to be done for 'all-am'.
+| make[5]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
+| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
+| Making all in misc
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o tcpwrapper.o tcpwrapper.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o from_local.o from_local.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o mountpoint.o mountpoint.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o misc.o misc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o nfsd_path.o nfsd_path.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o workqueue.o workqueue.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o xstat.o xstat.c
+| rm -f libmisc.a
+| i686-poky-linux-gcc-ar crD libmisc.a tcpwrapper.o from_local.o mountpoint.o misc.o nfsd_path.o workqueue.o xstat.o
+| i686-poky-linux-gcc-ranlib libmisc.a
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
+| Making all in nfs
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-exports.lo `test -f 'exports.c' || echo './'`exports.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rmtab.lo `test -f 'rmtab.c' || echo './'`rmtab.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-xio.lo `test -f 'xio.c' || echo './'`xio.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpcmisc.lo `test -f 'rpcmisc.c' || echo './'`rpcmisc.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpcdispatch.lo `test -f 'rpcdispatch.c' || echo './'`rpcdispatch.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-xcommon.lo `test -f 'xcommon.c' || echo './'`xcommon.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-wildmat.lo `test -f 'wildmat.c' || echo './'`wildmat.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-mydaemon.lo `test -f 'mydaemon.c' || echo './'`mydaemon.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpc_socket.lo `test -f 'rpc_socket.c' || echo './'`rpc_socket.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-getport.lo `test -f 'getport.c' || echo './'`getport.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-svc_socket.lo `test -f 'svc_socket.c' || echo './'`svc_socket.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-cacheio.lo `test -f 'cacheio.c' || echo './'`cacheio.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-closeall.lo `test -f 'closeall.c' || echo './'`closeall.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-nfs_mntent.lo `test -f 'nfs_mntent.c' || echo './'`nfs_mntent.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-svc_create.lo `test -f 'svc_create.c' || echo './'`svc_create.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-atomicio.lo `test -f 'atomicio.c' || echo './'`atomicio.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-strlcat.lo `test -f 'strlcat.c' || echo './'`strlcat.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
+ t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
+ t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-strlcpy.lo `test -f 'strlcpy.c' || echo './'`strlcpy.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -We
+ rror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o conffile.lo conffile.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -We
+ rror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o xlog.lo xlog.c
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpc_socket.c  -fPIC -DPIC -o .libs/libnfs_la-rpc_socket.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c getport.c  -fPIC -DPIC -o .libs/libnfs_la-getport.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpcmisc.c  -fPIC -DPIC -o .libs/libnfs_la-rpcmisc.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c cacheio.c  -fPIC -DPIC -o .libs/libnfs_la-cacheio.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-ind
+ entation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
+ nux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c conffile.c  -fPIC -DPIC -o .libs/conffile.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-ind
+ entation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
+ nux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xlog.c  -fPIC -DPIC -o .libs/xlog.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c svc_create.c  -fPIC -DPIC -o .libs/libnfs_la-svc_create.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c strlcat.c  -fPIC -DPIC -o .libs/libnfs_la-strlcat.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c strlcpy.c  -fPIC -DPIC -o .libs/libnfs_la-strlcpy.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rmtab.c  -fPIC -DPIC -o .libs/libnfs_la-rmtab.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c exports.c  -fPIC -DPIC -o .libs/libnfs_la-exports.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c mydaemon.c  -fPIC -DPIC -o .libs/libnfs_la-mydaemon.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c wildmat.c  -fPIC -DPIC -o .libs/libnfs_la-wildmat.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c nfs_mntent.c  -fPIC -DPIC -o .libs/libnfs_la-nfs_mntent.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c atomicio.c  -fPIC -DPIC -o .libs/libnfs_la-atomicio.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpcdispatch.c  -fPIC -DPIC -o .libs/libnfs_la-rpcdispatch.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xio.c  -fPIC -DPIC -o .libs/libnfs_la-xio.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xcommon.c  -fPIC -DPIC -o .libs/libnfs_la-xcommon.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c svc_socket.c  -fPIC -DPIC -o .libs/libnfs_la-svc_socket.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
+ le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
+ d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c closeall.c  -fPIC -DPIC -o .libs/libnfs_la-closeall.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
+ er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
+ work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libnfsconf.la  conffile.lo xlog.lo  -lresolv
+| libtool: link: i686-poky-linux-gcc-ar cr .libs/libnfsconf.a .libs/conffile.o .libs/xlog.o
+| libtool: link: i686-poky-linux-gcc-ranlib .libs/libnfsconf.a
+| libtool: link: ( cd ".libs" && rm -f "libnfsconf.la" && ln -s "../libnfsconf.la" "libnfsconf.la" )
+| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
+ er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
+ work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libnfs.la  libnfs_la-exports.lo libnfs_la-rmtab.lo libnfs_la-xio.lo libnfs_la-rpcmisc.lo libnfs_la-rpcdispatch.lo libnfs_la-xcommon.lo libnfs_la-wildmat.lo libnfs_la-mydaemon.lo libnfs_la-rpc_socket.lo libnfs_la-getport.lo libnfs_la-svc_socket.lo libnfs_la-cacheio.lo libnfs_la-closeall.lo libnfs_la-nfs_mntent.lo libnfs_la-svc_create.lo libnfs_la-atomicio.lo libnfs_la-strlcat.lo libnfs_la-strlcpy.lo libnfsconf.la -lresolv
+| libtool: link: (cd .libs/libnfs.lax/libnfsconf.a && i686-poky-linux-gcc-ar x "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs/./.libs/libnfsconf.a")
+| libtool: link: i686-poky-linux-gcc-ar cr .libs/libnfs.a .libs/libnfs_la-exports.o .libs/libnfs_la-rmtab.o .libs/libnfs_la-xio.o .libs/libnfs_la-rpcmisc.o .libs/libnfs_la-rpcdispatch.o .libs/libnfs_la-xcommon.o .libs/libnfs_la-wildmat.o .libs/libnfs_la-mydaemon.o .libs/libnfs_la-rpc_socket.o .libs/libnfs_la-getport.o .libs/libnfs_la-svc_socket.o .libs/libnfs_la-cacheio.o .libs/libnfs_la-closeall.o .libs/libnfs_la-nfs_mntent.o .libs/libnfs_la-svc_create.o .libs/libnfs_la-atomicio.o .libs/libnfs_la-strlcat.o .libs/libnfs_la-strlcpy.o   .libs/libnfs.lax/libnfsconf.a/conffile.o .libs/libnfs.lax/libnfsconf.a/xlog.o
+| libtool: link: i686-poky-linux-gcc-ranlib .libs/libnfs.a
+| libtool: link: rm -fr .libs/libnfs.lax
+| libtool: link: ( cd ".libs" && rm -f "libnfs.la" && ln -s "../libnfs.la" "libnfs.la" )
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
+| Making all in nsm
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| test -f sm_inter_clnt.c && rm -rf sm_inter_clnt.c || true
+| test -f sm_inter_svc.c && rm -rf sm_inter_svc.c || true
+| test -f sm_inter_xdr.c && rm -rf sm_inter_xdr.c || true
+| test -f sm_inter.h && rm -rf sm_inter.h || true
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -l -o sm_inter_clnt.c sm_inter.x
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -m -o sm_inter_svc.c sm_inter.x
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -c -i 0 -o sm_inter_xdr.c sm_inter.x
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -h -o sm_inter.h sm_inter.x
+| echo "void sm_prog_1(struct svc_req *, SVCXPRT *);" >> sm_inter.h
+| rm -f ../../support/include/sm_inter.h
+| ln -s ../nsm/sm_inter.h ../../support/include/sm_inter.h
+| make  all-am
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_clnt.o sm_inter_clnt.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_svc.o sm_inter_svc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_xdr.o sm_inter_xdr.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o misc.o `test -f '../misc/misc.c' || echo './'`../misc/misc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o file.o file.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o rpc.o rpc.c
+| rm -f libnsm.a
+| i686-poky-linux-gcc-ar crD libnsm.a sm_inter_clnt.o sm_inter_svc.o sm_inter_xdr.o  misc.o file.o rpc.o
+| i686-poky-linux-gcc-ranlib libnsm.a
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
+| Making all in reexport
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/include -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompat
+ ible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/
+ auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o fsidd-fsidd.o `test -f 'fsidd.c' || echo './'`fsidd.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/include -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompat
+ ible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/
+ auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o fsidd-backend_sqlite.o `test -f 'backend_sqlite.c' || echo './'`backend_sqlite.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
+ indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
+ 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o reexport.o reexport.c
+| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
+ er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
+ ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
+ work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o fsidd fsidd-fsidd.o fsidd-backend_sqlite.o ../../support/misc/libmisc.a ../../support/nfs/libnfs.la -lpthread    -lresolv
+| rm -f libreexport.a
+| i686-poky-linux-gcc-ar crD libreexport.a reexport.o
+| i686-poky-linux-gcc-ranlib libreexport.a
+| libtool: link: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/n
+ fs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -Wl,-O1 -Wl,--ha
+ sh-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-p
+ refix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -o fsidd fsidd-fsidd.o fsidd-backend_sqlite.o  ../../support/misc/libmisc.a ../../support/nfs/.libs/libnfs.a -lpthread -lresolv
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `srv_cb':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:147: undefined reference to `event_self_cbarg'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:147: undefined reference to `event_new'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:148: undefined reference to `event_add'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `client_cb':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:39: undefined reference to `event_del'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:40: undefined reference to `event_free'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `main':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:188: undefined reference to `event_base_new'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:190: undefined reference to `event_new'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:191: undefined reference to `event_add'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:193: undefined reference to `event_base_dispatch'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_destroy':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:86: undefined reference to `sqlite3_close_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_init':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:52: undefined reference to `sqlite3_open_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:61: undefined reference to `sqlite3_exec'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:72: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:73: undefined reference to `sqlite3_free'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:74: undefined reference to `sqlite3_close_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:56: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `get_fsidnum_by_path':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:98: undefined reference to `sqlite3_prepare_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:104: undefined reference to `sqlite3_bind_text'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:111: undefined reference to `sqlite3_step'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:100: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:132: undefined reference to `sqlite3_finalize'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:128: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:114: undefined reference to `sqlite3_column_int'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:106: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_path_by_fsidnum':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:145: undefined reference to `sqlite3_prepare_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:151: undefined reference to `sqlite3_bind_int'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:158: undefined reference to `sqlite3_step'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:147: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:183: undefined reference to `sqlite3_finalize'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:179: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:161: undefined reference to `sqlite3_column_text'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:153: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `new_fsidnum_by_path':
+| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:201: undefined reference to `sqlite3_prepare_v2'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:207: undefined reference to `sqlite3_bind_text'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:214: undefined reference to `sqlite3_step'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:209: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:203: undefined reference to `sqlite3_errstr'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:217: undefined reference to `sqlite3_column_int'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:229: undefined reference to `sqlite3_errstr'
+| collect2: error: ld returned 1 exit status
+| make[2]: *** [Makefile:490: fsidd] Error 1
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
+| make[1]: *** [Makefile:428: all-recursive] Error 1
+| make: *** [Makefile:468: all-recursive] Error 1
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869:183 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 183
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 167
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 162
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 157
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 152
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869, line 196
+NOTE: recipe nfs-utils-2.6.3-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1823 tasks of which 1815 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile
 Summary: There was 1 WARNING message.
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-src went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dbg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-ptest went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-staticdev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-doc went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-stdbuf went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-af went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-be went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-bg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ca went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-cs went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-da went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-de went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-el went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eo went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-es went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-et went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ga went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-gl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ia went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-id went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-it went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ja went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-kk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ko went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ms went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nb went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt-br went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ro went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ru went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sv went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-tr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-uk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-vi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-cn went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-tw went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/coreutils/9.1-r0/temp/log.do_packagedata.3154941
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata) failed with exit code '1'
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: nfs-utils-2.6.3-r0 do_compile: oe_runmake failed
+ERROR: nfs-utils-2.6.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.3730869', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/log.do_compile.3730869
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile) failed with exit code '1'
 
---===============5328588626286533161==
+--===============3732128207523307625==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glib-networking-upgrade-2.74.0-2.76.0.patch"
+ filename="0001-nfs-utils-upgrade-2.6.2-2.6.3.patch"
 
-RnJvbSA2NzY1ODRjN2VkMjg1Mjc1MDk0ZTMyYjUyZTExMmQzYmJiOTAwNTJiIE1vbiBTZXAgMTcg
+RnJvbSAwMTU2NmJmYjUxMjI4OGNiYjg2N2I5NWMwZmU0N2ZmYjA3YWJhYWE2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAwODowMzoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
-aWItbmV0d29ya2luZzogdXBncmFkZSAyLjc0LjAgLT4gMi43Ni4wCgotLS0KIC4uLi97Z2xpYi1u
-ZXR3b3JraW5nXzIuNzQuMC5iYiA9PiBnbGliLW5ldHdvcmtpbmdfMi43Ni4wLmJifSAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy97Z2xpYi1uZXR3b3JraW5nXzIuNzQu
-MC5iYiA9PiBnbGliLW5ldHdvcmtpbmdfMi43Ni4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43NC4wLmJi
-IGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc2
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc0LjAuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43Ni4wLmJiCmlu
-ZGV4IGZlNjkwMGIwMzYuLjc1YzAzMWU4Y2QgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3Jl
-L2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43NC4wLmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43Ni4wLmJiCkBAIC0x
-NCw3ICsxNCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTRmYmQ2
-NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIFwKIFNFQ1RJT04gPSAibGlicyIKIERFUEVORFMg
-PSAiZ2xpYi0yLjAtbmF0aXZlIGdsaWItMi4wIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3Vt
-XSA9ICIxZjE4NWFhZWYwOTQxMjNmOGUyNWQ4ZmE1NTY2MWIzZmQ3MTAyMDE2M2EwMTc0YWRiMzVh
-Mzc2ODVjZGE2MTNiIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMTQ5YTA1YTE3OWU2
-MjlhNTM4YmUyNTY2MmFhMzI0YjQ5OWQ3YzQ1NDljNTE1MWRiNTM3M2U3ODBhMWJmMWI5YSIKIAog
-UEFDS0FHRUNPTkZJRyA/Pz0gIm9wZW5zc2wgZW52aXJvbm1lbnQgJHtAYmIudXRpbHMuY29udGFp
-bnMoJ1BURVNUX0VOQUJMRUQnLCAnMScsICd0ZXN0cycsICcnLCBkKX0iCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAwNjo1MDo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5m
+cy11dGlsczogdXBncmFkZSAyLjYuMiAtPiAyLjYuMwoKLS0tCiAuLi4vMDAwMS1SZXBsYWNlLXN0
+YXRmczY0LXdpdGgtc3RhdGZzLnBhdGNoICAgfCAxNzEgLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi50
+ZC1DaGVjay1mb3ItcmV0dXJuLW9mLXN0YXQtZnVuY3Rpb24ucGF0Y2ggfCAgMzQgLS0tLQogLi4u
+LzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlwZXMucGF0Y2ggICAgICAgIHwgIDkzIC0tLS0tLS0t
+LS0KIC4uLntuZnMtdXRpbHNfMi42LjIuYmIgPT4gbmZzLXV0aWxzXzIuNi4zLmJifSB8ICAgNSAr
+LQogNCBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMzAyIGRlbGV0aW9ucygtKQogZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11
+dGlscy8wMDAxLVJlcGxhY2Utc3RhdGZzNjQtd2l0aC1zdGF0ZnMucGF0Y2gKIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAw
+NS1tb3VudGQtQ2hlY2stZm9yLXJldHVybi1vZi1zdGF0LWZ1bmN0aW9uLnBhdGNoCiBkZWxldGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxz
+LzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlwZXMucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L25mcy11dGlscy97bmZzLXV0aWxzXzIuNi4yLmJiID0+IG5mcy11dGlsc18y
+LjYuMy5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25m
+cy11dGlscy9uZnMtdXRpbHMvMDAwMS1SZXBsYWNlLXN0YXRmczY0LXdpdGgtc3RhdGZzLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDEtUmVw
+bGFjZS1zdGF0ZnM2NC13aXRoLXN0YXRmcy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQK
+aW5kZXggNDBjZWZmOWFlOS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwMS1SZXBsYWNlLXN0YXRmczY0LXdpdGgtc3RhdGZz
+LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMTcxICswLDAgQEAKLUZyb20gZTg5NjUyYjg1M2Nh
+N2RlNjcxMDkzYWU0NDMwNWZhMzQzNWUxM2QzZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZy
+b206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci1EYXRlOiBUaHUsIDE1IERlYyAyMDIy
+IDEzOjI5OjQzIC0wODAwCi1TdWJqZWN0OiBbUEFUQ0hdIFJlcGxhY2Ugc3RhdGZzNjQgd2l0aCBz
+dGF0ZnMKLQotYXV0b2NvbmYgQUNfU1lTX0xBUkdFRklMRSBpcyB1c2VkIGJ5IGNvbmZpZ3VyZSB0
+byBhZGQgbmVlZGVkIGRlZmluZXMKLXdoZW4gbmVlZGVkIGZvciBlbmFibGluZyA2NGJpdCBvZmZf
+dCwgdGhlcmVmb3JlIHJlcGxhY2luZyBzdGF0ZnM2NCB3aXRoCi1zdGF0ZnMgc2hvdWxkIGJlIGZ1
+bmN0aW9uYWxseSBzYW1lLiBBZGRpdGlvbmFsbHkgdGhpcyBoZWxwcyBjb21waWxpbmcKLXdpdGgg
+bGF0ZXN0IG11c2wgd2hlcmUgNjRiaXQgTEZTIGZ1bmN0aW9ucyBsaWtlIHN0YXRmczY0IGFuZCBm
+cmllbmRzIGFyZQotbm93IG1vdmVkIHVuZGVyIF9MQVJHRUZJTEU2NF9TT1VSQ0UgZmVhdHVyZSB0
+ZXN0IG1hY3JvLCB0aGlzIHdvcmtzIG9uCi1nbGliYyBzeXN0ZW1zIGJlY2F1c2UgX0dOVV9TT1VS
+Q0UgbWFjcm9zIGFsc28gZW5hYmxlcwotX0xBUkdFRklMRTY0X1NPVVJDRSBpbmRpcmVjdGx5LiBU
+aGlzIGlzIG5vdCBjYXNlIHdpdGggbXVzbCBhbmQgdGhpcwotbGF0ZXN0IGlzc3VlIGlzIGV4cG9z
+ZWQuCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9saW51eC1uZnMvMjAyMjEyMTUyMTM2MDUuNDA2MTg1My0xLXJhai5raGVtQGdtYWlsLmNvbS9U
+LyN1XQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQot
+IHN1cHBvcnQvZXhwb3J0L2NhY2hlLmMgICAgICB8IDE0ICsrKysrKystLS0tLS0tCi0gc3VwcG9y
+dC9pbmNsdWRlL25mc2RfcGF0aC5oIHwgIDYgKysrLS0tCi0gc3VwcG9ydC9taXNjL25mc2RfcGF0
+aC5jICAgIHwgMjQgKysrKysrKysrKysrLS0tLS0tLS0tLS0tCi0gdXRpbHMvZXhwb3J0ZnMvZXhw
+b3J0ZnMuYyAgIHwgIDQgKystLQotIDQgZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwg
+MjQgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9zdXBwb3J0L2V4cG9ydC9jYWNoZS5jIGIv
+c3VwcG9ydC9leHBvcnQvY2FjaGUuYwotaW5kZXggYTU4MjNlOS4uMjQ5N2Q0ZiAxMDA2NDQKLS0t
+LSBhL3N1cHBvcnQvZXhwb3J0L2NhY2hlLmMKLSsrKyBiL3N1cHBvcnQvZXhwb3J0L2NhY2hlLmMK
+LUBAIC0zNDYsMjcgKzM0NiwyNyBAQCBzdGF0aWMgaW50IHV1aWRfYnlfcGF0aChjaGFyICpwYXRo
+LCBpbnQgdHlwZSwgc2l6ZV90IHV1aWRsZW4sIGNoYXIgKnV1aWQpCi0gCi0gCS8qIFBvc3NpYmxl
+IHNvdXJjZXMgb2YgdXVpZCBhcmUKLSAJICogLSBibGtpZCB1dWlkCi0tCSAqIC0gc3RhdGZzNjQg
+dXVpZAotKwkgKiAtIHN0YXRmcyB1dWlkCi0gCSAqCi0tCSAqIE9uIHNvbWUgZmlsZXN5c3RlbXMg
+KGUuZy4gdmZhdCkgdGhlIHN0YXRmczY0IHV1aWQgaXMgc2ltcGx5IGFuCi0rCSAqIE9uIHNvbWUg
+ZmlsZXN5c3RlbXMgKGUuZy4gdmZhdCkgdGhlIHN0YXRmcyB1dWlkIGlzIHNpbXBseSBhbgotIAkg
+KiBlbmNvZGluZyBvZiB0aGUgZGV2aWNlIHRoYXQgdGhlIGZpbGVzeXN0ZW0gaXMgbW91bnRlZCBm
+cm9tLCBzbwotIAkgKiBpdCB3ZSBiZSB2ZXJ5IGJhZCB0byB1c2UgdGhhdCAoYXMgZGV2aWNlIG51
+bWJlcnMgY2hhbmdlKS4gIGJsa2lkCi0gCSAqIG11c3QgYmUgcHJlZmVycmVkLgotLQkgKiBPbiBv
+dGhlciBmaWxlc3lzdGVtcyAoZS5nLiBidHJmcykgdGhlIHN0YXRmczY0IHV1aWQgY29udGFpbnMK
+LSsJICogT24gb3RoZXIgZmlsZXN5c3RlbXMgKGUuZy4gYnRyZnMpIHRoZSBzdGF0ZnMgdXVpZCBj
+b250YWlucwotIAkgKiBpbXBvcnRhbnQgaW5mbyB0aGF0IHRoZSBibGtpZCB1dWlkIGNhbm5vdCBj
+b250YWluOiAgVGhpcyBoYXBwZW5zCi0gCSAqIHdoZW4gbXVsdGlwbGUgc3Vidm9sdW1lcyBhcmUg
+ZXhwb3J0ZWQgKHRoZXkgaGF2ZSB0aGUgc2FtZQotLQkgKiBibGtpZCB1dWlkIGJ1dCBkaWZmZXJl
+bnQgc3RhdGZzNjQgdXVpZHMpLgotKwkgKiBibGtpZCB1dWlkIGJ1dCBkaWZmZXJlbnQgc3RhdGZz
+IHV1aWRzKS4KLSAJICogV2UgcmVseSBvbiBnZXRfdXVpZF9ibGtkZXYgKmtub3dpbmcqIHdoaWNo
+IGlzIHdoaWNoIGFuZCBub3QgcmV0dXJuaW5nCi0tCSAqIGEgdXVpZCBmb3IgZmlsZXN5c3RlbXMg
+d2hlcmUgdGhlIHN0YXRmczY0IHV1aWQgaXMgYmV0dGVyLgotKwkgKiBhIHV1aWQgZm9yIGZpbGVz
+eXN0ZW1zIHdoZXJlIHRoZSBzdGF0ZnMgdXVpZCBpcyBiZXR0ZXIuCi0gCSAqCi0gCSAqLwotLQlz
+dHJ1Y3Qgc3RhdGZzNjQgc3Q7Ci0rCXN0cnVjdCBzdGF0ZnMgc3Q7Ci0gCWNoYXIgZnNpZF92YWxb
+MTddOwotIAljb25zdCBjaGFyICpibGtpZF92YWwgPSBOVUxMOwotIAljb25zdCBjaGFyICp2YWw7
+Ci0gCWludCByYzsKLSAKLS0JcmMgPSBuZnNkX3BhdGhfc3RhdGZzNjQocGF0aCwgJnN0KTsKLSsJ
+cmMgPSBuZnNkX3BhdGhfc3RhdGZzKHBhdGgsICZzdCk7Ci0gCi0gCWlmICh0eXBlID09IDAgJiYg
+cmMgPT0gMCkgewotIAkJY29uc3QgdW5zaWduZWQgbG9uZyAqYmFkOwotZGlmZiAtLWdpdCBhL3N1
+cHBvcnQvaW5jbHVkZS9uZnNkX3BhdGguaCBiL3N1cHBvcnQvaW5jbHVkZS9uZnNkX3BhdGguaAot
+aW5kZXggM2I3M2FhZC4uYWExZTFkZCAxMDA2NDQKLS0tLSBhL3N1cHBvcnQvaW5jbHVkZS9uZnNk
+X3BhdGguaAotKysrIGIvc3VwcG9ydC9pbmNsdWRlL25mc2RfcGF0aC5oCi1AQCAtNyw3ICs3LDcg
+QEAKLSAjaW5jbHVkZSA8c3lzL3N0YXQuaD4KLSAKLSBzdHJ1Y3QgZmlsZV9oYW5kbGU7Ci0tc3Ry
+dWN0IHN0YXRmczY0OwotK3N0cnVjdCBzdGF0ZnM7Ci0gCi0gdm9pZCAJCW5mc2RfcGF0aF9pbml0
+KHZvaWQpOwotIAotQEAgLTE4LDggKzE4LDggQEAgY2hhciAqCQluZnNkX3BhdGhfcHJlcGVuZF9k
+aXIoY29uc3QgY2hhciAqZGlyLCBjb25zdCBjaGFyICpwYXRobmFtZSk7Ci0gaW50IAkJbmZzZF9w
+YXRoX3N0YXQoY29uc3QgY2hhciAqcGF0aG5hbWUsIHN0cnVjdCBzdGF0ICpzdGF0YnVmKTsKLSBp
+bnQgCQluZnNkX3BhdGhfbHN0YXQoY29uc3QgY2hhciAqcGF0aG5hbWUsIHN0cnVjdCBzdGF0ICpz
+dGF0YnVmKTsKLSAKLS1pbnQJCW5mc2RfcGF0aF9zdGF0ZnM2NChjb25zdCBjaGFyICpwYXRobmFt
+ZSwKLS0JCQkJICAgc3RydWN0IHN0YXRmczY0ICpzdGF0YnVmKTsKLStpbnQJCW5mc2RfcGF0aF9z
+dGF0ZnMoY29uc3QgY2hhciAqcGF0aG5hbWUsCi0rCQkJCSAgIHN0cnVjdCBzdGF0ZnMgKnN0YXRi
+dWYpOwotIAotIGNoYXIgKgkJbmZzZF9yZWFscGF0aChjb25zdCBjaGFyICpwYXRoLCBjaGFyICpy
+ZXNvbHZlZF9wYXRoKTsKLSAKLWRpZmYgLS1naXQgYS9zdXBwb3J0L21pc2MvbmZzZF9wYXRoLmMg
+Yi9zdXBwb3J0L21pc2MvbmZzZF9wYXRoLmMKLWluZGV4IDY1ZTUzYzEuLmMzZGVhNGYgMTAwNjQ0
+Ci0tLS0gYS9zdXBwb3J0L21pc2MvbmZzZF9wYXRoLmMKLSsrKyBiL3N1cHBvcnQvbWlzYy9uZnNk
+X3BhdGguYwotQEAgLTE4NCw0NiArMTg0LDQ2IEBAIG5mc2RfcGF0aF9sc3RhdChjb25zdCBjaGFy
+ICpwYXRobmFtZSwgc3RydWN0IHN0YXQgKnN0YXRidWYpCi0gCXJldHVybiBuZnNkX3J1bl9zdGF0
+KG5mc2Rfd3EsIG5mc2RfbHN0YXRmdW5jLCBwYXRobmFtZSwgc3RhdGJ1Zik7Ci0gfQotIAotLXN0
+cnVjdCBuZnNkX3N0YXRmczY0X2RhdGEgewotK3N0cnVjdCBuZnNkX3N0YXRmc19kYXRhIHsKLSAJ
+Y29uc3QgY2hhciAqcGF0aG5hbWU7Ci0tCXN0cnVjdCBzdGF0ZnM2NCAqc3RhdGJ1ZjsKLSsJc3Ry
+dWN0IHN0YXRmcyAqc3RhdGJ1ZjsKLSAJaW50IHJldDsKLSAJaW50IGVycjsKLSB9OwotIAotIHN0
+YXRpYyB2b2lkCi0tbmZzZF9zdGF0ZnM2NGZ1bmModm9pZCAqZGF0YSkKLStuZnNkX3N0YXRmc2Z1
+bmModm9pZCAqZGF0YSkKLSB7Ci0tCXN0cnVjdCBuZnNkX3N0YXRmczY0X2RhdGEgKmQgPSBkYXRh
+OwotKwlzdHJ1Y3QgbmZzZF9zdGF0ZnNfZGF0YSAqZCA9IGRhdGE7Ci0gCi0tCWQtPnJldCA9IHN0
+YXRmczY0KGQtPnBhdGhuYW1lLCBkLT5zdGF0YnVmKTsKLSsJZC0+cmV0ID0gc3RhdGZzKGQtPnBh
+dGhuYW1lLCBkLT5zdGF0YnVmKTsKLSAJaWYgKGQtPnJldCA8IDApCi0gCQlkLT5lcnIgPSBlcnJu
+bzsKLSB9Ci0gCi0gc3RhdGljIGludAotLW5mc2RfcnVuX3N0YXRmczY0KHN0cnVjdCB4dGhyZWFk
+X3dvcmtxdWV1ZSAqd3EsCi0rbmZzZF9ydW5fc3RhdGZzKHN0cnVjdCB4dGhyZWFkX3dvcmtxdWV1
+ZSAqd3EsCi0gCQkgIGNvbnN0IGNoYXIgKnBhdGhuYW1lLAotLQkJICBzdHJ1Y3Qgc3RhdGZzNjQg
+KnN0YXRidWYpCi0rCQkgIHN0cnVjdCBzdGF0ZnMgKnN0YXRidWYpCi0gewotLQlzdHJ1Y3QgbmZz
+ZF9zdGF0ZnM2NF9kYXRhIGRhdGEgPSB7Ci0rCXN0cnVjdCBuZnNkX3N0YXRmc19kYXRhIGRhdGEg
+PSB7Ci0gCQlwYXRobmFtZSwKLSAJCXN0YXRidWYsCi0gCQkwLAotIAkJMAotIAl9OwotLQl4dGhy
+ZWFkX3dvcmtfcnVuX3N5bmMod3EsIG5mc2Rfc3RhdGZzNjRmdW5jLCAmZGF0YSk7Ci0rCXh0aHJl
+YWRfd29ya19ydW5fc3luYyh3cSwgbmZzZF9zdGF0ZnNmdW5jLCAmZGF0YSk7Ci0gCWlmIChkYXRh
+LnJldCA8IDApCi0gCQllcnJubyA9IGRhdGEuZXJyOwotIAlyZXR1cm4gZGF0YS5yZXQ7Ci0gfQot
+IAotIGludAotLW5mc2RfcGF0aF9zdGF0ZnM2NChjb25zdCBjaGFyICpwYXRobmFtZSwgc3RydWN0
+IHN0YXRmczY0ICpzdGF0YnVmKQotK25mc2RfcGF0aF9zdGF0ZnMoY29uc3QgY2hhciAqcGF0aG5h
+bWUsIHN0cnVjdCBzdGF0ZnMgKnN0YXRidWYpCi0gewotIAlpZiAoIW5mc2Rfd3EpCi0tCQlyZXR1
+cm4gc3RhdGZzNjQocGF0aG5hbWUsIHN0YXRidWYpOwotLQlyZXR1cm4gbmZzZF9ydW5fc3RhdGZz
+NjQobmZzZF93cSwgcGF0aG5hbWUsIHN0YXRidWYpOwotKwkJcmV0dXJuIHN0YXRmcyhwYXRobmFt
+ZSwgc3RhdGJ1Zik7Ci0rCXJldHVybiBuZnNkX3J1bl9zdGF0ZnMobmZzZF93cSwgcGF0aG5hbWUs
+IHN0YXRidWYpOwotIH0KLSAKLSBzdHJ1Y3QgbmZzZF9yZWFscGF0aF9kYXRhIHsKLWRpZmYgLS1n
+aXQgYS91dGlscy9leHBvcnRmcy9leHBvcnRmcy5jIGIvdXRpbHMvZXhwb3J0ZnMvZXhwb3J0ZnMu
+YwotaW5kZXggMDg5N2IyMi4uNmQ3OWE1YiAxMDA2NDQKLS0tLSBhL3V0aWxzL2V4cG9ydGZzL2V4
+cG9ydGZzLmMKLSsrKyBiL3V0aWxzL2V4cG9ydGZzL2V4cG9ydGZzLmMKLUBAIC01MTMsNyArNTEz
+LDcgQEAgdmFsaWRhdGVfZXhwb3J0KG5mc19leHBvcnQgKmV4cCkKLSAJICovCi0gCXN0cnVjdCBz
+dGF0IHN0YjsKLSAJY2hhciAqcGF0aCA9IGV4cG9ydGVudF9yZWFscGF0aCgmZXhwLT5tX2V4cG9y
+dCk7Ci0tCXN0cnVjdCBzdGF0ZnM2NCBzdGY7Ci0rCXN0cnVjdCBzdGF0ZnMgc3RmOwotIAlpbnQg
+ZnNfaGFzX2ZzaWQgPSAwOwotIAotIAlpZiAoc3RhdChwYXRoLCAmc3RiKSA8IDApIHsKLUBAIC01
+MjgsNyArNTI4LDcgQEAgdmFsaWRhdGVfZXhwb3J0KG5mc19leHBvcnQgKmV4cCkKLSAJaWYgKCFj
+YW5fdGVzdCgpKQotIAkJcmV0dXJuOwotIAotLQlpZiAoIXN0YXRmczY0KHBhdGgsICZzdGYpICYm
+Ci0rCWlmICghc3RhdGZzKHBhdGgsICZzdGYpICYmCi0gCSAgICAoc3RmLmZfZnNpZC5fX3ZhbFsw
+XSB8fCBzdGYuZl9mc2lkLl9fdmFsWzFdKSkKLSAJCWZzX2hhc19mc2lkID0gMTsKLSAKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8wMDA1
+LW1vdW50ZC1DaGVjay1mb3ItcmV0dXJuLW9mLXN0YXQtZnVuY3Rpb24ucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNS1tb3VudGQtQ2hlY2st
+Zm9yLXJldHVybi1vZi1zdGF0LWZ1bmN0aW9uLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAppbmRleCAxM2EyMWU1MzA3Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8wMDA1LW1vdW50ZC1DaGVjay1mb3ItcmV0dXJuLW9m
+LXN0YXQtZnVuY3Rpb24ucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzNCArMCwwIEBACi1Gcm9t
+IDg4N2VjYzc4Mzc5NjJlOWJlNzdhNGZlYTdkOTEyMjY0OGY3M2E4NGEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogTW9u
+LCAxNSBBdWcgMjAyMiAxNDo0Nzo1MyAtMDcwMAotU3ViamVjdDogW1BBVENIXSBtb3VudGQ6IENo
+ZWNrIGZvciByZXR1cm4gb2Ygc3RhdCBmdW5jdGlvbgotCi1zaW1wbGlmeSB0aGUgY2hlY2ssIHN0
+YXQoKSByZXR1cm4gMCBvbiBzdWNjZXNzIC0xIG9uIGZhaWx1cmUKLQotRml4ZXMgY2xhbmcgcmVw
+b3J0ZWQgZXJyb3JzIGUuZy4KLQotfCB2NGNsaWVudHMuYzoyOTo2OiBlcnJvcjogbG9naWNhbCBu
+b3QgaXMgb25seSBhcHBsaWVkIHRvIHRoZSBsZWZ0IGhhbmQgc2lkZSBvZiB0aGlzIGNvbXBhcmlz
+b24gWy1XZXJyb3IsLVdsb2dpY2FsLW5vdC1wYXJlbnRoZXNlc10KLXwgICAgICAgICBpZiAoIXN0
+YXQoIi9wcm9jL2ZzL25mc2QvY2xpZW50cyIsICZzYikgPT0gMCB8fAotfCAgICAgICAgICAgICBe
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fgotCi1VcHN0cmVhbS1TdGF0dXM6
+IFN1Ym1pdHRlZCBbaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW5m
+cy9wYXRjaC8yMDIyMDgxNjAyNDQwMy4yNjk0MTY5LTEtcmFqLmtoZW1AZ21haWwuY29tL10KLVNp
+Z25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci1DYzogS29uc3RhbnRp
+biBLaG9yZW5rbyA8a2hvcmVua29AdmlydHVvenpvLmNvbT4KLUNjOiBTdGV2ZSBEaWNrc29uIDxz
+dGV2ZWRAcmVkaGF0LmNvbT4KLS0tLQotIHN1cHBvcnQvZXhwb3J0L3Y0Y2xpZW50cy5jIHwgMiAr
+LQotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQotCi1kaWZm
+IC0tZ2l0IGEvc3VwcG9ydC9leHBvcnQvdjRjbGllbnRzLmMgYi9zdXBwb3J0L2V4cG9ydC92NGNs
+aWVudHMuYwotaW5kZXggNWYxNWI2MS4uMzIzMDI1MSAxMDA2NDQKLS0tLSBhL3N1cHBvcnQvZXhw
+b3J0L3Y0Y2xpZW50cy5jCi0rKysgYi9zdXBwb3J0L2V4cG9ydC92NGNsaWVudHMuYwotQEAgLTI2
+LDcgKzI2LDcgQEAgdm9pZCB2NGNsaWVudHNfaW5pdCh2b2lkKQotIHsKLSAJc3RydWN0IHN0YXQg
+c2I7Ci0gCi0tCWlmICghc3RhdCgiL3Byb2MvZnMvbmZzZC9jbGllbnRzIiwgJnNiKSA9PSAwIHx8
+Ci0rCWlmIChzdGF0KCIvcHJvYy9mcy9uZnNkL2NsaWVudHMiLCAmc2IpICE9IDAgfHwKLSAJICAg
+ICFTX0lTRElSKHNiLnN0X21vZGUpKQotIAkJcmV0dXJuOwotIAlpZiAoY2xpZW50c19mZCA+PSAw
+KQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0
+aWxzLzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlwZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNi1GaXgtZnVuY3Rpb24tcHJvdG90eXBl
+cy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNzkzYmM0NjUxYy4uMDAwMDAw
+MDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMv
+MDAwNi1GaXgtZnVuY3Rpb24tcHJvdG90eXBlcy5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDkz
+ICswLDAgQEAKLUZyb20gY2YwZmZiYjVjOGZhMTY3Mzc2OTI2ZDEyYTYzNjEzZjE1YWE3NjAyZiBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
+b20+Ci1EYXRlOiBNb24sIDE1IEF1ZyAyMDIyIDE0OjUwOjE1IC0wNzAwCi1TdWJqZWN0OiBbUEFU
+Q0hdIEZpeCBmdW5jdGlvbiBwcm90b3R5cGVzCi0KLUNsYW5nIGlzIG5vdyBlcnJvcmluZyBvdXQg
+b24gZnVuY3Rpb25zIHdpdGggb3V0IHBhcmFtZXRlciB0eXBlcwotCi1GaXhlcyBlcnJvcnMgbGlr
+ZQotZXJyb3I6IGEgZnVuY3Rpb24gZGVjbGFyYXRpb24gd2l0aG91dCBhIHByb3RvdHlwZSBpcyBk
+ZXByZWNhdGVkIGluIGFsbCB2ZXJzaW9ucyBvZiBDIFstV2Vycm9yLC1Xc3RyaWN0LXByb3RvdHlw
+ZXNdCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL3BhdGNod29yay5rZXJu
+ZWwub3JnL3Byb2plY3QvbGludXgtbmZzL3BhdGNoLzIwMjIwODE2MDI0NDAzLjI2OTQxNjktMi1y
+YWoua2hlbUBnbWFpbC5jb20vXQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdt
+YWlsLmNvbT4KLS0tLQotIHN1cHBvcnQvZXhwb3J0L2F1dGguYyAgICAgfCAyICstCi0gc3VwcG9y
+dC9leHBvcnQvdjRyb290LmMgICB8IDIgKy0KLSBzdXBwb3J0L2V4cG9ydC94dGFiLmMgICAgIHwg
+MiArLQotIHV0aWxzL2V4cG9ydGZzL2V4cG9ydGZzLmMgfCA0ICsrLS0KLSB1dGlscy9tb3VudC9u
+ZXR3b3JrLmMgICAgIHwgMiArLQotIDUgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2
+IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3VwcG9ydC9leHBvcnQvYXV0aC5jIGIvc3Vw
+cG9ydC9leHBvcnQvYXV0aC5jCi1pbmRleCAwM2NlNGI4Li4yZDc5NjBmIDEwMDY0NAotLS0tIGEv
+c3VwcG9ydC9leHBvcnQvYXV0aC5jCi0rKysgYi9zdXBwb3J0L2V4cG9ydC9hdXRoLmMKLUBAIC04
+Miw3ICs4Miw3IEBAIGNoZWNrX3VzZWlwYWRkcih2b2lkKQotIH0KLSAKLSB1bnNpZ25lZCBpbnQK
+LS1hdXRoX3JlbG9hZCgpCi0rYXV0aF9yZWxvYWQodm9pZCkKLSB7Ci0gCXN0cnVjdCBzdGF0CQlz
+dGI7Ci0gCXN0YXRpYyBpbm9fdAkJbGFzdF9pbm9kZTsKLWRpZmYgLS1naXQgYS9zdXBwb3J0L2V4
+cG9ydC92NHJvb3QuYyBiL3N1cHBvcnQvZXhwb3J0L3Y0cm9vdC5jCi1pbmRleCBjMTJhN2Q4Li5m
+YmIwYWQ1IDEwMDY0NAotLS0tIGEvc3VwcG9ydC9leHBvcnQvdjRyb290LmMKLSsrKyBiL3N1cHBv
+cnQvZXhwb3J0L3Y0cm9vdC5jCi1AQCAtMTk4LDcgKzE5OCw3IEBAIHN0YXRpYyBpbnQgdjRyb290
+X2FkZF9wYXJlbnRzKG5mc19leHBvcnQgKmV4cCkKLSAgKiBsb29raW5nIGZvciBjb21wb25lbnRz
+IG9mIHRoZSB2NCBtb3VudC4KLSAgKi8KLSB2b2lkCi0tdjRyb290X3NldCgpCi0rdjRyb290X3Nl
+dCh2b2lkKQotIHsKLSAJbmZzX2V4cG9ydAkqZXhwOwotIAlpbnQJaTsKLWRpZmYgLS1naXQgYS9z
+dXBwb3J0L2V4cG9ydC94dGFiLmMgYi9zdXBwb3J0L2V4cG9ydC94dGFiLmMKLWluZGV4IGM4ODhh
+ODAuLmUyMTBjYTkgMTAwNjQ0Ci0tLS0gYS9zdXBwb3J0L2V4cG9ydC94dGFiLmMKLSsrKyBiL3N1
+cHBvcnQvZXhwb3J0L3h0YWIuYwotQEAgLTEzNSw3ICsxMzUsNyBAQCB4dGFiX3dyaXRlKGNoYXIg
+Knh0YWIsIGNoYXIgKnh0YWJ0bXAsIGNoYXIgKmxvY2tmbiwgaW50IGlzX2V4cG9ydCkKLSB9Ci0g
+Ci0gaW50Ci0teHRhYl9leHBvcnRfd3JpdGUoKQotK3h0YWJfZXhwb3J0X3dyaXRlKHZvaWQpCi0g
+ewotIAlyZXR1cm4geHRhYl93cml0ZShldGFiLnN0YXRlZm4sIGV0YWIudG1wZm4sIGV0YWIubG9j
+a2ZuLCAxKTsKLSB9Ci1kaWZmIC0tZ2l0IGEvdXRpbHMvZXhwb3J0ZnMvZXhwb3J0ZnMuYyBiL3V0
+aWxzL2V4cG9ydGZzL2V4cG9ydGZzLmMKLWluZGV4IDZiYTYxNWQuLjA4OTdiMjIgMTAwNjQ0Ci0t
+LS0gYS91dGlscy9leHBvcnRmcy9leHBvcnRmcy5jCi0rKysgYi91dGlscy9leHBvcnRmcy9leHBv
+cnRmcy5jCi1AQCAtNjksMTQgKzY5LDE0IEBAIHN0YXRpYyBpbnQgX2xvY2tmZCA9IC0xOwotICAq
+IG5lZWQgdGhlc2UgYWRkaXRpb25hbCBsb2NrZmlsZSgpIHJvdXRpbmVzLgotICAqLwotIHN0YXRp
+YyB2b2lkCi0tZ3JhYl9sb2NrZmlsZSgpCi0rZ3JhYl9sb2NrZmlsZSh2b2lkKQotIHsKLSAJX2xv
+Y2tmZCA9IG9wZW4obG9ja2ZpbGUsIE9fQ1JFQVR8T19SRFdSLCAwNjY2KTsKLSAJaWYgKF9sb2Nr
+ZmQgIT0gLTEpCi0gCQlsb2NrZihfbG9ja2ZkLCBGX0xPQ0ssIDApOwotIH0KLSBzdGF0aWMgdm9p
+ZAotLXJlbGVhc2VfbG9ja2ZpbGUoKQotK3JlbGVhc2VfbG9ja2ZpbGUodm9pZCkKLSB7Ci0gCWlm
+IChfbG9ja2ZkICE9IC0xKSB7Ci0gCQlsb2NrZihfbG9ja2ZkLCBGX1VMT0NLLCAwKTsKLWRpZmYg
+LS1naXQgYS91dGlscy9tb3VudC9uZXR3b3JrLmMgYi91dGlscy9tb3VudC9uZXR3b3JrLmMKLWlu
+ZGV4IGVkMmY4MjUuLjAxZWFkNDkgMTAwNjQ0Ci0tLS0gYS91dGlscy9tb3VudC9uZXR3b3JrLmMK
+LSsrKyBiL3V0aWxzL21vdW50L25ldHdvcmsuYwotQEAgLTE3OSw3ICsxNzksNyBAQCBzdGF0aWMg
+Y29uc3QgdW5zaWduZWQgbG9uZyBwcm9iZV9tbnQzX29ubHlbXSA9IHsKLSAKLSBzdGF0aWMgY29u
+c3QgdW5zaWduZWQgaW50ICpuZnNfZGVmYXVsdF9wcm90byh2b2lkKTsKLSAjaWZkZWYgTU9VTlRf
+Q09ORklHCi0tc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCAqbmZzX2RlZmF1bHRfcHJvdG8oKQot
+K3N0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgKm5mc19kZWZhdWx0X3Byb3RvKHZvaWQpCi0gewot
+IAlleHRlcm4gdW5zaWduZWQgbG9uZyBjb25maWdfZGVmYXVsdF9wcm90bzsKLSAJLyoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjYu
+Mi5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjYu
+My5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHNfMi42LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjYuMy5iYgppbmRleCAyMWRmMTgw
+M2M1Li5jZThhZTRlNTAwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25m
+cy11dGlscy9uZnMtdXRpbHNfMi42LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9uZnMtdXRpbHMvbmZzLXV0aWxzXzIuNi4zLmJiCkBAIC0zMCwxMSArMzAsOCBAQCBTUkNfVVJJ
+ID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRpbHMvbmZzLXV0aWxzLyR7UFZ9L25mcy11
+dGlscy0ke1BWfS50YXIueAogICAgICAgICAgICBmaWxlOi8vYnVnZml4LWFkanVzdC1zdGF0ZC1z
+ZXJ2aWNlLW5hbWUucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1NYWtlZmlsZS5hbS1m
+aXgtdW5kZWZpbmVkLWZ1bmN0aW9uLWZvci1saWJuc20uYS5wYXRjaCBcCiAgICAgICAgICAgIGZp
+bGU6Ly9jbGFuZy13YXJuaW5ncy5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDA1LW1vdW50
+ZC1DaGVjay1mb3ItcmV0dXJuLW9mLXN0YXQtZnVuY3Rpb24ucGF0Y2ggXAotICAgICAgICAgICBm
+aWxlOi8vMDAwNi1GaXgtZnVuY3Rpb24tcHJvdG90eXBlcy5wYXRjaCBcCi0gICAgICAgICAgIGZp
+bGU6Ly8wMDAxLVJlcGxhY2Utc3RhdGZzNjQtd2l0aC1zdGF0ZnMucGF0Y2ggXAogICAgICAgICAg
+ICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTIwMDg3M2U4MWM0ZDYxMGUyNDYyZmMyNjJmZTE4
+MTM1ZjJkYmU3OGI3OTc5Zjk1YWNjZDE1OWFlNjRkNTAxMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICIzOGQ4OWU4NTNhNzFkM2M1NjBmZjAyNmFmM2Q5NjlkNzVlMjRmNzgyZmY2ODMyNGU3NjI2MWZl
+MDM0NDQ1OWUxIgogCiAjIE9ubHkga2VybmVsLW1vZHVsZS1uZnNkIGlzIHJlcXVpcmVkIGhlcmUg
+KGJ1dCBjYW4gYmUgYnVpbHQtaW4pICAtIHRoZSBuZnNkIG1vZHVsZSB3aWxsCiAjIHB1bGwgaW4g
+dGhlIHJlbWFpbmRlciBvZiB0aGUgZGVwZW5kZW5jaWVzLgotLSAKMi4zOS4yCgo=
 
---===============5328588626286533161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (0 cached, 897 parsed). 1801 targets, 64 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:099031d60f3d960586ddcc716fc7f6292a46e3a8"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 22 Local 3 Mirrors 0 Missed 19 Current 414 (13% match, 95% complete)
-Removing 1 stale sstate objects for arch mips32r2...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1021 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_fetch)
-NOTE: Running task 1060 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_write_config)
-NOTE: Running task 1096 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_fetch)
-NOTE: Running task 1158 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_write_config)
-NOTE: Running task 1209 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 1376 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1548 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_unpack)
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: Running task 1549 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_unpack)
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Started
-NOTE: Running task 1550 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1551 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: Running task 1552 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1553 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1554 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_patch)
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1555 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1556 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1557 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1558 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_patch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1559 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic unihash changed to ccba8ec42248c5a2c5e8610f804767f997dca587b8cbe5b3b802472c0d4bd5c1
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
-NOTE: Running task 1560 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_patch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe coreutils-9.1-r0: task do_patch: Succeeded
-NOTE: Running task 1561 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1562 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Succeeded
-NOTE: Running task 1563 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1564 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Succeeded
-NOTE: Running task 1565 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1566 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Succeeded
-NOTE: Running task 1567 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1568 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Succeeded
-NOTE: Running task 1569 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1570 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_populate_sysroot)
-NOTE: Running task 1571 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_package)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1572 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1573 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1574 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1575 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Succeeded
-NOTE: Running task 1576 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1577 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Succeeded
-NOTE: Running task 1578 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1579 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Succeeded
-NOTE: Running task 1580 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1581 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
-NOTE: Running task 1582 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
-NOTE: Running task 1583 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_configure: Succeeded
-NOTE: Running task 1584 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1585 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile)
-NOTE: recipe coreutils-9.1-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Succeeded
-NOTE: Running task 1586 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1587 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package)
-NOTE: Running task 1588 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
-NOTE: Running task 1589 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1590 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Succeeded
-NOTE: Running task 1591 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_packagedata)
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile: Succeeded
-NOTE: Running task 1592 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1593 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1594 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_write_rpm)
-NOTE: Running task 1595 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_qa)
-NOTE: recipe coreutils-9.1-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_install: Succeeded
-NOTE: Running task 1596 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1597 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_package)
-NOTE: recipe coreutils-9.1-r0: task do_package: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_package: Succeeded
-NOTE: Running task 1598 of 1600 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1598 tasks of which 1541 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-src went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dbg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-ptest went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-staticdev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-doc went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-stdbuf went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-af went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-be went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-bg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ca went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-cs went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-da went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-de went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-el went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eo went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-es went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-et went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ga went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-gl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ia went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-id went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-it went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ja went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-kk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ko went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ms went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nb went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt-br went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ro went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ru went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sv went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-tr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-uk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-vi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-cn went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-tw went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/coreutils/9.1-r0/temp/log.do_packagedata.2651825
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata) failed with exit code '1'
-
---===============5328588626286533161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (0 cached, 897 parsed). 1801 targets, 70 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:099031d60f3d960586ddcc716fc7f6292a46e3a8"
-workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
-
-Initialising tasks...done.
-Sstate summary: Wanted 22 Local 3 Mirrors 0 Missed 19 Current 418 (13% match, 95% complete)
-Removing 1 stale sstate objects for arch ppc7400...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1021 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_fetch)
-NOTE: Running task 1060 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_write_config)
-NOTE: Running task 1099 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_fetch)
-NOTE: Running task 1166 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_write_config)
-NOTE: Running task 1217 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_fetch)
-NOTE: Running task 1387 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Started
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1562 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_unpack)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
-NOTE: Running task 1563 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe coreutils-9.1-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_write_config: Succeeded
-NOTE: Running task 1564 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_unpack)
-NOTE: Running task 1565 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_unpack)
-NOTE: Running task 1566 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_write_config: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1567 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1568 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_patch: Succeeded
-NOTE: Running task 1569 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1570 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1571 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1572 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_patch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_unpack: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_lic unihash changed to ccba8ec42248c5a2c5e8610f804767f997dca587b8cbe5b3b802472c0d4bd5c1
-NOTE: Running task 1573 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_patch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
-NOTE: Running task 1574 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-networking-2.76.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_patch: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Started
-NOTE: recipe coreutils-9.1-r0: task do_patch: Succeeded
-NOTE: Running task 1575 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe coreutils-9.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1576 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure)
-NOTE: recipe coreutils-9.1-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_patch: Succeeded
-NOTE: Running task 1577 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1578 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure: Succeeded
-NOTE: Running task 1579 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1580 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile: Succeeded
-NOTE: Running task 1581 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1582 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install: Succeeded
-NOTE: Running task 1583 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1584 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_populate_sysroot)
-NOTE: Running task 1585 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_package)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1586 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1587 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1588 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1589 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure: Succeeded
-NOTE: Running task 1590 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1591 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile: Succeeded
-NOTE: Running task 1592 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1593 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install: Succeeded
-NOTE: Running task 1594 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_install_ptest_base)
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1595 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_populate_sysroot)
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
-NOTE: Running task 1596 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
-NOTE: Running task 1597 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_package: Succeeded
-NOTE: Running task 1598 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure: Succeeded
-NOTE: Running task 1599 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_configure_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1600 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile)
-NOTE: recipe coreutils-9.1-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.76.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1601 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package)
-NOTE: Running task 1602 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
-NOTE: Running task 1603 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1604 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe glib-networking-2.76.0-r0: task do_package: Succeeded
-NOTE: Running task 1605 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_packagedata)
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1606 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_write_rpm)
-NOTE: Running task 1607 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.0.bb:do_package_qa)
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_qa: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_compile: Succeeded
-NOTE: Running task 1608 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_compile_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe coreutils-9.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1609 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install)
-NOTE: recipe coreutils-9.1-r0: task do_install: Started
-NOTE: recipe coreutils-9.1-r0: task do_install: Succeeded
-NOTE: Running task 1610 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1611 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_package)
-NOTE: recipe coreutils-9.1-r0: task do_package: Started
-NOTE: recipe coreutils-9.1-r0: task do_package: Succeeded
-NOTE: Running task 1612 of 1614 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata)
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 1612 tasks of which 1555 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 52 ERROR messages, returning a non-zero exit code.
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-src went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dbg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-ptest went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-staticdev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-dev went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-doc went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-stdbuf went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-af went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-be went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-bg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ca went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-cs went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-da went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-de went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-el went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eo went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-es went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-et went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-eu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-fr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ga went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-gl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-hu went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ia went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-id went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-it went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ja went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-kk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ko went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lg went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-lt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ms went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nb went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-nl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-pt-br went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ro went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-ru went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sl went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-sv went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-tr went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-uk went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-vi went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-cn went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: QA Issue: Package version for package coreutils-locale-zh-tw went backwards which would break package feeds (from 0:9.3-r0 to 0:9.1-r0) [version-going-backwards]
-ERROR: coreutils-9.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/coreutils/9.1-r0/temp/log.do_packagedata.2895028
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata) failed with exit code '1'
-
---===============5328588626286533161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 591728 to 614340 (+4%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8265 to 8850 (+7%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fr: PKGSIZE changed from 8451 to 8260 (-2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fur: PKGSIZE changed from 8072 to 7875 (-2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gl: PKGSIZE changed from 8230 to 8751 (+6%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hu: PKGSIZE changed from 8029 to 8634 (+8%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-id: PKGSIZE changed from 7335 to 7891 (+8%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kk: PKGSIZE changed from 9814 to 9618 (-2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ne: PKGSIZE changed from 10493 to 11164 (+6%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PKGSIZE changed from 7739 to 7545 (-3%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-oc: PKGSIZE changed from 8254 to 8092 (-2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt: PKGSIZE changed from 7885 to 8417 (+7%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ru: PKGSIZE changed from 10297 to 11083 (+8%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr: PKGSIZE changed from 10592 to 10386 (-2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tr: PKGSIZE changed from 7332 to 7905 (+8%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-uk: PKGSIZE changed from 11020 to 11812 (+7%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-ptest: PKGSIZE changed from 330182 to 338418 (+2%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 510710 to 538676 (+5%)
-packages/core2-32-poky-linux/glib-networking/glib-networking-src: FILELIST: directory renamed /usr/src/debug/glib-networking/2.74.0-r0/proxy/environment -> /usr/src/debug/glib-networking/2.76.0-r0/proxy/environment, directory renamed /usr/src/debug/glib-networking/2.74.0-r0/tls/openssl -> /usr/src/debug/glib-networking/2.76.0-r0/tls/openssl, directory renamed /usr/src/debug/glib-networking/2.74.0-r0/proxy/tests -> /usr/src/debug/glib-networking/2.76.0-r0/proxy/tests, directory renamed /usr/src/debug/glib-networking/2.74.0-r0/tls/tests -> /usr/src/debug/glib-networking/2.76.0-r0/tls/tests, removed "/usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlslog.h /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsoutputstream.c /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsconnection-base.h /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsoutputstream.h /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlslog.c /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsconnectio
- n-base.c /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsinputstream.h /usr/src/debug/glib-networking/2.74.0-r0/tls/base/gtlsinputstream.c", added "/usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlslog.h /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsoutputstream.c /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsconnection-base.h /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsoutputstream.h /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlslog.c /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsconnection-base.c /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlssessioncache.c /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsinputstream.h /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlssessioncache.h /usr/src/debug/glib-networking/2.76.0-r0/tls/base/gtlsinputstream.c"
-packages/core2-32-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-src: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking/glib-networking: PKGSIZE changed from 154232 to 166520 (+8%)
-packages/core2-32-poky-linux/glib-networking/glib-networking: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking/glib-networking: PV changed from "2.74.0" to "2.76.0"
-packages/core2-32-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.74/glib-networking-2.74.0.tar.xz;name=archive file://run-ptest file://eagain.patch" to "https://download.gnome.org/sources//glib-networking/2.76/glib-networking-2.76.0.tar.xz;name=archive file://run-ptest file://eagain.patch"
-packages/core2-32-poky-linux/glib-networking: PKGV changed from 2.74.0 [default] to 2.76.0 [default]
-packages/core2-32-poky-linux/glib-networking: PV changed from "2.74.0" to "2.76.0"
-
---===============5328588626286533161==--
+--===============3732128207523307625==--
 
