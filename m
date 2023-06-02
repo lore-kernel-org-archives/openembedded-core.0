@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE97CCA9EAB
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.7532.1685693432763827582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3140ECA9EAF
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:44 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.7628.1685693431869792775
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 01:10:35 -0700
+ Fri, 02 Jun 2023 01:10:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JQu7GPtu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101887b2889e3-42d306b3-9b21-482f-9a8b-613b5982877b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CGUNrRtK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101887b2888f0-48fee408-be2b-4884-8e6d-8de48fb4f95e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693434;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q+pl34b2dVm+ReWi4/UxpCxbt/WR2c+utfNLi9n6Oao=;
-	b=JQu7GPtuW9OSRP39MFsoqy7gzCKLRJFzfIbZ446qBH9DK1W3HLXFOxAvkzdZger0
-	pmToBz9w8aEiY+1QizjvPtc3xM8zM2KePo57ZVJ+w/BAQFZbWoXO/sRwnYZjB7aH8UL
-	lqqHWhMd4ewkMseDzCgSTeWJXyiiLEmgdNddJgd8=
+	bh=OpzrqQPqzhKZXVgWQ8Jr54UNJDc7qAAjmGuPLdqp+9g=;
+	b=CGUNrRtK53uFlsZlJfPHYUqJv5X3uXq4ZqqumKbVs4Mzzk0QMC+FS6E6T3HT9OQx
+	SuqDZm4oG0iaQDoOrjx4tXeAVHepOSKp/RLPcnl6PdfFmVESlPJwBLVptyF5p4NScmH
+	YGA+93qALPIV1sh4rJs25iFHgirRDOyQYayjDd2w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693434;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q+pl34b2dVm+ReWi4/UxpCxbt/WR2c+utfNLi9n6Oao=;
-	b=EzPkTCQVACLbOC5331jNne4premyX/3TwDR8FIQY7vLraqGSjneXrcOt7BIukedT
-	/zBrAjZtF5Uh7mhoOuQI4PTiqHtInWBjzryHnaqptMQcDP/56T6obrLbAePQh8YLPQV
-	KHoP0rx4XKC37cJ+gDbTQgl4MGgbUlBAYZXCLpe8=
-Content-Type: multipart/mixed; boundary="===============4145268915213308791=="
+	bh=OpzrqQPqzhKZXVgWQ8Jr54UNJDc7qAAjmGuPLdqp+9g=;
+	b=JgP6OBr3znXu8dZgb+ppg/5BSJmaEjdcd2iF4FnYD9sSxAbljgG7wzWeLZRPyAzn
+	jH+4fACXbjsNMShV1OQsW7aBeMz3yiR/7CpyBQZH3CENTbRIyB3Cqnwq1p+VnjRrkzt
+	oTohkpvMWhHYQII8OjSdcR9YUgdmxXOncC/1toaE=
+Content-Type: multipart/mixed; boundary="===============8574871289140043482=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gobject-introspection: upgrading to 1.76.1 SUCCEEDED
-Message-ID: <010101887b2889e3-42d306b3-9b21-482f-9a8b-613b5982877b-000000@us-west-2.amazonses.com>
+Subject: [AUH] zstd: upgrading to 1.5.5 SUCCEEDED
+Message-ID: <010101887b2888f0-48fee408-be2b-4884-8e6d-8de48fb4f95e-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:10:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.23
+X-SES-Outgoing: 2023.06.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182234
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182227
 
---===============4145268915213308791==
+--===============8574871289140043482==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.76.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *zstd* to *1.5.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch
+    - apply the patch: git am 0001-zstd-upgrade-1.5.4-1.5.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,12 +69,17 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4145268915213308791==
+--===============8574871289140043482==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/zstd/libzstd: FILELIST: removed "/usr/lib/libzstd.so.1.5.4", added "/usr/lib/libzstd.so.1.5.5"
+Changes to packages/core2-32-poky-linux/zstd (sysroot):
+  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1456,85 +1461,79 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/zstd-native (sysroot):
+  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
 
---===============4145268915213308791==
+--===============8574871289140043482==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gobject-introspection-upgrade-1.74.0-1.76.1.patch"
+ filename="0001-zstd-upgrade-1.5.4-1.5.5.patch"
 
-RnJvbSBjOTQ1N2NhNTY0NTE3MTA1MjQ0YzdhMDMwZjkwNDJlODJmNjcyYjg5IE1vbiBTZXAgMTcg
+RnJvbSA1NmU4NDViZDllZjYxZDgxNjNiNmFhZWM0ZmU1NTFmMWYyNjU0YWQ2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAyMjo1NTo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
-YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjc0LjAgLT4gMS43Ni4xCgotLS0KIC4uLjAx
-LVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRj
-aCB8IDIgKy0KIC4uLi1pbnRyb3NwZWN0aW9uXzEuNzQuMC5iYiA9PiBnb2JqZWN0LWludHJvc3Bl
-Y3Rpb25fMS43Ni4xLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJv
-c3BlY3Rpb24ve2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIgPT4gZ29iamVjdC1pbnRy
-b3NwZWN0aW9uXzEuNzYuMS5iYn0gKDk5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25v
-bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9j
-YXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0
-aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVp
-bGRzLnBhdGNoCmluZGV4IDAzMGZmMTc2MDEuLjliYThiY2ZkNzEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9u
-LzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRz
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29i
-amVjdC1pbnRyb3NwZWN0aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5
-LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzk2ZTUxMjY0
-NjE2MzFlMmM3M2NlOThiYTAzNGYxZTQ0NTk4ZjZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSAyYzMxOTQ0ZWFiYmI0MmE4NmE0ZGRhYTI5OThhM2IxMDBhMTMxMzhkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogU2FzY2hhIFNpbGJlIDx4LXlvMTdAc2Utc2lsYmUuZGU+CiBE
-YXRlOiBGcmksIDggSnVuIDIwMTggMTM6NTU6MTAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmVs
-b2NhdGUgdGhlIHJlcG9zaXRvcnkgZGlyZWN0b3J5IGZvciBuYXRpdmUgYnVpbGRzCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
-cm9zcGVjdGlvbl8xLjc0LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
-ZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc2LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5
-OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9n
-b2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25v
-bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc2LjEuYmIK
-aW5kZXggZDNhN2NlMmZkOS4uMTc3NDhiOWY0OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdu
-b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43NC4wLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1p
-bnRyb3NwZWN0aW9uXzEuNzYuMS5iYgpAQCAtMTcsNyArMTcsNyBAQCBTUkNfVVJJID0gIiR7R05P
-TUVfTUlSUk9SfS8ke0JQTn0vJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfS8k
-e0JQTn0tJAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nLWlyLXRvb2wtdGVtcGxhdGUuaW4tZml4
-LWdpcmRpci1wYXRoLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMzQ3YjNhNzE5ZTY4YmE0YzY5ZmYyZDU3ZWUyNjg5MjMzZWE4YzA3ZmM0OTIyMDVlNTczMzg2
-Nzc5ZTQyZDY1MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxOTYxNzhiZjY0MzQ1NTAxZGNkYzRk
-ODQ2OWIzNmFhNmZlODA0ODkzNTRlZmU3MWNiN2NiOGFiODJhMzczOGJmIgogCiBTUkNfVVJJOmFw
-cGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5
-LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCIKIAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAyMTo0NToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHpz
+dGQ6IHVwZ3JhZGUgMS41LjQgLT4gMS41LjUKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3pz
+dGQve3pzdGRfMS41LjQuYmIgPT4genN0ZF8xLjUuNS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvenN0ZC97enN0ZF8xLjUuNC5iYiA9PiB6c3RkXzEuNS41LmJifSAoOTYlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC96c3RkL3pzdGRfMS41LjQuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvenN0ZC96c3RkXzEuNS41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC96c3RkL3pzdGRfMS41LjQuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC96c3RkL3pzdGRfMS41LjUuYmIKaW5kZXggYzJlOTYy
+MjVlNC4uNDg3NDY1YjZjNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3pzdGQv
+enN0ZF8xLjUuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvenN0ZC96c3RkXzEuNS41
+LmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
+bWQ1PTA4MjJhMzJmN2FjZGJlMDEzNjA2NzQ2NjQxNzQ2ZWU4IFwKIAogU1JDX1VSSSA9ICJnaXQ6
+Ly9naXRodWIuY29tL2ZhY2Vib29rL3pzdGQuZ2l0O2JyYW5jaD1yZWxlYXNlO3Byb3RvY29sPWh0
+dHBzIgogCi1TUkNSRVYgPSAiOTQ1ZjI3NzU4YzBmZDY3YjYzNjEwM2EzOGRiZjA1MDI2NmM2Yjkw
+YSIKK1NSQ1JFViA9ICI2Mzc3OWM3OTgyMzczNDZjMmIyNDVjNTQ2YzQwYjcyYTVhNTkxM2ZlIgog
+VVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPlxkKyhcLlxkKykrKSIKIAog
+Q1ZFX1BST0RVQ1QgPSAienN0YW5kYXJkIgotLSAKMi4zOS4yCgo=
 
---===============4145268915213308791==
+--===============8574871289140043482==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1507532 to 1517748 (+1%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGSIZE changed from 12678761 to 12776979 (+1%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 1469418 to 1479025 (+1%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGSIZE changed from 1975092 to 1989230 (+1%)
-packages/core2-32-poky-linux/gobject-introspection: PV changed from "1.74.0" to "1.76.1"
-packages/core2-32-poky-linux/gobject-introspection: PKGV changed from 1.74.0 [default] to 1.76.1 [default]
-packages/core2-32-poky-linux/gobject-introspection: SRC_URI changed from "https://download.gnome.org/sources//gobject-introspection/1.74/gobject-introspection-1.74.0.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch" to "https://download.gnome.org/sources//gobject-introspection/1.76/gobject-introspection-1.76.1.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch"
+packages/core2-32-poky-linux/zstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/libzstd: PKGSIZE changed from 763232 to 787808 (+3%)
+packages/core2-32-poky-linux/zstd/libzstd: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/libzstd: FILELIST: removed "/usr/lib/libzstd.so.1.5.4", added "/usr/lib/libzstd.so.1.5.5"
+packages/core2-32-poky-linux/zstd/libzstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+Changes to packages/core2-32-poky-linux/zstd (sysroot):
+  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
+packages/core2-32-poky-linux/zstd/zstd-dbg: PKGSIZE changed from 15118300 to 15440736 (+2%)
+packages/core2-32-poky-linux/zstd/zstd-dbg: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-dbg: FILELIST: removed "/usr/lib/.debug/libzstd.so.1.5.4", added "/usr/lib/.debug/libzstd.so.1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-dbg: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd-dev: PKGSIZE changed from 200334 to 202810 (+1%)
+packages/core2-32-poky-linux/zstd/zstd-dev: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-dev: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd-doc: PKGSIZE changed from 34326 to 34400 (+0%)
+packages/core2-32-poky-linux/zstd/zstd-doc: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-doc: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd-locale: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-locale: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd-src: PKGSIZE changed from 3141229 to 3166313 (+1%)
+packages/core2-32-poky-linux/zstd/zstd-src: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-src: FILELIST: directory renamed /usr/src/debug/zstd/1.5.4-r0/programs -> /usr/src/debug/zstd/1.5.5-r0/programs, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib -> /usr/src/debug/zstd/1.5.5-r0/lib, directory renamed /usr/src/debug/zstd/1.5.4-r0/contrib/pzstd/utils -> /usr/src/debug/zstd/1.5.5-r0/contrib/pzstd/utils, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/decompress -> /usr/src/debug/zstd/1.5.5-r0/lib/decompress, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/legacy -> /usr/src/debug/zstd/1.5.5-r0/lib/legacy, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/dictBuilder -> /usr/src/debug/zstd/1.5.5-r0/lib/dictBuilder, directory renamed /usr/src/debug/zstd/1.5.4-r0/lib/compress -> /usr/src/debug/zstd/1.5.5-r0/lib/compress, directory renamed /usr/src/debug/zstd/1.5.4-r0/contrib/pzstd -> /usr/src/debug/zstd/1.5.5-r0/contrib/pzstd, removed "/usr/src/debug/zstd/1.5.4-r0/lib/common/bitstream.h /usr/src/debug/zstd/1.5.4-r0/lib/common
+ /cpu.h /usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_common.c /usr/src/debug/zstd/1.5.4-r0/lib/common/huf.h /usr/src/debug/zstd/1.5.4-r0/lib/common/fse_decompress.c /usr/src/debug/zstd/1.5.4-r0/lib/common/fse.h /usr/src/debug/zstd/1.5.4-r0/lib/common/pool.c /usr/src/debug/zstd/1.5.4-r0/lib/common/pool.h /usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_internal.h /usr/src/debug/zstd/1.5.4-r0/lib/common/error_private.c /usr/src/debug/zstd/1.5.4-r0/lib/common/mem.h /usr/src/debug/zstd/1.5.4-r0/lib/common/bits.h /usr/src/debug/zstd/1.5.4-r0/lib/common/error_private.h /usr/src/debug/zstd/1.5.4-r0/lib/common/threading.c /usr/src/debug/zstd/1.5.4-r0/lib/common/zstd_trace.h /usr/src/debug/zstd/1.5.4-r0/lib/common/xxhash.h /usr/src/debug/zstd/1.5.4-r0/lib/common/debug.c /usr/src/debug/zstd/1.5.4-r0/lib/common/threading.h /usr/src/debug/zstd/1.5.4-r0/lib/common/entropy_common.c", added "/usr/src/debug/zstd/1.5.5-r0/lib/common/huf.h /usr/src/debug/zstd/1.5.5-r0/lib/common/error_private.h /usr/src/d
+ ebug/zstd/1.5.5-r0/lib/common/error_private.c /usr/src/debug/zstd/1.5.5-r0/lib/common/bits.h /usr/src/debug/zstd/1.5.5-r0/lib/common/mem.h /usr/src/debug/zstd/1.5.5-r0/lib/common/xxhash.h /usr/src/debug/zstd/1.5.5-r0/lib/common/threading.h /usr/src/debug/zstd/1.5.5-r0/lib/common/fse_decompress.c /usr/src/debug/zstd/1.5.5-r0/lib/common/threading.c /usr/src/debug/zstd/1.5.5-r0/lib/common/entropy_common.c /usr/src/debug/zstd/1.5.5-r0/lib/common/pool.c /usr/src/debug/zstd/1.5.5-r0/lib/common/allocations.h /usr/src/debug/zstd/1.5.5-r0/lib/common/fse.h /usr/src/debug/zstd/1.5.5-r0/lib/common/pool.h /usr/src/debug/zstd/1.5.5-r0/lib/common/bitstream.h /usr/src/debug/zstd/1.5.5-r0/lib/common/debug.c /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_common.c /usr/src/debug/zstd/1.5.5-r0/lib/common/cpu.h /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_internal.h /usr/src/debug/zstd/1.5.5-r0/lib/common/zstd_trace.h"
+packages/core2-32-poky-linux/zstd/zstd-src: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGSIZE changed from 3983336 to 4085826 (+3%)
+packages/core2-32-poky-linux/zstd/zstd-staticdev: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
+packages/core2-32-poky-linux/zstd/zstd: PKGSIZE changed from 1686554 to 1735706 (+3%)
+packages/core2-32-poky-linux/zstd/zstd: PV changed from "1.5.4" to "1.5.5"
+packages/core2-32-poky-linux/zstd/zstd: PKGV changed from 1.5.4 [default] to 1.5.5 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2916,6 +2915,10 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/zstd-native (sysroot):
+  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.5.4 to libzstd.so.1.5.5
+  /usr/lib/libzstd.so.1.5.4 moved to /usr/lib/libzstd.so.1.5.5
 
---===============4145268915213308791==--
+--===============8574871289140043482==--
 
