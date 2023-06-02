@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF90CCA462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D33CCA464
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:46 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.7627.1685693431792338926
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.7523.1685693431199444746
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Dk0orvfV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101887b2880c3-4d52f290-17e6-4495-b682-13ef734315f9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GZwiLEnU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101887b28800f-ac05fcda-25a8-4ee1-8348-addb73c013ea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B4Hrse4Sl/rogTD6r1hanQ5wPQ0jBORgBSyF7bSqGfA=;
-	b=Dk0orvfVZ0iQhMtqXt+T/TYT4MC5+WFEDw7vewSYc9Gj1H2ZhfzIkt95aRYzj6ws
-	cGKVnDo3q1LNC12VbWsOVGU3vqHlc/P+uQArxSB5W2KQDzw1taUH6aSNRP7UD9KAvHn
-	UibnIKX818auNCB2Q+R32EKApQx97kck77nQhICY=
+	bh=YG2ykdwLep+Cxhtz+icSggEZwnWSlhh0zwbnDNodb3c=;
+	b=GZwiLEnU3serQnLRdNHcuolmEZ+F1ffcl85GVyo+dUJ7uUyIDhYVAwPu0fNe26y5
+	PwV1+V3zHA0I4Q4XL1IGsjmw9CUKv6nawKjLcjAfW4U8dP6+2yPIzx39LeJdVXvuKu5
+	82FGtCwxUE2yLTwmW43RH933WUa8T51Vox78tgII=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B4Hrse4Sl/rogTD6r1hanQ5wPQ0jBORgBSyF7bSqGfA=;
-	b=c911+ibOg1sYZWG72iHhu4DOQECyWlvtdyhh/Wwyw7UrDRqp7fRx6/lKCg+2z5H6
-	mkNEQZwJjeq+EUiH7bD2150ZVVCShgn6lRvAdvNyOPtgKVWtT1yEMLzilw+iTzpgIim
-	5KNZb/jbISkVPLn+FTVr6/7VsmJSdlSoNIQBl9J0=
-Content-Type: multipart/mixed; boundary="===============1165146468230971796=="
+	bh=YG2ykdwLep+Cxhtz+icSggEZwnWSlhh0zwbnDNodb3c=;
+	b=K4hLtQdixw4QlK/B611ng+QQFR3Ac5zohWLViW7UEl8s+Z4ndsMrLAgeBR/LJbwl
+	f9eAIO16nzKsdJyEV0SSbVwxkhFxCGljvxFo0Iw2ZbRfvmILni0gSKn8uvEj75G8Vrl
+	btDDVMdFzJvuUMXawiCttNvAqAdsqjR3mbctfN/A=
+Content-Type: multipart/mixed; boundary="===============0179327467072585547=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dbusmock: upgrading to 0.29.0 SUCCEEDED
-Message-ID: <010101887b2880c3-4d52f290-17e6-4495-b682-13ef734315f9-000000@us-west-2.amazonses.com>
-Date: Fri, 2 Jun 2023 08:10:32 +0000
+Subject: [AUH] pkgconf: upgrading to 1.9.5 SUCCEEDED
+Message-ID: <010101887b28800f-ac05fcda-25a8-4ee1-8348-addb73c013ea-000000@us-west-2.amazonses.com>
+Date: Fri, 2 Jun 2023 08:10:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.31
+X-SES-Outgoing: 2023.06.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182178
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182177
 
---===============1165146468230971796==
+--===============0179327467072585547==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dbusmock* to *0.29.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *pkgconf* to *1.9.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-dbusmock-upgrade-0.28.7-0.29.0.patch
+    - apply the patch: git am 0001-pkgconf-upgrade-1.9.4-1.9.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,72 +69,60 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1165146468230971796==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-dbusmock (sysroot):
-  /usr/lib/python3.11/site-packages/python_dbusmock-0.28.7.dist-info moved to /usr/lib/python3.11/site-packages/python_dbusmock-0.29.0.dist-info
-
---===============1165146468230971796==
+--===============0179327467072585547==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-dbusmock-upgrade-0.28.7-0.29.0.patch"
+ filename="0001-pkgconf-upgrade-1.9.4-1.9.5.patch"
 
-RnJvbSA3NmViZjE3ODY4OTI4MjNkYzlhN2JmYjgxM2Y4YTgyNjhmOTdjMjY0IE1vbiBTZXAgMTcg
+RnJvbSA3NzEyNDFiNDMwOTNiZmE0YTA2NzhiOTA0NjIxZTU3ODYzZTE4M2Q4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxNDoyMzo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZGJ1c21vY2s6IHVwZ3JhZGUgMC4yOC43IC0+IDAuMjkuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtZGJ1c21vY2tfMC4yOC43LmJiID0+IHB5dGhvbjMtZGJ1c21vY2tfMC4yOS4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWRidXNtb2NrXzAuMjguNy5i
-YiA9PiBweXRob24zLWRidXNtb2NrXzAuMjkuMC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZGJ1c21vY2tfMC4yOC43LmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRidXNtb2NrXzAuMjkuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtZGJ1c21vY2tfMC4yOC43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtZGJ1c21vY2tfMC4yOS4wLmJiCmluZGV4IDRlYTIxYTU2ZWEuLjMy
-YTQzZTAwYjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1kYnVzbW9ja18wLjI4LjcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWRidXNtb2NrXzAuMjkuMC5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3B5dGhvbi1kYnVzbW9jay8iCiBMSUNFTlNFID0gIkdQTC0z
-LjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWU2YTYwMGZk
-NWUxZDljYmRlMmQ5ODM2ODAyMzNhZDAyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDc4Njk3
-Nzc1MGRiY2JkZTZlMjU1MzMzOWEyZTY2ZDlhOGQ0NDUzZDVjODQ4Yjk0NWU4ZmQxYmFkYjczNmZm
-ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzZWZkYjNkODAwMzg2YjY1ZTg4NTRkOGVlNDUzODc2
-NDI0MTM4MmI0ZTY2NDQyM2FkN2Q5NTljOTAwOGRkNDA4IgogCiBQWVBJX1BBQ0tBR0UgPSAicHl0
-aG9uLWRidXNtb2NrIgogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxMzoyMTowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBr
+Z2NvbmY6IHVwZ3JhZGUgMS45LjQgLT4gMS45LjUKCi0tLQogLi4uL3BrZ2NvbmYve3BrZ2NvbmZf
+MS45LjQuYmIgPT4gcGtnY29uZl8xLjkuNS5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3BrZ2NvbmYve3BrZ2NvbmZfMS45LjQuYmIgPT4gcGtnY29uZl8xLjkuNS5i
+Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2dj
+b25mXzEuOS40LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8xLjku
+NS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzEuOS40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzEuOS41LmJiCmluZGV4IGFiMGYzNzEwOTMuLjRiZGYwM2M1NzQg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMS45LjQu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8xLjkuNS5iYgpA
+QCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1uYXRp
+dmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImRhY2NmMWJiZTVhMzBkMTQ5YjU1NmM3ZDJmZmZmZWFmZDc2ZDdiNTE0ZTI0OTI3
+MWFiZGQ1MDE1MzNjMWQ4YWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWFjMTY1NmRlYmIyNzQ5
+NzU2MzAzNmY3YmZmYzI4MTQ5MGY4M2Y5Yjg0NTdjMGQ2MGJjZmI2MzhmYjZiNjE3MSIKIAogaW5o
+ZXJpdCBhdXRvdG9vbHMKIAotLSAKMi4zOS4yCgo=
 
---===============1165146468230971796==
+--===============0179327467072585547==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-dbusmock: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.28.7.tar.gz;downloadfilename=python-dbusmock-0.28.7.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-dbusmock/python-dbusmock-0.29.0.tar.gz;downloadfilename=python-dbusmock-0.29.0.tar.gz"
-packages/core2-32-poky-linux/python3-dbusmock: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dbg: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dev: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-dev: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-doc: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-doc: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-locale: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-locale: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-src: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-src: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock-staticdev: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PV changed from "0.28.7" to "0.29.0"
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PKGSIZE changed from 454922 to 457628 (+1%)
-packages/core2-32-poky-linux/python3-dbusmock/python3-dbusmock: PKGV changed from 0.28.7 [default] to 0.29.0 [default]
-Changes to packages/core2-32-poky-linux/python3-dbusmock (sysroot):
-  /usr/lib/python3.11/site-packages/python_dbusmock-0.28.7.dist-info moved to /usr/lib/python3.11/site-packages/python_dbusmock-0.29.0.dist-info
+packages/core2-32-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.dereferenced.org/pkgconf/pkgconf-1.9.4.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.dereferenced.org/pkgconf/pkgconf-1.9.5.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/core2-32-poky-linux/pkgconf: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 257412 to 257372 (-0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24018 to 24019 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 268613 to 268524 (-0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "1.9.4" to "1.9.5"
+packages/core2-32-poky-linux/pkgconf/pkgconf: PKGV changed from 1.9.4 [default] to 1.9.5 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf: PV changed from "1.9.4" to "1.9.5"
 
---===============1165146468230971796==--
+--===============0179327467072585547==--
 
