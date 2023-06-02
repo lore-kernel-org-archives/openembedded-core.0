@@ -1,105 +1,81 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCC4C77B7A
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 02:37:09 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.3753.1685673420110684409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D04C7EE2A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 05:21:30 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.5789.1685683287152102592
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jun 2023 19:37:00 -0700
+ Thu, 01 Jun 2023 22:21:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=551753e3d6=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3522MP17014649
-	for <openembedded-core@lists.openembedded.org>; Thu, 1 Jun 2023 19:36:59 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3quhcjd59c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 19:36:59 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 1 Jun 2023 19:36:59 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Thu, 1 Jun 2023 19:36:58 -0700
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3] qemu: Split the qemu package
-Date: Fri, 2 Jun 2023 10:36:57 +0800
-Message-ID: <20230602023657.309867-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CADkTA4NXhx1h5znY-Ayemm1BAnpuMeFV+GO5v1b56Gv1JmR9Qg@mail.gmail.com>
-References: <CADkTA4NXhx1h5znY-Ayemm1BAnpuMeFV+GO5v1b56Gv1JmR9Qg@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=mgc9H90m;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4f4f8b94c06so2221607e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jun 2023 22:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685683285; x=1688275285;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a/R/Wn1VG/wn+yLVJmuw+ldfgCGXr9kx0ghZkd1yclY=;
+        b=mgc9H90moHyvMLYV92IlGv6rg8Tp8HNeFWEmFPDGYFEFcFHaNWaruIKiaKdkbgy3at
+         DnJactUI9sbKhHRvhvROO8s+KSOfNcGKvVWlOLHsqYkelrF97e45/pssIgPO/ky3GBRp
+         rZW8UMLNnCdZKsXryb/ZFTpcVqAwxoFKexQ1hOnp1me0TERGByIDXzq3d6XGoylq8WhW
+         y4vzt2Fim5TZPUUQ1RBmdM7aMqD8Yltmdo6Gp2nd3w2jIV8rD6OYLbkJaa9o+/can2Iw
+         95sLUbZCE+Kbseby0Yv+gCjfT39rrsjKC940xMM3n0kPzVwEwCKFFoqnXopIiybG7Ri/
+         9xkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685683285; x=1688275285;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a/R/Wn1VG/wn+yLVJmuw+ldfgCGXr9kx0ghZkd1yclY=;
+        b=BQcTd+Pwz1jWmV8DJeUi/YFtt7jAswU7qkFfi83GLEey988MvLaPctdisLxAT878ha
+         q9AVKVZv3vq1RLzuyyLrONpCCsggdcy62uHHvaINQBZxP4YxlWvv430v5liAvKywoCwq
+         Ww3KVnFJStDaVbclf5hvVB1K4s8Hc5pYJTNBWIDMoks2je/232fkhmhj7/k8v6N9lb6K
+         qej/lkYWHDM5NsxEU9JuvX1epGc0nE2VDVCBwW7VJKTKcvXlN8xi0PBE6I0D8NyBVD+A
+         wLZ94oITe3cS8snLCKrv+p/bUftv9CL5htUNK0IOpxHkKK1Mdl8G/E+PHqrp1Nl9cStt
+         woJQ==
+X-Gm-Message-State: AC+VfDycbKxAKiYTp6tsJip0lIy8K9DYGtLssox4wco41sck2flUuB9+
+	EoOlkfqXN33uon6DXY2iBrTU1peEQBP9zln2fYo=
+X-Google-Smtp-Source: ACHHUZ58y4LbA0m9Cy9Y608hrmCuDoMAzxZuNYgY0wCBplBm350adJwVZ5nMQbVqM53xCzn0QptSNN5br88LvtTQUWQ=
+X-Received: by 2002:ac2:514d:0:b0:4f1:496a:de8e with SMTP id
+ q13-20020ac2514d000000b004f1496ade8emr1172000lfd.27.1685683285040; Thu, 01
+ Jun 2023 22:21:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: eiZQCoKPUrpz7gNjpxbnnXo9wcFz8J4B
-X-Proofpoint-ORIG-GUID: eiZQCoKPUrpz7gNjpxbnnXo9wcFz8J4B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-01_08,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 adultscore=0 priorityscore=1501 spamscore=0 mlxlogscore=919
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306020019
+References: <20221114152347.z67ftsylidd3tfjt@amazon.com> <21434.1685656554319162310@lists.openembedded.org>
+In-Reply-To: <21434.1685656554319162310@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 2 Jun 2023 07:21:13 +0200
+Message-ID: <CANNYZj-+shiYOgREJM65W4-5=toqiJ_5=HuJEz1tN6vfTGs9-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] vulkan-validation: Add the official Vulkan
+ validation layers
+To: Vincent Davis Jr <vince@underview.tech>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 02:37:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182138
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 05:21:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182139
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Given that this was in November last year, I think the best course of
+action is for you to take the proposed patch and fix it into a state
+that can be merged.
 
-Currently all files as below packaged into one package such as
-qemu-7.2.0-*.rpm. After the qemu package installed on the target,
-it will take up about 464M which includes not only the one matches
-the arch of the target but aslo all available built qemu targets
-which set by QEMU_TARGETS.
+Alex
 
- # ls tmp-glibc/work/core2-64-wrs-linux/qemu/7.2.0-r0/image/usr/bin/
- qemu-aarch64  qemu-img          qemu-mips64el   qemu-ppc64
- qemu-sh4    qemu-system-loongarch64  qemu-system-ppc      qemu-system-x86_64
- qemu-arm      qemu-io           qemu-mipsel     qemu-ppc64le
- qemu-storage-daemon  qemu-system-mips         qemu-system-ppc64
- qemu-x86_64 qemu-edid     qemu-loongarch64  qemu-mips.real
- qemu-pr-helper  qemu-system-aarch64  qemu-system-mips64
- qemu-system-riscv32 qemu-ga       qemu-mips         qemu-nbd
- qemu-riscv32    qemu-system-arm      qemu-system-mips64el
- qemu-system-riscv64 qemu-i386     qemu-mips64       qemu-ppc
- qemu-riscv64    qemu-system-i386     qemu-system-mipsel qemu-system-sh4
-
-Split the qemu package into qemu-7.2.0-*.rpm, qemu-system-aarch64-7.2.0*.rpm,
-qemu-system-x86_64-7.2.0*.rpm and etc. And let user can only choose the
-corresponding qemu arch package they want to install should ease the concerns
-who cares much about the size in embedded device as it decreases the qemu rpm
-(qemu-7.2.0*.rpm) size from about 65M to about 19M and the size of the
-extracted qemu RPM decreased from about 464M to about 248M.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a87dee5c99..c6fd39aab6 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -230,6 +230,11 @@ INSANE_SKIP:${PN} = "arch"
- 
- FILES:${PN} += "${datadir}/icons"
- 
-+python populate_packages:prepend() {
-+    archdir = d.expand('${bindir}/')
-+    do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
-+}
-+
- # Put the guest agent in a separate package
- PACKAGES =+ "${PN}-guest-agent"
- SUMMARY:${PN}-guest-agent = "QEMU guest agent"
--- 
-2.25.1
-
+On Thu, 1 Jun 2023 at 23:55, Vincent Davis Jr <vince@underview.tech> wrote:
+>
+> Hello,
+>
+> Is there any status on this? I'd definitely benefit from this.
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#182122): https://lists.openembedded.org/g/openembedded-core/message/182122
+> Mute This Topic: https://lists.openembedded.org/mt/94945225/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
