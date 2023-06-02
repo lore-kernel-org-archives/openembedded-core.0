@@ -1,85 +1,69 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CDA5C7EE24
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:40:27 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.7983.1685695221319145305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A65C77B7A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:42:57 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.8115.1685695367534572756
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 01:40:21 -0700
+ Fri, 02 Jun 2023 01:42:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=IVDgpDrH;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f3b9c88af8so2394442e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 01:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685695219; x=1688287219;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4r84CNI0m5NZEHXQxBBvlnuxkwQlvVr/TH0Cqj8pEK0=;
-        b=IVDgpDrHCplyP1uw256ijh6yxsKWcqzs+KQ0h4sO75mu7COtYrt/tTI/Y/1PzRF75R
-         u/EZeXIHnMHsGr7WlbyTuVUQP8aKWH49doLf8UG7/7zZki5jx8psBFHN5wG5xm7mrB7b
-         +3Uiz1Lh8D+bq4fS21e1exFjhCkTPE8SMZTyyZQYMxSNuBpYcWyIG47bCIzbM640TbAd
-         blGvcEkqWBKfrjCsk4LA3w8QtLfYR9emCBgjDpCNk5w+SQTAdCqPT5fVqnF+PggAvUER
-         hdtZ8a+F+Hf/3umhMP7S6UHuX+GZps1kj3q0rsg9ATc1Dz4HHyMzrjo5XaHwIlC7e6C7
-         AS8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685695219; x=1688287219;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4r84CNI0m5NZEHXQxBBvlnuxkwQlvVr/TH0Cqj8pEK0=;
-        b=UnXq4UpWaz1VBuu4J2PWj/n5FBvpC8hNEJd0ZySc7LZh5JqlqUNilBHYIRW3Qf8gqZ
-         0m735HolHCxLllhaVASEOOxzBMGxyvdtR95OHxDveyUr6TL+Dn/3U0AzQE/F6R4mUusq
-         LeuoJdhXHK+GX+ugTfYuEmoKr9+aifyuMzngyxDLmTR5UUG9G2ZKqR9ahCVfO8n8eaWd
-         i5E56qD4iJ93CQungEkq8WcDZ2LQhs+FZQ8qTcY/DHoReJVxUs42SfhoEpQrKM0rpeuK
-         fFet3H2vTx0Sn3JZGpO5KnJKTmWMkphMDw7VWCP5UGXvd0ofHGqExi1HwwmKfT9C5YCZ
-         KY7w==
-X-Gm-Message-State: AC+VfDyfBDmfxZzfD9fIhGD2FPAb1hiqJ6RC0aHdijH/Xchv/m0ATyFW
-	TcOjln4tVbKEvQhqRraENxvfl45p2bQRBfbJeS4=
-X-Google-Smtp-Source: ACHHUZ67TNZESn3faVGv4Y8IFsYOj1MIZkc1caS6w/pMO1MyVAoPsI7gM+QRoLkbGB/dkY+F56ecBOdFzOG/odbmgoQ=
-X-Received: by 2002:a2e:984e:0:b0:2af:8635:96b6 with SMTP id
- e14-20020a2e984e000000b002af863596b6mr980660ljj.42.1685695218528; Fri, 02 Jun
- 2023 01:40:18 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=mH4ex2/o;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: michael.opdenacker@bootlin.com)
+X-GND-Sasl: michael.opdenacker@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1685695365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84nXrb6ViI1582PEeXOAqrc6tGVZ/lY6HnBnW7uLxlQ=;
+	b=mH4ex2/oPDbZ8DVLpTog8T+WN4ucrVoGcJ0wQOK3MKG0ksFyfw0Db2D7AC/XJYs3mT0CfP
+	8o3s6mWaTRKdj8GolTUMYfyy+IobNDQ0o0hCQu+V1R9BqV1oRwgMIVCz3X7dnHambLXSht
+	kqPRfFWKmuvTHx4TrnZYDWiym0vm6RNhs3Bc36tMwzApmw6pRahAC23/JOELEful+ACp5P
+	gvfae5OTzissOexlvTpxuFiOg9z0sjw36LcV0nRCTLPurbboZurC84AcdYb//HR4ScPD7i
+	5/601SL7kXqo2dWx1vgcs7zy7hZZN4eEZHrBUV311PYGI1SqWi/+XytiUsO/hA==
+X-GND-Sasl: michael.opdenacker@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4798120005;
+	Fri,  2 Jun 2023 08:42:45 +0000 (UTC)
+Message-ID: <d9ec781b-3c97-6e6e-bbfe-e1476472f181@bootlin.com>
+Date: Fri, 2 Jun 2023 10:42:44 +0200
 MIME-Version: 1.0
-References: <CANNYZj8hoBVZ78NE4kDk+ZRrUGSyBUkiTC7SZkq5VrKkr41=JQ@mail.gmail.com>
- <26137.1685693907253395335@lists.openembedded.org>
-In-Reply-To: <26137.1685693907253395335@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 2 Jun 2023 10:40:06 +0200
-Message-ID: <CANNYZj-j7y6AqOs+1cN3yJKRU6_SAhhxkL+c-DkMEPMmnZMR-A@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH V1] xz: add ptest support
-To: "duep.fnst@fujitsu.com" <duep.fnst@fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [OE-core] [AUH] alsa-utils: upgrading to 1.2.9 FAILED
+Content-Language: en-US
+To: Auto Upgrade Helper <auh@yoctoproject.org>
+References: <010101887b288e27-688a1747-0a59-4a9f-8681-4efda7234d47-000000@us-west-2.amazonses.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <010101887b288e27-688a1747-0a59-4a9f-8681-4efda7234d47-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182294
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:42:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182295
 
-Thanks for clarification, please do the pull request as well. Patches
-over email mean that any discussion about them with upstream is
-visible only to you, and we can't see who says what and what is the
-outcome.
 
-Alex
+On 02.06.23 at 10:10, Auto Upgrade Helper wrote:
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe *alsa-utils* to *1.2.9* has Failed(do_compile).
 
-On Fri, 2 Jun 2023 at 10:18, duep.fnst@fujitsu.com
-<duep.fnst@fujitsu.com> wrote:
->
-> I read the 'README' in https://github.com/tukaani-project/xz
-> It is recommended to submit the patch via email to 'xz@tukaani.org'.
-> Later I will try submitting a Pull request in 'https://github.com/tukaani-project/xz'
->
-> duep
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182289): https://lists.openembedded.org/g/openembedded-core/message/182289
-> Mute This Topic: https://lists.openembedded.org/mt/99259960/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+This has already been addressed by a patch that hasn't been merged yet.
+See https://lists.openembedded.org/g/openembedded-core/message/182092
+Cheers
+Michael.
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
