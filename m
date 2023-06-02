@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A12FDCA9EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF358CA9EDE
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:45 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.7526.1685693431674496888
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.7530.1685693432522898609
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=X7uho/F2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101887b288158-8efae279-7068-44b4-bab8-bb635ce70212-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DaTurziE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101887b288020-c7490ccf-1490-4b50-b057-c751685cf981-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nFhUQIrLelSQuc/O2OqrnAltu+UODMRE0CiHsEFQcM0=;
-	b=X7uho/F2fIqp2AAJdvbabt6WGuj1Qxp2czu0rwK5tB/jxwEYbFjqesbXRVQQ8zbj
-	iTYGIszUkEYym9k/+i5ynDXxVV1c8PVjGq0vwrZXNiLtqnijEFJYgEy8QhT0DMaplUP
-	p5kyoOReBXmp9eVO3sYFUFxkb+Ub5LTssEduv18A=
+	bh=CexDPB6zVpiAxGuI5t4fP+DKDO8ZBIw0J9RPqIBEU/E=;
+	b=DaTurziEEK6v6sbZXdTlsCU28gUmP3eYIPnwQkmPxMvds4fTSO6weh59seGoo/Ue
+	1DK1XWDt0PcGQYPU6GHy6XTqWelO8/Gbeo/+qunXEnwc/5AWVXST2iKZX8bOwi3CD6J
+	mK0rFn4oELnVVNRLT5l1UCBYAR4eeQlGw2yALyCc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693432;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nFhUQIrLelSQuc/O2OqrnAltu+UODMRE0CiHsEFQcM0=;
-	b=H7MlK1rE9iClkg4expZWxxihuS821KJKU6ZvUOYkGeyHlIsch3yHP4/k2F5zFx2u
-	B01IEzw70dEe9tDbMKU2m/QjeawQgJkxap5xOHfNiBXNjwIotjgopdHeSnhDpmoDnDZ
-	7LC0TLGDTeGKtXijFcY9pLZX6/Oa0sGE+GM2s+H8=
-Content-Type: multipart/mixed; boundary="===============8871627227354047124=="
+	bh=CexDPB6zVpiAxGuI5t4fP+DKDO8ZBIw0J9RPqIBEU/E=;
+	b=X4nCYZSQy85oEQmymslVij5PEvWx4EiczvEdn/OPj2u0eq8ZIqf0ScJ/tEWSpY+v
+	AissyfFoG9YhWFwKA6yXIXrcQaQzWA3v34FLnyQpFkeFSlbqhidXL5Tc/Pqya540Ba6
+	0cAhiJKDFJgYqNRec5NReJWRgpGDrJJqWSQSI7JM=
+Content-Type: multipart/mixed; boundary="===============3396149182000495501=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-docutils: upgrading to 0.20.1 SUCCEEDED
-Message-ID: <010101887b288158-8efae279-7068-44b4-bab8-bb635ce70212-000000@us-west-2.amazonses.com>
-Date: Fri, 2 Jun 2023 08:10:32 +0000
+Subject: [AUH] orc: upgrading to 0.4.34 SUCCEEDED
+Message-ID: <010101887b288020-c7490ccf-1490-4b50-b057-c751685cf981-000000@us-west-2.amazonses.com>
+Date: Fri, 2 Jun 2023 08:10:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.31
+X-SES-Outgoing: 2023.06.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182187
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182182
 
---===============8871627227354047124==
+--===============3396149182000495501==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-docutils* to *0.20.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *orc* to *0.4.34* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-docutils-upgrade-0.19-0.20.1.patch
+    - apply the patch: git am 0001-orc-upgrade-0.4.33-0.4.34.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,202 +69,104 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8871627227354047124==
+--===============3396149182000495501==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-docutils-upgrade-0.19-0.20.1.patch"
+ filename="0001-orc-upgrade-0.4.33-0.4.34.patch"
 
-RnJvbSAwYzIwMDVhYjAzMDNjOWIwMzIyNDFiMGM1NzBjMmIwYTE0NjZhNTY2IE1vbiBTZXAgMTcg
+RnJvbSA1ZDE0NzI3MjkxYWY2NTcwODUyMDc1MWE5OWI0OTQ3YTY5NWUwM2JkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxNDoyNzo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZG9jdXRpbHM6IHVwZ3JhZGUgMC4xOSAtPiAwLjIwLjEKCi0tLQogLi4uL3B5dGhvbi9w
-eXRob24zLWRvY3V0aWxzXzAuMTkuYmIgICAgICAgICAgIHwgIDExIC0tCiAuLi4vcHl0aG9uL3B5
-dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiICAgICAgICAgfCAxMDggKysrKysrKysrKysrKysrKysr
-CiAyIGZpbGVzIGNoYW5nZWQsIDEwOCBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKIGRl
-bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9j
-dXRpbHNfMC4xOS5iYgogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4xOS5iYiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjE5LmJiCmRlbGV0ZWQgZmlsZSBt
-b2RlIDEwMDY0NAppbmRleCA3YWU5M2FiNTU3Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjE5LmJiCisrKyAvZGV2L251bGwK
-QEAgLTEsMTEgKzAsMCBAQAotU1VNTUFSWSA9ICJEb2N1dGlscyBpcyBhIG1vZHVsYXIgc3lzdGVt
-IGZvciBwcm9jZXNzaW5nIGRvY3VtZW50YXRpb24gaW50byB1c2VmdWwgZm9ybWF0cyIKLUhPTUVQ
-QUdFID0gImh0dHA6Ly9kb2N1dGlscy5zb3VyY2Vmb3JnZS5uZXQiCi1TRUNUSU9OID0gImRldmVs
-L3B5dGhvbiIKLUxJQ0VOU0UgPSAiUFNGLTIuMCAmIEJTRC0yLUNsYXVzZSAmIEdQTC0zLjAtb25s
-eSIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkcudHh0O21kNT00MTAwMWIyOTZh
-ODliYjI3ODBiYmUzMDZlOTQ3ZWNlZSIKLQotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMzOTk1YTY3
-NTNjMzBiN2Y1NzdmZWJmYzJjNTA0MTFmZWM2YWFjN2Y3ZmZlYjdjNGNmZTU5OTEwNzJkY2Y5ZTYi
-Ci0KLWluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwotCi1CQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBu
-YXRpdmVzZGsiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtZG9jdXRpbHNfMC4yMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLWRvY3V0aWxzXzAuMjAuMS5iYgpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAw
-MDAwLi4yNDlhNzVlYTM5Ci0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAuMjAuMS5iYgpAQCAtMCwwICsxLDEwOCBAQAorIyBG
-SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
-ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
-ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
-IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
-IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
-ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
-Y2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcudHh0CisjICsrKyBDT1BZSU5HLnR4dAorIyBAQCAt
-MSwxNyArMSwxOSBAQAorIyArLi4gaW5jbHVkZTo6IGRvY3MvaGVhZGVyMC50eHQKKyMgKworIyAg
-PT09PT09PT09PT09PT09PT09CisjICAgQ29weWluZyBEb2N1dGlscworIyAgPT09PT09PT09PT09
-PT09PT09CisjICAKKyMgIDpBdXRob3I6IERhdmlkIEdvb2RnZXIKKyMgIDpDb250YWN0OiBnb29k
-Z2VyQHB5dGhvbi5vcmcKKyMgLTpEYXRlOiAkRGF0ZTogMjAyMi0wNS0zMCAxODo1NDo0NiArMDIw
-MCAoTW8sIDMwLiBNYWkgMjAyMikgJAorIyArOkRhdGU6ICREYXRlOiAyMDIyLTExLTI5IDAwOjU1
-OjI1ICswMTAwIChEaSwgMjkuIE5vdiAyMDIyKSAkCisjICA6V2ViIHNpdGU6IGh0dHBzOi8vZG9j
-dXRpbHMuc291cmNlZm9yZ2UuaW8vCisjICA6Q29weXJpZ2h0OiBUaGlzIGRvY3VtZW50IGhhcyBi
-ZWVuIHBsYWNlZCBpbiB0aGUgcHVibGljIGRvbWFpbi4KKyMgIAorIyAgTW9zdCBvZiB0aGUgZmls
-ZXMgaW5jbHVkZWQgaW4gdGhpcyBwcm9qZWN0IGhhdmUgYmVlbiBwbGFjZWQgaW4gdGhlCisjICBw
-dWJsaWMgZG9tYWluLCBhbmQgdGhlcmVmb3JlIGhhdmUgbm8gbGljZW5zZSByZXF1aXJlbWVudHMg
-YW5kIG5vCisjICByZXN0cmljdGlvbnMgb24gY29weWluZyBvciB1c2FnZTsgc2VlIHRoZSBgUHVi
-bGljIERvbWFpbiBEZWRpY2F0aW9uYF8KKyMgLWJlbG93LiAgVGhlcmUgYXJlIGEgZmV3IGV4Y2Vw
-dGlvbnNfLCBsaXN0ZWQgYmVsb3cuCisjICtiZWxvdy4gIFRoZXJlIGFyZSBleGNlcHRpb25zXywg
-bGlzdGVkIGJlbG93LgorIyAgRmlsZXMgaW4gdGhlIFNhbmRib3hfIGFyZSBub3QgZGlzdHJpYnV0
-ZWQgd2l0aCBEb2N1dGlscyByZWxlYXNlcyBhbmQKKyMgIG1heSBoYXZlIGRpZmZlcmVudCBsaWNl
-bnNlIHRlcm1zLgorIyAgCisjIEBAIC04Nyw4ICs4OSw4IEBACisjICAgIFJlbGVhc2VkIHVuZGVy
-IHRoZSB0ZXJtcyBvZiB0aGUgYEJTRCAyLUNsYXVzZSBMaWNlbnNlYF8KKyMgICAgKGBsb2NhbCBj
-b3B5IDxsaWNlbnNlcy9CU0QtMi1DbGF1c2UudHh0PmBfXykuCisjICAKKyMgLSogZG9jdXRpbHMv
-dXRpbHMvbWF0aC9tYXRoMmh0bWwucHksCisjIC0gIGRvY3V0aWxzL3dyaXRlcnMvaHRtbDVfcG9s
-eWdsb3QvbWF0aC5jc3MKKyMgKyogfCBkb2N1dGlscy91dGlscy9tYXRoL21hdGgyaHRtbC5weSwK
-KyMgKyAgfCBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3BvbHlnbG90L21hdGguY3NzCisjICAKKyMg
-ICAgQ29weXJpZ2h0IMKpIDIwMDksMjAxMCBBbGV4IEZlcm7DoW5kZXo7IDIwMjEgR8O8bnRlciBN
-aWxkZQorIyAgCisjIEBAIC05OSwyOCArMTAxLDI4IEBACisjICAKKyMgICAgLi4gX2VMeVhlcjog
-aHR0cHM6Ly9naXRodWIuY29tL2FsZXhmZXJuYW5kZXovZWx5eGVyCisjICAKKyMgLSogZG9jdXRp
-bHMvX19tYWluX18ucHksCisjIC0gIGRvY3V0aWxzL3BhcnNlcnMvY29tbW9ubWFya193cmFwcGVy
-LnB5LAorIyAtICBkb2N1dGlscy9wYXJzZXJzL3JlY29tbW9ubWFya193cmFwcGVyLnB5LAorIyAt
-ICBkb2N1dGlscy91dGlscy9lcnJvcl9yZXBvcnRpbmcucHksCisjIC0gIGRvY3V0aWxzL3V0aWxz
-L21hdGgvX19pbml0X18ucHksCisjIC0gIGRvY3V0aWxzL3V0aWxzL21hdGgvbGF0ZXgybWF0aG1s
-LnB5LAorIyAtICBkb2N1dGlscy91dGlscy9tYXRoL3RleDJtYXRobWxfZXh0ZXJuLnB5LAorIyAt
-ICBkb2N1dGlscy91dGlscy9wdW5jdHVhdGlvbl9jaGFycy5weSwKKyMgLSAgZG9jdXRpbHMvdXRp
-bHMvc21hcnRxdW90ZXMucHksCisjIC0gIGRvY3V0aWxzL3dyaXRlcnMvaHRtbDVfcG9seWdsb3Qv
-X19pbml0X18ucHksCisjIC0gIGRvY3V0aWxzL3dyaXRlcnMvaHRtbDVfcG9seWdsb3QvKi5jc3Ms
-CisjIC0gIGRvY3V0aWxzL3dyaXRlcnMvbGF0ZXgyZS9kb2N1dGlscy5zdHksCisjIC0gIGRvY3V0
-aWxzL3dyaXRlcnMveGV0ZXgvX19pbml0X18ucHksCisjIC0gIHRlc3QvdGVzdF9wYXJzZXJzL3Rl
-c3RfcmVjb21tb25tYXJrL1wqLnB5LAorIyAtICB0ZXN0L3Rlc3RfcGFyc2Vycy90ZXN0X3JzdC90
-ZXN0X2RpcmVjdGl2ZXMvdGVzdF9faW5pdF9fLnB5LAorIyAtICB0ZXN0L3Rlc3RfcGFyc2Vycy90
-ZXN0X3JzdC90ZXN0X2RpcmVjdGl2ZXMvdGVzdF9jb2RlX3BhcnNpbmcucHksCisjIC0gIHRlc3Qv
-dGVzdF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfbGluZV9sZW5ndGhfbGltaXRfZGVmYXVsdC5weSwK
-KyMgLSAgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3QvdGVzdF9saW5lX2xlbmd0aF9saW1pdC5w
-eSwKKyMgLSAgdGVzdC90ZXN0X3dyaXRlcnMvdGVzdF9sYXRleDJlX21pc2MucHksCisjIC0gIHRl
-c3QvdHJhbnNmb3Jtcy90ZXN0X3NtYXJ0cXVvdGVzLnB5LAorIyAtICB0b29scy9kb2N1dGlscy1j
-bGkucHksCisjIC0gIHRvb2xzL3JzdDJodG1sNS5weQorIyArKiB8IGRvY3V0aWxzL19fbWFpbl9f
-LnB5LAorIyArICB8IGRvY3V0aWxzL3BhcnNlcnMvY29tbW9ubWFya193cmFwcGVyLnB5LAorIyAr
-ICB8IGRvY3V0aWxzL3BhcnNlcnMvcmVjb21tb25tYXJrX3dyYXBwZXIucHksCisjICsgIHwgZG9j
-dXRpbHMvdXRpbHMvZXJyb3JfcmVwb3J0aW5nLnB5LAorIyArICB8IGRvY3V0aWxzL3V0aWxzL21h
-dGgvX19pbml0X18ucHksCisjICsgIHwgZG9jdXRpbHMvdXRpbHMvbWF0aC9sYXRleDJtYXRobWwu
-cHksCisjICsgIHwgZG9jdXRpbHMvdXRpbHMvbWF0aC90ZXgybWF0aG1sX2V4dGVybi5weSwKKyMg
-KyAgfCBkb2N1dGlscy91dGlscy9wdW5jdHVhdGlvbl9jaGFycy5weSwKKyMgKyAgfCBkb2N1dGls
-cy91dGlscy9zbWFydHF1b3Rlcy5weSwKKyMgKyAgfCBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3Bv
-bHlnbG90L19faW5pdF9fLnB5LAorIyArICB8IGRvY3V0aWxzL3dyaXRlcnMvaHRtbDVfcG9seWds
-b3QvXCouY3NzLAorIyArICB8IGRvY3V0aWxzL3dyaXRlcnMvbGF0ZXgyZS9kb2N1dGlscy5zdHks
-CisjICsgIHwgZG9jdXRpbHMvd3JpdGVycy94ZXRleC9fX2luaXRfXy5weSwKKyMgKyAgfCB0ZXN0
-L3Rlc3RfcGFyc2Vycy90ZXN0X3JlY29tbW9ubWFyay9cKi5weSwKKyMgKyAgfCB0ZXN0L3Rlc3Rf
-cGFyc2Vycy90ZXN0X3JzdC90ZXN0X2RpcmVjdGl2ZXMvdGVzdF9faW5pdF9fLnB5LAorIyArICB8
-IHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfZGlyZWN0aXZlcy90ZXN0X2NvZGVfcGFy
-c2luZy5weSwKKyMgKyAgfCB0ZXN0L3Rlc3RfcGFyc2Vycy90ZXN0X3JzdC90ZXN0X2xpbmVfbGVu
-Z3RoX2xpbWl0X2RlZmF1bHQucHksCisjICsgIHwgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3Qv
-dGVzdF9saW5lX2xlbmd0aF9saW1pdC5weSwKKyMgKyAgfCB0ZXN0L3Rlc3Rfd3JpdGVycy90ZXN0
-X2xhdGV4MmVfbWlzYy5weSwKKyMgKyAgfCB0ZXN0L3RyYW5zZm9ybXMvdGVzdF9zbWFydHF1b3Rl
-cy5weSwKKyMgKyAgfCB0b29scy9kb2N1dGlscy1jbGkucHksCisjICsgIHwgdG9vbHMvcnN0Mmh0
-bWw1LnB5CisjICAKKyMgICAgQ29weXJpZ2h0IMKpIEfDvG50ZXIgTWlsZGUuCisjICAgIFJlbGVh
-c2VkIHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgYEJTRCAyLUNsYXVzZSBMaWNlbnNlYF8KKyMgCisj
-CisKK1NVTU1BUlkgPSAiRG9jdXRpbHMgaXMgYSBtb2R1bGFyIHN5c3RlbSBmb3IgcHJvY2Vzc2lu
-ZyBkb2N1bWVudGF0aW9uIGludG8gdXNlZnVsIGZvcm1hdHMiCitIT01FUEFHRSA9ICJodHRwOi8v
-ZG9jdXRpbHMuc291cmNlZm9yZ2UubmV0IgorU0VDVElPTiA9ICJkZXZlbC9weXRob24iCitMSUNF
-TlNFID0gIlBTRi0yLjAgJiBCU0QtMi1DbGF1c2UgJiBHUEwtMy4wLW9ubHkiCitMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HLnR4dDttZDU9MDhmNWY4YWE2YTFkYjI1MDBjMDhhMmJi
-NTU4ZTQ1YWYiCisKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDhhNGUyNzZjM2ExNTgzYTg2ZGNl
-M2UzNGFiYTNmZTA0ZDAyYmJhMmRkNTFlZDE2MTA2MjQ0ZThhOTIzZTNiIgorCitpbmhlcml0IHB5
-cGkgc2V0dXB0b29sczMKKworQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgotLSAK
-Mi4zOS4yCgo=
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxMzoxNjo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9y
+YzogdXBncmFkZSAwLjQuMzMgLT4gMC40LjM0CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9v
+cmMve29yY18wLjQuMzMuYmIgPT4gb3JjXzAuNC4zNC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvb3JjL3tvcmNfMC40LjMzLmJiID0+IG9yY18wLjQuMzQuYmJ9ICg5MiUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjMzLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM0LmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zMy5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM0LmJiCmluZGV4IDg3M2ZlMzkyMGIu
+LjgwMWQ2MDRiZGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAu
+NC4zMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzQuYmIKQEAg
+LTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiQlNELTItQ2xhdXNlICYgQlNELTMtQ2xhdXNlIgogTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5ZWM5
+ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
+cmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg0NGU2
+ZDdkYjgwODZmNzkzZjU3NjE4ZDNkNGI2OGQyOWQ5OWIxNjAzNGU3MTQzMGRmM2MyMWNmZDNjMzU0
+MmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGY0N2FiYjNmMDk3MTcxZTQ0ZWI4MDdhZGNkYWJk
+ODYwZmJhMmVmZmQzN2Q4ZDNjNGZiZDVmMzQxY2FkZDQxZiIKIAogaW5oZXJpdCBtZXNvbiBwa2dj
+b25maWcgZ3RrLWRvYwogCi0tIAoyLjM5LjIKCg==
 
---===============8871627227354047124==
+--===============3396149182000495501==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-docutils/python3-docutils: FILELIST: removed "/usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL", added "/usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.di
- st-info/RECORD /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py /usr/lib/python3.11/site-packages/docutils/languages/uk.py"
-Changes to packages/core2-32-poky-linux/python3-docutils (sysroot):
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils/languages/uk.py was added
-  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py was added
-  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py was added
-  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 91710 to 0 (-100%)
+packages/core2-32-poky-linux/orc/orc-staticdev: FILELIST: removed all items "/usr/lib/liborc-test-0.4.a"
+Changes to packages/core2-32-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.33.0 to liborc-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.33.0 to liborc-test-0.4.so.0.34.0
+  /usr/lib/liborc-0.4.so.0.33.0 moved to /usr/lib/liborc-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.so.0.33.0 moved to /usr/lib/liborc-test-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.a was removed
 
---===============8871627227354047124==
+--===============3396149182000495501==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-docutils: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.19.tar.gz;downloadfilename=docutils-0.19.tar.gz" to "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.20.1.tar.gz;downloadfilename=docutils-0.20.1.tar.gz"
-packages/core2-32-poky-linux/python3-docutils: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-dbg: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-dbg: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-dev: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-dev: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-doc: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-doc: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-locale: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-locale: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-src: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-src: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-staticdev: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils-staticdev: PKGV changed from 0.19 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/python3-docutils/python3-docutils: PKGSIZE changed from 3964079 to 3983926 (+1%)
-packages/core2-32-poky-linux/python3-docutils/python3-docutils: FILELIST: removed "/usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL", added "/usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py /usr/lib/python3.11/site-packages/docutils/writers/od
- f_odt/__pycache__/prepstyles.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL /usr/lib/python3.11/site-packages/docutils/languages/uk.py /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils: PV changed from "0.19" to "0.20.1"
-packages/core2-32-poky-linux/python3-docutils/python3-docutils: PKGV changed from 0.19 [default] to 0.20.1 [default]
-Changes to packages/core2-32-poky-linux/python3-docutils (sysroot):
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils/languages/uk.py was added
-  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py was added
-  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py was added
-  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL was removed
+packages/core2-32-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.33.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.34.tar.xz"
+packages/core2-32-poky-linux/orc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/liborc-0.4: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.33.0", added "/usr/lib/liborc-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.33.0", added "/usr/lib/liborc-test-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/orc-dbg: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-dbg: PKGSIZE changed from 1249280 to 1264784 (+1%)
+packages/core2-32-poky-linux/orc/orc-dbg: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-0.4.so.0.33.0 /usr/lib/.debug/liborc-test-0.4.so.0.33.0", added "/usr/lib/.debug/liborc-0.4.so.0.34.0 /usr/lib/.debug/liborc-test-0.4.so.0.34.0"
+packages/core2-32-poky-linux/orc/orc-dev: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-dev: PKGSIZE changed from 193890 to 197705 (+2%)
+packages/core2-32-poky-linux/orc/orc-dev: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-doc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-doc: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-examples: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-examples: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-locale: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-locale: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-src: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-src: PKGSIZE changed from 1437847 to 1456700 (+1%)
+packages/core2-32-poky-linux/orc/orc-src: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-src: FILELIST: directory renamed /usr/src/debug/orc/0.4.33-r0/tools -> /usr/src/debug/orc/0.4.34-r0/tools, directory renamed /usr/src/debug/orc/0.4.33-r0/orc-test -> /usr/src/debug/orc/0.4.34-r0/orc-test, removed "/usr/src/debug/orc/0.4.33-r0/orc/orccpu-x86.c /usr/src/debug/orc/0.4.33-r0/orc/orc.c /usr/src/debug/orc/0.4.33-r0/orc/orccodemem.c /usr/src/debug/orc/0.4.33-r0/orc/orc.h /usr/src/debug/orc/0.4.33-r0/orc/orccode.c /usr/src/debug/orc/0.4.33-r0/orc/orcmips.c /usr/src/debug/orc/0.4.33-r0/orc/orconce.c /usr/src/debug/orc/0.4.33-r0/orc/orcrule.c /usr/src/debug/orc/0.4.33-r0/orc/orccompiler.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-sse.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.33-r0/orc/opcodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcmips.h /usr/src/debug/orc/0.4.33-r0/orc/orcneon.h /usr/src/debug/orc/0.4.33-r0/orc/orconce.h /usr/src/debug/orc/0.4.33-r0/orc/orccode.h /usr/src/debug/orc/0.4.33-r0/orc/orcinstruc
+ tion.h /usr/src/debug/orc/0.4.33-r0/orc/orccompiler.h /usr/src/debug/orc/0.4.33-r0/orc/orcrule.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.33-r0/orc/orcexecutor.c /usr/src/debug/orc/0.4.33-r0/orc/orctarget.h /usr/src/debug/orc/0.4.33-r0/orc/orcutils.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-sse.c /usr/src/debug/orc/0.4.33-r0/orc/orcexecutor.h /usr/src/debug/orc/0.4.33-r0/orc/orcutils.c /usr/src/debug/orc/0.4.33-r0/orc/orcpowerpc.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-neon.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86insn.c /usr/src/debug/orc/0.4.33-r0/orc/orcpowerpc.c /usr/src/debug/orc/0.4.33-r0/orc/orccpuinsn.h /usr/src/debug/orc/0.4.33-r0/orc/orcrules-neon.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86insn.h /usr/src/debug/orc/0.4.33-r0/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcparse.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram.h /usr/src/debug/orc/0.4.33-r0/orc/orcopcodes.c /us
+ r/src/debug/orc/0.4.33-r0/orc/orcparse.c /usr/src/debug/orc/0.4.33-r0/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.33-r0/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.33-r0/orc/orcprogram.c /usr/src/debug/orc/0.4.33-r0/orc/orcdebug.h /usr/src/debug/orc/0.4.33-r0/orc/orcbytecodes.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.33-r0/orc/orcconstant.h /usr/src/debug/orc/0.4.33-r0/orc/orcinternal.h /usr/src/debug/orc/0.4.33-r0/orc/orcbytecode.c /usr/src/debug/orc/0.4.33-r0/orc/orcrules-mips.c /usr/src/debug/orc/0.4.33-r0/orc/orcdebug.c /usr/src/debug/orc/0.4.33-r0/orc/orcbytecode.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.33-r0/orc/orcopcode.h /usr/src/debug/orc/0.4.33-r0/orc/orcprogram-c.c /usr/src/debug/orc/0.4.33-r0/orc/orcarm.h /usr/src/debug/orc/0.4.33-r0/orc/orccpu.h /usr/src/debug/orc/0.4.33-r0/orc/orcmmx.h /usr/src/debug/orc/0.4.33-r0/orc/orcsse.h /usr/src/debug/orc/0.4.33-r0/orc/orcx86.h /usr/src/debug/orc/0.4.33-
+ r0/orc/orcvariable.h /usr/src/debug/orc/0.4.33-r0/orc/orcarm.c /usr/src/debug/orc/0.4.33-r0/orc/orcmmx.c /usr/src/debug/orc/0.4.33-r0/orc/orcsse.c /usr/src/debug/orc/0.4.33-r0/orc/orcx86.c /usr/src/debug/orc/0.4.33-r0/orc/orclimits.h /usr/src/debug/orc/0.4.33-r0/orc/orcfunctions.c", added "/usr/src/debug/orc/0.4.34-r0/orc/orclimits.h /usr/src/debug/orc/0.4.34-r0/orc/orcemulateopcodes.c /usr/src/debug/orc/0.4.34-r0/orc/orconce.c /usr/src/debug/orc/0.4.34-r0/orc/orccode.c /usr/src/debug/orc/0.4.34-r0/orc/orcmips.c /usr/src/debug/orc/0.4.34-r0/orc/orcrule.c /usr/src/debug/orc/0.4.34-r0/orc/orcvariable.h /usr/src/debug/orc/0.4.34-r0/orc/opcodes.h /usr/src/debug/orc/0.4.34-r0/orc/orccode.h /usr/src/debug/orc/0.4.34-r0/orc/orcemulateopcodes.h /usr/src/debug/orc/0.4.34-r0/orc/orcmips.h /usr/src/debug/orc/0.4.34-r0/orc/orcneon.h /usr/src/debug/orc/0.4.34-r0/orc/orconce.h /usr/src/debug/orc/0.4.34-r0/orc/orcrule.h /usr/src/debug/orc/0.4.34-r0/orc/orcdebug.c /usr/src/debug/orc/0.4.34-r0/orc/o
+ rcpowerpc.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-sse.c /usr/src/debug/orc/0.4.34-r0/orc/orcpowerpc.h /usr/src/debug/orc/0.4.34-r0/orc/orcdebug.h /usr/src/debug/orc/0.4.34-r0/orc/orcrules-altivec.c /usr/src/debug/orc/0.4.34-r0/orc/orcarm.c /usr/src/debug/orc/0.4.34-r0/orc/orcutils.h /usr/src/debug/orc/0.4.34-r0/orc/orcconstant.h /usr/src/debug/orc/0.4.34-r0/orc/orcutils.c /usr/src/debug/orc/0.4.34-r0/orc/orcx86.c /usr/src/debug/orc/0.4.34-r0/orc/orc.h /usr/src/debug/orc/0.4.34-r0/orc/orcmmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-c64x-c.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-mips.c /usr/src/debug/orc/0.4.34-r0/orc/orccpu-x86.c /usr/src/debug/orc/0.4.34-r0/orc/orccodemem.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-neon.c /usr/src/debug/orc/0.4.34-r0/orc/orc.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram.h /usr/src/debug/orc/0.4.34-r0/orc/orcbytecodes.h /usr/src/debug/orc/0.4.34-r0/orc/orcexecutor.c /usr/src/debug/orc/0.4
+ .34-r0/orc/orcprogram-c.c /usr/src/debug/orc/0.4.34-r0/orc/orcexecutor.h /usr/src/debug/orc/0.4.34-r0/orc/orccompiler.h /usr/src/debug/orc/0.4.34-r0/orc/orccpuinsn.h /usr/src/debug/orc/0.4.34-r0/orc/orcx86insn.h /usr/src/debug/orc/0.4.34-r0/orc/orccompiler.c /usr/src/debug/orc/0.4.34-r0/orc/orcx86insn.c /usr/src/debug/orc/0.4.34-r0/orc/orcbytecode.c /usr/src/debug/orc/0.4.34-r0/orc/orcutils-private.h /usr/src/debug/orc/0.4.34-r0/orc/orcrules-mips.c /usr/src/debug/orc/0.4.34-r0/orc/orcparse.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-neon.c /usr/src/debug/orc/0.4.34-r0/orc/orcbytecode.h /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-mmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcfunctions.c /usr/src/debug/orc/0.4.34-r0/orc/orcparse.h /usr/src/debug/orc/0.4.34-r0/orc/orcopcode.h /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-altivec.c /usr/src/debug/orc/0.4.34-r0/orc/orcprogram-sse.c /usr/src/debug/orc/0.4.34-r0/orc/orcrules-mmx.c /usr/src/debug/orc/0.4.34-r0/orc/orcarm.h /usr/src/debug/orc/0.4.
+ 34-r0/orc/orccpu.h /usr/src/debug/orc/0.4.34-r0/orc/orcinstruction.h /usr/src/debug/orc/0.4.34-r0/orc/orcinternal.h /usr/src/debug/orc/0.4.34-r0/orc/orcmmx.h /usr/src/debug/orc/0.4.34-r0/orc/orcsse.h /usr/src/debug/orc/0.4.34-r0/orc/orcx86.h /usr/src/debug/orc/0.4.34-r0/orc/orcopcodes.c /usr/src/debug/orc/0.4.34-r0/orc/orcsse.c /usr/src/debug/orc/0.4.34-r0/orc/orctarget.h"
+packages/core2-32-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc-staticdev: PKGSIZE changed from 91710 to 0 (-100%)
+packages/core2-32-poky-linux/orc/orc-staticdev: PV changed from "0.4.33" to "0.4.34"
+packages/core2-32-poky-linux/orc/orc-staticdev: FILELIST: removed all items "/usr/lib/liborc-test-0.4.a"
+packages/core2-32-poky-linux/orc/orc: PKGV changed from 0.4.33 [default] to 0.4.34 [default]
+packages/core2-32-poky-linux/orc/orc: PV changed from "0.4.33" to "0.4.34"
+Changes to packages/core2-32-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.33.0 to liborc-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.33.0 to liborc-test-0.4.so.0.34.0
+  /usr/lib/liborc-0.4.so.0.33.0 moved to /usr/lib/liborc-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.so.0.33.0 moved to /usr/lib/liborc-test-0.4.so.0.34.0
+  /usr/lib/liborc-test-0.4.a was removed
 
---===============8871627227354047124==--
+--===============3396149182000495501==--
 
