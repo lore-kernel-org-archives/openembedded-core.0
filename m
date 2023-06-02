@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2600EC77B7A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F43EC7EE29
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:20:17 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.7708.1685694008360748580
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.7707.1685694006683114221
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 01:20:08 -0700
+ Fri, 02 Jun 2023 01:20:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Md3qbVZM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101887b3141db-96a44208-a105-4118-9fe4-b6295c1e2967-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EEuQEH5c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101887b314216-4b879234-aae7-4fcd-9a4a-5a81c0a92c10-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685694006;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iv7dBYDWl3YtixtThOc4EDidqbYyCXPsO8FMF9BDWd8=;
-	b=Md3qbVZMsid9bZ6wJ3JUK4sU1xmt1L/0jLPRt08xTHvohiVFBAk3KsccGTfIMtVZ
-	1kQEr0lpJAQ6SO5zq8f+QXVoVyyC5l6FsvYlB08gjJNE2Lf6y25P5z41/e9r/0dbuI/
-	/py/CmS7BQsWSZxj77iq15jolXd93fvRWaHMexto=
+	bh=hBOOk9u6xtmWm40K+xscSszn/31J58uGRhbzaBeNQUI=;
+	b=EEuQEH5cXNwY0g30Htzji662jjHfJfJNhG1trLOvqpyJbHtvcDzrQtIHXkOQf4me
+	bvF3pNglhJPbb5bXySRKT0HrSwpgx3UHmh7Os1/dB9iXVFJArnypD2u3mh9a2L0rurP
+	uKnefSqhmUBsbaP7Fw6JqicWh16th4QxGLzPKiTY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685694006;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iv7dBYDWl3YtixtThOc4EDidqbYyCXPsO8FMF9BDWd8=;
-	b=SE5ORnBztUlnluH4KhQn7DIgqiWrzMW0XAuDWNAdSPSKBBJx9zyWaQpJKkcIhWG+
-	m3dvJMS8QKr6YGfLs3fKTWwzXwRr+9QEDAA5CThFjtBbiTspkf1fDsvRjCfNdsGxdwn
-	Q+uPPF/nIABvtvcfWaOt+6AUNRXfqdGGGU3aR48g=
-Content-Type: multipart/mixed; boundary="===============6152805742760455515=="
+	bh=hBOOk9u6xtmWm40K+xscSszn/31J58uGRhbzaBeNQUI=;
+	b=As1w4RBa0QzjrurBCj3vbWGS7vFtXMF7Ty+laSnKnZPXPS4sn8dj/YG2KhkZ7zPB
+	28Eqw8CLsQtZ8kHyfiUAl4GqtDuvqCUgQZCgh6GkqHOimLWdWESvoWilt6dfkqfg5db
+	jFiZ8gkrEzj96MUwk/10lptadjMRLRRNl2N0gRSk=
+Content-Type: multipart/mixed; boundary="===============1806875727497711297=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.42.0 SUCCEEDED
-Message-ID: <010101887b3141db-96a44208-a105-4118-9fe4-b6295c1e2967-000000@us-west-2.amazonses.com>
+Subject: [AUH] nghttp2: upgrading to 1.53.0 SUCCEEDED
+Message-ID: <010101887b314216-4b879234-aae7-4fcd-9a4a-5a81c0a92c10-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:20:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.191
+X-SES-Outgoing: 2023.06.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:20:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182292
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182290
 
---===============6152805742760455515==
+--===============1806875727497711297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.42.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.53.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.41.2-3.42.0.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.52.0-1.53.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,43 +69,16 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6152805742760455515==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.41.2-3.42.0.patch"
-
-RnJvbSA2YzY3MTQ3YmI5ZDdhMGU4ZDAxYWY3NjY2ZTg1MTY1MDVkYmNhMzE2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMiBKdW4gMjAyMyAwODoxMDoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-bGl0ZTM6IHVwZ3JhZGUgMy40MS4yIC0+IDMuNDIuMAoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
-XzMuNDEuMi5iYiA9PiBzcWxpdGUzXzMuNDIuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40MS4yLmJiID0+IHNxbGl0ZTNfMy40Mi4w
-LmJifSAoODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
-dGUzXzMuNDEuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDIu
-MC5iYgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQxLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L3NxbGl0ZS9zcWxpdGUzXzMuNDIuMC5iYgppbmRleCBiMDllOGU3ZjU1Li5mNjBhY2E2M2QyIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQxLjIuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Mi4wLmJiCkBAIC00
-LDcgKzQsNyBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
-aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
-CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDIzL3NxbGl0ZS1hdXRvY29uZi0k
-e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImU5OGMxMDBkZDFkYTRl
-MzBmYTQ2MDc2MWRhYjdjMGI5MWE1MGI3ODVlMTY3ZjhjNTdhY2M0NjUxNGZhZTk0OTkiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiN2FiY2ZkMTYxYzZlMjc0MmNhNWM2YzA4OTVkMWY4NTNjOTQwZjIw
-MzMwNGEwYjQ5ZGE0ZTFlY2E1ZDA4OGNhNiIKIAogIyAtMTkyNDIgaXMgb25seSBhbiBpc3N1ZSBp
-biBzcGVjaWZpYyBkZXZlbG9wbWVudCBicmFuY2ggY29tbWl0cwogQ1ZFX0NIRUNLX0lHTk9SRSAr
-PSAiQ1ZFLTIwMTktMTkyNDIiCi0tIAoyLjM5LjIKCg==
-
---===============6152805742760455515==
+--===============1806875727497711297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.1", added "/usr/lib/libnghttp2.so.14.24.2"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.1 to libnghttp2.so.14.24.2
+  /usr/lib/libnghttp2.so.14.24.1 moved to /usr/lib/libnghttp2.so.14.24.2
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1488,34 +1461,77 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============6152805742760455515==
+--===============1806875727497711297==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.52.0-1.53.0.patch"
+
+RnJvbSBjYzZkZjAwMGJlMTBkNGY4MzIwNjc1YjRkNjZjZjBlZmIyMGE5MTFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMiBKdW4gMjAyMyAwNzozMToxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
+aHR0cDI6IHVwZ3JhZGUgMS41Mi4wIC0+IDEuNTMuMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
+Ml8xLjUyLjAuYmIgPT4gbmdodHRwMl8xLjUzLjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNTIuMC5iYiA9PiBuZ2h0dHAyXzEuNTMu
+MC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
+aHR0cDJfMS41Mi4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
+NTMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Mi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41My4wLmJiCmluZGV4IGY1N2ExNTk1NGQuLjg4ZDVmMzEw
+ODMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjUy
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTMuMC5i
+YgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
+d25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9LnRhci54eiBcCiAgICAgZmlsZTovLzAwMDEtZmV0
+Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0aG9uMy5wYXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiM2VhOWYwNDM5ZTYwNDY5YWQ0ZDM5Y2IzNDk5Mzg2ODRmZmI5MjlkZDdlOGUwNmE3YmZm
+ZTlmOWQyMWY4YmE3ZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiODY3MTg0MjU0ZTVhMjliMGJh
+Njg0MTNhYTE0ZjhiMGNlMTE0MmEzNzE3NjEzNzQ1OThkZWMwOTJkYWJiODA5IgogCiBpbmhlcml0
+IGNtYWtlIG1hbnBhZ2VzIHB5dGhvbjNuYXRpdmUgZ2l0aHViLXJlbGVhc2VzCiBQQUNLQUdFQ09O
+RklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjM5LjIKCg==
+
+--===============1806875727497711297==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3410200.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 658159 to 663439 (+1%)
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1475867 to 1500475 (+2%)
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5072920 to 5134144 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10144652 to 10238112 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 329864 to 333960 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
+packages/core2-32-poky-linux/nghttp2: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.52.0/nghttp2-1.52.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.53.0/nghttp2-1.53.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGSIZE changed from 202129 to 206225 (+2%)
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.1", added "/usr/lib/libnghttp2.so.14.24.2"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 473328 to 482096 (+2%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.24.1", added "/usr/lib/.debug/libnghttp2.so.14.24.2"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 173052 to 174361 (+1%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1008307 to 1021807 (+1%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: FILELIST: directory renamed /usr/src/debug/nghttp2/1.52.0-r0/lib/includes/nghttp2 -> /usr/src/debug/nghttp2/1.53.0-r0/lib/includes/nghttp2, removed "/usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_queue.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_option.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_submit.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_callb
+ acks.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_buf.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_map.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_extpri.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.52.0-
+ r0/lib/nghttp2_debug.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_session.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_extpri.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.52.0-r0/lib/nghttp2_priority_spec.h", added "/usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.53.0-r0/lib/sfparse.h /usr/src/debug/nghttp2/1.53.0-r0/lib/sfparse.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_queue
+ .h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_option.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_submit.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_callbacks.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_buf.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_map.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.53.0-r0/li
+ b/nghttp2_extpri.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_debug.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_session.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_extpri.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.53.0-r0/lib/nghttp2_priority_spec.h"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.52.0" to "1.53.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.52.0 [default] to 1.53.0 [default]
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.1 to libnghttp2.so.14.24.2
+  /usr/lib/libnghttp2.so.14.24.1 moved to /usr/lib/libnghttp2.so.14.24.2
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2898,5 +2914,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============6152805742760455515==--
+--===============1806875727497711297==--
 
