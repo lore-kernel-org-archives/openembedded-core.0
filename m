@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CFCC88C99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A50C88CB0
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:42 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.7642.1685693435359197134
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.7519.1685693430907126789
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CYjw6e1c;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101887b28916b-1a8641a7-3174-45a0-b572-805667b14076-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=H2jlb3Ri;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101887b288c7f-23410d8d-607f-45c6-b07b-a515cf4d8c80-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1685693436;
+	t=1685693435;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=i0+fzjJsXdNhCYmNJR9MlU/MmeHGwdKvvS89UC+R5O4=;
-	b=CYjw6e1cW0diBBbAiEr1r2AME6cfD75gmtcyuIrW2tGOM3PxKA0HbdZudzij2LKV
-	qyJ/w+Td7zJ3d41bSxHBaxbZjD/fH+BOQX4gEIh+XYp3T7LlmWzFd9j3mksNo1MJeMa
-	1+WZ6RDcDQSRgIkOJVljhgryFsvDU8vMj4J8+m8I=
+	bh=2Y4trp8yGC+8Bc0p0wb3fhyHYMCAzgmV/yWjWUoXkyA=;
+	b=H2jlb3RijIrX0p5OfOBXudcMm3n26AupEgxsmmdD776ZiCVdMIskupGXW5rqxDip
+	0DHvXJbzriC4GtHWNHMoA08d6fPymZxNeivyr1d6Po/GoQloX6dYG/2gLzzdYy7Lhxr
+	m7rEDQeQIGpQuuzm6sELWZlTI8z+qvF1e9qc+Xhg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693436;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693435;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=i0+fzjJsXdNhCYmNJR9MlU/MmeHGwdKvvS89UC+R5O4=;
-	b=cnUO6/2C7muFRhmkV/bZBlg5xaIRWtRcoKZaBbfSWqx5UF9QV090JWbVwJUN5BNZ
-	j3JhufRg9L0PnhV72f/qsguvuekjFxMgteRlmmbINgxTAU/Uenq4hyamD1TN7MpPrnZ
-	UB4N+sUJ9h9vpxJgGNelRBoIPYrX84kv/60k5O8A=
-Content-Type: multipart/mixed; boundary="===============1901119493330722523=="
+	bh=2Y4trp8yGC+8Bc0p0wb3fhyHYMCAzgmV/yWjWUoXkyA=;
+	b=UHtQT/lfYofXbm79f18ofynVPrL0P4wG+jVbbm1uax+DwcJ9g9lpL9SCAL/foaY/
+	T4SZeLxig0yPSmLMDy1LGNZaCLBbDI0eVUsXVDETr+ixHKEBg0cxe8p9X1ZbidpidGj
+	/EtRi6XkhByC0qsChoui5p+yqdU5WC5783zD7zLA=
+Content-Type: multipart/mixed; boundary="===============5789278998696392708=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dos2unix: upgrading to 7.5.0 SUCCEEDED
-Message-ID: <010101887b28916b-1a8641a7-3174-45a0-b572-805667b14076-000000@us-west-2.amazonses.com>
-Date: Fri, 2 Jun 2023 08:10:36 +0000
+Subject: [AUH] weston: upgrading to 12.0.1 FAILED
+Message-ID: <010101887b288c7f-23410d8d-607f-45c6-b07b-a515cf4d8c80-000000@us-west-2.amazonses.com>
+Date: Fri, 2 Jun 2023 08:10:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.29
+X-SES-Outgoing: 2023.06.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182255
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182253
 
---===============1901119493330722523==
+--===============5789278998696392708==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,81 +50,92 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dos2unix* to *7.5.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *weston* to *12.0.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-dos2unix-upgrade-7.4.4-7.5.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade weston -V 12.0.1
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry... (01:51:43.618501)
+NOTE: Directory listing: ['sstate-cache', 'downloads', 'bitbake-cookerdaemon.log', 'tmp', 'conf', 'workspace', 'upgrade-helper', 'buildhistory', 'cache']
+NOTE: Retrying server connection (#1)... (01:51:43.751603)
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1801 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a4156a2ff1d9d1b736ada61d3ca436cb8ebdeff8"
+workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1801 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (896 cached, 2 parsed). 1802 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a4156a2ff1d9d1b736ada61d3ca436cb8ebdeff8"
+workspace            = "master:09505f876856471aa46774237bd3f0888615b89f"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://gitlab.freedesktop.org/wayland/weston/uploads/f5648c818fba5432edc3ea63c4db4813/weston-12.0.1.tar.xz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 82 tasks of which 81 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://gitlab.freedesktop.org/wayland/weston/uploads/f5648c818fba5432edc3ea63c4db4813/weston-12.0.1.tar.xz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot-native/usr/bin:/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/weston-12.0.1.tar.xz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://gitlab.freedesktop.org/wayland/weston/uploads/f5648c818fba5432edc3ea63c4db4813/weston-12.0.1.tar.xz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://gitlab.freedesktop.org/wayland/weston/uploads/f5648c818fba5432edc3ea63c4db4813/weston-12.0.1.tar.xz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-g6eqj81r/work/temp/log.do_fetch.3896550
+ERROR: Failed to fetch URL https://gitlab.freedesktop.org/wayland/weston/uploads/f5648c818fba5432edc3ea63c4db4813/weston-12.0.1.tar.xz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1901119493330722523==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-dos2unix-upgrade-7.4.4-7.5.0.patch"
-
-RnJvbSA3MjFhZmIxNGM5YTgyNWU5N2FiNTgxYmZlYjE0NGZkZWZkOTViNjAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMiBKdW4gMjAyMyAwNjowMTo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRv
-czJ1bml4OiB1cGdyYWRlIDcuNC40IC0+IDcuNS4wCgotLS0KIC4uLi9kb3MydW5peC97ZG9zMnVu
-aXhfNy40LjQuYmIgPT4gZG9zMnVuaXhfNy41LjAuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2RvczJ1bml4L3tkb3MydW5peF83LjQuNC5iYiA9PiBkb3MydW5peF83LjUu
-MC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC9k
-b3MydW5peF83LjQuNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RvczJ1bml4L2RvczJ1bml4
-XzcuNS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
-dXBwb3J0L2RvczJ1bml4L2RvczJ1bml4XzcuNC40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9kb3MydW5peC9kb3MydW5peF83LjUuMC5iYgppbmRleCA1MDZmYWY1YTZkLi4xZmYx
-ZmM0Zjk3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC9kb3MydW5p
-eF83LjQuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC9kb3MydW5peF83
-LjUuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZ
-SU5HLnR4dDttZDU9MzdmNzIyNDZjZTJhYTJmY2U5NDgyYzEwYjFmMmI1MDIiCiBTUkNfVVJJID0g
-ImdpdDovL2dpdC5jb2RlLnNmLm5ldC9wL2RvczJ1bml4L2RvczJ1bml4O2JyYW5jaD1tYXN0ZXI7
-cHJvdG9jb2w9aHR0cHMiCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJkb3MydW5peC0o
-P1A8cHZlcj4oXGQrKFwuXGQrKSspKSIKIAotU1JDUkVWID0gImI1NmE1ODU4NGQzZmVmMDcyMDQy
-NWFlMTU0YzJhNGQ4MGU2YWY2YzUiCitTUkNSRVYgPSAiZDY2MTNiYmIxNzU2MjRmMDY1ZGU5MDdl
-YmNjOTQ0MzdmNjk5YzE0ZSIKIAogUyA9ICIke1dPUktESVJ9L2dpdC9kb3MydW5peCIKIAotLSAK
-Mi4zOS4yCgo=
-
---===============1901119493330722523==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/dos2unix/dos2unix-dbg: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-dbg: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-dbg: PKGSIZE changed from 181188 to 188916 (+4%)
-packages/core2-32-poky-linux/dos2unix/dos2unix-dev: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-dev: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PKGSIZE changed from 195604 to 200021 (+2%)
-packages/core2-32-poky-linux/dos2unix/dos2unix-locale: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-locale: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PKGSIZE changed from 192420 to 200833 (+4%)
-packages/core2-32-poky-linux/dos2unix/dos2unix-staticdev: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix-staticdev: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix/dos2unix: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix: PKGSIZE changed from 117576 to 125768 (+7%)
-packages/core2-32-poky-linux/dos2unix: PV changed from "7.4.4" to "7.5.0"
-packages/core2-32-poky-linux/dos2unix: PKGV changed from 7.4.4 [default] to 7.5.0 [default]
-
---===============1901119493330722523==--
+--===============5789278998696392708==--
 
