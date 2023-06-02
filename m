@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAAACA9EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D96FCA9EBF
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:44 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.7527.1685693431863737309
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.7521.1685693431075334276
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Zwx8bZAc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101887b2886fb-83750478-1d45-4665-9373-faebec38ba7a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T+STU9Q8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101887b28877b-9a99190b-b3fb-401f-9cfe-e9f0ab255eeb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693433;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JtcPUCFGBl7XJi3s0AWz2so68+TnjmNgU4wY5znzhn0=;
-	b=Zwx8bZAcgJx18ROoDcAtAd7GukZpESSHMGpk879+/SK6A1+dFcDgq5GfOSzab+ST
-	OstJA/6QauWUY16oUwtAE88ruTTX6bLt6zUaKNR+V0sFlxUqr3bXovKJg4U2qO6u9e+
-	uKoLbiygKlQ6l47+uIHvolyEdL73VCEPo6r4Sfvg=
+	bh=1cijdSXkwZGj4nS98VH3elTqNt9LdBBmX3l2gE95Rec=;
+	b=T+STU9Q8TzF9AiYtVVt96LJABb1qKcT2cbNb/XHFH5XFzBTbZmqtqAkGJni7+CeO
+	4JbTd8Xn71H3Tc1nV8mJFH7rubSLzv6X+Bn7m8B5k+VcI8New9Bmg//AJqRvXGT5X6I
+	AjePiTr5XaL2IJJN4e4bOuLjzyMwSCokw3Uqu8Lc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693433;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JtcPUCFGBl7XJi3s0AWz2so68+TnjmNgU4wY5znzhn0=;
-	b=FrdfrWzrGt8r9rtEZbnrsv4Tz101cOgdHQQE06+yzKoaQos4HAZFs2Yx0Wci3mdL
-	BT3OjPU0ZZDUrbCVYcgEeGubLu/B6h09kmVkO6SMCdfwB8gOITBm29NHIdfJuOrYMUU
-	6qtNowLej0fwqOWZvFWsBehXR2cp5lDeaHofAQrY=
-Content-Type: multipart/mixed; boundary="===============7284838618631061139=="
+	bh=1cijdSXkwZGj4nS98VH3elTqNt9LdBBmX3l2gE95Rec=;
+	b=fhWBNNTTNCvYHGCRUathgAX5Jh3H70eum5Pd6/uvYNiWSjj0xyLfLzirPDbUzRxI
+	WNalhRbijUEWlvqIpwBNBFJjIJrKBpEtZ83YVh00/GUe4ZMnkYp1YsM0lc4r8VJ6N2U
+	wdbNWUuiTo3uaaDvF27dBrL9Z8MCiptieFaxemU8=
+Content-Type: multipart/mixed; boundary="===============8394886080342633471=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.3 SUCCEEDED
-Message-ID: <010101887b2886fb-83750478-1d45-4665-9373-faebec38ba7a-000000@us-west-2.amazonses.com>
+Subject: [AUH] lighttpd: upgrading to 1.4.71 SUCCEEDED
+Message-ID: <010101887b28877b-9a99190b-b3fb-401f-9cfe-e9f0ab255eeb-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:10:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.191
+X-SES-Outgoing: 2023.06.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182212
 
---===============7284838618631061139==
+--===============8394886080342633471==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.71* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.2-6.3.patch
+    - apply the patch: git am 0001-lighttpd-upgrade-1.4.69-1.4.71.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,101 +69,148 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7284838618631061139==
+--===============8394886080342633471==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 39968 to 47818 (+20%)
+packages/core2-32-poky-linux/lighttpd: PACKAGES: removed "lighttpd-module-setenv lighttpd-module-scgi lighttpd-module-indexfile lighttpd-module-expire lighttpd-module-evhost lighttpd-module-alias lighttpd-module-staticfile lighttpd-module-rewrite lighttpd-module-fastcgi lighttpd-module-access lighttpd-module-simple-vhost lighttpd-module-redirect", added "lighttpd-module-h2"
+Changes to packages/core2-32-poky-linux/lighttpd (sysroot):
+  /usr/lib/lighttpd/mod_h2.so was added
+  /usr/lib/lighttpd/mod_access.so was removed
+  /usr/lib/lighttpd/mod_alias.so was removed
+  /usr/lib/lighttpd/mod_evhost.so was removed
+  /usr/lib/lighttpd/mod_expire.so was removed
+  /usr/lib/lighttpd/mod_fastcgi.so was removed
+  /usr/lib/lighttpd/mod_indexfile.so was removed
+  /usr/lib/lighttpd/mod_redirect.so was removed
+  /usr/lib/lighttpd/mod_rewrite.so was removed
+  /usr/lib/lighttpd/mod_scgi.so was removed
+  /usr/lib/lighttpd/mod_setenv.so was removed
+  /usr/lib/lighttpd/mod_simple_vhost.so was removed
+  /usr/lib/lighttpd/mod_staticfile.so was removed
 
---===============7284838618631061139==
+--===============8394886080342633471==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.2-6.3.patch"
+Content-Disposition: attachment;
+ filename="0001-lighttpd-upgrade-1.4.69-1.4.71.patch"
 
-RnJvbSBjZTg5OGEyY2UwODgxMWQxODYxMzcyMmRjZDkzZjNhNGIwYjRhZmMwIE1vbiBTZXAgMTcg
+RnJvbSBmZTA4ZjEzNjkxNWZlOGY0MGJlZmJjMWI0M2IwYTY1YzNjOGVmYmQ5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxOToxOTo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV0
-aHRvb2w6IHVwZ3JhZGUgNi4yIC0+IDYuMwoKLS0tCiAuLi4vZXRodG9vbC9ldGh0b29sL2F2b2lk
-X3BhcmFsbGVsX3Rlc3RzLnBhdGNoICAgICAgICAgICAgICB8IDYgKysrLS0tCiAuLi4vZXRodG9v
-bC97ZXRodG9vbF82LjIuYmIgPT4gZXRodG9vbF82LjMuYmJ9ICAgICAgICAgICAgICB8IDIgKy0K
-IDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL3tldGh0b29sXzYuMi5iYiA9PiBldGh0b29s
-XzYuMy5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAppbmRleCBkNWNi
-ODcwNWMyLi41ZTkwMjQ4MzRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRo
-dG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIGI0ZWM2NjM1YWY0ZDRhNDdlOWFiN2JiZDUzNDdlNzg3MTBkMTkz
-NjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDA4Zjg4N2Y0YmM2NTY4NDM5N2JmOGVj
-MzBjYzYxZDkxZDg5NGRlYWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBUdWRvciBG
-bG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IFdlZCwgMjggTWF5IDIwMTQgMTg6
-NTk6NTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXRodG9vbDogdXNlIHNlcmlhbC10ZXN0cyBj
-b25maWcgbmVlZGVkIGJ5IHB0ZXN0LgpAQCAtMTUsMTEgKzE1LDExIEBAIFVwc3RyZWFtLVN0YXR1
-czogSW5hcHByb3ByaWF0ZQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRl
-eCBlYmRmZDM5Li5jOTNiNzlhIDEwMDY0NAoraW5kZXggYzFlMDAxMi4uYzQ2MDM5OCAxMDA2NDQK
-IC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtMiw3ICsyLDcgQEAg
-ZG5sIFByb2Nlc3MgdGhpcyBmaWxlIHdpdGggYXV0b2NvbmYgdG8gcHJvZHVjZSBhIGNvbmZpZ3Vy
-ZSBzY3JpcHQuCi0gQUNfSU5JVChldGh0b29sLCA2LjIsIG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcp
-CisgQUNfSU5JVChldGh0b29sLCA2LjMsIG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcpCiAgQUNfUFJF
-UkVRKDIuNTIpCiAgQUNfQ09ORklHX1NSQ0RJUihbZXRodG9vbC5jXSkKIC1BTV9JTklUX0FVVE9N
-QUtFKFtnbnUgc3ViZGlyLW9iamVjdHNdKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2V0aHRvb2wvZXRodG9vbF82LjIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC9ldGh0b29sXzYuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjMuYmIKaW5kZXggYWVhMDNiNzI5ZC4uNTA0
-ZTY0NTk2NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9v
-bF82LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjMu
-YmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L3NvZnR3
-YXJlL25ldHdvcmsvZXRodG9vbC9ldGh0b29sLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZp
-bGU6Ly9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjFhOWY5NWMzZDhjMTc5NWE5NDIyMjA5MTJkNzJjMDZhMjA4ZjFjMTIy
-YTc4Zjc2OTAyNTk0MDI4NTZmZjA2YTAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQyZDM3ZDNm
-ZTE5ZGE3OWQwMjc2YzRjNjljMzRjNjFmMWFkOGY4N2IwNjUxNGQ2NjRiZjFlZWIyOWJmZDUyNSIK
-IAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3NvZnR3
-YXJlL25ldHdvcmsvZXRodG9vbC8iCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFRodSwgMSBKdW4gMjAyMyAxOTo0MDozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Z2h0dHBkOiB1cGdyYWRlIDEuNC42OSAtPiAxLjQuNzEKCi0tLQogLi4uL2xpZ2h0dHBkL3tsaWdo
+dHRwZF8xLjQuNjkuYmIgPT4gbGlnaHR0cGRfMS40LjcxLmJifSAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBkL3tsaWdodHRwZF8xLjQuNjkuYmIgPT4gbGlnaHR0cGRf
+MS40LjcxLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWdo
+dHRwZC9saWdodHRwZF8xLjQuNjkuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQv
+bGlnaHR0cGRfMS40LjcxLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuNjkuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuNzEuYmIKaW5kZXggODU3
+MGQ4NWY1ZS4uYWJhYjg4YWE0NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
+Z2h0dHBkL2xpZ2h0dHBkXzEuNC42OS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
+aHR0cGQvbGlnaHR0cGRfMS40LjcxLmJiCkBAIC0xOSw3ICsxOSw3IEBAIFNSQ19VUkkgPSAiaHR0
+cDovL2Rvd25sb2FkLmxpZ2h0dHBkLm5ldC9saWdodHRwZC9yZWxlYXNlcy0xLjQueC9saWdodHRw
+ZC0ke1BWfS50CiAgICAgICAgICAgIGZpbGU6Ly9saWdodHRwZCBcCiAgICAgICAgICAgICIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjE2YWM4ZGI5NWU3MTk2MjliYTYxOTQ5Yjk5ZjhhMjZmZWJh
+OTQ2YTgxZDE4NTIxNWIyODM3OWJiNDExNmIwYjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjhi
+NjkxNWRhMjAzOTZmZGMzNTRkZjMzMjRkNWU0NDAxNjliMmU1ZWE3ODU5ZTNhNzc1MjEzODQxMzI1
+YWZhYyIKIAogREVQRU5EUyA9ICJ2aXJ0dWFsL2NyeXB0IgogCi0tIAoyLjM5LjIKCg==
 
---===============7284838618631061139==
+--===============8394886080342633471==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 24547 to 24621 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3626908 to 3765336 (+4%)
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 39968 to 47818 (+20%)
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1544678 to 1594796 (+3%)
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-src: FILELIST: directory renamed /usr/src/debug/ethtool/6.2-r0/uapi/linux/hdlc -> /usr/src/debug/ethtool/6.3-r0/uapi/linux/hdlc, directory renamed /usr/src/debug/ethtool/6.2-r0/uapi/linux -> /usr/src/debug/ethtool/6.3-r0/uapi/linux, directory renamed /usr/src/debug/ethtool/6.2-r0 -> /usr/src/debug/ethtool/6.3-r0, removed "/usr/src/debug/ethtool/6.2-r0/netlink/parser.c /usr/src/debug/ethtool/6.2-r0/netlink/privflags.c /usr/src/debug/ethtool/6.2-r0/netlink/pause.c /usr/src/debug/ethtool/6.2-r0/netlink/desc-genlctrl.c /usr/src/debug/ethtool/6.2-r0/netlink/tunnels.c /usr/src/debug/ethtool/6.2-r0/netlink/monitor.c /usr/src/debug/ethtool/6.2-r0/netlink/eee.c /usr/src/debug/ethtool/6.2-r0/netlink/parser.h /usr/src/debug/ethtool/6.2-r0/netlink/module.c /usr/src/debug/ethtool/6.2-r0/netlink/nlsock.c /usr/src/debug/ethtool/6.2-r0/netlink/permaddr.c /usr/src/debug/ethtool/6.2-r0/netlink/nlsock.h /usr/src/debug/ethtool/6.2-r0/netlink/rss.c /usr/src/de
- bug/ethtool/6.2-r0/netlink/module-eeprom.c /usr/src/debug/ethtool/6.2-r0/netlink/bitset.c /usr/src/debug/ethtool/6.2-r0/netlink/strset.c /usr/src/debug/ethtool/6.2-r0/netlink/extapi.h /usr/src/debug/ethtool/6.2-r0/netlink/features.c /usr/src/debug/ethtool/6.2-r0/netlink/strset.h /usr/src/debug/ethtool/6.2-r0/netlink/desc-ethtool.c /usr/src/debug/ethtool/6.2-r0/netlink/bitset.h /usr/src/debug/ethtool/6.2-r0/netlink/msgbuff.h /usr/src/debug/ethtool/6.2-r0/netlink/channels.c /usr/src/debug/ethtool/6.2-r0/netlink/tsinfo.c /usr/src/debug/ethtool/6.2-r0/netlink/msgbuff.c /usr/src/debug/ethtool/6.2-r0/netlink/stats.c /usr/src/debug/ethtool/6.2-r0/netlink/desc-rtnl.c /usr/src/debug/ethtool/6.2-r0/netlink/netlink.h /usr/src/debug/ethtool/6.2-r0/netlink/netlink.c /usr/src/debug/ethtool/6.2-r0/netlink/settings.c /usr/src/debug/ethtool/6.2-r0/netlink/prettymsg.h /usr/src/debug/ethtool/6.2-r0/netlink/rings.c /usr/src/debug/ethtool/6.2-r0/netlink/cable_test.c /usr/src/debug/ethtool/6.2-r0/netlink
- /prettymsg.c /usr/src/debug/ethtool/6.2-r0/netlink/fec.c /usr/src/debug/ethtool/6.2-r0/netlink/coalesce.c", added "/usr/src/debug/ethtool/6.3-r0/netlink/parser.c /usr/src/debug/ethtool/6.3-r0/netlink/privflags.c /usr/src/debug/ethtool/6.3-r0/netlink/pause.c /usr/src/debug/ethtool/6.3-r0/netlink/desc-genlctrl.c /usr/src/debug/ethtool/6.3-r0/netlink/tunnels.c /usr/src/debug/ethtool/6.3-r0/netlink/mm.c /usr/src/debug/ethtool/6.3-r0/netlink/monitor.c /usr/src/debug/ethtool/6.3-r0/netlink/eee.c /usr/src/debug/ethtool/6.3-r0/netlink/parser.h /usr/src/debug/ethtool/6.3-r0/netlink/module.c /usr/src/debug/ethtool/6.3-r0/netlink/nlsock.c /usr/src/debug/ethtool/6.3-r0/netlink/permaddr.c /usr/src/debug/ethtool/6.3-r0/netlink/nlsock.h /usr/src/debug/ethtool/6.3-r0/netlink/rss.c /usr/src/debug/ethtool/6.3-r0/netlink/module-eeprom.c /usr/src/debug/ethtool/6.3-r0/netlink/bitset.c /usr/src/debug/ethtool/6.3-r0/netlink/strset.c /usr/src/debug/ethtool/6.3-r0/netlink/extapi.h /usr/src/debug/ethtool/6.3
- -r0/netlink/features.c /usr/src/debug/ethtool/6.3-r0/netlink/strset.h /usr/src/debug/ethtool/6.3-r0/netlink/desc-ethtool.c /usr/src/debug/ethtool/6.3-r0/netlink/bitset.h /usr/src/debug/ethtool/6.3-r0/netlink/msgbuff.h /usr/src/debug/ethtool/6.3-r0/netlink/channels.c /usr/src/debug/ethtool/6.3-r0/netlink/tsinfo.c /usr/src/debug/ethtool/6.3-r0/netlink/msgbuff.c /usr/src/debug/ethtool/6.3-r0/netlink/stats.c /usr/src/debug/ethtool/6.3-r0/netlink/desc-rtnl.c /usr/src/debug/ethtool/6.3-r0/netlink/netlink.h /usr/src/debug/ethtool/6.3-r0/netlink/netlink.c /usr/src/debug/ethtool/6.3-r0/netlink/settings.c /usr/src/debug/ethtool/6.3-r0/netlink/prettymsg.h /usr/src/debug/ethtool/6.3-r0/netlink/rings.c /usr/src/debug/ethtool/6.3-r0/netlink/cable_test.c /usr/src/debug/ethtool/6.3-r0/netlink/plca.c /usr/src/debug/ethtool/6.3-r0/netlink/prettymsg.c /usr/src/debug/ethtool/6.3-r0/netlink/fec.c /usr/src/debug/ethtool/6.3-r0/netlink/coalesce.c /usr/src/debug/ethtool/6.3-r0/netlink/pse-pd.c"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1332537 to 1362532 (+2%)
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 600816 to 617200 (+3%)
-packages/core2-32-poky-linux/ethtool: PKGV changed from 6.2 [default] to 6.3 [default]
-packages/core2-32-poky-linux/ethtool: PV changed from "6.2" to "6.3"
-packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.2.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.3.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd: PACKAGES: removed "lighttpd-module-fastcgi lighttpd-module-evhost lighttpd-module-indexfile lighttpd-module-redirect lighttpd-module-setenv lighttpd-module-scgi lighttpd-module-rewrite lighttpd-module-staticfile lighttpd-module-alias lighttpd-module-expire lighttpd-module-simple-vhost lighttpd-module-access", added "lighttpd-module-h2"
+packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.69.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.71.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: FILELIST: removed "/usr/lib/lighttpd/.debug/mod_simple_vhost.so /usr/lib/lighttpd/.debug/mod_rewrite.so /usr/lib/lighttpd/.debug/mod_setenv.so /usr/lib/lighttpd/.debug/mod_fastcgi.so /usr/lib/lighttpd/.debug/mod_alias.so /usr/lib/lighttpd/.debug/mod_expire.so /usr/lib/lighttpd/.debug/mod_scgi.so /usr/lib/lighttpd/.debug/mod_redirect.so /usr/lib/lighttpd/.debug/mod_indexfile.so /usr/lib/lighttpd/.debug/mod_evhost.so /usr/lib/lighttpd/.debug/mod_access.so /usr/lib/lighttpd/.debug/mod_staticfile.so", added "/usr/lib/lighttpd/.debug/mod_h2.so"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2435924 to 2329244 (-4%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: FILELIST: directory renamed /usr/src/debug/lighttpd/1.4.69-r0/src/compat -> /usr/src/debug/lighttpd/1.4.71-r0/src/compat, directory renamed /usr/src/debug/lighttpd/1.4.69-r0/src/ls-hpack -> /usr/src/debug/lighttpd/1.4.71-r0/src/ls-hpack, removed "/usr/src/debug/lighttpd/1.4.69-r0/src/mod_userdir.c /usr/src/debug/lighttpd/1.4.69-r0/src/network_write.c /usr/src/debug/lighttpd/1.4.69-r0/src/network_write.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_scgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/sys-crypto-md.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_kv.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_indexfile.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_kv.c /usr/src/debug/lighttpd/1.4.69-r0/src/ck.c /usr/src/debug/lighttpd/1.4.69-r0/src/h2.c /usr/src/debug/lighttpd/1.4.69-r0/src/keyvalue.c /usr/src/debug/lighttpd/1.4.69-r0/src/keyvalue.h /usr/src/debug/lighttpd/1.4.69-r0/src/ck.h /usr/src/debug/lighttpd/1.4.69-r0/src/h2.h /usr/src/debug/l
+ ighttpd/1.4.69-r0/src/mod_cgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_cgi.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_cgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_evhost.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_access.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_expire.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_setenv.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_status.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_webdav.c /usr/src/debug/lighttpd/1.4.69-r0/src/network.c /usr/src/debug/lighttpd/1.4.69-r0/src/network.h /usr/src/debug/lighttpd/1.4.69-r0/src/buffer.c /usr/src/debug/lighttpd/1.4.69-r0/src/buffer.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_chunk.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_range.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_chunk.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_range.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_extforward.c /usr/src/debug/lighttpd/1.4.69-r0/src/request.h /usr/src/debug/lighttpd/1.4.69-r0/src/request.c /usr/src/debug/l
+ ighttpd/1.4.69-r0/src/fdlog.h /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr_cache.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_proxy.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_ajp13.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdlog.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_alias.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr_cache.h /usr/src/debug/lighttpd/1.4.69-r0/src/data_config.c /usr/src/debug/lighttpd/1.4.69-r0/src/configfile-glue.c /usr/src/debug/lighttpd/1.4.69-r0/src/server.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_md.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent.c /usr/src/debug/lighttpd/1.4.69-r0/src/first.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_dirlisting.c /usr/src/debug/lighttpd/1.4.69-r0/src/burl.h /usr/src/debug/lighttpd/1.4.69-r0/src/burl.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_ssi.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_xxhash.h /usr/src/debug/li
+ ghttpd/1.4.69-r0/src/mod_wstunnel.c /usr/src/debug/lighttpd/1.4.69-r0/src/chunk.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_impl.c /usr/src/debug/lighttpd/1.4.69-r0/src/chunk.h /usr/src/debug/lighttpd/1.4.69-r0/src/lighttpd-angel.c /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_impl.h /usr/src/debug/lighttpd/1.4.69-r0/src/http-header-glue.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_splaytree.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr.h /usr/src/debug/lighttpd/1.4.69-r0/src/rand.c /usr/src/debug/lighttpd/1.4.69-r0/src/sock_addr.c /usr/src/debug/lighttpd/1.4.69-r0/src/algo_splaytree.h /usr/src/debug/lighttpd/1.4.69-r0/src/rand.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_openssl.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_rrdtool.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_authn_file.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_staticfile.c /usr/src/debug/lighttpd/1.4.69-r0/src/gw_backend.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_header.h /usr/src/debug/lighttpd/1.4.69-r0/
+ src/gw_backend.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_header.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_sockproxy.c /usr/src/debug/lighttpd/1.4.69-r0/src/connections.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb_api.h /usr/src/debug/lighttpd/1.4.69-r0/src/array.c /usr/src/debug/lighttpd/1.4.69-r0/src/plugin.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_simple_vhost.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_vhostdb_api.c /usr/src/debug/lighttpd/1.4.69-r0/src/connections.h /usr/src/debug/lighttpd/1.4.69-r0/src/array.h /usr/src/debug/lighttpd/1.4.69-r0/src/plugin.h /usr/src/debug/lighttpd/1.4.69-r0/src/configparser.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth_api.c /usr/src/debug/lighttpd/1.4.69-r0/src/response.h /usr/src/debug/lighttpd/1.4.69-r0/src/response.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_auth_api.h /usr/src/debug/lighttpd/1.4.69-r0/src/fdlog_maint.c /usr/src/debug/lighttpd/1.4.69-r0/src/configfile.c /usr/s
+ rc/debug/lighttpd/1.4.69-r0/src/configparser.y /usr/src/debug/lighttpd/1.4.69-r0/src/fdevent_fdnode.c /usr/src/debug/lighttpd/1.4.69-r0/src/base.h /usr/src/debug/lighttpd/1.4.69-r0/src/configfile.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_date.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_etag.h /usr/src/debug/lighttpd/1.4.69-r0/src/base64.h /usr/src/debug/lighttpd/1.4.69-r0/src/http_date.c /usr/src/debug/lighttpd/1.4.69-r0/src/http_etag.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_deflate.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_rewrite.c /usr/src/debug/lighttpd/1.4.69-r0/src/base64.c /usr/src/debug/lighttpd/1.4.69-r0/src/reqpool.c /usr/src/debug/lighttpd/1.4.69-r0/src/log.h /usr/src/debug/lighttpd/1.4.69-r0/src/log.c /usr/src/debug/lighttpd/1.4.69-r0/src/reqpool.h /usr/src/debug/lighttpd/1.4.69-r0/src/plugin_config.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_fastcgi.c /usr/src/debug/lighttpd/1.4.69-r0/src/mod_redirect.c /usr/src/debug/lighttpd/1.4.69-r0/src/plugins.h /usr/src/d
+ ebug/lighttpd/1.4.69-r0/src/stat_cache.h /usr/src/debug/lighttpd/1.4.69-r0/src/base_decls.h /usr/src/debug/lighttpd/1.4.69-r0/src/sys-setjmp.h /usr/src/debug/lighttpd/1.4.69-r0/src/mod_accesslog.c /usr/src/debug/lighttpd/1.4.69-r0/src/sys-setjmp.c /usr/src/debug/lighttpd/1.4.69-r0/src/stat_cache.c", added "/usr/src/debug/lighttpd/1.4.71-r0/src/mod_userdir.c /usr/src/debug/lighttpd/1.4.71-r0/src/network_write.c /usr/src/debug/lighttpd/1.4.71-r0/src/network_write.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_scgi.c /usr/src/debug/lighttpd/1.4.71-r0/src/sys-crypto-md.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_kv.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_indexfile.c /usr/src/debug/lighttpd/1.4.71-r0/src/http_kv.c /usr/src/debug/lighttpd/1.4.71-r0/src/ck.c /usr/src/debug/lighttpd/1.4.71-r0/src/h1.c /usr/src/debug/lighttpd/1.4.71-r0/src/h2.c /usr/src/debug/lighttpd/1.4.71-r0/src/keyvalue.c /usr/src/debug/lighttpd/1.4.71-r0/src/keyvalue.h /usr/src/debug/lighttpd/1.4.71-r0/src/ck.h /usr/s
+ rc/debug/lighttpd/1.4.71-r0/src/h1.h /usr/src/debug/lighttpd/1.4.71-r0/src/h2.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_cgi.c /usr/src/debug/lighttpd/1.4.71-r0/src/http_cgi.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_cgi.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_access.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_evhost.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_expire.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_setenv.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_status.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_webdav.c /usr/src/debug/lighttpd/1.4.71-r0/src/network.c /usr/src/debug/lighttpd/1.4.71-r0/src/network.h /usr/src/debug/lighttpd/1.4.71-r0/src/buffer.c /usr/src/debug/lighttpd/1.4.71-r0/src/buffer.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_chunk.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_range.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_chunk.c /usr/src/debug/lighttpd/1.4.71-r0/src/http_range.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_extforward.c /usr/src/debug/l
+ ighttpd/1.4.71-r0/src/request.h /usr/src/debug/lighttpd/1.4.71-r0/src/request.c /usr/src/debug/lighttpd/1.4.71-r0/src/fdlog.h /usr/src/debug/lighttpd/1.4.71-r0/src/sock_addr_cache.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_ajp13.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_alias.c /usr/src/debug/lighttpd/1.4.71-r0/src/fdlog.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_proxy.c /usr/src/debug/lighttpd/1.4.71-r0/src/sock_addr_cache.h /usr/src/debug/lighttpd/1.4.71-r0/src/data_config.c /usr/src/debug/lighttpd/1.4.71-r0/src/configfile-glue.c /usr/src/debug/lighttpd/1.4.71-r0/src/server.c /usr/src/debug/lighttpd/1.4.71-r0/src/algo_md.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_vhostdb.c /usr/src/debug/lighttpd/1.4.71-r0/src/fdevent.c /usr/src/debug/lighttpd/1.4.71-r0/src/first.h /usr/src/debug/lighttpd/1.4.71-r0/src/fdevent.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_dirlisting.c /usr/src/debug/lighttpd/1.4.71-r0/src/burl.h /usr/src/debug/lighttpd/1.4.71-r0/src/burl.c /usr/src/debug/lightt
+ pd/1.4.71-r0/src/mod_ssi.c /usr/src/debug/lighttpd/1.4.71-r0/src/algo_xxhash.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_wstunnel.c /usr/src/debug/lighttpd/1.4.71-r0/src/chunk.c /usr/src/debug/lighttpd/1.4.71-r0/src/fdevent_impl.c /usr/src/debug/lighttpd/1.4.71-r0/src/chunk.h /usr/src/debug/lighttpd/1.4.71-r0/src/lighttpd-angel.c /usr/src/debug/lighttpd/1.4.71-r0/src/fdevent_impl.h /usr/src/debug/lighttpd/1.4.71-r0/src/http-header-glue.c /usr/src/debug/lighttpd/1.4.71-r0/src/algo_splaytree.c /usr/src/debug/lighttpd/1.4.71-r0/src/sock_addr.h /usr/src/debug/lighttpd/1.4.71-r0/src/rand.c /usr/src/debug/lighttpd/1.4.71-r0/src/sock_addr.c /usr/src/debug/lighttpd/1.4.71-r0/src/algo_splaytree.h /usr/src/debug/lighttpd/1.4.71-r0/src/rand.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_openssl.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_rrdtool.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_authn_file.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_staticfile.c /usr/src/debug/lighttpd/1.4.71-r0/src/gw_
+ backend.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_header.h /usr/src/debug/lighttpd/1.4.71-r0/src/gw_backend.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_auth.c /usr/src/debug/lighttpd/1.4.71-r0/src/http_header.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_sockproxy.c /usr/src/debug/lighttpd/1.4.71-r0/src/connections.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_vhostdb_api.h /usr/src/debug/lighttpd/1.4.71-r0/src/array.c /usr/src/debug/lighttpd/1.4.71-r0/src/plugin.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_simple_vhost.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_vhostdb_api.c /usr/src/debug/lighttpd/1.4.71-r0/src/connections.h /usr/src/debug/lighttpd/1.4.71-r0/src/array.h /usr/src/debug/lighttpd/1.4.71-r0/src/plugin.h /usr/src/debug/lighttpd/1.4.71-r0/src/configparser.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_auth_api.c /usr/src/debug/lighttpd/1.4.71-r0/src/response.h /usr/src/debug/lighttpd/1.4.71-r0/src/response.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_auth_api.h /usr/src/debu
+ g/lighttpd/1.4.71-r0/src/fdlog_maint.c /usr/src/debug/lighttpd/1.4.71-r0/src/configfile.c /usr/src/debug/lighttpd/1.4.71-r0/src/configparser.y /usr/src/debug/lighttpd/1.4.71-r0/src/fdevent_fdnode.c /usr/src/debug/lighttpd/1.4.71-r0/src/base.h /usr/src/debug/lighttpd/1.4.71-r0/src/configfile.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_date.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_etag.h /usr/src/debug/lighttpd/1.4.71-r0/src/base64.h /usr/src/debug/lighttpd/1.4.71-r0/src/http_date.c /usr/src/debug/lighttpd/1.4.71-r0/src/http_etag.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_deflate.c /usr/src/debug/lighttpd/1.4.71-r0/src/mod_rewrite.c /usr/src/debug/lighttpd/1.4.71-r0/src/base64.c /usr/src/debug/lighttpd/1.4.71-r0/src/reqpool.c /usr/src/debug/lighttpd/1.4.71-r0/src/log.h /usr/src/debug/lighttpd/1.4.71-r0/src/log.c /usr/src/debug/lighttpd/1.4.71-r0/src/reqpool.h /usr/src/debug/lighttpd/1.4.71-r0/src/plugin_config.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_fastcgi.c /usr/src/debug/
+ lighttpd/1.4.71-r0/src/mod_redirect.c /usr/src/debug/lighttpd/1.4.71-r0/src/plugins.h /usr/src/debug/lighttpd/1.4.71-r0/src/stat_cache.h /usr/src/debug/lighttpd/1.4.71-r0/src/base_decls.h /usr/src/debug/lighttpd/1.4.71-r0/src/sys-setjmp.h /usr/src/debug/lighttpd/1.4.71-r0/src/mod_accesslog.c /usr/src/debug/lighttpd/1.4.71-r0/src/sys-setjmp.c /usr/src/debug/lighttpd/1.4.71-r0/src/stat_cache.c"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2901711 to 2963312 (+2%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.69 [default] to 1.4.71 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.69" to "1.4.71"
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 445800 to 429356 (-4%)
+Changes to packages/core2-32-poky-linux/lighttpd (sysroot):
+  /usr/lib/lighttpd/mod_h2.so was added
+  /usr/lib/lighttpd/mod_access.so was removed
+  /usr/lib/lighttpd/mod_alias.so was removed
+  /usr/lib/lighttpd/mod_evhost.so was removed
+  /usr/lib/lighttpd/mod_expire.so was removed
+  /usr/lib/lighttpd/mod_fastcgi.so was removed
+  /usr/lib/lighttpd/mod_indexfile.so was removed
+  /usr/lib/lighttpd/mod_redirect.so was removed
+  /usr/lib/lighttpd/mod_rewrite.so was removed
+  /usr/lib/lighttpd/mod_scgi.so was removed
+  /usr/lib/lighttpd/mod_setenv.so was removed
+  /usr/lib/lighttpd/mod_simple_vhost.so was removed
+  /usr/lib/lighttpd/mod_staticfile.so was removed
 
---===============7284838618631061139==--
+--===============8394886080342633471==--
 
