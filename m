@@ -1,122 +1,97 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C98C7EE29
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 17:21:58 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.1414.1685726509386120818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CE5C77B7A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 19:04:18 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web10.4057.1685732651154416654
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 10:21:49 -0700
+ Fri, 02 Jun 2023 12:04:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=iIq/q3H3;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685726506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FWh2dgQo049kqCnsrkEkBS/4GaXI8jqum/0SLnGk0f0=;
-	b=iIq/q3H3M+aJWsYmHrxep+v+oYoJeyfM65kxAoR0fOVRU6EKCbFcQvbMC/CEURUNGxvV+4
-	uICVXFPbTB3AvcRIYCi33M9YGzgzMdCHpRGTdkBsqjtFCa/ocDOic3x7xexHcmBCMyhBFE
-	wnY/x0+4B1+KYYfNssAjD0t4Kw8XzSU3k6qysqnnryE7P3Ps+7uQ2QBrUclccAlw7xcW9P
-	JkL2DEvhhkJHq6Q3gZg5AfzE1Tepg+Nua4sfG8VhEEuqQd1J/Q+L6jkp2OKGAcJJ38jSKj
-	cZgdzwvF38DKf/DN6Hy7+GzGrHlp0hS1tqYo6IsP4TcT6x0y8Uh7K4Z+WtlCmg==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 56789E0005;
-	Fri,  2 Jun 2023 17:21:46 +0000 (UTC)
-Date: Fri, 2 Jun 2023 19:21:46 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] python3-pyproject-metadata: New recipe
-Message-ID: <20230602172146f5408a36@mail.local>
-References: <20230602074419.2450399-1-zboszor@gmail.com>
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=jRyoph6Q;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-3f6c014d33fso19659551cf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:04:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685732650; x=1688324650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n4CiCOupHDM1n3HiG8qDaOdBRaxeHPsYoeplfhJn9Y0=;
+        b=jRyoph6QFtKM+MLdieQ01VVD5S1/fWtGhXsOXQmZkBIlXS+i0ZL+zBCu4DRC6ngX5W
+         lt6K7eCDxvuRt/ThHKdL2rYQZpLQ02d+4gjyR0o9KBxzgWj8M7Dj0Z+Y93xLGXo/RVZq
+         Y8X6ceCgvo1LdWYfETKUmoxldx7x0fYIIMX6lpa4XBY5Xih2AAaOe8aKAjxUZaffteh2
+         1gdPoJ5Mwu1epbMg3JYoJh2pkUVvF/xMBLKoqIIoakVfWcFjfpWuCunY5Da9dm26IhM5
+         SwFJ179i1f7Btq65AnCQy/x9BLIBx4MKYNdxt8CEEeU4HJenvi0v61T3/wfTVELh0vyG
+         vdUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685732650; x=1688324650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n4CiCOupHDM1n3HiG8qDaOdBRaxeHPsYoeplfhJn9Y0=;
+        b=XA5x2PWfYPBUx8MhSzBplO9cyr7Y+SE1JrQOCJRU27sWeGE4AHEtL7gMs2UssZeibU
+         agUwxuihqbZ80iHrJPIp0m/oAmbZed+BfjV8q6IY43jZuoZzN/97xx+IYVSuwqN4k1Wr
+         c3XAbSC1Sce7Iv6YSZ+N+xniaLhFtvthJQm7NRv1LzjoBm1q60mVEWS/UugAHSM0dqd6
+         w3CmZHVtiBL5M/IcUh43aytWJUj0rdmkPh9RvOne67dlKQtHKxumvRBGRbhNfg5ViHsi
+         Mabchtqapz85Lowz72bV2ZR0ySbNaugukikAn9af7S7W+721AdUbK1hMfKq5VU9Ivbqt
+         mr+Q==
+X-Gm-Message-State: AC+VfDwiNybZeDnfFHswQN9mb4OMZRUC7mLbpJjzVyjG+kzMs7IQBfE0
+	qVXbbjlZ4IGumKnqgmNuuIMmSh15F6SosBUgUMA=
+X-Google-Smtp-Source: ACHHUZ787wlmdwTFhXUNFcXcYoerm3OmTXzlOvnmKF/1dMcui3MMmdLEdi1Hja61bGBfAc/QNL1dGQ==
+X-Received: by 2002:ac8:7d45:0:b0:3f6:ac8c:84f2 with SMTP id h5-20020ac87d45000000b003f6ac8c84f2mr17519277qtb.46.1685732649777;
+        Fri, 02 Jun 2023 12:04:09 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id p15-20020ac8460f000000b003f7369c7302sm1079565qtn.89.2023.06.02.12.04.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 12:04:09 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] python3-poetry-core: upgrade 1.5.2 -> 1.6.1
+Date: Fri,  2 Jun 2023 15:04:08 -0400
+Message-Id: <20230602190408.2644121-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230602074419.2450399-1-zboszor@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 17:21:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182337
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 19:04:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182338
 
-Hello,
+Changelog: https://github.com/python-poetry/poetry-core/blob/main/CHANGELOG.md
 
-the series causes the following warnings:
+Notably, the project replaced its use of tomlkit with tomli, so the
+LICENSEs and associated checksums had to be changed.
 
-stdio: WARNING: python3-pyproject-metadata-native-0.7.1-r0 do_fetch: QA Issue: Recipe python3-pyproject-metadata in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-stdio: WARNING: python3-pyproject-metadata-0.7.1-r0 do_fetch: QA Issue: Recipe python3-pyproject-metadata in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-stdio: WARNING: python3-meson-python-0.13.1-r0 do_fetch: QA Issue: Recipe python3-meson-python in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-meson-python_0.13.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-stdio: WARNING: python3-meson-python-native-0.13.1-r0 do_fetch: QA Issue: Recipe python3-meson-python in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-meson-python_0.13.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...hon3-poetry-core_1.5.2.bb => python3-poetry-core_1.6.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-poetry-core_1.5.2.bb => python3-poetry-core_1.6.1.bb} (90%)
 
-On 02/06/2023 09:44:17+0200, Zoltan Boszormenyi wrote:
-> It is a dependency for python3-meson-python.
-> 
-> Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
-> ---
->  meta/conf/distro/include/maintainers.inc         |  1 +
->  .../python/python3-pyproject-metadata_0.7.1.bb   | 16 ++++++++++++++++
->  2 files changed, 17 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 5accca3fef..d910ce6481 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -670,6 +670,7 @@ RECIPE_MAINTAINER:pn-python3-pygobject = "Zang Ruochen <zangruochen@loongson.cn>
->  RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
->  RECIPE_MAINTAINER:pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->  RECIPE_MAINTAINER:pn-python3-pyproject-hooks = "Ross Burton <ross.burton@arm.com>"
-> +RECIPE_MAINTAINER:pn-python3-pyproject-metadata = "Zolt�n B�sz�rm�nyi <zboszor@gmail.com>"
->  RECIPE_MAINTAINER:pn-python3-pysocks = "Tim Orling <tim.orling@konsulko.com>"
->  RECIPE_MAINTAINER:pn-python3-pytest = "Tim Orling <tim.orling@konsulko.com>"
->  RECIPE_MAINTAINER:pn-python3-pytest-runner = "Tim Orling <tim.orling@konsulko.com>"
-> diff --git a/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb b/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
-> new file mode 100644
-> index 0000000000..9887af78d0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
-> @@ -0,0 +1,16 @@
-> +SUMMARY = "PEP 621 metadata parsing"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=310439af287b0fb4780b2ad6907c256c"
-> +
-> +PYPI_PACKAGE = "pyproject-metadata"
-> +
-> +inherit pypi python_setuptools_build_meta
-> +SRC_URI[sha256sum] = "0a94f18b108b9b21f3a26a3d541f056c34edcb17dc872a144a15618fed7aef67"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> +
-> +RDEPENDS:${PN} += " \
-> +    python3-logging \
-> +    python3-packaging \
-> +    python3-profile \
-> +"
-> -- 
-> 2.40.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182146): https://lists.openembedded.org/g/openembedded-core/message/182146
-> Mute This Topic: https://lists.openembedded.org/mt/99281729/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/python/python3-poetry-core_1.5.2.bb b/meta/recipes-devtools/python/python3-poetry-core_1.6.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-poetry-core_1.5.2.bb
+rename to meta/recipes-devtools/python/python3-poetry-core_1.6.1.bb
+index 738b978690..536bc6413b 100644
+--- a/meta/recipes-devtools/python/python3-poetry-core_1.5.2.bb
++++ b/meta/recipes-devtools/python/python3-poetry-core_1.6.1.bb
+@@ -15,11 +15,11 @@ LIC_FILES_CHKSUM = "\
+     file://src/poetry/core/_vendor/packaging/LICENSE.APACHE;md5=2ee41112a44fe7014dce33e26468ba93 \
+     file://src/poetry/core/_vendor/packaging/LICENSE.BSD;md5=7bef9bf4a8e4263634d0597e7ba100b8 \
+     file://src/poetry/core/_vendor/pyrsistent/LICENSE.mit;md5=b695eb9c6e7a6fb1b1bc2d193c42776e \
+-    file://src/poetry/core/_vendor/tomlkit/LICENSE;md5=31aac0dbc1babd278d5386dadb7f8e82 \
++    file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
+     file://src/poetry/core/_vendor/typing_extensions.LICENSE;md5=f16b323917992e0f8a6f0071bc9913e2 \
+ "
+ 
+-SRC_URI[sha256sum] = "c6556c3b1ec5b8668e6ef5a4494726bc41d31907339425e194e78a6178436c14"
++SRC_URI[sha256sum] = "0f9b0de39665f36d6594657e7d57b6f463cc10f30c28e6d1c3b9ff54c26c9ac3"
+ 
+ inherit python_poetry_core pypi
+ PYPI_ARCHIVE_NAME = "poetry_core-${PV}.${PYPI_PACKAGE_EXT}"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.40.1
+
 
