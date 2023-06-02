@@ -1,113 +1,87 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1557DC7EE24
-	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 12:39:18 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.11477.1685709552812864879
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 05:39:13 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6301CC77B7A
+	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 13:00:28 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web11.11988.1685710818909934434
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 02 Jun 2023 06:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Y1fdOpF9;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexis.lothore@bootlin.com)
-X-GND-Sasl: alexis.lothore@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685709550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nhPNKjEawlr7q+hyctYwGh6kCbFj3j4nnl4XVjc4eaQ=;
-	b=Y1fdOpF9ye1hEqOGCNkzp3XrlOuqinK7zYRZHb/U+Eh3f0tea55FB5XerqSQVMIPFtH+Qo
-	/UYAFX6BUGnAOb9Z6IeW8BZM3naDXBcCVSu5APUxNaZpOK3WZbDA3eJ9pFrOYcsnEo8uTX
-	csXabrWisRBV7sbKwNAiLCwao9hPHLobyA/m9VoP6Ztymo1s3me4FyL9iageSZfwI6ZC31
-	ChhV9nfm8sr32eKUeeP45Gq0IvuW9p2nJcuTRwNkDMxcP7meWtpmLj8z7bsLJGzPZ2xZdX
-	PUVRooEuTLCJHEaopa/+gP8FwLTgeffqRVQouotWe5Q2K2LVKh4+7sgu7Ng3Kg==
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-GND-Sasl: alexis.lothore@bootlin.com
-X-GND-Sasl: alexis.lothore@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AA45460006;
-	Fri,  2 Jun 2023 12:39:09 +0000 (UTC)
-Message-ID: <fdc10ec6-515f-c844-2928-ea121efe39d5@bootlin.com>
-Date: Fri, 2 Jun 2023 14:39:31 +0200
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=JM5+gbhI;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.181, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-3f6b94062f3so17282591cf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685710817; x=1688302817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GFvfI3F1ierBZJ2vCdunuybHP+00JzCutb6JIBPduoc=;
+        b=JM5+gbhIlz6YM+oUZx9VYHIvjmDjgiwkGGXgh0q0nVUb1lRlbH06M+/LD6ikWcS5HR
+         Q34Pn7a/v1RkMuDQh/UJb3Ezx2MAio0K0NdalbskhPI2eNVSKj7DLvuh1vBOMzTtIT7m
+         /dXEL9guNedObEXc93W0yUQA81mq08RWMwwO+0NcfP4qKz+HRknuoHqIHZBlVZuq04Fc
+         H9tDl+hjp/IT/H+zKEwszcdpC0J0WLFkMHw7K2bimVrGXz+dms551STvscTtI1e0RUNA
+         s3F6HHa53GwW66GM2hWsk7YeKXVgGcOn2pQQ5J2BMsdFoIUXHsRg2fPmDhh9roaZ7Dvn
+         4vqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685710817; x=1688302817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GFvfI3F1ierBZJ2vCdunuybHP+00JzCutb6JIBPduoc=;
+        b=L4OwyeQ5WpcMyQRk4PUxvcIKkA+lZKvXYJugP2bcNQGKjSq5XwR1kVgAn3zH3BapJI
+         rVd4jDv8daMqqOykkgbbAX2WHZNEaIKMMjlMiC3e1yDdTQq2NUY96DUML36mMfrjRilK
+         3XiJCUFLjOxk98hmv+tlZt7XPKVxHrJwNQZrCqc5ekuEavVPC7RmiwQeHz+5b3zkehII
+         lvxRCgVCCMvBqV14DRtueeeB5Je8kE9DSwXPExrYOtcFVQBZD1AICuGpoFW8BHr1UT56
+         iGzUKE6fMEuDFT2/zx2WTZVcjyXyHxf2t+YtlYm1w8wsdzeogsDffNsJULRqi8QLk66u
+         PHAQ==
+X-Gm-Message-State: AC+VfDxC7LMVzaAeXNXWP9xtmC8WKsi+1WH+ASSRzjx1jcPLwz5F0pie
+	1/Kl+t8tvfpzMP7/9TrqpD9Hf/4DhaqauSlugMs=
+X-Google-Smtp-Source: ACHHUZ5DB434Kuz6YFqrrnaBa1DBQW/ovaPbrUPY84HInuxJsfwCcE8KojUkuEJG+VpBPn5OyOl4Cg==
+X-Received: by 2002:a05:622a:15d1:b0:3f1:f8fa:11c7 with SMTP id d17-20020a05622a15d100b003f1f8fa11c7mr13860435qty.34.1685710814824;
+        Fri, 02 Jun 2023 06:00:14 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id b18-20020ac84f12000000b003e4d9c91106sm733780qte.57.2023.06.02.06.00.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 06:00:14 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] sqlite3: upgrade 3.41.2 -> 3.42.0
+Date: Fri,  2 Jun 2023 09:00:12 -0400
+Message-Id: <20230602130012.3998377-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [OE-Core][RFC][PATCH 2/3] testimage: shut down DUT later
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20230602095037.97981-1-alexis.lothore@bootlin.com>
- <20230602095037.97981-3-alexis.lothore@bootlin.com>
- <88493a5e4afaa5917192c9d7baa2f5c3357a0185.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Alexis_Lothor=c3=a9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <88493a5e4afaa5917192c9d7baa2f5c3357a0185.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 12:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182314
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 13:00:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182315
 
-Hello Richard,
-On 6/2/23 13:55, Richard Purdie wrote:
-> On Fri, 2023-06-02 at 11:50 +0200, Alexis Lothoré via
-> lists.openembedded.org wrote:
->> Move target stop (for Qemu targets: qemu image stop) later in testimage
->> main function, especially _after_ having access to general test results, to
->> allow executing some other actions (like retrieving some files) on DUT
->> depending on test results (e.g. : retrieve some log files)
->>
->> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
->> ---
->>  meta/classes-recipe/testimage.bbclass | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
->> index 1bf0cb450ce4..6b10c1db09f9 100644
->> --- a/meta/classes-recipe/testimage.bbclass
->> +++ b/meta/classes-recipe/testimage.bbclass
->> @@ -393,7 +393,6 @@ def testimage_main(d):
->>          results = tc.results
->>      finally:
->>          signal.signal(signal.SIGTERM, orig_sigterm_handler)
->> -        tc.target.stop()
->>  
->>      # Show results (if we have them)
->>      if results:
->> @@ -404,6 +403,8 @@ def testimage_main(d):
->>                          dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
->>          results.logSummary(pn)
->>  
->> +    tc.target.stop()
->> +
-> 
-> I've not really had a chance to think about this properly, sorry but
-> there is an issue that jumps out at me in this patch.
-> 
-> The stop is delibverately in a finally: clause so it always runs even
-> if there is an exception in the code. You've moved it outside of this
-> so the target would no longer be shut down any more in such an
-> exception case. This would potentially leave images running in the case
-> of exceptions and we want to avoid that.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb} (86%)
 
-I felt the danger while touching this part (and tested at least with a Ctrl-C
-that everything was behaving correctly), but indeed I did not think enough about
-the "any exception other than KeyboardInterrupt or BlockingIOError". I'll then
-drop the patch moving this stop, and if it's ok, move the artifacts retrieval in
-the finally clause, just before the stop.
-
-> Cheers,
-> 
-> Richard
-
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+similarity index 86%
+rename from meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+index b09e8e7f55..f60aca63d2 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+ 
+ SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499"
++SRC_URI[sha256sum] = "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+ 
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_IGNORE += "CVE-2019-19242"
 -- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.40.1
 
 
