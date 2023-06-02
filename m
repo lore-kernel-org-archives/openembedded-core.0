@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7C5C88C8B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60213C88C95
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 08:10:42 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.7618.1685693430681222998
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.7541.1685693434916213724
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Jun 2023 01:10:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TpIjoIQI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101887b288d9c-7df7093b-802f-46ec-8535-b1f2534e7471-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a0zc7wRJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101887b288cb1-3667f662-dd3d-4ec3-88a3-08dfc39d6846-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1685693435;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FVF2ILbh2FR2GyD3ZqwI8iJU6kdXHMmEx2exsHDQ7ww=;
-	b=TpIjoIQI6bNEoaj/cEcnU1kZ1HoLxFzAJQ+K122BfB4J3OSrr8kX+cNn9hK69WXP
-	Z41vhcz991npPZPbGfxZfVH/58J3u7Chrlhf66YWyvK0QOfqs12QqeCYb9IPjElYVIw
-	UeEbMmiWRWW8MVonjD5bBZL2Asw212RtBXXW95WY=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=1u7BJtCElF/3bAs/h9h3l3FeO5XFmKuFvwVkx7oh/Ys=;
+	b=a0zc7wRJmFZNYtuXJUjy5KvhVYfbPuVQfF48LKNG9CcENUDNI2Pf8Sz0Yz6t1vjA
+	jWp8l8NyCNT3wOqjVC9MvxbzCfZlj4DQkiZBw320a5r4yOsgRKMVmgJb35Q6AKpIdye
+	hBsxiNaDUFqhP2Y3JMSyujTa84yyz7Y5BfHIgr1Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1685693435;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FVF2ILbh2FR2GyD3ZqwI8iJU6kdXHMmEx2exsHDQ7ww=;
-	b=PRa8mYT3RtvjhZNKPAjtCuhVupp057PxY6OWQkWKznT++ZONL6yO0CuIeW5k7yoM
-	NzD5O20FQ2FlFyre5/ZOs85S5edpw982xbYZh/vnLEpc4ay25+sUO0Zxh1ITFAloDqb
-	pNnIKdRmg85tVYt91uvfWieJBUauKUL7RBxgYi7c=
-Content-Type: multipart/mixed; boundary="===============2436723551531233997=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=1u7BJtCElF/3bAs/h9h3l3FeO5XFmKuFvwVkx7oh/Ys=;
+	b=qZd1r48RRdZv/xlZ/KS54GfzZ9SaN94rVkygeWY8JfM+v595b1/qM5gSFji5wH+P
+	qxU0TA0/ocnThmboFDNWLtR02uFc12RXCgGx3V13QVGdbBnaCM55dVrz59NtlRnYG27
+	6IaAu8A0rI0Pip/7Ew9lH7dNIGBrc/Lc25l6+pLU=
+Content-Type: multipart/mixed; boundary="===============8940194801089868628=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Adrian Bunk <bunk@kernel.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wireless-regdb: upgrading to 2023.05.03 SUCCEEDED
-Message-ID: <010101887b288d9c-7df7093b-802f-46ec-8535-b1f2534e7471-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xdpyinfo: upgrading to 1.3.4 SUCCEEDED
+Message-ID: <010101887b288cb1-3667f662-dd3d-4ec3-88a3-08dfc39d6846-000000@us-west-2.amazonses.com>
 Date: Fri, 2 Jun 2023 08:10:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.02-54.240.27.30
+X-SES-Outgoing: 2023.06.02-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 08:10:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182262
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182259
 
---===============2436723551531233997==
+--===============8940194801089868628==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wireless-regdb* to *2023.05.03* has Succeeded.
+that the automatic attempt to upgrade the recipe *xdpyinfo* to *1.3.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wireless-regdb-upgrade-2023.02.13-2023.05.03.patch
+    - apply the patch: git am 0001-xdpyinfo-upgrade-1.3.3-1.3.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,55 +68,59 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2436723551531233997==
+--===============8940194801089868628==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wireless-regdb-upgrade-2023.02.13-2023.05.03.patch"
+ filename="0001-xdpyinfo-upgrade-1.3.3-1.3.4.patch"
 
-RnJvbSBkMDA0MGZiYzc5YWUyNWJhYmQxZjgzMTcyZWI4OWU1OTFmMGU4YmI0IE1vbiBTZXAgMTcg
+RnJvbSBjZDA2ZmY0MTQ4MjBiY2JhMDJlMmMwZGQ1MWZkOTI3ZDc5MmY0OTgzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMiBKdW4gMjAyMyAwMzoxOTozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdp
-cmVsZXNzLXJlZ2RiOiB1cGdyYWRlIDIwMjMuMDIuMTMgLT4gMjAyMy4wNS4wMwoKLS0tCiAuLi5p
-cmVsZXNzLXJlZ2RiXzIwMjMuMDIuMTMuYmIgPT4gd2lyZWxlc3MtcmVnZGJfMjAyMy4wNS4wMy5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJlZ2RiL3t3aXJlbGVzcy1yZWdk
-Yl8yMDIzLjAyLjEzLmJiID0+IHdpcmVsZXNzLXJlZ2RiXzIwMjMuMDUuMDMuYmJ9ICg5NCUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93aXJlbGVzcy1y
-ZWdkYl8yMDIzLjAyLjEzLmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDIzLjA1LjAzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3MtcmVnZGJfMjAy
-My4wMi4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDIzLjA1LjAzLmJiCmluZGV4IGNlNjAxNTRmMWUuLmNkM2Y1MmZjNzYg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3Mt
-cmVnZGJfMjAyMy4wMi4xMy5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJl
-Z2RiL3dpcmVsZXNzLXJlZ2RiXzIwMjMuMDUuMDMuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
-PSAiSVNDIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDdjNGY2ZGVh
-Mzg0NWIwMmExOGRjMDBjOGM4NzY5OWMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVs
-Lm9yZy9wdWIvc29mdHdhcmUvbmV0d29yay8ke0JQTn0vJHtCUH0udGFyLnh6IgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImZlODFlOGE4Njk0ZGM0NzUzYTQ1MDg3YTFjNGM3ZTFiNDhkZWU1YTU5ZjVm
-Nzk2Y2UzNzRlYTU1MGYwYjJlNzMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjI1NGQwOGFiMzc2
-NWFlYWUyYjg1NjIyMmUxMWE5NWQ0NGFlZjUxOWE2NjYzODc3YzcxZWY2OGZhZTRjOGMxMiIKIAog
-aW5oZXJpdCBiaW5fcGFja2FnZSBhbGxhcmNoCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IEZyaSwgMiBKdW4gMjAyMyAwMTo1NzoyNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhk
+cHlpbmZvOiB1cGdyYWRlIDEuMy4zIC0+IDEuMy40CgotLS0KIC4uLi94b3JnLWFwcC97eGRweWlu
+Zm9fMS4zLjMuYmIgPT4geGRweWluZm9fMS4zLjQuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy94b3JnLWFwcC97eGRweWluZm9fMS4zLjMuYmIgPT4geGRweWluZm9fMS4z
+LjQuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBw
+L3hkcHlpbmZvXzEuMy4zLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hkcHlp
+bmZvXzEuMy40LmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy94b3JnLWFwcC94ZHB5aW5mb18xLjMuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctYXBwL3hkcHlpbmZvXzEuMy40LmJiCmluZGV4IGU3NWE4NDBiN2Qu
+LmFhYThhYTg5MDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94
+ZHB5aW5mb18xLjMuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRw
+eWluZm9fMS4zLjQuYmIKQEAgLTE1LDYgKzE1LDYgQEAgUEUgPSAiMSIKIFNSQ19VUkkgKz0gImZp
+bGU6Ly9kaXNhYmxlLXhrYi5wYXRjaCIKIAogU1JDX1VSSV9FWFQgPSAieHoiCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMzU2ZDVmZDYyZjNlOThlZTM2ZDZiZWNmMWIzMmQ0YWI2MTEyZDYxODMzOWZi
+NGI1OTJjY2ZmYmQ5ZTBmYzIwNiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhOGFkYTU4MWRiZDcy
+NjY0NDBkN2MzNzk0ZmE4OWVkZjZiOTliODg1N2ZjMmU4YzMxMDQyNjg0ZjNhZjQ4MjJiIgogCiBF
+WFRSQV9PRUNPTkYgPSAiLS1kaXNhYmxlLXhrYiIKLS0gCjIuMzkuMgoK
 
---===============2436723551531233997==
+--===============8940194801089868628==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/wireless-regdb: PV changed from "2023.02.13" to "2023.05.03"
-packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2023.02.13.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2023.05.03.tar.xz"
-packages/all-poky-linux/wireless-regdb: PKGV changed from 2023.02.13 [default] to 2023.05.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2023.02.13" to "2023.05.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2023.02.13 [default] to 2023.05.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2023.02.13" to "2023.05.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 5858 to 5910 (+1%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2023.02.13 [default] to 2023.05.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2023.02.13" to "2023.05.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 6871 to 6923 (+1%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2023.02.13 [default] to 2023.05.03 [default]
+packages/core2-32-poky-linux/xdpyinfo: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo: SRC_URI changed from "https://www.x.org/releases//individual/app/xdpyinfo-1.3.3.tar.xz file://disable-xkb.patch" to "https://www.x.org/releases//individual/app/xdpyinfo-1.3.4.tar.xz file://disable-xkb.patch"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-dbg: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGSIZE changed from 60972 to 62604 (+3%)
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-dev: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-dev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-doc: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-doc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-locale: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-locale: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-src: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-src: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-src: PKGSIZE changed from 45438 to 45378 (-0%)
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-staticdev: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo-staticdev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo: PV changed from "1.3.3" to "1.3.4"
+packages/core2-32-poky-linux/xdpyinfo/xdpyinfo: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
 
---===============2436723551531233997==--
+--===============8940194801089868628==--
 
