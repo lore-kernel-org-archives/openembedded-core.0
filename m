@@ -2,53 +2,53 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF59C7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59AB7C7EE24
 	for <webhook@archiver.kernel.org>; Fri,  2 Jun 2023 13:35:08 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.13173.1685712901398271936
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.13177.1685712905287007370
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jun 2023 06:35:01 -0700
+ Fri, 02 Jun 2023 06:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dOlNC6Ev;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f6077660c6so19163225e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:35:01 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=TmRS1jA3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f6e72a1464so19617425e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 06:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1685712899; x=1688304899;
+        d=linuxfoundation.org; s=google; t=1685712903; x=1688304903;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rPFnWLHW9tEySVJQtiAkcBOVVoDy5/D5nm4j4zuE23M=;
-        b=dOlNC6EvJkZa9AvAjLDaC3W63cuG6QVClxLg9msS9dfe453b0VsDvoR3ExbkK2OIxM
-         P/AcPjGbmHg4hyTN86JaeVYBF09av5Mnt2w8XF1sGHI008rspQNg8CMG0ULc1UAqGwiX
-         dVHt8ZhlJIVYQRDqY7qziN8l33FT8KujREaVk=
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mXqUane1bpcOW4xXS00buX+/aurD+4C8L6Y41LdznoM=;
+        b=TmRS1jA3ombBf+2zFxKr/HN64BLJMJ44uV4KpGv5VBRqVs6DBLAhA0cL1odqsIs8Ow
+         GQQ9gB1JRUFHGzS+ulHquHc0/JzNs4IyU4k8V75+FOZt4jILjBBLfU+95zcmpnmFDO5t
+         kBbF3wRWzmbrYatkuQToxgGBzon3KwOkLuk2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685712899; x=1688304899;
+        d=1e100.net; s=20221208; t=1685712903; x=1688304903;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rPFnWLHW9tEySVJQtiAkcBOVVoDy5/D5nm4j4zuE23M=;
-        b=IGffFdXM+ay9Ph8SOjcWQ+R/FgmNk/wF0EdHMl0yYKmAL+hrvDnKMfq07m6RdmuOTf
-         yQA6tZdeYwPfae51kf8ItZZujjWRD+ASg2Nvgy0MsQf06aZl9ZKPRZdbMZ5QLH0Yx3LV
-         GH+IGiKGXz/qLuHoq26cxh2yNCgKdiIEY20pVtJfnz2EZGQNyxe2UHYszYv6+Sok2f+8
-         Z7e7xoUVdLgiVC/AE6HYwaCmUNXb6a751VCKtynaM/QJy3PVZvW/6VrvJmXmVml74QXC
-         aY3LFxPLopYzwxUknsOWA3hz2Wtb61SUVSV0vLq9yFdes9eT8ChLX3QlbR4cbELlv+ed
-         N/9w==
-X-Gm-Message-State: AC+VfDxyD/xll/DrlIn8vjgKuSyBtdqNibOdrhy0UeKMZXnenY2KvdGd
-	5oiat2zRbFaDZjLFU8L4tPjNAqsxSj1AIPLV06M=
-X-Google-Smtp-Source: ACHHUZ53eKDuSC921dXCDDltOh8eyN/Fjoki59iOiUOhwnpQmqhWKL21/veGBdKtltI7rSzgJEcSyg==
-X-Received: by 2002:a7b:c7ca:0:b0:3f6:cfc7:8bce with SMTP id z10-20020a7bc7ca000000b003f6cfc78bcemr2151803wmk.22.1685712899686;
-        Fri, 02 Jun 2023 06:34:59 -0700 (PDT)
+        bh=mXqUane1bpcOW4xXS00buX+/aurD+4C8L6Y41LdznoM=;
+        b=dP4CkbpxVi3jx2fOcEqLSZ/gJwhn2MEyvRJcOpnWjCCzxEiGz2q5CAuvI3ntPglh8G
+         ZVc4xumXUiYJw9slZwNloVliWbi6yDZkNZUK2wzgbLw/BAQkMrQnNMmUpztdWeDsXQtW
+         h4QMNUWIxMuw2mLIfR07jBUqq3s8ILegmxywnIkOJf5QHmMWjBFIvNdS468mDVp17okH
+         thfuBH/koa2x+3WS08FONqOxG07wRVTgYDMpgdYxz8EJzdwGMBX6eZdSpNGEa0+bbZ54
+         babQeiLLaa/4xuLVNwCzzzjeYRNnrTf/uJpN8x85CJSQGVr5TCZ3JprHFZIc/0OI9XGh
+         oHtQ==
+X-Gm-Message-State: AC+VfDx7DK1AAc8xQb4EY2dOYkt/gpluhIAJ5hoffr9ohe8J6a5Xptzv
+	VN40ScXr5rkUhMUKKW8ElfktA0OMcuEr1AqiFRk=
+X-Google-Smtp-Source: ACHHUZ7bGkPDby8ReP/Xs/t8gfslLqQBm6aHM55XCyf7F910yXMbrQCiulsenfsBAOAwAcCbL9wySA==
+X-Received: by 2002:adf:fe43:0:b0:30a:e86d:17a3 with SMTP id m3-20020adffe43000000b0030ae86d17a3mr4400569wrs.46.1685712903647;
+        Fri, 02 Jun 2023 06:35:03 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:527f:ecab:4831:c523])
-        by smtp.gmail.com with ESMTPSA id z10-20020a056000110a00b003063a92bbf5sm1734262wrw.70.2023.06.02.06.34.59
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id z10-20020a056000110a00b003063a92bbf5sm1734262wrw.70.2023.06.02.06.35.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 06:34:59 -0700 (PDT)
+        Fri, 02 Jun 2023 06:35:03 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/11] create-spdx-2-2: Fix packagedata usage to work with SDK packages
-Date: Fri,  2 Jun 2023 14:34:47 +0100
-Message-Id: <20230602133453.229023-5-richard.purdie@linuxfoundation.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH 11/11] classes/create-spdx-2.2: Make license errors fatal
+Date: Fri,  2 Jun 2023 14:34:53 +0100
+Message-Id: <20230602133453.229023-11-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230602133453.229023-1-richard.purdie@linuxfoundation.org>
 References: <20230602133453.229023-1-richard.purdie@linuxfoundation.org>
@@ -58,42 +58,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Jun 2023 13:35:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182323
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182329
 
-There are two seperate PKGDATA_DIR directories, one for the target and one for
-the SDK. Rather than fail when a package can't be found, try the SDK first.
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-We use a datastore copy to keep the code simple, rather than havng to parameterise
-all the packagedata functions.
+Otherwise the task is still put into sstate, which means the error can
+effectively be hidden by ignoring it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/classes/create-spdx-2.2.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index f9cb3add387..b8728c5705b 100644
+index 7569f8792b2..844b674f6f1 100644
 --- a/meta/classes/create-spdx-2.2.bbclass
 +++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -714,11 +714,16 @@ def collect_package_providers(d):
-     deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME")))
+@@ -138,7 +138,7 @@ def convert_license_to_spdx(lic, document, d, existing={}):
+                     with open(filename, errors="replace") as f:
+                         extracted_info.extractedText = f.read()
+                 else:
+-                    bb.error("Cannot find any text for license %s" % name)
++                    bb.fatal("Cannot find any text for license %s" % name)
  
-     for dep_pn, dep_hashfn in deps:
--        recipe_data = oe.packagedata.read_pkgdata(dep_pn, d)
-+        localdata = d
-+        recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
-+        if not recipe_data:
-+            localdata = bb.data.createCopy(d)
-+            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}")
-+            recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
- 
-         for pkg in recipe_data.get("PACKAGES", "").split():
- 
--            pkg_data = oe.packagedata.read_subpkgdata_dict(pkg, d)
-+            pkg_data = oe.packagedata.read_subpkgdata_dict(pkg, localdata)
-             rprovides = set(n for n, _ in bb.utils.explode_dep_versions2(pkg_data.get("RPROVIDES", "")).items())
-             rprovides.add(pkg)
- 
+         extracted[name] = extracted_info
+         document.hasExtractedLicensingInfos.append(extracted_info)
 -- 
 2.39.2
 
