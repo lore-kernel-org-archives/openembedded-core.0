@@ -1,140 +1,87 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6BAC77B73
-	for <webhook@archiver.kernel.org>; Sat,  3 Jun 2023 08:11:33 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.8054.1685779885255701244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC75AC77B7A
+	for <webhook@archiver.kernel.org>; Sat,  3 Jun 2023 17:52:16 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web10.2218.1685814728884220074
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Jun 2023 01:11:25 -0700
+ Sat, 03 Jun 2023 10:52:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=WxA+JYcO;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f732d37d7bso1167925e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 01:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685779884; x=1688371884;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YrOD5m6tRCpMZ4nGr6qDa84f+JS8/qqgoXgj6rEs69o=;
-        b=WxA+JYcOg7BXVmlbGUpBKMR67miHQd+JkXzMyN4RuKQXK566Pw2CFtsb1saEB61MEu
-         XzhGbOvptYybu76BBY08z3pf8r+AoHYlTAEDrdvQioRkhUFhBH8+3bkLLSeTlB4IZ12o
-         fQWXxrn3hQorXIMHG4sORRNU5djWN0bv+3+sSin1VwsWsBgIh9MOi2MAheRte1TTwwFt
-         1xgK/Tvygi6NuC5bWGNLtdRvgW2o/kkf9jZOveOmWyLSDFF7EfqsL/eZJQu7luqGW9U2
-         ASH04gzqVIMwRT3JiKNT43cktuciCBUu9SYY8ZfUQbazje3Bf90gXwzA2I83GNyYkwtQ
-         1UHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685779884; x=1688371884;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YrOD5m6tRCpMZ4nGr6qDa84f+JS8/qqgoXgj6rEs69o=;
-        b=FliEsOTtzPhczFNBfoACIVdVmiZS/W5akab2Jv7AnFQU4ED1EguQ5Sc7MgvW6o1WFN
-         ELxulIx5fGAlXNtPRScBvJcERySapWO+DDCbmZvGbYcb87zSsSiNu8rf9nq/inV1+5bH
-         21XOJo9uPOtlUFR0saao00s2NpXQDe/Zl4kx3V92uh4GsSrBaWur+8zjSz0dzzJS6QnY
-         I8XxtSlK/J+skEAA+3BDglw8j1AZV5kg3CbITkLtVrRtHl2WUrZaKGeyrMzO8W9iJZkR
-         ytN7lk8Lx/vUw8rQTkv/LEFPRgR6VE52G8Ym6UYwskpbYevfRUwrLoWUw9A4HL3bjGxM
-         DrVA==
-X-Gm-Message-State: AC+VfDzDVqf6PlQBW0FhfeyCQwnw1L3QwczWMKotAb403jkByVHYySO9
-	bvJp3TGTpRt+Cm1hzGCTAAE=
-X-Google-Smtp-Source: ACHHUZ5vcdNWV6atFQibRq+wfDGdgQL9sCW/IgmaT+Xy4xHVf/tY9YKofRiXW5rgBBvWNsxPJi9yHQ==
-X-Received: by 2002:a7b:cb57:0:b0:3f6:7fb:b60e with SMTP id v23-20020a7bcb57000000b003f607fbb60emr3244249wmj.35.1685779883656;
-        Sat, 03 Jun 2023 01:11:23 -0700 (PDT)
-Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id cx14-20020a056000092e00b003078681a1e8sm3793938wrb.54.2023.06.03.01.11.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Jun 2023 01:11:23 -0700 (PDT)
-Message-ID: <f398da62-5c65-9804-4409-7ab4ab4789c8@gmail.com>
-Date: Sat, 3 Jun 2023 10:11:22 +0200
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
+	by mailout04.t-online.de (Postfix) with SMTP id 0C869230A;
+	Sat,  3 Jun 2023 19:52:06 +0200 (CEST)
+Received: from [192.168.178.156] ([84.163.44.93]) by fwd88.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1q5VQ5-2RUZWq0; Sat, 3 Jun 2023 19:52:05 +0200
+Date: Sat, 03 Jun 2023 19:51:59 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <NYUOVR.OW8C8JU503CT2@t-online.de>
+In-Reply-To: 
+	<0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
+References: <20230527133252.284132-1-f_l_k@t-online.de>
+	<20230527133252.284132-2-f_l_k@t-online.de>
+	<17635252DFD4EDDE.6918@lists.openembedded.org>
+	<CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
+	<VDGDVR.YBUKQ953M2TP3@t-online.de>
+	<CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
+	<POIDVR.URDIMNIKV0SE3@t-online.de>
+	<CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
+	<MEJDVR.WDZW7MFB3W9N1@t-online.de>
+	<CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
+	<7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
+	<ZG5FVR.L4YKBKAES08S3@googlemail.com>
+	<0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCH 1/3] python3-pyproject-metadata: New recipe
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
- Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20230602074419.2450399-1-zboszor@gmail.com>
- <20230602172146f5408a36@mail.local>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <20230602172146f5408a36@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-HP/ZZyhtekvoJ4EldFEc"
+X-TOI-EXPURGATEID: 150726::1685814725-195BBE62-B5BBB8D7/0/0 CLEAN NORMAL
+X-TOI-MSGID: bfd14201-e692-4a0b-a646-569f26b1ffa2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 08:11:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182350
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 17:52:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182351
 
-2023. 06. 02. 19:21 keltezéssel, Alexandre Belloni írta:
-> Hello,
->
-> the series causes the following warnings:
+--=-HP/ZZyhtekvoJ4EldFEc
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Thanks. Just sent v4 with adding HOMEPAGE to both recipes.
+Am Mo, 29. Mai 2023 um 13:34:40 +0100 schrieb Richard Purdie 
+<richard.purdie@linuxfoundation.org>:
+> I'm going to revert those changes and then we can work out the correct
+> fix without any time pressures (and then I won't need to keep this on
+> my 'need to do something about' mental checklist!).
 
-> stdio: WARNING: python3-pyproject-metadata-native-0.7.1-r0 do_fetch: QA Issue: Recipe python3-pyproject-metadata in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-> stdio: WARNING: python3-pyproject-metadata-0.7.1-r0 do_fetch: QA Issue: Recipe python3-pyproject-metadata in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-> stdio: WARNING: python3-meson-python-0.13.1-r0 do_fetch: QA Issue: Recipe python3-meson-python in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-meson-python_0.13.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
-> stdio: WARNING: python3-meson-python-native-0.13.1-r0 do_fetch: QA Issue: Recipe python3-meson-python in /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/python/python3-meson-python_0.13.1.bb does not contain a HOMEPAGE. Please add an entry. [missing-metadata]
->
-> On 02/06/2023 09:44:17+0200, Zoltan Boszormenyi wrote:
->> It is a dependency for python3-meson-python.
->>
->> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->> ---
->>   meta/conf/distro/include/maintainers.inc         |  1 +
->>   .../python/python3-pyproject-metadata_0.7.1.bb   | 16 ++++++++++++++++
->>   2 files changed, 17 insertions(+)
->>   create mode 100644 meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
->>
->> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
->> index 5accca3fef..d910ce6481 100644
->> --- a/meta/conf/distro/include/maintainers.inc
->> +++ b/meta/conf/distro/include/maintainers.inc
->> @@ -670,6 +670,7 @@ RECIPE_MAINTAINER:pn-python3-pygobject = "Zang Ruochen <zangruochen@loongson.cn>
->>   RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
->>   RECIPE_MAINTAINER:pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->>   RECIPE_MAINTAINER:pn-python3-pyproject-hooks = "Ross Burton <ross.burton@arm.com>"
->> +RECIPE_MAINTAINER:pn-python3-pyproject-metadata = "Zoltán Böszörményi <zboszor@gmail.com>"
->>   RECIPE_MAINTAINER:pn-python3-pysocks = "Tim Orling <tim.orling@konsulko.com>"
->>   RECIPE_MAINTAINER:pn-python3-pytest = "Tim Orling <tim.orling@konsulko.com>"
->>   RECIPE_MAINTAINER:pn-python3-pytest-runner = "Tim Orling <tim.orling@konsulko.com>"
->> diff --git a/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb b/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
->> new file mode 100644
->> index 0000000000..9887af78d0
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python3-pyproject-metadata_0.7.1.bb
->> @@ -0,0 +1,16 @@
->> +SUMMARY = "PEP 621 metadata parsing"
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=310439af287b0fb4780b2ad6907c256c"
->> +
->> +PYPI_PACKAGE = "pyproject-metadata"
->> +
->> +inherit pypi python_setuptools_build_meta
->> +SRC_URI[sha256sum] = "0a94f18b108b9b21f3a26a3d541f056c34edcb17dc872a144a15618fed7aef67"
->> +
->> +BBCLASSEXTEND = "native nativesdk"
->> +
->> +RDEPENDS:${PN} += " \
->> +    python3-logging \
->> +    python3-packaging \
->> +    python3-profile \
->> +"
->> -- 
->> 2.40.1
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#182146): https://lists.openembedded.org/g/openembedded-core/message/182146
->> Mute This Topic: https://lists.openembedded.org/mt/99281729/3617179
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->
+I had some time to look at this problem. virtual/crypt-native is not 
+installed into recipe-sysroot-native because of this entry in 
+bitbake.conf:
+ASSUME_PROVIDED = "virtual/crypt-native"
+
+Removing the entry solved the issue for me. I could successfully build 
+core-image-minimal for musl and glibc without crypt.h from host machine.
+
+But I don't know the reason why this is ASSUME_PROVIDED, so I'm unsure 
+if this should even be touched.
+
+In a second step I created a musl-native recipe to be able to install 
+musl crypt.h into recipe-sysroot-native, but I'm not sure if this is 
+necessary either.
+
+<https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native>
+
+
+--=-HP/ZZyhtekvoJ4EldFEc
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">Am Mo, 29. Mai 2023 um 13:34:40 +0100 schrieb Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">I'm going to revert those changes and then we can work out the correct
+fix without any time pressures (and then I won't need to keep this on
+my 'need to do something about' mental checklist!).</div></blockquote><div><br></div><div><div>I had some time to look at this problem. virtual/crypt-native is not installed into recipe-sysroot-native because of this entry in bitbake.conf:</div><div>ASSUME_PROVIDED = "virtual/crypt-native"</div><div><br></div><div>Removing the entry solved the issue for me. I could successfully build core-image-minimal for musl and glibc without crypt.h from host machine.</div><div><br></div><div>But I don't know the reason why this is ASSUME_PROVIDED, so I'm unsure if this should even be touched.</div><div><br></div><div>In a second step I created a musl-native recipe to be able to install musl crypt.h into recipe-sysroot-native, but I'm not sure if this is necessary either.</div></div><div><br></div><div><a href="https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native">https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native</a></div></div>
+--=-HP/ZZyhtekvoJ4EldFEc--
 
 
