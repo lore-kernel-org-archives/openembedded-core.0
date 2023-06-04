@@ -1,308 +1,321 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A305C7EE29
-	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 20:33:34 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.24942.1685910807764119267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EF43C7EE23
+	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 20:34:54 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.24966.1685910893457258024
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jun 2023 13:33:28 -0700
+ Sun, 04 Jun 2023 13:34:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nknyd56b;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685910805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NH2nnY6BYiK+pjiu72fj/NPwzDtePrdp06dZ2cACxKs=;
-	b=nknyd56bL3+FREhh8IGYxlTURqo+RyybjbyR8vxTKM0fkVuApRXJVDjhoRuZDUm+s/qTxN
-	HBWiYfkBY3cnHX470hW2ZRYsDvoNXtfkb5HidvXLgCvC6sUVo36rkiGk71oCRB+Kyrxhnj
-	ZjysVrDAqFd1pd3a4HcfwKBUUfDkgWdnmFoiQadYmNHTVSoopN8D6NmPbwO5RzavdlgnOG
-	T2e5BpwauoUX9jOi469jlU88OThahxDgaPSeMROdDA3mBNb9Js5D0fQX4SZIdM5U/Uv3zp
-	wwAfm77DDKapzX3gndeBYl4r4kx6e4oeQUWpm/t8EIIla6I22Ph7f1u+Q7wB4w==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 51BA1FF806;
-	Sun,  4 Jun 2023 20:33:25 +0000 (UTC)
-Date: Sun, 4 Jun 2023 22:33:24 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Stefano Babic <sbabic@denx.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] libubootenv: upgrade 0.3.3 -> 0.3.4
-Message-ID: <20230604203324a71d55c7@mail.local>
-References: <20230602112737.28608-1-sbabic@denx.de>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YPvDPwbc;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-30ae141785bso4123310f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 13:34:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685910892; x=1688502892;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/734+NQm7aOYiIxcYeQOMZv+nq9RtkC56BsmFrVGzzM=;
+        b=YPvDPwbcDtVWEcrfNhCpUMkQi/1BKgpq86E9IZe34UDGuKdtGK1InddFO66IQ5exZz
+         FbJtXzNwu9HzpzFvDhG2c+pUIhopW50cCAQyR5fRBQ9NxsFL8/5CQyyjt/cYNsSa3sbK
+         1T7ugngJ3OlsBZUURURxc1Ll+k+2uU/EcwABFg7WXJwhN7EpJzBL5g/FJF6neraycvBb
+         KFaXM7Hff5jYGW4FkgevmX2ep8Vsc0U5YdvgVdHZbq5Pf1p79zo4rNlfTcnCDTcgK5DM
+         kLP/HLOj5AJqZ2G7imVVr17TTUNKd8HvRXht3dDDtR3Tmj3LslZXSIGEO7EMQaXpwCcT
+         jOiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685910892; x=1688502892;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/734+NQm7aOYiIxcYeQOMZv+nq9RtkC56BsmFrVGzzM=;
+        b=jxu+HQqeOiLrBV01IySLgGN3rDCTCYPXtRpZqo0OBNsLyHessRjgqVcD3lxiMO+56z
+         ikAHaARhgHvz5eN+s8x7qRLK0s2KYyp0oNZ+QqqMbwkdRB1BFNpr6MGkGsF+Y0pURGpO
+         A3RS1RATVW+HP7ZbIwpcYDyvZuahNVNuF67ZDgQm2ZsDWaDuYq2QTReBVGuftqIUzN+E
+         hXWBY/tTPy3O7FYrNERq6ENtyQOGroHHTpF3WiIKTOrvIJKY61aQ1aibQryIq3BS7v26
+         4z4uGgKe4Jp0SMJXrEcXiD3g/0cAxZ3z8bewnsVtMFKaEIcTiCgc5gCHbUUXmLnP2eZY
+         lhjQ==
+X-Gm-Message-State: AC+VfDyZmlAYw/kZj+5dylvcyJcYYGLq6WJxqEEXT6WXc0vEZQhqWC95
+	24/kOl6P6baN23/V39OCzyA1pIn1IsX5stSSc0XJWNpN
+X-Google-Smtp-Source: ACHHUZ7UzEb0x97cBj+1yx26exX0Ewv4SnYtNOOncoyzcwgXj4MUvN6pza6B5l/++B94yjV9x2SV+jsk7w8kDjCAXXM=
+X-Received: by 2002:adf:dc01:0:b0:2f6:ca0d:ec1c with SMTP id
+ t1-20020adfdc01000000b002f6ca0dec1cmr4355338wri.10.1685910891479; Sun, 04 Jun
+ 2023 13:34:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230602112737.28608-1-sbabic@denx.de>
+References: <cover.1685672395.git.steve@sakoman.com> <0470293e16f424ba4ee6505f3ef68e5ee13df483.1685672395.git.steve@sakoman.com>
+ <CA+chaQdwObovTdLKQDoK5iKs4JDZXMNbmKc8X-EJFLaNJdX+Ww@mail.gmail.com> <CAOSpxdabCO0O+Ct_wMeYxCiZ60=33tC3a0jAqw=yL12KSfNpCA@mail.gmail.com>
+In-Reply-To: <CAOSpxdabCO0O+Ct_wMeYxCiZ60=33tC3a0jAqw=yL12KSfNpCA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 4 Jun 2023 22:34:39 +0200
+Message-ID: <CA+chaQf2FWd9rhOU07s0ra8S5tkEKNDZsjiXFY+GDynssuBd9A@mail.gmail.com>
+Subject: Re: [OE-core][mickledore 13/13] uninative: Upgrade to 4.0 to include
+ latest gcc 13.1.1
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000cf460705fd53b781"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 20:33:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182368
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 20:34:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182369
 
-Hello Stefano,
+--000000000000cf460705fd53b781
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This caused the following failure:
+> It might be useful to delay backporting this for a bit longer (and I'll
+soon confirm if 3.10 was already affected or not).
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/7124/step=
-s/12/logs/stdio
+I can confirm that 3.10 is also affected.
 
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=3D1 cmake --build /home/pokybuild/yocto-worker/qemux86-worl=
-d/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/bui=
-ld --target all --
-| [1/8] cd /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/=
-x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/build/src && /home/pokybui=
-ld/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/li=
-b32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin/cmake -E create_syml=
-ink fw_printenv fw_setenv
-| [2/8] /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86=
--pokymllib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin=
-/i686-pokymllib32-linux/i686-pokymllib32-linux-gcc --sysroot=3D/home/pokybu=
-ild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/l=
-ib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot -DVERSION=3D\"0.3.4\" -Duboo=
-tenv_EXPORTS -I/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/w=
-ork/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src -m32 -fstack-p=
-rotector-strong  -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werr=
-or=3Dformat-security -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64  --sysroot=
-=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-poky=
-mllib32-linux/lib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot  -O2 -pipe -g=
- -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=3D/h=
-ome/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib=
-32-linux/lib32-libubootenv/0.3.4-r0/git=3D/usr/src/debug/lib32-libubootenv/=
-0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-world/b=
-uild/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git=3D=
-/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fmacro-prefix-map=3D/home/pokyb=
-uild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/=
-lib32-libubootenv/0.3.4-r0/build=3D/usr/src/debug/lib32-libubootenv/0.3.4-r=
-0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-world/build/bu=
-ild/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/build=3D/usr/=
-src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/=
-yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32=
--libubootenv/0.3.4-r0/lib32-recipe-sysroot=3D  -fmacro-prefix-map=3D/home/p=
-okybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-li=
-nux/lib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot=3D  -fdebug-prefix-map=
-=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-poky=
-mllib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native=3D  -std=3Dg=
-nu99 -DNDEBUG -fPIC -MD -MT src/CMakeFiles/ubootenv.dir/uboot_env.c.o -MF s=
-rc/CMakeFiles/ubootenv.dir/uboot_env.c.o.d -o src/CMakeFiles/ubootenv.dir/u=
-boot_env.c.o -c /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/=
-work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c
-| FAILED: src/CMakeFiles/ubootenv.dir/uboot_env.c.o
-| /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokym=
-llib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin/i686-=
-pokymllib32-linux/i686-pokymllib32-linux-gcc --sysroot=3D/home/pokybuild/yo=
-cto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-l=
-ibubootenv/0.3.4-r0/lib32-recipe-sysroot -DVERSION=3D\"0.3.4\" -Dubootenv_E=
-XPORTS -I/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x8=
-6-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src -m32 -fstack-protect=
-or-strong  -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Df=
-ormat-security -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64  --sysroot=3D/hom=
-e/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32=
--linux/lib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot  -O2 -pipe -g -felim=
-inate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=3D/home/pok=
-ybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linu=
-x/lib32-libubootenv/0.3.4-r0/git=3D/usr/src/debug/lib32-libubootenv/0.3.4-r=
-0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-world/build/bu=
-ild/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git=3D/usr/sr=
-c/debug/lib32-libubootenv/0.3.4-r0  -fmacro-prefix-map=3D/home/pokybuild/yo=
-cto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-l=
-ibubootenv/0.3.4-r0/build=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fde=
-bug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp=
-/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/build=3D/usr/src/deb=
-ug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-w=
-orker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubo=
-otenv/0.3.4-r0/lib32-recipe-sysroot=3D  -fmacro-prefix-map=3D/home/pokybuil=
-d/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib=
-32-libubootenv/0.3.4-r0/lib32-recipe-sysroot=3D  -fdebug-prefix-map=3D/home=
-/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-=
-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native=3D  -std=3Dgnu99 -DN=
-DEBUG -fPIC -MD -MT src/CMakeFiles/ubootenv.dir/uboot_env.c.o -MF src/CMake=
-Files/ubootenv.dir/uboot_env.c.o.d -o src/CMakeFiles/ubootenv.dir/uboot_env=
-=2Ec.o -c /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x=
-86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c
-| /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokym=
-llib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c:36:10: fatal er=
-ror: yaml.h: No such file or directory
-|    36 | #include <yaml.h>
-|       |          ^~~~~~~~
-| compilation terminated.
-| [3/8] /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86=
--pokymllib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin=
-/i686-pokymllib32-linux/i686-pokymllib32-linux-gcc --sysroot=3D/home/pokybu=
-ild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/l=
-ib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot -DVERSION=3D\"0.3.4\" -I/hom=
-e/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32=
--linux/lib32-libubootenv/0.3.4-r0/git/src -m32 -fstack-protector-strong  -O=
-2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-securit=
-y -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64  --sysroot=3D/home/pokybuild/y=
-octo-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-=
-libubootenv/0.3.4-r0/lib32-recipe-sysroot  -O2 -pipe -g -feliminate-unused-=
-debug-types -fcanon-prefix-map  -fmacro-prefix-map=3D/home/pokybuild/yocto-=
-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libub=
-ootenv/0.3.4-r0/git=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-pr=
-efix-map=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/=
-x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git=3D/usr/src/debug/lib32=
--libubootenv/0.3.4-r0  -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/qe=
-mux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.=
-3.4-r0/build=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-ma=
-p=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pok=
-ymllib32-linux/lib32-libubootenv/0.3.4-r0/build=3D/usr/src/debug/lib32-libu=
-bootenv/0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86=
--world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r=
-0/lib32-recipe-sysroot=3D  -fmacro-prefix-map=3D/home/pokybuild/yocto-worke=
-r/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubooten=
-v/0.3.4-r0/lib32-recipe-sysroot=3D  -fdebug-prefix-map=3D/home/pokybuild/yo=
-cto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-l=
-ibubootenv/0.3.4-r0/recipe-sysroot-native=3D  -std=3Dgnu99 -DNDEBUG -MD -MT=
- src/CMakeFiles/ubootenv_static.dir/uboot_env.c.o -MF src/CMakeFiles/uboote=
-nv_static.dir/uboot_env.c.o.d -o src/CMakeFiles/ubootenv_static.dir/uboot_e=
-nv.c.o -c /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x=
-86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c
-| FAILED: src/CMakeFiles/ubootenv_static.dir/uboot_env.c.o
-| /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokym=
-llib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin/i686-=
-pokymllib32-linux/i686-pokymllib32-linux-gcc --sysroot=3D/home/pokybuild/yo=
-cto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-l=
-ibubootenv/0.3.4-r0/lib32-recipe-sysroot -DVERSION=3D\"0.3.4\" -I/home/poky=
-build/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux=
-/lib32-libubootenv/0.3.4-r0/git/src -m32 -fstack-protector-strong  -O2 -D_F=
-ORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security -D_T=
-IME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64  --sysroot=3D/home/pokybuild/yocto-w=
-orker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubo=
-otenv/0.3.4-r0/lib32-recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-=
-types -fcanon-prefix-map  -fmacro-prefix-map=3D/home/pokybuild/yocto-worker=
-/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv=
-/0.3.4-r0/git=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-m=
-ap=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-po=
-kymllib32-linux/lib32-libubootenv/0.3.4-r0/git=3D/usr/src/debug/lib32-libub=
-ootenv/0.3.4-r0  -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-=
-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0=
-/build=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-map=3D/h=
-ome/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib=
-32-linux/lib32-libubootenv/0.3.4-r0/build=3D/usr/src/debug/lib32-libubooten=
-v/0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86-world=
-/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/lib3=
-2-recipe-sysroot=3D  -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/qemu=
-x86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.=
-4-r0/lib32-recipe-sysroot=3D  -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
-rker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libuboo=
-tenv/0.3.4-r0/recipe-sysroot-native=3D  -std=3Dgnu99 -DNDEBUG -MD -MT src/C=
-MakeFiles/ubootenv_static.dir/uboot_env.c.o -MF src/CMakeFiles/ubootenv_sta=
-tic.dir/uboot_env.c.o.d -o src/CMakeFiles/ubootenv_static.dir/uboot_env.c.o=
- -c /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pok=
-ymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c
-| /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokym=
-llib32-linux/lib32-libubootenv/0.3.4-r0/git/src/uboot_env.c:36:10: fatal er=
-ror: yaml.h: No such file or directory
-|    36 | #include <yaml.h>
-|       |          ^~~~~~~~
-| compilation terminated.
-| [4/8] /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86=
--pokymllib32-linux/lib32-libubootenv/0.3.4-r0/recipe-sysroot-native/usr/bin=
-/i686-pokymllib32-linux/i686-pokymllib32-linux-gcc --sysroot=3D/home/pokybu=
-ild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/l=
-ib32-libubootenv/0.3.4-r0/lib32-recipe-sysroot -DVERSION=3D\"0.3.4\" -I/hom=
-e/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32=
--linux/lib32-libubootenv/0.3.4-r0/git/src -m32 -fstack-protector-strong  -O=
-2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-securit=
-y -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64  --sysroot=3D/home/pokybuild/y=
-octo-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-=
-libubootenv/0.3.4-r0/lib32-recipe-sysroot  -O2 -pipe -g -feliminate-unused-=
-debug-types -fcanon-prefix-map  -fmacro-prefix-map=3D/home/pokybuild/yocto-=
-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libub=
-ootenv/0.3.4-r0/git=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-pr=
-efix-map=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/=
-x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/git=3D/usr/src/debug/lib32=
--libubootenv/0.3.4-r0  -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/qe=
-mux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.=
-3.4-r0/build=3D/usr/src/debug/lib32-libubootenv/0.3.4-r0  -fdebug-prefix-ma=
-p=3D/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pok=
-ymllib32-linux/lib32-libubootenv/0.3.4-r0/build=3D/usr/src/debug/lib32-libu=
-bootenv/0.3.4-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemux86=
--world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r=
-0/lib32-recipe-sysroot=3D  -fmacro-prefix-map=3D/home/pokybuild/yocto-worke=
-r/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-libubooten=
-v/0.3.4-r0/lib32-recipe-sysroot=3D  -fdebug-prefix-map=3D/home/pokybuild/yo=
-cto-worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-l=
-ibubootenv/0.3.4-r0/recipe-sysroot-native=3D  -std=3Dgnu99 -DNDEBUG -MD -MT=
- src/CMakeFiles/fw_printenv.dir/fw_printenv.c.o -MF src/CMakeFiles/fw_print=
-env.dir/fw_printenv.c.o.d -o src/CMakeFiles/fw_printenv.dir/fw_printenv.c.o=
- -c /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pok=
-ymllib32-linux/lib32-libubootenv/0.3.4-r0/git/src/fw_printenv.c
-| ninja: build stopped: subcommand failed.
-| WARNING: /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/=
-x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/temp/run.do_compile.12877:=
-153 exit 1 from 'eval ${DESTDIR:+DESTDIR=3D${DESTDIR} }VERBOSE=3D1 cmake --=
-build '/home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-=
-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/build' "$@" -- ${EXTRA_OECMAKE=
-_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/qemux86-world/bui=
-ld/build/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/temp/run=
-=2Edo_compile.12877, line 153
-| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/qemux86-world/build/b=
-uild/tmp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/temp/run.do_=
-compile.12877, line 147
-| 	#3: do_compile, /home/pokybuild/yocto-worker/qemux86-world/build/build/t=
-mp/work/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/temp/run.do_compil=
-e.12877, line 142
-| 	#4: main, /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/wor=
-k/x86-pokymllib32-linux/lib32-libubootenv/0.3.4-r0/temp/run.do_compile.1287=
-7, line 166
-NOTE: recipe lib32-libubootenv-0.3.4-r0: task do_compile: Failed
+I did build with
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dstable/k=
+irkstone-nut&id=3D75e3870ea124321b81f856c4e5170c891f0bd050
+and mkfs.ext4 didn't segfault. With uninative 3.10 from
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dstable/k=
+irkstone-nut&id=3D680eecc3ae09ea5585e46ff0e67f7c6704221806
+it segfaults again.
 
-On 02/06/2023 13:27:37+0200, Stefano Babic wrote:
-> Signed-off-by: Stefano Babic <sbabic@denx.de>
-> ---
->  .../u-boot/{libubootenv_0.3.3.bb =3D> libubootenv_0.3.4.bb}       | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-bsp/u-boot/{libubootenv_0.3.3.bb =3D> libubootenv_0.=
-3.4.bb} (93%)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.3.bb b/meta/recipes-=
-bsp/u-boot/libubootenv_0.3.4.bb
-> similarity index 93%
-> rename from meta/recipes-bsp/u-boot/libubootenv_0.3.3.bb
-> rename to meta/recipes-bsp/u-boot/libubootenv_0.3.4.bb
-> index 55f91b6f05..25cdf3b05c 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.3.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.4.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSES/LGPL-2.1-or-later=
-=2Etxt;md5=3D4fbd65380cdd255951
->  SECTION =3D "libs"
-> =20
->  SRC_URI =3D "git://github.com/sbabic/libubootenv;protocol=3Dhttps;branch=
-=3Dmaster"
-> -SRCREV =3D "108100622160bb0c7ef4b6186230fe1f26402791"
-> +SRCREV =3D "4dfb5254fc0540a36e87914bc14644c047ea7678"
-> =20
->  S =3D "${WORKDIR}/git"
-> =20
-> --=20
-> 2.34.1
->=20
+I haven't reproduced the gdk-pixbuf-native issue with buildtools-extended
+4.0.6 with kirkstone yet, so that one might be only with nanbield, but
+mkfs.ext4 segfaults seem related to uninative for sure. Will debug more
+when I get access.
 
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182303): https://lists.openembedded.org/g/openembedde=
-d-core/message/182303
-> Mute This Topic: https://lists.openembedded.org/mt/99283999/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Cheers,
 
+On Sun, Jun 4, 2023 at 9:14=E2=80=AFPM Steve Sakoman <steve@sakoman.com> wr=
+ote:
 
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> On Sun, Jun 4, 2023 at 7:39=E2=80=AFAM Martin Jansa <martin.jansa@gmail.c=
+om>
+> wrote:
+> >
+> > Hi,
+> >
+> > it looks like this change is causing mkfs.ext4 to segfault on some
+> builders.
+> >
+> > I'm seeing it on ubuntu-18.04 (I know it's unsupported now). It might b=
+e
+> related to older docker or libseccomp2 there, because there is similar
+> issue with gdk-pixbuf-native which fails when buildtools-extended is used
+> together with this and might be related to
+> https://github.com/moby/moby/issues/43595 because when I try very similar
+> 18.04 ubuntu image on my gentoo host I cannot reproduce neither the
+> gdk-pixbuf-native failure nor the mkfs.ext4 segfaults.
+> >
+> > I'm trying to get access to some of the affected boxes to find out whic=
+h
+> version docker/libseccomp2 is used there and to double check that this is
+> root cause for these failures (now I can only confirm that it started in
+> Nanbield when this uninative upgrade was merged and now I've reproduced t=
+he
+> same with kirkstone-nut with the same uninative upgrade.
+> >
+> > It might be useful to delay backporting this for a bit longer (and I'll
+> soon confirm if 3.10 was already affected or not).
+>
+> Agreed, I'm struggling with kirkstone too, so will delay taking the
+> uninative update until we learn more.
+>
+> Thanks for the review!
+>
+> Steve
+>
+> > On Fri, Jun 2, 2023 at 4:22=E2=80=AFAM Steve Sakoman <steve@sakoman.com=
+> wrote:
+> >>
+> >> From: Michael Halstead <mhalstead@linuxfoundation.org>
+> >>
+> >> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >> (cherry picked from commit f87becb69e02bdf055dffb633ed4f6d36b36f7a7)
+> >> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> >> ---
+> >>  meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+> >>  1 file changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/meta/conf/distro/include/yocto-uninative.inc
+> b/meta/conf/distro/include/yocto-uninative.inc
+> >> index f3c05b7e20..ad4816a1f3 100644
+> >> --- a/meta/conf/distro/include/yocto-uninative.inc
+> >> +++ b/meta/conf/distro/include/yocto-uninative.inc
+> >> @@ -7,9 +7,9 @@
+> >>  #
+> >>
+> >>  UNINATIVE_MAXGLIBCVERSION =3D "2.37"
+> >> -UNINATIVE_VERSION =3D "3.10"
+> >> +UNINATIVE_VERSION =3D "4.0"
+> >>
+> >>  UNINATIVE_URL ?=3D "
+> http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}=
+/
+> "
+> >> -UNINATIVE_CHECKSUM[aarch64] ?=3D
+> "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
+> >> -UNINATIVE_CHECKSUM[i686] ?=3D
+> "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
+> >> -UNINATIVE_CHECKSUM[x86_64] ?=3D
+> "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
+> >> +UNINATIVE_CHECKSUM[aarch64] ?=3D
+> "7baa8418a302df52e00916193b0a04f318356d9d2670c9a2bce3e966efefd738"
+> >> +UNINATIVE_CHECKSUM[i686] ?=3D
+> "83114d36883d43a521e280742b9849bf85d039b2f83d8e21d480659babe75ee8"
+> >> +UNINATIVE_CHECKSUM[x86_64] ?=3D
+> "fd75b2a1a67a10f6b7d65afb7d0f3e71a63b0038e428f34dfe420bb37716558a"
+> >> --
+> >> 2.34.1
+> >>
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#182136):
+> https://lists.openembedded.org/g/openembedded-core/message/182136
+> >> Mute This Topic: https://lists.openembedded.org/mt/99279066/3617156
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[
+> Martin.Jansa@gmail.com]
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
+>
+
+--000000000000cf460705fd53b781
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><span style=3D"color:rgb(80,0,80)">&gt; It might be useful=
+ to delay backporting this for a bit longer (and I&#39;ll soon confirm if 3=
+.10 was already affected or not).</span><br><div><span style=3D"color:rgb(8=
+0,0,80)"><br></span></div><div><span style=3D"color:rgb(80,0,80)">I can con=
+firm that 3.10 is also affected.</span></div><div><span style=3D"color:rgb(=
+80,0,80)"><br></span></div><div><span style=3D"color:rgb(80,0,80)">I did bu=
+ild with=C2=A0</span><a href=3D"https://git.openembedded.org/openembedded-c=
+ore-contrib/commit/?h=3Dstable/kirkstone-nut&amp;id=3D75e3870ea124321b81f85=
+6c4e5170c891f0bd050" target=3D"_blank">https://git.openembedded.org/openemb=
+edded-core-contrib/commit/?h=3Dstable/kirkstone-nut&amp;id=3D75e3870ea12432=
+1b81f856c4e5170c891f0bd050</a> and mkfs.ext4 didn&#39;t segfault. With unin=
+ative 3.10 from=C2=A0<a href=3D"https://git.openembedded.org/openembedded-c=
+ore-contrib/commit/?h=3Dstable/kirkstone-nut&amp;id=3D680eecc3ae09ea5585e46=
+ff0e67f7c6704221806" target=3D"_blank">https://git.openembedded.org/openemb=
+edded-core-contrib/commit/?h=3Dstable/kirkstone-nut&amp;id=3D680eecc3ae09ea=
+5585e46ff0e67f7c6704221806</a> it segfaults again.</div><div><br></div><div=
+>I haven&#39;t reproduced the gdk-pixbuf-native issue with buildtools-exten=
+ded 4.0.6 with kirkstone yet, so that one might be only with nanbield, but =
+mkfs.ext4 segfaults seem related to uninative for sure. Will debug more whe=
+n I get access.</div><div><br></div><div>Cheers,</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jun 4, 2023 =
+at 9:14=E2=80=AFPM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" t=
+arget=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">On Sun, Jun 4, 2023 at 7:39=E2=80=AFAM Ma=
+rtin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">=
+martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; it looks like this change is causing mkfs.ext4 to segfault on some bui=
+lders.<br>
+&gt;<br>
+&gt; I&#39;m seeing it on ubuntu-18.04 (I know it&#39;s unsupported now). I=
+t might be related to older docker or libseccomp2 there, because there is s=
+imilar issue with gdk-pixbuf-native which fails when buildtools-extended is=
+ used together with this and might be related to <a href=3D"https://github.=
+com/moby/moby/issues/43595" rel=3D"noreferrer" target=3D"_blank">https://gi=
+thub.com/moby/moby/issues/43595</a> because when I try very similar 18.04 u=
+buntu image on my gentoo host I cannot reproduce neither the gdk-pixbuf-nat=
+ive failure nor the mkfs.ext4 segfaults.<br>
+&gt;<br>
+&gt; I&#39;m trying to get access to some of the affected boxes to find out=
+ which version docker/libseccomp2 is used there and to double check that th=
+is is root cause for these failures (now I can only confirm that it started=
+ in Nanbield when this uninative upgrade was merged and now I&#39;ve reprod=
+uced the same with kirkstone-nut with the same uninative upgrade.<br>
+&gt;<br>
+&gt; It might be useful to delay backporting this for a bit longer (and I&#=
+39;ll soon confirm if 3.10 was already affected or not).<br>
+<br>
+Agreed, I&#39;m struggling with kirkstone too, so will delay taking the<br>
+uninative update until we learn more.<br>
+<br>
+Thanks for the review!<br>
+<br>
+Steve<br>
+<br>
+&gt; On Fri, Jun 2, 2023 at 4:22=E2=80=AFAM Steve Sakoman &lt;<a href=3D"ma=
+ilto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<=
+br>
+&gt;&gt;<br>
+&gt;&gt; From: Michael Halstead &lt;<a href=3D"mailto:mhalstead@linuxfounda=
+tion.org" target=3D"_blank">mhalstead@linuxfoundation.org</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Michael Halstead &lt;<a href=3D"mailto:mhalstead@li=
+nuxfoundation.org" target=3D"_blank">mhalstead@linuxfoundation.org</a>&gt;<=
+br>
+&gt;&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie=
+@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org<=
+/a>&gt;<br>
+&gt;&gt; (cherry picked from commit f87becb69e02bdf055dffb633ed4f6d36b36f7a=
+7)<br>
+&gt;&gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.c=
+om" target=3D"_blank">steve@sakoman.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/conf/distro/include/yocto-uninative.inc | 8 ++++----<br=
+>
+&gt;&gt;=C2=A0 1 file changed, 4 insertions(+), 4 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/c=
+onf/distro/include/yocto-uninative.inc<br>
+&gt;&gt; index f3c05b7e20..ad4816a1f3 100644<br>
+&gt;&gt; --- a/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt;&gt; +++ b/meta/conf/distro/include/yocto-uninative.inc<br>
+&gt;&gt; @@ -7,9 +7,9 @@<br>
+&gt;&gt;=C2=A0 #<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 UNINATIVE_MAXGLIBCVERSION =3D &quot;2.37&quot;<br>
+&gt;&gt; -UNINATIVE_VERSION =3D &quot;3.10&quot;<br>
+&gt;&gt; +UNINATIVE_VERSION =3D &quot;4.0&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 UNINATIVE_URL ?=3D &quot;<a href=3D"http://downloads.yoctopr=
+oject.org/releases/uninative/$%7BUNINATIVE_VERSION%7D/" rel=3D"noreferrer" =
+target=3D"_blank">http://downloads.yoctoproject.org/releases/uninative/${UN=
+INATIVE_VERSION}/</a>&quot;<br>
+&gt;&gt; -UNINATIVE_CHECKSUM[aarch64] ?=3D &quot;b11f7dff0ff5e3c971f22e89a1=
+05efb0f8d2006fd71d1ea3e5da771e416b0e01&quot;<br>
+&gt;&gt; -UNINATIVE_CHECKSUM[i686] ?=3D &quot;ad7daa7fca7693ca07eea5279f830=
+333530171d357759b380954a25254edd8dd&quot;<br>
+&gt;&gt; -UNINATIVE_CHECKSUM[x86_64] ?=3D &quot;ce8ff7e3247da312fbf84008f41=
+5bc1b4d113ac9fe4ec91581e4a20cd8b475d3&quot;<br>
+&gt;&gt; +UNINATIVE_CHECKSUM[aarch64] ?=3D &quot;7baa8418a302df52e00916193b=
+0a04f318356d9d2670c9a2bce3e966efefd738&quot;<br>
+&gt;&gt; +UNINATIVE_CHECKSUM[i686] ?=3D &quot;83114d36883d43a521e280742b984=
+9bf85d039b2f83d8e21d480659babe75ee8&quot;<br>
+&gt;&gt; +UNINATIVE_CHECKSUM[x86_64] ?=3D &quot;fd75b2a1a67a10f6b7d65afb7d0=
+f3e71a63b0038e428f34dfe420bb37716558a&quot;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.34.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; Links: You receive all messages sent to this group.<br>
+&gt;&gt; View/Reply Online (#182136): <a href=3D"https://lists.openembedded=
+.org/g/openembedded-core/message/182136" rel=3D"noreferrer" target=3D"_blan=
+k">https://lists.openembedded.org/g/openembedded-core/message/182136</a><br=
+>
+&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/9927=
+9066/3617156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/mt/99279066/3617156</a><br>
+&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
+nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
+.org</a><br>
+&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
+ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmai=
+l.com" target=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt;<br>
+</blockquote></div>
+
+--000000000000cf460705fd53b781--
 
