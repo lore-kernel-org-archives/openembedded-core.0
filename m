@@ -1,150 +1,115 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDD2C7EE23
-	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 19:14:23 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.23244.1685906053971675959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B94C77B73
+	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 19:53:34 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.24032.1685908411574493285
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jun 2023 12:14:14 -0700
+ Sun, 04 Jun 2023 12:53:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=oQ7ddvDI;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.41, mailfrom: steve@sakoman.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4f619c2ba18so1569781e87.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 12:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685906052; x=1688498052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FNR6KWXemAkOR6L2ucdY21UuwS9Gbd+ssTq9/KPxd88=;
-        b=oQ7ddvDIE7l5SxBdbm5rIUOujs6Yjwzj0ytV9WAPqXdjIGgv6TRdMN2uasxdDpar5t
-         KLE7w+a3aG97rsSWvJxB4qAkwtBVcJgsG+6FdNwpM49AAyt8W+NzsmXt4RMhayrquMiy
-         2KN/MYUQB1Sei/bEIGwy+DPjV6BlDKdY5YvZVbFLkJKe0LQ8TCb8H31nVtiCEiRHoOmJ
-         PxTldwF+yPG6Ke2NiBP+mUMH85JnMT30V06z/9idj9NQjtYeYnupdMd/oEJvP3iU2VWO
-         dcygrOTGnBrBs/45sbeEJKjBIhgJheydH2J7vynbUp7EwBwcvL0HvPkc9zMRrNOpOFbN
-         s8zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685906052; x=1688498052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FNR6KWXemAkOR6L2ucdY21UuwS9Gbd+ssTq9/KPxd88=;
-        b=Y8ILbAlT56h9WcgPNOAak38VHD5x16Xfn/kFCfC+8p7P4gDjXMKMdd6p5xL8R3VN7Y
-         VgBkdmW11vmrWVJ+nngIGiPgLfc2hpaHb7cSCtHL1Wm4dSOB1Ac8hOuOQ0pwSOZ48cc2
-         c1u8xnfOw7j3ltfyMNIqJOJT6F1lvjocZfTtO9zeHY37ZWi34rc/vsy1hONpcEj2dGRF
-         U08CKNdqKIYUdJZC6N7DY1EhXHP0r/bkUFdJ4o+qMpye4CgLbValtbXvcXWDV/7p6VcP
-         JIvxJJ6MH1NS7iq8oF5xSQS46Ux0jEneLUse7Psx2+sA5/PvHqq0O4PPGL/sHGUW9qOf
-         eNHA==
-X-Gm-Message-State: AC+VfDybaQUfl2qlS1iRQJpZM/bTZ9/x1CWuMXcRrMUjJEtTA9vbAS+f
-	fxT8PuCf8WQMNeWap1TV6XYHdlMy82lvb3C+ov5Vig==
-X-Google-Smtp-Source: ACHHUZ7vPtW7QCBeI+OeJW/DvNojLgXddY6ejFGEfahQbgEDKL2aBt3tub6BAQ+rtS4vhdiNcEs1UuqqTQa8vAJ9oqM=
-X-Received: by 2002:ac2:5201:0:b0:4f3:78c2:2a6d with SMTP id
- a1-20020ac25201000000b004f378c22a6dmr4104414lfl.3.1685906051561; Sun, 04 Jun
- 2023 12:14:11 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd86.dcpf.telekom.de (fwd86.aul.t-online.de [10.223.144.112])
+	by mailout11.t-online.de (Postfix) with SMTP id 82DBF253F;
+	Sun,  4 Jun 2023 21:53:29 +0200 (CEST)
+Received: from [192.168.178.156] ([79.219.228.74]) by fwd86.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1q5tn4-0ttbNY0; Sun, 4 Jun 2023 21:53:26 +0200
+Date: Sun, 04 Jun 2023 21:53:20 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <W8VQVR.DSGQ4TYA8TYJ3@t-online.de>
+In-Reply-To: 
+	<CANNYZj_UKMM6P4tk0eXjGFiN74tYqM0XZCUUJwK82LD0St-hRw@mail.gmail.com>
+References: <20230527133252.284132-1-f_l_k@t-online.de>
+	<20230527133252.284132-2-f_l_k@t-online.de>
+	<17635252DFD4EDDE.6918@lists.openembedded.org>
+	<CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
+	<VDGDVR.YBUKQ953M2TP3@t-online.de>
+	<CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
+	<POIDVR.URDIMNIKV0SE3@t-online.de>
+	<CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
+	<MEJDVR.WDZW7MFB3W9N1@t-online.de>
+	<CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
+	<7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
+	<ZG5FVR.L4YKBKAES08S3@googlemail.com>
+	<0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
+	<NYUOVR.OW8C8JU503CT2@t-online.de>
+	<CANNYZj_UKMM6P4tk0eXjGFiN74tYqM0XZCUUJwK82LD0St-hRw@mail.gmail.com>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-References: <cover.1685672395.git.steve@sakoman.com> <0470293e16f424ba4ee6505f3ef68e5ee13df483.1685672395.git.steve@sakoman.com>
- <CA+chaQdwObovTdLKQDoK5iKs4JDZXMNbmKc8X-EJFLaNJdX+Ww@mail.gmail.com>
-In-Reply-To: <CA+chaQdwObovTdLKQDoK5iKs4JDZXMNbmKc8X-EJFLaNJdX+Ww@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sun, 4 Jun 2023 09:14:00 -1000
-Message-ID: <CAOSpxdabCO0O+Ct_wMeYxCiZ60=33tC3a0jAqw=yL12KSfNpCA@mail.gmail.com>
-Subject: Re: [OE-core][mickledore 13/13] uninative: Upgrade to 4.0 to include
- latest gcc 13.1.1
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="=-/ai5wYAfD9T+Dxi+helz"
+X-TOI-EXPURGATEID: 150726::1685908406-0FFFBC77-01758025/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7656a260-525a-4b91-8ef5-00abef152c80
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 19:14:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182366
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 19:53:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182367
 
-On Sun, Jun 4, 2023 at 7:39=E2=80=AFAM Martin Jansa <martin.jansa@gmail.com=
-> wrote:
->
-> Hi,
->
-> it looks like this change is causing mkfs.ext4 to segfault on some builde=
-rs.
->
-> I'm seeing it on ubuntu-18.04 (I know it's unsupported now). It might be =
-related to older docker or libseccomp2 there, because there is similar issu=
-e with gdk-pixbuf-native which fails when buildtools-extended is used toget=
-her with this and might be related to https://github.com/moby/moby/issues/4=
-3595 because when I try very similar 18.04 ubuntu image on my gentoo host I=
- cannot reproduce neither the gdk-pixbuf-native failure nor the mkfs.ext4 s=
-egfaults.
->
-> I'm trying to get access to some of the affected boxes to find out which =
-version docker/libseccomp2 is used there and to double check that this is r=
-oot cause for these failures (now I can only confirm that it started in Nan=
-bield when this uninative upgrade was merged and now I've reproduced the sa=
-me with kirkstone-nut with the same uninative upgrade.
->
-> It might be useful to delay backporting this for a bit longer (and I'll s=
-oon confirm if 3.10 was already affected or not).
+--=-/ai5wYAfD9T+Dxi+helz
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Agreed, I'm struggling with kirkstone too, so will delay taking the
-uninative update until we learn more.
+Thanks for the link
 
-Thanks for the review!
+Am Sa, 3. Jun 2023 um 20:20:48 +0200 schrieb Alexander Kanavin 
+<alex.kanavin@gmail.com>:
+> On Sat, 3 Jun 2023 at 19:52, Markus Volk <f_l_k@t-online.de 
+> <mailto:f_l_k@t-online.de>> wrote:
+>>  I had some time to look at this problem. virtual/crypt-native is 
+>> not installed into recipe-sysroot-native because of this entry in 
+>> bitbake.conf:
+>>  ASSUME_PROVIDED = "virtual/crypt-native"
+>> 
+>>  Removing the entry solved the issue for me. I could successfully 
+>> build core-image-minimal for musl and glibc without crypt.h from 
+>> host machine.
+>> 
+>>  But I don't know the reason why this is ASSUME_PROVIDED, so I'm 
+>> unsure if this should even be touched.
+>> 
+>>  In a second step I created a musl-native recipe to be able to 
+>> install musl crypt.h into recipe-sysroot-native, but I'm not sure if 
+>> this is necessary either.
+>> 
+>>  
+>> <https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native>
+> 
+> I took a look; I believe this is by design, and for native recipes
+> crypt.h does indeed need to be provided by the host distro, and not
+> any of the recipes. This is where it was added:
+> <https://git.yoctoproject.org/poky/commit/?id=29f65bda6d2c>
+> 
+> Alex
 
-Steve
 
-> On Fri, Jun 2, 2023 at 4:22=E2=80=AFAM Steve Sakoman <steve@sakoman.com> =
-wrote:
->>
->> From: Michael Halstead <mhalstead@linuxfoundation.org>
->>
->> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> (cherry picked from commit f87becb69e02bdf055dffb633ed4f6d36b36f7a7)
->> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->> ---
->>  meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/di=
-stro/include/yocto-uninative.inc
->> index f3c05b7e20..ad4816a1f3 100644
->> --- a/meta/conf/distro/include/yocto-uninative.inc
->> +++ b/meta/conf/distro/include/yocto-uninative.inc
->> @@ -7,9 +7,9 @@
->>  #
->>
->>  UNINATIVE_MAXGLIBCVERSION =3D "2.37"
->> -UNINATIVE_VERSION =3D "3.10"
->> +UNINATIVE_VERSION =3D "4.0"
->>
->>  UNINATIVE_URL ?=3D "http://downloads.yoctoproject.org/releases/uninativ=
-e/${UNINATIVE_VERSION}/"
->> -UNINATIVE_CHECKSUM[aarch64] ?=3D "b11f7dff0ff5e3c971f22e89a105efb0f8d20=
-06fd71d1ea3e5da771e416b0e01"
->> -UNINATIVE_CHECKSUM[i686] ?=3D "ad7daa7fca7693ca07eea5279f830333530171d3=
-57759b380954a25254edd8dd"
->> -UNINATIVE_CHECKSUM[x86_64] ?=3D "ce8ff7e3247da312fbf84008f415bc1b4d113a=
-c9fe4ec91581e4a20cd8b475d3"
->> +UNINATIVE_CHECKSUM[aarch64] ?=3D "7baa8418a302df52e00916193b0a04f318356=
-d9d2670c9a2bce3e966efefd738"
->> +UNINATIVE_CHECKSUM[i686] ?=3D "83114d36883d43a521e280742b9849bf85d039b2=
-f83d8e21d480659babe75ee8"
->> +UNINATIVE_CHECKSUM[x86_64] ?=3D "fd75b2a1a67a10f6b7d65afb7d0f3e71a63b00=
-38e428f34dfe420bb37716558a"
->> --
->> 2.34.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#182136): https://lists.openembedded.org/g/openembedd=
-ed-core/message/182136
->> Mute This Topic: https://lists.openembedded.org/mt/99279066/3617156
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [M=
-artin.Jansa@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+--=-/ai5wYAfD9T+Dxi+helz
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>Thanks for the link</div></div><div id="geary-quote" dir="auto"><br>Am Sa, 3. Jun 2023 um 20:20:48 +0200 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">On Sat, 3 Jun 2023 at 19:52, Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:
+<blockquote> I had some time to look at this problem. virtual/crypt-native is not installed into recipe-sysroot-native because of this entry in bitbake.conf:
+ ASSUME_PROVIDED = "virtual/crypt-native"
+
+ Removing the entry solved the issue for me. I could successfully build core-image-minimal for musl and glibc without crypt.h from host machine.
+
+ But I don't know the reason why this is ASSUME_PROVIDED, so I'm unsure if this should even be touched.
+
+ In a second step I created a musl-native recipe to be able to install musl crypt.h into recipe-sysroot-native, but I'm not sure if this is necessary either.
+
+ <a href="https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native">https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native</a>
+</blockquote>
+I took a look; I believe this is by design, and for native recipes
+crypt.h does indeed need to be provided by the host distro, and not
+any of the recipes. This is where it was added:
+<a href="https://git.yoctoproject.org/poky/commit/?id=29f65bda6d2c">https://git.yoctoproject.org/poky/commit/?id=29f65bda6d2c</a>
+
+Alex
+</div></blockquote></div>
+--=-/ai5wYAfD9T+Dxi+helz--
+
 
