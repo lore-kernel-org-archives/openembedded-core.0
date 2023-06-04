@@ -1,96 +1,108 @@
-Return-Path: <charles-antoine.couret@mind.be>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE32CC77B73
-	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 12:38:11 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.16122.1685882291064075298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3329C77B73
+	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 13:03:52 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.16497.1685883823792744810
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jun 2023 05:38:11 -0700
+ Sun, 04 Jun 2023 06:03:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mind.be header.s=google header.b=cpt14HOx;
- spf=pass (domain: essensium.com, ip: 209.85.128.45, mailfrom: charles-antoine.couret@essensium.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f70fc4682aso32989165e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 05:38:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=2dRsgmE/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1b01bd7093aso18854335ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 06:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google; t=1685882289; x=1688474289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1685883823; x=1688475823;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hyonirXnzumDXz6JkIZCoM2MTc0eIkDlV5y3FL3jNIQ=;
-        b=cpt14HOxoI3MR4L6djtaGb4jUfIF4nkUsgPjb+OZxhCxm6BEUJcQp4KCzGBLHQHBgT
-         51mqtujaZ5MJ4iSmW/cGa59SOALibMljEfUfpe40QiDzvjQw3dMJGgyAnwEpBuuRNYdX
-         /Ye2RBBx/rRda51HoFrZa/0A6q/uV/B0Ywm8Q+9w+9wx+39gdZ3XICSjYBx0jpRAZvd5
-         Gj+pYBeyBeNno5tS9UgL4vxuA7Qn+ll8O47OPecDY46FAehezfo/Z6KYSevAsqrFFhN8
-         Z2HnR8bbJbgd9U93hTHgocoEv6mi0r4ZFWf1v5Fgp6KReGwiLiNpW6Gqa+LVJqyhqjFu
-         lYew==
+        bh=C97v1FQoiWlkRhsBi2e9ePFbISWSzMBuz4HgjLHkUXU=;
+        b=2dRsgmE/fIoTayDPMoL9qrZNeWPsuF1QH0CYMPkro5Ma2WDNlNslFbN8thyFCYilD2
+         36KCE6rDIZHf91V/9GBVXVJNUs31CsATPMASDKiW/t14gFp7V9lYy87pAb11WB8V4sXe
+         rpudqEHF3VH4umxpKGrAFuD9Qp9uEtBO6WGLsWu5Gp525HsPHO8vBp/B7tizfevyfPBf
+         /in4FPxvAgCHZ3HMQEoIw1zUZ8D7syqd9JzSxLxxDG49RBrp7Bxq/mqosrEOhR0Hv5Jx
+         fEj/eLO1Ml3f6W9r0xqpbhZZRsJ4rOCSo/uxjwW3xA0fgiwrv0C2UbNxn2VIWCU84cSp
+         JW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685882289; x=1688474289;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hyonirXnzumDXz6JkIZCoM2MTc0eIkDlV5y3FL3jNIQ=;
-        b=i7C1QG3G+rC73dmVIqkzYIBQGUMpzOD96lT9OVa93ykk2xFF0Y9bbEzuumTCzE9EkQ
-         eO8n3umNZb/TMwJx2Gt/JCJ8sqcMsKtBjhfdFJDT97xfdJf7vHZe2pv1vT2kBOhxaFfT
-         xSuRcLAg5IfYjwhJDS48mORkCiHSwmhC6NnWU+l281fLNNexLnY+BhRokaeDlqyMloq0
-         txkNbRUQxuFsX7vr6f8ZxvsbHLheya8AOtNRP8V7OduSqR084rnjduLQc/CWlhxwdXCF
-         x2g0GZCioal+PUHFG7T/d9VYEoTPFmsZCgST6KLimisgeP3QBt3vGKtqMBp9wA1i9kb/
-         5FQg==
-X-Gm-Message-State: AC+VfDxHA5dXURRAwlK6JOU+1Vryd63aNnj7FZmODLxX6+fRZOgb5SIz
-	s9brrr18rRL9Voa8fb5CxfV//aE7aqSvSqgs3L8=
-X-Google-Smtp-Source: ACHHUZ5QlYKfpPnq8dDlA/1qybvG98y7fCWp+RTLzvj30k+nXNa/+UGLmJRkpP6wxP54KHmcil0apA==
-X-Received: by 2002:a7b:c391:0:b0:3f4:298f:4d01 with SMTP id s17-20020a7bc391000000b003f4298f4d01mr4504348wmj.26.1685882289697;
-        Sun, 04 Jun 2023 05:38:09 -0700 (PDT)
-Received: from Bishop.fritz.box ([2a02:578:85c6:1101:e7a2:3f2c:a83f:5e92])
-        by smtp.googlemail.com with ESMTPSA id w16-20020adfd4d0000000b0030aefa3a957sm6967673wrk.28.2023.06.04.05.38.08
+        d=1e100.net; s=20221208; t=1685883823; x=1688475823;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C97v1FQoiWlkRhsBi2e9ePFbISWSzMBuz4HgjLHkUXU=;
+        b=BPtplrFmWpe7MEttwZapI1EZF9g8xXqlpB6TiDK9zMvHNOB+e/27DmNDEwinx71taJ
+         TLGgrcMXTf6H3WCUNw2b9vs2WI3yH8UNZDb1CQLeD3Q7lmKNuWjWKyPqIvwJLrFZdtvi
+         AcEC+9fNotJWMtvmJfg8Bb7K5f+6u/zCpjP+KOvNszVbjf+tgaiG60dzzwNNo8IsRPWG
+         tggVqL3TgRaIImKlarp/wYRuq7VW8/BLyz8DZEiaL07D23zHHAZ5QGRGPQV9jcq5Y6tD
+         MTnPTHziJW5O5gDRbkXoZDsYzmI1NjNuU/JK+1RRIK3hzHZZUb74I0qEmSLp/ozRGAz7
+         RLcg==
+X-Gm-Message-State: AC+VfDzjBNEqXrR/3zROqxxJcMfQv4MplmUt7MyQJxukHFbkutVpkXIj
+	0D/zfX3BolvnA52e5jgRWBi4kGFGerXLCC9jJFs=
+X-Google-Smtp-Source: ACHHUZ6ub6CKjTZxScLPlB1p+A9a9Rah8WRNlqg7cekbntAeRICIBHem/ESj390tdraXOFqTgCxr5w==
+X-Received: by 2002:a17:902:f68a:b0:1ae:626b:4771 with SMTP id l10-20020a170902f68a00b001ae626b4771mr2738064plg.36.1685883822646;
+        Sun, 04 Jun 2023 06:03:42 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id be4-20020a170902aa0400b001a0448731c2sm4637074plb.47.2023.06.04.06.03.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jun 2023 05:38:09 -0700 (PDT)
-From: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-To: openembedded-core@lists.openembedded.org
-Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-Subject: [PATCH 3/3] image_types: use IMAGE_FILE_MAXSIZE variable for f2fs image types
-Date: Sun,  4 Jun 2023 14:37:55 +0200
-Message-Id: <20230604123755.2541295-4-charles-antoine.couret@mind.be>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230604123755.2541295-1-charles-antoine.couret@mind.be>
-References: <20230604123755.2541295-1-charles-antoine.couret@mind.be>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 04 Jun 2023 06:03:42 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 6C0C7960397; Sun,  4 Jun 2023 03:03:40 -1000 (HST)
+Subject: OE-core CVE metrics for kirkstone on Sun 04 Jun 2023 03:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  4 Jun 2023 03:03:40 -1000
+Message-Id: <20230604130340.6C0C7960397@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 12:38:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182362
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 13:03:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182363
 
-If defined, this variable value overrides the size of f2fs partition file created by mkfs.
-Otherwise previous logic based on ROOTFS_SIZE variable is used.
+Branch: kirkstone
 
-It should be set when the final file size would not be above a specific value due to fixed
-partitionning for example.
+New this week: 3 CVEs
+CVE-2021-4336 (CVSS3: 9.8 CRITICAL): ninja:ninja-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4336 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-32681 (CVSS3: 6.1 MEDIUM): python3-requests https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32681 *
 
-Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
----
- meta/classes-recipe/image_types.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+Removed this week: 1 CVEs
+CVE-2023-24540 (CVSS3: 9.8 CRITICAL): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24540 *
 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index f157a84b2e..b5d32b7622 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -250,6 +250,11 @@ IMAGE_CMD:f2fs () {
-         # 500M the standard IMAGE_OVERHEAD_FACTOR does not work, so add additional
-         # space here when under 500M
- 	size=${ROOTFS_SIZE}
-+
-+	if [ -n "${IMAGE_FILE_MAXSIZE:f2fs}" ]; then
-+		size=${IMAGE_FILE_MAXSIZE:f2fs}
-+	fi
-+
- 	if [ ${size} -lt ${MIN_F2FS_SIZE} ] ; then
- 		size=${MIN_F2FS_SIZE}
- 		bbwarn "Rootfs size is too small for F2FS. Filesystem will be extended to ${size}K"
--- 
-2.40.1
+Full list:  Found 34 unpatched CVEs
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-4336 (CVSS3: 9.8 CRITICAL): ninja:ninja-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4336 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
+CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
+CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2023-0795 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0795 *
+CVE-2023-0796 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0796 *
+CVE-2023-0797 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0797 *
+CVE-2023-0798 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0798 *
+CVE-2023-0799 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0799 *
+CVE-2023-1255 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1255 *
+CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-2426 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2426 *
+CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
+CVE-2023-24536 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24536 *
+CVE-2023-24539 (CVSS3: 7.3 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24539 *
+CVE-2023-2609 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2609 *
+CVE-2023-2610 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2610 *
+CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
+CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-28531 (CVSS3: 9.8 CRITICAL): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28531 *
+CVE-2023-29400 (CVSS3: 7.3 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29400 *
+CVE-2023-29491 (CVSS3: 7.8 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29491 *
+CVE-2023-30630 (CVSS3: 7.8 HIGH): dmidecode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30630 *
+CVE-2023-32681 (CVSS3: 6.1 MEDIUM): python3-requests https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32681 *
+CVE-2023-33204 (CVSS3: 7.8 HIGH): sysstat https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33204 *
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
