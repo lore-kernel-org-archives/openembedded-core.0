@@ -1,87 +1,107 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E46C77B73
-	for <webhook@archiver.kernel.org>; Sat,  3 Jun 2023 18:21:07 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.2748.1685816462437683311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7484C7EE23
+	for <webhook@archiver.kernel.org>; Sun,  4 Jun 2023 04:10:59 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web11.11988.1685851858318749205
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Jun 2023 11:21:02 -0700
+ Sat, 03 Jun 2023 21:10:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ewjzL/5E;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b1bf74e080so4852701fa.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 11:21:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@underview.tech header.s=google header.b=jLLnTno+;
+ spf=pass (domain: underview.tech, ip: 209.85.160.43, mailfrom: vince@underview.tech)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-19f6211d4e1so3210106fac.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 21:10:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685816460; x=1688408460;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5wp/TxSqbL44QvQtoMZAe6JRjUJPpGPFQv0uNvhbpVI=;
-        b=ewjzL/5Ey1TRSB0u8QhYYhqI8/XqeztSGNPLT31Pey/rtMaGQAHPxewHuPYUmcEFyQ
-         YIAhiLW6hJkwu6pqXJO6K1lyfGOXAulkzFsowcQUZXkyOap6CtkGkRN3VbpA9kc7NVXb
-         xYkUb5qUc1t9u+FGP22KKOyO2ezYCyDkG7pR6UhoWww/Wo8ose/woOgUUhWrm18nx06E
-         dLg/bLVTZyuSL01jQQRK5PnqOH9K/v6oM5MFaKPt/7zXqUI8b9hv8Ptr3mfvQtN5/pap
-         lb2IejjP1TbCiFkPuu+Vb7V0BRjyCrIthRY07IL3BdxPuOh5sinJW9VlQrvRJm+E17Ev
-         hvdQ==
+        d=underview.tech; s=google; t=1685851857; x=1688443857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OK/l2PFL1FbR45z3SIm8SLhDbTGWdBWUqW4wBolAXcY=;
+        b=jLLnTno+kZ2TPpVUVkL+83owLjc2pEoTQImA4Z5rd5YsatHZfWNpLNIoCD7jjN6nhG
+         Ky5Z6sCXf6+mZ9W5iCVxQWVPSV1loh8s3jxLhOge9y5mGq9REiI9oLV7JErieihfhyYZ
+         cvCzmbjL+cSEOA2K/6QOtvAB96bKenlvNV1Igslq4+TrlAh0q6l+1JpzY79Bk8I2Fwaf
+         nsnRTRTIGggAWR/a0H+mLX9AGevb+WYv6+4O8pVfkgWvqoRsiecKhaLQHOsOJJjdeIdo
+         TMsRammvt02NM96MtMn4f7PJAbc9JRr/V9+dva9gxY0S9eVlaZCM1boTapd3feRD/Pem
+         2psQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685816460; x=1688408460;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1685851857; x=1688443857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5wp/TxSqbL44QvQtoMZAe6JRjUJPpGPFQv0uNvhbpVI=;
-        b=gKF25TwUWpEI01wiMrGAAbk96c4tQIr3JRpTe4Yg2d5uDNy29xuXtE04qm+d17eN68
-         u3q8XQrTxT5L1cUoBf8s1rfK4rdOEDJ1DTvzBxeHsoBA5Ciyo0OmLgiun+izEgPPiGc9
-         13Dc5u/vJv2jNpBjv7aRM+aX/lVd5ZVb/JtkfiW1XqJne8x9kPDc+0hFhe4K+GFu8vz6
-         /lu2VqoHJ7qrwoXhJUdUDCx9HftoaaWwvxtAkuc+bXyrDBzz/ieKIJp3t/6B+ODqkBig
-         SYcJgoHYUr0ywN3Aqo3qu41V3P8BVY8XJdRJK1gqPAonvxkKuqHd0xM8nCVp56k3jS+s
-         2Q9w==
-X-Gm-Message-State: AC+VfDy5dcmeMuLQtFpn51piToE7nF9RfnCBGPBzk6J7tf9xLus0RuOM
-	vD6M4++XEcnC5qgAo2ZQjW6sSMs0VplAG4znc5k=
-X-Google-Smtp-Source: ACHHUZ5AB6nA7zWybJ+FgGceNYxoIb/ehSbz0g4fg09gY6SjY2J74UFuLDnUUNcBsn9PPera0oBnKL7mNPOIi+4ScUU=
-X-Received: by 2002:a2e:7d04:0:b0:2b1:bbca:349c with SMTP id
- y4-20020a2e7d04000000b002b1bbca349cmr605075ljc.12.1685816460389; Sat, 03 Jun
- 2023 11:21:00 -0700 (PDT)
+        bh=OK/l2PFL1FbR45z3SIm8SLhDbTGWdBWUqW4wBolAXcY=;
+        b=X3+J8FuPSsnw8E9bkf2dY2CGgqlk+TBf+fwEHfBkJmMSP6D/UjtIIhKjdqVuUIcRO+
+         I8X7O+DK1diUL3VMdz2A+VpBNQHxtsMwG6CIOLbPbRcO8Q2iY6KRpdHEeO5KBAyqYfeN
+         AucVqI8g+Nc2uyPZiO6kLWPYebgJ4lwrm469aUUZjxmIhEKNT/y45nRWp96yTQbcqDao
+         bTZ5ZC2sT/seOQDl/IfBFAqNqTjn3tjA3RTXmKEv2gck4gDR4Sg1xaFJcksY88/avm4I
+         Xbxb4nDAYB/N4OhMyZv9+aktWgqPZgVFo9pnoQjRe6JlJBnvYDaDn2k5GS6S+v35kJlq
+         PqJA==
+X-Gm-Message-State: AC+VfDxPXYPpfkjpQojEFmEb3MHKOAyvpwQor6yYZj4OPHAW5oCRqIhh
+	SJS2GoS6CIAgob4oow3bdF0cGIHz6HSJIS11kDI=
+X-Google-Smtp-Source: ACHHUZ5HaKoyy7HnrxPARKjmvlQtOPvpoFYLw5rxqjjqcy1PW1DKDEEoN/YFEhMBg+gRuNoze8U4YA==
+X-Received: by 2002:a05:6870:8685:b0:19f:5626:a98e with SMTP id p5-20020a056870868500b0019f5626a98emr4116519oam.6.1685851857215;
+        Sat, 03 Jun 2023 21:10:57 -0700 (PDT)
+Received: from vince-B550I-AORUS-PRO-AX.attlocal.net ([2600:1700:1124:8090:dbdc:f63:d1bb:2dce])
+        by smtp.gmail.com with ESMTPSA id g4-20020a056870a70400b001a15d342184sm2252329oam.36.2023.06.03.21.10.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jun 2023 21:10:56 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
+To: openembedded-core@lists.openembedded.org
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH] spirv-tools: fix SPIRV-ToolsTarget.cmake INTERFACE_LINK_LIBRARIES
+Date: Sat,  3 Jun 2023 23:10:42 -0500
+Message-Id: <20230604041042.35737-1-vince@underview.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230527133252.284132-1-f_l_k@t-online.de> <20230527133252.284132-2-f_l_k@t-online.de>
- <17635252DFD4EDDE.6918@lists.openembedded.org> <CANNYZj_jz-SCh4kq33fe7_uiVRAvL+15i4kQ=U9Dkv84W2s+xw@mail.gmail.com>
- <VDGDVR.YBUKQ953M2TP3@t-online.de> <CANNYZj_0ASF5ERsCgrB3W3qYgGJFwJzXn35cgc6ojQf0fi1Yxg@mail.gmail.com>
- <POIDVR.URDIMNIKV0SE3@t-online.de> <CANNYZj-megU_4p_eR84XiSt7YvwWu57tWBEZDKoBFkjRj8ZKVQ@mail.gmail.com>
- <MEJDVR.WDZW7MFB3W9N1@t-online.de> <CANNYZj_-ptiJqvmf+cU0qV7VkKG0ds=guN9aTU1VirjcG8WjQA@mail.gmail.com>
- <7bb5f101af77af3a051a1b049206800aec542ccd.camel@linuxfoundation.org>
- <ZG5FVR.L4YKBKAES08S3@googlemail.com> <0718565165c8175882355d0674588f71c36b8bb7.camel@linuxfoundation.org>
- <NYUOVR.OW8C8JU503CT2@t-online.de>
-In-Reply-To: <NYUOVR.OW8C8JU503CT2@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 3 Jun 2023 20:20:48 +0200
-Message-ID: <CANNYZj_UKMM6P4tk0eXjGFiN74tYqM0XZCUUJwK82LD0St-hRw@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 2/4] python3: add libxcrypt-native dependency
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Jun 2023 18:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182352
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 04:10:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182353
 
-On Sat, 3 Jun 2023 at 19:52, Markus Volk <f_l_k@t-online.de> wrote:
-> I had some time to look at this problem. virtual/crypt-native is not installed into recipe-sysroot-native because of this entry in bitbake.conf:
-> ASSUME_PROVIDED = "virtual/crypt-native"
->
-> Removing the entry solved the issue for me. I could successfully build core-image-minimal for musl and glibc without crypt.h from host machine.
->
-> But I don't know the reason why this is ASSUME_PROVIDED, so I'm unsure if this should even be touched.
->
-> In a second step I created a musl-native recipe to be able to install musl crypt.h into recipe-sysroot-native, but I'm not sure if this is necessary either.
->
-> https://github.com/MarkusVolk/openembedded-core/commits/virtual/crypt-native
+The output of spirv-tools specifically SPIRV-ToolsTarget.cmake gets
+utilized in other recipes. If other recipe utilizes cmake and includes
+SPIRV-Tools in target_link_libraries. With the current setup
+do_install:append:class-target updates the cmake checked install
+file to bellow
 
-I took a look; I believe this is by design, and for native recipes
-crypt.h does indeed need to be provided by the host distro, and not
-any of the recipes. This is where it was added:
-https://git.yoctoproject.org/poky/commit/?id=29f65bda6d2c
+set_target_properties(SPIRV-Tools PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+    INTERFACE_LINK_LIBRARIES "${_IMPORT_PREFIX}/lib"
+)
 
-Alex
+set_target_properties(SPIRV-Tools-shared PROPERTIES
+    INTERFACE_COMPILE_DEFINITIONS "SPIRV_TOOLS_SHAREDLIB"
+    INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+    INTERFACE_LINK_LIBRARIES "${_IMPORT_PREFIX}/lib"
+)
+
+If base_libdir isn't lib, but lib64 it leads to errors such as
+
+error: '../recipe-sysroot/usr/lib',
+needed by 'layers/libVkLayer_khronos_validation.so',
+missing and no known rule to make it
+
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+---
+ meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
+index c57acc5a11..21f9dd9650 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
+@@ -32,7 +32,7 @@ do_install:append:class-target() {
+     # Properly set _IMPORT_PREFIX in INTERFACE_LINK_LIBRARIES so that dependent
+     # tools can find the right library
+     sed -i ${D}${libdir}/cmake/SPIRV-Tools/SPIRV-ToolsTarget.cmake \
+-        -e 's:INTERFACE_LINK_LIBRARIES.*$:INTERFACE_LINK_LIBRARIES "\$\{_IMPORT_PREFIX\}/lib":'
++        -e 's:INTERFACE_LINK_LIBRARIES.*$:INTERFACE_LINK_LIBRARIES "\$\{_IMPORT_PREFIX\}\${base_libdir}":'
+ }
+ 
+ # all the libraries are unversioned, so don't pack it on PN-dev
+-- 
+2.34.1
+
 
