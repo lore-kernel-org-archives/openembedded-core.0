@@ -1,102 +1,121 @@
-Return-Path: <lrannou@baylibre.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA544C7EE23
-	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 15:55:43 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.12477.1685980539232715400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17B39C7EE24
+	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 16:24:24 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.13329.1685982257530794110
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 08:55:39 -0700
+ Mon, 05 Jun 2023 09:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=sPsgQpaM;
- spf=pass (domain: baylibre.com, ip: 209.85.221.51, mailfrom: lrannou@baylibre.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30c4775d05bso3691323f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 08:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685980537; x=1688572537;
-        h=content-transfer-encoding:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j8Sc+TIg8O4asB5bEh463FvdfxKxd5nC3Z9gBO09jf8=;
-        b=sPsgQpaMIqqHjXuxUf1OM2pgGjhPg9MElMkNnK+bULHW5l97/quSviyim/O9UB8j5E
-         ia/Nj5i6jEKdU6TBp2/hpJDUPTcISlz6DS8bCODDXNysJd218CgGTpla2aHoKqn5VmZ1
-         Ws9LIzuj/r/8c8MCW1rDBGU4mpaq3qrmSmCEPqI55tO76HotKkpLKLj+FhKdx3Qr2YH7
-         KyrmYbR3MtkfwgrbjalKAEo+zNKdnPJR94UGQZvWkKi30ok2JgYX0ynPK6SaiSQU38X5
-         bGr3avqKuEk1KF8ao8JwyHwgK0LWG89IsepaLoAa8w2nQnRFQINJgs2m5/lbsagQV3Bv
-         myEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685980537; x=1688572537;
-        h=content-transfer-encoding:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=j8Sc+TIg8O4asB5bEh463FvdfxKxd5nC3Z9gBO09jf8=;
-        b=MmCxspVpRojLgJw5BKGYLFgaWo7ZCWASvBmDuUI0p6XBXIbdIrURyqdwdIvtEKooDV
-         cb6VTCt6aKFte1/Q09t866T2K0b++fe17W18ylLO/d41fNzzD3XHB49AeZ7C6fipwyk1
-         pew1pAAA3xLiD7uslAhVEH+2+5Lqh+PQJdNQwjrriHQE8hJSM2W107ApQ38tWZsUu5fo
-         0QAFFENtabyUAOyDaEglixSDrFc5uXdomz83P5v4KPuVBMFFNvM5YvhULHVG1tZQE/fS
-         9DFt8wKQk0CpNsyok/RMHTGqDmZB3Lj/l+hd/TLLT7WfrIUMarF1nuBmSy1qFrnIux9N
-         Drvw==
-X-Gm-Message-State: AC+VfDwE8cYNNrya9cvtX8mUZoJ9nY/0JzFEHaY0SlaqXSB/9f5CnB3X
-	HprpgsebbYl6MimOjtUw4LOyqQ==
-X-Google-Smtp-Source: ACHHUZ6ReIqEDAWX40GfM40G46EPCouk1SrndrJDKWRLXhE3R06BuKjcOR85Ozh8YOzLhWo7wA+tIA==
-X-Received: by 2002:adf:f946:0:b0:306:2aa0:ce81 with SMTP id q6-20020adff946000000b003062aa0ce81mr5073681wrr.30.1685980537327;
-        Mon, 05 Jun 2023 08:55:37 -0700 (PDT)
-Received: from [172.30.105.10] (lmontsouris-658-1-109-35.w92-154.abo.wanadoo.fr. [92.154.6.35])
-        by smtp.gmail.com with ESMTPSA id d8-20020adff848000000b0030ae849c70csm10167696wrq.37.2023.06.05.08.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 08:55:36 -0700 (PDT)
-Message-ID: <b02fd7f2-b6f7-01f6-256a-d1bf9f7aa91a@baylibre.com>
-Date: Mon, 5 Jun 2023 17:55:35 +0200
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2B90C14;
+	Mon,  5 Jun 2023 09:25:02 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B29AD3F663;
+	Mon,  5 Jun 2023 09:24:16 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] binutils: fix CVE-2023-1972
+Date: Mon,  5 Jun 2023 17:24:13 +0100
+Message-Id: <20230605162413.3012323-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Content-Language: en-US
-From: Louis Rannou <lrannou@baylibre.com>
-Subject: [RFC] incorrect parsing of sysusers.d in rootfs generation
-To: tgamblin@baylibre.com,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 15:55:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182392
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 16:24:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182393
 
-Hello,
+From: Ross Burton <ross.burton@arm.com>
 
-I have found an issue in the rootfs routine. The 
-rootfs-postcommands.bbclass has a funtion systemd_create_users that 
-reads /etc/sysusers.d/*.conf files and parses lines as 'type name id 
-comment'.
+Backport a patch from upstream to fix CVE-2023-1972.
 
-However, the sysusers.d manual says, those lines can be 'type name id 
-comment home_dir shell'. If a home directory of shell is defined, they 
-are considered as part of the comment, and we run incorrect commands 
-such as the one below :
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../binutils/binutils-2.40.inc                |  1 +
+ ...emory-access-when-an-accessing-a-zer.patch | 43 +++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-Fix-an-i=
+llegal-memory-access-when-an-accessing-a-zer.patch
 
-useradd --shell /sbin/nologin --uid 0 --comment "Super User" /root 
---system root
+diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.40.inc
+index 84dbf5f7301..dea68ee6fc2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.40.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
+@@ -35,5 +35,6 @@ SRC_URI =3D "\
+      file://0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.pa=
+tch \
+      file://0016-CVE-2023-25586.patch \
+      file://fix-time64.patch \
++     file://0001-Fix-an-illegal-memory-access-when-an-accessing-a-zer.pa=
+tch \
+ "
+ S  =3D "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-Fix-an-illegal-=
+memory-access-when-an-accessing-a-zer.patch b/meta/recipes-devtools/binut=
+ils/binutils/0001-Fix-an-illegal-memory-access-when-an-accessing-a-zer.pa=
+tch
+new file mode 100644
+index 00000000000..31157cacd2f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0001-Fix-an-illegal-memory-=
+access-when-an-accessing-a-zer.patch
+@@ -0,0 +1,43 @@
++From c22d38baefc5a7a1e1f5cdc9dbb556b1f0ec5c57 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Thu, 30 Mar 2023 10:10:09 +0100
++Subject: [PATCH] Fix an illegal memory access when an accessing a
++ zer0-lengthverdef table.
++
++  PR 30285
++  * elf.c (_bfd_elf_slurp_version_tables): Fail if no version definition=
+s are allocated.
++
++CVE: CVE-2023-1972
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ bfd/ChangeLog | 6 ++++++
++ bfd/elf.c     | 5 +++++
++ 2 files changed, 11 insertions(+)
++
++diff --git a/bfd/elf.c b/bfd/elf.c
++index 027d0143735..185028cbd97 100644
++--- a/bfd/elf.c
+++++ b/bfd/elf.c
++@@ -9030,6 +9030,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool def=
+ault_imported_symver)
++ 	  bfd_set_error (bfd_error_file_too_big);
++ 	  goto error_return_verdef;
++ 	}
+++
+++      if (amt =3D=3D 0)
+++	goto error_return_verdef;
++       elf_tdata (abfd)->verdef =3D (Elf_Internal_Verdef *) bfd_zalloc (=
+abfd, amt);
++       if (elf_tdata (abfd)->verdef =3D=3D NULL)
++ 	goto error_return_verdef;
++@@ -9133,6 +9136,8 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool def=
+ault_imported_symver)
++ 	  bfd_set_error (bfd_error_file_too_big);
++ 	  goto error_return;
++ 	}
+++      if (amt =3D=3D 0)
+++	goto error_return;
++       elf_tdata (abfd)->verdef =3D (Elf_Internal_Verdef *) bfd_zalloc (=
+abfd, amt);
++       if (elf_tdata (abfd)->verdef =3D=3D NULL)
++ 	goto error_return;
++--=20
++2.34.1
++
+--=20
+2.34.1
 
-To fix that, we require a stronger parsing. Several options look 
-possible to me, but I am not sure which one is preferred.
-
-1. sed with a regular expression that returns something that still needs 
-parsing
-2. awk with a step by step script that returns something that still 
-needs to be parsed
-3. use python and regexp module
-
-Also I don't know if the parsing should completely check the sysusers 
-syntax as said in the manual (first field is [urgm], second is 
-alphanum_-, etc.). In my opinion it should not as this will be made by 
-the useradd command.
-
-Do you think it worth to add some testing about that ? I am not sure how 
-to do that.
-
-Regards,
-Louis Rannou
 
