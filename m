@@ -1,172 +1,150 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A38C7EE24
-	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 12:23:33 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.6124.1685967809448512367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E21C7EE23
+	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 13:33:13 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.51])
+ by mx.groups.io with SMTP id smtpd.web11.7787.1685971986791859947
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 05:23:29 -0700
+ Mon, 05 Jun 2023 06:33:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=UKjOwnNs;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: zboszor@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4f619c2ba18so2508619e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 05:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685967807; x=1688559807;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fuYrOTbELpZjqTPgdviolvvev+HGJh2J/0QaahFbmxo=;
-        b=UKjOwnNskd2RINqQUhkk3UZObgdJcDBN31UzmzkS7sYnYy3lQ+gUWjzH7CcV8CE9BT
-         crq2+bKwbT6QmziuWJiULkigMeB3gW3i0KL7cAOBkkyHDqdhms4bqqkPGq2sUupUBCIu
-         aYHQNKHvZeQaW8cOnmRkZAIrnX7KqeldIKACgrSgQ/VbZjDJBUSTromFC3GP5v4gjGlp
-         +zu6TeoBs9rkr50PDFTNunuVZkqc6A578xDNgAk5vjo/h5RSt/qzez9y5KaMOjthUnAg
-         YCC3K7h29Wz+G/vzBs1h41sHZdJdBehGQpjFeOg6kxfcgycg62RJkf0uUQZzjCaOdQHf
-         FEoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685967807; x=1688559807;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fuYrOTbELpZjqTPgdviolvvev+HGJh2J/0QaahFbmxo=;
-        b=KljJWHpChCI0AwXFWNMlzigCrWgyVE42VrqdB9ZANrJCXknPfl8jj5GOkCzIUIdkzY
-         RdgYiVEHhyXCPNOTZC2ZshxW9taSrEGRobzidjdbvkFtBOQG78ryIYPGwd679KFIwFFB
-         jpGwHyLlALyIfWCwJm6bDtXdrQ0PmilJyLBrxq9i2yq/ljuiXvG4xKSaDFzaMUexLi26
-         ec7j8qlq87mpW4pq2I8zNjtkOM5iYsirIUjTK+dJYpztPdDseMEJLgi6T46pItvBctf0
-         IttjIa4uh9FFKrMPZK9vsbmZaXxrybvN1TCHDZDO4kDdVlota0c7E5nthQyodRhrshLA
-         3KFg==
-X-Gm-Message-State: AC+VfDxH1lXsEKtf2XKg3Sn5XY+BZt+QYIM312RWqLRiGMFo4s5wG4va
-	eW79TRAerQQ/2s36XJ+35V8=
-X-Google-Smtp-Source: ACHHUZ5H/I7h743V4fsDe+oUehUA9Tq02ZEfdD7xbD8jPE/6IVX+0FlOvop5Stroe/+sX/lx16qcBA==
-X-Received: by 2002:a05:6512:50f:b0:4f1:4051:d77b with SMTP id o15-20020a056512050f00b004f14051d77bmr5057819lfb.60.1685967807277;
-        Mon, 05 Jun 2023 05:23:27 -0700 (PDT)
-Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id a20-20020a05600c225400b003f7aad8c160sm3174213wmm.11.2023.06.05.05.23.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 05:23:26 -0700 (PDT)
-Message-ID: <c79cf0a5-0766-c0d8-7699-b261e5e819db@gmail.com>
-Date: Mon, 5 Jun 2023 14:23:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCH v4 3/3] python_mesonpy: New class
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20230603080703.1400571-1-zboszor@gmail.com>
- <20230603080703.1400571-3-zboszor@gmail.com>
- <EE298E95-80DF-45D0-A4CB-52CD86601CB0@arm.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=aW1Bl2/x;
+ spf=pass (domain: arm.com, ip: 40.107.6.51, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nTt/Wi4vg5oCIN+VtgXhFTIAQn9kj2b2XnaapH5S2tY=;
+ b=aW1Bl2/xfMyhUWL+CXxgGkuB8NZAsAcJ+si42+u5gvnmAN+4n1z9l6zoJw6M6mmcG5HZ0sU7wwSMhQOCCGdJrSmXYdp5fxzNo6D/Lgkd14uo0Wgqe5c4IwFDb3aojLWz957t+3wsYDMG2Z/h6+hqdmmpjFWPabjtTwbzotDBUxc=
+Received: from DB9PR05CA0030.eurprd05.prod.outlook.com (2603:10a6:10:1da::35)
+ by AS8PR08MB9766.eurprd08.prod.outlook.com (2603:10a6:20b:615::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
+ 2023 13:32:59 +0000
+Received: from DBAEUR03FT050.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1da:cafe::1b) by DB9PR05CA0030.outlook.office365.com
+ (2603:10a6:10:1da::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32 via Frontend
+ Transport; Mon, 5 Jun 2023 13:32:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT050.mail.protection.outlook.com (100.127.142.250) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6477.18 via Frontend Transport; Mon, 5 Jun 2023 13:32:58 +0000
+Received: ("Tessian outbound 99a3040377ca:v136"); Mon, 05 Jun 2023 13:32:58 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 87091744ed1ef29f
+X-CR-MTA-TID: 64aa7808
+Received: from 8730758ab497.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B28F5E02-EA1A-443B-B20D-C28D1072CB1A.1;
+	Mon, 05 Jun 2023 13:32:52 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8730758ab497.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 05 Jun 2023 13:32:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ov8GDVO1i4utIPu3TNZf+4qt1Y30pkyiVdHyBQZZCH+PiS27Uau5atNGArZh+M9Kc3icyHyKUFzLuYaAupEE6+rJdopL76q0MIXQfAxVtet9rGH/5UlNb3zGSLrGLHuIV+0zVcjVPPAmjq8bqoj7VOlVnjIqqjijgQLOPRSXqwCyQsD8gHIbZXnm0tzkYAj12Izzd9JgMIkedIyxUEpX0HM7UQzw9yQ9viYc709U3SywA0SHcXS+wyvqoFBeZ0q8NRmUWMDlcbZn4s1bilLJssVloOzhxJlAghQ+pSbl7f75m+BgW5Sv6nJVgsecZDZlOI7yt9MsQFaLc1BTaDUURQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nTt/Wi4vg5oCIN+VtgXhFTIAQn9kj2b2XnaapH5S2tY=;
+ b=Dl5QDC8rn6wBMhEwRNRcv4MTbheI5+PvsX/pkFZWvNcxTbQfMNxgutDzz8kCFgt/uF6DlCfRhjufelUy4BjN5+KOSYixrBhuc2NsRQgKwKORRH6r65cZ6KhrkUd4j73XBhjs2Xalbc3Ye6x+pfXfH4p6MrgPJHmPGHtog2gnkdynWAfG+/kttUYyXk/T7r60IiTNJabkJEo1TGuIy1Sg5FX9sA1m3LocKyxXaSDpeJiM6AaYVxVJ4+tx/cX8SZc/DBAOJ1Ww9dFwutUFN/jDumenxM65hhdbwt8LTzxO6P3p5Ahk1QsWR/+I3z5dE0LkjJ3jvqWYQuQ2LkiCMu/QVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nTt/Wi4vg5oCIN+VtgXhFTIAQn9kj2b2XnaapH5S2tY=;
+ b=aW1Bl2/xfMyhUWL+CXxgGkuB8NZAsAcJ+si42+u5gvnmAN+4n1z9l6zoJw6M6mmcG5HZ0sU7wwSMhQOCCGdJrSmXYdp5fxzNo6D/Lgkd14uo0Wgqe5c4IwFDb3aojLWz957t+3wsYDMG2Z/h6+hqdmmpjFWPabjtTwbzotDBUxc=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM8PR08MB5633.eurprd08.prod.outlook.com (2603:10a6:20b:1d3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 5 Jun
+ 2023 13:32:50 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
+ 13:32:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Is aarch64_be under maintenance?
+Thread-Topic: [OE-core] Is aarch64_be under maintenance?
+Thread-Index: AdmUVJ7Lf/hFeIQFSMaBIHGjw7h/EgDXZOiA
+Date: Mon, 5 Jun 2023 13:32:50 +0000
+Message-ID: <5A43659C-3176-43F3-914F-6119098DA120@arm.com>
+References: 
+ <TYCPR01MB61918B757CBA93C6AD0BD80EA0499@TYCPR01MB6191.jpnprd01.prod.outlook.com>
+In-Reply-To: 
+ <TYCPR01MB61918B757CBA93C6AD0BD80EA0499@TYCPR01MB6191.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <EE298E95-80DF-45D0-A4CB-52CD86601CB0@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.500.231)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AM8PR08MB5633:EE_|DBAEUR03FT050:EE_|AS8PR08MB9766:EE_
+X-MS-Office365-Filtering-Correlation-Id: f643a8d7-5a4c-4b74-7c6a-08db65c960bc
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 4wx5LkhcoA2u9zA1clTe6wNVKzYHLTbeKuD7+Jt+Zzpm0RR+acp4hZMlfGQ6rxWXG0wI0moLDZj8EpIZNzxC3tt2md1tVgV3+kKENpa4uP/0JMCmZqGSy9ufZK5zfw9lG7cuwi5vn5uJQSiWragPkXyT+rnDVtcgMpqY/h0ZRESnnQF4HKcyLGf10rl0nAJWlFIrsTqnwXD9ol/NoNOyou2TKtvoe3YbrIqd/meojrCpVTyV5ZlWy5QR2pFedjEhABW7U6TX+HNHvOZiaIIWqXd3iHc1cQVAp9g/p7oi+gt+kO/lCOknfRrk5zBI5VZcM9hhWtO0wm4azCC+0xidVyJxU+E1tL+xlKbUKN7s6iUof7AciwdrlSSCqCZ1Cgj639Ms9/RfZFC61SfZ+cI3R6V9OOJwhG/pDqdOkhIJyNPNLyquf1Q8JsVaM6BVV8GJaAZ7Rz3j/MnETXzQAw5MmHQDasrSG2CeGoxgGwfEPCQXcgY+4wul+qtH6nq6OIxSAHs6W0dP/hIS8qdQNv5S0llUSOs2raCc4UKyJ2GpGq5vpy8F7/OABLv4U4F2ZLShxrcE+vIQxJdnA0zL2ACYvmBlqnkSlYageWajSDu1F7P4B7mpvHLx5WwRlULq6c/e996SwYn6zYS9wUu/NZSc0g==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(396003)(366004)(136003)(39860400002)(451199021)(36756003)(4744005)(2906002)(38070700005)(71200400001)(33656002)(478600001)(86362001)(38100700002)(41300700001)(8936002)(8676002)(5660300002)(316002)(4326008)(6916009)(66556008)(122000001)(76116006)(91956017)(64756008)(66476007)(66946007)(66446008)(6506007)(6512007)(53546011)(2616005)(26005)(186003)(6486002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B0A3FA2B8C6B0143B5EF1AA711363981@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5633
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT050.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	80f4c286-5220-44e0-1b88-08db65c95b8c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MzUpFkArop2DNIgOU/d8JoXDQR4K6caOtrK2d8wYg4JouyfTal+N6yc60RBNzfrZ1VHKqzVhYKWQQ1wXdt+uwf9CQLydTNwFGO7mWUYvzEGm5H3M+3AHiQ67vCAUyU1WDED9ASaAJ/+IyL8RPcJnwD/L+Tq3moRp0w2NCU+isOkeFkbz9b+kdZqGV4TbdCB7+kdMYDRsGkGuG6JWBlqop3azx043B6lAi86Xt8sTkpiVGOGqj9VUeg8QM0F4QEOf9fcOCeoT5YTJ+vM5/DssqH1wWIPh9PUUmM1nHj+/3JNYFDcn5DpjQNaEr8PzLWpLUs/vC2guTS0G0bxtSJ6zAawzS33PPz7RkDZzXmdfXAXsGILQmEpZ2Xn9t7yNZcyLWQHCByHkWJwC257GxPO0lf/I+81urepayDO85j08ggO1KfQeyMMOFGtNDN951lmIs9tYB9GsYAlG0SBCVtmorC0IkVay3ofznrn6cY+JenF0Kooo2IflhT8JdvAYvAmC7zmtx0S4HF/TdcQSpdHNQfpSLOGv2BqbGmgek+9Y5EbKldfH04ZuYeAETpK7o08EtZlTu0xmoZXxlVFkSC8Qc9GUNzqEc5kwYnLS/jQ8hj9P2gTpnW4PxGLryxhfs4dQxr2F1MavBot3fMKvHotPtRKex0IsJFuUsZ74uAdZBuBOBXPoIesfrRFUBrqRtE3q9XYvHSBZAcjGXE9F7wfKqRQkAVuG72Ed2+F70U+CRuIIxizcpYpQQQ2aqiVolD4O
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199021)(36840700001)(46966006)(40470700004)(40460700003)(47076005)(336012)(4744005)(2906002)(2616005)(36756003)(86362001)(33656002)(82310400005)(81166007)(356005)(82740400003)(36860700001)(40480700001)(6486002)(316002)(41300700001)(5660300002)(6862004)(8676002)(8936002)(478600001)(70206006)(70586007)(4326008)(6506007)(53546011)(6512007)(26005)(186003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 13:32:58.8854
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f643a8d7-5a4c-4b74-7c6a-08db65c960bc
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT050.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9766
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 12:23:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182379
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 13:33:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182380
 
-2023. 06. 05. 13:57 keltezéssel, Ross Burton írta:
-> Do you have a recipe in mind to demonstrate that this works as intended?
-
-I have a working python3-scikit-image recipe for version 0.20.0,
-which uses this build backend.
-
-meta-scipy may also use it to add a newer version of python3-scipy.
-
-> If there’s nothing in core that needs it, maybe it should sit in meta-python until then.
->
-> Ross
->
->> On 3 Jun 2023, at 09:07, Zoltan Boszormenyi via lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org> wrote:
->>
->> This is a new PEP517 compatible build class for python modules
->> that use pyproject.toml and this:
->>
->> [build-system]
->> build-backend = 'mesonpy'
->>
->> The new class uses python3-meson-python-native.
->>
->> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->> ---
->> meta/classes-recipe/python_mesonpy.bbclass | 54 ++++++++++++++++++++++
->> 1 file changed, 54 insertions(+)
->> create mode 100644 meta/classes-recipe/python_mesonpy.bbclass
->>
->> diff --git a/meta/classes-recipe/python_mesonpy.bbclass b/meta/classes-recipe/python_mesonpy.bbclass
->> new file mode 100644
->> index 0000000000..1da8b005ab
->> --- /dev/null
->> +++ b/meta/classes-recipe/python_mesonpy.bbclass
->> @@ -0,0 +1,54 @@
->> +#
->> +# Copyright OpenEmbedded Contributors
->> +#
->> +# SPDX-License-Identifier: MIT
->> +#
->> +
->> +inherit meson setuptools3-base python3targetconfig python_pep517
->> +
->> +# Filter out meson_do_qa_configure from do_configure[postfuncs]
->> +DOCONFIGUREPOSTFUNCS := "${@d.getVarFlag('do_configure', 'postfuncs')}"
->> +DOCONFIGUREPOSTFUNCS:remove = "meson_do_qa_configure"
->> +do_configure[postfuncs] := "${@'' if d.getVar('DOCONFIGUREPOSTFUNCS') is None else d.getVar('DOCONFIGUREPOSTFUNCS') }"
->> +
->> +# This prevents the meson error:
->> +# ERROR: Got argument buildtype as both -Dbuildtype and --buildtype. Pick one.
->> +MESONOPTS:remove = "--buildtype ${MESON_BUILDTYPE}"
->> +
->> +CONFIGURE_FILES = "pyproject.toml"
->> +
->> +DEPENDS += "python3-wheel-native python3-meson-python-native"
->> +
->> +def mesonpy_get_args(d):
->> +    vars = ['MESONOPTS', 'MESON_CROSS_FILE', 'EXTRA_OEMESON']
->> +    varlist = []
->> +    for var in vars:
->> +        value = d.getVar(var)
->> +        vallist = value.split()
->> +        for elem in vallist:
->> +            varlist.append("-Csetup-args=" + elem)
->> +    return ' '.join(varlist)
->> +
->> +PEP517_BUILD_OPTS = "-Cbuilddir='${B}' ${@mesonpy_get_args(d)}"
->> +
->> +# Python pyx -> c -> so build leaves absolute build paths in the code
->> +INSANE_SKIP:${PN} += "buildpaths"
->> +INSANE_SKIP:${PN}-src += "buildpaths"
->> +
->> +python_mesonpy_do_configure () {
->> +    python_pep517_do_configure
->> +}
->> +
->> +python_mesonpy_do_compile () {
->> +    python_pep517_do_compile
->> +}
->> +
->> +python_mesonpy_do_install () {
->> +    python_pep517_do_install
->> +}
->> +
->> +python_mesonpy_do_bootstrap_install () {
->> +    python_pep517_do_bootstrap_install
->> +}
->> +
->> +EXPORT_FUNCTIONS do_configure do_compile do_install
->> -- 
->> 2.40.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#182349): https://lists.openembedded.org/g/openembedded-core/message/182349
->> Mute This Topic: https://lists.openembedded.org/mt/99301645/6875888
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross.burton@arm.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
-
+T24gMSBKdW4gMjAyMywgYXQgMDc6NTgsIGxlaW1hb2h1aSB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8bGVpbWFvaHVpPWZ1aml0c3UuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3Rl
+Og0KPiBJdCBzZWVtcyB0aGF0IHFlbXUtYWFyY2g2NF9iZSBkb2Vzbid0IHdvcmsgd2VsbC4NCg0K
+UmlnaHQsIHFlbXXigJlzIGFhcmNoNjQtYmUgaXNu4oCZdCByZWFsbHkgdGVzdGVkIGJlY2F1c2Ug
+YmlnLWVuZGlhbiBhYXJjaDY0IGlzIGJhc2ljYWxseSBub24tZXhpc3RlbnQuDQoNCklmIHlvdSBf
+cmVhbGx5XyB3YW50IGEgYmlnIGVuZGlhbiBhYXJjaDY0IHN5c3RlbSB0aGVuIGluc3RlYWQgb2Yg
+Zml4aW5nIHFlbXUgeW91IGNhbiByZW1vdmUgdGhlIHFlbXUtdXNlcm1vZGUgTUFDSElORV9GRUFU
+VVJFLCBhcyBpdOKAmXMgY2xlYXJseSBicm9rZW4uICANCg0KUm9zcw==
 
