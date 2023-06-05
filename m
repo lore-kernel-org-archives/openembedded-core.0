@@ -1,148 +1,202 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <duep.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C38EC77B73
-	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 03:26:01 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.3788.1685935557024023063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2961C7EE2A
+	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 05:42:20 +0000 (UTC)
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web11.943.1685943733725145084
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jun 2023 20:25:57 -0700
+ Sun, 04 Jun 2023 22:42:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=c5Wvm6IK;
- spf=pass (domain: mvista.com, ip: 209.85.215.174, mailfrom: asharma@mvista.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-53063897412so4018449a12.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jun 2023 20:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1685935556; x=1688527556;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IrwCFgOAadyfT8gIODZiCZc4/ET64QQ1cFNd0v9vrag=;
-        b=c5Wvm6IK9Y0NppdTyPt94BPG3D5+sVQnX6/+5T84RI65EOlLGBf8tKhD/5dFnOK8ap
-         9ltJ260dFC0qiGsXmfGTL+EKSphR4l+vASoSvB5M7QLmtni7itx9NAWG5Qe6uaU3JUxJ
-         gWGr0XkxWBMC3foW7H/J9szepnJvbSJnwwE5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685935556; x=1688527556;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IrwCFgOAadyfT8gIODZiCZc4/ET64QQ1cFNd0v9vrag=;
-        b=dQXSKb4U60ZdgSc6FqR/P2ohKZQc1kLRaP8b4hEyg+LgIXG5Behuetp1QHjaR6khHp
-         4wqbWFp198q+gy9eeXa202786Hp0Lv0ZcbDf7JMBECi+vNb08TIUAE1rpuktW2HcjhTs
-         heY2rAYEnMtJEW6NWaDQOFgfYF4GX0C6ORsHB4OAzpUizGMNNPFzhgKVvhwWdyzwimGv
-         zoGFcxKBs//oZ7C5H4D9JJ1gSabmm3/LIn1pylYKTVQFgISkQGhSPfW0AIS2EuUDmiqF
-         WO85eThVb7TjP/odwKGMkRHDMgLrqHkXMBiq/c4/yq13dsD9zjT5/cRAmASpobefQZ1l
-         k53g==
-X-Gm-Message-State: AC+VfDxfjefEr7LrkO0fY0+WV155y6v8nhEQCTBW6Xrnfe4F1ZizLp5l
-	HSMydd1OiZmas1eO6UG3IdqCt5h1bPM976pl0hM=
-X-Google-Smtp-Source: ACHHUZ5111p2J/sGdjuNufIUhh7fg/A290x6PidS2Gt7ndwDmKEekTRvqKaSGiwsVb8+RNvbun/jdg==
-X-Received: by 2002:a05:6a20:c8:b0:10b:8a3b:1680 with SMTP id 8-20020a056a2000c800b0010b8a3b1680mr5406853pzh.29.1685935556209;
-        Sun, 04 Jun 2023 20:25:56 -0700 (PDT)
-Received: from asharma-Latitude-3400 ([223.190.86.45])
-        by smtp.gmail.com with ESMTPSA id c24-20020a62e818000000b0065da94fe917sm12785pfi.36.2023.06.04.20.25.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 04 Jun 2023 20:25:55 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Mon, 05 Jun 2023 08:55:50 +0530
-From: Ashish Sharma <asharma@mvista.com>
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: duep.fnst@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="119491768"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681138800"; 
+   d="scan'208";a="119491768"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 14:42:11 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 817ECD772B
+	for <openembedded-core@lists.openembedded.org>; Mon,  5 Jun 2023 14:42:08 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id B0FF2D5072
+	for <openembedded-core@lists.openembedded.org>; Mon,  5 Jun 2023 14:42:07 +0900 (JST)
+Received: from centos.g08.fujitsu.local (unknown [10.167.218.191])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 180F0E205A;
+	Mon,  5 Jun 2023 14:42:07 +0900 (JST)
+From: duep.fnst@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][dunfell][PATCH] golang: Fix CVE-2023-24539
-Date: Mon,  5 Jun 2023 08:55:36 +0530
-Message-Id: <20230605032536.17282-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.17.1
+Cc: fnstml-fujitsuten@fujitsu.com,
+	duep <duep.fnst@fujitsu.com>
+Subject: [meta-oe][PATCH V2] xz: add ptest support
+Date: Mon,  5 Jun 2023 13:42:03 +0800
+Message-Id: <1685943723-3304-1-git-send-email-duep.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27672.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27672.004
+X-TMASE-Result: 10--9.280700-10.000000
+X-TMASE-MatchedRID: ViBM8e+kg1tSuJfEWZSQfC9iVDu7EPf8a9qiaDSLgo2Y5nVpihxiw7pY
+	cE2YBNVC24AcGIc7EvH9QmKIuMsgB0Nz48eCQimDxkszn8tNF/+Bs03RHrzjMzKIerHAhfYxN1Z
+	OD/R4DaYgXZNZQIT9C1r9mm7J9B1CBjDphNl/HQQ6N/cDgNNi4TeXamXCCu1YIPUd1fKoOcSN3H
+	kV2EiaA1hh+cFQJYahl8acA/69mB5MGF0Ua9spp5VRzPxemJL0h3lMu2Vu1gIR34ro7k23nYyG8
+	V1UOe4OsXCTCjFnums0NTrIE05u1m7hJthOImlfz5r5y9mouSBV4BnlVId1nZsoi2XrUn/JQYMO
+	RuDWAmQ4BrATwm8hoiAHAopEd76vLbjFlrtk7/Of/vBH7FDqsLK8Hrb/QqYF+GsrUN58Rcrn1Og
+	Ac+cO+Q==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 03:26:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182371
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 05:42:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182372
 
-Fixing of improper sanitization of CSS values in html/template
+From: duep <duep.fnst@fujitsu.com>
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Add a ptest for xz
+ - It is taking around 1s to execute with kvm, so added it to PTESTS_FAST
+ - It contains 11 test files:
+    test_bcj_exact_size test_block_header test_check test_filter_flags
+    test_hardware test_index test_index_hash test_lzip_decoder
+    test_memlimit test_stream_flags test_vli
+ - Below is part of the run log:
+    START: ptest-runner
+    2023-06-01T01:57
+    BEGIN:
+    /usr/lib/xz/ptest
+    === test_bcj_exact_size.c ===
+    PASS: test_exact_size
+    PASS: test_empty_block
+    ---
+    # TOTAL: 2
+    # PASS:  2
+    # SKIP:  0
+    # FAIL:  0
+    # ERROR: 0
+    === END ===
+    ...
+    === test_vli.c ===
+    PASS: test_lzma_vli_size
+    PASS: test_lzma_vli_encode
+    PASS: test_lzma_vli_decode
+    ---
+    # TOTAL: 3
+    # PASS:  3
+    # SKIP:  0
+    # FAIL:  0
+    # ERROR: 0
+    === END ===
+    DURATION: 0
+    END: /usr/lib/xz/ptest
+    2023-06-01T01:57
+    STOP: ptest-runner
+    TOTAL: 1 FAIL: 0
+ - The tests under xz requires /bin/bash
+
+Signed-off-by: duep <duep.fnst@fujitsu.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2023-24539.patch           | 60 +++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24539.patch
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../xz/xz/0001-build-PROGRAMS.patch           | 20 ++++++++++++++++
+ meta/recipes-extended/xz/xz/run-ptest         |  5 ++++
+ meta/recipes-extended/xz/xz_5.4.1.bb          | 24 +++++++++++++++++--
+ 4 files changed, 48 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/xz/xz/0001-build-PROGRAMS.patch
+ create mode 100644 meta/recipes-extended/xz/xz/run-ptest
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index f7482f8458..228becdb23 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -55,6 +55,7 @@ SRC_URI += "\
-     file://CVE-2022-41715.patch \
-     file://CVE-2022-41717.patch \
-     file://CVE-2022-1962.patch \
-+    file://CVE-2023-24539.patch \
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index d60ebb38fc..9aa68c75ea 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -70,6 +70,7 @@ PTESTS_FAST = "\
+     sed \
+     slang \
+     wayland \
++    xz \
+     zlib \
  "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24539.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24539.patch
+ PTESTS_FAST:append:libc-glibc = " glibc-tests"
+diff --git a/meta/recipes-extended/xz/xz/0001-build-PROGRAMS.patch b/meta/recipes-extended/xz/xz/0001-build-PROGRAMS.patch
 new file mode 100644
-index 0000000000..1b7d849c23
+index 0000000000..090abdddd2
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24539.patch
-@@ -0,0 +1,60 @@
-+From 8673ca81e5340b87709db2d9749c92a3bf925df1 Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Thu, 13 Apr 2023 15:40:44 -0700
-+Subject: [PATCH] html/template: disallow angle brackets in CSS values
++++ b/meta/recipes-extended/xz/xz/0001-build-PROGRAMS.patch
+@@ -0,0 +1,20 @@
++From: Du Erpei <duep.fnst@fujitsu.com>
++Subject: [PATCH] tests/Makefile.am: add target of 'build-PROGRAMS'
 +
-+Angle brackets should not appear in CSS contexts, as they may affect
-+token boundaries (such as closing a <style> tag, resulting in
-+injection). Instead emit filterFailsafe, matching the behavior for other
-+dangerous characters.
++Add target 'build-PROGRAMS' to only compile the test set under
++'/tests' and not run locally.
 +
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
++Upstream-Status: Submitted [https://github.com/tukaani-project/xz/pull/52]
 +
-+Fixes #59720
-+Fixes CVE-2023-24539
++--- a/tests/Makefile.am	2023-01-12 00:51:42.000000000 +0800
+++++ b/tests/Makefile.am	2023-05-30 14:49:34.507313644 +0800
++@@ -74,6 +74,9 @@ if COND_SCRIPTS
++ TESTS += test_scripts.sh
++ endif
++ 
+++build-PROGRAMS: all-am
+++	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
+++
++ clean-local:
++ 	-rm -f compress_generated_* \
++ 		xzgrep_test_output xzgrep_test_1.xz xzgrep_test_2.xz
+diff --git a/meta/recipes-extended/xz/xz/run-ptest b/meta/recipes-extended/xz/xz/run-ptest
+new file mode 100644
+index 0000000000..ebde965d5c
+--- /dev/null
++++ b/meta/recipes-extended/xz/xz/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++cd ./tests
++for i in `ls test*`; do
++	./$i
++done
+diff --git a/meta/recipes-extended/xz/xz_5.4.1.bb b/meta/recipes-extended/xz/xz_5.4.1.bb
+index 71bf4b540a..14808b1714 100644
+--- a/meta/recipes-extended/xz/xz_5.4.1.bb
++++ b/meta/recipes-extended/xz/xz_5.4.1.bb
+@@ -24,13 +24,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
+                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
+                     "
+ 
+-SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
++SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz \
++           file://0001-build-PROGRAMS.patch \
++           file://run-ptest"
+ SRC_URI[sha256sum] = "e4b0f81582efa155ccf27bb88275254a429d44968e488fc94b806f2a61cd3e22"
+ UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
+ 
+-inherit autotools gettext
++inherit autotools gettext ptest
+ 
+ PACKAGES =+ "liblzma"
+ 
+@@ -42,3 +44,21 @@ ALTERNATIVE:${PN} = "xz xzcat unxz \
+                      lzma lzcat unlzma"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 +
-+Change-Id: Iccc659c9a18415992b0c05c178792228e3a7bae4
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1826636
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/491615
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
++do_compile_ptest(){
++	oe_runmake -C ${B}/tests/ build-PROGRAMS
++}
 +
-+Upstream-Status: Backport [https://github.com/golang/go/commit/8673ca81e5340b87709db2d9749c92a3bf925df1]
-+CVE: CVE-2023-24539
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+---
-+ src/html/template/css.go      | 2 +-
-+ src/html/template/css_test.go | 2 ++
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
++do_install_ptest(){
++	install -d ${D}${PTEST_PATH}/tests/
++	find ${B}/tests/ -type f -not -name "*.o" -not -name "Makefile" \
++	  -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/ \;
 +
-+diff --git a/src/html/template/css.go b/src/html/template/css.go
-+index 890a0c6b227fe..f650d8b3e843a 100644
-+--- a/src/html/template/css.go
-++++ b/src/html/template/css.go
-+@@ -238,7 +238,7 @@ func cssValueFilter(args ...any) string {
-+ 	// inside a string that might embed JavaScript source.
-+ 	for i, c := range b {
-+ 		switch c {
-+-		case 0, '"', '\'', '(', ')', '/', ';', '@', '[', '\\', ']', '`', '{', '}':
-++		case 0, '"', '\'', '(', ')', '/', ';', '@', '[', '\\', ']', '`', '{', '}', '<', '>':
-+ 			return filterFailsafe
-+ 		case '-':
-+ 			// Disallow <!-- or -->.
-+diff --git a/src/html/template/css_test.go b/src/html/template/css_test.go
-+index a735638b0314f..2b76256a766e9 100644
-+--- a/src/html/template/css_test.go
-++++ b/src/html/template/css_test.go
-+@@ -231,6 +231,8 @@ func TestCSSValueFilter(t *testing.T) {
-+ 		{`-exp\000052 ession(alert(1337))`, "ZgotmplZ"},
-+ 		{`-expre\0000073sion`, "-expre\x073sion"},
-+ 		{`@import url evil.css`, "ZgotmplZ"},
-++		{"<", "ZgotmplZ"},
-++		{">", "ZgotmplZ"},
-+ 	}
-+ 	for _, test := range tests {
-+ 		got := cssValueFilter(test.css)
++	install -d ${D}${PTEST_PATH}/tests/.libs/
++	install --mode=755 ${B}/tests/.libs/* ${D}${PTEST_PATH}/tests/.libs/
++
++	install -d ${D}${PTEST_PATH}/tests/files/
++	install --mode=755 ${S}/tests/files/* ${D}${PTEST_PATH}/tests/files/
++}
++
++RDEPENDS:${PN}-ptest += "bash"
 -- 
-2.17.1
+2.25.1
 
 
