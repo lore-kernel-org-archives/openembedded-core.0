@@ -1,164 +1,173 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <frieder@konvera.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 120B5C77B73
-	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 09:00:32 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.2976.1685955622132247718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23BEC77B73
+	for <webhook@archiver.kernel.org>; Mon,  5 Jun 2023 09:00:41 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.61])
+ by mx.groups.io with SMTP id smtpd.web11.2978.1685955637147212782
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 02:00:22 -0700
+ Mon, 05 Jun 2023 02:00:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=pM6Oq9Ai;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5520e6da6e=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3558Cail004764
-	for <openembedded-core@lists.openembedded.org>; Mon, 5 Jun 2023 02:00:21 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=oFuwNSaZJMBEp+Z8kMsobTHITJxY3A9W/FXwrCKrkqs=;
- b=pM6Oq9Aikz0VCH0t9Oy+lLymNY6yLYJPLUbrZ8iP4umAmKeLdULJk7EUB8oocIHMMivJ
- NSOlZpaubTZwesCfiO+SLAHgt5/OkS8YUFnmU9V81pEB4S34/htg12pp/dg/T9UBUTJ3
- iBvuYoyuti7/5Zq1lDIcuyDmwqbLfxciinSWJe2AGGI3YAxpkQCCagyvG/NWsqLkb0Gn
- 8u7LCfVZYYjMs0pxnFku9cmehpwyc9Ak7qTPRfsGfIf9OlTubxopPzmvAixU2//SLd4d
- p68NPYTJNQlnvEebRwSkPw1AuWKSdRHvpUjaNeJtKiCJMWnqDQb5lmCGqD1a6fo6n/gH iw== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r00t39774-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 02:00:21 -0700
+ dkim=missing; spf=pass (domain: konvera.io, ip: 40.107.21.61, mailfrom: frieder@konvera.io)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tp2S4jMT7vME1g2L7m9hrrTI/gOvnXrMYSr/hIqpqfD3hcviEOjZTQIdnPVZIaMuZ12HLTz7zAM9CiQWELjkNi5ExQWWsNp9QQWciyICQ9ky3q5x4fba5mdF8XqadRY2vFh1rmxnySPF0GZUVm2m7CzaLM4uPf9oI60XdzKA60za8EvEWRv5fKNcnRjsESElxRR4QOZdd+QRhgDQUkVnW3TEq8ebn72+aCrxofOmM6HHktTRPq03XZgAwGJhgadDfAXIJV+hVV5sQLFN+8DZyH2GCQtAjYlLw/zlOr3aLjH5UKVZBYEcWtZsL0F75GG5JqZ2PUiewOarSMmVelbKzw==
+ b=WtAaWZgSKMCiWaq4Kcz137xhOl74UCI8Z9Zeej7z/6WfID64ADf9Ck7Lup/YOddN5TrIUp6kcW3MGa7Cl9HYeQ+ElaIU+1verJExI8xWz1AJzp7tqDN3yaUerPh9jlZN1cNbog7LrIQt9PRhnGuHfwkj7RQHI65YWoRvqdmRo8Or4qTUXACJeUk7EY4bClzgbytavYAiXqNbCOZdlHJHY9xG0IeZAESMeO3QeSLOQOZka2mz/yXP3XG7p/EHByAK5C/i2YkCHoJ/l55bYG9ZF8qMqTsOihhokb7vNdIVcHqkPmVN6mGUd8Z4r010Xy1sRTVvPytULvYeT5zZaLLSdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oFuwNSaZJMBEp+Z8kMsobTHITJxY3A9W/FXwrCKrkqs=;
- b=ipdSawZyMgp7oO24l/lyDEkLs718GljwPAUj76z8Woc4Vdi1KrqI1MsLFgK7P07vF9plP0k/F4yCOZW0RlJ9pxw8t8lT8ClVY21DbbDyGP0QzxfnOHE5vKZ359zx76eOCwb49XgdBkpXkddE/SD7wCCB4uHcGN3ElrTuX9DlY+FQVwJMqd/D09MhBNQH+UegKwQj1YiUGVtAdJG4Fc7H7jGavDeez7+HoYSaD75+g1K6XjR2lHj7Bc0ALsbFqF7nPcup8Zikrrq/PjDDs/fnfTicIm6sEo2q/SGgdlWGrJgSCmHGoejTjYuU24U1Ytqo6DBvlzFJDXiEqR9L3izptw==
+ bh=Lc4I9Xv7UeHMomc0vjIRYeyCI6ho7YBVBKeI3gMh0g8=;
+ b=IRPure7IHbQSJyqsyvfQZ4TtLtnywfAjjVhukrBqyS4r7FeB99HhmHZUtKt94CrNeqF2XrJuuSjC15Sh0OMxhVsd2zeJ8rGrynd7oKmlgulGx0v5LAb5DeaI0r8DvDGa4IkuLz1ApzzZPKHP8GjQ6drRJGX9Ir9g+XOGKit2GvlGlYTRsqpVIz+bHjjJ3BwIFiyXN43EiJVc7mC0ajJ8MeA2IcXhJJ/QrRL43sL0B0mbQVjuxCunoWCXKPKMBtz8EEpqoHxxbZHspL3f7GYkuZTsj2CVYds9w9UkX0IWRoN9jdwmwPJtjVqIa+f+yTY4P8XupI+/BmcvSG8EnxRhFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH0PR11MB7615.namprd11.prod.outlook.com (2603:10b6:510:26e::5) with
+ smtp.mailfrom=konvera.io; dmarc=pass action=none header.from=konvera.io;
+ dkim=pass header.d=konvera.io; arc=none
+Received: from DB7PR07MB4887.eurprd07.prod.outlook.com (2603:10a6:10:5b::12)
+ by AS8PR07MB8153.eurprd07.prod.outlook.com (2603:10a6:20b:374::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 5 Jun
- 2023 09:00:15 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::b504:c7a0:9ce8:6f17]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::b504:c7a0:9ce8:6f17%3]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
- 09:00:15 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] qemurunner.py: fix error message about qmp
-Date: Mon,  5 Jun 2023 02:00:02 -0700
-Message-Id: <20230605090002.1825875-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0162.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::17) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
+ 2023 09:00:33 +0000
+Received: from DB7PR07MB4887.eurprd07.prod.outlook.com
+ ([fe80::5777:c83f:1378:171b]) by DB7PR07MB4887.eurprd07.prod.outlook.com
+ ([fe80::5777:c83f:1378:171b%4]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
+ 09:00:33 +0000
+From: Frieder Paape <frieder@konvera.io>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] fix: reproducible builds for initramfs and UKI img
+Thread-Topic: [PATCH] fix: reproducible builds for initramfs and UKI img
+Thread-Index: AQHZl4wvFTe6tYQF3EG+Nare5lq6bg==
+Date: Mon, 5 Jun 2023 09:00:33 +0000
+Message-ID: 
+ <DB7PR07MB4887C89CABD41DD04CDF9886D34DA@DB7PR07MB4887.eurprd07.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=konvera.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB7PR07MB4887:EE_|AS8PR07MB8153:EE_
+x-ms-office365-filtering-correlation-id: 59ca5ecf-b67c-4945-236b-08db65a35202
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ NG7UObbD+JIQOE222e92Eq69bcMzB1JykEiG0hVSuUzqfOiSaAlkZjv0DfJOMD7jk5dZ/lxfA+NmxUN/43b9Sf/NxwFI5FcCoLtfHAEfkBhNlHHrlaXSJD5dWF4duEhN28DEMH7dyLXkoHSMD9kGIMSyBV0YUlIqxSo6aXwHqjBEMDN4xTp3GwxzdFWboW4Qa3NxR0pLfwuG9TbmQQIyMqFxDw0Rxm/4P9qK3i4hxdOrWTpRg38RxsA830ptz5qdsxq4dP3VfNBPhtt0r9AhrF0ZCKbKCcHr+ogzPp5O2Hmb1xKq2UlyCtKIfcELkyEDuHbo16qhTKd5s4yqXWhGTct6SF3LSO+ceK6c+k2+XhWAKoYUZhsP2muJq4Nj9dQzzS3mKkrhz4T5J8wTa0bCHIBSA52wxsgicGMb9/5UQ4ABX0/QY8MxjJCMpcvQsGYpVHTuGiuWou3U7p5kQR8tsUkOa2YVc0EWBZd38c5wnj/cYLl9b1tuS4L0IrbRuaFXZJIE54AWtLcb+0kar2MEipMZmmd3q7oXcrBLc/hQg9qZ0+MRdTU6+EDDkbv9YJUU
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR07MB4887.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39830400003)(396003)(366004)(376002)(346002)(136003)(451199021)(9686003)(26005)(66446008)(6506007)(316002)(83380400001)(6916009)(66556008)(122000001)(76116006)(91956017)(64756008)(66476007)(66946007)(966005)(7696005)(186003)(38070700005)(478600001)(33656002)(71200400001)(2906002)(5660300002)(8936002)(8676002)(55016003)(86362001)(52536014)(41300700001)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?As5S2klyCB9jy0OrW5X+yOPNrmKV0THpo5/F0+MSFlt1kdD1tUeqRbgmoU?=
+ =?iso-8859-1?Q?Jim7p/+VaXeqImH7AGVeypndH3+AXpF1gnXffjoGCIPNs0xK52YB7L9mnL?=
+ =?iso-8859-1?Q?hC20ZaFjN0UjuwvWc64WPH1tSPlxj7Ba8KG/Otvowd6k0oTrx9sjroRTge?=
+ =?iso-8859-1?Q?aLmdtaPYr+rp0GfVilqIL1S+Cg+xXYhNQGwBzGLiVES5HY+1cCqjnWSm6E?=
+ =?iso-8859-1?Q?aVLmxA20cNN0OCrSjadhOBalj0E68zg1DBn+F9bqf6ISKFUpZoWlzrzDTI?=
+ =?iso-8859-1?Q?NOAfv71ZfarbuQbIby7AfQOq3oap0KpaQLQKguXeTnc+W/LBxii5yocZaR?=
+ =?iso-8859-1?Q?ZICWENP9//nofP/Yyt//CInkIwOP4ilpJG1D8e4Yt03e4c6b4ZVWggiHIV?=
+ =?iso-8859-1?Q?cJDINIcQTwo2gtpKjUGSdN9F1PvrJcWWD0ZRnz/EsyizkmOOHVyeKTJSW7?=
+ =?iso-8859-1?Q?jxBL0THMXZfLutnaoB+qG+45IHxDxxGvZT/SYB5Qi1GBj6JknYcu/d5zoF?=
+ =?iso-8859-1?Q?5RLwdExhR/YmKmKGh/f0gX9CctVjBHxkIJnXZSeai3mkUiqeCZJR1XkxlA?=
+ =?iso-8859-1?Q?BJ0Cqs8xq38Inwzqj6Dzj6ATH40elg8fgu8tjnWy3vhYROtz6uAXPeBIvn?=
+ =?iso-8859-1?Q?b1zi6zRxe64E4F6gKbT6njyPpaWSmCaf8StYEEleDxIEjvxgSOkzSPdcXO?=
+ =?iso-8859-1?Q?XVkA+CysZf8IoqgUnPJBwGVKMKaayw7Xx4Dn0cP1IITXwQTROWj6zgec5d?=
+ =?iso-8859-1?Q?r6VhUxhKGOQjQozbWIppnTEU8ZqIwUwfVfHPatRQ9tLmWF0VE07kzCmFCR?=
+ =?iso-8859-1?Q?WU0MpntV2vERHFFI3m1ViqnL7Rm9EINQlYynBK5rLxCF9S353tp6GcyvLg?=
+ =?iso-8859-1?Q?PVILSNRX9ozVhTCMpvBKpJZcIxjGtNGXJjAT8wb1P1uGZlDO9VXXlc6jY0?=
+ =?iso-8859-1?Q?ak/+l3hsZXSxTusuhR7jit8K76PCRduX9VaMGkg5rjkkRoBxBDI33JedNA?=
+ =?iso-8859-1?Q?6yuX6zOPtcyhOz03YQD6tOGJ4mks/UQ5KyUE86pQ9nzWNJ3J0J4nlY4yzD?=
+ =?iso-8859-1?Q?6beI04mgFtuOU/EdhQL0zFvHkYD2E4dVf0TMcWvCJuR2mhUyUcdvKB0SMI?=
+ =?iso-8859-1?Q?6IuJ4S1dPajOdB4iBxASeVON4zdB1bEhUTPm++IB6cQnUtkm2FgUYZcsWM?=
+ =?iso-8859-1?Q?Bw5tqiHI8BQ4LIEi/rGiziLq2gT07czwvrD864xovhIw86acJpq/igGVPF?=
+ =?iso-8859-1?Q?bnk39L4zWOqdaZ+AlcUuiEkqRd1Hq5eKCGdqvG68xdishjE3HXElqykVs/?=
+ =?iso-8859-1?Q?JE2XMMChnhniQIDT5+BkrwT1MwX1NhA1zZqsjKhMFRlDGzs1L1nyJS75/p?=
+ =?iso-8859-1?Q?jRO3Rt3OeQeImK796sS7kYf//gZm5kXtFg1neFE7Pf941858nRtktn8sc+?=
+ =?iso-8859-1?Q?G8QfzG6GmdJIiZmjtdt+TEftqKlFElmyv5S8kYvyoYBcc+xtnZSYvIgGDJ?=
+ =?iso-8859-1?Q?lMzb8XYJduYpJ3CbuEwy1vt2q1tRdNzqvSOwkusa4PxRRT9G+qS29qV2gI?=
+ =?iso-8859-1?Q?hE58j0O5Aslfi+hpv1sd1Ry8f/AiGDng0UPVJ0X9Z5VuumIpaFL68Ut29Y?=
+ =?iso-8859-1?Q?cO2PrCvM06Xks=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH0PR11MB7615:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27b21962-42f7-475f-8d69-08db65a3476f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	5pqQu1B6xV5E1+Ad/jrlGlk30cMQWOo0oZS60Uy286QfPvTfHZyRse6ce96qJhK6Xa54ROGkh7M68vFbxm01AclUf09wYzAVyD+UhxwzneqwrJ21xBs3D4Uq06MDlqCG0VFkAKSBvGfjBv83dWqqbx1SbO/lnBH4hId13HQ+HqBzoUStAaDrQtKm2fN/JFmH6cHkva/xzhoTS3314VJSknF6xqfT8etprk8hpyRv7o6QzIs8H2mhLxQtHD25jSlUAkW3CATnAepr5XuOF3iV5x1XPHiNlVhBp4AV3o8ERLkBvGSQmlW/Lr+Jltl5iyh5HES7XUri+Dn7c+RTGm/wpK5EX3FT+ug8pWXSOx/42GG85XO8UnPJmTso1tLziMyJrI8SNE8rPIS9vkUWXlE9tiPSByN69oxhi16wgQhxK1f0BieXLrtjZwAPp3JbmCnF/ibeT5sylSRRdvvZqaUOlWWhkJRq3XWajnaCghrVqXoQsPZjXBSxNMNbhsRpQyiqin3mdCDkXOED0sg4NtfOP6NOzdQEHHAswTXtjcS6OqcbFfVGg28k5rZUgrp3V/72+LvR+BLZFCDNG+xb406FC3uCg8qxDVF9pFU1Pf5/5z+6mPXffMtMI7BJJEVPH9au
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(366004)(346002)(376002)(39840400004)(451199021)(478600001)(5660300002)(8936002)(8676002)(36756003)(15650500001)(2906002)(86362001)(6916009)(66476007)(66556008)(66946007)(316002)(38100700002)(38350700002)(41300700001)(2616005)(9686003)(6512007)(6506007)(1076003)(26005)(186003)(83380400001)(6486002)(52116002)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?wXs0ES2IXbgffdrSavbsVIWKwBsP3nsrlx68wNqsDOn5FIRwCzDffngCOD3z?=
- =?us-ascii?Q?zhGYZpLAMkCiKEn2OPlyPcPPjafUWke1HEIXysKfBodXCJF+NcijVgu3izkH?=
- =?us-ascii?Q?pmFFZOTllU0NTV2RJTljufDk+1tvgXL8kL7+pmLJ7XKukuJyuGUxQtUnwDgl?=
- =?us-ascii?Q?4Eba7Chfom1loHYz+NY4EiVHtBBsphdXTAPuHjALSU0cPg/IVIF+8REKOCDk?=
- =?us-ascii?Q?ocfD5l2rTzOaRF7M4me9mxdJQHIZMdbhusjboWtvj09q4ui++Pr/l0xic3BA?=
- =?us-ascii?Q?X449jIei8TiGQMjQEXbHePIfqA79J5tNSS+ClmypRV+dhuCbbkUyTozAyFW6?=
- =?us-ascii?Q?Q8I9YMgcMKkXFQ+qgwZrlrYcK86dYF3TpMUWC1U//ZN9ptIhfhi3IDz0pBpm?=
- =?us-ascii?Q?q7A4LUqCk3IhS1QR3huUzoq2FJtKA0uCNrb9gzmn2p9swsC1LGkjeUYQhitU?=
- =?us-ascii?Q?LeOU7B3+3vEKD4UIur27PJPv8QBgl4Cv3BZ63QbKKTEgseVZqvGJfxYKbwVJ?=
- =?us-ascii?Q?ryIPhFbxtlUBOijH9OtUHsjCFs8WqHZLzCtbiLDjZEZ/DcKSRqlY2DYfps3U?=
- =?us-ascii?Q?bGg5Z8Fjm/0icQAOH/lcx36VS458or5EOJxcp0hKgMvt0FvKPofBeAUtEGkR?=
- =?us-ascii?Q?cSbiTCGXofbuvzT07B9/y9EtD+muc2D1g7falis9/3OP+nIePn87r5eGj0eL?=
- =?us-ascii?Q?cO6KgZ++uPlUSN3YosMXuunW+58yrMEtQol+ZDzPH2clJni+8MO4T3eIcYf6?=
- =?us-ascii?Q?vdp34/ssgIHu+7G0wSbSHTMV8R7zz0x4qmV+prGxmiusQagba5p20NPpn2A6?=
- =?us-ascii?Q?fMJKozyZ53sqRGA8H5u++OtALN32f14oFGW5D0KFqGxZzuStSUtyyiseN3Po?=
- =?us-ascii?Q?zWIQv/dImBk9x5WuDibH8d+lghRpPEuXYZ98TPEtKIzKtWciMZELSPKNKaMe?=
- =?us-ascii?Q?V3mO2AxsoxEugDlxVaSe5wUjGdKr0B5HT7kH3RDJ/kDSCN1o288Ia7NnqgWp?=
- =?us-ascii?Q?1275TPoR68PCF4deZD33xAq+ZizlQ+c/i2wmNxZgyAynYnNbjLmYsk+7tYZe?=
- =?us-ascii?Q?m07t5IWpQOktk9tWcR7gSTUzmo3E2sqnY2Sx/H7Fc/drA/LW6G61MuBMp6VE?=
- =?us-ascii?Q?CngayRVxUetExayS2pY7Zxi4Owu0sDmrfvv1G8nuyk2mMjxKkW4T3I1ap6ew?=
- =?us-ascii?Q?vnjFdbZf5YCOFdZr5C1HT9x2ocOatjSugh3YfPC+31oBplJTASt3WB8duClM?=
- =?us-ascii?Q?0MNlJKuUx6ar6CuhTrPtsycJcIScb7cBTslTbdF+43FH1VMpfisJQkoP+ooL?=
- =?us-ascii?Q?h8M4h3BueeXicB19gILU7dS+I3TdQhrcJlu9m0L8m3rIAmaOHrB8cRLMe2ro?=
- =?us-ascii?Q?h+pKGR+jaHGIJHso7u6hdZt/WaEl3b1LmsxQK0LL3LhCXpVZifgJEkX6ewJR?=
- =?us-ascii?Q?BANU392x/KEhCv4/qa0T668u/VtuJBB13Cty+3f7jPJC0+zuEqmXCPfFbndy?=
- =?us-ascii?Q?h0Dd1nfHIuYGjRgECkILKdQIQhBCEfq69hcm/EyAj+z1JkafwMuZCMP1a24B?=
- =?us-ascii?Q?izkz//dBzH83CM4c21veB0tFxc/OCaH9jle1NSnx?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27b21962-42f7-475f-8d69-08db65a3476f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-OriginatorOrg: konvera.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 09:00:15.7037
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR07MB4887.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59ca5ecf-b67c-4945-236b-08db65a35202
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2023 09:00:33.2539
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f1Qtgm7zR/Aa5N8pbf/x+Zzu49euzGLoq/GfuZE5VVKRmDmksKz7YCtdk+nQ6DmfGOpROOLfcyCvXTIfDJLjBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7615
-X-Proofpoint-GUID: GH5OvTSFycxndJ0Ne7kFh7u0_FUgqOVu
-X-Proofpoint-ORIG-GUID: GH5OvTSFycxndJ0Ne7kFh7u0_FUgqOVu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-03_08,2023-06-02_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=976 phishscore=0 clxscore=1015 adultscore=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306050080
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b3d7d979-11f2-46c2-9645-f49075ec004b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yMIyIjQbWZ+Le9ErqjSAdHOtSHBfMZE++zGR3JsCLiOgmBe40SklJXIWtZ+M4Q7qdGVXq5xXTw7DNImiX5G7Pw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB8153
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 09:00:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182375
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 09:00:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182376
 
-From: Chen Qi <Qi.Chen@windriver.com>
-
-The error message is a little misleading as the qmp module is a
-directory with __init__.py file, not qmp.py file. Also, put the
-path where we try to import it from in the error message to make
-the message more indicative.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 7f520d47c3..0ef8cf0a79 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -188,7 +188,7 @@ class QemuRunner:
-     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
-         # use logfile to determine the recipe-sysroot-native path and
-         # then add in the site-packages path components and add that
--        # to the python sys.path so qmp.py can be found.
-+        # to the python sys.path so the qmp module can be found.
-         python_path = os.path.dirname(os.path.dirname(self.logfile))
-         python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
-         sys.path.append(python_path)
-@@ -196,7 +196,7 @@ class QemuRunner:
-         try:
-             qmp = importlib.import_module("qmp")
-         except Exception as e:
--            self.logger.error("qemurunner: qmp.py missing, please ensure it's installed (%s)" % str(e))
-+            self.logger.error("qemurunner: qmp module missing, please ensure it's installed in %s (%s)" % (python_path, str(e)))
-             return False
-         # Path relative to tmpdir used as cwd for qemu below to avoid unix socket path length issues
-         qmp_file = "." + next(tempfile._get_candidate_names())
--- 
-2.40.0
-
+I've encountered issues reproducing initramfs and UKI image builds,=0A=
+which will be fixed with this patch.=0A=
+=0A=
+1. initramfs=0A=
+There's a symbolic link to /sbin/init, which is appended to the cpio archiv=
+e after creation.=0A=
+The links timestamp needs to be static and the cpio append command needs th=
+e '--reproducible' flag to produce deterministic outcomes.=0A=
+=0A=
+2. Unified Kernel Image=0A=
+'--preserve-dates' is required for a static 'Time/Date' entry.=0A=
+I've added '--enable-deterministic-archives' although in my case this=0A=
+didn't change anything.=0A=
+=0A=
+Signed-off-by: Frieder Paape <frieder@konvera.io>=0A=
+---=0A=
+ meta/classes-recipe/image_types.bbclass       | 5 +++--=0A=
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 2 ++=0A=
+ 2 files changed, 5 insertions(+), 2 deletions(-)=0A=
+=0A=
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/=
+image_types.bbclass=0A=
+index bbddfaf272..f73b4d965e 100644=0A=
+--- a/meta/classes-recipe/image_types.bbclass=0A=
++++ b/meta/classes-recipe/image_types.bbclass=0A=
+@@ -148,10 +148,11 @@ IMAGE_CMD:cpio () {=0A=
+ 		if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; then=
+=0A=
+ 			if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init ]=
+; then=0A=
+ 				ln -sf /sbin/init ${WORKDIR}/cpio_append/init=0A=
++                                touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WO=
+RKDIR}/cpio_append/init=0A=
+ 			else=0A=
+-				touch ${WORKDIR}/cpio_append/init=0A=
++                                touch -h -r ${IMAGE_ROOTFS} ${WORKDIR}/cpi=
+o_append/init=0A=
+ 			fi=0A=
+-			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IMGD=
+EPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)=0A=
++			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H=
+ newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)=0A=
+ 		fi=0A=
+ 	fi=0A=
+ }=0A=
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wi=
+c/plugins/source/bootimg-efi.py=0A=
+index 43c6fd94d9..2bf7375887 100644=0A=
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py=0A=
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py=0A=
+@@ -351,6 +351,8 @@ class BootimgEFIPlugin(SourcePlugin):=0A=
+ =0A=
+                 # https://www.freedesktop.org/software/systemd/man/systemd=
+-stub.html=0A=
+                 objcopy_cmd =3D "%s-objcopy" % target_sys=0A=
++                objcopy_cmd +=3D " --enable-deterministic-archives"=0A=
++                objcopy_cmd +=3D " --preserve-dates"=0A=
+                 objcopy_cmd +=3D " --add-section .osrel=3D%s/usr/lib/os-re=
+lease" % staging_dir_host=0A=
+                 objcopy_cmd +=3D " --change-section-vma .osrel=3D0x20000"=
+=0A=
+                 objcopy_cmd +=3D " --add-section .cmdline=3D%s" % cmdline.=
+name=0A=
+-- =0A=
+2.39.2 (Apple Git-143)=
 
