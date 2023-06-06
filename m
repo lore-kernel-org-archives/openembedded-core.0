@@ -2,90 +2,79 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81341C7EE24
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 10:51:30 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.5664.1686048685218012743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C50C77B7A
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 11:05:50 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.5906.1686049540760181415
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jun 2023 03:51:25 -0700
+ Tue, 06 Jun 2023 04:05:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Kfu9dG6u;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-30ae901a9ffso5373701f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 03:51:24 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=fTCStJPn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f735bfcbbbso23296075e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 04:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1686048683; x=1688640683;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWA7GoaDUVhLzdmqOM/q+5Ae8nIYIkICs6ZWlF80im0=;
-        b=Kfu9dG6uqIjyapPq6KsnwVBcTU9YVX4ltFYPj2eeO56pedbdE4/A3YELlC7cJUmmZn
-         1peEnGTNZYoDozIIgd/PdWoZmekN+58CITN8tVsuvUPkCh4F+o4sJsFgyd9eEJwgPnM0
-         SvH3sA4TaUf1o51UH7bBxKv8Bhs2HRH59rbho=
+        d=linuxfoundation.org; s=google; t=1686049539; x=1688641539;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=20pPsmGXvZQGDuPRBZwyzBbFLOWossnhFi77l1UixSU=;
+        b=fTCStJPnHU1Nb/Bv3PKTYdMrY1k8WXzblfRDodUdSx1O2wQoBoLZ7DKp9J9LH2pGKG
+         5eMyy3o1n7yF0Q4JEzRjAouYmBwiaG5LA1O4ak43myzHMjGgaafjHLj10wLpbDuD2tI1
+         mPukeiIKPLNVxjZ8YlzpRt3GcKuPqbhWt22Lk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686048683; x=1688640683;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWA7GoaDUVhLzdmqOM/q+5Ae8nIYIkICs6ZWlF80im0=;
-        b=PoMWmAwlukY+AHvNqaTXYbWFwl3piAFg8/hZ2fbULfAjviLmoR+sWkWZMvJywJ1f7P
-         LoFBhvehJa/0XS7A4n8aURtEZndjZ+43raOk6TqgFiUcqQY60pEKl0SRQ8OHL0i4IikH
-         vksow7zcb667jD4iRAZ+QXIEAbNU9aFIhFGRne2EpEsDUDZtZHSQ7VVrYHeVmrG0wz2I
-         LHbIEeo8ar5tkNZqlXMme6IWl3DzYkGoLxVN6sg0XOxed3AXYclrurICQvHNqO6rbrRh
-         xTq/CbE4kDDCOp6/Qc9K5hbiU0B73Xdr0hm1y0N4CUUcL/k8NS91EmTXecYYbbPUbAHY
-         TX8A==
-X-Gm-Message-State: AC+VfDy0JUkia/ELSiMyP7Njt2eCeVtFF/kIAP7gIwbcwvs0+CR6gWsR
-	f29DJcaXkdbMuVSoQeSDs/QoDVZyotoKPhMAtF0=
-X-Google-Smtp-Source: ACHHUZ6XU/h9xiK8vrgMs/oiVWjBYYVuOuG/RpiJ/rEQBxmB+9PbQcePTNXcvW2/1jNmuI2qvKFgcA==
-X-Received: by 2002:adf:f111:0:b0:30e:412a:45d3 with SMTP id r17-20020adff111000000b0030e412a45d3mr2049808wro.49.1686048683127;
-        Tue, 06 Jun 2023 03:51:23 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7f10:3282:4c2:7240])
-        by smtp.gmail.com with ESMTPSA id b3-20020a5d4d83000000b0030c4d8930b1sm12244694wru.91.2023.06.06.03.51.22
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1686049539; x=1688641539;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=20pPsmGXvZQGDuPRBZwyzBbFLOWossnhFi77l1UixSU=;
+        b=LOA9mNIrsTnOS179L3P0iL6J/KEjVWDBswRiiMNRWkN6bnqtbgsTIZ7tPjSd1TBaL3
+         BcAL2b7lpxUuz08sukgAPdxpsb7/ttpdiRUnGkcwbredk6tA5A2p8Ad3+orYy9DhIJsS
+         6cWn/lxdBzoaZg+bO/V8rLAABYHygxiX1uJAr2h9A3SetRXFiceTd2O04Qqn0/+whYwj
+         HK/p3ibF+mJlTEI8LYEJ3e42+LCMpQI0ZE3pc3ZpC3TOn2r0UU+GbCVjggGARBMpTpLd
+         9dVbIsJs16tVbT478gRYgUdGZays8ZFCTQxDPi7Sf6EMpZBgS7VN5WhIgOWt/cuRyY7C
+         4ioQ==
+X-Gm-Message-State: AC+VfDw0XUKilU5vWNnh1v6gO5Js/VMMaAvcnFCZ+bwcV+ewVlgcr80v
+	y7gI+ICERF4KSZpaNR4mQ8IaUMpmNo5+h8QdkVw=
+X-Google-Smtp-Source: ACHHUZ6Oh2nN0fmbc4D21HwZrbJ99dXjKm8hxHUOj+SjVAEopWsC9geaLph0FbXPDY72f7apeOBmmQ==
+X-Received: by 2002:a05:600c:210:b0:3f7:2d7d:c673 with SMTP id 16-20020a05600c021000b003f72d7dc673mr2007134wmi.14.1686049539013;
+        Tue, 06 Jun 2023 04:05:39 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7f10:3282:4c2:7240? ([2001:8b0:aba:5f3c:7f10:3282:4c2:7240])
+        by smtp.gmail.com with ESMTPSA id m11-20020a7bce0b000000b003f1958eeadcsm17149161wmc.17.2023.06.06.04.05.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 03:51:22 -0700 (PDT)
+        Tue, 06 Jun 2023 04:05:38 -0700 (PDT)
+Message-ID: <a29c16f23d36d0a4c5b714285329c74c03e89200.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] perl: fix CVE-2023-31484
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] v86d: Improve kernel dependency
-Date: Tue,  6 Jun 2023 11:51:22 +0100
-Message-Id: <20230606105122.520421-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+To: soumya.sambu@windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 06 Jun 2023 12:05:37 +0100
+In-Reply-To: <20230605174616.2559077-1-soumya.sambu@windriver.com>
+References: <20230605174616.2559077-1-soumya.sambu@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 10:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182421
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 11:05:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182422
 
-Working with enabling SPDX, an issue was observerd where v86d wasn't rebuilding
-when the kernel was changed from linux-yocto to linux-yocto-rt.
+On Mon, 2023-06-05 at 17:46 +0000, Soumya via lists.openembedded.org
+wrote:
+> CPAN.pm before 2.35 does not verify TLS certificates when downloading
+> distributions over HTTPS.
+>=20
+> Signed-off-by: Soumya <soumya.sambu@windriver.com>
+> ---
+>  .../perl/files/CVE-2023-31484.patch           | 29 +++++++++++++++++++
+>  meta/recipes-devtools/perl/perl_5.34.1.bb     |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
 
-This is due to the code in sstatesig.py which was seeing the RRECOMMENDS on a
-kernel module and ignoring the DEPENDS. The v86d is technically a kernel module
-since it uses kernel header files.
+Which release is this patch against?
 
-There are two ways to address this, we could inherit the module-base class and
-the dependency code does the correct thing. It appears the code doesn't look into
-STAGING_KERNEL_DIR though and doesn't use the kernel sources. We can therefore drop
-the DEPENDS and the code will the do the correct thing.
+Cheers,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-bsp/v86d/v86d_0.1.10.bb | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index 5f342b1120e..b4fe362f8e3 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -6,7 +6,6 @@ DESCRIPTION = "v86d provides a backend for kernel drivers that need to execute x
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://README;md5=94ac1971e4f2309dc322d598e7b1f7dd"
- 
--DEPENDS = "virtual/kernel"
- RRECOMMENDS:${PN} = "kernel-module-uvesafb"
- PR = "r2"
- 
--- 
-2.39.2
-
+Richard
 
