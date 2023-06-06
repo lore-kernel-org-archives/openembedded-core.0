@@ -2,105 +2,128 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3788C77B7A
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 05:38:18 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.2325.1686029891332925798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23DCBC77B7A
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 05:57:59 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.2483.1686031078331647418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 22:38:11 -0700
+ Mon, 05 Jun 2023 22:57:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dt6EEaDs;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b1b86146afso41508091fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 22:38:11 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JOrYPHeT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b1a66e71f9so66288211fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 22:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686029889; x=1688621889;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qn77cL9PRbpNpthOoziQS6C/rulwWP1X1E4VcZHY0cs=;
-        b=dt6EEaDsgpSvKOp8sZsl+oBstSJblcQbmRcYlHNjFkWOS0irpoukklU1aa4Yh0kGsP
-         9RocwBsGV/XnwO/6RqhkZaOoK/glJ7bW7P3/PqucZEJIJQdS1dRCO1oFTjz3c+D7AjR9
-         vzjb53H8UNJwxQ9XHnT4IlS4ufeWNdOpbk/um3EnuRfURs6QZi02dAhrVFes98fD3+pW
-         rtDZjGaGtbxJ04bUz5oLD4lALPcoxSUvWmqlwifeigBC4HN5RAQGZUZ5bJ3/K0DWfOzL
-         hoTDHUjYVEgi+TPgnpZ36GrWYdoLJldSYIf6KQVLLxDaK9yi62wbn2rSuf+XF7Gp59Hk
-         h/5w==
+        d=gmail.com; s=20221208; t=1686031076; x=1688623076;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=H0vTxzR79cx8UTgGhF0SCz60qTsp79PI1uWVXjejfQs=;
+        b=JOrYPHeTleq8FhpwS5tgO6qsLIEEcKUYT2ixjwXKRtPduI3qFpiO+KOenhsz8QE83F
+         cCYqcx4iIGXM/4D52fOEKR67EZjmiAuu9MPnDj9IzwLhoOOBTx/nr++eJBlLxrhBntP5
+         YWyy1jUIcZenLqvRR/c02VwmG+KdDDzhf4JjrSewUuAFtM4+BzE+fGwFCcWalX/6NdsR
+         tbiPQBKVbDv0eaDmA3/m7N/QgBM6P17I8t3A3JiEOm7gL4EIKH7hBKEMGHbBhmH8mJ5n
+         s3aedNNDOBS4enDS+b6X7mopHGpaOXrX+98RbmdobNUOqdFl6tgpo/G5thzXoF27XdOu
+         RZ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686029889; x=1688621889;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qn77cL9PRbpNpthOoziQS6C/rulwWP1X1E4VcZHY0cs=;
-        b=PObgU+VKAj5MpzNf087gbLoMhNEp/B26m5WYLrO8xCmH+S3YwqDzx4Xnr8jKHp6BBV
-         42bwj1otXLMsepgl+gWakaKP+T7zR5+IkiLGTaxlKhA8+3n3w9XWUncQzY6m1HCYmUeq
-         bLVRxAZbVDTR/eh+wxxEbuiqGiqMpe+HyG+hFLgMg7GjwmqB0XNx/M39Ud/AjjT5n2Do
-         eZpJS9VLoh/ZMjZsnNrKmXQ9amHVllD9iFXLzSqUbi6xnFI8l6roh2lNe3vYOnXZJ5xv
-         SwNGWeKmk8C33NpZJ1Xsu4/EByQ55BMzzpLHXbwmHmtJiv9t/jprzeb3fbAlsNMi0tML
-         g0Vw==
-X-Gm-Message-State: AC+VfDyDEpSHCFHwflLrNaXcLNz4Yw2ruYd8KcDNWluZbXoqf2z1i/my
-	yk7/FuHe2idiz4m6fKjbFfcqEuhi4CLIdOdct8w=
-X-Google-Smtp-Source: ACHHUZ5AL7VKGE4pVelYyfDmhI1D+xRCbmpIFZbibdiYhYNR2X/LBa372zsakubFS2H+49AF1F3aKkkSq6c/TpwS5S4=
-X-Received: by 2002:a2e:9009:0:b0:2b1:e900:3ca5 with SMTP id
- h9-20020a2e9009000000b002b1e9003ca5mr693896ljg.29.1686029889465; Mon, 05 Jun
- 2023 22:38:09 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686031076; x=1688623076;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H0vTxzR79cx8UTgGhF0SCz60qTsp79PI1uWVXjejfQs=;
+        b=k6wuR1gMXmQoZSXdCA4IUFdY/xgErxZaGX6Y6huvnZ5w8xsgPi8G2p6aE9ll2qcWjs
+         XBqiSfo1E/uDLgh1z0BoXXBGszCg5NFBgjtU0itdLt08JUZR5T8D6BrcnGaLlr9op51r
+         fX6byAtFnrnQOFCTnRjBEPZC4/UdaQvJAYFdSHjeevYQgB7ZPOCDMCwuYSxWihyuQ8Ph
+         f11v8vRnBdxElFm1IjamNW/wWGFO6oYvfblbh1n15uy8FsNv3iK4wgj1ll31Y6Fyw1J/
+         SP75TZZdRwlam56CnpDUX1Z1xFaX/9ebn4x11chtBqGLT3S4Pxm2C6Sxr3WWFixd6sA3
+         NwUQ==
+X-Gm-Message-State: AC+VfDzO8OkCPKGN7swnVgEQyv5hKC5szOxj2+0BRJ8XZqtxAhOMYc12
+	IFfRF1wetKbEba2JgJmSnM5hG0iiabj4manoGbw=
+X-Google-Smtp-Source: ACHHUZ7wfFyH1UYB5X04IR3fJHiJNvekJOEkKoH6kaoqJtx1+5m+OLCH6IXoRbBvHVI00Cavxda4gI54kaTDDY1BzY0=
+X-Received: by 2002:a2e:380b:0:b0:2b1:b4e9:4c3 with SMTP id
+ f11-20020a2e380b000000b002b1b4e904c3mr867893lja.2.1686031076246; Mon, 05 Jun
+ 2023 22:57:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230605162546.3012555-1-ross.burton@arm.com>
-In-Reply-To: <20230605162546.3012555-1-ross.burton@arm.com>
 From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 6 Jun 2023 07:37:57 +0200
-Message-ID: <CAApg2=RzfvyjBnn6v-vn5eNH0X=q=kypFr2OYLt7EptTdar1dw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] cve-extra-exclusions: add more linux-yocto
- CVE ignores
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: multipart/alternative; boundary="000000000000a46ffe05fd6f6cd8"
+Date: Tue, 6 Jun 2023 07:57:43 +0200
+Message-ID: <CAApg2=S9UFXCCtL2ByH7Y3_pYVvLmJUO945=RuFNqNg=nXyo9w@mail.gmail.com>
+Subject: Drafting a fetcher for kernelcves
+To: Ross Burton <ross.burton@arm.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Yoann Congal <yoann.congal@smile.fr>, 
+	Geoffrey GIRY <geoffrey.giry@smile.fr>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000061483e05fd6fb31b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 05:38:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182412
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 05:57:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182413
 
---000000000000a46ffe05fd6f6cd8
+--00000000000061483e05fd6fb31b
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 5, 2023 at 6:25=E2=80=AFPM Ross Burton <ross.burton@arm.com> wr=
-ote:
+Hello all,
+I'm drafting a fetcher for kernelcves  (
+https://github.com/nluedtke/linux_kernel_cves/) and the data conflicts in a
+certain way with cve-extra-exclusions.inc. With multiple fetchers we'll
+need to have a way to say which data set has priority.
 
-> From: Ross Burton <ross.burton@arm.com>
->
-> These CVEs have all been fixed <6.1.30, which is the default linux-yocto
-> kernel version.
->
->
-Those are pretty new ones, should be all covered by the new CVE format. Is
-anyone already
-sending pull requests to include that information in the CVE database
-directly (not NVD)?
+For now I can see examples of two cases (in all cases we go for a specific
+kernel version):
+
+Case one:
+NVD says unfixed
+linux_kernel_cves says unknown
+cve-extra-exclusions.inc says IGNORE
+
+Case two:
+NVD says unfixed
+linux_kernel_cves says fixed
+cve-extra-exclusions says IGNORE
+
+In the first case, the solutions is IGNORE (some old CVEs), in the second
+one it's PATCHED.
+
+The questions I have: Should cve-extra-exclusions always have priority?
+Should we allow the user to set priority of fetchers?
+
+What I'm going to test is use the kernel_cves fetcher for all kernel CVEs
+and NVD for all  the rest. Should it be an option?
+
+I'd like to avoid adding too many options that make cause mistakes...
+
+Ideas? Comments?
 
 Kind regards,
 Marta
 
---000000000000a46ffe05fd6f6cd8
+--00000000000061483e05fd6fb31b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 5, 2023 at 6:25=E2=80=AFP=
-M Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton@arm.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bl=
-ank">ross.burton@arm.com</a>&gt;<br>
-<br>
-These CVEs have all been fixed &lt;6.1.30, which is the default linux-yocto=
-<br>
-kernel version.<br>
-<br></blockquote><div><br></div><div>Those are pretty new ones, <span class=
-=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0%!importan=
-t">should</span> be all covered by the new CVE format. Is anyone already</d=
-iv><div>sending pull requests to include that information in the CVE databa=
-se directly (not NVD)?<br></div><div><br></div><div>Kind regards,</div><div=
->Marta <br></div></div></div>
+<div dir=3D"ltr"><div>Hello all,</div><div>I&#39;m drafting a fetcher for <=
+span class=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0=
+%!important">kernelcves</span>=C2=A0 (<a href=3D"https://github.com/nluedtk=
+e/linux_kernel_cves/">https://github.com/nluedtke/linux_kernel_cves/</a>) a=
+nd the data conflicts in a certain way with cve-extra-exclusions.inc. With =
+multiple fetchers we&#39;ll need to have a way to say which data set has pr=
+iority.</div><div><br></div><div>For now I can see examples of two cases (i=
+n all cases we go for a specific kernel version):</div><div><br></div><div>=
+Case one:<br></div><div>NVD says unfixed</div><div>linux_kernel_cves says u=
+nknown</div><div>cve-extra-exclusions.inc says IGNORE<br></div><div><br></d=
+iv><div>Case two:</div><div>NVD says unfixed</div><div>linux_kernel_cves sa=
+ys fixed</div><div>cve-extra-exclusions says IGNORE</div><div><br></div><di=
+v>In the first case, the <span class=3D"ng" style=3D"background:rgba(0,0,0,=
+0) none repeat scroll 0% 0%!important">solutions</span> is IGNORE (some old=
+ CVEs), in the second one it&#39;s PATCHED.<br></div><div><br></div><div>Th=
+e questions I have: Should cve-extra-exclusions always have priority? Shoul=
+d we allow the user to <span class=3D"ng" style=3D"background:rgba(0,0,0,0)=
+ none repeat scroll 0% 0%!important">set priority</span> of fetchers?</div>=
+<div><br></div><div>What I&#39;m going to test <span class=3D"ng" style=3D"=
+background:rgba(0,0,0,0) none repeat scroll 0% 0%!important">is use</span> =
+the kernel_cves fetcher for all kernel CVEs and NVD for all=C2=A0 the rest.=
+ Should it be an option?</div><div><br></div><div>I&#39;d like to avoid add=
+ing too many options <span class=3D"ng" style=3D"background:rgba(0,0,0,0) n=
+one repeat scroll 0% 0%!important">that make cause</span> mistakes...</div>=
+<div><br></div><div>Ideas? Comments?</div><div><br></div><div>Kind regards,=
+</div><div>Marta<br></div></div>
 
---000000000000a46ffe05fd6f6cd8--
+--00000000000061483e05fd6fb31b--
 
