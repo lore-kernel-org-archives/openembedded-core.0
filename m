@@ -1,95 +1,123 @@
-Return-Path: <frieder@konvera.io>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE448C7EE24
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 08:01:29 +0000 (UTC)
-Subject: Re: [PATCH] fixup! fix: reproducible builds for initramfs and UKI img
-To: openembedded-core@lists.openembedded.org
-From: "Frieder Paape" <frieder@konvera.io>
-X-Originating-Location: Aachen, North Rhine-Westphalia, DE (79.230.167.130)
-X-Originating-Platform: Mac Firefox 113
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116B5C7EE2C
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 09:25:50 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.4593.1686043543132277515
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 06 Jun 2023 02:25:43 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=UXCYOIao;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5521663e13=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3568RdsG017937
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jun 2023 09:25:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=dSSo53tIBY8rt04PbDI8blTO+m2AxEAkNHVx5GnFTzs=;
+ b=UXCYOIao9s3RlaGixhXKGXhZY/2fcI1EHJOxeVcbYwtq/rNmRtYGFz8MKZh9mZ8hOU5v
+ depDYnUSMULM/OswxaOYEUIxO4x4WfpdBXVumtjiEzQZBtIqc4u6sXpf9WEVsJlM36xj
+ zbg1fpN6RlDXVLyIAEunZ3H3aLGHhmZ9N1PokYqU7NynRRXUAb8BUWBpBYidr51Dj9E6
+ KV0RYvcMK/Mat/L9Mxa5jwSCM0Q/AorLGHOZ4DpXT8IvFAHZcUqYVh53UuxwLQguWuve
+ AqMTy49jSITUhPnec6Yls+n4y8T3ahoTWnd4yicBR70OyPqP0UmkAMWT5QmuaADUzeDO 1w== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qyvg8jak7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 09:25:41 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 6 Jun 2023 02:25:40 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Tue, 6 Jun 2023 02:25:39 -0700
+From: Soumya <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Soumya <soumya.sambu@windriver.com>
+Subject: [oe-core][kirkstone][PATCH v2 1/1] perl: fix CVE-2023-31484
+Date: Tue, 6 Jun 2023 09:25:35 +0000
+Message-ID: <20230606092535.767943-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Date: Tue, 06 Jun 2023 01:01:28 -0700
-References: <76fc64335d45702735bf1c168cf67f6af5e2d47c.camel@linuxfoundation.org>
-In-Reply-To: <76fc64335d45702735bf1c168cf67f6af5e2d47c.camel@linuxfoundation.org>
-Message-ID: <27537.1686038488234786413@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="gLrT7RHYpGSv6Behlp1m"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: EoscX_qq0pSDcIsSa6tG7neFNYBFKayf
+X-Proofpoint-GUID: EoscX_qq0pSDcIsSa6tG7neFNYBFKayf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_06,2023-06-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=768
+ phishscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2306060079
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 08:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182416
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 09:25:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182417
 
---gLrT7RHYpGSv6Behlp1m
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+CPAN.pm before 2.35 does not verify TLS certificates when downloading
+distributions over HTTPS.
 
-The failure happens because `touch` doesn't create a file if called with th=
-e no-dereference option `-h`.
-Removing `-h` from affected touch command.
-
-Signed-off-by: Frieder Paape <frieder@konvera.io>
+Signed-off-by: Soumya <soumya.sambu@windriver.com>
 ---
-meta/classes-recipe/image_types.bbclass | 2 +-
-1 file changed, 1 insertion(+), 1 deletion(-)
+ .../perl/files/CVE-2023-31484.patch           | 29 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.1.bb     |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/=
-image_types.bbclass
-index f73b4d965e..023eb87537 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -150,7 +150,7 @@ IMAGE_CMD:cpio () {
-ln -sf /sbin/init ${WORKDIR}/cpio_append/init
-touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init
-else
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 touch -h -r ${IMAGE_ROOTFS} ${WORKD=
-IR}/cpio_append/init
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 touch -r ${IMAGE_ROOTFS} ${WORKDIR}=
-/cpio_append/init
-fi
-(cd=C2=A0 ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -=
-H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
-fi
---
-2.39.2 (Apple Git-143)
+diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31484.patch b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+new file mode 100644
+index 0000000000..1f7cbd0da1
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+@@ -0,0 +1,29 @@
++From a625ec2cc3a0b6116c1f8b831d3480deb621c245 Mon Sep 17 00:00:00 2001
++From: Stig Palmquist <git@stig.io>
++Date: Tue, 28 Feb 2023 11:54:06 +0100
++Subject: [PATCH] Add verify_SSL=>1 to HTTP::Tiny to verify https server
++ identity
++
++Upstream-Status: Backport [https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0]
++
++CVE: CVE-2023-31484
++
++Signed-off-by: Soumya <soumya.sambu@windriver.com>
++---
++ cpan/CPAN/lib/CPAN/HTTP/Client.pm | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/cpan/CPAN/lib/CPAN/HTTP/Client.pm b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
++index 4fc792c..a616fee 100644
++--- a/cpan/CPAN/lib/CPAN/HTTP/Client.pm
+++++ b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
++@@ -32,6 +32,7 @@ sub mirror {
++
++     my $want_proxy = $self->_want_proxy($uri);
++     my $http = HTTP::Tiny->new(
+++        verify_SSL => 1,
++         $want_proxy ? (proxy => $self->{proxy}) : ()
++     );
++
++--
++2.40.0
+diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.1.bb
+index af4660091b..1fa8482bcd 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
+@@ -19,6 +19,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
+            file://0001-Fix-build-with-gcc-12.patch \
+            file://CVE-2023-31486.patch \
++           file://CVE-2023-31484.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
+-- 
+2.40.0
 
---gLrT7RHYpGSv6Behlp1m
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-The failure happens because `touch` doesn't create a file if called with th=
-e no-dereference option `-h`.<br />Removing `-h` from affected touch comman=
-d.<br /><br />Signed-off-by: Frieder Paape &lt;frieder@konvera.io&gt;<br />=
----<br />&nbsp;meta/classes-recipe/image_types.bbclass | 2 +-<br />&nbsp;1 =
-file changed, 1 insertion(+), 1 deletion(-)<br /><br />diff --git a/meta/cl=
-asses-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass<=
-br />index f73b4d965e..023eb87537 100644<br />--- a/meta/classes-recipe/ima=
-ge_types.bbclass<br />+++ b/meta/classes-recipe/image_types.bbclass<br />@@=
- -150,7 +150,7 @@ IMAGE_CMD:cpio () {<br />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&=
-nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ln -sf /sbin/init ${WORKD=
-IR}/cpio_append/init<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; touch =
--h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init<br />&nbsp;&nbs=
-p;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; else<br />-&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; touch -h -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_appen=
-d/init<br />+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; touch -r ${IMAGE_ROOTFS} =
-${WORKDIR}/cpio_append/init<br />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp=
-; &nbsp;&nbsp;&nbsp; fi<br />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &n=
-bsp;&nbsp;&nbsp; (cd&nbsp; ${WORKDIR}/cpio_append &amp;&amp; echo ./init | =
-cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAM=
-E_SUFFIX}.cpio)<br />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fi<br />--=
- <br />2.39.2 (Apple Git-143)
-
---gLrT7RHYpGSv6Behlp1m--
 
