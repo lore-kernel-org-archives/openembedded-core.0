@@ -1,242 +1,140 @@
-Return-Path: <rpeuvergne@free.fr>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E532C77B7A
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 11:42:00 +0000 (UTC)
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
- by mx.groups.io with SMTP id smtpd.web10.6556.1686051718861001556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B99C8C7EE24
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 12:07:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.6997.1686053228668602789
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jun 2023 04:41:59 -0700
+ Tue, 06 Jun 2023 05:07:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: non.se.com, ip: 212.27.42.1, mailfrom: remi.peuvergne@non.se.com)
-Received: from senux-builder.schneider-electric.com (unknown [80.214.215.244])
-	(Authenticated sender: rpeuvergne@free.fr)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 7BC53B0052C;
-	Tue,  6 Jun 2023 13:41:55 +0200 (CEST)
-From: Remi Peuvergne <remi.peuvergne@non.se.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Remi Peuvergne <remi.peuvergne@non.se.com>
-Subject: [PATCH] common-licenses: Add LGPL-3.0-with-zeromq-exception
-Date: Tue,  6 Jun 2023 13:41:40 +0200
-Message-Id: <20230606114140.2549295-1-remi.peuvergne@non.se.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=eVD/KmA6;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=55213888e3=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 356BfQFn007964
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jun 2023 12:07:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=twhqvV6nqd2ucj94InRQhIOWQDEx9Y71tXyn3Xdzygo=;
+ b=eVD/KmA6uXiH3U+9H5qegJZsdNvV+oSyJml59bTwhC1B7jIsg4UitXNlmy7ntCcLzYl6
+ B4KkCfNp6yOuSszJS0lnMhlZZRdhlNyB6AJT64n8Z5pyh0NKbq5c11zW8ms3ENGxsR+0
+ 9tQ1CqaczsCc9yeAMtBCSMkQRT0rZqRX279sDuvKspYo7qAKF2r+27NxQLgpMZVG83C1
+ JxsJP9FgHjRwuGLF6l4hA2MCIkkI60BM6lLBAStf3aHKhflHnNflpw1V/WsjNtf76sXl
+ Xj/vZU8ENCzOZvZKgcI4NtbiM6+5gEe767+6s+FMMLBU7GuvubRnHqp/nIO/bJ60gwYh pA== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qyvg8je2j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 12:07:07 +0000
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 6 Jun 2023 05:07:05 -0700
+From: Yogita Urade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <yogita.urade@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] webkitgtk: fix CVE-2022-46691
+Date: Tue, 6 Jun 2023 12:06:47 +0000
+Message-ID: <20230606120647.3692694-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: 59izc3XmPxbT_Qf-q2FVKKuBf56Ml8KI
+X-Proofpoint-GUID: 59izc3XmPxbT_Qf-q2FVKKuBf56Ml8KI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_08,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=904
+ phishscore=0 clxscore=1011 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2306060102
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 11:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182427
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 12:07:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182428
 
-ZeroMQ is not exactly LGPL-3.0 and has a specific exception.
+A memory consumption issue was addressed with improved memory handling. This issue is fixed in Safari 16.2, tvOS 16.2, macOS Ventura 13.1, iOS 15.7.2 and iPadOS 15.7.2, iOS 16.2 and iPadOS 16.2, watchOS 9.2. Processing maliciously crafted web content may lead to arbitrary code execution.
 
-Signed-off-by: Remi Peuvergne <remi.peuvergne@non.se.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2022-46691
+https://support.apple.com/en-us/HT213531
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- .../LGPL-3.0-with-zeromq-exception            | 181 ++++++++++++++++++
- 1 file changed, 181 insertions(+)
- create mode 100644 meta/files/common-licenses/LGPL-3.0-with-zeromq-excep=
-tion
+ .../webkit/webkitgtk/CVE-2022-46691.patch     | 43 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
 
-diff --git a/meta/files/common-licenses/LGPL-3.0-with-zeromq-exception b/=
-meta/files/common-licenses/LGPL-3.0-with-zeromq-exception
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
 new file mode 100644
-index 0000000000..02e943c4ac
+index 0000000000..ff9df40433
 --- /dev/null
-+++ b/meta/files/common-licenses/LGPL-3.0-with-zeromq-exception
-@@ -0,0 +1,181 @@
-+		         GNU LESSER GENERAL PUBLIC LICENSE
-+                       Version 3, 29 June 2007
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
+@@ -0,0 +1,43 @@
++From fd57a49d07c9c285780495344073350182fd7c7c Mon Sep 17 00:00:00 2001
++From: Yijia Huang <hyjorc1@gmail.com>
++Date: Mon, 10 Oct 2022 15:42:34 -0700
++Subject: [PATCH] [JSC] Should model BigInt with side effects
++ https://bugs.webkit.org/show_bug.cgi?id=246291 rdar://100494823
 +
-+ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-+ Everyone is permitted to copy and distribute verbatim copies
-+ of this license document, but changing it is not allowed.
++Reviewed by Yusuke Suzuki.
 +
++Operations with two BigInt operands have side effects,
++which should not be hoisted from loops.
 +
-+  This version of the GNU Lesser General Public License incorporates
-+the terms and conditions of version 3 of the GNU General Public
-+License, supplemented by the additional permissions listed below.
++* Source/JavaScriptCore/dfg/DFGClobberize.cpp:
++(JSC::DFG::doesWrites):
++* Source/JavaScriptCore/dfg/DFGClobberize.h:
++(JSC::DFG::clobberize):
 +
-+  0. Additional Definitions.=20
++Canonical link: https://commits.webkit.org/255368@main
 +
-+  As used herein, "this License" refers to version 3 of the GNU Lesser
-+General Public License, and the "GNU GPL" refers to version 3 of the GNU
-+General Public License.
++CVE: CVE-2022-46691
 +
-+  "The Library" refers to a covered work governed by this License,
-+other than an Application or a Combined Work as defined below.
++Upstream-Status: Backport
++[https://github.com/WebKit/WebKit/commit/fd57a49d07c9c285780495344073350182fd7c7c]
 +
-+  An "Application" is any work that makes use of an interface provided
-+by the Library, but which is not otherwise based on the Library.
-+Defining a subclass of a class defined by the Library is deemed a mode
-+of using an interface provided by the Library.
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ Source/JavaScriptCore/dfg/DFGClobberize.h | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+  A "Combined Work" is a work produced by combining or linking an
-+Application with the Library.  The particular version of the Library
-+with which the Combined Work was made is also called the "Linked
-+Version".
-+
-+  The "Minimal Corresponding Source" for a Combined Work means the
-+Corresponding Source for the Combined Work, excluding any source code
-+for portions of the Combined Work that, considered in isolation, are
-+based on the Application, and not on the Linked Version.
-+
-+  The "Corresponding Application Code" for a Combined Work means the
-+object code and/or source code for the Application, including any data
-+and utility programs needed for reproducing the Combined Work from the
-+Application, but excluding the System Libraries of the Combined Work.
-+
-+  1. Exception to Section 3 of the GNU GPL.
-+
-+  You may convey a covered work under sections 3 and 4 of this License
-+without being bound by section 3 of the GNU GPL.
-+
-+  2. Conveying Modified Versions.
-+
-+  If you modify a copy of the Library, and, in your modifications, a
-+facility refers to a function or data to be supplied by an Application
-+that uses the facility (other than as an argument passed when the
-+facility is invoked), then you may convey a copy of the modified
-+version:
-+
-+   a) under this License, provided that you make a good faith effort to
-+   ensure that, in the event an Application does not supply the
-+   function or data, the facility still operates, and performs
-+   whatever part of its purpose remains meaningful, or
-+
-+   b) under the GNU GPL, with none of the additional permissions of
-+   this License applicable to that copy.
-+
-+  3. Object Code Incorporating Material from Library Header Files.
-+
-+  The object code form of an Application may incorporate material from
-+a header file that is part of the Library.  You may convey such object
-+code under terms of your choice, provided that, if the incorporated
-+material is not limited to numerical parameters, data structure
-+layouts and accessors, or small macros, inline functions and templates
-+(ten or fewer lines in length), you do both of the following:
-+
-+   a) Give prominent notice with each copy of the object code that the
-+   Library is used in it and that the Library and its use are
-+   covered by this License.
-+
-+   b) Accompany the object code with a copy of the GNU GPL and this lice=
-nse
-+   document.
-+
-+  4. Combined Works.
-+
-+  You may convey a Combined Work under terms of your choice that,
-+taken together, effectively do not restrict modification of the
-+portions of the Library contained in the Combined Work and reverse
-+engineering for debugging such modifications, if you also do each of
-+the following:
-+
-+   a) Give prominent notice with each copy of the Combined Work that
-+   the Library is used in it and that the Library and its use are
-+   covered by this License.
-+
-+   b) Accompany the Combined Work with a copy of the GNU GPL and this li=
-cense
-+   document.
-+
-+   c) For a Combined Work that displays copyright notices during
-+   execution, include the copyright notice for the Library among
-+   these notices, as well as a reference directing the user to the
-+   copies of the GNU GPL and this license document.
-+
-+   d) Do one of the following:
-+
-+       0) Convey the Minimal Corresponding Source under the terms of thi=
-s
-+       License, and the Corresponding Application Code in a form
-+       suitable for, and under terms that permit, the user to
-+       recombine or relink the Application with a modified version of
-+       the Linked Version to produce a modified Combined Work, in the
-+       manner specified by section 6 of the GNU GPL for conveying
-+       Corresponding Source.
-+
-+       1) Use a suitable shared library mechanism for linking with the
-+       Library.  A suitable mechanism is one that (a) uses at run time
-+       a copy of the Library already present on the user's computer
-+       system, and (b) will operate properly with a modified version
-+       of the Library that is interface-compatible with the Linked
-+       Version.=20
-+
-+   e) Provide Installation Information, but only if you would otherwise
-+   be required to provide such information under section 6 of the
-+   GNU GPL, and only to the extent that such information is
-+   necessary to install and execute a modified version of the
-+   Combined Work produced by recombining or relinking the
-+   Application with a modified version of the Linked Version. (If
-+   you use option 4d0, the Installation Information must accompany
-+   the Minimal Corresponding Source and Corresponding Application
-+   Code. If you use option 4d1, you must provide the Installation
-+   Information in the manner specified by section 6 of the GNU GPL
-+   for conveying Corresponding Source.)
-+
-+  5. Combined Libraries.
-+
-+  You may place library facilities that are a work based on the
-+Library side by side in a single library together with other library
-+facilities that are not Applications and are not covered by this
-+License, and convey such a combined library under terms of your
-+choice, if you do both of the following:
-+
-+   a) Accompany the combined library with a copy of the same work based
-+   on the Library, uncombined with any other library facilities,
-+   conveyed under the terms of this License.
-+
-+   b) Give prominent notice with the combined library that part of it
-+   is a work based on the Library, and explaining where to find the
-+   accompanying uncombined form of the same work.
-+
-+  6. Revised Versions of the GNU Lesser General Public License.
-+
-+  The Free Software Foundation may publish revised and/or new versions
-+of the GNU Lesser General Public License from time to time. Such new
-+versions will be similar in spirit to the present version, but may
-+differ in detail to address new problems or concerns.
-+
-+  Each version is given a distinguishing version number. If the
-+Library as you received it specifies that a certain numbered version
-+of the GNU Lesser General Public License "or any later version"
-+applies to it, you have the option of following the terms and
-+conditions either of that published version or of any later version
-+published by the Free Software Foundation. If the Library as you
-+received it does not specify a version number of the GNU Lesser
-+General Public License, you may choose any version of the GNU Lesser
-+General Public License ever published by the Free Software Foundation.
-+
-+  If the Library as you received it specifies that a proxy can decide
-+whether future versions of the GNU Lesser General Public License shall
-+apply, that proxy's public statement of acceptance of any version is
-+permanent authorization for you to choose that version for the
-+Library.
-+
-+------------------------------------------------------------------------=
---------
-+
-+           SPECIAL EXCEPTION GRANTED BY COPYRIGHT HOLDERS
-+
-+As a special exception, copyright holders give you permission to link th=
-is
-+library with independent modules to produce an executable, regardless of
-+the license terms of these independent modules, and to copy and distribu=
-te
-+the resulting executable under terms of your choice, provided that you a=
-lso
-+meet, for each linked independent module, the terms and conditions of
-+the license of that module. An independent module is a module which is n=
-ot
-+derived from or based on this library. If you modify this library, you m=
-ust
-+extend this exception to your version of the library.
-+
-+Note: this exception relieves you of any obligations under sections 4 an=
-d 5
-+of this license, and section 6 of the GNU General Public License.
---=20
-2.25.1
++diff --git a/Source/JavaScriptCore/dfg/DFGClobberize.h b/Source/JavaScriptCore/dfg/DFGClobberize.h
++index 0363ab20dcd8..4b1bcfea1fd7 100644
++--- a/Source/JavaScriptCore/dfg/DFGClobberize.h
+++++ b/Source/JavaScriptCore/dfg/DFGClobberize.h
++@@ -811,6 +811,8 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++     case ValueBitRShift:
++         // FIXME: this use of single-argument isBinaryUseKind would prevent us from specializing (for example) for a HeapBigInt left-operand and a BigInt32 right-operand.
++         if (node->isBinaryUseKind(AnyBigIntUse) || node->isBinaryUseKind(BigInt32Use) || node->isBinaryUseKind(HeapBigIntUse)) {
+++            read(World);
+++            write(SideState);
++             def(PureValue(node));
++             return;
++         }
++--
++2.40.0
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 1dac4f5677..02258f84e4 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+            file://CVE-2022-32888.patch \
+            file://CVE-2022-32923.patch \
++           file://CVE-2022-46691.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
+-- 
+2.40.0
 
 
