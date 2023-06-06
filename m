@@ -1,145 +1,208 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9459DC7EE24
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 06:32:19 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.2727.1686033138013301019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F68C77B7A
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 06:47:29 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2874.1686034040848598028
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 23:32:18 -0700
+ Mon, 05 Jun 2023 23:47:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=SyUHghrm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-30d5931d17aso2454232f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 23:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1686033136; x=1688625136;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i9qiWeclegW81lhhEC37DWPlRwAL/h10zYvh+kat9hI=;
-        b=SyUHghrmcjBiXPLtAyk/e2mSoUeJ53QcELGQC80WL8smU03R5hV7ieshFSNqAsjoKs
-         AbYsbDuZ3LHqf1t98Ll15MCyQaE16R4vfGZZLhTHRIzwBMVvaLTBMig3Df0edSWl2/ng
-         suaj7lWJ1yIXsaBdxRjeLeDEAqpYI0aWvHKEA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686033136; x=1688625136;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=i9qiWeclegW81lhhEC37DWPlRwAL/h10zYvh+kat9hI=;
-        b=K596CJ+KE/LuukZ2/5nhkXkiRx34WYQKtJ0eFio/MICFypqkEmuC3IqRBXHzvyQaTB
-         uOB6F9Ui/q0ojlnk2DMQOEEtRYRL1II8NH711wbIprFyJm9VVHE9h+/dsHuRMZ1FZeN2
-         ZOIdTgmdMRFL8EK7Qen9NQOoDFc6h4lOC8r5HVQyIYb6YDs1kog9Cpg6WM+p5kzzc4KM
-         cighTJulJSGhxNlUY8XiKn6TchKt88usOZOTT5zqsGWXXFo25H00HMG2qJqFnL5W1KaN
-         o0eSl/0PY9dTZq2UWX7UaP50tfBGz/GMspfKYZCpdFtv+zo2tcRaNwiSo0F2bJK5ZPjY
-         M0Fg==
-X-Gm-Message-State: AC+VfDzdj0AFvgeOcggLHxjVIbFgaQG6TcAY6KaMCdXOaz5o8Qoa96xz
-	xpk+RGqPMa78yoFXlOAdNU9lfw==
-X-Google-Smtp-Source: ACHHUZ64b+zJbJluflPeLqockMIiFi8a0+HFFzYc71zVMS7z15d/JqaNRUYuf3YeyT5Jl2hck/7Zqg==
-X-Received: by 2002:a5d:404c:0:b0:30a:b4e1:a89c with SMTP id w12-20020a5d404c000000b0030ab4e1a89cmr844168wrp.66.1686033136213;
-        Mon, 05 Jun 2023 23:32:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7f10:3282:4c2:7240? ([2001:8b0:aba:5f3c:7f10:3282:4c2:7240])
-        by smtp.gmail.com with ESMTPSA id 13-20020a05600c22cd00b003f709a7e46bsm16408488wmg.46.2023.06.05.23.32.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 23:32:15 -0700 (PDT)
-Message-ID: <76fc64335d45702735bf1c168cf67f6af5e2d47c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] fix: reproducible builds for initramfs and
- UKI img
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Frieder Paape <frieder@konvera.io>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 06 Jun 2023 07:32:14 +0100
-In-Reply-To: <DB7PR07MB4887C89CABD41DD04CDF9886D34DA@DB7PR07MB4887.eurprd07.prod.outlook.com>
-References: 
-	<DB7PR07MB4887C89CABD41DD04CDF9886D34DA@DB7PR07MB4887.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5521095c00=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3565gWsa024481
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jun 2023 06:47:20 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3qyvg8j7de-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 06:47:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mP+4k0fOZgS9QITlLCVVh+ELXsGtHzGgVxi183mRV+67hXShATrQW+5LWKDy+Y0OT3Encr7YhJNCOyT10SvzB71PDcIMXLHNPB5emnHOksFcs25rwgJM2fN83Dt4AVaKTsyB8ymyTnhVdIIqs0lJmXuXUWjFSIEBKAhhG0o9tiH97ROwP2a7WocUy+fT/LU166HfRbKVG1UlpKrcDiwZ8p725xGDK344Axgq9S0Y+35sgpeJ+2NiOW2ZJ/FwvjtBggX7Z7EFoaVgZ3ByMdFutp0kXHoctfK2/aBcH0vxecUL6VWwC1tA/vDiviShnU0sEGoUxG54VWxKwdFotsuGCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xpwaSzF6YRunGk+5uZevql48bOME8wFtxodB/0sQuAM=;
+ b=SSYFj7NPHCOvt3R27u1/RcHOF8is31m+5zL12ILqcbo0xXTqKJCqy2nzYEoEbaJwbr5K2vdQMiFCK3iMLQo+ykMNFcOgLwjR1C+cTdmftGopGagUKLzsUDkcz9D/n8Ctnr4P1nosgmHmdArx/7g5VqpNKnc3Ins4mPtlYKFWVFahKUwaXi38jzsHuAvWHYQoA9OeuSzzESegPJV3bmdT25/iblZnBJGd9oPjE4p3Fsy0L5zvQAy0m475ezDXRjEtTyWLNgpNUvArD9zdM3nMhAVTJd6hrpx7cnSgUB8XRauTCkn0J5FuLeAAB4FUGfzOQRGqm2cqNUVUDQxihdyIHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from PH7PR11MB5820.namprd11.prod.outlook.com (2603:10b6:510:133::17)
+ by IA0PR11MB7378.namprd11.prod.outlook.com (2603:10b6:208:432::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Tue, 6 Jun
+ 2023 06:47:15 +0000
+Received: from PH7PR11MB5820.namprd11.prod.outlook.com
+ ([fe80::84b2:b711:8939:b703]) by PH7PR11MB5820.namprd11.prod.outlook.com
+ ([fe80::84b2:b711:8939:b703%7]) with mapi id 15.20.6411.027; Tue, 6 Jun 2023
+ 06:47:15 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-Core][mickledore][PATCH] sysstat: Fix CVE-2023-33204
+Date: Tue,  6 Jun 2023 14:46:58 +0800
+Message-Id: <20230606064658.1161189-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYWPR01CA0017.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::22) To PH7PR11MB5820.namprd11.prod.outlook.com
+ (2603:10b6:510:133::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB5820:EE_|IA0PR11MB7378:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e75de58-56bd-4460-914c-08db6659dcfc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	FwPtzZrm7q6c2CVbAOLgV3kgzq6RQDHKCAmkdWqRtKykoZ//0M61hTXR1tP+oPRgjHxkFv6Gw6bUApTBQkU5b7uYtoDO075EWf66yCEfhX1bq/WmD2qgwEDohESsEXbKek6xkCfx0cpYVJFeQbShsRBQdzlOR+G1KKBlX3MSyjAaAEbRqNMKQfPjIgkaRktO1YgBjTPsuVu7vB1sQPz0+UFkW4TTDQpHrpwsbszsVAZA8d9XKcTvhIpD+u13vEfnaBxVa1nDzbUupmutkeroGDcHAOOUfcBrbeXYPlDPbD4RDQ04nllsXzh+kxgQGaYtaa2d1FoZ32tqMVkSZywhZrlzRTNU/f5utKx6lurUgX80gEC3DiXRGlC8j06L94YPsGjENo6eEeC+B9DwZ81iBXZqOYu9D4FoOKf6apBO9fqhGOVuGnST6Zttx8v7ziFa30uDNv5B/tMXXnjrRYDbEBEpBNk+XxHKkcEGE0n5UoYISj8f5G5VlmBBun0pXiDdaidvkdhecGvYfnEDljQwgBetAzx6s/k7JfoyjNRFmtiPfnSksPwWouZyGz5nOse+LnDUwslz/VtkRANF/1WoDpTdCcgtExKeupMbHl9hLqY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB5820.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(136003)(366004)(376002)(39850400004)(451199021)(2906002)(478600001)(316002)(41300700001)(44832011)(5660300002)(52116002)(6486002)(6916009)(66946007)(8936002)(66476007)(66556008)(6666004)(8676002)(6512007)(26005)(1076003)(6506007)(966005)(83170400001)(2616005)(186003)(83380400001)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?dyJSvtG515zN7BUHRib/6+niyxzZ85LI0D2uVfgUo8uHTAuLEUaXvl1ZJwCv?=
+ =?us-ascii?Q?P9NSXkB3Xcww1zEbIFHbmIbwcmUaIUEyqZ9U7XA3QTl8RJu7LlvO31euoSgq?=
+ =?us-ascii?Q?re9H9fG3d6LfNGrjJgnVzNm27ML9GVWB25nmnxNNUXYPm2KYgyhq/NeA2eWl?=
+ =?us-ascii?Q?f2X3VbkSFc/MP3ramHzja1e46qZ2Zu63o7XRWm/UcsuClNgWG8hcjCBzbU8q?=
+ =?us-ascii?Q?f/m4C3xP+JtBljSR9tzi7cYTlkXi+ER/ncKhKs4ZeurKNVlTW0bqJiTjIb7g?=
+ =?us-ascii?Q?jbH0SXm8GJ1pD4yjUF3W7A8u9AmmvymSrnPU/fqL/pGr/2CGVEfWuoFSxfzG?=
+ =?us-ascii?Q?aWAyExSoTJlZ9mrFxLYP0HgBmoUiMVeQW0oZ3HTssxtZgVUTsN8tg+5kyikH?=
+ =?us-ascii?Q?rYEg/8ndfWNJWiTKDjXRkIF9BBClYoJxfpKQ+w3RMgmpFaJhGwmEk2iaN6O1?=
+ =?us-ascii?Q?pCLfsdu7sRhRTg3US1BH1jDS+AIIU+NiyZFfNfv8hoZulzsskK/8hjEvHw/d?=
+ =?us-ascii?Q?jnrZ/h15Jh8V2WpBQszVmOF2UM8ksRKI3XjGKmXrFHIDXY6mE2PXTzbQdNY9?=
+ =?us-ascii?Q?QfkloyZKuTbUbjKDWMCPacxxcTIF4Kf/R+gZPSKQz5JCylVufQ7CTEMmZCZZ?=
+ =?us-ascii?Q?ibwfz9kTSTfO39LG/WPx80EVect3+Z0xTvnRwpDkGpvt1GW8fvGJLSdl58ry?=
+ =?us-ascii?Q?Ae6hQWkd+HlaMVMzC/vU2HCxtwk0BEVrkAbu+29FbRKRH2KyUL+TuQ0jN+e2?=
+ =?us-ascii?Q?o/U++WYRRLPvhbRsGagQftwsttHXplELioWWhMmczFUSceRoFGy+1gwGwuJo?=
+ =?us-ascii?Q?bleNgLOBmr8QZX7rF2djM0H49gOzp5AFWU8JT2oxckK9jWNu0dFDYphwRzRU?=
+ =?us-ascii?Q?5ifagm36RfTvWLS69f2+osrzQ0EtsVzGUD1TJ93nMC5Gxm9uPnLM5HB9Buj6?=
+ =?us-ascii?Q?/EVfDy8h5DNsnYEdw2/AHUddptaaFwHp4O1Z2+Xh+K06P3p6r6XKV5GYkvVG?=
+ =?us-ascii?Q?FE1Z8gucYCqZutw4ko4t0RVSkLqqoY1kKxlp70rVeXum0bJAb3l3T+YlW9Te?=
+ =?us-ascii?Q?qiZnyenF/g8NfHRgYKex+uwvwjZDsax1KRZ9jgxcrMlmXmLdL1AzEOjdAxIF?=
+ =?us-ascii?Q?FsJhBiRAsf9uCmwNN1sbuQ6Oc7qbpStRIgTygTzE4z24Ii6/npMSIQHTKsl7?=
+ =?us-ascii?Q?xJBe6FBt13r5jCHihzYKyKi3exU0dy63WAPJRmGmoZhMKgK0VV9epAymwYpv?=
+ =?us-ascii?Q?RtkRWq4wko/BooBMUM+c0ofRlOJxENzttmVy79Zeu/B8zeFGFrnG1VZGjQ0D?=
+ =?us-ascii?Q?tK/yOFL/vby28yuNDa4htOQKwTT68uduXmuaxHqLSurqf0ixoWT3U/KtK3Bw?=
+ =?us-ascii?Q?axz7Is0AT2nyHS4kCJK+LA2aV4NLJivN4SluDVqdj6Q7i7QpwYN/W/2U1ngo?=
+ =?us-ascii?Q?L7F8csnhA9PmU81qsE9UAm5U25LePJYHyIxM7fsSEjm0DwWF4QN0W5YYnLw+?=
+ =?us-ascii?Q?64FGPFCV1zzZLwA48U/3pjtdhibJ3Pzs+HEjsd2gpMaIwGOUzz0600lj1xvR?=
+ =?us-ascii?Q?myOgEVIo3Rw3PC/1vlqI69os2ImbRItptyog6nt58XJ+SBVrk8Afos1oGuVn?=
+ =?us-ascii?Q?gQ=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e75de58-56bd-4460-914c-08db6659dcfc
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5820.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 06:47:15.0470
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lrk5/9zwqFnpSz2gK21wgN5H/g5+iunBNZOJFnR+0kzPg4/yLLqKCJWHITroo9DW5AN0HyjzozFGDO9LIN290FDQ606FhyITr2IbcE4cFPE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7378
+X-Proofpoint-ORIG-GUID: X4Rc-RlP6uaghq-CYF4LEsr2inGsh7wT
+X-Proofpoint-GUID: X4Rc-RlP6uaghq-CYF4LEsr2inGsh7wT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_04,2023-06-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=693
+ phishscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2306060058
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 06:32:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182414
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 06:47:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182415
 
-On Mon, 2023-06-05 at 09:00 +0000, Frieder Paape wrote:
-> I've encountered issues reproducing initramfs and UKI image builds,
-> which will be fixed with this patch.
->=20
-> 1. initramfs
-> There's a symbolic link to /sbin/init, which is appended to the cpio arch=
-ive after creation.
-> The links timestamp needs to be static and the cpio append command needs =
-the '--reproducible' flag to produce deterministic outcomes.
->=20
-> 2. Unified Kernel Image
-> '--preserve-dates' is required for a static 'Time/Date' entry.
-> I've added '--enable-deterministic-archives' although in my case this
-> didn't change anything.
->=20
-> Signed-off-by: Frieder Paape <frieder@konvera.io>
-> ---
->  meta/classes-recipe/image_types.bbclass       | 5 +++--
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 2 ++
->  2 files changed, 5 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recip=
-e/image_types.bbclass
-> index bbddfaf272..f73b4d965e 100644
-> --- a/meta/classes-recipe/image_types.bbclass
-> +++ b/meta/classes-recipe/image_types.bbclass
-> @@ -148,10 +148,11 @@ IMAGE_CMD:cpio () {
->  		if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; the=
-n
->  			if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init=
- ]; then
->  				ln -sf /sbin/init ${WORKDIR}/cpio_append/init
-> +                                touch -h -r ${IMAGE_ROOTFS}/sbin/init ${=
-WORKDIR}/cpio_append/init
->  			else
-> -				touch ${WORKDIR}/cpio_append/init
-> +                                touch -h -r ${IMAGE_ROOTFS} ${WORKDIR}/c=
-pio_append/init
->  			fi
-> -			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IM=
-GDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
-> +			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA =
--H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
->  		fi
->  	fi
->  }
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/=
-wic/plugins/source/bootimg-efi.py
-> index 43c6fd94d9..2bf7375887 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -351,6 +351,8 @@ class BootimgEFIPlugin(SourcePlugin):
-> =20
->                  # https://www.freedesktop.org/software/systemd/man/syste=
-md-stub.html
->                  objcopy_cmd =3D "%s-objcopy" % target_sys
-> +                objcopy_cmd +=3D " --enable-deterministic-archives"
-> +                objcopy_cmd +=3D " --preserve-dates"
->                  objcopy_cmd +=3D " --add-section .osrel=3D%s/usr/lib/os-=
-release" % staging_dir_host
->                  objcopy_cmd +=3D " --change-section-vma .osrel=3D0x20000=
-"
->                  objcopy_cmd +=3D " --add-section .cmdline=3D%s" % cmdlin=
-e.name
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-I like the idea of this and agree it is something we should improve.
-Unfortunately it caused testing failures:
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-33204
+https://ubuntu.com/security/CVE-2023-33204
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5236/step=
-s/14/logs/stdio
+Upstream Patch:
+https://github.com/sysstat/sysstat/commit/954ff2e2673c
 
-oe-selftest -r fitimage.FitImageTests.test_initramfs_bundle
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7a6871590b908e4b749484d913da5e280c20d05f)
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+---
+ .../sysstat/sysstat/CVE-2023-33204.patch      | 46 +++++++++++++++++++
+ .../sysstat/sysstat_12.6.2.bb                 |  4 +-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
 
-should reproduce.
+diff --git a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+new file mode 100644
+index 0000000000..a7b51f3217
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+@@ -0,0 +1,46 @@
++From 0764cb56df4a5afdf04980c9eb6735f789f5aa42 Mon Sep 17 00:00:00 2001
++From: Pavel Kopylov <pkopylov@cloudlinux.com>
++Date: Wed, 17 May 2023 11:33:45 +0200
++Subject: [PATCH] Fix an overflow which is still possible for some values.
++
++CVE: CVE-2023-33204
++Upstream-Status: Backport [https://github.com/sysstat/sysstat/commit/954ff2e2673c]
++
++Backport Changes:
++Adopt additional changes as per following merge commit of pull request:
++https://github.com/sysstat/sysstat/commit/6f8dc568e6ab
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
++---
++ common.c | 14 ++++++++------
++ 1 file changed, 8 insertions(+), 6 deletions(-)
++
++diff --git a/common.c b/common.c
++index a3d31a5..138920c 100644
++--- a/common.c
+++++ b/common.c
++@@ -447,15 +447,17 @@ int check_dir(char *dirname)
++ void check_overflow(unsigned int val1, unsigned int val2,
++ 		    unsigned int val3)
++ {
++-	if ((unsigned long long) val1 * (unsigned long long) val2 *
++-	    (unsigned long long) val3 > UINT_MAX) {
+++	if ((val1 != 0) && (val2 != 0) && (val3 != 0) &&
+++		(((unsigned long long)UINT_MAX / (unsigned long long)val1 <
+++		(unsigned long long)val2) ||
+++		((unsigned long long)UINT_MAX / ((unsigned long long)val1 *
+++		(unsigned long long)val2) < (unsigned long long)val3))) {
++ #ifdef DEBUG
++-		fprintf(stderr, "%s: Overflow detected (%llu). Aborting...\n",
++-			__FUNCTION__, (unsigned long long) val1 * (unsigned long long) val2 *
++-			(unsigned long long) val3);
+++		fprintf(stderr, "%s: Overflow detected (%u,%u,%u). Aborting...\n",
+++			__FUNCTION__, val1, val2, val3);
++ #endif
++ 	exit(4);
++-		}
+++	}
++ }
++ 
++ #ifndef SOURCE_SADC
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
+index f9e5778e76..b5014eaefb 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
+@@ -2,6 +2,8 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+-SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch"
++SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
++            file://CVE-2023-33204.patch \
++            "
+ 
+ SRC_URI[sha256sum] = "3e77134aedaa6fc57d9745da67edfd8990e19adee71ac47196229261c563fb48"
+-- 
+2.34.1
 
-Cheers,
-
-Richard
 
