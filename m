@@ -2,126 +2,136 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E21C7EE24
-	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 05:34:19 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.2289.1686029650612882507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C09C77B7A
+	for <webhook@archiver.kernel.org>; Tue,  6 Jun 2023 05:35:39 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.2269.1686029735068104249
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jun 2023 22:34:10 -0700
+ Mon, 05 Jun 2023 22:35:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=gZ5nodzS;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4effb818c37so7031544e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 22:34:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HKQkza0E;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b1a3fa2cd2so67346191fa.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jun 2023 22:35:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686029649; x=1688621649;
+        d=gmail.com; s=20221208; t=1686029733; x=1688621733;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J44YZSaEeQfhIj8HinT2oD3ZFC3Ryk6H6oZb5sf0CQc=;
-        b=gZ5nodzSljVguUw2b+qaCkBRqkMl5s/5RYSkSMysiBYMx5iNJz8cUkdUtU4Ht4KsbX
-         b8l7u2S/GkJIpwyAbV4ylu2053vZwaW/uNh0tV17aiNsiXAwtjKQwBcvrLlxXh/HonXS
-         PueC1WzVrh8k7nSXb3IGt3DZA7x6aEmc49/+Caf3NlgvPapOltWLF6FbifX2aoc2c+z9
-         ArHPXrJiHrjlUOllFOjBllOcrsH7m6HxbctlA98tn3lRDoMeJCrnEW0j10P4LKueWkb4
-         r6L/v7Yc40V/0CFvMW8eht33W6dHVNFlBVShuvfW88LiHtcXBVittAp51g4h2S4S53Yk
-         qD6A==
+        bh=WQvHn/1UcJwS7X8RMde8/6EPF+x0KYFyaGFgen1mdqA=;
+        b=HKQkza0EW8dC0s+ca9JkaRqKb+OGBZNDDefvOsGK7zZeNNgb6zqfzy7akp0fDn3u3O
+         lRCCS3cydC4HD0vgldcx68Cx9SeDMyMRFsXDgUOvIZ/TshzYHeIz1VuVa36kAxAjRh/N
+         jKgfEpPv0ywxEPsMf4ykvQRRHYIG5n12lKNEwmwpGfmENsZauMqZNMWfMryrfmC+Lkb0
+         bX98MEPE98NxbD8YBRdAfex7UWaoKsaJGwHaJ5Ezfhspn0GZ6X8Rf0wFP8O7WpV0NhrC
+         ksYFc/PGULnBgoGTVkbc1155N+2rI1I1fclzFjZIQztJBLNCaSHj08HH/rewWqSSAhzY
+         OQnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686029649; x=1688621649;
+        d=1e100.net; s=20221208; t=1686029733; x=1688621733;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J44YZSaEeQfhIj8HinT2oD3ZFC3Ryk6H6oZb5sf0CQc=;
-        b=H0mLXPFMkUY7RRcnKUEud3YGGnKN693BjvSvOgLa+4z6UvwR+rixp/nO/2Q0Zgk7mJ
-         FxlIPAX0qdMjhd+FoFqcfrkCgY8VyszNnLnGnm2/mBZFdRFVy0/qiwCSj35WSUDH0d/5
-         wg6Y5coavTImniWTXpzjrGuyMG8aRjdCOehiRdK+E5osGQE/WZq6bARzzfKv6Jebjmxt
-         Gkym8BUMNb6LNAY7ksx1zC7yMLjJMas1IhQ/yaYSGdXxH38UBrvYUD1X0a7+uDXMW968
-         m29m8gn2sK/1RmEUgLm3UkJjdZ/5l02u3uxPG9/J0RQbekfc3yLS7XNvqmlFlYt7a41Q
-         Iy4w==
-X-Gm-Message-State: AC+VfDzCOJk3XhzUy5BvV9Jsmyl51/pEXpWlD/mj3rPn2bDLErReTqSl
-	uxl4t13nTjp7rXI4yDM0XxdelKhG2gbD4eLFvGM=
-X-Google-Smtp-Source: ACHHUZ76G+3Avqwaav/C1sf+My+gkoDuyODwfqRVMN8ZOq24x5xIJVhr+VghoA+v1la1sWVsNz1qQuwVQ8jSL5uAidk=
-X-Received: by 2002:a2e:95cf:0:b0:2b1:b301:e650 with SMTP id
- y15-20020a2e95cf000000b002b1b301e650mr725526ljh.1.1686029648435; Mon, 05 Jun
- 2023 22:34:08 -0700 (PDT)
+        bh=WQvHn/1UcJwS7X8RMde8/6EPF+x0KYFyaGFgen1mdqA=;
+        b=BBpoxLSE2oH4q29YtyLfBsctghKOVpJsnYZq6DrgJAjA+zaJmaEtPWyaNmSIlQiAG5
+         9tOmdjBM4BaQsh3/YfOW0PQ6GCcXqfUHfCf3uwAONwOa+W7mhLHYiSE8FSdZmzB3oJKq
+         hVVzdu+fKEhNuizU4ip5sdn92XOo2ZXrM3En1p8NDxLnDudBgEtk7ij8VLzFM5oERLFQ
+         E3wkVm5XaWl7I+Y9ElQTdeoOeXt1jumm89L3q3jCPPU4IkP2nUlO47QYrzP4ieaU+H4A
+         KoHpLP/2e2Wm2Wtry7VZMseFRlXx6czY9psdPoEq7e5q9mmACebT8bA6JxAa4SRhQziu
+         9oiA==
+X-Gm-Message-State: AC+VfDz+VfHYeay4iILxqxyyN1nlXwpwb0wS8FX7/FCGkvFcDehxKxW5
+	eOtuE9rbb7IiX830J/loVHyJVa41cU2wBRACGsC9va8F74c=
+X-Google-Smtp-Source: ACHHUZ6bnXkJgT5QT/wczbscpiky0XdeHLjc/5tVLp2n1Olt938eTBDfXlC8XAGd0qVyS8AAzp/4RrphqHV4w/1/mIQ=
+X-Received: by 2002:a2e:b045:0:b0:2a8:c858:fb9 with SMTP id
+ d5-20020a2eb045000000b002a8c8580fb9mr707362ljl.29.1686029732975; Mon, 05 Jun
+ 2023 22:35:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230227110027.804671-1-geoffrey.giry@smile.fr>
-In-Reply-To: <20230227110027.804671-1-geoffrey.giry@smile.fr>
+References: <20230605162546.3012555-1-ross.burton@arm.com> <06AF5F15-5FB7-45E9-A1AD-8544D7EE7092@arm.com>
+ <02525eece93945f219d18572151b08d0ff1691fa.camel@linuxfoundation.org>
+In-Reply-To: <02525eece93945f219d18572151b08d0ff1691fa.camel@linuxfoundation.org>
 From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 6 Jun 2023 07:33:55 +0200
-Message-ID: <CAApg2=TLNBWVgS9_KdjhA1kDrio34i4st6mkthSErihXkkNvjg@mail.gmail.com>
-Subject: Clarifying CVEs for NVD (Was: Re: [OE-core] [PATCH]
- cve-extra-exclusions: ignore inapplicable linux-yocto CVEs)
-To: Geoffrey GIRY <geoffrey.giry@smile.fr>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Yoann Congal <yoann.congal@smile.fr>
-Content-Type: multipart/alternative; boundary="000000000000469c5905fd6f5ed7"
+Date: Tue, 6 Jun 2023 07:35:21 +0200
+Message-ID: <CAApg2=QvWRZdafoHJw7g7_i6Br8MeATgBUiNJGkAOdG1QMhtRQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] cve-extra-exclusions: add more linux-yocto
+ CVE ignores
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross.burton@arm.com>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000509adb05fd6f6302"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 05:34:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182410
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 05:35:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182411
 
---000000000000469c5905fd6f5ed7
+--000000000000509adb05fd6f6302
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello all,
-I'm in process of clarifying entries for NVD to have them fixed in the
-sources. The comments in the patch linked do not include all the needed
-information, however.
+On Mon, Jun 5, 2023 at 6:48=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Let's take this one:
-
-+# https://nvd.nist.gov/vuln/detail/CVE-2022-1462
-+# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
-+# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23
-+# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132
-+# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c
-+# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29
-+CVE_CHECK_IGNORE += "CVE-2022-1462"
-
-We need to write a set of rules on which versions are vulnerable, like this:
-[v2.6.12 - v5.4.208]
-[v5.5.0 ??? -  v5.10.134]
-[v5.11.0 ??? - v5.15.58]
-[v5.16.0 ??? - v5.19.0]
-
-The values with ??? are uncertain. Geoffrey, Yann, as it was scripted out
-according to one of the discussions, are you able to confirm those
-"starting" versions ?
+> On Mon, 2023-06-05 at 16:31 +0000, Ross Burton wrote:
+> > I did some triage of the CVEs in this list but realised that this
+> > file is a bad location for them: whilst we don=E2=80=99t expect people =
+to
+> > switch out most recipes, we do have to expect BSPs to switch the
+> > kernel, so by accumulating a list of exclusions in this recipe that
+> > are based on the current version of linux-yocto we may negatively
+> > impact on people using a BSP which, for example, uses a 5.10 kernel.
+> >
+> > Should we move the kernel-specific exclusions, where they=E2=80=99re be=
+ing
+> > done because they=E2=80=99re fixed in a release we ship, to the linux-y=
+octo
+> > recipe?
+>
+> A specific include with "6.1" in the name might be a good way to do it
+> so that others who follow the same stable series updates could reuse
+> it?
+>
+>
+This is definitely better to have a specific file. However, I know some BSP=
+s
+that stay at x.0 version of the kernel and if they include such a file,
+they will
+have a false sense of security...
 
 Kind regards,
 Marta
 
---000000000000469c5905fd6f5ed7
+--000000000000509adb05fd6f6302
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello all,</div><div>I&#39;m <span class=3D"ng" style=
-=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0%!important">in process=
-</span> of clarifying entries for NVD to have them fixed in the sources. Th=
-e comments in the patch linked do not include all the needed information, h=
-owever.</div><div><br></div><div>Let&#39;s take this one:</div><div><br></d=
-iv><div>+# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-1462" rel=
-=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022=
--1462</a><br>
-+# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 5, 2023 at 6:48=E2=80=AFP=
+M Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">=
+richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">On Mon, 2023-06-05 at 16:31 +0000, Ross B=
+urton wrote:<br>
+&gt; I did some triage of the CVEs in this list but realised that this<br>
+&gt; file is a bad location for them: whilst we don=E2=80=99t expect people=
+ to<br>
+&gt; switch out most recipes, we do have to expect BSPs to switch the<br>
+&gt; kernel, so by accumulating a list of exclusions in this recipe that<br=
+>
+&gt; are based on the current version of linux-yocto we may negatively<br>
+&gt; impact on people using a BSP which, for example, uses a 5.10 kernel.<b=
 r>
-+# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23<b=
-r>
-+# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132<=
-br>
-+# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c=
+&gt; <br>
+&gt; Should we move the kernel-specific exclusions, where they=E2=80=99re b=
+eing<br>
+&gt; done because they=E2=80=99re fixed in a release we ship, to the linux-=
+yocto<br>
+&gt; recipe?<br>
 <br>
-+# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29<=
-br>
-+CVE_CHECK_IGNORE +=3D &quot;CVE-2022-1462&quot;</div><div><br></div><div>W=
-e need to write a set of rules on which versions are vulnerable, like this:=
-</div><div>[v2.6.12 - v5.4.208]</div><div>[v5.5.0 ??? -=C2=A0 v5.10.134]</d=
-iv><div>[v5.11.0 ??? - v5.15.58]</div><div>[v5.16.0 ??? - v5.19.0]</div><di=
-v><br></div><div>The values with ??? are uncertain. Geoffrey, Yann, as it w=
-as scripted out according to one of the discussions, are you able to confir=
-m those &quot;starting&quot; versions ?</div><div><br></div><div>Kind regar=
-ds,</div><div>Marta<br></div></div>
+A specific include with &quot;6.1&quot; in the name might be a good way to =
+do it<br>
+so that others who follow the same stable series updates could reuse<br>
+it?<br>
+<br></blockquote><div><br></div><div>This is definitely better to have a sp=
+ecific file. However, I know some BSPs</div><div>that stay at x.0 version o=
+f the kernel and if they include such a file, they will</div><div>have a fa=
+lse sense of security...</div><div><br></div><div>Kind regards,</div><div>M=
+arta <br></div></div></div>
 
---000000000000469c5905fd6f5ed7--
+--000000000000509adb05fd6f6302--
 
