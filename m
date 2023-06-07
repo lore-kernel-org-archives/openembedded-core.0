@@ -1,126 +1,156 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <nikhilar2410@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E3BC7EE25
-	for <webhook@archiver.kernel.org>; Wed,  7 Jun 2023 03:25:34 +0000 (UTC)
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web10.539.1686108330913819157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C65FC7EE23
+	for <webhook@archiver.kernel.org>; Wed,  7 Jun 2023 05:23:25 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.1935.1686115404788425590
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jun 2023 20:25:31 -0700
+ Tue, 06 Jun 2023 22:23:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=VigLIUbd;
- spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686108331; x=1717644331;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0GWavUmxZ6VhB5JsAZ6rdYf1a8Cw4IRjjftIsn60m0M=;
-  b=VigLIUbdDt8Dvz5DgpXBlNdkaM4ORiM0DjqMLyNAQ6LD94kd2MOWNE3o
-   n0wkm7GpaWQGxsmE7MBivdDQ5GMp3UM+Y0wKvPEpMzQCxufYoTiMtpahF
-   X5Q7j+3kYx2WPi6Km6jLdv0soGaOsIpAH6Ulip0Qt/O+RJ2VFK6prRKNe
-   cn/lFyYxqBUs0s26YHEwtkUZZ6j55ZzI31dVdWZeSmwznAhuxpotzd1YH
-   30/kSDkApZ7N4rDaxAh33HtbVEJ36NPIfQMOs+nPy/vbhcyMsCbOIZwIo
-   4IWdgYmAtFRKIa33tiX1SEYdj0MrLuJFeHjjQoyX14VLX5JElZRSprNR0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="341519117"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="341519117"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 20:25:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="703442013"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="703442013"
-Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.215.153.121])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 20:25:29 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glib-2.0: upgrade 2.76.2 -> 2.76.3
-Date: Wed,  7 Jun 2023 11:25:16 +0800
-Message-Id: <20230607032516.19934-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=LyZI3Ttp;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: nikhilar2410@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-65299178ac5so6677297b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jun 2023 22:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686115404; x=1688707404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3pung81sk7XHEVPnhZnWm63+Izqw0KcIotgNQgawvs=;
+        b=LyZI3TtpOaKOg0SDEEw3oSMJ8S45uyPfzYyzo+BT59y/byUHfqvIPY6tAxLfgTwF3m
+         hpJCeKSYNdS7XLfPZdUSaOCuUnJJWM/VjjPODRBsr8E0rKF6qxYhJ0sc10U/Ou/Gdrw5
+         GcFW8ok4kVCj/jf/FRdYBl0/2hN70e+aHg1JYtotLuUucEtQOkuugGElMUVO848semED
+         sFOL5SeMcz1UxkPmjx/7ck1A4KjwGkUyEZHLUqwTBkI1LHombMv5MeD0WoIzNtQBlHcK
+         E+dJznyh4d/Ku9W3VOUsEh2ACWvk4U+b9hJ6r5/u0Xg9XbtrVENLxaJxXxhUPrI+EE3z
+         hySw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686115404; x=1688707404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U3pung81sk7XHEVPnhZnWm63+Izqw0KcIotgNQgawvs=;
+        b=ZyUUcAjGyz2TIPD7aGzC6MfD3OsM2v4Gcib6xIunMO2Jwuql+p4/TyWH7OpVRRF8Ax
+         dCtvTqIPDp9O+yf3v7h/FL5bdhDUcMHbq2Uym9PNGIUTVre+liTFqBe1lVafUgoHd+NL
+         suf+0yjOzAbVKCBtO5vTw2UKnFpvKXvoWuf0LZ+0v9SFrGffh46tNuqgH7/oER4gZRRt
+         wpLIos17HAjkxYfYTZy35v70/IORxX/YwvjlZNQCafNBNjG7feZsntRC2gWDlGWBut/e
+         TcSkQ76+XeUDfgxOjje2FT3UrjXAZUqKENB2xDNzgZmNibEdOw9QBV4C5wW2X0ccL2u/
+         N8Dg==
+X-Gm-Message-State: AC+VfDwSDqW7i4Pc1xR4dC8i0UASeSSm+O6bmQh0iMhHtmW5MAujNsFX
+	K7VGj1cE09Mq4sMo1FwULYhgXBCF8p7bDWM=
+X-Google-Smtp-Source: ACHHUZ6/YHbepYVLIIsiQUvxWyDOkkTag1K9qDCJxPwltluy3yx8D+bVfI4VJ9iqq+RYpTFVToLRsA==
+X-Received: by 2002:a05:6a00:1302:b0:64b:f03b:2642 with SMTP id j2-20020a056a00130200b0064bf03b2642mr4981350pfu.23.1686115403577;
+        Tue, 06 Jun 2023 22:23:23 -0700 (PDT)
+Received: from localhost.localdomain ([103.171.59.28])
+        by smtp.gmail.com with ESMTPSA id j25-20020aa78d19000000b0065dd1e7c2c1sm166025pfe.63.2023.06.06.22.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 22:23:23 -0700 (PDT)
+From: Nikhil R <nikhilar2410@gmail.com>
+X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	omkar.patil@kpit.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Nikhil R <nikhil.r@kpit.com>
+Subject: [OE-core][master][mickledore][PATCH] libwebp: Fix CVE-2023-1999
+Date: Wed,  7 Jun 2023 10:53:16 +0530
+Message-Id: <20230607052316.97944-1-nikhil.r@kpit.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 03:25:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182453
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 05:23:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182454
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Add patch to fix CVE-2023-1999
+
+Link: https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129
+
+Signed-off-by: Nikhil R <nikhil.r@kpit.com>
 ---
- ...utex_simple-inadvertently-modify-err.patch | 36 -------------------
- ...{glib-2.0_2.76.2.bb => glib-2.0_2.76.3.bb} |  3 +-
- 2 files changed, 1 insertion(+), 38 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.76.2.bb => glib-2.0_2.76.3.bb} (93%)
+ .../webp/files/CVE-2023-1999.patch            | 55 +++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.1.0.bb |  4 ++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch
-deleted file mode 100644
-index db63cfd91e..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From edd1e47f107410d9e4edb691335410026ae5a534 Mon Sep 17 00:00:00 2001
--From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
--Date: Tue, 25 Apr 2023 20:02:31 +0200
--Subject: [PATCH] Avoid having g_futex_simple() inadvertently modify errno
--
--If both __NR_futex and __NR_futex_time64 are defined, g_futex_simple()
--will first call futex_time64(). If that fails with ENOSYS, then
--futex_time() is called instead. However, errno was not saved and
--restored in this case, which would result in g_futex_simple()
--returning with errno set to ENOSYS, even if futex_time() succeeded.
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/edd1e47f107410d9e4edb691335410026ae5a534]
--Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-----
-- glib/gthreadprivate.h | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/glib/gthreadprivate.h b/glib/gthreadprivate.h
--index 9c847e039..74d37ba32 100644
----- a/glib/gthreadprivate.h
--+++ b/glib/gthreadprivate.h
--@@ -65,9 +65,13 @@ struct  _GRealThread
-- #define g_futex_simple(uaddr, futex_op, ...)                                     \
--   G_STMT_START                                                                   \
--   {                                                                              \
--+    int saved_errno = errno;                                                     \
--     int res = syscall (__NR_futex_time64, uaddr, (gsize) futex_op, __VA_ARGS__); \
--     if (res < 0 && errno == ENOSYS)                                              \
---      syscall (__NR_futex, uaddr, (gsize) futex_op, __VA_ARGS__);                \
--+      {                                                                          \
--+        errno = saved_errno;                                                     \
--+        syscall (__NR_futex, uaddr, (gsize) futex_op, __VA_ARGS__);              \
--+      }                                                                          \
--   }                                                                              \
--   G_STMT_END
-- #elif defined(__NR_futex_time64)
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb
-similarity index 93%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb
-index 6a9a5f359c..a60e768836 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.76.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb
-@@ -14,12 +14,11 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
--           file://0001-Avoid-having-g_futex_simple-inadvertently-modify-err.patch \
-            file://0001-gio-tests-portal-support-Fix-snap-test-ordering-race.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+new file mode 100644
+index 0000000000..d293ab93ab
+--- /dev/null
++++ b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+@@ -0,0 +1,55 @@
++From a486d800b60d0af4cc0836bf7ed8f21e12974129 Mon Sep 17 00:00:00 2001
++From: James Zern <jzern@google.com>
++Date: Wed, 22 Feb 2023 22:15:47 -0800
++Subject: [PATCH] EncodeAlphaInternal: clear result->bw on error
++
++This avoids a double free should the function fail prior to
++VP8BitWriterInit() and a previous trial result's buffer carried over.
++Previously in ApplyFiltersAndEncode() trial.bw (with a previous
++iteration's buffer) would be freed, followed by best.bw pointing to the
++same buffer.
++
++Since:
++187d379d add a fallback to ALPHA_NO_COMPRESSION
++
++In addition, check the return value of VP8BitWriterInit() in this
++function.
++
++Bug: webp:603
++Change-Id: Ic258381ee26c8c16bc211d157c8153831c8c6910
++
++CVE: CVE-2023-1999
++Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129]
++Signed-off-by: Nikhil R <nikhil.r@kpit.com>
++---
++ src/enc/alpha_enc.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/src/enc/alpha_enc.c b/src/enc/alpha_enc.c
++index f7c02690e3..7d205586fe 100644
++--- a/src/enc/alpha_enc.c
+++++ b/src/enc/alpha_enc.c
++@@ -13,6 +13,7 @@
++ 
++ #include <assert.h>
++ #include <stdlib.h>
+++#include <string.h>
++ 
++ #include "src/enc/vp8i_enc.h"
++ #include "src/dsp/dsp.h"
++@@ -148,6 +149,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
++       }
++     } else {
++       VP8LBitWriterWipeOut(&tmp_bw);
+++      memset(&result->bw, 0, sizeof(result->bw));
++       return 0;
++     }
++   }
++@@ -162,7 +164,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
++   header = method | (filter << 2);
++   if (reduce_levels) header |= ALPHA_PREPROCESSED_LEVELS << 4;
++ 
++-  VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size);
+++  if (!VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size)) ok = 0;
++   ok = ok && VP8BitWriterAppend(&result->bw, &header, ALPHA_HEADER_LEN);
++   ok = ok && VP8BitWriterAppend(&result->bw, output, output_size);
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+index 68e5ae2b3c..f449ae750b 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "98a052268cc4d5ece27f76572a7f50293f439c17a98e67c4ea0c7ed6f5
  
--SRC_URI[sha256sum] = "24f3847857b1d8674cdb0389a36edec0f13c666cd3ce727ecd340eb9da8aca9e"
-+SRC_URI[sha256sum] = "c0be444e403d7c3184d1f394f89f0b644710b5e9331b54fa4e8b5037813ad32a"
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
  
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
++SRC_URI += " \
++    file://CVE-2023-1999.patch \
++"
++
+ EXTRA_OECONF = " \
+     --disable-wic \
+     --enable-libwebpmux \
 -- 
-2.40.1
+2.25.1
 
 
