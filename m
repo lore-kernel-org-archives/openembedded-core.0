@@ -1,129 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B747C77B7A
-	for <webhook@archiver.kernel.org>; Wed,  7 Jun 2023 08:49:16 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.3775.1686127747746534769
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 07 Jun 2023 01:49:08 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57CE7C7EE23
+	for <webhook@archiver.kernel.org>; Wed,  7 Jun 2023 09:01:16 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.3911.1686128466599836745
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 07 Jun 2023 02:01:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=SWn3H+EP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so59464255e9.3
-        for <Openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 01:49:07 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ZPiGYW/x;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b1b30445cfso64587781fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 02:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1686127746; x=1688719746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eGxF6SetkGoaZ1TphBHDtQUxttJSyUfETW4zUNmSPS4=;
-        b=SWn3H+EPw0fcQ9JsYa9sHZ2jFZwQiCCdSG8VBPgyOyN1itHgKhUnW5FcvJjTmBkc++
-         dTOU2DOJsyPpsglqnkinJ2gUMXIXApvgq2YbTKRZ3KmsWwbnkyyBkJfOUB3IU4aFjwO6
-         2+3FfiC7SU7IizTCOTNh5886KowQgu/Qm7DAo=
+        d=gmail.com; s=20221208; t=1686128465; x=1688720465;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Otu+Hxc0zji78EokgpGS4rvQQqbE9i3OTm6B/qgEIHM=;
+        b=ZPiGYW/xcs1wNERqSTgL6q3TfDzXHd4ZFPBfXGjYuch3hPuBJc87BA8nKrPoRro/wJ
+         ZMHr1aqCmwchSUCT9itxlcbDyG+lpQgwQK+mEZKwNt+mww2hn6CtsVaui7M54yb7uZuc
+         epd+ZwUO4jvOF08ShtangZrxBJh58NBosASqEHSsUTs0Z98nP2/0z49yK8TjAnAqeaiH
+         fymPBYT+H/HWru74nna49yCFfOIB7Bfh9r9ETbZURY0kAecRoxLnLJli1WprNCIKcPao
+         4QVMjTX0AlhMSO3PmR6qY4zAq5EvoqoVUnU1k/yD1WOFZ8i81th4mI0P3pTdrHIsgGYT
+         N4Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686127746; x=1688719746;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eGxF6SetkGoaZ1TphBHDtQUxttJSyUfETW4zUNmSPS4=;
-        b=VYmkU6lEPHELh/5rGJEJ8cTAYfpV4qJgnaFNdcFRjwjNv6o3z0+NYvQd9L+gLdz4Bq
-         yCGpVLU2MUXP82Azu8FIpXGQ4GnrkQIl07+A6fD9pOIIzFsBUjcJYVEOKq99ywiFY5w/
-         Jw5FQe7QbgnpwKgiaBXd4WrPF4vbWbnamIzhhD1qXXwMk29wCwkmEcJaeIqicpDJ+pG6
-         tIaa2NPTIPVMhVEVaHQrvJz/3zetCesZrWF3PgzMgMNIyWjIf+4RvJfw6fyXGYYb2WI9
-         K9knWHowgcH59UMZEPGnVZmQV7Ju9vJDakWMHBDJO1Jmv2GShZZCEUAPnxq7oiMPTYql
-         8uxg==
-X-Gm-Message-State: AC+VfDz++5t7DTy1kRrjmwfg3lf1pY8QxPEpmU7isoIhPYHVknQsRq27
-	cjn2wnQQrdcTp1ce0WwZqyOSCg==
-X-Google-Smtp-Source: ACHHUZ40ABaluTQRZxKTFK2o/dLpjAe7wuNME1Yar8qCePSU8jOYglV8nlkolKAOVIenKPlelFCo4Q==
-X-Received: by 2002:a05:600c:2904:b0:3f7:26f8:4cc0 with SMTP id i4-20020a05600c290400b003f726f84cc0mr3935389wmd.17.1686127745968;
-        Wed, 07 Jun 2023 01:49:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:247f:a475:41f0:cfdc? ([2001:8b0:aba:5f3c:247f:a475:41f0:cfdc])
-        by smtp.gmail.com with ESMTPSA id d10-20020a1c730a000000b003f42158288dsm1376763wmb.20.2023.06.07.01.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 01:49:05 -0700 (PDT)
-Message-ID: <b8e4b45e013ed8fdfb2c6075336b388bb9904b7c.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v2 2/2] testimage: implement test artifacts
- retriever for failing tests
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Wed, 07 Jun 2023 09:49:04 +0100
-In-Reply-To: <20230607083015.20760-3-alexis.lothore@bootlin.com>
-References: <20230607083015.20760-1-alexis.lothore@bootlin.com>
-	 <20230607083015.20760-3-alexis.lothore@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1686128465; x=1688720465;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Otu+Hxc0zji78EokgpGS4rvQQqbE9i3OTm6B/qgEIHM=;
+        b=UROtq6aP+X5m3409Vg14/c5x2HnbRz89GLTOHuwEftDqlVa64eSuv1yf74L/a1a/JZ
+         554o/ZyZ0blIjvB8bnAZzhEqpDX7ljy2uM0Iba3NmaYROB1El2TfYwt7Yar3fzblj4r3
+         UOYJIJy0vBdCtpaEbERRwY0R8p0L4psTPU4RBI/Vh0SAn9lsEyOkqj+s0xw71MCqyubT
+         Ej2Tq//mYlmJxLkvH8LbNyrauvuWelxREJuBwnCiBB3BhIMzRPkVSgzeH/hNzkjggrIe
+         qvcTFOA6X6oiN7v9PwzU4Z8XO1bXdic5wWXx9AzcWXUjkDQnUsQj2/hmAKxMYrWp2swJ
+         PyDQ==
+X-Gm-Message-State: AC+VfDzjtUwi1IAzHJZCTzGrVbNZ6Narc5GQmm/sL6tjUzX3pM+seC4o
+	yMdNrZBfGzC9wQ+Vkl0Ggxn1XDFsxRcAYr3VI3A=
+X-Google-Smtp-Source: ACHHUZ6bKw+xO2Bhla+AQ7vx8Wk+jL8nniGnObVgXoVifJR/e4fSDay+JbE3AgzoroxgdbY42xzmtWIrtoNB7IxgXqg=
+X-Received: by 2002:a2e:894b:0:b0:2b1:ee25:973f with SMTP id
+ b11-20020a2e894b000000b002b1ee25973fmr2119644ljk.39.1686128464475; Wed, 07
+ Jun 2023 02:01:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <76fc64335d45702735bf1c168cf67f6af5e2d47c.camel@linuxfoundation.org>
+ <27537.1686038488234786413@lists.openembedded.org>
+In-Reply-To: <27537.1686038488234786413@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 7 Jun 2023 11:00:52 +0200
+Message-ID: <CANNYZj90-O4sMHQkMCCj8rOhf90i8h+faNQ9LWqzWUS7puBDHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] fixup! fix: reproducible builds for initramfs
+ and UKI img
+To: Frieder Paape <frieder@konvera.io>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 08:49:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182462
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 09:01:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182463
 
-On Wed, 2023-06-07 at 10:30 +0200, Alexis Lothor=C3=A9 via
-lists.openembedded.org wrote:
-> Add a basic artifacts retrievers in testimage class which:
-> - triggers when at least one runtime test fails but tests execution
->   encountered no major issue
-> - reads a list of paths to retrieve from TESTIMAGE_FAILED_QA_ARTIFACTS
-> - checks for artifacts presence on target
-> - retrieve those files over scp thanks to existing ssh class
-> - store those files in an "artifacts" directory in "tmp/log/oeqa/<image>"
->=20
-> This implementation assumes that the SSH or Qemu target has run and
-> finished gracefully. If tests do not finish because of an exception,
-> artifacts will not be retrieved
->=20
-> Bring partial solution to [YOCTO #14901]
->=20
-> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+It's better to resend the whole patchset as v2.
+
+Alex
+
+On Tue, 6 Jun 2023 at 10:01, Frieder Paape <frieder@konvera.io> wrote:
+>
+> The failure happens because `touch` doesn't create a file if called with the no-dereference option `-h`.
+> Removing `-h` from affected touch command.
+>
+> Signed-off-by: Frieder Paape <frieder@konvera.io>
 > ---
-> Changes since v1:
-> - only gather artifacts in nominal case (ie qemu runs without any raised
->   exception)
-> - list artifacts directly in variable instead of using external file
-> - use standard variables in artifacts paths
-> - allow glob patterns usage in artifacts paths
-> - expand/filter artifacts list on target before retrieving them
-> - tune default artifacts list
-> ---
->  meta/classes-recipe/testimage.bbclass | 49 +++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
-testimage.bbclass
-> index b48cd96575d2..c6ce74a9e7a8 100644
-> --- a/meta/classes-recipe/testimage.bbclass
-> +++ b/meta/classes-recipe/testimage.bbclass
-> @@ -18,6 +18,16 @@ inherit image-artifact-names
-> =20
->  TESTIMAGE_AUTO ??=3D "0"
-> =20
-> +# When any test fails, TESTIMAGE_FAILED_QA ARTIFACTS will be parsed and =
-for
-> +# each entry in it, if artifact pointed by path description exists on ta=
-rget,
-> +# it will be retrieved onto host
-> +
-> +TESTIMAGE_FAILED_QA_ARTIFACTS ??=3D "\
-> +    ${localstatedir}/log \
-> +    ${sysconfdir}/version \
-> +    ${sysconfdir}/os-release \
-> +    ${libdir}/*/ptest"
-
-I know Alex Kanavin asked for this but I'm really not sure=20
-${libdir}/*/ptest is a great idea. This will effectively copy the
-entire ptest package files for every ptest on the image. Now we split
-ptests to different images it is less of an issue but it is still
-potentially rather large. Could we at least limit it to failing ptests?
-
-Cheers,
-
-Richard
-
-
+>  meta/classes-recipe/image_types.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+> index f73b4d965e..023eb87537 100644
+> --- a/meta/classes-recipe/image_types.bbclass
+> +++ b/meta/classes-recipe/image_types.bbclass
+> @@ -150,7 +150,7 @@ IMAGE_CMD:cpio () {
+>                  ln -sf /sbin/init ${WORKDIR}/cpio_append/init
+>                                  touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init
+>              else
+> -                                touch -h -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_append/init
+> +                                touch -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_append/init
+>              fi
+>              (cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+>          fi
+> --
+> 2.39.2 (Apple Git-143)
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#182416): https://lists.openembedded.org/g/openembedded-core/message/182416
+> Mute This Topic: https://lists.openembedded.org/mt/99359051/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
