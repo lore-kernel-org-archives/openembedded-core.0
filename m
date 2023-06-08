@@ -1,141 +1,179 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2F3C7EE23
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 17:18:07 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.941.1686244684862250667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33428C7EE23
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 18:51:06 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.2421.1686250255700233386
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 10:18:04 -0700
+ Thu, 08 Jun 2023 11:50:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Q//klaLC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5523cbc9db=joe.slater@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 358HFXtb004004
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jun 2023 10:18:04 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=M74x1/zTn13xsvn9CQc3xkSELl5sysKPL+ymAJM4w4w=;
- b=Q//klaLCMYzT0YfixgQqAHwSlvjsakd53twa120B1EIbZ6qU8p0HBWewLV4jZ7M53CD3
- a6Vu0s5nolxIXGEwUUYvSoSQ0OaucRGZrdlRqOXDTsUr7ShY7ppSS1Bjdf3nN3ccGl1V
- XHGOAe2lW0RviykNQv0x88evJBjTzWTTZ+qh5cBH7F+WYsBgemZ8P7SRZg+nVkq7B49R
- FHqQG55WBPKOD9I9zcwWOBeP/b7RJxAH6L64g/pEMMCrH24qU5nBDZ2zoQRO6VTHIFBQ
- oDwgRwWJBePiFFmkr3taF7+W7T9WoLDWXd72f2pUur8HhzbR6clnJTWOjCvb9qCYIkY8 xg== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2av79wb5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 10:18:03 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 8 Jun 2023 10:18:03 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Thu, 8 Jun 2023 10:18:03 -0700
-From: <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] icu: increase command buffer size
-Date: Thu, 8 Jun 2023 10:18:02 -0700
-Message-ID: <20230608171803.3728701-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Lz1gUxQP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.52, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-510d6b939bfso1719152a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 11:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686250254; x=1688842254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e5qnn757KYe5wsKkA3e0jCAh7wCNW0h+PgfrKS+tLxE=;
+        b=Lz1gUxQP4szwUym+9Yu8YlXTreb7kFD2MKji2IbKkwz0FZNbVa0xp6EzLJVYkYYkRE
+         2EtE4Jybe8IGjR5ZANiSQa3j7cl97SzTHRYhRd+R1YjiyrBx2QrQuguFYcHb1s8QotGH
+         xWLkoB/YMiwHlPtz51TxcrtetWjxFeFaojB6QXLM0tziXu5Gg/qE9bWEQIetaoiKce1T
+         wwpwzUOapRDQXWmppchLgFpcVMqosXrW76+Y6NC9Eh146w/38QdIE7CENIDOyoqczVi+
+         pRpFEifHfzLuUi6W2JgJXYKegN4rYOIdSj8NvU9bCa7H0uvpqSvlU4ncK+LS1vw04rkb
+         ruWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686250254; x=1688842254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e5qnn757KYe5wsKkA3e0jCAh7wCNW0h+PgfrKS+tLxE=;
+        b=IDjzENm3jzOpOA+TgYEfQKXHlbq3wqfUR7dGr00IdVUrxl04zYmGi4JhC/DuKXFeCv
+         pOEl8mxp4lYnp0g6uad9HOoCy+eOV8DO3Qe7sNPZz12x+eJmURU0/2CryQ3xLrPQ//UD
+         nclF0VrnL5lW42CIAisJy9lxGNDaXoqPLLjvCYLhiz3Ap3989qsw7oOBu4Nx9IGiXnkl
+         bV+GIjLZl8Co7CiVzYwBKicMOheHZXfSlt2oQ9xKOuqeBXpQMiSpd29mFhYPKk9o5PxG
+         FDfJSLETVAKyiuBlRrrVKWZ2pbhfq+9g3R4DU6/GpDrkO80w5TxgY5s2lbpBzOzwnhQ0
+         vcEQ==
+X-Gm-Message-State: AC+VfDx28Ohs9HpL46ev280RH7rt10Eoq4V0La7V3PIOvtODbKrFZu34
+	RH7Z2phGcvH0HeMToVakdObQkQHKPrkYW5QFsQrOgw==
+X-Google-Smtp-Source: ACHHUZ6SJiAR9YL1coWlZ50K3LW5XSrSnl2dFrgQdJyJIXx+uHXruRQ8FVewZiHdEjEbthqaDVJGb3qbqKTl3p8W4UQ=
+X-Received: by 2002:a17:907:6d05:b0:96b:6fb:38d6 with SMTP id
+ sa5-20020a1709076d0500b0096b06fb38d6mr33563ejc.65.1686250253839; Thu, 08 Jun
+ 2023 11:50:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 7FGjx5wcNQEBcXxbtYgGXCVpt8icq2Ca
-X-Proofpoint-GUID: 7FGjx5wcNQEBcXxbtYgGXCVpt8icq2Ca
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-08_12,2023-06-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 phishscore=0 mlxlogscore=725
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306080152
+References: <cover.1685672395.git.steve@sakoman.com> <0470293e16f424ba4ee6505f3ef68e5ee13df483.1685672395.git.steve@sakoman.com>
+ <CA+chaQdwObovTdLKQDoK5iKs4JDZXMNbmKc8X-EJFLaNJdX+Ww@mail.gmail.com>
+ <CAOSpxdabCO0O+Ct_wMeYxCiZ60=33tC3a0jAqw=yL12KSfNpCA@mail.gmail.com> <CA+chaQf2FWd9rhOU07s0ra8S5tkEKNDZsjiXFY+GDynssuBd9A@mail.gmail.com>
+In-Reply-To: <CA+chaQf2FWd9rhOU07s0ra8S5tkEKNDZsjiXFY+GDynssuBd9A@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 8 Jun 2023 08:50:42 -1000
+Message-ID: <CAOSpxdZh5U4YfR8soPdSc-_RD=312WjevEoo5P184FGtg7EhMQ@mail.gmail.com>
+Subject: Re: [OE-core][mickledore 13/13] uninative: Upgrade to 4.0 to include
+ latest gcc 13.1.1
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 17:18:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182517
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 18:51:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182518
 
-From: Joe Slater <joe.slater@windriver.com>
+On Sun, Jun 4, 2023 at 10:34=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
+m> wrote:
+>
+> > It might be useful to delay backporting this for a bit longer (and I'll=
+ soon confirm if 3.10 was already affected or not).
+>
+> I can confirm that 3.10 is also affected.
+>
+> I did build with https://git.openembedded.org/openembedded-core-contrib/c=
+ommit/?h=3Dstable/kirkstone-nut&id=3D75e3870ea124321b81f856c4e5170c891f0bd0=
+50 and mkfs.ext4 didn't segfault. With uninative 3.10 from https://git.open=
+embedded.org/openembedded-core-contrib/commit/?h=3Dstable/kirkstone-nut&id=
+=3D680eecc3ae09ea5585e46ff0e67f7c6704221806 it segfaults again.
+>
+> I haven't reproduced the gdk-pixbuf-native issue with buildtools-extended=
+ 4.0.6 with kirkstone yet, so that one might be only with nanbield, but mkf=
+s.ext4 segfaults seem related to uninative for sure. Will debug more when I=
+ get access.
 
-Make cmd in pkg_installLibrary() LARGE_BUFFER_SIZE to avoid
-pathname truncation if the install path is longer than about
-150 characters.  For default compilation, the U_ASSERT does
-not detect buffer overflow but this is not addressed here.
+Have you learned anything more on this issue?  I've continued testing
+mickledore both locally and on the autobuilder and I'm not seeing any
+failures :-(
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- ...pkgdata-increase-command-buffer-size.patch | 43 +++++++++++++++++++
- meta/recipes-support/icu/icu_72-1.bb          |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
+Steve
 
-diff --git a/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
-new file mode 100644
-index 0000000000..ea68e4be9f
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
-@@ -0,0 +1,43 @@
-+From ab6b1acdeed76899f8227c38ab7e7675c7673ff1 Mon Sep 17 00:00:00 2001
-+From: Joe Slater <joe.slater@windriver.com>
-+Date: Thu, 5 Aug 2021 09:23:48 -0700
-+Subject: [PATCH 1/1] pkgdata: increase command buffer size
-+
-+Make cmd LARGE_BUFFER_SIZE to avoid pathname truncation
-+when install paths are longer than about 150 characters.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ source/tools/pkgdata/pkgdata.cpp | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/source/tools/pkgdata/pkgdata.cpp b/source/tools/pkgdata/pkgdata.cpp
-+index 5ab682e..d4b70ef 100644
-+--- a/tools/pkgdata/pkgdata.cpp
-++++ b/tools/pkgdata/pkgdata.cpp
-+@@ -1131,17 +1131,17 @@ normal_symlink_mode:
-+ 
-+ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir, UBool noVersion) {
-+     int32_t result = 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE];
-++    char cmd[LARGE_BUFFER_MAX_SIZE];
-+ 
-+     auto ret = snprintf(cmd,
-+-            SMALL_BUFFER_MAX_SIZE,
-++            LARGE_BUFFER_MAX_SIZE,
-+             "cd %s && %s %s %s%s%s",
-+             targetDir,
-+             pkgDataFlags[INSTALL_CMD],
-+             libFileNames[LIB_FILE_VERSION],
-+             installDir, PKGDATA_FILE_SEP_STRING, libFileNames[LIB_FILE_VERSION]);
-+     (void)ret;
-+-    U_ASSERT(0 <= ret && ret < SMALL_BUFFER_MAX_SIZE);
-++    U_ASSERT(0 <= ret && ret < LARGE_BUFFER_MAX_SIZE);
-+ 
-+     result = runCommand(cmd);
-+ 
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-support/icu/icu_72-1.bb b/meta/recipes-support/icu/icu_72-1.bb
-index c2eae5298f..af8f5da08c 100644
---- a/meta/recipes-support/icu/icu_72-1.bb
-+++ b/meta/recipes-support/icu/icu_72-1.bb
-@@ -106,6 +106,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            file://filter.json \
-            file://fix-install-manx.patch \
-            file://0001-icu-Added-armeb-support.patch \
-+           file://0001-pkgdata-increase-command-buffer-size.patch \
-            "
- 
- SRC_URI:append:class-target = "\
--- 
-2.25.1
-
+> On Sun, Jun 4, 2023 at 9:14=E2=80=AFPM Steve Sakoman <steve@sakoman.com> =
+wrote:
+>>
+>> On Sun, Jun 4, 2023 at 7:39=E2=80=AFAM Martin Jansa <martin.jansa@gmail.=
+com> wrote:
+>> >
+>> > Hi,
+>> >
+>> > it looks like this change is causing mkfs.ext4 to segfault on some bui=
+lders.
+>> >
+>> > I'm seeing it on ubuntu-18.04 (I know it's unsupported now). It might =
+be related to older docker or libseccomp2 there, because there is similar i=
+ssue with gdk-pixbuf-native which fails when buildtools-extended is used to=
+gether with this and might be related to https://github.com/moby/moby/issue=
+s/43595 because when I try very similar 18.04 ubuntu image on my gentoo hos=
+t I cannot reproduce neither the gdk-pixbuf-native failure nor the mkfs.ext=
+4 segfaults.
+>> >
+>> > I'm trying to get access to some of the affected boxes to find out whi=
+ch version docker/libseccomp2 is used there and to double check that this i=
+s root cause for these failures (now I can only confirm that it started in =
+Nanbield when this uninative upgrade was merged and now I've reproduced the=
+ same with kirkstone-nut with the same uninative upgrade.
+>> >
+>> > It might be useful to delay backporting this for a bit longer (and I'l=
+l soon confirm if 3.10 was already affected or not).
+>>
+>> Agreed, I'm struggling with kirkstone too, so will delay taking the
+>> uninative update until we learn more.
+>>
+>> Thanks for the review!
+>>
+>> Steve
+>>
+>> > On Fri, Jun 2, 2023 at 4:22=E2=80=AFAM Steve Sakoman <steve@sakoman.co=
+m> wrote:
+>> >>
+>> >> From: Michael Halstead <mhalstead@linuxfoundation.org>
+>> >>
+>> >> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+>> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> >> (cherry picked from commit f87becb69e02bdf055dffb633ed4f6d36b36f7a7)
+>> >> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>> >> ---
+>> >>  meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+>> >>  1 file changed, 4 insertions(+), 4 deletions(-)
+>> >>
+>> >> diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf=
+/distro/include/yocto-uninative.inc
+>> >> index f3c05b7e20..ad4816a1f3 100644
+>> >> --- a/meta/conf/distro/include/yocto-uninative.inc
+>> >> +++ b/meta/conf/distro/include/yocto-uninative.inc
+>> >> @@ -7,9 +7,9 @@
+>> >>  #
+>> >>
+>> >>  UNINATIVE_MAXGLIBCVERSION =3D "2.37"
+>> >> -UNINATIVE_VERSION =3D "3.10"
+>> >> +UNINATIVE_VERSION =3D "4.0"
+>> >>
+>> >>  UNINATIVE_URL ?=3D "http://downloads.yoctoproject.org/releases/unina=
+tive/${UNINATIVE_VERSION}/"
+>> >> -UNINATIVE_CHECKSUM[aarch64] ?=3D "b11f7dff0ff5e3c971f22e89a105efb0f8=
+d2006fd71d1ea3e5da771e416b0e01"
+>> >> -UNINATIVE_CHECKSUM[i686] ?=3D "ad7daa7fca7693ca07eea5279f83033353017=
+1d357759b380954a25254edd8dd"
+>> >> -UNINATIVE_CHECKSUM[x86_64] ?=3D "ce8ff7e3247da312fbf84008f415bc1b4d1=
+13ac9fe4ec91581e4a20cd8b475d3"
+>> >> +UNINATIVE_CHECKSUM[aarch64] ?=3D "7baa8418a302df52e00916193b0a04f318=
+356d9d2670c9a2bce3e966efefd738"
+>> >> +UNINATIVE_CHECKSUM[i686] ?=3D "83114d36883d43a521e280742b9849bf85d03=
+9b2f83d8e21d480659babe75ee8"
+>> >> +UNINATIVE_CHECKSUM[x86_64] ?=3D "fd75b2a1a67a10f6b7d65afb7d0f3e71a63=
+b0038e428f34dfe420bb37716558a"
+>> >> --
+>> >> 2.34.1
+>> >>
+>> >>
+>> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >> Links: You receive all messages sent to this group.
+>> >> View/Reply Online (#182136): https://lists.openembedded.org/g/openemb=
+edded-core/message/182136
+>> >> Mute This Topic: https://lists.openembedded.org/mt/99279066/3617156
+>> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [Martin.Jansa@gmail.com]
+>> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >>
 
