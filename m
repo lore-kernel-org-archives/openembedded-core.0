@@ -1,356 +1,255 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FAFBC7EE25
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 16:16:50 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.13793.1686241000524612827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 233B3C7EE29
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 16:17:10 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.13768.1686241022007818512
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 09:16:41 -0700
+ Thu, 08 Jun 2023 09:17:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=jc3upGya;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9786fc23505so124434666b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 09:16:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AMOBtxjt;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-77a62a84855so28292339f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 09:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686240999; x=1688832999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DejPgcpJVIJhjeVuLG5RLw6yElrjPAmLRJVzJPTrgwA=;
-        b=jc3upGyarzNdC5qM06mS7xi5QqWW019hpZXW54a7lPnKPtSy5E59zbaSBP3+LSXqqE
-         kJSM34FgYZksr0IxOhta0V9hkH477P1r/gM6YNnt0fF5AVEgau8mVTGV7xEvE7lbhuX3
-         alD+vJ/+qAex/PopbWkTo0YUg1JyIMZK6nitEzPBqazTBxO/8IyTJA2VQ+7zA/X7b0C9
-         /APlhZR8DMf4+/6IODHf4Pta2K48YUwvpzrtN1nRsKfobg4QJCcDwRH2PvCJ+/5jAySo
-         KcZe/9efQwDANFryUcceWtTmxLv8m3b4qSbOlY0ym/2HncvoCcQXmIJmlMyxCvcDtl/w
-         ybCQ==
+        d=gmail.com; s=20221208; t=1686241021; x=1688833021;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zJTCDReTpPQn5rfFzoNtclpNY8fqSMXN7GYenkFpqKk=;
+        b=AMOBtxjt4rYs15/FgvCP3M0GV1lu97+JwxUCJfCrwPNAS7ILBc0mWgQMHfb5cJX31T
+         8QQhC9X+su/d1WhWueY4IasoYbeIiLsyIuy6YWBJYa7r77G+1TWbKOJe+GsbLTZduZ7h
+         kO4zCVwR+8ut8r0NkCIiaQ4QKzLDGKpc6qtb0N6RH559zaUxmFwHo5PY2JesDTZMksm6
+         St98imCJ3HPvcDizWQIASL0xcnOR8t0JLRz898o442GS3D/FxGxeaoa684rU5It63s83
+         sE11CbR1YGrAcF/7x6FBlL5/u8J1HJBJHVow6n0ncrBuDO8PucWgj3d5a1V4Rt2h8tz4
+         MwHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686240999; x=1688832999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DejPgcpJVIJhjeVuLG5RLw6yElrjPAmLRJVzJPTrgwA=;
-        b=K2TdwlYqKguo5jOFaVjgQsZ8QdHYyo9mqS9jabFMt6ZqAjACneAAr7ZaWLyK8Vy7lX
-         7SM0LiyK5XEc2C45s16Cd2Tr3+1rQTKyD3MfhJQRCOnMltpM4fy6IRr6dkkEkSoepyGO
-         nPVg7WawS46fJfhGzVlSB5t5oyHaCkN9IG4bcYZPDAnvaIxTqJB7Dl1bzta/xxANVWEF
-         dul7AzBRcaKaT8JWd83HoMGwx94yLe8Pl3+6jMdJrnyheuBT3pnVPY1tRQ9WKH7LPDMV
-         5ezW+fPBYNGgVlS34yS2h3TzZTpprozwelXIhzuJAU8RgUnIOps7mG9zzgCO3g3oBI5s
-         +aig==
-X-Gm-Message-State: AC+VfDxkAAJFTMHRLnunIOCHJAzCBgM03OKihYKZ4JBZu2xf2kDMcBRh
-	OV/bVD2M0Dsh3/N6nluQuFCi6+kdOeRBqAhNOR3mrA==
-X-Google-Smtp-Source: ACHHUZ6RSwnYALRGrjBBViEG0me+w/z3x9rnQAdWymQ+eCWHUhNRZr9Jimn0cyE5v7Ktng60PLAc+e50kjMShDH/O08=
-X-Received: by 2002:a17:907:944f:b0:94e:ec32:ba28 with SMTP id
- dl15-20020a170907944f00b0094eec32ba28mr236705ejc.29.1686240998538; Thu, 08
- Jun 2023 09:16:38 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686241021; x=1688833021;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zJTCDReTpPQn5rfFzoNtclpNY8fqSMXN7GYenkFpqKk=;
+        b=f529N45qhywgn9A3EWSq7ILNudgTwvHoRQBzw8Wpcbz53XKt4FlhfI3gigCYDIORpb
+         0HrE3ZfylWCKYmScCx8oxq/Q5zxQSEUcuEErqW+7/PvTMx7BrPQqI640GDTNZPgWcj3T
+         3Bl5CUTAxp+lYHylAr3d5RW+en/GT3r7XzqmQkZXw0Tw0FC+0+Z8b+SdviFlAirTQzvX
+         kDmLUjUnuuwvlrkXeYf1eR8N4d/bj8UHKaR+hSG281rLMZ9/liwDcc4X9/19ZUoSnKOI
+         uVT9myjn/zg5ou2afnleFw9q19CJDKYduqpxHD0ysth1gwQD0qZfSA1jLdubI8hhkFA5
+         gRVw==
+X-Gm-Message-State: AC+VfDxU8lZM4j6nYSssVTl642OGDRkdcFMSrCunT8hlco6luYoyKmEy
+	3ZJUtXiTTGO3QUgZmu3AbJz9qoMg7HxcoV1p0bM=
+X-Google-Smtp-Source: ACHHUZ6wbdl7h6SLAYPUt1iVnDrVtTXZ8dMbITAcesY1dgTwcIh11UCxx97WCPwaWsJm340Muagk0OoNTjo0huYRgIg=
+X-Received: by 2002:a5e:c80d:0:b0:774:91f6:9530 with SMTP id
+ y13-20020a5ec80d000000b0077491f69530mr7446428iol.9.1686241021208; Thu, 08 Jun
+ 2023 09:17:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230608095227.34548-1-badganchipv@gmail.com>
-In-Reply-To: <20230608095227.34548-1-badganchipv@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 8 Jun 2023 06:16:27 -1000
-Message-ID: <CAOSpxdZ=WuNY9M6r=EFwYoK4CDZ5m=-6-c0Kd_BPW84dnv3AXA@mail.gmail.com>
-Subject: Feedback request: Re: [OE-core][dunfell][PATCH 1/2] systemd:
- implement --initialized-match/nomatch arguments
-To: Pawan Badganchi <badganchipv@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20230607205347759a5df5@mail.local> <20230608054525.3293334-1-mingli.yu@eng.windriver.com>
+ <CADkTA4Mj2WdncdduX+P6fT8HU0KjkS6+vjTePbhPc0FXL2d_CA@mail.gmail.com>
+ <7326285b062d6b494d9933270bb5811b83e81e82.camel@linuxfoundation.org>
+ <CADkTA4O5=PNOmmKtJPE8YYJfiynMQXA1hyjaX=wuW2ydw6evbA@mail.gmail.com> <ab9c352c2fe8518b6886fe1eaaf926512a314bdc.camel@linuxfoundation.org>
+In-Reply-To: <ab9c352c2fe8518b6886fe1eaaf926512a314bdc.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 8 Jun 2023 12:16:49 -0400
+Message-ID: <CADkTA4OAmMD8h8=nNMEdtjeYwCfoGOtu4S4uWDMj+6Etm4SGUg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5] qemu: Split the qemu package
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Yu, Mingli" <mingli.yu@eng.windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000132f7505fda09566"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 16:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182513
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 16:17:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182514
 
-This patch series adds a feature to systemd, which is typically not
-allowed in a stable branch.
+--000000000000132f7505fda09566
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-However I can see that there might be an argument that this is
-actually fixing a bug (needless re-triggering of devices)
+On Thu, Jun 8, 2023 at 11:44=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I'd love to get feedback from others as to whether I should take this patch=
-.
+> On Thu, 2023-06-08 at 11:03 -0400, Bruce Ashfield wrote:
+> >
+> >
+> > On Thu, Jun 8, 2023 at 9:55=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Thu, 2023-06-08 at 09:33 -0400, Bruce Ashfield wrote:
+> > > > At this point, you can probably see why I ended up using the
+> > > > explicit
+> > > > variables and overrides versus python when doing the
+> > > > meta-virtualization splits. :)
+> > > >
+> > > > I have a few more comments that I made in v1, that I haven't seen
+> > > > directly handled or replied to.
+> > > >
+> > > > My only remaining concern (and it may just be my own concern), is
+> > > > that
+> > > > there's no way to change this packaging split. Either you take
+> > > > the
+> > > > programatic split, or you take the -all packages.
+> > > >
+> > > > Other packages (glibc, kernel-modules) have a variable that
+> > > > controls
+> > > > whether the split happens or not, I'd like to see something
+> > > > similar
+> > > > here .. but I do realize that it makes test complexity more, and
+> > > > that
+> > > > Richard normally doesn't like conditionals like that.
+> > >
+> > > I only "like" conditionals if it is a code path that will be well
+> > > travelled, otherwise we tend to find one of the paths is broken. I
+> > > don't think we need to make this conditional.
+> > >
+> > > > Alternatively, did we rule out using PACKAGESPLITFUNCS to add the
+> > > > splitting routine ? With that, we could remove the processing in
+> > > > places we don't want it, in particular for the native/sdk builds,
+> > > > as I
+> > > > found that we really don't want the splitting of qemu in those
+> > > > scenarios.
+> > >
+> >
+> >
+> > Can you think of a problem with the PACKAGESPLITFUNCS method for this
+> > packaging split ?
+> >
+> > At least that way I could inhibit it from my other layers, versus
+> > with this prepend, I don't see any options to have my own package
+> > splitting.
+>
+> We can do this in a PACKAGESPLITFUNCS function. I guess I'm just
+> nervous of having too many different ways of packaging qemu as I was
+> hoping we could get something which would work for all users.
+>
+>
+There are some very specific use cases for virtualization, where some
+separation models use different architectures for devices, even
+architectures that don't match the target (host in the running system).
 
-Steve
+There are also some combinations of usermode and system, as well as support
+and firmware, etc.
 
-On Wed, Jun 7, 2023 at 11:52=E2=80=AFPM Pawan Badganchi <badganchipv@gmail.=
-com> wrote:
+I can't see a clean/easy way to make the split being proposed here serve
+all those existing (and admittedly odd) case. Having a way to override it
+(even temporarily) is a better transition path for meta-virt.
+
+Bruce
+
+
+
+> Cheers,
 >
-> systemd-udev-trigger.service by default triggeres all devices regardless
-> of whether they were already recognized by systemd-udevd.
+> Richard
 >
-> There are machines (especially in embedded environments) where
-> systemd-udev-trigger.service is configured to run at a later stage of
-> the boot sequence, which can lead to quite a lot of devices being
-> triggered although they were already recognized by systemd-udevd.
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000132f7505fda09566
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Thu, Jun 8, 2023 at 11:44=E2=80=AFAM Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">On Thu, 2023-06-08 at 11:03 -0400, Bruce Ashfield wrot=
+e:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Thu, Jun 8, 2023 at 9:55=E2=80=AFAM Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; On Thu, 2023-06-08 at 09:33 -0400, Bruce Ashfield wrote:<br>
+&gt; &gt; &gt; At this point, you can probably see why I ended up using the=
+<br>
+&gt; &gt; &gt; explicit<br>
+&gt; &gt; &gt; variables and overrides versus python when doing the<br>
+&gt; &gt; &gt; meta-virtualization splits. :)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; I have a few more comments that I made in v1, that I haven&#=
+39;t seen<br>
+&gt; &gt; &gt; directly handled or replied to.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; My only remaining concern (and it may just be my own concern=
+), is<br>
+&gt; &gt; &gt; that<br>
+&gt; &gt; &gt; there&#39;s no way to change this packaging split. Either yo=
+u take<br>
+&gt; &gt; &gt; the<br>
+&gt; &gt; &gt; programatic split, or you take the -all packages.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Other packages (glibc, kernel-modules) have a variable that<=
+br>
+&gt; &gt; &gt; controls<br>
+&gt; &gt; &gt; whether the split happens or not, I&#39;d like to see someth=
+ing<br>
+&gt; &gt; &gt; similar<br>
+&gt; &gt; &gt; here .. but I do realize that it makes test complexity more,=
+ and<br>
+&gt; &gt; &gt; that<br>
+&gt; &gt; &gt; Richard normally doesn&#39;t like conditionals like that.<br=
 >
-> Re-triggering a lot of devices is a relatively expensive operation and
-> therefore should be avoided if unnecessary.
->
-> Therefore this patch introduces --initialized-nomatch, which filters out
-> devices that are already present in the udev database. For consistance
-> reasons --initialized-match is implemented as well, which filters out dev=
-ices
-> that are *not* already present in the udev database.
->
-> Signed-off-by: Pawan Badganchi <badganchipv@gmail.com>
-> ---
->  ...-initialized-match-nomatch-arguments.patch | 156 ++++++++++++++++++
->  meta/recipes-core/systemd/systemd_244.5.bb    |   1 +
->  2 files changed, 157 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-udevadm-trigge=
-r-implement-initialized-match-nomatch-arguments.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd/0001-udevadm-trigger-imple=
-ment-initialized-match-nomatch-arguments.patch b/meta/recipes-core/systemd/=
-systemd/0001-udevadm-trigger-implement-initialized-match-nomatch-arguments.=
-patch
-> new file mode 100644
-> index 0000000000..2f7da0aff9
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0001-udevadm-trigger-implement-in=
-itialized-match-nomatch-arguments.patch
-> @@ -0,0 +1,156 @@
-> +From 678f2b16676cd566c50bdec78350f732a9a3ee41 Mon Sep 17 00:00:00 2001
-> +From: Danilo Krummrich <danilo.krummrich@bmw.de>
-> +Date: Mon, 14 Jun 2021 17:46:00 +0200
-> +Subject: [PATCH] udevadm: trigger: implement --initialized-match/nomatch
-> + arguments
-> +
-> +systemd-udev-trigger.service by default triggeres all devices regardless
-> +of whether they were already recognized by systemd-udevd.
-> +
-> +There are machines (especially in embedded environments) where
-> +systemd-udev-trigger.service is configured to run at a later stage of
-> +the boot sequence, which can lead to quite a lot of devices being
-> +triggered although they were already recognized by systemd-udevd.
-> +
-> +Re-triggering a lot of devices is a relatively expensive operation and
-> +therefore should be avoided if unnecessary.
-> +
-> +Therefore this patch introduces --initialized-nomatch, which filters out
-> +devices that are already present in the udev database. For consistance
-> +reasons --initialized-match is implemented as well, which filters out de=
-vices
-> +that are *not* already present in the udev database.
-> +
-> +Replaces #19949.
-> +
-> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/678=
-f2b16676cd566c50bdec78350f732a9a3ee41.patch]
-> +Comment: Refreshed hunk from udevadm, _udevadm and udevadm-trigger.c
-> +Signed-off-by: Pawan Badganchi <pawan.badganchi@kpit.com>
-> +---
-> + man/udevadm.xml               | 29 +++++++++++++++++++++++++++++
-> + shell-completion/bash/udevadm |  3 ++-
-> + shell-completion/zsh/_udevadm |  2 ++
-> + src/udev/udevadm-trigger.c    | 13 +++++++++++++
-> + 4 files changed, 46 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/man/udevadm.xml b/man/udevadm.xml
-> +index 24ed4a29c71d..af485711222e 100644
-> +--- a/man/udevadm.xml
-> ++++ b/man/udevadm.xml
-> +@@ -395,6 +395,35 @@
-> +             then each matching result is ORed, that is, all children of=
- each specified device are triggered.</para>
-> +           </listitem>
-> +         </varlistentry>
-> ++        <varlistentry>
-> ++          <term><option>--initialized-match</option></term>
-> ++          <term><option>--initialized-nomatch</option></term>
-> ++          <listitem>
-> ++            <para>When <option>--initialized-match</option> is specifie=
-d, trigger events for devices
-> ++            that are already initialized by <command>systemd-udevd</com=
-mand>, and skip devices that
-> ++            are not initialized yet.</para>
-> ++            <para>When <option>--initialized-nomatch</option> is specif=
-ied, trigger events for devices
-> ++            that are not initialized by <command>systemd-udevd</command=
-> yet, and skip devices that
-> ++            are already initialized.</para>
-> ++            <para>Here, initialized devices are those for which at leas=
-t one udev rule already
-> ++            completed execution =E2=80=93 for any action but <literal>r=
-emove</literal> =E2=80=94 that set a property
-> ++            or other device setting (and thus has an entry in the udev =
-device database). Devices are
-> ++            no longer considered initialized if a <literal>remove</lite=
-ral> action is seen for them
-> ++            (which removes their entry in the udev device database). No=
-te that devices that have no
-> ++            udev rules are never considered initialized, but might stil=
-l be announced via the sd-device
-> ++            API (or similar). Typically, it is thus essential that appl=
-ications which intend to use
-> ++            such a match, make sure a suitable udev rule is installed t=
-hat sets at least one property
-> ++            on devices that shall be matched.</para>
-> ++            <para>WARNING: <option>--initialized-nomatch</option> can p=
-otentially save a significant
-> ++            amount of time compared to re-triggering all devices in the=
- system and e.g. can be used to
-> ++            optimize boot time. However, this is not safe to be used in=
- a boot sequence in general.
-> ++            Especially, when udev rules for a device depend on its pare=
-nt devices (e.g.
-> ++            <literal>ATTRS</literal> or <literal>IMPORT{parent}</litera=
-l> keys, see
-> ++            <citerefentry><refentrytitle>udev</refentrytitle><manvolnum=
->7</manvolnum></citerefentry>
-> ++            for more details), the final state of the device becomes ea=
-sily unstable with this option.
-> ++            </para>
-> ++          </listitem>
-> ++        </varlistentry>
-> +         <varlistentry>
-> +           <term><option>-w</option></term>
-> +           <term><option>--settle</option></term>
-> +diff --git a/shell-completion/bash/udevadm b/shell-completion/bash/udeva=
-dm
-> +index 4d52597cbfdf..23ce02365c7f 100644
-> +--- a/shell-completion/bash/udevadm
-> ++++ b/shell-completion/bash/udevadm
-> +@@ -51,7 +51,8 @@
-> +         [INFO_STANDALONE]=3D'-r --root -a --attribute-walk -x --export =
--e --export-db -c --cleanup-db
-> +                            -w --wait-for-initialization'
-> +         [INFO_ARG]=3D'-q --query -p --path -n --name -P --export-prefix=
- -d --device-id-of-file'
-> +-        [TRIGGER_STANDALONE]=3D'-v --verbose -n --dry-run -w --settle -=
--wait-daemon'
-> ++        [TRIGGER_STANDALONE]=3D'-v --verbose -n --dry-run -w --settle -=
--wait-daemon
-> ++                              --initialized-match --initialized-nomatch=
-'
-> +         [TRIGGER_ARG]=3D'-t --type -c --action -s --subsystem-match -S =
---subsystem-nomatch
-> +                        -a --attr-match -A --attr-nomatch -p --property-=
-match
-> +                        -g --tag-match -y --sysname-match --name-match -=
-b --parent-match'
-> +diff --git a/shell-completion/zsh/_udevadm b/shell-completion/zsh/_udeva=
-dm
-> +index 8a10237e3d66..63df8b7c9ecc 100644
-> +--- a/shell-completion/zsh/_udevadm
-> ++++ b/shell-completion/zsh/_udevadm
-> +@@ -30,7 +30,9 @@
-> +         '--property-match=3D[Trigger events for devices with a matching=
- property value.]' \
-> +         '--tag-match=3Dproperty[Trigger events for devices with a match=
-ing tag.]' \
-> +         '--sysname-match=3D[Trigger events for devices with a matching =
-sys device name.]' \
-> +-        '--parent-match=3D[Trigger events for all children of a given d=
-evice.]'
-> ++        '--parent-match=3D[Trigger events for all children of a given d=
-evice.]' \
-> ++        '--initialized-match[Trigger events for devices that are alread=
-y initialized.]' \
-> ++        '--initialized-nomatch[Trigger events for devices that are not =
-initialized yet.]'
-> + }
-> +
-> + (( $+functions[_udevadm_settle] )) ||
-> +diff --git a/src/udev/udevadm-trigger.c b/src/udev/udevadm-trigger.c
-> +index e4b3150e6039..56921e2cc62e 100644
-> +--- a/src/udev/udevadm-trigger.c
-> ++++ b/src/udev/udevadm-trigger.c
-> +@@ -10,6 +10,7 @@
-> + #include "device-private.h"
-> + #include "fd-util.h"
-> + #include "fileio.h"
-> ++#include "parse-util.h"
-> + #include "path-util.h"
-> + #include "process-util.h"
-> + #include "set.h"
-> +@@ -130,6 +131,8 @@
-> +                "  -y --sysname-match=3DNAME           Trigger devices w=
-ith this /sys path\n"
-> +                "     --name-match=3DNAME              Trigger devices w=
-ith this /dev name\n"
-> +                "  -b --parent-match=3DNAME            Trigger devices w=
-ith that parent device\n"
-> ++               "     --initialized-match            Trigger devices tha=
-t are already initialized\n"
-> ++               "     --initialized-nomatch          Trigger devices tha=
-t are not initialized yet\n"
-> +                "  -w --settle                       Wait for the trigge=
-red events to complete\n"
-> +                "     --wait-daemon[=3DSECONDS]        Wait for udevd da=
-emon to be initialized\n"
-> +                "                                    before triggering u=
-events\n"
-> +@@ -142,6 +145,8 @@
-> +         enum {
-> +                 ARG_NAME =3D 0x100,
-> +                 ARG_PING,
-> ++                ARG_INITIALIZED_MATCH,
-> ++                ARG_INITIALIZED_NOMATCH,
-> +         };
-> +
-> +         static const struct option options[] =3D {
-> +@@ -158,6 +163,8 @@
-> +                 { "sysname-match",     required_argument, NULL, 'y'    =
-  },
-> +                 { "name-match",        required_argument, NULL, ARG_NAM=
-E },
-> +                 { "parent-match",      required_argument, NULL, 'b'    =
-  },
-> ++                { "initialized-match",     no_argument,       NULL, ARG=
-_INITIALIZED_MATCH     },
-> ++                { "initialized-nomatch",   no_argument,       NULL, ARG=
-_INITIALIZED_NOMATCH   },
-> +                 { "settle",            no_argument,       NULL, 'w'    =
-  },
-> +                 { "wait-daemon",       optional_argument, NULL, ARG_PIN=
-G },
-> +                 { "version",           no_argument,       NULL, 'V'    =
-  },
-> +@@ -301,7 +308,12 @@
-> +                         }
-> +                         break;
-> +                 }
-> +-
-> ++                case ARG_INITIALIZED_MATCH:
-> ++                case ARG_INITIALIZED_NOMATCH:
-> ++                        r =3D device_enumerator_add_match_is_initialize=
-d(e, c =3D=3D ARG_INITIALIZED_MATCH ? MATCH_INITIALIZED_YES : MATCH_INITIAL=
-IZED_NO);
-> ++                        if (r < 0)
-> ++                                return log_error_errno(r, "Failed to se=
-t initialized filter: %m");
-> ++                        break;
-> +                 case 'V':
-> +                         return print_version();
-> +                 case 'h':
-> diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-co=
-re/systemd/systemd_244.5.bb
-> index bd66d82932..a398043308 100644
-> --- a/meta/recipes-core/systemd/systemd_244.5.bb
-> +++ b/meta/recipes-core/systemd/systemd_244.5.bb
-> @@ -39,6 +39,7 @@ SRC_URI +=3D "file://touchscreen.rules \
->             file://CVE-2023-26604-2.patch \
->             file://CVE-2023-26604-3.patch \
->             file://CVE-2023-26604-4.patch \
-> +           file://0001-udevadm-trigger-implement-initialized-match-nomat=
-ch-arguments.patch \
->             "
->
->  # patches needed by musl
-> --
-> 2.38.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182500): https://lists.openembedded.org/g/openembedde=
-d-core/message/182500
-> Mute This Topic: https://lists.openembedded.org/mt/99403398/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+&gt; &gt; <br>
+&gt; &gt; I only &quot;like&quot; conditionals if it is a code path that wi=
+ll be well<br>
+&gt; &gt; travelled, otherwise we tend to find one of the paths is broken. =
+I<br>
+&gt; &gt; don&#39;t think we need to make this conditional.<br>
+&gt; &gt; <br>
+&gt; &gt; &gt; Alternatively, did we rule out using PACKAGESPLITFUNCS to ad=
+d the<br>
+&gt; &gt; &gt; splitting routine ? With that, we could remove the processin=
+g in<br>
+&gt; &gt; &gt; places we don&#39;t want it, in particular for the native/sd=
+k builds,<br>
+&gt; &gt; &gt; as I<br>
+&gt; &gt; &gt; found that we really don&#39;t want the splitting of qemu in=
+ those<br>
+&gt; &gt; &gt; scenarios.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Can you think of a problem with the PACKAGESPLITFUNCS=C2=A0method for =
+this<br>
+&gt; packaging split ?<br>
+&gt; <br>
+&gt; At least that way I could inhibit it from my other layers, versus<br>
+&gt; with this prepend, I don&#39;t see any options to have my own package<=
+br>
+&gt; splitting.<br>
+<br>
+We can do this in a PACKAGESPLITFUNCS function. I guess I&#39;m just<br>
+nervous of having too many different ways of packaging qemu as I was<br>
+hoping we could get something which would work for all users.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">There are some very specific use cases for virtualization,=
+ where some separation models use different architectures for devices, even=
+ architectures that don&#39;t match the target (host in the running system)=
+.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><di=
+v class=3D"gmail_default" style=3D"font-size:small">There are also some com=
+binations of usermode and system, as well as support and firmware, etc.</di=
+v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">I can&#39;t see a clean/easy=
+ way to make the split being proposed here serve all those existing (and ad=
+mittedly odd) case. Having a way to override it (even temporarily) is a bet=
+ter transition path for meta-virt.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--000000000000132f7505fda09566--
 
