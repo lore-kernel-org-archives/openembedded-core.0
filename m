@@ -1,263 +1,123 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FC2C7EE43
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 02:36:36 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.514.1686191787818100420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57EBBC7EE2E
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 05:45:37 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2565.1686203129680461482
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jun 2023 19:36:27 -0700
+ Wed, 07 Jun 2023 22:45:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=BpSWPZc1;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-651f2f38634so45804b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 19:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686191787; x=1688783787;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FkDBP9aWoG4e6b7mhR5twUpnfq5qQvQsIYM3EfenyaA=;
-        b=BpSWPZc133eE9qUfSFeSxk6IHb6rllQalv39mSdEp16Ce4PUb6NRRej6DN6k7z+64Q
-         V9CYGt6a3GuXhNSgF3e7axgNJxR1p6iPnhlecpLhOIZ0aUt0cGmwasL5ukWiDqcck5Rf
-         iCDMg7Y/KC32mV5V+O0vOZODmsaLF4E5UqdzI06RXFcqYlXs6gOsfHcmq6vDe08vBv4e
-         a/C2QQ0IwXt7ND+4BLrEhROvQ+GmtnO0uZ8pH33P0eCMJb1Brc6l2vnj150obyFf9RGB
-         dJLqp8sTWMq4ASEeJB2RclrQWfOV0iISLoFQ10NWh794WVRWQWyOybUDXY/LeCh7KOB0
-         L5Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686191787; x=1688783787;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FkDBP9aWoG4e6b7mhR5twUpnfq5qQvQsIYM3EfenyaA=;
-        b=SyxCVgtf0eUf0gxJI7JH3vktfCLesgGMht0nsjvw8HDnKevOhEFntKVR0To6beH3gq
-         a9L1XRTA0b1v8v4zQITKqFaAC+xo0a7a2PxGBUl2Zi55JTvH70smxSmDBgMEe46EwDHt
-         1GlLGZaWPrmA2hrMFetYqkVJYTJv+jTGisLU0KWMjO1NMktcJ15oAWx6pcDezYPxcug3
-         ZOAmnjGKeUJDwi32F8y/fH+MppVTpzw84XA6Ic6QDvPcw9oBmb/El2NcQcJ52mkG7f8v
-         l0igbyf6JzF8DHz5dmQR4a60kpKOs6gTT61gzPnWJKltfgROmdZHjRuy3r+fogn8LdUW
-         Niug==
-X-Gm-Message-State: AC+VfDxNIW3pxPq+J0nBEyx4+kuWfkzbQzHejKESnSnhhYirCvG+QZJ9
-	55rsnYJCPfzqNjcxHeHytz30Kc7aWeYdooTz6tE=
-X-Google-Smtp-Source: ACHHUZ59w8ZWr37jjUsMReapNiJS5A4bFfWXba07qG3wrP4H/770EhltdLCv5Um2TYl+1oDbgdfg4g==
-X-Received: by 2002:a05:6a00:1513:b0:64f:7c9d:9c09 with SMTP id q19-20020a056a00151300b0064f7c9d9c09mr10060888pfu.32.1686191786655;
-        Wed, 07 Jun 2023 19:36:26 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j8-20020a62b608000000b00649ac17779csm19478pff.160.2023.06.07.19.36.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 19:36:26 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/11] linux-yocto/5.4: update to v5.4.241
-Date: Wed,  7 Jun 2023 16:36:01 -1000
-Message-Id: <41eacaf738d753632fb17031e58dc898f2290a61.1686191643.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1686191643.git.steve@sakoman.com>
-References: <cover.1686191643.git.steve@sakoman.com>
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=55238b5716=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3585gRN4029066
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jun 2023 05:45:28 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2avq1dpx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 05:45:28 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 7 Jun 2023 22:45:27 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Wed, 7 Jun 2023 22:45:26 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v5] qemu: Split the qemu package
+Date: Thu, 8 Jun 2023 13:45:25 +0800
+Message-ID: <20230608054525.3293334-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230607205347759a5df5@mail.local>
+References: <20230607205347759a5df5@mail.local>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: vJnMkgeMvRlfhMAp5zr1ka-c5ghhDyFU
+X-Proofpoint-ORIG-GUID: vJnMkgeMvRlfhMAp5zr1ka-c5ghhDyFU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_02,2023-06-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ spamscore=0 adultscore=0 mlxscore=0 mlxlogscore=905 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306080046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 02:36:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182490
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 05:45:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182494
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+Currently all files as below packaged into one package such as
+qemu-7.2.0-*.rpm. After the qemu package installed on the target,
+it will take up about 464M which includes not only the one matches
+the arch of the target but aslo all available built qemu targets
+which set by QEMU_TARGETS.
 
-    58f42ed1cd31 Linux 5.4.241
-    879593643717 xfs: force log and push AIL to clear pinned inodes when aborting mount
-    c76dd368759a xfs: don't reuse busy extents on extent trim
-    4679b73a8ed4 xfs: consider shutdown in bmapbt cursor delete assert
-    9355fd118b4e xfs: shut down the filesystem if we screw up quota reservation
-    48f75df5b3bb xfs: report corruption only as a regular error
-    3cce34ceb2ef xfs: set inode size after creating symlink
-    e76bd6da5123 xfs: fix up non-directory creation in SGID directories
-    ad6613c98463 xfs: remove the di_version field from struct icdinode
-    ca4533c951e1 xfs: simplify a check in xfs_ioctl_setattr_check_cowextsize
-    e078b3de3e41 xfs: simplify di_flags2 inheritance in xfs_ialloc
-    0c553917b61a xfs: only check the superblock version for dinode size calculation
-    90aab52d062c xfs: add a new xfs_sb_version_has_v3inode helper
-    edd36a57b4a6 xfs: remove the kuid/kgid conversion wrappers
-    3ef81874f71c xfs: remove the icdinode di_uid/di_gid members
-    cc508a41ae48 xfs: ensure that the inode uid/gid match values match the icdinode ones
-    7a9dc7977140 xfs: merge the projid fields in struct xfs_icdinode
-    4f3252e7e132 xfs: show the proper user quota options
-    799cafa4f304 coresight-etm4: Fix for() loop drvdata->nr_addr_cmp range bug
-    440bdc49f744 watchdog: sbsa_wdog: Make sure the timeout programming is within the limits
-    70ca826d3ddb i2c: ocores: generate stop condition after timeout in polling mode
-    5fb5bdcdcd5a ubi: Fix deadlock caused by recursively holding work_sem
-    0b27716f2d44 mtd: ubi: wl: Fix a couple of kernel-doc issues
-    e55588c44255 ubi: Fix failure attaching when vid_hdr offset equals to (sub)page size
-    a652c30fa2ba asymmetric_keys: log on fatal failures in PE/pkcs7
-    5809dbacc431 verify_pefile: relax wrapper length check
-    0213f027d030 drm: panel-orientation-quirks: Add quirk for Lenovo Yoga Book X90F
-    b3052e5d468b efi: sysfb_efi: Add quirk for Lenovo Yoga Book X91F/L
-    02a78e653933 i2c: imx-lpi2c: clean rx/tx buffers upon new message
-    1ef56397449e power: supply: cros_usbpd: reclassify "default case!" as debug
-    7169d1638824 net: macb: fix a memory corruption in extended buffer descriptor mode
-    c39fa0398a30 udp6: fix potential access to stale information
-    9c46c49ad3ff RDMA/core: Fix GID entry ref leak when create_ah fails
-    ad831a7079c9 sctp: fix a potential overflow in sctp_ifwdtsn_skip
-    afffe0d1e6b9 qlcnic: check pci_reset_function result
-    a841f6a0a39d niu: Fix missing unwind goto in niu_alloc_channels()
-    fcd084e199b9 9p/xen : Fix use after free bug in xen_9pfs_front_remove due to race condition
-    1b77cb6f5e4a mtd: rawnand: stm32_fmc2: remove unsupported EDO mode
-    4c1d882b53a3 mtd: rawnand: meson: fix bitmask for length in command word
-    266746003439 mtdblock: tolerate corrected bit-flips
-    50dbfd9dacda btrfs: fix fast csum implementation detection
-    c6db5f2a31cd btrfs: print checksum type and implementation at mount time
-    8a99e6200c38 Bluetooth: Fix race condition in hidp_session_thread
-    c02421992505 Bluetooth: L2CAP: Fix use-after-free in l2cap_disconnect_{req,rsp}
-    9025cea8e03b ALSA: hda/sigmatel: fix S/PDIF out on Intel D*45* motherboards
-    4d419195d6b8 ALSA: firewire-tascam: add missing unwind goto in snd_tscm_stream_start_duplex()
-    fe158eeccc38 ALSA: i2c/cs8427: fix iec958 mixer control deactivation
-    aa23fa32e5ff ALSA: hda/sigmatel: add pin overrides for Intel DP45SG motherboard
-    62ccf2e0b106 ALSA: emu10k1: fix capture interrupt handler unlinking
-    9a3ba7b24d08 Revert "pinctrl: amd: Disable and mask interrupts on resume"
-    2945f948aa84 irqdomain: Fix mapping-creation race
-    e8f3aea716d2 irqdomain: Refactor __irq_domain_alloc_irqs()
-    3804f265c1bf irqdomain: Look for existing mapping only once
-    e7bba7ddb431 mm/swap: fix swap_info_struct race between swapoff and get_swap_pages()
-    fd644712bccd ring-buffer: Fix race while reader and writer are on the same page
-    c208b4321e8f drm/panfrost: Fix the panfrost_mmu_map_fault_addr() error path
-    c381527918b1 net_sched: prevent NULL dereference if default qdisc setup failed
-    987f599fc556 tracing: Free error logs of tracing instances
-    d2136f05690c can: j1939: j1939_tp_tx_dat_new(): fix out-of-bounds memory access
-    5a74a75fc3d3 ftrace: Mark get_lock_parent_ip() __always_inline
-    95bbfeb4ff0e perf/core: Fix the same task check in perf_event_set_output
-    666c25d35e5e ALSA: hda/realtek: Add quirk for Clevo X370SNW
-    83b16a60e413 nilfs2: fix sysfs interface lifetime
-    613bf23c070d nilfs2: fix potential UAF of struct nilfs_sc_info in nilfs_segctor_thread()
-    aa8e50688d44 tty: serial: fsl_lpuart: avoid checking for transfer complete when UARTCTRL_SBK is asserted in lpuart32_tx_empty
-    aabba4440409 tty: serial: sh-sci: Fix Rx on RZ/G2L SCI
-    209ab5c234c5 tty: serial: sh-sci: Fix transmit end interrupt handler
-    9a2a6443d655 iio: dac: cio-dac: Fix max DAC write value check for 12-bit
-    e469ebb28dbe iio: adc: ti-ads7950: Set `can_sleep` flag for GPIO chip
-    abc5b4f8cdff USB: serial: option: add Quectel RM500U-CN modem
-    b9c11537efcf USB: serial: option: add Telit FE990 compositions
-    38c00a22d67b usb: typec: altmodes/displayport: Fix configure initial pin assignment
-    f417d3fea3de USB: serial: cp210x: add Silicon Labs IFS-USB-DATACABLE IDs
-    47132be17d7b xhci: also avoid the XHCI_ZERO_64B_REGS quirk with a passthrough iommu
-    5fccf2c546ed NFSD: callback request does not use correct credential for AUTH_SYS
-    3686380d9d60 sunrpc: only free unix grouplist after RCU settles
-    1627119153d9 gpio: davinci: Add irq chip flag to skip set wake
-    0cf600ca1bdf ipv6: Fix an uninit variable access bug in __ip6_make_skb()
-    0443fff49d63 sctp: check send stream number after wait_for_sndbuf
-    93f3885211ae net: don't let netpoll invoke NAPI if in xmit context
-    0d2fa30078af icmp: guard against too small mtu
-    a3593082e0da wifi: mac80211: fix invalid drv_sta_pre_rcu_remove calls for non-uploaded sta
-    4220f83b9f03 pwm: sprd: Explicitly set .polarity in .get_state()
-    6e1f29397dea pwm: cros-ec: Explicitly set .polarity in .get_state()
-    dbd764e9d422 pinctrl: amd: Disable and mask interrupts on resume
-    dd7e19f97f71 pinctrl: amd: disable and mask interrupts on probe
-    3f3e4bd3f0cc pinctrl: amd: Use irqchip template
-    387236b9e002 smb3: fix problem with null cifs super block with previous patch
-    2e64d7b182c6 treewide: Replace DECLARE_TASKLET() with DECLARE_TASKLET_OLD()
-    199197660bdd Revert "treewide: Replace DECLARE_TASKLET() with DECLARE_TASKLET_OLD()"
-    522af69af24f cgroup/cpuset: Wake up cpuset_attach_wq tasks in cpuset_cancel_attach()
-    4311ae04b386 x86/PCI: Add quirk for AMD XHCI controller that loses MSI-X state in D3hot
-    110d425cdfb1 scsi: ses: Handle enclosure with just a primary component gracefully
+ # ls tmp-glibc/work/core2-64-wrs-linux/qemu/7.2.0-r0/image/usr/bin/
+ qemu-aarch64  qemu-img          qemu-mips64el   qemu-ppc64
+ qemu-sh4    qemu-system-loongarch64  qemu-system-ppc      qemu-system-x86_64
+ qemu-arm      qemu-io           qemu-mipsel     qemu-ppc64le
+ qemu-storage-daemon  qemu-system-mips         qemu-system-ppc64
+ qemu-x86_64 qemu-edid     qemu-loongarch64  qemu-mips.real
+ qemu-pr-helper  qemu-system-aarch64  qemu-system-mips64
+ qemu-system-riscv32 qemu-ga       qemu-mips         qemu-nbd
+ qemu-riscv32    qemu-system-arm      qemu-system-mips64el
+ qemu-system-riscv64 qemu-i386     qemu-mips64       qemu-ppc
+ qemu-riscv64    qemu-system-i386     qemu-system-mipsel qemu-system-sh4
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Split the qemu package into qemu-7.2.0-*.rpm, qemu-system-*.rpm,
+qemu-user-*.rpm and etc. And let user can only choose the corresponding
+qemu arch package they want to install should ease the concerns who
+cares much about the size in embedded device as it decreases the qemu rpm
+(qemu-7.2.0*.rpm) size from about 65M to about 13M and the size of the
+extracted qemu RPM decreased from about 464M to about 230M.
+
+For the users who want to install all arch packages, they can install
+qemu-system-all and qemu-user-all to meet their need.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index a20525abb9..5d77bc3ae3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index a87dee5c99..367b924f9c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -230,6 +230,26 @@ INSANE_SKIP:${PN} = "arch"
  
--SRCREV_machine ?= "304e411fa33ff303ec73d29376dd975c0d5f9cea"
--SRCREV_meta ?= "aaa00d56c80ea2cbb07f7a018b80b89dc59f28e0"
-+SRCREV_machine ?= "bf0fd4b1c757c39b99fb742f7023718fca6477de"
-+SRCREV_meta ?= "6f28deea807165327b46a5b2613bb220e36e3ef1"
+ FILES:${PN} += "${datadir}/icons"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.240"
-+LINUX_VERSION ?= "5.4.241"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 19b6e2fa66..245e049b60 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.240"
-+LINUX_VERSION ?= "5.4.241"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "718954ab9a87d4414eb24c502a4a9a772c7020f8"
--SRCREV_machine ?= "e5560b6cd3de039d68422b61746dcf3343ec73e2"
--SRCREV_meta ?= "aaa00d56c80ea2cbb07f7a018b80b89dc59f28e0"
-+SRCREV_machine_qemuarm ?= "8ccc251148dca811482b01afe95b24f02e9c0b8b"
-+SRCREV_machine ?= "e0fc5fe58eac8f2a552a3fe5b3da0f18c8fd5a52"
-+SRCREV_meta ?= "6f28deea807165327b46a5b2613bb220e36e3ef1"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 989d3a2049..60b4c44ec9 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "a17398a736969b170c742324a65c885203234b8e"
--SRCREV_machine_qemuarm64 ?= "c3ae9d7cd0727680ec16b97ba6f92b82d35a9cfb"
--SRCREV_machine_qemumips ?= "bfd98dba6758a2f47aad79e09e3509dfb99b6886"
--SRCREV_machine_qemuppc ?= "6030458f53886df464fe9fbf3e52c4f91a6ad3ec"
--SRCREV_machine_qemuriscv64 ?= "b1db2f47a35d8a71c038a3438779f4d50807e5e5"
--SRCREV_machine_qemux86 ?= "b1db2f47a35d8a71c038a3438779f4d50807e5e5"
--SRCREV_machine_qemux86-64 ?= "b1db2f47a35d8a71c038a3438779f4d50807e5e5"
--SRCREV_machine_qemumips64 ?= "53a370f9356803b7d5b93369439c97572916bcad"
--SRCREV_machine ?= "b1db2f47a35d8a71c038a3438779f4d50807e5e5"
--SRCREV_meta ?= "aaa00d56c80ea2cbb07f7a018b80b89dc59f28e0"
-+SRCREV_machine_qemuarm ?= "a38fd554c6a9d49f33b4097a7300f5a2d134cb83"
-+SRCREV_machine_qemuarm64 ?= "99b6ecddbf3cf1909e8208a46842c81cce09d02c"
-+SRCREV_machine_qemumips ?= "55f3e8be5f53e522210db32f6bf60c9d153fe5d6"
-+SRCREV_machine_qemuppc ?= "536eee19189590e19bdcb5baf5b6c752abd14455"
-+SRCREV_machine_qemuriscv64 ?= "2dc29af86649e3006eb05972e1e175989d64d537"
-+SRCREV_machine_qemux86 ?= "2dc29af86649e3006eb05972e1e175989d64d537"
-+SRCREV_machine_qemux86-64 ?= "2dc29af86649e3006eb05972e1e175989d64d537"
-+SRCREV_machine_qemumips64 ?= "60b346865774d6d320f8b5b3ef35661fdaa6dffb"
-+SRCREV_machine ?= "2dc29af86649e3006eb05972e1e175989d64d537"
-+SRCREV_meta ?= "6f28deea807165327b46a5b2613bb220e36e3ef1"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.240"
-+LINUX_VERSION ?= "5.4.241"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
++# For user who want to install all arch packages
++PACKAGES =+ "${PN}-system-all ${PN}-user-all"
++
++ALLOW_EMPTY:${PN}-system-all = "1"
++ALLOW_EMPTY:${PN}-user-all = "1"
++
++python populate_packages:prepend() {
++    archdir = d.expand('${bindir}/')
++    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
++    if syspackages:
++        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
++
++    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
++    if userpackages:
++        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
++    mipspackage = d.getVar('PN') + "-user-mips"
++    if mipspackage in ' '.join(userpackages):
++        d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
++}
++
+ # Put the guest agent in a separate package
+ PACKAGES =+ "${PN}-guest-agent"
+ SUMMARY:${PN}-guest-agent = "QEMU guest agent"
 -- 
-2.34.1
+2.25.1
 
 
