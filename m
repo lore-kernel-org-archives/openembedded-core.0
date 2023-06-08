@@ -1,93 +1,88 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA0EC7EE25
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 19:39:06 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.3683.1686253145996265589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9DCAC7EE23
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 21:20:56 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.5929.1686259251986430711
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 12:39:06 -0700
+ Thu, 08 Jun 2023 14:20:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XyJuSSUx;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-75b14216386so82139385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 12:39:05 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=HGep1u3M;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f7fcdc7f7fso6852625e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 14:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686253145; x=1688845145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BfugyM/NM5qjZ4u4jjRKEFoKbbZurLN8RpM4+HnB+1E=;
-        b=XyJuSSUx5UmEXd8FthX3z3iCinxdJF6erSpkX7HqDyYPnOBTA4Xz1JLmOZKFJcemzs
-         Ai4ZEs1u7Aisdbrs2CEjb19wk14nI3EaH18JbLIjecHCEgTAU8Qa41psUdn+wGFgxOc+
-         qVT4KNl5NN+sQKvBYt0oKlOtHRcqWqjMz2M61Fh8bknsKPj+hP8Nf92KVL2+b/9+4nBj
-         teHXjpf8ZTpFf87DnfeF7lPtW3C2zLMV5jlEN9lSPLw10rN6FwhF8OfkfKVqvcpfzYbW
-         Y5RMRTpo52MLiKaN1z1fXy9MQM6wZJpx1EyZvVKBW1zIM4TKQW82rP+XHzqp7NSsadCi
-         85UQ==
+        d=linuxfoundation.org; s=google; t=1686259250; x=1688851250;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qQTg0QB/kCMM9LVloakv7WsEtpxq5cCeeLnOVM+QGi8=;
+        b=HGep1u3MTRdD69CMqVTMv1DNMifU+KhrAcr+9h4nUwNuAHy/ifO6iea62UfHqnx2UK
+         Mk/igviVD3AIAcz1FY6ihvR+dVAPH9exB2B9I4dvDL5vVXaZ0EMs4V5qGXhchbiIVpBi
+         fkWcXpGolA4vAigN3N6u327j6jcF3EyjUcUHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686253145; x=1688845145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BfugyM/NM5qjZ4u4jjRKEFoKbbZurLN8RpM4+HnB+1E=;
-        b=BrkIStk4aY3RuklnefY+6FCjdsM4e5ftRKPUDYVqo56GnFPOAqK5Y8uiyUv5/0EueN
-         WWVh6SLdIEhZG55cvcM23mQWo8RddMnywAsmT5na7aXKDluinvoknou9BEwB3eAV0zC2
-         7yhAopBuVn8riilJMdeyZ6kbMrN8sbl4YRJyy1HlMH7flJ4i7OBAOV3Wp3AoE4HIURtE
-         /wq4C1ouVq/qazMF7k9nVV2E9ebr7wYQolXX8pDap18jF99Ackeu3TPR8Dje07wYw+vq
-         VgGnB6czXNnGNOm/cTkndPv99Zeyayjfjp6jUY2nM2aUYtt0+hgKCgp8qIuSCU9/kY9P
-         F7+g==
-X-Gm-Message-State: AC+VfDxS7/HME8irc5EiDpMw79qEuaP7Bhd3IK4jMOAL3S9YiWPKsRQF
-	Qk+/2Fa0tAagJ9KmsHAvX7MXOr3N2Smi7A==
-X-Google-Smtp-Source: ACHHUZ4sRcKNiONfK8db/ntVUXtK5+1LKihlNeTFUA57w6UFQy0Wc0ghHNuKe9s0mZG7A08q9Gxg6A==
-X-Received: by 2002:a05:620a:3e86:b0:75e:da49:a4bb with SMTP id tv6-20020a05620a3e8600b0075eda49a4bbmr5748018qkn.50.1686253144982;
-        Thu, 08 Jun 2023 12:39:04 -0700 (PDT)
-Received: from build4.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id c24-20020ae9e218000000b0074df2ac52f8sm555893qkc.21.2023.06.08.12.39.03
+        d=1e100.net; s=20221208; t=1686259250; x=1688851250;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qQTg0QB/kCMM9LVloakv7WsEtpxq5cCeeLnOVM+QGi8=;
+        b=Q2gWgjERRtSvq/24zCcNyWN6rpmjGgEAddkMVIpQf9m45yabk4zI8UvfrNnCz2n+w8
+         kcQlC2Qje7az+s9zQ2NlRXoSSlDBQMB9TCyZc9h6HIjVCOXAZWldYJHFBLUkrt2ZWMkN
+         EMSErddxG4xjXELTJL2Lb36blWiTA5s+qFI74AMfkIwNeLfGuexWzrzw+lYnSlbN46ke
+         u1HseEGTFpQDPAalWOHnlQTky0jhAAK5/BgEtiYHcTzdqa5G/2+J0QHrGU9M8IkO4hyl
+         R31Dq//sb5nXdRyFzSsfDtZDORfoyuLwkzJNroJot7uGcUU0ThKy0VnmSfXqfyn7ksO9
+         kzzw==
+X-Gm-Message-State: AC+VfDwUXyAo0NctqFOxCg27iryPLQHEIl3QBRuThDXdcic3OW4DBeV0
+	rkE3S9ikYGA8woXZcRkaYmW+LA==
+X-Google-Smtp-Source: ACHHUZ6NpbZg5i/nLFCfUHwGuEdbThdAAtThUIFv947SSbWbHPJvsNc7OoG/3eRbs84rrKt8JbM0Qw==
+X-Received: by 2002:a05:600c:3785:b0:3f4:2158:28a0 with SMTP id o5-20020a05600c378500b003f4215828a0mr2278956wmr.12.1686259250156;
+        Thu, 08 Jun 2023 14:20:50 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d212:ac52:2ca3:dd2f? ([2001:8b0:aba:5f3c:d212:ac52:2ca3:dd2f])
+        by smtp.gmail.com with ESMTPSA id 10-20020a05600c22ca00b003f427687ba7sm650804wmg.41.2023.06.08.14.20.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 12:39:04 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemux86*: TEST only set preferred provider to linux-yocto-dev
-Date: Thu,  8 Jun 2023 19:39:01 +0000
-Message-Id: <20230608193901.363242-2-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230608193901.363242-1-bruce.ashfield@gmail.com>
-References: <20230608193901.363242-1-bruce.ashfield@gmail.com>
+        Thu, 08 Jun 2023 14:20:49 -0700 (PDT)
+Message-ID: <f679fa743116eb541986884190dbeb1ecf681eb5.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH 1/1] icu: increase command buffer size
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: joe.slater@windriver.com, openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com
+Date: Thu, 08 Jun 2023 22:20:49 +0100
+In-Reply-To: <20230608171803.3728701-1-joe.slater@windriver.com>
+References: <20230608171803.3728701-1-joe.slater@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 19:39:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182521
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 21:20:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182522
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Thu, 2023-06-08 at 10:18 -0700, Joe Slater via
+lists.openembedded.org wrote:
+> From: Joe Slater <joe.slater@windriver.com>
+>=20
+> Make cmd in pkg_installLibrary() LARGE_BUFFER_SIZE to avoid
+> pathname truncation if the install path is longer than about
+> 150 characters.  For default compilation, the U_ASSERT does
+> not detect buffer overflow but this is not addressed here.
+>=20
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  ...pkgdata-increase-command-buffer-size.patch | 43 +++++++++++++++++++
+>  meta/recipes-support/icu/icu_72-1.bb          |  1 +
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-support/icu/icu/0001-pkgdata-increase-co=
+mmand-buffer-size.patch
 
-We are seeing intermittent boot hangs on x86. To try and determine
-if this is a 6.1-stable only issue, set the prferred provider for
-qemux86 to linux-yocto-dev.
+My worry with a patch like this is we could end up carrying it
+indefinitely. This is the kind of patch which really does need to be
+discussed with upstream...
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/conf/machine/include/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 0d71bcbbad..121e8474c1 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -21,6 +21,8 @@ RDEPENDS:${KERNEL_PACKAGE_NAME}-base = ""
- 
- # Use a common kernel recipe for all QEMU machines
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
-+PREFERRED_PROVIDER_virtual/kernel:qemux86 = "linux-yocto-dev"
-+PREFERRED_PROVIDER_virtual/kernel:qemux86-64 = "linux-yocto-dev"
- 
- EXTRA_IMAGEDEPENDS += "qemu-system-native qemu-helper-native:do_addto_recipe_sysroot"
- 
--- 
-2.39.2
-
+Richard
 
