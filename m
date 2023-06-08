@@ -1,96 +1,87 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 708C8C7EE23
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 09:19:18 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.4791.1686215948377675790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D419C7EE25
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 09:19:58 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.4800.1686215994659821546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 02:19:09 -0700
+ Thu, 08 Jun 2023 02:19:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=e9gQnGrl;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1686215945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G1w0UGROfSi9KJfC9WRvYxobu/Hhn4jXPLOd0XDhS1s=;
-	b=e9gQnGrlTP1IHqzf9l/ED/n5zwp92DxwpHGP/szBT0xI7GxOmpQ6oIc+Omb1YTjZhMTguG
-	cxFGKb1XFFow2/cyRYA3WGTjeWJXFz0nag5AI5w68gVd+DVkHYweUEbKzkWwfclmSgWEXH
-	ToO5xBQSS1I7nMMKULwJbUzXrMRuiAXDbpDQ7PBCzeX7XScHiNfxr1wNv7c1Ya6qPW82bH
-	RHAJClWsICyWCeUex1+Y+f7LTMYqxx7xQiwHSVMQUD4D0rt6EoyXhEHZIWROYGbDuAIOsX
-	TKRbZWvKdUeueKk0sBMFiD5hBMhzMOXOYbDEEeUmoj+oxgtZyrZBFmAbExg9Ug==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5761640004;
-	Thu,  8 Jun 2023 09:19:05 +0000 (UTC)
-Date: Thu, 8 Jun 2023 11:19:05 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Subject: Re: [OE-core] [PATCH] nettle: inherit lib_package
-Message-ID: <20230608091905237b3e22@mail.local>
-References: <20230606123732.3924953-1-ross.burton@arm.com>
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=hsdrvqjP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f735259fa0so2948225e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 02:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1686215993; x=1688807993;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oiKvNEcYbfRKO50Ekt1lOgdSyt2saa42/ATrTFkDYTI=;
+        b=hsdrvqjPFAN0PqLdbmzlTnWca0RilxIIRmKS2RhIA+aW1REkO3Xv65/iHO94T+sitV
+         c3SXQSqSGzOdxveByz+jGTzAEoIrDyaEI0dFV1OPEnyGJj8j4BcdlVQ0grDS1IWf0CkZ
+         Foq+PcuOIBqGtlw+MxZ1ZutRIAvJhNB1Z9ZD0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686215993; x=1688807993;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oiKvNEcYbfRKO50Ekt1lOgdSyt2saa42/ATrTFkDYTI=;
+        b=lamTgAClQ+nC2ceiKq4MzQ+SLLm4LGbr7Jkyfnz+PSigP87HDHyWBAEAC1jeYujo2J
+         T6nhw3lOGlNmNxeGFXI70aExhtKeafsujzfTm0n0edfB/5lIygx02+BsGpiBOZTHsVyh
+         46lIQKcKeoLvOVhjRUGbLWbNyJbjK4E+S+jEPOZ2mNTAfh50di2t+So0OpKwOM4AgS7K
+         0z05ZMfv82gZj4nedLkOSQ8hCNf0vyB1SfDZOe4B//gBWASaqGToM7w49nH+9+g9GpFn
+         AyaOg6tBn0EpDGqxj106zil+6prFbGstW79ly0+jm77w+GOI3J9LPXgAYjjNjIELRDag
+         QOMg==
+X-Gm-Message-State: AC+VfDwV63AFye9TaxbAKCJT4JN7yKJnWg+BHPSPVqj9tRL8sdzv0u83
+	BMvIQ8iDX5ZFTae+FL8GM1KQEg==
+X-Google-Smtp-Source: ACHHUZ7kutazVG6aR1zhi7NleR1hLGz/XwNsJaZkpnNPuFmuwZ8VvPa6oWefYEuCdn7ii84lYUXGOA==
+X-Received: by 2002:a1c:6a11:0:b0:3f7:16ed:4ca3 with SMTP id f17-20020a1c6a11000000b003f716ed4ca3mr943831wmc.1.1686215993090;
+        Thu, 08 Jun 2023 02:19:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:316b:ce77:4e88:2f02? ([2001:8b0:aba:5f3c:316b:ce77:4e88:2f02])
+        by smtp.gmail.com with ESMTPSA id w11-20020a1cf60b000000b003f605566610sm4594438wmc.13.2023.06.08.02.19.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jun 2023 02:19:52 -0700 (PDT)
+Message-ID: <a5e311b0545dc84f64d985ffcbd595bff2f2a2ff.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC] incorrect parsing of sysusers.d in rootfs
+ generation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Louis Rannou <lrannou@baylibre.com>, tgamblin@baylibre.com, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 08 Jun 2023 10:19:52 +0100
+In-Reply-To: <08e9842b-0288-92c9-6327-a82e37f4af99@baylibre.com>
+References: <b02fd7f2-b6f7-01f6-256a-d1bf9f7aa91a@baylibre.com>
+	 <08e9842b-0288-92c9-6327-a82e37f4af99@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606123732.3924953-1-ross.burton@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 09:19:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182498
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 09:19:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182499
 
-Hello Ross,
+On Wed, 2023-06-07 at 17:16 +0200, Louis Rannou wrote:
+> Hello again,
+>=20
+> a python solution could be one below.
+>=20
+> Also, I found that most of users/groups defined there are redundant as=
+=20
+> they already exist (such as root). I guess they are defined from=20
+> base-passwd. I am not sure which recipe (base-passwd or systemd) should=
+=20
+> have the precedence on this. If it's base-passwd, perhaps this=20
+> postcommand should check first if the user does already exist.
 
-It seemed to have caused new ptest failures:
+I'd say base-passwd should likely be the winner but we should probably
+error if there is a conflict between what sysusers.d and base-passwd
+are defining.
 
-{'nettle': ['nettle-pbkdf2-test', 'sexp-conv-test']}
+Cheers,
 
-On 06/06/2023 13:37:32+0100, Ross Burton wrote:
-> From: Ross Burton <ross.burton@arm.com>
-> 
-> Nettle is primarily a library that ships some tools, so inherit the
-> lib_package class to package the tools in nettle-bin.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-support/nettle/nettle_3.8.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-support/nettle/nettle_3.8.1.bb b/meta/recipes-support/nettle/nettle_3.8.1.bb
-> index bf491322354..5e60948c8f6 100644
-> --- a/meta/recipes-support/nettle/nettle_3.8.1.bb
-> +++ b/meta/recipes-support/nettle/nettle_3.8.1.bb
-> @@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "364f3e2b77cd7dcde83fd7c45219c834e54b0c75e428b6f894a23d12dd
->  
->  UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
->  
-> -inherit autotools ptest multilib_header
-> +inherit autotools ptest multilib_header lib_package
->  
->  EXTRA_AUTORECONF += "--exclude=aclocal"
->  
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182435): https://lists.openembedded.org/g/openembedded-core/message/182435
-> Mute This Topic: https://lists.openembedded.org/mt/99362169/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Richard
 
