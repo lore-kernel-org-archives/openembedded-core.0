@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B93C77B7A
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 02:36:16 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.508.1686191774501740090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E61AC77B7A
+	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 02:36:26 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.497.1686191778984455758
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jun 2023 19:36:14 -0700
+ Wed, 07 Jun 2023 19:36:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=qR990bv/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-656923b7c81so22190b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 19:36:14 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=W9gARJb7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-662f0feafb2so105352b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jun 2023 19:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686191773; x=1688783773;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686191778; x=1688783778;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q9010lD5CSixTQlcBy7QU7UQyYkfHNsSwegpiYJnxb8=;
-        b=qR990bv/d3555JVsyck57H0SouFAN4p5tBCgkXBLWtEVOLjsht/L7h+evq6mqW17pX
-         jyebmVjrVeutu2ijPxgh3FDKNApx3AyvY49YGysU8F3jt/jf367Ejt4Z86x9VMTwwzXf
-         jQeRhmCShNHgIQ/KbFUUF38QChyCpckkV5C/cllzqCMHJOuKpcZwuAcIlVPcXMWbIpH/
-         fonHMQVw/tzIMVQMuImjFD7ULHS0DqRHbyz1PI8Gj/6cCE109b9AfTN3gamhoMGJstWI
-         Zt6Sb9bajebG8GEzgazgM+FR1VMPnYp4TuP74IVOI7moiUtIHgr+n51FpYDFfJh4UbQ6
-         JSog==
+        bh=4AuyNJn9mkBts2bLeMlwBH/j0BEwzwCrtxk7xBNUaRM=;
+        b=W9gARJb7z6Y2op3MyqUA8kcY/G83rH1ZJ2xWkn77EZmQd57qedXR54Q1UHA7kxGcds
+         V65V621EMu2HT4+dEGgorhQmq7zFGYZIgA6CJllDyWlAymjPyRoweSePNPo9P7mThEwz
+         hZmBkQr6fmqdEx9tuCCqdfBKCN3/SuMs66IK88JLNsxw4Qtuvf9wkZJeG+kT1zTjPJ0R
+         6XTcRbWxJWxr+1sDS3xBnRIp/VjvuunK6EC1wqzvCNN45z6IyGs6sgRNTqryPvwwYetE
+         tENnAJ+q/+FFdNHQsxDLaqU9aRgCwtCeUGogK1zfaGjhwlah/JfkwvaIJlE1gAWJ2EBK
+         LaLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686191773; x=1688783773;
+        d=1e100.net; s=20221208; t=1686191778; x=1688783778;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q9010lD5CSixTQlcBy7QU7UQyYkfHNsSwegpiYJnxb8=;
-        b=KtTyPh5F5v5Y21iNbB9wrW2sq5iCWBS4lMEAoyek8qWhWqlvb4sCJRTePOJATz+cYa
-         /rN7E1xCbTmpP7Va/7VHmmfDgbOi0zT3WC7uNvHqL/s5JxAluN/s7NYTIHVyo9ZjHiyw
-         dpaFipY7hscBpRIC1pzfSCjy+/w1FUZCexLj4UORJn4ipVmvYKhDOJWfousV7jX0G058
-         yNuAqI5xkAiBvuALXtKk0evTkyicc4l5PQaccCIOwktZc7NmLFwH6FvnkxT7u5lybAxb
-         RoBG12UY4Ps2avfMbKc7N+zSkmxU/XuM/tWLo+/fqePDZtQn30RTW39PIVhpxZ3YdPFs
-         MHgg==
-X-Gm-Message-State: AC+VfDyZULdHrSoxKy9wcgLL+pY5vH7GNFVtFMuW9A6QPYVuGhRE0l8S
-	0fcVJpuWABWb/2OUpDoypVaLNOCMTF77Rr2lMGU=
-X-Google-Smtp-Source: ACHHUZ4l82nUc5bDbR740BDgzfxiqlvqeYqad5yq4lyDvUG6cPrjDcidINeaYICSh0wBqnnFZ+zc5Q==
-X-Received: by 2002:a05:6a00:2442:b0:651:7133:3f59 with SMTP id d2-20020a056a00244200b0065171333f59mr4309706pfj.3.1686191773357;
-        Wed, 07 Jun 2023 19:36:13 -0700 (PDT)
+        bh=4AuyNJn9mkBts2bLeMlwBH/j0BEwzwCrtxk7xBNUaRM=;
+        b=lps1f1/ekVgwjGuyG7DYLJKYEu/LVEHY57gZi1V0gCF406nigZewt/uov7+1e/wrDO
+         Gzc8dF6pkrXspb5A3liquI58/zIK+tQH8lQ+g4WnZveCQG4ywrBHKdAZIZ5MIGPaDKc3
+         hybvuADYJyozwLSGQqy6QA4GF9sBoXWisGIXr1rQi4W4IgYXVnFLu4IpAe/c+IozWVun
+         jflMtFfT4M843hT7d+PIarwI5fXAkJclQNYFkV4mGXrX6R/0kYx+85kBdRaZp8jsU/Pf
+         uMtNiqMe9clCUR3YcVLvTr72sfYhdSdEmrCMP0s3ENm7UfZZT1QqYeqeV62qKSeWRO8W
+         nhrA==
+X-Gm-Message-State: AC+VfDxqjzWROuMjboC0LPlyghQVD2lsh8Ohx9i5SE6l1IT3EI3zJoN1
+	1L28v5GmljuR2XdggOPx22w8hzMS9AUVlIUN1Z8=
+X-Google-Smtp-Source: ACHHUZ67K7ruNtOmx+p5Yyp3ku73/+p12eRCjGH/ynPo822/a97s/qq6d6w1kbYu5421RjW8FxPwmQ==
+X-Received: by 2002:a05:6a00:1396:b0:662:b5de:27ea with SMTP id t22-20020a056a00139600b00662b5de27eamr961504pfg.11.1686191777816;
+        Wed, 07 Jun 2023 19:36:17 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j8-20020a62b608000000b00649ac17779csm19478pff.160.2023.06.07.19.36.12
+        by smtp.gmail.com with ESMTPSA id j8-20020a62b608000000b00649ac17779csm19478pff.160.2023.06.07.19.36.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 19:36:12 -0700 (PDT)
+        Wed, 07 Jun 2023 19:36:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/11] ffmpeg: Fix CVE-2022-48434
-Date: Wed,  7 Jun 2023 16:35:54 -1000
-Message-Id: <51c8ffc49d03b231ce76fa00f923e5f3f833f6fc.1686191643.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/11] xserver-xorg: Security fix CVE-2023-0494 and CVE-2023-1393
+Date: Wed,  7 Jun 2023 16:35:56 -1000
+Message-Id: <0a29894da0b41f8494f72ded25916887b4a5c729.1686191643.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686191643.git.steve@sakoman.com>
 References: <cover.1686191643.git.steve@sakoman.com>
@@ -60,182 +60,135 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 02:36:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182483
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 02:36:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182485
 
-From: Nikhil R <nikhilar2410@gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Add a patch to fix CVE-2022-48434 which allows attackers to trigger a
-use-after-free and execute arbitrary code in some circumstances
+Upstream-Status: Backport
+[https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec
+&
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
 
-Link: https://ubuntu.com/security/CVE-2022-48434
-Link: https://nvd.nist.gov/vuln/detail/CVE-2022-48434
-
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
-Signed-off-by: Ranjitsinh Rathod ranjitsinh.rathod@kpit.com
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2022-48434.patch        | 136 ++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |   1 +
- 2 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
+ .../xserver-xorg/CVE-2023-0494.patch          | 38 +++++++++++++++
+ .../xserver-xorg/CVE-2023-1393.patch          | 46 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |  2 +
+ 3 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
 new file mode 100644
-index 0000000000..707073709a
+index 0000000000..ef2ee5d55e
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-48434.patch
-@@ -0,0 +1,136 @@
-+From d4b7b3c03ee2baf0166ce49dff17ec9beff684db Mon Sep 17 00:00:00 2001
-+From: Anton Khirnov <anton@khirnov.net>
-+Date: Fri, 2 Sep 2022 22:21:27 +0200
-+Subject: [PATCH] lavc/pthread_frame: avoid leaving stale hwaccel state in
-+ worker threads
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-0494.patch
+@@ -0,0 +1,38 @@
++From 0ba6d8c37071131a49790243cdac55392ecf71ec Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Wed, 25 Jan 2023 11:41:40 +1000
++Subject: [PATCH] Xi: fix potential use-after-free in DeepCopyPointerClasses
 +
-+This state is not refcounted, so make sure it always has a well-defined
-+owner.
++CVE-2023-0494, ZDI-CAN-19596
 +
-+Remove the block added in 091341f2ab5bd35ca1a2aae90503adc74f8d3523, as
-+this commit also solves that issue in a more general way.
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
 +
-+(cherry picked from commit cc867f2c09d2b69cee8a0eccd62aff002cbbfe11)
-+Signed-off-by: Anton Khirnov <anton@khirnov.net>
-+(cherry picked from commit 35aa7e70e7ec350319e7634a30d8d8aa1e6ecdda)
-+Signed-off-by: Anton Khirnov <anton@khirnov.net>
-+(cherry picked from commit 3bc28e9d1ab33627cea3c632dd6b0c33e22e93ba)
-+Signed-off-by: Anton Khirnov <anton@khirnov.net>
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 +
-+CVE: CVE-2022-48434
-+Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/d4b7b3c03ee2baf0166ce49dff17ec9beff684db]
-+Signed-off-by: Ranjitsinh Rathod ranjitsinh.rathod@kpit.com
-+Comment: Hunk#6 refreshed to backport changes and other to remove patch-fuzz warnings
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0ba6d8c37071131a49790243cdac55392ecf71ec]
++CVE: CVE-2023-0494
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libavcodec/pthread_frame.c | 46 +++++++++++++++++++++++++++++---------
-+ 1 file changed, 35 insertions(+), 11 deletions(-)
++ Xi/exevents.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/libavcodec/pthread_frame.c b/libavcodec/pthread_frame.c
-+index 36ac0ac..bbc5ba6 100644
-+--- a/libavcodec/pthread_frame.c
-++++ b/libavcodec/pthread_frame.c
-+@@ -135,6 +135,12 @@ typedef struct FrameThreadContext {
-+                                     * Set for the first N packets, where N is the number of threads.
-+                                     * While it is set, ff_thread_en/decode_frame won't return any results.
-+                                     */
-++
-++    /* hwaccel state is temporarily stored here in order to transfer its ownership
-++     * to the next decoding thread without the need for extra synchronization */
-++    const AVHWAccel *stash_hwaccel;
-++    void            *stash_hwaccel_context;
-++    void            *stash_hwaccel_priv;
-+ } FrameThreadContext;
-+ 
-+ #define THREAD_SAFE_CALLBACKS(avctx) \
-+@@ -211,9 +217,17 @@ static attribute_align_arg void *frame_worker_thread(void *arg)
-+             ff_thread_finish_setup(avctx);
-+ 
-+         if (p->hwaccel_serializing) {
-++            /* wipe hwaccel state to avoid stale pointers lying around;
-++             * the state was transferred to FrameThreadContext in
-++             * ff_thread_finish_setup(), so nothing is leaked */
-++            avctx->hwaccel                     = NULL;
-++            avctx->hwaccel_context             = NULL;
-++            avctx->internal->hwaccel_priv_data = NULL;
-++
-+             p->hwaccel_serializing = 0;
-+             pthread_mutex_unlock(&p->parent->hwaccel_mutex);
++diff --git a/Xi/exevents.c b/Xi/exevents.c
++index 217baa9561..dcd4efb3bc 100644
++--- a/Xi/exevents.c
+++++ b/Xi/exevents.c
++@@ -619,8 +619,10 @@ DeepCopyPointerClasses(DeviceIntPtr from, DeviceIntPtr to)
++             memcpy(to->button->xkb_acts, from->button->xkb_acts,
++                    sizeof(XkbAction));
 +         }
-++        av_assert0(!avctx->hwaccel);
++-        else
+++        else {
++             free(to->button->xkb_acts);
+++            to->button->xkb_acts = NULL;
+++        }
 + 
-+         if (p->async_serializing) {
-+             p->async_serializing = 0;
-+@@ -275,14 +289,10 @@ static int update_context_from_thread(AVCodecContext *dst, AVCodecContext *src,
-+         dst->color_range = src->color_range;
-+         dst->chroma_sample_location = src->chroma_sample_location;
-+ 
-+-        dst->hwaccel = src->hwaccel;
-+-        dst->hwaccel_context = src->hwaccel_context;
-+-
-+         dst->channels       = src->channels;
-+         dst->sample_rate    = src->sample_rate;
-+         dst->sample_fmt     = src->sample_fmt;
-+         dst->channel_layout = src->channel_layout;
-+-        dst->internal->hwaccel_priv_data = src->internal->hwaccel_priv_data;
-+ 
-+         if (!!dst->hw_frames_ctx != !!src->hw_frames_ctx ||
-+             (dst->hw_frames_ctx && dst->hw_frames_ctx->data != src->hw_frames_ctx->data)) {
-+@@ -415,6 +425,12 @@ static int submit_packet(PerThreadContext *p, AVCodecContext *user_avctx,
-+             pthread_mutex_unlock(&p->mutex);
-+             return err;
-+         }
-++
-++        /* transfer hwaccel state stashed from previous thread, if any */
-++        av_assert0(!p->avctx->hwaccel);
-++        FFSWAP(const AVHWAccel*, p->avctx->hwaccel,                     fctx->stash_hwaccel);
-++        FFSWAP(void*,            p->avctx->hwaccel_context,             fctx->stash_hwaccel_context);
-++        FFSWAP(void*,            p->avctx->internal->hwaccel_priv_data, fctx->stash_hwaccel_priv);
-+     }
-+ 
-+     av_packet_unref(&p->avpkt);
-+@@ -616,6 +632,14 @@ void ff_thread_finish_setup(AVCodecContext *avctx) {
-+         async_lock(p->parent);
-+     }
-+ 
-++    /* save hwaccel state for passing to the next thread;
-++     * this is done here so that this worker thread can wipe its own hwaccel
-++     * state after decoding, without requiring synchronization */
-++    av_assert0(!p->parent->stash_hwaccel);
-++    p->parent->stash_hwaccel         = avctx->hwaccel;
-++    p->parent->stash_hwaccel_context = avctx->hwaccel_context;
-++    p->parent->stash_hwaccel_priv    = avctx->internal->hwaccel_priv_data;
-++
-+     pthread_mutex_lock(&p->progress_mutex);
-+     if(atomic_load(&p->state) == STATE_SETUP_FINISHED){
-+         av_log(avctx, AV_LOG_WARNING, "Multiple ff_thread_finish_setup() calls\n");
-+@@ -657,13 +681,6 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
-+ 
-+     park_frame_worker_threads(fctx, thread_count);
-+ 
-+-    if (fctx->prev_thread && fctx->prev_thread != fctx->threads)
-+-        if (update_context_from_thread(fctx->threads->avctx, fctx->prev_thread->avctx, 0) < 0) {
-+-            av_log(avctx, AV_LOG_ERROR, "Final thread update failed\n");
-+-            fctx->prev_thread->avctx->internal->is_copy = fctx->threads->avctx->internal->is_copy;
-+-            fctx->threads->avctx->internal->is_copy = 1;
-+-        }
-+-
-+     for (i = 0; i < thread_count; i++) {
-+         PerThreadContext *p = &fctx->threads[i];
-+ 
-+@@ -713,6 +730,13 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
-+     pthread_mutex_destroy(&fctx->async_mutex);
-+     pthread_cond_destroy(&fctx->async_cond);
-+ 
-++    /* if we have stashed hwaccel state, move it to the user-facing context,
-++     * so it will be freed in avcodec_close() */
-++    av_assert0(!avctx->hwaccel);
-++    FFSWAP(const AVHWAccel*, avctx->hwaccel,                     fctx->stash_hwaccel);
-++    FFSWAP(void*,            avctx->hwaccel_context,             fctx->stash_hwaccel_context);
-++    FFSWAP(void*,            avctx->internal->hwaccel_priv_data, fctx->stash_hwaccel_priv);
-++
-+     av_freep(&avctx->internal->thread_ctx);
-+ 
-+     if (avctx->priv_data && avctx->codec && avctx->codec->priv_class)
++         memcpy(to->button->labels, from->button->labels,
++                from->button->numButtons * sizeof(Atom));
 +-- 
-+2.25.1
++GitLab
 +
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-index 1e000dddfa..f12052548f 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-@@ -32,6 +32,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2022-1475.patch \
-            file://CVE-2022-3109.patch \
-            file://CVE-2022-3341.patch \
-+           file://CVE-2022-48434.patch \
-           "
- SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
- SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
+new file mode 100644
+index 0000000000..51d0e0cab6
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-1393.patch
+@@ -0,0 +1,46 @@
++From 26ef545b3502f61ca722a7a3373507e88ef64110 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 13 Mar 2023 11:08:47 +0100
++Subject: [PATCH] composite: Fix use-after-free of the COW
++
++ZDI-CAN-19866/CVE-2023-1393
++
++If a client explicitly destroys the compositor overlay window (aka COW),
++we would leave a dangling pointer to that window in the CompScreen
++structure, which will trigger a use-after-free later.
++
++Make sure to clear the CompScreen pointer to the COW when the latter gets
++destroyed explicitly by the client.
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Adam Jackson <ajax@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/26ef545b3502f61ca722a7a3373507e88ef64110]
++CVE: CVE-2023-1393
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ composite/compwindow.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/composite/compwindow.c b/composite/compwindow.c
++index 4e2494b86b..b30da589e9 100644
++--- a/composite/compwindow.c
+++++ b/composite/compwindow.c
++@@ -620,6 +620,11 @@ compDestroyWindow(WindowPtr pWin)
++     ret = (*pScreen->DestroyWindow) (pWin);
++     cs->DestroyWindow = pScreen->DestroyWindow;
++     pScreen->DestroyWindow = compDestroyWindow;
+++
+++    /* Did we just destroy the overlay window? */
+++    if (pWin == cs->pOverlayWin)
+++        cs->pOverlayWin = NULL;
+++
++ /*    compCheckTree (pWin->drawable.pScreen); can't check -- tree isn't good*/
++     return ret;
++ }
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+index ab18a87a3d..5c604fa86e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+@@ -14,6 +14,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://CVE-2022-46342.patch \
+            file://CVE-2022-46343.patch \
+            file://CVE-2022-46344.patch \
++           file://CVE-2023-0494.patch \
++           file://CVE-2023-1393.patch \
+ "
+ SRC_URI[md5sum] = "453fc86aac8c629b3a5b77e8dcca30bf"
+ SRC_URI[sha256sum] = "54b199c9280ff8bf0f73a54a759645bd0eeeda7255d1c99310d5b7595f3ac066"
 -- 
 2.34.1
 
