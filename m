@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 076BCC8300C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B1EC7EE2F
 	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:56 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.171.1686329690611500543
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.199.1686329692171449295
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:50 -0700
+ Fri, 09 Jun 2023 09:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=JCedzkd2;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-652699e72f7so1708964b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:50 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PHVIcyoo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-652d1d3e040so1611598b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329690; x=1688921690;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329691; x=1688921691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9jjf8hFaSIOS/6f+NCfCnPBnBT6rsc7NP/NxAy2q/bk=;
-        b=JCedzkd2Yfq7liszwqAERUwaop01KW1l9f4/3fGJSb6iIeZY+b1q+R/QD75ylCW+oH
-         WR2wsm3I+Qf8v3q4dyQ+g4+Px739OAPnS8PEkNPxx3AKOTlYsJ5kvU6HXdXrntYjahbp
-         q0UmFo98jX9cNCsMmrzWxXBsx09ZZu4sLHciFvVTKdKO4f2snxRQAARCZipYzkseuKhj
-         e54JQiPfbSQOy+sCApvQ2eBxvAH5HXwFJu2/AQRFFRRsNhJraSC0BvGnXwoYDdJCOYzh
-         BFgDs6eWTWOCfA7E79kJez0hx56ze9VcaF1lyu4HZNLyczun/r/uVJdR8u5s4gfNFJMw
-         /xVA==
+        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
+        b=PHVIcyoo6kBVXJq2CLqkBQQOu4hjE50Ei2uv8ujyndOaROeQLccl2XLUa+Fy9v/8Ip
+         BWP4N+ln/5uQPsvHewawQoAMaLdMRzkISZhU4k59qgZOUe+jS5dgrBvyfdKSPJAOJZBE
+         alEPPmKzpLkwqiTXW4sIHrBQbygRztyYgWMy8nNADgdLZ5br9ilIr+VJ644kLA8J/cr1
+         PdsFzJ80QRga7gPIbju8kiMw5GFMom6KSRDZqzgRFyzzTySVKig8WIDd+aEwLLNa2l4Z
+         eDCw7aIB4eLzTxdfcc8fNp+1oyvEyJqEAKIHer37dM+389oUNMP0RmSkE0Ahbditr469
+         GpMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329690; x=1688921690;
+        d=1e100.net; s=20221208; t=1686329691; x=1688921691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9jjf8hFaSIOS/6f+NCfCnPBnBT6rsc7NP/NxAy2q/bk=;
-        b=KbV523YGoUZjpHpp+9iA0d93hWpdUqXSlm7KQRHFFxEIHZvggVbh0yHdYwhauA4CG6
-         4uFKzUmrCbA+7B3WxmBlQ5IdrbCXyi+KRLFgVbJdWMakfFBrL/K6OISoumSjORXzrc2n
-         2dGALIm/TDctITUmYMHZOSW1j7EdwYC+E292ZsPLGVNhZnigSi+HGUIya7Qvr7NN1Y8K
-         6VXs+XA72wALLx4tQXekM3j7ys+SCvs2/LElvvY6qkGapyq3P9QZr4a9C4fJQIo+TJJs
-         4XXYL3jtgSU55frH6LZvOT4188n/x7LFCvEPSgKuWP8E7f/LNDtdyAKMCQW5cGcdUzrF
-         HjVw==
-X-Gm-Message-State: AC+VfDzVRqO43wSuw/Ozz2eR2vAAw7SYYH0G6UfufotavfE1NMTt0sSw
-	esOhQJye9JFyCDOvs2ohhDu+l7qNlxTOpyWOqGU=
-X-Google-Smtp-Source: ACHHUZ7iLBtBJfCecydRdcrdujdv45Wo/R0LWOcZ7I5qw0u1pNG4tAtBBl+YIUOul0OAk3rMqB8tHA==
-X-Received: by 2002:a05:6a21:797:b0:119:10a3:d79d with SMTP id mg23-20020a056a21079700b0011910a3d79dmr1376660pzb.14.1686329689643;
-        Fri, 09 Jun 2023 09:54:49 -0700 (PDT)
+        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
+        b=j4W8LRsHyIF7p4mIenr3IqawNf5U7z32yOWiEL5P3WqBcWJgPOjVhNLnGYnzdUKmoG
+         gAHVP+0ZuXB91pOZ6wquktx3sFd0CGDJ/9HTz33Aqf4RTYntwIbimTeOUlALdI+MYHeU
+         U0Llfk4hi87Vg97SR3BZUBlWWG6XuDku/mU7HkLaGZSY6yuRl1zXITKhE/tfpoqV5sVd
+         bOWPf3tlJsShX/aquv4nuayC1gNAZ6E8XUODTfADcZv5meceOA+J7Yn/7nyRJx5Pq6K2
+         pxPve0j8v/7pK5pwiCOK1MrkdM0VhZySh13Zmv1PeL5+A+HPI4+VQmsksG41fhOk27tq
+         +lYw==
+X-Gm-Message-State: AC+VfDzF3nlY9BOW2/9FP5OWXq/iDm5ekPGvzqxG24TdzCAT2QMUoJ1U
+	KVV2N+5r/CNAIvy6Isi54ExFr005Qs+wH9F86pQ=
+X-Google-Smtp-Source: ACHHUZ6pRXb2N/v6xLC/o5hHL0BkazxrYtTR/Pb0YiTkMhkm0ULAHJ3uFzIbg+XDbiyksAzOITzZHg==
+X-Received: by 2002:a05:6a00:2d02:b0:659:f92d:904c with SMTP id fa2-20020a056a002d0200b00659f92d904cmr1702324pfb.3.1686329691195;
+        Fri, 09 Jun 2023 09:54:51 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.48
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:49 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 28/30] selftest/reproducible: Allow native/cross reuse in test
-Date: Fri,  9 Jun 2023 06:53:55 -1000
-Message-Id: <ea3d21235633dc5b01c6ce39e768d00d1da5d87a.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 29/30] uninative: Upgrade to 3.10 to support gcc 13
+Date: Fri,  9 Jun 2023 06:53:56 -1000
+Message-Id: <6d9e48a3322a9abdca7444dbfa2288af3c91113b.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -61,45 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182594
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182595
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-We don't compare reproducibility of the native/cross components, only the
-target ones. With the long build times of rust-native, the test now takes
-crazy lengths of time so this tweak should allow us to reuse native/cross
-artefacts from sstate whilst still testing the target output is
-reproducible.
-
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b494d83c639a877cefeb7cbab6d37195e492f059)
+(cherry picked from commit f811bffb861b23238e8291394bd6e8407f013619)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index cd7aa8aafa..1f0ed32fa0 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -151,7 +151,7 @@ class ReproducibleTests(OESelftestTestCase):
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 8a5cab5360..f3c05b7e20 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,9 +7,9 @@
+ #
  
-     def setUpLocal(self):
-         super().setUpLocal()
--        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS']
-+        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE']
-         bb_vars = get_bb_vars(needed_vars)
-         for v in needed_vars:
-             setattr(self, v.lower(), bb_vars[v])
-@@ -225,7 +225,7 @@ class ReproducibleTests(OESelftestTestCase):
-             # mirror, forcing a complete build from scratch
-             config += textwrap.dedent('''\
-                 SSTATE_DIR = "${TMPDIR}/sstate"
--                SSTATE_MIRRORS = ""
-+                SSTATE_MIRRORS = "file://.*/.*-native.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH file://.*/.*-cross.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
-                 ''')
+ UNINATIVE_MAXGLIBCVERSION = "2.37"
+-UNINATIVE_VERSION = "3.9"
++UNINATIVE_VERSION = "3.10"
  
-         self.logger.info("Building %s (sstate%s allowed)..." % (name, '' if use_sstate else ' NOT'))
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "de35708c95c34573af140da910132c3291ba4fd26ebf7b74b755ada432cdf07b"
+-UNINATIVE_CHECKSUM[i686] ?= "adac07b08adb88eb26fc7fd87fee0cec9d5be167bf7c5ffd3a549a2a6699c29c"
+-UNINATIVE_CHECKSUM[x86_64] ?= "3dd82c3fbdb59e87bf091c3eef555a05fae528eeda3083828f76cd4deaceca8b"
++UNINATIVE_CHECKSUM[aarch64] ?= "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
++UNINATIVE_CHECKSUM[i686] ?= "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
++UNINATIVE_CHECKSUM[x86_64] ?= "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
 -- 
 2.34.1
 
