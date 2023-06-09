@@ -1,260 +1,679 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <ola.x.nilsson@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEA6C7EE2E
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 08:52:17 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.65])
- by mx.groups.io with SMTP id smtpd.web11.8718.1686300728168327432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6761C7EE2E
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 09:02:07 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.8843.1686301317295491225
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 01:52:08 -0700
+ Fri, 09 Jun 2023 02:01:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=uomulFeI;
- spf=pass (domain: navimatix.de, ip: 40.107.21.65, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k5Epu1oZNmU26+Q1xrnsybTRteC+Xa83DQx9wPtYmTIsspTviGiBwHzbex4fHfTlcdbIznF1zyGZdBz7WtJh0TITRSwoYYDqZWAChlFLJeb4yrN9o9YSyS3oL4+Pwi8i0WCm5rJ0nzKgjKwVnGXocswYYRPOcxZNilDgQO32IhVF9iiXj/HRQVBAaGfmqcAYVHmoni2OmgkVxgcHWrrdLsKKvGmLDKr3HOqxull5rcS0qktseb6ron1CK7Ww15u33JUBSZPU517a7Lg1CopvWSMxhYS4UL3YJFrowbHf3P/UCcGjEh0H5qyFGnVCv79bt1cVFWJpdVo/jVpLWTX2kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1r7LBDKusqPGfnHkNoJ5BB3RHHasVIDK3EksDUuMUls=;
- b=D5UsoEUS78Woh3pxk+zA+6WuQ1l5XfFTuWtZVLSd9z3W/GEMj4PHNG9Yj8KnS+sXG5PKdGZZrTQE+pPmmNgotcok52L+5R/n000CbXi3CwFeXfTl+QKUSBAJqQcK8F1HfAyTMEG1xI7uYCjLdA8wQAhoUJqYSeJP7FncQirfT4icUkwGYb7qIui/McqybEill6WejIloMMgrwDumFcJP9tazFiDgNVZzHC9yZah9KZkYbWr0WrILQDh2NXMlJnKYoQPF/Ivfz/SQmWEznuyhA7PdayOKGarYhcUeIHAH25apiS3sp9DtvXNYmAgcYGSklBvwgrq7DIVZMB4/+lWsjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1r7LBDKusqPGfnHkNoJ5BB3RHHasVIDK3EksDUuMUls=;
- b=uomulFeIBFa5MGV6pwM7XQviwwkBnoZ5g91hL0MOlgxu+CqoVIBPu2OwnqCnZiv6/PU5/UhAmP0kAbh4EjKwCGB/7w63/cjVK5qyOdQwXJSIec21pJhwleVEiOfs/Fn6J+3fcD5sKW4AfuC8tKuy1IIn9gAYMbE5ewY6UrXw9b0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
- (2603:10a6:803:5::26) by AS4PR01MB8896.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:4e3::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
- 2023 08:52:05 +0000
-Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
- ([fe80::1549:2f60:3152:7383]) by
- VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
- ([fe80::1549:2f60:3152:7383%6]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
- 08:52:05 +0000
-From: =?UTF-8?q?J=C3=B6rg=20Sommer?= <joerg.sommer@navimatix.de>
-To: poky@lists.yoctoproject.org,
-	openembedded-core@lists.openembedded.org
-CC: =?UTF-8?q?J=C3=B6rg=20Sommer?= <joerg.sommer@navimatix.de>
-Subject: [PATCH 2/2] runqemu-ifupdown/get-tapdevs: Add support for ip tuntap
-Date: Fri,  9 Jun 2023 10:51:06 +0200
-Message-ID: <91fca441bb3b2040a2c25ad6d6dc14526c6a6fe0.1686300665.git.joerg.sommer@navimatix.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ee3b417ac5a2acf9c8bd5bbe149794e313bfdaad.1686300665.git.joerg.sommer@navimatix.de>
-References: <ee3b417ac5a2acf9c8bd5bbe149794e313bfdaad.1686300665.git.joerg.sommer@navimatix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE1P281CA0371.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:82::22) To VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
- (2603:10a6:803:5::26)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=eCQ48Smg;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: ola.x.nilsson@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1686301318;
+  x=1717837318;
+  h=references:from:to:cc:subject:date:in-reply-to:
+   message-id:mime-version:content-transfer-encoding;
+  bh=qlp7OgexZUYUpn/8A+z+2QS9G5qRe3cYKkao2ukL3TQ=;
+  b=eCQ48SmgjvHCXmGtu2xWLCx2vXTeiAWgJ66qbAua4LXwL6qa3qG6Jbyr
+   JhM0EiORsw85keII8Xdp4TQC/g/pBSmxMFa+W4rcLtRI5Pb8dOaXkMwi4
+   oOjA85WQZVawZhaCKOduGpyZO4CrCi3sjqxCmVyeLm9aPZw7W8Mu9EJac
+   jvBkWnx2GKpUuZ7yErhRhnAYIO6AVvOytdGK6+q+F+wx3+rndgujm/rP2
+   PEUAi0SiSeWCfj1PbmcvPvgCPdRLpBMsItQSLUFcMDZMv7XPQugs80kZI
+   ce2Yfc+gRsR1jrTWFb5PLsw5oPUapGpItuPKX7TnSB4ORQIezMdPwWQCC
+   Q==;
+References: <1685430318-27100-1-git-send-email-qiutt@fujitsu.com>
+ <2023053022173136587677@mail.local> <jwqlegtf4l5.fsf@axis.com>
+ <OS3PR01MB9515C26FA2F04840238E0933BA51A@OS3PR01MB9515.jpnprd01.prod.outlook.com>
+User-agent: mu4e 1.8.14; emacs 29.0.60
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: "Tingting Qiu (Fujitsu)" <qiutt@fujitsu.com>
+CC: "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH V3] kbd: Add ptest support
+Date: Fri, 9 Jun 2023 10:56:07 +0200
+Organization: Axis Communications AB
+In-Reply-To: <OS3PR01MB9515C26FA2F04840238E0933BA51A@OS3PR01MB9515.jpnprd01.prod.outlook.com>
+Message-ID: <jwqh6rhf1q5.fsf@axis.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR0102MB3136:EE_|AS4PR01MB8896:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9309ea1c-0f42-4d7c-66d1-08db68c6cd1c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	HSJ9tHZGDx8euzoYrCh753roUSjNui/SUzBNnr7Srei0qhBCmdCKqeU7+7TsKikMEWr10A6h8hXt5l1/fch8cgtEle4zASOAz7qAzS3ICtjHffZrI0tgrH39Ew6iIpQFOM7EhcuJV2HhiuHP4Kk0LKcAPI4dEpVrmwyisUKWYEZKLMUaQibyU2kj2OxEcwljLRhYXOCtgclcYwxXY0bokJrwkVrg2Ma21NMEAqkzxFK+9nghl9yNeflLT7EPJxUYyQaM2gpbK+2k+xJeAVVsja+7MCEugyyna8wIEbIMc+NENr6J+GW87FGhdFx0Y7026+LjEDKU4xsxcjOswjMInzdPpnRxuiOat+BMWdaOWxFDLAY+JXN25g0NvV6H1DRrOzOH+EwZCf5UBo5dqKDuwfM+ujNnLiy8+M7xLg/Lp/0Ugx8jrC6HncV0I3EbpFrgHjgSUlVR/j+QoqMJdpW4Fh3ErQEjjoVNHCVxIGoDVfXX4/W7Qk3jSxBYBofJO3Zo58cPFGJk/PJb66TJeaIJyf8j+HLVEgatZ4N634B+MkfUpUBXZE0Ndlf1d+DBdG9Ow09HAdvY3UTJ4ayIiNR58ofHCY6f51Jo0n/qBh5f0+E=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0102MB3136.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(346002)(376002)(136003)(39840400004)(451199021)(6512007)(6506007)(26005)(186003)(2616005)(966005)(83380400001)(107886003)(52116002)(2906002)(66556008)(66476007)(66946007)(6486002)(5660300002)(8936002)(8676002)(86362001)(38100700002)(36756003)(41300700001)(508600001)(316002)(38350700002)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?B8yINB7qT5gUebBPyB7lTD11T5rUkRX5Jx9icDZwzHFvjNpWUngs0Y5F1aK6?=
- =?us-ascii?Q?bgVcpR5k62pWpXM9UX7yqRJZPQ1P4dE5AaQ7fVJ/jKDD5/ylAlBBKgAYZB1P?=
- =?us-ascii?Q?D3HyMaDumTzrdV158Q6uMcTsNUaRs1v/t29JMi8UJAHIiQqWKIGCDN+KX/g9?=
- =?us-ascii?Q?uIQev1/zPAsLqPJoy9OLnlnThyNgknTxR8h3zZiziBIQFYkNBHVJDE2/f+JK?=
- =?us-ascii?Q?1fcNxDs5qKhGACfAIaTZQ822RXOAU4HGu3DrTPzwoKliS8zUJ97m6qIIgtIZ?=
- =?us-ascii?Q?xdzIA7+ZIBj0bHPRBIs87Jq9r5cHskPJhF0mZ5cVD1+d0OUG2jJNYs1TJn+m?=
- =?us-ascii?Q?+GrLnZQFiTrJnNIpp1fxDi62WkxggDJEUpcQLJ7Z1ZQkbkz/woFldpU+BpdG?=
- =?us-ascii?Q?YohRiu/1ibKoi/xcH+urFMbmUbM4aygY/qC+V38vMgRWDgSnMGuV7y1lYvzt?=
- =?us-ascii?Q?JIKzsC4RJEGGQGgK7TzaV02mp3guTjNm5Sm9H3zsB/r5SVMtf8NvDrhCd/sJ?=
- =?us-ascii?Q?wjAArnrqjqZ8qUeIuPRuEQCsBuAu3UCvHhN7Cf8qIggxPDg1+TjxI9e6sfOA?=
- =?us-ascii?Q?4Z/2Tkx6bvHsgLriw52QYHsX3K3Kf1WGlUoT1lTyxyt7ODAsZTE/5Dpd3w8s?=
- =?us-ascii?Q?M71TKtRdLSJeiVREk/wyLmBx0kcxkjR03+c/Qx/9UFOsp2Ky6mo4qgvtCZUu?=
- =?us-ascii?Q?1/sE8eklkY1zkbwNKQaUA5u+154a2H0w8pK42eNIAAx1bK6DvndYb9H9wosr?=
- =?us-ascii?Q?E68lMBoNkzS6lXUcz6IxZxEpQTHbKxgqPXcnAC5YvugVHzPN0o9M6HZtgLTg?=
- =?us-ascii?Q?zk/wR275mYC6tTjRsMjB2I/MPtnpKTV9i4Y9bbH4H044Su1pooJwXfHRgKuE?=
- =?us-ascii?Q?2GBIVSbCcKTq4R7cghT40RJyD5TApUquJTJKDBqAnvpjNJr/A54uFgvqNlfZ?=
- =?us-ascii?Q?nrldm6RPZy/NTz7DY4NeMl1OJqJpS7TvlyQseLMTbAFY1Euqgm78qtNMm3El?=
- =?us-ascii?Q?VUbzQetI+IIfuby8wJal00lKUBOuCCQC9Qjg6pbaIV+NQfD3qJ97AmxkLE/b?=
- =?us-ascii?Q?wKF5Fij8CT93en+JGOpfxHfGC283YyH5wK0r5O1JRw9bZCqZxvyc8p3uQEk1?=
- =?us-ascii?Q?75edzbwDoII7G+5oGMXk77WESC710/W+C/Vvcztk7VeyAYT9j1FQisCxIW+Q?=
- =?us-ascii?Q?ZODAu9p02cuVaXrLPClBLfK3jhP3qJx5/hqpnmsm3ZV8fxmVr7jJhEoPPvdK?=
- =?us-ascii?Q?RZGnIlIxoTRx3KmysjjpPvtEhNjeNdmTANAEg0IrpG+6HfSKOR1RNS7Qoq/h?=
- =?us-ascii?Q?cb7Ru909aTrM3sVt4hIx3R8/hXzMxHA+9RyrHpHpATVq2aXtGb6dA5ILcly3?=
- =?us-ascii?Q?MFLWWSpAAz3xoZJ5ycNhbo+fuPjbU+m48jGqBrF63FeE8PwO1vrh5CUp8x3b?=
- =?us-ascii?Q?Q6rShtmWGzucaTQVVZOcAt6s3OjIJqEOqcdjNeRehGjqZQJfVVoWIBJrdwTQ?=
- =?us-ascii?Q?7OZLO3WKvSYPD9LKa9+SrhbqkMZt++jxlhkBqYQPqDhALPGc+Qg+pitMjdsv?=
- =?us-ascii?Q?qVvVwmIibaBdJGs8gAca6Yw02r8fTgtQUV8+eQqD33Tejcf20EzvMZHKSDpn?=
- =?us-ascii?Q?UQ=3D=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9309ea1c-0f42-4d7c-66d1-08db68c6cd1c
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 08:52:05.7994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y6Kj5EeDXTSBJR3Lha1Fsuibut8b+N41TIzPI05v9T1ICOTZ0LDPdmUPPgHBngOIRP+peGRTzCFHAANlN3GdWjBvaF9shNqjEekEJLE+uW4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR01MB8896
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 08:52:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182547
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:02:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182548
 
-The *ip* command supports the creation and destruction of TAP devices since
-2009 and might be more likely installed on systems then *tunctl*. Therefore
-it should be tried to setup or teardown the TAP interface with *ip* before
-falling back to *tunctl*.
 
-https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/commit/?id=3D5=
-80fbd88f75cc9eea0d28a48c025b090eb9419a7
+Hi,
 
-Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
----
- scripts/runqemu-gen-tapdevs | 26 +++++++++++++++++---------
- scripts/runqemu-ifdown      | 14 ++++++++------
- scripts/runqemu-ifup        | 31 +++++++++++++++++++------------
- 3 files changed, 44 insertions(+), 27 deletions(-)
+I did not bother to patch the tests for 64 bit time as the they were not
+run by ptest at that time.  They required changes like those in your
+patch.
 
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index f2d6cc39c2..ffb82adce6 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -50,12 +50,6 @@ if ! [ $COUNT -ge 0 ]; then
- 	exit 1
- fi
-=20
--TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
--if [[ ! -x "$TUNCTL" || -d "$TUNCTL" ]]; then
--	echo "Error: $TUNCTL is not an executable"
--	usage
--fi
--
- if [ $EUID -ne 0 ]; then
- 	echo "Error: This script must be run with root privileges"
- 	exit
-@@ -68,15 +62,29 @@ if [ ! -x "$RUNQEMU_IFUP" ]; then
- 	exit 1
- fi
-=20
--if ! interfaces=3D`ip link` 2>/dev/null; then
-+TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
-+ip_supports_tuntap=3Dfalse
-+if interfaces=3D`ip tuntap list` 2>/dev/null; then
-+	ip_supports_tuntap=3Dtrue
-+	interfaces=3D`echo "$interfaces |cut -f1 -d:`
-+elif [[ ! -x "$TUNCTL" || -d "$TUNCTL" ]]; then
-+	echo "Error: $TUNCTL is not an executable"
-+	usage
-+elif interfaces=3D`ip link` 2>/dev/null; then
-+	interfaces=3D`echo "$interfaces" | sed '/^[0-9]\+: \(docker[0-9]\+\):.*/!=
-d; s//\1/'`
-+else
- 	echo "Failed to call 'ip link'" >&2
- 	exit 1
- fi
-=20
- # Ensure we start with a clean slate
--for tap in `echo "$interfaces" | sed '/^[0-9]\+: \(docker[0-9]\+\):.*/!d; =
-s//\1/'`; do
-+for tap in $interfaces; do
- 	echo "Note: Destroying pre-existing tap interface $tap..."
--	$TUNCTL -d $tap
-+	if $ip_supports_tuntap; then
-+		ip tuntap del $tap mode tap
-+	else
-+		$TUNCTL -d $tap
-+	fi
- done
- rm -f /etc/runqemu-nosudo
-=20
-diff --git a/scripts/runqemu-ifdown b/scripts/runqemu-ifdown
-index e0eb5344c6..f72166b32b 100755
---- a/scripts/runqemu-ifdown
-+++ b/scripts/runqemu-ifdown
-@@ -33,13 +33,15 @@ fi
- TAP=3D$1
- STAGING_BINDIR_NATIVE=3D$2
-=20
--TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
--if [ ! -e "$TUNCTL" ]; then
--	echo "Error: Unable to find tunctl binary in '$STAGING_BINDIR_NATIVE', pl=
-ease bitbake qemu-helper-native"
--	exit 1
--fi
-+if !ip tuntap del $TAP mode tap 2>/dev/null; then
-+	TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
-+	if [ ! -e "$TUNCTL" ]; then
-+		echo "Error: Unable to find tunctl binary in '$STAGING_BINDIR_NATIVE', p=
-lease bitbake qemu-helper-native"
-+		exit 1
-+	fi
-=20
--$TUNCTL -d $TAP
-+	$TUNCTL -d $TAP
-+fi
-=20
- IFCONFIG=3D`which ip 2> /dev/null`
- if [ "x$IFCONFIG" =3D "x" ]; then
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index bb661740c5..5fdcddeeda 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -41,22 +41,29 @@ USERID=3D"-u $1"
- GROUP=3D"-g $2"
- STAGING_BINDIR_NATIVE=3D$3
-=20
--TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
--if [ ! -x "$TUNCTL" ]; then
--       echo "Error: Unable to find tunctl binary in '$STAGING_BINDIR_NATIV=
-E', please bitbake qemu-helper-native"
--	exit 1
-+if taps=3D$(ip tuntap list 2>/dev/null); then
-+	tap_no=3D$(( $(echo "$taps" |sort -r |sed 's/^tap//; s/:.*//; q') + 1 ))
-+	ip tuntap add tap$tap_no mode tap group $2 && TAP=3Dtap$tap_no
- fi
-=20
--TAP=3D`$TUNCTL -b $GROUP 2>&1`
--STATUS=3D$?
--if [ $STATUS -ne 0 ]; then
--# If tunctl -g fails, try using tunctl -u, for older host kernels=20
--# which do not support the TUNSETGROUP ioctl
--	TAP=3D`$TUNCTL -b $USERID 2>&1`
-+if [ -z $TAP ]; then
-+	TUNCTL=3D$STAGING_BINDIR_NATIVE/tunctl
-+	if [ ! -x "$TUNCTL" ]; then
-+		echo "Error: Unable to find tunctl binary in '$STAGING_BINDIR_NATIVE', p=
-lease bitbake qemu-helper-native"
-+		exit 1
-+	fi
-+
-+	TAP=3D`$TUNCTL -b $GROUP 2>&1`
- 	STATUS=3D$?
- 	if [ $STATUS -ne 0 ]; then
--		echo "tunctl failed:"
--		exit 1
-+	# If tunctl -g fails, try using tunctl -u, for older host kernels
-+	# which do not support the TUNSETGROUP ioctl
-+		TAP=3D`$TUNCTL -b $USERID 2>&1`
-+		STATUS=3D$?
-+		if [ $STATUS -ne 0 ]; then
-+			echo "tunctl failed:"
-+			exit 1
-+		fi
- 	fi
- fi
-=20
---=20
-2.34.1
+I just wanted to give you a hint as to why the tests did not build on
+the autobuilder: 64-bit time was enabled.  You probably don't have that
+locally, and for now the code will have to build and run for both 32 and
+64 bit targets both with and without 64 bit time enabled.
 
+The v4 patch does not seem to have any fixes for 64 bit time, am I
+missing something?
+
+/Ola
+
+On Fri, Jun 09 2023, Tingting Qiu (Fujitsu) wrote:
+
+> Hi, Ola
+>
+>> -----Original Message-----
+>> From: Ola x Nilsson <ola.x.nilsson@axis.com>
+>> Sent: Friday, June 9, 2023 3:59 PM
+>> To: alexandre.belloni@bootlin.com
+>> Cc: Qiu, Tingting/=E4=BB=87 =E5=A9=B7=E5=A9=B7 <qiutt@fujitsu.com>; Alex=
+andre Belloni via
+>> lists.openembedded.org
+>> <alexandre.belloni=3Dbootlin.com@lists.openembedded.org>;
+>> openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH V3] kbd: Add ptest support
+>>=20
+>>=20
+>> I sent in a patch (which was merged) to disable these tests as they do n=
+ot build
+>> with
+>> -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64.
+> I guess your patch is "kbd: Don't build tests".
+> Because of building fail, do not support ptest of kbd.
+> Why do not do a little change for supporting ptest?
+> Could you look at the following patch?
+> https://lists.openembedded.org/g/openembedded-core/topic/patch_v4_kbd_add=
+_ptest/99258821
+>
+> Best,
+> Qiu Tingting
+>>=20
+>> /Ola
+>>=20
+>> On Wed, May 31 2023, Alexandre Belloni via lists.openembedded.org wrote:
+>>=20
+>> > Hello,
+>> >
+>> >
+>> > This still fails to build:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/607
+>> > 1/steps/12/logs/errors
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/607
+>> > 9/steps/11/logs/errors
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/7219
+>> > /steps/11/logs/errors
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/615
+>> > 1/steps/11/logs/errors
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/7244
+>> > /steps/11/logs/errors
+>> >
+>> >
+>> > | make[1]: Entering directory
+>> '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8
+>> hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build/tests/libtswrap'
+>> > | /bin/bash ../../libtool --tag=3DCC --mode=3Dcompile
+>> > arm-poky-linux-gnueabi-gcc -mfpu=3Dneon -mfloat-abi=3Dhard
+>> -mcpu=3Dcortex-a8
+>> > -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -Wformat
+>> > -Wformat-security -Werror=3Dformat-security -D_TIME_BITS=3D64
+>> > -D_FILE_OFFSET_BITS=3D64
+>> >
+>> --sysroot=3D/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/wor
+>> k
+>> > /cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot
+>> > -DHAVE_CONFIG_H -I. -I../../../kbd-2.5.1/tests/libtswrap -I../..
+>> > -I../../../kbd-2.5.1/tests/libtswrap -I.  -g -O0 -O2
+>> > -D_FORTIFY_SOURCE=3D2 -O2 -pipe -g -feliminate-unused-debug-types
+>> > -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D -Waggregate-return -Wall -Wcast-align -Wconversion
+>> > -Wdisabled-optimization -Wextra -Wmissing-declarations
+>> > -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes
+>> > -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes
+>> > -Wwrite-strings -c -o ioctl.lo
+>> > ../../../kbd-2.5.1/tests/libtswrap/ioctl.c
+>> > | libtool: compile: arm-poky-linux-gnueabi-gcc -mfpu=3Dneon
+>> > -mfloat-abi=3Dhard -mcpu=3Dcortex-a8 -fstack-protector-strong -O2
+>> > -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security
+>> -Werror=3Dformat-security
+>> > -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64
+>> >
+>> --sysroot=3D/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/wor
+>> k
+>> > /cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot
+>> > -DHAVE_CONFIG_H -I. -I../../../kbd-2.5.1/tests/libtswrap
+>> > -I../.. -I../../../kbd-2.5.1/tests/libtswrap -I. -g -O0 -O2
+>> > -D_FORTIFY_SOURCE=3D2 -O2 -pipe -g -feliminate-unused-debug-types
+>> > -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D -Waggregate-return -Wall -Wcast-align -Wconversion
+>> > -Wdisabled-optimization -Wextra -Wmissing-declarations
+>> > -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes
+>> > -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes
+>> > -Wwrite-strings -c ../../../kbd-2.5.1/tests/libtswrap/ioctl.c -fPIC
+>> > -DPIC -o .libs/ioctl.o
+>> > | ../../../kbd-2.5.1/tests/libtswrap/ioctl.c: In function 'print_kbsen=
+try':
+>> > | ../../../kbd-2.5.1/tests/libtswrap/ioctl.c:257:55: warning: format '=
+%ld'
+>> expects argument of type 'long int', but argument 3 has type 'size_t' {a=
+ka
+>> 'unsigned int'} [-Wformat=3D]
+>> > |   257 |         dprintf(outfd, "\t\tunsigned char kb_string[%ld] =3D=
+ {\n",
+>> sz);
+>> > |       |                                                     ~~^
+>> ~~
+>> > |       |                                                       |
+>> |
+>> > |       |                                                       long i=
+nt
+>> size_t {aka unsigned int}
+>> > |       |                                                     %d
+>> > | /bin/bash ../../libtool --tag=3DCC --mode=3Dlink
+>> > arm-poky-linux-gnueabi-gcc -mfpu=3Dneon -mfloat-abi=3Dhard
+>> -mcpu=3Dcortex-a8
+>> > -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -Wformat
+>> > -Wformat-security -Werror=3Dformat-security -D_TIME_BITS=3D64
+>> > -D_FILE_OFFSET_BITS=3D64
+>> >
+>> --sysroot=3D/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/wor
+>> k
+>> > /cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot
+>> > -g -O0 -O2 -D_FORTIFY_SOURCE=3D2 -O2 -pipe -g
+>> > -feliminate-unused-debug-types -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D -Waggregate-return -Wall -Wcast-align -Wconversion
+>> > -Wdisabled-optimization -Wextra -Wmissing-declarations
+>> > -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes
+>> > -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes
+>> > -Wwrite-strings -export-symbols-regex ^ioctl -version-info 1:0:0
+>> > -rpath /nowhere -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
+>> > -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D -Wl,-z,relro,-z,now -o libtswrap.la ioctl.lo -ldl
+>> > | libtool: link: arm-poky-linux-gnueabi-gcc-nm .libs/ioctl.o | sed -n
+>> > -e 's/^.*[ ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[ ][
+>> > ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' | sed
+>> > 's/.* //' | sort | uniq > .libs/libtswrap.exp
+>> > | libtool: link:
+>> /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/hosttools/grep
+>> -E -e "^ioctl" ".libs/libtswrap.exp" > ".libs/libtswrap.expT"
+>> > | libtool: link: mv -f ".libs/libtswrap.expT" ".libs/libtswrap.exp"
+>> > | libtool: link: echo "{ global:" > .libs/libtswrap.ver
+>> > | libtool: link:  cat .libs/libtswrap.exp | sed -e "s/\(.*\)/\1;/" >>
+>> > | .libs/libtswrap.ver
+>> > | libtool: link:  echo "local: *; };" >> .libs/libtswrap.ver
+>> > | libtool: link: arm-poky-linux-gnueabi-gcc -mfpu=3Dneon
+>> > -mfloat-abi=3Dhard -mcpu=3Dcortex-a8 -fstack-protector-strong -O2
+>> > -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security
+>> -Werror=3Dformat-security
+>> > -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64
+>> >
+>> --sysroot=3D/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/wor
+>> k
+>> > /cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot
+>> > -shared -fPIC -DPIC .libs/ioctl.o -ldl -mfpu=3Dneon -mfloat-abi=3Dhard
+>> > -mcpu=3Dcortex-a8 -fstack-protector-strong -O2
+>> >
+>> --sysroot=3D/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/wor
+>> k
+>> > /cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot
+>> > -g -O0 -O2 -O2 -g -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D
+>> > -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -fcanon-prefix-map
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/kbd-2.5.1=3D/u
+>> > sr/src/debug/kbd/2.5.1-r0
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build=3D/usr/s
+>> > rc/debug/kbd/2.5.1-r0
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot=3D
+>> >
+>> -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/beaglebone/build/buil
+>> d
+>> >
+>> /tmp/work/cortexa8hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysro
+>> > ot-native=3D -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-soname
+>> > -Wl,libtswrap.so.1 -Wl,-version-script -Wl,.libs/libtswrap.ver -o
+>> > .libs/libtswrap.so.1.0.0
+>> > |
+>> >
+>> /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8
+>> hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/recipe-sysroot-native/usr/bin/ar
+>> m-poky-linux-gnueabi/../../libexec/arm-poky-linux-gnueabi/gcc/arm-poky-li
+>> nux-gnueabi/13.1.1/ld:.libs/libtswrap.ver:2:
+>> > syntax error in VERSION script
+>> > | collect2: error: ld returned 1 exit status
+>> > | make[1]: Leaving directory
+>> '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8
+>> hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build/tests/libtswrap'
+>> > | make[1]: *** [Makefile:390: libtswrap.la] Error 1
+>> > | make: *** [Makefile:421: all-recursive] Error 1
+>> > | make: Leaving directory
+>> '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8
+>> hf-neon-poky-linux-gnueabi/kbd/2.5.1-r0/build/tests'
+>> > | ERROR: oe_runmake failed
+>> >
+>> > On 30/05/2023 15:05:18+0800, qiutt@fujitsu.com wrote:
+>> >> From: Qiu Tingting <qiutt@fujitsu.com>
+>> >>
+>> >> Add a ptest for kbd
+>> >> - It is taking around 1s to execute with kvm, so added it to
+>> >> PTESTS_FAST
+>> >> - It contains libkeymap unit tests(27 cases) and libkbdfile unit
+>> >> tests(13 cases)
+>> >>
+>> >> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+>> >> ---
+>> >>  .../distro/include/ptest-packagelists.inc     |  1 +
+>> >>  meta/recipes-core/kbd/files/run-ptest         | 11 +++
+>> >>  meta/recipes-core/kbd/kbd_2.5.1.bb            | 71
+>> ++++++++++++++++++-
+>> >>  3 files changed, 82 insertions(+), 1 deletion(-)  create mode 100644
+>> >> meta/recipes-core/kbd/files/run-ptest
+>> >>
+>> >> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+>> >> b/meta/conf/distro/include/ptest-packagelists.inc
+>> >> index faa9bd6983..366c048cc8 100644
+>> >> --- a/meta/conf/distro/include/ptest-packagelists.inc
+>> >> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+>> >> @@ -26,6 +26,7 @@ PTESTS_FAST =3D "\
+>> >>      gzip \
+>> >>      json-c \
+>> >>      json-glib \
+>> >> +    kbd \
+>> >>      libconvert-asn1-perl \
+>> >>      liberror-perl \
+>> >>      libgpg-error\
+>> >> diff --git a/meta/recipes-core/kbd/files/run-ptest
+>> >> b/meta/recipes-core/kbd/files/run-ptest
+>> >> new file mode 100644
+>> >> index 0000000000..3b154c4d73
+>> >> --- /dev/null
+>> >> +++ b/meta/recipes-core/kbd/files/run-ptest
+>> >> @@ -0,0 +1,11 @@
+>> >> +#!/bin/sh
+>> >> +
+>> >> +# Define test work dir
+>> >> +WORKDIR=3D@PTEST_PATH@/tests/
+>> >> +
+>> >> +# Run test
+>> >> +cd ${WORKDIR}
+>> >> +
+>> >> +./testsuite -k unittest | sed -e '/[0-9]:/s/://' \
+>> >> +    -e '/ ok/s/^/PASS: /;/ FAILED/s/^/FAIL: /;/ skipped/s/^/SKIP: /'=
+ \
+>> >> +    -e '/ ok/s/ ok.*//;/ skipped/s/ skipped.*//;/ FAILED/s/ FAILED.*=
+//'
+>> >> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >> b/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >> index 7662b8f685..ba7236f67c 100644
+>> >> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+>> >> @@ -5,7 +5,7 @@ DESCRIPTION =3D "The kbd project contains tools for
+>> >> managing Linux console (Linux  LICENSE =3D "GPL-2.0-or-later"
+>> >>  LIC_FILES_CHKSUM =3D
+>> "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263"
+>> >>
+>> >> -inherit autotools gettext pkgconfig
+>> >> +inherit autotools gettext pkgconfig ptest
+>> >>
+>> >>  DEPENDS +=3D "flex-native"
+>> >>
+>> >> @@ -14,6 +14,7 @@ RPROVIDES:${PN} =3D "console-tools"
+>> >>  RCONFLICTS:${PN} =3D "console-tools"
+>> >>
+>> >>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz
+>> \
+>> >> +           file://run-ptest \
+>> >>             "
+>> >>
+>> >>  SRC_URI[sha256sum] =3D
+>> "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+>> >> @@ -45,3 +46,71 @@ ALTERNATIVE:${PN} =3D "chvt deallocvt fgconsole
+>> >> openvt showkey \  ALTERNATIVE_PRIORITY =3D "100"
+>> >>
+>> >>  BBCLASSEXTEND =3D "native"
+>> >> +
+>> >> +do_compile_ptest() {
+>> >> +    # update DATADIR in Makefile
+>> >> +    sed -i
+>> 's,-DDATADIR=3D.*,-DDATADIR=3D\\\"${PTEST_PATH}/tests\\\" \\,g'
+>> ${B}/tests/libkeymap/Makefile
+>> >> +    sed -i
+>> 's,-DDATADIR=3D.*,-DDATADIR=3D\\\"${PTEST_PATH}/tests\\\" \\,g'
+>> ${B}/tests/helpers/Makefile
+>> >> +    sed -i
+>> 's,-DDATADIR=3D.*,-DDATADIR=3D\\\"${PTEST_PATH}/tests\\\"
+>> >> +\\,g' ${B}/tests/libkbdfile/Makefile
+>> >> +
+>> >> +    # recompile tests
+>> >> +    oe_runmake -C ${B}/tests/ clean
+>> >> +    oe_runmake -C ${B}/tests/
+>> >> +}
+>> >> +
+>> >> +do_install_ptest() {
+>> >> +    # install files from build directory
+>> >> +    install -d ${D}${PTEST_PATH}/tests/
+>> >> +    install --mode=3D755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
+>> >> +    install --mode=3D755 ${B}/tests/testsuite
+>> ${D}${PTEST_PATH}/tests/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/libkeymap/
+>> >> +    find ${B}/tests/libkeymap/ -type f -not -name "*.o" -not -name
+>> "Makefile" \
+>> >> +        -exec install --mode=3D755 {}
+>> ${D}${PTEST_PATH}/tests/libkeymap/ \;
+>> >> +    install -d ${D}${PTEST_PATH}/tests/helpers/
+>> >> +    find ${B}/tests/helpers/ -type f -not -name "*.o" -not -name
+>> "Makefile" \
+>> >> +        -exec install --mode=3D755 {}
+>> ${D}${PTEST_PATH}/tests/helpers/ \;
+>> >> +    install -d ${D}${PTEST_PATH}/tests/libkbdfile/
+>> >> +    find ${B}/tests/libkbdfile/ -type f -not -name "*.o" -not -name
+>> "Makefile" \
+>> >> +        -exec install --mode=3D755 {}
+>> ${D}${PTEST_PATH}/tests/libkbdfile/ \;
+>> >> +    install -d ${D}${PTEST_PATH}/src/
+>> >> +    install --mode=3D755 ${B}/src/loadkeys ${D}${PTEST_PATH}/src/
+>> >> +
+>> >> +    # install files from src/data directory
+>> >> +    install -d ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
+>> >> +    install ${S}/data/keymaps/i386/qwerty/defkeymap.map
+>> >> + ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
+>> >> +
+>> >> +    # install files from src/tests/data directory
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/libkeymap/
+>> >> +    install ${S}/tests/data/libkeymap/*
+>> ${D}${PTEST_PATH}/tests/data/libkeymap/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/alt-is-meta/
+>> >> +    install ${S}/tests/data/alt-is-meta/*
+>> ${D}${PTEST_PATH}/tests/data/alt-is-meta/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
+>> >> +    install ${S}/tests/data/bkeymap-2.0.4/*
+>> ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
+>> >> +    install ${S}/tests/data/dumpkeys-mktable/*
+>> ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
+>> >> +    install ${S}/tests/data/dumpkeys-fulltable/*
+>> ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
+>> >> +    install -d
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
+>> >> +    install ${S}/tests/data/findfile/test_1/consolefonts/*
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
+>> >> +    install -d
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
+>> >> +    install ${S}/tests/data/findfile/test_0/keymaps/test0.map
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/
+>> >> +    install ${S}/tests/data/findfile/test_0/keymaps/include/*
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
+>> >> +    install -d
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
+>> >> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/include/*
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
+>> >> +    install -d
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
+>> >> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwerty/*
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
+>> >> +    install -d
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
+>> >> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwertz/*
+>> ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
+>> >> +    install ${S}/tests/data/keymaps/i386/qwerty/*
+>> ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
+>> >> +    install ${S}/tests/data/keymaps/i386/include/*
+>> ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
+>> >> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/include/
+>> >> +    install ${S}/tests/data/keymaps/include/*
+>> >> + ${D}${PTEST_PATH}/tests/data/keymaps/include/
+>> >> +
+>> >> +
+>> >> +    # update PTEST_PATH in run-ptest and atconfig
+>> >> +    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g"
+>> ${D}${PTEST_PATH}/run-ptest
+>> >> +    sed -i -e 's,${B},${PTEST_PATH},g' -e 's,/\.\./kbd-2.5.1,,g'
+>> >> +${D}${PTEST_PATH}/tests/atconfig }
+>> >> --
+>> >> 2.25.1
 
