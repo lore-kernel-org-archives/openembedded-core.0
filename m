@@ -2,279 +2,267 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9029BC7EE29
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 15:54:39 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web10.17033.1686326075098273150
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 217C7C7EE2E
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:06 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.149.1686329644746744163
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 08:54:35 -0700
+ Fri, 09 Jun 2023 09:54:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=EiaeS1Jj;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.50, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51493ec65d8so3399841a12.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 08:54:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=umIYOt/9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-65311774e52so1587931b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686326073; x=1688918073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IIVB8xPG4ts55sNAYXSmPv3OwHAVi3AGGO8jR8AHtgU=;
-        b=EiaeS1JjZT/KZZTUFG5H0XIpIqSJsQg+lhWHEkOEXxGr49ReAcUlH5qRddYsfBRgtx
-         5XlBeNrXtaIZCs8WNw+Rs8xIyxluqY6iBPoZIcttwc8O/KO2sUBo2DAZAryYNHHemPkE
-         uIK/hrGUbizLQyA0fXtBynQEQpvkTJ6aCrA8JMl0PP6Jyj0Rqu0PaqvEnTt90lnrIgFb
-         mWs2nzezRmLJ5Xo1iRJwGq76nIMmSh84KLvo23Y8eY4XPSdWiGrYt13wV8vYTErXCH7O
-         6N/9jNqEmzbH4q0Zq8wz/QRS5rGml8JuVi717MH97TQVJUn4mfX4yMeD1o/SvR9yBO+Z
-         Dypw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329644; x=1688921644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3+/R4NYtB/fUowLkpkDYYbAdZConBatLz5y0tsiwGA=;
+        b=umIYOt/9j9YDs0nMBU7CX7InrqdZX+M2vufNnUPFpO26hxfEUMADMBiW+RADe5aMQ1
+         mYz8n9yFbssewqxYfV69SEC7IYsySN45XVqNCUj2ZUkDAW1FKFAyLlok8pBEW4BzCZeN
+         PpK2JJxdlODV00BwzZbPkaNrMqaxJG0Zzgam5tehGoamQJddArplqtdf8JvsxZKtYHZo
+         +eLkFjuAO4LQhUpahcbwCi1cR8vHGnNG6Gywhk9tncDGh9ztOgHBJNL95Pg30KVJDnzy
+         gGURV7erYLnu8l9p1xBqZ39bkK66P4QO1cRqI3GpnLJ4Nf6OCyGRbzX6uiD6zbMLIXtI
+         iZ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686326073; x=1688918073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IIVB8xPG4ts55sNAYXSmPv3OwHAVi3AGGO8jR8AHtgU=;
-        b=MlmhyB5TpUh4Xy3MPqZrXqyPPol4TtgjnFooiXeQr56NVrhYvjavbJK+P0LUrxgl0m
-         oKz0iqJvDkrn/cqVoUd+DtE6KN8W3urSeK7ft7M29zGKhe9bBhGdr9Y2KnmRFfYigktv
-         o7BSj/rT7/SiPH0mH9WDt8w3vjinQvQHWhVSF8G0AFi+YjFJDvJvcUx2iU4YFGbBp3lM
-         eEXn1fvEEQVfiCFIm0VNDL8I+sxTftytb6n3NVft9LSxeqFLpDWnK2JeYNzqpxNS5t0W
-         GJ/6oZScTRdgPjirdfCVBR69syjBuOMlFoebHO+b0sHXBWwSO4nYZmMqWWE0ZNuJSP8s
-         Hmfw==
-X-Gm-Message-State: AC+VfDwSxXk2ayDDr2Fnaq0ANdeRVajIuvAshndKYMyN2m1NvZUrBmjV
-	4cp0cT0IzY53BxHmQf/jr+QQTzUloijjJ8xttTQUmZXjGCjAov9zhOs=
-X-Google-Smtp-Source: ACHHUZ4FxwmDY9pwLCLXxkbQ9mVkOvQQktMxCPnBGiUGQAszFe84Ccnh8ZLtNp4CLHbJmqk8zqHB7ogZmf76QdVEDZA=
-X-Received: by 2002:a17:907:6ea4:b0:96a:8c13:8dc0 with SMTP id
- sh36-20020a1709076ea400b0096a8c138dc0mr2584617ejc.37.1686326073220; Fri, 09
- Jun 2023 08:54:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230609140908.3465521-1-yogita.urade@windriver.com> <20230609140908.3465521-4-yogita.urade@windriver.com>
-In-Reply-To: <20230609140908.3465521-4-yogita.urade@windriver.com>
+        d=1e100.net; s=20221208; t=1686329644; x=1688921644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3+/R4NYtB/fUowLkpkDYYbAdZConBatLz5y0tsiwGA=;
+        b=OGIjFW0lfszpgUMiNi/D2Q1rJuDct25Qc3bVeqnsgQm5lKSGXcloHSOqAG2OsEHCCM
+         Vt9FIkmpSB8/PHCc5gNlUSWt65S8ot75cNT8TLjKy80+S59fwSOpR1YgFqEn5igBsWW6
+         6/jtOJtO/gmfM0MtgzZfOlImyi3MEKoslYQNunH9vDOevbU5aY5IyH4nbK3lNr1bbAp2
+         7/ieeeMS3W7oMqugg24gFgLOAsMD6aNJRBy8TFDoVHGY5Bb+LSxIOHyAirxlziMqXBF9
+         5U2jHkc2D6PuEBUmY6w4N3ysPRlZ1tyt6nxxAHSE81g2RU/6Ud31IFBywrH/uZxZpjbR
+         nEPQ==
+X-Gm-Message-State: AC+VfDzba9mBmqKclbDCH9ZnSRl9gFyXaxw6nhPDLXGd5NdXZsDoafgH
+	qWjl3EDSn/bdU3tkwp27VOZ6bI1o7gtwhX9DDuA=
+X-Google-Smtp-Source: ACHHUZ5V+tz5YpCqQtDxdtLtQt6Sl1TbIHlKuJIj3KHCMaiiyUGXiMQP9470Zs1t48RGtwvXiqQJEA==
+X-Received: by 2002:a05:6a00:23ca:b0:64d:5f9c:7b75 with SMTP id g10-20020a056a0023ca00b0064d5f9c7b75mr1874256pfc.16.1686329643382;
+        Fri, 09 Jun 2023 09:54:03 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 09:54:02 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 9 Jun 2023 05:54:22 -1000
-Message-ID: <CAOSpxdaLG9VS=boPjQB18WtGO8gP6irY9KHA=wM+4tdXMTqx0A@mail.gmail.com>
-Subject: Re: [oe-core][kirkstone][PATCH V2 4/6] webkitgtk: fix CVE-2022-42856
-To: Yogita.Urade@windriver.com
-Cc: openembedded-core@lists.openembedded.org, hari.gpillai@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 00/30] Patch review
+Date: Fri,  9 Jun 2023 06:53:27 -1000
+Message-Id: <cover.1686329289.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 15:54:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182565
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182566
 
-On Fri, Jun 9, 2023 at 4:09=E2=80=AFAM Urade, Yogita via
-lists.openembedded.org
-<Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> A type confusion issue was addressed with improved state handling.
-> This issue is fixed in Safari 16.2, tvOS 16.2, macOS Ventura 13.1,
-> iOS 15.7.2 and iPadOS 15.7.2, iOS 16.1.2. Processing maliciously
-> crafted web content may lead to arbitrary code execution. Apple is
-> aware of a report that this issue may have been actively exploited
-> against versions of iOS released before iOS 15.1.
->
-> References:
-> https://support.apple.com/en-us/HT213531
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ---
->  .../webkit/webkitgtk/CVE-2022-42856.patch     | 110 ++++++++++++++++++
->  meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
->  2 files changed, 111 insertions(+)
->  create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-42856.pat=
-ch
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-42856.patch b/me=
-ta/recipes-sato/webkit/webkitgtk/CVE-2022-42856.patch
-> new file mode 100644
-> index 0000000000..97d58c955a
-> --- /dev/null
-> +++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-42856.patch
-> @@ -0,0 +1,110 @@
-> +From 71cdc1c09ef199db74b2b60ed5de781250d96a56 Mon Sep 17 00:00:00 2001
-> +From: Mark Lam <mark.lam@apple.com>
-> +Date: Wed, 23 Nov 2022 13:48:49 -0800
-> +Subject: [PATCH] The provenType filtering in FTL's speculateRealNumber i=
-s
-> + incorrect. https://bugs.webkit.org/show_bug.cgi?id=3D248266
-> + <rdar://problem/102531234>
-> +
-> +Reviewed by Justin Michaud.
-> +
-> +speculateRealNumber does a doubleEqual compare, which filters out double=
- values which
-> +are not NaN.  NaN values will fall through to the `intCase` block.  In t=
-he `intCase` block,
-> +the isNotInt32() check there was given a proven type that wrongly filter=
-s out ~SpecFullDouble.
-> +
-> +Consider a scenario where the edge was proven to be { SpecInt32Only, Spe=
-cDoubleReal,
-> +SpecDoublePureNaN }.  SpecFullDouble is defined as SpecDoubleReal | Spec=
-DoubleNaN, and
-> +SpecDoubleNaN is defined as SpecDoublePureNaN | SpecDoubleImpureNaN.  He=
-nce, the filtering
-> +of the proven type with ~SpecFullDouble means that isNotInt32() will eff=
-ectively be given
-> +a proven type of
-> +
-> +    { SpecInt32Only, SpecDoubleReal, SpecDoublePureNaN } - { SpecDoubleR=
-eal, SpecDoublePureNaN }
-> +
-> +which yields
-> +
-> +    { SpecInt32Only }.
-> +
-> +As a result, the compiler will think that that isNotIn32() check will al=
-ways fail.  This
-> +is not correct if the actual incoming value for that edge is actually a =
-PureNaN.  In this
-> +case, speculateRealNumber should have OSR exited, but it doesn't because=
- it thinks that
-> +the isNotInt32() check will always fail and elide the check altogether.
-> +
-> +In this patch, we fix this by replacing the ~SpecFullDouble with ~SpecDo=
-ubleReal.  We also
-> +rename the `intCase` block to `intOrNaNCase` to document what it actuall=
-y handles.
-> +
-> +* JSTests/stress/speculate-real-number-in-object-is.js: Added.
-> +(test.object_is_opt):
-> +(test):
-> +* Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp:
-> +(JSC::FTL::DFG::LowerDFGToB3::compileCompareStrictEq):
-> +
-> +Canonical link: https://commits.webkit.org/252432.839@safari-7614-branch
-> +
-> +CVE: CVE-2022-42856
-> +
-> +Upstream-Status: Backport
-> +[https://github.com/WebKit/WebKit/commit/71cdc1c09ef199db74b2b60ed5de781=
-250d96a56]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + .../speculate-real-number-in-object-is.js     | 22 +++++++++++++++++++
-> + Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp |  8 +++----
-> + 2 files changed, 26 insertions(+), 4 deletions(-)
-> + create mode 100644 JSTests/stress/speculate-real-number-in-object-is.js
-> +
-> +diff --git a/JSTests/stress/speculate-real-number-in-object-is.js b/JSTe=
-sts/stress/speculate-real-number-in-object-is.js
-> +new file mode 100644
-> +index 000000000000..0b10799954da
-> +--- /dev/null
-> ++++ b/JSTests/stress/speculate-real-number-in-object-is.js
-> +@@ -0,0 +1,22 @@
-> ++function test() {
-> ++    function object_is_opt(value) {
-> ++        const tmp =3D {p0: value};
-> ++
-> ++        if (Object.is(value, NaN))
-> ++            return 0;
-> ++
-> ++        return value;
-> ++    }
-> ++
-> ++    object_is_opt(NaN);
-> ++
-> ++    for (let i =3D 0; i < 0x20000; i++)
-> ++        object_is_opt(1.1);
-> ++
-> ++    return isNaN(object_is_opt(NaN));
-> ++}
-> ++
-> ++resultIsNaN =3D test();
-> ++if (resultIsNaN)
-> ++    throw "FAILED";
-> ++
-> +diff --git a/Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp b/Source/Java=
-ScriptCore/ftl/FTLLowerDFGToB3.cpp
-> +index 8621b554d578..588298eba350 100644
-> +--- a/Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp
-> ++++ b/Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp
-> +@@ -20285,18 +20285,18 @@ IGNORE_CLANG_WARNINGS_END
-> +         LValue value =3D lowJSValue(edge, ManualOperandSpeculation);
-> +         LValue doubleValue =3D unboxDouble(value);
-> +
-> +-        LBasicBlock intCase =3D m_out.newBlock();
-> ++        LBasicBlock intOrNaNCase =3D m_out.newBlock();
-> +         LBasicBlock continuation =3D m_out.newBlock();
-> +
-> +         m_out.branch(
-> +             m_out.doubleEqual(doubleValue, doubleValue),
-> +-            usually(continuation), rarely(intCase));
-> ++            usually(continuation), rarely(intOrNaNCase));
-> +
-> +-        LBasicBlock lastNext =3D m_out.appendTo(intCase, continuation);
-> ++        LBasicBlock lastNext =3D m_out.appendTo(intOrNaNCase, continuat=
-ion);
-> +
-> +         typeCheck(
-> +             jsValueValue(value), m_node->child1(), SpecBytecodeRealNumb=
-er,
-> +-            isNotInt32(value, provenType(m_node->child1()) & ~SpecFullD=
-ouble));
-> ++            isNotInt32(value, provenType(m_node->child1()) & ~SpecDoubl=
-eReal));
-> +         m_out.jump(continuation);
-> +
-> +         m_out.appendTo(continuation, lastNext);
-> +--
-> +2.35.5
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-=
-sato/webkit/webkitgtk_2.36.8.bb
-> index 062f209932..cf1b8b2cc0 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-> @@ -20,6 +20,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BP}.t=
-ar.xz \
->             file://CVE-2022-46691.patch \
->             file://CVE-2022-46699.patch \
->             file://CVE-2022-42867.patch \
-> +           file://CVE-2022-42856.patch \
+Please review this set of changes for mickledore and have comments back by
+end of day Tuesday.
 
-The patch fails to apply at build time:
+Passed a-full on autobuilder:
 
-ERROR: webkitgtk-2.36.8-r0 do_patch: Applying patch
-'CVE-2022-42856.patch' on target directory
-'/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-lin=
-ux/webkitgtk/2.36.8-r0/webkitgtk-2.36.8'
-CmdError('quilt --quiltrc
-/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-linu=
-x/webkitgtk/2.36.8-r0/recipe-sysroot-native/etc/quiltrc
-push', 0, 'stdout: Applying patch CVE-2022-42856.patch
-patching file JSTests/stress/speculate-real-number-in-object-is.js
-patching file Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp
-Hunk #1 FAILED at 20285.
-1 out of 1 hunk FAILED -- rejects in file
-Source/JavaScriptCore/ftl/FTLLowerDFGToB3.cpp
-Patch CVE-2022-42856.patch does not apply (enforce with -f)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5432
 
-stderr: ')
-ERROR: Logfile of failure stored in:
-/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/core2-64-poky-linu=
-x/webkitgtk/2.36.8-r0/temp/log.do_patch.313789
-ERROR: Task (/home/steve/builds/poky-contrib-kirkstone/meta/recipes-sato/we=
-bkit/webkitgtk_2.36.8.bb:do_patch)
-failed with exit code '1'
+with the exception of oe-selftest-fedora:
 
-Steve
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5301
 
->             "
->  SRC_URI[sha256sum] =3D "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136=
-edbab2c133d00437"
->
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182554): https://lists.openembedded.org/g/openembedde=
-d-core/message/182554
-> Mute This Topic: https://lists.openembedded.org/mt/99429024/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+which failed due to a transient outage at gitlab:
+
+Could not list remote: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; git -c gc.autoDetach=false -c core.pager=cat ls-remote https://gitlab.gnome.org/GNOME/sysprof.git refs/tags/* failed with exit code 128, output:
+remote: GitLab is not responding
+fatal: unable to access 'https://gitlab.gnome.org/GNOME/sysprof.git/': The requested URL returned error: 502
+
+Subsequent retest of oe-selftest-fedora passed:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5306
+
+The following changes since commit fb1de20b22119fd62b338ab69cd2b6a6c4e9dd8f:
+
+  qemurunner: avoid leaking server_socket (2023-06-01 06:33:14 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+
+Alexander Kanavin (1):
+  rpm: update 4.18.0 -> 4.18.1
+
+Bruce Ashfield (2):
+  kernel: don't force PAHOLE=false
+  linux-yocto: move build / debug dependencies to .inc
+
+Chen Qi (1):
+  staging.bbclass: do not add extend_recipe_sysroot to prefuncs of
+    prepare_recipe_sysroot
+
+Deepthi Hemraj (1):
+  binutils: stable 2.40 branch updates
+
+Denys Dmytriyenko (1):
+  xz: upgrade 5.4.2 -> 5.4.3
+
+Eero Aaltonen (1):
+  avahi: fix D-Bus introspection
+
+Khem Raj (2):
+  go: Upgrade 1.20.1 -> 1.20.4
+  go: Use -no-pie to build target cgo
+
+Lorenzo Arena (1):
+  conf: add nice level to the hash config ignred variables
+
+Martin Jansa (4):
+  binutils: package static libs from gprofng
+  go.bbclass: don't use test to check output from ls
+  image-live.bbclass: respect IMAGE_MACHINE_SUFFIX
+  rpm: drop unused
+    0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch
+
+Michael Halstead (2):
+  uninative: Upgrade to 3.10 to support gcc 13
+  uninative: Upgrade to 4.0 to include latest gcc 13.1.1
+
+Pavel Zhukov (1):
+  lib/terminal.py: Add urxvt terminal
+
+Peter Kjellerstedt (2):
+  musl: Correct SRC_URI
+  xf86-video-intel: Use the HTTPS protocol to fetch the Git repositories
+
+Qiu Tingting (1):
+  e2fsprogs: Fix error SRCDIR when using usrmerge DISTRO_FEATURES
+
+Randy MacLeod (1):
+  vim: upgrade 9.0.1429 -> 9.0.1527
+
+Ranjitsinh Rathod (1):
+  kmscube: Correct DEPENDS to avoid overwrite
+
+Richard Purdie (1):
+  selftest/reproducible: Allow native/cross reuse in test
+
+Ross Burton (1):
+  meta: depend on autoconf-archive-native, not autoconf-archive
+
+Sudip Mukherjee (1):
+  libxi: upgrade to v1.8.1
+
+Thomas Roos (2):
+  oeqa/selftest/cases/devtool.py: skip all tests require folder a git
+    repo
+  oeqa: adding selftest-hello and use it to speed up tests
+
+Tom Hochstein (1):
+  piglit: Add missing glslang dependencies
+
+Wang Mingyu (1):
+  iso-codes: upgrade 4.13.0 -> 4.15.0
+
+Xiangyu Chen (1):
+  sysstat: Fix CVE-2023-33204
+
+ .../selftest-hello/files/helloworld.c         |   8 +
+ .../selftest-hello/selftest-hello_1.0.bb      |  19 ++
+ meta/classes-global/staging.bbclass           |   2 +-
+ meta/classes-recipe/go.bbclass                |   2 +-
+ meta/classes-recipe/image-live.bbclass        |   2 +-
+ meta/classes-recipe/kernel.bbclass            |   2 +-
+ meta/conf/bitbake.conf                        |   2 +-
+ meta/conf/distro/include/yocto-uninative.inc  |   8 +-
+ meta/lib/oe/terminal.py                       |   4 +
+ meta/lib/oeqa/selftest/cases/bbtests.py       |  18 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |   8 +
+ meta/lib/oeqa/selftest/cases/reproducible.py  |   4 +-
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   3 +-
+ meta/recipes-connectivity/neard/neard_0.18.bb |   2 +-
+ meta/recipes-core/dbus/dbus_1.14.6.bb         |   2 +-
+ meta/recipes-core/musl/musl_git.bb            |   2 +-
+ .../binutils/binutils-2.40.inc                |   3 +-
+ ...s-crosssdk-Generate-relocatable-SDKs.patch |   2 +-
+ ...o-not-generate-linker-script-directo.patch |   2 +-
+ ...dk-Search-for-alternative-ld.so.conf.patch |   8 +-
+ ...004-Point-scripts-location-to-libdir.patch |   6 +-
+ ...stro-compiler-point-to-the-wrong-ins.patch |   2 +-
+ ...-system-directories-when-cross-linki.patch |   8 +-
+ ...ect-assembling-for-ppc-wait-mnemonic.patch |   2 +-
+ .../binutils/0008-Use-libtool-2.4.patch       | 252 +++++++++---------
+ ...h-in-libtool-when-sysroot-is-enabled.patch |   2 +-
+ .../0010-sync-with-OE-libtool-changes.patch   |   2 +-
+ ...or-clang-before-checking-gcc-version.patch |   6 +-
+ ...-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |   2 +-
+ ...sing-_Alignof-when-using-C11-or-newe.patch |   2 +-
+ ...-dependencies-on-gmp-and-mpfr-when-g.patch |  56 ----
+ .../binutils/binutils_2.40.bb                 |   3 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |   2 +-
+ .../e2fsprogs/e2fsprogs/ptest.patch           |   4 +-
+ .../e2fsprogs/e2fsprogs_1.47.0.bb             |   1 +
+ .../go/{go-1.20.1.inc => go-1.20.4.inc}       |   5 +-
+ ...e_1.20.1.bb => go-binary-native_1.20.4.bb} |   6 +-
+ ..._1.20.1.bb => go-cross-canadian_1.20.4.bb} |   0
+ ...{go-cross_1.20.1.bb => go-cross_1.20.4.bb} |   0
+ ...osssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} |   0
+ ...o-native_1.20.1.bb => go-native_1.20.4.bb} |   0
+ ...runtime_1.20.1.bb => go-runtime_1.20.4.bb} |   0
+ ...ompile-instantiated-generic-methods-.patch |  90 -------
+ .../go/go/CVE-2023-24532.patch                | 208 ---------------
+ .../go/go/CVE-2023-24537.patch                |  89 -------
+ .../go/{go_1.20.1.bb => go_1.20.4.bb}         |   2 +-
+ ...olor-setting-for-mips64_n32-binaries.patch |  26 +-
+ ...lib-rpm-as-the-installation-path-for.patch |  30 +--
+ ...support-for-unused-MD2-and-RIPEMD160.patch |  81 ------
+ ...o-not-build-manpages-requires-pandoc.patch |  23 --
+ meta/recipes-devtools/rpm/files/fifofix.patch |  22 --
+ .../rpm/files/fix-declaration.patch           |  39 +++
+ .../rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb}      |   7 +-
+ .../sysstat/sysstat/CVE-2023-33204.patch      |  46 ++++
+ .../sysstat/sysstat_12.6.2.bb                 |   4 +-
+ meta/recipes-extended/wget/wget.inc           |   2 +-
+ .../xz/{xz_5.4.2.bb => xz_5.4.3.bb}           |   2 +-
+ .../gobject-introspection_1.74.0.bb           |   2 +-
+ meta/recipes-graphics/kmscube/kmscube_git.bb  |   3 +-
+ meta/recipes-graphics/piglit/piglit_git.bb    |   2 +-
+ .../xorg-driver/xf86-video-intel_git.bb       |   3 +-
+ .../recipes-graphics/xorg-lib/libx11_1.8.4.bb |   2 +-
+ .../xorg-lib/{libxi_1.8.bb => libxi_1.8.1.bb} |   4 +-
+ meta/recipes-kernel/linux/linux-yocto.inc     |  10 +-
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   4 -
+ meta/recipes-kernel/powertop/powertop_2.15.bb |   2 +-
+ meta/recipes-support/icu/icu_72-1.bb          |   3 +-
+ ...so-codes_4.13.0.bb => iso-codes_4.15.0.bb} |   2 +-
+ meta/recipes-support/mpfr/mpfr_4.2.0.bb       |   2 +-
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 70 files changed, 365 insertions(+), 813 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/helloworld.c
+ create mode 100644 meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
+ rename meta/recipes-devtools/go/{go-1.20.1.inc => go-1.20.4.inc} (77%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.1.bb => go-binary-native_1.20.4.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.1.bb => go-cross-canadian_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.1.bb => go-cross_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.1.bb => go-native_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.1.bb => go-runtime_1.20.4.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
+ delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24532.patch
+ delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24537.patch
+ rename meta/recipes-devtools/go/{go_1.20.1.bb => go_1.20.4.bb} (92%)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/fifofix.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/fix-declaration.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb} (97%)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+ rename meta/recipes-extended/xz/{xz_5.4.2.bb => xz_5.4.3.bb} (95%)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.8.bb => libxi_1.8.1.bb} (85%)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.13.0.bb => iso-codes_4.15.0.bb} (94%)
+
+-- 
+2.34.1
+
 
