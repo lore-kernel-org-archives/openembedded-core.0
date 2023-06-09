@@ -2,41 +2,41 @@ Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1472FC8300C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 057B4C83003
 	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 14:09:39 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.14326.1686319778469596414
+ by mx.groups.io with SMTP id smtpd.web11.14323.1686319773195900841
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 07:09:38 -0700
+ Fri, 09 Jun 2023 07:09:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=KAqM3WSs;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ANN8MBoB;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5524cb4a3f=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359CfDbg030787
-	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jun 2023 07:09:38 -0700
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359DxcZk004916
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jun 2023 07:09:33 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PPS06212021;
- bh=KDqLrx5qImSU5TL2bHwHhQYcpsyShnKuQFZqaI2wQrI=;
- b=KAqM3WSsa0mk++06KRXt/zUkVrlFn8F+HwNHmtmExiL7kPcNrBUo/NIUkE7kMuz4808R
- +mXWe7XapReSKzh6DEssiY9YJgbT/UcTia68F4v0nJYCK26nwKlNOQ1cCk+/ia/W9P9H
- EaHYa+4pjmLVSZnzd5kyVKNhyc1kRXknEnR0NAEu9CWwBw8mOSmmcmjC63Ibfvs370wt
- iyy+8sUYfZwAOqe+dG4DzlwjaI2O46uYpXqYwW57nFxbosY2j4WZIgqX/tzC+fjZACpl
- HjUcSj2sAUckuK/tx2o3pPtT7ggLX5tmbSSFEHVYZhiIif0zsE+wJwnRNoY65KoDtJg1 4g== 
+ bh=kT5H1+a/m/Pe3ztuSP63Y08srIBWzc68m7ybLESzw00=;
+ b=ANN8MBoB+iAHUf020kvSrz2xzQ8DzLnRINEZiBp5QsenrwtvZND5Houvbwp15Vf9XqCF
+ Nv/KzlZyWScnL5vy4kMJImrztXUsJs9pvT2SXaWdpDq7+ki/NgXf6y/7FI5K/s+NeeCa
+ BrIO8VCDVPhPIK98d0xuKL2NoUdjKOt3NoZA6a+cW3k3KqHOc55bpP3M0rtMOk8R+Qdp
+ 0iYvY8YWYbzR9Fk5HbnNeXL7pLJsCYbsjQ2ErbpZ8j3BwfRGa+Y7J6lEQ8gYZfHbkyYz
+ jH267qE8bP8Guimge6xVdjb9EiKklgQBOZyRX3znNyn1+CjpNP9ZEpsxfKLo8tGp654O og== 
 Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2a80tre5-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2av7aqpk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 07:09:38 -0700
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 07:09:32 -0700
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 9 Jun 2023 07:09:36 -0700
+ 15.1.2507.23; Fri, 9 Jun 2023 07:09:30 -0700
 From: Yogita Urade <yogita.urade@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <hari.gpillai@windriver.com>
-Subject: [oe-core][kirkstone][PATCH V2 5/6] webkitgtk: fix CVE-2023-23517 CVE-2023-23518
-Date: Fri, 9 Jun 2023 14:09:07 +0000
-Message-ID: <20230609140908.3465521-5-yogita.urade@windriver.com>
+Subject: [oe-core][kirkstone][PATCH V2 2/6] webkitgtk: fix CVE-2022-46699
+Date: Fri, 9 Jun 2023 14:09:04 +0000
+Message-ID: <20230609140908.3465521-2-yogita.urade@windriver.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230609140908.3465521-1-yogita.urade@windriver.com>
 References: <20230609140908.3465521-1-yogita.urade@windriver.com>
@@ -46,187 +46,189 @@ Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: XqSWBlcnNXq4Xdlz4TkZ3iGUg30PKJ50
-X-Proofpoint-ORIG-GUID: XqSWBlcnNXq4Xdlz4TkZ3iGUg30PKJ50
+X-Proofpoint-ORIG-GUID: MCY9hLuKbgLZFyDS4VYBfAbReNWzdfDH
+X-Proofpoint-GUID: MCY9hLuKbgLZFyDS4VYBfAbReNWzdfDH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-06-09_10,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1015 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306090120
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306090120
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 14:09:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182555
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182552
 
-The issue was addressed with improved memory handling.
-This issue is fixed in macOS Ventura 13.2, macOS Monterey
-12.6.3, tvOS 16.3, Safari 16.3, watchOS 9.3, iOS 16.3 and
-iPadOS 16.3, macOS Big Sur 11.7.3. Processing maliciously
-crafted web content may lead to arbitrary code execution.
+A memory corruption issue was addressed with improved state management.
+This issue is fixed in Safari 16.2, tvOS 16.2, macOS Ventura 13.1, iOS
+16.2 and iPadOS 16.2, watchOS 9.2. Processing maliciously crafted web
+content may lead to arbitrary code execution.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-23517
-https://support.apple.com/en-us/HT213638
-https://bugs.webkit.org/show_bug.cgi?id=248268
-https://github.com/WebKit/WebKit/pull/6756
+https://nvd.nist.gov/vuln/detail/CVE-2022-46699
+https://support.apple.com/en-us/HT213537
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- .../CVE-2023-23517-CVE-2023-23518.patch       | 131 ++++++++++++++++++
+ .../webkit/webkitgtk/CVE-2022-46699.patch     | 136 ++++++++++++++++++
  meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
- 2 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2023-23517-CVE-2023-23518.patch
+ 2 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-46699.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2023-23517-CVE-2023-23518.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-23517-CVE-2023-23518.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46699.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46699.patch
 new file mode 100644
-index 0000000000..721f045e0d
+index 0000000000..0752b9c0e2
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-23517-CVE-2023-23518.patch
-@@ -0,0 +1,131 @@
-+From f44648f07471b6c34f61993baa8997f7519a18a1 Mon Sep 17 00:00:00 2001
-+From: Youenn Fablet <youennf@gmail.com>
-+Date: Mon, 28 Nov 2022 00:43:35 -0800
-+Subject: [PATCH] Type getter is not needed for internal ReadableStream sources
-+ https://bugs.webkit.org/show_bug.cgi?id=248268 rdar://102338913
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46699.patch
+@@ -0,0 +1,136 @@
++From 28686e63de0d3d7270a49b0d6b656467bc4fbf68 Mon Sep 17 00:00:00 2001
++From: Justin Michaud <justin_michaud@apple.com>
++Date: Wed, 9 Nov 2022 19:20:41 -0800
++Subject: [PATCH] Error() ICs should not cache special properties.
++ https://bugs.webkit.org/show_bug.cgi?id=247699
 +
-+Reviewed by Eric Carlson.
++Reviewed by Yusuke Suzuki.
 +
-+Make ReadableStreamSource method privates.
-+In ReadableStream, use @getters instead of private getters to allow getting private values from prototype.
-+Covered by added test.
++HasOwnProperty/DeleteProperty are not always cacheable for special Error()
++properties like column. These special properties are materialized on-demand
++in materializeErrorInfoIfNeeded, but this function's behaviour can be changed
++by Error.stackTraceLimit without causing a structure transition or firing watchpoints.
 +
-+* LayoutTests/http/wpt/fetch/fetch-stream-source-expected.txt: Added.
-+* LayoutTests/http/wpt/fetch/fetch-stream-source.html: Added.
-+* Source/WebCore/Modules/streams/ReadableStream.js:
-+(initializeReadableStream):
-+* Source/WebCore/Modules/streams/ReadableStreamSource.idl:
-+* Source/WebCore/bindings/js/JSDOMOperationReturningPromise.h:
-+(WebCore::IDLOperationReturningPromise::call):
++That is, we cannot cache property misses, and we cannot assume HasOwnProperty is deterministic
++for a given structure if we are using one of these properties.
 +
-+Canonical link: https://commits.webkit.org/257063@main
++* Source/JavaScriptCore/runtime/ErrorInstance.cpp:
++(JSC::ErrorInstance::deleteProperty):
++* Source/JavaScriptCore/runtime/ErrorInstance.h:
 +
-+CVE: CVE-2023-23517 CVE-2023-23518
++Canonical link: https://commits.webkit.org/256519@main
++
++CVE: CVE-2022-46699
 +
 +Upstream-Status: Backport
-+[https://github.com/WebKit/WebKit/commit/f44648f07471b6c34f61993baa8997f7519a18a1]
++[https://github.com/WebKit/WebKit/commit/28686e63de0d3d7270a49b0d6b656467bc4fbf68]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ .../fetch/fetch-stream-source-expected.txt    |  3 +++
-+ .../http/wpt/fetch/fetch-stream-source.html   | 24 +++++++++++++++++++
-+ .../WebCore/Modules/streams/ReadableStream.js |  4 ++--
-+ .../Modules/streams/ReadableStreamSource.idl  |  8 +++----
-+ .../js/JSDOMOperationReturningPromise.h       |  4 +++-
-+ 5 files changed, 36 insertions(+), 7 deletions(-)
-+ create mode 100644 LayoutTests/http/wpt/fetch/fetch-stream-source-expected.txt
-+ create mode 100644 LayoutTests/http/wpt/fetch/fetch-stream-source.html
++ JSTests/stress/delete-cache-error.js          | 19 ++++++++++++++++++
++ .../get-own-property-slot-cache-error.js      |  6 ++++++
++ JSTests/stress/get-property-cache-error.js    | 20 +++++++++++++++++++
++ .../JavaScriptCore/runtime/ErrorInstance.cpp  |  4 +++-
++ Source/JavaScriptCore/runtime/ErrorInstance.h |  3 ++-
++ 5 files changed, 50 insertions(+), 2 deletions(-)
++ create mode 100644 JSTests/stress/delete-cache-error.js
++ create mode 100644 JSTests/stress/get-own-property-slot-cache-error.js
++ create mode 100644 JSTests/stress/get-property-cache-error.js
 +
-+diff --git a/LayoutTests/http/wpt/fetch/fetch-stream-source-expected.txt b/LayoutTests/http/wpt/fetch/fetch-stream-source-expected.txt
++diff --git a/JSTests/stress/delete-cache-error.js b/JSTests/stress/delete-cache-error.js
 +new file mode 100644
-+index 000000000000..856ea8180ca2
++index 000000000000..d77c09185a13
 +--- /dev/null
-++++ b/LayoutTests/http/wpt/fetch/fetch-stream-source-expected.txt
-+@@ -0,0 +1,3 @@
+++++ b/JSTests/stress/delete-cache-error.js
++@@ -0,0 +1,19 @@
+++delete Error.stackTraceLimit
 ++
-++PASS Only JS streams should check type
+++// sourceURL is not materialized
+++function cacheColumn(o) {
+++    delete o.sourceURL
+++}
+++noInline(cacheColumn)
 ++
-+diff --git a/LayoutTests/http/wpt/fetch/fetch-stream-source.html b/LayoutTests/http/wpt/fetch/fetch-stream-source.html
+++for (let i = 0; i < 200; ++i) {
+++    let e = Error()
+++    cacheColumn(e)
+++    if (e.sourceURL !== undefined)
+++        throw "Test failed on iteration " + i + " " + e.sourceURL
+++
+++    if (i == 197) {
+++        // now it is
+++        Error.stackTraceLimit = 10
+++    }
+++}
++\ No newline at end of file
++diff --git a/JSTests/stress/get-own-property-slot-cache-error.js b/JSTests/stress/get-own-property-slot-cache-error.js
 +new file mode 100644
-+index 000000000000..fbebfa5e524f
++index 000000000000..f8202213bf79
 +--- /dev/null
-++++ b/LayoutTests/http/wpt/fetch/fetch-stream-source.html
-+@@ -0,0 +1,24 @@
-++<!doctype html>
-++<html>
-++  <head>
-++    <meta charset="utf-8">
-++    <title>Fetch and source</title>
-++    <script src="/resources/testharness.js"></script>
-++    <script src="/resources/testharnessreport.js"></script>
-++  </head>
-++  <body>
-++    <script>
-++promise_test(async () => {
-++    let counter = 0;
-++    Object.prototype.__defineGetter__("type", function() {
-++        counter++;
-++    });
+++++ b/JSTests/stress/get-own-property-slot-cache-error.js
++@@ -0,0 +1,6 @@
+++delete Error.stackTraceLimit
+++// GetOwnPropertySlot does not materializeErrorInfoIfNeeded because stackString is null.
+++Object.hasOwn(Error(), "column")
+++Error.stackTraceLimit = 10
+++// Now it does
+++Object.hasOwn(Error(), "column")
++\ No newline at end of file
++diff --git a/JSTests/stress/get-property-cache-error.js b/JSTests/stress/get-property-cache-error.js
++new file mode 100644
++index 000000000000..b35272ea6fe2
++--- /dev/null
+++++ b/JSTests/stress/get-property-cache-error.js
++@@ -0,0 +1,20 @@
+++// GetOwnPropertySlot does not materializeErrorInfoIfNeeded because stackString is null.
+++delete Error.stackTraceLimit
+++expected = undefined
 ++
-++    const response = await fetch('/');
-++    const fetchReadableStream = response.body;
-++    const [r1, r2] = fetchReadableStream.tee();
-++    assert_equals(counter, 0);
-++}, "Only JS streams should check type");
-++    </script>
-++  </body>
-++</html>
-+diff --git a/Source/WebCore/Modules/streams/ReadableStream.js b/Source/WebCore/Modules/streams/ReadableStream.js
-+index ddef56ecd460..7f0def325d84 100644
-+--- a/Source/WebCore/Modules/streams/ReadableStream.js
-++++ b/Source/WebCore/Modules/streams/ReadableStream.js
-+@@ -48,10 +48,10 @@ function initializeReadableStream(underlyingSource, strategy)
+++function cacheColumn(o) {
+++    return o.column
+++}
+++noInline(cacheColumn)
+++
+++for (let i = 0; i < 1000; ++i) {
+++    let val = cacheColumn(Error())
+++    if (val !== expected)
+++        throw "Test failed on iteration " + i + ": " + val
+++
+++    if (i == 900) {
+++        // now it does
+++        Error.stackTraceLimit = 10
+++        expected = 32
+++    }
+++}
++\ No newline at end of file
++diff --git a/Source/JavaScriptCore/runtime/ErrorInstance.cpp b/Source/JavaScriptCore/runtime/ErrorInstance.cpp
++index ddf96869e84a..8e5373257d34 100644
++--- a/Source/JavaScriptCore/runtime/ErrorInstance.cpp
+++++ b/Source/JavaScriptCore/runtime/ErrorInstance.cpp
++@@ -303,7 +303,9 @@ bool ErrorInstance::deleteProperty(JSCell* cell, JSGlobalObject* globalObject, P
++ {
++     VM& vm = globalObject->vm();
++     ErrorInstance* thisObject = jsCast<ErrorInstance*>(cell);
++-    thisObject->materializeErrorInfoIfNeeded(vm, propertyName);
+++    bool materializedProperties = thisObject->materializeErrorInfoIfNeeded(vm, propertyName);
+++    if (materializedProperties)
+++        slot.disableCaching();
++     return Base::deleteProperty(thisObject, globalObject, propertyName, slot);
++ }
 +
-+     // FIXME: We should introduce https://streams.spec.whatwg.org/#create-readable-stream.
-+     // For now, we emulate this with underlyingSource with private properties.
-+-    if (@getByIdDirectPrivate(underlyingSource, "pull") !== @undefined) {
-++    if (underlyingSource.@pull !== @undefined) {
-+         const size = @getByIdDirectPrivate(strategy, "size");
-+         const highWaterMark = @getByIdDirectPrivate(strategy, "highWaterMark");
-+-        @setupReadableStreamDefaultController(this, underlyingSource, size, highWaterMark !== @undefined ? highWaterMark : 1, @getByIdDirectPrivate(underlyingSource, "start"), @getByIdDirectPrivate(underlyingSource, "pull"), @getByIdDirectPrivate(underlyingSource, "cancel"));
-++        @setupReadableStreamDefaultController(this, underlyingSource, size, highWaterMark !== @undefined ? highWaterMark : 1, underlyingSource.@start, underlyingSource.@pull, underlyingSource.@cancel);
-+         return this;
-+     }
++diff --git a/Source/JavaScriptCore/runtime/ErrorInstance.h b/Source/JavaScriptCore/runtime/ErrorInstance.h
++index 28807b4ea33e..2afb153a7442 100644
++--- a/Source/JavaScriptCore/runtime/ErrorInstance.h
+++++ b/Source/JavaScriptCore/runtime/ErrorInstance.h
++@@ -30,7 +30,8 @@ namespace JSC {
++ class ErrorInstance : public JSNonFinalObject {
++ public:
++     using Base = JSNonFinalObject;
++-    static constexpr unsigned StructureFlags = Base::StructureFlags | OverridesGetOwnPropertySlot | OverridesGetOwnSpecialPropertyNames | OverridesPut;
+++
+++    static constexpr unsigned StructureFlags = Base::StructureFlags | OverridesGetOwnPropertySlot | OverridesGetOwnSpecialPropertyNames | OverridesPut | GetOwnPropertySlotIsImpureForPropertyAbsence;
++     static constexpr bool needsDestruction = true;
 +
-+diff --git a/Source/WebCore/Modules/streams/ReadableStreamSource.idl b/Source/WebCore/Modules/streams/ReadableStreamSource.idl
-+index cce9ea37ce80..ae7f1403b8ac 100644
-+--- a/Source/WebCore/Modules/streams/ReadableStreamSource.idl
-++++ b/Source/WebCore/Modules/streams/ReadableStreamSource.idl
-+@@ -30,10 +30,10 @@
-+     LegacyNoInterfaceObject,
-+     SkipVTableValidation
-+ ] interface ReadableStreamSource {
-+-    [Custom] Promise<undefined> start(ReadableStreamDefaultController controller);
-+-    [Custom] Promise<undefined> pull(ReadableStreamDefaultController controller);
-+-    undefined cancel(any reason);
-++    [Custom, PrivateIdentifier] Promise<undefined> start(ReadableStreamDefaultController controller);
-++    [Custom, PrivateIdentifier] Promise<undefined> pull(ReadableStreamDefaultController controller);
-++    [PrivateIdentifier] undefined cancel(any reason);
-+
-+     // Place holder to keep the controller linked to the source.
-+-    [CachedAttribute, CustomGetter] readonly attribute any controller;
-++    [CachedAttribute, CustomGetter, PrivateIdentifier] readonly attribute any controller;
-+ };
-+diff --git a/Source/WebCore/bindings/js/JSDOMOperationReturningPromise.h b/Source/WebCore/bindings/js/JSDOMOperationReturningPromise.h
-+index c4d1513ad5c4..1dda9d3834f7 100644
-+--- a/Source/WebCore/bindings/js/JSDOMOperationReturningPromise.h
-++++ b/Source/WebCore/bindings/js/JSDOMOperationReturningPromise.h
-+@@ -43,8 +43,10 @@ public:
-+             if constexpr (shouldThrow != CastedThisErrorBehavior::Assert) {
-+                 if (UNLIKELY(!thisObject))
-+                     return rejectPromiseWithThisTypeError(promise.get(), JSClass::info()->className, operationName);
-+-            } else
-++            } else {
-++                UNUSED_PARAM(operationName);
-+                 ASSERT(thisObject);
-++            }
-+
-+             ASSERT_GC_OBJECT_INHERITS(thisObject, JSClass::info());
-+
++     static void destroy(JSCell* cell)
 +--
 +2.40.0
 diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-index cf1b8b2cc0..69663c1cb7 100644
+index 02258f84e4..8f6514a82b 100644
 --- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
-            file://CVE-2022-46699.patch \
-            file://CVE-2022-42867.patch \
-            file://CVE-2022-42856.patch \
-+           file://CVE-2023-23517-CVE-2023-23518.patch \
+@@ -18,6 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://CVE-2022-32888.patch \
+            file://CVE-2022-32923.patch \
+            file://CVE-2022-46691.patch \
++           file://CVE-2022-46699.patch \
             "
  SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
  
