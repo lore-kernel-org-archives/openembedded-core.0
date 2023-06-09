@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB92C83005
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:16 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.155.1686329651872786519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F35A8C7EE2F
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:15 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.131.1686329648872720148
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:11 -0700
+ Fri, 09 Jun 2023 09:54:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=P7NAzDNm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-652a6cf1918so1714165b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ZKNOtusG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-65242634690so1617609b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329651; x=1688921651;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329648; x=1688921648;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VUA1LSQH+0EFvNwxm4cyHHUOY6RcuwkHh3RJxbfVEw4=;
-        b=P7NAzDNmjb8QEnsSH3a9Hu58tDwAlIUfF7ZCUbiW5tCioSYUZDQ1jrOx0ghfhgszEZ
-         SFjeRa8fHJF6hsHec5cED8eD1X+J4T4Ci6SdrWR3yIH99sdQB/MAQYyG+DMySwD/yAA8
-         Q0hJFOpCs/NyF6HWRXp+SpJt4SCV96DEnjYfjawVqzhg7m+eNdWuMVWqjmFedBCQW27T
-         L5sjcnrjyD99UZddpQSsjY0sPEFDcDiwukf5yhDGvWkortIiOBi/R2qS1oGmHIbuzyyE
-         MMxXk3QJ4yPbqgryoVb+WIlsI2Q70eivC7C9Fk018G9to9VjYA+UszPdTh15mTnPwmPd
-         ll2A==
+        bh=rypwtqB6BEQIe6rPiNd7ptHijuRom+Ip3cKfIc1q/Es=;
+        b=ZKNOtusGspfKQHTqDUnGXujufADruk2ftagnquwP0XiS1nycDPaXHof7GdxcNzNE+a
+         VoWMEpwX/yvPKxaKI8YziBPxB4l4BOrBXC4/bFmwuAEkeXjnaa8szAfjufFcpJKZYjq9
+         yYSpHI5WXyqeOIkIgx7c6ygX32zDbgrP13ORqxuiFUHYWTbvR8Ghcijv1suj/++Hk/mz
+         lw03H9enufjCpuVdSPzPaoy0MsMRL6yeQEBoNKgZ+fP86h7tpXkCHxuCTj1bePMUVwu9
+         L62l6f5EcW9xEwnky11FcxuFscO+ca8/3dCKmsJNuQl7qKQ5DlPteb6jLYzFT1tVfGwK
+         syVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329651; x=1688921651;
+        d=1e100.net; s=20221208; t=1686329648; x=1688921648;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VUA1LSQH+0EFvNwxm4cyHHUOY6RcuwkHh3RJxbfVEw4=;
-        b=hWqOXIw6CbSqPgdLTI6g50dxZbSS2crJd1GT2neHAVsVq3tlAYzzD0NpJ5svV0pRDr
-         fuIdINi4jtaKWKqYJqF8Qz581J0eMIzeKzKZsji+pycfUL/3mo8eIIu1DS64n8kyobGd
-         +N47vX3vAVq4wf8H2x1x1cuszT2iUPPQYf3NNfk/0GaAzrd6cDymFBD3EpiWnMJwzOao
-         +j5WpUkcwjb0NBA2LhWOwPd2umS/gpSkCzmalm7/wJORliDM1DkwYiXVQD+OukrE403G
-         WykZJHnyxIZjnmw84feITA4qrylSqybz+9YWDtZakR43AgfHqqIPpa0FIMnYjNHbIQ0P
-         aZrw==
-X-Gm-Message-State: AC+VfDzPjlkoU6vcgOgRnqKIiplzO+2ieYw9LK+AtbZ3bwqEOJQv1bpP
-	bwuDY5JDvkvYB1H4EM6n5azcNxur6m9dzYexRC8=
-X-Google-Smtp-Source: ACHHUZ65KHMeJbwfH8MDlQeGZYCpgMS6qojaFmU5EuGSCufaAFrdBEKuAZkBKE6hLCm0lSZEHP7cbQ==
-X-Received: by 2002:a05:6a00:ad6:b0:64c:c453:244f with SMTP id c22-20020a056a000ad600b0064cc453244fmr1974775pfl.15.1686329650660;
-        Fri, 09 Jun 2023 09:54:10 -0700 (PDT)
+        bh=rypwtqB6BEQIe6rPiNd7ptHijuRom+Ip3cKfIc1q/Es=;
+        b=LfHb/EUgtbXenOpp1ZO0TL1kOhUJ5nzQM+8l9uQbdEbl/GlqctQ32KLkbKkucsKcD0
+         o2z/b8zbCaVLLt4+SgR1S5ve571KkEvRIwF9EGcRnV0wi9YwBGmiGKP25KUBVf/w2Bcv
+         jr15m4bDAJX/C/Ci3gwKT3ie8Q08nEJd6XqcQRvOFhiJGkVOfLFyQcgOqH/+TK59zEU4
+         5gX9djbrL1YSsekgzbn/18jjFkTKgUzWwH8UPNgSxXA0mS9nL8eogRssagSJJU4tJsQO
+         wdvmhMq1yS4ewXG1N4wNeIkVnPuuBL3UoLLnL0I7aFGGmmY5VhvUfzNYEK2rEMo3giZG
+         RBUg==
+X-Gm-Message-State: AC+VfDz3u/GpHbmeCLH6nKMJG7QDO9rXlnfGnwhzDc80a+5sFnbpDzxl
+	hP4ANTEtIvZJMmn7tbYqiZG0tOJ3XWXNqQG9KjY=
+X-Google-Smtp-Source: ACHHUZ6lb5avcGbgWxHdi+ZptwRt/aBBaRpJWTgS5Z49n1RvMJga2FlP+s70+biyazPVV8rv+aRGJg==
+X-Received: by 2002:a05:6a20:4303:b0:105:63b0:5bf8 with SMTP id h3-20020a056a20430300b0010563b05bf8mr1731035pzk.18.1686329647255;
+        Fri, 09 Jun 2023 09:54:07 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.09
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:10 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 04/30] rpm: update 4.18.0 -> 4.18.1
-Date: Fri,  9 Jun 2023 06:53:31 -1000
-Message-Id: <0206e2700e290f04cb4c4c2cf50c1e1f1f4ae6ee.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 02/30] go: Upgrade 1.20.1 -> 1.20.4
+Date: Fri,  9 Jun 2023 06:53:29 -1000
+Message-Id: <5847869334dd6687441708e26d1c0ab0a648e7f5.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -61,343 +61,515 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182570
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182568
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Summary of changes from RPM 4.18.0
+- Remove already upstreamed patches
 
-General bugfixes and enhancements
+- Brings a list of changes [1] [2] [3]
 
-Command line
-Fix signature reserved space not restored on --delsign (#2382, regression in 4.15.0)
-Copy original lead on signing instead of recreating (#1326, regression in 4.14.0)
-Issue a warning when signing created an OpenPGP v3 signature (#2286)
+[1] https://github.com/golang/go/issues?q=milestone%3AGo1.20.2+label%3ACherryPickApproved
+[2] https://github.com/golang/go/issues?q=milestone%3AGo1.20.3+label%3ACherryPickApproved
+[3] https://github.com/golang/go/issues?q=milestone%3AGo1.20.4+label%3ACherryPickApproved
 
-Transactions
-Fix install of block and character special files (#2195, #2275, regression in 4.18.0)
-Handle downgrade within V-R when epoch goes away (RhBug:1845069)
-
-Package building
-
-Spec
-Restore BuildRequires check in rpmbuild -bp (regression in 4.15.0)
-Fix space handling in %setup (#2335, regression in 4.18.0)
-Issue a deprecation warning on %patchN syntax
-
-Macros
-Don’t embed CPU count of build system in packages (#2343)
-Make CPU and thread-related macros available on all platforms (#2265)
-Fix macro scoping level on re-entry from %[] expression (#2354)
-Split ___build_pre macro to make mocking rpm build environment easier
-
-Buildroot policies
-Fix xargs use in brp-remove-la-files on macOS (#2332, regression in 4.17.0)
-
-Generators
-Disable debuginfod server lookups in build and dependency generator scripts
-Exclude kernel modules from ELF dependency generation (regression in 4.17.0)
-Signatures and keys
-Fix type confusion bugs in the internal OpenPGP implementation
-
-Plugins
-Make write() non-blocking in fapolicyd plugin (RhBug:2110787)
-Add a handler for libselinux log messages (RhBug:2123719, RhBug:2050774)
-
-API changes
-N/A
-
-Internal improvements and cleanups
-Fix potential uninitialized variable use on public key import
-Fix various leaks during package build and install
-Fix getopt() usage to comply with POSIX
-
-Build process
-Generate Python egg-info from automake builds (#130, #2230)
-Revise ISANAME for loongarch
-Documentation
-Document %_binary_payload and %_source_payload syntax in RPM package format manual
-Various typo and grammar fixes in reference manuals
-Minor CONTRIBUTING.md updates
-
-Drop:
-0001-docs-do-not-build-manpages-requires-pandoc.patch
-(pandoc is now detected from $PATH)
-fifofix.patch
-(upstream fixed the issue)
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit d8d673b2dc86e04cc278dc111b36d52d60bc25f7)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e043bfb42156c59c93c6a4816528a63cfdaccc3e)
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...olor-setting-for-mips64_n32-binaries.patch | 26 ++++++-------
- ...lib-rpm-as-the-installation-path-for.patch | 30 +++++++-------
- ...o-not-build-manpages-requires-pandoc.patch | 23 -----------
- meta/recipes-devtools/rpm/files/fifofix.patch | 22 -----------
- .../rpm/files/fix-declaration.patch           | 39 +++++++++++++++++++
- .../rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb}      |  7 ++--
- 6 files changed, 70 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/fifofix.patch
- create mode 100644 meta/recipes-devtools/rpm/files/fix-declaration.patch
- rename meta/recipes-devtools/rpm/{rpm_4.18.0.bb => rpm_4.18.1.bb} (97%)
+ .../go/{go-1.20.1.inc => go-1.20.4.inc}       |   5 +-
+ ...e_1.20.1.bb => go-binary-native_1.20.4.bb} |   6 +-
+ ..._1.20.1.bb => go-cross-canadian_1.20.4.bb} |   0
+ ...{go-cross_1.20.1.bb => go-cross_1.20.4.bb} |   0
+ ...osssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} |   0
+ ...o-native_1.20.1.bb => go-native_1.20.4.bb} |   0
+ ...runtime_1.20.1.bb => go-runtime_1.20.4.bb} |   0
+ ...ompile-instantiated-generic-methods-.patch |  90 --------
+ .../go/go/CVE-2023-24532.patch                | 208 ------------------
+ .../go/go/CVE-2023-24537.patch                |  89 --------
+ .../go/{go_1.20.1.bb => go_1.20.4.bb}         |   0
+ 11 files changed, 4 insertions(+), 394 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.20.1.inc => go-1.20.4.inc} (77%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.1.bb => go-binary-native_1.20.4.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.1.bb => go-cross-canadian_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.1.bb => go-cross_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.1.bb => go-native_1.20.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.1.bb => go-runtime_1.20.4.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
+ delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24532.patch
+ delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24537.patch
+ rename meta/recipes-devtools/go/{go_1.20.1.bb => go_1.20.4.bb} (100%)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-index 9f5dde0720..9fa486dfd3 100644
---- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-@@ -1,4 +1,4 @@
--From 5492ac3c716020a27a25253bbffe810db43202bf Mon Sep 17 00:00:00 2001
-+From 93f219df68f3741ff63a294a16bcbe8deba1112f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 9 Mar 2017 18:54:02 +0200
- Subject: [PATCH] Add a color setting for mips64_n32 binaries
-@@ -11,11 +11,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  rpmrc.in      | 2 ++
-  2 files changed, 6 insertions(+)
+diff --git a/meta/recipes-devtools/go/go-1.20.1.inc b/meta/recipes-devtools/go/go-1.20.4.inc
+similarity index 77%
+rename from meta/recipes-devtools/go/go-1.20.1.inc
+rename to meta/recipes-devtools/go/go-1.20.4.inc
+index 179f0e29eb..05bc168e0c 100644
+--- a/meta/recipes-devtools/go/go-1.20.1.inc
++++ b/meta/recipes-devtools/go/go-1.20.4.inc
+@@ -14,8 +14,5 @@ SRC_URI += "\
+     file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+-    file://0010-cmd-compile-re-compile-instantiated-generic-methods-.patch \
+-    file://CVE-2023-24532.patch \
+-    file://CVE-2023-24537.patch \
+ "
+-SRC_URI[main.sha256sum] = "b5c1a3af52c385a6d1c76aed5361cf26459023980d0320de7658bae3915831a2"
++SRC_URI[main.sha256sum] = "9f34ace128764b7a3a4b238b805856cc1b2184304df9e5690825b0710f4202d6"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb b/meta/recipes-devtools/go/go-binary-native_1.20.4.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.20.1.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.20.4.bb
+index 239334552a..87ce8a558f 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.4.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
--Index: git/build/rpmfc.c
--===================================================================
----- git.orig/build/rpmfc.c
--+++ git/build/rpmfc.c
--@@ -645,6 +645,7 @@ exit:
-+diff --git a/build/rpmfc.c b/build/rpmfc.c
-+index 26606378f..a16e3f4e9 100644
-+--- a/build/rpmfc.c
-++++ b/build/rpmfc.c
-+@@ -646,6 +646,7 @@ exit:
-  static const struct rpmfcTokens_s rpmfcTokens[] = {
-    { "directory",		RPMFC_INCLUDE },
-  
-@@ -23,20 +23,20 @@ Index: git/build/rpmfc.c
-    { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
-    { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
-  
--@@ -1150,6 +1151,9 @@ static uint32_t getElfColor(const char *
-+@@ -1151,6 +1152,9 @@ static uint32_t getElfColor(const char *fn)
-  		color = RPMFC_ELF32;
-  		break;
-  	    }
- +            if (ehdr.e_machine == EM_MIPS || ehdr.e_machine == EM_MIPS_RS3_LE)
- +                if (ehdr.e_flags & EF_MIPS_ABI2)
- +                    color = RPMFC_ELFMIPSN32;
-- 	    elf_end(elf);
-  	}
-- 	close(fd);
--Index: git/rpmrc.in
--===================================================================
----- git.orig/rpmrc.in
--+++ git/rpmrc.in
-+ 	if (elf)
-+ 	    elf_end(elf);
-+diff --git a/rpmrc.in b/rpmrc.in
-+index 2975a3a0e..c7232b48b 100644
-+--- a/rpmrc.in
-++++ b/rpmrc.in
- @@ -139,6 +139,8 @@ archcolor: mipsr6el 1
-  archcolor: mips64r6 2
-  archcolor: mips64r6el 2
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 6f613d0a7d..8fdc5edb10 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,4 +1,4 @@
--From 4ab6a4c5bbad65c3401016bb26b87214cdd0c59b Mon Sep 17 00:00:00 2001
-+From 5fc560aaf1184d35d161f7d50dbb6323c90cc02d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  rpm.am       | 4 ++--
-  3 files changed, 4 insertions(+), 4 deletions(-)
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "000a5b1fca4f75895f78befeb2eecf10bfff3c428597f3f1e69133b63b911b02"
+-SRC_URI[go_linux_arm64.sha256sum] = "5e5e2926733595e6f3c5b5ad1089afac11c1490351855e87849d0e7702b1ec2e"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "85cfd4b89b48c94030783b6e9e619e35557862358b846064636361421d0b0c52"
++SRC_URI[go_linux_amd64.sha256sum] = "698ef3243972a51ddb4028e4a1ac63dc6d60821bf18e59a807e051fee0a385bd"
++SRC_URI[go_linux_arm64.sha256sum] = "105889992ee4b1d40c7c108555222ca70ae43fccb42e20fbf1eebb822f5e72c6"
++SRC_URI[go_linux_ppc64le.sha256sum] = "8c6f44b96c2719c90eebabe2dd866f9c39538648f7897a212cac448587e9a408"
  
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac
--+++ git/configure.ac
-+diff --git a/configure.ac b/configure.ac
-+index e6676c581..ec28db9b6 100644
-+--- a/configure.ac
-++++ b/configure.ac
- @@ -942,7 +942,7 @@ else
-      usrprefix=$prefix
-  fi
-@@ -26,11 +26,11 @@ Index: git/configure.ac
-  AC_SUBST(RPMCONFIGDIR)
-  
-  AC_SUBST(OBJDUMP)
--Index: git/macros.in
--===================================================================
----- git.orig/macros.in
--+++ git/macros.in
--@@ -911,7 +911,7 @@ package or when debugging this package.\
-+diff --git a/macros.in b/macros.in
-+index a2411d784..735b74d99 100644
-+--- a/macros.in
-++++ b/macros.in
-+@@ -930,7 +930,7 @@ package or when debugging this package.\
-  %_sharedstatedir	%{_prefix}/com
-  %_localstatedir		%{_prefix}/var
-  %_lib			lib
-@@ -39,10 +39,10 @@ Index: git/macros.in
-  %_includedir		%{_prefix}/include
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
--Index: git/rpm.am
--===================================================================
----- git.orig/rpm.am
--+++ git/rpm.am
-+diff --git a/rpm.am b/rpm.am
-+index 55b5b3935..5a51f102b 100644
-+--- a/rpm.am
-++++ b/rpm.am
- @@ -1,10 +1,10 @@
-  # Internal binaries
-  ## HACK: It probably should be $(libexecdir)/rpm or $(libdir)/rpm
-@@ -55,4 +55,4 @@ Index: git/rpm.am
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 12:0:3
-+ rpm_version_info = 13:0:4
-diff --git a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.20.1.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.20.4.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.20.1.bb b/meta/recipes-devtools/go/go-cross_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.20.1.bb
+rename to meta/recipes-devtools/go/go-cross_1.20.4.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.20.1.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.20.4.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.20.1.bb b/meta/recipes-devtools/go/go-native_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.20.1.bb
+rename to meta/recipes-devtools/go/go-native_1.20.4.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.20.1.bb b/meta/recipes-devtools/go/go-runtime_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.20.1.bb
+rename to meta/recipes-devtools/go/go-runtime_1.20.4.bb
+diff --git a/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch b/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
 deleted file mode 100644
-index d7137f1d10..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+index f9ac202421..0000000000
+--- a/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
 +++ /dev/null
-@@ -1,23 +0,0 @@
--From 9bf1693092385eba9841614613313010221ca01f Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 29 Jun 2021 20:11:26 +0200
--Subject: [PATCH] docs: do not build manpages (requires pandoc)
+@@ -1,90 +0,0 @@
+-From 7a3bb16b43efba73674629eae4369f9004e37f22 Mon Sep 17 00:00:00 2001
+-From: Cuong Manh Le <cuong.manhle.vn@gmail.com>
+-Date: Sat, 18 Mar 2023 00:53:07 +0700
+-Subject: [PATCH] cmd/compile: re-compile instantiated generic methods in
+- linkshared mode
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-For G[T] that was seen and compiled in imported package, it is not added
+-to typecheck.Target.Decls, prevent wasting compile time re-creating
+-DUPOKS symbols. However, the linker do not support a type symbol
+-referencing a method symbol across DSO boundary. That causes unreachable
+-sym error when building under -linkshared mode.
+-
+-To fix it, always re-compile generic methods in linkshared mode.
+-
+-Fixes #58966
+-
+-Change-Id: I894b417cfe8234ae1fe809cc975889345df22cef
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/477375
+-Run-TryBot: Cuong Manh Le <cuong.manhle.vn@gmail.com>
+-Reviewed-by: Cherry Mui <cherryyz@google.com>
+-Reviewed-by: Matthew Dempsky <mdempsky@google.com>
+-TryBot-Result: Gopher Robot <gobot@golang.org>
+-
+-Upstream-Status: Backport [https://github.com/golang/go/commit/bcd82125f85c7c552493e863fa1bb14e6c444557]
+-
+-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ----
-- docs/Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
+- misc/cgo/testshared/shared_test.go              |  7 ++++++-
+- misc/cgo/testshared/testdata/issue58966/main.go | 15 +++++++++++++++
+- src/cmd/compile/internal/noder/unified.go       |  6 +++++-
+- 3 files changed, 26 insertions(+), 2 deletions(-)
+- create mode 100644 misc/cgo/testshared/testdata/issue58966/main.go
 -
--Index: git/docs/Makefile.am
--===================================================================
----- git.orig/docs/Makefile.am
--+++ git/docs/Makefile.am
--@@ -1,7 +1,5 @@
-- ## Process this file with automake to produce Makefile.in
-- 
---SUBDIRS = man
---
-- EXTRA_DIST =
-- 
-- EXTRA_DIST += \
-diff --git a/meta/recipes-devtools/rpm/files/fifofix.patch b/meta/recipes-devtools/rpm/files/fifofix.patch
+-diff --git a/misc/cgo/testshared/shared_test.go b/misc/cgo/testshared/shared_test.go
+-index b14fb1cb3a..03da8f9435 100644
+---- a/misc/cgo/testshared/shared_test.go
+-+++ b/misc/cgo/testshared/shared_test.go
+-@@ -1112,8 +1112,13 @@ func TestStd(t *testing.T) {
+- 		t.Skip("skip in short mode")
+- 	}
+- 	t.Parallel()
+-+	tmpDir := t.TempDir()
+- 	// Use a temporary pkgdir to not interfere with other tests, and not write to GOROOT.
+- 	// Cannot use goCmd as it runs with cloned GOROOT which is incomplete.
+- 	runWithEnv(t, "building std", []string{"GOROOT=" + oldGOROOT},
+--		filepath.Join(oldGOROOT, "bin", "go"), "install", "-buildmode=shared", "-pkgdir="+t.TempDir(), "std")
+-+		filepath.Join(oldGOROOT, "bin", "go"), "install", "-buildmode=shared", "-pkgdir="+tmpDir, "std")
+-+
+-+	// Issue #58966.
+-+	runWithEnv(t, "testing issue #58966", []string{"GOROOT=" + oldGOROOT},
+-+		filepath.Join(oldGOROOT, "bin", "go"), "run", "-linkshared", "-pkgdir="+tmpDir, "./issue58966/main.go")
+- }
+-diff --git a/misc/cgo/testshared/testdata/issue58966/main.go b/misc/cgo/testshared/testdata/issue58966/main.go
+-new file mode 100644
+-index 0000000000..2d923c3607
+---- /dev/null
+-+++ b/misc/cgo/testshared/testdata/issue58966/main.go
+-@@ -0,0 +1,15 @@
+-+// Copyright 2023 The Go Authors. All rights reserved.
+-+// Use of this source code is governed by a BSD-style
+-+// license that can be found in the LICENSE file.
+-+
+-+package main
+-+
+-+import "crypto/elliptic"
+-+
+-+var curve elliptic.Curve
+-+
+-+func main() {
+-+	switch curve {
+-+	case elliptic.P224():
+-+	}
+-+}
+-diff --git a/src/cmd/compile/internal/noder/unified.go b/src/cmd/compile/internal/noder/unified.go
+-index ed97a09302..25136e6aad 100644
+---- a/src/cmd/compile/internal/noder/unified.go
+-+++ b/src/cmd/compile/internal/noder/unified.go
+-@@ -158,7 +158,11 @@ func readBodies(target *ir.Package, duringInlining bool) {
+- 			// Instantiated generic function: add to Decls for typechecking
+- 			// and compilation.
+- 			if fn.OClosure == nil && len(pri.dict.targs) != 0 {
+--				if duringInlining {
+-+				// cmd/link does not support a type symbol referencing a method symbol
+-+				// across DSO boundary, so force re-compiling methods on a generic type
+-+				// even it was seen from imported package in linkshared mode, see #58966.
+-+				canSkipNonGenericMethod := !(base.Ctxt.Flag_linkshared && ir.IsMethod(fn))
+-+				if duringInlining && canSkipNonGenericMethod {
+- 					inlDecls = append(inlDecls, fn)
+- 				} else {
+- 					target.Decls = append(target.Decls, fn)
+diff --git a/meta/recipes-devtools/go/go/CVE-2023-24532.patch b/meta/recipes-devtools/go/go/CVE-2023-24532.patch
 deleted file mode 100644
-index 71703d7f0c..0000000000
---- a/meta/recipes-devtools/rpm/files/fifofix.patch
+index 22f080dbd4..0000000000
+--- a/meta/recipes-devtools/go/go/CVE-2023-24532.patch
 +++ /dev/null
-@@ -1,22 +0,0 @@
--Calling openat() on a fifo causes a pseudo hang for us (e.g. the fifo in psplash).
--Avoid calling openat for fifos.
+@@ -1,208 +0,0 @@
+-From 602eeaab387f24a4b28c5eccbb50fa934f3bc3c4 Mon Sep 17 00:00:00 2001
+-From: Filippo Valsorda <filippo@golang.org>
+-Date: Mon, 13 Feb 2023 15:16:27 +0100
+-Subject: [PATCH] [release-branch.go1.20] crypto/internal/nistec: reduce P-256
+- scalar
 -
--Introduced upstream with:
+-Unlike the rest of nistec, the P-256 assembly doesn't use complete
+-addition formulas, meaning that p256PointAdd[Affine]Asm won't return the
+-correct value if the two inputs are equal.
 -
--https://github.com/rpm-software-management/rpm/commit/96ec957e281220f8e137a2d5eb23b83a6377d556
+-This was (undocumentedly) ignored in the scalar multiplication loops
+-because as long as the input point is not the identity and the scalar is
+-lower than the order of the group, the addition inputs can't be the same.
 -
--Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/issues/2195]
+-As part of the math/big rewrite, we went however from always reducing
+-the scalar to only checking its length, under the incorrect assumption
+-that the scalar multiplication loop didn't require reduction.
 -
--Index: git/lib/fsm.c
--===================================================================
----- git.orig/lib/fsm.c
--+++ git/lib/fsm.c
--@@ -1010,7 +1010,7 @@ int rpmPackageFilesInstall(rpmts ts, rpm
--                     rc = RPMERR_UNKNOWN_FILETYPE;
--             }
+-Added a reduction, and while at it added it in P256OrdInverse, too, to
+-enforce a universal reduction invariant on p256OrdElement values.
+-
+-Note that if the input point is the infinity, the code currently still
+-relies on undefined behavior, but that's easily tested to behave
+-acceptably, and will be addressed in a future CL.
+-
+-Updates #58647
+-Fixes #58720
+-Fixes CVE-2023-24532
+-
+-(Filed with the "safe APIs like complete addition formulas are good" dept.)
+-
+-Change-Id: I7b2c75238440e6852be2710fad66ff1fdc4e2b24
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/471255
+-TryBot-Result: Gopher Robot <gobot@golang.org>
+-Reviewed-by: Roland Shoemaker <roland@golang.org>
+-Run-TryBot: Filippo Valsorda <filippo@golang.org>
+-Auto-Submit: Filippo Valsorda <filippo@golang.org>
+-Reviewed-by: Damien Neil <dneil@google.com>
+-(cherry picked from commit 203e59ad41bd288e1d92b6f617c2f55e70d3c8e3)
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/471695
+-Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
+-Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
+-Reviewed-by: Filippo Valsorda <filippo@golang.org>
+-Run-TryBot: Roland Shoemaker <roland@golang.org>
+-
+-CVE: CVE-2023-24532
+-Upstream-Status: Backport [602eeaab387f24a4b28c5eccbb50fa934f3bc3c4]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+----
+- src/crypto/internal/nistec/nistec_test.go | 81 +++++++++++++++++++++++
+- src/crypto/internal/nistec/p256_asm.go    | 17 +++++
+- src/crypto/internal/nistec/p256_ordinv.go |  1 +
+- 3 files changed, 99 insertions(+)
+-
+-diff --git a/src/crypto/internal/nistec/nistec_test.go b/src/crypto/internal/nistec/nistec_test.go
+-index 309f68be16a9f..9103608c18a0f 100644
+---- a/src/crypto/internal/nistec/nistec_test.go
+-+++ b/src/crypto/internal/nistec/nistec_test.go
+-@@ -8,6 +8,7 @@ import (
+- 	"bytes"
+- 	"crypto/elliptic"
+- 	"crypto/internal/nistec"
+-+	"fmt"
+- 	"internal/testenv"
+- 	"math/big"
+- 	"math/rand"
+-@@ -165,6 +166,86 @@ func testEquivalents[P nistPoint[P]](t *testing.T, newPoint func() P, c elliptic
+- 	}
+- }
 - 
---	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode)) {
--+	    if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode) && !S_ISFIFO(fp->sb.st_mode)) {
-- 		/* Only follow safe symlinks, and never on temporary files */
-- 		fd = fsmOpenat(di.dirfd, fp->fpath,
-- 				fp->suffix ? AT_SYMLINK_NOFOLLOW : 0, 0);
-diff --git a/meta/recipes-devtools/rpm/files/fix-declaration.patch b/meta/recipes-devtools/rpm/files/fix-declaration.patch
-new file mode 100644
-index 0000000000..e5c84ebd49
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/fix-declaration.patch
-@@ -0,0 +1,39 @@
-+From b960c0b43a080287a7c13533eeb2d9f288db1414 Mon Sep 17 00:00:00 2001
-+From: Florian Festi <ffesti@redhat.com>
-+Date: Thu, 16 Mar 2023 19:05:04 +0100
-+Subject: [PATCH] Fix compiler error on clang
-+
-+Turns out variable declarations are not allowed after a label, even in
-+C99. And while some compilers don't seem to care others do.
-+
-+Moving the declaration of mayopen to the start of the function to avoid
-+this problem.
-+
-+Resolves: #2435
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/b960c0b43a080287a7c13533eeb2d9f288db1414]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ lib/fsm.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/fsm.c b/lib/fsm.c
-+index 5671ac642d..183293edb0 100644
-+--- a/lib/fsm.c
-++++ b/lib/fsm.c
-+@@ -879,6 +879,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+     int nodigest = (rpmtsFlags(ts) & RPMTRANS_FLAG_NOFILEDIGEST) ? 1 : 0;
-+     int nofcaps = (rpmtsFlags(ts) & RPMTRANS_FLAG_NOCAPS) ? 1 : 0;
-+     int firstlinkfile = -1;
-++    int mayopen = 0;
-+     char *tid = NULL;
-+     struct filedata_s *fdata = xcalloc(fc, sizeof(*fdata));
-+     struct filedata_s *firstlink = NULL;
-+@@ -1016,7 +1017,7 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+ 
-+ setmeta:
-+ 	    /* Special files require path-based ops */
-+-	    int mayopen = S_ISREG(fp->sb.st_mode) || S_ISDIR(fp->sb.st_mode);
-++	    mayopen = S_ISREG(fp->sb.st_mode) || S_ISDIR(fp->sb.st_mode);
-+ 	    if (!rc && fd == -1 && mayopen) {
-+ 		int flags = O_RDONLY;
-+ 		/* Only follow safe symlinks, and never on temporary files */
-diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/rpm/rpm_4.18.0.bb
-rename to meta/recipes-devtools/rpm/rpm_4.18.1.bb
-index 7790db8b5a..6da2edddf3 100644
---- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-@@ -35,15 +35,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
--           file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-            file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
--           file://fifofix.patch \
-            file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
-+           file://fix-declaration.patch \
-            "
- 
- PE = "1"
--SRCREV = "ea0d77c52e176e2876fdb1d07ad41e9e2635a93e"
-+SRCREV = "4588bc3f994338502d2770ad24cbfcdaa6c335ec"
- 
- S = "${WORKDIR}/git"
- 
-@@ -187,7 +186,7 @@ FILES:${PN}-archive = "\
- 
- PACKAGES += "python3-rpm"
- PROVIDES += "python3-rpm"
--FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
-+FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/* ${PYTHON_SITEPACKAGES_DIR}/rpm-*.egg-info"
- 
- RDEPENDS:${PN}-build = "bash perl python3-core debugedit"
- 
+-+func TestScalarMult(t *testing.T) {
+-+	t.Run("P224", func(t *testing.T) {
+-+		testScalarMult(t, nistec.NewP224Point, elliptic.P224())
+-+	})
+-+	t.Run("P256", func(t *testing.T) {
+-+		testScalarMult(t, nistec.NewP256Point, elliptic.P256())
+-+	})
+-+	t.Run("P384", func(t *testing.T) {
+-+		testScalarMult(t, nistec.NewP384Point, elliptic.P384())
+-+	})
+-+	t.Run("P521", func(t *testing.T) {
+-+		testScalarMult(t, nistec.NewP521Point, elliptic.P521())
+-+	})
+-+}
+-+
+-+func testScalarMult[P nistPoint[P]](t *testing.T, newPoint func() P, c elliptic.Curve) {
+-+	G := newPoint().SetGenerator()
+-+	checkScalar := func(t *testing.T, scalar []byte) {
+-+		p1, err := newPoint().ScalarBaseMult(scalar)
+-+		fatalIfErr(t, err)
+-+		p2, err := newPoint().ScalarMult(G, scalar)
+-+		fatalIfErr(t, err)
+-+		if !bytes.Equal(p1.Bytes(), p2.Bytes()) {
+-+			t.Error("[k]G != ScalarBaseMult(k)")
+-+		}
+-+
+-+		d := new(big.Int).SetBytes(scalar)
+-+		d.Sub(c.Params().N, d)
+-+		d.Mod(d, c.Params().N)
+-+		g1, err := newPoint().ScalarBaseMult(d.FillBytes(make([]byte, len(scalar))))
+-+		fatalIfErr(t, err)
+-+		g1.Add(g1, p1)
+-+		if !bytes.Equal(g1.Bytes(), newPoint().Bytes()) {
+-+			t.Error("[N - k]G + [k]G != ∞")
+-+		}
+-+	}
+-+
+-+	byteLen := len(c.Params().N.Bytes())
+-+	bitLen := c.Params().N.BitLen()
+-+	t.Run("0", func(t *testing.T) { checkScalar(t, make([]byte, byteLen)) })
+-+	t.Run("1", func(t *testing.T) {
+-+		checkScalar(t, big.NewInt(1).FillBytes(make([]byte, byteLen)))
+-+	})
+-+	t.Run("N-1", func(t *testing.T) {
+-+		checkScalar(t, new(big.Int).Sub(c.Params().N, big.NewInt(1)).Bytes())
+-+	})
+-+	t.Run("N", func(t *testing.T) { checkScalar(t, c.Params().N.Bytes()) })
+-+	t.Run("N+1", func(t *testing.T) {
+-+		checkScalar(t, new(big.Int).Add(c.Params().N, big.NewInt(1)).Bytes())
+-+	})
+-+	t.Run("all1s", func(t *testing.T) {
+-+		s := new(big.Int).Lsh(big.NewInt(1), uint(bitLen))
+-+		s.Sub(s, big.NewInt(1))
+-+		checkScalar(t, s.Bytes())
+-+	})
+-+	if testing.Short() {
+-+		return
+-+	}
+-+	for i := 0; i < bitLen; i++ {
+-+		t.Run(fmt.Sprintf("1<<%d", i), func(t *testing.T) {
+-+			s := new(big.Int).Lsh(big.NewInt(1), uint(i))
+-+			checkScalar(t, s.FillBytes(make([]byte, byteLen)))
+-+		})
+-+	}
+-+	// Test N+1...N+32 since they risk overlapping with precomputed table values
+-+	// in the final additions.
+-+	for i := int64(2); i <= 32; i++ {
+-+		t.Run(fmt.Sprintf("N+%d", i), func(t *testing.T) {
+-+			checkScalar(t, new(big.Int).Add(c.Params().N, big.NewInt(i)).Bytes())
+-+		})
+-+	}
+-+}
+-+
+-+func fatalIfErr(t *testing.T, err error) {
+-+	t.Helper()
+-+	if err != nil {
+-+		t.Fatal(err)
+-+	}
+-+}
+-+
+- func BenchmarkScalarMult(b *testing.B) {
+- 	b.Run("P224", func(b *testing.B) {
+- 		benchmarkScalarMult(b, nistec.NewP224Point().SetGenerator(), 28)
+-diff --git a/src/crypto/internal/nistec/p256_asm.go b/src/crypto/internal/nistec/p256_asm.go
+-index 6ea161eb49953..99a22b833f028 100644
+---- a/src/crypto/internal/nistec/p256_asm.go
+-+++ b/src/crypto/internal/nistec/p256_asm.go
+-@@ -364,6 +364,21 @@ func p256PointDoubleAsm(res, in *P256Point)
+- // Montgomery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
+- type p256OrdElement [4]uint64
+- 
+-+// p256OrdReduce ensures s is in the range [0, ord(G)-1].
+-+func p256OrdReduce(s *p256OrdElement) {
+-+	// Since 2 * ord(G) > 2²⁵⁶, we can just conditionally subtract ord(G),
+-+	// keeping the result if it doesn't underflow.
+-+	t0, b := bits.Sub64(s[0], 0xf3b9cac2fc632551, 0)
+-+	t1, b := bits.Sub64(s[1], 0xbce6faada7179e84, b)
+-+	t2, b := bits.Sub64(s[2], 0xffffffffffffffff, b)
+-+	t3, b := bits.Sub64(s[3], 0xffffffff00000000, b)
+-+	tMask := b - 1 // zero if subtraction underflowed
+-+	s[0] ^= (t0 ^ s[0]) & tMask
+-+	s[1] ^= (t1 ^ s[1]) & tMask
+-+	s[2] ^= (t2 ^ s[2]) & tMask
+-+	s[3] ^= (t3 ^ s[3]) & tMask
+-+}
+-+
+- // Add sets q = p1 + p2, and returns q. The points may overlap.
+- func (q *P256Point) Add(r1, r2 *P256Point) *P256Point {
+- 	var sum, double P256Point
+-@@ -393,6 +408,7 @@ func (r *P256Point) ScalarBaseMult(scalar []byte) (*P256Point, error) {
+- 	}
+- 	scalarReversed := new(p256OrdElement)
+- 	p256OrdBigToLittle(scalarReversed, (*[32]byte)(scalar))
+-+	p256OrdReduce(scalarReversed)
+- 
+- 	r.p256BaseMult(scalarReversed)
+- 	return r, nil
+-@@ -407,6 +423,7 @@ func (r *P256Point) ScalarMult(q *P256Point, scalar []byte) (*P256Point, error)
+- 	}
+- 	scalarReversed := new(p256OrdElement)
+- 	p256OrdBigToLittle(scalarReversed, (*[32]byte)(scalar))
+-+	p256OrdReduce(scalarReversed)
+- 
+- 	r.Set(q).p256ScalarMult(scalarReversed)
+- 	return r, nil
+-diff --git a/src/crypto/internal/nistec/p256_ordinv.go b/src/crypto/internal/nistec/p256_ordinv.go
+-index 86a7a230bdce8..1274fb7fd3f5c 100644
+---- a/src/crypto/internal/nistec/p256_ordinv.go
+-+++ b/src/crypto/internal/nistec/p256_ordinv.go
+-@@ -25,6 +25,7 @@ func P256OrdInverse(k []byte) ([]byte, error) {
+- 
+- 	x := new(p256OrdElement)
+- 	p256OrdBigToLittle(x, (*[32]byte)(k))
+-+	p256OrdReduce(x)
+- 
+- 	// Inversion is implemented as exponentiation by n - 2, per Fermat's little theorem.
+- 	//
+diff --git a/meta/recipes-devtools/go/go/CVE-2023-24537.patch b/meta/recipes-devtools/go/go/CVE-2023-24537.patch
+deleted file mode 100644
+index 6b5dc2c8d9..0000000000
+--- a/meta/recipes-devtools/go/go/CVE-2023-24537.patch
++++ /dev/null
+@@ -1,89 +0,0 @@
+-From 110e4fb1c2e3a21631704bbfaf672230b9ba2492 Mon Sep 17 00:00:00 2001
+-From: Damien Neil <dneil@google.com>
+-Date: Wed, 22 Mar 2023 09:33:22 -0700
+-Subject: [PATCH] go/scanner: reject large line and column numbers in //line
+- directives
+-
+-Setting a large line or column number using a //line directive can cause
+-integer overflow even in small source files.
+-
+-Limit line and column numbers in //line directives to 2^30-1, which
+-is small enough to avoid int32 overflow on all reasonbly-sized files.
+-
+-For #59180
+-Fixes CVE-2023-24537
+-
+-Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802456
+-Reviewed-by: Julie Qiu <julieqiu@google.com>
+-Reviewed-by: Roland Shoemaker <bracewell@google.com>
+-Run-TryBot: Damien Neil <dneil@google.com>
+-Change-Id: I149bf34deca532af7994203fa1e6aca3c890ea14
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/482078
+-Reviewed-by: Matthew Dempsky <mdempsky@google.com>
+-TryBot-Bypass: Michael Knyszek <mknyszek@google.com>
+-Run-TryBot: Michael Knyszek <mknyszek@google.com>
+-Auto-Submit: Michael Knyszek <mknyszek@google.com>
+-
+-CVE: CVE-2023-24537
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- src/go/parser/parser_test.go | 16 ++++++++++++++++
+- src/go/scanner/scanner.go    |  7 +++++--
+- 2 files changed, 21 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/go/parser/parser_test.go b/src/go/parser/parser_test.go
+-index 153562df75068..22b11a0cc4535 100644
+---- a/src/go/parser/parser_test.go
+-+++ b/src/go/parser/parser_test.go
+-@@ -764,3 +764,19 @@ func TestRangePos(t *testing.T) {
+- 		})
+- 	}
+- }
+-+
+-+// TestIssue59180 tests that line number overflow doesn't cause an infinite loop.
+-+func TestIssue59180(t *testing.T) {
+-+	testcases := []string{
+-+		"package p\n//line :9223372036854775806\n\n//",
+-+		"package p\n//line :1:9223372036854775806\n\n//",
+-+		"package p\n//line file:9223372036854775806\n\n//",
+-+	}
+-+
+-+	for _, src := range testcases {
+-+		_, err := ParseFile(token.NewFileSet(), "", src, ParseComments)
+-+		if err == nil {
+-+			t.Errorf("ParseFile(%s) succeeded unexpectedly", src)
+-+		}
+-+	}
+-+}
+-diff --git a/src/go/scanner/scanner.go b/src/go/scanner/scanner.go
+-index 16958d22ce299..0cd9f5901d0bb 100644
+---- a/src/go/scanner/scanner.go
+-+++ b/src/go/scanner/scanner.go
+-@@ -253,13 +253,16 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
+- 		return
+- 	}
+- 
+-+	// Put a cap on the maximum size of line and column numbers.
+-+	// 30 bits allows for some additional space before wrapping an int32.
+-+	const maxLineCol = 1<<30 - 1
+- 	var line, col int
+- 	i2, n2, ok2 := trailingDigits(text[:i-1])
+- 	if ok2 {
+- 		//line filename:line:col
+- 		i, i2 = i2, i
+- 		line, col = n2, n
+--		if col == 0 {
+-+		if col == 0 || col > maxLineCol {
+- 			s.error(offs+i2, "invalid column number: "+string(text[i2:]))
+- 			return
+- 		}
+-@@ -269,7 +272,7 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
+- 		line = n
+- 	}
+- 
+--	if line == 0 {
+-+	if line == 0 || line > maxLineCol {
+- 		s.error(offs+i, "invalid line number: "+string(text[i:]))
+- 		return
+- 	}
+diff --git a/meta/recipes-devtools/go/go_1.20.1.bb b/meta/recipes-devtools/go/go_1.20.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.20.1.bb
+rename to meta/recipes-devtools/go/go_1.20.4.bb
 -- 
 2.34.1
 
