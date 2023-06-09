@@ -1,183 +1,125 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BAFC7EE25
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 02:12:15 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web10.4362.1686276727065305288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F49DC7EE23
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 03:04:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.5253.1686279860631909080
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 19:12:07 -0700
+ Thu, 08 Jun 2023 20:04:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=g6jbRTgu;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-19f8af9aa34so288569fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 19:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686276726; x=1688868726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nW1IpTHCL4fxCvbpb2uYiHhVjiRgrCcr2c66WBm8yDs=;
-        b=g6jbRTgu4DRE07Wz9H5+mxk8cmQMR5EXzQupobIyRW1m439QUJ5mDCsVb+ayEyt6eQ
-         btLhTs0mgxMLqfQpTgQNs08mA9q6uHkSsQctuCV4nQ27XLrzdQFV/T0vKLNlzA7gzDJk
-         Ww2miM1OnPaA+PPtiCgTcdeD0msNX7shYG5H9cWZBBmuhLdCLzjCp/cnJQY4cKpg+H8L
-         qfOhtAbYeYvpn4OVP8MEqe/Ze7O9Nf497jY2d5As3/welaGwqCnEfZVtZqejwAHmVxlk
-         4JpuZLUpR0miUDIWEgN3WRC+KAc0OIDbU81+x7/OHt5TfwE327JjYa52ZQ7OXyNuJxu4
-         9REw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686276726; x=1688868726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nW1IpTHCL4fxCvbpb2uYiHhVjiRgrCcr2c66WBm8yDs=;
-        b=IjxtxEjw02N8Mo9izzCXW4Bw0io3n50bxDQfGUVCpQ0MWvM/EhYxWv3aicVOV1suqG
-         qqe8AyEEguOSpkUGkZMTOwiaxCmDFpCzEG+wQlKg1D8AEby6boGlfhkhLlumf8ylROG5
-         VktVjCg6eGZusQluOSeN+rgm/cEDZXClRJ8mAV+cnfsa6NnftCKzXhLM0KK1gaXwv7XZ
-         VObNX9fyCn8Xy4Lp4WMoIVC5LGqqkMfm+1bp7D+KjrJfxLVRzeIBVuXSii7Iabx20l6j
-         cBWuYiGHIox78tGGVeYCpZGZz9dWGJgoW+BlLRkLJGswmm7TRjo9G9oE6wVuQVGd7F2a
-         zGdA==
-X-Gm-Message-State: AC+VfDw05YRU9OKMV/uzElbkZQOGx6np9rKodvZ2V4Z/M1knTSwDt/iS
-	0Ec60EbJECJWsvBDo3sIOy7SaS8ED6vr+VXsFc0=
-X-Google-Smtp-Source: ACHHUZ5RNjBUu7RSJdLv+Lx6sLdc9uWuXP79Z6MqLd5S/uxQvVlvtbopW21fITOm0D+IYHyKF7KYTzsWEQCW7IC9Au8=
-X-Received: by 2002:a05:6870:8542:b0:19f:9579:379d with SMTP id
- w2-20020a056870854200b0019f9579379dmr197619oaj.18.1686276726133; Thu, 08 Jun
- 2023 19:12:06 -0700 (PDT)
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=552455cca2=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35930UPp007505
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jun 2023 20:04:20 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2av7aa61-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 20:04:20 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 8 Jun 2023 20:04:19 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Thu, 8 Jun 2023 20:04:18 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v6] qemu: Split the qemu package
+Date: Fri, 9 Jun 2023 11:04:18 +0800
+Message-ID: <20230609030418.540053-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <1766DB271C48CF77.6460@lists.openembedded.org>
+References: <1766DB271C48CF77.6460@lists.openembedded.org>
 MIME-Version: 1.0
-References: <20230606151335.6019-1-vince@underview.tech> <20230606151335.6019-2-vince@underview.tech>
-In-Reply-To: <20230606151335.6019-2-vince@underview.tech>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 Jun 2023 19:11:40 -0700
-Message-ID: <CAMKF1sppV_=AW3+jrHw322B=7upV9ZQmqa__Q54a0akhnp0qaQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/2] vulkan-validation-layers: add new recipe v1.3.243.0
-To: Vincent Davis Jr <vince@underview.tech>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: NJ_bBm5mZvSMgt6uYxFTtGWU0Nq0oWsj
+X-Proofpoint-GUID: NJ_bBm5mZvSMgt6uYxFTtGWU0Nq0oWsj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_18,2023-06-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 phishscore=0 mlxlogscore=826
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306090026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 02:12:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182525
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 03:04:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182526
 
-I am seeing build failure on imx8 platform using clang.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-https://errors.yoctoproject.org/Errors/Details/707981/
+Currently all files as below packaged into one package such as
+qemu-7.2.0-*.rpm. After the qemu package installed on the target,
+it will take up about 464M which includes not only the one matches
+the arch of the target but aslo all available built qemu targets
+which set by QEMU_TARGETS.
 
-On Tue, Jun 6, 2023 at 8:14=E2=80=AFAM Vincent Davis Jr <vince@underview.te=
-ch> wrote:
->
-> Add a recipe to build the Khronos official Vulkan validation
-> layers that can assist developers in verifying that their
-> applications correctly use the Vulkan APIs.
->
-> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../vulkan-validation-layers_1.3.243.0.bb     | 51 +++++++++++++++++++
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-graphics/vulkan/vulkan-validation-layers=
-_1.3.243.0.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index 0f7b7287bb..b06ae43dac 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -827,6 +827,7 @@ RECIPE_MAINTAINER:pn-vulkan-headers =3D "Anuj Mittal =
-<anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-vulkan-loader =3D "Anuj Mittal <anuj.mittal@intel.c=
-om>"
->  RECIPE_MAINTAINER:pn-vulkan-samples =3D "Ross Burton <ross.burton@arm.co=
-m>"
->  RECIPE_MAINTAINER:pn-vulkan-tools =3D "Anuj Mittal <anuj.mittal@intel.co=
-m>"
-> +RECIPE_MAINTAINER:pn-vulkan-validation-layers =3D "Vincent Davis Jr <vin=
-ce@underview.tech>"
->  RECIPE_MAINTAINER:pn-waffle =3D "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-watchdog =3D "Alexander Kanavin <alex.kanavin@gmail=
-.com>"
->  RECIPE_MAINTAINER:pn-watchdog-config =3D "Alexander Kanavin <alex.kanavi=
-n@gmail.com>"
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.24=
-3.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb
-> new file mode 100644
-> index 0000000000..6e1ef7a05d
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb
-> @@ -0,0 +1,51 @@
-> +SUMMARY =3D "Vulkan Validation layers"
-> +DESCRIPTION =3D "Khronos official Vulkan validation layers to assist dev=
-elopers \
-> +in verifying that their applications correctly use the Vulkan API"
-> +HOMEPAGE =3D "https://www.khronos.org/vulkan/"
-> +BUGTRACKER =3D "https://github.com/KhronosGroup/Vulkan-ValidationLayers"
-> +SECTION =3D "libs"
-> +
-> +LICENSE =3D "Apache-2.0"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D8df9e8826734226d08cb412ba=
-bfa599c"
-> +
-> +SRC_URI =3D "git://git@github.com/KhronosGroup/Vulkan-ValidationLayers.g=
-it;branch=3Dsdk-1.3.243;protocol=3Dhttps"
-> +SRCREV =3D "4ac0fd8e6cb3d49105d707d9ec07f0f3aa0943d6"
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +REQUIRED_DISTRO_FEATURES =3D "vulkan"
-> +
-> +DEPENDS =3D "vulkan-headers vulkan-loader spirv-headers spirv-tools glsl=
-ang"
-> +
-> +# BUILD_TESTS            - Not required for OE builds
-> +# USE_ROBIN_HOOD_HASHING - Provides substantial performance improvements=
- on all platforms.
-> +#                          Yocto project doesn't contain a recipe for pa=
-ckage so disabled it.
-> +EXTRA_OECMAKE =3D "\
-> +    -DBUILD_TESTS=3DOFF \
-> +    -DUSE_ROBIN_HOOD_HASHING=3DOFF \
-> +    -DGLSLANG_INSTALL_DIR=3D${STAGING_DATADIR} \
-> +    -DVULKAN_HEADERS_INSTALL_DIR=3D${STAGING_EXECPREFIXDIR} \
-> +    -DSPIRV_HEADERS_INSTALL_DIR=3D${STAGING_EXECPREFIXDIR} \
-> +    "
-> +
-> +PACKAGECONFIG[x11] =3D "-DBUILD_WSI_XLIB_SUPPORT=3DON -DBUILD_WSI_XCB_SU=
-PPORT=3DON, -DBUILD_WSI_XLIB_SUPPORT=3DOFF -DBUILD_WSI_XCB_SUPPORT=3DOFF, l=
-ibxcb libx11 libxrandr"
-> +PACKAGECONFIG[wayland] =3D "-DBUILD_WSI_WAYLAND_SUPPORT=3DON, -DBUILD_WS=
-I_WAYLAND_SUPPORT=3DOFF, wayland"
-> +
-> +PACKAGECONFIG ?=3D "\
-> +    ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
-> +    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
-> +    "
-> +
-> +inherit cmake features_check pkgconfig
-> +
-> +FILES:${PN} +=3D "${datadir}/vulkan ${libdir}"
-> +
-> +SOLIBS =3D ".so"
-> +FILES_SOLIBSDEV =3D ""
-> +
-> +# These recipes need to be updated in lockstep with each other:
-> +# glslang, vulkan-headers, vulkan-loader, vulkan-tools,
-> +# vulkan-validation-layers, spirv-headers, spirv-tools
-> +# The tags versions should always be sdk-x.y.z, as this is what
-> +# upstream considers a release.
-> +UPSTREAM_CHECK_GITTAGREGEX =3D "sdk-(?P<pver>\d+(\.\d+)+)"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182446): https://lists.openembedded.org/g/openembedde=
-d-core/message/182446
-> Mute This Topic: https://lists.openembedded.org/mt/99365321/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ # ls tmp-glibc/work/core2-64-wrs-linux/qemu/7.2.0-r0/image/usr/bin/
+ qemu-aarch64  qemu-img          qemu-mips64el   qemu-ppc64
+ qemu-sh4    qemu-system-loongarch64  qemu-system-ppc      qemu-system-x86_64
+ qemu-arm      qemu-io           qemu-mipsel     qemu-ppc64le
+ qemu-storage-daemon  qemu-system-mips         qemu-system-ppc64
+ qemu-x86_64 qemu-edid     qemu-loongarch64  qemu-mips.real
+ qemu-pr-helper  qemu-system-aarch64  qemu-system-mips64
+ qemu-system-riscv32 qemu-ga       qemu-mips         qemu-nbd
+ qemu-riscv32    qemu-system-arm      qemu-system-mips64el
+ qemu-system-riscv64 qemu-i386     qemu-mips64       qemu-ppc
+ qemu-riscv64    qemu-system-i386     qemu-system-mipsel qemu-system-sh4
+
+Split the qemu package into qemu-7.2.0-*.rpm, qemu-system-*.rpm,
+qemu-user-*.rpm and etc. And let user can only choose the corresponding
+qemu arch package they want to install should ease the concerns who
+cares much about the size in embedded device as it decreases the qemu rpm
+(qemu-7.2.0*.rpm) size from about 65M to about 19M and the size of the
+extracted qemu RPM decreased from about 464M to about 248M.
+
+For the users who want to install all arch packages, they can install
+qemu-system-all and qemu-user-all to meet their need.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index a87dee5c99..6acda61425 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -230,6 +230,28 @@ INSANE_SKIP:${PN} = "arch"
+ 
+ FILES:${PN} += "${datadir}/icons"
+ 
++# For user who want to install all arch packages
++PACKAGES =+ "${PN}-system-all ${PN}-user-all"
++
++ALLOW_EMPTY:${PN}-system-all = "1"
++ALLOW_EMPTY:${PN}-user-all = "1"
++
++PACKAGESPLITFUNCS =+ "split_qemu_packages"
++
++python split_qemu_packages () {
++    archdir = d.expand('${bindir}/')
++    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
++    if syspackages:
++        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
++
++    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
++    if userpackages:
++        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
++    mipspackage = d.getVar('PN') + "-user-mips"
++    if mipspackage in ' '.join(userpackages):
++        d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
++}
++
+ # Put the guest agent in a separate package
+ PACKAGES =+ "${PN}-guest-agent"
+ SUMMARY:${PN}-guest-agent = "QEMU guest agent"
+-- 
+2.25.1
+
 
