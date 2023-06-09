@@ -2,574 +2,100 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F35A8C7EE2F
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:15 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.131.1686329648872720148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2941CC87FDC
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:16 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.133.1686329654565059414
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:08 -0700
+ Fri, 09 Jun 2023 09:54:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ZKNOtusG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-65242634690so1617609b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=IxCBh2zo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6563ccf5151so2115941b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329648; x=1688921648;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329654; x=1688921654;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rypwtqB6BEQIe6rPiNd7ptHijuRom+Ip3cKfIc1q/Es=;
-        b=ZKNOtusGspfKQHTqDUnGXujufADruk2ftagnquwP0XiS1nycDPaXHof7GdxcNzNE+a
-         VoWMEpwX/yvPKxaKI8YziBPxB4l4BOrBXC4/bFmwuAEkeXjnaa8szAfjufFcpJKZYjq9
-         yYSpHI5WXyqeOIkIgx7c6ygX32zDbgrP13ORqxuiFUHYWTbvR8Ghcijv1suj/++Hk/mz
-         lw03H9enufjCpuVdSPzPaoy0MsMRL6yeQEBoNKgZ+fP86h7tpXkCHxuCTj1bePMUVwu9
-         L62l6f5EcW9xEwnky11FcxuFscO+ca8/3dCKmsJNuQl7qKQ5DlPteb6jLYzFT1tVfGwK
-         syVA==
+        bh=uRdPwRrfsfwFIOrz/mqSqpXneQecfdim6K4w9A6f2AY=;
+        b=IxCBh2zovsECZ4gi9TP01u/9Jw4m26/yFc2Uih+tkonWE6BhBb22IJsC817W3pXu9L
+         ao2mLbGepxNCd/yT03ENFsJfL5nk6CSGA8tytrvbdWZ1LcyOkgAH4aiMGuQCE63eUkbV
+         ttqc2MlbW34n4tQ8Rfd982SnvHBFN4Ud/W5iQEfzJSWs15fICFIISoapzxIUWS8avr5c
+         BrMZYZFLV/3Mi8ZXHe8P4XlMOsUdOw14isQpONIHH6U1dwycNL2NyUmkz7A+hh1GHL7N
+         2ocRHkaiZ/TjlFCv2YiNIDuJtbeA0Lf1sABPG3gRdbMl52DaUCZ7T60DEDKucFnwCqSe
+         kLIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329648; x=1688921648;
+        d=1e100.net; s=20221208; t=1686329654; x=1688921654;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rypwtqB6BEQIe6rPiNd7ptHijuRom+Ip3cKfIc1q/Es=;
-        b=LfHb/EUgtbXenOpp1ZO0TL1kOhUJ5nzQM+8l9uQbdEbl/GlqctQ32KLkbKkucsKcD0
-         o2z/b8zbCaVLLt4+SgR1S5ve571KkEvRIwF9EGcRnV0wi9YwBGmiGKP25KUBVf/w2Bcv
-         jr15m4bDAJX/C/Ci3gwKT3ie8Q08nEJd6XqcQRvOFhiJGkVOfLFyQcgOqH/+TK59zEU4
-         5gX9djbrL1YSsekgzbn/18jjFkTKgUzWwH8UPNgSxXA0mS9nL8eogRssagSJJU4tJsQO
-         wdvmhMq1yS4ewXG1N4wNeIkVnPuuBL3UoLLnL0I7aFGGmmY5VhvUfzNYEK2rEMo3giZG
-         RBUg==
-X-Gm-Message-State: AC+VfDz3u/GpHbmeCLH6nKMJG7QDO9rXlnfGnwhzDc80a+5sFnbpDzxl
-	hP4ANTEtIvZJMmn7tbYqiZG0tOJ3XWXNqQG9KjY=
-X-Google-Smtp-Source: ACHHUZ6lb5avcGbgWxHdi+ZptwRt/aBBaRpJWTgS5Z49n1RvMJga2FlP+s70+biyazPVV8rv+aRGJg==
-X-Received: by 2002:a05:6a20:4303:b0:105:63b0:5bf8 with SMTP id h3-20020a056a20430300b0010563b05bf8mr1731035pzk.18.1686329647255;
-        Fri, 09 Jun 2023 09:54:07 -0700 (PDT)
+        bh=uRdPwRrfsfwFIOrz/mqSqpXneQecfdim6K4w9A6f2AY=;
+        b=P6+/7Z4TbFYCixFPtz1LkdaWy9wjUX/PGXvLYw1UVNqbD7r9PyCg/3xyDE+bqW6wRh
+         4hVvul9wgBTHJqr9G5LXNhZqX3xX4bnUPZrU7XzHQUvW07Cg2uIUuEMbDOuDnqJ5g/dZ
+         1yFsGOEirMl43504c/cma5jmH6DJcNkORzQjSoGvzOVKhygG7v7IkemEivRsIkmGZFq3
+         6qNGHP6ilTwVBvBfQFKRYICSgqz34je6y2H/x5O0T22mOHMy2nNd1GPXPjmc1yrJnA+9
+         zkaDFgdrsDjFzyIS6zMiHD7b2ea7cUx63U0TLH+8mokWjIlwUqX6KtrOdraeEm7t0FUV
+         CdsQ==
+X-Gm-Message-State: AC+VfDy2AMcnRkYgdl1GP5THzk6TOAphmtGwTrHBsxblJ9T++ufkPmVf
+	hbW3zztF8V3Ty217a1D5Ydf8YGzbVaa23ugVN/Q=
+X-Google-Smtp-Source: ACHHUZ5fxJRgQfsprZbtQiZGbEFdg4ifgYBbgNQGG0UPpyXSijCm3DM9zqQx3bE7zAPUK1HWVPRXog==
+X-Received: by 2002:a05:6a20:3d08:b0:10b:91c5:45b5 with SMTP id y8-20020a056a203d0800b0010b91c545b5mr2124029pzi.31.1686329653734;
+        Fri, 09 Jun 2023 09:54:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.06
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:06 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 02/30] go: Upgrade 1.20.1 -> 1.20.4
-Date: Fri,  9 Jun 2023 06:53:29 -1000
-Message-Id: <5847869334dd6687441708e26d1c0ab0a648e7f5.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 06/30] xz: upgrade 5.4.2 -> 5.4.3
+Date: Fri,  9 Jun 2023 06:53:33 -1000
+Message-Id: <c450040e2f177b2ef64c0817ca0aad4051d5f25f.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182568
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182572
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Denys Dmytriyenko <denis@denix.org>
 
-- Remove already upstreamed patches
+5.4.3 (2023-05-04)
+    * All fixes from 5.2.12
+    * Features in the CMake build can now be disabled as CMake cache
+      variables, similar to the Autotools build.
+    * Minor update to the Croatian translation.
 
-- Brings a list of changes [1] [2] [3]
-
-[1] https://github.com/golang/go/issues?q=milestone%3AGo1.20.2+label%3ACherryPickApproved
-[2] https://github.com/golang/go/issues?q=milestone%3AGo1.20.3+label%3ACherryPickApproved
-[3] https://github.com/golang/go/issues?q=milestone%3AGo1.20.4+label%3ACherryPickApproved
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e043bfb42156c59c93c6a4816528a63cfdaccc3e)
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 75aaa3d8efa9ba4fdf7145321dc85b34cd3dcebb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../go/{go-1.20.1.inc => go-1.20.4.inc}       |   5 +-
- ...e_1.20.1.bb => go-binary-native_1.20.4.bb} |   6 +-
- ..._1.20.1.bb => go-cross-canadian_1.20.4.bb} |   0
- ...{go-cross_1.20.1.bb => go-cross_1.20.4.bb} |   0
- ...osssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} |   0
- ...o-native_1.20.1.bb => go-native_1.20.4.bb} |   0
- ...runtime_1.20.1.bb => go-runtime_1.20.4.bb} |   0
- ...ompile-instantiated-generic-methods-.patch |  90 --------
- .../go/go/CVE-2023-24532.patch                | 208 ------------------
- .../go/go/CVE-2023-24537.patch                |  89 --------
- .../go/{go_1.20.1.bb => go_1.20.4.bb}         |   0
- 11 files changed, 4 insertions(+), 394 deletions(-)
- rename meta/recipes-devtools/go/{go-1.20.1.inc => go-1.20.4.inc} (77%)
- rename meta/recipes-devtools/go/{go-binary-native_1.20.1.bb => go-binary-native_1.20.4.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.20.1.bb => go-cross-canadian_1.20.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.20.1.bb => go-cross_1.20.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.20.1.bb => go-crosssdk_1.20.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.20.1.bb => go-native_1.20.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.20.1.bb => go-runtime_1.20.4.bb} (100%)
- delete mode 100644 meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
- delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24532.patch
- delete mode 100644 meta/recipes-devtools/go/go/CVE-2023-24537.patch
- rename meta/recipes-devtools/go/{go_1.20.1.bb => go_1.20.4.bb} (100%)
+ meta/recipes-extended/xz/{xz_5.4.2.bb => xz_5.4.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/xz/{xz_5.4.2.bb => xz_5.4.3.bb} (95%)
 
-diff --git a/meta/recipes-devtools/go/go-1.20.1.inc b/meta/recipes-devtools/go/go-1.20.4.inc
-similarity index 77%
-rename from meta/recipes-devtools/go/go-1.20.1.inc
-rename to meta/recipes-devtools/go/go-1.20.4.inc
-index 179f0e29eb..05bc168e0c 100644
---- a/meta/recipes-devtools/go/go-1.20.1.inc
-+++ b/meta/recipes-devtools/go/go-1.20.4.inc
-@@ -14,8 +14,5 @@ SRC_URI += "\
-     file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
--    file://0010-cmd-compile-re-compile-instantiated-generic-methods-.patch \
--    file://CVE-2023-24532.patch \
--    file://CVE-2023-24537.patch \
- "
--SRC_URI[main.sha256sum] = "b5c1a3af52c385a6d1c76aed5361cf26459023980d0320de7658bae3915831a2"
-+SRC_URI[main.sha256sum] = "9f34ace128764b7a3a4b238b805856cc1b2184304df9e5690825b0710f4202d6"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb b/meta/recipes-devtools/go/go-binary-native_1.20.4.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.20.1.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.20.4.bb
-index 239334552a..87ce8a558f 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.20.1.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.20.4.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-extended/xz/xz_5.4.2.bb b/meta/recipes-extended/xz/xz_5.4.3.bb
+similarity index 95%
+rename from meta/recipes-extended/xz/xz_5.4.2.bb
+rename to meta/recipes-extended/xz/xz_5.4.3.bb
+index 87f9602bf6..e1cdac3014 100644
+--- a/meta/recipes-extended/xz/xz_5.4.2.bb
++++ b/meta/recipes-extended/xz/xz_5.4.3.bb
+@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
+                     "
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "000a5b1fca4f75895f78befeb2eecf10bfff3c428597f3f1e69133b63b911b02"
--SRC_URI[go_linux_arm64.sha256sum] = "5e5e2926733595e6f3c5b5ad1089afac11c1490351855e87849d0e7702b1ec2e"
--SRC_URI[go_linux_ppc64le.sha256sum] = "85cfd4b89b48c94030783b6e9e619e35557862358b846064636361421d0b0c52"
-+SRC_URI[go_linux_amd64.sha256sum] = "698ef3243972a51ddb4028e4a1ac63dc6d60821bf18e59a807e051fee0a385bd"
-+SRC_URI[go_linux_arm64.sha256sum] = "105889992ee4b1d40c7c108555222ca70ae43fccb42e20fbf1eebb822f5e72c6"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "8c6f44b96c2719c90eebabe2dd866f9c39538648f7897a212cac448587e9a408"
+ SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "87947679abcf77cc509d8d1b474218fd16b72281e2797360e909deaee1ac9d05"
++SRC_URI[sha256sum] = "1c382e0bc2e4e0af58398a903dd62fff7e510171d2de47a1ebe06d1528e9b7e9"
+ UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.20.1.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.20.4.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.20.1.bb b/meta/recipes-devtools/go/go-cross_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.20.1.bb
-rename to meta/recipes-devtools/go/go-cross_1.20.4.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.20.1.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.20.4.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.20.1.bb b/meta/recipes-devtools/go/go-native_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.20.1.bb
-rename to meta/recipes-devtools/go/go-native_1.20.4.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.20.1.bb b/meta/recipes-devtools/go/go-runtime_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.20.1.bb
-rename to meta/recipes-devtools/go/go-runtime_1.20.4.bb
-diff --git a/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch b/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
-deleted file mode 100644
-index f9ac202421..0000000000
---- a/meta/recipes-devtools/go/go/0010-cmd-compile-re-compile-instantiated-generic-methods-.patch
-+++ /dev/null
-@@ -1,90 +0,0 @@
--From 7a3bb16b43efba73674629eae4369f9004e37f22 Mon Sep 17 00:00:00 2001
--From: Cuong Manh Le <cuong.manhle.vn@gmail.com>
--Date: Sat, 18 Mar 2023 00:53:07 +0700
--Subject: [PATCH] cmd/compile: re-compile instantiated generic methods in
-- linkshared mode
--
--For G[T] that was seen and compiled in imported package, it is not added
--to typecheck.Target.Decls, prevent wasting compile time re-creating
--DUPOKS symbols. However, the linker do not support a type symbol
--referencing a method symbol across DSO boundary. That causes unreachable
--sym error when building under -linkshared mode.
--
--To fix it, always re-compile generic methods in linkshared mode.
--
--Fixes #58966
--
--Change-Id: I894b417cfe8234ae1fe809cc975889345df22cef
--Reviewed-on: https://go-review.googlesource.com/c/go/+/477375
--Run-TryBot: Cuong Manh Le <cuong.manhle.vn@gmail.com>
--Reviewed-by: Cherry Mui <cherryyz@google.com>
--Reviewed-by: Matthew Dempsky <mdempsky@google.com>
--TryBot-Result: Gopher Robot <gobot@golang.org>
--
--Upstream-Status: Backport [https://github.com/golang/go/commit/bcd82125f85c7c552493e863fa1bb14e6c444557]
--
--Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-----
-- misc/cgo/testshared/shared_test.go              |  7 ++++++-
-- misc/cgo/testshared/testdata/issue58966/main.go | 15 +++++++++++++++
-- src/cmd/compile/internal/noder/unified.go       |  6 +++++-
-- 3 files changed, 26 insertions(+), 2 deletions(-)
-- create mode 100644 misc/cgo/testshared/testdata/issue58966/main.go
--
--diff --git a/misc/cgo/testshared/shared_test.go b/misc/cgo/testshared/shared_test.go
--index b14fb1cb3a..03da8f9435 100644
----- a/misc/cgo/testshared/shared_test.go
--+++ b/misc/cgo/testshared/shared_test.go
--@@ -1112,8 +1112,13 @@ func TestStd(t *testing.T) {
-- 		t.Skip("skip in short mode")
-- 	}
-- 	t.Parallel()
--+	tmpDir := t.TempDir()
-- 	// Use a temporary pkgdir to not interfere with other tests, and not write to GOROOT.
-- 	// Cannot use goCmd as it runs with cloned GOROOT which is incomplete.
-- 	runWithEnv(t, "building std", []string{"GOROOT=" + oldGOROOT},
---		filepath.Join(oldGOROOT, "bin", "go"), "install", "-buildmode=shared", "-pkgdir="+t.TempDir(), "std")
--+		filepath.Join(oldGOROOT, "bin", "go"), "install", "-buildmode=shared", "-pkgdir="+tmpDir, "std")
--+
--+	// Issue #58966.
--+	runWithEnv(t, "testing issue #58966", []string{"GOROOT=" + oldGOROOT},
--+		filepath.Join(oldGOROOT, "bin", "go"), "run", "-linkshared", "-pkgdir="+tmpDir, "./issue58966/main.go")
-- }
--diff --git a/misc/cgo/testshared/testdata/issue58966/main.go b/misc/cgo/testshared/testdata/issue58966/main.go
--new file mode 100644
--index 0000000000..2d923c3607
----- /dev/null
--+++ b/misc/cgo/testshared/testdata/issue58966/main.go
--@@ -0,0 +1,15 @@
--+// Copyright 2023 The Go Authors. All rights reserved.
--+// Use of this source code is governed by a BSD-style
--+// license that can be found in the LICENSE file.
--+
--+package main
--+
--+import "crypto/elliptic"
--+
--+var curve elliptic.Curve
--+
--+func main() {
--+	switch curve {
--+	case elliptic.P224():
--+	}
--+}
--diff --git a/src/cmd/compile/internal/noder/unified.go b/src/cmd/compile/internal/noder/unified.go
--index ed97a09302..25136e6aad 100644
----- a/src/cmd/compile/internal/noder/unified.go
--+++ b/src/cmd/compile/internal/noder/unified.go
--@@ -158,7 +158,11 @@ func readBodies(target *ir.Package, duringInlining bool) {
-- 			// Instantiated generic function: add to Decls for typechecking
-- 			// and compilation.
-- 			if fn.OClosure == nil && len(pri.dict.targs) != 0 {
---				if duringInlining {
--+				// cmd/link does not support a type symbol referencing a method symbol
--+				// across DSO boundary, so force re-compiling methods on a generic type
--+				// even it was seen from imported package in linkshared mode, see #58966.
--+				canSkipNonGenericMethod := !(base.Ctxt.Flag_linkshared && ir.IsMethod(fn))
--+				if duringInlining && canSkipNonGenericMethod {
-- 					inlDecls = append(inlDecls, fn)
-- 				} else {
-- 					target.Decls = append(target.Decls, fn)
-diff --git a/meta/recipes-devtools/go/go/CVE-2023-24532.patch b/meta/recipes-devtools/go/go/CVE-2023-24532.patch
-deleted file mode 100644
-index 22f080dbd4..0000000000
---- a/meta/recipes-devtools/go/go/CVE-2023-24532.patch
-+++ /dev/null
-@@ -1,208 +0,0 @@
--From 602eeaab387f24a4b28c5eccbb50fa934f3bc3c4 Mon Sep 17 00:00:00 2001
--From: Filippo Valsorda <filippo@golang.org>
--Date: Mon, 13 Feb 2023 15:16:27 +0100
--Subject: [PATCH] [release-branch.go1.20] crypto/internal/nistec: reduce P-256
-- scalar
--
--Unlike the rest of nistec, the P-256 assembly doesn't use complete
--addition formulas, meaning that p256PointAdd[Affine]Asm won't return the
--correct value if the two inputs are equal.
--
--This was (undocumentedly) ignored in the scalar multiplication loops
--because as long as the input point is not the identity and the scalar is
--lower than the order of the group, the addition inputs can't be the same.
--
--As part of the math/big rewrite, we went however from always reducing
--the scalar to only checking its length, under the incorrect assumption
--that the scalar multiplication loop didn't require reduction.
--
--Added a reduction, and while at it added it in P256OrdInverse, too, to
--enforce a universal reduction invariant on p256OrdElement values.
--
--Note that if the input point is the infinity, the code currently still
--relies on undefined behavior, but that's easily tested to behave
--acceptably, and will be addressed in a future CL.
--
--Updates #58647
--Fixes #58720
--Fixes CVE-2023-24532
--
--(Filed with the "safe APIs like complete addition formulas are good" dept.)
--
--Change-Id: I7b2c75238440e6852be2710fad66ff1fdc4e2b24
--Reviewed-on: https://go-review.googlesource.com/c/go/+/471255
--TryBot-Result: Gopher Robot <gobot@golang.org>
--Reviewed-by: Roland Shoemaker <roland@golang.org>
--Run-TryBot: Filippo Valsorda <filippo@golang.org>
--Auto-Submit: Filippo Valsorda <filippo@golang.org>
--Reviewed-by: Damien Neil <dneil@google.com>
--(cherry picked from commit 203e59ad41bd288e1d92b6f617c2f55e70d3c8e3)
--Reviewed-on: https://go-review.googlesource.com/c/go/+/471695
--Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
--Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
--Reviewed-by: Filippo Valsorda <filippo@golang.org>
--Run-TryBot: Roland Shoemaker <roland@golang.org>
--
--CVE: CVE-2023-24532
--Upstream-Status: Backport [602eeaab387f24a4b28c5eccbb50fa934f3bc3c4]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
-----
-- src/crypto/internal/nistec/nistec_test.go | 81 +++++++++++++++++++++++
-- src/crypto/internal/nistec/p256_asm.go    | 17 +++++
-- src/crypto/internal/nistec/p256_ordinv.go |  1 +
-- 3 files changed, 99 insertions(+)
--
--diff --git a/src/crypto/internal/nistec/nistec_test.go b/src/crypto/internal/nistec/nistec_test.go
--index 309f68be16a9f..9103608c18a0f 100644
----- a/src/crypto/internal/nistec/nistec_test.go
--+++ b/src/crypto/internal/nistec/nistec_test.go
--@@ -8,6 +8,7 @@ import (
-- 	"bytes"
-- 	"crypto/elliptic"
-- 	"crypto/internal/nistec"
--+	"fmt"
-- 	"internal/testenv"
-- 	"math/big"
-- 	"math/rand"
--@@ -165,6 +166,86 @@ func testEquivalents[P nistPoint[P]](t *testing.T, newPoint func() P, c elliptic
-- 	}
-- }
-- 
--+func TestScalarMult(t *testing.T) {
--+	t.Run("P224", func(t *testing.T) {
--+		testScalarMult(t, nistec.NewP224Point, elliptic.P224())
--+	})
--+	t.Run("P256", func(t *testing.T) {
--+		testScalarMult(t, nistec.NewP256Point, elliptic.P256())
--+	})
--+	t.Run("P384", func(t *testing.T) {
--+		testScalarMult(t, nistec.NewP384Point, elliptic.P384())
--+	})
--+	t.Run("P521", func(t *testing.T) {
--+		testScalarMult(t, nistec.NewP521Point, elliptic.P521())
--+	})
--+}
--+
--+func testScalarMult[P nistPoint[P]](t *testing.T, newPoint func() P, c elliptic.Curve) {
--+	G := newPoint().SetGenerator()
--+	checkScalar := func(t *testing.T, scalar []byte) {
--+		p1, err := newPoint().ScalarBaseMult(scalar)
--+		fatalIfErr(t, err)
--+		p2, err := newPoint().ScalarMult(G, scalar)
--+		fatalIfErr(t, err)
--+		if !bytes.Equal(p1.Bytes(), p2.Bytes()) {
--+			t.Error("[k]G != ScalarBaseMult(k)")
--+		}
--+
--+		d := new(big.Int).SetBytes(scalar)
--+		d.Sub(c.Params().N, d)
--+		d.Mod(d, c.Params().N)
--+		g1, err := newPoint().ScalarBaseMult(d.FillBytes(make([]byte, len(scalar))))
--+		fatalIfErr(t, err)
--+		g1.Add(g1, p1)
--+		if !bytes.Equal(g1.Bytes(), newPoint().Bytes()) {
--+			t.Error("[N - k]G + [k]G != ∞")
--+		}
--+	}
--+
--+	byteLen := len(c.Params().N.Bytes())
--+	bitLen := c.Params().N.BitLen()
--+	t.Run("0", func(t *testing.T) { checkScalar(t, make([]byte, byteLen)) })
--+	t.Run("1", func(t *testing.T) {
--+		checkScalar(t, big.NewInt(1).FillBytes(make([]byte, byteLen)))
--+	})
--+	t.Run("N-1", func(t *testing.T) {
--+		checkScalar(t, new(big.Int).Sub(c.Params().N, big.NewInt(1)).Bytes())
--+	})
--+	t.Run("N", func(t *testing.T) { checkScalar(t, c.Params().N.Bytes()) })
--+	t.Run("N+1", func(t *testing.T) {
--+		checkScalar(t, new(big.Int).Add(c.Params().N, big.NewInt(1)).Bytes())
--+	})
--+	t.Run("all1s", func(t *testing.T) {
--+		s := new(big.Int).Lsh(big.NewInt(1), uint(bitLen))
--+		s.Sub(s, big.NewInt(1))
--+		checkScalar(t, s.Bytes())
--+	})
--+	if testing.Short() {
--+		return
--+	}
--+	for i := 0; i < bitLen; i++ {
--+		t.Run(fmt.Sprintf("1<<%d", i), func(t *testing.T) {
--+			s := new(big.Int).Lsh(big.NewInt(1), uint(i))
--+			checkScalar(t, s.FillBytes(make([]byte, byteLen)))
--+		})
--+	}
--+	// Test N+1...N+32 since they risk overlapping with precomputed table values
--+	// in the final additions.
--+	for i := int64(2); i <= 32; i++ {
--+		t.Run(fmt.Sprintf("N+%d", i), func(t *testing.T) {
--+			checkScalar(t, new(big.Int).Add(c.Params().N, big.NewInt(i)).Bytes())
--+		})
--+	}
--+}
--+
--+func fatalIfErr(t *testing.T, err error) {
--+	t.Helper()
--+	if err != nil {
--+		t.Fatal(err)
--+	}
--+}
--+
-- func BenchmarkScalarMult(b *testing.B) {
-- 	b.Run("P224", func(b *testing.B) {
-- 		benchmarkScalarMult(b, nistec.NewP224Point().SetGenerator(), 28)
--diff --git a/src/crypto/internal/nistec/p256_asm.go b/src/crypto/internal/nistec/p256_asm.go
--index 6ea161eb49953..99a22b833f028 100644
----- a/src/crypto/internal/nistec/p256_asm.go
--+++ b/src/crypto/internal/nistec/p256_asm.go
--@@ -364,6 +364,21 @@ func p256PointDoubleAsm(res, in *P256Point)
-- // Montgomery domain (with R 2²⁵⁶) as four uint64 limbs in little-endian order.
-- type p256OrdElement [4]uint64
-- 
--+// p256OrdReduce ensures s is in the range [0, ord(G)-1].
--+func p256OrdReduce(s *p256OrdElement) {
--+	// Since 2 * ord(G) > 2²⁵⁶, we can just conditionally subtract ord(G),
--+	// keeping the result if it doesn't underflow.
--+	t0, b := bits.Sub64(s[0], 0xf3b9cac2fc632551, 0)
--+	t1, b := bits.Sub64(s[1], 0xbce6faada7179e84, b)
--+	t2, b := bits.Sub64(s[2], 0xffffffffffffffff, b)
--+	t3, b := bits.Sub64(s[3], 0xffffffff00000000, b)
--+	tMask := b - 1 // zero if subtraction underflowed
--+	s[0] ^= (t0 ^ s[0]) & tMask
--+	s[1] ^= (t1 ^ s[1]) & tMask
--+	s[2] ^= (t2 ^ s[2]) & tMask
--+	s[3] ^= (t3 ^ s[3]) & tMask
--+}
--+
-- // Add sets q = p1 + p2, and returns q. The points may overlap.
-- func (q *P256Point) Add(r1, r2 *P256Point) *P256Point {
-- 	var sum, double P256Point
--@@ -393,6 +408,7 @@ func (r *P256Point) ScalarBaseMult(scalar []byte) (*P256Point, error) {
-- 	}
-- 	scalarReversed := new(p256OrdElement)
-- 	p256OrdBigToLittle(scalarReversed, (*[32]byte)(scalar))
--+	p256OrdReduce(scalarReversed)
-- 
-- 	r.p256BaseMult(scalarReversed)
-- 	return r, nil
--@@ -407,6 +423,7 @@ func (r *P256Point) ScalarMult(q *P256Point, scalar []byte) (*P256Point, error)
-- 	}
-- 	scalarReversed := new(p256OrdElement)
-- 	p256OrdBigToLittle(scalarReversed, (*[32]byte)(scalar))
--+	p256OrdReduce(scalarReversed)
-- 
-- 	r.Set(q).p256ScalarMult(scalarReversed)
-- 	return r, nil
--diff --git a/src/crypto/internal/nistec/p256_ordinv.go b/src/crypto/internal/nistec/p256_ordinv.go
--index 86a7a230bdce8..1274fb7fd3f5c 100644
----- a/src/crypto/internal/nistec/p256_ordinv.go
--+++ b/src/crypto/internal/nistec/p256_ordinv.go
--@@ -25,6 +25,7 @@ func P256OrdInverse(k []byte) ([]byte, error) {
-- 
-- 	x := new(p256OrdElement)
-- 	p256OrdBigToLittle(x, (*[32]byte)(k))
--+	p256OrdReduce(x)
-- 
-- 	// Inversion is implemented as exponentiation by n - 2, per Fermat's little theorem.
-- 	//
-diff --git a/meta/recipes-devtools/go/go/CVE-2023-24537.patch b/meta/recipes-devtools/go/go/CVE-2023-24537.patch
-deleted file mode 100644
-index 6b5dc2c8d9..0000000000
---- a/meta/recipes-devtools/go/go/CVE-2023-24537.patch
-+++ /dev/null
-@@ -1,89 +0,0 @@
--From 110e4fb1c2e3a21631704bbfaf672230b9ba2492 Mon Sep 17 00:00:00 2001
--From: Damien Neil <dneil@google.com>
--Date: Wed, 22 Mar 2023 09:33:22 -0700
--Subject: [PATCH] go/scanner: reject large line and column numbers in //line
-- directives
--
--Setting a large line or column number using a //line directive can cause
--integer overflow even in small source files.
--
--Limit line and column numbers in //line directives to 2^30-1, which
--is small enough to avoid int32 overflow on all reasonbly-sized files.
--
--For #59180
--Fixes CVE-2023-24537
--
--Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802456
--Reviewed-by: Julie Qiu <julieqiu@google.com>
--Reviewed-by: Roland Shoemaker <bracewell@google.com>
--Run-TryBot: Damien Neil <dneil@google.com>
--Change-Id: I149bf34deca532af7994203fa1e6aca3c890ea14
--Reviewed-on: https://go-review.googlesource.com/c/go/+/482078
--Reviewed-by: Matthew Dempsky <mdempsky@google.com>
--TryBot-Bypass: Michael Knyszek <mknyszek@google.com>
--Run-TryBot: Michael Knyszek <mknyszek@google.com>
--Auto-Submit: Michael Knyszek <mknyszek@google.com>
--
--CVE: CVE-2023-24537
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/go/parser/parser_test.go | 16 ++++++++++++++++
-- src/go/scanner/scanner.go    |  7 +++++--
-- 2 files changed, 21 insertions(+), 2 deletions(-)
--
--diff --git a/src/go/parser/parser_test.go b/src/go/parser/parser_test.go
--index 153562df75068..22b11a0cc4535 100644
----- a/src/go/parser/parser_test.go
--+++ b/src/go/parser/parser_test.go
--@@ -764,3 +764,19 @@ func TestRangePos(t *testing.T) {
-- 		})
-- 	}
-- }
--+
--+// TestIssue59180 tests that line number overflow doesn't cause an infinite loop.
--+func TestIssue59180(t *testing.T) {
--+	testcases := []string{
--+		"package p\n//line :9223372036854775806\n\n//",
--+		"package p\n//line :1:9223372036854775806\n\n//",
--+		"package p\n//line file:9223372036854775806\n\n//",
--+	}
--+
--+	for _, src := range testcases {
--+		_, err := ParseFile(token.NewFileSet(), "", src, ParseComments)
--+		if err == nil {
--+			t.Errorf("ParseFile(%s) succeeded unexpectedly", src)
--+		}
--+	}
--+}
--diff --git a/src/go/scanner/scanner.go b/src/go/scanner/scanner.go
--index 16958d22ce299..0cd9f5901d0bb 100644
----- a/src/go/scanner/scanner.go
--+++ b/src/go/scanner/scanner.go
--@@ -253,13 +253,16 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
-- 		return
-- 	}
-- 
--+	// Put a cap on the maximum size of line and column numbers.
--+	// 30 bits allows for some additional space before wrapping an int32.
--+	const maxLineCol = 1<<30 - 1
-- 	var line, col int
-- 	i2, n2, ok2 := trailingDigits(text[:i-1])
-- 	if ok2 {
-- 		//line filename:line:col
-- 		i, i2 = i2, i
-- 		line, col = n2, n
---		if col == 0 {
--+		if col == 0 || col > maxLineCol {
-- 			s.error(offs+i2, "invalid column number: "+string(text[i2:]))
-- 			return
-- 		}
--@@ -269,7 +272,7 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
-- 		line = n
-- 	}
-- 
---	if line == 0 {
--+	if line == 0 || line > maxLineCol {
-- 		s.error(offs+i, "invalid line number: "+string(text[i:]))
-- 		return
-- 	}
-diff --git a/meta/recipes-devtools/go/go_1.20.1.bb b/meta/recipes-devtools/go/go_1.20.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.20.1.bb
-rename to meta/recipes-devtools/go/go_1.20.4.bb
+ CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
 -- 
 2.34.1
 
