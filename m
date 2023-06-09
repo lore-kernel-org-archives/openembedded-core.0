@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DF9C7EE45
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:55 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.194.1686329688978912413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 076BCC8300C
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:56 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.171.1686329690611500543
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:49 -0700
+ Fri, 09 Jun 2023 09:54:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=F8Oy8nra;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-652699e72f7so1708948b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=JCedzkd2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-652699e72f7so1708964b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329688; x=1688921688;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329690; x=1688921690;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=88SnwcahxVIvFObNOoXDCk3nYqAx0LvdlgvYcqf9ztE=;
-        b=F8Oy8nrasPtoHip22abvdFECnYoyc8LhHhc2v0sFiP2/CJujOdrlock/m8B37z9PcL
-         o5DciwyLTlqKBVlBlgV6WR8kBBz79PhjCTm54G5UFfK1LP0zuL2koJ2QIjaNPsI6aOsa
-         aGh0as5PA6Y9R4SUDT/l/xvzyQ1SugJ7KD82Sol3jM3ZWFf43zrRJrsoCirkpmyWibW4
-         JZDZz2eFGRgj40rnDcERReAFHHQcosjuwKX9+qt4ZtDbgcjIiulMvlxA9O0lAnc5dr59
-         3PXE0RIWE6qJNcf1gWhXGugwFHdeORlLMjfzH3qU/Q0uE00sUmksCo7y2bUFajfIGHBp
-         jisw==
+        bh=9jjf8hFaSIOS/6f+NCfCnPBnBT6rsc7NP/NxAy2q/bk=;
+        b=JCedzkd2Yfq7liszwqAERUwaop01KW1l9f4/3fGJSb6iIeZY+b1q+R/QD75ylCW+oH
+         WR2wsm3I+Qf8v3q4dyQ+g4+Px739OAPnS8PEkNPxx3AKOTlYsJ5kvU6HXdXrntYjahbp
+         q0UmFo98jX9cNCsMmrzWxXBsx09ZZu4sLHciFvVTKdKO4f2snxRQAARCZipYzkseuKhj
+         e54JQiPfbSQOy+sCApvQ2eBxvAH5HXwFJu2/AQRFFRRsNhJraSC0BvGnXwoYDdJCOYzh
+         BFgDs6eWTWOCfA7E79kJez0hx56ze9VcaF1lyu4HZNLyczun/r/uVJdR8u5s4gfNFJMw
+         /xVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329688; x=1688921688;
+        d=1e100.net; s=20221208; t=1686329690; x=1688921690;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=88SnwcahxVIvFObNOoXDCk3nYqAx0LvdlgvYcqf9ztE=;
-        b=eIG731GHPPeZMeNKXhf+B5EUfi/vhe33y4Rf/xjwoUUWwvriWNDAaAuE6smfqvJ3Mu
-         Te31gThNDAdN98tqeaDXLdnXn+h5h2N0Ne1ODGZdpmwvlklzPE1kv7oyn3VayrLLHQDE
-         E0t7vg2LLVIAr6LiqukcVZyoNA6yLgSh87ltUi75FULfxokZNP/fvDRxF5I/BhTWjL1a
-         6fYK1hWefNsDVr0Ic34RdaS7Qdqzu0Xnlavz2gu0sAtKzSCDucX9VIc7+EVPCLPl43js
-         n1RhN3aUYr22PRhL/FiIyKkh2HWwL1Ab0NBCpJmju9mYZeDgnFRPE24fNBjMCvaRsf65
-         M9lA==
-X-Gm-Message-State: AC+VfDyWTKu6Rg4QGlnEWnNJl5gKXKmMxEkfpCecUnXr71hKzmptSa6N
-	XkwXMnX+fg2f3F0eh7I1dp8IVxEobt7jLDBnGTE=
-X-Google-Smtp-Source: ACHHUZ5Mkx5WeIA3iOxrHmMBfOoMzrAEiCLD4iZdKdBz6dNQXZTEVB8OT29hp5PUV//6reiWqjq+DQ==
-X-Received: by 2002:a05:6a20:1454:b0:117:c3f8:2f39 with SMTP id a20-20020a056a20145400b00117c3f82f39mr1776535pzi.19.1686329687956;
-        Fri, 09 Jun 2023 09:54:47 -0700 (PDT)
+        bh=9jjf8hFaSIOS/6f+NCfCnPBnBT6rsc7NP/NxAy2q/bk=;
+        b=KbV523YGoUZjpHpp+9iA0d93hWpdUqXSlm7KQRHFFxEIHZvggVbh0yHdYwhauA4CG6
+         4uFKzUmrCbA+7B3WxmBlQ5IdrbCXyi+KRLFgVbJdWMakfFBrL/K6OISoumSjORXzrc2n
+         2dGALIm/TDctITUmYMHZOSW1j7EdwYC+E292ZsPLGVNhZnigSi+HGUIya7Qvr7NN1Y8K
+         6VXs+XA72wALLx4tQXekM3j7ys+SCvs2/LElvvY6qkGapyq3P9QZr4a9C4fJQIo+TJJs
+         4XXYL3jtgSU55frH6LZvOT4188n/x7LFCvEPSgKuWP8E7f/LNDtdyAKMCQW5cGcdUzrF
+         HjVw==
+X-Gm-Message-State: AC+VfDzVRqO43wSuw/Ozz2eR2vAAw7SYYH0G6UfufotavfE1NMTt0sSw
+	esOhQJye9JFyCDOvs2ohhDu+l7qNlxTOpyWOqGU=
+X-Google-Smtp-Source: ACHHUZ7iLBtBJfCecydRdcrdujdv45Wo/R0LWOcZ7I5qw0u1pNG4tAtBBl+YIUOul0OAk3rMqB8tHA==
+X-Received: by 2002:a05:6a21:797:b0:119:10a3:d79d with SMTP id mg23-20020a056a21079700b0011910a3d79dmr1376660pzb.14.1686329689643;
+        Fri, 09 Jun 2023 09:54:49 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.47
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:47 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 27/30] oeqa: adding selftest-hello and use it to speed up tests
-Date: Fri,  9 Jun 2023 06:53:54 -1000
-Message-Id: <95241ece5fcef53901b97f96ae961cea208ca31a.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 28/30] selftest/reproducible: Allow native/cross reuse in test
+Date: Fri,  9 Jun 2023 06:53:55 -1000
+Message-Id: <ea3d21235633dc5b01c6ce39e768d00d1da5d87a.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -60,126 +60,46 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182593
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182594
 
-From: Thomas Roos <throos@amazon.de>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Adding a selftest version of hello world to run it in tests where no download is necessary.
-Also using this in several tests to speed them up.
-Using the -native version wherever possible will also speed up tests a lot.
+We don't compare reproducibility of the native/cross components, only the
+target ones. With the long build times of rust-native, the test now takes
+crazy lengths of time so this tweak should allow us to reuse native/cross
+artefacts from sstate whilst still testing the target output is
+reproducible.
 
-[YOCTO #11142]
-
-Signed-off-by: Thomas Roos <throos@amazon.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit c3f26b63934888df0e3cd563c1c2804eb78a368e)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b494d83c639a877cefeb7cbab6d37195e492f059)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../selftest-hello/files/helloworld.c         |  8 ++++++++
- .../selftest-hello/selftest-hello_1.0.bb      | 19 +++++++++++++++++++
- meta/lib/oeqa/selftest/cases/bbtests.py       | 18 +++++++++---------
- 3 files changed, 36 insertions(+), 9 deletions(-)
- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/helloworld.c
- create mode 100644 meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+ meta/lib/oeqa/selftest/cases/reproducible.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/selftest-hello/files/helloworld.c b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
-new file mode 100644
-index 0000000000..fc7169b7b8
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
-@@ -0,0 +1,8 @@
-+#include <stdio.h>
-+
-+int main(void)
-+{
-+	printf("Hello world!\n");
-+
-+	return 0;
-+}
-diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-new file mode 100644
-index 0000000000..547587bef4
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-@@ -0,0 +1,19 @@
-+DESCRIPTION = "Simple helloworld application -- selftest variant"
-+SECTION = "examples"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+SRC_URI = "file://helloworld.c"
-+
-+S = "${WORKDIR}"
-+
-+do_compile() {
-+	${CC} ${CFLAGS} ${LDFLAGS} helloworld.c -o helloworld
-+}
-+
-+do_install() {
-+	install -d ${D}${bindir}
-+	install -m 0755 helloworld ${D}${bindir}
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
-\ No newline at end of file
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index d97bda13c2..1dd2839c8d 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -41,7 +41,7 @@ class BitbakeTests(OESelftestTestCase):
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index cd7aa8aafa..1f0ed32fa0 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -151,7 +151,7 @@ class ReproducibleTests(OESelftestTestCase):
  
-     def test_event_handler(self):
-         self.write_config("INHERIT += \"test_events\"")
--        result = bitbake('m4-native')
-+        result = bitbake('selftest-hello-native')
-         find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing.*Tasks", result.output)
-         find_build_completed = re.search(r"Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
-         self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
-@@ -49,11 +49,11 @@ class BitbakeTests(OESelftestTestCase):
-         self.assertNotIn('Test for bb.event.InvalidEvent', result.output)
+     def setUpLocal(self):
+         super().setUpLocal()
+-        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS']
++        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE']
+         bb_vars = get_bb_vars(needed_vars)
+         for v in needed_vars:
+             setattr(self, v.lower(), bb_vars[v])
+@@ -225,7 +225,7 @@ class ReproducibleTests(OESelftestTestCase):
+             # mirror, forcing a complete build from scratch
+             config += textwrap.dedent('''\
+                 SSTATE_DIR = "${TMPDIR}/sstate"
+-                SSTATE_MIRRORS = ""
++                SSTATE_MIRRORS = "file://.*/.*-native.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH file://.*/.*-cross.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
+                 ''')
  
-     def test_local_sstate(self):
--        bitbake('m4-native')
--        bitbake('m4-native -cclean')
--        result = bitbake('m4-native')
--        find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
--        self.assertTrue(find_setscene, msg = "No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
-+        bitbake('selftest-hello-native')
-+        bitbake('selftest-hello-native -cclean')
-+        result = bitbake('selftest-hello-native')
-+        find_setscene = re.search("selftest-hello-native.*do_.*_setscene", result.output)
-+        self.assertTrue(find_setscene, msg = "No \"selftest-hello-native.*do_.*_setscene\" message found during bitbake selftest-hello-native. bitbake output: %s" % result.output )
- 
-     def test_bitbake_invalid_recipe(self):
-         result = bitbake('-b asdf', ignore_status=True)
-@@ -175,7 +175,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
-         self.assertIn('localconf', result.output)
- 
-     def test_dry_run(self):
--        result = runCmd('bitbake -n m4-native')
-+        result = runCmd('bitbake -n selftest-hello-native')
-         self.assertEqual(0, result.status, "bitbake dry run didn't run as expected. %s" % result.output)
- 
-     def test_just_parse(self):
-@@ -233,7 +233,7 @@ INHERIT:remove = \"report-error\"
- 
-     def test_setscene_only(self):
-         """ Bitbake option to restore from sstate only within a build (i.e. execute no real tasks, only setscene)"""
--        test_recipe = 'ed'
-+        test_recipe = 'selftest-hello-native'
- 
-         bitbake(test_recipe)
-         bitbake('-c clean %s' % test_recipe)
-@@ -246,7 +246,7 @@ INHERIT:remove = \"report-error\"
-                                              'Executed tasks were: %s' % (task, str(tasks)))
- 
-     def test_skip_setscene(self):
--        test_recipe = 'ed'
-+        test_recipe = 'selftest-hello-native'
- 
-         bitbake(test_recipe)
-         bitbake('-c clean %s' % test_recipe)
+         self.logger.info("Building %s (sstate%s allowed)..." % (name, '' if use_sstate else ' NOT'))
 -- 
 2.34.1
 
