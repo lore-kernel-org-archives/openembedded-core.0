@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F31DC7EE45
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:46 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.189.1686329684295221557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED188C7EE2F
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:45 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.179.1686329676091544097
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:44 -0700
+ Fri, 09 Jun 2023 09:54:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=I6LeP6at;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-652328c18d5so1590230b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:44 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=jGInWLaD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-65242634690so1618005b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329683; x=1688921683;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329675; x=1688921675;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qBo5PeCt9SIaJpH9so7UYVHYogr4IZzAUfBl9rIMMLs=;
-        b=I6LeP6atOOOrvpF7HVHfg5ebUs5QXssLbWHDaNpM70NysA2frkkWJK3GGWRRmMkuPE
-         w96pG1PCE4Tz6S5hOjgvzs5WETrr+45DT4oZwdeW8Cwh3od3H/+LEQC8dmoNfrue2VkR
-         XZeafD781dsdQS2W39hEIG37jZRPHuFyBiqofxdKSjrmgecIiJrAE+2YvMmcjPJe7bVh
-         7BOYsW1K9IuSFGS4BkoTdpQq42AklZSDjq1duwK7+qsokYRlPbPpxR9GCVGTbEEXnkSL
-         ++49gibTBWCvBkKJkwsUKcOjVzOU2BA8uPZpaKbyc19sp+yeH7qUAk5yzIZ/9BMQ+6i6
-         /PUQ==
+        bh=zXgoJGI27q/QEdftxR3gdzTfDK6kOv2Kk61yqeWWSAM=;
+        b=jGInWLaD+NWwYt0nul+5pGG+d19LMYo42ymuzrOuPzF7J5k2uZ28LIGGKTlO/7LZgM
+         TmznJFS/QODKDpYDYmOzLaKC4lcAciEqdPiHbVWYLRPnVCN5CAjNi2th1ORpCXgwQBUM
+         Ym6yc0hsjD6Z6g5J7MKQIuQicpZvpFatlYex8xi7FFm1i3S4t9ZFMlTfuxjjGHu5gBSQ
+         oJKKwnRaqIzHVhLcccubEuL2RCTLoJa4JnghmBeBupASDgOLMPOVcpXcJvq/Wrqn5NMW
+         P/d7fKIX8IuICMMi9jGd/TngvnikYel3iHQEWTmpwuM7TFSJJ8o+QTctgfpivcLqSnQo
+         KtZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329683; x=1688921683;
+        d=1e100.net; s=20221208; t=1686329675; x=1688921675;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qBo5PeCt9SIaJpH9so7UYVHYogr4IZzAUfBl9rIMMLs=;
-        b=dvXmzB7xBGPFa2I3OeKMUOrYwJdRB8ZYKaNtWmZ4c3+Ok/NZgEmrd789SXxqU3te0S
-         pWmirmMbvwLPsbYiM20SWDcvgq1Wf9oew6QSQTShB8nEnMZOZapxjIuD7EmbnLgkSsiT
-         dFb18kwmOtkuHDDok/RATFe0HGT0mClDiNzHJB/D8Zz3cgKQ2bDlb/aKgauxdIcExBFG
-         fiuwYmAoLSknU/3OAlBDIzbm5I+ULo/VxypHIocL/Z/dil2dAaXzJ7piBLTXkvisRTUb
-         QXVAGONfj/jLyjPDeMrVFh1TAHERLaaxSaunlTaPtM2L4ASaHy3+PtXUMl+qTiByr/hW
-         LsGg==
-X-Gm-Message-State: AC+VfDwbRaE2maVB+n6Nvemwq4g38oxttdUNG4l+igw62WvCo3WWiYfp
-	6XlVw6czAd7FS73Gt1B9PF6uljMER7tQE0yC7ug=
-X-Google-Smtp-Source: ACHHUZ56PCUVNyDKoXpfsbps3onjoQfmSG1/SN0uw+2n89MDV5r0n8qOdRT2dpRuOMXokeJfcsh8uQ==
-X-Received: by 2002:a05:6a00:148d:b0:64a:5cde:3a7d with SMTP id v13-20020a056a00148d00b0064a5cde3a7dmr1985010pfu.27.1686329683401;
-        Fri, 09 Jun 2023 09:54:43 -0700 (PDT)
+        bh=zXgoJGI27q/QEdftxR3gdzTfDK6kOv2Kk61yqeWWSAM=;
+        b=jWJUdsHQkqjEz2B12wEzBwbofoH6Wiyv8B63QX71dzpWWlUVZNJrMCW81kBfs5T0vf
+         XWldhvYSsdO3RqwlkpBIGRJUGlDIAaCUthABYkg6CwtzSTFgQMjQWJNszS8zZ2+ZrIx+
+         tjt6i7SPROQTDQqCaHx9MNFvj1UCjOl2EFvdJQvH00jXs1Ns7e8OiTxzK947JZmaGtJ5
+         oLXVVYoO036ppjbfwnv5hVO/bMlW2JMPosShmFXQ7zHDIVvreOmQ/xRHNO72J3uazKGT
+         XAy13HmONsuMvJHKdngOaLPhHmF55KbYSrgRVJ7XlLlfyEQdCt0Ec4mau/ULor9VQ3m0
+         bn8A==
+X-Gm-Message-State: AC+VfDx5mQII+9rEBfI1bluCihvOivKYh/n/MUqdeFVlPskC5bMQCiaW
+	z7tJiMOb2vPqSBTdwzNBCdwcW1bi9hVJkVPdtyk=
+X-Google-Smtp-Source: ACHHUZ7HxePJZvnYDmkgCjfF7aIskCRXEuU9hmwE6bXbekJYI1Wfp2i3KVooy/a0Vj60SLEqaLeiLg==
+X-Received: by 2002:a05:6a20:729a:b0:10c:c5df:8bb7 with SMTP id o26-20020a056a20729a00b0010cc5df8bb7mr1662187pzk.30.1686329674979;
+        Fri, 09 Jun 2023 09:54:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.42
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:42 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 24/30] staging.bbclass: do not add extend_recipe_sysroot to prefuncs of prepare_recipe_sysroot
-Date: Fri,  9 Jun 2023 06:53:51 -1000
-Message-Id: <08e561035255e765e4293d4031115ea308cc29d3.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 19/30] linux-yocto: move build / debug dependencies to .inc
+Date: Fri,  9 Jun 2023 06:53:46 -1000
+Message-Id: <67a972a1d8c2ff271cbbca68a2805ea31f079fa1.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -60,39 +60,72 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182590
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182585
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-When running prepare_recipe_sysroot task, the extend_recipe_sysroot
-is run twice.
+When the architecture and debug specific build and runtime dependencies
+were introduced, they were only applicable to "newer" kernel versions
+and were enabled in the version specific recipes.
 
-What prepare_recipe_sysroot does is executing extend_recipe_sysroot,
-there's no need to add extend_recipe_sysroot to its prefuncs.
+These are now common dependencies, so we can avoid the duplication and
+move them to a common location.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+We also change the adhoc nature of the existing elfutils definition,
+as it is now detected by the kernel build and we no longer need the
+work around to the native sysroot.
+
+Finally, we change the undocumented KERNEL_DEBUG_OPTIONS to KERNEL_DEBUG
+and use it to conditionally enable features that need extended support
+(and support sometimes out of oe-core).
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bf7584a2ac16ee46ff5b41536b06bb46d0cbada7)
+(cherry picked from commit 7ddeb149e7a78bedeb945898fec5e8f13b7c5711)
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto.inc    | 10 ++++++++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb |  4 ----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index a058d344fd..664a9c59b5 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -654,7 +654,7 @@ python staging_taskhandler() {
-     bbtasks = e.tasklist
-     for task in bbtasks:
-         deps = d.getVarFlag(task, "depends")
--        if task == "do_configure" or (deps and "populate_sysroot" in deps):
-+        if task != 'do_prepare_recipe_sysroot' and (task == "do_configure" or (deps and "populate_sysroot" in deps)):
-             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
- }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 934591ff1c..04a8105e17 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -59,8 +59,14 @@ do_install:append(){
+ # enable kernel-sample for oeqa/runtime/cases's ksample.py test
+ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
+ 
+-KERNEL_DEBUG_OPTIONS ?= "stack"
+-KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
++KERNEL_DEBUG ?= ""
++# These used to be version specific, but are now common dependencies.  New
++# tools / dependencies will continue to be added in version specific recipes.
++DEPENDS += '${@bb.utils.contains_any("ARCH", [ "x86", "arm64" ], "elfutils-native", "", d)}'
++DEPENDS += "openssl-native util-linux-native"
++DEPENDS += "gmp-native libmpc-native"
++DEPENDS += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native", "", d)}'
++EXTRA_OEMAKE += '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAHOLE=false", d)}'
+ 
+ do_devshell:prepend() {
+     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+index 36f7ed8791..6640000d83 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+@@ -45,10 +45,6 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LINUX_VERSION ?= "6.1.25"
+ 
+-DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+-DEPENDS += "openssl-native util-linux-native"
+-DEPENDS += "gmp-native libmpc-native"
+-
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
 -- 
 2.34.1
 
