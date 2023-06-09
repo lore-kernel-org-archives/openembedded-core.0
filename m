@@ -1,376 +1,381 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81D1C7EE25
-	for <webhook@archiver.kernel.org>; Thu,  8 Jun 2023 22:41:14 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.835.1686264069264660181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CA8C7EE23
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 02:01:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.4375.1686276071114981168
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jun 2023 15:41:10 -0700
+ Thu, 08 Jun 2023 19:01:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DPDrUYX2;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1686264067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4EEIiT+Fa47+G3ojXnZjH90aLduABUWd3E3zefQDYgM=;
-	b=DPDrUYX2Lt1OaiK63fpxPRiwysLQKOXmz0nenRfiNacSOZeGfoawMK4nxKy5yhT+I7iEvZ
-	WVu6U506ejFdq9zg3pVh5e/qycr1Y8qQ5RoFy0XmOS7EFz1mQhwUTqYfS/l81E5LjSYdCv
-	Uat44dKFkJc+XUB5sNJfNTS5P0VMcrIrgErvjX7+IP1RlCGVYz1Gfr6csk4d9Xf/GK/fqf
-	wP7yTN45WPjDpIfR+aPGkgPAnhAmPTkiGPCMypMS0peaE1ocqFgA1kJl0Yn9yMaoyOjsuf
-	Zb75NOiHJH4MAIoikYPnL68WPXGN3RfibmS0FHAEKEqa1/+m+0e3MXQufnMIpA==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0A2C96000B;
-	Thu,  8 Jun 2023 22:41:06 +0000 (UTC)
-Date: Fri, 9 Jun 2023 00:41:06 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v2] util-linux: upgrade 2.38.1 -> 2.39
-Message-ID: <202306082241067d52a916@mail.local>
-References: <20230602144124.923028-1-tgamblin@baylibre.com>
- <20230606204249afd53fbb@mail.local>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=QvDnG2Zw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=552455cca2=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 358Ne3XQ008689
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jun 2023 02:01:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=0D8ZQNSKOVxwjFOzcPsTFu+15IHzmkpWcb/TxMtMALM=;
+ b=QvDnG2ZweeF9PaxjcNdMml1Zemlh1kiCtI/oARY0V1DzSjS0JCmz1WgPXPvP9yXfcF3R
+ hiT+KuanuPPgu5TbqXk8uQ4UX82N0lsmdPaIswSWhd86/E9bc3LP1Po2Gyq0ZJz2Y93m
+ JqpUTCF3e5XpcYt+PY9xAIm6nS/7Mdg5Wak4EZlZuiJwlb09TiF++i2+U3tIRqOese8Z
+ uGDeU+UK1pstXrDvCh/SUP8z4SXgQtuws+Lcmoezz4uVq5UUF50CxD5FnSG9YAoXkI06
+ LwC0q1qPeTh4XLO/mf/k8B0XT+pQSQxL3DvtD1vhfBjDpTr1LPO9JsFoIUA0kXULn+ie +A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2aaftanf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 02:01:09 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 359219ob024419
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jun 2023 02:01:09 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2aaftand-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Jun 2023 02:01:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KkhCacOmpGCTHDQRenCYvBd7NglB0dDxiq3P+QaM9ExZGcYz3Lkg23SOh9C9Z7eIN9pD4FwabmCS6wPxiX+UAG+KUkI6mAY4a7f//j0B0Rbs/cNP9aC6WBV+XO/X2VNxDGHbZXkWD4h/7e0lDwE87yp4PPt6EohE4dEHTRtK8mnJMlvkwIpaZCwbBwOpVd0c8WfefIuFd0vJVnlwpAuHl2F/MZTGEas5HMUZ9Qj1z6jzTeDx+fOuzUNIFXCGwjChSoqfPHxuau1CGGJ3NB3zSMFW24cBMWLp19YnmlbgH6B0Bne26tH0qkjceXgkzYYYCq74LTMUEvUZiXwG2FK+tQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0D8ZQNSKOVxwjFOzcPsTFu+15IHzmkpWcb/TxMtMALM=;
+ b=aRGN7yeAc/qKd3fOcM+3314Cdfp5CU4NYU9lprlUGpz22LMwVfXO2tJOc5EM2PFI15L1LGBVn0ahbO+yUwzEJPCoglTT+O2tPiqNSMxog00CfxyIC6m4hKg2+MGI/Qtpr94bGdMZkomedtE6QvptsCS2OW31L/+4W/K7QqM1DhhYkqS6AbarCr7jwzE2Sh/QA7sD0ki2d+DDwdrMalcdqON3u4EE6B1vyeTh1Q5lTE98hLcc75zQBW2qBCd6UtfPigilwFidO4Mqhk5GLra578ICWXNQpg2nXX4wiiXUerGSDVUTj4IoheQbIUccKsqshdjBF0FdvOXhUA4r3L1tDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by LV2PR11MB6048.namprd11.prod.outlook.com (2603:10b6:408:178::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
+ 2023 02:01:07 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::5896:32db:f6ae:c431]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::5896:32db:f6ae:c431%7]) with mapi id 15.20.6455.039; Fri, 9 Jun 2023
+ 02:01:07 +0000
+From: "Yu, Mingli" <Mingli.Yu@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5] qemu: Split the qemu package
+Thread-Topic: [OE-core] [PATCH v5] qemu: Split the qemu package
+Thread-Index: AQHZmg3VKm1IZRcwyEeIYftvqWdg/q+A7aGAgAATAICAAAuXAIAACO2AgACciPs=
+Date: Fri, 9 Jun 2023 02:01:07 +0000
+Message-ID: 
+ <CO1PR11MB5009A4A79D96166F4D94404AF151A@CO1PR11MB5009.namprd11.prod.outlook.com>
+References: <20230607205347759a5df5@mail.local>
+ <20230608054525.3293334-1-mingli.yu@eng.windriver.com>
+ <CADkTA4Mj2WdncdduX+P6fT8HU0KjkS6+vjTePbhPc0FXL2d_CA@mail.gmail.com>
+ <7326285b062d6b494d9933270bb5811b83e81e82.camel@linuxfoundation.org>
+ <CADkTA4O5=PNOmmKtJPE8YYJfiynMQXA1hyjaX=wuW2ydw6evbA@mail.gmail.com>
+ <ab9c352c2fe8518b6886fe1eaaf926512a314bdc.camel@linuxfoundation.org>
+ <CADkTA4OAmMD8h8=nNMEdtjeYwCfoGOtu4S4uWDMj+6Etm4SGUg@mail.gmail.com>
+In-Reply-To: 
+ <CADkTA4OAmMD8h8=nNMEdtjeYwCfoGOtu4S4uWDMj+6Etm4SGUg@mail.gmail.com>
+Accept-Language: en-US, en-AS, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO1PR11MB5009:EE_|LV2PR11MB6048:EE_
+x-ms-office365-filtering-correlation-id: 784cf3c3-0d84-4063-5675-08db688d6366
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 1dK6UW0LrXUZ4KxcheUA2TUyzqK1llmClcT8Vr/7I3mDoktFiWiu7RDcgD8sX266/6tC/vmJ3fVE/+j6Im7P1SsHd/lDm156gL7SqbBrz1x6xc1NqxYxuSyZ8xKfPxfZ+UHlIt/i0EFduPIh8er7MeV0mrqZAULY8q9pRRzJECzqwOtiNM9kBW5djBVfrWcfM932aHMAqtOFCgnD6Q7q/foowEdQ7RqPaNkwa3CvWSEPlZpw8Hd+DnNaEQskwZtGzehcoBGn8dpjAhulhjD5x123kFfvzilSFi4ACXg0HAtMxqaHQ9w11i07Zp6HUWIadEYLTeeGIi0h23C0WJmjBNKM+ZhsGmK7qes62zjBM1ooHcNGP3ocOa/vKJIvXitXsFQpnsVkXxN3TZpNxVKpcwjnMWDFo1/VQMigFgt+Z2bk5NuTzQ/CqTupIpM2CQbGLajY5zUuAujSImjtnaNxKpQ/ymblof5glIbgEyjt4dEOn+6tqYQ4Zaf9BbGtkjSi9m6W9f6iSPZvFQS9j6uTeyyNC0CU0D3lL0FTXBfiLbwP1/vYT1nyzMIdjfldQjwHOZdGLFz00ZTI/5lL7TYSnWaGJFOzYm61sOP+larNtjU=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(396003)(136003)(39850400004)(346002)(451199021)(9686003)(53546011)(38100700002)(6506007)(41300700001)(7696005)(19627405001)(26005)(83380400001)(186003)(966005)(71200400001)(478600001)(110136005)(64756008)(122000001)(91956017)(66446008)(4326008)(316002)(55016003)(166002)(66946007)(76116006)(8676002)(66556008)(66476007)(52536014)(8936002)(2906002)(5660300002)(38070700005)(33656002)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?UzdQM0YwZ3BHRlpZRE1mQjYwZE5sM0JteUlZK3owMDJwMkFtVDcyNW9nWC9a?=
+ =?utf-8?B?VTFMMFhoNElrdW5uRElJV2hqR1dHUW45RnNzMVZyY0FKZXNkRStlNC9QTWl1?=
+ =?utf-8?B?OGtzRTRwNnJRMDZNYTNQczZNVHhSZXlBY0Vsa21GaW9RcTMwRmRoeWdxMUg5?=
+ =?utf-8?B?aEQ1dG8yZy9xQzBZZkE0UkZocHJBM1hpMC9RV0szd2VCdm1ySldEcUtCekdF?=
+ =?utf-8?B?VlAxRlhuVWpyMkFuQWFPUFRiNHJsM0dpaXY3dEJBWGhSVHRyY0dmVm5vUnJT?=
+ =?utf-8?B?K2hCNGxPcUs3Y3B3dFJ1S2w2S1g5OERLK2J0c2xVWUEybUpzMk9IdjFEcGxT?=
+ =?utf-8?B?bGNzQm9hOGNwUDY3bUlJRkV2TG9hWjNMYkx2QUpkS0lMK2kyZ2F6bnZzbkZX?=
+ =?utf-8?B?OEk2TllKZmxpdkpjRi9NdG1DSzdNTVhLWTdwUlNBcEF0S1FiVFVoOWhXYWhm?=
+ =?utf-8?B?SkNwVU0xdy94RFhHVTFKRXJDb0pIMU11U001aXNFK1B2RURwTGliRVpra1RH?=
+ =?utf-8?B?K1Bwamw3alJTaGp0cnpFdnJrU21TTUcxaTNheVBmNVRuL1Q4TEF5V3Q1VnY2?=
+ =?utf-8?B?VGxXOXUxZjgvblN3ZHhZTk8wVFFmdGpQVnhIQ1dPSEVtdzF5YlRWVGFjd29v?=
+ =?utf-8?B?VVpQeVptR3VMNHFnY2VVc1NHN3BNOE9HYnlVY0ViRmVOdlk0TThKbDgzWXJY?=
+ =?utf-8?B?dVZZSkZpVU90ZW5OTlRnM0JyTHl1N2tDektuUjNEcFZZMmdIUDg2ZTJZQTBU?=
+ =?utf-8?B?RmxHenRxV2M1ckRUeWZUZEN3engwMjdMVGtLVExHMzVtcUhGNFRxOWxXNVpY?=
+ =?utf-8?B?R0pTTUhubndZTXlEa2oyNWRvN0l0Q2JvUE5VN09HbHUxZ2ZhWFpJaW45dFc4?=
+ =?utf-8?B?U1Q0L1B5MzlvZTNDTmtWR2ovWUplcE1IdmthTnFYbzdFTXYzLzhXMVQwcjdt?=
+ =?utf-8?B?WjJSaDVEUXV4a0lwVjVsdnlSclRGLzFzQ0o1a0NEeTNvYUVBWTlORjJHWFk2?=
+ =?utf-8?B?VlQvS3ZiZDRaZkNHeXhBdlMxbzlSYTBPS2Z4VElDRGtmU3VHbTFsRCs3MTlk?=
+ =?utf-8?B?YzRDSFBCYmVXa1lXMHIvU1N3ZERuY3lNK3VWQ0RTaTh2RDVmak9OWFNNa2Fy?=
+ =?utf-8?B?MmxURWI2SXk1RnlwWHRueVdvclZNWkZXQkJKUEJqZUJLSVFpTEM0b01LcFZ5?=
+ =?utf-8?B?d1RHUWFELzIyamZBaEVUU25DcEtnY2hXdnFHQmhPNWN1Wjk2MnJFQUtRb2FD?=
+ =?utf-8?B?Vkhnc1o3cXFRd2psWDVCcHBPcXVLYnE5T21ySUVWazJyRjNjM0YwTFRSR0pp?=
+ =?utf-8?B?MXB1b2U3Z3FHOWVlQWhyVmhsakRzQmRsZE9BWkQrRk5FanExM3g1K1dJaW5R?=
+ =?utf-8?B?SnIvV1IyeWt3RzFGZXpTR0REdUNWQjhlUWNpSDdnUHkzbktHOEtJeS9CNXhq?=
+ =?utf-8?B?bmRXOWxOR2lTM3B5T0RPZkRxSHptd3dTYkpGakhUbVh2YTZDTkx5WGxkWS92?=
+ =?utf-8?B?S2NDZThHRGpPQUpjc09oZFNxcVRWVGh6K3FHa3p6NnFBSkJSVmtvKzlrYUU3?=
+ =?utf-8?B?V1lkYzJEMXg1YUNUTUlJamJGSWhuMnV0dmY4WHRRSUdjNENyQUtqbmJONnMw?=
+ =?utf-8?B?VlYydk5MMmRqRXpOeDVUUFh5OTlTUkNSVnV2TnhvNmF0VFVBSGJPVDRabEsv?=
+ =?utf-8?B?b3JoM1Zpem0xWFZWbjlRdUJjQ3FTbkJIdloxKzZidzg4Z3hxcGdLbHlsRTdF?=
+ =?utf-8?B?RkpBNUJkeWFWeG5lLys4Ti90UjRpc1l2SllseTdlTXlUY2tBeG5iZjNDOXFP?=
+ =?utf-8?B?THdjWnd0RkNjMHlZeXc0RFNFRHBZMGNZMWpzWXEveHFaUmQ3V29xVUhwZmww?=
+ =?utf-8?B?Nk9ZMXdJQk4vSWwzY1ltMkhVWnRLL285ODlMbEFuMVhTWllYYWJ4UkV2c1Fp?=
+ =?utf-8?B?dFB6R2RvUzk0UnFvaXVoZkhhejQ5RTdQMVptbzNLUjFUbGJIUGFZbXVmY09t?=
+ =?utf-8?B?MnorUnNUT2F5eWMxL0lSTDdoUk9WRzlXMnR3KzFHS2dOY3J6a29nUU85UGhV?=
+ =?utf-8?B?Q1dkV0FkQzVaMURXREZ2S3ZxaVhxQm5ZWDV0YzFRejFWZS9oWmFpQ3hZM3R2?=
+ =?utf-8?Q?YsUZz+U3jWb3ymD2GnS/HIAC7?=
+Content-Type: multipart/alternative;
+	boundary="_000_CO1PR11MB5009A4A79D96166F4D94404AF151ACO1PR11MB5009namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230606204249afd53fbb@mail.local>
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 784cf3c3-0d84-4063-5675-08db688d6366
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2023 02:01:07.0119
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XE+1nY9HcVN5KNqtsWuKDkgko84l3z7c4FzM4ZhzjQykxtYNdOggx3EA+m3uucjf6/Zqz6FB18uy5O7EPu7RHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6048
+X-Proofpoint-ORIG-GUID: nKHQnU6XBb6iQ00xT6qWwlFAZSrNmXpT
+X-Proofpoint-GUID: -E9qM4_OXIYSRApymKtfzvfEm_9L20eJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_18,2023-06-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ clxscore=1015 impostorscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306090016
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jun 2023 22:41:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182523
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 02:01:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182524
 
-On 06/06/2023 22:42:49+0200, Alexandre Belloni wrote:
-> Hello,
->=20
-> This causes multiple failures:
->=20
-> Mips and ppc:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/7198/st=
-eps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/7196/st=
-eps/13/logs/stdio
->=20
-> | mips-poky-linux-gcc  -meb -mabi=3D32 -mhard-float -march=3Dmips32r2 -fs=
-tack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security=
- -Werror=3Dformat-security -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64 --sys=
-root=3D/home/pokybuild/yocto-worker/qemumips/build/build/tmp/work/mips32r2-=
-poky-linux/util-linux/2.39-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../util-=
-linux-2.39  -include config.h -I../util-linux-2.39/include -DLOCALEDIR=3D\"=
-/usr/share/locale\" -D_PATH_RUNSTATEDIR=3D\"/run\" -D_PATH_SYSCONFSTATICDIR=
-=3D\"/usr/lib\"    -fsigned-char -fno-common -Wall -Wextra -Waddress-of-pac=
-ked-member -Wdiscarded-qualifiers -Wformat-security -Wimplicit-function-dec=
-laration -Wmissing-declarations -Wmissing-parameter-type -Wmissing-prototyp=
-es -Wnested-externs -Wno-missing-field-initializers -Wold-style-definition =
--Wpointer-arith -Wredundant-decls -Wsign-compare -Wstrict-prototypes -Wtype=
--limits -Wuninitialized -Wunused-but-set-parameter -Wunused-but-set-variabl=
-e -Wunused-parameter -Wunused-result -Wunused-variable -Werror=3Dsequence-p=
-oint -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacr=
-o-prefix-map=3D/home/pokybuild/yocto-worker/qemumips/build/build/tmp/work/m=
-ips32r2-poky-linux/util-linux/2.39-r0/util-linux-2.39=3D/usr/src/debug/util=
--linux/2.39-r0  -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/qemumips/=
-build/build/tmp/work/mips32r2-poky-linux/util-linux/2.39-r0/util-linux-2.39=
-=3D/usr/src/debug/util-linux/2.39-r0  -fmacro-prefix-map=3D/home/pokybuild/=
-yocto-worker/qemumips/build/build/tmp/work/mips32r2-poky-linux/util-linux/2=
-=2E39-r0/build=3D/usr/src/debug/util-linux/2.39-r0  -fdebug-prefix-map=3D/h=
-ome/pokybuild/yocto-worker/qemumips/build/build/tmp/work/mips32r2-poky-linu=
-x/util-linux/2.39-r0/build=3D/usr/src/debug/util-linux/2.39-r0  -fdebug-pre=
-fix-map=3D/home/pokybuild/yocto-worker/qemumips/build/build/tmp/work/mips32=
-r2-poky-linux/util-linux/2.39-r0/recipe-sysroot=3D  -fmacro-prefix-map=3D/h=
-ome/pokybuild/yocto-worker/qemumips/build/build/tmp/work/mips32r2-poky-linu=
-x/util-linux/2.39-r0/recipe-sysroot=3D  -fdebug-prefix-map=3D/home/pokybuil=
-d/yocto-worker/qemumips/build/build/tmp/work/mips32r2-poky-linux/util-linux=
-/2.39-r0/recipe-sysroot-native=3D  -c -o tests/helpers/test_enosys.o ../uti=
-l-linux-2.39/tests/helpers/test_enosys.c
-> | ../util-linux-2.39/tests/helpers/test_enosys.c:57:6: error: #error Unkn=
-own target architecture
-> |    57 | #    error Unknown target architecture
-> |       |      ^~~~~
-> | make: *** [Makefile:10075: tests/helpers/test_enosys.o] Error 1
-> | ERROR: oe_runmake failed
->=20
->=20
-> oe-selftest:
->=20
-> 2023-06-05 23:49:03,868 - oe-selftest - INFO - incompatible_lic.NoGPL3InI=
-magesTests.test_core_image_full_cmdline_weston (subunit.RemotedTestCase)
-> 2023-06-05 23:49:03,870 - oe-selftest - INFO -  ... FAIL
->=20
-> ERROR: core-image-weston-1.0-r0 do_rootfs: Package util-linux-sulogin can=
-not be installed into the image because it has incompatible license(s): GPL=
--3.0-or-later
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-self=
-test-debian/build/build-st-2841616/tmp/work/qemux86_64-poky-linux/core-imag=
-e-weston/1.0-r0/temp/log.do_rootfs.428774
-> NOTE: recipe core-image-weston-1.0-r0: task do_rootfs: Failed
-> ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/r=
-ecipes-graphics/images/core-image-weston.bb:do_rootfs) failed with exit cod=
-e '1'
-> ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Package util-linux canno=
-t be installed into the image because it has incompatible license(s): GPL-3=
-=2E0-or-later
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-self=
-test-debian/build/build-st-2841616/tmp/work/qemux86_64-poky-linux/core-imag=
-e-full-cmdline/1.0-r0/temp/log.do_rootfs.554152
-> NOTE: recipe core-image-full-cmdline-1.0-r0: task do_rootfs: Failed
-> ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/r=
-ecipes-extended/images/core-image-full-cmdline.bb:do_rootfs) failed with ex=
-it code '1'
->=20
->=20
+--_000_CO1PR11MB5009A4A79D96166F4D94404AF151ACO1PR11MB5009namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+SGkgQnJ1Y2UsDQoNCkkgZGlkbid0IHJlcGx5IHRoZSB2MSBwYXRjaCBkaXJlY3RseSBhbmQganVz
+dCBpbmNsdWRlIHRoZSBjb21tZW50cyBhbmQgY29uY2VybnMgd2hlbiBnZW5lcmF0ZSB2Mix2Myx2
+NCx2NSBwYXRjaC4NCg0KSSdtIHNvcnJ5IHRoZSBvdmVycmlkZXMgZm9yIHFlbXUgc3BsaXQgaW4g
+bWV0YS12aXIgYXMgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9tZXRhLXZpcnR1YWxpemF0
+aW9uL3RyZWUvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUtcGFja2FnZS1zcGxpdC5pbmMgZG9l
+c24ndCB3b3JrIGlmIHdlIG1ha2UgdGhlIHFlbXUgc3BsaXQgY2hhbmdlLjxodHRwczovL2dpdC55
+b2N0b3Byb2plY3Qub3JnL21ldGEtdmlydHVhbGl6YXRpb24vdHJlZS9yZWNpcGVzLWRldnRvb2xz
+L3FlbXUvcWVtdS1wYWNrYWdlLXNwbGl0LmluYz4NCg0KPGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVj
+dC5vcmcvbWV0YS12aXJ0dWFsaXphdGlvbi90cmVlL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11
+LXBhY2thZ2Utc3BsaXQuaW5jPg0KSXMgaXQgb2theSBmb3IgeW91IHRvIGluc3RhbGwgdGhlIHFl
+bXUgYXJjaCBycG1zIHlvdSBuZWVkIG9yIHFlbXUtYWxsKGlmIHlvdSB3YW50IGFsbCBxZW11IGJp
+bmFyeSkgYWZ0ZXIgdGhlIHFlbXUgc3BsaXQgY2hhbmdlPw0KPGh0dHBzOi8vZ2l0LnlvY3RvcHJv
+amVjdC5vcmcvbWV0YS12aXJ0dWFsaXphdGlvbi90cmVlL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9x
+ZW11LXBhY2thZ2Utc3BsaXQuaW5jPg0KDQpUaGFua3MsDQpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXw0KRnJvbTogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNv
+bT4NClNlbnQ6IEZyaWRheSwgSnVuZSA5LCAyMDIzIDAwOjE2DQpUbzogUmljaGFyZCBQdXJkaWUg
+PHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQpDYzogWXUsIE1pbmdsaSA8TWlu
+Z2xpLll1QHdpbmRyaXZlci5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVj
+dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjVdIHFlbXU6IFNwbGl0IHRoZSBxZW11IHBhY2thZ2UN
+Cg0KQ0FVVElPTjogVGhpcyBlbWFpbCBjb21lcyBmcm9tIGEgbm9uIFdpbmQgUml2ZXIgZW1haWwg
+YWNjb3VudCENCkRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5
+b3UgcmVjb2duaXplIHRoZSBzZW5kZXIgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCg0K
+DQpPbiBUaHUsIEp1biA4LCAyMDIzIGF0IDExOjQ04oCvQU0gUmljaGFyZCBQdXJkaWUgPHJpY2hh
+cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc8bWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4
+Zm91bmRhdGlvbi5vcmc+PiB3cm90ZToNCk9uIFRodSwgMjAyMy0wNi0wOCBhdCAxMTowMyAtMDQw
+MCwgQnJ1Y2UgQXNoZmllbGQgd3JvdGU6DQo+DQo+DQo+IE9uIFRodSwgSnVuIDgsIDIwMjMgYXQg
+OTo1NeKAr0FNIFJpY2hhcmQgUHVyZGllDQo+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnPG1haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPj4gd3JvdGU6
+DQo+ID4gT24gVGh1LCAyMDIzLTA2LTA4IGF0IDA5OjMzIC0wNDAwLCBCcnVjZSBBc2hmaWVsZCB3
+cm90ZToNCj4gPiA+IEF0IHRoaXMgcG9pbnQsIHlvdSBjYW4gcHJvYmFibHkgc2VlIHdoeSBJIGVu
+ZGVkIHVwIHVzaW5nIHRoZQ0KPiA+ID4gZXhwbGljaXQNCj4gPiA+IHZhcmlhYmxlcyBhbmQgb3Zl
+cnJpZGVzIHZlcnN1cyBweXRob24gd2hlbiBkb2luZyB0aGUNCj4gPiA+IG1ldGEtdmlydHVhbGl6
+YXRpb24gc3BsaXRzLiA6KQ0KPiA+ID4NCj4gPiA+IEkgaGF2ZSBhIGZldyBtb3JlIGNvbW1lbnRz
+IHRoYXQgSSBtYWRlIGluIHYxLCB0aGF0IEkgaGF2ZW4ndCBzZWVuDQo+ID4gPiBkaXJlY3RseSBo
+YW5kbGVkIG9yIHJlcGxpZWQgdG8uDQo+ID4gPg0KPiA+ID4gTXkgb25seSByZW1haW5pbmcgY29u
+Y2VybiAoYW5kIGl0IG1heSBqdXN0IGJlIG15IG93biBjb25jZXJuKSwgaXMNCj4gPiA+IHRoYXQN
+Cj4gPiA+IHRoZXJlJ3Mgbm8gd2F5IHRvIGNoYW5nZSB0aGlzIHBhY2thZ2luZyBzcGxpdC4gRWl0
+aGVyIHlvdSB0YWtlDQo+ID4gPiB0aGUNCj4gPiA+IHByb2dyYW1hdGljIHNwbGl0LCBvciB5b3Ug
+dGFrZSB0aGUgLWFsbCBwYWNrYWdlcy4NCj4gPiA+DQo+ID4gPiBPdGhlciBwYWNrYWdlcyAoZ2xp
+YmMsIGtlcm5lbC1tb2R1bGVzKSBoYXZlIGEgdmFyaWFibGUgdGhhdA0KPiA+ID4gY29udHJvbHMN
+Cj4gPiA+IHdoZXRoZXIgdGhlIHNwbGl0IGhhcHBlbnMgb3Igbm90LCBJJ2QgbGlrZSB0byBzZWUg
+c29tZXRoaW5nDQo+ID4gPiBzaW1pbGFyDQo+ID4gPiBoZXJlIC4uIGJ1dCBJIGRvIHJlYWxpemUg
+dGhhdCBpdCBtYWtlcyB0ZXN0IGNvbXBsZXhpdHkgbW9yZSwgYW5kDQo+ID4gPiB0aGF0DQo+ID4g
+PiBSaWNoYXJkIG5vcm1hbGx5IGRvZXNuJ3QgbGlrZSBjb25kaXRpb25hbHMgbGlrZSB0aGF0Lg0K
+PiA+DQo+ID4gSSBvbmx5ICJsaWtlIiBjb25kaXRpb25hbHMgaWYgaXQgaXMgYSBjb2RlIHBhdGgg
+dGhhdCB3aWxsIGJlIHdlbGwNCj4gPiB0cmF2ZWxsZWQsIG90aGVyd2lzZSB3ZSB0ZW5kIHRvIGZp
+bmQgb25lIG9mIHRoZSBwYXRocyBpcyBicm9rZW4uIEkNCj4gPiBkb24ndCB0aGluayB3ZSBuZWVk
+IHRvIG1ha2UgdGhpcyBjb25kaXRpb25hbC4NCj4gPg0KPiA+ID4gQWx0ZXJuYXRpdmVseSwgZGlk
+IHdlIHJ1bGUgb3V0IHVzaW5nIFBBQ0tBR0VTUExJVEZVTkNTIHRvIGFkZCB0aGUNCj4gPiA+IHNw
+bGl0dGluZyByb3V0aW5lID8gV2l0aCB0aGF0LCB3ZSBjb3VsZCByZW1vdmUgdGhlIHByb2Nlc3Np
+bmcgaW4NCj4gPiA+IHBsYWNlcyB3ZSBkb24ndCB3YW50IGl0LCBpbiBwYXJ0aWN1bGFyIGZvciB0
+aGUgbmF0aXZlL3NkayBidWlsZHMsDQo+ID4gPiBhcyBJDQo+ID4gPiBmb3VuZCB0aGF0IHdlIHJl
+YWxseSBkb24ndCB3YW50IHRoZSBzcGxpdHRpbmcgb2YgcWVtdSBpbiB0aG9zZQ0KPiA+ID4gc2Nl
+bmFyaW9zLg0KPiA+DQo+DQo+DQo+IENhbiB5b3UgdGhpbmsgb2YgYSBwcm9ibGVtIHdpdGggdGhl
+IFBBQ0tBR0VTUExJVEZVTkNTIG1ldGhvZCBmb3IgdGhpcw0KPiBwYWNrYWdpbmcgc3BsaXQgPw0K
+Pg0KPiBBdCBsZWFzdCB0aGF0IHdheSBJIGNvdWxkIGluaGliaXQgaXQgZnJvbSBteSBvdGhlciBs
+YXllcnMsIHZlcnN1cw0KPiB3aXRoIHRoaXMgcHJlcGVuZCwgSSBkb24ndCBzZWUgYW55IG9wdGlv
+bnMgdG8gaGF2ZSBteSBvd24gcGFja2FnZQ0KPiBzcGxpdHRpbmcuDQoNCldlIGNhbiBkbyB0aGlz
+IGluIGEgUEFDS0FHRVNQTElURlVOQ1MgZnVuY3Rpb24uIEkgZ3Vlc3MgSSdtIGp1c3QNCm5lcnZv
+dXMgb2YgaGF2aW5nIHRvbyBtYW55IGRpZmZlcmVudCB3YXlzIG9mIHBhY2thZ2luZyBxZW11IGFz
+IEkgd2FzDQpob3Bpbmcgd2UgY291bGQgZ2V0IHNvbWV0aGluZyB3aGljaCB3b3VsZCB3b3JrIGZv
+ciBhbGwgdXNlcnMuDQoNCg0KVGhlcmUgYXJlIHNvbWUgdmVyeSBzcGVjaWZpYyB1c2UgY2FzZXMg
+Zm9yIHZpcnR1YWxpemF0aW9uLCB3aGVyZSBzb21lIHNlcGFyYXRpb24gbW9kZWxzIHVzZSBkaWZm
+ZXJlbnQgYXJjaGl0ZWN0dXJlcyBmb3IgZGV2aWNlcywgZXZlbiBhcmNoaXRlY3R1cmVzIHRoYXQg
+ZG9uJ3QgbWF0Y2ggdGhlIHRhcmdldCAoaG9zdCBpbiB0aGUgcnVubmluZyBzeXN0ZW0pLg0KDQpU
+aGVyZSBhcmUgYWxzbyBzb21lIGNvbWJpbmF0aW9ucyBvZiB1c2VybW9kZSBhbmQgc3lzdGVtLCBh
+cyB3ZWxsIGFzIHN1cHBvcnQgYW5kIGZpcm13YXJlLCBldGMuDQoNCkkgY2FuJ3Qgc2VlIGEgY2xl
+YW4vZWFzeSB3YXkgdG8gbWFrZSB0aGUgc3BsaXQgYmVpbmcgcHJvcG9zZWQgaGVyZSBzZXJ2ZSBh
+bGwgdGhvc2UgZXhpc3RpbmcgKGFuZCBhZG1pdHRlZGx5IG9kZCkgY2FzZS4gSGF2aW5nIGEgd2F5
+IHRvIG92ZXJyaWRlIGl0IChldmVuIHRlbXBvcmFyaWx5KSBpcyBhIGJldHRlciB0cmFuc2l0aW9u
+IHBhdGggZm9yIG1ldGEtdmlydC4NCg0KQnJ1Y2UNCg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0K
+DQotLQ0KLSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9z
+IGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZA0KLSAiVXNlIHRoZSBmb3JjZSBIYXJy
+eSIgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUkNCg0K
 
-Also, new ptest failures:
+--_000_CO1PR11MB5009A4A79D96166F4D94404AF151ACO1PR11MB5009namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-{'util-linux': ['lsfd:_--inet_option',
-                'mount:_fstab-fallback:_[04]_subdir',
-                'mount:_fstab-fallback']}
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
+ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
+ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBD
+YWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
+bG9yOiByZ2IoMCwgMCwgMCk7IiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPg0KSGkgQnJ1Y2UsPC9k
+aXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwg
+c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyIgY2xhc3M9
+ImVsZW1lbnRUb1Byb29mIj4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6
+IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsg
+Y29sb3I6IHJnYigwLCAwLCAwKTsiIGNsYXNzPSJlbGVtZW50VG9Qcm9vZiBDb250ZW50UGFzdGVk
+MCI+DQpJIGRpZG4ndCByZXBseSB0aGUgdjEgcGF0Y2ggZGlyZWN0bHkgYW5kIGp1c3QgaW5jbHVk
+ZSB0aGUgY29tbWVudHMgYW5kIGNvbmNlcm5zIHdoZW4gZ2VuZXJhdGUgdjIsdjMsdjQsdjUgcGF0
+Y2guPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+PGJyPg0KPC9kaXY+
+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiI+SSdtIHNvcnJ5IDxhIGhyZWY9Imh0dHBzOi8v
+Z2l0LnlvY3RvcHJvamVjdC5vcmcvbWV0YS12aXJ0dWFsaXphdGlvbi90cmVlL3JlY2lwZXMtZGV2
+dG9vbHMvcWVtdS9xZW11LXBhY2thZ2Utc3BsaXQuaW5jIiBpZD0iTFBsbms0Njg1NjciPg0KdGhl
+IG92ZXJyaWRlcyBmb3IgcWVtdSBzcGxpdCBpbiBtZXRhLXZpciBhcyBodHRwczovL2dpdC55b2N0
+b3Byb2plY3Qub3JnL21ldGEtdmlydHVhbGl6YXRpb24vdHJlZS9yZWNpcGVzLWRldnRvb2xzL3Fl
+bXUvcWVtdS1wYWNrYWdlLXNwbGl0LmluYyBkb2Vzbid0IHdvcmsgaWYgd2UgbWFrZSB0aGUgcWVt
+dSBzcGxpdCBjaGFuZ2UuPC9hPjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2YiPjxi
+cj4NCjxhIGhyZWY9Imh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvbWV0YS12aXJ0dWFsaXph
+dGlvbi90cmVlL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LXBhY2thZ2Utc3BsaXQuaW5jIiBp
+ZD0iTFBsbms0Njg1NjciPjwvYT48L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIj48
+YSBocmVmPSJodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL21ldGEtdmlydHVhbGl6YXRpb24v
+dHJlZS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS1wYWNrYWdlLXNwbGl0LmluYyIgaWQ9IkxQ
+bG5rNDY4NTY3Ij5JcyBpdCBva2F5IGZvciB5b3UgdG8gaW5zdGFsbCB0aGUgcWVtdSBhcmNoIHJw
+bXMgeW91IG5lZWQgb3IgcWVtdS1hbGwoaWYgeW91IHdhbnQgYWxsIHFlbXUgYmluYXJ5KSBhZnRl
+cg0KIHRoZSBxZW11IHNwbGl0IGNoYW5nZT8gPGJyPg0KPC9hPjwvZGl2Pg0KPGRpdiBjbGFzcz0i
+ZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZl
+dGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+
+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1m
+YW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
+MTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KVGhhbmtzLDxicj4NCjwvZGl2Pg0KPGRpdiBp
+ZD0iYXBwZW5kb25zZW5kIj48L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7
+d2lkdGg6OTglIiB0YWJpbmRleD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJs
+dHIiPjxmb250IGZhY2U9IkNhbGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFw
+dCIgY29sb3I9IiMwMDAwMDAiPjxiPkZyb206PC9iPiBCcnVjZSBBc2hmaWVsZCAmbHQ7YnJ1Y2Uu
+YXNoZmllbGRAZ21haWwuY29tJmd0Ozxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIEp1bmUgOSwg
+MjAyMyAwMDoxNjxicj4NCjxiPlRvOjwvYj4gUmljaGFyZCBQdXJkaWUgJmx0O3JpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcmZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBZdSwgTWluZ2xpICZs
+dDtNaW5nbGkuWXVAd2luZHJpdmVyLmNvbSZndDs7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHY1XSBxZW11
+OiBTcGxpdCB0aGUgcWVtdSBwYWNrYWdlPC9mb250Pg0KPGRpdj4mbmJzcDs8L2Rpdj4NCjwvZGl2
+Pg0KPGRpdj48c3Ryb25nPg0KPGRpdiBzdHlsZT0iYm9yZGVyOnNvbGlkICM5YzY1MDAgMXB0OyBw
+YWRkaW5nOjJwdDsgYmFja2dyb3VuZDojZmNmYzAzIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+cHQ7IGNvbG9yOiMwMDAiPkNBVVRJT046IFRoaXMgZW1haWwgY29tZXMgZnJvbSBhIG5vbiBXaW5k
+IFJpdmVyIGVtYWlsIGFjY291bnQhPC9zcGFuPjwvc3Ryb25nPjxicj4NCjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTBwdDsgY29sb3I6IzAwMCI+RG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0
+YWNobWVudHMgdW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29u
+dGVudCBpcyBzYWZlLjwvc3Bhbj48YnI+DQo8L2Rpdj4NCjxkaXY+DQo8ZGl2IGRpcj0ibHRyIj4N
+CjxkaXYgZGlyPSJsdHIiPg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9u
+dC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjwvZGl2Pg0KPGJyPg0KPGRpdiBjbGFzcz0ieF9n
+bWFpbF9xdW90ZSI+DQo8ZGl2IGRpcj0ibHRyIiBjbGFzcz0ieF9nbWFpbF9hdHRyIj5PbiBUaHUs
+IEp1biA4LCAyMDIzIGF0IDExOjQ04oCvQU0gUmljaGFyZCBQdXJkaWUgJmx0OzxhIGhyZWY9Im1h
+aWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIj5yaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPC9hPiZndDsgd3JvdGU6PGJyPg0KPC9kaXY+DQo8YmxvY2txdW90
+ZSBjbGFzcz0ieF9nbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHggMHB4IDBweCAwLjhleDsg
+Ym9yZGVyLWxlZnQ6MXB4IHNvbGlkIHJnYigyMDQsMjA0LDIwNCk7IHBhZGRpbmctbGVmdDoxZXgi
+Pg0KT24gVGh1LCAyMDIzLTA2LTA4IGF0IDExOjAzIC0wNDAwLCBCcnVjZSBBc2hmaWVsZCB3cm90
+ZTo8YnI+DQomZ3Q7IDxicj4NCiZndDsgPGJyPg0KJmd0OyBPbiBUaHUsIEp1biA4LCAyMDIzIGF0
+IDk6NTXigK9BTSBSaWNoYXJkIFB1cmRpZTxicj4NCiZndDsgJmx0OzxhIGhyZWY9Im1haWx0bzpy
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIiB0YXJnZXQ9Il9ibGFuayI+cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzwvYT4mZ3Q7IHdyb3RlOjxicj4NCiZndDsgJmd0
+OyBPbiBUaHUsIDIwMjMtMDYtMDggYXQgMDk6MzMgLTA0MDAsIEJydWNlIEFzaGZpZWxkIHdyb3Rl
+Ojxicj4NCiZndDsgJmd0OyAmZ3Q7IEF0IHRoaXMgcG9pbnQsIHlvdSBjYW4gcHJvYmFibHkgc2Vl
+IHdoeSBJIGVuZGVkIHVwIHVzaW5nIHRoZTxicj4NCiZndDsgJmd0OyAmZ3Q7IGV4cGxpY2l0PGJy
+Pg0KJmd0OyAmZ3Q7ICZndDsgdmFyaWFibGVzIGFuZCBvdmVycmlkZXMgdmVyc3VzIHB5dGhvbiB3
+aGVuIGRvaW5nIHRoZTxicj4NCiZndDsgJmd0OyAmZ3Q7IG1ldGEtdmlydHVhbGl6YXRpb24gc3Bs
+aXRzLiA6KTxicj4NCiZndDsgJmd0OyAmZ3Q7IDxicj4NCiZndDsgJmd0OyAmZ3Q7IEkgaGF2ZSBh
+IGZldyBtb3JlIGNvbW1lbnRzIHRoYXQgSSBtYWRlIGluIHYxLCB0aGF0IEkgaGF2ZW4ndCBzZWVu
+PGJyPg0KJmd0OyAmZ3Q7ICZndDsgZGlyZWN0bHkgaGFuZGxlZCBvciByZXBsaWVkIHRvLjxicj4N
+CiZndDsgJmd0OyAmZ3Q7IDxicj4NCiZndDsgJmd0OyAmZ3Q7IE15IG9ubHkgcmVtYWluaW5nIGNv
+bmNlcm4gKGFuZCBpdCBtYXkganVzdCBiZSBteSBvd24gY29uY2VybiksIGlzPGJyPg0KJmd0OyAm
+Z3Q7ICZndDsgdGhhdDxicj4NCiZndDsgJmd0OyAmZ3Q7IHRoZXJlJ3Mgbm8gd2F5IHRvIGNoYW5n
+ZSB0aGlzIHBhY2thZ2luZyBzcGxpdC4gRWl0aGVyIHlvdSB0YWtlPGJyPg0KJmd0OyAmZ3Q7ICZn
+dDsgdGhlPGJyPg0KJmd0OyAmZ3Q7ICZndDsgcHJvZ3JhbWF0aWMgc3BsaXQsIG9yIHlvdSB0YWtl
+IHRoZSAtYWxsIHBhY2thZ2VzLjxicj4NCiZndDsgJmd0OyAmZ3Q7IDxicj4NCiZndDsgJmd0OyAm
+Z3Q7IE90aGVyIHBhY2thZ2VzIChnbGliYywga2VybmVsLW1vZHVsZXMpIGhhdmUgYSB2YXJpYWJs
+ZSB0aGF0PGJyPg0KJmd0OyAmZ3Q7ICZndDsgY29udHJvbHM8YnI+DQomZ3Q7ICZndDsgJmd0OyB3
+aGV0aGVyIHRoZSBzcGxpdCBoYXBwZW5zIG9yIG5vdCwgSSdkIGxpa2UgdG8gc2VlIHNvbWV0aGlu
+Zzxicj4NCiZndDsgJmd0OyAmZ3Q7IHNpbWlsYXI8YnI+DQomZ3Q7ICZndDsgJmd0OyBoZXJlIC4u
+IGJ1dCBJIGRvIHJlYWxpemUgdGhhdCBpdCBtYWtlcyB0ZXN0IGNvbXBsZXhpdHkgbW9yZSwgYW5k
+PGJyPg0KJmd0OyAmZ3Q7ICZndDsgdGhhdDxicj4NCiZndDsgJmd0OyAmZ3Q7IFJpY2hhcmQgbm9y
+bWFsbHkgZG9lc24ndCBsaWtlIGNvbmRpdGlvbmFscyBsaWtlIHRoYXQuPGJyPg0KJmd0OyAmZ3Q7
+IDxicj4NCiZndDsgJmd0OyBJIG9ubHkgJnF1b3Q7bGlrZSZxdW90OyBjb25kaXRpb25hbHMgaWYg
+aXQgaXMgYSBjb2RlIHBhdGggdGhhdCB3aWxsIGJlIHdlbGw8YnI+DQomZ3Q7ICZndDsgdHJhdmVs
+bGVkLCBvdGhlcndpc2Ugd2UgdGVuZCB0byBmaW5kIG9uZSBvZiB0aGUgcGF0aHMgaXMgYnJva2Vu
+LiBJPGJyPg0KJmd0OyAmZ3Q7IGRvbid0IHRoaW5rIHdlIG5lZWQgdG8gbWFrZSB0aGlzIGNvbmRp
+dGlvbmFsLjxicj4NCiZndDsgJmd0OyA8YnI+DQomZ3Q7ICZndDsgJmd0OyBBbHRlcm5hdGl2ZWx5
+LCBkaWQgd2UgcnVsZSBvdXQgdXNpbmcgUEFDS0FHRVNQTElURlVOQ1MgdG8gYWRkIHRoZTxicj4N
+CiZndDsgJmd0OyAmZ3Q7IHNwbGl0dGluZyByb3V0aW5lID8gV2l0aCB0aGF0LCB3ZSBjb3VsZCBy
+ZW1vdmUgdGhlIHByb2Nlc3NpbmcgaW48YnI+DQomZ3Q7ICZndDsgJmd0OyBwbGFjZXMgd2UgZG9u
+J3Qgd2FudCBpdCwgaW4gcGFydGljdWxhciBmb3IgdGhlIG5hdGl2ZS9zZGsgYnVpbGRzLDxicj4N
+CiZndDsgJmd0OyAmZ3Q7IGFzIEk8YnI+DQomZ3Q7ICZndDsgJmd0OyBmb3VuZCB0aGF0IHdlIHJl
+YWxseSBkb24ndCB3YW50IHRoZSBzcGxpdHRpbmcgb2YgcWVtdSBpbiB0aG9zZTxicj4NCiZndDsg
+Jmd0OyAmZ3Q7IHNjZW5hcmlvcy48YnI+DQomZ3Q7ICZndDsgPGJyPg0KJmd0OyA8YnI+DQomZ3Q7
+IDxicj4NCiZndDsgQ2FuIHlvdSB0aGluayBvZiBhIHByb2JsZW0gd2l0aCB0aGUgUEFDS0FHRVNQ
+TElURlVOQ1MmbmJzcDttZXRob2QgZm9yIHRoaXM8YnI+DQomZ3Q7IHBhY2thZ2luZyBzcGxpdCA/
+PGJyPg0KJmd0OyA8YnI+DQomZ3Q7IEF0IGxlYXN0IHRoYXQgd2F5IEkgY291bGQgaW5oaWJpdCBp
+dCBmcm9tIG15IG90aGVyIGxheWVycywgdmVyc3VzPGJyPg0KJmd0OyB3aXRoIHRoaXMgcHJlcGVu
+ZCwgSSBkb24ndCBzZWUgYW55IG9wdGlvbnMgdG8gaGF2ZSBteSBvd24gcGFja2FnZTxicj4NCiZn
+dDsgc3BsaXR0aW5nLjxicj4NCjxicj4NCldlIGNhbiBkbyB0aGlzIGluIGEgUEFDS0FHRVNQTElU
+RlVOQ1MgZnVuY3Rpb24uIEkgZ3Vlc3MgSSdtIGp1c3Q8YnI+DQpuZXJ2b3VzIG9mIGhhdmluZyB0
+b28gbWFueSBkaWZmZXJlbnQgd2F5cyBvZiBwYWNrYWdpbmcgcWVtdSBhcyBJIHdhczxicj4NCmhv
+cGluZyB3ZSBjb3VsZCBnZXQgc29tZXRoaW5nIHdoaWNoIHdvdWxkIHdvcmsgZm9yIGFsbCB1c2Vy
+cy48YnI+DQo8YnI+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj4NCjxk
+aXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+VGhlcmUg
+YXJlIHNvbWUgdmVyeSBzcGVjaWZpYyB1c2UgY2FzZXMgZm9yIHZpcnR1YWxpemF0aW9uLCB3aGVy
+ZSBzb21lIHNlcGFyYXRpb24gbW9kZWxzIHVzZSBkaWZmZXJlbnQgYXJjaGl0ZWN0dXJlcyBmb3Ig
+ZGV2aWNlcywgZXZlbiBhcmNoaXRlY3R1cmVzIHRoYXQgZG9uJ3QgbWF0Y2ggdGhlIHRhcmdldCAo
+aG9zdCBpbiB0aGUgcnVubmluZyBzeXN0ZW0pLjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9k
+ZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9
+InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+VGhlcmUgYXJlIGFsc28g
+c29tZSBjb21iaW5hdGlvbnMgb2YgdXNlcm1vZGUgYW5kIHN5c3RlbSwgYXMgd2VsbCBhcyBzdXBw
+b3J0IGFuZCBmaXJtd2FyZSwgZXRjLjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0
+IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9InhfZ21h
+aWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+SSBjYW4ndCBzZWUgYSBjbGVhbi9l
+YXN5IHdheSB0byBtYWtlIHRoZSBzcGxpdCBiZWluZyBwcm9wb3NlZCBoZXJlIHNlcnZlIGFsbCB0
+aG9zZSBleGlzdGluZyAoYW5kIGFkbWl0dGVkbHkgb2RkKSBjYXNlLiBIYXZpbmcgYSB3YXkgdG8g
+b3ZlcnJpZGUgaXQgKGV2ZW4gdGVtcG9yYXJpbHkpIGlzIGEgYmV0dGVyIHRyYW5zaXRpb24gcGF0
+aCBmb3IgbWV0YS12aXJ0LjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHls
+ZT0iZm9udC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVm
+YXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+QnJ1Y2U8L2Rpdj4NCjxicj4NCjwvZGl2Pg0K
+PGRpdj4mbmJzcDs8L2Rpdj4NCjxibG9ja3F1b3RlIGNsYXNzPSJ4X2dtYWlsX3F1b3RlIiBzdHls
+ZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4OyBib3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIw
+NCwyMDQsMjA0KTsgcGFkZGluZy1sZWZ0OjFleCI+DQpDaGVlcnMsPGJyPg0KPGJyPg0KUmljaGFy
+ZDxicj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPGJyIGNsZWFyPSJhbGwiPg0KPGRpdj48YnI+
+DQo8L2Rpdj4NCjxzcGFuIGNsYXNzPSJ4X2dtYWlsX3NpZ25hdHVyZV9wcmVmaXgiPi0tIDwvc3Bh
+bj48YnI+DQo8ZGl2IGRpcj0ibHRyIiBjbGFzcz0ieF9nbWFpbF9zaWduYXR1cmUiPi0gVGhvdSBz
+aGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBh
+d2FpdCB0aGVlIGF0IGl0cyBlbmQ8YnI+DQotICZxdW90O1VzZSB0aGUgZm9yY2UgSGFycnkmcXVv
+dDsgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUk8YnI+DQo8YnI+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-> On 02/06/2023 10:41:24-0400, Trevor Gamblin wrote:
-> > util-linux's ChangeLog file simply points to the git log, and there are
-> > numerous changes between 2.38.1 and 2.39:
-> >=20
-> > https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/log
-> >=20
-> > There is a notable license change - README.licensing adds the
-> > BSD-2-Clause variant between these versions, but there is no
-> > corresponding file in Documentation/licenses; it's been added it under
-> > LICENSE in the recipe along with a reference to the common-licenses
-> > version. The README.licensing file also lists GPL-3.0-or-later for
-> > some of the code, so add it as well and include a checksum.
-> >=20
-> > Two patches were removed since they're included in 2.39 upstream.
-> >=20
-> > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > ---
-> > v2 properly deletes the two patch files instead of simply removing them
-> > from the recipe.
-> >  ...d_2.38.1.bb =3D> util-linux-libuuid_2.39.bb} |  0
-> >  meta/recipes-core/util-linux/util-linux.inc   | 10 ++--
-> >  .../0001-check-for-sys-pidfd.h.patch          | 53 -------------------
-> >  ...configure.ac-Improve-check-for-magic.patch | 40 --------------
-> >  ...til-linux_2.38.1.bb =3D> util-linux_2.39.bb} |  0
-> >  5 files changed, 5 insertions(+), 98 deletions(-)
-> >  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.38.1.bb =3D>=
- util-linux-libuuid_2.39.bb} (100%)
-> >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-check-=
-for-sys-pidfd.h.patch
-> >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-config=
-ure.ac-Improve-check-for-magic.patch
-> >  rename meta/recipes-core/util-linux/{util-linux_2.38.1.bb =3D> util-li=
-nux_2.39.bb} (100%)
-> >=20
-> > diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb =
-b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
-> > rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.bb
-> > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes=
--core/util-linux/util-linux.inc
-> > index 3868b1c41d..f9e6fb7d21 100644
-> > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > @@ -6,16 +6,18 @@ disk partitioning, kernel message management, filesys=
-tem creation, and system lo
-> > =20
-> >  SECTION =3D "base"
-> > =20
-> > -LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause & BSD=
--4-Clause"
-> > +LICENSE =3D "GPL-3.0-or-later & GPL-2.0-or-later & LGPL-2.1-or-later &=
- BSD-2-Clause & BSD-3-Clause & BSD-4-Clause"
-> >  LICENSE:${PN}-libblkid =3D "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libfdisk =3D "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libmount =3D "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libsmartcols =3D "LGPL-2.1-or-later"
-> > =20
-> > -LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D0fd5c050c6187d2bf0=
-a4492b7f4e33da \
-> > +LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D12ae7768a65ec8f2e4=
-4d930df9cb43fa \
-> >                      file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263 \
-> > +                    file://Documentation/licenses/COPYING.GPL-3.0-or-l=
-ater;md5=3D1ebbd3e34237af26da5dc08a4e440464 \
-> >                      file://Documentation/licenses/COPYING.GPL-2.0-or-l=
-ater;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-> >                      file://Documentation/licenses/COPYING.LGPL-2.1-or-=
-later;md5=3D4fbd65380cdd255951079008b364516c \
-> > +                    file://${COREBASE}/meta/files/common-licenses/BSD-=
-2-Clause;md5=3Dcb641bc04cda31daea161b1bc15da69f \
-> >                      file://Documentation/licenses/COPYING.BSD-3-Clause=
-;md5=3D58dcd8452651fc8b07d1f65ce07ca8af \
-> >                      file://Documentation/licenses/COPYING.BSD-4-Clause=
--UC;md5=3D263860f8968d8bafa5392cab74285262 \
-> >                      file://libuuid/COPYING;md5=3D6d2cafc999feb2c2de84d=
-4d24b23290c \
-> > @@ -35,8 +37,6 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-lin=
-ux/v${MAJOR_VERSION}/util-lin
-> >             file://run-ptest \
-> >             file://display_testname_for_subtest.patch \
-> >             file://avoid_parallel_tests.patch \
-> > -           file://0001-check-for-sys-pidfd.h.patch \
-> > -           file://0001-configure.ac-Improve-check-for-magic.patch \
-> >             "
-> > =20
-> > -SRC_URI[sha256sum] =3D "60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3eb=
-d6a0ecaa4c5117e84f"
-> > +SRC_URI[sha256sum] =3D "32b30a336cda903182ed61feb3e9b908b762a5e66fe14e=
-43efb88d37162075cb"
-> > diff --git a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys=
--pidfd.h.patch b/meta/recipes-core/util-linux/util-linux/0001-check-for-sys=
--pidfd.h.patch
-> > deleted file mode 100644
-> > index 19f57f14bc..0000000000
-> > --- a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.=
-h.patch
-> > +++ /dev/null
-> > @@ -1,53 +0,0 @@
-> > -From 548bc568f3c735e53fb5b0a5ab6473a3f1457b91 Mon Sep 17 00:00:00 2001
-> > -From: Khem Raj <raj.khem@gmail.com>
-> > -Date: Sun, 7 Aug 2022 14:39:19 -0700
-> > -Subject: [PATCH] check for sys/pidfd.h
-> > -
-> > -This header in newer glibc defines the signatures of functions
-> > -pidfd_send_signal() and pidfd_open() and when these functions are
-> > -defined by libc then we need to include the relevant header to get
-> > -the definitions. Clang 15+ has started to error out when function
-> > -signatures are missing.
-> > -
-> > -Fixes errors like
-> > -misc-utils/kill.c:402:6: error: call to undeclared function 'pidfd_sen=
-d_signal'; ISO C99 and later do not support implicit function declarations =
-[-Wimplicit-function-declaration]
-> > -        if (pidfd_send_signal(pfd, ctl->numsig, &info, 0) < 0)
-> > -
-> > -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/p=
-ull/1769]
-> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ----
-> > - configure.ac          | 1 +
-> > - include/pidfd-utils.h | 4 +++-
-> > - 2 files changed, 4 insertions(+), 1 deletion(-)
-> > -
-> > -diff --git a/configure.ac b/configure.ac
-> > -index a511e93de..fd7d9245f 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -342,6 +342,7 @@ AC_CHECK_HEADERS([ \
-> > - 	sys/mkdev.h \
-> > - 	sys/mount.h \
-> > - 	sys/param.h \
-> > -+	sys/pidfd.h \
-> > - 	sys/prctl.h \
-> > - 	sys/resource.h \
-> > - 	sys/sendfile.h \
-> > -diff --git a/include/pidfd-utils.h b/include/pidfd-utils.h
-> > -index eddede976..d9e33cbc5 100644
-> > ---- a/include/pidfd-utils.h
-> > -+++ b/include/pidfd-utils.h
-> > -@@ -4,8 +4,10 @@
-> > - #ifdef HAVE_SYS_SYSCALL_H
-> > - # include <sys/syscall.h>
-> > - # if defined(SYS_pidfd_send_signal) && defined(SYS_pidfd_open)
-> > -+#  ifdef HAVE_SYS_PIDFD_H
-> > -+#   include <sys/pidfd.h>
-> > -+#  endif
-> > - #  include <sys/types.h>
-> > --
-> > - #  ifndef HAVE_PIDFD_SEND_SIGNAL
-> > - static inline int pidfd_send_signal(int pidfd, int sig, siginfo_t *in=
-fo,
-> > - 				    unsigned int flags)
-> > ---=20
-> > -2.37.1
-> > -
-> > diff --git a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-=
-Improve-check-for-magic.patch b/meta/recipes-core/util-linux/util-linux/000=
-1-configure.ac-Improve-check-for-magic.patch
-> > deleted file mode 100644
-> > index 00611fe578..0000000000
-> > --- a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve=
--check-for-magic.patch
-> > +++ /dev/null
-> > @@ -1,40 +0,0 @@
-> > -From 263381ddd46eea2293c70bc811273b66bc52087b Mon Sep 17 00:00:00 2001
-> > -From: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > -Date: Fri, 19 Aug 2022 14:47:49 +0200
-> > -Subject: [PATCH] configure.ac: Improve check for magic
-> > -
-> > -Check whether magic.h header exists before defining HAVE_MAGIC.
-> > -
-> > -Despite library availability there still can be missing header.
-> > -Current test doesn't cover that possibility which will lead compilation
-> > -to fail in case of separate sysroot.
-> > -
-> > -Upstream-Status: Backport
-> > -[https://github.com/util-linux/util-linux/commit/263381ddd46eea2293c70=
-bc811273b66bc52087b]
-> > -
-> > -Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > -Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> > ----
-> > - configure.ac | 6 ++++--
-> > - 1 file changed, 4 insertions(+), 2 deletions(-)
-> > -
-> > -diff --git a/configure.ac b/configure.ac
-> > -index daa8f0dca..968a0daf0 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -1570,8 +1570,10 @@ AC_ARG_WITH([libmagic],
-> > - )
-> > - AS_IF([test "x$with_libmagic" =3D xno], [have_magic=3Dno], [
-> > -   AC_CHECK_LIB([magic], [magic_open], [
-> > --    AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libmagi=
-c present.])
-> > --    MAGIC_LIBS=3D"-lmagic"
-> > -+    AC_CHECK_HEADER(magic.h, [
-> > -+      AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libma=
-gic present.])
-> > -+      MAGIC_LIBS=3D"-lmagic"
-> > -+    ])
-> > -   ])
-> > - ])
-> > - AC_SUBST([MAGIC_LIBS])
-> > ---=20
-> > -2.37.1
-> > -
-> > diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/r=
-ecipes-core/util-linux/util-linux_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/util-linux/util-linux_2.38.1.bb
-> > rename to meta/recipes-core/util-linux/util-linux_2.39.bb
-> > --=20
-> > 2.40.1
-> >=20
->=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#182333): https://lists.openembedded.org/g/openembed=
-ded-core/message/182333
-> > Mute This Topic: https://lists.openembedded.org/mt/99287629/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
->=20
->=20
-> --=20
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--_000_CO1PR11MB5009A4A79D96166F4D94404AF151ACO1PR11MB5009namp_--
 
