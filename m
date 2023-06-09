@@ -1,154 +1,143 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4CEC7EE25
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 14:08:59 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web11.14300.1686319730715808224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04320C7EE43
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 14:09:39 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14322.1686319772253579886
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 07:08:50 -0700
+ Fri, 09 Jun 2023 07:09:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=oOdn6nhb;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-77865f63473so74546939f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 07:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686319730; x=1688911730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Rty05+vgRGvCjJcp55F594zFKEx+soOS9dW4+99U6I=;
-        b=oOdn6nhb0M4XeJPz2nL0oHw0g1ur36zQxaQ2XCZigBL++p3hMc02PkDgTOPpbiwhmr
-         2whYQdaYPczkU3+DCGGwTDPvBobordUixfp9tE6M7cs0vH+ILYM2LCbP0ISnoO8N6bw2
-         PtZMaNmJ1QYAk7g4+YYAXCCEzdXAtP1FZAxeMFa9NUeW0bGwqxFBTH1DLuIcD+g3KO//
-         ABuoYXcKRcTHgtGE3qBrQTkGXU+AUm6Gy1+VkDI1MAeTDzTQceCiYtFaEx7Tw94e4U78
-         U/qBMK/a82KHMyp/neHgqOjeTV8RSGe4OfCalJVAHII2QjUTCko+PWyP1kHtU72CV3DR
-         YPRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686319730; x=1688911730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Rty05+vgRGvCjJcp55F594zFKEx+soOS9dW4+99U6I=;
-        b=McG3+CTucDrE743MJCG74OzY5Y4jYzLhM2uaqBCyHYL5Mcjb2LC9ML0rTVVKSwSYqT
-         OIqrZZpLP7WbYHrHCjPICom9noGQY8SRiVPsuBGACvVutveG5M+tQ9zylxam4REzi0b8
-         SGE9qMz+a4VaRZydQedP95rm9uX7xLIGU/f/GgiSZwbGAjJ58Qd/nRPmRlv0CTpV7/35
-         CtrMch/c9PykVA2nBdMNUuhjj8MdRYjk+wkBw6+ltIZ7VHHrh7tSLiEFY+p7xxMIhIDF
-         5vyz2EEaHkrOEfdNtexlbDePuHkU5e0EUs7IOuBUr2FuKz+8TUAsB7XqZqr2VVe3pkU6
-         GyHQ==
-X-Gm-Message-State: AC+VfDzx2PH1xyBsDtN9XClWYl1bg1rqi+YncqUZi0/BGfVd0sSpv34a
-	CTIYe3E7lNhqLnHlug0exeFXJW/wyw8bpyE4pOg=
-X-Google-Smtp-Source: ACHHUZ65WmkjpX9fgfbnNiMl9kdueOfHP7v/6pETZMx1kHampMbQNzsA0WO648+1NV/8+IyLw3t6xmsoxnKtAtBO+8g=
-X-Received: by 2002:a6b:da0e:0:b0:76d:7522:2658 with SMTP id
- x14-20020a6bda0e000000b0076d75222658mr1729163iob.9.1686319729855; Fri, 09 Jun
- 2023 07:08:49 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rPfasoXX;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5524cb4a3f=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359DpxhZ027824
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jun 2023 07:09:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=R/2Hh73LCW48D9yKSMvfHztutV8dEQXNBNeYp2eL4So=;
+ b=rPfasoXXfpZ5bOKuDk4UqrqHvkybtSNfHer9oXw9w7LD4v8ugvIFf65NAMzu0TyIvsrU
+ NugPh1cIuJCYcYFxCTChH/g1rbwxvUQQRPNsnqUHTrT4zYqnvYliXg4TuNpTNJAQfbMw
+ 2AddDNYS4veEd3QAte1H6Fn/l7pD9iH9IR+VEc9vCl5Rze5Z8039M1+lwCYedHJ33jdF
+ AIBbqmG3G7DNf6TAHOmfnn0bUaQhLzjcwgDGmajI9zO5+cNjMj16+ZjHtLJKn5qFGHvn
+ mmtJG9IqSLnNZUxWKWo2VitR3+88NgasapyAL618xG7BOFhCy4tj3QoWOCeurjZDQnpb tQ== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r2a80trdn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 07:09:31 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 9 Jun 2023 07:09:29 -0700
+From: Yogita Urade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <hari.gpillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH V2 1/6] webkitgtk: fix CVE-2022-46691
+Date: Fri, 9 Jun 2023 14:09:03 +0000
+Message-ID: <20230609140908.3465521-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230608193901.363242-1-bruce.ashfield@gmail.com> <3871317432553f8027c3c0d6aabcc186d6f32b07.camel@linuxfoundation.org>
-In-Reply-To: <3871317432553f8027c3c0d6aabcc186d6f32b07.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 9 Jun 2023 10:08:49 -0400
-Message-ID: <CADkTA4OGDBUgFhmeV9BkHoWv8aPu9Y6A2B2iPRBTEhB3ny0eSw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] qemux86/conf: TEST ONLY. Drop smp boot
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Paul Gortmaker <paul.gortmaker@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 0mkdnHQoD6OdWQLufefdjS5sveH8U63Y
+X-Proofpoint-ORIG-GUID: 0mkdnHQoD6OdWQLufefdjS5sveH8U63Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-09_10,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=873 adultscore=0 impostorscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306090120
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 14:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182550
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 14:09:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182551
 
-On Fri, Jun 9, 2023 at 2:06=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2023-06-08 at 19:39 +0000, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > We are seeing intermittent boot hangs with x86. Once of the last
-> > messages in failing logs is secondary cpu startup.
-> >
-> > Dropping us down to smp for testing to see if the hangs start to
-> > go away with smp removed.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >  meta/conf/machine/include/x86/qemuboot-x86.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/machine/include/x86/qemuboot-x86.inc b/meta/conf=
-/machine/include/x86/qemuboot-x86.inc
-> > index 6ae03633ae..54a12119a7 100644
-> > --- a/meta/conf/machine/include/x86/qemuboot-x86.inc
-> > +++ b/meta/conf/machine/include/x86/qemuboot-x86.inc
-> > @@ -1,6 +1,6 @@
-> >  # For runqemu
-> >  IMAGE_CLASSES +=3D "qemuboot"
-> > -QB_SMP ?=3D "-smp 4"
-> > +QB_SMP ?=3D ""
-> >  QB_CPU:x86 ?=3D "-cpu IvyBridge -machine q35,i8042=3Doff"
-> >  QB_CPU_KVM:x86 ?=3D "-cpu IvyBridge -machine q35,i8042=3Doff"
-> >
-> >
->
-> FWIW, this patch didn't change much. With it applied we still see:
+A memory consumption issue was addressed with improved memory handling.
+This issue is fixed in Safari 16.2, tvOS 16.2, macOS Ventura 13.1, iOS
+15.7.2 and iPadOS 15.7.2, iOS 16.2 and iPadOS 16.2, watchOS 9.2. Processing
+maliciously crafted web content may lead to arbitrary code execution.
 
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2022-46691
+https://support.apple.com/en-us/HT213531
 
-ok. so at least we can rule out it being specific to secondary cpu startup.
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../webkit/webkitgtk/CVE-2022-46691.patch     | 43 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
 
-Bruce
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
+new file mode 100644
+index 0000000000..ff9df40433
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-46691.patch
+@@ -0,0 +1,43 @@
++From fd57a49d07c9c285780495344073350182fd7c7c Mon Sep 17 00:00:00 2001
++From: Yijia Huang <hyjorc1@gmail.com>
++Date: Mon, 10 Oct 2022 15:42:34 -0700
++Subject: [PATCH] [JSC] Should model BigInt with side effects
++ https://bugs.webkit.org/show_bug.cgi?id=246291 rdar://100494823
++
++Reviewed by Yusuke Suzuki.
++
++Operations with two BigInt operands have side effects,
++which should not be hoisted from loops.
++
++* Source/JavaScriptCore/dfg/DFGClobberize.cpp:
++(JSC::DFG::doesWrites):
++* Source/JavaScriptCore/dfg/DFGClobberize.h:
++(JSC::DFG::clobberize):
++
++Canonical link: https://commits.webkit.org/255368@main
++
++CVE: CVE-2022-46691
++
++Upstream-Status: Backport
++[https://github.com/WebKit/WebKit/commit/fd57a49d07c9c285780495344073350182fd7c7c]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ Source/JavaScriptCore/dfg/DFGClobberize.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/Source/JavaScriptCore/dfg/DFGClobberize.h b/Source/JavaScriptCore/dfg/DFGClobberize.h
++index 0363ab20dcd8..4b1bcfea1fd7 100644
++--- a/Source/JavaScriptCore/dfg/DFGClobberize.h
+++++ b/Source/JavaScriptCore/dfg/DFGClobberize.h
++@@ -811,6 +811,8 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++     case ValueBitRShift:
++         // FIXME: this use of single-argument isBinaryUseKind would prevent us from specializing (for example) for a HeapBigInt left-operand and a BigInt32 right-operand.
++         if (node->isBinaryUseKind(AnyBigIntUse) || node->isBinaryUseKind(BigInt32Use) || node->isBinaryUseKind(HeapBigIntUse)) {
+++            read(World);
+++            write(SideState);
++             def(PureValue(node));
++             return;
++         }
++--
++2.40.0
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 1dac4f5677..02258f84e4 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+            file://CVE-2022-32888.patch \
+            file://CVE-2022-32923.patch \
++           file://CVE-2022-46691.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
+-- 
+2.40.0
 
-
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5168/st=
-eps/12/logs/stdio
->
-> [    0.634735] Freeing SMP alternatives memory: 52K
-> [   12.275510] smpboot: CPU0: Intel Xeon E3-12xx v2 (Ivy Bridge) (family:=
- 0x6, model: 0x3a, stepping: 0x9)
-> [274491.955544] cblist_init_generic: Setting adjustable number of callbac=
-k queues.
-> [274492.008510] cblist_init_generic: Setting shift to 0 and lim to 1.
-> [279820.791509] cblist_init_generic: Setting shift to 0 and lim to 1.
-> [282104.735510] cblist_init_generic: Setting shift to 0 and lim to 1.
-> [386831.154510] Performance Events: unsupported p6 CPU model 58 no PMU dr=
-iver, software events only.
-> [386850.632510] rcu: Hierarchical SRCU implementation.
-> [386850.668510] rcu:    Max phase no-delay instances is 400.
-> [386852.898509] smp: Bringing up secondary CPUs ...
-> [386852.946510] smp: Brought up 1 node, 1 CPU
-> [386852.992510] smpboot: Max logical packages: 1
-> [386853.018509] smpboot: Total of 1 processors activated (5199.99 BogoMIP=
-S)
-> [386855.257509] devtmpfs: initialized
-> [386857.982509] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffff=
-ffff, max_idle_ns: 1911260446275000 ns
-> [386858.041510] futex hash table entries: 256 (order: 2, 16384 bytes, lin=
-ear)
-> [386858.691509] pinctrl core: initialized pinctrl subsystem
-> [386862.836510] NET: Registered PF_NETLINK/PF_ROUTE protocol family
-> [386864.720510] thermal_sys: Registered thermal governor 'step_wise'
-> [386864.725509] thermal_sys: Registered thermal governor 'user_space'
-> [386864.864510] cpuidle: using governor menu
-> [386865.662509] PCI: MMCONFIG for domain 0000 [bus 00-ff] at [mem 0xb0000=
-000-0xbfffffff] (base 0xb0000000)
-> [386865.693510] PCI: MMCONFIG at [mem 0xb0000000-0xbfffffff] reserved in =
-E820
-> [386865.900509] PCI: Using configuration type 1 for base access
-> [386878.550509] kprobes: kprobe jump-optimization is enabled. All kprobes=
- are optimized if possible.
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
