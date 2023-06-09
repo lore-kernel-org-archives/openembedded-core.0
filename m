@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0900DC8300C
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC639C7EE2E
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:15 +0000 (UTC)
 Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.132.1686329653208652439
+ by mx.groups.io with SMTP id smtpd.web10.152.1686329650018597278
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:13 -0700
+ Fri, 09 Jun 2023 09:54:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=z+1T66Nd;
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WMY0S/X6;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-65055aa4ed7so1670838b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:13 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-652a6cf1918so1714127b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329652; x=1688921652;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329649; x=1688921649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+YoKdD0c9LbVykTLio/PbA1fiNuSLQod6hSHDxdmsPs=;
-        b=z+1T66NdOVpPKb6X1hyyHmODy0Sif5HYD8qp2F91hwvoW1zT4vTEVQCgOADQ1eCy7j
-         bkUXbKR0XQhi8QPLVUEZKpV88X1RAJhR0uiM0gey6FJuhQBQYH5EZAjQC6P3tLH7Duz3
-         PFpjkDgwLLVl9KIMLu/zEFVe3L5SXHV8+3fkW7eLuVrmtNKRM/oZu2wEmIY5vSYTCmIn
-         el/GXnRHu6/4BcBn4Ez0b1FEnhdVCy7G7hMl0x5tI3LVYFs2N5e6fWSIhcOEQ3UAvXPO
-         0n/XBv/IbjKyNZSU//+cv7eMrOnvH2GRf0lONkbUvIVsPCqdw6gFcMw4QXlYM3xCMEqi
-         +27g==
+        bh=DMPMe+NolPn2yfgpNLdmNNEqN+FeyeCxdgQLBGqDblw=;
+        b=WMY0S/X62NJZKLcBaVlVw+7zupuhKE8eCGJMEZH1HMCwDNkyTGzXGrcc2JAa3J6rIy
+         eOrQNhgLM6lxF/5ft292KKWGp/+HMy6bFZPZA7rne3pyM0KniyN8TgyX+HMCEFAwZ3ET
+         fSdD/nhRh39Do8jLuOWCHlCU1N3PXpnNfMI8gBzmfP1H5eR5ia4evsqsILhO0jHC7sNH
+         RuSezPj6b3LpJINObcDEdsvqe16bYRyk9NtCij4roPj6Pup08X7PFj/yBTsEB+5jmD0f
+         fqS/UtVg7CeEJctj9mlaqRJX4TAfnJO18v6PcS48r5+wmwtFLFX4iqqLMzlMEXxD+caL
+         GzHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329652; x=1688921652;
+        d=1e100.net; s=20221208; t=1686329649; x=1688921649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+YoKdD0c9LbVykTLio/PbA1fiNuSLQod6hSHDxdmsPs=;
-        b=P6FuQk3J2LLNKYxbi6ZTUtHefK7CvzCAUyfHDmSzAM6Y7D1xMeUn/R+OqacKjhVVo9
-         Rm5VWVCSi079XQqxuqc2TIJFeW0gkLkchzw0QG1j5W0XVSn4bT99v2HJ2eanxwD2QpqW
-         gju9JMzACyBn2NBdACD+vgVsR1qK99foeNKRvd6rjo1cJXjb5cttbZNM1hIbIAfs7JvM
-         61CiIydMgkQvBR2Xp8OrmVS9wxwVjwszj9mgUB3cqfK9HR/q/Tg4i0Bv4eMvbD/dYlv5
-         W2Bf1C/aDJ1dCcZMECK1OMGgvvg0FihK+vK4K6BEp2JUmpG0VGEHNFwAIHlDJ/KZej+F
-         4I7g==
-X-Gm-Message-State: AC+VfDxTnjWZAJr2gFPGOdtUK9FaAYJlNGphPrf0qqgnYsjxQRdHhet2
-	s9tdn4CM1I1CBhcYUVcwx7zYstL9td1faBHohJ8=
-X-Google-Smtp-Source: ACHHUZ6CZ27JZHMc2y78VZMq88+vaxpZTbhYaBoLfRWIjkOGYVUsuRnwvv6xCQWJjSyb+DkiTUYUoA==
-X-Received: by 2002:a05:6a20:7da8:b0:10c:71de:5dc5 with SMTP id v40-20020a056a207da800b0010c71de5dc5mr1688263pzj.30.1686329652276;
-        Fri, 09 Jun 2023 09:54:12 -0700 (PDT)
+        bh=DMPMe+NolPn2yfgpNLdmNNEqN+FeyeCxdgQLBGqDblw=;
+        b=QJW9/3A8YDy+e9VfTQbtJI3BTpntblfEjCwYCCufgQ/or7Lq0SdHubO3Md+sgTHKKP
+         JNw7htxTtynA/jXkqfANBNMjEGOjmAzzPAbCcuEzZNno/wh1A0Wx7uXKcSB7iC6eT5lf
+         iNHvVDKtGe9sCvtjfMawvS3fYlIfiTPyL7x2DODp6AzfyZT0SImy1fou/o7CZ1gaoJiy
+         qkcBvTRQh/EehJrsI/OK4pJ6No3+x+6SON7Ft8rPnsZmZnitOpLrfBY0681t8IGL/MP0
+         FX1y9yh7vPo8P1LoYj/AZt8u1aSWDXckWwha4RbS3h2afDViQzflErXTVON6NjLo4U7r
+         iMgg==
+X-Gm-Message-State: AC+VfDzrI8rCL9f8/DyOgQN2yPCAcNAApCbI862dTOO7+R9UBAEGFpYh
+	tDK4lhVFrDDolJedJeNLsbDOuO5GIFm4If/hUgE=
+X-Google-Smtp-Source: ACHHUZ6hpMLG94sURZvRrAHasHPakj8p9PbyCHUIbscLycPVGdMrqNUU4L5U7FQseYIDbZasi1i2+g==
+X-Received: by 2002:a05:6a21:3404:b0:10f:9317:153a with SMTP id yn4-20020a056a21340400b0010f9317153amr1313280pzb.62.1686329649042;
+        Fri, 09 Jun 2023 09:54:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.11
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:11 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 05/30] vim: upgrade 9.0.1429 -> 9.0.1527
-Date: Fri,  9 Jun 2023 06:53:32 -1000
-Message-Id: <72c741cd9d11f995a20e24d11528842fc020f59e.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 03/30] go: Use -no-pie to build target cgo
+Date: Fri,  9 Jun 2023 06:53:30 -1000
+Message-Id: <0e9f47eddf786972b409088629d0f62c6bc74448.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -60,37 +60,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182571
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182569
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Fixes: https://nvd.nist.gov/vuln/detail/CVE-2023-2426
-caf642c25 patch 9.0.1499: using uninitialized memory with fuzzy matching
+Fixes
+go: ELF binary /usr/lib/go/pkg/tool/linux_arm64/pprof has relocations in .text
+go: ELF binary /usr/lib/go/bin/go has relocations in .text [textrel]
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 4f9a8df5aca99d0a5c2d2346b27ce7be08e7896c)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a27d39aebd5966ffffb57c20518381cb06ba8373)
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/go/go_1.20.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 1e27415288..e1d2563316 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go_1.20.4.bb b/meta/recipes-devtools/go/go_1.20.4.bb
+index 587ee55944..46f5fbc6be 100644
+--- a/meta/recipes-devtools/go/go_1.20.4.bb
++++ b/meta/recipes-devtools/go/go_1.20.4.bb
+@@ -3,7 +3,7 @@ require go-target.inc
  
--PV .= ".1429"
--SRCREV = "1a08a3e2a584889f19b84a27672134649b73da58"
-+PV .= ".1527"
-+SRCREV = "c28e7a2b2f23dbd246a1ad7ad7aaa6f7ab2e5887"
+ inherit linuxloader
  
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+-CGO_LDFLAGS:append:mips = " -no-pie"
++CGO_LDFLAGS:append = " -no-pie"
+ 
+ export GO_LDSO = "${@get_linuxloader(d)}"
+ export CC_FOR_TARGET = "gcc"
 -- 
 2.34.1
 
