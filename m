@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B1EC7EE2F
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:56 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.199.1686329692171449295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB6EC7EE29
+	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 16:54:55 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.166.1686329685937935389
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 09:54:52 -0700
+ Fri, 09 Jun 2023 09:54:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PHVIcyoo;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-652d1d3e040so1611598b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VOU0YY+H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-650c89c7e4fso2083275b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 09:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329691; x=1688921691;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686329685; x=1688921685;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
-        b=PHVIcyoo6kBVXJq2CLqkBQQOu4hjE50Ei2uv8ujyndOaROeQLccl2XLUa+Fy9v/8Ip
-         BWP4N+ln/5uQPsvHewawQoAMaLdMRzkISZhU4k59qgZOUe+jS5dgrBvyfdKSPJAOJZBE
-         alEPPmKzpLkwqiTXW4sIHrBQbygRztyYgWMy8nNADgdLZ5br9ilIr+VJ644kLA8J/cr1
-         PdsFzJ80QRga7gPIbju8kiMw5GFMom6KSRDZqzgRFyzzTySVKig8WIDd+aEwLLNa2l4Z
-         eDCw7aIB4eLzTxdfcc8fNp+1oyvEyJqEAKIHer37dM+389oUNMP0RmSkE0Ahbditr469
-         GpMg==
+        bh=DH0CYTDRsc94EJxAw86QyrI+bcu66iIEHd0VqBT47RE=;
+        b=VOU0YY+HrmJ8DIICVPtYqQNB67CZwCHbAiBC5klbc4qWpw0wMBXYfNX1lUu6hqIXpo
+         WfV+HYJBIuHVGUnGO3bGLz8Ix0SK9JzE4g9uoHtUVMKNjoakBUBYo7bZOXCoJijlaDlg
+         kY4vL4eLJxgpufOygCl5t+lbLRnilvmeg4fm0jCBxee9vRhY36scnidllu+0eSQO2zfU
+         9NAWYxVOmSaBvimny3AQHybA2tBzQ0pkoItloOz+r5KzZl3Q6VX5AfhNgnjD2kk4V07L
+         q9wRBczy33JIjLabEiUmtwwo4NIxiNegkrncJ81RGYUXaxwzWX8YGwPhnL8bC8WtpHB7
+         dQuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686329691; x=1688921691;
+        d=1e100.net; s=20221208; t=1686329685; x=1688921685;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
-        b=j4W8LRsHyIF7p4mIenr3IqawNf5U7z32yOWiEL5P3WqBcWJgPOjVhNLnGYnzdUKmoG
-         gAHVP+0ZuXB91pOZ6wquktx3sFd0CGDJ/9HTz33Aqf4RTYntwIbimTeOUlALdI+MYHeU
-         U0Llfk4hi87Vg97SR3BZUBlWWG6XuDku/mU7HkLaGZSY6yuRl1zXITKhE/tfpoqV5sVd
-         bOWPf3tlJsShX/aquv4nuayC1gNAZ6E8XUODTfADcZv5meceOA+J7Yn/7nyRJx5Pq6K2
-         pxPve0j8v/7pK5pwiCOK1MrkdM0VhZySh13Zmv1PeL5+A+HPI4+VQmsksG41fhOk27tq
-         +lYw==
-X-Gm-Message-State: AC+VfDzF3nlY9BOW2/9FP5OWXq/iDm5ekPGvzqxG24TdzCAT2QMUoJ1U
-	KVV2N+5r/CNAIvy6Isi54ExFr005Qs+wH9F86pQ=
-X-Google-Smtp-Source: ACHHUZ6pRXb2N/v6xLC/o5hHL0BkazxrYtTR/Pb0YiTkMhkm0ULAHJ3uFzIbg+XDbiyksAzOITzZHg==
-X-Received: by 2002:a05:6a00:2d02:b0:659:f92d:904c with SMTP id fa2-20020a056a002d0200b00659f92d904cmr1702324pfb.3.1686329691195;
-        Fri, 09 Jun 2023 09:54:51 -0700 (PDT)
+        bh=DH0CYTDRsc94EJxAw86QyrI+bcu66iIEHd0VqBT47RE=;
+        b=c/W6OfTpqhPyE4lH3iwQb4iBRpXVoMx6jU4KEiqb6XKInDNkdfS0Te6FNtoXFaXo4m
+         l/ArqKYb8sIKRfJOYAyC7C72HsPvTzcfAzOR0biPse/ejrCCyigNupwAtL4hzCY/y62c
+         /9z0A+FBTjED3mhsmDEbwKbH5uOXNGCsL1+74zjImwkbria3Z9+p2rawdvzJnc+AVpwZ
+         FctRXEcPT/svIgnbBeFaOTlzoiHR9X93CaqKVrKdD5/psw5iqhyPu3XfKrxQ/neA7Ail
+         WXW05ZiR2oOG4l54Af3V44cqacvHcH2pyHwwJ7qfR2u+wW9Lxe+pcqd614vjnSYdNBG6
+         C5Hw==
+X-Gm-Message-State: AC+VfDwVrCYrDX2BLBOcli4DQVtZoNUIjmsy/dMUyfdaDq3QeZLqVYlo
+	ZVcpNbhSP9XLOPrJ07b31KF9K/PbMBTikX4HH9g=
+X-Google-Smtp-Source: ACHHUZ7pkN4OxNSA9/yek6emo8EOw+Pkr3C99O51+7ZIjPv7LhG7tESU4oiRoAIOPpuclnAjuEKxNQ==
+X-Received: by 2002:a05:6a00:24c9:b0:64d:4412:9923 with SMTP id d9-20020a056a0024c900b0064d44129923mr2308317pfv.3.1686329684894;
+        Fri, 09 Jun 2023 09:54:44 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.50
+        by smtp.gmail.com with ESMTPSA id j24-20020a62b618000000b0065980654baasm2901071pff.130.2023.06.09.09.54.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 09:54:50 -0700 (PDT)
+        Fri, 09 Jun 2023 09:54:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 29/30] uninative: Upgrade to 3.10 to support gcc 13
-Date: Fri,  9 Jun 2023 06:53:56 -1000
-Message-Id: <6d9e48a3322a9abdca7444dbfa2288af3c91113b.1686329289.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 25/30] lib/terminal.py: Add urxvt terminal
+Date: Fri,  9 Jun 2023 06:53:52 -1000
+Message-Id: <d873b925a02dfec2c7655757a1f08d2435fe1980.1686329289.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686329289.git.steve@sakoman.com>
 References: <cover.1686329289.git.steve@sakoman.com>
@@ -60,37 +60,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182595
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 16:54:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182591
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Pavel Zhukov <pazhukov@suse.de>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+This fixes failure [1] of menuconfig task in rxvt-unicode terminal in case if
+xterm/Konsole/Gnome is not installed. Tested with rxvt-unicode-256color
+
+[1]
+WARNING: Terminal screen is supported but did not start
+ERROR: No valid terminal found, unable to open devshell.
+Tried the following commands:
+	tmux split-window -c "{cwd}" "do_terminal"
+	tmux new-window -c "{cwd}" -n "zephyr-helloworld Configuration" "do_terminal"
+	xfce4-terminal -T "zephyr-helloworld Configuration" -e "do_terminal"
+	terminology -T="zephyr-helloworld Configuration" -e do_terminal
+	mate-terminal --disable-factory -t "zephyr-helloworld Configuration" -x do_terminal
+	konsole --separate --workdir . -p tabtitle="zephyr-helloworld Configuration" -e do_terminal
+	gnome-terminal -t "zephyr-helloworld Configuration" -- do_terminal
+	xterm -T "zephyr-helloworld Configuration" -e do_terminal
+	rxvt -T "zephyr-helloworld Configuration" -e do_terminal
+	tmux new -c "{cwd}" -d -s devshell -n devshell "do_terminal"
+	screen -D -m -t "zephyr-helloworld Configuration" -S devshell do_terminal
+DEBUG: Python function do_menuconfig finished
+
+Signed-off-by: Pavel Zhukov <pazhukov@suse.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f811bffb861b23238e8291394bd6e8407f013619)
+(cherry picked from commit 8d2fe4df8ae33e033caf4119a76715f085be1d15)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oe/terminal.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 8a5cab5360..f3c05b7e20 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 71ffc87019..4412bc14c1 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -104,6 +104,10 @@ class Rxvt(XTerminal):
+     command = 'rxvt -T "{title}" -e {command}'
+     priority = 1
  
- UNINATIVE_MAXGLIBCVERSION = "2.37"
--UNINATIVE_VERSION = "3.9"
-+UNINATIVE_VERSION = "3.10"
++class URxvt(XTerminal):
++    command = 'urxvt -T "{title}" -e {command}'
++    priority = 1
++
+ class Screen(Terminal):
+     command = 'screen -D -m -t "{title}" -S devshell {command}'
  
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "de35708c95c34573af140da910132c3291ba4fd26ebf7b74b755ada432cdf07b"
--UNINATIVE_CHECKSUM[i686] ?= "adac07b08adb88eb26fc7fd87fee0cec9d5be167bf7c5ffd3a549a2a6699c29c"
--UNINATIVE_CHECKSUM[x86_64] ?= "3dd82c3fbdb59e87bf091c3eef555a05fae528eeda3083828f76cd4deaceca8b"
-+UNINATIVE_CHECKSUM[aarch64] ?= "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
-+UNINATIVE_CHECKSUM[i686] ?= "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
-+UNINATIVE_CHECKSUM[x86_64] ?= "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
 -- 
 2.34.1
 
