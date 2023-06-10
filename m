@@ -2,96 +2,87 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE780C7EE43
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF03C7EE29
 	for <webhook@archiver.kernel.org>; Sat, 10 Jun 2023 15:50:30 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.19988.1686412225140419379
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.19989.1686412225626210796
  for <openembedded-core@lists.openembedded.org>;
  Sat, 10 Jun 2023 08:50:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=SGJqx7qD;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6549df4321aso2940917b3a.2
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=KQWry0sM;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-65314ee05c6so2387618b3a.1
         for <openembedded-core@lists.openembedded.org>; Sat, 10 Jun 2023 08:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686412224; x=1689004224;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H3eNj/+xKWbYRv0Hs2p9NJc6nQhuhzv6z4lGpQvfyaE=;
-        b=SGJqx7qDDHDekhw1/C5aB8tAcpeCVtqApJkDo9zVhHwO7M6OfYz6okRQA0cWdR+1c6
-         2R7g4KjvFpuEZp2bhWkvG5IJMPYCjxn1n6if+WTPnV/sUI+7pN+wwCCNosP0r14WwU5I
-         tntCzEF9tCVv9FZhWynmZztqsnzAPXZqqNvd9UpqzNnqqX/VlkRAgzCECx98/U/tDOri
-         xWB+AoLGnOFJFeYvoCqtIa1aoWpWSkQJTAg7BTQtnPqlXjrWw32NSQHx5DSYdaTBV0kk
-         syHXKKnUYp87bexUMwKUNIeuGIk04gLHzEbjXgx6vkj+J7R3uPQXjsU3/lRd8DwoCe4y
-         ioBg==
+        d=gmail.com; s=20221208; t=1686412225; x=1689004225;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pWUvn0lAajog58PB1woLa8dPVU/sFWi7PbqnW/4Mo7U=;
+        b=KQWry0sMn4MqbXFRDVy+zJVJMJDHtSxZKNj/IM4YYscpsKRlCVO0asntWhUHx/PIPX
+         gjbxitgSrfCn3xiBvc2y/FvcFvhl3lGJCv8Ahv2GWGbGGFeh9ykrVNOxTDkawezj22w2
+         7EgV1yU4XtJcJCMZSexyNojLQ4IYwE5TcD1bH5XPq7c9PGJ8i/IEv8jZyMfuka0Z2pRS
+         22Je6jm93/s5xSy1+zcvbC5mI70QQvPdGLWizPp2Xn4KbXLCqROmLiGMpMgVXUnOTpKo
+         chNa0LRP0UO30sEByiHGnit1XcWsp3m9MSoG2I3+GeSS6rTgoHWdUIh+tnG5MQAzWYqG
+         +dFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686412224; x=1689004224;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H3eNj/+xKWbYRv0Hs2p9NJc6nQhuhzv6z4lGpQvfyaE=;
-        b=VIuYgHJMo0lTyUJi1SYm39aKUs/3ypoiZmBEynwz84TByqxQoT7tN1WQoMhOUSVOZG
-         PxnHzop4HzjfRwUXeMsox32E7vqb1Y9r7VyK+r7f3PgaAw4dN4vRX+wgwz8QFMnTVN7g
-         yVGkHVXB/M2D2RZFboDyp7MY/6w0ejOyAxLILzzYlEKt64DDGw29o5iXsblt2huG59FO
-         6Ov7Sa/XOj9pXkDoD0BVU8TiXYaKgS4N2JFT8QZnHSzu1Zh5E8+ih4E1PKTc0nhZoRqS
-         pRc4ImdX3Ssw9l+drctstBiRtlTsMWi+ihLdw2lfgDUHcy/6NtsNY6k+t+ATzP1844sw
-         6PZg==
-X-Gm-Message-State: AC+VfDxWmyMOp8gY31T+IbQdMhG25m3/HtBQa1n/yIqPizTbENHSZBDL
-	wEuan3di1pT8cgo13z+4TUZ9rnfAb90=
-X-Google-Smtp-Source: ACHHUZ7cMsOcTlMYRpw6LPwJa58+01xjjvmW3qKYpsb+E6R9Rj2LnCZkBazUNLkVNYa7n8nZGuFDJw==
-X-Received: by 2002:a05:6a00:14c6:b0:64d:f5a:3fd2 with SMTP id w6-20020a056a0014c600b0064d0f5a3fd2mr6105015pfu.28.1686412224289;
+        d=1e100.net; s=20221208; t=1686412225; x=1689004225;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pWUvn0lAajog58PB1woLa8dPVU/sFWi7PbqnW/4Mo7U=;
+        b=CJC9AmaHZ90Q5qiaeNz6nu1aCmmvU8V1YnITuW1xcsYGi3e7yZs87OU1z0JVcAFwRA
+         Pzsczv+90APVWrcF6Zv1BWoA0TaBT1KIzWE396jkVQ1Qe3DMi4P4n1/4FPCZ9YYoBI0/
+         MVxaOyAfhJe0IokiZuy34kQ2WdjwKndMAw/QRp10ADWEHLrTn0CZ3/ehAyNtH8JRkGIQ
+         CzQkyX/FD6YEwAk14Yhy9jCDYoDjURJGGTWWYAzbBlX66GIPo8rrsUXQB6dR2ldxzoMb
+         STjOyhXwVJTJSBqopplwbJOk+u5i5QoAlgm6jSV7a+BTrhuiWvHpbvJQRzBz1QIaFHOs
+         q1UA==
+X-Gm-Message-State: AC+VfDyIfFN1k63NKFbuTyOpvWEq1kZ8UA61rUIiTacDrmVa4mjAuCON
+	m+iA4jpGCSgbuBeNG7F85E02ko1tjpg=
+X-Google-Smtp-Source: ACHHUZ7fMZflPm4rCHi8xppA50sBbqT79zz0wRCnaZA4BVZoBTtFfhjYWDPuKah261kCNIm9XpyNaA==
+X-Received: by 2002:a05:6a00:21cd:b0:664:37b9:de0d with SMTP id t13-20020a056a0021cd00b0066437b9de0dmr2051507pfj.14.1686412224836;
         Sat, 10 Jun 2023 08:50:24 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::eb87])
-        by smtp.gmail.com with ESMTPSA id c8-20020aa781c8000000b0063aa1763146sm4467227pfn.17.2023.06.10.08.50.23
+        by smtp.gmail.com with ESMTPSA id c8-20020aa781c8000000b0063aa1763146sm4467227pfn.17.2023.06.10.08.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jun 2023 08:50:23 -0700 (PDT)
+        Sat, 10 Jun 2023 08:50:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] glibc: Pass linker choice via compiler flags
-Date: Sat, 10 Jun 2023 08:50:21 -0700
-Message-ID: <20230610155022.3999498-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] libgcc: Always use BFD linker
+Date: Sat, 10 Jun 2023 08:50:22 -0700
+Message-ID: <20230610155022.3999498-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230610155022.3999498-1-raj.khem@gmail.com>
+References: <20230610155022.3999498-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 10 Jun 2023 15:50:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182610
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182611
 
-glibc configury tries to detect ld version and assumes BFD or gold
-linker but when system ld is pointing to lld or mold it might fail the
-linker check, therefore pass LD variable to explicitly point at ld.bfd
-we are using BFD linker only to link glibc after all.
-
-Second problem in such a case is that some partial objects are linked
-with CC -r which will fail if we do not inform the compiler to use BFD
-linker thusly pass it via appending to CC variable
+libgcc is linked with GNU BFD linker make sure it does not assume
+default ld to be BFD linker rather demand it explicitly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc_2.37.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/libgcc_13.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.37.bb b/meta/recipes-core/glibc/glibc_2.37.bb
-index b27f98fb199..3387441cad9 100644
---- a/meta/recipes-core/glibc/glibc_2.37.bb
-+++ b/meta/recipes-core/glibc/glibc_2.37.bb
-@@ -103,10 +103,12 @@ do_configure () {
- # version check and doesn't really help with anything
-         (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
-         find ${S} -name "configure" | xargs touch
--        CPPFLAGS="" oe_runconf
-+        CPPFLAGS="" LD="${HOST_PREFIX}ld.bfd ${TOOLCHAIN_OPTIONS}" oe_runconf
- }
+diff --git a/meta/recipes-devtools/gcc/libgcc_13.1.bb b/meta/recipes-devtools/gcc/libgcc_13.1.bb
+index f88963b0a42..fdcd6cc0da1 100644
+--- a/meta/recipes-devtools/gcc/libgcc_13.1.bb
++++ b/meta/recipes-devtools/gcc/libgcc_13.1.bb
+@@ -1,5 +1,7 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require libgcc.inc
  
- LDFLAGS += "-fuse-ld=bfd"
-+CC += "-fuse-ld=bfd"
++LDFLAGS += "-fuse-ld=bfd"
 +
- do_compile () {
- 	base_do_compile
- 	echo "Adjust ldd script"
+ # Building with thumb enabled on armv6t fails
+ ARM_INSTRUCTION_SET:armv6 = "arm"
 -- 
 2.41.0
 
