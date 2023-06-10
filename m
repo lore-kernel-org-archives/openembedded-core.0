@@ -1,89 +1,85 @@
-Return-Path: <denis@denix.org>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2DBC7EE29
-	for <webhook@archiver.kernel.org>; Fri,  9 Jun 2023 23:57:36 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.8651.1686355051001269495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAFAC7EE2F
+	for <webhook@archiver.kernel.org>; Sat, 10 Jun 2023 01:13:56 +0000 (UTC)
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by mx.groups.io with SMTP id smtpd.web11.10061.1686359635753602123
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jun 2023 16:57:33 -0700
+ Fri, 09 Jun 2023 18:13:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E671640C90;
-	Fri,  9 Jun 2023 23:57:29 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K6ASF8XiwLb8; Fri,  9 Jun 2023 23:57:29 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-88-116.washdc.fios.verizon.net [100.15.88.116])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C440E40C1C;
-	Fri,  9 Jun 2023 23:57:28 +0000 (UTC)
-Received: from thorin.denix (thorin.denix [192.168.30.9])
-	by mail.denix.org (Postfix) with ESMTP id 421DF16394C;
-	Fri,  9 Jun 2023 19:56:40 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>,
-	Denys Dmytriyenko <denys@konsulko.com>
-Subject: [PATCH] binutils: move packaging of gprofng static lib into common .inc
-Date: Fri,  9 Jun 2023 23:57:26 +0000
-Message-Id: <20230609235726.3119540-1-denis@denix.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=NzJ6iGej;
+ spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: rs@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35A1Dn53071812;
+	Fri, 9 Jun 2023 20:13:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1686359629;
+	bh=i78Y4TdDuQpeXXY6Gs+tIleBdBdgupgoW0CO1B+OZsU=;
+	h=From:To:CC:Subject:Date;
+	b=NzJ6iGejIA8WqN8HFqqLD/5oly9PNM4SxTxIIF+6v9wgvJqvBnqRYlxfcyeXpih5Z
+	 KbKXCCqeOv66S/fqIYpETsB9PsW4e74XEPDhspJL4dxhpQpdASLcjnMqb2booKAhGN
+	 nFzlhFfCJgywoLgN8eUxMPrPqjBEKbxq+aw3eRhA=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35A1DnjP032340
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 9 Jun 2023 20:13:49 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 9
+ Jun 2023 20:13:48 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 9 Jun 2023 20:13:49 -0500
+Received: from rs-desk.dhcp.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35A1Dnhi110838;
+	Fri, 9 Jun 2023 20:13:49 -0500
+From: <rs@ti.com>
+To: <richard.purdie@linuxfoundation.org>, <reatmon@ti.com>, <denis@denix.org>,
+        <alexandre.belloni@bootlin.com>
+CC: <openembedded-core@lists.openembedded.org>, Randolph Sapp <rs@ti.com>
+Subject: [OE-core][PATCH 0/6] weston-init: add extra config for weston global socket
+Date: Fri, 9 Jun 2023 20:13:33 -0500
+Message-ID: <20230610011339.3716428-1-rs@ti.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jun 2023 23:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182600
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Jun 2023 01:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182602
 
-Commit f72fd51e0d (binutils: package static libs from gprofng) added
-corresponding FILES:${PN}-staticdev entry to the main .bb recipe.
-But binutils-cross-canadian fails with exactly the same QA issue,
-hence move FILES:${PN}-staticdev to the common shared .inc file.
+From: Randolph Sapp <rs@ti.com>
 
-Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
----
- meta/recipes-devtools/binutils/binutils.inc     | 2 ++
- meta/recipes-devtools/binutils/binutils_2.40.bb | 1 -
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Cleaning up some parts of weston-init, adding guards to systemd init
+scripts, making sure users are in the correct groups for interacting
+with graphics devices and finally attempting to help direct users to the
+global Wayland socket when they are allowed to interact with it.
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
-evtools/binutils/binutils.inc
-index c69d29448f..e176b5cff1 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -33,6 +33,8 @@ FILES:${PN}-dev =3D " \
- 	${libdir}/libctf-nobfd.so \
- 	${libdir}/libopcodes.so"
-=20
-+FILES:${PN}-staticdev +=3D "${libdir}/gprofng/*.a"
-+
- # Rather than duplicating multiple entries for these, make one
- # list and reuse it.
-=20
-diff --git a/meta/recipes-devtools/binutils/binutils_2.40.bb b/meta/recip=
-es-devtools/binutils/binutils_2.40.bb
-index 9fe4bf5ae3..4ce1b4bec2 100644
---- a/meta/recipes-devtools/binutils/binutils_2.40.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.40.bb
-@@ -67,7 +67,6 @@ FILES:libbfd =3D "${libdir}/libbfd-*.so.* ${libdir}/lib=
-bfd-*.so"
- FILES:libopcodes =3D "${libdir}/libopcodes-*.so.* ${libdir}/libopcodes-*=
-.so"
- FILES:gprofng =3D "${sysconfdir}/gprofng.rc ${libdir}/gprofng/libgp-*.so=
- ${libdir}/gprofng/libgprofng.so.* ${bindir}/gp-* ${bindir}/gprofng"
- FILES:${PN}-dev +=3D "${libdir}/libgprofng.so ${libdir}/libsframe.so"
--FILES:${PN}-staticdev +=3D "${libdir}/gprofng/*.a"
- SRC_URI:append:class-nativesdk =3D  " file://0003-binutils-nativesdk-Sea=
-rch-for-alternative-ld.so.conf.patch "
-=20
- USE_ALTERNATIVES_FOR:class-nativesdk =3D ""
---=20
-2.35.3
+The only functional change here is the addition of a profile script that
+checks if the user is in the correct group to interact with the global
+systemd socket at /run/wayland-0; if they are, then we set
+WAYLAND_DISPLAY to point to that socket directly.
+
+Randolph Sapp (6):
+  weston-init: make sure the render group exists
+  weston-init: add weston user to the render group
+  weston-init: add the weston user to the wayland group
+  weston-init: fix the mixed indentation
+  weston-init: guard against systemd configs
+  weston-init: add profile to point users to global socket
+
+ meta/recipes-graphics/wayland/weston-init.bb  | 88 ++++++++++---------
+ .../wayland/weston-init/weston-socket.sh      | 20 +++++
+ 2 files changed, 68 insertions(+), 40 deletions(-)
+ create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket.sh
+
+-- 
+2.41.0
 
 
