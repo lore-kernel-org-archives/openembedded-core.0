@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF38C7EE45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E256C8300C
 	for <webhook@archiver.kernel.org>; Sun, 11 Jun 2023 16:03:07 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.39002.1686499380938428005
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.39001.1686499379364219774
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 09:03:00 -0700
+ Sun, 11 Jun 2023 09:02:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=EklMLL2A;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1b3be6c0b4cso3187115ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:03:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=D9RFWQZ3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b3a6469623so6266975ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499380; x=1689091380;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499378; x=1689091378;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E/nF5UF6oZDBU28Se3zPIqziQyVRwdgKGl/vO8ZI1lc=;
-        b=EklMLL2ADfGdX8zUMNjZygflJe76eYg1nvbn3IUrToHoC3LU1LvvhamTbWlVqqsqZL
-         m00kAHT4hi2OIy0alAAJHqvKwCWLL4BwBzWOqKlGvTGFmN3BmdrZG9RAbLUKJVjWRFle
-         E/2FV9MF0cO8Kxzi5jnQhvYJJclhmhdMbcz6c6S78PaWs4hqBPqarZYs5PW+oPg5nQ4O
-         gU9fwt5dkWRurBQ29dvdXxCkndjtMhhW/gl4LA3jaCBmuWtio/eCLwLWw1v/juLguMvi
-         DORXq5qPMxCQ9UgWlxQIsukti+LF44OovX5Ux5wda/55NLAzdAlBhIRwrHErNexNFkOu
-         a5dA==
+        bh=BZZA0azB5FuH0ZdhUaAUAq+xZ+70mF3jFoJyKxGBDHY=;
+        b=D9RFWQZ32FNcc01ShvySkDAT8NeseEL+uBe7OvNKDlgbVCTp0KGspPBjWbW69LnmaT
+         5Jb3raWZ6dfsrGLXs+/l1UB2KZAWAZ9o1RebSoHPEnPZEBRc1SmLjijEkcjiiVM3Sylc
+         Yj5VcERHkVgO9ZWoxkTy0vG3b8l+hsEmPj9GcDK6Tsc50CIIQ8e3MIzkmJX+GqBn3sxp
+         hpv2ZG4ND4zlAGBVO5y0WSEzxb1B1Sl0sLibeoUgLrhhl+nivYSlm0Pwm/9Eq9Zo5h+Z
+         1LgL87fsA+yUIw2XDm5H1EF5zzMuViHHNAW38McgHYulB6egdq4iilGs3M7mwNSihg4B
+         QfuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686499380; x=1689091380;
+        d=1e100.net; s=20221208; t=1686499378; x=1689091378;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E/nF5UF6oZDBU28Se3zPIqziQyVRwdgKGl/vO8ZI1lc=;
-        b=hMdQ5rUwUNS6TlfC8LDpwAhzYQD8y6H4SuuPONPIircjqkSIsb9qZoY6375SQXnp/X
-         3LMHDJ09awdEKDz3q4xd9ZUUXvav8doWD+GhvzGeiXBJlrLNtyc+a5w9AnQlavLeaDvQ
-         ZncyGATRIky8/zgElDMI9l1c/aIh7cZQ57HG+7OcZPIUOAvrDjeYVVFgpmnH6qsK3Nfa
-         ARUVh4LrT7WkE74iT4lLiA8oHiYQw7BBkZ8+0alQjFYyPcdm9YUkDr96LOD+W7FVnQrQ
-         6fRPk4ZW23HhG1gxkPphErBMDA11yNFMFRR586VV4oXcAhBIaRhfi7rWr0O909uP25Q9
-         N08A==
-X-Gm-Message-State: AC+VfDxzHWjWOCZ0jsz0TwdRPP+Kj4+RZDqwPgVGHshqxMRRydRVY/A+
-	/JadX3UOSlF5pRF2R+bbDyoxLb9GfpYaDsYCUEM=
-X-Google-Smtp-Source: ACHHUZ5SCDCx9v9TeLUhGn9cHB2s2O1J6buPCxB6Loe0pb13ZlMJVexRXFDRxfvlk6CACkieWbO5oQ==
-X-Received: by 2002:a17:90a:1a51:b0:25b:d5ab:7198 with SMTP id 17-20020a17090a1a5100b0025bd5ab7198mr1619175pjl.27.1686499380000;
-        Sun, 11 Jun 2023 09:03:00 -0700 (PDT)
+        bh=BZZA0azB5FuH0ZdhUaAUAq+xZ+70mF3jFoJyKxGBDHY=;
+        b=StbxEJLSEWahGFbrxwG71yX63YoKEyxN+pgRXVtFx8dAHK2w0cYnZIyq87JU9dR17b
+         8j1NXrol/Sxt1Oj3AJc9xOTdf+joONCnD1KE1ORppaPTXpDjCjY3XuwOlcv1XORDQDmY
+         1WytaX16PNwsqJ1BNvtnN2eqanBBzzgYZZh6GUX3Z8FZM6zpVepG2InM7zaYLT0EgmhN
+         yJxDMnQfXpVi9wIQ/rPwNjpM0mk+QqbNgKtfgtE07C++u7xxIM+bqjYN1pKAOgo9q2g8
+         RF4IJZc+Dq/+TvFeOEkhMvuehqFJ/vemERnu/jE2pXPQOMvlc6YKxvHrK0VR4NJYejK6
+         kpEg==
+X-Gm-Message-State: AC+VfDxo48ul0f0il1Jk+P7pWNXp0FV7jS5tXlw65Qo8YFyLmMCDgxNx
+	96e4gMrPC4yRJKoL/Utijk1qXKBGMfx5aA05vI0=
+X-Google-Smtp-Source: ACHHUZ6Rk1hkia3aNLnd6yMAwsGWMYks1vxDfjsrLUOPjhtIj0dOmJEAX9Ss991wtBZsOyuk/2xwGg==
+X-Received: by 2002:a17:903:22c7:b0:1b3:d25a:5ecd with SMTP id y7-20020a17090322c700b001b3d25a5ecdmr169969plg.50.1686499378430;
+        Sun, 11 Jun 2023 09:02:58 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.02.59
+        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.02.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 09:02:59 -0700 (PDT)
+        Sun, 11 Jun 2023 09:02:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/11] perl: fix CVE-2023-31484
-Date: Sun, 11 Jun 2023 06:02:37 -1000
-Message-Id: <b093db144b35e7c140ac830dbe67cabfaac69f73.1686499221.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/11] curl: Correction for CVE-2023-27536
+Date: Sun, 11 Jun 2023 06:02:36 -1000
+Message-Id: <4691bc257d0bf2372e31535f0b90cf49ef0ed0d8.1686499221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686499221.git.steve@sakoman.com>
 References: <cover.1686499221.git.steve@sakoman.com>
@@ -61,68 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 16:03:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182626
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182625
 
-From: Soumya <soumya.sambu@windriver.com>
+From: Omkar Patil <omkar.patil@kpit.com>
 
-CPAN.pm before 2.35 does not verify TLS certificates when downloading
-distributions over HTTPS.
+Correction of backport link inside the patch with correct commit link as
+below
+Link: https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5
 
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
+Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../perl/files/CVE-2023-31484.patch           | 29 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.34.1.bb     |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+ meta/recipes-support/curl/curl/CVE-2023-27536.patch | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31484.patch b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
-new file mode 100644
-index 0000000000..1f7cbd0da1
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
-@@ -0,0 +1,29 @@
-+From a625ec2cc3a0b6116c1f8b831d3480deb621c245 Mon Sep 17 00:00:00 2001
-+From: Stig Palmquist <git@stig.io>
-+Date: Tue, 28 Feb 2023 11:54:06 +0100
-+Subject: [PATCH] Add verify_SSL=>1 to HTTP::Tiny to verify https server
-+ identity
-+
-+Upstream-Status: Backport [https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0]
-+
-+CVE: CVE-2023-31484
-+
-+Signed-off-by: Soumya <soumya.sambu@windriver.com>
-+---
-+ cpan/CPAN/lib/CPAN/HTTP/Client.pm | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/cpan/CPAN/lib/CPAN/HTTP/Client.pm b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+index 4fc792c..a616fee 100644
-+--- a/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-++++ b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+@@ -32,6 +32,7 @@ sub mirror {
-+
-+     my $want_proxy = $self->_want_proxy($uri);
-+     my $http = HTTP::Tiny->new(
-++        verify_SSL => 1,
-+         $want_proxy ? (proxy => $self->{proxy}) : ()
-+     );
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.1.bb
-index 42bcb8b1bc..e0ee006e50 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://determinism.patch \
-            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
-            file://0001-Fix-build-with-gcc-12.patch \
-+           file://CVE-2023-31484.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-27536.patch b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+index fb3ee6a14d..d3d1d2dc2e 100644
+--- a/meta/recipes-support/curl/curl/CVE-2023-27536.patch
++++ b/meta/recipes-support/curl/curl/CVE-2023-27536.patch
+@@ -3,10 +3,11 @@ From: Daniel Stenberg <daniel@haxx.se>
+ Date: Fri, 10 Mar 2023 09:22:43 +0100
+ Subject: [PATCH] url: only reuse connections with same GSS delegation
+ 
+-Upstream-Status: Backport from [https://github.com/curl/curl/commit/af369db4d3833272b8ed443f7fcc2e757a0872eb]
++Upstream-Status: Backport from [https://github.com/curl/curl/commit/cb49e67303dbafbab1cebf4086e3ec15b7d56ee5]
+ CVE: CVE-2023-27536
+ Signed-off-by: Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+ ---
+  lib/url.c     | 6 ++++++
+  lib/urldata.h | 1 +
 -- 
 2.34.1
 
