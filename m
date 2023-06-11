@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B3CC7EE45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3B6C83005
 	for <webhook@archiver.kernel.org>; Sun, 11 Jun 2023 16:03:17 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.39006.1686499387222094735
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.39224.1686499388434253420
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 09:03:07 -0700
+ Sun, 11 Jun 2023 09:03:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=nNMHEjUj;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b3c0c476d1so4360435ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:03:07 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=J+W7lAxr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2553663f71eso1595397a91.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499386; x=1689091386;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499387; x=1689091387;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=e80RKJXuPH1Nim7ynJ7eGDt1pt5G5x6MU5qUKWJkaMw=;
-        b=nNMHEjUj+JD93aLrY9ObiK7jB3E0SaKKTOxECOErWEmstaoeH4iyLydLOYAxhmL/Jh
-         l6WPyJ/Nr/HYmZEeNAh4gZ8g5YpqP1/J+w3xqEh5JID9hRWw2KwGVV9Ce/xzLavQdNa8
-         BNboQUXn8rwCCGxYj1quXvOorYkc/UO2/lmJtWyfy3qSKmDsTprGMej2Xs+DYqXGxC8L
-         9j5q1LGqNGmlWN55y30pYaK7JnQelo65HPCN9eZENGb+X0lkEJ3j6bCSGq1O3uBu0CJb
-         wxyyBec/w98MNWcsYjLUkvckgyvciGQTykJI/aSxaWZGmmkNEzjvsj0YhhcybIZtgd7g
-         4emQ==
+        bh=xhJI2ekU86xx3BRcMbIKJbNOrnGaa77mzAcpgIpgYOE=;
+        b=J+W7lAxruPdAkNqKp4sqlDXGId8qzPSunDuSOolz7Tl3fCbGqWcY9Hrv/RMfvc1gsi
+         JWK/Huk6S4MbT6hZPLvt300PKNp6mCaD8Mjs1EbdT9Pwvg6hBhiGQODhDVniVKy2hw7v
+         kFKt1XZ6Njl/CLDHlHBh/+Y9M9jH+NmE/yG+3xD/skT6XtqYwC5KEK8BAONtqarIllCj
+         /DZkb3ReCxKKjipEU09TFSWBSILqxnns6cz98NTqaPVa/zp6yOQe7jV/3g4NYkiiwiKB
+         TcsGsz2EncUjAyJp1CxxFF/ozJ/pZuWkDt+2824kXRPSj9o1onbbIj7VwlkmWiDHNlJV
+         oswg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686499386; x=1689091386;
+        d=1e100.net; s=20221208; t=1686499387; x=1689091387;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=e80RKJXuPH1Nim7ynJ7eGDt1pt5G5x6MU5qUKWJkaMw=;
-        b=TQYPSkKXaNCN+d6FBonN5q9iWfsmHcSk3SAEf42A5O6d/tDjAihf1FDyqY/D5HecLW
-         SrkiBSBElyO49wouplBjD/VGqr7uI6JEtINBHrwSfSXbvguYcHbOwuo50OqfLeaMqvm3
-         LIRvb8nn8LkmiBamKwdmbTFkwTMAXAQGNtKbcefUNw//PTXzhfSDXxeNh7TfaOrhw2qu
-         Bsz+BJoJjrvry5adqZ3kilV2uRYAiRCfoVNriAUZi7bvFBC2yv05tMw4qiiJWChf9Czn
-         qGMMnnmoHOVG+Oo+VRkf80SAum3iazFhjQ/VXpjrKN6+O3Cp/OBUqy2Kl7yAljbjMD61
-         wktg==
-X-Gm-Message-State: AC+VfDyfLlwBp/J2kt484GNPlH1ipV688QTmxp9S7frmaQ1+BaojRNDz
-	p+dqcRZ0ojBE3UVnN77CYGhWHx2FwKXCFqExziM=
-X-Google-Smtp-Source: ACHHUZ4bUDgL9kU35QKDJQCCiraQAolr0Zpn1d2oFkKe4Bq01ByJZsorhLqtvt6ZbRyFJ3csh2sdaQ==
-X-Received: by 2002:a17:902:9a4b:b0:1b3:c98c:329d with SMTP id x11-20020a1709029a4b00b001b3c98c329dmr992139plv.63.1686499385341;
-        Sun, 11 Jun 2023 09:03:05 -0700 (PDT)
+        bh=xhJI2ekU86xx3BRcMbIKJbNOrnGaa77mzAcpgIpgYOE=;
+        b=cL1rmoA575KSqF47M99Do2nFyavcGLC72tuRTN5QaVLLPxhoQKduaAKuNq4hKFGWpv
+         rUhopu60ftHargIzE/t53c15O2WpEIyyZDnC5ZtpqKKbzRe2mIljXx6Jgmq5qA5ozMpo
+         X93MOZzOEJLu9/GCfJEbkydRl4Vqn1ClR2lmkTtMUd499uBOSN3OJIPYlh1YEwLYKCGz
+         F8JUiSS2wYOrbMqko6Knorao+jOGV59XfGw2LR3VjHiNEmiHT3MNJtcLBMF6ukCLVFTW
+         JeIQTdJw2UpiDhvvqMgieTAePDVKmBVmvmKpmEYg1Cy1QQh1LejTKbEB7oIjB+nv/aB8
+         vHWg==
+X-Gm-Message-State: AC+VfDyElLqg2uGvoegxpCx9qE0tK1DLUsbY2gy2CI6wCo/ffcJFUbxE
+	uNG57OwjE1O8HtYmqFkhgs83asleTxcBimBpKlo=
+X-Google-Smtp-Source: ACHHUZ4EVQnT98WMfPDaElDXC1xCbPCI1jQ8aemNH0zAp2xaFyCENssT05bD6PEQh4wbvWs0P4GuHg==
+X-Received: by 2002:a17:90b:3143:b0:255:67fc:551a with SMTP id ip3-20020a17090b314300b0025567fc551amr6386659pjb.11.1686499387141;
+        Sun, 11 Jun 2023 09:03:07 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.03.04
+        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.03.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 09:03:04 -0700 (PDT)
+        Sun, 11 Jun 2023 09:03:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/11] openssh: Remove BSD-4-clause contents completely from codebase
-Date: Sun, 11 Jun 2023 06:02:40 -1000
-Message-Id: <10b9fdce3553a69714de17d3ed5c13c99ec8c460.1686499221.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/11] systemd-networkd: backport fix for rm unmanaged wifi
+Date: Sun, 11 Jun 2023 06:02:41 -1000
+Message-Id: <56fdf57d99900b8dfb75bf915fcab45d4c1a458e.1686499221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686499221.git.steve@sakoman.com>
 References: <cover.1686499221.git.steve@sakoman.com>
@@ -61,1041 +61,414 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 16:03:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182629
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182630
 
-From: Riyaz Khan <Riyaz.Khan@kpit.com>
+From: "C. Andy Martin" <cam@myfastmail.com>
 
-Below upstream commit removed BSD-4-Clause from the LICENSE variable,
-Link: https://git.yoctoproject.org/poky/commit/?id=2c86f586d55d0f6b99053e3e4d14c9ee36fa8aa8
-But actually if we check from the source code of the openssh for this
-version (8.9p1), there are some files (openbsd-compat/libressl-api-compat.c)
-still affected.
+Upstream v250 of systemd-newtorkd contains a race which will drop the
+config of unmanaged wireless interfaces during reconfigure or carrier
+loss. This bug is fixed in v251 by this commit:
 
-As upstream removed this BSD-4-clause license, there are still some files
-has this license. Below file is affected by this BSD-4-clause contents when
-the below command is executed
-grep -rl "All advertising materials mentioning features or use of this software" *|grep -v \.1|grep -v \.5|grep -v \.8 | sort
-openbsd-compat/libressl-api-compat.c
+commit a0e99a377a2f22c0ba460d3e7228214008714c14
+Author: Yu Watanabe <watanabe.yu+github@gmail.com>
+Date:   Mon Jan 31 19:08:27 2022 +0900
 
-All advertising materials mentioning features or use of this software
+    network: remove only managed configs on reconfigure or carrier lost
 
-Reason for backporting is some of the product restrict the BSD-4-Clause usage and the purpose of this commit is
-to completely remove the BSD-4-Clause license from the openssh.
+    Otherwise, if the carrir of the non-managed interface is lost, the
+    configs such as addresses or routes on the interface will be removed by
+    networkd.
 
-When checked in the master branch, openssh upstream removes the bsd-4 license compeletely from this commit
-https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0
-Hence Backport this commit completely to remove license of BSD-4-clause contents from code. Hunks are refreshed.
+A bug was filed upstream on v250 to have upstream backport but was
+rejected as "version-too-ancient", so backport this commit as a patch to
+systemd-networkd for kirkstone.
 
-Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
+Fixes: [YOCTO #15134]
+
+Signed-off-by: C. Andy Martin <cam@myfastmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 ++++++++++++++++++
- .../openssh/openssh_8.9p1.bb                  |   1 +
- 2 files changed, 985 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
+ ...nly-managed-configs-on-reconfigure-o.patch | 358 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_250.5.bb    |   1 +
+ 2 files changed, 359 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-network-remove-only-managed-configs-on-reconfigure-o.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
+diff --git a/meta/recipes-core/systemd/systemd/0001-network-remove-only-managed-configs-on-reconfigure-o.patch b/meta/recipes-core/systemd/systemd/0001-network-remove-only-managed-configs-on-reconfigure-o.patch
 new file mode 100644
-index 0000000000..ebdff1ffe4
+index 0000000000..8950981d2e
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
-@@ -0,0 +1,984 @@
-+From 7280401bdd77ca54be6867a154cc01e0d72612e0 Mon Sep 17 00:00:00 2001
-+From: Damien Miller <djm@mindrot.org>
-+Date: Fri, 24 Mar 2023 13:56:25 +1100
-+Subject: [PATCH] remove support for old libcrypto
++++ b/meta/recipes-core/systemd/systemd/0001-network-remove-only-managed-configs-on-reconfigure-o.patch
+@@ -0,0 +1,358 @@
++From 31b25c7d360a2ef2da1717aa39f190de5222d11a Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Mon, 31 Jan 2022 19:08:27 +0900
++Subject: [PATCH] network: remove only managed configs on reconfigure or
++ carrier lost
 +
-+OpenSSH now requires LibreSSL 3.1.0 or greater or
-+OpenSSL 1.1.1 or greater
++Otherwise, if the carrir of the non-managed interface is lost, the
++configs such as addresses or routes on the interface will be removed by
++networkd.
 +
-+with/ok dtucker@
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/7280401bdd77ca54be6867a154cc01e0d72612e0]
-+Comment: Hunk are refreshed, removed couple of hunks from configure.ac as hunk code is not prasent
-+and backported to the existing code.
-+Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
-+
++Upstream-Status: Backport [systemd v251 a0e99a377a2f22c0ba460d3e7228214008714c14]
++Signed-off-by: C. Andy Martin <cam@myfastmail.com>
 +---
-+ .github/workflows/c-cpp.yml          |   7 -
-+ INSTALL                              |   8 +-
-+ cipher-aes.c                         |   2 +-
-+ configure.ac                         |  96 ++---
-+ openbsd-compat/libressl-api-compat.c | 556 +--------------------------
-+ openbsd-compat/openssl-compat.h      | 151 +-------
-+ 6 files changed, 40 insertions(+), 780 deletions(-)
++ src/network/networkd-address.c              | 13 +++++--------
++ src/network/networkd-address.h              |  2 +-
++ src/network/networkd-link.c                 | 18 ++++++++++--------
++ src/network/networkd-neighbor.c             |  6 +++++-
++ src/network/networkd-neighbor.h             |  2 +-
++ src/network/networkd-nexthop.c              | 16 ++++++++++------
++ src/network/networkd-nexthop.h              |  2 +-
++ src/network/networkd-route.c                | 16 ++++++++++------
++ src/network/networkd-route.h                |  2 +-
++ src/network/networkd-routing-policy-rule.c  |  4 ++--
++ src/network/networkd-routing-policy-rule.h  |  2 +-
++ test/test-network/systemd-networkd-tests.py |  2 +-
++ 12 files changed, 48 insertions(+), 37 deletions(-)
 +
-+diff --git a/.github/workflows/c-cpp.yml b/.github/workflows/c-cpp.yml
-+index 3d9aa22dba5..d299a32468d 100644
-+--- a/.github/workflows/c-cpp.yml
-++++ b/.github/workflows/c-cpp.yml
-+@@ -40,18 +40,11 @@
-+           - { os: ubuntu-20.04, configs: tcmalloc }
-+           - { os: ubuntu-20.04, configs: musl }
-+           - { os: ubuntu-latest, configs: libressl-master }
-+-          - { os: ubuntu-latest, configs: libressl-2.2.9 }
-+-          - { os: ubuntu-latest, configs: libressl-2.8.3 }
-+-          - { os: ubuntu-latest, configs: libressl-3.0.2 }
-+           - { os: ubuntu-latest, configs: libressl-3.2.6 }
-+           - { os: ubuntu-latest, configs: libressl-3.3.4 }
-+           - { os: ubuntu-latest, configs: libressl-3.4.1 }
-+           - { os: ubuntu-latest, configs: openssl-master }
-+           - { os: ubuntu-latest, configs: openssl-noec }
-+-          - { os: ubuntu-latest, configs: openssl-1.0.1 }
-+-          - { os: ubuntu-latest, configs: openssl-1.0.1u }
-+-          - { os: ubuntu-latest, configs: openssl-1.0.2u }
-+-          - { os: ubuntu-latest, configs: openssl-1.1.0h }
-+           - { os: ubuntu-latest, configs: openssl-1.1.1 }
-+           - { os: ubuntu-latest, configs: openssl-1.1.1k }
-+           - { os: ubuntu-latest, configs: openssl-3.0.0 }
-+diff --git a/INSTALL b/INSTALL
-+index 68b15e13190..f99d1e2a809 100644
-+--- a/INSTALL
-++++ b/INSTALL
-+@@ -21,12 +21,8 @@ https://zlib.net/
-+
-+ libcrypto from either of LibreSSL or OpenSSL.  Building without libcrypto
-+ is supported but severely restricts the available ciphers and algorithms.
-+- - LibreSSL (https://www.libressl.org/)
-+- - OpenSSL (https://www.openssl.org) with any of the following versions:
-+-   - 1.0.x >= 1.0.1 or 1.1.0 >= 1.1.0g or any 1.1.1
-+-
-+-Note that due to a bug in EVP_CipherInit OpenSSL 1.1 versions prior to
-+-1.1.0g can't be used.
-++ - LibreSSL (https://www.libressl.org/) 3.1.0 or greater
-++ - OpenSSL (https://www.openssl.org) 1.1.1 or greater
-+
-+ LibreSSL/OpenSSL should be compiled as a position-independent library
-+ (i.e. -fPIC, eg by configuring OpenSSL as "./config [options] -fPIC"
-+diff --git a/cipher-aes.c b/cipher-aes.c
-+index 8b101727284..87c763353d8 100644
-+--- a/cipher-aes.c
-++++ b/cipher-aes.c
-+@@ -69,7 +69,7 @@ ssh_rijndael_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-+
-+ static int
-+ ssh_rijndael_cbc(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src,
-+-    LIBCRYPTO_EVP_INL_TYPE len)
-++    size_t len)
-+ {
-+ 	struct ssh_rijndael_ctx *c;
-+ 	u_char buf[RIJNDAEL_BLOCKSIZE];
-+diff --git a/configure.ac b/configure.ac
-+index 22fee70f604..1c0ccdf19c5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2744,42 +2744,40 @@
-+	#include <openssl/crypto.h>
-+	#define DATA "conftest.ssllibver"
-+		]], [[
-+-		FILE *fd;
-+-		int rc;
-++		FILE *f;
-+
-+-		fd = fopen(DATA,"w");
-+-		if(fd == NULL)
-++		if ((f = fopen(DATA, "w")) == NULL)
-+			exit(1);
-+-#ifndef OPENSSL_VERSION
-+-# define OPENSSL_VERSION SSLEAY_VERSION
-+-#endif
-+-#ifndef HAVE_OPENSSL_VERSION
-+-# define OpenSSL_version	SSLeay_version
-+-#endif
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+-		if ((rc = fprintf(fd, "%08lx (%s)\n",
-++		if (fprintf(f, "%08lx (%s)",
-+		    (unsigned long)OpenSSL_version_num(),
-+-		    OpenSSL_version(OPENSSL_VERSION))) < 0)
-++		    OpenSSL_version(OPENSSL_VERSION)) < 0)
-++			exit(1);
-++#ifdef LIBRESSL_VERSION_NUMBER
-++		if (fprintf(f, " libressl-%08lx", LIBRESSL_VERSION_NUMBER) < 0)
-++			exit(1);
-++#endif
-++		if (fputc('\n', f) == EOF || fclose(f) == EOF)
-+			exit(1);
-+-
-+		exit(0);
-+		]])],
-+		[
-+-			ssl_library_ver=`cat conftest.ssllibver`
-++			sslver=`cat conftest.ssllibver`
-++			ssl_showver=`echo "$sslver" | sed 's/ libressl-.*//'`
-+			# Check version is supported.
-+-			case "$ssl_library_ver" in
-+-			10000*|0*)
-+-				AC_MSG_ERROR([OpenSSL >= 1.0.1 required (have "$ssl_library_ver")])
-+-		                ;;
-+-			100*)   ;; # 1.0.x
-+-			101000[[0123456]]*)
-+-				# https://github.com/openssl/openssl/pull/4613
-+-				AC_MSG_ERROR([OpenSSL 1.1.x versions prior to 1.1.0g have a bug that breaks their use with OpenSSH (have "$ssl_library_ver")])
-++			case "$sslver" in
-++			100*|10100*) # 1.0.x, 1.1.0x
-++				AC_MSG_ERROR([OpenSSL >= 1.1.1 required (have "$ssl_showver")])
-+				;;
-+			101*)   ;; # 1.1.x
-+-			200*)   ;; # LibreSSL
-++			200*)   # LibreSSL
-++				lver=`echo "$sslver" | sed 's/.*libressl-//'`
-++				case "$lver" in
-++				2*|300*) # 2.x, 3.0.0
-++					AC_MSG_ERROR([LibreSSL >= 3.1.0 required (have "$ssl_showver")])
-++					;;
-++				*) ;;	# Assume all other versions are good.
-++				esac
-++				;;
-+			300*)   ;; # OpenSSL 3
-+			301*)   ;; # OpenSSL development branch.
-+		        *)
-+@@ -2781,10 +2781,10 @@
-+ 			300*)   ;; # OpenSSL 3
-+ 			301*)   ;; # OpenSSL development branch.
-+ 		        *)
-+-				AC_MSG_ERROR([Unknown/unsupported OpenSSL version ("$ssl_library_ver")])
-++				AC_MSG_ERROR([Unknown/unsupported OpenSSL version ("$ssl_showver")])
-+ 		                ;;
-+ 			esac
-+-			AC_MSG_RESULT([$ssl_library_ver])
-++			AC_MSG_RESULT([$ssl_showver])
-+ 		],
-+ 		[
-+ 			AC_MSG_RESULT([not found])
-+@@ -2804,9 +2804,6 @@
-+ 	#include <openssl/opensslv.h>
-+ 	#include <openssl/crypto.h>
-+ 		]], [[
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+ 		exit(OpenSSL_version_num() == OPENSSL_VERSION_NUMBER ? 0 : 1);
-+ 		]])],
-+ 		[
-+@@ -2881,44 +2878,13 @@
-+ 	    )
-+ 	)
-+
-+-	# LibreSSL/OpenSSL 1.1x API
-++	# LibreSSL/OpenSSL API differences
-+ 	AC_CHECK_FUNCS([ \
-+-		OPENSSL_init_crypto \
-+-		DH_get0_key \
-+-		DH_get0_pqg \
-+-		DH_set0_key \
-+-		DH_set_length \
-+-		DH_set0_pqg \
-+-		DSA_get0_key \
-+-		DSA_get0_pqg \
-+-		DSA_set0_key \
-+-		DSA_set0_pqg \
-+-		DSA_SIG_get0 \
-+-		DSA_SIG_set0 \
-+-		ECDSA_SIG_get0 \
-+-		ECDSA_SIG_set0 \
-+ 		EVP_CIPHER_CTX_iv \
-+ 		EVP_CIPHER_CTX_iv_noconst \
-+ 		EVP_CIPHER_CTX_get_iv \
-+ 		EVP_CIPHER_CTX_get_updated_iv \
-+ 		EVP_CIPHER_CTX_set_iv \
-+-		RSA_get0_crt_params \
-+-		RSA_get0_factors \
-+-		RSA_get0_key \
-+-		RSA_set0_crt_params \
-+-		RSA_set0_factors \
-+-		RSA_set0_key \
-+-		RSA_meth_free \
-+-		RSA_meth_dup \
-+-		RSA_meth_set1_name \
-+-		RSA_meth_get_finish \
-+-		RSA_meth_set_priv_enc \
-+-		RSA_meth_set_priv_dec \
-+-		RSA_meth_set_finish \
-+-		EVP_PKEY_get0_RSA \
-+-		EVP_MD_CTX_new \
-+-		EVP_MD_CTX_free \
-+-		EVP_chacha20 \
-+ 	])
-+
-+ 	if test "x$openssl_engine" = "xyes" ; then
-+@@ -3040,8 +3006,8 @@
-+ 	fi
-+ 	AC_CHECK_FUNCS([crypt DES_crypt])
-+ 
-+-	# Check for SHA256, SHA384 and SHA512 support in OpenSSL
-+-	AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512])
-++	# Check for various EVP support in OpenSSL
-++	AC_CHECK_FUNCS([EVP_sha256 EVP_sha384 EVP_sha512 EVP_chacha20])
-+
-+ 	# Check complete ECC support in OpenSSL
-+ 	AC_MSG_CHECKING([whether OpenSSL has NID_X9_62_prime256v1])
-+diff --git a/openbsd-compat/libressl-api-compat.c b/openbsd-compat/libressl-api-compat.c
-+index 498180dc894..59be17397c5 100644
-+--- a/openbsd-compat/libressl-api-compat.c
-++++ b/openbsd-compat/libressl-api-compat.c
-+@@ -1,129 +1,5 @@
-+-/* $OpenBSD: dsa_lib.c,v 1.29 2018/04/14 07:09:21 tb Exp $ */
-+-/* $OpenBSD: rsa_lib.c,v 1.37 2018/04/14 07:09:21 tb Exp $ */
-+-/* $OpenBSD: evp_lib.c,v 1.17 2018/09/12 06:35:38 djm Exp $ */
-+-/* $OpenBSD: dh_lib.c,v 1.32 2018/05/02 15:48:38 tb Exp $ */
-+-/* $OpenBSD: p_lib.c,v 1.24 2018/05/30 15:40:50 tb Exp $ */
-+-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-+-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
-+- * All rights reserved.
-+- *
-+- * This package is an SSL implementation written
-+- * by Eric Young (eay@cryptsoft.com).
-+- * The implementation was written so as to conform with Netscapes SSL.
-+- * 
-+- * This library is free for commercial and non-commercial use as long as
-+- * the following conditions are aheared to.  The following conditions
-+- * apply to all code found in this distribution, be it the RC4, RSA,
-+- * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
-+- * included with this distribution is covered by the same copyright terms
-+- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
-+- * 
-+- * Copyright remains Eric Young's, and as such any Copyright notices in
-+- * the code are not to be removed.
-+- * If this package is used in a product, Eric Young should be given attribution
-+- * as the author of the parts of the library used.
-+- * This can be in the form of a textual message at program startup or
-+- * in documentation (online or textual) provided with the package.
-+- * 
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- * 1. Redistributions of source code must retain the copyright
-+- *    notice, this list of conditions and the following disclaimer.
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in the
-+- *    documentation and/or other materials provided with the distribution.
-+- * 3. All advertising materials mentioning features or use of this software
-+- *    must display the following acknowledgement:
-+- *    "This product includes cryptographic software written by
-+- *     Eric Young (eay@cryptsoft.com)"
-+- *    The word 'cryptographic' can be left out if the rouines from the library
-+- *    being used are not cryptographic related :-).
-+- * 4. If you include any Windows specific code (or a derivative thereof) from 
-+- *    the apps directory (application code) you must include an acknowledgement:
-+- *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
-+- * 
-+- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
-+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-+- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+- * SUCH DAMAGE.
-+- * 
-+- * The licence and distribution terms for any publically available version or
-+- * derivative of this code cannot be changed.  i.e. this code cannot simply be
-+- * copied and put under another distribution licence
-+- * [including the GNU Public Licence.]
-+- */
-+-
-+-/* $OpenBSD: dsa_asn1.c,v 1.22 2018/06/14 17:03:19 jsing Exp $ */
-+-/* $OpenBSD: ecs_asn1.c,v 1.9 2018/03/17 15:24:44 tb Exp $ */
-+-/* $OpenBSD: digest.c,v 1.30 2018/04/14 07:09:21 tb Exp $ */
-+-/* Written by Dr Stephen N Henson (steve@openssl.org) for the OpenSSL
-+- * project 2000.
-+- */
-+-/* ====================================================================
-+- * Copyright (c) 2000-2005 The OpenSSL Project.  All rights reserved.
-+- *
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- *
-+- * 1. Redistributions of source code must retain the above copyright
-+- *    notice, this list of conditions and the following disclaimer. 
-+- *
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in
-+- *    the documentation and/or other materials provided with the
-+- *    distribution.
-+- *
-+- * 3. All advertising materials mentioning features or use of this
-+- *    software must display the following acknowledgment:
-+- *    "This product includes software developed by the OpenSSL Project
-+- *    for use in the OpenSSL Toolkit. (http://www.OpenSSL.org/)"
-+- *
-+- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
-+- *    endorse or promote products derived from this software without
-+- *    prior written permission. For written permission, please contact
-+- *    licensing@OpenSSL.org.
-+- *
-+- * 5. Products derived from this software may not be called "OpenSSL"
-+- *    nor may "OpenSSL" appear in their names without prior written
-+- *    permission of the OpenSSL Project.
-+- *
-+- * 6. Redistributions of any form whatsoever must retain the following
-+- *    acknowledgment:
-+- *    "This product includes software developed by the OpenSSL Project
-+- *    for use in the OpenSSL Toolkit (http://www.OpenSSL.org/)"
-+- *
-+- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
-+- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-+- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
-+- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-+- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-+- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-+- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-+- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-+- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-+- * OF THE POSSIBILITY OF SUCH DAMAGE.
-+- * ====================================================================
-+- *
-+- * This product includes cryptographic software written by Eric Young
-+- * (eay@cryptsoft.com).  This product includes software written by Tim
-+- * Hudson (tjh@cryptsoft.com).
-+- *
-+- */
-+-
-+-/*	$OpenBSD: rsa_meth.c,v 1.2 2018/09/12 06:35:38 djm Exp $	*/
-+ /*
-+- * Copyright (c) 2018 Theo Buehler <tb@openbsd.org>
-++ * Copyright (c) 2018 Damien Miller <djm@mindrot.org>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -147,192 +23,7 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+
-+-#include <openssl/err.h>
-+-#include <openssl/bn.h>
-+-#include <openssl/dsa.h>
-+-#include <openssl/rsa.h>
-+ #include <openssl/evp.h>
-+-#ifdef OPENSSL_HAS_ECC
-+-#include <openssl/ecdsa.h>
-+-#endif
-+-#include <openssl/dh.h>
-+-
-+-#ifndef HAVE_DSA_GET0_PQG
-+-void
-+-DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
-+-{
-+-	if (p != NULL)
-+-		*p = d->p;
-+-	if (q != NULL)
-+-		*q = d->q;
-+-	if (g != NULL)
-+-		*g = d->g;
-+-}
-+-#endif /* HAVE_DSA_GET0_PQG */
-+-
-+-#ifndef HAVE_DSA_SET0_PQG
-+-int
-+-DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-+-{
-+-	if ((d->p == NULL && p == NULL) || (d->q == NULL && q == NULL) ||
-+-	    (d->g == NULL && g == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(d->p);
-+-		d->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(d->q);
-+-		d->q = q;
-+-	}
-+-	if (g != NULL) {
-+-		BN_free(d->g);
-+-		d->g = g;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SET0_PQG */
-+-
-+-#ifndef HAVE_DSA_GET0_KEY
-+-void
-+-DSA_get0_key(const DSA *d, const BIGNUM **pub_key, const BIGNUM **priv_key)
-+-{
-+-	if (pub_key != NULL)
-+-		*pub_key = d->pub_key;
-+-	if (priv_key != NULL)
-+-		*priv_key = d->priv_key;
-+-}
-+-#endif /* HAVE_DSA_GET0_KEY */
-+-
-+-#ifndef HAVE_DSA_SET0_KEY
-+-int
-+-DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key)
-+-{
-+-	if (d->pub_key == NULL && pub_key == NULL)
-+-		return 0;
-+-
-+-	if (pub_key != NULL) {
-+-		BN_free(d->pub_key);
-+-		d->pub_key = pub_key;
-+-	}
-+-	if (priv_key != NULL) {
-+-		BN_free(d->priv_key);
-+-		d->priv_key = priv_key;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_KEY
-+-void
-+-RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e, const BIGNUM **d)
-+-{
-+-	if (n != NULL)
-+-		*n = r->n;
-+-	if (e != NULL)
-+-		*e = r->e;
-+-	if (d != NULL)
-+-		*d = r->d;
-+-}
-+-#endif /* HAVE_RSA_GET0_KEY */
-+-
-+-#ifndef HAVE_RSA_SET0_KEY
-+-int
-+-RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
-+-{
-+-	if ((r->n == NULL && n == NULL) || (r->e == NULL && e == NULL))
-+-		return 0;
-+-
-+-	if (n != NULL) {
-+-		BN_free(r->n);
-+-		r->n = n;
-+-	}
-+-	if (e != NULL) {
-+-		BN_free(r->e);
-+-		r->e = e;
-+-	}
-+-	if (d != NULL) {
-+-		BN_free(r->d);
-+-		r->d = d;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-+-void
-+-RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM **dmq1,
-+-    const BIGNUM **iqmp)
-+-{
-+-	if (dmp1 != NULL)
-+-		*dmp1 = r->dmp1;
-+-	if (dmq1 != NULL)
-+-		*dmq1 = r->dmq1;
-+-	if (iqmp != NULL)
-+-		*iqmp = r->iqmp;
-+-}
-+-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-+-int
-+-RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp)
-+-{
-+-	if ((r->dmp1 == NULL && dmp1 == NULL) ||
-+-	    (r->dmq1 == NULL && dmq1 == NULL) ||
-+-	    (r->iqmp == NULL && iqmp == NULL))
-+-		return 0;
-+-
-+-	if (dmp1 != NULL) {
-+-		BN_free(r->dmp1);
-+-		r->dmp1 = dmp1;
-+-	}
-+-	if (dmq1 != NULL) {
-+-		BN_free(r->dmq1);
-+-		r->dmq1 = dmq1;
-+-	}
-+-	if (iqmp != NULL) {
-+-		BN_free(r->iqmp);
-+-		r->iqmp = iqmp;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_GET0_FACTORS
-+-void
-+-RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q)
-+-{
-+-	if (p != NULL)
-+-		*p = r->p;
-+-	if (q != NULL)
-+-		*q = r->q;
-+-}
-+-#endif /* HAVE_RSA_GET0_FACTORS */
-+-
-+-#ifndef HAVE_RSA_SET0_FACTORS
-+-int
-+-RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q)
-+-{
-+-	if ((r->p == NULL && p == NULL) || (r->q == NULL && q == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(r->p);
-+-		r->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(r->q);
-+-		r->q = q;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_SET0_FACTORS */
-+
-+ #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-+ int
-+@@ -392,249 +83,4 @@ EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx, const unsigned char *iv, size_t len)
++diff --git a/src/network/networkd-address.c b/src/network/networkd-address.c
++index 7df743efb5..01c1d88dec 100644
++--- a/src/network/networkd-address.c
+++++ b/src/network/networkd-address.c
++@@ -891,22 +891,19 @@ int link_drop_foreign_addresses(Link *link) {
++         return r;
 + }
-+ #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
++ 
++-int link_drop_addresses(Link *link) {
+++int link_drop_managed_addresses(Link *link) {
++         Address *address;
++         int k, r = 0;
++ 
++         assert(link);
++ 
++         SET_FOREACH(address, link->addresses) {
++-                /* Ignore addresses not assigned yet or already removing. */
++-                if (!address_exists(address))
+++                /* Do not touch addresses managed by kernel or other tools. */
+++                if (address->source == NETWORK_CONFIG_SOURCE_FOREIGN)
++                         continue;
++ 
++-                /* Do not drop IPv6LL addresses assigned by the kernel here. They will be dropped in
++-                 * link_drop_ipv6ll_addresses() if IPv6LL addressing is disabled. */
++-                if (address->source == NETWORK_CONFIG_SOURCE_FOREIGN &&
++-                    address->family == AF_INET6 &&
++-                    in6_addr_is_link_local(&address->in_addr.in6))
+++                /* Ignore addresses not assigned yet or already removing. */
+++                if (!address_exists(address))
++                         continue;
++ 
++                 k = address_remove(address);
++diff --git a/src/network/networkd-address.h b/src/network/networkd-address.h
++index 41c4ce6fa4..b2110d8d21 100644
++--- a/src/network/networkd-address.h
+++++ b/src/network/networkd-address.h
++@@ -74,7 +74,7 @@ void address_set_broadcast(Address *a);
++ 
++ DEFINE_NETWORK_SECTION_FUNCTIONS(Address, address_free);
++ 
++-int link_drop_addresses(Link *link);
+++int link_drop_managed_addresses(Link *link);
++ int link_drop_foreign_addresses(Link *link);
++ int link_drop_ipv6ll_addresses(Link *link);
++ void link_foreignize_addresses(Link *link);
++diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
++index b62a154828..12c592b257 100644
++--- a/src/network/networkd-link.c
+++++ b/src/network/networkd-link.c
++@@ -1070,27 +1070,27 @@ static int link_drop_foreign_config(Link *link) {
++         return r;
++ }
++ 
++-static int link_drop_config(Link *link) {
+++static int link_drop_managed_config(Link *link) {
++         int k, r;
++ 
++         assert(link);
++         assert(link->manager);
++ 
++-        r = link_drop_routes(link);
+++        r = link_drop_managed_routes(link);
++ 
++-        k = link_drop_nexthops(link);
+++        k = link_drop_managed_nexthops(link);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++-        k = link_drop_addresses(link);
+++        k = link_drop_managed_addresses(link);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++-        k = link_drop_neighbors(link);
+++        k = link_drop_managed_neighbors(link);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++-        k = link_drop_routing_policy_rules(link);
+++        k = link_drop_managed_routing_policy_rules(link);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++@@ -1318,7 +1318,9 @@ static int link_reconfigure_impl(Link *link, bool force) {
++                  * link_drop_foreign_config() in link_configure(). */
++                 link_foreignize_config(link);
++         else {
++-                r = link_drop_config(link);
+++                /* Remove all managed configs. Note, foreign configs are removed in later by
+++                 * link_configure() -> link_drop_foreign_config() if the link is managed by us. */
+++                r = link_drop_managed_config(link);
++                 if (r < 0)
++                         return r;
++         }
++@@ -1705,7 +1707,7 @@ static int link_carrier_lost_impl(Link *link) {
++         if (r < 0)
++                 ret = r;
++ 
++-        r = link_drop_config(link);
+++        r = link_drop_managed_config(link);
++         if (r < 0 && ret >= 0)
++                 ret = r;
++ 
++diff --git a/src/network/networkd-neighbor.c b/src/network/networkd-neighbor.c
++index 1766095e53..b58898a6dc 100644
++--- a/src/network/networkd-neighbor.c
+++++ b/src/network/networkd-neighbor.c
++@@ -406,13 +406,17 @@ int link_drop_foreign_neighbors(Link *link) {
++         return r;
++ }
++ 
++-int link_drop_neighbors(Link *link) {
+++int link_drop_managed_neighbors(Link *link) {
++         Neighbor *neighbor;
++         int k, r = 0;
++ 
++         assert(link);
++ 
++         SET_FOREACH(neighbor, link->neighbors) {
+++                /* Do not touch nexthops managed by kernel or other tools. */
+++                if (neighbor->source == NETWORK_CONFIG_SOURCE_FOREIGN)
+++                        continue;
+++
++                 /* Ignore neighbors not assigned yet or already removing. */
++                 if (!neighbor_exists(neighbor))
++                         continue;
++diff --git a/src/network/networkd-neighbor.h b/src/network/networkd-neighbor.h
++index e9e1854110..8e3c510cd5 100644
++--- a/src/network/networkd-neighbor.h
+++++ b/src/network/networkd-neighbor.h
++@@ -34,7 +34,7 @@ int neighbor_compare_func(const Neighbor *a, const Neighbor *b);
++ 
++ void network_drop_invalid_neighbors(Network *network);
++ 
++-int link_drop_neighbors(Link *link);
+++int link_drop_managed_neighbors(Link *link);
++ int link_drop_foreign_neighbors(Link *link);
++ void link_foreignize_neighbors(Link *link);
++ 
++diff --git a/src/network/networkd-nexthop.c b/src/network/networkd-nexthop.c
++index b829aaab90..42aa8c4c59 100644
++--- a/src/network/networkd-nexthop.c
+++++ b/src/network/networkd-nexthop.c
++@@ -613,8 +613,8 @@ static void manager_mark_nexthops(Manager *manager, bool foreign, const Link *ex
++                 if (nexthop->protocol == RTPROT_KERNEL)
++                         continue;
++ 
++-                /* When 'foreign' is true, do not remove nexthops we configured. */
++-                if (foreign && nexthop->source != NETWORK_CONFIG_SOURCE_FOREIGN)
+++                /* When 'foreign' is true, mark only foreign nexthops, and vice versa. */
+++                if (foreign != (nexthop->source == NETWORK_CONFIG_SOURCE_FOREIGN))
++                         continue;
++ 
++                 /* Ignore nexthops not assigned yet or already removed. */
++@@ -641,7 +641,7 @@ static void manager_mark_nexthops(Manager *manager, bool foreign, const Link *ex
++         }
++ }
++ 
++-static int manager_drop_nexthops(Manager *manager) {
+++static int manager_drop_marked_nexthops(Manager *manager) {
++         NextHop *nexthop;
++         int k, r = 0;
++ 
++@@ -704,14 +704,14 @@ int link_drop_foreign_nexthops(Link *link) {
++ 
++         manager_mark_nexthops(link->manager, /* foreign = */ true, NULL);
++ 
++-        k = manager_drop_nexthops(link->manager);
+++        k = manager_drop_marked_nexthops(link->manager);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++         return r;
++ }
++ 
++-int link_drop_nexthops(Link *link) {
+++int link_drop_managed_nexthops(Link *link) {
++         NextHop *nexthop;
++         int k, r = 0;
++ 
++@@ -723,6 +723,10 @@ int link_drop_nexthops(Link *link) {
++                 if (nexthop->protocol == RTPROT_KERNEL)
++                         continue;
++ 
+++                /* Do not touch addresses managed by kernel or other tools. */
+++                if (nexthop->source == NETWORK_CONFIG_SOURCE_FOREIGN)
+++                        continue;
+++
++                 /* Ignore nexthops not assigned yet or already removing. */
++                 if (!nexthop_exists(nexthop))
++                         continue;
++@@ -734,7 +738,7 @@ int link_drop_nexthops(Link *link) {
++ 
++         manager_mark_nexthops(link->manager, /* foreign = */ false, link);
++ 
++-        k = manager_drop_nexthops(link->manager);
+++        k = manager_drop_marked_nexthops(link->manager);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++diff --git a/src/network/networkd-nexthop.h b/src/network/networkd-nexthop.h
++index 7a8920238c..1e54e9f211 100644
++--- a/src/network/networkd-nexthop.h
+++++ b/src/network/networkd-nexthop.h
++@@ -44,7 +44,7 @@ int nexthop_compare_func(const NextHop *a, const NextHop *b);
++ 
++ void network_drop_invalid_nexthops(Network *network);
++ 
++-int link_drop_nexthops(Link *link);
+++int link_drop_managed_nexthops(Link *link);
++ int link_drop_foreign_nexthops(Link *link);
++ void link_foreignize_nexthops(Link *link);
++ 
++diff --git a/src/network/networkd-route.c b/src/network/networkd-route.c
++index ee7a535075..7e6fe8bc11 100644
++--- a/src/network/networkd-route.c
+++++ b/src/network/networkd-route.c
++@@ -788,8 +788,8 @@ static void manager_mark_routes(Manager *manager, bool foreign, const Link *exce
++                 if (route->protocol == RTPROT_KERNEL)
++                         continue;
++ 
++-                /* When 'foreign' is true, do not remove routes we configured. */
++-                if (foreign && route->source != NETWORK_CONFIG_SOURCE_FOREIGN)
+++                /* When 'foreign' is true, mark only foreign routes, and vice versa. */
+++                if (foreign != (route->source == NETWORK_CONFIG_SOURCE_FOREIGN))
++                         continue;
++ 
++                 /* Do not touch dynamic routes. They will removed by dhcp_pd_prefix_lost() */
++@@ -834,7 +834,7 @@ static void manager_mark_routes(Manager *manager, bool foreign, const Link *exce
++         }
++ }
++ 
++-static int manager_drop_routes(Manager *manager) {
+++static int manager_drop_marked_routes(Manager *manager) {
++         Route *route;
++         int k, r = 0;
++ 
++@@ -955,14 +955,14 @@ int link_drop_foreign_routes(Link *link) {
++ 
++         manager_mark_routes(link->manager, /* foreign = */ true, NULL);
++ 
++-        k = manager_drop_routes(link->manager);
+++        k = manager_drop_marked_routes(link->manager);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++         return r;
++ }
++ 
++-int link_drop_routes(Link *link) {
+++int link_drop_managed_routes(Link *link) {
++         Route *route;
++         int k, r = 0;
++ 
++@@ -973,6 +973,10 @@ int link_drop_routes(Link *link) {
++                 if (route_by_kernel(route))
++                         continue;
++ 
+++                /* Do not touch routes managed by kernel or other tools. */
+++                if (route->source == NETWORK_CONFIG_SOURCE_FOREIGN)
+++                        continue;
+++
++                 if (!route_exists(route))
++                         continue;
++ 
++@@ -983,7 +987,7 @@ int link_drop_routes(Link *link) {
++ 
++         manager_mark_routes(link->manager, /* foreign = */ false, link);
++ 
++-        k = manager_drop_routes(link->manager);
+++        k = manager_drop_marked_routes(link->manager);
++         if (k < 0 && r >= 0)
++                 r = k;
++ 
++diff --git a/src/network/networkd-route.h b/src/network/networkd-route.h
++index e3e22a5985..2180a196fc 100644
++--- a/src/network/networkd-route.h
+++++ b/src/network/networkd-route.h
++@@ -82,7 +82,7 @@ int route_remove(Route *route);
++ 
++ int route_get(Manager *manager, Link *link, const Route *in, Route **ret);
++ 
++-int link_drop_routes(Link *link);
+++int link_drop_managed_routes(Link *link);
++ int link_drop_foreign_routes(Link *link);
++ void link_foreignize_routes(Link *link);
++ 
++diff --git a/src/network/networkd-routing-policy-rule.c b/src/network/networkd-routing-policy-rule.c
++index 90086f35a7..d4363060d8 100644
++--- a/src/network/networkd-routing-policy-rule.c
+++++ b/src/network/networkd-routing-policy-rule.c
++@@ -653,8 +653,8 @@ static void manager_mark_routing_policy_rules(Manager *m, bool foreign, const Li
++                 if (rule->protocol == RTPROT_KERNEL)
++                         continue;
++ 
++-                /* When 'foreign' is true, do not remove rules we configured. */
++-                if (foreign && rule->source != NETWORK_CONFIG_SOURCE_FOREIGN)
+++                /* When 'foreign' is true, mark only foreign rules, and vice versa. */
+++                if (foreign != (rule->source == NETWORK_CONFIG_SOURCE_FOREIGN))
++                         continue;
++ 
++                 /* Ignore rules not assigned yet or already removing. */
++diff --git a/src/network/networkd-routing-policy-rule.h b/src/network/networkd-routing-policy-rule.h
++index f52943bd2e..7cc6f55c8d 100644
++--- a/src/network/networkd-routing-policy-rule.h
+++++ b/src/network/networkd-routing-policy-rule.h
++@@ -71,7 +71,7 @@ int manager_drop_routing_policy_rules_internal(Manager *m, bool foreign, const L
++ static inline int manager_drop_foreign_routing_policy_rules(Manager *m) {
++         return manager_drop_routing_policy_rules_internal(m, true, NULL);
++ }
++-static inline int link_drop_routing_policy_rules(Link *link) {
+++static inline int link_drop_managed_routing_policy_rules(Link *link) {
++         assert(link);
++         return manager_drop_routing_policy_rules_internal(link->manager, false, link);
++ }
++diff --git a/test/test-network/systemd-networkd-tests.py b/test/test-network/systemd-networkd-tests.py
++index ac2c1ba034..ed4d4992b1 100755
++--- a/test/test-network/systemd-networkd-tests.py
+++++ b/test/test-network/systemd-networkd-tests.py
++@@ -3876,7 +3876,7 @@ class NetworkdBridgeTests(unittest.TestCase, Utilities):
++         print(output)
++         self.assertRegex(output, 'NO-CARRIER')
++         self.assertNotRegex(output, '192.168.0.15/24')
++-        self.assertNotRegex(output, '192.168.0.16/24')
+++        self.assertRegex(output, '192.168.0.16/24') # foreign address is kept
++ 
++         print('### ip -6 route list table all dev bridge99')
++         output = check_output('ip -6 route list table all dev bridge99')
++-- 
++2.34.1
 +
-+-#ifndef HAVE_DSA_SIG_GET0
-+-void
-+-DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps)
-+-{
-+-	if (pr != NULL)
-+-		*pr = sig->r;
-+-	if (ps != NULL)
-+-		*ps = sig->s;
-+-}
-+-#endif /* HAVE_DSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_DSA_SIG_SET0
-+-int
-+-DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-+-{
-+-	if (r == NULL || s == NULL)
-+-		return 0;
-+-
-+-	BN_clear_free(sig->r);
-+-	sig->r = r;
-+-	BN_clear_free(sig->s);
-+-	sig->s = s;
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DSA_SIG_SET0 */
-+-
-+-#ifdef OPENSSL_HAS_ECC
-+-#ifndef HAVE_ECDSA_SIG_GET0
-+-void
-+-ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps)
-+-{
-+-	if (pr != NULL)
-+-		*pr = sig->r;
-+-	if (ps != NULL)
-+-		*ps = sig->s;
-+-}
-+-#endif /* HAVE_ECDSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_ECDSA_SIG_SET0
-+-int
-+-ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s)
-+-{
-+-	if (r == NULL || s == NULL)
-+-		return 0;
-+-
-+-	BN_clear_free(sig->r);
-+-	BN_clear_free(sig->s);
-+-	sig->r = r;
-+-	sig->s = s;
-+-	return 1;
-+-}
-+-#endif /* HAVE_ECDSA_SIG_SET0 */
-+-#endif /* OPENSSL_HAS_ECC */
-+-
-+-#ifndef HAVE_DH_GET0_PQG
-+-void
-+-DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g)
-+-{
-+-	if (p != NULL)
-+-		*p = dh->p;
-+-	if (q != NULL)
-+-		*q = dh->q;
-+-	if (g != NULL)
-+-		*g = dh->g;
-+-}
-+-#endif /* HAVE_DH_GET0_PQG */
-+-
-+-#ifndef HAVE_DH_SET0_PQG
-+-int
-+-DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g)
-+-{
-+-	if ((dh->p == NULL && p == NULL) || (dh->g == NULL && g == NULL))
-+-		return 0;
-+-
-+-	if (p != NULL) {
-+-		BN_free(dh->p);
-+-		dh->p = p;
-+-	}
-+-	if (q != NULL) {
-+-		BN_free(dh->q);
-+-		dh->q = q;
-+-	}
-+-	if (g != NULL) {
-+-		BN_free(dh->g);
-+-		dh->g = g;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET0_PQG */
-+-
-+-#ifndef HAVE_DH_GET0_KEY
-+-void
-+-DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key)
-+-{
-+-	if (pub_key != NULL)
-+-		*pub_key = dh->pub_key;
-+-	if (priv_key != NULL)
-+-		*priv_key = dh->priv_key;
-+-}
-+-#endif /* HAVE_DH_GET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET0_KEY
-+-int
-+-DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key)
-+-{
-+-	if (pub_key != NULL) {
-+-		BN_free(dh->pub_key);
-+-		dh->pub_key = pub_key;
-+-	}
-+-	if (priv_key != NULL) {
-+-		BN_free(dh->priv_key);
-+-		dh->priv_key = priv_key;
-+-	}
-+-
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET_LENGTH
-+-int
-+-DH_set_length(DH *dh, long length)
-+-{
-+-	if (length < 0 || length > INT_MAX)
-+-		return 0;
-+-
-+-	dh->length = length;
-+-	return 1;
-+-}
-+-#endif /* HAVE_DH_SET_LENGTH */
-+-
-+-#ifndef HAVE_RSA_METH_FREE
-+-void
-+-RSA_meth_free(RSA_METHOD *meth)
-+-{
-+-	if (meth != NULL) {
-+-		free((char *)meth->name);
-+-		free(meth);
-+-	}
-+-}
-+-#endif /* HAVE_RSA_METH_FREE */
-+-
-+-#ifndef HAVE_RSA_METH_DUP
-+-RSA_METHOD *
-+-RSA_meth_dup(const RSA_METHOD *meth)
-+-{
-+-	RSA_METHOD *copy;
-+-
-+-	if ((copy = calloc(1, sizeof(*copy))) == NULL)
-+-		return NULL;
-+-	memcpy(copy, meth, sizeof(*copy));
-+-	if ((copy->name = strdup(meth->name)) == NULL) {
-+-		free(copy);
-+-		return NULL;
-+-	}
-+-
-+-	return copy;
-+-}
-+-#endif /* HAVE_RSA_METH_DUP */
-+-
-+-#ifndef HAVE_RSA_METH_SET1_NAME
-+-int
-+-RSA_meth_set1_name(RSA_METHOD *meth, const char *name)
-+-{
-+-	char *copy;
-+-
-+-	if ((copy = strdup(name)) == NULL)
-+-		return 0;
-+-	free((char *)meth->name);
-+-	meth->name = copy;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET1_NAME */
-+-
-+-#ifndef HAVE_RSA_METH_GET_FINISH
-+-int
-+-(*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa)
-+-{
-+-	return meth->finish;
-+-}
-+-#endif /* HAVE_RSA_METH_GET_FINISH */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-+-int
-+-RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding))
-+-{
-+-	meth->rsa_priv_enc = priv_enc;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-+-int
-+-RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding))
-+-{
-+-	meth->rsa_priv_dec = priv_dec;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_FINISH
-+-int
-+-RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
-+-{
-+-	meth->finish = finish;
-+-	return 1;
-+-}
-+-#endif /* HAVE_RSA_METH_SET_FINISH */
-+-
-+-#ifndef HAVE_EVP_PKEY_GET0_RSA
-+-RSA *
-+-EVP_PKEY_get0_RSA(EVP_PKEY *pkey)
-+-{
-+-	if (pkey->type != EVP_PKEY_RSA) {
-+-		/* EVPerror(EVP_R_EXPECTING_AN_RSA_KEY); */
-+-		return NULL;
-+-	}
-+-	return pkey->pkey.rsa;
-+-}
-+-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_NEW
-+-EVP_MD_CTX *
-+-EVP_MD_CTX_new(void)
-+-{
-+-	return calloc(1, sizeof(EVP_MD_CTX));
-+-}
-+-#endif /* HAVE_EVP_MD_CTX_NEW */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_FREE
-+-void
-+-EVP_MD_CTX_free(EVP_MD_CTX *ctx)
-+-{
-+-	if (ctx == NULL)
-+-		return;
-+-
-+-	EVP_MD_CTX_cleanup(ctx);
-+-
-+-	free(ctx);
-+-}
-+-#endif /* HAVE_EVP_MD_CTX_FREE */
-+-
-+ #endif /* WITH_OPENSSL */
-+diff --git a/openbsd-compat/openssl-compat.h b/openbsd-compat/openssl-compat.h
-+index 61a69dd56eb..d0dd2c3450d 100644
-+--- a/openbsd-compat/openssl-compat.h
-++++ b/openbsd-compat/openssl-compat.h
-+@@ -33,26 +33,13 @@
-+ int ssh_compatible_openssl(long, long);
-+ void ssh_libcrypto_init(void);
-+
-+-#if (OPENSSL_VERSION_NUMBER < 0x1000100fL)
-+-# error OpenSSL 1.0.1 or greater is required
-++#if (OPENSSL_VERSION_NUMBER < 0x10100000L)
-++# error OpenSSL 1.1.0 or greater is required
-+ #endif
-+-
-+-#ifndef OPENSSL_VERSION
-+-# define OPENSSL_VERSION	SSLEAY_VERSION
-+-#endif
-+-
-+-#ifndef HAVE_OPENSSL_VERSION
-+-# define OpenSSL_version(x)	SSLeay_version(x)
-+-#endif
-+-
-+-#ifndef HAVE_OPENSSL_VERSION_NUM
-+-# define OpenSSL_version_num	SSLeay
-+-#endif
-+-
-+-#if OPENSSL_VERSION_NUMBER < 0x10000001L
-+-# define LIBCRYPTO_EVP_INL_TYPE unsigned int
-+-#else
-+-# define LIBCRYPTO_EVP_INL_TYPE size_t
-++#ifdef LIBRESSL_VERSION_NUMBER
-++# if LIBRESSL_VERSION_NUMBER < 0x3010000fL
-++#  error LibreSSL 3.1.0 or greater is required
-++# endif
-+ #endif
-+
-+ #ifndef OPENSSL_RSA_MAX_MODULUS_BITS
-+@@ -68,25 +55,6 @@ void ssh_libcrypto_init(void);
-+ # endif
-+ #endif
-+
-+-/* LibreSSL/OpenSSL 1.1x API compat */
-+-#ifndef HAVE_DSA_GET0_PQG
-+-void DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q,
-+-    const BIGNUM **g);
-+-#endif /* HAVE_DSA_GET0_PQG */
-+-
-+-#ifndef HAVE_DSA_SET0_PQG
-+-int DSA_set0_pqg(DSA *d, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-+-#endif /* HAVE_DSA_SET0_PQG */
-+-
-+-#ifndef HAVE_DSA_GET0_KEY
-+-void DSA_get0_key(const DSA *d, const BIGNUM **pub_key,
-+-    const BIGNUM **priv_key);
-+-#endif /* HAVE_DSA_GET0_KEY */
-+-
-+-#ifndef HAVE_DSA_SET0_KEY
-+-int DSA_set0_key(DSA *d, BIGNUM *pub_key, BIGNUM *priv_key);
-+-#endif /* HAVE_DSA_SET0_KEY */
-+-
-+ #ifndef HAVE_EVP_CIPHER_CTX_GET_IV
-+ # ifdef HAVE_EVP_CIPHER_CTX_GET_UPDATED_IV
-+ #  define EVP_CIPHER_CTX_get_iv EVP_CIPHER_CTX_get_updated_iv
-+@@ -101,112 +69,5 @@ int EVP_CIPHER_CTX_set_iv(EVP_CIPHER_CTX *ctx,
-+     const unsigned char *iv, size_t len);
-+ #endif /* HAVE_EVP_CIPHER_CTX_SET_IV */
-+
-+-#ifndef HAVE_RSA_GET0_KEY
-+-void RSA_get0_key(const RSA *r, const BIGNUM **n, const BIGNUM **e,
-+-    const BIGNUM **d);
-+-#endif /* HAVE_RSA_GET0_KEY */
-+-
-+-#ifndef HAVE_RSA_SET0_KEY
-+-int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
-+-#endif /* HAVE_RSA_SET0_KEY */
-+-
-+-#ifndef HAVE_RSA_GET0_CRT_PARAMS
-+-void RSA_get0_crt_params(const RSA *r, const BIGNUM **dmp1, const BIGNUM **dmq1,
-+-    const BIGNUM **iqmp);
-+-#endif /* HAVE_RSA_GET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_SET0_CRT_PARAMS
-+-int RSA_set0_crt_params(RSA *r, BIGNUM *dmp1, BIGNUM *dmq1, BIGNUM *iqmp);
-+-#endif /* HAVE_RSA_SET0_CRT_PARAMS */
-+-
-+-#ifndef HAVE_RSA_GET0_FACTORS
-+-void RSA_get0_factors(const RSA *r, const BIGNUM **p, const BIGNUM **q);
-+-#endif /* HAVE_RSA_GET0_FACTORS */
-+-
-+-#ifndef HAVE_RSA_SET0_FACTORS
-+-int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);
-+-#endif /* HAVE_RSA_SET0_FACTORS */
-+-
-+-#ifndef DSA_SIG_GET0
-+-void DSA_SIG_get0(const DSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps);
-+-#endif /* DSA_SIG_GET0 */
-+-
-+-#ifndef DSA_SIG_SET0
-+-int DSA_SIG_set0(DSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-+-#endif /* DSA_SIG_SET0 */
-+-
-+-#ifdef OPENSSL_HAS_ECC
-+-#ifndef HAVE_ECDSA_SIG_GET0
-+-void ECDSA_SIG_get0(const ECDSA_SIG *sig, const BIGNUM **pr, const BIGNUM **ps);
-+-#endif /* HAVE_ECDSA_SIG_GET0 */
-+-
-+-#ifndef HAVE_ECDSA_SIG_SET0
-+-int ECDSA_SIG_set0(ECDSA_SIG *sig, BIGNUM *r, BIGNUM *s);
-+-#endif /* HAVE_ECDSA_SIG_SET0 */
-+-#endif /* OPENSSL_HAS_ECC */
-+-
-+-#ifndef HAVE_DH_GET0_PQG
-+-void DH_get0_pqg(const DH *dh, const BIGNUM **p, const BIGNUM **q,
-+-    const BIGNUM **g);
-+-#endif /* HAVE_DH_GET0_PQG */
-+-
-+-#ifndef HAVE_DH_SET0_PQG
-+-int DH_set0_pqg(DH *dh, BIGNUM *p, BIGNUM *q, BIGNUM *g);
-+-#endif /* HAVE_DH_SET0_PQG */
-+-
-+-#ifndef HAVE_DH_GET0_KEY
-+-void DH_get0_key(const DH *dh, const BIGNUM **pub_key, const BIGNUM **priv_key);
-+-#endif /* HAVE_DH_GET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET0_KEY
-+-int DH_set0_key(DH *dh, BIGNUM *pub_key, BIGNUM *priv_key);
-+-#endif /* HAVE_DH_SET0_KEY */
-+-
-+-#ifndef HAVE_DH_SET_LENGTH
-+-int DH_set_length(DH *dh, long length);
-+-#endif /* HAVE_DH_SET_LENGTH */
-+-
-+-#ifndef HAVE_RSA_METH_FREE
-+-void RSA_meth_free(RSA_METHOD *meth);
-+-#endif /* HAVE_RSA_METH_FREE */
-+-
-+-#ifndef HAVE_RSA_METH_DUP
-+-RSA_METHOD *RSA_meth_dup(const RSA_METHOD *meth);
-+-#endif /* HAVE_RSA_METH_DUP */
-+-
-+-#ifndef HAVE_RSA_METH_SET1_NAME
-+-int RSA_meth_set1_name(RSA_METHOD *meth, const char *name);
-+-#endif /* HAVE_RSA_METH_SET1_NAME */
-+-
-+-#ifndef HAVE_RSA_METH_GET_FINISH
-+-int (*RSA_meth_get_finish(const RSA_METHOD *meth))(RSA *rsa);
-+-#endif /* HAVE_RSA_METH_GET_FINISH */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_ENC
-+-int RSA_meth_set_priv_enc(RSA_METHOD *meth, int (*priv_enc)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding));
-+-#endif /* HAVE_RSA_METH_SET_PRIV_ENC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_PRIV_DEC
-+-int RSA_meth_set_priv_dec(RSA_METHOD *meth, int (*priv_dec)(int flen,
-+-    const unsigned char *from, unsigned char *to, RSA *rsa, int padding));
-+-#endif /* HAVE_RSA_METH_SET_PRIV_DEC */
-+-
-+-#ifndef HAVE_RSA_METH_SET_FINISH
-+-int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa));
-+-#endif /* HAVE_RSA_METH_SET_FINISH */
-+-
-+-#ifndef HAVE_EVP_PKEY_GET0_RSA
-+-RSA *EVP_PKEY_get0_RSA(EVP_PKEY *pkey);
-+-#endif /* HAVE_EVP_PKEY_GET0_RSA */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_new
-+-EVP_MD_CTX *EVP_MD_CTX_new(void);
-+-#endif /* HAVE_EVP_MD_CTX_new */
-+-
-+-#ifndef HAVE_EVP_MD_CTX_free
-+-void EVP_MD_CTX_free(EVP_MD_CTX *ctx);
-+-#endif /* HAVE_EVP_MD_CTX_free */
-+-
-+ #endif /* WITH_OPENSSL */
-+ #endif /* _OPENSSL_COMPAT_H */
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index 6057d055f4..1d53c2488b 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://add-test-support-for-busybox.patch \
-            file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
-            file://0001-Default-to-not-using-sandbox-when-cross-compiling.patch \
-+           file://7280401bdd77ca54be6867a154cc01e0d72612e0.patch \
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index 784a7af271..21a09d8594 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -30,6 +30,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-shared-json-allow-json_variant_dump-to-return-an-err.patch \
+            file://CVE-2022-4415-1.patch \
+            file://CVE-2022-4415-2.patch \
++           file://0001-network-remove-only-managed-configs-on-reconfigure-o.patch \
             "
- SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
  
+ # patches needed by musl
 -- 
 2.34.1
 
