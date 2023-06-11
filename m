@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D11EC83005
-	for <webhook@archiver.kernel.org>; Sun, 11 Jun 2023 16:03:07 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.39222.1686499384505909072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6679AC7EE43
+	for <webhook@archiver.kernel.org>; Sun, 11 Jun 2023 16:03:17 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.39009.1686499391492943589
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 09:03:04 -0700
+ Sun, 11 Jun 2023 09:03:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=qbuSuCot;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b3d0b33dc2so632265ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:03:04 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=JwlKSxq5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b3af7e3925so6464105ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499383; x=1689091383;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499390; x=1689091390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SqHyeOnHhE9uq7xbu7Qvcc3UxydwvUrhXINC/r2jjEY=;
-        b=qbuSuCotD9BT3VWr1O46w5CQJPzYE3I/O1e6XNgXXTCLWPLoMtJsqQR6pTwWAXu97/
-         YE/js7fP/qj7yPb+yYwBpx4hOz+l6qJ6jzayxdqKF/f2cifIa04WSct0yHZ09H2f6fXO
-         MFxYtkTSKTkKbpY6uhhEFDtn2teGwsIkMKoNUXRH73FyYqN5wddi5jJO33xqjtGzGcqX
-         4s1cpe9osN4cUuKavqAsyWKzVFRCmYYTsJPQogZZW6PHh8jG33uTcRxsMJ70WIr6c0tj
-         ST0s1Jh/cntdIRsSqFi9DZJ/NAFQJifWjtwukEYG6mkOWs8Ey2sXyhvEnuB1IHalOdc2
-         UbOQ==
+        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
+        b=JwlKSxq5RINhSwL50M/rThTmSZi6cQP6b0FDjqtB22UNEMvyPHI2hUCvV86h6lMn/M
+         yTd5DkvqLm6FE2kshuCNhLU5aZ10ARcaSsBuC6YW52nRkKG1Pe3LzpOtxfCUCjWh+Vqb
+         KhRrgiV84HS2El+qG+IM7coTtXb3TC05HtuYMs7ewsXNheVe7deUixr30SzRMyjlF7NC
+         tnBlMHvFqzHWo6HKDCmu4mojc3/wfSgnpVB4CeQYY4KVYkhKVdZ1HUGVEAovkeu2DrTm
+         qGG1UfyH89vYEnD0K4mAw9aJosFXREYuqo4ELeS51wnIIZHmtb6ZzHcA+mM2Illy6cZm
+         ZTbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686499383; x=1689091383;
+        d=1e100.net; s=20221208; t=1686499390; x=1689091390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SqHyeOnHhE9uq7xbu7Qvcc3UxydwvUrhXINC/r2jjEY=;
-        b=hL5bSHvF3m3tuNv91eTF2R0zO0iyqJneLQgwhxywVZtgOrrxS4JySYbM9Xj3WTgP0B
-         rJzcEaV9OxPZH5xGOsaaIVfrIOFh9bvxP4g6ClX7ccIf4rhMT592oWGo/nXKSAbl/1zz
-         gWi65B1qRzwaKEmHSIL5IrHh1/oiliRHepzwI51LWpoAwTtOBZ0SGBU2hPT0Z9pnDBns
-         B70YBtOUmebQka7lkaUuHkFZdNkRoTJ/e78qDprxwizRW3QJgfcBRNvDAnS/If1ySaeh
-         7Qh6q9x8jFTPLnu5iW27zSWWidABpd6tIZoZ1STwF0xnDzDUyfnQvKm6QCQpIe1EuL12
-         tb2A==
-X-Gm-Message-State: AC+VfDxaivJqkOLzabufZZTmvfhDn3DivR3BMOzzs6MesmDl8sEulyCH
-	wzhgMrdlstqXlLvJcjNEYJqslXSUKM+9A6iZqfY=
-X-Google-Smtp-Source: ACHHUZ4dlHa7BnBS63jKcVvrX6ssvP9mwA7zLibs4BAFsW2nKuvsehaQQ0yAErRDsLcADYSdL4HjuA==
-X-Received: by 2002:a17:903:11c3:b0:1b0:45e:fb02 with SMTP id q3-20020a17090311c300b001b0045efb02mr4615330plh.35.1686499383448;
-        Sun, 11 Jun 2023 09:03:03 -0700 (PDT)
+        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
+        b=l95vfSGU4VIW6g9lfUuGo+9rjoxrmO51RxkanKqTw+Zo+iVv7P8cemkFWoCOptOv3k
+         kGEozEKVERykPMFax6IuhQnOc+grbCwFu3yqNUiDus0pUwVHeO0GOlToZORlCZNRvtoB
+         F5y0HalGf0KUXFiR9URid4Hqv48mZCH8Knz80+5GVa3fYR8iin7ng5Qhrhbgn6WhXPRS
+         DUW6BP/wCmILP0Ld+JNSauOKe+zWFYg3C+P2G2AsfyN/jZ9OeJrbqIfD63uPDCIiWnaA
+         Cj2w6K0Mclc33ISbfATydcQAvBVGpqYwhtRn0k0R6mw4/wPqDxX2pCIpegt5VjKDEu65
+         rJPA==
+X-Gm-Message-State: AC+VfDwfI6JOTGQEgSHrSXxj3u/J9GnyW2Hanv8PqVD0X1YJW/KUJclg
+	QbtrOnkUy+hrChNYRcqrtCJsejQDTei2mPW1YmE=
+X-Google-Smtp-Source: ACHHUZ7t93peZv8/bh1qeM1LzBOvyo0DEKcErn1avmm4gct7hdnlZaUoyH0DWJWqH46Hb13Z1jVJZA==
+X-Received: by 2002:a17:903:244e:b0:1b3:c7c7:74ae with SMTP id l14-20020a170903244e00b001b3c7c774aemr1439335pls.45.1686499390568;
+        Sun, 11 Jun 2023 09:03:10 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.03.02
+        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.03.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 09:03:03 -0700 (PDT)
+        Sun, 11 Jun 2023 09:03:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/11] python3-requests: fix for CVE-2023-32681
-Date: Sun, 11 Jun 2023 06:02:39 -1000
-Message-Id: <e806c625d9a7eb08079a3268d2d8b20b582d0b6c.1686499221.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/11] uninative: Upgrade to 3.10 to support gcc 13
+Date: Sun, 11 Jun 2023 06:02:43 -1000
+Message-Id: <dbf2a81d42b48c22864f64425672315158eb99cb.1686499221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686499221.git.steve@sakoman.com>
 References: <cover.1686499221.git.steve@sakoman.com>
@@ -60,115 +60,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 16:03:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182628
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 16:03:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182632
 
-From: Narpat Mali <narpat.mali@windriver.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Requests is a HTTP library. Since Requests 2.3.0, Requests has been leaking
-Proxy-Authorization headers to destination servers when redirected to an HTTPS
-endpoint. This is a product of how we use `rebuild_proxies` to reattach the
-`Proxy-Authorization` header to requests. For HTTP connections sent through the
-tunnel, the proxy will identify the header in the request itself and remove it
-prior to forwarding to the destination server. However when sent over HTTPS,
-the `Proxy-Authorization` header must be sent in the CONNECT request as the proxy
-has no visibility into the tunneled request. This results in Requests forwarding
-proxy credentials to the destination server unintentionally, allowing a malicious
-actor to potentially exfiltrate sensitive information. This issue has been patched
-in version 2.31.0.
-
-Reference: https://github.com/advisories/GHSA-j8r2-6x86-q33q
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f811bffb861b23238e8291394bd6e8407f013619)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python3-requests/CVE-2023-32681.patch     | 63 +++++++++++++++++++
- .../python/python3-requests_2.27.1.bb         |  2 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
-new file mode 100644
-index 0000000000..35b4241bde
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
-@@ -0,0 +1,63 @@
-+From cd0128c0becd8729d0f8733bf42fbd333d51f833 Mon Sep 17 00:00:00 2001
-+From: Nate Prewitt <nate.prewitt@gmail.com>
-+Date: Mon, 5 Jun 2023 09:31:36 +0000
-+Subject: [PATCH] Merge pull request from GHSA-j8r2-6x86-q33q
-+
-+CVE: CVE-2023-32681
-+
-+Upstream-Status: Backport [https://github.com/psf/requests/commit/74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ requests/sessions.py   |  4 +++-
-+ tests/test_requests.py | 20 ++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+
-+diff --git a/requests/sessions.py b/requests/sessions.py
-+index 3f59cab..648cffa 100644
-+--- a/requests/sessions.py
-++++ b/requests/sessions.py
-+@@ -293,7 +293,9 @@ class SessionRedirectMixin(object):
-+         except KeyError:
-+             username, password = None, None
-+
-+-        if username and password:
-++        # urllib3 handles proxy authorization for us in the standard adapter.
-++        # Avoid appending this to TLS tunneled requests where it may be leaked.
-++        if not scheme.startswith('https') and username and password:
-+             headers['Proxy-Authorization'] = _basic_auth_str(username, password)
-+
-+         return new_proxies
-+diff --git a/tests/test_requests.py b/tests/test_requests.py
-+index 29b3aca..6a37777 100644
-+--- a/tests/test_requests.py
-++++ b/tests/test_requests.py
-+@@ -601,6 +601,26 @@ class TestRequests:
-+
-+         assert sent_headers.get("Proxy-Authorization") == proxy_auth_value
-+
-++
-++    @pytest.mark.parametrize(
-++        "url,has_proxy_auth",
-++        (
-++            ('http://example.com', True),
-++            ('https://example.com', False),
-++        ),
-++    )
-++    def test_proxy_authorization_not_appended_to_https_request(self, url, has_proxy_auth):
-++        session = requests.Session()
-++        proxies = {
-++            'http': 'http://test:pass@localhost:8080',
-++            'https': 'http://test:pass@localhost:8090',
-++        }
-++        req = requests.Request('GET', url)
-++        prep = req.prepare()
-++        session.rebuild_proxies(prep, proxies)
-++
-++        assert ('Proxy-Authorization' in prep.headers) is has_proxy_auth
-++
-+     def test_basicauth_with_netrc(self, httpbin):
-+         auth = ('user', 'pass')
-+         wrong_auth = ('wronguser', 'wrongpass')
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/python/python3-requests_2.27.1.bb b/meta/recipes-devtools/python/python3-requests_2.27.1.bb
-index af52b7caf5..635a6af31f 100644
---- a/meta/recipes-devtools/python/python3-requests_2.27.1.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.27.1.bb
-@@ -3,6 +3,8 @@ HOMEPAGE = "http://python-requests.org"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 8a5cab5360..f3c05b7e20 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,9 +7,9 @@
+ #
  
-+SRC_URI += "file://CVE-2023-32681.patch"
-+
- SRC_URI[sha256sum] = "68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"
+ UNINATIVE_MAXGLIBCVERSION = "2.37"
+-UNINATIVE_VERSION = "3.9"
++UNINATIVE_VERSION = "3.10"
  
- inherit pypi setuptools3
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "de35708c95c34573af140da910132c3291ba4fd26ebf7b74b755ada432cdf07b"
+-UNINATIVE_CHECKSUM[i686] ?= "adac07b08adb88eb26fc7fd87fee0cec9d5be167bf7c5ffd3a549a2a6699c29c"
+-UNINATIVE_CHECKSUM[x86_64] ?= "3dd82c3fbdb59e87bf091c3eef555a05fae528eeda3083828f76cd4deaceca8b"
++UNINATIVE_CHECKSUM[aarch64] ?= "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
++UNINATIVE_CHECKSUM[i686] ?= "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
++UNINATIVE_CHECKSUM[x86_64] ?= "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
 -- 
 2.34.1
 
