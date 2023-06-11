@@ -2,143 +2,179 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD72C7EE43
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD2BC7EE23
 	for <webhook@archiver.kernel.org>; Sun, 11 Jun 2023 16:02:57 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.38994.1686499373756664266
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.38997.1686499376279457066
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 09:02:54 -0700
+ Sun, 11 Jun 2023 09:02:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=x2LBlB+A;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b3afd2f9bdso5436995ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:02:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=E+mr0nSk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b3c0c47675so4535015ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 09:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499373; x=1689091373;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n6ClvgQapIKS1jF9UV6414k3mz8ORNc7/+jcQimbAbs=;
-        b=x2LBlB+AMithLAgDhe8A6kSYVCPYV10QhSMalT5N/Q46YxVyrXSQgAbdcIF/mNuOgA
-         +qGF91uJYgugbAb13PIloaoHDvOja5FDnh4x3/4gJvRe3mVtLp97bRiEHgfabZFLLJpa
-         vjOZS7RDdqZ3updYd6O13Bthd5ObkHGFhbloWVf+XcKmMXkbCZmgXRa5FXywRlpIK01e
-         mckFfiWfzbJJZd5OCUF6LRy5dvieFDfkZ4ddS/ql/qikjDZXyh9iGfkDi5ezwnGWI4yo
-         pH0FSumx1+lDUEUzBFebgpidSEoZVwo1Mxn9sOv0rMN+YqcjgF/JkERI9fBS9BaDEMAY
-         0XSw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686499375; x=1689091375;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+uGAQL/sGHoHGsvTbr0rge9oS2zyF0TLlgEwfA06Rbo=;
+        b=E+mr0nSkUldIcRK5Tfi6RLHJgkMEJ7q7UhK/JUb9rKJs/Dq6KXTV76TxEPsJxf+y/t
+         RRIIjQ/Tsz5VIxa03LfMLAxjFxDeUwT3kY7VQyskPAlCEG+jPuU9XRAsKzZ657lfvd2j
+         40zKnEuhS9udjQkiDKCYC2PHLC4FkLh46VftqCVxsad7desenvBG/surMyaKyr8qtWvh
+         7kb2N1vc4WQSupCNwTPCI8eTAlnkN/eHhCJs8NdTo0J1h5sEHLX6at5CT3waacGTwCmc
+         RzWbaHILzy3ZvNQ5A/achec32JrGWm+PG+k7XMPBR0Rrt/zphzjHYsv6QtZQCUb0fJSQ
+         blUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686499373; x=1689091373;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n6ClvgQapIKS1jF9UV6414k3mz8ORNc7/+jcQimbAbs=;
-        b=EleZqGZnhXIElzHvQel1G1wCHqCZP78NbXOwcvjIA+P0SIzoY6UNaJaOxu6NkAr0Fd
-         CXnblDpKE6p9/Yg2KjIQZO8U6QK3nA/rImsHoTz/Kb59CBUToaSjBdY6xChOAyFiT6yc
-         WDhrtVgsaTu/I46JWcpmoBFkKSgCzCXWOlOlCyVIKThji5ptZyFrq3pUucV4p2xWHREa
-         XRjYy5ni2zRyczkf1DH1eOoOGWINBlnkCVLvLpWSn620gFNSTglNR77SYeDWclNjH30D
-         suOffdh/hh54om0dnYmGyI1y8dDV4HzYEqiyxScHnCqLfGKUOxEqfn46grauR0/vrXmn
-         k9qw==
-X-Gm-Message-State: AC+VfDySarbHifgCk0UEa32CZolvGfQYXalvfWH2dZFMR4n6xdTql/sI
-	5D2KkOLOg3S1l6f2u7CyzrPdBAnXE6JFJSxOq3c=
-X-Google-Smtp-Source: ACHHUZ5pEnSB1wNRPhgtkmUP1c8QSymlLHCp/GW/IVTwoCM0sikrywRZzl4dIo3JANlr/HoHPA2HqQ==
-X-Received: by 2002:a17:903:124f:b0:1b0:3a74:7fc4 with SMTP id u15-20020a170903124f00b001b03a747fc4mr5595507plh.24.1686499372561;
-        Sun, 11 Jun 2023 09:02:52 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686499375; x=1689091375;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+uGAQL/sGHoHGsvTbr0rge9oS2zyF0TLlgEwfA06Rbo=;
+        b=hL8U/4TtFbicEcWe3mwyK3OgR5zB3qgMkfLh3rJCoOzs46nCax4M/+VXTkTLdfEIz+
+         nhobBcdN7iTnUNZ1Ymn2p1btjO//gxtRH/q9oIl53nRwMxRgTsDcdJyirr4ikFDLGdW9
+         j0R1Jzqe/SlCio3zctr+pRT6a/je/p4IT7lBdNDUARvI3B/f7cbgm8pVCa+EZpDyXJ3y
+         6m5CE+62U3HNCnDSac8znsYWabLwimQNaTJ3Hc1j1Tg6nLxEzGfsWiqXUerouL0XlNRf
+         XU1qs1v/iThKawpbfZQbWevDC3xo+lcSrizhzovCT7z/gwoie2aVcOZiQF8IZ0Ak/q+J
+         u4Jw==
+X-Gm-Message-State: AC+VfDw0mDJn6SktHGUtZ1GDchhadezAuxai6UpYbcVQhDrAON0ZTs94
+	wsvtCZuvgdmyMjr1GuM0uSqjt4Wgo+xTxdK48R4=
+X-Google-Smtp-Source: ACHHUZ5W2Im+xbz8m0T+5fEH206xtUiH6qveO22MI1raTa8q4atGXL43/mWJKZJZfXMxZWSWfJ1TBw==
+X-Received: by 2002:a17:902:ef95:b0:1b3:d258:79e0 with SMTP id iz21-20020a170902ef9500b001b3d25879e0mr151512plb.52.1686499375157;
+        Sun, 11 Jun 2023 09:02:55 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.02.51
+        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001b3d20ef257sm113378plb.97.2023.06.11.09.02.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 09:02:52 -0700 (PDT)
+        Sun, 11 Jun 2023 09:02:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/11] Patch review
-Date: Sun, 11 Jun 2023 06:02:33 -1000
-Message-Id: <cover.1686499221.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/11] sysstat: Fix CVE-2023-33204
+Date: Sun, 11 Jun 2023 06:02:34 -1000
+Message-Id: <d4ee3ad88392dbcb4284be48ef9fd0bbff979cca.1686499221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1686499221.git.steve@sakoman.com>
+References: <cover.1686499221.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 16:02:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182622
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182623
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Tuesday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from https://github.com/sysstat/sysstat/commit/954ff2e2673c
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5438
-
-The following changes since commit 717b9f18a51e9c9fd5a471238aa2ea4de439ef17:
-
-  kernel-devicetree: recursively search for dtbs (2023-05-30 04:06:12 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-C. Andy Martin (1):
-  systemd-networkd: backport fix for rm unmanaged wifi
-
-Hitendra Prajapati (1):
-  sysstat: Fix CVE-2023-33204
-
-Michael Halstead (2):
-  uninative: Upgrade to 3.10 to support gcc 13
-  uninative: Upgrade to 4.0 to include latest gcc 13.1.1
-
-Narpat Mali (1):
-  python3-requests: fix for CVE-2023-32681
-
-Omkar Patil (1):
-  curl: Correction for CVE-2023-27536
-
-Peter Marko (1):
-  openssl: Upgrade 3.0.8 -> 3.0.9
-
-Richard Purdie (1):
-  selftest/reproducible: Allow native/cross reuse in test
-
-Riyaz Khan (1):
-  openssh: Remove BSD-4-clause contents completely from codebase
-
-Soumya (1):
-  perl: fix CVE-2023-31484
-
-Vivek Kumbhar (1):
-  go: fix CVE-2023-24539 html/template improper sanitization of CSS
-    values
-
- meta/conf/distro/include/yocto-uninative.inc  |   8 +-
- meta/lib/oeqa/selftest/cases/reproducible.py  |   4 +-
- ...401bdd77ca54be6867a154cc01e0d72612e0.patch | 984 ++++++++++++++++++
- .../openssh/openssh_8.9p1.bb                  |   1 +
- ...1-Configure-do-not-tweak-mips-cflags.patch |   2 +-
- .../openssl/openssl/CVE-2023-0464.patch       | 225 ----
- .../openssl/openssl/CVE-2023-0465.patch       |  56 -
- .../openssl/openssl/CVE-2023-0466.patch       |  50 -
- .../{openssl_3.0.8.bb => openssl_3.0.9.bb}    |   5 +-
- ...nly-managed-configs-on-reconfigure-o.patch | 358 +++++++
- meta/recipes-core/systemd/systemd_250.5.bb    |   1 +
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2023-24539.patch           |  53 +
- .../perl/files/CVE-2023-31484.patch           |  29 +
- meta/recipes-devtools/perl/perl_5.34.1.bb     |   1 +
- .../python3-requests/CVE-2023-32681.patch     |  63 ++
- .../python/python3-requests_2.27.1.bb         |   2 +
- .../sysstat/sysstat/CVE-2023-33204.patch      |  80 ++
- .../sysstat/sysstat_12.4.5.bb                 |   5 +-
- .../curl/curl/CVE-2023-27536.patch            |   3 +-
- 20 files changed, 1586 insertions(+), 345 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/7280401bdd77ca54be6867a154cc01e0d72612e0.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.8.bb => openssl_3.0.9.bb} (97%)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-network-remove-only-managed-configs-on-reconfigure-o.patch
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2023-24539.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
- create mode 100644 meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../sysstat/sysstat/CVE-2023-33204.patch      | 80 +++++++++++++++++++
+ .../sysstat/sysstat_12.4.5.bb                 |  5 +-
+ 2 files changed, 83 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
 
+diff --git a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+new file mode 100644
+index 0000000000..3a12f7a3ed
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+@@ -0,0 +1,80 @@
++From e806a902cc90a0b87da00854de8d5fd8222540fc Mon Sep 17 00:00:00 2001
++From: Pavel Kopylov <pkopylov@>
++Date: Wed, 17 May 2023 11:33:45 +0200
++Subject: [PATCH] Fix an overflow which is still possible for some values.
++
++Upstream-Status: Backport [https://github.com/sysstat/sysstat/commit/954ff2e2673c]
++CVE: CVE-2023-33204
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@...>
++Signed-off-by: Sanjay Chitroda <schitrod@...>
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ common.c    | 18 ++++++++++--------
++ common.h    |  2 +-
++ sa_common.c |  4 ++--
++ 3 files changed, 13 insertions(+), 11 deletions(-)
++
++diff --git a/common.c b/common.c
++index db9b0ed..e05c5bb 100644
++--- a/common.c
+++++ b/common.c
++@@ -1640,17 +1640,19 @@ int parse_values(char *strargv, unsigned char bitmap[], int max_val, const char
++  * @val3	Third value.
++  ***************************************************************************
++  */
++-void check_overflow(size_t val1, size_t val2, size_t val3)
+++void check_overflow(unsigned int val1, unsigned int val2,
+++		    unsigned int val3)
++ {
++-	if ((unsigned long long) val1 *
++-	    (unsigned long long) val2 *
++-	    (unsigned long long) val3 > UINT_MAX) {
+++	if ((val1 != 0) && (val2 != 0) && (val3 != 0) &&
+++	    (((unsigned long long) UINT_MAX / (unsigned long long) val1 <
+++	      (unsigned long long) val2) ||
+++	     ((unsigned long long) UINT_MAX / ((unsigned long long) val1 * (unsigned long long) val2) <
+++	      (unsigned long long) val3))) {
++ #ifdef DEBUG
++-		fprintf(stderr, "%s: Overflow detected (%llu). Aborting...\n",
++-			__FUNCTION__,
++-			(unsigned long long) val1 * (unsigned long long) val2 *	(unsigned long long) val3);
+++		fprintf(stderr, "%s: Overflow detected (%u,%u,%u). Aborting...\n",
+++			__FUNCTION__, val1, val2, val3);
++ #endif
++-	exit(4);
+++		exit(4);
++ 	}
++ }
++ 
++diff --git a/common.h b/common.h
++index 0ac5896..b2ffe9f 100644
++--- a/common.h
+++++ b/common.h
++@@ -256,7 +256,7 @@ int check_dir
++ 
++ #ifndef SOURCE_SADC
++ void check_overflow
++-	(size_t, size_t, size_t);
+++	(unsigned int, unsigned int, unsigned int);
++ int count_bits
++ 	(void *, int);
++ int count_csvalues
++diff --git a/sa_common.c b/sa_common.c
++index 1b8fcaa..1144cfe 100644
++--- a/sa_common.c
+++++ b/sa_common.c
++@@ -452,8 +452,8 @@ void allocate_structures(struct activity *act[])
++ 		if (act[i]->nr_ini > 0) {
++ 
++ 			/* Look for a possible overflow */
++-			check_overflow((size_t) act[i]->msize, (size_t) act[i]->nr_ini,
++-				       (size_t) act[i]->nr2);
+++			check_overflow((unsigned int) act[i]->msize, (unsigned int) act[i]->nr_ini,
+++				       (unsigned int) act[i]->nr2);
++ 
++ 			for (j = 0; j < 3; j++) {
++ 				SREALLOC(act[i]->buf[j], void,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.4.5.bb b/meta/recipes-extended/sysstat/sysstat_12.4.5.bb
+index 3a3d1fb6ba..f8a950e8a2 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.4.5.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.4.5.bb
+@@ -3,6 +3,7 @@ require sysstat.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+ SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
+-           file://CVE-2022-39377.patch"
+-
++           file://CVE-2022-39377.patch \
++           file://CVE-2023-33204.patch \
++           "
+ SRC_URI[sha256sum] = "ef445acea301bbb996e410842f6290a8d049e884d4868cfef7e85dc04b7eee5b"
 -- 
 2.34.1
 
