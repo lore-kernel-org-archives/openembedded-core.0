@@ -1,100 +1,162 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F58C7EE2F
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 16:17:34 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.64306.1686586651652516298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27794C88CB6
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 16:23:04 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.63996.1686586976328675994
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 09:17:32 -0700
+ Mon, 12 Jun 2023 09:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=B3Cu6uep;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1686586649;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jmqjffgDPBesCKHDNMVlyB5W9HMv5glDZE4OscLaPmA=;
-	b=B3Cu6uepiAA0uRYXhGaxdvHrASzqIw4/2pNSvlB4ea4qVj3NVHSn4IPanrOTEJPCltEug6
-	w7iiwnspS8BM/dwy/7SsrubDHj2MgQFzs65kCQ72/+dR7R0wvpNBXTaNjAmGnX0Q9RcQp9
-	mX3nJbbKHewHxMqli1siu9EBjw1ojZPQcYpvoO9XVHOn3mv2Fm7X7rwBIMlQf54cB2DKwB
-	G3pu8SN1B0HgIP4CrWVkP3G8h4jKhG6X3lriYyR5e4l0ZSsNHyTHhJO7jWfcdNCiESNuFR
-	3aOsd/ZtpgMsDF3gMs9shIHb5zejhDqD9LPnE86MumzJn2uUGV4FDSrXOeOkkQ==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5FE06C0009;
-	Mon, 12 Jun 2023 16:17:29 +0000 (UTC)
-Date: Mon, 12 Jun 2023 18:17:29 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/2] image-artifact-names: include
- ${IMAGE_NAME_SUFFIX} directly in both ${IMAGE_NAME} and ${IMAGE_LINK_NAME}
-Message-ID: <20230612161729256e0cc6@mail.local>
-References: <20230525102218.1613298-1-Martin.Jansa@gmail.com>
- <20230526180939464ac2f2@mail.local>
- <1762E887A919FB5A.6918@lists.openembedded.org>
- <CA+chaQdAaZ9mc_jfvL+5VJkGoybs0FrhVuTpGS9dRu2hxikCmQ@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AJJ596XS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f81b449357so12447395e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686586975; x=1689178975;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z6oYLwqhejmGKDK0Tc04miCfU4lsroLaFsuwq2qeeVw=;
+        b=AJJ596XSz5kN6TpCy9hg48Koxv1MfZqqMb0HPUkPOcNt/Im8+x38G5Yycox2CL0VFK
+         04zLKSTz6SZLQHpU+USJNKgaZ1k5PfLfMe64TXXzd27Y2mpLLOyJWP5ZPb0jQrYt0rOS
+         WqJ4ZkFGeXr1TnipcPoG+OymvzcyJXZL6gkZ/3FEaJOoyuc6Xurj4v7aDktcn64HNpPH
+         EbkJdTkpQbIURxDmzD/uxKwrta12n65ugvhJ6g6VogkFEKACywbIHYuTUWgDzMeQGyUt
+         6a0gLXoamtMpcksSxQuknIeldeHCYoglJfXSiSyohoraZ9AkogaDckpeQoQWDNqXcagr
+         NNzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686586975; x=1689178975;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z6oYLwqhejmGKDK0Tc04miCfU4lsroLaFsuwq2qeeVw=;
+        b=QZ3rGgdTrqK4ZO8Pc4ZCixhxuW05w54g/EK6RwephATUxKgdIZyHx6EZLwgYHzrxsg
+         wJSkb8qvkmCKBRE6L06MijczifhRre69RFXGobRkd+HvzFb2EyffHsX/OiG39nPYRlFt
+         MAmZCcGYSmcuZWLE/CpN5sGdpziuJWgoX6ZSZSi0pr60uqp0pWZXL8jpalhHuRJ+ncg2
+         aefCMjrIjKCKE77G4jvobd7THnJ/GF0SljdLlz5nkHQ7C8tMR+VLifvfAImVm1Xh7ebG
+         hh85L5RcrTBDh/ncqO5agWAuLZ64ec7n6Rp29YiaGSZRPqvlvaBvrs5r+03UUJwH51iM
+         ltTQ==
+X-Gm-Message-State: AC+VfDyefCxqnkLqbu2KyupVuQd/fEl32TLg6L9Pho4v57u//1a9JYfO
+	vENzFUQ4kbmM/x45Q/NQnkpyHwuI9Io=
+X-Google-Smtp-Source: ACHHUZ6mFSQrJqoK6eoeIjV9g1V6x7hMoveVl3BLwaxMZWQbrIqlX5JT4wPsBr28UWiZ2qUvfmZpnw==
+X-Received: by 2002:a7b:c8ce:0:b0:3f6:f29:7b4b with SMTP id f14-20020a7bc8ce000000b003f60f297b4bmr7419390wml.12.1686586974719;
+        Mon, 12 Jun 2023 09:22:54 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id f9-20020a7bc8c9000000b003f8140763c7sm6742904wml.30.2023.06.12.09.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 09:22:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [resend][PATCH 3/3] kernel-devicetree: install dtb files without -${KERNEL_DTB_NAME} suffix
+Date: Mon, 12 Jun 2023 18:22:48 +0200
+Message-ID: <20230612162248.3763965-3-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230612162248.3763965-1-Martin.Jansa@gmail.com>
+References: <20230612162248.3763965-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+chaQdAaZ9mc_jfvL+5VJkGoybs0FrhVuTpGS9dRu2hxikCmQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 16:17:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182679
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 16:23:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182682
 
-Hello,
+* we were installing them with -${KERNEL_DTB_NAME} suffix
+  and then adding a symlink without this suffix if
+  KERNEL_IMAGETYPE_SYMLINK is set:
+  if [ "${KERNEL_IMAGETYPE_SYMLINK}" = "1" ] ; then
+    ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dtb_base_name.$dtb_ext
+  fi
 
-On 12/06/2023 17:35:30+0200, Martin Jansa wrote:
-> On Sat, May 27, 2023 at 7:21 AM Martin Jansa via lists.openembedded.org
-> <Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
-> 
-> > On Fri, May 26, 2023 at 8:09 PM Alexandre Belloni <
-> > alexandre.belloni@bootlin.com> wrote:
-> >
-> >> Hello,
-> >>
-> >> The series causes oe-selftest failures:
-> >>
-> >>
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5254/steps/14/logs/stdio
-> >>
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1468/steps/14/logs/stdio
-> >>
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5225/steps/14/logs/stdio
-> >>
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5175/steps/14/logs/stdio
-> >>
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5217/steps/14/logs/stdio
-> >
-> >
-> > Hi,
-> >
-> > I was able to reproduce it locally and it's caused by newer test (which
-> > wasn't merged yet last time I've run selftest with these changes):
-> >
-> > https://git.openembedded.org/openembedded-core/commit/?id=06af6795cf6f079362303bddb39a14459e228e72
-> > which hardcodes the expected image name, I'll send fix for this shortly.
-> >
-> 
-> Hi, I see that the selftest fix was already merged to master and this
-> change was in abelloni/master-next-success for a while, but now it's
-> dropped (and it's not in master nor master-next).
-> 
-> Should I resend the series again or what's the process now?
+  and another one when KERNEL_DTB_LINK_NAME is set:
+  if [ -n "${KERNEL_DTB_LINK_NAME}" ] ; then
+    ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext
+  fi
 
-It would be great if you could rebase your series. I dropped your patch
-because it conflicted. I had on my TODO list to solve those conflicts
-but if you do, it makes my life easier ;)
+  but KERNEL_DEVICETREE variable doesn't include this
+  -${KERNEL_DTB_NAME} suffix, so everything which uses KERNEL_DEVICETREE
+  either needs to add it as well or depend on KERNEL_IMAGETYPE_SYMLINK
+  being set, e.g. IMAGE_BOOT_FILES variable used by do_image_wic is
+  generated by make_dtb_boot_files function here:
+  https://github.com/agherzan/meta-raspberrypi/blob/2ad4dd667affb72bdbbc2d6b5f7b50589f506b31/conf/machine/include/rpi-base.inc#L118
+  and do_image_wic fails without KERNEL_IMAGETYPE_SYMLINK:
+  | WARNING: bootloader config not specified, using defaults
+  |
+  | ERROR: _exec_cmd: install -m 0644 -D deploy/images/raspberrypi4-64/bcm2711-rpi-4-b.dtb image/1.0-r1/tmp-wic/boot.1/bcm2711-rpi-4-b.dtb returned '1' instead of 0
+  | output: install: cannot stat 'deploy/images/raspberrypi4-64/bcm2711-rpi-4-b.dtb': No such file or directory
 
+  we can fix the function to append -${KERNEL_DTB_NAME} or we can
+  change this to install without suffix and then add ${KERNEL_DTB_NAME}
+  link only when KERNEL_DTB_NAME is set (${MACHINE} by default)
+
+* now it looks strange to have both KERNEL_DTB_LINK_NAME and KERNEL_DTB_NAME
+  symlinks, but keep it for backwards compatibility and it will make
+  more sense again together with the rest of [YOCTO #12937] where version
+  specific *_LINK_NAME links are created as hardlinks in separate do_deploy_links
+  task.
+
+[YOCTO #12937]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes-recipe/kernel-devicetree.bbclass | 28 ++++++++++++-------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/meta/classes-recipe/kernel-devicetree.bbclass b/meta/classes-recipe/kernel-devicetree.bbclass
+index b3bae32f9e..7ccf4b76c8 100644
+--- a/meta/classes-recipe/kernel-devicetree.bbclass
++++ b/meta/classes-recipe/kernel-devicetree.bbclass
+@@ -100,28 +100,36 @@ do_deploy:append() {
+ 		if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else 'true'}"; then
+ 			dtb=$dtb_base_name.$dtb_ext
+ 		fi
+-		install -m 0644 ${D}/${KERNEL_DTBDEST}/$dtb $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+-		if [ "${KERNEL_IMAGETYPE_SYMLINK}" = "1" ] ; then
+-			ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dtb_base_name.$dtb_ext
++		install -m 0644 ${D}/${KERNEL_DTBDEST}/$dtb $deployDir/$dtb_base_name.$dtb_ext
++		if [ -n "${KERNEL_DTB_NAME}" ] ; then
++			ln -sf $dtb_base_name.$dtb_ext $deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
+ 		fi
+ 		if [ -n "${KERNEL_DTB_LINK_NAME}" ] ; then
+-			ln -sf $dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext $deployDir/$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext
++			ln -sf $dtb_base_name.$dtb_ext $deployDir/$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext
+ 		fi
+ 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+ 			if [ "$type" = "zImage" ] && [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
+ 				cat ${D}/${KERNEL_IMAGEDEST}/$type \
+-					$deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext \
+-					> $deployDir/$type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
++					$deployDir/$dtb_base_name.$dtb_ext \
++					> $deployDir/$type-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT}
++				if [ -n "${KERNEL_DTB_NAME}" ]; then
++					ln -sf $type-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT} \
++						$deployDir/$type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
++				fi
+ 				if [ -n "${KERNEL_DTB_LINK_NAME}" ]; then
+-					ln -sf $type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT} \
++					ln -sf $type-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT} \
+ 						$deployDir/$type-$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
+ 				fi
+ 				if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
+ 					cat ${KERNEL_OUTPUT_DIR}/${type}.initramfs \
+-						$deployDir/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext \
+-						>  $deployDir/${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
++						$deployDir/$dtb_base_name.$dtb_ext \
++						>  $deployDir/${type}-${INITRAMFS_NAME}-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT}
++					if [ -n "${KERNEL_DTB_NAME}" ]; then
++						ln -sf ${type}-${INITRAMFS_NAME}-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT} \
++							$deployDir/${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
++					fi
+ 					if [ -n "${KERNEL_DTB_LINK_NAME}" ]; then
+-						ln -sf ${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT} \
++						ln -sf ${type}-${INITRAMFS_NAME}-$dtb_base_name.$dtb_ext${KERNEL_DTB_BIN_EXT} \
+ 							$deployDir/${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_LINK_NAME}.$dtb_ext${KERNEL_DTB_BIN_EXT}
+ 					fi
+ 				fi
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
 
