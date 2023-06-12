@@ -2,127 +2,572 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25659C7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B5D1C88CB4
 	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 16:23:04 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.63995.1686586974872887589
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.64450.1686586975940086476
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 09:22:55 -0700
+ Mon, 12 Jun 2023 09:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AI0N/+0s;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f7f6341bf9so45542355e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:22:54 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pFhZfolU;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f7f4819256so34325365e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686586973; x=1689178973;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u2TL7qQszHCz3vQD331jFQLpYZT0genDcGbCMaz5Wbk=;
-        b=AI0N/+0sY6pM0C2MweUYYkRB1SJE2j5qChUgPwyAUtDy/JWIRI7HTjKsGkHeOEU+pR
-         d7aFt5yxILRlF9U6o2qCMgTHzSurCmQAWKmVbSfGVZYQb2s5qG5628BxqKrNVzWqowBr
-         vPNhJmzoUxcq804gfzsbe6M9Xgo6QPAjppBxiMH/V3aQ865SrhvT+FqBV31N/zknIV4G
-         sF0bzfNEPox1weiTnP4twFoGkbFzPUOAiwVXr9Cv74LdqRmKfzVqRYZqva0/aYS0/O70
-         boyBQiF4jbcs01qjwyKG+/vvT4ghoDS3hgrkr4Amj/mLwsUS1m8mFq1KDvQUdcB4nQMS
-         91Yg==
+        d=gmail.com; s=20221208; t=1686586974; x=1689178974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnDMAIzI+8rKqTTEkACjLCVWL4fXg5IcYf/WxmdONo8=;
+        b=pFhZfolUqkYTCsZnVmUJpxl8qn+ryesbQPbwbmzlisc68S5qtltNdjTUoH1LIgkXTs
+         Ny7+XhcXlSoWiVTLJPNVBdmAhgwtgETrLf9ijLdAreoXEQOJ70d/RacaTf2hmnWxo0mi
+         gZ6veBIT3xnWvxhf9Boa41d+RVsGOOgJmGpkrWdiLem+ttn4J/q9i1dI3QYhaF+o/uGy
+         LpI0fK2rOjwfMYFUZO5SL/PlNEFuPHn/w5ORYs5Hf+C9QLsxWHhQbf00S9Uaz2a20FJT
+         wckoKlZ53/GseUYd9x1/Q85HhYCWvt/VsT7Cn1grlsVbTJ6EIKGonHHL/wCQEZVX1wzH
+         GFoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686586973; x=1689178973;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u2TL7qQszHCz3vQD331jFQLpYZT0genDcGbCMaz5Wbk=;
-        b=TzsT6QsO+GRF13pwHKoGce+JUKT6hDKFOc5sxC+URpzor0b9ft3vJ2mnC6KkuttI5n
-         frolYUi4cqsj+rVv/Lh48blYqoo5mXG3TCTCZzKNyChXeY+bMiERbbtyFPi1/xc15mj3
-         T1qPAxzgL9NJQ/FZGHepU70v2FsJanA24PiniaVyBfKpuAr+8TDCvKv75OYSaxu9YRQZ
-         0Kf7nOggsrtWsqDez60Ifu4d8tpnpNqEBKaIje1m7tp6Wb9+t+l7TtwpKLFDRnsrwtT1
-         8uNpPIdRdlh/sm64miTbM5lPLdQAFytTjUU6G4gPbpvwqJKL9tMcMsPViZ8WcaYYfRPw
-         Ntwg==
-X-Gm-Message-State: AC+VfDwP3keGh/Uag9GolmqukPrwz3s3fZV524R/mlhQrGADOYTtCdSW
-	/U8HjhvqrUiSh5PEqsKWPPnmrkmELxQ=
-X-Google-Smtp-Source: ACHHUZ611MkNKNmaQ8tNsVzdt5ZXvplPvGZnhZT/4BjONiJ8Op8YalINFRzJwo/IToPLCnIPqdwl2g==
-X-Received: by 2002:a05:600c:2242:b0:3f7:3685:1e10 with SMTP id a2-20020a05600c224200b003f736851e10mr7036215wmm.40.1686586973064;
+        d=1e100.net; s=20221208; t=1686586974; x=1689178974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FnDMAIzI+8rKqTTEkACjLCVWL4fXg5IcYf/WxmdONo8=;
+        b=TUcFMI1CYp44e4PjJ2K78qxNuxWgzPacZLeFOP8qaQXq5wIXrYCTo4WJVWlf72Ds5Z
+         gWT2WfkTYis3fGgqP8YTsi8TTgOHDbr9tBw6bDFjvjQsLFpC8WfIYusVW2oCxv/3VkZg
+         cirDU8KBdM25u+ncxS4QRBYICxnFB10Pabu4tmlA+LOyh7hSw3walljuv35bfFuXUBko
+         zlUk3Es6bHcFf4ASPE0ZW9ET7ZNSIDdRHM//YvBGLTwdFIShbK8J53IsoQ2vwBlZHjeE
+         AevZygvGbzW3Rd4QVcQB652Pyu/VqTwpT/d0ELs/sED4YANDszy94YXLbiCdyQ031UQs
+         SsMg==
+X-Gm-Message-State: AC+VfDyliowc1e84jn+d8bPFTw/fJBN3RziUpPXF2UJC5cGwTbWpfsdx
+	0V725DYBeim8UQM+ZlBFnECXfs3ALrE=
+X-Google-Smtp-Source: ACHHUZ6y1MeXTSSV1QqxXhTDsFa7hQe8peaQBe9GE0hO3euftxbHN773EZncjeAk7E30SY3qk8o7LA==
+X-Received: by 2002:a1c:6a18:0:b0:3f7:19f9:4c4f with SMTP id f24-20020a1c6a18000000b003f719f94c4fmr6907241wmc.21.1686586973862;
         Mon, 12 Jun 2023 09:22:53 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id u26-20020a05600c00da00b003eddc6aa5fasm11923566wmm.39.2023.06.12.09.22.52
+        by smtp.gmail.com with ESMTPSA id z10-20020a05600c220a00b003f42ceb3bf4sm11912537wml.32.2023.06.12.09.22.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 09:22:52 -0700 (PDT)
+        Mon, 12 Jun 2023 09:22:53 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [resend][PATCH 1/3] selftest: multiconfig-image-packager: try to respect IMAGE_LINK_NAME
-Date: Mon, 12 Jun 2023 18:22:46 +0200
-Message-ID: <20230612162248.3763965-1-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [resend][PATCH 2/3] image-artifact-names: include ${IMAGE_NAME_SUFFIX} directly in both ${IMAGE_NAME} and ${IMAGE_LINK_NAME}
+Date: Mon, 12 Jun 2023 18:22:47 +0200
+Message-ID: <20230612162248.3763965-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230612162248.3763965-1-Martin.Jansa@gmail.com>
+References: <20230612162248.3763965-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 16:23:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182680
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182681
 
-* this still assumes that IMAGE_LINK_NAME will contain IMAGE_BASENAME
-  which will be BPN 'multiconfig-image-packager' and that replacing
-  it with 'core-image-minimal' will match with the actual IMAGE_LINK_NAME
-  from core-image-minimal recipe - there is no good way to query
-  core-image-minimal's context, but this is still closer than assuming:
-  core-image-minimal-${MCMACHINE}.${MCIMGTYPE}
-  which works only with the current default:
-  IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
+* ${IMAGE_NAME}${IMAGE_NAME_SUFFIX} is almost always used together already
+  and when they aren't it's usually because of hardcoded '.rootfs' suffix
+
+* it's a bit strange, because ${IMAGE_NAME_SUFFIX} is applied after the
+  version from ${IMAGE_VERSION_SUFFIX}, if we move it to ${IMAGE_LINK_NAME}
+  then it will be applied before the version and ${IMAGE_LINK_NAME}
+  will be just the version-less symlink to latest built version.
+
+* it's not added to INITRAMFS_IMAGE_NAME as it assumes that all
+  images used as initramfs will set IMAGE_NAME_SUFFIX to empty.
+  Many already do as shown bellow, but you might need to extend
+  this list in your layer.
+
+* this also allows to drop support for imgsuffix varflag, recipes which
+  don't want to have .rootfs suffix can just set IMAGE_NAME_SUFFIX to
+  empty and it will be consistently respected by both IMAGE_NAME and IMAGE_LINK_NAME
+
+* imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix') or d.expand("${IMAGE_NAME_SUFFIX}.")
+  is kind of terrible, notice trailing '.' after ${IMAGE_NAME_SUFFIX}
+  while this dot was in imgsuffix in:
+  do_bootimg[imgsuffix] = "."
+
+  but in both cases it's not really part of the imgsuffix, but the
+  "extension" type separator as in dst variable:
+
+         dst = os.path.join(deploy_dir, link_name + "." + type)
+-        src = img_name + imgsuffix + type
++        src = img_name + "." + type
+
+* for ubifs volumes move vname after IMAGE_NAME_SUFFIX
+
+* to better document these changes here is an example with default poky
+  configuration with just:
+  IMAGE_FSTYPES:append:pn-core-image-minimal = " live wic wic.vmdk ubi"
+  MKUBIFS_ARGS = "-m 2048 -e 129024 -c 968 -x zlib"
+  UBINIZE_ARGS = "-m 2048 -p 131072 -s 512"
+  added in local.conf, so that deploy_dir has also some initramfs and more
+  IMAGE_FSTYPES
+
+* "ls -lahi tmp/deploy/images/qemux86-64/"
+  output after "bitbake core-image-minimal"
+
+  And deploy-dir is cleaned between runs with:
+  bitbake -c clean core-image-minimal core-image-minimal-initramfs virtual/kernel grub-efi systemd-boot
+
+  The output confirms that the only change is ".rootfs" added not only
+  in ext4 and manifest files, but also for hddimg, iso, qemuboot.conf
+  testdata.json for both the actual artifacts as well as the symlinks
+  while core-image-minimal-initramfs doesn't have them as IMAGE_NAME_SUFFIX
+  was already set to empty there:
+meta/classes-recipe/baremetal-image.bbclass:IMAGE_NAME_SUFFIX ?= ""
+meta/recipes-core/images/core-image-minimal-initramfs.bb:IMAGE_NAME_SUFFIX ?= ""
+meta/recipes-core/images/core-image-tiny-initramfs.bb:IMAGE_NAME_SUFFIX ?= ""
+meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb:IMAGE_NAME_SUFFIX ?= ""
+meta/recipes-extended/images/core-image-testcontroller-initramfs.bb:IMAGE_NAME_SUFFIX ?= ""
+
+  before these changes:
+total 297M
+31269162 drwxr-xr-x 2 martin martin 4.0K Mar  7 19:19 .
+31263942 drwxr-xr-x 3 martin martin 4.0K Mar  7 12:53 ..
+35845703 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 bzImage -> bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+35845704 -rw-r--r-- 2 martin martin  11M Mar  7 12:27 bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+35845702 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 bzImage-qemux86-64.bin -> bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+40236967 -rw-r--r-- 2 martin martin  13M Mar  7 19:19 core-image-minimal-initramfs-qemux86-64-20230307181808.cpio.gz
+40203232 -rw-r--r-- 2 martin martin 1.1K Mar  7 19:19 core-image-minimal-initramfs-qemux86-64-20230307181808.manifest
+40212700 -rw-r--r-- 2 martin martin 1.6K Mar  7 19:19 core-image-minimal-initramfs-qemux86-64-20230307181808.qemuboot.conf
+40211556 -rw-r--r-- 2 martin martin 211K Mar  7 19:19 core-image-minimal-initramfs-qemux86-64-20230307181808.testdata.json
+40236964 lrwxrwxrwx 2 martin martin   62 Mar  7 19:19 core-image-minimal-initramfs-qemux86-64.cpio.gz -> core-image-minimal-initramfs-qemux86-64-20230307181808.cpio.gz
+40203235 lrwxrwxrwx 2 martin martin   63 Mar  7 19:19 core-image-minimal-initramfs-qemux86-64.manifest -> core-image-minimal-initramfs-qemux86-64-20230307181808.manifest
+40212690 lrwxrwxrwx 2 martin martin   68 Mar  7 19:19 core-image-minimal-initramfs-qemux86-64.qemuboot.conf -> core-image-minimal-initramfs-qemux86-64-20230307181808.qemuboot.conf
+40211560 lrwxrwxrwx 2 martin martin   68 Mar  7 19:19 core-image-minimal-initramfs-qemux86-64.testdata.json -> core-image-minimal-initramfs-qemux86-64-20230307181808.testdata.json
+40237307 -rw-r--r-- 2 martin martin  57M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.hddimg
+40237329 -rw-r--r-- 2 martin martin  56M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.iso
+40220347 -rw-r--r-- 2 martin martin 1.6K Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.qemuboot.conf
+40236942 -rw-r--r-- 2 martin martin  34M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.ext4
+40211563 -rw-r--r-- 2 martin martin 1.2K Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.manifest
+40237206 -rw-r--r-- 2 martin martin  16M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.tar.bz2
+40237216 -rw-r--r-- 2 martin martin  20M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.ubi
+40224358 -rw-r--r-- 2 martin martin  19M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.ubifs
+40360386 -rw-r--r-- 2 martin martin  73M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.wic
+40237285 -rw-r--r-- 2 martin martin  35M Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.rootfs.wic.vmdk
+40209866 -rw-r--r-- 2 martin martin 206K Mar  7 19:19 core-image-minimal-qemux86-64-20230307181808.testdata.json
+40236946 lrwxrwxrwx 2 martin martin   56 Mar  7 19:19 core-image-minimal-qemux86-64.ext4 -> core-image-minimal-qemux86-64-20230307181808.rootfs.ext4
+40237336 lrwxrwxrwx 2 martin martin   51 Mar  7 19:19 core-image-minimal-qemux86-64.hddimg -> core-image-minimal-qemux86-64-20230307181808.hddimg
+40237337 lrwxrwxrwx 2 martin martin   48 Mar  7 19:19 core-image-minimal-qemux86-64.iso -> core-image-minimal-qemux86-64-20230307181808.iso
+40211564 lrwxrwxrwx 2 martin martin   60 Mar  7 19:19 core-image-minimal-qemux86-64.manifest -> core-image-minimal-qemux86-64-20230307181808.rootfs.manifest
+40220348 lrwxrwxrwx 2 martin martin   58 Mar  7 19:19 core-image-minimal-qemux86-64.qemuboot.conf -> core-image-minimal-qemux86-64-20230307181808.qemuboot.conf
+40237205 lrwxrwxrwx 2 martin martin   59 Mar  7 19:19 core-image-minimal-qemux86-64.tar.bz2 -> core-image-minimal-qemux86-64-20230307181808.rootfs.tar.bz2
+40209873 lrwxrwxrwx 2 martin martin   58 Mar  7 19:19 core-image-minimal-qemux86-64.testdata.json -> core-image-minimal-qemux86-64-20230307181808.testdata.json
+40237217 lrwxrwxrwx 2 martin martin   55 Mar  7 19:19 core-image-minimal-qemux86-64.ubi -> core-image-minimal-qemux86-64-20230307181808.rootfs.ubi
+40236771 lrwxrwxrwx 2 martin martin   57 Mar  7 19:19 core-image-minimal-qemux86-64.ubifs -> core-image-minimal-qemux86-64-20230307181808.rootfs.ubifs
+40237287 lrwxrwxrwx 2 martin martin   55 Mar  7 19:19 core-image-minimal-qemux86-64.wic -> core-image-minimal-qemux86-64-20230307181808.rootfs.wic
+40237286 lrwxrwxrwx 2 martin martin   60 Mar  7 19:19 core-image-minimal-qemux86-64.wic.vmdk -> core-image-minimal-qemux86-64-20230307181808.rootfs.wic.vmdk
+40237192 -rw-r--r-- 2 martin martin 3.8K Mar  7 19:19 core-image-minimal.env
+34458377 -rw-r--r-- 2 martin martin 616K Mar  7 17:55 grub-efi-bootx64.efi
+34963606 -rwxr-xr-x 2 martin martin 103K Mar  6 22:02 linuxx64.efi.stub
+35845662 -rw-r--r-- 2 martin martin 8.2M Mar  7 12:27 modules--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.tgz
+35845701 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 modules-qemux86-64.tgz -> modules--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.tgz
+34963605 -rwxr-xr-x 2 martin martin 140K Mar  6 22:02 systemd-bootx64.efi
+27651415 -rw-r--r-- 2 martin martin  274 Mar  7 19:19 ubinize-core-image-minimal-qemux86-64-20230307181808.cfg
+
+  after these changes:
+total 297M
+31269162 drwxr-xr-x 2 martin martin 4.0K Mar  7 19:16 .
+31263942 drwxr-xr-x 3 martin martin 4.0K Mar  7 12:53 ..
+39479266 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 bzImage -> bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+39479267 -rw-r--r-- 2 martin martin  11M Mar  7 12:27 bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+39479264 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 bzImage-qemux86-64.bin -> bzImage--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.bin
+39648810 -rw-r--r-- 2 martin martin  13M Mar  7 19:15 core-image-minimal-initramfs-qemux86-64-20230307181456.cpio.gz
+39638400 -rw-r--r-- 2 martin martin 1.1K Mar  7 19:15 core-image-minimal-initramfs-qemux86-64-20230307181456.manifest
+39644650 -rw-r--r-- 2 martin martin 1.6K Mar  7 19:15 core-image-minimal-initramfs-qemux86-64-20230307181456.qemuboot.conf
+39637657 -rw-r--r-- 2 martin martin 211K Mar  7 19:15 core-image-minimal-initramfs-qemux86-64-20230307181456.testdata.json
+39648091 lrwxrwxrwx 2 martin martin   62 Mar  7 19:15 core-image-minimal-initramfs-qemux86-64.cpio.gz -> core-image-minimal-initramfs-qemux86-64-20230307181456.cpio.gz
+39638401 lrwxrwxrwx 2 martin martin   63 Mar  7 19:15 core-image-minimal-initramfs-qemux86-64.manifest -> core-image-minimal-initramfs-qemux86-64-20230307181456.manifest
+39644651 lrwxrwxrwx 2 martin martin   68 Mar  7 19:15 core-image-minimal-initramfs-qemux86-64.qemuboot.conf -> core-image-minimal-initramfs-qemux86-64-20230307181456.qemuboot.conf
+39637662 lrwxrwxrwx 2 martin martin   68 Mar  7 19:15 core-image-minimal-initramfs-qemux86-64.testdata.json -> core-image-minimal-initramfs-qemux86-64-20230307181456.testdata.json
+39654281 -rw-r--r-- 2 martin martin  34M Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.ext4
+39656710 -rw-r--r-- 2 martin martin  57M Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.hddimg
+39657112 -rw-r--r-- 2 martin martin  56M Mar  7 19:16 core-image-minimal-qemux86-64.rootfs-20230307181456.iso
+39645313 -rw-r--r-- 2 martin martin 1.2K Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.manifest
+39646013 -rw-r--r-- 2 martin martin 1.6K Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.qemuboot.conf
+39656336 -rw-r--r-- 2 martin martin  16M Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.tar.bz2
+39644408 -rw-r--r-- 2 martin martin 206K Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.testdata.json
+39656583 -rw-r--r-- 2 martin martin  20M Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.ubi
+39654124 -rw-r--r-- 2 martin martin  19M Mar  7 19:15 core-image-minimal-qemux86-64.rootfs-20230307181456.ubifs
+39802371 -rw-r--r-- 2 martin martin  73M Mar  7 19:16 core-image-minimal-qemux86-64.rootfs-20230307181456.wic
+39657113 -rw-r--r-- 2 martin martin  35M Mar  7 19:16 core-image-minimal-qemux86-64.rootfs-20230307181456.wic.vmdk
+39654412 lrwxrwxrwx 2 martin martin   56 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.ext4 -> core-image-minimal-qemux86-64.rootfs-20230307181456.ext4
+39657167 lrwxrwxrwx 2 martin martin   58 Mar  7 19:16 core-image-minimal-qemux86-64.rootfs.hddimg -> core-image-minimal-qemux86-64.rootfs-20230307181456.hddimg
+39657168 lrwxrwxrwx 2 martin martin   55 Mar  7 19:16 core-image-minimal-qemux86-64.rootfs.iso -> core-image-minimal-qemux86-64.rootfs-20230307181456.iso
+39645316 lrwxrwxrwx 2 martin martin   60 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.manifest -> core-image-minimal-qemux86-64.rootfs-20230307181456.manifest
+39646014 lrwxrwxrwx 2 martin martin   65 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.qemuboot.conf -> core-image-minimal-qemux86-64.rootfs-20230307181456.qemuboot.conf
+39656315 lrwxrwxrwx 2 martin martin   59 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.tar.bz2 -> core-image-minimal-qemux86-64.rootfs-20230307181456.tar.bz2
+39644406 lrwxrwxrwx 2 martin martin   65 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.testdata.json -> core-image-minimal-qemux86-64.rootfs-20230307181456.testdata.json
+39656584 lrwxrwxrwx 2 martin martin   55 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.ubi -> core-image-minimal-qemux86-64.rootfs-20230307181456.ubi
+39654775 lrwxrwxrwx 2 martin martin   57 Mar  7 19:15 core-image-minimal-qemux86-64.rootfs.ubifs -> core-image-minimal-qemux86-64.rootfs-20230307181456.ubifs
+39657126 lrwxrwxrwx 2 martin martin   55 Mar  7 19:16 core-image-minimal-qemux86-64.rootfs.wic -> core-image-minimal-qemux86-64.rootfs-20230307181456.wic
+39657088 lrwxrwxrwx 2 martin martin   60 Mar  7 19:16 core-image-minimal-qemux86-64.rootfs.wic.vmdk -> core-image-minimal-qemux86-64.rootfs-20230307181456.wic.vmdk
+39654418 -rw-r--r-- 2 martin martin 3.8K Mar  7 19:15 core-image-minimal.env
+39475732 -rw-r--r-- 2 martin martin 616K Mar  7 17:55 grub-efi-bootx64.efi
+31507074 -rwxr-xr-x 2 martin martin 103K Mar  6 22:02 linuxx64.efi.stub
+39479261 -rw-r--r-- 2 martin martin 8.2M Mar  7 12:27 modules--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.tgz
+39479263 lrwxrwxrwx 2 martin martin   77 Mar  7 12:27 modules-qemux86-64.tgz -> modules--6.1.14+git0+e8d08fc4c0_b05ca3429c-r0.0-qemux86-64-20230307112110.tgz
+31507058 -rwxr-xr-x 2 martin martin 140K Mar  6 22:02 systemd-bootx64.efi
+27651415 -rw-r--r-- 2 martin martin  274 Mar  7 19:15 ubinize-core-image-minimal-qemux86-64.rootfs-20230307181456.cfg
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- .../multiconfig-image-packager_0.1.bb          | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ .../image-artifact-names.bbclass              |   3 +-
+ meta/classes-recipe/image-live.bbclass        |   1 -
+ meta/classes-recipe/image.bbclass             |   7 +-
+ meta/classes-recipe/image_types.bbclass       | 108 +++++++++---------
+ meta/classes-recipe/image_types_wic.bbclass   |   2 +-
+ .../rootfs-postcommands.bbclass               |   2 +-
+ meta/classes/cve-check.bbclass                |   4 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |   2 +
+ .../images/build-appliance-image_15.0.0.bb    |   6 +-
+ 9 files changed, 68 insertions(+), 67 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-index daf2834958..d7785cee2e 100644
---- a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-+++ b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-@@ -7,15 +7,19 @@ MCIMGTYPE:virtclass-mcextend-musl = "ext4"
- MCIMGTYPE:virtclass-mcextend-tiny = "cpio.gz"
+diff --git a/meta/classes-recipe/image-artifact-names.bbclass b/meta/classes-recipe/image-artifact-names.bbclass
+index ac2376d59a..bc76ff0e16 100644
+--- a/meta/classes-recipe/image-artifact-names.bbclass
++++ b/meta/classes-recipe/image-artifact-names.bbclass
+@@ -12,9 +12,10 @@ IMAGE_BASENAME ?= "${PN}"
+ IMAGE_VERSION_SUFFIX ?= "-${DATETIME}"
+ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME SOURCE_DATE_EPOCH"
+ IMAGE_NAME ?= "${IMAGE_LINK_NAME}${IMAGE_VERSION_SUFFIX}"
+-IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}"
++IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}"
  
- MC_DEPLOY_DIR_IMAGE = "${TOPDIR}/tmp-mc-${MCNAME}/deploy/images/${MCMACHINE}"
-+MC_DEPLOY_IMAGE_BASENAME = "core-image-minimal"
+ # This needs to stay in sync with IMAGE_LINK_NAME, but with INITRAMFS_IMAGE instead of IMAGE_BASENAME
++# and without ${IMAGE_NAME_SUFFIX} which all initramfs images should set to empty
+ INITRAMFS_IMAGE_NAME ?= "${@['${INITRAMFS_IMAGE}${IMAGE_MACHINE_SUFFIX}', ''][d.getVar('INITRAMFS_IMAGE') == '']}"
  
- do_install[mcdepends] += "mc::${MCNAME}:core-image-minimal:do_image_complete mc::${MCNAME}:virtual/kernel:do_deploy"
+ # The default DEPLOY_DIR_IMAGE is ${MACHINE} directory:
+diff --git a/meta/classes-recipe/image-live.bbclass b/meta/classes-recipe/image-live.bbclass
+index 168774a464..95dd44a8c0 100644
+--- a/meta/classes-recipe/image-live.bbclass
++++ b/meta/classes-recipe/image-live.bbclass
+@@ -260,6 +260,5 @@ python do_bootimg() {
+     bb.build.exec_func('create_symlinks', d)
+ }
+ do_bootimg[subimages] = "hddimg iso"
+-do_bootimg[imgsuffix] = "."
  
- do_install () {
-     install -d ${D}/var/lib/machines/${MCNAME}
--    install ${MC_DEPLOY_DIR_IMAGE}/core-image-minimal-${MCMACHINE}.${MCIMGTYPE} ${D}/var/lib/machines/${MCNAME}/core-image-minimal.${MCIMGTYPE}
-+    install ${MC_DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME_CORE_IMAGE_MINIMAL}.${MCIMGTYPE} ${D}/var/lib/machines/${MCNAME}/${MC_DEPLOY_IMAGE_BASENAME}.${MCIMGTYPE}
-     install ${MC_DEPLOY_DIR_IMAGE}/bzImage ${D}/var/lib/machines/${MCNAME}
+ addtask bootimg before do_image_complete after do_rootfs
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index e0dfba4a42..21b220a28d 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -480,14 +480,14 @@ python () {
+                     if subimage not in subimages:
+                         subimages.append(subimage)
+                     if type not in alltypes:
+-                        rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
++                        rm_tmp_images.add(localdata.expand("${IMAGE_NAME}.${type}"))
+ 
+         for bt in basetypes[t]:
+             gen_conversion_cmds(bt)
+ 
+         localdata.setVar('type', realt)
+         if t not in alltypes:
+-            rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
++            rm_tmp_images.add(localdata.expand("${IMAGE_NAME}.${type}"))
+         else:
+             subimages.append(realt)
+ 
+@@ -594,13 +594,12 @@ python create_symlinks() {
+     manifest_name = d.getVar('IMAGE_MANIFEST')
+     taskname = d.getVar("BB_CURRENTTASK")
+     subimages = (d.getVarFlag("do_" + taskname, 'subimages', False) or "").split()
+-    imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix') or d.expand("${IMAGE_NAME_SUFFIX}.")
+ 
+     if not link_name:
+         return
+     for type in subimages:
+         dst = os.path.join(deploy_dir, link_name + "." + type)
+-        src = img_name + imgsuffix + type
++        src = img_name + "." + type
+         if os.path.exists(os.path.join(deploy_dir, src)):
+             bb.note("Creating symlink: %s -> %s" % (dst, src))
+             if os.path.islink(dst):
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index 023eb87537..fdee835e7c 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -66,9 +66,9 @@ ZIP_COMPRESSION_LEVEL ?= "-9"
+ ZSTD_COMPRESSION_LEVEL ?= "-3"
+ 
+ JFFS2_SUM_EXTRA_ARGS ?= ""
+-IMAGE_CMD:jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
++IMAGE_CMD:jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}.jffs2 ${EXTRA_IMAGECMD}"
+ 
+-IMAGE_CMD:cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cramfs ${EXTRA_IMAGECMD}"
++IMAGE_CMD:cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.cramfs ${EXTRA_IMAGECMD}"
+ 
+ oe_mkext234fs () {
+ 	fstype=$1
+@@ -88,14 +88,14 @@ oe_mkext234fs () {
+ 		eval COUNT=\"$MIN_COUNT\"
+ 	fi
+ 	# Create a sparse image block
+-	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+-	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
++	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
+ 	bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+-	bbdebug 1 "Actual Partition size: `stat -c '%s' ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype`"
+-	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}"
+-	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype -d ${IMAGE_ROOTFS}
++	bbdebug 1 "Actual Partition size: `stat -c '%s' ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype`"
++	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype -d ${IMAGE_ROOTFS}"
++	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype -d ${IMAGE_ROOTFS}
+ 	# Error codes 0-3 indicate successfull operation of fsck (no errors or errors corrected)
+-	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$fstype || [ $? -le 3 ]
++	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype || [ $? -le 3 ]
  }
  
-+# for IMAGE_LINK_NAME, IMAGE_BASENAME
-+inherit image-artifact-names
-+
- python () {
-     mcname = d.getVar('MCNAME')
-     if not mcname:
-@@ -23,6 +27,18 @@ python () {
-     multiconfigs = d.getVar('BBMULTICONFIG') or ""
-     if mcname not in multiconfigs:
-         raise bb.parse.SkipRecipe("multiconfig target %s not enabled" % mcname)
-+
-+    # these will most likely start with my BPN multiconfig-image-packager, but I want them from core-image-minimal
-+    # as there is no good way to query core-image-minimal's context lets assume that there are no overrides
-+    # and that we can just replace IMAGE_BASENAME
-+    image_link_name = d.getVar('IMAGE_LINK_NAME')
-+    image_basename = d.getVar('IMAGE_BASENAME')
-+    machine = d.getVar('MACHINE')
-+    mcmachine = d.getVar('MCMACHINE')
-+    image_to_deploy = d.getVar('MC_DEPLOY_IMAGE_BASENAME')
-+    image_link_name_to_deploy = image_link_name.replace(image_basename, image_to_deploy).replace(machine, mcmachine)
-+    bb.warn('%s: assuming that "%s" built for "%s" has IMAGE_LINK_NAME "%s"' % (d.getVar('PN'), mcmachine, image_to_deploy, image_link_name_to_deploy))
-+    d.setVar('IMAGE_LINK_NAME_CORE_IMAGE_MINIMAL', image_link_name_to_deploy)
+ IMAGE_CMD:ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
+@@ -109,8 +109,8 @@ IMAGE_CMD:btrfs () {
+ 		size=${MIN_BTRFS_SIZE}
+ 		bbwarn "Rootfs size is too small for BTRFS. Filesystem will be extended to ${size}K"
+ 	fi
+-	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs seek=${size} count=0 bs=1024
+-	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.btrfs
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.btrfs seek=${size} count=0 bs=1024
++	mkfs.btrfs ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.btrfs
  }
  
- BBCLASSEXTEND = "mcextend:tiny mcextend:musl"
+ oe_mksquashfs () {
+@@ -119,7 +119,7 @@ oe_mksquashfs () {
+ 
+     # Use the bitbake reproducible timestamp instead of the hardcoded squashfs one
+     export SOURCE_DATE_EPOCH=$(stat -c '%Y' ${IMAGE_ROOTFS})
+-    mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs${comp:+-}${suffix:-$comp} ${EXTRA_IMAGECMD} -noappend ${comp:+-comp }$comp
++    mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.squashfs${comp:+-}${suffix:-$comp} ${EXTRA_IMAGECMD} -noappend ${comp:+-comp }$comp
+ }
+ IMAGE_CMD:squashfs = "oe_mksquashfs"
+ IMAGE_CMD:squashfs-xz = "oe_mksquashfs xz"
+@@ -127,18 +127,18 @@ IMAGE_CMD:squashfs-lzo = "oe_mksquashfs lzo"
+ IMAGE_CMD:squashfs-lz4 = "oe_mksquashfs lz4"
+ IMAGE_CMD:squashfs-zst = "oe_mksquashfs zstd zst"
+ 
+-IMAGE_CMD:erofs = "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs ${IMAGE_ROOTFS}"
+-IMAGE_CMD:erofs-lz4 = "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4 ${IMAGE_ROOTFS}"
+-IMAGE_CMD:erofs-lz4hc = "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4hc ${IMAGE_ROOTFS}"
++IMAGE_CMD:erofs = "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs ${IMAGE_ROOTFS}"
++IMAGE_CMD:erofs-lz4 = "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs-lz4 ${IMAGE_ROOTFS}"
++IMAGE_CMD:erofs-lz4hc = "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs-lz4hc ${IMAGE_ROOTFS}"
+ 
+ 
+ IMAGE_CMD_TAR ?= "tar"
+ # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
+-IMAGE_CMD:tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
++IMAGE_CMD:tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+ 
+ do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD:cpio () {
+-	(cd ${IMAGE_ROOTFS} && find . | sort | cpio --reproducible -o -H newc >${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
++	(cd ${IMAGE_ROOTFS} && find . | sort | cpio --reproducible -o -H newc >${IMGDEPLOYDIR}/${IMAGE_NAME}.cpio)
+ 	# We only need the /init symlink if we're building the real
+ 	# image. The -dbg image doesn't need it! By being clever
+ 	# about this we also avoid 'touch' below failing, as it
+@@ -152,7 +152,7 @@ IMAGE_CMD:cpio () {
+ 			else
+                                 touch -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_append/init
+ 			fi
+-			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
++			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}.cpio)
+ 		fi
+ 	fi
+ }
+@@ -167,7 +167,7 @@ write_ubi_config() {
+ 	cat <<EOF > ubinize${vname}-${IMAGE_NAME}.cfg
+ [ubifs]
+ mode=ubi
+-image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.${UBI_IMGTYPE}
++image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}.${UBI_IMGTYPE}
+ vol_id=0
+ vol_type=${UBI_VOLTYPE}
+ vol_name=${UBI_VOLNAME}
+@@ -192,9 +192,9 @@ multiubi_mkfs() {
+ 	write_ubi_config "${vname}"
+ 
+ 	if [ -n "$vname" ]; then
+-		mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs ${mkubifs_args}
++		mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}.ubifs ${mkubifs_args}
+ 	fi
+-	ubinize -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi ${ubinize_args} ubinize${vname}-${IMAGE_NAME}.cfg
++	ubinize -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}.ubi ${ubinize_args} ubinize${vname}-${IMAGE_NAME}.cfg
+ 
+ 	# Cleanup cfg file
+ 	mv ubinize${vname}-${IMAGE_NAME}.cfg ${IMGDEPLOYDIR}/
+@@ -202,12 +202,12 @@ multiubi_mkfs() {
+ 	# Create own symlinks for 'named' volumes
+ 	if [ -n "$vname" ]; then
+ 		cd ${IMGDEPLOYDIR}
+-		if [ -e ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs ]; then
+-			ln -sf ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs \
++		if [ -e ${IMAGE_NAME}${vname}.ubifs ]; then
++			ln -sf ${IMAGE_NAME}${vname}.ubifs \
+ 			${IMAGE_LINK_NAME}${vname}.ubifs
+ 		fi
+-		if [ -e ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi ]; then
+-			ln -sf ${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubi \
++		if [ -e ${IMAGE_NAME}${vname}.ubi ]; then
++			ln -sf ${IMAGE_NAME}${vname}.ubi \
+ 			${IMAGE_LINK_NAME}${vname}.ubi
+ 		fi
+ 		cd -
+@@ -232,7 +232,7 @@ IMAGE_CMD:ubi () {
+ }
+ IMAGE_TYPEDEP:ubi = "${UBI_IMGTYPE}"
+ 
+-IMAGE_CMD:ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
++IMAGE_CMD:ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}.ubifs ${MKUBIFS_ARGS}"
+ 
+ MIN_F2FS_SIZE ?= "524288"
+ IMAGE_CMD:f2fs () {
+@@ -246,9 +246,9 @@ IMAGE_CMD:f2fs () {
+ 		size=${MIN_F2FS_SIZE}
+ 		bbwarn "Rootfs size is too small for F2FS. Filesystem will be extended to ${size}K"
+ 	fi
+-	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs seek=${size} count=0 bs=1024
+-	mkfs.f2fs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs
+-	sload.f2fs -f ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.f2fs
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.f2fs seek=${size} count=0 bs=1024
++	mkfs.f2fs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.f2fs
++	sload.f2fs -f ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.f2fs
+ }
+ 
+ EXTRA_IMAGECMD = ""
+@@ -314,32 +314,32 @@ IMAGE_TYPES:append:x86-64 = " hddimg iso"
+ COMPRESSIONTYPES ?= ""
+ 
+ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
+-CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+-CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+-CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+-CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
+-CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+-CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+-CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
+-CONVERSION_CMD:sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
+-CONVERSION_CMD:sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
+-CONVERSION_CMD:sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
+-CONVERSION_CMD:sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
+-CONVERSION_CMD:bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
+-CONVERSION_CMD:u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
+-CONVERSION_CMD:vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
+-CONVERSION_CMD:vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhdx"
+-CONVERSION_CMD:vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhd"
+-CONVERSION_CMD:vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+-CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+-CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
+-CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.gz"
++CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.xz"
++CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.lz4"
++CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type}.zip ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
++CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}.${type} -o ${IMAGE_NAME}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
++CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.md5sum"
++CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha1sum"
++CONVERSION_CMD:sha224sum = "sha224sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha224sum"
++CONVERSION_CMD:sha256sum = "sha256sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha256sum"
++CONVERSION_CMD:sha384sum = "sha384sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha384sum"
++CONVERSION_CMD:sha512sum = "sha512sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha512sum"
++CONVERSION_CMD:bmap = "bmaptool create ${IMAGE_NAME}.${type} -o ${IMAGE_NAME}.${type}.bmap"
++CONVERSION_CMD:u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.u-boot"
++CONVERSION_CMD:vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.vmdk"
++CONVERSION_CMD:vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.vhdx"
++CONVERSION_CMD:vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.vhd"
++CONVERSION_CMD:vdi = "qemu-img convert -O vdi ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.vdi"
++CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.qcow2"
++CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.base64"
++CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}.${type}"
+ CONVERSION_DEPENDS_lzma = "xz-native"
+ CONVERSION_DEPENDS_gz = "pigz-native"
+ CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index be31fbf94f..669606da75 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -71,7 +71,7 @@ IMAGE_CMD:wic () {
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
+ 	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
+-	mv "$build_wic/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
++	mv "$build_wic/$(basename "${wks%.wks}")"*.direct "$out.wic"
+ }
+ IMAGE_CMD:wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
+ do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
+index 690fa976aa..efc7c9562c 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -37,7 +37,7 @@ APPEND:append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro
+ ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
+ 
+ # Write manifest
+-IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
++IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}.manifest"
+ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
+ # Set default postinst log file
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index bd9e7e7445..f7abaf4f0c 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -48,8 +48,8 @@ CVE_CHECK_LOG_JSON ?= "${T}/cve.json"
+ CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
+ CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
+ CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
+-CVE_CHECK_MANIFEST ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
+-CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.json"
++CVE_CHECK_MANIFEST ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.cve"
++CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.json"
+ CVE_CHECK_COPY_FILES ??= "1"
+ CVE_CHECK_CREATE_MANIFEST ??= "1"
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 7bc171e02d..9383d0c4db 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -33,6 +33,8 @@ KERNEL_CLASSES = " kernel-fitimage "
+ # RAM disk variables including load address and entrypoint for kernel and RAM disk
+ IMAGE_FSTYPES += "cpio.gz"
+ INITRAMFS_IMAGE = "core-image-minimal"
++# core-image-minimal is used as initramfs here, drop the rootfs suffix
++IMAGE_NAME_SUFFIX:pn-core-image-minimal = ""
+ UBOOT_RD_LOADADDRESS = "0x88000000"
+ UBOOT_RD_ENTRYPOINT = "0x88000000"
+ UBOOT_LOADADDRESS = "0x80080000"
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 05148aca61..af0b430ef8 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -133,9 +133,9 @@ create_bundle_files () {
+ 	cd ${WORKDIR}
+ 	mkdir -p Yocto_Build_Appliance
+ 	cp *.vmx* Yocto_Build_Appliance
+-	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+-	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhdx Yocto_Build_Appliance/Yocto_Build_Appliance.vhdx
+-	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhd Yocto_Build_Appliance/Yocto_Build_Appliance.vhd
++	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
++	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vhdx Yocto_Build_Appliance/Yocto_Build_Appliance.vhdx
++	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.wic.vhd Yocto_Build_Appliance/Yocto_Build_Appliance.vhd
+ 	zip -r ${IMGDEPLOYDIR}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+ 	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${IMGDEPLOYDIR}/Yocto_Build_Appliance.zip
+ }
 -- 
 2.41.0
 
