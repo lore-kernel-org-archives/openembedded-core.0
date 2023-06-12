@@ -1,91 +1,87 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72ADAC77B7A
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 02:40:10 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.50184.1686537599971235483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2924C7EE23
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 03:28:20 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web11.50831.1686540494865246923
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 19:40:00 -0700
+ Sun, 11 Jun 2023 20:28:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=S9Rml5/z;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2565b864f9aso1903353a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 19:39:59 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@underview.tech header.s=google header.b=WsbvyzZL;
+ spf=pass (domain: underview.tech, ip: 209.85.210.42, mailfrom: vince@underview.tech)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6b28fc460bcso2068334a34.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 20:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686537599; x=1689129599;
+        d=underview.tech; s=google; t=1686540494; x=1689132494;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RbZsoch6TktObvN5sJ0wElAZIvXnWGB8gWZ+elGqKsk=;
-        b=S9Rml5/ziIYypGcE+Y3Agk0JPAMUhwx87/SSxgn8/Kv93946RjgkBoApYHM2IFjl+T
-         3fMUDTyWr8l3pRVun/urGF8p/6tDlNnfv6zfh3RUBSHl0QziDcrsoKnCfoYCOnv5s6Rz
-         oN+xme5UgtSn0HzhGO/OmUL/xZUdzL2h3wDlfZtdNGckGgiK6d3FgITioqvgxSYbHIbD
-         3Sh+0/Pn2weN+ogIYDYnXfo99PKAzPcHcTbHce9kAeYDx7GzTnbBua3NnH4oPZs8NRsx
-         ngxSfZRzxIXOHY3fRTmTbX/jsGurAcrRTRunEzOqwXEjPTZZvjEGLMbySlpFR1Alba1s
-         ddSw==
+        bh=7XKjD6kwztPx63C6pwLfnFRAzmet2wU34DJ3cSmD95s=;
+        b=WsbvyzZLM2iFB6wOATKwZ8IDG7ijv+LE0XALL0IEPNWCTphi5ZKm2YMZlPTnlafriT
+         Jabs1G0KMfDztGHCHKd0xleE63dH+kAbgRlH+rM9O7DU7BvGRxkJNFKTsf+cPWJDUpqH
+         /1NBJ2zZvzhO59h7R2r7xUau/FLkhahY8/+gleuVxmcwZoKU3PYYAgkZWVhHzds2YSYq
+         BXHxDkNirzZHRrRou1qGmbVRw0Vfk8sxedd6o+avStbCAUKRyDTdGXApOisTLzdQ17DX
+         O09NvE0SkKkPe0kwtNu9cGhUFJOYl2vRbgI8CDa9XJS8bCVKB65UoXUeoSI06gcEPi51
+         IRJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686537599; x=1689129599;
+        d=1e100.net; s=20221208; t=1686540494; x=1689132494;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RbZsoch6TktObvN5sJ0wElAZIvXnWGB8gWZ+elGqKsk=;
-        b=lSmuB/0xqA1W47ZpGsne+dxqbQ+dAgd9rxtorVVUIaZ55zXwGlK684R3jEZPRifvbL
-         c9W6KpESn89ENyHLAIKxqXjXDUpUs4gDUloGjlEWRshqYJ5S4F1iuSmMmEdu0Uyu7Q5M
-         m48fH0jeuwi8UJENafMsCQFQqZI2sUI1E/1dmHgInI0Uvxt6Z53+gCMNnvj4cJ9VrfY+
-         6iUoiuE4xlexx2MDsxFRxqroEzLNqZymUoTWa/e1+7Nsr+SQ5VH/s7Nd09xUWrwLnCZ0
-         0ZCH+OUgE1JCRjP4680mkzcAxCdyKw9o7QcKQc74fSIVAyvlKPVz7jdNSL9sLNA+IPdu
-         mw9w==
-X-Gm-Message-State: AC+VfDxllLAdT6dv7PghewWDRraXZeoyJ1JCd7pRx+VJbIjEyNH4iBmu
-	OpPb9DuvNi493DmHufx+Dn3TrMdlMzA=
-X-Google-Smtp-Source: ACHHUZ6X46/TWJQtXjiC6yI1mhZLpCqm3FKLvekwpgoItaBTX7iHyoNT0OoQ+TI6opK5JkjnGFU9zw==
-X-Received: by 2002:a17:90a:5d01:b0:25b:bcc2:7fa9 with SMTP id s1-20020a17090a5d0100b0025bbcc27fa9mr4484030pji.8.1686537598981;
-        Sun, 11 Jun 2023 19:39:58 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::eb87])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b00252d960a8dfsm1516109pjd.16.2023.06.11.19.39.58
+        bh=7XKjD6kwztPx63C6pwLfnFRAzmet2wU34DJ3cSmD95s=;
+        b=ShY4KM8OrEXZQJPDuS1zsevHOw6aMuRScmISbexAp+FMN0oqCXj0/LulELOn5PjdST
+         HQIW6yFsBgJEkTWI+GZ5/1VyWbqj5JJokFsfFODN53CQYOJwDw766a1UujmNWH6SO0oc
+         E768+peJ7xyaY+q1wtKYfPW2b0xlDeuxxhNnxkNLa0W/egaT4FPMtF/HEqx1t7lx6qxF
+         rg0949LSMQcMMASHp646PUbStYAIdRgK7rbaklJvMZroYystur5kcIyiJf7cQzAwvhLq
+         IeZOJY1LS9P72So2w0mTk8TUhyRAXgG2jvE2T5Us6I7Gfq31il/wkQQWyKvmjaakgcvV
+         tl3w==
+X-Gm-Message-State: AC+VfDy6jlxhRsYIqqfitTYNWG/RVfQN9PzcyUfh4HOIAIJOPZugfp9K
+	oLnbfFwJz0w1wiKxUdoiEU3zfzaIzMpU9p+bTxM=
+X-Google-Smtp-Source: ACHHUZ4Kd5R6ABmRPjvGN06TBzMaeUr0LeXYHV6kL48PMvVSzC9WEMlFgbAqDerc8hkO/IVrTfwyxA==
+X-Received: by 2002:a05:6830:c5:b0:6b2:4555:c1ae with SMTP id x5-20020a05683000c500b006b24555c1aemr5701757oto.4.1686540493974;
+        Sun, 11 Jun 2023 20:28:13 -0700 (PDT)
+Received: from vince-B550I-AORUS-PRO-AX.attlocal.net ([2600:1700:1124:8090:f287:be73:6bd4:6065])
+        by smtp.gmail.com with ESMTPSA id n12-20020a9d6f0c000000b006b29947160csm3553805otq.30.2023.06.11.20.28.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 19:39:58 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Sun, 11 Jun 2023 20:28:12 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] babeltrace2: Always use BFD linker when building tests with ld-is-lld distro feature
-Date: Sun, 11 Jun 2023 19:39:56 -0700
-Message-ID: <20230612023956.36702-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH v2] spirv-tools: Use baselibdir instead of base_libdir
+Date: Sun, 11 Jun 2023 22:27:55 -0500
+Message-Id: <20230612032754.2002108-1-vince@underview.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 02:40:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182649
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 03:28:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182650
 
-lld results in textrels in some .so used in tests, fixes
+Its only the lib name and not absolute base
+libpath thats needed here.
 
-babeltrace2-ptest: ELF binary /usr/lib/babeltrace2/ptest/tests/lib/test-plugin-plugins/plugin-minimal.so has relocations in .text
-babeltrace2-ptest: ELF binary /usr/lib/babeltrace2/ptest/tests/lib/test-plugin-plugins/plugin-sfs.so has relocations in .text [textrel]
-ERROR: babeltrace2-2.0.5-r0 do_package_qa: QA Issue: babeltrace2: ELF binary /usr/lib/babeltrace2/plugins/babeltrace-plugin-ctf.so has relocations in .text
-babeltrace2: ELF binary /usr/lib/babeltrace2/plugins/babeltrace-plugin-utils.so has relocations in .text
-babeltrace2: ELF binary /usr/lib/babeltrace2/plugins/babeltrace-plugin-text.so has relocations in .text [textrel]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-index 6123456c30f..9a4007fb258 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-@@ -28,6 +28,7 @@ FILES:${PN}-staticdev += "${libdir}/babeltrace2/plugins/*.a"
- FILES:${PN} += "${libdir}/babeltrace2/plugins/*.so"
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
+index 21f9dd9650..b878a2e82d 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb
+@@ -32,7 +32,7 @@ do_install:append:class-target() {
+     # Properly set _IMPORT_PREFIX in INTERFACE_LINK_LIBRARIES so that dependent
+     # tools can find the right library
+     sed -i ${D}${libdir}/cmake/SPIRV-Tools/SPIRV-ToolsTarget.cmake \
+-        -e 's:INTERFACE_LINK_LIBRARIES.*$:INTERFACE_LINK_LIBRARIES "\$\{_IMPORT_PREFIX\}\${base_libdir}":'
++        -e 's:INTERFACE_LINK_LIBRARIES.*$:INTERFACE_LINK_LIBRARIES "\$\{_IMPORT_PREFIX\}\${baselibdir}":'
+ }
  
- ASNEEDED = ""
-+LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', ' -fuse-ld=bfd ', '', d)}"
- 
- # coreutils since we need full mktemp
- RDEPENDS:${PN}-ptest += "bash gawk python3 make grep coreutils findutils"
+ # all the libraries are unversioned, so don't pack it on PN-dev
 -- 
-2.41.0
+2.34.1
 
 
