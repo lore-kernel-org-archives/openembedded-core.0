@@ -1,123 +1,155 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <nikhilar2410@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF4CC7EE23
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 03:48:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.51040.1686541670465474836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA7AC7EE23
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 04:09:40 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.51542.1686542976333858165
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jun 2023 20:47:50 -0700
+ Sun, 11 Jun 2023 21:09:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=XbTQUSFL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5527c2097f=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35C31HSe010713
-	for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 20:47:50 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=FocXH2fQDsIYhkn+1R29DwLG0Ug9a73ZHMjC9purZEU=;
- b=XbTQUSFL6Li2PksY8Maqait82Ib3jyEZMwIsesvnIrW0rqqYAze0MTIxFvcNQRJ3dN4/
- BiD9MJUcJGo39E/F335Ex27E62TIB1U5zPGieYhBN3sNMCD5UT93k57BHwdNQk+Y3JXT
- rUTMEsVJRKKVpMskmbwjASFeYQ7YvtSv5lQLD2kR2GguHMoPtzSEdicJpNskcFPHjuzG
- HBYn6f/gpP40UdGwC3FkePUwoJKmLbg+UN/0Ri6viUqwUIBRgGz484NjMoxijxov20op
- RcLUKYN5X+nJBNd78041/EnCDaR216gYl24v7dRJahR//fPqjCsIv3W3iqDVSycXq8FQ KQ== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r4rphgy8a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 20:47:49 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 11 Jun 2023 20:47:48 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Sun, 11 Jun 2023 20:47:47 -0700
-From: Soumya <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Soumya <soumya.sambu@windriver.com>
-Subject: [oe-core][PATCH 1/1] perl: fix CVE-2023-31484
-Date: Mon, 12 Jun 2023 03:47:36 +0000
-Message-ID: <20230612034736.3132563-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=GIyy0618;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: nikhilar2410@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-38c35975545so2242868b6e.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jun 2023 21:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686542975; x=1689134975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U3pung81sk7XHEVPnhZnWm63+Izqw0KcIotgNQgawvs=;
+        b=GIyy0618pvBL9Y1f2DG7RSP9k2+eKsZlGZvnzsYMIOjyiaFrAlflHUL2IkHXMfOMyB
+         Ry+GKzki4a36+Oi5J093Cb/9aYPBYVUXDr44ZPFt+qdksmvBU3PBaolW0G7GtdOi2WUI
+         GMIkfu8lJc+Myy2FkqYb7stnFkVpRK2iKBUFG5UQFjAmbnZtcsx6KbWTbYqC9QHeFpMM
+         U+ZnLdNUKiyOMVq6YP8tVfm+58ALRKbpSnYe35NMKLarROUxZ4KBFXH6HVLMTiLHj4fs
+         jFRBU/rmkpN5wjeDYLTg7gugsi02O1j53rJ4BQKXe73JIe3//WCPrMDVwA5HwBRPg3/r
+         MIKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686542975; x=1689134975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U3pung81sk7XHEVPnhZnWm63+Izqw0KcIotgNQgawvs=;
+        b=Dhhy+DTGo6Ze5t5oJJ2lccPaJ28EB/CUaQYvVNQA6bMcJeBEhuAATXOau9TpqUJgcC
+         fTz/rTF8IN449IkllVUqyRYsVzeoQQe6vv6EqpRzgxrFQLGPjVZcWKqV+hJPtcLUUicX
+         A7Tol6eyGIu6Drxl/MAbHUJ/kfhwQ7RKBV0A+zpJ6POd8aUXbPqAqL5ThAH/sVZS45w0
+         4b1DLqOma+yGstmz8I1wE/U1WRUFzpZ3VsH0ZctFdDVJRtMJrlxvxsY6D8QFUeSiYpuD
+         ktceLVMjn0HpXlyzTzy0Nzs9xfEwkYj7wziqsGZ5b+DTNSVtwsxCf7GezrWgFpNZnQLp
+         PPjw==
+X-Gm-Message-State: AC+VfDyi0Fx9haPhYm9M4p3cE/oqXxZhVHLUQYrVgIymOOZo74dYbrTB
+	dU+tTSVdOI47EvutA7M5i6FeV6jdB+KW
+X-Google-Smtp-Source: ACHHUZ7uNQT2GDaHN8kjsHR35RS5VdbKrmbv+Pu2WjGKE50JF2Zz8fl0T4bs+G9WWSZZNKOpjOsjqA==
+X-Received: by 2002:a05:6808:2029:b0:39b:8f0c:3936 with SMTP id q41-20020a056808202900b0039b8f0c3936mr3967274oiw.27.1686542974712;
+        Sun, 11 Jun 2023 21:09:34 -0700 (PDT)
+Received: from localhost.localdomain ([103.146.224.243])
+        by smtp.gmail.com with ESMTPSA id ne11-20020a17090b374b00b002555689006esm8144147pjb.47.2023.06.11.21.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jun 2023 21:09:34 -0700 (PDT)
+From: Nikhil R <nikhilar2410@gmail.com>
+X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	nikhil.r@kpit.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][dunfell][PATCH] libwebp: Fix CVE-2023-1999
+Date: Mon, 12 Jun 2023 09:39:18 +0530
+Message-Id: <20230612040918.13326-1-nikhil.r@kpit.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: uzNpVxscT1rClrdE4MqgSF_0YBid6P99
-X-Proofpoint-GUID: uzNpVxscT1rClrdE4MqgSF_0YBid6P99
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_01,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=690
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306120032
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 03:48:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182654
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 04:09:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182655
 
-CPAN.pm before 2.35 does not verify TLS certificates when downloading
-distributions over HTTPS.
+Add patch to fix CVE-2023-1999
 
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
+Link: https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129
+
+Signed-off-by: Nikhil R <nikhil.r@kpit.com>
 ---
- .../perl/files/CVE-2023-31484.patch           | 29 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.36.1.bb     |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+ .../webp/files/CVE-2023-1999.patch            | 55 +++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.1.0.bb |  4 ++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31484.patch b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
 new file mode 100644
-index 0000000000..9a9117c53a
+index 0000000000..d293ab93ab
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
-@@ -0,0 +1,29 @@
-+From a625ec2cc3a0b6116c1f8b831d3480deb621c245 Mon Sep 17 00:00:00 2001
-+From: Stig Palmquist <git@stig.io>
-+Date: Tue, 28 Feb 2023 11:54:06 +0100
-+Subject: [PATCH] Add verify_SSL=>1 to HTTP::Tiny to verify https server
-+ identity
++++ b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+@@ -0,0 +1,55 @@
++From a486d800b60d0af4cc0836bf7ed8f21e12974129 Mon Sep 17 00:00:00 2001
++From: James Zern <jzern@google.com>
++Date: Wed, 22 Feb 2023 22:15:47 -0800
++Subject: [PATCH] EncodeAlphaInternal: clear result->bw on error
 +
-+CVE: CVE-2023-31484
++This avoids a double free should the function fail prior to
++VP8BitWriterInit() and a previous trial result's buffer carried over.
++Previously in ApplyFiltersAndEncode() trial.bw (with a previous
++iteration's buffer) would be freed, followed by best.bw pointing to the
++same buffer.
 +
-+Upstream-Status: Backport [https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0]
++Since:
++187d379d add a fallback to ALPHA_NO_COMPRESSION
 +
-+Signed-off-by: Soumya <soumya.sambu@windriver.com>
++In addition, check the return value of VP8BitWriterInit() in this
++function.
++
++Bug: webp:603
++Change-Id: Ic258381ee26c8c16bc211d157c8153831c8c6910
++
++CVE: CVE-2023-1999
++Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129]
++Signed-off-by: Nikhil R <nikhil.r@kpit.com>
 +---
-+ cpan/CPAN/lib/CPAN/HTTP/Client.pm | 1 +
-+ 1 file changed, 1 insertion(+)
++ src/enc/alpha_enc.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/cpan/CPAN/lib/CPAN/HTTP/Client.pm b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+index 4fc792c..a616fee 100644
-+--- a/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-++++ b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+@@ -32,6 +32,7 @@ sub mirror {
++diff --git a/src/enc/alpha_enc.c b/src/enc/alpha_enc.c
++index f7c02690e3..7d205586fe 100644
++--- a/src/enc/alpha_enc.c
+++++ b/src/enc/alpha_enc.c
++@@ -13,6 +13,7 @@
++ 
++ #include <assert.h>
++ #include <stdlib.h>
+++#include <string.h>
++ 
++ #include "src/enc/vp8i_enc.h"
++ #include "src/dsp/dsp.h"
++@@ -148,6 +149,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
++       }
++     } else {
++       VP8LBitWriterWipeOut(&tmp_bw);
+++      memset(&result->bw, 0, sizeof(result->bw));
++       return 0;
++     }
++   }
++@@ -162,7 +164,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
++   header = method | (filter << 2);
++   if (reduce_levels) header |= ALPHA_PREPROCESSED_LEVELS << 4;
++ 
++-  VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size);
+++  if (!VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size)) ok = 0;
++   ok = ok && VP8BitWriterAppend(&result->bw, &header, ALPHA_HEADER_LEN);
++   ok = ok && VP8BitWriterAppend(&result->bw, output, output_size);
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+index 68e5ae2b3c..f449ae750b 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "98a052268cc4d5ece27f76572a7f50293f439c17a98e67c4ea0c7ed6f5
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ 
++SRC_URI += " \
++    file://CVE-2023-1999.patch \
++"
 +
-+     my $want_proxy = $self->_want_proxy($uri);
-+     my $http = HTTP::Tiny->new(
-++        verify_SSL => 1,
-+         $want_proxy ? (proxy => $self->{proxy}) : ()
-+     );
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/perl/perl_5.36.1.bb b/meta/recipes-devtools/perl/perl_5.36.1.bb
-index f7d66e6ed9..3db1d9c6ae 100644
---- a/meta/recipes-devtools/perl/perl_5.36.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.36.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0002-Constant-Fix-up-shebang.patch \
-            file://determinism.patch \
-            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
-+           file://CVE-2023-31484.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+ EXTRA_OECONF = " \
+     --disable-wic \
+     --enable-libwebpmux \
 -- 
-2.40.0
+2.25.1
 
 
