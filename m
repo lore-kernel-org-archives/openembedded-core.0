@@ -1,181 +1,165 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5874C88CB4
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 15:08:53 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.75])
- by mx.groups.io with SMTP id smtpd.web11.61878.1686582526103992358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCE2DC88CB6
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 15:35:53 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.62693.1686584145422214041
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 08:08:46 -0700
+ Mon, 12 Jun 2023 08:35:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=4RXb4/p2;
- spf=pass (domain: arm.com, ip: 40.107.21.75, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BrRnSqdInVux4+6j0tCLcTMCYop1w/ir/ck0bgWGTVk=;
- b=4RXb4/p2HieChQTU4yrM9lmK+IHRSGzwwlzc1uZbgJNso37OPYfWyzPWDB+g1GhvGkXCp6rhWcKEW6bGSrMf1xUMCqI34EmilQ6tUeYUGij75eDwiPcSo9XpU3GOrvX9r8w9of4xlcJ/kAMjmOuNL3RzQ8zWo2Epl+06hiqaXpo=
-Received: from AS9PR05CA0275.eurprd05.prod.outlook.com (2603:10a6:20b:492::13)
- by AM8PR08MB5697.eurprd08.prod.outlook.com (2603:10a6:20b:1d7::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Mon, 12 Jun
- 2023 15:08:42 +0000
-Received: from AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:492:cafe::c0) by AS9PR05CA0275.outlook.office365.com
- (2603:10a6:20b:492::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.34 via Frontend
- Transport; Mon, 12 Jun 2023 15:08:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT018.mail.protection.outlook.com (100.127.140.97) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6500.21 via Frontend Transport; Mon, 12 Jun 2023 15:08:42 +0000
-Received: ("Tessian outbound e13c2446394c:v136"); Mon, 12 Jun 2023 15:08:41 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 9b4da2ead5d8abd2
-X-CR-MTA-TID: 64aa7808
-Received: from daf754c85f5b.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id AFAF4DB1-3E40-4626-BCFE-8597FE5EBF38.1;
-	Mon, 12 Jun 2023 15:08:34 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id daf754c85f5b.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 12 Jun 2023 15:08:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3w+pD93Ki3QdELAQtj8/3YAIszUEq2en/nwXVpmZfZ6b8B7fDvFbPSqw9bMoKvf9fT9j3Ylk6YJNrxXYGZ9QCGnV53aocZhmOLCrjt1IOK4XHMV+iPgvbKfCdFd5qooy+8Vkjyyc9uZK4oTv3t157ujkNHJk4Ljt7ZqcXficbxw1PI0gYw1hYio97TO+JjNnS330K6MawI6BbXKa2xmE+9cfpic+3bMUXXUu6jaY88CkZ/pR2WjqK3HAoi5n0l0QttdWY8OCFJmaXhozHWoi9LjhZeH+GxWUbF0zEzd9RWuSLLqbCiExmb7vL78GKEUroCpNyGSaU/m6NsmMDU5Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BrRnSqdInVux4+6j0tCLcTMCYop1w/ir/ck0bgWGTVk=;
- b=ZHqxU6jhXI8SNaGdr+1oM8NVzeZXkwLn4z2CbdFoCjrgPdgN7LgkN79PASOezEprmjgi//3vgLRLw+4eT9geIJNbXux8XbJH/3nOnB7s6TGcnFcCIVs+7Ql34Axy4LmWxH54DubV1+Mhx9xni+rEp3oHpdsMXJEEBZO3Uvq0H4Ujpq17pUWZjxG1azyKYRFZFSW5qLdwDzQapyef0LTCSR+gYVbOH+cTtcaVF0SAKyOLBuUWRcRKCc3FJPW99aQu+PVnGbRBbm1c10P11tddMO0ECRK1AaIZRI0vfSCGSH06C4WR31bzj9SVZKRh3bhGUfY5xnuOgGsmTM3k+biv1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BrRnSqdInVux4+6j0tCLcTMCYop1w/ir/ck0bgWGTVk=;
- b=4RXb4/p2HieChQTU4yrM9lmK+IHRSGzwwlzc1uZbgJNso37OPYfWyzPWDB+g1GhvGkXCp6rhWcKEW6bGSrMf1xUMCqI34EmilQ6tUeYUGij75eDwiPcSo9XpU3GOrvX9r8w9of4xlcJ/kAMjmOuNL3RzQ8zWo2Epl+06hiqaXpo=
-Received: from AS4PR08MB7429.eurprd08.prod.outlook.com (2603:10a6:20b:4e1::9)
- by DU2PR08MB10185.eurprd08.prod.outlook.com (2603:10a6:10:49e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 12 Jun
- 2023 15:08:27 +0000
-Received: from AS4PR08MB7429.eurprd08.prod.outlook.com
- ([fe80::9200:30:234f:50e3]) by AS4PR08MB7429.eurprd08.prod.outlook.com
- ([fe80::9200:30:234f:50e3%6]) with mapi id 15.20.6455.039; Mon, 12 Jun 2023
- 15:08:27 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 11 Jun 2023
- 01:00:01 AM HST
-Thread-Topic: [OE-core] OE-core CVE metrics for master on Sun 11 Jun 2023
- 01:00:01 AM HST
-Thread-Index: AQHZnFg5pyDXWrj68UuY6gbpSUxuHa+HRr6A
-Date: Mon, 12 Jun 2023 15:08:27 +0000
-Message-ID: <F5981D9B-8818-4456-B957-598C333F4D43@arm.com>
-References: <20230611113053.3B9259604A6@nuc.router0800d9.com>
-In-Reply-To: <20230611113053.3B9259604A6@nuc.router0800d9.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.600.7)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AS4PR08MB7429:EE_|DU2PR08MB10185:EE_|AM7EUR03FT018:EE_|AM8PR08MB5697:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3311413-9b11-4de2-5366-08db6b56e8e0
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- eVmPrdTolT+XBhMiP8wxZwp8rIhSPMmsNhnR3+9EIuGeDSdCidS+i4W31wDArgeTr313OZEGgvGrGtQp4lqrjELZADbSZLzspVCx8TIEZ2OIvTdrTW7HpnYmaTFxrYqHxsVEjrXYzuUVIVyKMHsBL7vyRbRp3VFh4LHuL2CTc1IIq5/pU7tm5S0JhaoeslDuv4xo9uNl1c9fC2ChwXY+exqjSwD1gkPC3o0dQNtl9I4Q/rljEMEKAzVT6qjsMykq0fZuoJbyJ0FanKUr7ej/OTZcoPlpzkzX9Zoh12jMvakZlVttRPIO0W2ZC+ACXpwUz1LYCJQVVSVr2Il4387BFfASpH62KS5621zjsQ85Z85doC3zY/ooLKjnuyUnDktxV/TVYUxR0NeMDKF4k/xbnEkFhBswp2DrqMLF4KKlBmoVEnwl5hr80Ckv9cp3LSc0JCUrxsiY6Va4IIDb6Vlou3w3IulTk113PowHyd+xPCrnYslQDwhuGfpF6oU/td292GXbgnHZOGIPpw2xsS95jeAQmIP4bWpJth6BfbkbW+VY0vtHm0A3KRHiN11PGm27seLvnw9qSguoIan2T84tN2YEXTj4p6F3zcZl2Ye/IZCO2NoU5FNQU8ZsFvKscdxCRpal08Qy944JXMDMZLC1EA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR08MB7429.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(396003)(39850400004)(346002)(136003)(451199021)(966005)(2616005)(6506007)(26005)(6512007)(53546011)(54906003)(478600001)(186003)(71200400001)(6486002)(122000001)(66946007)(64756008)(6916009)(4326008)(76116006)(38070700005)(66556008)(316002)(8676002)(38100700002)(91956017)(8936002)(5660300002)(66446008)(2906002)(66476007)(41300700001)(33656002)(36756003)(86362001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <F5158C3D0CF1A64E97B0528D58952EAD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PWGydqwX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-30fbcfdc7b6so993731f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 08:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686584144; x=1689176144;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WvESK053iHeMEE6OpdHBiCiJSyvgNFJYqoPEs5DjEFU=;
+        b=PWGydqwXbYvTJsym+qxOwrCd1SFFlSue9bgQ3j8TG0dA02XE4c2f8TzB4Mo2oilxY8
+         9jpozvFmYnmZRyT+cIYj57AzT3iwNvk7rdFghWTsuk34wST8y5AVVrcdFeC03SBhFfaB
+         ldFDT/QlJmeaGPxTtIWrWfVKrph+N4N6ZWP5mk8Y1ntmojEckNxPk4c9RXLKTkuxqaSq
+         vN8hY1DVzUGUA/MlChSs83LOn3zCpgL/xC2x4Cj/sbaWzYQ/Nk2hcS9dWkeJ3WynPqxk
+         vUBzjzx1y5vuifIgkscU4SSUn+0TOvyQJFVZ5h0IV5V0FJtDOTciKSrYy6UZ9qGSowPq
+         u/HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686584144; x=1689176144;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WvESK053iHeMEE6OpdHBiCiJSyvgNFJYqoPEs5DjEFU=;
+        b=jmPD1RMlWPrwBrBeMAx2DxKIAFIUbsmv35ThwuUdPRG1WqPr3P4K8wWNH3Lh8uMFJ4
+         Qbn2JSgZxl03+mRlEOxLwFy3OPcOTAhqx1Hbr4x648L7uuQj3s4z736nYPgK9tRpVJcI
+         N+n7TJqqIvW/+cfbxmn5Pypk2Adr+bZY2c8OLJ/XqMoYiEa1RmGVoShL9jPWuilXX6a2
+         Te3VNAAjkr4eIO3/Wdr3w6aUVuZ8ycqS67pFbAR+aU+KszVEE5J9wSDnPQ7K8ULVsrwf
+         bGfkkmfBRIgV3Q2K5KvynW349pA0Csy0GHFopXVUI/AAdiaLmMQmGMbQzkskZmwDFYfF
+         kMlg==
+X-Gm-Message-State: AC+VfDxzN0OdYoyNBLGzx2ODzSKLOGISEk5IsgEgdVQtrq4/rVn539dt
+	UK9wytJa97lXClxvwtXJVWvaRdO8UQm+822mo/I=
+X-Google-Smtp-Source: ACHHUZ7HgDW7i14mUzM1niQ8mTYbmJ/C+695MLPEwnBNLnRs7kOGzoVeMmCQ2xL+58YzV39FzPjSt02XEAPNtMN7QEU=
+X-Received: by 2002:adf:ea41:0:b0:30f:b989:b80f with SMTP id
+ j1-20020adfea41000000b0030fb989b80fmr4256096wrn.39.1686584143286; Mon, 12 Jun
+ 2023 08:35:43 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR08MB10185
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d3b1af2a-b5bf-4087-9f57-08db6b56e051
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	HLkXJbcww/bNtqp5V1zRm1e8/zpBbn5uZXkjDx7H39YC30JPu0aGWqjs0q6VJO5zbLCsstCqP6GmE6VR1PNnSK8EMGJOJJmtut3eMFKZw9Yzo0GIFutRNCN0PLZsLeoaAQnLZPc6MjeOrpdNFHQtYJdKhfhfZKaeGTDfjKk4LV+o0lpUjCgydPxzcmLMop9saJzJ5RhY7TerLMYDkTCN4T342d2bAAb/8eDt9M53VciLXJ1T1rXQkduMF11HbYrqjjuRiAWBT1kozhu1mgS+YSkgA069L9+x6q1DVRpVnp+ThhOfb+XVM7X2PWGBgY2A8xXOHarOvCJQ5Ramt6BhNrpvq5CWEBv9C31xxzCaZegbgbaklK0u5fXa3J37uYWYL86lxvUOV6J2yoa8A+dZjujgfO4S/X4Oih8Mc6GlF1Fo5ij06Pe/1j3W7Pga7Rw7xV4hZtRfGsTt7PYsuiO3zyWs2svr94RYr+6pPuLQByH2HlroqRduS++BQ3SevR8yZD7P01xQ5FwVUp2ilBv6QPp4sn1+4Y2ObkwIU+pVxyfpqDNm/y9l+zVZaexwTrGYFI7Xpdm/iiktj1OWAcKuTme57FOsTb6CebwxiciHCa+XtIpwtef09vVz9qOABBA1jbbDNL44GT3iURugFnTf3oBIxnzg/9e8RQQvhgmNO9nwN0cQP2pEOTUtc1cis5GL95zu1uKii41yZT5hH4r07eKvg2A7USkl/ESUVu2f6y4=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(346002)(376002)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(107886003)(40460700003)(6486002)(966005)(36756003)(47076005)(336012)(2616005)(82310400005)(86362001)(81166007)(82740400003)(33656002)(6506007)(53546011)(6512007)(26005)(356005)(40480700001)(36860700001)(186003)(2906002)(5660300002)(54906003)(6862004)(8936002)(8676002)(316002)(41300700001)(4326008)(70206006)(70586007)(478600001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 15:08:42.0963
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3311413-9b11-4de2-5366-08db6b56e8e0
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5697
+References: <20230525102218.1613298-1-Martin.Jansa@gmail.com>
+ <20230526180939464ac2f2@mail.local> <1762E887A919FB5A.6918@lists.openembedded.org>
+In-Reply-To: <1762E887A919FB5A.6918@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 12 Jun 2023 17:35:30 +0200
+Message-ID: <CA+chaQdAaZ9mc_jfvL+5VJkGoybs0FrhVuTpGS9dRu2hxikCmQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] image-artifact-names: include
+ ${IMAGE_NAME_SUFFIX} directly in both ${IMAGE_NAME} and ${IMAGE_LINK_NAME}
+To: Martin.Jansa@gmail.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000be956505fdf078af"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 15:08:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182674
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 15:35:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182675
 
-On 11 Jun 2023, at 12:30, Steve Sakoman via lists.openembedded.org <steve=
-=3Dsakoman.com@lists.openembedded.org> wrote:
-> CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/vi=
-ew/vuln/detail?vulnId=3DCVE-2022-48502 *
+--000000000000be956505fdf078af
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Needs a backport in the kernel.
+On Sat, May 27, 2023 at 7:21=E2=80=AFAM Martin Jansa via lists.openembedded=
+.org
+<Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
 
-> CVE-2023-2002 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/v=
-iew/vuln/detail?vulnId=3DCVE-2023-2002 *
+> On Fri, May 26, 2023 at 8:09=E2=80=AFPM Alexandre Belloni <
+> alexandre.belloni@bootlin.com> wrote:
+>
+>> Hello,
+>>
+>> The series causes oe-selftest failures:
+>>
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5254/s=
+teps/14/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1468/=
+steps/14/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5225/s=
+teps/14/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5175/s=
+teps/14/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5217/s=
+teps/14/logs/stdio
+>
+>
+> Hi,
+>
+> I was able to reproduce it locally and it's caused by newer test (which
+> wasn't merged yet last time I've run selftest with these changes):
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=3D06af6795cf6f0=
+79362303bddb39a14459e228e72
+> which hardcodes the expected image name, I'll send fix for this shortly.
+>
 
-Fixed in .27, patch just sent to ignore this.
+Hi, I see that the selftest fix was already merged to master and this
+change was in abelloni/master-next-success for a while, but now it's
+dropped (and it's not in master nor master-next).
 
-> CVE-2023-2598 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/vie=
-w/vuln/detail?vulnId=3DCVE-2023-2598 *
+Should I resend the series again or what's the process now?
 
-Appears to be 6.3 specific, contacted NIST.
+Cheers,
 
-> CVE-2023-2985 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/v=
-iew/vuln/detail?vulnId=3DCVE-2023-2985 *
+--000000000000be956505fdf078af
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixed in .16, ignoring.
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, May 27, 2023 at 7:21=E2=80=AFAM M=
+artin Jansa via <a href=3D"http://lists.openembedded.org">lists.openembedde=
+d.org</a> &lt;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded=
+.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr">On Fri, May 26, 2023 at 8:09=E2=80=AFPM Alexandre=
+ Belloni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_bl=
+ank">alexandre.belloni@bootlin.com</a>&gt; wrote:<br></div><div class=3D"gm=
+ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
+<br>
+The series causes oe-selftest failures:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/87/build=
+s/5254/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5254/steps/14/logs/=
+stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/127/buil=
+ds/1468/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
+utobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1468/steps/14/log=
+s/stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
+s/5225/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5225/steps/14/logs/=
+stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/80/build=
+s/5175/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5175/steps/14/logs/=
+stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/86/build=
+s/5217/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5217/steps/14/logs/=
+stdio</a></blockquote><div><br></div><div>Hi,</div><div><br></div><div>I wa=
+s able to reproduce it locally and it&#39;s caused by newer test (which was=
+n&#39;t merged yet last time I&#39;ve run selftest with these changes):</di=
+v><div><a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
+=3D06af6795cf6f079362303bddb39a14459e228e72" target=3D"_blank">https://git.=
+openembedded.org/openembedded-core/commit/?id=3D06af6795cf6f079362303bddb39=
+a14459e228e72</a></div><div>which hardcodes the expected image name, I&#39;=
+ll send fix for this shortly.</div></div></div></blockquote><div><br></div>=
+<div>Hi, I see that the selftest fix was already merged to master and this =
+change was in=C2=A0abelloni/master-next-success for a while, but now it&#39=
+;s dropped (and it&#39;s not in master nor master-next).</div><div><br></di=
+v><div>Should I resend the series again or what&#39;s the process now?</div=
+><div><br></div><div>Cheers,</div></div></div>
 
-> CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://=
-web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-30571 *
-
-Still open.
-
-> CVE-2023-32324 (CVSS3: 5.5 MEDIUM): cups https://web.nvd.nist.gov/view/vu=
-ln/detail?vulnId=3DCVE-2023-32324 *
-
-Patch already on the list.
-
-> CVE-2023-34256 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/=
-view/vuln/detail?vulnId=3DCVE-2023-34256 *
-
-Fixed in 6.1.29, ignoring.
-
-Ross=
+--000000000000be956505fdf078af--
 
