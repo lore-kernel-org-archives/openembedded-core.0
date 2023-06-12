@@ -1,100 +1,124 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E6AC7EE2F
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 16:33:34 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.64275.1686587607278838142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4649C7EE2F
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 18:11:04 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.67109.1686593457577606300
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 09:33:27 -0700
+ Mon, 12 Jun 2023 11:10:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ocovymSX;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51480d3e161so6761789a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:33:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=mC3H/qB8;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-543c6a2aa07so2473087a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 11:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686587605; x=1689179605;
+        d=gmail.com; s=20221208; t=1686593457; x=1689185457;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuKE6yjpYhrRIGKnxAEYaF+fivw3EXvONbzh7RNmRl0=;
-        b=ocovymSXecrO9G66+psdGhAekM14Om/yaUY1ddkMgzHfkXo/w+P8P/82JsZz1eN3Xa
-         EdRAP388WI4Tx4Mkwhn+sOGQ/Ji93th/du9Bi3f3vcK0nhHS17vNQog16XA4KhiIaVEn
-         25VjkzJWZDGTbkEcI1HNEDpwpby7MVJR3IX+bnHCaQaUKq28ub240JMbdUXMQ6oG2yOe
-         T8bxDvGEwECksvtBM5ER4GuX1TOHMvPkomWgAnLx10Ms7/FPDrB/UfFC8zRW67UdJsc8
-         Y+JQ/mIHLKmoyvFzoy67fon79OoWXneelEFxxYKAh+DaHDS4MGUM8oKvwmBQwTjeTTh8
-         qt7w==
+        bh=rqTuLf2rSbh3XwQAPRN8jbqiNHJhjvRgmueHh4KlGcU=;
+        b=mC3H/qB8qSKeF1Gt09s0assrtmrUntLfN9a6mQQtZbjd8do0X1LfAbz7H/bADPJQk9
+         SVmqsnMdlx0le6j1W5oPzm6r+xp2MUGlXk7IPmNuFJ8DaHGSrbxOEho8DWGuG/THM1JZ
+         NEZ89F+CgqkeJvwWrdnSLn80bnTXcyLnQ9E26d2w1JhhgBgIjIOTWKxjJ0doEon9xMch
+         aICyX/fR8eevF+H5K+AHLLTKIxgLgzSGRfxsY6RTbFCndP2wNS8ZWc/zx25kHo5eQDGH
+         8C31wC5pObWPfcZjHmeVIOD1ARb7pRo+IuMwJWZazyUnit9XgOUyi364H1NajTlj8kOR
+         ZUgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686587605; x=1689179605;
+        d=1e100.net; s=20221208; t=1686593457; x=1689185457;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BuKE6yjpYhrRIGKnxAEYaF+fivw3EXvONbzh7RNmRl0=;
-        b=ec7WvbgrtW/mMfMwDXEv/88fokL1bZIerLUbmA0G7m9w3SV6GGHmd6BZ24JsYahwCl
-         2FzzuzdnaqotlRcnrJJWP6W+U0IX7Ai4C+cciPxG1yDsZv0ZpdUWpz0aE7PZ45mjsRSU
-         +NCTi97hZuMo2HfXFSaY33sQ43gKdS9bLegDiTTgEtAAg68H260Pg0CVr/QYoTSXegWi
-         TnE+ePYVRMtfh+rOr8b1t0wyl681KmAhCc7Uz64ENbEEWYNMnyODVOJ3qtLVCjJIAQRf
-         QLKfUF/onCc+zZEOmfLit8uC69s6tEdCCu+wmqnv2sG0u6moMsfIUyHJinX8A9IpuXZB
-         cvUA==
-X-Gm-Message-State: AC+VfDwYWUz5b6Uu/OjDOdLuOgX3C+W/jYSjGIrLQ1rTR8wPOQJkTvmb
-	K3Jka7anaT7V+FWyNV69UUzgJgkZ868=
-X-Google-Smtp-Source: ACHHUZ4rcLCmbvuUmSHmIhewStLj1fIvpv/FQ9qcBd+APzZHSOvpobJMaiF896KrIUr8M2Ake2gSBA==
-X-Received: by 2002:a17:907:2da4:b0:981:a949:2807 with SMTP id gt36-20020a1709072da400b00981a9492807mr3751783ejc.1.1686587605360;
-        Mon, 12 Jun 2023 09:33:25 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id kd14-20020a17090798ce00b00965a0f30fbfsm5443766ejc.186.2023.06.12.09.33.24
+        bh=rqTuLf2rSbh3XwQAPRN8jbqiNHJhjvRgmueHh4KlGcU=;
+        b=Qf2GDz3g0tlOvgLElG3UFTC0d/4D2o5cMG9ui62D9Xsi0KddrSStJJnd3tCC+dYUma
+         oHLR5D/HCN+Fs0macEsn768c7Zsru7ERxR719N56rlBV/0AahHescbvndx+BkZ/1IbjY
+         waK2lKN8Eaxgq+uuKIF5SLIRxewFIZh2rpOGMPT3yVMJfZhdyHVAxQR/6/2WI+1RX9tS
+         2l6fqJ1VaZM7aa9MW6b88XlJBwo8MAt7v99dQeP9LuQ0Uj4a9ekuKD4FkAYeReeM3wPJ
+         FScWAoH2z2LK+uJ3XCFLM3oPrgadFUkOQlvJFdh6gJMAe22qGUZX5r0zmnW3UhTRQw7t
+         TPtQ==
+X-Gm-Message-State: AC+VfDwxajzxYEzvGbhVEK6LGI3h5m4v7VkbSP4tD3Aid4nAibyV7NXL
+	JxBgXN2JH/AeNS2uC/+qrf1FK5ac/9E=
+X-Google-Smtp-Source: ACHHUZ6AW2n/JXhkq7xnprhXwCUcx8XLJdr6DLpKxJLyvh1hw4OuRsEbgIoRNyWqTz9fYLv9h+zl0w==
+X-Received: by 2002:a17:90a:4544:b0:259:10a8:2389 with SMTP id r4-20020a17090a454400b0025910a82389mr7626460pjm.35.1686593456514;
+        Mon, 12 Jun 2023 11:10:56 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::eb87])
+        by smtp.gmail.com with ESMTPSA id k9-20020a17090a658900b00255d3bd5ce5sm9469159pjj.45.2023.06.12.11.10.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 09:33:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Mon, 12 Jun 2023 11:10:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] libstd-rs, rust: use bfd linker instead of gold
-Date: Mon, 12 Jun 2023 18:33:19 +0200
-Message-ID: <20230612163319.3988533-1-Martin.Jansa@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] parted: Add missing libuuid to linker cmdline for libparted-fs-resize.so
+Date: Mon, 12 Jun 2023 11:10:54 -0700
+Message-ID: <20230612181054.674846-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 16:33:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182683
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 18:11:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182684
 
-* it started to fail only after the upgrade to 1.70.0
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/rust/libstd-rs_1.70.0.bb | 5 +++++
- meta/recipes-devtools/rust/rust_1.70.0.bb      | 5 +++++
- 2 files changed, 10 insertions(+)
+ ...o-linker-flags-for-libparted-fs-resi.patch | 34 +++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.5.bb    |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
 
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb
-index f4e5abc0cc..f23db79733 100644
---- a/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb
-+++ b/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb
-@@ -45,3 +45,8 @@ do_install () {
- }
- 
- BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch b/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
+new file mode 100644
+index 00000000000..10354f1ed9d
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
+@@ -0,0 +1,34 @@
++From 1fc88332f7e906294fd889287b9e84cefc7f1586 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 12 Jun 2023 10:40:07 -0700
++Subject: [PATCH] fs: Add libuuid to linker flags for libparted-fs-resize
++ library
 +
-+# Since 1.70.0 upgrade this fails to build with gold:
-+# http://errors.yoctoproject.org/Errors/Details/708194/
-+# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
-+LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd', '', d)}"
-diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb b/meta/recipes-devtools/rust/rust_1.70.0.bb
-index 83f9bec68a..8669291d08 100644
---- a/meta/recipes-devtools/rust/rust_1.70.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
-@@ -350,3 +350,8 @@ RUSTLIB_DEP:class-nativesdk = ""
- INSANE_SKIP:${PN} = "staticdev"
- 
- BBCLASSEXTEND = "native nativesdk"
++This library uses uuid_generate function which comes from libuuid and
++hence it should be mentioned on linker cmdline
 +
-+# Since 1.70.0 upgrade this fails to build with gold:
-+# http://errors.yoctoproject.org/Errors/Details/708196/
-+# ld: error: version script assignment of  to symbol __rust_alloc_error_handler_should_panic failed: symbol not defined
-+LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd', '', d)}"
++fixes
++| aarch64-yoe-linux-ld.lld: error: undefined reference due to --no-allow-shlib-undefined: uuid_generate
++| >>> referenced by /mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/fatresize/1.1.0-r0/recipe-sysroot/usr/lib/libparted-fs-resize.so
++
++Upstream-Status: Submitted [https://alioth-lists.debian.net/pipermail/parted-devel/2023-June/005873.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libparted/fs/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libparted/fs/Makefile.am b/libparted/fs/Makefile.am
++index 2f345f3..a8970eb 100644
++--- a/libparted/fs/Makefile.am
+++++ b/libparted/fs/Makefile.am
++@@ -75,6 +75,7 @@ libparted_fs_resize_la_LDFLAGS =		\
++ EXTRA_DIST += fsresize.sym
++ libparted_fs_resize_la_DEPENDENCIES = $(sym_file)
++ 
+++libparted_fs_resize_la_LIBADD   = $(UUID_LIBS)
++ libparted_fs_resize_la_SOURCES = \
++   r/filesys.c			\
++   r/fat/bootsector.c		\
++-- 
++2.41.0
++
+diff --git a/meta/recipes-extended/parted/parted_3.5.bb b/meta/recipes-extended/parted/parted_3.5.bb
+index f403840d3c2..b269c143b41 100644
+--- a/meta/recipes-extended/parted/parted_3.5.bb
++++ b/meta/recipes-extended/parted/parted_3.5.bb
+@@ -9,6 +9,7 @@ DEPENDS = "ncurses util-linux virtual/libiconv"
+ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-doc-mandir.patch \
+            file://autoconf-2.73.patch \
++           file://0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch \
+            file://run-ptest \
+            "
+ 
 -- 
 2.41.0
 
