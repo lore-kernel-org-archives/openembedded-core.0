@@ -1,125 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4649C7EE2F
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 18:11:04 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.67109.1686593457577606300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23193C7EE2F
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 19:46:25 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by mx.groups.io with SMTP id smtpd.web11.69763.1686599174651173307
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 11:10:57 -0700
+ Mon, 12 Jun 2023 12:46:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=mC3H/qB8;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-543c6a2aa07so2473087a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 11:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686593457; x=1689185457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rqTuLf2rSbh3XwQAPRN8jbqiNHJhjvRgmueHh4KlGcU=;
-        b=mC3H/qB8qSKeF1Gt09s0assrtmrUntLfN9a6mQQtZbjd8do0X1LfAbz7H/bADPJQk9
-         SVmqsnMdlx0le6j1W5oPzm6r+xp2MUGlXk7IPmNuFJ8DaHGSrbxOEho8DWGuG/THM1JZ
-         NEZ89F+CgqkeJvwWrdnSLn80bnTXcyLnQ9E26d2w1JhhgBgIjIOTWKxjJ0doEon9xMch
-         aICyX/fR8eevF+H5K+AHLLTKIxgLgzSGRfxsY6RTbFCndP2wNS8ZWc/zx25kHo5eQDGH
-         8C31wC5pObWPfcZjHmeVIOD1ARb7pRo+IuMwJWZazyUnit9XgOUyi364H1NajTlj8kOR
-         ZUgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686593457; x=1689185457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rqTuLf2rSbh3XwQAPRN8jbqiNHJhjvRgmueHh4KlGcU=;
-        b=Qf2GDz3g0tlOvgLElG3UFTC0d/4D2o5cMG9ui62D9Xsi0KddrSStJJnd3tCC+dYUma
-         oHLR5D/HCN+Fs0macEsn768c7Zsru7ERxR719N56rlBV/0AahHescbvndx+BkZ/1IbjY
-         waK2lKN8Eaxgq+uuKIF5SLIRxewFIZh2rpOGMPT3yVMJfZhdyHVAxQR/6/2WI+1RX9tS
-         2l6fqJ1VaZM7aa9MW6b88XlJBwo8MAt7v99dQeP9LuQ0Uj4a9ekuKD4FkAYeReeM3wPJ
-         FScWAoH2z2LK+uJ3XCFLM3oPrgadFUkOQlvJFdh6gJMAe22qGUZX5r0zmnW3UhTRQw7t
-         TPtQ==
-X-Gm-Message-State: AC+VfDwxajzxYEzvGbhVEK6LGI3h5m4v7VkbSP4tD3Aid4nAibyV7NXL
-	JxBgXN2JH/AeNS2uC/+qrf1FK5ac/9E=
-X-Google-Smtp-Source: ACHHUZ6AW2n/JXhkq7xnprhXwCUcx8XLJdr6DLpKxJLyvh1hw4OuRsEbgIoRNyWqTz9fYLv9h+zl0w==
-X-Received: by 2002:a17:90a:4544:b0:259:10a8:2389 with SMTP id r4-20020a17090a454400b0025910a82389mr7626460pjm.35.1686593456514;
-        Mon, 12 Jun 2023 11:10:56 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::eb87])
-        by smtp.gmail.com with ESMTPSA id k9-20020a17090a658900b00255d3bd5ce5sm9469159pjj.45.2023.06.12.11.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 11:10:55 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] parted: Add missing libuuid to linker cmdline for libparted-fs-resize.so
-Date: Mon, 12 Jun 2023 11:10:54 -0700
-Message-ID: <20230612181054.674846-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=KlFa1n3H;
+ spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: rs@ti.com)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35CJk3Pv086519;
+	Mon, 12 Jun 2023 14:46:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1686599163;
+	bh=aL33XMVKRMbQiEFu3eOePALcBA1BHxFebdod7lVSPbg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=KlFa1n3HZ9+Lh/XMacGYtsRYgPBGyTna4IDYPlqAHKQgO0jmDVjX667Ca52lfS4zJ
+	 83bY2un5xloaKzTKI5dMVb/6zmlHWevbn3cLALQvaExMNwB80NAGogj86gJ74YpxYa
+	 fu8gv3SM1tMJwuG3he3oPGK0ghTN5l4ZTR+NhBCw=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35CJk3wj013612
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 12 Jun 2023 14:46:03 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 12
+ Jun 2023 14:46:03 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 12 Jun 2023 14:46:03 -0500
+Received: from [128.247.81.144] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35CJk3Ch061813;
+	Mon, 12 Jun 2023 14:46:03 -0500
+Message-ID: <0056c11a-3c58-5afc-8cae-699dbb85dc5b@ti.com>
+Date: Mon, 12 Jun 2023 14:46:03 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [EXTERNAL] Re: [OE-core][PATCH 4/6] weston-init: fix the mixed
+ indentation
+Content-Language: en-US, en-US-large
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+        Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+        "reatmon@ti.com" <reatmon@ti.com>, "denis@denix.org" <denis@denix.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20230610011339.3716428-1-rs@ti.com>
+ <20230610011339.3716428-5-rs@ti.com>
+ <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
+ <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
+From: Randolph Sapp <rs@ti.com>
+In-Reply-To: <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 18:11:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182684
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 19:46:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182685
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...o-linker-flags-for-libparted-fs-resi.patch | 34 +++++++++++++++++++
- meta/recipes-extended/parted/parted_3.5.bb    |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
+On 6/12/23 05:05, Alexander Kanavin wrote:
+> On Mon, 12 Jun 2023 at 11:58, Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com> wrote:
+>> Well that is of course an option, but then it may get messy if different
+>> people have different preferences and start changing the indentation back
+>> and forth...
+> 
+> I suppose changing indentation needs to be justified by for example
+> achieving consistency in the same code block (as it does here, which
+> is fine), and it never should be mixed in with functional changes.
+> What I don't want is lots of empty code churn that doesn't actually
+> make things more readable than they already were, and is more or less
+> an exercise in pedantic neat freakery.
+> 
+> Alex
 
-diff --git a/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch b/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
-new file mode 100644
-index 00000000000..10354f1ed9d
---- /dev/null
-+++ b/meta/recipes-extended/parted/files/0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch
-@@ -0,0 +1,34 @@
-+From 1fc88332f7e906294fd889287b9e84cefc7f1586 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 12 Jun 2023 10:40:07 -0700
-+Subject: [PATCH] fs: Add libuuid to linker flags for libparted-fs-resize
-+ library
-+
-+This library uses uuid_generate function which comes from libuuid and
-+hence it should be mentioned on linker cmdline
-+
-+fixes
-+| aarch64-yoe-linux-ld.lld: error: undefined reference due to --no-allow-shlib-undefined: uuid_generate
-+| >>> referenced by /mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/fatresize/1.1.0-r0/recipe-sysroot/usr/lib/libparted-fs-resize.so
-+
-+Upstream-Status: Submitted [https://alioth-lists.debian.net/pipermail/parted-devel/2023-June/005873.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libparted/fs/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libparted/fs/Makefile.am b/libparted/fs/Makefile.am
-+index 2f345f3..a8970eb 100644
-+--- a/libparted/fs/Makefile.am
-++++ b/libparted/fs/Makefile.am
-+@@ -75,6 +75,7 @@ libparted_fs_resize_la_LDFLAGS =		\
-+ EXTRA_DIST += fsresize.sym
-+ libparted_fs_resize_la_DEPENDENCIES = $(sym_file)
-+ 
-++libparted_fs_resize_la_LIBADD   = $(UUID_LIBS)
-+ libparted_fs_resize_la_SOURCES = \
-+   r/filesys.c			\
-+   r/fat/bootsector.c		\
-+-- 
-+2.41.0
-+
-diff --git a/meta/recipes-extended/parted/parted_3.5.bb b/meta/recipes-extended/parted/parted_3.5.bb
-index f403840d3c2..b269c143b41 100644
---- a/meta/recipes-extended/parted/parted_3.5.bb
-+++ b/meta/recipes-extended/parted/parted_3.5.bb
-@@ -9,6 +9,7 @@ DEPENDS = "ncurses util-linux virtual/libiconv"
- SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://fix-doc-mandir.patch \
-            file://autoconf-2.73.patch \
-+           file://0001-fs-Add-libuuid-to-linker-flags-for-libparted-fs-resi.patch \
-            file://run-ptest \
-            "
- 
--- 
-2.41.0
+I frankly don't like the concept of mixed indentation in the same file, 
+let alone the same code block. The only thing really driving me to 
+change it here was the lack of git attributes to define the project 
+standard, nvim is attempting to enforce the 4 space standard from python 
+over the entirety of bitbake recipes (which I think is fairly sane), and 
+the variance of standard in this code block.
 
+I have no preference. So long as there is a standard, I will bow to it.
+
+Randolph
 
