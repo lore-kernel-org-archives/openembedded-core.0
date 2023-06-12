@@ -1,204 +1,150 @@
-Return-Path: <deepadeepthi98@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D81BC7EE25
-	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 09:44:32 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web10.54907.1686563066029084828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F42BC83005
+	for <webhook@archiver.kernel.org>; Mon, 12 Jun 2023 09:58:12 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.54634.1686563886456442932
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 02:44:26 -0700
+ Mon, 12 Jun 2023 02:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=gFS4/4LG;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: deepadeepthi98@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-39a505b901dso1958273b6e.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 02:44:25 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=fiNi135t;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686563065; x=1689155065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=en7Rb/lIJ1bfPCCzyzWWyLuB2fjkwzhJBDWE8dCoAmc=;
-        b=gFS4/4LG8KuUgxmsJlJZ3NoaJxStCX+erpBZRhIZAP1tWr/A+X+R8kXioMtNvZzoq0
-         HRwdF+GGFrSJVEguGqKWD7bh17pjGrOCNWAeKJ6tdDDSj9UstbUoN+qwh5i14TlZHBS9
-         HVxjgM8uJ1YM7wxSb058t/l/2RvgrDYfloDZ5AdOCYNlfixYrxv2HIgIme5tXsSOanTL
-         uJp+TGNiS3CQkPvVja/M1WEQAU64G1x070Y6emqxh9Oq46OEF6V5GoSemzRWBv9BYazQ
-         ZcI3sEFIxhtevVO26cvm/3Bz0rFcvQewe9lotAaREVsslqyqo3Xi00zjebzpZkeoo8CC
-         I47A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686563065; x=1689155065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=en7Rb/lIJ1bfPCCzyzWWyLuB2fjkwzhJBDWE8dCoAmc=;
-        b=IwM53h27f9LiphGwlJOBbrUtoLOj3DLNAoHOvADesa+9s6dzYR2vGH8Z5APJ2MF+et
-         VhEECSv+wE2bzQYnroK+REMAsFpqL1+wOkh3CnkcEVjtcC6ZGHdNHo31Y+/8kCQCQ1eB
-         CnSJFU7fn0y9rnrPPt1es+psRj7TiTqcPRYL0spNOb2OpydB10cm+7FHQYTAvBCjg83P
-         ukICr8jWmk85ijFV75UraRx8ghoah0L+TcRk2+ykEe9WEjvHmigE2Os/Om7+YSnTpKZu
-         oZWJahIGPFYbR3JaTLuOW9YZcLhg3lvRu3cmsUl5hhuuQRan4JR8i6m0CxLrQZS8cvOs
-         CikA==
-X-Gm-Message-State: AC+VfDwNfgIt0/++yRcVlSpsxGARI1AvABdgULNFqc1zB2t+DCVpJORC
-	rOcXPV7Cmh1RDFooEvNtXZtPeh2O9LU=
-X-Google-Smtp-Source: ACHHUZ4EemiIg9HAqmPKh/QtYPm+CZ9ZWzwAC3w2KrMDdj9CZOq1dsfBao6+XUuOAGw+50hdbTi83g==
-X-Received: by 2002:a05:6808:15a9:b0:396:3969:a4a6 with SMTP id t41-20020a05680815a900b003963969a4a6mr4451448oiw.18.1686563064807;
-        Mon, 12 Jun 2023 02:44:24 -0700 (PDT)
-Received: from bft-PowerEdge-R620.. ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id f12-20020a170902ab8c00b001aaed524541sm7793318plr.227.2023.06.12.02.44.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 02:44:24 -0700 (PDT)
-From: Deepthi Hemraj <deepadeepthi98@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com,
-	Umesh.Kalappa@windriver.com,
-	Naveen.Gowda@windriver.com,
-	Shivaprasad.Moodalappa@windriver.com,
-	Sundeep.Kokkonda@windriver.com
-Subject: [kirkstone][PATCH] glibc: stable 2.35 branch updates.
-Date: Mon, 12 Jun 2023 15:14:15 +0530
-Message-Id: <20230612094415.2338958-1-deepadeepthi98@gmail.com>
-X-Mailer: git-send-email 2.34.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1686563886;
+  x=1718099886;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=QnzKVnOGz56AHHp6xVx4zLnujfrSwFrRxRdf6O11R3U=;
+  b=fiNi135t9nWhmgs4L+x5tcI9hYHJpcsG0kmMTJCNPr0i/TY3qccfUwHc
+   7cTQTlE/h7/dky6VHmPk0i7K0IfHVWFqwplXBtM7YZNwNMVWqPDKx9ygC
+   4MyhPpj8eczWdRDgh4dfirwEB8vYaFmotFYj7L5uTQovFupymX3GpGKoz
+   DuWSOahw4MhWEBX3+tHXWd3w1Mh0ly3E2WzHPi153Fwve4H8YaT++pV4L
+   MtJQBvzqUd4RRhhlMet/LHpdxxi0d/s6RrfYA1OAq6yDyLXh24vaiCM9I
+   V4mG0CUh4BS6KHHhfCh7xGy7/+tYlns/vZ5cqIhRdtUa86/bTSaLioqI0
+   w==;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PJEfAnSrLveO9qONEG80JybhoDy/scVDDWCRd4ry9qxKNS2/MXVOI4EzR+mwfbmhp251maOKvdlnmKqLNdQnn1SU4zQuNLamKPcgAPBEZBVV5VCaj0DH6O8d80RihDUxL1KhXFMXHbxgTk5pYRICIyo8ZJIdFg86O4dAHwCj2qet7d5E+ykhLpAm3Uxxvn5DItA96kFFhawQd3t894E5L8xyXuqZhcoESM2TEih0Fun0PEubZo8Jh6VYj9oO8fgmP8YhY97bl8+81M6ED0OLYQojGWDI+dDNJUULuK99F1oXFhaPnK1HR9KOjJYRbqtrFTWdp/+O6luRB73xInwR7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QnzKVnOGz56AHHp6xVx4zLnujfrSwFrRxRdf6O11R3U=;
+ b=AiH0fnAgvIRhkXtrtaVvSJWSdebRFRGMkubk8HNhjDoSRfswC0fOQvYIx1w2KyCBKLuOmXtDBL8Lz6niUOCfTxnYoIhM5XlrfNYPtS/GK/90z2xV99pmez1K4sS6KQ6uStrloXYhDNx27zPVEG3tCZ4H0EQYnUtWD1f/4pJw2+CFX5+AjobIuQBKQDB1CwyD+cUei4LXg3Aha14mnhvDVOERfl/Iv1T3plr7OgAx571rHHZ1UMLJSi/eyZglBXs3X4A5ZSibhflRELFCZaVazXnV4Rsz8mjqeecA+Sx3JqeadmVU+u5qu+Zqx+jzIkfYE5pDiNZizNsL39byc/OZUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QnzKVnOGz56AHHp6xVx4zLnujfrSwFrRxRdf6O11R3U=;
+ b=M7LSrk/jZAnOLXF3Fq/o6RJRloqs2Ond36cJbSsQPQa2OjOosOBszr2w6/Q1SZCszRG11cXK9iIZq7dkzLSB+rJUsu01KDOKX5P9hHo/xf2efv/EQvo55r+H39zHJojD9RVf+y661EfZPwu2h8oAAuDIEzmv44GSa+TMt+h4J3M=
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "rs@ti.com" <rs@ti.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>, "reatmon@ti.com" <reatmon@ti.com>,
+	"denis@denix.org" <denis@denix.org>, "alexandre.belloni@bootlin.com"
+	<alexandre.belloni@bootlin.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH 4/6] weston-init: fix the mixed indentation
+Thread-Topic: [OE-core][PATCH 4/6] weston-init: fix the mixed indentation
+Thread-Index: AQHZmzjx/G59YnmtU0CwX7A4Kek356+GHOLQgADKpICAAApcAA==
+Date: Mon, 12 Jun 2023 09:58:01 +0000
+Message-ID: <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20230610011339.3716428-1-rs@ti.com>
+ <20230610011339.3716428-5-rs@ti.com>
+ <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
+In-Reply-To: <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB6607:EE_
+x-ms-office365-filtering-correlation-id: 4adece1d-a6e2-4761-e99c-08db6b2b81ee
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zExLMgGzBCg1Ub/tJ7hf0Tn9UM7RZm6qKjOJ/ILNQcVfiYDQAZAjRdnsRQ6EDj6HTxHOcxRLABKsgV32ZE8Fe7GZBMpT2cElsC086oYvqR1feL5CKAC0s2rq7v8uOF5TdgkyTRqh9bXvvSXHEgtweXDssRkuBqMKVhwq6OQ1RpYIXxfMxHnW2NopBhrmgYre7iWSZQHGdGPZTIz8TjD6BYADCwKl57Z1zCkcyVP4uJfdUWL+9pkRV+UOYuM844t818l0CgR6nFDDiNMxbrXIR2lAmw+GzbyOY0J6i0zLCoQAvUlszVFBL4vh++OYSBAab5gTcC6xFWUrhIvaKj25yqzdVIb6A/TtGX0AogXcsQ3byXwvUw3cd/WGPJepZA7oWq4z7Y5YSGMCGtj2YJmBdsS5IIzsV0Gxgyg4hevo6E5W1/aX4G45Yi66aaoWr6X2MMYssPYqFKNSQFxt1tT73vNCTYDhcXPia8uUFs/ASn86KHXWbtfac4k8/J+aAZKB/RhHK972wpMx/NWf1NJK1p1iLh7SmYfprlxuYig+drADpwbZbTlyZuvif2Iq31W/OPRlVM2OkAmfbaPLWmmqOXBncVbB6MwtmfvtDgiPv3FsKY38sNoTB7XymXCgwn1O
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(39860400002)(376002)(346002)(136003)(451199021)(38070700005)(86362001)(33656002)(66556008)(66476007)(478600001)(54906003)(6916009)(4326008)(64756008)(71200400001)(66946007)(316002)(66446008)(76116006)(7696005)(55016003)(8936002)(8676002)(41300700001)(5660300002)(2906002)(44832011)(52536014)(122000001)(38100700002)(53546011)(9686003)(6506007)(26005)(186003)(83380400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NjRidnhWRjlLd3BTeDFXdDFsWGtjTzR3TnhBQXhpbUh0SWplL2EwVE1iWVBM?=
+ =?utf-8?B?cGNQQTFLaXg2YXFJb3dDUTA1U0NjWkNYL3FoNjUveWNwVDRXWkwrVkVBTEph?=
+ =?utf-8?B?dkNKR1lSTXJndGFEeG54YTc5eFJxOFdLRmRLcnUzdEprQkhET2FsK1JkdWU0?=
+ =?utf-8?B?NWhzRW1FUVZnejJkZnV0OG5WN2NncS9HMlFuVkZvKzZreE41U2gyUTZEYnlj?=
+ =?utf-8?B?M3plWUhGdG04Vno5eDRKK0JlZDdxRUpwdEVLRFZUeFVOWlRCSFVLbHF5eWp4?=
+ =?utf-8?B?ZzA4dTlXN0dFcjJpdnB0SE9abFJDTU1Dc2lJemQxbUdGME5PZjlValhlRmJl?=
+ =?utf-8?B?RDFLQnNZc0prVzd5U1FRV3NOTTAwWVNVcCtGMzRJKzJ6VHpGZEkxaW5oSndl?=
+ =?utf-8?B?V2orZHZoMUdickZWVWhEWW1uQWFJZ1VCL1dmTXhITGJtRnVWNjYwUm55cDJJ?=
+ =?utf-8?B?SHVGOTdncEQ1WjhLRTR0dmU5UWlTOGVQTStyTlVUSlRKRUdBK2F5Mll3U2Fr?=
+ =?utf-8?B?WiswaHRuN1p2NEVxMkNkaVlYaUhFZG4xM1JRN2ZWWUFlWE1RaDRvR2R5S1Mw?=
+ =?utf-8?B?QUNYOGI4MXZ1aTZDLzZNVENvWVVUdm1Jc0VGb0lDM3czNmVhb0JQYmhQSjZR?=
+ =?utf-8?B?Q2t2WTNPejR6RGhyRk1neExxcUhUMVkyNXk4MVU5eEdxS2RaTVlxaGp1cjJK?=
+ =?utf-8?B?cnJWZlBSOWt1dEZGcnRocTdRemZ5V01DNC9YblZUS0grc1R5K1IvRzNhdU52?=
+ =?utf-8?B?SlFQa25DLzAwS1lNZzdnbmJBbXZ4REpFUVJleUwxQlZEdEsyZkIvNHB6djBU?=
+ =?utf-8?B?Y2lqeUFuK0hWcVJtK09lZE1TclNqUFNKb2s0VDRUbFJyVHlwTVFLK3ptdllJ?=
+ =?utf-8?B?UjdnYmU0OTZMMEZPbGkyaCt4SXBvQk9pS0pCWTIxcjdGdVBTbVQ2OTg1SVpB?=
+ =?utf-8?B?djhwVnFGbnZWSzFOUVJsOWpyODZmYUN1LyttSVlXbm9FUW9zd0VYZlpHMGVL?=
+ =?utf-8?B?YkJqbCt2NStvTUw4THdKR1JPZnA5c2ZhV0xVWGpkUUZBVmFaYUpVb3RCMEU5?=
+ =?utf-8?B?ZVFSeUxXNU5Ic0pERWt2cm41dlcrNkZKdG40Nm83Qlk5MTdEUy9IaWlXME12?=
+ =?utf-8?B?TDUxUnlyVFpxbkJXWjJEbDcwSU5iR29QOU9FeXRQalduakxPQlRNUU5ydFQy?=
+ =?utf-8?B?MDgra0d5L1BaMXFlRHhtLzJnZVEzZENaR3VUUkhJc3VZbkN3QlBaYThkKy9H?=
+ =?utf-8?B?ekgrc3FXNmpHNXdEYXBYdWgrRTJlbFZiNlpkVENPcTY1citCcllIZXhPdlZD?=
+ =?utf-8?B?ckNMSEszMzRhS0ZNazNFU2FSV0I4Ym1jS1lVT05rTWsxb3d1NXZlcUEyY0t4?=
+ =?utf-8?B?a21FTzBQaDFabDFkanBOYTh1K0piQ3hQUUNvWXIrWnlxVG96akFkR2xOTzIz?=
+ =?utf-8?B?akZRR0pXNjhxM3BYK2VOTlZBNzdEZ2NrREQ3NUtReXh5TW5JUHJTbEg1TVBp?=
+ =?utf-8?B?dG0vc0FSa003ZVNHdXRDUjduK0NPVGpBQ0p1cjZLeWUrWFhabTRPMVZLS2xy?=
+ =?utf-8?B?Tld2VkVPd0NRREpPT1RBcGJ3eG5CU254QmxVUnBnSWhRMXVzRys2WkhPWVVl?=
+ =?utf-8?B?bFhod3Y2R1pIYlhiWk9LQ2I0MG16YnlzaVRSWHY0YkhnaEZlRHRqcDg2anFl?=
+ =?utf-8?B?UXdmdmx4M3VsOTFIeTNSbEwvMk4xVnlvQ2ZyZ0FiUHVKYWRJRVdEeWRPdWpV?=
+ =?utf-8?B?c2cySlJ0M2x4dVplUk9WWGQyU2pMSitQdkFvZ2dmVnRlVUJRTUZVYWY0Ukx1?=
+ =?utf-8?B?aFRDVXF0ajk3UE5oV3ZvLzl2ZjBVVFpPNnUzVXJnWm1ub1oxbVcrUXhKNjVB?=
+ =?utf-8?B?bFBEWWM5Mm04ZUZuK21CN2VHK0paMEdrc2E0YWJoTFAvUlZkMGNJQitjSm1M?=
+ =?utf-8?B?dmViNHU0RTNwY0x1OVZJKzNHVUFPSDRrRHRUYmFaR09FKzE5OU1NcmZEVEht?=
+ =?utf-8?B?QmV1MHRCRUJZejVpZzZOMUZ0bEpZcmg2VlNTeFFaYW9kTWFza1A1OVJVKzNV?=
+ =?utf-8?B?VDBOckJ0L2ZCR2hjQ0FiYWlEdVN6anpFZFJnYWIwdmJZYU5CVG84VUJpSmlD?=
+ =?utf-8?Q?e1Sc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4adece1d-a6e2-4761-e99c-08db6b2b81ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2023 09:58:01.0741
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dNPeKU8N/Q+Zxtc+dW1FDQAD2tIq+4t1G7pduwvzszFlfMNyr+HLZnlmrrpMYqbP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6607
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:44:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182659
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 09:58:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182660
 
-Below commits on glibc-2.35 stable branch are updated.
-cbceb903c4 (HEAD -> release/2.35/master, origin/release/2.35/master) io: Fix F_GETLK, F_SETLK, and F_SETLKW for powerpc64
-0967fb5861 io: Fix record locking contants on 32 bit arch with 64 bit default time_t
-739de21d30 Document BZ #20975 fix
-2b9906f9a0 __check_pf: Add a cancellation cleanup handler
-7035f2174f gmon: Revert addition of tunables to preserve GLIBC_PRIVATE ABI
-e698e8bd8e gmon: fix memory corruption issues
-9f81b8fa65 gmon: improve mcount overflow handling
-f2820e478c gmon: Fix allocated buffer overflow
-413af1eb02 posix: Fix system blocks SIGCHLD erroneously
-
-CVE-2023-0687.patch is dropped
-
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- .../glibc/glibc/CVE-2023-0687.patch           | 82 -------------------
- meta/recipes-core/glibc/glibc_2.35.bb         |  1 -
- 3 files changed, 1 insertion(+), 84 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 4d8d96cefb..01b1abef7d 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.35/master"
- PV = "2.35"
--SRCREV_glibc ?= "1c7f51c75ae300fe52ccb636e71b8e28cb20824c"
-+SRCREV_glibc ?= "cbceb903c4d770acc7e4ba5641036516830ed69b"
- SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch b/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
-deleted file mode 100644
-index 10c7e5666d..0000000000
---- a/meta/recipes-core/glibc/glibc/CVE-2023-0687.patch
-+++ /dev/null
-@@ -1,82 +0,0 @@
--From 952aff5c00ad7c6b83c3f310f2643939538827f8 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?=D0=9B=D0=B5=D0=BE=D0=BD=D0=B8=D0=B4=20=D0=AE=D1=80=D1=8C?=
-- =?UTF-8?q?=D0=B5=D0=B2=20=28Leonid=20Yuriev=29?= <leo@yuriev.ru>
--Date: Sat, 4 Feb 2023 14:41:38 +0300
--Subject: [PATCH] gmon: Fix allocated buffer overflow (bug 29444)
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--The `__monstartup()` allocates a buffer used to store all the data
--accumulated by the monitor.
--
--The size of this buffer depends on the size of the internal structures
--used and the address range for which the monitor is activated, as well
--as on the maximum density of call instructions and/or callable functions
--that could be potentially on a segment of executable code.
--
--In particular a hash table of arcs is placed at the end of this buffer.
--The size of this hash table is calculated in bytes as
--   p->fromssize = p->textsize / HASHFRACTION;
--
--but actually should be
--   p->fromssize = ROUNDUP(p->textsize / HASHFRACTION, sizeof(*p->froms));
--
--This results in writing beyond the end of the allocated buffer when an
--added arc corresponds to a call near from the end of the monitored
--address range, since `_mcount()` check the incoming caller address for
--monitored range but not the intermediate result hash-like index that
--uses to write into the table.
--
--It should be noted that when the results are output to `gmon.out`, the
--table is read to the last element calculated from the allocated size in
--bytes, so the arcs stored outside the buffer boundary did not fall into
--`gprof` for analysis. Thus this "feature" help me to found this bug
--during working with https://sourceware.org/bugzilla/show_bug.cgi?id=29438
--
--Just in case, I will explicitly note that the problem breaks the
--`make test t=gmon/tst-gmon-dso` added for Bug 29438.
--There, the arc of the `f3()` call disappears from the output, since in
--the DSO case, the call to `f3` is located close to the end of the
--monitored range.
--
--Signed-off-by: Леонид Юрьев (Leonid Yuriev) <leo@yuriev.ru>
--
--Another minor error seems a related typo in the calculation of
--`kcountsize`, but since kcounts are smaller than froms, this is
--actually to align the p->froms data.
--
--Co-authored-by: DJ Delorie <dj@redhat.com>
--Reviewed-by: Carlos O'Donell <carlos@redhat.com>
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=801af9fafd4689337ebf27260aa115335a0cb2bc]
--CVE: CVE-2023-0687
--Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-----
-- gmon/gmon.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/gmon/gmon.c b/gmon/gmon.c
--index dee6480..bf76358 100644
----- a/gmon/gmon.c
--+++ b/gmon/gmon.c
--@@ -132,6 +132,8 @@ __monstartup (u_long lowpc, u_long highpc)
--   p->lowpc = ROUNDDOWN(lowpc, HISTFRACTION * sizeof(HISTCOUNTER));
--   p->highpc = ROUNDUP(highpc, HISTFRACTION * sizeof(HISTCOUNTER));
--   p->textsize = p->highpc - p->lowpc;
--+  /* This looks like a typo, but it's here to align the p->froms
--+     section.  */
--   p->kcountsize = ROUNDUP(p->textsize / HISTFRACTION, sizeof(*p->froms));
--   p->hashfraction = HASHFRACTION;
--   p->log_hashfraction = -1;
--@@ -142,7 +144,7 @@ __monstartup (u_long lowpc, u_long highpc)
--	 instead of integer division.  Precompute shift amount. */
--       p->log_hashfraction = ffs(p->hashfraction * sizeof(*p->froms)) - 1;
--   }
---  p->fromssize = p->textsize / HASHFRACTION;
--+  p->fromssize = ROUNDUP(p->textsize / HASHFRACTION, sizeof(*p->froms));
--   p->tolimit = p->textsize * ARCDENSITY / 100;
--   if (p->tolimit < MINARCS)
--     p->tolimit = MINARCS;
----
--2.7.4
-diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 29fcb1d627..df847e76bf 100644
---- a/meta/recipes-core/glibc/glibc_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -50,7 +50,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            \
-            file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
--           file://CVE-2023-0687.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.34.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDEyIGp1bmkgMjAyMyAxMToxOQ0K
+PiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+
+IENjOiByc0B0aS5jb207IHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc7IHJlYXRt
+b25AdGkuY29tOw0KPiBkZW5pc0BkZW5peC5vcmc7IGFsZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4u
+Y29tOyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJq
+ZWN0OiBSZTogW09FLWNvcmVdW1BBVENIIDQvNl0gd2VzdG9uLWluaXQ6IGZpeCB0aGUgbWl4ZWQg
+aW5kZW50YXRpb24NCj4gDQo+IE9uIFN1biwgMTEgSnVuIDIwMjMgYXQgMjM6MjUsIFBldGVyIEtq
+ZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPiA+
+IEkga25vdyBteSB0ZXh0IGVkaXRvciBpcyBnb2luZyB0byBnZXQgYW5ncnkgYXQgbWUgaWYgdGhp
+cyBjb250aW51ZXMuDQo+ID4NCj4gPiBHZXQgYSBiZXR0ZXIgZWRpdG9yLiA7KSBBdCBsZWFzdCBm
+b3IgRW1hY3MgdGhlcmUgaXMgYSBiaXRiYWtlLW1vZGUgdGhhdA0KPiA+IHN1cHBvcnRzIHRoZSBk
+aWZmZXJlbnQgd2F5cyBvZiBpbmRlbnRpbmcgc2hlbGwgYW5kIFB5dGhvbiBjb2RlIGluIHRoZQ0K
+PiA+IHNhbWUgcmVjaXBlLg0KPiANCj4gT3Igd2UgY2FuIHN0b3AgY2FyaW5nIGFib3V0IGluZGVu
+dGF0aW9uLCBhcyBsb25nIGFzIGl0J3MgY29uc2lzdGVudA0KPiB3aXRoIHdoYXQgaXMgYWxyZWFk
+eSB0aGVyZSwgYW5kIGRvZXNuJ3QgZ2V0IGluIHRoZSB3YXkgb2YgcmV2aWV3aW5nDQo+IHBhdGNo
+ZXMuIFRoYXQncyBteSBwcmVmZXJyZWQgb3B0aW9uLCBhbmQgaGFzIGJlZW4gZm9yIHRoZSBwYXN0
+IDI1DQo+IHllYXJzLg0KPiANCj4gQWxleA0KDQpXZWxsIHRoYXQgaXMgb2YgY291cnNlIGFuIG9w
+dGlvbiwgYnV0IHRoZW4gaXQgbWF5IGdldCBtZXNzeSBpZiBkaWZmZXJlbnQgDQpwZW9wbGUgaGF2
+ZSBkaWZmZXJlbnQgcHJlZmVyZW5jZXMgYW5kIHN0YXJ0IGNoYW5naW5nIHRoZSBpbmRlbnRhdGlv
+biBiYWNrIA0KYW5kIGZvcnRoLi4uDQoNCi8vUGV0ZXINCg0K
 
