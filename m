@@ -1,88 +1,95 @@
-Return-Path: <ricardo@foundries.io>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76320EB64D8
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 15:12:27 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web11.15851.1686669140306670736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7533EEB64D7
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 15:17:17 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.web10.15862.1686669435317535514
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 08:12:20 -0700
+ Tue, 13 Jun 2023 08:17:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@foundries.io header.s=google header.b=m7cXZxYc;
- spf=pass (domain: foundries.io, ip: 209.85.208.169, mailfrom: ricardo@foundries.io)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2b1bb2fc9c6so69132641fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 08:12:20 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dzVqUtIv;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-55b2fb308bbso3042885eaf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 08:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google; t=1686669138; x=1689261138;
+        d=gmail.com; s=20221208; t=1686669434; x=1689261434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ot5QvpXjmQ/2BoLEvGbL3CkVehPSns/n6VEFeyrkTWQ=;
-        b=m7cXZxYcg06JVz4UeOTjmC5ZCXs1caBDqY8RCKk4XXV9yc2HZca0Cs2szKAos49iWV
-         BV7nXeUwVen+ZepNIE5McEOTGq5UDWQ/vUCzi3Pb1UhfORoHouBwV1CrIpJSDPqrKrT5
-         yOAEVSDAJnEG9n5dg5GYJBEI0vqH9QJW/1c391sMFYb+pSMbd5NHI91gTFD8WVD9PBeM
-         TzkVqMdSDIfK9wIAqWUV5wbJs/ZfJzBWBcxW7LJgLnNh0/UQEXOz/BhZTJGjzavqpnC2
-         EtJoKRBdh3cuTu+Yl7trd5RE0Z921EUoZDeA91Z+5FdBjBcQ7v6EK6IcZ8kgOHtyQYEf
-         gZ9Q==
+        bh=JHlsF72svFkltCLAqjnFkNTVlFz/LzY8bJZT4OWWWww=;
+        b=dzVqUtIvU93aB11FMN4NMPgUcaVnHV2+OutpZGLOOV6lB5r1PkehFT8Hx67FgdI2H+
+         mQ2sh6sIZEjz0eBzdVJQrPm1lxayiq/K0R/Ph0l9d3h82D4ShqR7F0KxGRZqsfqz6kc1
+         i93Asbxw6GK3eIGxMLEEHhGKpNcY2Phy06wYl7np2kXCVriz7A3oAgYbdJwppbHWPm0A
+         wBonEQNe2V5/eon18VC4P6LclwEsxxFHq02tPMy0g6KFLbBQAbl/CpQ4MAbA3zRzv3LU
+         nC88bQS5kujX0EGCVDed3IOcTbfkjCQDcbGKLuOAjAVjILtOWtNplNVzVyP8mZBPKbvo
+         cX4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686669138; x=1689261138;
+        d=1e100.net; s=20221208; t=1686669434; x=1689261434;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ot5QvpXjmQ/2BoLEvGbL3CkVehPSns/n6VEFeyrkTWQ=;
-        b=em6ax3TzdVtTHUZcTOfuT3IO9c/41/RzdmcOY7cwU8yCOnReuekL9zXpB/37GjOZm6
-         Tct5USC43vq30sHW2Rbxz3ZLSa9UELLBAVutB3efR/qvNv+PxSF7krDdaiECgURspvjX
-         cFBR15YUBfj4tndYLcqNWBINHJG1pQvwCrwzJKYabnKG6VKwK4ugkeYqJUTj22xs+TS4
-         lnBn2efOUS5rMT2az+xvkrPfHKhjEDr2qB/Hcy8k8U6eDDC2qxnawenN36Ro4RjjBVlC
-         zi3C9+zQc9P1xXf4dPvcyu25FPHfO7Ch+0Af9h100FiVEBXVEx1I5Tc8zyEDzNdIotyX
-         CVoQ==
-X-Gm-Message-State: AC+VfDyrV71EOpxgeWqzNFpn+XD/a28uopghvLu+YaTCxmPI9P/V7Kjc
-	xe4Tp54O8JbM0nMmNvC3DjkbTg0JbmJmsNh2FEbC
-X-Google-Smtp-Source: ACHHUZ47bTf2a11B5tvC9q+orIoou9bHBBIhQs/5a4VHy5ETcCcdMpXoNlK7QvVQ2uIGmGb0lgFh4FZSMeWGyc72FQw=
-X-Received: by 2002:a2e:8417:0:b0:2ad:d422:f334 with SMTP id
- z23-20020a2e8417000000b002add422f334mr4531893ljg.17.1686669138398; Tue, 13
- Jun 2023 08:12:18 -0700 (PDT)
+        bh=JHlsF72svFkltCLAqjnFkNTVlFz/LzY8bJZT4OWWWww=;
+        b=Qp8nfmJA3VT6i+0iqNJw32V3l4tQQEMPFipPrD083k4anay1AAX3oyhzQ/bsZHNbOK
+         l6f4U/FsUwkuNiWenXt5Es3cvwlBpXc3FaT9r7O/rj8OTgmFkIeraFf7t2I0exmkEqsc
+         Hk5ULa+N4lhxVq4MQOw8fnBOOSbDNSNf5fMWg+NBjV3U0dMeGBqPf8uWjWe6tNrur+kf
+         jNAUSv6t8IA7YfMq2tQXmpujPtaFJDwuVg+mznXbP0tXE3Bob6pzRLNhFaISkdneRU+/
+         Du35VFbCdOF0MpNbk1Ec52NJoD9I0HadXG300EzQ/uUhvQSH3VGHj7kSJNLznq+/lFyG
+         MGWQ==
+X-Gm-Message-State: AC+VfDzsxCuixY5mjuzXNrpUAyCA7c3xDBW3VXdHdQRLD0wXFFy9YVke
+	ypvbEZyU6gHrS8iEiQxVHz7OMPMLHGDy4HRjPyg=
+X-Google-Smtp-Source: ACHHUZ59ZdELRRhK/FmZHZkaPFD+JVOhtGUIlXjx7BhA2urqMtWkkOp7tOZwX6OpIq9bqUmgD64B4hARDaZrq0Xv1Cg=
+X-Received: by 2002:a4a:d983:0:b0:558:b7e5:1dcf with SMTP id
+ k3-20020a4ad983000000b00558b7e51dcfmr6599441oou.6.1686669434482; Tue, 13 Jun
+ 2023 08:17:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230328084141.49802-1-Qi.Chen@windriver.com> <CAAaKDhEE0PDexvfPYDcn27Sxzs78Db=Br9GNb+DbQ7MVH8oizw@mail.gmail.com>
- <CAOSpxdb+Z+nOB0u4qyqxD50bEhyAqXijBgwmH4-LcJNp6NLUyw@mail.gmail.com>
-In-Reply-To: <CAOSpxdb+Z+nOB0u4qyqxD50bEhyAqXijBgwmH4-LcJNp6NLUyw@mail.gmail.com>
-From: Ricardo Salveti <ricardo@foundries.io>
-Date: Tue, 13 Jun 2023 12:11:42 -0300
-Message-ID: <CAAaKDhFnhgN3KKQt7KozeXKB5FSUaiyMnmkSoygB3koxK+8y8Q@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] openssh: fix CVE-2023-28531
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
+References: <20230612181054.674846-1-raj.khem@gmail.com> <A617FA16-34E1-4971-90D8-E696887211D0@arm.com>
+ <CAMKF1spAoEU6V6RRnDpFQgAFSuR1t=Qk9d0kM4=KvzZU7Kg8bQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spAoEU6V6RRnDpFQgAFSuR1t=Qk9d0kM4=KvzZU7Kg8bQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Jun 2023 08:16:48 -0700
+Message-ID: <CAMKF1spO=6ocVscwnbX4qAMCJkySbDWjjJ5M+2CjXZW0ECExpQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] parted: Add missing libuuid to linker cmdline
+ for libparted-fs-resize.so
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 15:12:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182718
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 15:17:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182719
 
-On Tue, Jun 13, 2023 at 12:08=E2=80=AFAM Steve Sakoman <steve@sakoman.com> =
-wrote:
+On Tue, Jun 13, 2023 at 6:55=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
+:
 >
-> On Mon, Jun 12, 2023 at 4:00=E2=80=AFPM Ricardo Salveti <ricardo@foundrie=
-s.io> wrote:
-> >
-> > Hi,
-> >
-> > Was looking if CVE-2023-28531 was backported to kirkstone already and
-> > noticed this patch was already proposed before, but not
-> > merged/accepted.
+> Exactly I can rebase and send v2
 >
-> Sigh, it looks like I somehow missed this one and no one followed up on i=
-t :-(
->
-> I've got it in my test queue now.
->
-> Thanks for letting me know!
 
-Awesome, thanks!
+I think Alex already did it on his master-next branch here
+https://git.yoctoproject.org/poky-contrib/commit/?h=3Dabelloni/master-next&=
+id=3D9a266798a4f4a9aacc80297af689c0ce254e09f1
 
---=20
-Ricardo Salveti
+> On Tue, Jun 13, 2023 at 3:30 AM Ross Burton <Ross.Burton@arm.com> wrote:
+>>
+>> On 12 Jun 2023, at 19:10, Khem Raj via lists.openembedded.org <raj.khem=
+=3Dgmail.com@lists.openembedded.org> wrote:
+>> >
+>> > diff --git a/meta/recipes-extended/parted/parted_3.5.bb b/meta/recipes=
+-extended/parted/parted_3.5.bb
+>> > index f403840d3c2..b269c143b41 100644
+>> > --- a/meta/recipes-extended/parted/parted_3.5.bb
+>> > +++ b/meta/recipes-extended/parted/parted_3.5.bb
+>> > @@ -9,6 +9,7 @@ DEPENDS =3D "ncurses util-linux virtual/libiconv"
+>> > SRC_URI =3D "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+>> >            file://fix-doc-mandir.patch \
+>> >            file://autoconf-2.73.patch \
+>>   ^^^^
+>>
+>> Doesn=E2=80=99t apply cleanly as this patch doesn=E2=80=99t exist in mas=
+ter.  I guess these build on top of a series testing the new autoconf?
+>>
+>> Ross
 
