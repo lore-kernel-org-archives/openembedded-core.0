@@ -1,257 +1,130 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49AAC7EE29
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 12:46:46 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.12089.1686660397362753052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A26EB64D0
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 13:55:47 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web11.13818.1686664537328812995
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 05:46:37 -0700
+ Tue, 13 Jun 2023 06:55:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=kJYm1dc2;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f7ff69824dso36484985e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 05:46:37 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=oWJ0dLYD;
+ spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-559b0ddcd4aso3304678eaf.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 06:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686660395; x=1689252395;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h9yaXgtGzCS49OEX5uTKlETy8xllLsz2XO0LqzC6X34=;
-        b=kJYm1dc2sT/0BJ52nU78zcgzKn23osT2lvnt8uYLZH8T3ClDGLnMbhYE6jx++1UJab
-         07DLJiYcKJVqUx6vcrjwKogGvnx7sp49hh7AZdysCfMuGa/91tMiTX26fdOr+oa6Na2S
-         Fd0xVnT43xWrUSdi18v1tB0ypCeHAk8pmN9q+g2hh4t7NQhSZFUYFScaPYJGyuAb63c/
-         8gciHkUeOYFvEouk/qAId70OuTkDYuTkpPxN4aLPDbqDPZRKkq7ao/OzGYfhJxT3KZIs
-         Gzuz81/vdaXP6GU0isg1YCCQFXA9QccVRTb0lhApv1DNL9HVWmtpX2qOA5Pz7zy4ak2a
-         U6UQ==
+        d=gmail.com; s=20221208; t=1686664536; x=1689256536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dMybHgUKgzPmratvBqSTSq6AVD49uqLOwpQoq1XUVLA=;
+        b=oWJ0dLYD3NUaiSDJ+pjBMaJkPKhse/XEhjy3IlzSgMCgKQMrOhVeQU/xQE5Csnjei5
+         I7HVPR/MvJIsmIRenC+sIyDpg7qDv4jrRS2K06GmyuSQV5NjuhMHd6K8FtXbbpG9iarb
+         HebaxRVLF1oYdt0+fV8ZC9qn+l2sY4/AIXgsct7vQ66XznVSdkXJVukS1W8rNXRd4FIS
+         Y2cSim60IlUvwr8uVI16gIBth4TXaFbIKgzKonDfnA97Iy1cpSX5ye9qK9ryVo/ikjTj
+         KYtOiXQCrzuebbGyV358lB3fLIVKAaCedluAeNN1u6d1AqiX/jjnH8BzCEhXf/km4hQW
+         RFnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686660395; x=1689252395;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1686664536; x=1689256536;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h9yaXgtGzCS49OEX5uTKlETy8xllLsz2XO0LqzC6X34=;
-        b=KNpKukvC1sh1tuBVA+4NOluOgxyvDycs8ONz+SD9E8w8Ft2MfrwKwwkoab3oeeVT/u
-         Cmn65ORlzGd8v/WJXsCG4qM5I9AkYYUsiKbviUYvpk+vMk2/lu9Htu3qQ2o+Iw85AwiM
-         JYRFujsa7zntjIUS2wmLHIE1SreuczBtKXgy42g/0liUi5RFBev5uh3CNll9xrj+Ixsq
-         auMjCvAe1H127u6zXDabCktQrZ7zXYrBN1YPv934mGwHMZtB2SFjcwruvPpTp7/F1gAR
-         dlCOfv8XIWZhT4PKlWXt4IGsm9/vRUMVIqYqkzsZjG0T+GOJFP6CBfE1e3nXLJYgUgTE
-         LaWQ==
-X-Gm-Message-State: AC+VfDzICXiFXkeX0djXhcra47uFuRP3ty1M7rWWlKOxeEPy/472yNoa
-	ixccogJWM3p9OJqbacp8d1EybVZhvQc=
-X-Google-Smtp-Source: ACHHUZ6O4Jse6KPXFdkBQqHn6C1f27oYQWpxFNcZUxu7v/3sEcy9muSMnP6nesi9OhC+i+xhmyo7BA==
-X-Received: by 2002:adf:dd41:0:b0:30f:c534:bbfe with SMTP id u1-20020adfdd41000000b0030fc534bbfemr3911245wrm.6.1686660395142;
-        Tue, 13 Jun 2023 05:46:35 -0700 (PDT)
-Received: from localhost.localdomain (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id c3-20020adffb03000000b0030ab5ebefa8sm15198299wrr.46.2023.06.13.05.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 05:46:34 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] eudev: Upgrade 3.2.11 -> 3.2.12
-Date: Tue, 13 Jun 2023 13:46:20 +0100
-Message-Id: <20230613124620.2059-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
+        bh=dMybHgUKgzPmratvBqSTSq6AVD49uqLOwpQoq1XUVLA=;
+        b=l9u78eJRftVGNkHsK1zgvL8ggZyvVdcJGOmkBmRi/U9NTlCWI8maNnvCj7csyfG/N4
+         DImYvBub6lsN3WjGaVXhgZ35Ojff6Y0LWDYxxzpfqaZgyaW28OBGpwlB2D4S+iTZrkNT
+         2IRoYbcZdOeCs9o7gGJAUAxYpwRKZRn4zMsYcI5f0ePFjzpFiObGyc7HNkwkpgaijM0F
+         WvfrKzxGAqM5LNrhywkqXYBC0DjcOid6OBPE3s/jje8EFp0R0e1ICVPxYWbAwk1ycZki
+         3wpj3vdwFA9nqkf39AfaF8aBlhPbfPB5Dx9ojBmOf5T7Hm4ZL/TTIIjLzKZ9dBDleyL9
+         c52w==
+X-Gm-Message-State: AC+VfDwzR3FdmrjAbsYSmf/BgcQT0zQWisB9cHjkcZ1KJE3TKuidl/4F
+	gRWEAFxEDZ78ojzmFkjBNgDMLrS95gNpyWnF2o6kLhKm
+X-Google-Smtp-Source: ACHHUZ6tcpXiHnVKC5lqhuj06DOArotYSxeRtJcMfWI8X2nwyA/PFDLUWxMBBhpFBpv9H0tk2y7E1wbHiCqewQrkpD4=
+X-Received: by 2002:a4a:d241:0:b0:555:7682:7644 with SMTP id
+ e1-20020a4ad241000000b0055576827644mr7549008oos.2.1686664536316; Tue, 13 Jun
+ 2023 06:55:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230612181054.674846-1-raj.khem@gmail.com> <A617FA16-34E1-4971-90D8-E696887211D0@arm.com>
+In-Reply-To: <A617FA16-34E1-4971-90D8-E696887211D0@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Jun 2023 06:55:25 -0700
+Message-ID: <CAMKF1spAoEU6V6RRnDpFQgAFSuR1t=Qk9d0kM4=KvzZU7Kg8bQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] parted: Add missing libuuid to linker cmdline
+ for libparted-fs-resize.so
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000008adf1905fe033017"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 12:46:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182714
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 13:55:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182715
 
-Drop upstreamed remove dead g-i-r configuration.
+--0000000000008adf1905fe033017
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Exactly I can rebase and send v2
 
- ...uild-Remove-dead-g-i-r-configuration.patch | 155 ------------------
- .../udev/{eudev_3.2.11.bb => eudev_3.2.12.bb} |   3 +-
- 2 files changed, 1 insertion(+), 157 deletions(-)
- delete mode 100644 meta/recipes-core/udev/eudev/0001-build-Remove-dead-g-i-r-configuration.patch
- rename meta/recipes-core/udev/{eudev_3.2.11.bb => eudev_3.2.12.bb} (94%)
+On Tue, Jun 13, 2023 at 3:30 AM Ross Burton <Ross.Burton@arm.com> wrote:
 
-diff --git a/meta/recipes-core/udev/eudev/0001-build-Remove-dead-g-i-r-configuration.patch b/meta/recipes-core/udev/eudev/0001-build-Remove-dead-g-i-r-configuration.patch
-deleted file mode 100644
-index 2836f30c3adf..000000000000
---- a/meta/recipes-core/udev/eudev/0001-build-Remove-dead-g-i-r-configuration.patch
-+++ /dev/null
-@@ -1,155 +0,0 @@
--From 520c4d451efc488573746f169d8e47d5a131afc2 Mon Sep 17 00:00:00 2001
--From: Alex Kiernan <alex.kiernan@gmail.com>
--Date: Fri, 20 May 2022 09:35:08 +0100
--Subject: [PATCH] build: Remove dead g-i-r configuration
--
--g-i-r support was removed in 2015 as part of removal of Gobject libudev
--support, but the autoconf support wasn't removed but is dead.
--
--Fixes: 252150e181c5 ("src/gudev: remove Gobject libudev support.")
--Upstream-Status: Submitted [https://github.com/eudev-project/eudev/pull/231]
--Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
--Signed-off-by: Alex Kiernan <alex.kiernan@zuma.ai>
-----
-- configure.ac        | 12 ------
-- m4/introspection.m4 | 96 ---------------------------------------------
-- 2 files changed, 108 deletions(-)
-- delete mode 100644 m4/introspection.m4
--
--diff --git a/configure.ac b/configure.ac
--index 85a524a618ae..987d5037ae77 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -183,17 +183,8 @@ AC_SUBST([udevrulesdir],[${udevlibexecdir}/rules.d])
-- AC_SUBST([pkgconfiglibdir], [${libdir}/pkgconfig])
-- AC_SUBST([sharepkgconfigdir],[${datadir}/pkgconfig])
-- 
---# introspection paths
---AC_SUBST([girdir], [${datadir}/gir-1.0])
---AC_SUBST([typelibsdir], [${libdir}/girepository-1.0])
---
-- AC_SUBST([rootrundir],[${with_rootrundir}])
-- 
---# ------------------------------------------------------------------------------
---
---GOBJECT_INTROSPECTION_CHECK([1.31.1])
---AM_CONDITIONAL([HAVE_INTROSPECTION], [test "$enable_introspection" = "yes"])
---
-- # ------------------------------------------------------------------------------
-- AC_ARG_ENABLE([programs],
-- 	AS_HELP_STRING([--disable-programs], [disable programs (udevd, udevadm and helpers)]),
--@@ -349,9 +340,6 @@ AC_MSG_RESULT([
-- 
-- 	pkgconfiglibdir:         ${libdir}/pkgconfig
-- 	sharepkgconfigdir        ${datadir}/pkgconfig
---
---	girdir                   ${datadir}/gir-1.0
---	typelibsdir              ${libdir}/girepository-1.0
-- ])
-- 
-- # ------------------------------------------------------------------------------
--diff --git a/m4/introspection.m4 b/m4/introspection.m4
--deleted file mode 100644
--index d89c3d907d9c..000000000000
----- a/m4/introspection.m4
--+++ /dev/null
--@@ -1,96 +0,0 @@
---dnl -*- mode: autoconf -*-
---dnl Copyright 2009 Johan Dahlin
---dnl
---dnl This file is free software; the author(s) gives unlimited
---dnl permission to copy and/or distribute it, with or without
---dnl modifications, as long as this notice is preserved.
---dnl
---
---# serial 1
---
---m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
---[
---    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
---    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
---    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
---
---    dnl enable/disable introspection
---    m4_if([$2], [require],
---    [dnl
---        enable_introspection=yes
---    ],[dnl
---        AC_ARG_ENABLE(introspection,
---                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
---                                 [Enable introspection for this build]),, 
---                                 [enable_introspection=auto])
---    ])dnl
---
---    AC_MSG_CHECKING([for gobject-introspection])
---
---    dnl presence/version checking
---    AS_CASE([$enable_introspection],
---    [no], [dnl
---        found_introspection="no (disabled, use --enable-introspection to enable)"
---    ],dnl
---    [yes],[dnl
---        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
---                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
---        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
---                         found_introspection=yes,
---                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
---    ],dnl
---    [auto],[dnl
---        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
---	dnl Canonicalize enable_introspection
---	enable_introspection=$found_introspection
---    ],dnl
---    [dnl	
---        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
---    ])dnl
---
---    AC_MSG_RESULT([$found_introspection])
---
---    INTROSPECTION_SCANNER=
---    INTROSPECTION_COMPILER=
---    INTROSPECTION_GENERATE=
---    INTROSPECTION_GIRDIR=
---    INTROSPECTION_TYPELIBDIR=
---    if test "x$found_introspection" = "xyes"; then
---       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
---       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
---       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
---       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
---       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
---       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
---       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
---       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
---    fi
---    AC_SUBST(INTROSPECTION_SCANNER)
---    AC_SUBST(INTROSPECTION_COMPILER)
---    AC_SUBST(INTROSPECTION_GENERATE)
---    AC_SUBST(INTROSPECTION_GIRDIR)
---    AC_SUBST(INTROSPECTION_TYPELIBDIR)
---    AC_SUBST(INTROSPECTION_CFLAGS)
---    AC_SUBST(INTROSPECTION_LIBS)
---    AC_SUBST(INTROSPECTION_MAKEFILE)
---
---    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
---])
---
---
---dnl Usage:
---dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
---
---AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
---[
---  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
---])
---
---dnl Usage:
---dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
---
---
---AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
---[
---  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
---])
---- 
--2.35.1
--
-diff --git a/meta/recipes-core/udev/eudev_3.2.11.bb b/meta/recipes-core/udev/eudev_3.2.12.bb
-similarity index 94%
-rename from meta/recipes-core/udev/eudev_3.2.11.bb
-rename to meta/recipes-core/udev/eudev_3.2.12.bb
-index eba36c2f9175..572ccecafd0c 100644
---- a/meta/recipes-core/udev/eudev_3.2.11.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.12.bb
-@@ -12,10 +12,9 @@ PROVIDES = "udev"
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://init \
-            file://local.rules \
--           file://0001-build-Remove-dead-g-i-r-configuration.patch \
- "
- 
--SRC_URI[sha256sum] = "19847cafec67897da855fde56f9dc7d92e21c50e450aa79068a7e704ed44558b"
-+SRC_URI[sha256sum] = "ccdd64ec3c381d3c3ed0e99d2e70d1f62988c7763de89ca7bdffafa5eacb9ad8"
- 
- GITHUB_BASE_URI = "https://github.com/eudev-project/eudev/releases"
- 
--- 
-2.39.0
+> On 12 Jun 2023, at 19:10, Khem Raj via lists.openembedded.org <raj.khem=
+=3D
+> gmail.com@lists.openembedded.org> wrote:
+> >
+> > diff --git a/meta/recipes-extended/parted/parted_3.5.bb
+> b/meta/recipes-extended/parted/parted_3.5.bb
+> > index f403840d3c2..b269c143b41 100644
+> > --- a/meta/recipes-extended/parted/parted_3.5.bb
+> > +++ b/meta/recipes-extended/parted/parted_3.5.bb
+> > @@ -9,6 +9,7 @@ DEPENDS =3D "ncurses util-linux virtual/libiconv"
+> > SRC_URI =3D "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+> >            file://fix-doc-mandir.patch \
+> >            file://autoconf-2.73.patch \
+>   ^^^^
+>
+> Doesn=E2=80=99t apply cleanly as this patch doesn=E2=80=99t exist in mast=
+er.  I guess
+> these build on top of a series testing the new autoconf?
+>
+> Ross
 
+--0000000000008adf1905fe033017
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Exactly I can rebase and send v2</div><div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 13, 2023=
+ at 3:30 AM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Bur=
+ton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 12 Ju=
+n 2023, at 19:10, Khem Raj via <a href=3D"http://lists.openembedded.org" re=
+l=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> &lt;raj.khem=
+=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gm=
+ail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-extended/parted/<a href=3D"http://parted_3.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">parted_3.5.bb</a> b/meta/recipes-=
+extended/parted/<a href=3D"http://parted_3.5.bb" rel=3D"noreferrer" target=
+=3D"_blank">parted_3.5.bb</a><br>
+&gt; index f403840d3c2..b269c143b41 100644<br>
+&gt; --- a/meta/recipes-extended/parted/<a href=3D"http://parted_3.5.bb" re=
+l=3D"noreferrer" target=3D"_blank">parted_3.5.bb</a><br>
+&gt; +++ b/meta/recipes-extended/parted/<a href=3D"http://parted_3.5.bb" re=
+l=3D"noreferrer" target=3D"_blank">parted_3.5.bb</a><br>
+&gt; @@ -9,6 +9,7 @@ DEPENDS =3D &quot;ncurses util-linux virtual/libiconv&=
+quot;<br>
+&gt; SRC_URI =3D &quot;${GNU_MIRROR}/parted/parted-${PV}.tar.xz \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-doc-mandir.patch \=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoconf-2.73.patch \<=
+br>
+=C2=A0 ^^^^<br>
+<br>
+Doesn=E2=80=99t apply cleanly as this patch doesn=E2=80=99t exist in master=
+.=C2=A0 I guess these build on top of a series testing the new autoconf?<br=
+>
+<br>
+Ross</blockquote></div></div>
+
+--0000000000008adf1905fe033017--
 
