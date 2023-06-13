@@ -1,88 +1,132 @@
-Return-Path: <fabien.mahot@smile.fr>
+Return-Path: <schitrod@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90109EB64D0
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 15:33:57 +0000 (UTC)
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web10.16351.1686670436045792287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C96DEB64D7
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 19:31:31 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.web11.93.1686684682005766658
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 08:33:56 -0700
+ Tue, 13 Jun 2023 12:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@smile-fr.20221208.gappssmtp.com header.s=20221208 header.b=GZY+9D0g;
- spf=pass (domain: smile.fr, ip: 209.85.167.65, mailfrom: fabien.mahot@smile.fr)
-Received: by mail-lf1-f65.google.com with SMTP id 2adb3069b0e04-4f61d79b0f2so7296390e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 08:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1686670433; x=1689262433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jbnK0cbVp9IW4wfH24x5+QGnzeX3xlVxMmvjhWdGy1A=;
-        b=GZY+9D0gnqOshtoYvdNMDyYA0zemiC39fb7u/v1IDieDuv+dSplp3Aiabh+x6CWHhZ
-         WNsBS8PwNmVzJKfqUib6k2JlOV1wwDoEz8Rxap5lxPW8Vg/F4uXF9ZNAtdLB4bIx4crf
-         fh/OwgKcvo/HupPry3H3rHv/QNucH8P8TVOP9l3K9goIsudp4UTFoRIk4Oft/4ogIjaf
-         xQPJwQiyw6KwdgUNl+2O91WED9qJHkmPWt9FtZxgVSeg5xAaLv113qP+HqZfkNlWyFuO
-         Z1iah86EEDlJEvwOKih2sQCs3Ot1nFuH13qFQua51OAVQ9NaBRTH2dksUiTXTaOh3Czl
-         LJhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686670433; x=1689262433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jbnK0cbVp9IW4wfH24x5+QGnzeX3xlVxMmvjhWdGy1A=;
-        b=jRQJCvoKOdeGDiEXsqUxuMYAfCzg9JxX8/OScPlbP0nX19NQE/YFWqRAop8PVWpg6P
-         f5bGDFY/lE5t+4m670SVLOS+cQzguO6Ka3RhYhOu/xS0i/uF+qduxSFOdZuogJu2fNwV
-         uN/QUC1L2iohT1Za1KhLtXg8k4Coo1Kb3fVcA4i3NI38gVYFKD29X1T2q+f16ZOOJoiF
-         JaK2cnysA8iPyWJhPdNXKTkGcu+ry+5f4RTVgU4Yzceh5vRadCeHs50pkOYw41MV0WYj
-         vsOsnxlr3QiGpcgMJvtITEnsQ/WnTDHtPnOzlNzQFGMMgzWYIYV8ahWjfPdVRv7ZlXOG
-         P6pA==
-X-Gm-Message-State: AC+VfDzSC/SiaUqQe0gja+FGdZKLYe2J4AptE9zYF4Bpf7sU770JLV2+
-	LDq+3G6sKycJlMxEn0qyiE/AbejuifpYfQ/BbCMhScsq
-X-Google-Smtp-Source: ACHHUZ6IPMkD37IU6eG/i/rosHJk+WQNObK8PnMhPgzB2hPlrmAwPCEFB0SIS3mvqGT0e+acqZsdvQ==
-X-Received: by 2002:a19:f00a:0:b0:4f3:b883:fc4e with SMTP id p10-20020a19f00a000000b004f3b883fc4emr5358678lfc.43.1686670433507;
-        Tue, 13 Jun 2023 08:33:53 -0700 (PDT)
-Received: from P-NAN-AMETHYSTE.. (2a02-8428-803c-c201-e267-a137-cfd0-6092.rev.sfr.net. [2a02:8428:803c:c201:e267:a137:cfd0:6092])
-        by smtp.gmail.com with ESMTPSA id e5-20020adff345000000b0030630120e56sm15832020wrp.57.2023.06.13.08.33.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 08:33:53 -0700 (PDT)
-From: Fabien Mahot <fabien.mahot@smile.fr>
+ dkim=pass header.i=@cisco.com header.s=iport header.b=QtQSFsWE;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: schitrod@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=3034; q=dns/txt; s=iport;
+  t=1686684682; x=1687894282;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KpTKu+I+tvBXDz66D5Aa2/i2rmybF6S9vuPwfhg/Uw0=;
+  b=QtQSFsWEbHjKPLQByqhYrbS0sdrtE332+rST5dwwLMKbdalXBQu3IVzX
+   O3Llgs1kWbFeZG8w6Sw0cKsmGM5CAX4wiAe8ohDLctR/hsFpywXcpPBGL
+   OS9n9IiCern9uPcu5ig1hXIsGCJDTg8bYQR+vwB1iS/2Y0QYHdIwBGC1A
+   0=;
+X-IronPort-AV: E=Sophos;i="6.00,240,1681171200"; 
+   d="scan'208";a="72106845"
+Received: from rcdn-core-4.cisco.com ([173.37.93.155])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 13 Jun 2023 19:31:21 +0000
+Received: from sjc-ads-7441.cisco.com (sjc-ads-7441.cisco.com [10.30.220.226])
+	by rcdn-core-4.cisco.com (8.15.2/8.15.2) with ESMTPS id 35DJVDgq031635
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 13 Jun 2023 19:31:16 GMT
+Received: by sjc-ads-7441.cisco.com (Postfix, from userid 1812315)
+	id B1FA4CC1295; Tue, 13 Jun 2023 12:31:12 -0700 (PDT)
+From: Sanjay Chitroda <schitrod@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Fabien Mahot <fabien.mahot@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] useradd-example: package typo correction
-Date: Tue, 13 Jun 2023 17:33:44 +0200
-Message-Id: <20230613153344.399044-1-fabien.mahot@smile.fr>
-X-Mailer: git-send-email 2.34.1
+Cc: Sanjay Chitroda <schitrod@cisco.com>
+Subject: [OE-core,kirkstone][PATCH] cups: Fix CVE-2023-32324
+Date: Tue, 13 Jun 2023 12:31:10 -0700
+Message-Id: <20230613193110.2731585-1-schitrod@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.220.226, sjc-ads-7441.cisco.com
+X-Outbound-Node: rcdn-core-4.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 15:33:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182720
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 19:31:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182721
 
-Fixes [YOCTO #15143]
+OpenPrinting CUPS is an open source printing system. In versions 2.4.2
+and prior, a heap buffer overflow vulnerability would allow a remote
+attacker to launch a denial of service (DoS) attack. A buffer overflow
+vulnerability in the function `format_log_line` could allow remote
+attackers to cause a DoS on the affected system. Exploitation of the
+vulnerability can be triggered when the configuration file `cupsd.conf`
+sets the value of `loglevel `to `DEBUG`. No known patches or
+workarounds exist at time of publication.
 
-Signed-off-by: Fabien Mahot <fabien.mahot@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-32324
+https://security-tracker.debian.org/tracker/CVE-2023-32324
+
+Upstream Patch:
+https://github.com/OpenPrinting/cups/commit/fd8bc2d32589
+
+Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
 ---
- meta-skeleton/recipes-skeleton/useradd/useradd-example.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/cups/cups.inc           |  1 +
+ .../cups/cups/CVE-2023-32324.patch            | 36 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-32324.patch
 
-diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-index cff624e2f9..d7a5a95bac 100644
---- a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-+++ b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-@@ -32,7 +32,7 @@ USERADD_PACKAGES = "${PN} ${PN}-user3"
- # user1 and user2:
- USERADD_PARAM:${PN} = "-u 1200 -d /home/user1 -r -s /bin/bash user1; -u 1201 -d /home/user2 -r -s /bin/bash user2"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 0acc5c575e..1b87d47a49 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/OpenPrinting/cups/releases/download/v${PV}/cups-${
+            file://0004-cups-fix-multilib-install-file-conflicts.patch \
+            file://volatiles.99_cups \
+            file://cups-volatiles.conf \
++           file://CVE-2023-32324.patch \
+            "
  
--# user3 will be managed in the useradd-example-user3 pacakge:
-+# user3 will be managed in the useradd-example-user3 package:
- # As an example, we use the -p option to set password ('user3') for user3
- USERADD_PARAM:${PN}-user3 = "-u 1202 -d /home/user3 -r -s /bin/bash -p '\$6\$XAWr.8nc\$bUE4pYYaVb8n6BbnBitU0zeJMtfhTpFpiOBLL9zRl4e4YQo88UU4r/1kjRzmTimCy.BvDh4xoFwVqcO.pihLa1' user3"
- 
+ UPSTREAM_CHECK_URI = "https://github.com/OpenPrinting/cups/releases"
+diff --git a/meta/recipes-extended/cups/cups/CVE-2023-32324.patch b/meta/recipes-extended/cups/cups/CVE-2023-32324.patch
+new file mode 100644
+index 0000000000..40b89c9899
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/CVE-2023-32324.patch
+@@ -0,0 +1,36 @@
++From 07cbffd11107eed3aaf1c64e35552aec20f792da Mon Sep 17 00:00:00 2001
++From: Zdenek Dohnal <zdohnal@redhat.com>
++Date: Thu, 1 Jun 2023 12:04:00 +0200
++Subject: [PATCH] cups/string.c: Return if `size` is 0 (fixes CVE-2023-32324)
++
++CVE: CVE-2023-32324
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/fd8bc2d32589]
++
++(cherry picked from commit fd8bc2d32589d1fd91fe1c0521be2a7c0462109e)
++Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
++---
++ cups/string.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/cups/string.c b/cups/string.c
++index 93cdad19..6ef58515 100644
++--- a/cups/string.c
+++++ b/cups/string.c
++@@ -1,6 +1,7 @@
++ /*
++  * String functions for CUPS.
++  *
+++ * Copyright © 2023 by OpenPrinting.
++  * Copyright © 2007-2019 by Apple Inc.
++  * Copyright © 1997-2007 by Easy Software Products.
++  *
++@@ -730,6 +731,9 @@ _cups_strlcpy(char       *dst,		/* O - Destination string */
++   size_t	srclen;			/* Length of source string */
++ 
++ 
+++  if (size == 0)
+++    return (0);
+++
++  /*
++   * Figure out how much room is needed...
++   */
 -- 
-2.34.1
+2.35.6
 
 
