@@ -1,123 +1,113 @@
-Return-Path: <devarsht@ti.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6FEC7EE29
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 06:42:15 +0000 (UTC)
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by mx.groups.io with SMTP id smtpd.web11.7547.1686638527688074597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20138C77B7A
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 06:46:25 +0000 (UTC)
+Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
+ by mx.groups.io with SMTP id smtpd.web11.7585.1686638780381857300
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 23:42:07 -0700
+ Mon, 12 Jun 2023 23:46:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=G2NwitkW;
- spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: devarsht@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35D6g5E4053750;
-	Tue, 13 Jun 2023 01:42:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1686638525;
-	bh=zOzBgxU1BKjQDu9/D1DuKoH1YPPau2k16ENNPLk5+hY=;
-	h=From:To:CC:Subject:Date;
-	b=G2NwitkWV20rUW4h2Q2vHrUA5p6fQ600g/w/C1xlhnNErEz6F1E4qMOSmBrf6ea+F
-	 mm5BHPq61p5gRaqdVWPbCjRiLUNGTTAckAeAWn481luV9S+FRtiacQVqWyqr8J5PM+
-	 /Y47pu2elUBhw3p/sNnSLn3hRO6dapKRzyhtbQ3M=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35D6g5jI088596
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 13 Jun 2023 01:42:05 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 13
- Jun 2023 01:42:04 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 13 Jun 2023 01:42:05 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35D6g4Jh012689;
-	Tue, 13 Jun 2023 01:42:04 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <richard.purdie@linuxfoundation.org>
-CC: <denys@konsulko.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <khasim@ti.com>, <nsekhar@ti.com>, <afd@ti.com>,
-        <rs@ti.com>, <devarsht@ti.com>, <n-jain1@ti.com>
-Subject: [PATCH] wic: bootimg: Add support to install directories
-Date: Tue, 13 Jun 2023 12:12:01 +0530
-Message-ID: <20230613064201.3404610-1-devarsht@ti.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
+Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
+	by mailout05.t-online.de (Postfix) with SMTP id 3E25814C1C
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 08:46:18 +0200 (CEST)
+Received: from flk-MS-7C91.fritz.box ([84.163.41.153]) by fwd85.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1q8xnE-1BJSRF0; Tue, 13 Jun 2023 08:46:16 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] gtk4: upgrade 4.10.3 -> 4.10.4
+Date: Tue, 13 Jun 2023 08:46:02 +0200
+Message-Id: <20230613064602.6097-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-TOI-EXPURGATEID: 150726::1686638776-ADD8FDAB-C0C15B46/0/0 CLEAN NORMAL
+X-TOI-MSGID: 2fae05c7-829f-47e8-9642-4d6e0b2ddab8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 06:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182692
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 06:46:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182693
 
-IMAGE_BOOTFILES can contains directories to install in boot partition
-for e.g. below declaration allows to install files into boot dir as per
-example given in yocto documentation [1].
+Overview of Changes in 4.10.4, 05-06 2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-$ IMAGE_BOOT_FILES = "bcm2835-bootfiles/*;boot/
+* GtkFileChooser
+ - Fix some memory leaks
 
-So to install directories in target boot parition of wic image,
-use `-t` option of install command so that if there are any directories
-present in IMAGE_BOOT_FILES macro they get created in target area and
-respective files get installed in created directory in target area.
+* GtkUriLauncher
+ - Validate the uri
 
-This also fixes below error, which was faced while trying to install logos
-directory inside the boot partition :
+* GtkStack
+ - Fix a crash
 
-$ "install -m 0644 -D <src_path>/deploy/images/am62xx-evm/ti.gz
-<dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/ returned '1' instead of 0
-| output: install: target '<dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/'
-is not a directory: No such file or directory"
+* GtkGridView
+ - Respect css border-spacing
 
-Logs:
-[1] https://docs.yoctoproject.org/ref-manual/variables.html?highlight=image_boot_files
+* GtkScrolledWindow
+ - Propagate child measure size whenever possible
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+* GtkPopoverMenu:
+ - Avoid unnecessary left padding
+
+* GtkSearchEntry:
+ - Improve size allocation for the clear icon
+
+* X11
+ - Avoid black flickering with xwayland window decorations
+ - Trap XRandr errors
+
+* CSS
+ - Various fixes to transitions
+
+* Translation updates:
+ Basque
+ Catalan
+ Chinese (China)
+ French
+ Galician
+ Indonesian
+ Lithuanian
+ Persian
+ Russian
+ Swedish
+ Turkish
+ Ukrainian
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py       | 4 ++--
- scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gtk+/{gtk4_4.10.3.bb =3D> gtk4_4.10.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.10.3.bb =3D> gtk4_4.10.4.bb} (98%=
+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index c28d3917c2..966606a39e 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -341,13 +341,13 @@ class BootimgEFIPlugin(SourcePlugin):
-                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
-                 exec_native_cmd(objcopy_cmd, native_sysroot)
-         else:
--            install_cmd = "install -m 0644 %s/%s %s/%s" % \
-+            install_cmd = "install -m 0644 -D %s/%s -t %s/%s" % \
-                 (staging_kernel_dir, kernel, hdddir, kernel)
-             exec_cmd(install_cmd)
- 
-         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
-             for src_path, dst_path in cls.install_task:
--                install_cmd = "install -m 0644 -D %s %s" \
-+                install_cmd = "install -m 0644 -D %s -t %s" \
-                               % (os.path.join(kernel_dir, src_path),
-                                  os.path.join(hdddir, dst_path))
-                 exec_cmd(install_cmd)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 5dbe2558d2..32cc5d38ab 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -184,7 +184,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-         for task in cls.install_task:
-             src_path, dst_path = task
-             logger.debug('Install %s as %s', src_path, dst_path)
--            install_cmd = "install -m 0644 -D %s %s" \
-+            install_cmd = "install -m 0644 -D %s -t %s" \
-                           % (os.path.join(kernel_dir, src_path),
-                              os.path.join(hdddir, dst_path))
-             exec_cmd(install_cmd)
--- 
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.10.3.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.10.4.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.10.3.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.10.4.bb
+index 9aa33e6851..2d1e0e74a9 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.10.3.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.10.4.bb
+@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
+xz"
+=20
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
+{PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "4545441ad79e377eb6e0a705026dc7a46886e46a1b034db4=
+0912909da801cea9"
++SRC_URI[sha256sum] =3D "7725400482e0685e28265e226c62847f4e73cfca9e9b416a=
+c5838207f5377a24"
+=20
+ S =3D "${WORKDIR}/gtk-${PV}"
+=20
+--=20
 2.34.1
 
 
