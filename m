@@ -1,134 +1,115 @@
-Return-Path: <schitrod@cisco.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65685C7EE29
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 11:05:06 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.web10.10264.1686654301320883221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F5EC7EE29
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 11:29:36 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.10750.1686655772370021584
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 04:05:01 -0700
+ Tue, 13 Jun 2023 04:29:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=ggvuD2Rz;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: schitrod@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=3023; q=dns/txt; s=iport;
-  t=1686654301; x=1687863901;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=BT+/aeBy0RMc3fUA7Vric91YduArte4SHSztC0xxE/o=;
-  b=ggvuD2RzcrPzSPnHEWowgt8bvQ5/pduAHvT9aDQOxjcilkcDjh2gGbEK
-   THialXWq8iCYn+AoVrPInbFgLOBwFEfYRWbvjTIxSU8F88wzfwxW1SLgv
-   +ZMQqQqFXJnjZIVK1R/k+zh4XcH8bELlea6HaZCyrMRS+Zt1vcaKYTKnS
-   M=;
-X-IronPort-AV: E=Sophos;i="6.00,239,1681171200"; 
-   d="scan'208";a="71283654"
-Received: from rcdn-core-8.cisco.com ([173.37.93.144])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 13 Jun 2023 11:05:00 +0000
-Received: from sjc-ads-7441.cisco.com (sjc-ads-7441.cisco.com [10.30.220.226])
-	by rcdn-core-8.cisco.com (8.15.2/8.15.2) with ESMTPS id 35DB4rNq031646
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 13 Jun 2023 11:04:59 GMT
-Received: by sjc-ads-7441.cisco.com (Postfix, from userid 1812315)
-	id 7760DCC1293; Tue, 13 Jun 2023 04:04:53 -0700 (PDT)
-From: Sanjay Chitroda <schitrod@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sanjay Chitroda <schitrod@cisco.com>
-Subject: [OE-core][PATCH v2] cups: Fix CVE-2023-32324
-Date: Tue, 13 Jun 2023 04:04:39 -0700
-Message-Id: <20230613110439.1691643-1-schitrod@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20230610123008.4179883-1-schitrod@cisco.com>
-References: <20230610123008.4179883-1-schitrod@cisco.com>
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=KqFqphqY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f61b45ee0dso6610283e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 04:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1686655770; x=1689247770;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FrtyyiyeBrdAIkqGCp4O0mHoNMx6/U9PdQfLZrd+Hek=;
+        b=KqFqphqYTpmhIyFv1pMUD+ipgLAGHu95Byv79HnVUSnnncWU6KBQaw8paTMs8NeNQT
+         zsEDtKb8bz8PS5t9GOXum72Z4DtP72gI38rRGmep7FUJUOenrX4O4mvlbiKSXmkp3zcH
+         IAhiA/cKy7p/DyjXDAcG/qwTIvbhAlfO8sqSU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686655770; x=1689247770;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FrtyyiyeBrdAIkqGCp4O0mHoNMx6/U9PdQfLZrd+Hek=;
+        b=jDKGmaf/Q/hsOoPPh/dkJuvOhbzFecrUgw+EoZDSXYiC/5CfRmuR3/rMb0onFDCQJa
+         EP4YBkfhIqATsPnhLoNh+l/F6QnB7kRTHdEyisOifGSQwl6WBzy074aOZA4qnlVYYqBl
+         B1OYexSPKywz6OgRjJGY3otXAJOpZ9aR8RcWd7Oo5/4Z/e64qp+gBxgHmxf82Iv4tk+D
+         4bgfTlGHhyHqpG6nAVLIBZwLzld/z8eQAqmj1dVeqH/8nnV2H7gpSEnH37tK8N4bnpt7
+         q7QIA+y//si7Der+KU1iZ8ASoNO+Rp5YCUZKFwDMc4ThcT5DnpXg4u6Y+k3dKfmg1hTj
+         Yndg==
+X-Gm-Message-State: AC+VfDwWtHsKjxWIjWQpuJvi7w+W59X2RmkvR2DmMHfpXBJNMBVzn90o
+	jHu48yZlHvYrilxITrqbN+GaEw==
+X-Google-Smtp-Source: ACHHUZ4eV/4N2HTaxuWJH8gf/FBNujWa4TMLQlh5zZ5JAky2sQb9tc/q4gr92Fsr997tzNAVrc1DWA==
+X-Received: by 2002:a19:8c52:0:b0:4f6:19cc:7047 with SMTP id i18-20020a198c52000000b004f619cc7047mr4488120lfj.9.1686655770215;
+        Tue, 13 Jun 2023 04:29:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9a70:bab1:9f22:b535? ([2001:8b0:aba:5f3c:9a70:bab1:9f22:b535])
+        by smtp.gmail.com with ESMTPSA id c17-20020adffb51000000b00307bc4e39e5sm15107466wrs.117.2023.06.13.04.29.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 04:29:29 -0700 (PDT)
+Message-ID: <4055832f44f587778acdfbf1fc7d4dac6fbb7faf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] testimage: Set nostamp for
+ do_write_image_test_data
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Hoyes <peter.hoyes@arm.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Ross.Burton@arm.com
+Date: Tue, 13 Jun 2023 12:29:28 +0100
+In-Reply-To: <20230613095148.1269420-2-peter.hoyes@arm.com>
+References: <20230613095148.1269420-1-peter.hoyes@arm.com>
+	 <20230613095148.1269420-2-peter.hoyes@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.220.226, sjc-ads-7441.cisco.com
-X-Outbound-Node: rcdn-core-8.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 11:05:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182710
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 11:29:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182711
 
-OpenPrinting CUPS is an open source printing system. In versions 2.4.2
-and prior, a heap buffer overflow vulnerability would allow a remote
-attacker to launch a denial of service (DoS) attack. A buffer overflow
-vulnerability in the function `format_log_line` could allow remote
-attackers to cause a DoS on the affected system. Exploitation of the
-vulnerability can be triggered when the configuration file `cupsd.conf`
-sets the value of `loglevel `to `DEBUG`. No known patches or
-workarounds exist at time of publication.
+On Tue, 2023-06-13 at 10:51 +0100, Peter Hoyes wrote:
+> From: Peter Hoyes <Peter.Hoyes@arm.com>
+>=20
+> The testdata.json file generated as part of the rootfs postprocess
+> commands contains almost all Bitbake variables and is used by OEQA test
+> cases to inspect the build environment. However it is not automatically
+> regenerated, complicating the process of developing OEQA test cases.
+>=20
+> Set nostamp on the new do_write_image_test_data task so that it always
+> runs.
+>=20
+> Add a demonstrative OE selftest.
+>=20
+> Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
+> ---
+>  meta/classes-recipe/testimage.bbclass     |  1 +
+>  meta/lib/oeqa/selftest/cases/testimage.py | 26 +++++++++++++++++++++++
+>  2 files changed, 27 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/testimage.py
+>=20
+> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
+testimage.bbclass
+> index b23340420f..67f7f3629e 100644
+> --- a/meta/classes-recipe/testimage.bbclass
+> +++ b/meta/classes-recipe/testimage.bbclass
+> @@ -118,6 +118,7 @@ python do_write_image_test_data() {
+>                  os.remove(testdata_link)
+>              os.symlink(os.path.basename(testdata_name), testdata_link)
+>  }
+> +do_write_image_test_data[nostamp] =3D "1"
+>  do_write_image_test_data[vardepsexclude] +=3D "TOPDIR"
+>  addtask write_image_test_data after do_rootfs before do_image_complete
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-32324
-https://security-tracker.debian.org/tracker/CVE-2023-32324
+I'm torn on this. What this means is that all other tasks depending on
+do_image_complete will now also rerun. I suspect that will cause a
+cascade of selftest failures as they aren't written to expect that.
 
-Upstream Patch:
-https://github.com/OpenPrinting/cups/commit/fd8bc2d32589
+I know there was an alternative patch of injecting all the values into
+the checksum, I suspect that suffers the same issue as we'd need to
+filter it a bit to stop things like TIME changing it. We can't need
+*everything* there!
 
-Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
----
- meta/recipes-extended/cups/cups.inc           |  1 +
- .../cups/cups/CVE-2023-32324.patch            | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-32324.patch
+What we really need to do is filter the list of variables being written
+out to some set of what is really needed rather than everything.
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index da320b1085..d77758fd3f 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
-+           file://CVE-2023-32324.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2023-32324.patch b/meta/recipes-extended/cups/cups/CVE-2023-32324.patch
-new file mode 100644
-index 0000000000..40b89c9899
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2023-32324.patch
-@@ -0,0 +1,36 @@
-+From 07cbffd11107eed3aaf1c64e35552aec20f792da Mon Sep 17 00:00:00 2001
-+From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Thu, 1 Jun 2023 12:04:00 +0200
-+Subject: [PATCH] cups/string.c: Return if `size` is 0 (fixes CVE-2023-32324)
-+
-+CVE: CVE-2023-32324
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/fd8bc2d32589]
-+
-+(cherry picked from commit fd8bc2d32589d1fd91fe1c0521be2a7c0462109e)
-+Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
-+---
-+ cups/string.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/cups/string.c b/cups/string.c
-+index 93cdad19..6ef58515 100644
-+--- a/cups/string.c
-++++ b/cups/string.c
-+@@ -1,6 +1,7 @@
-+ /*
-+  * String functions for CUPS.
-+  *
-++ * Copyright © 2023 by OpenPrinting.
-+  * Copyright © 2007-2019 by Apple Inc.
-+  * Copyright © 1997-2007 by Easy Software Products.
-+  *
-+@@ -730,6 +731,9 @@ _cups_strlcpy(char       *dst,		/* O - Destination string */
-+   size_t	srclen;			/* Length of source string */
-+ 
-+ 
-++  if (size == 0)
-++    return (0);
-++
-+  /*
-+   * Figure out how much room is needed...
-+   */
--- 
-2.35.6
+Cheers,
 
+Richard
 
