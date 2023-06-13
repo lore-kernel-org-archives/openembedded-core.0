@@ -2,52 +2,52 @@ Return-Path: <schitrod@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190A8EB64D7
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 19:34:41 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.web11.173.1686684872614989971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4C1EB64D7
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 19:40:51 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.web11.325.1686685240977920720
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 12:34:32 -0700
+ Tue, 13 Jun 2023 12:40:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=g+HK77Wy;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: schitrod@cisco.com)
+ dkim=pass header.i=@cisco.com header.s=iport header.b=YAc2jeuY;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: schitrod@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=3053; q=dns/txt; s=iport;
-  t=1686684872; x=1687894472;
+  d=cisco.com; i=@cisco.com; l=3023; q=dns/txt; s=iport;
+  t=1686685241; x=1687894841;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=NDtLLfo5zwIrzj/XU0KH3uePGl9lMbdfEsZ+zvGNRV0=;
-  b=g+HK77WyssbhVtl3hgwGaAMK+yj46a2jNGSB2T9ic3lx4qqORG23HQPm
-   B2j2mbYz/S+vAwsFbODdLFpPIfimRNaTIguYxoR3STX+lc1qIA1YdhSgl
-   LoxucA+9bgglEBWHhXXAYaQiiGQf8gxszjFwrFOO4ttSjd0Qz0FXBIjpY
-   M=;
+  bh=BT+/aeBy0RMc3fUA7Vric91YduArte4SHSztC0xxE/o=;
+  b=YAc2jeuYOM91u0M/fVTZ9+g/m5ueI1OGPl/1nAtVpDPR1uiJkuO5FyHV
+   thKqFQW4YOCYyRygnEMrs+Nt2wE8oLQIOH/nCj8tPvL0sWFYg8HSnzlEL
+   UQ+gOE7JaWSR7csKN79bR0Na/pzjJUDct2XIVNl8t2h02kMNML15XFoOz
+   g=;
 X-IronPort-AV: E=Sophos;i="6.00,240,1681171200"; 
-   d="scan'208";a="72477317"
-Received: from rcdn-core-12.cisco.com ([173.37.93.148])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 13 Jun 2023 19:34:32 +0000
+   d="scan'208";a="64156409"
+Received: from rcdn-core-11.cisco.com ([173.37.93.147])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 13 Jun 2023 19:40:40 +0000
 Received: from sjc-ads-7441.cisco.com (sjc-ads-7441.cisco.com [10.30.220.226])
-	by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id 35DJYVKC027444
+	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPS id 35DJedeV028023
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 13 Jun 2023 19:34:31 GMT
+	Tue, 13 Jun 2023 19:40:40 GMT
 Received: by sjc-ads-7441.cisco.com (Postfix, from userid 1812315)
-	id 2E166CC1295; Tue, 13 Jun 2023 12:34:31 -0700 (PDT)
+	id 24B17CC1293; Tue, 13 Jun 2023 12:30:03 -0700 (PDT)
 From: Sanjay Chitroda <schitrod@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Sanjay Chitroda <schitrod@cisco.com>
-Subject: [OE-core,dunfell][PATCH] cups: Fix CVE-2023-32324
-Date: Tue, 13 Jun 2023 12:34:27 -0700
-Message-Id: <20230613193427.2732816-1-schitrod@cisco.com>
+Subject: [OE-core,mickledore][PATCH] cups: Fix CVE-2023-32324
+Date: Tue, 13 Jun 2023 12:29:46 -0700
+Message-Id: <20230613192946.2731116-1-schitrod@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Outbound-SMTP-Client: 10.30.220.226, sjc-ads-7441.cisco.com
-X-Outbound-Node: rcdn-core-12.cisco.com
+X-Outbound-Node: rcdn-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 19:34:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182722
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 19:40:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182723
 
 OpenPrinting CUPS is an open source printing system. In versions 2.4.2
 and prior, a heap buffer overflow vulnerability would allow a remote
@@ -73,17 +73,17 @@ Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
  create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-32324.patch
 
 diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 21c56e1430..d6e7d95800 100644
+index da320b1085..d77758fd3f 100644
 --- a/meta/recipes-extended/cups/cups.inc
 +++ b/meta/recipes-extended/cups/cups.inc
-@@ -14,6 +14,7 @@ SRC_URI = "https://github.com/apple/cups/releases/download/v${PV}/${BP}-source.t
-            file://0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch\
-            file://CVE-2022-26691.patch \
+@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://0004-cups-fix-multilib-install-file-conflicts.patch \
+            file://volatiles.99_cups \
+            file://cups-volatiles.conf \
 +           file://CVE-2023-32324.patch \
             "
  
- UPSTREAM_CHECK_URI = "https://github.com/apple/cups/releases"
+ GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
 diff --git a/meta/recipes-extended/cups/cups/CVE-2023-32324.patch b/meta/recipes-extended/cups/cups/CVE-2023-32324.patch
 new file mode 100644
 index 0000000000..40b89c9899
