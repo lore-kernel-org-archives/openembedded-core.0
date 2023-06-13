@@ -1,186 +1,123 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <devarsht@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B759C7EE2F
-	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 03:08:44 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.5326.1686625718640730079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6FEC7EE29
+	for <webhook@archiver.kernel.org>; Tue, 13 Jun 2023 06:42:15 +0000 (UTC)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by mx.groups.io with SMTP id smtpd.web11.7547.1686638527688074597
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jun 2023 20:08:39 -0700
+ Mon, 12 Jun 2023 23:42:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=oZK18sj8;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.49, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-30fbac9639fso2139549f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jun 2023 20:08:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686625717; x=1689217717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CVu5AMa8Q9Z8gFztt9DUkjA/eGlj88F1HsYHYfAeUPA=;
-        b=oZK18sj8LNcjaZQKGcYhBrXEIyARuLLSxfmAOljbTrYz0AtQNlCtyU4C89zDo2cNF0
-         oqWB/zMwF3hGIhDOMpntCZ3NXH7URj2QabhZih0yaQYiVB6ZTw8RF8e4meyTO5Q6kxge
-         cmlJYnJdrczAkVEw8O/962uocpSdC0ZCzz//u3j6wNnDi5cYo+zUPyARSeiF21CjvJ4h
-         obozHU4i3M2/CJUiW5z55HS+xyPTs+eNQj/H/yYwEWLFcv7AW7fMgrBQnr9AueTf7m+0
-         HsByNErg1gX5wbMujqAKZ+mX9oAfnVmjwpiCeIeCNvaly+F3Y9BicodoCuEGKlhoyREa
-         eEiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686625717; x=1689217717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CVu5AMa8Q9Z8gFztt9DUkjA/eGlj88F1HsYHYfAeUPA=;
-        b=T/VNvqrMNMQOvYYYCVk+I1yF/yyU+3hLqchxO/JDHH3o7lWvH9+vpVBUEMksyoD3Jd
-         5DgiVl6oefmKTmj0x/qMi1D1zNNuUmOSrXSk5vcFaon/ztPdLheAkeu8ehuYNRuO0ilS
-         Ip61dwCCNuBEod7jgaeg/yn0ERxu086hYBHwujNflHd6uZ7cYCRwPd+h/rmU2edq4k8f
-         3RtxYTdMq4fsJQjqNG6dzDU07Im1XwN1DlC66sKvUmz8MBoemS5RQgf7Kau7DDDPbU/b
-         9XvGcw2YNkwzUXZJoJokZDJKdxPiy/cPUaPN7TzFn2VfjfRmk9Noz79+q7XEmw/bpgvX
-         dnSw==
-X-Gm-Message-State: AC+VfDzBWQDlcr8FTjOVJOxF0EYwKw5crUXOHHlN51DWIor9uTfRtIg8
-	BXEUTl29/oxJoiXX885C78dmKcnPsmIUmiWImyI6yQ==
-X-Google-Smtp-Source: ACHHUZ7YXgZLUzcCRtGJEdueUdjCjrcv1I3XXsk9DkcM39ZOaGW7aQ8BXaWl93R4cWTXM/V6IzUOiXBK/9YV0RGQvIA=
-X-Received: by 2002:adf:f245:0:b0:30e:3d3c:1b67 with SMTP id
- b5-20020adff245000000b0030e3d3c1b67mr5785918wrp.8.1686625716596; Mon, 12 Jun
- 2023 20:08:36 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=G2NwitkW;
+ spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: devarsht@ti.com)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35D6g5E4053750;
+	Tue, 13 Jun 2023 01:42:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1686638525;
+	bh=zOzBgxU1BKjQDu9/D1DuKoH1YPPau2k16ENNPLk5+hY=;
+	h=From:To:CC:Subject:Date;
+	b=G2NwitkWV20rUW4h2Q2vHrUA5p6fQ600g/w/C1xlhnNErEz6F1E4qMOSmBrf6ea+F
+	 mm5BHPq61p5gRaqdVWPbCjRiLUNGTTAckAeAWn481luV9S+FRtiacQVqWyqr8J5PM+
+	 /Y47pu2elUBhw3p/sNnSLn3hRO6dapKRzyhtbQ3M=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35D6g5jI088596
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 13 Jun 2023 01:42:05 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 13
+ Jun 2023 01:42:04 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 13 Jun 2023 01:42:05 -0500
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35D6g4Jh012689;
+	Tue, 13 Jun 2023 01:42:04 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>
+CC: <denys@konsulko.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <khasim@ti.com>, <nsekhar@ti.com>, <afd@ti.com>,
+        <rs@ti.com>, <devarsht@ti.com>, <n-jain1@ti.com>
+Subject: [PATCH] wic: bootimg: Add support to install directories
+Date: Tue, 13 Jun 2023 12:12:01 +0530
+Message-ID: <20230613064201.3404610-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230328084141.49802-1-Qi.Chen@windriver.com> <CAAaKDhEE0PDexvfPYDcn27Sxzs78Db=Br9GNb+DbQ7MVH8oizw@mail.gmail.com>
-In-Reply-To: <CAAaKDhEE0PDexvfPYDcn27Sxzs78Db=Br9GNb+DbQ7MVH8oizw@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 12 Jun 2023 17:08:25 -1000
-Message-ID: <CAOSpxdb+Z+nOB0u4qyqxD50bEhyAqXijBgwmH4-LcJNp6NLUyw@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] openssh: fix CVE-2023-28531
-To: Ricardo Salveti <ricardo@foundries.io>
-Cc: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 03:08:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182691
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 06:42:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182692
 
-On Mon, Jun 12, 2023 at 4:00=E2=80=AFPM Ricardo Salveti <ricardo@foundries.=
-io> wrote:
->
-> Hi,
->
-> Was looking if CVE-2023-28531 was backported to kirkstone already and
-> noticed this patch was already proposed before, but not
-> merged/accepted.
+IMAGE_BOOTFILES can contains directories to install in boot partition
+for e.g. below declaration allows to install files into boot dir as per
+example given in yocto documentation [1].
 
-Sigh, it looks like I somehow missed this one and no one followed up on it =
-:-(
+$ IMAGE_BOOT_FILES = "bcm2835-bootfiles/*;boot/
 
-I've got it in my test queue now.
+So to install directories in target boot parition of wic image,
+use `-t` option of install command so that if there are any directories
+present in IMAGE_BOOT_FILES macro they get created in target area and
+respective files get installed in created directory in target area.
 
-Thanks for letting me know!
+This also fixes below error, which was faced while trying to install logos
+directory inside the boot partition :
 
-Steve
+$ "install -m 0644 -D <src_path>/deploy/images/am62xx-evm/ti.gz
+<dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/ returned '1' instead of 0
+| output: install: target '<dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/'
+is not a directory: No such file or directory"
 
-> Since it showed up once in the metrics report, was it decided to be
-> ignored in the end (but then I wasn't able to find it defined in
-> CVE_CHECK_IGNORE)?
->
-> Thanks,
->
-> Ricardo
->
-> On Tue, Mar 28, 2023 at 5:42=E2=80=AFAM Chen Qi <Qi.Chen@windriver.com> w=
-rote:
-> >
-> > Backport patch to fix CVE-2023-28531.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  ...-destination-constraints-for-smartca.patch | 35 +++++++++++++++++++
-> >  .../openssh/openssh_8.9p1.bb                  |  1 +
-> >  2 files changed, 36 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upst=
-ream-include-destination-constraints-for-smartca.patch
-> >
-> > diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-in=
-clude-destination-constraints-for-smartca.patch b/meta/recipes-connectivity=
-/openssh/openssh/0001-upstream-include-destination-constraints-for-smartca.=
-patch
-> > new file mode 100644
-> > index 0000000000..b4e7ce7ef6
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/openssh/openssh/0001-upstream-include-d=
-estination-constraints-for-smartca.patch
-> > @@ -0,0 +1,35 @@
-> > +From 91889b5a3e7554af474a21ce8e1ffd3eb1542f06 Mon Sep 17 00:00:00 2001
-> > +From: "djm@openbsd.org" <djm@openbsd.org>
-> > +Date: Thu, 9 Mar 2023 06:58:26 +0000
-> > +Subject: [PATCH] upstream: include destination constraints for smartca=
-rd keys
-> > + too.
-> > +
-> > +Spotted by Luci Stanescu; ok deraadt@ markus@
-> > +
-> > +OpenBSD-Commit-ID: add879fac6903a1cb1d1e42c4309e5359c3d870f
-> > +
-> > +CVE: CVE-2023-28531
-> > +
-> > +Upstream-Status: Backport [54ac4ab2b53ce9fcb66b8250dee91c070e4167ed]
-> > +
-> > +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > +---
-> > + authfd.c | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/authfd.c b/authfd.c
-> > +index 76e48aab..dca8e55b 100644
-> > +--- a/authfd.c
-> > ++++ b/authfd.c
-> > +@@ -665,7 +665,7 @@ ssh_update_card(int sock, int add, const char *rea=
-der_id, const char *pin,
-> > +     struct dest_constraint **dest_constraints, size_t ndest_constrain=
-ts)
-> > + {
-> > +       struct sshbuf *msg;
-> > +-      int r, constrained =3D (life || confirm);
-> > ++      int r, constrained =3D (life || confirm || dest_constraints);
-> > +       u_char type;
-> > +
-> > +       if (add) {
-> > +--
-> > +2.37.1
-> > +
-> > diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/=
-recipes-connectivity/openssh/openssh_8.9p1.bb
-> > index 6057d055f4..d81072537c 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> > +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-> > @@ -26,6 +26,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenS=
-SH/portable/openssh-${PV}.tar
-> >             file://add-test-support-for-busybox.patch \
-> >             file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
-> >             file://0001-Default-to-not-using-sandbox-when-cross-compili=
-ng.patch \
-> > +           file://0001-upstream-include-destination-constraints-for-sm=
-artca.patch \
-> >             "
-> >  SRC_URI[sha256sum] =3D "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdac=
-cd262380ae58bec5e7"
-> >
-> > --
-> > 2.37.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#179213): https://lists.openembedded.org/g/openembed=
-ded-core/message/179213
-> > Mute This Topic: https://lists.openembedded.org/mt/97901027/3616986
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-ricardo@foundries.io]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Ricardo Salveti
+Logs:
+[1] https://docs.yoctoproject.org/ref-manual/variables.html?highlight=image_boot_files
+
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py       | 4 ++--
+ scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index c28d3917c2..966606a39e 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -341,13 +341,13 @@ class BootimgEFIPlugin(SourcePlugin):
+                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+                 exec_native_cmd(objcopy_cmd, native_sysroot)
+         else:
+-            install_cmd = "install -m 0644 %s/%s %s/%s" % \
++            install_cmd = "install -m 0644 -D %s/%s -t %s/%s" % \
+                 (staging_kernel_dir, kernel, hdddir, kernel)
+             exec_cmd(install_cmd)
+ 
+         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+             for src_path, dst_path in cls.install_task:
+-                install_cmd = "install -m 0644 -D %s %s" \
++                install_cmd = "install -m 0644 -D %s -t %s" \
+                               % (os.path.join(kernel_dir, src_path),
+                                  os.path.join(hdddir, dst_path))
+                 exec_cmd(install_cmd)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index 5dbe2558d2..32cc5d38ab 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -184,7 +184,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+         for task in cls.install_task:
+             src_path, dst_path = task
+             logger.debug('Install %s as %s', src_path, dst_path)
+-            install_cmd = "install -m 0644 -D %s %s" \
++            install_cmd = "install -m 0644 -D %s -t %s" \
+                           % (os.path.join(kernel_dir, src_path),
+                              os.path.join(hdddir, dst_path))
+             exec_cmd(install_cmd)
+-- 
+2.34.1
+
 
