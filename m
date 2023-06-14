@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1906EC001DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C234C001DD
 	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 09:29:44 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.7477.1686734979281945945
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.7357.1686734979896314184
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 02:29:39 -0700
+ Wed, 14 Jun 2023 02:29:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=nW6sjgG3;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-98276e2a4bbso44403566b.0
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Ye3y8nqL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-97668583210so73276566b.1
         for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1686734978; x=1689326978;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4EG0pVpxu3+iiUCXxE/Ur8d7/Vro1sqENCFf9VrJDxY=;
-        b=nW6sjgG3R0ecTRUNX8B5B1lt8QhWPqrLDmyRblq/0so4Hl/1IWmui+w2Ya4Jv0Ac4d
-         GVJCYZcOAmkBHiWWfKby/lHWFaYyQNB89ZU2ZW6AK9+5zOwnr3R3uEy+RTtjEMVOC4L8
-         dGPTZGgBSy0PF64yH7Jpq+rxnY06ovMQqKijZoZROhbBsXOh3SV1DPW5oZRUyOyDhNPs
-         8TAIJmrvIBOs7jM4bqpu1BbY3PPh2TY9DPU8918NE8R8pSQKS7kzu7rhmF6ZsQtx7RZx
-         BwKdUyWzk+v/cXeT5D4Y7GULyeCpWY42Wv1/E1sMMYlK7mT0fw9NUhVBNLnw62R+pLpD
-         +Qqg==
+        bh=nWySy0zEqgyO5dw46m2aUE+P6wemR09onmNw/9TdNMo=;
+        b=Ye3y8nqLHTJAHC6hmNSJk9V7AOCHi+h/VCS6Dm8LRpEKOH5Ent7418E+eL35ZRCpBO
+         voCnYI9PW1K/LOSQgkT5CVjDTcjGdMWhb+NxgozAsvork6Gorxxb4taVhaZHA1ahHNZy
+         FSY9iGdl32eXnUgGRgSTJMNcEUrNgEk8/nPYGX6MeKODXo4KneddFOXFMxTV6eglbb08
+         at9UqrBtO2Sr/KMI9QadxAbFaQ4556/f2eyyr8pvdw8VOfTS8fNgtJ2yJOaE1FMkMNXv
+         3UNHXXbtjw2LabHyzF9usAprU8AdXe/oqB2/63TPaoLPCrz1kB4r2TolCa8SdwlyEqQh
+         +3Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1686734978; x=1689326978;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4EG0pVpxu3+iiUCXxE/Ur8d7/Vro1sqENCFf9VrJDxY=;
-        b=ZuPVf7V2+ydeX4ae5/ackAVYg/MnOlLjXK0kwajtDS6XpGCV4kTNtcZsWJTrwphIis
-         /AcorW02jTYewELlIq/jg5dUfLBVBwqkFQ9vI/uoLNIMiBESck9vuNTzkRZitOvALDk8
-         +ojVAHCD9/5pm1/SwtaWhhFH4/xxS3vzHZQvl8kvPPI23Q9p+ef1ySe7vlttM7AZfAKx
-         SuDGH5b9JzdUGzOks3LSrNAJbskU/q6ed8GsuevDt3ad1dgJAiIVAK4TAiNHj4lk/N20
-         KzhE8kvHdXln9Kuxb+7o9zmUFIYr0j7JPbDdWEm75Mq59qll5Q9Z3fWBI78X6qfjVy0l
-         X6pQ==
-X-Gm-Message-State: AC+VfDwjsMV1RJHpxXWLYlnKazoEyxi2VAfJTtRuCMB91SxAH4hMQJQi
-	aGpnEkyXnw+G9ygXCVuL2Jl34ooPK/g=
-X-Google-Smtp-Source: ACHHUZ77izAk67cPu5oTVyHF9IpNkbJU5fonjoRTFJzOMO4x/t8xnfYtCpBxItmFzihRw+SgUyseyw==
-X-Received: by 2002:a17:906:7951:b0:94e:e97b:c65 with SMTP id l17-20020a170906795100b0094ee97b0c65mr16883369ejo.60.1686734977519;
-        Wed, 14 Jun 2023 02:29:37 -0700 (PDT)
+        bh=nWySy0zEqgyO5dw46m2aUE+P6wemR09onmNw/9TdNMo=;
+        b=c1xphppbIP6ilwNsfv3hCjpXUlf758nZ0l+zBwMWgZ9Oubw355/iBW5d/m7OG2ktUf
+         AAvxivMXTNZFyczwcMvdH3ONT1Vs+eBmco4qr6BRjepNXh6ayPGId5CbZUDTDjuwM4FB
+         0dDtN8bfq2X5pkRs4z12suTDuKJtZdEens7EfLb/DmGgdE7dxDp78imdCTzdcHTHm8Kz
+         CxBNUc7rWr2bFAZCBKarp55RgPGksLLjEzw8/vQGZ8vrh7HRRMikKRphVTxMchbA8exB
+         NsQfyS75wmstp9HkwLr/xqQHCEmSRFx3NHrWtFfiqJg5JCf4tFX9T9He0y+YlhFAky64
+         QddQ==
+X-Gm-Message-State: AC+VfDydQtMa+LpXQBGWnDZ2vCoHbWHiKYTKdn/gTVaU0122+V0wQSY3
+	qXtyfm3CT4nnVsALCWtBNSlF9DDcKfA=
+X-Google-Smtp-Source: ACHHUZ7vval492OUo/zRW1T+1Gmwe+lsHeH3rZPxikY4csKLZMRut3wo6TbBRNZzigEyk1BxzBx/5g==
+X-Received: by 2002:a17:906:58ce:b0:965:8edf:8028 with SMTP id e14-20020a17090658ce00b009658edf8028mr15828846ejs.42.1686734978243;
+        Wed, 14 Jun 2023 02:29:38 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 02:29:37 -0700 (PDT)
+        Wed, 14 Jun 2023 02:29:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/55] gdb: upgrade 13.1 -> 13.2
-Date: Wed, 14 Jun 2023 11:28:42 +0200
-Message-Id: <20230614092918.4065570-19-alex@linutronix.de>
+Subject: [PATCH 20/55] gnupg: upgrade 2.4.0 -> 2.4.2
+Date: Wed, 14 Jun 2023 11:28:43 +0200
+Message-Id: <20230614092918.4065570-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
 References: <20230614092918.4065570-1-alex@linutronix.de>
@@ -62,373 +62,132 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 09:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182764
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182765
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ian_13.1.bb => gdb-cross-canadian_13.2.bb} |   0
- .../{gdb-cross_13.1.bb => gdb-cross_13.2.bb}  |   0
- meta/recipes-devtools/gdb/gdb.inc             |   4 +-
- ...r-valid-inferior-thread-regcache-bef.patch | 286 ------------------
- ...low.cc-Fix-a-typo-in-ternary-operato.patch |  24 --
- .../gdb/{gdb_13.1.bb => gdb_13.2.bb}          |   0
- 6 files changed, 1 insertion(+), 313 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_13.1.bb => gdb-cross-canadian_13.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_13.1.bb => gdb-cross_13.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch
- rename meta/recipes-devtools/gdb/{gdb_13.1.bb => gdb_13.2.bb} (100%)
+ ...e-a-custom-value-for-the-location-of-.patch |  6 +++---
+ .../recipes-support/gnupg/gnupg/relocate.patch | 18 +++++++++---------
+ .../gnupg/{gnupg_2.4.0.bb => gnupg_2.4.2.bb}   |  2 +-
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.4.0.bb => gnupg_2.4.2.bb} (97%)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_13.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_13.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_13.1.bb b/meta/recipes-devtools/gdb/gdb-cross_13.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_13.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_13.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 8589de62ffd..e986b1a1f91 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -13,10 +13,8 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0006-resolve-restrict-keyword-conflict.patch \
-            file://0007-Fix-invalid-sigprocmask-call.patch \
-            file://0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
--           file://0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch \
-            file://add-missing-ldflags.patch \
--           file://0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch \
-            "
--SRC_URI[sha256sum] = "115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0"
-+SRC_URI[sha256sum] = "fd5bebb7be1833abdb6e023c2f498a354498281df9d05523d8915babeb893f0a"
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index 0cd4c459070..81aeaf5d3a6 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 346a6b17a07b658954db65f814461b59824d9fcd Mon Sep 17 00:00:00 2001
++From 8b9e3d286e87bc978ec6bb9cfd790d8d253b79c3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- TOOLCHAIN = "gcc"
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch b/meta/recipes-devtools/gdb/gdb/0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch
-deleted file mode 100644
-index 9adf4a4db55..00000000000
---- a/meta/recipes-devtools/gdb/gdb/0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch
-+++ /dev/null
-@@ -1,286 +0,0 @@
--From b3eff3e15576229af9bae026c5c23ee694b90389 Mon Sep 17 00:00:00 2001
--From: Luis Machado <luis.machado@arm.com>
--Date: Fri, 24 Mar 2023 07:58:38 +0000
--Subject: [PATCH] aarch64: Check for valid inferior thread/regcache before
-- reading pauth registers
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--There were reports of gdb throwing internal errors when calling
--inferior_thread ()/get_current_regcache () on a system with
--Pointer Authentication enabled.
--
--In such cases, gdb produces the following backtrace, or a variation
--of it (for gdb's with the non-address removal implemented only in
--the aarch64-linux-tdep.c file).
--
--../../../repos/binutils-gdb/gdb/thread.c:86: internal-error: inferior_thread: Assertion `current_thread_ != nullptr' failed.
--A problem internal to GDB has been detected,
--further debugging may prove unreliable.
------- Backtrace -----
--0xaaaae04a571f gdb_internal_backtrace_1
--        ../../../repos/binutils-gdb/gdb/bt-utils.c:122
--0xaaaae04a57f3 _Z22gdb_internal_backtracev
--        ../../../repos/binutils-gdb/gdb/bt-utils.c:168
--0xaaaae0b52ccf internal_vproblem
--        ../../../repos/binutils-gdb/gdb/utils.c:401
--0xaaaae0b5310b _Z15internal_verrorPKciS0_St9__va_list
--        ../../../repos/binutils-gdb/gdb/utils.c:481
--0xaaaae0e24b8f _Z18internal_error_locPKciS0_z
--        ../../../repos/binutils-gdb/gdbsupport/errors.cc:58
--0xaaaae0a88983 _Z15inferior_threadv
--        ../../../repos/binutils-gdb/gdb/thread.c:86
--0xaaaae0956c87 _Z20get_current_regcachev
--        ../../../repos/binutils-gdb/gdb/regcache.c:428
--0xaaaae035223f aarch64_remove_non_address_bits
--        ../../../repos/binutils-gdb/gdb/aarch64-tdep.c:3572
--0xaaaae03e8abb _Z31gdbarch_remove_non_address_bitsP7gdbarchm
--        ../../../repos/binutils-gdb/gdb/gdbarch.c:3109
--0xaaaae0a692d7 memory_xfer_partial
--        ../../../repos/binutils-gdb/gdb/target.c:1620
--0xaaaae0a695e3 _Z19target_xfer_partialP10target_ops13target_objectPKcPhPKhmmPm
--        ../../../repos/binutils-gdb/gdb/target.c:1684
--0xaaaae0a69e9f target_read_partial
--        ../../../repos/binutils-gdb/gdb/target.c:1937
--0xaaaae0a69fdf _Z11target_readP10target_ops13target_objectPKcPhml
--        ../../../repos/binutils-gdb/gdb/target.c:1977
--0xaaaae0a69937 _Z18target_read_memorymPhl
--        ../../../repos/binutils-gdb/gdb/target.c:1773
--0xaaaae08be523 ps_xfer_memory
--        ../../../repos/binutils-gdb/gdb/proc-service.c:90
--0xaaaae08be6db ps_pdread
--        ../../../repos/binutils-gdb/gdb/proc-service.c:124
--0x40001ed7c3b3 _td_fetch_value
--        /build/glibc-RIFKjK/glibc-2.31/nptl_db/fetch-value.c:115
--0x40001ed791ef td_ta_map_lwp2thr
--        /build/glibc-RIFKjK/glibc-2.31/nptl_db/td_ta_map_lwp2thr.c:194
--0xaaaae07f4473 thread_from_lwp
--        ../../../repos/binutils-gdb/gdb/linux-thread-db.c:413
--0xaaaae07f6d6f _ZN16thread_db_target4waitE6ptid_tP17target_waitstatus10enum_flagsI16target_wait_flagE
--        ../../../repos/binutils-gdb/gdb/linux-thread-db.c:1420
--0xaaaae0a6b33b _Z11target_wait6ptid_tP17target_waitstatus10enum_flagsI16target_wait_flagE
--        ../../../repos/binutils-gdb/gdb/target.c:2586
--0xaaaae0789cf7 do_target_wait_1
--        ../../../repos/binutils-gdb/gdb/infrun.c:3825
--0xaaaae0789e6f operator()
--        ../../../repos/binutils-gdb/gdb/infrun.c:3884
--0xaaaae078a167 do_target_wait
--        ../../../repos/binutils-gdb/gdb/infrun.c:3903
--0xaaaae078b0af _Z20fetch_inferior_eventv
--        ../../../repos/binutils-gdb/gdb/infrun.c:4314
--0xaaaae076652f _Z22inferior_event_handler19inferior_event_type
--        ../../../repos/binutils-gdb/gdb/inf-loop.c:41
--0xaaaae07dc68b handle_target_event
--        ../../../repos/binutils-gdb/gdb/linux-nat.c:4206
--0xaaaae0e25fbb handle_file_event
--        ../../../repos/binutils-gdb/gdbsupport/event-loop.cc:573
--0xaaaae0e264f3 gdb_wait_for_event
--        ../../../repos/binutils-gdb/gdbsupport/event-loop.cc:694
--0xaaaae0e24f9b _Z16gdb_do_one_eventi
--        ../../../repos/binutils-gdb/gdbsupport/event-loop.cc:217
--0xaaaae080f033 start_event_loop
--        ../../../repos/binutils-gdb/gdb/main.c:411
--0xaaaae080f1b7 captured_command_loop
--        ../../../repos/binutils-gdb/gdb/main.c:475
--0xaaaae0810b97 captured_main
--        ../../../repos/binutils-gdb/gdb/main.c:1318
--0xaaaae0810c1b _Z8gdb_mainP18captured_main_args
--        ../../../repos/binutils-gdb/gdb/main.c:1337
--0xaaaae0338453 main
--        ../../../repos/binutils-gdb/gdb/gdb.c:32
-----------------------
--../../../repos/binutils-gdb/gdb/thread.c:86: internal-error: inferior_thread: Assertion `current_thread_ != nullptr' failed.
--A problem internal to GDB has been detected,
--further debugging may prove unreliable.
--Quit this debugging session? (y or n)
--
--We also see failures across the testsuite if the tests get executed on a target
--that has native support for the pointer authentication feature. But
--gdb.base/break.exp and gdb.base/access-mem-running.exp are two examples of
--tests that run into errors and internal errors.
--
--This issue started after commit d88cb738e6a7a7179dfaff8af78d69250c852af1, which
--enabled more broad use of pointer authentication masks to remove non-address
--bits of pointers, but wasn't immediately detected because systems with native
--support for pointer authentication are not that common yet.
--
--The above crash happens because gdb is in the middle of handling an event,
--and do_target_wait_1 calls switch_to_inferior_no_thread, nullifying the
--current thread.  This means a call to inferior_thread () will assert, and
--attempting to call get_current_regcache () will also call inferior_thread (),
--resulting in an assertion as well.
--
--target_has_registers was one function that seemed useful for detecting these
--types of situation where we don't have a register cache. The problem with that
--is the inconsistent state of inferior_ptid, which is used by
--target_has_registers.
--
--Despite the call to switch_to_no_thread in switch_to_inferior_no_thread from
--do_target_wait_1 in the backtrace above clearing inferior_ptid, the call to
--ps_xfer_memory sets inferior_ptid momentarily before reading memory:
--
--static ps_err_e
--ps_xfer_memory (const struct ps_prochandle *ph, psaddr_t addr,
--                gdb_byte *buf, size_t len, int write)
--{
--  scoped_restore_current_inferior restore_inferior;
--  set_current_inferior (ph->thread->inf);
--
--  scoped_restore_current_program_space restore_current_progspace;
--  set_current_program_space (ph->thread->inf->pspace);
--
--  scoped_restore save_inferior_ptid = make_scoped_restore (&inferior_ptid);
--  inferior_ptid = ph->thread->ptid;
--
--  CORE_ADDR core_addr = ps_addr_to_core_addr (addr);
--
--  int ret;
--  if (write)
--    ret = target_write_memory (core_addr, buf, len);
--  else
--    ret = target_read_memory (core_addr, buf, len);
--  return (ret == 0 ? PS_OK : PS_ERR);
--}
--
--Maybe this shouldn't happen, or maybe it is just an unfortunate state to be
--in. But this prevents the use of target_has_registers to guard against the
--lack of registers, since, although current_thread_ is still nullptr,
--inferior_ptid is valid and is not null_ptid.
--
--There is another crash scenario after we kill a previously active inferior, in
--which case the gdbarch will still say we support pointer authentication but we
--will also have no current thread (inferior_thread () will assert etc).
--
--If the target has support for pointer authentication, gdb needs to use
--a couple (or 4, for bare-metal) mask registers to mask off some bits of
--pointers, and for that it needs to access the registers.
--
--At some points, like the one from the backtrace above, there is no active
--thread/current regcache because gdb is in the middle of doing event handling
--and switching between threads.
--
--Simon suggested the use of inferior_ptid to fetch the register cache, as
--opposed to relying on the current register cache.  Though we need to make sure
--inferior_ptid is valid (not null_ptid), I think this works nicely.
--
--With inferior_ptid, we can do safety checks along the way, making sure we have
--a thread to fetch a register cache from and checking if the thread is actually
--stopped or running.
--
--The following patch implements this idea with safety checks to make sure we
--don't run into assertions or errors.  If any of the checks fail, we fallback to
--using a default mask to remove non-address bits of a pointer.
--
--I discussed with Pedro the possibility of caching the mask register values
--(which are per-process and can change mid-execution), but there isn't a good
--spot to cache those values. Besides, the mask registers can change constantly
--for bare-metal debugging when switching between exception levels.
--
--In some cases, it is just not possible to get access to these mask registers,
--like the case where threads are running. In those cases, using a default mask
--to remove the non-address bits should be enough.
--
--This can happen when we let threads run in the background and then we attempt
--to access a memory address (now that gdb is capable of reading memory even
--with threads running).  Thus gdb will attempt to remove non-address bits
--of that memory access, will attempt to access registers, running into errors.
--
--Regression-tested on aarch64-linux Ubuntu 20.04.
-----
-- gdb/aarch64-linux-tdep.c | 64 ++++++++++++++++++++++++++++++----------
-- 1 file changed, 49 insertions(+), 15 deletions(-)
--
--diff --git a/gdb/aarch64-linux-tdep.c b/gdb/aarch64-linux-tdep.c
--index 20a041c599e..4b2915b8e99 100644
----- a/gdb/aarch64-linux-tdep.c
--+++ b/gdb/aarch64-linux-tdep.c
--@@ -57,6 +57,9 @@
-- #include "elf/common.h"
-- #include "elf/aarch64.h"
-- 
--+/* For inferior_ptid and current_inferior ().  */
--+#include "inferior.h"
--+
-- /* Signal frame handling.
-- 
--       +------------+  ^
--@@ -1986,29 +1989,60 @@ aarch64_linux_decode_memtag_section (struct gdbarch *gdbarch,
-- static CORE_ADDR
-- aarch64_remove_non_address_bits (struct gdbarch *gdbarch, CORE_ADDR pointer)
-- {
---  aarch64_gdbarch_tdep *tdep = gdbarch_tdep<aarch64_gdbarch_tdep> (gdbarch);
---
--   /* By default, we assume TBI and discard the top 8 bits plus the VA range
---     select bit (55).  */
--+     select bit (55).  Below we try to fetch information about pointer
--+     authentication masks in order to make non-address removal more
--+     precise.  */
--   CORE_ADDR mask = AARCH64_TOP_BITS_MASK;
-- 
---  if (tdep->has_pauth ())
--+  /* Check if we have an inferior first.  If not, just use the default
--+     mask.
--+
--+     We use the inferior_ptid here because the pointer authentication masks
--+     should be the same across threads of a process.  Since we may not have
--+     access to the current thread (gdb may have switched to no inferiors
--+     momentarily), we use the inferior ptid.  */
--+  if (inferior_ptid != null_ptid)
--     {
---      /* Fetch the PAC masks.  These masks are per-process, so we can just
---	 fetch data from whatever thread we have at the moment.
--+      /* If we do have an inferior, attempt to fetch its thread's thread_info
--+	 struct.  */
--+      thread_info *thread
--+	= find_thread_ptid (current_inferior ()->process_target (),
--+			    inferior_ptid);
-- 
---	 Also, we have both a code mask and a data mask.  For now they are the
---	 same, but this may change in the future.  */
---      struct regcache *regs = get_current_regcache ();
---      CORE_ADDR cmask, dmask;
--+      /* If the thread is running, we will not be able to fetch the mask
--+	 registers.  */
--+      if (thread != nullptr && thread->state != THREAD_RUNNING)
--+	{
--+	  /* Otherwise, fetch the register cache and the masks.  */
--+	  struct regcache *regs
--+	    = get_thread_regcache (current_inferior ()->process_target (),
--+				   inferior_ptid);
--+
--+	  /* Use the gdbarch from the register cache to check for pointer
--+	     authentication support, as it matches the features found in
--+	     that particular thread.  */
--+	  aarch64_gdbarch_tdep *tdep
--+	    = gdbarch_tdep<aarch64_gdbarch_tdep> (regs->arch ());
--+
--+	  /* Is there pointer authentication support?  */
--+	  if (tdep->has_pauth ())
--+	    {
--+	      /* We have both a code mask and a data mask.  For now they are
--+		 the same, but this may change in the future.  */
--+	      CORE_ADDR cmask, dmask;
-- 
---      if (regs->cooked_read (tdep->pauth_reg_base, &dmask) != REG_VALID)
---	dmask = mask;
--+	      if (regs->cooked_read (tdep->pauth_reg_base, &dmask)
--+		  != REG_VALID)
--+		dmask = mask;
-- 
---      if (regs->cooked_read (tdep->pauth_reg_base + 1, &cmask) != REG_VALID)
---	cmask = mask;
--+	      if (regs->cooked_read (tdep->pauth_reg_base + 1, &cmask)
--+		  != REG_VALID)
--+		cmask = mask;
-- 
---      mask |= aarch64_mask_from_pac_registers (cmask, dmask);
--+	      mask |= aarch64_mask_from_pac_registers (cmask, dmask);
--+	    }
--+	}
--     }
-- 
--   return aarch64_remove_top_bits (pointer, mask);
---- 
--2.34.1
--
-diff --git a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch
-deleted file mode 100644
-index 32eba089bc2..00000000000
---- a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From 9a85132c4ba7d37a5df146239b3ab1a5854ce478 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 22 Feb 2023 16:24:07 -0800
--Subject: [PATCH] gdbserver/linux-low.cc: Fix a typo in ternary operator
--
--Upstream-Status: Submitted [https://sourceware.org/pipermail/gdb-patches/2023-February/197298.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- gdbserver/linux-low.cc | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
--index 7e1de397893..95ec871d436 100644
----- a/gdbserver/linux-low.cc
--+++ b/gdbserver/linux-low.cc
--@@ -5390,7 +5390,7 @@ proc_xfer_memory (CORE_ADDR memaddr, unsigned char *readbuf,
--       if (lseek (fd, memaddr, SEEK_SET) != -1)
-- 	bytes = (readbuf != nullptr
-- 		 ? read (fd, readbuf, len)
---		 ? write (fd, writebuf, len));
--+		 : write (fd, writebuf, len));
-- #endif
-- 
--       if (bytes < 0)
-diff --git a/meta/recipes-devtools/gdb/gdb_13.1.bb b/meta/recipes-devtools/gdb/gdb_13.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_13.1.bb
-rename to meta/recipes-devtools/gdb/gdb_13.2.bb
+ diff --git a/configure.ac b/configure.ac
+-index 099c6a8..e8cf408 100644
++index a547401..60bc2c5 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1935,7 +1935,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1922,7 +1922,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 071dd93ff55..f7dd12fbcc1 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From b1117adeb476304ce2792814516a5b7cd44d0d38 Mon Sep 17 00:00:00 2001
++From c4ddea8e6070d1df51058aac08088e27c37e7e73 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 67bbde8..7f360ba 100644
++index 286685f..212a945 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1171,7 +1171,7 @@ gnupg_socketdir (void)
++@@ -1213,7 +1213,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +26,7 @@ index 67bbde8..7f360ba 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1203,7 +1203,7 @@ gnupg_sysconfdir (void)
++@@ -1245,7 +1245,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +35,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1239,7 +1239,7 @@ gnupg_bindir (void)
++@@ -1281,7 +1281,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +44,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1266,7 +1266,7 @@ gnupg_libexecdir (void)
++@@ -1308,7 +1308,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +53,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1296,7 +1296,7 @@ gnupg_libdir (void)
++@@ -1338,7 +1338,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +62,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1327,7 +1327,7 @@ gnupg_datadir (void)
++@@ -1369,7 +1369,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +71,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1359,7 +1359,7 @@ gnupg_localedir (void)
++@@ -1401,7 +1401,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.0.bb b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+similarity index 97%
+rename from meta/recipes-support/gnupg/gnupg_2.4.0.bb
+rename to meta/recipes-support/gnupg/gnupg_2.4.2.bb
+index 900aa8ad736..580782037e4 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.0.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ 
+-SRC_URI[sha256sum] = "1d79158dd01d992431dd2e3facb89fdac97127f89784ea2cb610c600fb0c1483"
++SRC_URI[sha256sum] = "97eb47df8ae5a3ff744f868005a090da5ab45cb48ee9836dbf5ee739a4e5cf49"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.30.2
 
