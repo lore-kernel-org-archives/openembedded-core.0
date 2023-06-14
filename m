@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CACC04FE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98AE3C04A6A
 	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 09:29:54 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.7489.1686734986795407898
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.7368.1686734992533109575
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 02:29:47 -0700
+ Wed, 14 Jun 2023 02:29:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=sh+ov1/1;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-977d0ee1736so74362766b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:46 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HbGPB086;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-518793ef6ebso2377499a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686734985; x=1689326985;
+        d=gmail.com; s=20221208; t=1686734991; x=1689326991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iySYlYNoiU6Ssdz+9DUveBI8ySL1dEive+P5yxF2770=;
-        b=sh+ov1/1oIXjFIxY8xsSvzxxghJR0TMC9KUUyv2q5BoUFjMc+9hLGDkxrGznXCsIz3
-         9uo7yLD1UTP0JXOvCcITv70JQ8vidwsC81TCySosMrTIEsxJdKjqmf/tCVtulVZWyQS+
-         N046e5dnsddzFYYOCZ7yMgfKQ0woei/OBkZKZpwuV0NXO/4r1JwnGBLVduIHnP0BI449
-         Vj14QFExZ2gEzMDDd1cp2xYe3hzEBBTzo1Rh6KXoBDS3ze1uWJT6q9Urxi6YFeWMTWKL
-         LFRjchiTW9cHEWvs8rSda8ln06EkWDE40PNXo6PXKO1tdBs5p8GwR7Vevem+Oe06psGs
-         ceEA==
+        bh=mrF8uL+FJtwgTn2GTLyVgZKZsmjYPepyhvjDwa1USEM=;
+        b=HbGPB086igd64NjMBE0JJVviJ1epY+S90GuykgxB84U/rQ/YqpcVXEc0P5bUTLmPef
+         NkPfNF2o1fxrS1ILYCxUiEquUINlDl1dUCGZAd18Zypl/4dEw1IL8vQac5vCsH21xYG5
+         8rdgihxVmk50+SYBJOQn3Kpj1c0QUomlCES8/AG4ryyEGuWt0bxshEfb8yRUeG4BYqkJ
+         WU6RY96kWVh7P+rXwNX6HbvHdBfG637kIUT6JZ5CRKQdyS+vqQWt1W/gOvVw2jSdz+sZ
+         p2HlOWAqq6rAG8vD4kkKzPX0ifIEQdwgql62VBxM+81ecWRBviTcP3cxEGa4dtXYIGP9
+         NGog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686734985; x=1689326985;
+        d=1e100.net; s=20221208; t=1686734991; x=1689326991;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iySYlYNoiU6Ssdz+9DUveBI8ySL1dEive+P5yxF2770=;
-        b=eKPozg5p5NMAVN/7bG1V3NBDik3FTwrp96gvEh70CwdQIV8kCWsxhbzGf1AqkTQ9u5
-         XiSP0jv5jTQ7Y0x8RKSKi3uvluekLRVsgmJ1iqphMQ+0BBNfSkc7FLEm4XF87BCHvki0
-         G+rZIOSriKF+C7u31cXWR2hUQ00t5oY2ai/pIO9qs18J6VmDqr4kgDqfaHQUq+6atWv2
-         aYT94FFpoqxFlls3mugMelKUNndATMxwP6rcVkvq8IMbjnhcHwUZo2vwByvyV1dh9owf
-         m+IT37wA2U4B76ngA5JkCFjQ6EzLMUd9vJJ9ymNnKF3bjJU6lNvxDTj3oxxfKwRXl1gq
-         XwlQ==
-X-Gm-Message-State: AC+VfDxDp3w21HJIjP1ddtoF6j8CSfCNjrxgyztSWdo/Nyds8hwuBGDs
-	jYSghY2X9qOzVp1Hvf4x64BDmaABmyY=
-X-Google-Smtp-Source: ACHHUZ6hbGraTS05vZMVraoJ3a+r9INzI5bquXUjMoX1SJ8QqafPuLzA6gC8Z+TD5F8RkJaOBqAErA==
-X-Received: by 2002:a17:907:a0a:b0:958:4c75:705e with SMTP id bb10-20020a1709070a0a00b009584c75705emr13664912ejc.17.1686734985176;
-        Wed, 14 Jun 2023 02:29:45 -0700 (PDT)
+        bh=mrF8uL+FJtwgTn2GTLyVgZKZsmjYPepyhvjDwa1USEM=;
+        b=kqaXLU2A5Vz7GzwYyPFeGImwxHBKF3Dia6uxpKrKQTdn8IXteFepoZ0GmSv+hazIA0
+         ZkxDNRDhUEbdsgegCzWLIGvYfmAMYiPeDkIGsI4m3RIN7UYJln/CkaxHE2qdQNpPeZGT
+         /k96naZ0uENa8QwBfsc0cWQ4i8wRt33L7mESWs5ZGh90gnY5CSdz639Q3c+7AYtJopJR
+         lDJ4wwTV1ZCdOdjhEdM3Zw5I3FY67RF5U80MkdVxwn95uAd47Byk9/cFHAi+AaTwOHOi
+         uJ/eips3Oy8BgVKtFQ9+LcCO6Eyj6pNQRZeJIWfYM02FZgqxWaUIZ6wER7KVjGkQBocq
+         DmUw==
+X-Gm-Message-State: AC+VfDxL5YcoIlkKjwVdeGBwFwifX6kemImEwpxcwsa/rii/CbHkNv7I
+	Eh7HsdqFfwnLJSYLPRYarrZIFourbLk=
+X-Google-Smtp-Source: ACHHUZ4v0hrj8EsY8DkAFB4lzbCmCgckXPjiDyZ1Mhxpr1Bz8PmjVm6TAtD9y+dey1apb6Ppuav+UQ==
+X-Received: by 2002:a17:907:608a:b0:968:c3b5:8b92 with SMTP id ht10-20020a170907608a00b00968c3b58b92mr15213838ejc.57.1686734991004;
+        Wed, 14 Jun 2023 02:29:51 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.44
+        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 02:29:44 -0700 (PDT)
+        Wed, 14 Jun 2023 02:29:50 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 32/55] mmc-utils: upgrade to latest revision
-Date: Wed, 14 Jun 2023 11:28:55 +0200
-Message-Id: <20230614092918.4065570-32-alex@linutronix.de>
+Subject: [PATCH 43/55] python3-pyopenssl: upgrade 23.1.1 -> 23.2.0
+Date: Wed, 14 Jun 2023 11:29:06 +0200
+Message-Id: <20230614092918.4065570-43-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
 References: <20230614092918.4065570-1-alex@linutronix.de>
@@ -62,26 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 09:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182777
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182788
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
+ ...{python3-pyopenssl_23.1.1.bb => python3-pyopenssl_23.2.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyopenssl_23.1.1.bb => python3-pyopenssl_23.2.0.bb} (86%)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 1e2e17bfd3e..373ada2026a 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_23.1.1.bb b/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-pyopenssl_23.1.1.bb
+rename to meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb
+index 90a6252f7c1..86ae406ffb3 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_23.1.1.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- SRCBRANCH ?= "master"
--SRCREV = "d4c2910981ff99b983734426dfa99632fb81ac6b"
-+SRCREV = "958227890690290ee766aaad1b92f3413f67048c"
+ DEPENDS += "openssl ${PYTHON_PN}-cryptography"
  
- PV = "0.1+git${SRCPV}"
+-SRC_URI[sha256sum] = "841498b9bec61623b1b6c47ebbc02367c07d60e0e195f19790817f10cc8db0b7"
++SRC_URI[sha256sum] = "276f931f55a452e7dea69c7173e984eb2a4407ce413c918aa34b55f82f9b8bac"
  
+ PYPI_PACKAGE = "pyOpenSSL"
+ inherit pypi setuptools3
 -- 
 2.30.2
 
