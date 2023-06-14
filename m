@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA63C001DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09517C001B0
 	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 09:29:44 +0000 (UTC)
 Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.7471.1686734974616319463
+ by mx.groups.io with SMTP id smtpd.web11.7482.1686734982137005031
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 02:29:34 -0700
+ Wed, 14 Jun 2023 02:29:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=VWOlrqrH;
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=bzKRPY9Z;
  spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-977c89c47bdso84835766b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:34 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9823de726c3so86985566b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686734973; x=1689326973;
+        d=gmail.com; s=20221208; t=1686734980; x=1689326980;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jqa2mkWcTNJjnvI8jfRJVZG0p7QDLLCE2hNYPyc9cto=;
-        b=VWOlrqrHKcd8t+ekP0Ft3onPSHqBFsk6wetQnCbatsauqXf8s82w0cvn75VeEMfUI+
-         ZF49eylHi5rSSuANsTpoFzqa3tCyQqRkzxmmRSBnuOScks2YthFq4nKbhxp0Xq4R44jD
-         FHjVj6aQcmtru69jdzAQzxE5jAySOf7MqiFIe+bkurPA4vkPqXyKXh61yd+4HQf1uXL5
-         k9ih0irQGeuVIQ20JlMj93hc+wiiKRrdmQL1DpfOnHB2V31E+XAymhvDZBy4ExQr2/2Z
-         2MaYk149wxLWBbMaLGQnt7NOqLgTklDVHucU/6DN5OvlBIA+MW6TpVK6v9vqYl03Wx7I
-         p6Gg==
+        bh=6vKB3LA35ozkt3DsgWtBFqPqWJ//JpjcrQHm3+iRRD4=;
+        b=bzKRPY9ZfTZ5Ne3Q0EN4ZVyDKT6zXO+P/hfJNjmYQmQ2mu8ggpLmDoFtwYCch8gdyp
+         Rro8xPTCvcXPdyZYs57diZagRbLeUK4ptP6KHvrAiM75fJbP6GUYOq/ck4MIsCxDct7E
+         wkSkFraDiFVNmD5A//x9mkVXDz+Hpmf7ALR4Ygu5ekyRd6wIJk6bH+7jyzlHdD1RO9C0
+         NqKDeWtMPQe1ri+bJl658QTP+5JdguJZnbhSO6arzt9o8UacuZlnCnBaPloAKBuEjO28
+         UlSmD+a+JUCYrbuQgG6UB5pz+w6uKuULobF2WibZnm3LWHTHmOi3MFtHI6MWeEeFY+2X
+         sCMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686734973; x=1689326973;
+        d=1e100.net; s=20221208; t=1686734980; x=1689326980;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jqa2mkWcTNJjnvI8jfRJVZG0p7QDLLCE2hNYPyc9cto=;
-        b=J0g4qdX7PIK5dr3T9oUXSUrPJEpzBpsblSyRR8D1VqmNoKZ7T62qEnCRVndr/PAvhf
-         yePFgD1XcfKQ9zcdqXTfAonphuk1Pnr/SngWNYWMZ803vsTn7EN4f9Fn7jqVeSeZvXfL
-         t3JqYFBaCa3gWqbMI/n8i3KFWjBLbsvbrTuRU0qk7pQvQtVwN7Q948IPze8FqJhKh1Ka
-         ovIjLWyqiktnvdWBoHZWL+iPd/SoxJ4uTOsn0ykUuJKXYEeGR5JgamNiqIsqqnNMPWGd
-         jTYoIb6NMEIRcKvpqW67lM98nMluHvEmUTYrK++DQ9BTC9N4lsp5OWKM56/6Z23mEA7L
-         BBpQ==
-X-Gm-Message-State: AC+VfDymaCUH+y8OK5ECjGFWAeXSuFLv/Q7eXBNSQQh22puUGWLqpEQV
-	LQmlShxWACE0WmfwEKdtfLVs+bzh7TQ=
-X-Google-Smtp-Source: ACHHUZ5lissB6/obt4C2m7lTjkzyy6/NexEV50e2Sgh8sgWQ0pKCMXXUSgdNNirsizMBJGuLR/alrA==
-X-Received: by 2002:a17:907:2d91:b0:97a:bd0f:ac74 with SMTP id gt17-20020a1709072d9100b0097abd0fac74mr15533185ejc.26.1686734973036;
-        Wed, 14 Jun 2023 02:29:33 -0700 (PDT)
+        bh=6vKB3LA35ozkt3DsgWtBFqPqWJ//JpjcrQHm3+iRRD4=;
+        b=LmCbMKPYxu2+J2vgvzb1CIScCx3pcTA1J3VXhB9IuoLzjaYTuEHXDzbtNBXZYeVAfi
+         BfZlPbXxuCELBAYz/Rw0aGSWhWAULFWrfj8AtY8uweNz5G+rnTj1aRyVBO84vj5zC0dx
+         fBHMEFrOJAfmOqJjNwc2xobeLuAjlt8IBIjwouKy+5IdPnmrbFSZihnv5dYJXYH47yiS
+         vfHZph90pQe7hE51MLTXpAUzM7cpmrJ44nR2E5J5I6+fInxTfL1uQfHObvYjeduPXDht
+         cy1yLE5+V2Mbe1LP8c1lr4mZobvUdghVeg2mgYeiAS4YvzcLa8WbZd5xtcF1qsk5jfbG
+         Xk9g==
+X-Gm-Message-State: AC+VfDxZWy3t+4GCDjTEsp4GEd0d5LMuCW0Fukhul3qmlSqqn+cc0Her
+	+f11FGczpZ40KvN67dRxt8Ng0GTXOgQ=
+X-Google-Smtp-Source: ACHHUZ7h0IFV77KlWWtq8rEDjAOBcZQixidZ9Zg+YpLNoVNLzD5Dxh3q26P4xGuAasITxa0J55Z2sw==
+X-Received: by 2002:a17:907:9724:b0:979:7624:1f70 with SMTP id jg36-20020a170907972400b0097976241f70mr18254947ejc.18.1686734980567;
+        Wed, 14 Jun 2023 02:29:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.32
+        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 02:29:32 -0700 (PDT)
+        Wed, 14 Jun 2023 02:29:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/55] attr: package /etc/xattr.conf with the library that consumes it
-Date: Wed, 14 Jun 2023 11:28:35 +0200
-Message-Id: <20230614092918.4065570-12-alex@linutronix.de>
+Subject: [PATCH 24/55] libuv: license file was split in two in the 1.45.0 version update
+Date: Wed, 14 Jun 2023 11:28:47 +0200
+Message-Id: <20230614092918.4065570-24-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
 References: <20230614092918.4065570-1-alex@linutronix.de>
@@ -62,30 +62,27 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 09:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182757
-
-This matters for example with latest coreutils where cp
-wouldn't copy extended attributes by default if the config
-file specifying that policy is not there, and so ptest fails.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182769
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-support/attr/attr.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/libuv/libuv_1.45.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 8ba865a74a0..e8835398afa 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -22,7 +22,7 @@ inherit ptest update-alternatives autotools gettext
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.45.0.bb b/meta/recipes-connectivity/libuv/libuv_1.45.0.bb
+index 45b3a96f120..456cb2f9624 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.45.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.45.0.bb
+@@ -3,7 +3,8 @@ HOMEPAGE = "https://github.com/libuv/libuv"
+ DESCRIPTION = "libuv is a multi-platform support library with a focus on asynchronous I/O. It was primarily developed for use by Node.js, but it's also used by Luvit, Julia, pyuv, and others."
+ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=74b6f2f7818a4e3a80d03556f71b129b"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=74b6f2f7818a4e3a80d03556f71b129b \
++                    file://LICENSE-extra;md5=f9307417749e19bd1d6d68a394b49324"
  
- PACKAGES =+ "lib${BPN}"
- 
--FILES:lib${BPN} = "${libdir}/lib*${SOLIBS}"
-+FILES:lib${BPN} = "${libdir}/lib*${SOLIBS} ${sysconfdir}"
- 
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE:${PN} = "setfattr"
+ SRCREV = "96e05543f53b19d9642b4b0dd73b86ad3cea313e"
+ SRC_URI = "git://github.com/libuv/libuv.git;branch=master;protocol=https"
 -- 
 2.30.2
 
