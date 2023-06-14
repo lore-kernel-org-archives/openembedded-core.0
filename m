@@ -1,114 +1,157 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69989EB64D9
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 11:33:35 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.9369.1686742410802935088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF48EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 12:27:35 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.10284.1686745654312036491
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 04:33:31 -0700
+ Wed, 14 Jun 2023 05:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=EWqu+/5U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f8cc042ea9so4570145e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 04:33:30 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=pBAfsoq5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30fceb009faso1292271f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 05:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1686742409; x=1689334409;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Yr8EnWLjMt9wjFXegYUDG+e+leQtLfgsxJ++s8qqujM=;
-        b=EWqu+/5Ug5/nlTDzFvDWBdBJNbWdIbQmJrTcngvVjfMBrMfqmRBEFJcPcfJBoFdnuy
-         bqAsOkLS2W1q6dzyxgi+gPla7kB46w+iEGYftuICkvroQXvS8tIh/w7Ximp8Fm2wGJ4t
-         TsFDpP5zB+Jh8G77Xy/p1hvr7eyIosW8rzzvU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686742409; x=1689334409;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20221208; t=1686745653; x=1689337653;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yr8EnWLjMt9wjFXegYUDG+e+leQtLfgsxJ++s8qqujM=;
-        b=Brqax7wQyWrLqRyWoqdNFMwQ3wC9EUoAmz4o/7/TexmbFB39rZLORVXX51VSF7hS+O
-         VOnkC45gH9kXWpRJ+xCJDgB2J7XLhdHtRKqCv1SXz3hv091+z11il48ZFXHDWPuLU93e
-         BAinlBJZ3i/1R+paXqPGD4lxRcloNU/Ya7/XZoTHARsC6BRJMNDUmu+z5Ug7EeN0F9uz
-         L09K/Uv3UTZPRkgXVgJohFAdmvDg5EkEDx1j7VUspLOf98Lv8TAvsBULiSa3GIrYxay1
-         jyI2VkKqhyZLtHgbSDt9zAB08uFQZ4q0cyb6WDlnRdEN4jyyrKO8gqsUCWwkPFuEE+vF
-         GXHQ==
-X-Gm-Message-State: AC+VfDwqlNqFkYDJ2Q+GPOc8qxb/DDBKyWAcrQtN3jdRMzmO5/+tC2u+
-	cUPPHmB6+4EboXlDCbyIMufiyQ==
-X-Google-Smtp-Source: ACHHUZ4xApkdbYsYVXYb/Uq8Cpq/EBdbXztO1oN2EL0mmk61To4wKu9h5BJClzBFk4Pu/VbOX+gcCw==
-X-Received: by 2002:a05:600c:2204:b0:3f6:91c:4e86 with SMTP id z4-20020a05600c220400b003f6091c4e86mr9559522wml.3.1686742409082;
-        Wed, 14 Jun 2023 04:33:29 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b? ([2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b])
-        by smtp.gmail.com with ESMTPSA id c21-20020a05600c0ad500b003f7310a3ffasm17198412wmr.2.2023.06.14.04.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 04:33:28 -0700 (PDT)
-Message-ID: <e11a1b213cb0a90b5d4cba87c7214369be182bae.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/55] insane.bbclass: add a SUMMARY/HOMEPAGE
- check (oe-core recipes only)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Wed, 14 Jun 2023 12:33:27 +0100
-In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
-References: <20230614092918.4065570-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        bh=WBlyXw0ZtflEgTux/YUX8uMDuRWhjdFJIbKQ14qn5Qg=;
+        b=pBAfsoq5faCnuzd+hQwzJGyMtBMU/GJNy31ijJL4Wd+lsUGXE3Ln7mjTOWUf0bGXTj
+         5AjjuB4bTqniTfZYzkPheoV3md+l2H68rh3zoTQSWqUhFNe9fOJV5AFjBETsRpVmQ6vv
+         9D2HXlLVwKSSkiuJCHOYddQ2BAG563AOCX76GkeCvRdR4dhPcydS7lFqb+RdRJgSm2s1
+         xiBSnm6k9qTHPB0z7kj+/2vS1GPmLODy9hkL66f12UCuHYd40Xp9YcypdpCObF5WbqmZ
+         vloR418MK3WtUxBjDi8plplXCsvbYS3990C9v/DzdrfspyO7F50HTKvUmFJ/N4+NMRM+
+         DOjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686745653; x=1689337653;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WBlyXw0ZtflEgTux/YUX8uMDuRWhjdFJIbKQ14qn5Qg=;
+        b=We8UJhX6ndDw4fP3vmCoXzY31rb78ZCDnvst7ZJZBRfX5vYquRWpPGjdFLkv77ICyF
+         PDAijOE0Cct+zC+D4gYNWrYpFLbDzxiXHUj6dPNeLwxuQVEiZK0X5rPNxCkBHSMyF3YC
+         yqaFgvJIAokosMMDDFhrQxuvW6ng2qvrY5cdpLG+Fp0E3LXCMkOtZaG5bs5MRRCRP7mo
+         R9G0i0Z0oj0Bdmkk/EYFCRo6XcrU6vkoqraWzhxZsBP6SxBYrHZLf5zo1vg6jcdow4wp
+         gPxFKzYpVpqc9379heh6BJQS0YZ4BL/1JsBIXpL5LxmWd/GqNC/JR8OAoLdsYUyx53ah
+         0FLA==
+X-Gm-Message-State: AC+VfDzrOCGtJ0K39gPY4ay3x0P/i3LpDVRF2HteRJVr1ZWJ4VhBpJ7C
+	4hNQkEkhkScyoNBQNz8HnvA=
+X-Google-Smtp-Source: ACHHUZ5W9upyNQ2DbT6KKsF9hN0g3BlBPvJWEG1/jDW+jhmmHWaWVDNPI4HGi89qqKvdGREUgmt62A==
+X-Received: by 2002:a5d:43cb:0:b0:311:f11:4c55 with SMTP id v11-20020a5d43cb000000b003110f114c55mr816454wrr.13.1686745652535;
+        Wed, 14 Jun 2023 05:27:32 -0700 (PDT)
+Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id t18-20020adfeb92000000b003093a412310sm18083315wrn.92.2023.06.14.05.27.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jun 2023 05:27:32 -0700 (PDT)
+Message-ID: <1d115a59-a113-9822-7562-2832023e4f14@gmail.com>
+Date: Wed, 14 Jun 2023 14:27:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [PATCH 3/3] python_mesonpy: New class
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20230602074419.2450399-1-zboszor@gmail.com>
+ <20230602074419.2450399-3-zboszor@gmail.com>
+ <fcb088b53c6635a6289c3d7d6fdbc6930de634a6.camel@linuxfoundation.org>
+ <b48ac118-3096-8a94-9896-daefe4b46a30@gmail.com>
+ <01dca4b2a76d8972c24ec1aa5480b93f4f0b0585.camel@linuxfoundation.org>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <01dca4b2a76d8972c24ec1aa5480b93f4f0b0585.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 11:33:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182803
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 12:27:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182804
 
-On Wed, 2023-06-14 at 11:28 +0200, Alexander Kanavin wrote:
-> This was done in a selftest, but that is too late and creates
-> friction in integration as errors are not seen until autobuilder fails.
->=20
-> Bonus fix: SUMMARY check wasn't even working, as in the absence
-> of one set in the recipe there is a default value set from bitbake.conf.
->=20
-> I left DESCRIPTION check out for now, as many recipes don't actually
-> have it, and it's set from SUMMARY (plus a dot) if absent.
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes-global/insane.bbclass         | 26 ++++++++++++++++
->  meta/lib/oeqa/selftest/cases/distrodata.py | 36 ----------------------
->  2 files changed, 26 insertions(+), 36 deletions(-)
+2023. 06. 14. 11:52 keltezéssel, Richard Purdie írta:
+> On Wed, 2023-06-14 at 07:46 +0200, Böszörményi Zoltán wrote:
+>> 2023. 06. 13. 22:59 keltezéssel, Richard Purdie írta:
+>>> On Fri, 2023-06-02 at 09:44 +0200, Zoltan Boszormenyi wrote:
+>>>> This is a new PEP517 compatible build class for python modules
+>>>> that use pyproject.toml and this:
+>>>>
+>>>> [build-system]
+>>>> build-backend = 'mesonpy'
+>>>>
+>>>> The new class uses python3-meson-python-native.
+>>>>
+>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>>>> ---
+>>>>    meta/classes-recipe/python_mesonpy.bbclass | 54 ++++++++++++++++++++++
+>>>>    1 file changed, 54 insertions(+)
+>>>>    create mode 100644 meta/classes-recipe/python_mesonpy.bbclass
+>>>>
+>>>> diff --git a/meta/classes-recipe/python_mesonpy.bbclass b/meta/classes-recipe/python_mesonpy.bbclass
+>>>> new file mode 100644
+>>>> index 0000000000..1da8b005ab
+>>>> --- /dev/null
+>>>> +++ b/meta/classes-recipe/python_mesonpy.bbclass
+>>>> @@ -0,0 +1,54 @@
+>>>> +#
+>>>> +# Copyright OpenEmbedded Contributors
+>>>> +#
+>>>> +# SPDX-License-Identifier: MIT
+>>>> +#
+>>>> +
+>>>> +inherit meson setuptools3-base python3targetconfig python_pep517
+>>>> +
+>>>> +# Filter out meson_do_qa_configure from do_configure[postfuncs]
+>>>> +DOCONFIGUREPOSTFUNCS := "${@d.getVarFlag('do_configure', 'postfuncs')}"
+>>>> +DOCONFIGUREPOSTFUNCS:remove = "meson_do_qa_configure"
+>>>> +do_configure[postfuncs] := "${@'' if d.getVar('DOCONFIGUREPOSTFUNCS') is None else d.getVar('DOCONFIGUREPOSTFUNCS') }"
+>>>> +
+>>>> +# This prevents the meson error:
+>>>> +# ERROR: Got argument buildtype as both -Dbuildtype and --buildtype. Pick one.
+>>>> +MESONOPTS:remove = "--buildtype ${MESON_BUILDTYPE}"
+>>>> +
+>>>> +CONFIGURE_FILES = "pyproject.toml"
+>>>> +
+>>>> +DEPENDS += "python3-wheel-native python3-meson-python-native"
+>>>> +
+>>>> +def mesonpy_get_args(d):
+>>>> +    vars = ['MESONOPTS', 'MESON_CROSS_FILE', 'EXTRA_OEMESON']
+>>>> +    varlist = []
+>>>> +    for var in vars:
+>>>> +        value = d.getVar(var)
+>>>> +        vallist = value.split()
+>>>> +        for elem in vallist:
+>>>> +            varlist.append("-Csetup-args=" + elem)
+>>>> +    return ' '.join(varlist)
+>>>> +
+>>>> +PEP517_BUILD_OPTS = "-Cbuilddir='${B}' ${@mesonpy_get_args(d)}"
+>>>> +
+>>>> +# Python pyx -> c -> so build leaves absolute build paths in the code
+>>>> +INSANE_SKIP:${PN} += "buildpaths"
+>>>> +INSANE_SKIP:${PN}-src += "buildpaths"
+>>> This is not ready for core as the output is not reproducible. I am not
+>>> taking patches which skip buildpaths warnings.
+>>>
+>>> This also shows that the code is not being tested in OE-Core. Until it
+>>> is needed by and being used by something in core, I don't think it
+>>> should be there.
+>> This thread was long time dead. The series was sent to meta-oe.
+> Was the reproducibility issue fixed?
 
-I think this change is in the right direction but there are a few
-things I think we need to tweak here.
+You tell me. This is something to be fixed in Cython, as the
+pyx -> C/C++ translation is responsible for those warnings,
+not mesonpy.
 
-a) I don't like the " if not '/meta/recipes-'" check at all. We now
-have the groundwork for layer overrides in bitbake so I'd like to
-complete that, then we can make some of these WARN_QA entries as layer
-specific. This has the added bounus that other layers and more easily
-adopt the tests and raise the bar on quality.
+I am happy to remove those INSANE_SKIP settings, though.
 
-b) I really really don't want a do_fetch postfunc doing something that
-isn't fetching. I know why you've done this, so it appears early in the
-build and so on but it doesn't belong there.
+>   It really does need to be as we
+> have things like hash equivalence which depend upon that...
+>
+> Cheers,
+>
+> Richard
 
-There are other sanity tests at parse time in anonymous python which
-also bother me since the increase parsing time and also shouldn't be
-there. Those often aren't gated on ERROR_QA/WARN_QA options either so
-can't be configured.
-
-Given all this, do we want to consider a new task which covers these
-kinds of tests? A new task does have certain overhead but I'm starting
-to think we might need to do that. Of course there is then a dillema
-about which task it would need to run before.
-
-c) There is an issue that warnings are not restored from sstate. If you
-rerun this build after seeing the warnings, the warnings will not show
-again. This is going to confuse users and cause issues to get missed on
-the autobuilder. There is an open bug for this one, it isn't an easy
-fix unfortunately.
-
-Cheers,
-
-Richard
 
