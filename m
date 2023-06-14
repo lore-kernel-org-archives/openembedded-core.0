@@ -1,124 +1,101 @@
-Return-Path: <rs@ti.com>
+Return-Path: <sudipm.mukherjee@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A31EB64D8
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 15:11:26 +0000 (UTC)
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by mx.groups.io with SMTP id smtpd.web11.15106.1686755480115242035
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46940EB64DB
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 15:14:06 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.15041.1686755636867219475
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 08:11:20 -0700
+ Wed, 14 Jun 2023 08:13:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=SpY6720F;
- spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: rs@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35EFB9cr122993;
-	Wed, 14 Jun 2023 10:11:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1686755469;
-	bh=gKdeei2QPydWMEYQmN7Z/nJ562XC/DCMTAjlQsMvDZU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=SpY6720FG1OiewHQd3gJFijJezveFKLE+i/q15McJzd+r/pakr0X9EcqW/8dtORER
-	 l5otTKuEGCBi1NjB6G8AU4rDhJGpVLiRiFati4jGq5iCTu2FQRmHBxeJmaoeNGVnZE
-	 +zXbv8vf6r2PfYjHanvaL3lHxY1m0f1A+JyQ5N7A=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35EFB9rm107467
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 14 Jun 2023 10:11:09 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
- Jun 2023 10:11:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 14 Jun 2023 10:11:08 -0500
-Received: from [128.247.81.144] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35EFB81O099749;
-	Wed, 14 Jun 2023 10:11:08 -0500
-Message-ID: <66ca0de4-b51b-4a73-fd4f-4b0a7df77fc5@ti.com>
-Date: Wed, 14 Jun 2023 10:11:08 -0500
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NSnyd6aU;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: sudipm.mukherjee@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-519f6e1a16cso569784a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 08:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686755635; x=1689347635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oMMw2/yIcSW9z1TCX5lkBgFGkVh0gbl1yrdF/fom9D8=;
+        b=NSnyd6aUV4Bqcei60a1qmkjfUldk/Em6PMK3BmJYowUwxmL0HAOrqMqafYJOqtWCDZ
+         6TDe8cJQOaKYYPGfk2R0LRlZXyp9KxNHwomxdt712ID2+qz1T65f/hFdvK9E3igLUlHO
+         ZZJyPxXsDWcQSQDMxDPF9mHh1j7LNhz0pyjSVRPOBSdv/NTq8Q0Ks0j2BUHOC8tCtQ7O
+         GeoRfToE+2ji2ZWrukYN4twwztVs/5pBToyEei5r04q/SFNhQFxeOq1W9dksT8nTvwn8
+         U8K8fzPP2Olq6bzNd4u3d5jhPON/tzGD/ieuul1sX6PuSrrRa8/1wG9jALFqcDFMhF8O
+         oMFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686755635; x=1689347635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oMMw2/yIcSW9z1TCX5lkBgFGkVh0gbl1yrdF/fom9D8=;
+        b=Z73Y0RvRnQx7K44jhLTnRW0FFD6UeFj2ZWq1gqqEkseDEVSyZUSibo/hgX8+I455ju
+         AMV5GClPN8ngZVyklSqukw7VIRXJLXi6GFrQgC5CHmrzvBMkgjpoimQPp3XCb7jk0VeT
+         5Kea4xejJrx86lGLCr2S556sBH2dCnPxo9SvUu8D/ifYxLCQPd1jJI4O73wRk4fuL1uk
+         avrDKk+J/tfZ8R27J08QU/LfkAf2xwGhfatOqdhfuEQoOqMM8dXcL8QqAPNnHHU00DRi
+         BiXm24H5LxInekyYzWdGiFsSNoog0DDesdvh5cnJNHUpHUhG5ovo29Ll6eW6LknKgSRY
+         mSUQ==
+X-Gm-Message-State: AC+VfDxSa5wrvlogEnh5/0X84C7N16rISg7PLm5Ra+X8u+WSBuncL2c+
+	7CxwlHRln2+EKYOSRHRjuK9ZY3USyKnmydTXLys=
+X-Google-Smtp-Source: ACHHUZ4ZI13B9vq39wrjSRgUi5HctvJCHEr0Zs6Eihdi6YxUoXqb85TOl35VaMOLq4pxlkH+bJ/CS4jNL/BCVkVbGdU=
+X-Received: by 2002:aa7:cd6a:0:b0:518:9259:a05c with SMTP id
+ ca10-20020aa7cd6a000000b005189259a05cmr1302309edb.6.1686755635065; Wed, 14
+ Jun 2023 08:13:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [EXTERNAL] Re: [OE-core][PATCH 4/6] weston-init: fix the mixed
- indentation
-Content-Language: en-US, en-US-large
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Alexander Kanavin
-	<alex.kanavin@gmail.com>,
-        Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-CC: "reatmon@ti.com" <reatmon@ti.com>, "denis@denix.org" <denis@denix.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20230610011339.3716428-1-rs@ti.com>
- <20230610011339.3716428-5-rs@ti.com>
- <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
- <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
- <176801038AB94927.4582@lists.openembedded.org>
- <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
- <8d570279eb2f9832a1576a1aeeb79098a0cba175.camel@linuxfoundation.org>
-From: Randolph Sapp <rs@ti.com>
-In-Reply-To: <8d570279eb2f9832a1576a1aeeb79098a0cba175.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20230613205212.7548-1-sudip.mukherjee@codethink.co.uk> <71B74F88-1911-4F00-BD3D-0B4628D9ED99@arm.com>
+In-Reply-To: <71B74F88-1911-4F00-BD3D-0B4628D9ED99@arm.com>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Wed, 14 Jun 2023 16:13:19 +0100
+Message-ID: <CADVatmN=x=5VAUZUU1if+SrX19dg7h-pBiD-B7u1PrX7wHOnBg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] libssh2: Upgrade to v1.11.0
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 15:11:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182815
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 15:14:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182816
 
-On 6/14/23 03:08, Richard Purdie wrote:
-> On Tue, 2023-06-13 at 20:16 -0500, Randolph Sapp wrote:
->> On 6/12/23 14:46, Randolph Sapp via lists.openembedded.org wrote:
->>> On 6/12/23 05:05, Alexander Kanavin wrote:
->>>> On Mon, 12 Jun 2023 at 11:58, Peter Kjellerstedt
->>>> <peter.kjellerstedt@axis.com> wrote:
->>>>> Well that is of course an option, but then it may get messy if different
->>>>> people have different preferences and start changing the indentation
->>>>> back
->>>>> and forth...
->>>>
->>>> I suppose changing indentation needs to be justified by for example
->>>> achieving consistency in the same code block (as it does here, which
->>>> is fine), and it never should be mixed in with functional changes.
->>>> What I don't want is lots of empty code churn that doesn't actually
->>>> make things more readable than they already were, and is more or less
->>>> an exercise in pedantic neat freakery.
->>>>
->>>> Alex
->>>
->>> I frankly don't like the concept of mixed indentation in the same file,
->>> let alone the same code block. The only thing really driving me to
->>> change it here was the lack of git attributes to define the project
->>> standard, nvim is attempting to enforce the 4 space standard from python
->>> over the entirety of bitbake recipes (which I think is fairly sane), and
->>> the variance of standard in this code block.
->>>
->>> I have no preference. So long as there is a standard, I will bow to it.
->>>
->>> Randolph
->>>
->>
->> I noticed master didn't pick up any patches past this one. I take it you
->> want me to reformat this to the current tab shell block standard?
-> 
-> Yes please. I stopped there since at least at a quick glance it looked
-> mostly tab indented and this changed it to space which breaks the code
-> standard for oe-core. Whether we want to change that isn't something I
-> have the time/energy to get into right now. If I take it, I'm opening
-> the gates to many more such changes. There are views on both sides and
-> people get upset about various aspects of it, me included.
-> 
-> Cheers,
-> 
-> Richard
-> 
+Hi Ross,
 
-Alright. I'll fix this up and resubmit.
+On Wed, 14 Jun 2023 at 14:53, Ross Burton <ross.burton@arm.com> wrote:
+>
+> On 13 Jun 2023, at 21:52, Sudip Mukherjee via lists.openembedded.org <sud=
+ipm.mukherjee=3Dgmail.com@lists.openembedded.org> wrote:
+> > # only one of openssl and gcrypt could be set
+> > PACKAGECONFIG ??=3D "openssl"
+> > @@ -41,9 +42,13 @@ do_install_ptest() {
+> > install -d ${D}${PTEST_PATH}/tests
+> > install -m 0755 ${S}/test-driver ${D}${PTEST_PATH}/
+> > cp -rf ${B}/tests/.libs/* ${D}${PTEST_PATH}/tests/
+> > - cp -rf ${S}/tests/mansyntax.sh  ${D}${PTEST_PATH}/tests/
+> > - cp -rf ${S}/tests/ssh2.sh  ${D}${PTEST_PATH}/tests/
+> > - cp -rf ${S}/tests/etc ${D}${PTEST_PATH}/tests/
+> > + cp -rf ${B}/tests/test_simple ${D}${PTEST_PATH}/tests/
+> > + cp -rf ${S}/tests/mansyntax.sh ${D}${PTEST_PATH}/tests/
+> > + cp -rf ${S}/tests/test_sshd.test  ${D}${PTEST_PATH}/tests/
+> > + cp -rf ${S}/tests/openssh_server ${D}${PTEST_PATH}/tests/
+> > + cp -rf ${S}/tests/key* ${D}${PTEST_PATH}/tests/
+> > +# Makefile.inc required as test_sshd.test generates the list of test f=
+rom this
+> > + cp -rf ${S}/tests/Makefile.inc ${D}${PTEST_PATH}/tests/
+> > mkdir -p ${D}${PTEST_PATH}/docs
+> > cp -r ${S}/docs/* ${D}${PTEST_PATH}/docs/
+> > }
+>
+> As you=E2=80=99ve clearly been looking at the tests, why does the ptest s=
+upport need the documentation?
 
+There is a test for manpage syntax "mansyntax.sh" which needs the
+generated man pages in the docs folder.
+compile_ptest_base will not fail, but actual tests will fail.
+
+--=20
+Regards
+Sudip
 
