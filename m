@@ -1,81 +1,109 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF4D9EB64D8
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 05:57:42 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.5139.1686722261237791108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33778EB64D8
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 06:48:13 +0000 (UTC)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.web10.5443.1686725284690694819
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 22:57:41 -0700
+ Tue, 13 Jun 2023 23:48:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qzN0CIZH;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f624daccd1so7541872e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 22:57:40 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=GpHJM0yw;
+ spf=pass (domain: underview.tech, ip: 209.85.210.48, mailfrom: vince@underview.tech)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6b426eb7e81so409424a34.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 23:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686722259; x=1689314259;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jDmOSeqmmuH7jPvkwZHCI1DpwFl0md+W8rZfAS2XomQ=;
-        b=qzN0CIZHxCJhEOQMf3YzpwO87REU9CuVITEW7LbXm0ZRRRDlCPZAMRwWUJJnxWrDr2
-         KZExfpT/CobybtzXJCu5sRFxD+HbSSa/AY8RBoCiUYdvcqzlbl8msxMEQC7NRstSyCvh
-         Axz6KlqPwa99j2SbizCeZws56X/7fNA7fVFDmBW/YyW36UFezRJM+E+H8arCRHLJgg3z
-         YpC8yngwIQpzkgnD48tE5cfoMtkB3BCz7Vk+9wan2PwZglu/AVbVkCqJgz0mrN/AQNC3
-         ojRH5yb/fi6RDPAw644i0JuPmkJMqSkuGjvlXlBysPiCpjSSEzKWop8lbeoqAJhdoPt6
-         +3gQ==
+        d=underview.tech; s=google; t=1686725284; x=1689317284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AUl8XE7QLZvg/94N5bYsfm1csn/AKvWJAfc+bIQnwSw=;
+        b=GpHJM0ywvXqE6COqrTroUjWZOiKS0XZy7u7eng6oEzF9CmN2FlYN+EUBVKt/5JHoEp
+         YVNyochbXFBZg+gqulFGUT/jG7Ryf6KevBld9cqSV5FUDK9N/xSNdZMq20cqJO+ED5da
+         /8m4j5BfNQ0i0t8jENjmYU7VskQaDiwk94hW4rbHgi01lh2egvnZxYbsNbqtA3JOUoDd
+         M2DMPw5ZRKDErNyOMEkeH0mAZqK0yJeXsz9t3tOy2pZ/Q7jlduXR9/PH5kqfR9dMaREu
+         ox/ooeF7evnaOn2fz3lylvmlL9XXmpyDvd5fqR2S0kaEUmrQoiHZ+1WBzD4JCLGSDvNY
+         kMXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686722259; x=1689314259;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1686725284; x=1689317284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jDmOSeqmmuH7jPvkwZHCI1DpwFl0md+W8rZfAS2XomQ=;
-        b=XbdZAclN0zlPFBKx2+K5M8Co6QlkLYtVjOQdM5Yvg80+yYJPD7KPAnOsUjrFOD1qUm
-         xosBPg+tt5fi6N/hjJKlZtFxXZcJqb0+ts6iWCqqUo6Iozo9jQ9iNv8N3x7rTm4tZXd2
-         RaJJWow609dwqOCi/xFacWg91DB3VabbALymL6u72eA1vyvEZwkRMN07qexVcKmLkukP
-         nhhv6JRMVeF3SJkSezrNCHKHhimz1yvNYG7wXuOezK/yjIy/HoelxL+WTP2z2zfVlRie
-         wtHgGv4w+h5I8U9uTIe8V4YGRMvQAQjELwqbH3H7z6ElkSoWok5Ai1tJ42Uf/1b/DF+m
-         m3hg==
-X-Gm-Message-State: AC+VfDxPDk6GTI5QTDpGSW7qDVtLEWcUbeFRVTq7L66RGKH6JVTkPByt
-	ynNug1Fyto+mX0kEQMB3PbeN9sbXWY3sT/Asmx4=
-X-Google-Smtp-Source: ACHHUZ54YUwDkXrWx0Q3Vv58Dgeyd0dKDjA1P91j/8Pfto6mQpqhHqnKgcTZS5z4xclFC8luhD1VLSLesm1aXrx8DBk=
-X-Received: by 2002:a19:5e10:0:b0:4f6:3ef4:5c7b with SMTP id
- s16-20020a195e10000000b004f63ef45c7bmr6929172lfb.50.1686722259026; Tue, 13
- Jun 2023 22:57:39 -0700 (PDT)
+        bh=AUl8XE7QLZvg/94N5bYsfm1csn/AKvWJAfc+bIQnwSw=;
+        b=mFeohHSb+rFxgBk9VR9DUISZHRw97rIHo7C6Ran+KPETNe/MD/Jvpbuaoj6o00jyIX
+         AbZuyTWT4yFA2xhVJkKX8Vw45rf39ZVCz0Sc6we3gUlTp3qtsrgckrntYm1MAQG54+2R
+         USc/pNycnkMn2rlkfydvKCqbtZJ7zZ/UmSVyAH6Ozja0I9anLrfyGGE/WeJRN8dvT/Fh
+         BL0mNarx2QN7akwS4EJdSKtcqW9+qou6AN9IsGfGreot4cwuT4MClpjbarOA0uzJ7G3u
+         Tup2RvLggkjnkLhlRbywfjRIvM9WN/mKmH8Tj2vctTzWzxcWYZwPcVWg+/0xY9ZYB7B/
+         oNYQ==
+X-Gm-Message-State: AC+VfDwo5O/sEa2jn4SOkqD+K7L5xB1Q+x3KdTVcijjyQ2fdRXNgkedM
+	Y6A4hBQCUfKl3EhfutNmXzqDkp8UuUH+7J3ou7A=
+X-Google-Smtp-Source: ACHHUZ4MRn9+gBjuLb3kJRWksucqem1qbiKHpdHZxISaorE6EBY3fg8HejUy0y6gMa2B+/9IF0CGow==
+X-Received: by 2002:a05:6830:86:b0:6ab:983f:a56b with SMTP id a6-20020a056830008600b006ab983fa56bmr12098730oto.11.1686725283729;
+        Tue, 13 Jun 2023 23:48:03 -0700 (PDT)
+Received: from vince-B550I-AORUS-PRO-AX.attlocal.net ([2600:1700:1124:8090:a368:f365:98f7:e9e3])
+        by smtp.gmail.com with ESMTPSA id m4-20020a9d7e84000000b006a44338c8efsm5655179otp.44.2023.06.13.23.48.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 23:48:03 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
+To: openembedded-core@lists.openembedded.org
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [PATCH v2] vulkan-validation-layers: cleanup recipe
+Date: Wed, 14 Jun 2023 01:45:20 -0500
+Message-Id: <20230614064519.35240-1-vince@underview.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230610011339.3716428-1-rs@ti.com> <20230610011339.3716428-5-rs@ti.com>
- <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
- <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
- <176801038AB94927.4582@lists.openembedded.org> <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
-In-Reply-To: <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Jun 2023 07:57:27 +0200
-Message-ID: <CANNYZj-4BAtc1F-ocrcqKb+OHAbrC9GKznHNt1utCtrA1+oF5w@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: [OE-core][PATCH 4/6] weston-init: fix the mixed indentation
-To: Randolph Sapp <rs@ti.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, "reatmon@ti.com" <reatmon@ti.com>, 
-	"denis@denix.org" <denis@denix.org>, 
-	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 05:57:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182733
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 06:48:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182734
 
-On Wed, 14 Jun 2023 at 03:16, Randolph Sapp <rs@ti.com> wrote:
+Commit doesn't change build behavior
 
-> I noticed master didn't pick up any patches past this one. I take it you
-> want me to reformat this to the current tab shell block standard?
+* Removes ${libdir} from FILES:${PN} as its not required.
+* Updates PACKAGECONFIG to uses just one @bb.utils.filter call.
+* Updates GLSLANG_INSTALL_DIR to <recipe-sysroot>/lib${64} as
+  that contains the actual directory of the glslang .cmake
+  config files.
 
-The remaining patches are still in the staging branch:
-https://git.yoctoproject.org/poky-contrib/log/?h=abelloni/master-next
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+---
+ .../vulkan/vulkan-validation-layers_1.3.243.0.bb         | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-If they're dropped from it, there'll be a separate email explaining what to do.
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb
+index 6e1ef7a05d..bfb4b370b8 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.243.0.bb
+@@ -23,7 +23,7 @@ DEPENDS = "vulkan-headers vulkan-loader spirv-headers spirv-tools glslang"
+ EXTRA_OECMAKE = "\
+     -DBUILD_TESTS=OFF \
+     -DUSE_ROBIN_HOOD_HASHING=OFF \
+-    -DGLSLANG_INSTALL_DIR=${STAGING_DATADIR} \
++    -DGLSLANG_INSTALL_DIR=${STAGING_LIBDIR} \
+     -DVULKAN_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
+     -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
+     "
+@@ -31,14 +31,11 @@ EXTRA_OECMAKE = "\
+ PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
+ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
+ 
+-PACKAGECONFIG ?= "\
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
+-    "
++PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
+ 
+ inherit cmake features_check pkgconfig
+ 
+-FILES:${PN} += "${datadir}/vulkan ${libdir}"
++FILES:${PN} += "${datadir}/vulkan"
+ 
+ SOLIBS = ".so"
+ FILES_SOLIBSDEV = ""
+-- 
+2.34.1
 
-Alex
 
