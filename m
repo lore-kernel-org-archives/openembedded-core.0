@@ -1,146 +1,81 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE0FEB64D8
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 05:46:13 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.4930.1686721567859202538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF4D9EB64D8
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 05:57:42 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.5139.1686722261237791108
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jun 2023 22:46:08 -0700
+ Tue, 13 Jun 2023 22:57:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OP1uVMQZ;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: zboszor@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-30fceb009faso987988f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 22:46:07 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=qzN0CIZH;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f624daccd1so7541872e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jun 2023 22:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686721566; x=1689313566;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CK7zKlbD8K4QqF34Wun6gw+5tPwGm8kSYfPFdeIXxEA=;
-        b=OP1uVMQZ2cVzgOWw0o7WQW4KLXNrunQ3kK8kkp1Ub8ymPVwMmrBhHSUCaI+HMiH+/A
-         CkW5IR5D5M1tL2gbKA4pIBEaeCcfW07M1Mc/YlZxD54Ccomrb5hcB86ZLbY7DNdqsc5j
-         ahF4gVZqHY9+QGd3YQ1Zf2AaQ8ISl4AiP7J/zVaxtocptrtf1zBAxXEgywJ1gvg+r62r
-         FQ1F8ct6BpvR9PR8EKFJ+fWRt7HIkvIfn1EMP4ZkdemsLCoyFaqAq8kiEUgMGt+pH9cL
-         UzgzocKg+RGqTZ/+H3zFiOFAqXWJqVUpV0qeql8wWe+PJw7sFGEdCVSQLDz2va7rLy0+
-         8FUg==
+        d=gmail.com; s=20221208; t=1686722259; x=1689314259;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDmOSeqmmuH7jPvkwZHCI1DpwFl0md+W8rZfAS2XomQ=;
+        b=qzN0CIZHxCJhEOQMf3YzpwO87REU9CuVITEW7LbXm0ZRRRDlCPZAMRwWUJJnxWrDr2
+         KZExfpT/CobybtzXJCu5sRFxD+HbSSa/AY8RBoCiUYdvcqzlbl8msxMEQC7NRstSyCvh
+         Axz6KlqPwa99j2SbizCeZws56X/7fNA7fVFDmBW/YyW36UFezRJM+E+H8arCRHLJgg3z
+         YpC8yngwIQpzkgnD48tE5cfoMtkB3BCz7Vk+9wan2PwZglu/AVbVkCqJgz0mrN/AQNC3
+         ojRH5yb/fi6RDPAw644i0JuPmkJMqSkuGjvlXlBysPiCpjSSEzKWop8lbeoqAJhdoPt6
+         +3gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686721566; x=1689313566;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CK7zKlbD8K4QqF34Wun6gw+5tPwGm8kSYfPFdeIXxEA=;
-        b=cPLHbYKm7cnk3MBCIZ6bQiC6dJpbvPIUrytFts0QSgtBCyWlmgKG5XJllW9xK/jUUo
-         2NPqF9fnh3ydVOET3r2PPTAoKWiaL7Eep47ZsxFpesaLnuuu1+4kxTcSIhOcYJIGsDHE
-         jRQJTGWF9iAS/nG3K6zPvVpqIgHuuYKEbkHz4oWBppxI5MIKdrIueTwGwxhUI6pn1+5B
-         oAMKjN0kD0iqrkgMTac6zlDFEZSa1zI3NuiPY18Ou/U3Gemv1zIq32IdstXttK6VMVyF
-         3zjN++OF3XU/N6xKo4mhksrnmruhOTpJciq05hsuGPQa0x34I5BUr/m/I9S/xqudRucu
-         tkqw==
-X-Gm-Message-State: AC+VfDxaL3zgTr9QJQcsv0yDi1Dock5j9IKzWkIm4OblPTCJ6mTc3Fh/
-	H3AwGA6oQmNApHu9tbrYTdM=
-X-Google-Smtp-Source: ACHHUZ4M7wazWtwU8plttgjdnmRif9weJtFa+RN5oJ2gBnYJj2eLjsMX6PmQ2S41XoFT9ELyNQJYbA==
-X-Received: by 2002:adf:ee4a:0:b0:30f:bd4f:8f00 with SMTP id w10-20020adfee4a000000b0030fbd4f8f00mr408129wro.28.1686721565909;
-        Tue, 13 Jun 2023 22:46:05 -0700 (PDT)
-Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id t3-20020a5d6903000000b0030fcaf57660sm4393005wru.29.2023.06.13.22.46.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 22:46:05 -0700 (PDT)
-Message-ID: <b48ac118-3096-8a94-9896-daefe4b46a30@gmail.com>
-Date: Wed, 14 Jun 2023 07:46:04 +0200
+        d=1e100.net; s=20221208; t=1686722259; x=1689314259;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jDmOSeqmmuH7jPvkwZHCI1DpwFl0md+W8rZfAS2XomQ=;
+        b=XbdZAclN0zlPFBKx2+K5M8Co6QlkLYtVjOQdM5Yvg80+yYJPD7KPAnOsUjrFOD1qUm
+         xosBPg+tt5fi6N/hjJKlZtFxXZcJqb0+ts6iWCqqUo6Iozo9jQ9iNv8N3x7rTm4tZXd2
+         RaJJWow609dwqOCi/xFacWg91DB3VabbALymL6u72eA1vyvEZwkRMN07qexVcKmLkukP
+         nhhv6JRMVeF3SJkSezrNCHKHhimz1yvNYG7wXuOezK/yjIy/HoelxL+WTP2z2zfVlRie
+         wtHgGv4w+h5I8U9uTIe8V4YGRMvQAQjELwqbH3H7z6ElkSoWok5Ai1tJ42Uf/1b/DF+m
+         m3hg==
+X-Gm-Message-State: AC+VfDxPDk6GTI5QTDpGSW7qDVtLEWcUbeFRVTq7L66RGKH6JVTkPByt
+	ynNug1Fyto+mX0kEQMB3PbeN9sbXWY3sT/Asmx4=
+X-Google-Smtp-Source: ACHHUZ54YUwDkXrWx0Q3Vv58Dgeyd0dKDjA1P91j/8Pfto6mQpqhHqnKgcTZS5z4xclFC8luhD1VLSLesm1aXrx8DBk=
+X-Received: by 2002:a19:5e10:0:b0:4f6:3ef4:5c7b with SMTP id
+ s16-20020a195e10000000b004f63ef45c7bmr6929172lfb.50.1686722259026; Tue, 13
+ Jun 2023 22:57:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCH 3/3] python_mesonpy: New class
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20230602074419.2450399-1-zboszor@gmail.com>
- <20230602074419.2450399-3-zboszor@gmail.com>
- <fcb088b53c6635a6289c3d7d6fdbc6930de634a6.camel@linuxfoundation.org>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <fcb088b53c6635a6289c3d7d6fdbc6930de634a6.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230610011339.3716428-1-rs@ti.com> <20230610011339.3716428-5-rs@ti.com>
+ <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
+ <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
+ <176801038AB94927.4582@lists.openembedded.org> <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
+In-Reply-To: <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 14 Jun 2023 07:57:27 +0200
+Message-ID: <CANNYZj-4BAtc1F-ocrcqKb+OHAbrC9GKznHNt1utCtrA1+oF5w@mail.gmail.com>
+Subject: Re: [EXTERNAL] Re: [OE-core][PATCH 4/6] weston-init: fix the mixed indentation
+To: Randolph Sapp <rs@ti.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, "reatmon@ti.com" <reatmon@ti.com>, 
+	"denis@denix.org" <denis@denix.org>, 
+	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 05:46:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182732
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 05:57:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182733
 
-2023. 06. 13. 22:59 keltezéssel, Richard Purdie írta:
-> On Fri, 2023-06-02 at 09:44 +0200, Zoltan Boszormenyi wrote:
->> This is a new PEP517 compatible build class for python modules
->> that use pyproject.toml and this:
->>
->> [build-system]
->> build-backend = 'mesonpy'
->>
->> The new class uses python3-meson-python-native.
->>
->> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->> ---
->>   meta/classes-recipe/python_mesonpy.bbclass | 54 ++++++++++++++++++++++
->>   1 file changed, 54 insertions(+)
->>   create mode 100644 meta/classes-recipe/python_mesonpy.bbclass
->>
->> diff --git a/meta/classes-recipe/python_mesonpy.bbclass b/meta/classes-recipe/python_mesonpy.bbclass
->> new file mode 100644
->> index 0000000000..1da8b005ab
->> --- /dev/null
->> +++ b/meta/classes-recipe/python_mesonpy.bbclass
->> @@ -0,0 +1,54 @@
->> +#
->> +# Copyright OpenEmbedded Contributors
->> +#
->> +# SPDX-License-Identifier: MIT
->> +#
->> +
->> +inherit meson setuptools3-base python3targetconfig python_pep517
->> +
->> +# Filter out meson_do_qa_configure from do_configure[postfuncs]
->> +DOCONFIGUREPOSTFUNCS := "${@d.getVarFlag('do_configure', 'postfuncs')}"
->> +DOCONFIGUREPOSTFUNCS:remove = "meson_do_qa_configure"
->> +do_configure[postfuncs] := "${@'' if d.getVar('DOCONFIGUREPOSTFUNCS') is None else d.getVar('DOCONFIGUREPOSTFUNCS') }"
->> +
->> +# This prevents the meson error:
->> +# ERROR: Got argument buildtype as both -Dbuildtype and --buildtype. Pick one.
->> +MESONOPTS:remove = "--buildtype ${MESON_BUILDTYPE}"
->> +
->> +CONFIGURE_FILES = "pyproject.toml"
->> +
->> +DEPENDS += "python3-wheel-native python3-meson-python-native"
->> +
->> +def mesonpy_get_args(d):
->> +    vars = ['MESONOPTS', 'MESON_CROSS_FILE', 'EXTRA_OEMESON']
->> +    varlist = []
->> +    for var in vars:
->> +        value = d.getVar(var)
->> +        vallist = value.split()
->> +        for elem in vallist:
->> +            varlist.append("-Csetup-args=" + elem)
->> +    return ' '.join(varlist)
->> +
->> +PEP517_BUILD_OPTS = "-Cbuilddir='${B}' ${@mesonpy_get_args(d)}"
->> +
->> +# Python pyx -> c -> so build leaves absolute build paths in the code
->> +INSANE_SKIP:${PN} += "buildpaths"
->> +INSANE_SKIP:${PN}-src += "buildpaths"
-> This is not ready for core as the output is not reproducible. I am not
-> taking patches which skip buildpaths warnings.
->
-> This also shows that the code is not being tested in OE-Core. Until it
-> is needed by and being used by something in core, I don't think it
-> should be there.
+On Wed, 14 Jun 2023 at 03:16, Randolph Sapp <rs@ti.com> wrote:
 
-This thread was long time dead. The series was sent to meta-oe.
+> I noticed master didn't pick up any patches past this one. I take it you
+> want me to reformat this to the current tab shell block standard?
 
->
-> Cheers,
->
-> Richard
->
+The remaining patches are still in the staging branch:
+https://git.yoctoproject.org/poky-contrib/log/?h=abelloni/master-next
 
+If they're dropped from it, there'll be a separate email explaining what to do.
+
+Alex
 
