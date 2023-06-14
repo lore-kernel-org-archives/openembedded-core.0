@@ -1,154 +1,128 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B614EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 08:05:33 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.6232.1686729928489543635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3E9EB64D9
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 08:08:23 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.6263.1686730102903562092
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 01:05:28 -0700
+ Wed, 14 Jun 2023 01:08:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XYJcrA7X;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1686729926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jve5ISW93Y7tTCfIQDsyC2pErkUQ0aB/RINGrGMFGJ8=;
-	b=XYJcrA7XJLT9wJmQ0cWmR4OnhFY3ijPNFgy8WdIQhHaSf6AmSKEUCUP+OfOPh2ou4haY0G
-	G2iNCjeWIfcTykhApSJ4SqJjWve+Jsq4g4mtKZsZJBkcSSxGgnHxoduUCKQt+dohgdGD5X
-	9hcHc2XItNLcZidEu5s8zo+rFN0yLWKbGCrV3VR3HnV/vaJcM8EW4mb71/KbRoS6TGLzXQ
-	otUZyNW/KzHCiqSFoUK8Xpp3YiC7aWhhZx5XkCuapcishKQkbmYrkSgZVv7gmdo085+rNs
-	xnrLOz7XWLVg7PhteWEX2ZZ+Pu78DweIJzlH0lWmXWf/MYH3jABsUBBfGklE4g==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 233804000C;
-	Wed, 14 Jun 2023 08:05:24 +0000 (UTC)
-Date: Wed, 14 Jun 2023 10:05:24 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: devarsht@ti.com
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, denys@konsulko.com, nm@ti.com,
-	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, khasim@ti.com,
-	nsekhar@ti.com, afd@ti.com, rs@ti.com, n-jain1@ti.com
-Subject: Re: [oe-core][PATCH v2] wic: bootimg: Add support to install
- directories
-Message-ID: <202306140805248816625d@mail.local>
-References: <20230613091011.3624628-1-devarsht@ti.com>
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=JRlbgV7v;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f660e57123so5936107e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 01:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1686730101; x=1689322101;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4PcrtYWLRuPTgsSqtW22DewXr9N+UWWWd1QgKE3H2OA=;
+        b=JRlbgV7vYKgrvswOOCHgmrdHn3TwwrEhDaIpJWjPolJTxC/Lrul5ZYU7JsSitCEFAF
+         OYt5scslo59S405Do9ZXCrNai/bo+UfLCRq+otBYHtP3j8n5BSj+ZHZZNClOhLHCJlDW
+         qkJl7ML7oZdvgRh50PFty9GC7PM7wkCfYqEF4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686730101; x=1689322101;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4PcrtYWLRuPTgsSqtW22DewXr9N+UWWWd1QgKE3H2OA=;
+        b=Hee1dbJLsvl2SBD2bm8lGJcvG9nymWCC1v7N5Dl5eEsen1Pebva0tYyqwgULemnMqI
+         ErJp2yXMCEj5EvbeQjUIKuDq0QjIfOnoktxlo8ipkQDaH2dAhZZZr6QLi4v0CtrCd1M9
+         tjfv49GfrQ0D1sANh43rFMFNvWNWnhHIt/qU0gSccoe3MjE7YH2bqmYm5M/A+D/lssNe
+         352NooNvZqgYsz1wGM798EUQrGww384TtMPiX/4vMeHbjKToeSb+gHNV+Y06rk2PXUc7
+         NU+2/BHX5Isf5KtTfaqrIkv5A9g492GT+25UYyg/eeWGWUJoysZxMLXwbJnr0wSTt6q1
+         pJaA==
+X-Gm-Message-State: AC+VfDz/dDP7aKXHaVYj3tKnIK6OSfOb/7iqjMFF6lJ7X6GotRh9pTGw
+	2niw5fr5C0+NeMsRe5386d/BBQ==
+X-Google-Smtp-Source: ACHHUZ4PY0o6yELgeT4V4xYBcJ2T1VbkXdLuR1VcmJsp4c1AnXHNstGnWYa2uLmWXLJw8EVT1aNJuQ==
+X-Received: by 2002:a19:9155:0:b0:4f4:d538:3450 with SMTP id y21-20020a199155000000b004f4d5383450mr7757691lfj.49.1686730101066;
+        Wed, 14 Jun 2023 01:08:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b? ([2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b])
+        by smtp.gmail.com with ESMTPSA id d8-20020a5d6dc8000000b0030aec5e020fsm17345094wrz.86.2023.06.14.01.08.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 01:08:20 -0700 (PDT)
+Message-ID: <8d570279eb2f9832a1576a1aeeb79098a0cba175.camel@linuxfoundation.org>
+Subject: Re: [EXTERNAL] Re: [OE-core][PATCH 4/6] weston-init: fix the mixed
+ indentation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randolph Sapp <rs@ti.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "reatmon@ti.com" <reatmon@ti.com>, "denis@denix.org" <denis@denix.org>, 
+ "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Jun 2023 09:08:19 +0100
+In-Reply-To: <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
+References: <20230610011339.3716428-1-rs@ti.com>
+	 <20230610011339.3716428-5-rs@ti.com>
+	 <DB5PR02MB102136F50D6C9E9121C9FD08FEF57A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+	 <CANNYZj99QKDuDc7oPaytFOUAeaiSL9y6WMT2Dmo5nLUTNNOLKQ@mail.gmail.com>
+	 <DB5PR02MB10213D04533C11ED783E5335AEF54A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+	 <CANNYZj-UnVQmJYeYY=zHq2xEKXZXoSNJtraAor1HEkdGVqJFGw@mail.gmail.com>
+	 <176801038AB94927.4582@lists.openembedded.org>
+	 <a834239b-83d7-11cf-3ecb-c2ef53b8e6ab@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230613091011.3624628-1-devarsht@ti.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 08:05:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182738
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 08:08:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182739
 
-Hello,
+On Tue, 2023-06-13 at 20:16 -0500, Randolph Sapp wrote:
+> On 6/12/23 14:46, Randolph Sapp via lists.openembedded.org wrote:
+> > On 6/12/23 05:05, Alexander Kanavin wrote:
+> > > On Mon, 12 Jun 2023 at 11:58, Peter Kjellerstedt
+> > > <peter.kjellerstedt@axis.com> wrote:
+> > > > Well that is of course an option, but then it may get messy if diff=
+erent
+> > > > people have different preferences and start changing the indentatio=
+n=20
+> > > > back
+> > > > and forth...
+> > >=20
+> > > I suppose changing indentation needs to be justified by for example
+> > > achieving consistency in the same code block (as it does here, which
+> > > is fine), and it never should be mixed in with functional changes.
+> > > What I don't want is lots of empty code churn that doesn't actually
+> > > make things more readable than they already were, and is more or less
+> > > an exercise in pedantic neat freakery.
+> > >=20
+> > > Alex
+> >=20
+> > I frankly don't like the concept of mixed indentation in the same file,=
+=20
+> > let alone the same code block. The only thing really driving me to=20
+> > change it here was the lack of git attributes to define the project=20
+> > standard, nvim is attempting to enforce the 4 space standard from pytho=
+n=20
+> > over the entirety of bitbake recipes (which I think is fairly sane), an=
+d=20
+> > the variance of standard in this code block.
+> >=20
+> > I have no preference. So long as there is a standard, I will bow to it.
+> >=20
+> > Randolph
+> >=20
+>=20
+> I noticed master didn't pick up any patches past this one. I take it you=
+=20
+> want me to reformat this to the current tab shell block standard?
 
-This breaks x86:
+Yes please. I stopped there since at least at a quick glance it looked
+mostly tab indented and this changed it to space which breaks the code
+standard for oe-core. Whether we want to change that isn't something I
+have the time/energy to get into right now. If I take it, I'm opening
+the gates to many more such changes. There are views on both sides and
+people get upset about various aspects of it, me included.
 
+Cheers,
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5277/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5328/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5320/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5355/steps/14/logs/stdio
-
-On 13/06/2023 14:40:11+0530, Devarsh Thakkar via lists.openembedded.org wrote:
-> IMAGE_BOOTFILES can contains directories to install in boot partition
-> for e.g. below declaration allows to install files into boot dir as per
-> example given in yocto documentation [1].
-> 
-> $ IMAGE_BOOT_FILES = "bcm2835-bootfiles/*;boot/
-> 
-> So to install directories in target boot parition of wic image,
-> use `-t` option of install command so that if there are any directories
-> present in IMAGE_BOOT_FILES macro they get created in target area and
-> respective files get installed in created directory in target area.
-> 
-> This also fixes below error, which was faced while trying to install logos
-> directory inside the boot partition :
-> 
-> $ "install -m 0644 -D <src_path>/deploy/images/am62xx-evm/ti.gz
-> <dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/ returned '1' instead of 0
-> | output: install: target '<dst_path>/1.0-r0/tmp-wic/hdd/boot/logos/'
-> is not a directory: No such file or directory"
-> 
-> Link:
-> [1] https://docs.yoctoproject.org/ref-manual/variables.html?highlight=image_boot_files
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V2: s/Logs/Link (in commit message)
-> ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py       | 4 ++--
->  scripts/lib/wic/plugins/source/bootimg-partition.py | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index c28d3917c2..966606a39e 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -341,13 +341,13 @@ class BootimgEFIPlugin(SourcePlugin):
->                  objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
->                  exec_native_cmd(objcopy_cmd, native_sysroot)
->          else:
-> -            install_cmd = "install -m 0644 %s/%s %s/%s" % \
-> +            install_cmd = "install -m 0644 -D %s/%s -t %s/%s" % \
->                  (staging_kernel_dir, kernel, hdddir, kernel)
->              exec_cmd(install_cmd)
->  
->          if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
->              for src_path, dst_path in cls.install_task:
-> -                install_cmd = "install -m 0644 -D %s %s" \
-> +                install_cmd = "install -m 0644 -D %s -t %s" \
->                                % (os.path.join(kernel_dir, src_path),
->                                   os.path.join(hdddir, dst_path))
->                  exec_cmd(install_cmd)
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-> index 5dbe2558d2..32cc5d38ab 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-> @@ -184,7 +184,7 @@ class BootimgPartitionPlugin(SourcePlugin):
->          for task in cls.install_task:
->              src_path, dst_path = task
->              logger.debug('Install %s as %s', src_path, dst_path)
-> -            install_cmd = "install -m 0644 -D %s %s" \
-> +            install_cmd = "install -m 0644 -D %s -t %s" \
->                            % (os.path.join(kernel_dir, src_path),
->                               os.path.join(hdddir, dst_path))
->              exec_cmd(install_cmd)
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182701): https://lists.openembedded.org/g/openembedded-core/message/182701
-> Mute This Topic: https://lists.openembedded.org/mt/99501427/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Richard
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
