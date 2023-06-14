@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6D2EB64DC
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 09:29:43 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web11.7484.1686734983327258738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A28EB64DD
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 09:29:44 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.7480.1686734981046637673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 02:29:43 -0700
+ Wed, 14 Jun 2023 02:29:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=E55rw9H4;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-51640b9ed95so11048642a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:43 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=lcIMZLKd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5147e40bbbbso9701087a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 02:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686734982; x=1689326982;
+        d=gmail.com; s=20221208; t=1686734979; x=1689326979;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+u34NRFISL6Uahwmqkxng6ai9gShews60z3KMFILI2I=;
-        b=E55rw9H49Ct+ED+dGLxA/5vaPhdfyReTMp8ipY7dLyWBhjXRTXT3F9psMdFg2z779y
-         lZm2d9J6H8sAp6/4tL46xKTB4bapOEI6f4jlrGiL5MpuMEYLNn90wdlgYADcYKcHv0PN
-         98tyHZLhHV+y15gcMTh44ybftPKWK0rZL4YqBH0G/ok6/Ej6SxIg5cAetBkjGYjp1t87
-         J+V9GPEBu5YE6qNYvcv+FmVfPcc3Dj0wmUlV/arkYx8C+JPTukyRiG6LuVnITfDnR2FW
-         yFfkdrczz/ZJmnOKnHpuXOQIStfdIVOXgp8oFbM4LFSI4oMck1MQ7Mq/Be3hX0l7efg/
-         E3+A==
+        bh=E3ZmMxWDDklvgvGCsQ4Td0gsm94q/zHVIv34W1ZAuLk=;
+        b=lcIMZLKdn//QLTF3eeOT5eSL6YlpFSX1lwPTRho1WsP4Wg2SYJoGy13Wb8jJ0wi2kc
+         FoWecDHN0eBBkxlwAiwN0v1+40Q4oOAFOyb9gbQHWx+M6+1M7mZeYIlk5lQO6PWz1eUi
+         Po5BiuMIGwLGN5s1b/LeXieTBpcIyR/OM4k0W6rM75+S9ZvnNAUY0JFXVXmzAFW+zypo
+         Fq0O+Ay51Um82OX6BctKh+sY6sus90vwZalmOQy419WZ9/hJCfO+YxizrPtjkjhyTs/8
+         zJJ+dYvTYnnByRiAsjbxevUis5GnP2nrdRq2MficW+EHC6fCjOPntypSd3OcXkKOQxJG
+         RpGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686734982; x=1689326982;
+        d=1e100.net; s=20221208; t=1686734979; x=1689326979;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+u34NRFISL6Uahwmqkxng6ai9gShews60z3KMFILI2I=;
-        b=Vj4w6+uzzXA3rnZMyzDmS1LyNjmhIthsImpoBmz+ikNRlrJF7Yp59oLTvj1E6rOjQ+
-         96lx4bgNX199aQ1H2S3xUfSMpe0vwBuEfT9jRbrcrsg4dgwaoRkLQEhWwtjW4lBRLSi+
-         Xb2Zr+yxG9Eok+JVb0LanC4ZNt4SPvilsyPP6F9Mk8SFf6Y/K4R9/avOeuV9EtjmRqAC
-         N5GW9ju2fgp8ANs9w3UNrzgHwiyGbrDekKffdtutV5n7pzlk4P/oNe9EDEAt8PpgU4uY
-         SzDXcyXMiPrWQJ64+jODjzRmkR3LDPNKCsFy/10YDZvg87b3IvBjP7TP2OCdO+b16HsY
-         LidQ==
-X-Gm-Message-State: AC+VfDwJLPLopvUExTSVO4MyRpzfjJsgSphFxhFprbr1Jh/ueg6Bqxbj
-	vK25eLqMMdKg6H5EcXXrRzh7HF1aWqI=
-X-Google-Smtp-Source: ACHHUZ6V+UHkw31MtxVZbUFtnIpfA6PoLFKoEzJ/sHYchHeFRVsQ0UMcBAK2M2uPJnNGM8imIIMWoA==
-X-Received: by 2002:a17:907:6da1:b0:979:65f0:cced with SMTP id sb33-20020a1709076da100b0097965f0ccedmr14470728ejc.17.1686734981780;
-        Wed, 14 Jun 2023 02:29:41 -0700 (PDT)
+        bh=E3ZmMxWDDklvgvGCsQ4Td0gsm94q/zHVIv34W1ZAuLk=;
+        b=Yk89fWOBEcPMqqsHUDi5K02YWauW4Rvo71zN9GNnsXO8yybNSkSk+EvbEbU8R3e6S6
+         QgBLpK8uUpl6Q3XF6d3QPgJTVKF34I2+UJmxP+VZYwZ9p/fGZRIUV/hdexJNcrNU5/fm
+         wotwRRMvVvYgjvyHGiFwq/jTAx2ABW7UbJ3tKLL7AI8qDYABXTr0dd8xT3o+sL7aUgy9
+         S5Se9LcFxQtFibVayQhj2iUJwXCnSJICFt1PMQIYJ6KwlkSp0hrEYWiNafFFzQralAeB
+         vwdQxaQlBE0t9h+nirYV1o5Bpafw1CCjU8lVcrbTBD5TJF/+d7zizD0bp/c9mm9D+GwS
+         HhhQ==
+X-Gm-Message-State: AC+VfDycPaJ8N4RTCneK32+QSeEi2bgHhPIH35scG+DNWjpuJkhq6Zz4
+	QGW1As6jpDWnagaoJA8+kHKEH/9H/sI=
+X-Google-Smtp-Source: ACHHUZ77j8zQukQ59s6IL4rUTEsDUSdf36tWKdCcMvcAjvs/l4pUqWgMDHQoCv77M7TQ1aQUful3Fg==
+X-Received: by 2002:a17:907:1c88:b0:96f:1629:3e9a with SMTP id nb8-20020a1709071c8800b0096f16293e9amr15682791ejc.34.1686734979481;
+        Wed, 14 Jun 2023 02:29:39 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.41
+        by smtp.gmail.com with ESMTPSA id k19-20020a170906129300b0097381fe7aaasm7747375ejb.180.2023.06.14.02.29.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 02:29:41 -0700 (PDT)
+        Wed, 14 Jun 2023 02:29:39 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 26/55] libxcrypt: upgrade 4.4.33 -> 4.4.34
-Date: Wed, 14 Jun 2023 11:28:49 +0200
-Message-Id: <20230614092918.4065570-26-alex@linutronix.de>
+Subject: [PATCH 22/55] kmscube: upgrade to latest revision
+Date: Wed, 14 Jun 2023 11:28:45 +0200
+Message-Id: <20230614092918.4065570-22-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
 References: <20230614092918.4065570-1-alex@linutronix.de>
@@ -61,41 +61,27 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 09:29:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182771
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 09:29:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182767
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...{libxcrypt-compat_4.4.33.bb => libxcrypt-compat_4.4.34.bb} | 0
- meta/recipes-core/libxcrypt/libxcrypt.inc                     | 4 ++--
- .../libxcrypt/{libxcrypt_4.4.33.bb => libxcrypt_4.4.34.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.33.bb => libxcrypt-compat_4.4.34.bb} (100%)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.33.bb => libxcrypt_4.4.34.bb} (100%)
+ meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.33.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.34.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.33.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.34.bb
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 61b03810763..4d145cf3ccd 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=c0a30e2b1502c55a7f37e412cd6c6a4b \
- inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
+index 67ac97b963d..ca76251d7ab 100644
+--- a/meta/recipes-graphics/kmscube/kmscube_git.bb
++++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+@@ -10,7 +10,7 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
  
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
--SRCREV = "d7fe1ac04c326dba7e0440868889d1dccb41a175"
--SRCBRANCH ?= "develop"
-+SRCREV = "e80cfde51bb4fe4bcf27585810e0b4ea3d1e4d7d"
-+SRCBRANCH ?= "master"
+ LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
  
- SRC_URI += "file://fix_cflags_handling.patch"
+-SRCREV = "345111481d654b38a72b5c3629151dc74f7a82bc"
++SRCREV = "cf4ec7f35521eb54d72ce0c92ce65b2249171cbd"
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
+ UPSTREAM_CHECK_COMMITS = "1"
  
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.33.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.34.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.33.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.34.bb
 -- 
 2.30.2
 
