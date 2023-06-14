@@ -1,179 +1,114 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0328CEB64D9
-	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 10:03:55 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.7932.1686737034146479986
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69989EB64D9
+	for <webhook@archiver.kernel.org>; Wed, 14 Jun 2023 11:33:35 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.9369.1686742410802935088
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jun 2023 03:03:54 -0700
+ Wed, 14 Jun 2023 04:33:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=XrKG8nxN;
- spf=pass (domain: mvista.com, ip: 209.85.208.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b1afe57bdfso6530631fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 03:03:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=EWqu+/5U;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f8cc042ea9so4570145e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 04:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1686737032; x=1689329032;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ckIEh8fTbNWCvIJPrpbwO/RIIgqwcMUtamSLK26qACE=;
-        b=XrKG8nxNx06vf7kYNJjzRbx6Qpa0w9V0rMePFdepp070ZmPpbnnPq9AZvmzwZ/Cpxv
-         MuKXGKT8i+AX6JVx0V1Mj+9ZSvkS6qk8uRTwX6Q5BtlG3tpvqD1464K2E1LSsmxOZb5m
-         LUl4yunDf0BHzvD6uuItTnUpC9COOzhLm76tQ=
+        d=linuxfoundation.org; s=google; t=1686742409; x=1689334409;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Yr8EnWLjMt9wjFXegYUDG+e+leQtLfgsxJ++s8qqujM=;
+        b=EWqu+/5Ug5/nlTDzFvDWBdBJNbWdIbQmJrTcngvVjfMBrMfqmRBEFJcPcfJBoFdnuy
+         bqAsOkLS2W1q6dzyxgi+gPla7kB46w+iEGYftuICkvroQXvS8tIh/w7Ximp8Fm2wGJ4t
+         TsFDpP5zB+Jh8G77Xy/p1hvr7eyIosW8rzzvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686737032; x=1689329032;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ckIEh8fTbNWCvIJPrpbwO/RIIgqwcMUtamSLK26qACE=;
-        b=ZthVH7hXXtwF/HWM+cRr45RWZH1+srGF/UBEyXBhTHDs9tHSsvBJgo7bPgp0VqDpGB
-         dgm1UCz83JHWGEg8ps2AwVMtR0uJf8uLWBVuv9tJY7Af2F9E3/Be2Vr/G732V0TiMZ7d
-         6L452+/a2NZ0OI7IlYFMbYl/6KRWpqHzFLZtOZswj/TLgB+cd93UQT90CR78tiRCdMoE
-         K3aacagceWOMzCzTZ0ZBLrsJF/AWWSeg47s9KwQZOyRIXB62R3+45SxzpKQylpxBEaEG
-         EhA9fQE2jTzKwC1x2Vokdesl36beZeQdL8ooEHquduODXGRZWJtWj+S0v42XNmFTG8H8
-         Tqgw==
-X-Gm-Message-State: AC+VfDxVt9nyotUxyoB8uip4Co42Tcgwa+c9t6RGntOvYRrkPGojrCTK
-	kwCgAjxIwEy9ZOFkztC4B/rleZPgMdTTTpqBEFLxVA==
-X-Google-Smtp-Source: ACHHUZ4ISAZ6so+m+x5AC4+Xxvw3uPS5VsKd+kxUQnQIvLAjl4cQxJp9ahX+31D7FjlSS+lJjJIa4IcCGp/GS/CbxBQ=
-X-Received: by 2002:a2e:83d6:0:b0:2af:8635:96a1 with SMTP id
- s22-20020a2e83d6000000b002af863596a1mr5609327ljh.33.1686737032190; Wed, 14
- Jun 2023 03:03:52 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686742409; x=1689334409;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yr8EnWLjMt9wjFXegYUDG+e+leQtLfgsxJ++s8qqujM=;
+        b=Brqax7wQyWrLqRyWoqdNFMwQ3wC9EUoAmz4o/7/TexmbFB39rZLORVXX51VSF7hS+O
+         VOnkC45gH9kXWpRJ+xCJDgB2J7XLhdHtRKqCv1SXz3hv091+z11il48ZFXHDWPuLU93e
+         BAinlBJZ3i/1R+paXqPGD4lxRcloNU/Ya7/XZoTHARsC6BRJMNDUmu+z5Ug7EeN0F9uz
+         L09K/Uv3UTZPRkgXVgJohFAdmvDg5EkEDx1j7VUspLOf98Lv8TAvsBULiSa3GIrYxay1
+         jyI2VkKqhyZLtHgbSDt9zAB08uFQZ4q0cyb6WDlnRdEN4jyyrKO8gqsUCWwkPFuEE+vF
+         GXHQ==
+X-Gm-Message-State: AC+VfDwqlNqFkYDJ2Q+GPOc8qxb/DDBKyWAcrQtN3jdRMzmO5/+tC2u+
+	cUPPHmB6+4EboXlDCbyIMufiyQ==
+X-Google-Smtp-Source: ACHHUZ4xApkdbYsYVXYb/Uq8Cpq/EBdbXztO1oN2EL0mmk61To4wKu9h5BJClzBFk4Pu/VbOX+gcCw==
+X-Received: by 2002:a05:600c:2204:b0:3f6:91c:4e86 with SMTP id z4-20020a05600c220400b003f6091c4e86mr9559522wml.3.1686742409082;
+        Wed, 14 Jun 2023 04:33:29 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b? ([2001:8b0:aba:5f3c:5d56:2e19:9720:bd3b])
+        by smtp.gmail.com with ESMTPSA id c21-20020a05600c0ad500b003f7310a3ffasm17198412wmr.2.2023.06.14.04.33.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 04:33:28 -0700 (PDT)
+Message-ID: <e11a1b213cb0a90b5d4cba87c7214369be182bae.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/55] insane.bbclass: add a SUMMARY/HOMEPAGE
+ check (oe-core recipes only)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 14 Jun 2023 12:33:27 +0100
+In-Reply-To: <20230614092918.4065570-1-alex@linutronix.de>
+References: <20230614092918.4065570-1-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-References: <20230614065426.432009-1-vanusuri@mvista.com> <SJ0PR11MB67172993F0D5A98344AC4F60DC5AA@SJ0PR11MB6717.namprd11.prod.outlook.com>
-In-Reply-To: <SJ0PR11MB67172993F0D5A98344AC4F60DC5AA@SJ0PR11MB6717.namprd11.prod.outlook.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Wed, 14 Jun 2023 15:33:38 +0530
-Message-ID: <CANQUz19ywiwVQMvpJNHmfWxuftM+N6ZZRm8c95HVN-P8j_yydQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] cups: Fix CVE-2023-32324
-To: "Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco)" <schitrod@cisco.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a2318905fe1411dd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 10:03:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182802
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Jun 2023 11:33:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182803
 
---000000000000a2318905fe1411dd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2023-06-14 at 11:28 +0200, Alexander Kanavin wrote:
+> This was done in a selftest, but that is too late and creates
+> friction in integration as errors are not seen until autobuilder fails.
+>=20
+> Bonus fix: SUMMARY check wasn't even working, as in the absence
+> of one set in the recipe there is a default value set from bitbake.conf.
+>=20
+> I left DESCRIPTION check out for now, as many recipes don't actually
+> have it, and it's set from SUMMARY (plus a dot) if absent.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes-global/insane.bbclass         | 26 ++++++++++++++++
+>  meta/lib/oeqa/selftest/cases/distrodata.py | 36 ----------------------
+>  2 files changed, 26 insertions(+), 36 deletions(-)
 
-Hi Sanjaykumar,
+I think this change is in the right direction but there are a few
+things I think we need to tweak here.
 
-Thanks for the info.
+a) I don't like the " if not '/meta/recipes-'" check at all. We now
+have the groundwork for layer overrides in bitbake so I'd like to
+complete that, then we can make some of these WARN_QA entries as layer
+specific. This has the added bounus that other layers and more easily
+adopt the tests and raise the bar on quality.
 
-Thanks & Regards,
-Vijay
+b) I really really don't want a do_fetch postfunc doing something that
+isn't fetching. I know why you've done this, so it appears early in the
+build and so on but it doesn't belong there.
 
-On Wed, Jun 14, 2023 at 2:29=E2=80=AFPM Sanjaykumar kantibhai Chitroda -X (=
-schitrod
-- E-INFO CHIPS INC at Cisco) <schitrod@cisco.com> wrote:
+There are other sanity tests at parse time in anonymous python which
+also bother me since the increase parsing time and also shouldn't be
+there. Those often aren't gated on ERROR_QA/WARN_QA options either so
+can't be configured.
 
-> Hi Vijay,
->
-> This fix is already submitted to OE-core community and added in queue for
-> dunfell branch.
-> Please check the status of community patches here:
-> https://patchwork.yoctoproject.org/project/oe-core/list/
->
-> Thanks,
-> Sanjay
->
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> On Behalf Of Vijay Anusuri
-> Sent: Wednesday, June 14, 2023 12:24 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Vijay Anusuri <vanusuri@mvista.com>
-> Subject: [OE-core][dunfell][PATCH] cups: Fix CVE-2023-32324
->
-> From: Vijay Anusuri <vanusuri@mvista.com>
->
-> OpenPrinting CUPS is an open source printing system. In versions 2.4.2 an=
-d
-> prior, a heap buffer overflow vulnerability would allow a remote attacker
-> to launch a denial of service (DoS) attack. A buffer overflow vulnerabili=
-ty
-> in the function `format_log_line` could allow remote attackers to cause a
-> DoS on the affected system. Exploitation of the vulnerability can be
-> triggered when the configuration file `cupsd.conf` sets the value of
-> `loglevel `to `DEBUG`. No known patches or workarounds exist at time of
-> publication.
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-32324
-> https://security-tracker.debian.org/tracker/CVE-2023-32324
->
-> Upstream Patch:
-> https://github.com/OpenPrinting/cups/commit/fd8bc2d32589
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->
->
+Given all this, do we want to consider a new task which covers these
+kinds of tests? A new task does have certain overhead but I'm starting
+to think we might need to do that. Of course there is then a dillema
+about which task it would need to run before.
 
---000000000000a2318905fe1411dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+c) There is an issue that warnings are not restored from sstate. If you
+rerun this build after seeing the warnings, the warnings will not show
+again. This is going to confuse users and cause issues to get missed on
+the autobuilder. There is an open bug for this one, it isn't an easy
+fix unfortunately.
 
-<div dir=3D"ltr"><div>Hi Sanjaykumar,</div><div><br></div><div>Thanks for t=
-he info.</div><div><br></div><div>Thanks &amp; Regards,</div><div>Vijay<br>=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Wed, Jun 14, 2023 at 2:29=E2=80=AFPM Sanjaykumar kantibhai Chitrod=
-a -X (schitrod - E-INFO CHIPS INC at Cisco) &lt;<a href=3D"mailto:schitrod@=
-cisco.com">schitrod@cisco.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Hi Vijay,<br>
-<br>
-This fix is already submitted to OE-core community and added in queue for d=
-unfell branch.<br>
-Please check the status of community patches here: <a href=3D"https://patch=
-work.yoctoproject.org/project/oe-core/list/" rel=3D"noreferrer" target=3D"_=
-blank">https://patchwork.yoctoproject.org/project/oe-core/list/</a><br>
-<br>
-Thanks,<br>
-Sanjay<br>
-<br>
------Original Message-----<br>
-From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D=
-"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto=
-:openembedded-core@lists.openembedded.org" target=3D"_blank">openembedded-c=
-ore@lists.openembedded.org</a>&gt; On Behalf Of Vijay Anusuri<br>
-Sent: Wednesday, June 14, 2023 12:24 PM<br>
-To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
-blank">openembedded-core@lists.openembedded.org</a><br>
-Cc: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=3D"_bla=
-nk">vanusuri@mvista.com</a>&gt;<br>
-Subject: [OE-core][dunfell][PATCH] cups: Fix CVE-2023-32324<br>
-<br>
-From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=3D"_b=
-lank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-OpenPrinting CUPS is an open source printing system. In versions 2.4.2 and =
-prior, a heap buffer overflow vulnerability would allow a remote attacker t=
-o launch a denial of service (DoS) attack. A buffer overflow vulnerability =
-in the function `format_log_line` could allow remote attackers to cause a D=
-oS on the affected system. Exploitation of the vulnerability can be trigger=
-ed when the configuration file `cupsd.conf` sets the value of `loglevel `to=
- `DEBUG`. No known patches or workarounds exist at time of publication.<br>
-<br>
-References:<br>
-<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-32324" rel=3D"noreferr=
-er" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2023-32324</a><b=
-r>
-<a href=3D"https://security-tracker.debian.org/tracker/CVE-2023-32324" rel=
-=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.org/track=
-er/CVE-2023-32324</a><br>
-<br>
-Upstream Patch:<br>
-<a href=3D"https://github.com/OpenPrinting/cups/commit/fd8bc2d32589" rel=3D=
-"noreferrer" target=3D"_blank">https://github.com/OpenPrinting/cups/commit/=
-fd8bc2d32589</a><br>
-<br>
-Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
-get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-</blockquote></div>
+Cheers,
 
---000000000000a2318905fe1411dd--
+Richard
 
