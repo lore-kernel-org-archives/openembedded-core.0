@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B79C27C6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCBBC2FC02
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.819.1686887482731355763
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.823.1686887483263578426
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jun 2023 20:51:22 -0700
+ Thu, 15 Jun 2023 20:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aho6zoU1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010188c2544326-353d9aff-d640-4fad-a220-e8cd8d6506ae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cZE/QJbY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188c25444b3-e08b1f88-a7b1-4d84-b574-390d77db6d40-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zSR91lwoTWU/YL0iu8unLIDdAwwQbid4xUi6YxSk91Q=;
-	b=aho6zoU1WBbSsb7t+pCPMNoPfpm6d3YKXBqPJeeghk2ke6Vi1dKNiNgqt1zlBw8H
-	SdkC6G6v41QMzyIW5ThyDbHeQgtHMp8fFil/A0IJuK3V8TMHhE2BHgt2hbVANOeJ43T
-	podWkfwx6XikwCub6s3e2DpWvR/N9Sx8TXSGG0QY=
+	bh=aFRBFAuUlMZYHVNUlYjuMoSeOqzl2pMK1g+i/YAkoSY=;
+	b=cZE/QJbYHF4rn1V68dJgc5L0VG6JGHGE5xNX4ya6sq1Slfgn1cdu78YT37RwB8hO
+	jjIhHYx6bv5Db+jDXnKMYkDy6IJdY3/L2NusO54ECL/hF7ke46SjRI5CysMiC8p2ez4
+	HA3b4AHVuFSGClo2BEf3f/3JNxzCHXk6wJOxpX1A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zSR91lwoTWU/YL0iu8unLIDdAwwQbid4xUi6YxSk91Q=;
-	b=p5oCpXklHFaTk4bJmIwANP1dxzjr18qRPatnCl7618/xPHrlosmy7IE7m1D0PAwC
-	OF/MwkUyNH71BWaAW1CQD68BsUwI5WxuCm1YRwjGLgLZgh3GPrfvrRLMx17obhA970J
-	x31d49IJyro2cJrEyAALlCOew+JAXZGxX9BC+cb0=
-Content-Type: multipart/mixed; boundary="===============5233311263185462820=="
+	bh=aFRBFAuUlMZYHVNUlYjuMoSeOqzl2pMK1g+i/YAkoSY=;
+	b=hcasD1jDWeLU8weEarUJ0YoOIzwli81Wpl4+3rBxwf9bl0VmtEWWyNO1jOg2YXJC
+	8ZLs01Vij3fh7D6YY1DsJvH1P2psJZwbA2j8DvwrQCk9GbX+spDqu8yNpuPX0EUCcsx
+	xKMnM9MGOPsV/YdJCgcNhsYl6Ozx8YuK08qwXZIY=
+Content-Type: multipart/mixed; boundary="===============1195083149949274306=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lua: upgrading to 5.4.6 FAILED
-Message-ID: <01010188c2544326-353d9aff-d640-4fad-a220-e8cd8d6506ae-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hatchling: upgrading to 1.18.0 SUCCEEDED
+Message-ID: <01010188c25444b3-e08b1f88-a7b1-4d84-b574-390d77db6d40-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.23
+X-SES-Outgoing: 2023.06.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182904
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182918
 
---===============5233311263185462820==
+--===============1195083149949274306==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,99 +50,129 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lua* to *5.4.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-hatchling* to *1.18.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-hatchling-upgrade-1.17.0-1.18.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe lua failed.
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1802 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2b45c2b22558ad4032286a249453551d05dfcc2a"
-workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1802 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (897 cached, 2 parsed). 1803 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2b45c2b22558ad4032286a249453551d05dfcc2a"
-workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.lua.org/ftp/lua-5.4.6.tar.gz;name=tarballsrc...
-INFO: Rebasing devtool onto c1450f1b4c2e578f37e3f6994f89684f2a24cbe6
-WARNING: Command 'git rebase c1450f1b4c2e578f37e3f6994f89684f2a24cbe6' failed:
-Auto-merging src/ldebug.c
-CONFLICT (content): Merge conflict in src/ldebug.c
-Auto-merging src/lvm.c
-CONFLICT (content): Merge conflict in src/lvm.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/lua
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/lua/lua_5.4.6.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5233311263185462820==--
+
+-- >8 --
+From 9758e255f034d881b29b47e5b053de8319be4a87 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Jun 2023 13:12:03 +0000
+Subject: [PATCH] python3-hatchling: upgrade 1.17.0 -> 1.18.0
+
+---
+ ...{python3-hatchling_1.17.0.bb => python3-hatchling_1.18.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hatchling_1.17.0.bb => python3-hatchling_1.18.0.bb} (85%)
+
+diff --git a/meta/recipes-devtools/python/python3-hatchling_1.17.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.18.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-hatchling_1.17.0.bb
+rename to meta/recipes-devtools/python/python3-hatchling_1.18.0.bb
+index 05a86f0efb..c94e49dab3 100644
+--- a/meta/recipes-devtools/python/python3-hatchling_1.17.0.bb
++++ b/meta/recipes-devtools/python/python3-hatchling_1.18.0.bb
+@@ -8,7 +8,7 @@ inherit pypi python_hatchling
+ DEPENDS += "python3-pluggy-native python3-pathspec-native python3-packaging-native python3-editables-native python3-trove-classifiers-native"
+ DEPENDS:remove:class-native = "python3-hatchling-native"
+ 
+-SRC_URI[sha256sum] = "b1244db3f45b4ef5a00106a46612da107cdfaf85f1580b8e1c059fefc98b0930"
++SRC_URI[sha256sum] = "50e99c3110ce0afc3f7bdbadff1c71c17758e476731c27607940cfa6686489ca"
+ 
+ do_compile:prepend() {
+     export PYTHONPATH=src
+-- 
+2.39.2
+
+
+--===============1195083149949274306==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hatchling-upgrade-1.17.0-1.18.0.patch"
+
+RnJvbSA5NzU4ZTI1NWYwMzRkODgxYjI5YjQ3ZTViMDUzZGU4MzE5YmU0YTg3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTM6MTI6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWhhdGNobGluZzogdXBncmFkZSAxLjE3LjAgLT4gMS4xOC4wCgotLS0KIC4uLntweXRo
+b24zLWhhdGNobGluZ18xLjE3LjAuYmIgPT4gcHl0aG9uMy1oYXRjaGxpbmdfMS4xOC4wLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaGF0Y2hsaW5nXzEuMTcu
+MC5iYiA9PiBweXRob24zLWhhdGNobGluZ18xLjE4LjAuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjE3LjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMTguMC5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjE4LjAuYmIKaW5kZXggMDVhODZm
+MGVmYi4uYzk0ZTQ5ZGFiMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWhhdGNobGluZ18xLjE3LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWhhdGNobGluZ18xLjE4LjAuYmIKQEAgLTgsNyArOCw3IEBAIGluaGVy
+aXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiBERVBFTkRTICs9ICJweXRob24zLXBsdWdneS1uYXRp
+dmUgcHl0aG9uMy1wYXRoc3BlYy1uYXRpdmUgcHl0aG9uMy1wYWNrYWdpbmctbmF0aXZlIHB5dGhv
+bjMtZWRpdGFibGVzLW5hdGl2ZSBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzLW5hdGl2ZSIKIERF
+UEVORFM6cmVtb3ZlOmNsYXNzLW5hdGl2ZSA9ICJweXRob24zLWhhdGNobGluZy1uYXRpdmUiCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiMTI0NGRiM2Y0NWI0ZWY1YTAwMTA2YTQ2NjEyZGExMDdj
+ZGZhZjg1ZjE1ODBiOGUxYzA1OWZlZmM5OGIwOTMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUw
+ZTk5YzMxMTBjZTBhZmMzZjdiZGJhZGZmMWM3MWMxNzc1OGU0NzY3MzFjMjc2MDc5NDBjZmE2Njg2
+NDg5Y2EiCiAKIGRvX2NvbXBpbGU6cHJlcGVuZCgpIHsKICAgICBleHBvcnQgUFlUSE9OUEFUSD1z
+cmMKLS0gCjIuMzkuMgoK
+
+--===============1195083149949274306==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-hatchling: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.17.0.tar.gz;downloadfilename=hatchling-1.17.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.18.0.tar.gz;downloadfilename=hatchling-1.18.0.tar.gz"
+packages/core2-32-poky-linux/python3-hatchling: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.17.0" to "1.18.0"
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 680279 to 680784 (+0%)
+packages/core2-32-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.17.0 [default] to 1.18.0 [default]
+Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.11/site-packages/hatchling-1.17.0.dist-info moved to /usr/lib/python3.11/site-packages/hatchling-1.18.0.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.11/site-packages/hatchling-1.17.0.dist-info moved to /usr/lib/python3.11/site-packages/hatchling-1.18.0.dist-info
+
+--===============1195083149949274306==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.11/site-packages/hatchling-1.17.0.dist-info moved to /usr/lib/python3.11/site-packages/hatchling-1.18.0.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.11/site-packages/hatchling-1.17.0.dist-info moved to /usr/lib/python3.11/site-packages/hatchling-1.18.0.dist-info
+
+--===============1195083149949274306==--
 
