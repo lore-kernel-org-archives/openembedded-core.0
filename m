@@ -1,208 +1,121 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8E0EB64DA
-	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 08:31:21 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.3884.1686904278144393513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAF8EB64D7
+	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 08:37:01 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.3956.1686904615201994211
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jun 2023 01:31:18 -0700
+ Fri, 16 Jun 2023 01:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PnNylpiZ;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-666683eb028so476757b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 01:31:18 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=RPl8/TE0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3f8cc04c287so3142725e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 01:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686904277; x=1689496277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1686904613; x=1689496613;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xg9bUOYxu91jpk0UMwvycWFzNsUna9bOyO7rLeD2p4g=;
-        b=PnNylpiZYL8ng/vs7VMhDGBK5ounwwH118u+iGxTHb4Q8RXKIM+VVpwy4lVg4Z4ol1
-         WDRNFQM39l6rgxNIvV4b4kGuXzJLW+ORki+3OZw1tMOH3drMAWivU3YNfAyeCMOKF3iU
-         AACgs5qgObYbO5yqo3fW94hUOzjXTt118UmOSUfNy5K999BsMQPh6iDDJ+safgsejU1o
-         WQUSaTFnedYRu0Ln25gCX0n6Wsp+G7NWt8Hd5iTdHAsdOsG4gQvKoplP7xgIba9RP3rY
-         tPuEwwFEXgq/0GEUGWp0u8OKC9IhkM/ypZ2iua5giqFX1SoxmA3j6/eyQsQSz3P5CMrL
-         z4vQ==
+        bh=gfIrl0kR+yVcMFHQ00i0DQ6lQ3rVoawsJl2onDafFWA=;
+        b=RPl8/TE0Y6r+13sksDucnNT0HhYwyJUF20p+zNY6lR6Tf/GdhL0JC8c7qTazACtFW8
+         boTK2RLzQjqP+j0ECIsLrpOFq5pzSZ5c1giIcjBIaPmfVJ4VCrEL+xlymGiZ1sjA5kIp
+         px1m1+0WNKD2HyQBXV4IIf8+zq9l9qHDLE06Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686904277; x=1689496277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xg9bUOYxu91jpk0UMwvycWFzNsUna9bOyO7rLeD2p4g=;
-        b=LHlxj5VizH0O19Mo7Zb5X6yaumb06/hYqhHJ8m8HnldgpG+dVY/N7UO+yn8pBKRpXM
-         cSw8B4kSwNBQCV0v3moqyjqLCUjlg5oFM14cvaKF/6yS8qKp4Wc2VDb5EBoK6QEMSW2G
-         qvsdIxemjkd7oexnB/SfvIejMvsZq431I067CMPtMhi1ydn1yove09NVSCW44ANb9hZ9
-         OSt8ZAES6cbRUL5dHzHUEiXH/S3fbSBfHxmVC0KuIxkBJJrl3iZzx30TrFRC4YOeL6Kt
-         X8lcepCY8ag6+Yz8+9+E7jqt+Ta7YB1mt95eDVSiHN9Kwpi3GNyiDVrygmtGzgmvbHg5
-         ju5A==
-X-Gm-Message-State: AC+VfDyvs31iWdwmVapgKcJp3OfG4vg1mnykuvEXjqe6w0RT5PapbwhD
-	A62G1F5BBSXyWAM6Zae2iXNe3+USjAA=
-X-Google-Smtp-Source: ACHHUZ50uiYyUT8SaxGHThOsIudZ4IF/7dcsIMKWNJXOm3Bn+j18zH1ulW0ozpWmtwGTqh2NZtav7g==
-X-Received: by 2002:a05:6a00:170e:b0:666:e1f4:5153 with SMTP id h14-20020a056a00170e00b00666e1f45153mr50860pfc.0.1686904277165;
-        Fri, 16 Jun 2023 01:31:17 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::eb87])
-        by smtp.gmail.com with ESMTPSA id s18-20020aa78d52000000b00653dc27acadsm12969145pfe.205.2023.06.16.01.31.16
+        d=1e100.net; s=20221208; t=1686904613; x=1689496613;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gfIrl0kR+yVcMFHQ00i0DQ6lQ3rVoawsJl2onDafFWA=;
+        b=Ap7F8ltToExot/p2+BYlHiEpQxbZWBqPSwd+SeuEWLYHEClN736+5B1Tuyrd7hDLHK
+         mkEFLpYYSVeNT1UyFun6XHu5CVOEhTemxHBFccHr/0Ed/oX4m0P3cEmTTygea24EWUc/
+         lus+alA6zoVkprJJGb122nkd1iAaXAfmo4apHYaUrDTNTiqNIRtvI+R+TGz9u9Y4iQaH
+         6T/yHWH2jQJrawK3mvZSiWODPkke85PWlVvTvyz5zypcpCVtZ15c9sDvX+YN6vsjSFF5
+         /dsfvFtGNA5g23G1V2LvJEurNvtidowyA00yhbvUCyiaYtltHa0SAdNzNKTMsfgcmN1l
+         ziyw==
+X-Gm-Message-State: AC+VfDwQr8AlpNOhthVRy5u4/53873QeYnCdAzJs/yAoVsZfgwVrptkR
+	jR+EhfnZ2PM5UVTp1bhvxi3v0A==
+X-Google-Smtp-Source: ACHHUZ7MwzXYoVMVtUo6wh+cK/QDcdEornjfM1EtBRhMKRhdFxO5ZjYujE0EoCeuE9fWcSBp7SxNQQ==
+X-Received: by 2002:adf:e6cf:0:b0:30a:d083:d22d with SMTP id y15-20020adfe6cf000000b0030ad083d22dmr805063wrm.24.1686904613096;
+        Fri, 16 Jun 2023 01:36:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b814:609:2b03:c353? ([2001:8b0:aba:5f3c:b814:609:2b03:c353])
+        by smtp.gmail.com with ESMTPSA id k7-20020adfe3c7000000b0030fce98f40dsm9128662wrm.42.2023.06.16.01.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 01:31:16 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/5] rpcsvc-proto: Upgrade to 1.4.4
-Date: Fri, 16 Jun 2023 01:31:11 -0700
-Message-ID: <20230616083111.3007680-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230616083111.3007680-1-raj.khem@gmail.com>
-References: <20230616083111.3007680-1-raj.khem@gmail.com>
+        Fri, 16 Jun 2023 01:36:52 -0700 (PDT)
+Message-ID: <7f7e7896f21211c149f8722fa0315639163e6a89.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Update SRCREV to fix
+ entry addresses for ARM architectures
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 16 Jun 2023 09:36:51 +0100
+In-Reply-To: <20230609221242.2961719-1-alejandro@enedino.org>
+References: <20230609221242.2961719-1-alejandro@enedino.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 08:31:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183005
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 08:37:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183006
 
-Drop already upstreamed patch in 1.4.4
+On Fri, 2023-06-09 at 16:12 -0600, Alejandro Hernandez Samaniego wrote:
+> Update to the latest SRCREV to bring fixes using the proper entry
+> addresses for ARM architectures [1], as well as fixing a race condition
+> in the Makefile during assembly [2].
+>=20
+> Fix url in case automatic redirects stop working.
+>=20
+> [1] https://github.com/ahcbb6/baremetal-helloqemu/commit/602e82aee7ae95ee=
+50eedb7f40c4a225ec5a3fb9
+> [2] https://github.com/ahcbb6/baremetal-helloqemu/commit/ea7f59b02467ed1f=
+b36c3b4c6d5cabe702df26ec
+>=20
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
+rg>
+> ---
+>  .../baremetal-example/baremetal-helloworld_git.bb             | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/baremetal-example/baremetal-helloworld=
+_git.bb b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.=
+bb
+> index 82b2901d51..4182372057 100644
+> --- a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
+> +++ b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
+> @@ -4,10 +4,10 @@ DESCRIPTION =3D "These are introductory examples to sho=
+wcase the use of QEMU to ru
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39346640a23c701e4f459e05f56f4=
+449"
+> =20
+> -SRCREV =3D "22016ecbb9fb6c5f3a7a06698aea7ff8a701c166"
+> +SRCREV =3D "ea7f59b02467ed1fb36c3b4c6d5cabe702df26ec"
+>  PV =3D "0.1+git${SRCPV}"
+> =20
+> -SRC_URI =3D "git://github.com/aehs29/baremetal-helloqemu.git;protocol=3D=
+https;branch=3Dmaster"
+> +SRC_URI =3D "git://github.com/ahcbb6/baremetal-helloqemu.git;protocol=3D=
+https;branch=3Dmaster"
+>  UPSTREAM_VERSION_UNKNOWN=3D"1"
+> =20
+>  S =3D "${WORKDIR}/git"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../rpcsvc-proto/rpcsvc-proto.bb              |  5 +-
- ...FILE-macro-to-control-largefile-supp.patch | 80 -------------------
- .../0001-Use-cross-compiled-rpcgen.patch      | 11 +--
- 3 files changed, 6 insertions(+), 90 deletions(-)
- delete mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
+I think there is a build race in here:
 
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-index 00919a3d70e..20933153a32 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -15,13 +15,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0daaf958d5531ab86169ec6e275e1517"
- SECTION = "libs"
- DEPENDS += "rpcsvc-proto-native"
- 
--PV = "1.4.3"
-+PV = "1.4.4"
- 
--SRCREV = "71e0a12c04d130a78674ac6309eefffa6ecee612"
-+SRCREV = "c65926005e50da02a4da3e26abc42eded36cd19d"
- 
- SRC_URI = "git://github.com/thkukuk/${BPN};branch=master;protocol=https \
-            file://0001-Use-cross-compiled-rpcgen.patch \
--           file://0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch \
-            "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
-deleted file mode 100644
-index f07866d55ae..00000000000
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
-+++ /dev/null
-@@ -1,80 +0,0 @@
--From 6820c53c3952f78185beb59f767c372fc745dcf3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 11 Dec 2022 21:42:59 -0800
--Subject: [PATCH] Use AC_SYS_LARGEFILE macro to control largefile support
--
--The autoconf macro AC_SYS_LARGEFILE defines _FILE_OFFSET_BITS=64
--where necessary to ensure that off_t and all interfaces using off_t
--are 64bit, even on 32bit systems.
--
--replace stat64 by equivalent stat struct/func
--
--Upstream-Status: Accepted [https://github.com/thkukuk/rpcsvc-proto/pull/15]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac      |  1 +
-- rpcgen/rpc_main.c | 16 +++++-----------
-- 2 files changed, 6 insertions(+), 11 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index bacc2fb..a9fc730 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -8,6 +8,7 @@ AC_PREFIX_DEFAULT(/usr)
-- AC_SUBST(PACKAGE)
-- AC_SUBST(VERSION)
-- 
--+AC_SYS_LARGEFILE
-- AC_PROG_CC
-- AC_GNU_SOURCE
-- AM_PROG_CC_C_O
--diff --git a/rpcgen/rpc_main.c b/rpcgen/rpc_main.c
--index 277adc6..fd7dea9 100644
----- a/rpcgen/rpc_main.c
--+++ b/rpcgen/rpc_main.c
--@@ -62,12 +62,6 @@
-- #define EXTEND	1		/* alias for TRUE */
-- #define DONT_EXTEND	0	/* alias for FALSE */
-- 
---#ifdef __APPLE__
---# if __DARWIN_ONLY_64_BIT_INO_T
---#  define stat64 stat
---# endif
---#endif
---
-- struct commandline
--   {
--     int cflag;			/* xdr C routines */
--@@ -337,9 +331,9 @@ clear_args (void)
-- static void
-- find_cpp (void)
-- {
---  struct stat64 buf;
--+  struct stat buf;
-- 
---  if (stat64 (CPP, &buf) == 0)
--+  if (stat (CPP, &buf) == 0)
--     return;
-- 
--   if (cppDefined) /* user specified cpp but it does not exist */
--@@ -1125,17 +1119,17 @@ putarg (int whereto, const char *cp)
-- static void
-- checkfiles (const char *infile, const char *outfile)
-- {
---  struct stat64 buf;
--+  struct stat buf;
-- 
--   if (infile)			/* infile ! = NULL */
---    if (stat64 (infile, &buf) < 0)
--+    if (stat (infile, &buf) < 0)
--       {
-- 	perror (infile);
-- 	crash ();
--       }
--   if (outfile)
--     {
---      if (stat64 (outfile, &buf) < 0)
--+      if (stat (outfile, &buf) < 0)
-- 	return;			/* file does not exist */
--       else
-- 	{
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-index 208974004b4..8e459b5634f 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-@@ -10,14 +10,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  rpcsvc/Makefile.am | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: git/rpcsvc/Makefile.am
--===================================================================
----- git.orig/rpcsvc/Makefile.am
--+++ git/rpcsvc/Makefile.am
--@@ -12,5 +12,5 @@ nodist_rpcsvc_HEADERS = klm_prot.h nlm_p
-+--- a/rpcsvc/Makefile.am
-++++ b/rpcsvc/Makefile.am
-+@@ -12,4 +12,4 @@ nodist_rpcsvc_HEADERS = klm_prot.h nlm_p
-  	nfs_prot.h rquota.h sm_inter.h
-  
-- %.h: %.x
-+ .x.h:
- -	$(top_builddir)/rpcgen/rpcgen -h -o $@ $<
- +	rpcgen -h -o $@ $<
-- 
--- 
-2.41.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1609/ste=
+ps/14/logs/stdio
+
+Fatal error: can't create build/hello_baremetal_aarch64.o: No such file
+or directory
+
+so perhaps racing on the creation of build/ ?
+
+Cheers,
+
+Richard
 
 
