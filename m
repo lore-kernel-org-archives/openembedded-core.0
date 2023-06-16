@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5432C25B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF20FC25B7C
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:28 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.835.1686887484029925669
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.810.1686887483449222380
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jun 2023 20:51:24 -0700
+ Thu, 15 Jun 2023 20:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Vaxf/H8K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010188c254485f-e3d4aa79-a0a4-4548-9bd2-55f343a9fb0a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WuzBpgM6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188c2544e7e-707dfb19-49e5-405d-a64d-5fd3a642ed20-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1686887483;
+	t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K2fz4IbiPQDgMZON/eodFisDc+Y21yxZlz5kj0ippYM=;
-	b=Vaxf/H8KA46lj/c2TEpRDZ1aThSh64FXAvgz0IySqZQytLA5JhlmEfYLktFfNhV5
-	kRbb2F4FSKAcYsCZ/LCwgOlpwb+RNw8gfHAmfhrKgoRNp7Vp3CKPqkFDwjG71iApOgH
-	5yrA/sUHT++An1QjKB/6KQiU/byO6yUnTl9EGwyo=
+	bh=F6v9j//as8RaJDYrxJtDZ7tLMOS5X1EpQRFFVI8p5vQ=;
+	b=WuzBpgM6TzWfIKc4Yt180v5sAcRf+UW13BRj1hJwEQaVqenDhPul/+ss7wrSYvk1
+	yteZJjsI3iHdPBXwg/DNx3KgmgiAr1Oimo9Wt+RyKkc0i9BIiRYlibH8C643LACTVzH
+	QgJfGe4SyJo2DjuyMUuhDw1M5cMMcZB4jCRgAwvk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887483;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K2fz4IbiPQDgMZON/eodFisDc+Y21yxZlz5kj0ippYM=;
-	b=pjkcmtU4hxQpO73/bQ/j64btmex4aVDv4KpN59u1XHSyol/Rbp+oO8FS22euEl5+
-	Sfhx9z+ZI+mqCd0trdj4xZq3VPWVcSpzE8OhALEzJVMXKJDUOKDogtGEBdN9K5wGvAa
-	jBdOn84zh17y4gVJqk7JMYEnbVW25WwAo2EYVRR8=
-Content-Type: multipart/mixed; boundary="===============8391525223673475402=="
+	bh=F6v9j//as8RaJDYrxJtDZ7tLMOS5X1EpQRFFVI8p5vQ=;
+	b=q5cONNmsnilAzN1xxrCvDqejynuepsvos4sT5e5UXCOdsH7Ko9oftef9ysKhsurV
+	erZCHK5jbuXmGU888+YYJuk50H/VKZi74EHhqaETgDtRUD0ZUzOHg/9ot1qXwfQCNus
+	pJvSnXnNefdDDEN5qeDNpiaeMUPC7yCQILHHn2T8=
+Content-Type: multipart/mixed; boundary="===============8717301881644292902=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gawk: upgrading to 5.2.2 SUCCEEDED
-Message-ID: <01010188c254485f-e3d4aa79-a0a4-4548-9bd2-55f343a9fb0a-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jun 2023 03:51:23 +0000
+Subject: [AUH] webkitgtk: upgrading to 2.40.2 FAILED
+Message-ID: <01010188c2544e7e-707dfb19-49e5-405d-a64d-5fd3a642ed20-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jun 2023 03:51:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.29
+X-SES-Outgoing: 2023.06.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182931
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182978
 
---===============8391525223673475402==
+--===============8717301881644292902==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,187 +50,238 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gawk* to *5.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.40.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-gawk-upgrade-5.2.1-5.2.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe webkitgtk failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry... (22:50:58.706478)
+NOTE: Directory listing: ['conf', 'upgrade-helper', 'bitbake-cookerdaemon.log', 'buildhistory', 'workspace', 'cache', 'tmp', 'downloads', 'sstate-cache']
+NOTE: Retrying server connection (#1)... (22:50:58.821253)
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1802 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:941449f3a0ed0e3180add76fbeab29e27cb9d472"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 7 seconds
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1802 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (897 cached, 2 parsed). 1803 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:941449f3a0ed0e3180add76fbeab29e27cb9d472"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:00:40
+Adding changed files:   1% |                                    | ETA:  0:00:36
+Adding changed files:   2% |                                    | ETA:  0:00:33
+Adding changed files:   2% |#                                   | ETA:  0:00:29
+Adding changed files:   3% |#                                   | ETA:  0:00:27
+Adding changed files:   4% |#                                   | ETA:  0:00:26
+Adding changed files:   4% |#                                   | ETA:  0:00:28
+Adding changed files:   5% |##                                  | ETA:  0:00:26
+Adding changed files:   6% |##                                  | ETA:  0:00:29
+Adding changed files:   7% |##                                  | ETA:  0:00:27
+Adding changed files:   7% |##                                  | ETA:  0:00:26
+Adding changed files:   8% |###                                 | ETA:  0:00:26
+Adding changed files:   9% |###                                 | ETA:  0:00:25
+Adding changed files:   9% |###                                 | ETA:  0:00:25
+Adding changed files:  10% |###                                 | ETA:  0:00:24
+Adding changed files:  11% |####                                | ETA:  0:00:23
+Adding changed files:  12% |####                                | ETA:  0:00:23
+Adding changed files:  12% |####                                | ETA:  0:00:22
+Adding changed files:  13% |####                                | ETA:  0:00:22
+Adding changed files:  14% |#####                               | ETA:  0:00:22
+Adding changed files:  14% |#####                               | ETA:  0:00:22
+Adding changed files:  15% |#####                               | ETA:  0:00:22
+Adding changed files:  16% |#####                               | ETA:  0:00:22
+Adding changed files:  16% |######                              | ETA:  0:00:21
+Adding changed files:  17% |######                              | ETA:  0:00:21
+Adding changed files:  18% |######                              | ETA:  0:00:21
+Adding changed files:  19% |######                              | ETA:  0:00:21
+Adding changed files:  19% |#######                             | ETA:  0:00:20
+Adding changed files:  20% |#######                             | ETA:  0:00:20
+Adding changed files:  21% |#######                             | ETA:  0:00:20
+Adding changed files:  21% |#######                             | ETA:  0:00:20
+Adding changed files:  22% |########                            | ETA:  0:00:20
+Adding changed files:  23% |########                            | ETA:  0:00:19
+Adding changed files:  24% |########                            | ETA:  0:00:19
+Adding changed files:  24% |########                            | ETA:  0:00:19
+Adding changed files:  25% |#########                           | ETA:  0:00:18
+Adding changed files:  26% |#########                           | ETA:  0:00:18
+Adding changed files:  26% |#########                           | ETA:  0:00:18
+Adding changed files:  27% |#########                           | ETA:  0:00:18
+Adding changed files:  28% |##########                          | ETA:  0:00:17
+Adding changed files:  28% |##########                          | ETA:  0:00:17
+Adding changed files:  29% |##########                          | ETA:  0:00:17
+Adding changed files:  30% |##########                          | ETA:  0:00:17
+Adding changed files:  31% |###########                         | ETA:  0:00:16
+Adding changed files:  31% |###########                         | ETA:  0:00:16
+Adding changed files:  32% |###########                         | ETA:  0:00:16
+Adding changed files:  33% |###########                         | ETA:  0:00:16
+Adding changed files:  33% |############                        | ETA:  0:00:16
+Adding changed files:  34% |############                        | ETA:  0:00:16
+Adding changed files:  35% |############                        | ETA:  0:00:15
+Adding changed files:  36% |############                        | ETA:  0:00:15
+Adding changed files:  36% |#############                       | ETA:  0:00:15
+Adding changed files:  37% |#############                       | ETA:  0:00:15
+Adding changed files:  38% |#############                       | ETA:  0:00:15
+Adding changed files:  38% |#############                       | ETA:  0:00:14
+Adding changed files:  39% |##############                      | ETA:  0:00:14
+Adding changed files:  40% |##############                      | ETA:  0:00:14
+Adding changed files:  40% |##############                      | ETA:  0:00:14
+Adding changed files:  41% |###############                     | ETA:  0:00:14
+Adding changed files:  42% |###############                     | ETA:  0:00:14
+Adding changed files:  43% |###############                     | ETA:  0:00:14
+Adding changed files:  43% |###############                     | ETA:  0:00:14
+Adding changed files:  44% |################                    | ETA:  0:00:13
+Adding changed files:  45% |################                    | ETA:  0:00:13
+Adding changed files:  45% |################                    | ETA:  0:00:13
+Adding changed files:  46% |################                    | ETA:  0:00:13
+Adding changed files:  47% |#################                   | ETA:  0:00:13
+Adding changed files:  48% |#################                   | ETA:  0:00:13
+Adding changed files:  48% |#################                   | ETA:  0:00:13
+Adding changed files:  49% |#################                   | ETA:  0:00:13
+Adding changed files:  50% |##################                  | ETA:  0:00:13
+Adding changed files:  50% |##################                  | ETA:  0:00:12
+Adding changed files:  51% |##################                  | ETA:  0:00:12
+Adding changed files:  52% |##################                  | ETA:  0:00:12
+Adding changed files:  52% |###################                 | ETA:  0:00:12
+Adding changed files:  53% |###################                 | ETA:  0:00:12
+Adding changed files:  54% |###################                 | ETA:  0:00:12
+Adding changed files:  55% |###################                 | ETA:  0:00:11
+Adding changed files:  55% |####################                | ETA:  0:00:11
+Adding changed files:  56% |####################                | ETA:  0:00:11
+Adding changed files:  57% |####################                | ETA:  0:00:11
+Adding changed files:  57% |####################                | ETA:  0:00:11
+Adding changed files:  58% |#####################               | ETA:  0:00:11
+Adding changed files:  59% |#####################               | ETA:  0:00:10
+Adding changed files:  60% |#####################               | ETA:  0:00:10
+Adding changed files:  60% |#####################               | ETA:  0:00:10
+Adding changed files:  61% |######################              | ETA:  0:00:10
+Adding changed files:  62% |######################              | ETA:  0:00:10
+Adding changed files:  62% |######################              | ETA:  0:00:09
+Adding changed files:  63% |######################              | ETA:  0:00:09
+Adding changed files:  64% |#######################             | ETA:  0:00:09
+Adding changed files:  64% |#######################             | ETA:  0:00:09
+Adding changed files:  65% |#######################             | ETA:  0:00:09
+Adding changed files:  66% |#######################             | ETA:  0:00:08
+Adding changed files:  67% |########################            | ETA:  0:00:08
+Adding changed files:  67% |########################            | ETA:  0:00:08
+Adding changed files:  68% |########################            | ETA:  0:00:08
+Adding changed files:  69% |########################            | ETA:  0:00:08
+Adding changed files:  69% |#########################           | ETA:  0:00:07
+Adding changed files:  70% |#########################           | ETA:  0:00:07
+Adding changed files:  71% |#########################           | ETA:  0:00:07
+Adding changed files:  72% |#########################           | ETA:  0:00:07
+Adding changed files:  72% |##########################          | ETA:  0:00:07
+Adding changed files:  73% |##########################          | ETA:  0:00:06
+Adding changed files:  74% |##########################          | ETA:  0:00:06
+Adding changed files:  74% |##########################          | ETA:  0:00:06
+Adding changed files:  75% |###########################         | ETA:  0:00:06
+Adding changed files:  76% |###########################         | ETA:  0:00:06
+Adding changed files:  76% |###########################         | ETA:  0:00:06
+Adding changed files:  77% |###########################         | ETA:  0:00:05
+Adding changed files:  78% |############################        | ETA:  0:00:05
+Adding changed files:  79% |############################        | ETA:  0:00:05
+Adding changed files:  79% |############################        | ETA:  0:00:05
+Adding changed files:  80% |############################        | ETA:  0:00:05
+Adding changed files:  81% |#############################       | ETA:  0:00:04
+Adding changed files:  81% |#############################       | ETA:  0:00:04
+Adding changed files:  82% |#############################       | ETA:  0:00:04
+Adding changed files:  83% |##############################      | ETA:  0:00:04
+Adding changed files:  84% |##############################      | ETA:  0:00:04
+Adding changed files:  84% |##############################      | ETA:  0:00:04
+Adding changed files:  85% |##############################      | ETA:  0:00:03
+Adding changed files:  86% |###############################     | ETA:  0:00:03
+Adding changed files:  86% |###############################     | ETA:  0:00:03
+Adding changed files:  87% |###############################     | ETA:  0:00:03
+Adding changed files:  88% |###############################     | ETA:  0:00:03
+Adding changed files:  89% |################################    | ETA:  0:00:02
+Adding changed files:  89% |################################    | ETA:  0:00:02
+Adding changed files:  90% |################################    | ETA:  0:00:02
+Adding changed files:  91% |################################    | ETA:  0:00:02
+Adding changed files:  91% |#################################   | ETA:  0:00:02
+Adding changed files:  92% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  94% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:26
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.40.2.tar.xz...
+INFO: Rebasing devtool onto 223fe3cfe223e531c0ee05f6fc0a71644b1c42a7
+WARNING: Command 'git rebase 223fe3cfe223e531c0ee05f6fc0a71644b1c42a7' failed:
+Auto-merging Source/WebCore/platform/graphics/SourceBrush.cpp
+CONFLICT (content): Merge conflict in Source/WebCore/platform/graphics/SourceBrush.cpp
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/webkitgtk
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/webkitgtk/webkitgtk_2.40.2.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 219be1dfcf1d0e26ec2cedf786dd20d9056eadb3 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 15:48:11 +0000
-Subject: [PATCH] gawk: upgrade 5.2.1 -> 5.2.2
-
----
- meta/recipes-extended/gawk/{gawk_5.2.1.bb => gawk_5.2.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/gawk/{gawk_5.2.1.bb => gawk_5.2.2.bb} (97%)
-
-diff --git a/meta/recipes-extended/gawk/gawk_5.2.1.bb b/meta/recipes-extended/gawk/gawk_5.2.2.bb
-similarity index 97%
-rename from meta/recipes-extended/gawk/gawk_5.2.1.bb
-rename to meta/recipes-extended/gawk/gawk_5.2.2.bb
-index 768c8eb364..3c18b6911a 100644
---- a/meta/recipes-extended/gawk/gawk_5.2.1.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.2.2.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
-            "
- 
--SRC_URI[sha256sum] = "529e7c8c6acf21ff3a6183f4d763c632810908989c24675c77995d51ac37b79c"
-+SRC_URI[sha256sum] = "945aef7ccff101f20b22a10802bc005e994ab2b8ea3e724cc1a197c62f41f650"
- 
- inherit autotools gettext texinfo update-alternatives
- 
--- 
-2.39.2
-
-
---===============8391525223673475402==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/gawk/gawk-dbg: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-dbg: PKGSIZE changed from 2139924 to 2146120 (+0%)
-packages/core2-32-poky-linux/gawk/gawk-dbg: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-dev: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-dev: PKGSIZE changed from 41697 to 42070 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-dev: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-doc: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-doc: PKGSIZE changed from 2206542 to 2338623 (+6%)
-packages/core2-32-poky-linux/gawk/gawk-doc: FILELIST: added "/usr/share/info/gawk_process-flow.png /usr/share/info/gawk_general-program.png /usr/share/info/gawk_api-figure1.png /usr/share/info/gawk_api-figure3.png /usr/share/info/gawk_api-figure2.png /usr/share/info/gawk_array-elements.png /usr/share/info/gawk_statist.jpg"
-packages/core2-32-poky-linux/gawk/gawk-doc: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-gawkbug: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-gawkbug: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-bg: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-bg: PKGSIZE changed from 123327 to 124398 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-bg: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-ca: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-ca: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-da: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-da: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-de: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-de: PKGSIZE changed from 95421 to 96121 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-de: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-es: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-es: PKGSIZE changed from 93871 to 94596 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-es: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-fi: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-fi: PKGSIZE changed from 56749 to 56651 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-fi: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-fr: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-fr: PKGSIZE changed from 95624 to 96365 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-fr: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-id: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-id: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-it: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-it: PKGSIZE changed from 91483 to 92033 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-it: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-ja: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-ja: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-ko: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-ko: PKGSIZE changed from 98866 to 99705 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-ko: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-ms: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-ms: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-nl: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-nl: PKGSIZE changed from 69017 to 68931 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-nl: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-pl: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-pl: PKGSIZE changed from 93249 to 93988 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-pl: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-pt-br: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-pt-br: PKGSIZE changed from 86832 to 86740 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-pt-br: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-pt: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-pt: PKGSIZE changed from 85587 to 85495 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-pt: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-ro: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-ro: PKGSIZE changed from 96499 to 97245 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-ro: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-sr: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-sr: PKGSIZE changed from 115676 to 115587 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-sr: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-sv: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-sv: PKGSIZE changed from 91208 to 91921 (+1%)
-packages/core2-32-poky-linux/gawk/gawk-locale-sv: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-vi: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-vi: PKGSIZE changed from 64292 to 64194 (-0%)
-packages/core2-32-poky-linux/gawk/gawk-locale-vi: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-locale-zh-cn: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-locale-zh-cn: PKGSIZE changed from 82377 to 86163 (+5%)
-packages/core2-32-poky-linux/gawk/gawk-locale-zh-cn: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-ptest: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-ptest: PKGSIZE changed from 1378823 to 1381664 (+0%)
-packages/core2-32-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/asortsymtab.awk /usr/lib/gawk/ptest/test/elemnew2.awk /usr/lib/gawk/ptest/test/elemnew1.awk /usr/lib/gawk/ptest/test/fieldassign.ok /usr/lib/gawk/ptest/test/fieldassign.in /usr/lib/gawk/ptest/test/elemnew1.ok /usr/lib/gawk/ptest/test/elemnew3.ok /usr/lib/gawk/ptest/test/elemnew3.awk /usr/lib/gawk/ptest/test/elemnew2.ok /usr/lib/gawk/ptest/test/fieldassign.awk /usr/lib/gawk/ptest/test/asortsymtab.ok"
-packages/core2-32-poky-linux/gawk/gawk-ptest: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-src: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-src: PKGSIZE changed from 2328480 to 2336061 (+0%)
-packages/core2-32-poky-linux/gawk/gawk-src: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk-staticdev: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk-staticdev: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk/gawk: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk/gawk: PKGSIZE changed from 1002389 to 1002400 (+0%)
-packages/core2-32-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.1", added "/usr/bin/gawk-5.2.2"
-packages/core2-32-poky-linux/gawk/gawk: PV changed from "5.2.1" to "5.2.2"
-packages/core2-32-poky-linux/gawk: PKGV changed from 5.2.1 [default] to 5.2.2 [default]
-packages/core2-32-poky-linux/gawk: SRC_URI changed from "https://ftp.gnu.org/gnu/gawk/gawk-5.2.1.tar.gz file://run-ptest" to "https://ftp.gnu.org/gnu/gawk/gawk-5.2.2.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/gawk: PV changed from "5.2.1" to "5.2.2"
-
---===============8391525223673475402==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gawk-upgrade-5.2.1-5.2.2.patch"
-
-RnJvbSAyMTliZTFkZmNmMWQwZTI2ZWMyY2VkZjc4NmRkMjBkOTA1NmVhZGIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTU6NDg6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-YXdrOiB1cGdyYWRlIDUuMi4xIC0+IDUuMi4yCgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9n
-YXdrL3tnYXdrXzUuMi4xLmJiID0+IGdhd2tfNS4yLjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL2dhd2sve2dhd2tfNS4yLjEuYmIgPT4gZ2F3a181LjIuMi5iYn0gKDk3JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4xLmJiIGIvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjIuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4xLmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4yLmJiCmluZGV4IDc2OGM4
-ZWIzNjQuLjNjMThiNjkxMWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9nYXdr
-L2dhd2tfNS4yLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjIu
-Mi5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vZ2F3ay9nYXdr
-LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAg
-ICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1MjllN2M4YzZhY2YyMWZmM2E2MTgzZjRkNzYz
-YzYzMjgxMDkwODk4OWMyNDY3NWM3Nzk5NWQ1MWFjMzdiNzljIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjk0NWFlZjdjY2ZmMTAxZjIwYjIyYTEwODAyYmMwMDVlOTk0YWIyYjhlYTNlNzI0Y2MxYTE5
-N2M2MmY0MWY2NTAiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgdGV4aW5mbyB1cGRhdGUt
-YWx0ZXJuYXRpdmVzCiAKLS0gCjIuMzkuMgoK
-
---===============8391525223673475402==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/gawk/gawk-doc: FILELIST: added "/usr/share/info/gawk_api-figure3.png /usr/share/info/gawk_api-figure1.png /usr/share/info/gawk_api-figure2.png /usr/share/info/gawk_statist.jpg /usr/share/info/gawk_general-program.png /usr/share/info/gawk_process-flow.png /usr/share/info/gawk_array-elements.png"
-packages/core2-32-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/fieldassign.ok /usr/lib/gawk/ptest/test/asortsymtab.ok /usr/lib/gawk/ptest/test/elemnew2.ok /usr/lib/gawk/ptest/test/elemnew1.ok /usr/lib/gawk/ptest/test/elemnew3.awk /usr/lib/gawk/ptest/test/fieldassign.in /usr/lib/gawk/ptest/test/elemnew2.awk /usr/lib/gawk/ptest/test/asortsymtab.awk /usr/lib/gawk/ptest/test/elemnew1.awk /usr/lib/gawk/ptest/test/fieldassign.awk /usr/lib/gawk/ptest/test/elemnew3.ok"
-packages/core2-32-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.1", added "/usr/bin/gawk-5.2.2"
-
---===============8391525223673475402==--
+--===============8717301881644292902==--
 
