@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E23EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C7FEB64DC
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:27 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.798.1686887481587551444
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.840.1686887485178287345
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jun 2023 20:51:21 -0700
+ Thu, 15 Jun 2023 20:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KV2mjj8L;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188c2543cbc-27fb9751-7f60-4d91-b1d8-d9dfc1e36e87-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=POgTy/JM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010188c2544bd5-b61659c9-34a8-4c88-aad6-d7ac10d5422c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1686887480;
+	t=1686887484;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xxF9Tr1OvcjsfUa1+lOdaxCpik/WF7J9+SKU5wdJWAA=;
-	b=KV2mjj8LtHppYCtKpjBcHNU0i9TzEXbJ5fd7THKFl7aVy/RtNLtuc55Ra270Mc1m
-	jq+XG7tnNz8OQm9C7U0wEUPx/jX0Iu+R3iJ27km1ipIkYKxn6ArijQBYcnT6gT+DWpA
-	8LP22qgyZgorl2GLNrkOmhFEocJZ9A4OZzb/IkXo=
+	bh=vedHeGH3BaeLcwYwuLGndEyBlDYriNL9jc8ql2Q++D8=;
+	b=POgTy/JMsCzY7eq434L/UzyQ9My37m2lXNdFeGnoVDDoJZFFGmB2TLz7PXoPXbrV
+	3JYcMgfutyZZocy6jWdyrByRDnzDCrAozWO/DpJuIiZL8VM0Ow10Z3cC0GyZj3bomHV
+	svMSTBPePhT2cd0juNrt5ZWPa75ITMQisjJjQkn8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887480;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887484;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xxF9Tr1OvcjsfUa1+lOdaxCpik/WF7J9+SKU5wdJWAA=;
-	b=IWdvEKjuOBYHQdMTSPi4i8BaCyPP2ih/rBzLkDL30Z+rArchujzYlOj+oSxqJQwU
-	mdISqLIMdAvTuTBFTc5eukt3nLF+HO/s0280uctbbYLJe8tGICV7VllAHJvCG3V9ejE
-	QPWw8Yp3vI3Ed9rpEiYE1J3bFKAjnhGed49J0JU8=
-Content-Type: multipart/mixed; boundary="===============3457251455307596918=="
+	bh=vedHeGH3BaeLcwYwuLGndEyBlDYriNL9jc8ql2Q++D8=;
+	b=Tm8+2Bnd6ksUOM7ax+YZhjlQkU/WvY+SpTuCpRrJ788fGLaQrKzEnTo3AbfRSbjl
+	/p2SVh0zkSU92Hi91sGzjYaGocmy7IXoiAxWYR8UaKq7oIxbRlFR6BJ714MJMLM5Ys6
+	9Ruqb2s1CkK0GunGWp1hbvwtDExa2heChDWYoVBQ=
+Content-Type: multipart/mixed; boundary="===============2533811019553226147=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nfs-utils: upgrading to 2.6.3 FAILED
-Message-ID: <01010188c2543cbc-27fb9751-7f60-4d91-b1d8-d9dfc1e36e87-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jun 2023 03:51:20 +0000
+Subject: [AUH] vulkan-samples: upgrading to
+ cc7b29696011e7499379695947b9e634ed61ea10 FAILED
+Message-ID: <01010188c2544bd5-b61659c9-34a8-4c88-aad6-d7ac10d5422c-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jun 2023 03:51:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.191
+X-SES-Outgoing: 2023.06.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182890
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182975
 
---===============3457251455307596918==
+--===============2533811019553226147==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,1305 +51,104 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nfs-utils* to *2.6.3* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *cc7b29696011e7499379695947b9e634ed61ea10* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-nfs-utils-upgrade-2.6.2-2.6.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 5d64c9ef11ae86a3bad011ec9a5b4e0104c4a663 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 06:10:58 +0000
-Subject: [PATCH] nfs-utils: upgrade 2.6.2 -> 2.6.3
-
----
- .../0001-Replace-statfs64-with-statfs.patch   | 171 ------------------
- ...td-Check-for-return-of-stat-function.patch |  34 ----
- .../0006-Fix-function-prototypes.patch        |  93 ----------
- ...{nfs-utils_2.6.2.bb => nfs-utils_2.6.3.bb} |   5 +-
- 4 files changed, 1 insertion(+), 302 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Replace-statfs64-with-statfs.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.6.2.bb => nfs-utils_2.6.3.bb} (95%)
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Replace-statfs64-with-statfs.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Replace-statfs64-with-statfs.patch
-deleted file mode 100644
-index 40ceff9ae9..0000000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Replace-statfs64-with-statfs.patch
-+++ /dev/null
-@@ -1,171 +0,0 @@
--From e89652b853ca7de671093ae44305fa3435e13d3d Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 15 Dec 2022 13:29:43 -0800
--Subject: [PATCH] Replace statfs64 with statfs
--
--autoconf AC_SYS_LARGEFILE is used by configure to add needed defines
--when needed for enabling 64bit off_t, therefore replacing statfs64 with
--statfs should be functionally same. Additionally this helps compiling
--with latest musl where 64bit LFS functions like statfs64 and friends are
--now moved under _LARGEFILE64_SOURCE feature test macro, this works on
--glibc systems because _GNU_SOURCE macros also enables
--_LARGEFILE64_SOURCE indirectly. This is not case with musl and this
--latest issue is exposed.
--
--Upstream-Status: Submitted [https://lore.kernel.org/linux-nfs/20221215213605.4061853-1-raj.khem@gmail.com/T/#u]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- support/export/cache.c      | 14 +++++++-------
-- support/include/nfsd_path.h |  6 +++---
-- support/misc/nfsd_path.c    | 24 ++++++++++++------------
-- utils/exportfs/exportfs.c   |  4 ++--
-- 4 files changed, 24 insertions(+), 24 deletions(-)
--
--diff --git a/support/export/cache.c b/support/export/cache.c
--index a5823e9..2497d4f 100644
----- a/support/export/cache.c
--+++ b/support/export/cache.c
--@@ -346,27 +346,27 @@ static int uuid_by_path(char *path, int type, size_t uuidlen, char *uuid)
-- 
-- 	/* Possible sources of uuid are
-- 	 * - blkid uuid
---	 * - statfs64 uuid
--+	 * - statfs uuid
-- 	 *
---	 * On some filesystems (e.g. vfat) the statfs64 uuid is simply an
--+	 * On some filesystems (e.g. vfat) the statfs uuid is simply an
-- 	 * encoding of the device that the filesystem is mounted from, so
-- 	 * it we be very bad to use that (as device numbers change).  blkid
-- 	 * must be preferred.
---	 * On other filesystems (e.g. btrfs) the statfs64 uuid contains
--+	 * On other filesystems (e.g. btrfs) the statfs uuid contains
-- 	 * important info that the blkid uuid cannot contain:  This happens
-- 	 * when multiple subvolumes are exported (they have the same
---	 * blkid uuid but different statfs64 uuids).
--+	 * blkid uuid but different statfs uuids).
-- 	 * We rely on get_uuid_blkdev *knowing* which is which and not returning
---	 * a uuid for filesystems where the statfs64 uuid is better.
--+	 * a uuid for filesystems where the statfs uuid is better.
-- 	 *
-- 	 */
---	struct statfs64 st;
--+	struct statfs st;
-- 	char fsid_val[17];
-- 	const char *blkid_val = NULL;
-- 	const char *val;
-- 	int rc;
-- 
---	rc = nfsd_path_statfs64(path, &st);
--+	rc = nfsd_path_statfs(path, &st);
-- 
-- 	if (type == 0 && rc == 0) {
-- 		const unsigned long *bad;
--diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
--index 3b73aad..aa1e1dd 100644
----- a/support/include/nfsd_path.h
--+++ b/support/include/nfsd_path.h
--@@ -7,7 +7,7 @@
-- #include <sys/stat.h>
-- 
-- struct file_handle;
---struct statfs64;
--+struct statfs;
-- 
-- void 		nfsd_path_init(void);
-- 
--@@ -18,8 +18,8 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
-- int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
-- int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
-- 
---int		nfsd_path_statfs64(const char *pathname,
---				   struct statfs64 *statbuf);
--+int		nfsd_path_statfs(const char *pathname,
--+				   struct statfs *statbuf);
-- 
-- char *		nfsd_realpath(const char *path, char *resolved_path);
-- 
--diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
--index 65e53c1..c3dea4f 100644
----- a/support/misc/nfsd_path.c
--+++ b/support/misc/nfsd_path.c
--@@ -184,46 +184,46 @@ nfsd_path_lstat(const char *pathname, struct stat *statbuf)
-- 	return nfsd_run_stat(nfsd_wq, nfsd_lstatfunc, pathname, statbuf);
-- }
-- 
---struct nfsd_statfs64_data {
--+struct nfsd_statfs_data {
-- 	const char *pathname;
---	struct statfs64 *statbuf;
--+	struct statfs *statbuf;
-- 	int ret;
-- 	int err;
-- };
-- 
-- static void
---nfsd_statfs64func(void *data)
--+nfsd_statfsfunc(void *data)
-- {
---	struct nfsd_statfs64_data *d = data;
--+	struct nfsd_statfs_data *d = data;
-- 
---	d->ret = statfs64(d->pathname, d->statbuf);
--+	d->ret = statfs(d->pathname, d->statbuf);
-- 	if (d->ret < 0)
-- 		d->err = errno;
-- }
-- 
-- static int
---nfsd_run_statfs64(struct xthread_workqueue *wq,
--+nfsd_run_statfs(struct xthread_workqueue *wq,
-- 		  const char *pathname,
---		  struct statfs64 *statbuf)
--+		  struct statfs *statbuf)
-- {
---	struct nfsd_statfs64_data data = {
--+	struct nfsd_statfs_data data = {
-- 		pathname,
-- 		statbuf,
-- 		0,
-- 		0
-- 	};
---	xthread_work_run_sync(wq, nfsd_statfs64func, &data);
--+	xthread_work_run_sync(wq, nfsd_statfsfunc, &data);
-- 	if (data.ret < 0)
-- 		errno = data.err;
-- 	return data.ret;
-- }
-- 
-- int
---nfsd_path_statfs64(const char *pathname, struct statfs64 *statbuf)
--+nfsd_path_statfs(const char *pathname, struct statfs *statbuf)
-- {
-- 	if (!nfsd_wq)
---		return statfs64(pathname, statbuf);
---	return nfsd_run_statfs64(nfsd_wq, pathname, statbuf);
--+		return statfs(pathname, statbuf);
--+	return nfsd_run_statfs(nfsd_wq, pathname, statbuf);
-- }
-- 
-- struct nfsd_realpath_data {
--diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
--index 0897b22..6d79a5b 100644
----- a/utils/exportfs/exportfs.c
--+++ b/utils/exportfs/exportfs.c
--@@ -513,7 +513,7 @@ validate_export(nfs_export *exp)
-- 	 */
-- 	struct stat stb;
-- 	char *path = exportent_realpath(&exp->m_export);
---	struct statfs64 stf;
--+	struct statfs stf;
-- 	int fs_has_fsid = 0;
-- 
-- 	if (stat(path, &stb) < 0) {
--@@ -528,7 +528,7 @@ validate_export(nfs_export *exp)
-- 	if (!can_test())
-- 		return;
-- 
---	if (!statfs64(path, &stf) &&
--+	if (!statfs(path, &stf) &&
-- 	    (stf.f_fsid.__val[0] || stf.f_fsid.__val[1]))
-- 		fs_has_fsid = 1;
-- 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
-deleted file mode 100644
-index 13a21e5307..0000000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-mountd-Check-for-return-of-stat-function.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 887ecc7837962e9be77a4fea7d9122648f73a84a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 15 Aug 2022 14:47:53 -0700
--Subject: [PATCH] mountd: Check for return of stat function
--
--simplify the check, stat() return 0 on success -1 on failure
--
--Fixes clang reported errors e.g.
--
--| v4clients.c:29:6: error: logical not is only applied to the left hand side of this comparison [-Werror,-Wlogical-not-parentheses]
--|         if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
--|             ^                                   ~~
--
--Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-1-raj.khem@gmail.com/]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Konstantin Khorenko <khorenko@virtuozzo.com>
--Cc: Steve Dickson <steved@redhat.com>
-----
-- support/export/v4clients.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/support/export/v4clients.c b/support/export/v4clients.c
--index 5f15b61..3230251 100644
----- a/support/export/v4clients.c
--+++ b/support/export/v4clients.c
--@@ -26,7 +26,7 @@ void v4clients_init(void)
-- {
-- 	struct stat sb;
-- 
---	if (!stat("/proc/fs/nfsd/clients", &sb) == 0 ||
--+	if (stat("/proc/fs/nfsd/clients", &sb) != 0 ||
-- 	    !S_ISDIR(sb.st_mode))
-- 		return;
-- 	if (clients_fd >= 0)
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-deleted file mode 100644
-index 793bc4651c..0000000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-Fix-function-prototypes.patch
-+++ /dev/null
-@@ -1,93 +0,0 @@
--From cf0ffbb5c8fa167376926d12a63613f15aa7602f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 15 Aug 2022 14:50:15 -0700
--Subject: [PATCH] Fix function prototypes
--
--Clang is now erroring out on functions with out parameter types
--
--Fixes errors like
--error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
--
--Upstream-Status: Submitted [https://patchwork.kernel.org/project/linux-nfs/patch/20220816024403.2694169-2-raj.khem@gmail.com/]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- support/export/auth.c     | 2 +-
-- support/export/v4root.c   | 2 +-
-- support/export/xtab.c     | 2 +-
-- utils/exportfs/exportfs.c | 4 ++--
-- utils/mount/network.c     | 2 +-
-- 5 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/support/export/auth.c b/support/export/auth.c
--index 03ce4b8..2d7960f 100644
----- a/support/export/auth.c
--+++ b/support/export/auth.c
--@@ -82,7 +82,7 @@ check_useipaddr(void)
-- }
-- 
-- unsigned int
---auth_reload()
--+auth_reload(void)
-- {
-- 	struct stat		stb;
-- 	static ino_t		last_inode;
--diff --git a/support/export/v4root.c b/support/export/v4root.c
--index c12a7d8..fbb0ad5 100644
----- a/support/export/v4root.c
--+++ b/support/export/v4root.c
--@@ -198,7 +198,7 @@ static int v4root_add_parents(nfs_export *exp)
--  * looking for components of the v4 mount.
--  */
-- void
---v4root_set()
--+v4root_set(void)
-- {
-- 	nfs_export	*exp;
-- 	int	i;
--diff --git a/support/export/xtab.c b/support/export/xtab.c
--index c888a80..e210ca9 100644
----- a/support/export/xtab.c
--+++ b/support/export/xtab.c
--@@ -135,7 +135,7 @@ xtab_write(char *xtab, char *xtabtmp, char *lockfn, int is_export)
-- }
-- 
-- int
---xtab_export_write()
--+xtab_export_write(void)
-- {
-- 	return xtab_write(etab.statefn, etab.tmpfn, etab.lockfn, 1);
-- }
--diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
--index 6ba615d..0897b22 100644
----- a/utils/exportfs/exportfs.c
--+++ b/utils/exportfs/exportfs.c
--@@ -69,14 +69,14 @@ static int _lockfd = -1;
--  * need these additional lockfile() routines.
--  */
-- static void
---grab_lockfile()
--+grab_lockfile(void)
-- {
-- 	_lockfd = open(lockfile, O_CREAT|O_RDWR, 0666);
-- 	if (_lockfd != -1)
-- 		lockf(_lockfd, F_LOCK, 0);
-- }
-- static void
---release_lockfile()
--+release_lockfile(void)
-- {
-- 	if (_lockfd != -1) {
-- 		lockf(_lockfd, F_ULOCK, 0);
--diff --git a/utils/mount/network.c b/utils/mount/network.c
--index ed2f825..01ead49 100644
----- a/utils/mount/network.c
--+++ b/utils/mount/network.c
--@@ -179,7 +179,7 @@ static const unsigned long probe_mnt3_only[] = {
-- 
-- static const unsigned int *nfs_default_proto(void);
-- #ifdef MOUNT_CONFIG
---static const unsigned int *nfs_default_proto()
--+static const unsigned int *nfs_default_proto(void)
-- {
-- 	extern unsigned long config_default_proto;
-- 	/*
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb
-similarity index 95%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb
-index 21df1803c5..ce8ae4e500 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.2.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb
-@@ -30,11 +30,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://bugfix-adjust-statd-service-name.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://clang-warnings.patch \
--           file://0005-mountd-Check-for-return-of-stat-function.patch \
--           file://0006-Fix-function-prototypes.patch \
--           file://0001-Replace-statfs64-with-statfs.patch \
-            "
--SRC_URI[sha256sum] = "5200873e81c4d610e2462fc262fe18135f2dbe78b7979f95accd159ae64d5011"
-+SRC_URI[sha256sum] = "38d89e853a71d3c560ff026af3d969d75e24f782ff68324e76261fe0344459e1"
- 
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
- # pull in the remainder of the dependencies.
--- 
-2.39.2
-
-
---===============3457251455307596918==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+The following devtool command failed:  upgrade vulkan-samples -S cc7b29696011e7499379695947b9e634ed61ea10
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry... (21:07:53.225190)
+NOTE: Directory listing: ['conf', 'upgrade-helper', 'bitbake-cookerdaemon.log', 'buildhistory', 'workspace', 'cache', 'tmp', 'downloads', 'sstate-cache']
+NOTE: Retrying server connection (#1)... (21:07:53.335132)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1801 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1801 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Loaded 1802 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:bc43c37f17ca5900f44ffde9f9507f7363416c6d"
+meta-yocto-bsp       = "tmp-auh-upgrades:612c76e3707abcd470fc607ffc5f687b93f941f3"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 25 Local 16 Mirrors 0 Missed 9 Current 633 (64% match, 98% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1730 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_fetch)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_fetch: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2121 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_unpack)
-NOTE: Running task 2122 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_unpack: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2123 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_patch)
-NOTE: Running task 2124 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_collect_spdx_deps)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_patch: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nfs-utils-2.6.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nfs-utils-2.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 2125 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2126 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_populate_lic)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_populate_lic: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe nfs-utils-2.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2127 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_configure)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_configure: Started
-NOTE: recipe nfs-utils-2.6.3-r0: task do_configure: Succeeded
-NOTE: Running task 2128 of 2137 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile)
-NOTE: recipe nfs-utils-2.6.3-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| Making clean in support
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| Making clean in export
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| test -z "mount_clnt.c  mount_xdr.c mount.h ../../support/include/mount.h" || rm -f mount_clnt.c  mount_xdr.c mount.h ../../support/include/mount.h
-| rm -rf .libs _libs
-| test -z "libexport.a" || rm -f libexport.a
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| Making clean in include
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| Making clean in nfs
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
-| Making clean in rpcsvc
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
-| Making clean in sys
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| Making clean in fs
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| Making clean in misc
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
-| rm -rf .libs _libs
-| test -z "libmisc.a" || rm -f libmisc.a
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
-| Making clean in nfs
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
-| rm -rf .libs _libs
-| test -z "" || rm -f
-| test -z "libnfs.la libnfsconf.la" || rm -f libnfs.la libnfsconf.la
-| rm -f ./so_locations
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
-| Making clean in nsm
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| test -z "sm_inter_clnt.c sm_inter_svc.c sm_inter_xdr.c sm_inter.h ../../support/include/sm_inter.h" || rm -f sm_inter_clnt.c sm_inter_svc.c sm_inter_xdr.c sm_inter.h ../../support/include/sm_inter.h
-| rm -rf .libs _libs
-| test -z "libnsm.a" || rm -f libnsm.a
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| Making clean in reexport
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
-| rm -rf .libs _libs
-| test -z "libreexport.a" || rm -f libreexport.a
-|  rm -f fsidd
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| Making clean in tools
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
-| Making clean in locktest
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/locktest'
-| rm -rf .libs _libs
-|  rm -f testlk
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/locktest'
-| Making clean in rpcdebug
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcdebug'
-| rm -rf .libs _libs
-|  rm -f rpcdebug
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcdebug'
-| Making clean in nlmtest
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nlmtest'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nlmtest'
-| Making clean in mountstats
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/mountstats'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/mountstats'
-| Making clean in nfs-iostat
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfs-iostat'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfs-iostat'
-| Making clean in rpcctl
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcctl'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/rpcctl'
-| Making clean in nfsdclnts
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsdclnts'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsdclnts'
-| Making clean in nfsconf
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsconf'
-| rm -rf .libs _libs
-|  rm -f nfsconf
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsconf'
-| Making clean in nfsrahead
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsrahead'
-|  rm -f nfsrahead
-| rm -rf .libs _libs
-| rm -f 99-nfs.rules
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools/nfsrahead'
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tools'
-| Making clean in utils
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
-| Making clean in exportfs
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/exportfs'
-| rm -rf .libs _libs
-|  rm -f exportfs
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/exportfs'
-| Making clean in mountd
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mountd'
-| rm -rf .libs _libs
-|  rm -f mountd
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mountd'
-| Making clean in nfsd
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsd'
-| rm -rf .libs _libs
-|  rm -f nfsd
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsd'
-| Making clean in nfsstat
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsstat'
-| rm -rf .libs _libs
-|  rm -f nfsstat
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/nfsstat'
-| Making clean in showmount
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/showmount'
-| rm -rf .libs _libs
-|  rm -f showmount
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/showmount'
-| Making clean in statd
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/statd'
-| test -z "" || rm -f
-| rm -rf .libs _libs
-|  rm -f statd sm-notify
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/statd'
-| Making clean in mount
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mount'
-| rm -rf .libs _libs
-|  rm -f mount.nfs
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils/mount'
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/utils'
-| Making clean in linux-nfs
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/linux-nfs'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/linux-nfs'
-| Making clean in tests
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
-| Making clean in nsm_client
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests/nsm_client'
-|  rm -f nsm_client
-| test -z "nlm_sm_inter_clnt.c nlm_sm_inter_svc.c nlm_sm_inter_xdr.c nlm_sm_inter.h" || rm -f nlm_sm_inter_clnt.c nlm_sm_inter_svc.c nlm_sm_inter_xdr.c nlm_sm_inter.h
-| rm -rf .libs _libs
-| rm -f *.o
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests/nsm_client'
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
-|  rm -f statdb_dump
-| rm -rf .libs _libs
-| rm -f *.o
-| test -z "t0001-statd-basic-mon-unmon.sh.log" || rm -f t0001-statd-basic-mon-unmon.sh.log
-| test -z "t0001-statd-basic-mon-unmon.sh.trs" || rm -f t0001-statd-basic-mon-unmon.sh.trs
-| test -z "test-suite.log" || rm -f test-suite.log
-| rm -f *.lo
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/tests'
-| Making clean in systemd
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/systemd'
-| rm -rf .libs _libs
-| rm -f *.o
-| rm -f *.lo
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/systemd'
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3'
-| rm -rf .libs _libs
-| rm -f *.lo
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3'
-| NOTE: make -j 56
-| Making all in support
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| Making all in export
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| test -f mount_clnt.c && rm -rf mount_clnt.c || true
-| test -f mount_xdr.c && rm -rf mount_xdr.c || true
-| test -f mount.h && rm -rf mount.h || true
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -l -o mount_clnt.c mount.x
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -c -i 0 -o mount_xdr.c mount.x
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -h -o mount.h mount.x
-| rm -f ../../support/include/mount.h
-| ln -s ../export/mount.h ../../support/include/mount.h
-| make  all-am
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-client.o `test -f 'client.c' || echo './'`client.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-export.o `test -f 'export.c' || echo './'`export.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-hostname.o `test -f 'hostname.c' || echo './'`hostname.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-xtab.o `test -f 'xtab.c' || echo './'`xtab.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-mount_clnt.o `test -f 'mount_clnt.c' || echo './'`mount_clnt.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-mount_xdr.o `test -f 'mount_xdr.c' || echo './'`mount_xdr.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-cache.o `test -f 'cache.c' || echo './'`cache.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-auth.o `test -f 'auth.c' || echo './'`auth.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-v4root.o `test -f 'v4root.c' || echo './'`v4root.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-fsloc.o `test -f 'fsloc.c' || echo './'`fsloc.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompa
- tible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker
- /auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libexport_a-v4clients.o `test -f 'v4clients.c' || echo './'`v4clients.c
-| rm -f libexport.a
-| i686-poky-linux-gcc-ar crD libexport.a libexport_a-client.o libexport_a-export.o libexport_a-hostname.o libexport_a-xtab.o libexport_a-mount_clnt.o libexport_a-mount_xdr.o libexport_a-cache.o libexport_a-auth.o libexport_a-v4root.o libexport_a-fsloc.o libexport_a-v4clients.o
-| i686-poky-linux-gcc-ranlib libexport.a
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/export'
-| Making all in include
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| make  all-recursive
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| Making all in nfs
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
-| make[4]: Nothing to be done for 'all'.
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/nfs'
-| Making all in rpcsvc
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
-| make[4]: Nothing to be done for 'all'.
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/rpcsvc'
-| Making all in sys
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| Making all in fs
-| make[5]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
-| make[5]: Nothing to be done for 'all'.
-| make[5]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys/fs'
-| make[5]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| make[5]: Nothing to be done for 'all-am'.
-| make[5]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include/sys'
-| make[4]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| make[4]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/include'
-| Making all in misc
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o tcpwrapper.o tcpwrapper.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o from_local.o from_local.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o mountpoint.o mountpoint.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o misc.o misc.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o nfsd_path.o nfsd_path.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o workqueue.o workqueue.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o xstat.o xstat.c
-| rm -f libmisc.a
-| i686-poky-linux-gcc-ar crD libmisc.a tcpwrapper.o from_local.o mountpoint.o misc.o nfsd_path.o workqueue.o xstat.o
-| i686-poky-linux-gcc-ranlib libmisc.a
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/misc'
-| Making all in nfs
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-exports.lo `test -f 'exports.c' || echo './'`exports.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rmtab.lo `test -f 'rmtab.c' || echo './'`rmtab.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-xio.lo `test -f 'xio.c' || echo './'`xio.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpcmisc.lo `test -f 'rpcmisc.c' || echo './'`rpcmisc.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpcdispatch.lo `test -f 'rpcdispatch.c' || echo './'`rpcdispatch.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-xcommon.lo `test -f 'xcommon.c' || echo './'`xcommon.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-wildmat.lo `test -f 'wildmat.c' || echo './'`wildmat.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-mydaemon.lo `test -f 'mydaemon.c' || echo './'`mydaemon.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-rpc_socket.lo `test -f 'rpc_socket.c' || echo './'`rpc_socket.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-getport.lo `test -f 'getport.c' || echo './'`getport.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-svc_socket.lo `test -f 'svc_socket.c' || echo './'`svc_socket.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-cacheio.lo `test -f 'cacheio.c' || echo './'`cacheio.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-closeall.lo `test -f 'closeall.c' || echo './'`closeall.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-nfs_mntent.lo `test -f 'nfs_mntent.c' || echo './'`nfs_mntent.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-svc_create.lo `test -f 'svc_create.c' || echo './'`svc_create.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-atomicio.lo `test -f 'atomicio.c' || echo './'`atomicio.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-strlcat.lo `test -f 'strlcat.c' || echo './'`strlcat.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=forma
- t-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroo
- t=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o libnfs_la-strlcpy.lo `test -f 'strlcpy.c' || echo './'`strlcpy.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -We
- rror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o conffile.lo conffile.c
-| /bin/bash ../../libtool  --tag=CC   --mode=compile i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -We
- rror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o xlog.lo xlog.c
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpcmisc.c  -fPIC -DPIC -o .libs/libnfs_la-rpcmisc.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c getport.c  -fPIC -DPIC -o .libs/libnfs_la-getport.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xcommon.c  -fPIC -DPIC -o .libs/libnfs_la-xcommon.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c closeall.c  -fPIC -DPIC -o .libs/libnfs_la-closeall.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpcdispatch.c  -fPIC -DPIC -o .libs/libnfs_la-rpcdispatch.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c strlcat.c  -fPIC -DPIC -o .libs/libnfs_la-strlcat.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c nfs_mntent.c  -fPIC -DPIC -o .libs/libnfs_la-nfs_mntent.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c cacheio.c  -fPIC -DPIC -o .libs/libnfs_la-cacheio.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rmtab.c  -fPIC -DPIC -o .libs/libnfs_la-rmtab.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c mydaemon.c  -fPIC -DPIC -o .libs/libnfs_la-mydaemon.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c svc_socket.c  -fPIC -DPIC -o .libs/libnfs_la-svc_socket.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c wildmat.c  -fPIC -DPIC -o .libs/libnfs_la-wildmat.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c exports.c  -fPIC -DPIC -o .libs/libnfs_la-exports.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c svc_create.c  -fPIC -DPIC -o .libs/libnfs_la-svc_create.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-ind
- entation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
- nux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c conffile.c  -fPIC -DPIC -o .libs/conffile.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xio.c  -fPIC -DPIC -o .libs/libnfs_la-xio.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c rpc_socket.c  -fPIC -DPIC -o .libs/libnfs_la-rpc_socket.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c atomicio.c  -fPIC -DPIC -o .libs/libnfs_la-atomicio.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-ind
- entation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
- nux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c xlog.c  -fPIC -DPIC -o .libs/xlog.o
-| libtool: compile:  i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/reexport -D_GNU_SOURCE -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatib
- le-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/buil
- d/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -c strlcpy.c  -fPIC -DPIC -o .libs/libnfs_la-strlcpy.o
-| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
- er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
- ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libnfsconf.la  conffile.lo xlog.lo  -lresolv
-| libtool: link: i686-poky-linux-gcc-ar cr .libs/libnfsconf.a .libs/conffile.o .libs/xlog.o
-| libtool: link: i686-poky-linux-gcc-ranlib .libs/libnfsconf.a
-| libtool: link: ( cd ".libs" && rm -f "libnfsconf.la" && ln -s "../libnfsconf.la" "libnfsconf.la" )
-| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
- er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
- ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libnfs.la  libnfs_la-exports.lo libnfs_la-rmtab.lo libnfs_la-xio.lo libnfs_la-rpcmisc.lo libnfs_la-rpcdispatch.lo libnfs_la-xcommon.lo libnfs_la-wildmat.lo libnfs_la-mydaemon.lo libnfs_la-rpc_socket.lo libnfs_la-getport.lo libnfs_la-svc_socket.lo libnfs_la-cacheio.lo libnfs_la-closeall.lo libnfs_la-nfs_mntent.lo libnfs_la-svc_create.lo libnfs_la-atomicio.lo libnfs_la-strlcat.lo libnfs_la-strlcpy.lo libnfsconf.la -lresolv
-| libtool: link: (cd .libs/libnfs.lax/libnfsconf.a && i686-poky-linux-gcc-ar x "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs/./.libs/libnfsconf.a")
-| libtool: link: i686-poky-linux-gcc-ar cr .libs/libnfs.a .libs/libnfs_la-exports.o .libs/libnfs_la-rmtab.o .libs/libnfs_la-xio.o .libs/libnfs_la-rpcmisc.o .libs/libnfs_la-rpcdispatch.o .libs/libnfs_la-xcommon.o .libs/libnfs_la-wildmat.o .libs/libnfs_la-mydaemon.o .libs/libnfs_la-rpc_socket.o .libs/libnfs_la-getport.o .libs/libnfs_la-svc_socket.o .libs/libnfs_la-cacheio.o .libs/libnfs_la-closeall.o .libs/libnfs_la-nfs_mntent.o .libs/libnfs_la-svc_create.o .libs/libnfs_la-atomicio.o .libs/libnfs_la-strlcat.o .libs/libnfs_la-strlcpy.o   .libs/libnfs.lax/libnfsconf.a/conffile.o .libs/libnfs.lax/libnfsconf.a/xlog.o
-| libtool: link: i686-poky-linux-gcc-ranlib .libs/libnfs.a
-| libtool: link: rm -fr .libs/libnfs.lax
-| libtool: link: ( cd ".libs" && rm -f "libnfs.la" && ln -s "../libnfs.la" "libnfs.la" )
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nfs'
-| Making all in nsm
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| test -f sm_inter_clnt.c && rm -rf sm_inter_clnt.c || true
-| test -f sm_inter_svc.c && rm -rf sm_inter_svc.c || true
-| test -f sm_inter_xdr.c && rm -rf sm_inter_xdr.c || true
-| test -f sm_inter.h && rm -rf sm_inter.h || true
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -l -o sm_inter_clnt.c sm_inter.x
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -m -o sm_inter_svc.c sm_inter.x
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -c -i 0 -o sm_inter_xdr.c sm_inter.x
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/rpcgen -h -o sm_inter.h sm_inter.x
-| echo "void sm_prog_1(struct svc_req *, SVCXPRT *);" >> sm_inter.h
-| rm -f ../../support/include/sm_inter.h
-| ln -s ../nsm/sm_inter.h ../../support/include/sm_inter.h
-| make  all-am
-| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_clnt.o sm_inter_clnt.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_svc.o sm_inter_svc.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o sm_inter_xdr.o sm_inter_xdr.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o misc.o `test -f '../misc/misc.c' || echo './'`../misc/misc.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o file.o file.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o rpc.o rpc.c
-| rm -f libnsm.a
-| i686-poky-linux-gcc-ar crD libnsm.a sm_inter_clnt.o sm_inter_svc.o sm_inter_xdr.o  misc.o file.o rpc.o
-| i686-poky-linux-gcc-ranlib libnsm.a
-| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/nsm'
-| Making all in reexport
-| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/include -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompat
- ible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/
- auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o fsidd-fsidd.o `test -f 'fsidd.c' || echo './'`fsidd.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -I../../support/include -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompat
- ible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/
- auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o fsidd-backend_sqlite.o `test -f 'backend_sqlite.c' || echo './'`backend_sqlite.c
-| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../support/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot/usr/include/tirpc -D_GNU_SOURCE -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-
- indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-3
- 2-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -c -o reexport.o reexport.c
-| /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe  -Wall  -Wextra  -Werror=strict-prototypes  -Werror=missing-prototypes  -Werror=missing-declarations  -Werror=format=2  -Werror=undef  -Werror=missing-include-dirs  -Werror=strict-aliasing=2  -Werror=init-self  -Werror=implicit-function-declaration  -Werror=return-type  -Werror=switch  -Werror=overflow  -Werror=parentheses  -Werror=aggregate-return  -Werror=unused-result  -fno-strict-aliasing  -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-work
- er/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-lin
- ux/nfs-utils/2.6.3-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o fsidd fsidd-fsidd.o fsidd-backend_sqlite.o ../../support/misc/libmisc.a ../../support/nfs/libnfs.la -lpthread    -lresolv
-| rm -f libreexport.a
-| i686-poky-linux-gcc-ar crD libreexport.a reexport.o
-| i686-poky-linux-gcc-ranlib libreexport.a
-| libtool: link: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot -pipe -Wall -Wextra -Werror=strict-prototypes -Werror=missing-prototypes -Werror=missing-declarations -Werror=format=2 -Werror=undef -Werror=missing-include-dirs -Werror=strict-aliasing=2 -Werror=init-self -Werror=implicit-function-declaration -Werror=return-type -Werror=switch -Werror=overflow -Werror=parentheses -Werror=aggregate-return -Werror=unused-result -fno-strict-aliasing -Werror=format-overflow=2 -Werror=int-conversion -Werror=incompatible-pointer-types -Werror=misleading-indentation -Wno-cast-function-type -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/n
- fs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -Wl,-O1 -Wl,--ha
- sh-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3=/usr/src/debug/nfs-utils/2.6.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot= -fdebug-p
- refix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -o fsidd fsidd-fsidd.o fsidd-backend_sqlite.o  ../../support/misc/libmisc.a ../../support/nfs/.libs/libnfs.a -lpthread -lresolv
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `srv_cb':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:147: undefined reference to `event_self_cbarg'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:147: undefined reference to `event_new'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:148: undefined reference to `event_add'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `client_cb':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:39: undefined reference to `event_del'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:40: undefined reference to `event_free'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-fsidd.o: in function `main':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:188: undefined reference to `event_base_new'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:190: undefined reference to `event_new'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:191: undefined reference to `event_add'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/fsidd.c:193: undefined reference to `event_base_dispatch'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_destroy':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:86: undefined reference to `sqlite3_close_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_init':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:52: undefined reference to `sqlite3_open_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:61: undefined reference to `sqlite3_exec'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:72: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:73: undefined reference to `sqlite3_free'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:74: undefined reference to `sqlite3_close_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:56: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `get_fsidnum_by_path':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:98: undefined reference to `sqlite3_prepare_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:104: undefined reference to `sqlite3_bind_text'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:111: undefined reference to `sqlite3_step'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:100: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:132: undefined reference to `sqlite3_finalize'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:128: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:114: undefined reference to `sqlite3_column_int'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:106: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `sqlite_plug_path_by_fsidnum':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:145: undefined reference to `sqlite3_prepare_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:151: undefined reference to `sqlite3_bind_int'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:158: undefined reference to `sqlite3_step'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:147: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:183: undefined reference to `sqlite3_finalize'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:179: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:161: undefined reference to `sqlite3_column_text'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:153: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: fsidd-backend_sqlite.o: in function `new_fsidnum_by_path':
-| /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:201: undefined reference to `sqlite3_prepare_v2'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:207: undefined reference to `sqlite3_bind_text'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:214: undefined reference to `sqlite3_step'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:209: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:203: undefined reference to `sqlite3_errstr'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:217: undefined reference to `sqlite3_column_int'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:233: undefined reference to `sqlite3_finalize'
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../libexec/i686-poky-linux/gcc/i686-poky-linux/13.1.1/ld: /usr/src/debug/nfs-utils/2.6.3-r0/support/reexport/backend_sqlite.c:229: undefined reference to `sqlite3_errstr'
-| collect2: error: ld returned 1 exit status
-| make[2]: *** [Makefile:490: fsidd] Error 1
-| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support/reexport'
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/nfs-utils-2.6.3/support'
-| make[1]: *** [Makefile:428: all-recursive] Error 1
-| make: *** [Makefile:468: all-recursive] Error 1
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740:183 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 183
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 167
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 162
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 157
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 152
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740, line 196
-NOTE: recipe nfs-utils-2.6.3-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2128 tasks of which 2119 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 3 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: nfs-utils-2.6.3-r0 do_compile: oe_runmake failed
-ERROR: nfs-utils-2.6.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/run.do_compile.369740', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/nfs-utils/2.6.3-r0/temp/log.do_compile.369740
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb:do_compile) failed with exit code '1'
+INFO: Extracting current version source...
+ERROR: Error executing a python function in exec_func_python() autogenerated:
 
---===============3457251455307596918==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-nfs-utils-upgrade-2.6.2-2.6.3.patch"
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-swb7796o/workdir/git/third_party/spdlog/.git/hooks'
 
-RnJvbSA1ZDY0YzllZjExYWU4NmEzYmFkMDExZWM5YTViNGUwMTA0YzRhNjYzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMDY6MTA6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-ZnMtdXRpbHM6IHVwZ3JhZGUgMi42LjIgLT4gMi42LjMKCi0tLQogLi4uLzAwMDEtUmVwbGFjZS1z
-dGF0ZnM2NC13aXRoLXN0YXRmcy5wYXRjaCAgIHwgMTcxIC0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
-dGQtQ2hlY2stZm9yLXJldHVybi1vZi1zdGF0LWZ1bmN0aW9uLnBhdGNoIHwgIDM0IC0tLS0KIC4u
-Li8wMDA2LUZpeC1mdW5jdGlvbi1wcm90b3R5cGVzLnBhdGNoICAgICAgICB8ICA5MyAtLS0tLS0t
-LS0tCiAuLi57bmZzLXV0aWxzXzIuNi4yLmJiID0+IG5mcy11dGlsc18yLjYuMy5iYn0gfCAgIDUg
-Ky0KIDQgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMwMiBkZWxldGlvbnMoLSkKIGRl
-bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMt
-dXRpbHMvMDAwMS1SZXBsYWNlLXN0YXRmczY0LXdpdGgtc3RhdGZzLnBhdGNoCiBkZWxldGUgbW9k
-ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAw
-MDUtbW91bnRkLUNoZWNrLWZvci1yZXR1cm4tb2Ytc3RhdC1mdW5jdGlvbi5wYXRjaAogZGVsZXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGls
-cy8wMDA2LUZpeC1mdW5jdGlvbi1wcm90b3R5cGVzLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMve25mcy11dGlsc18yLjYuMi5iYiA9PiBuZnMtdXRpbHNf
-Mi42LjMuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9u
-ZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDEtUmVwbGFjZS1zdGF0ZnM2NC13aXRoLXN0YXRmcy5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11dGlscy8wMDAxLVJl
-cGxhY2Utc3RhdGZzNjQtd2l0aC1zdGF0ZnMucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0
-CmluZGV4IDQwY2VmZjlhZTkuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDEtUmVwbGFjZS1zdGF0ZnM2NC13aXRoLXN0YXRm
-cy5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDE3MSArMCwwIEBACi1Gcm9tIGU4OTY1MmI4NTNj
-YTdkZTY3MTA5M2FlNDQzMDVmYTM0MzVlMTNkM2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1G
-cm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogVGh1LCAxNSBEZWMgMjAy
-MiAxMzoyOTo0MyAtMDgwMAotU3ViamVjdDogW1BBVENIXSBSZXBsYWNlIHN0YXRmczY0IHdpdGgg
-c3RhdGZzCi0KLWF1dG9jb25mIEFDX1NZU19MQVJHRUZJTEUgaXMgdXNlZCBieSBjb25maWd1cmUg
-dG8gYWRkIG5lZWRlZCBkZWZpbmVzCi13aGVuIG5lZWRlZCBmb3IgZW5hYmxpbmcgNjRiaXQgb2Zm
-X3QsIHRoZXJlZm9yZSByZXBsYWNpbmcgc3RhdGZzNjQgd2l0aAotc3RhdGZzIHNob3VsZCBiZSBm
-dW5jdGlvbmFsbHkgc2FtZS4gQWRkaXRpb25hbGx5IHRoaXMgaGVscHMgY29tcGlsaW5nCi13aXRo
-IGxhdGVzdCBtdXNsIHdoZXJlIDY0Yml0IExGUyBmdW5jdGlvbnMgbGlrZSBzdGF0ZnM2NCBhbmQg
-ZnJpZW5kcyBhcmUKLW5vdyBtb3ZlZCB1bmRlciBfTEFSR0VGSUxFNjRfU09VUkNFIGZlYXR1cmUg
-dGVzdCBtYWNybywgdGhpcyB3b3JrcyBvbgotZ2xpYmMgc3lzdGVtcyBiZWNhdXNlIF9HTlVfU09V
-UkNFIG1hY3JvcyBhbHNvIGVuYWJsZXMKLV9MQVJHRUZJTEU2NF9TT1VSQ0UgaW5kaXJlY3RseS4g
-VGhpcyBpcyBub3QgY2FzZSB3aXRoIG11c2wgYW5kIHRoaXMKLWxhdGVzdCBpc3N1ZSBpcyBleHBv
-c2VkLgotCi1VcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
-cmcvbGludXgtbmZzLzIwMjIxMjE1MjEzNjA1LjQwNjE4NTMtMS1yYWoua2hlbUBnbWFpbC5jb20v
-VC8jdV0KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0K
-LSBzdXBwb3J0L2V4cG9ydC9jYWNoZS5jICAgICAgfCAxNCArKysrKysrLS0tLS0tLQotIHN1cHBv
-cnQvaW5jbHVkZS9uZnNkX3BhdGguaCB8ICA2ICsrKy0tLQotIHN1cHBvcnQvbWlzYy9uZnNkX3Bh
-dGguYyAgICB8IDI0ICsrKysrKysrKysrKy0tLS0tLS0tLS0tLQotIHV0aWxzL2V4cG9ydGZzL2V4
-cG9ydGZzLmMgICB8ICA0ICsrLS0KLSA0IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyks
-IDI0IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3VwcG9ydC9leHBvcnQvY2FjaGUuYyBi
-L3N1cHBvcnQvZXhwb3J0L2NhY2hlLmMKLWluZGV4IGE1ODIzZTkuLjI0OTdkNGYgMTAwNjQ0Ci0t
-LS0gYS9zdXBwb3J0L2V4cG9ydC9jYWNoZS5jCi0rKysgYi9zdXBwb3J0L2V4cG9ydC9jYWNoZS5j
-Ci1AQCAtMzQ2LDI3ICszNDYsMjcgQEAgc3RhdGljIGludCB1dWlkX2J5X3BhdGgoY2hhciAqcGF0
-aCwgaW50IHR5cGUsIHNpemVfdCB1dWlkbGVuLCBjaGFyICp1dWlkKQotIAotIAkvKiBQb3NzaWJs
-ZSBzb3VyY2VzIG9mIHV1aWQgYXJlCi0gCSAqIC0gYmxraWQgdXVpZAotLQkgKiAtIHN0YXRmczY0
-IHV1aWQKLSsJICogLSBzdGF0ZnMgdXVpZAotIAkgKgotLQkgKiBPbiBzb21lIGZpbGVzeXN0ZW1z
-IChlLmcuIHZmYXQpIHRoZSBzdGF0ZnM2NCB1dWlkIGlzIHNpbXBseSBhbgotKwkgKiBPbiBzb21l
-IGZpbGVzeXN0ZW1zIChlLmcuIHZmYXQpIHRoZSBzdGF0ZnMgdXVpZCBpcyBzaW1wbHkgYW4KLSAJ
-ICogZW5jb2Rpbmcgb2YgdGhlIGRldmljZSB0aGF0IHRoZSBmaWxlc3lzdGVtIGlzIG1vdW50ZWQg
-ZnJvbSwgc28KLSAJICogaXQgd2UgYmUgdmVyeSBiYWQgdG8gdXNlIHRoYXQgKGFzIGRldmljZSBu
-dW1iZXJzIGNoYW5nZSkuICBibGtpZAotIAkgKiBtdXN0IGJlIHByZWZlcnJlZC4KLS0JICogT24g
-b3RoZXIgZmlsZXN5c3RlbXMgKGUuZy4gYnRyZnMpIHRoZSBzdGF0ZnM2NCB1dWlkIGNvbnRhaW5z
-Ci0rCSAqIE9uIG90aGVyIGZpbGVzeXN0ZW1zIChlLmcuIGJ0cmZzKSB0aGUgc3RhdGZzIHV1aWQg
-Y29udGFpbnMKLSAJICogaW1wb3J0YW50IGluZm8gdGhhdCB0aGUgYmxraWQgdXVpZCBjYW5ub3Qg
-Y29udGFpbjogIFRoaXMgaGFwcGVucwotIAkgKiB3aGVuIG11bHRpcGxlIHN1YnZvbHVtZXMgYXJl
-IGV4cG9ydGVkICh0aGV5IGhhdmUgdGhlIHNhbWUKLS0JICogYmxraWQgdXVpZCBidXQgZGlmZmVy
-ZW50IHN0YXRmczY0IHV1aWRzKS4KLSsJICogYmxraWQgdXVpZCBidXQgZGlmZmVyZW50IHN0YXRm
-cyB1dWlkcykuCi0gCSAqIFdlIHJlbHkgb24gZ2V0X3V1aWRfYmxrZGV2ICprbm93aW5nKiB3aGlj
-aCBpcyB3aGljaCBhbmQgbm90IHJldHVybmluZwotLQkgKiBhIHV1aWQgZm9yIGZpbGVzeXN0ZW1z
-IHdoZXJlIHRoZSBzdGF0ZnM2NCB1dWlkIGlzIGJldHRlci4KLSsJICogYSB1dWlkIGZvciBmaWxl
-c3lzdGVtcyB3aGVyZSB0aGUgc3RhdGZzIHV1aWQgaXMgYmV0dGVyLgotIAkgKgotIAkgKi8KLS0J
-c3RydWN0IHN0YXRmczY0IHN0OwotKwlzdHJ1Y3Qgc3RhdGZzIHN0OwotIAljaGFyIGZzaWRfdmFs
-WzE3XTsKLSAJY29uc3QgY2hhciAqYmxraWRfdmFsID0gTlVMTDsKLSAJY29uc3QgY2hhciAqdmFs
-OwotIAlpbnQgcmM7Ci0gCi0tCXJjID0gbmZzZF9wYXRoX3N0YXRmczY0KHBhdGgsICZzdCk7Ci0r
-CXJjID0gbmZzZF9wYXRoX3N0YXRmcyhwYXRoLCAmc3QpOwotIAotIAlpZiAodHlwZSA9PSAwICYm
-IHJjID09IDApIHsKLSAJCWNvbnN0IHVuc2lnbmVkIGxvbmcgKmJhZDsKLWRpZmYgLS1naXQgYS9z
-dXBwb3J0L2luY2x1ZGUvbmZzZF9wYXRoLmggYi9zdXBwb3J0L2luY2x1ZGUvbmZzZF9wYXRoLmgK
-LWluZGV4IDNiNzNhYWQuLmFhMWUxZGQgMTAwNjQ0Ci0tLS0gYS9zdXBwb3J0L2luY2x1ZGUvbmZz
-ZF9wYXRoLmgKLSsrKyBiL3N1cHBvcnQvaW5jbHVkZS9uZnNkX3BhdGguaAotQEAgLTcsNyArNyw3
-IEBACi0gI2luY2x1ZGUgPHN5cy9zdGF0Lmg+Ci0gCi0gc3RydWN0IGZpbGVfaGFuZGxlOwotLXN0
-cnVjdCBzdGF0ZnM2NDsKLStzdHJ1Y3Qgc3RhdGZzOwotIAotIHZvaWQgCQluZnNkX3BhdGhfaW5p
-dCh2b2lkKTsKLSAKLUBAIC0xOCw4ICsxOCw4IEBAIGNoYXIgKgkJbmZzZF9wYXRoX3ByZXBlbmRf
-ZGlyKGNvbnN0IGNoYXIgKmRpciwgY29uc3QgY2hhciAqcGF0aG5hbWUpOwotIGludCAJCW5mc2Rf
-cGF0aF9zdGF0KGNvbnN0IGNoYXIgKnBhdGhuYW1lLCBzdHJ1Y3Qgc3RhdCAqc3RhdGJ1Zik7Ci0g
-aW50IAkJbmZzZF9wYXRoX2xzdGF0KGNvbnN0IGNoYXIgKnBhdGhuYW1lLCBzdHJ1Y3Qgc3RhdCAq
-c3RhdGJ1Zik7Ci0gCi0taW50CQluZnNkX3BhdGhfc3RhdGZzNjQoY29uc3QgY2hhciAqcGF0aG5h
-bWUsCi0tCQkJCSAgIHN0cnVjdCBzdGF0ZnM2NCAqc3RhdGJ1Zik7Ci0raW50CQluZnNkX3BhdGhf
-c3RhdGZzKGNvbnN0IGNoYXIgKnBhdGhuYW1lLAotKwkJCQkgICBzdHJ1Y3Qgc3RhdGZzICpzdGF0
-YnVmKTsKLSAKLSBjaGFyICoJCW5mc2RfcmVhbHBhdGgoY29uc3QgY2hhciAqcGF0aCwgY2hhciAq
-cmVzb2x2ZWRfcGF0aCk7Ci0gCi1kaWZmIC0tZ2l0IGEvc3VwcG9ydC9taXNjL25mc2RfcGF0aC5j
-IGIvc3VwcG9ydC9taXNjL25mc2RfcGF0aC5jCi1pbmRleCA2NWU1M2MxLi5jM2RlYTRmIDEwMDY0
-NAotLS0tIGEvc3VwcG9ydC9taXNjL25mc2RfcGF0aC5jCi0rKysgYi9zdXBwb3J0L21pc2MvbmZz
-ZF9wYXRoLmMKLUBAIC0xODQsNDYgKzE4NCw0NiBAQCBuZnNkX3BhdGhfbHN0YXQoY29uc3QgY2hh
-ciAqcGF0aG5hbWUsIHN0cnVjdCBzdGF0ICpzdGF0YnVmKQotIAlyZXR1cm4gbmZzZF9ydW5fc3Rh
-dChuZnNkX3dxLCBuZnNkX2xzdGF0ZnVuYywgcGF0aG5hbWUsIHN0YXRidWYpOwotIH0KLSAKLS1z
-dHJ1Y3QgbmZzZF9zdGF0ZnM2NF9kYXRhIHsKLStzdHJ1Y3QgbmZzZF9zdGF0ZnNfZGF0YSB7Ci0g
-CWNvbnN0IGNoYXIgKnBhdGhuYW1lOwotLQlzdHJ1Y3Qgc3RhdGZzNjQgKnN0YXRidWY7Ci0rCXN0
-cnVjdCBzdGF0ZnMgKnN0YXRidWY7Ci0gCWludCByZXQ7Ci0gCWludCBlcnI7Ci0gfTsKLSAKLSBz
-dGF0aWMgdm9pZAotLW5mc2Rfc3RhdGZzNjRmdW5jKHZvaWQgKmRhdGEpCi0rbmZzZF9zdGF0ZnNm
-dW5jKHZvaWQgKmRhdGEpCi0gewotLQlzdHJ1Y3QgbmZzZF9zdGF0ZnM2NF9kYXRhICpkID0gZGF0
-YTsKLSsJc3RydWN0IG5mc2Rfc3RhdGZzX2RhdGEgKmQgPSBkYXRhOwotIAotLQlkLT5yZXQgPSBz
-dGF0ZnM2NChkLT5wYXRobmFtZSwgZC0+c3RhdGJ1Zik7Ci0rCWQtPnJldCA9IHN0YXRmcyhkLT5w
-YXRobmFtZSwgZC0+c3RhdGJ1Zik7Ci0gCWlmIChkLT5yZXQgPCAwKQotIAkJZC0+ZXJyID0gZXJy
-bm87Ci0gfQotIAotIHN0YXRpYyBpbnQKLS1uZnNkX3J1bl9zdGF0ZnM2NChzdHJ1Y3QgeHRocmVh
-ZF93b3JrcXVldWUgKndxLAotK25mc2RfcnVuX3N0YXRmcyhzdHJ1Y3QgeHRocmVhZF93b3JrcXVl
-dWUgKndxLAotIAkJICBjb25zdCBjaGFyICpwYXRobmFtZSwKLS0JCSAgc3RydWN0IHN0YXRmczY0
-ICpzdGF0YnVmKQotKwkJICBzdHJ1Y3Qgc3RhdGZzICpzdGF0YnVmKQotIHsKLS0Jc3RydWN0IG5m
-c2Rfc3RhdGZzNjRfZGF0YSBkYXRhID0gewotKwlzdHJ1Y3QgbmZzZF9zdGF0ZnNfZGF0YSBkYXRh
-ID0gewotIAkJcGF0aG5hbWUsCi0gCQlzdGF0YnVmLAotIAkJMCwKLSAJCTAKLSAJfTsKLS0JeHRo
-cmVhZF93b3JrX3J1bl9zeW5jKHdxLCBuZnNkX3N0YXRmczY0ZnVuYywgJmRhdGEpOwotKwl4dGhy
-ZWFkX3dvcmtfcnVuX3N5bmMod3EsIG5mc2Rfc3RhdGZzZnVuYywgJmRhdGEpOwotIAlpZiAoZGF0
-YS5yZXQgPCAwKQotIAkJZXJybm8gPSBkYXRhLmVycjsKLSAJcmV0dXJuIGRhdGEucmV0OwotIH0K
-LSAKLSBpbnQKLS1uZnNkX3BhdGhfc3RhdGZzNjQoY29uc3QgY2hhciAqcGF0aG5hbWUsIHN0cnVj
-dCBzdGF0ZnM2NCAqc3RhdGJ1ZikKLStuZnNkX3BhdGhfc3RhdGZzKGNvbnN0IGNoYXIgKnBhdGhu
-YW1lLCBzdHJ1Y3Qgc3RhdGZzICpzdGF0YnVmKQotIHsKLSAJaWYgKCFuZnNkX3dxKQotLQkJcmV0
-dXJuIHN0YXRmczY0KHBhdGhuYW1lLCBzdGF0YnVmKTsKLS0JcmV0dXJuIG5mc2RfcnVuX3N0YXRm
-czY0KG5mc2Rfd3EsIHBhdGhuYW1lLCBzdGF0YnVmKTsKLSsJCXJldHVybiBzdGF0ZnMocGF0aG5h
-bWUsIHN0YXRidWYpOwotKwlyZXR1cm4gbmZzZF9ydW5fc3RhdGZzKG5mc2Rfd3EsIHBhdGhuYW1l
-LCBzdGF0YnVmKTsKLSB9Ci0gCi0gc3RydWN0IG5mc2RfcmVhbHBhdGhfZGF0YSB7Ci1kaWZmIC0t
-Z2l0IGEvdXRpbHMvZXhwb3J0ZnMvZXhwb3J0ZnMuYyBiL3V0aWxzL2V4cG9ydGZzL2V4cG9ydGZz
-LmMKLWluZGV4IDA4OTdiMjIuLjZkNzlhNWIgMTAwNjQ0Ci0tLS0gYS91dGlscy9leHBvcnRmcy9l
-eHBvcnRmcy5jCi0rKysgYi91dGlscy9leHBvcnRmcy9leHBvcnRmcy5jCi1AQCAtNTEzLDcgKzUx
-Myw3IEBAIHZhbGlkYXRlX2V4cG9ydChuZnNfZXhwb3J0ICpleHApCi0gCSAqLwotIAlzdHJ1Y3Qg
-c3RhdCBzdGI7Ci0gCWNoYXIgKnBhdGggPSBleHBvcnRlbnRfcmVhbHBhdGgoJmV4cC0+bV9leHBv
-cnQpOwotLQlzdHJ1Y3Qgc3RhdGZzNjQgc3RmOwotKwlzdHJ1Y3Qgc3RhdGZzIHN0ZjsKLSAJaW50
-IGZzX2hhc19mc2lkID0gMDsKLSAKLSAJaWYgKHN0YXQocGF0aCwgJnN0YikgPCAwKSB7Ci1AQCAt
-NTI4LDcgKzUyOCw3IEBAIHZhbGlkYXRlX2V4cG9ydChuZnNfZXhwb3J0ICpleHApCi0gCWlmICgh
-Y2FuX3Rlc3QoKSkKLSAJCXJldHVybjsKLSAKLS0JaWYgKCFzdGF0ZnM2NChwYXRoLCAmc3RmKSAm
-JgotKwlpZiAoIXN0YXRmcyhwYXRoLCAmc3RmKSAmJgotIAkgICAgKHN0Zi5mX2ZzaWQuX192YWxb
-MF0gfHwgc3RmLmZfZnNpZC5fX3ZhbFsxXSkpCi0gCQlmc19oYXNfZnNpZCA9IDE7Ci0gCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAw
-NS1tb3VudGQtQ2hlY2stZm9yLXJldHVybi1vZi1zdGF0LWZ1bmN0aW9uLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDUtbW91bnRkLUNoZWNr
-LWZvci1yZXR1cm4tb2Ytc3RhdC1mdW5jdGlvbi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
-NDQKaW5kZXggMTNhMjFlNTMwNy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVj
-dGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHMvMDAwNS1tb3VudGQtQ2hlY2stZm9yLXJldHVybi1v
-Zi1zdGF0LWZ1bmN0aW9uLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJv
-bSA4ODdlY2M3ODM3OTYyZTliZTc3YTRmZWE3ZDkxMjI2NDhmNzNhODRhIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQotRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLURhdGU6IE1v
-biwgMTUgQXVnIDIwMjIgMTQ6NDc6NTMgLTA3MDAKLVN1YmplY3Q6IFtQQVRDSF0gbW91bnRkOiBD
-aGVjayBmb3IgcmV0dXJuIG9mIHN0YXQgZnVuY3Rpb24KLQotc2ltcGxpZnkgdGhlIGNoZWNrLCBz
-dGF0KCkgcmV0dXJuIDAgb24gc3VjY2VzcyAtMSBvbiBmYWlsdXJlCi0KLUZpeGVzIGNsYW5nIHJl
-cG9ydGVkIGVycm9ycyBlLmcuCi0KLXwgdjRjbGllbnRzLmM6Mjk6NjogZXJyb3I6IGxvZ2ljYWwg
-bm90IGlzIG9ubHkgYXBwbGllZCB0byB0aGUgbGVmdCBoYW5kIHNpZGUgb2YgdGhpcyBjb21wYXJp
-c29uIFstV2Vycm9yLC1XbG9naWNhbC1ub3QtcGFyZW50aGVzZXNdCi18ICAgICAgICAgaWYgKCFz
-dGF0KCIvcHJvYy9mcy9uZnNkL2NsaWVudHMiLCAmc2IpID09IDAgfHwKLXwgICAgICAgICAgICAg
-XiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfn4KLQotVXBzdHJlYW0tU3RhdHVz
-OiBTdWJtaXR0ZWQgW2h0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1u
-ZnMvcGF0Y2gvMjAyMjA4MTYwMjQ0MDMuMjY5NDE2OS0xLXJhai5raGVtQGdtYWlsLmNvbS9dCi1T
-aWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotQ2M6IEtvbnN0YW50
-aW4gS2hvcmVua28gPGtob3JlbmtvQHZpcnR1b3p6by5jb20+Ci1DYzogU3RldmUgRGlja3NvbiA8
-c3RldmVkQHJlZGhhdC5jb20+Ci0tLS0KLSBzdXBwb3J0L2V4cG9ydC92NGNsaWVudHMuYyB8IDIg
-Ky0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlm
-ZiAtLWdpdCBhL3N1cHBvcnQvZXhwb3J0L3Y0Y2xpZW50cy5jIGIvc3VwcG9ydC9leHBvcnQvdjRj
-bGllbnRzLmMKLWluZGV4IDVmMTViNjEuLjMyMzAyNTEgMTAwNjQ0Ci0tLS0gYS9zdXBwb3J0L2V4
-cG9ydC92NGNsaWVudHMuYwotKysrIGIvc3VwcG9ydC9leHBvcnQvdjRjbGllbnRzLmMKLUBAIC0y
-Niw3ICsyNiw3IEBAIHZvaWQgdjRjbGllbnRzX2luaXQodm9pZCkKLSB7Ci0gCXN0cnVjdCBzdGF0
-IHNiOwotIAotLQlpZiAoIXN0YXQoIi9wcm9jL2ZzL25mc2QvY2xpZW50cyIsICZzYikgPT0gMCB8
-fAotKwlpZiAoc3RhdCgiL3Byb2MvZnMvbmZzZC9jbGllbnRzIiwgJnNiKSAhPSAwIHx8Ci0gCSAg
-ICAhU19JU0RJUihzYi5zdF9tb2RlKSkKLSAJCXJldHVybjsKLSAJaWYgKGNsaWVudHNfZmQgPj0g
-MCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmZzLXV0aWxzL25mcy11
-dGlscy8wMDA2LUZpeC1mdW5jdGlvbi1wcm90b3R5cGVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzLzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlw
-ZXMucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDc5M2JjNDY1MWMuLjAwMDAw
-MDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxz
-LzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlwZXMucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw5
-MyArMCwwIEBACi1Gcm9tIGNmMGZmYmI1YzhmYTE2NzM3NjkyNmQxMmE2MzYxM2YxNWFhNzYwMmYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgotRGF0ZTogTW9uLCAxNSBBdWcgMjAyMiAxNDo1MDoxNSAtMDcwMAotU3ViamVjdDogW1BB
-VENIXSBGaXggZnVuY3Rpb24gcHJvdG90eXBlcwotCi1DbGFuZyBpcyBub3cgZXJyb3Jpbmcgb3V0
-IG9uIGZ1bmN0aW9ucyB3aXRoIG91dCBwYXJhbWV0ZXIgdHlwZXMKLQotRml4ZXMgZXJyb3JzIGxp
-a2UKLWVycm9yOiBhIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIHdpdGhvdXQgYSBwcm90b3R5cGUgaXMg
-ZGVwcmVjYXRlZCBpbiBhbGwgdmVyc2lvbnMgb2YgQyBbLVdlcnJvciwtV3N0cmljdC1wcm90b3R5
-cGVzXQotCi1VcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9wYXRjaHdvcmsua2Vy
-bmVsLm9yZy9wcm9qZWN0L2xpbnV4LW5mcy9wYXRjaC8yMDIyMDgxNjAyNDQwMy4yNjk0MTY5LTIt
-cmFqLmtoZW1AZ21haWwuY29tL10KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+Ci0tLS0KLSBzdXBwb3J0L2V4cG9ydC9hdXRoLmMgICAgIHwgMiArLQotIHN1cHBv
-cnQvZXhwb3J0L3Y0cm9vdC5jICAgfCAyICstCi0gc3VwcG9ydC9leHBvcnQveHRhYi5jICAgICB8
-IDIgKy0KLSB1dGlscy9leHBvcnRmcy9leHBvcnRmcy5jIHwgNCArKy0tCi0gdXRpbHMvbW91bnQv
-bmV0d29yay5jICAgICB8IDIgKy0KLSA1IGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwg
-NiBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL3N1cHBvcnQvZXhwb3J0L2F1dGguYyBiL3N1
-cHBvcnQvZXhwb3J0L2F1dGguYwotaW5kZXggMDNjZTRiOC4uMmQ3OTYwZiAxMDA2NDQKLS0tLSBh
-L3N1cHBvcnQvZXhwb3J0L2F1dGguYwotKysrIGIvc3VwcG9ydC9leHBvcnQvYXV0aC5jCi1AQCAt
-ODIsNyArODIsNyBAQCBjaGVja191c2VpcGFkZHIodm9pZCkKLSB9Ci0gCi0gdW5zaWduZWQgaW50
-Ci0tYXV0aF9yZWxvYWQoKQotK2F1dGhfcmVsb2FkKHZvaWQpCi0gewotIAlzdHJ1Y3Qgc3RhdAkJ
-c3RiOwotIAlzdGF0aWMgaW5vX3QJCWxhc3RfaW5vZGU7Ci1kaWZmIC0tZ2l0IGEvc3VwcG9ydC9l
-eHBvcnQvdjRyb290LmMgYi9zdXBwb3J0L2V4cG9ydC92NHJvb3QuYwotaW5kZXggYzEyYTdkOC4u
-ZmJiMGFkNSAxMDA2NDQKLS0tLSBhL3N1cHBvcnQvZXhwb3J0L3Y0cm9vdC5jCi0rKysgYi9zdXBw
-b3J0L2V4cG9ydC92NHJvb3QuYwotQEAgLTE5OCw3ICsxOTgsNyBAQCBzdGF0aWMgaW50IHY0cm9v
-dF9hZGRfcGFyZW50cyhuZnNfZXhwb3J0ICpleHApCi0gICogbG9va2luZyBmb3IgY29tcG9uZW50
-cyBvZiB0aGUgdjQgbW91bnQuCi0gICovCi0gdm9pZAotLXY0cm9vdF9zZXQoKQotK3Y0cm9vdF9z
-ZXQodm9pZCkKLSB7Ci0gCW5mc19leHBvcnQJKmV4cDsKLSAJaW50CWk7Ci1kaWZmIC0tZ2l0IGEv
-c3VwcG9ydC9leHBvcnQveHRhYi5jIGIvc3VwcG9ydC9leHBvcnQveHRhYi5jCi1pbmRleCBjODg4
-YTgwLi5lMjEwY2E5IDEwMDY0NAotLS0tIGEvc3VwcG9ydC9leHBvcnQveHRhYi5jCi0rKysgYi9z
-dXBwb3J0L2V4cG9ydC94dGFiLmMKLUBAIC0xMzUsNyArMTM1LDcgQEAgeHRhYl93cml0ZShjaGFy
-ICp4dGFiLCBjaGFyICp4dGFidG1wLCBjaGFyICpsb2NrZm4sIGludCBpc19leHBvcnQpCi0gfQot
-IAotIGludAotLXh0YWJfZXhwb3J0X3dyaXRlKCkKLSt4dGFiX2V4cG9ydF93cml0ZSh2b2lkKQot
-IHsKLSAJcmV0dXJuIHh0YWJfd3JpdGUoZXRhYi5zdGF0ZWZuLCBldGFiLnRtcGZuLCBldGFiLmxv
-Y2tmbiwgMSk7Ci0gfQotZGlmZiAtLWdpdCBhL3V0aWxzL2V4cG9ydGZzL2V4cG9ydGZzLmMgYi91
-dGlscy9leHBvcnRmcy9leHBvcnRmcy5jCi1pbmRleCA2YmE2MTVkLi4wODk3YjIyIDEwMDY0NAot
-LS0tIGEvdXRpbHMvZXhwb3J0ZnMvZXhwb3J0ZnMuYwotKysrIGIvdXRpbHMvZXhwb3J0ZnMvZXhw
-b3J0ZnMuYwotQEAgLTY5LDE0ICs2OSwxNCBAQCBzdGF0aWMgaW50IF9sb2NrZmQgPSAtMTsKLSAg
-KiBuZWVkIHRoZXNlIGFkZGl0aW9uYWwgbG9ja2ZpbGUoKSByb3V0aW5lcy4KLSAgKi8KLSBzdGF0
-aWMgdm9pZAotLWdyYWJfbG9ja2ZpbGUoKQotK2dyYWJfbG9ja2ZpbGUodm9pZCkKLSB7Ci0gCV9s
-b2NrZmQgPSBvcGVuKGxvY2tmaWxlLCBPX0NSRUFUfE9fUkRXUiwgMDY2Nik7Ci0gCWlmIChfbG9j
-a2ZkICE9IC0xKQotIAkJbG9ja2YoX2xvY2tmZCwgRl9MT0NLLCAwKTsKLSB9Ci0gc3RhdGljIHZv
-aWQKLS1yZWxlYXNlX2xvY2tmaWxlKCkKLStyZWxlYXNlX2xvY2tmaWxlKHZvaWQpCi0gewotIAlp
-ZiAoX2xvY2tmZCAhPSAtMSkgewotIAkJbG9ja2YoX2xvY2tmZCwgRl9VTE9DSywgMCk7Ci1kaWZm
-IC0tZ2l0IGEvdXRpbHMvbW91bnQvbmV0d29yay5jIGIvdXRpbHMvbW91bnQvbmV0d29yay5jCi1p
-bmRleCBlZDJmODI1Li4wMWVhZDQ5IDEwMDY0NAotLS0tIGEvdXRpbHMvbW91bnQvbmV0d29yay5j
-Ci0rKysgYi91dGlscy9tb3VudC9uZXR3b3JrLmMKLUBAIC0xNzksNyArMTc5LDcgQEAgc3RhdGlj
-IGNvbnN0IHVuc2lnbmVkIGxvbmcgcHJvYmVfbW50M19vbmx5W10gPSB7Ci0gCi0gc3RhdGljIGNv
-bnN0IHVuc2lnbmVkIGludCAqbmZzX2RlZmF1bHRfcHJvdG8odm9pZCk7Ci0gI2lmZGVmIE1PVU5U
-X0NPTkZJRwotLXN0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgKm5mc19kZWZhdWx0X3Byb3RvKCkK
-LStzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50ICpuZnNfZGVmYXVsdF9wcm90byh2b2lkKQotIHsK
-LSAJZXh0ZXJuIHVuc2lnbmVkIGxvbmcgY29uZmlnX2RlZmF1bHRfcHJvdG87Ci0gCS8qCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHNfMi42
-LjIuYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHNfMi42
-LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9uZnMtdXRpbHMvbmZzLXV0aWxzXzIuNi4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L25mcy11dGlscy9uZnMtdXRpbHNfMi42LjMuYmIKaW5kZXggMjFkZjE4
-MDNjNS4uY2U4YWU0ZTUwMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9u
-ZnMtdXRpbHMvbmZzLXV0aWxzXzIuNi4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvbmZzLXV0aWxzL25mcy11dGlsc18yLjYuMy5iYgpAQCAtMzAsMTEgKzMwLDggQEAgU1JDX1VS
-SSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0aWxzL25mcy11dGlscy8ke1BWfS9uZnMt
-dXRpbHMtJHtQVn0udGFyLngKICAgICAgICAgICAgZmlsZTovL2J1Z2ZpeC1hZGp1c3Qtc3RhdGQt
-c2VydmljZS1uYW1lLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtTWFrZWZpbGUuYW0t
-Zml4LXVuZGVmaW5lZC1mdW5jdGlvbi1mb3ItbGlibnNtLmEucGF0Y2ggXAogICAgICAgICAgICBm
-aWxlOi8vY2xhbmctd2FybmluZ3MucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwNS1tb3Vu
-dGQtQ2hlY2stZm9yLXJldHVybi1vZi1zdGF0LWZ1bmN0aW9uLnBhdGNoIFwKLSAgICAgICAgICAg
-ZmlsZTovLzAwMDYtRml4LWZ1bmN0aW9uLXByb3RvdHlwZXMucGF0Y2ggXAotICAgICAgICAgICBm
-aWxlOi8vMDAwMS1SZXBsYWNlLXN0YXRmczY0LXdpdGgtc3RhdGZzLnBhdGNoIFwKICAgICAgICAg
-ICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUyMDA4NzNlODFjNGQ2MTBlMjQ2MmZjMjYyZmUx
-ODEzNWYyZGJlNzhiNzk3OWY5NWFjY2QxNTlhZTY0ZDUwMTEiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMzhkODllODUzYTcxZDNjNTYwZmYwMjZhZjNkOTY5ZDc1ZTI0Zjc4MmZmNjgzMjRlNzYyNjFm
-ZTAzNDQ0NTllMSIKIAogIyBPbmx5IGtlcm5lbC1tb2R1bGUtbmZzZCBpcyByZXF1aXJlZCBoZXJl
-IChidXQgY2FuIGJlIGJ1aWx0LWluKSAgLSB0aGUgbmZzZCBtb2R1bGUgd2lsbAogIyBwdWxsIGlu
-IHRoZSByZW1haW5kZXIgb2YgdGhlIGRlcGVuZGVuY2llcy4KLS0gCjIuMzkuMgoK
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-swb7796o/temp/log.do_patch.1962428
+ERROR: Extracting source for vulkan-samples failed
 
---===============3457251455307596918==--
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2533811019553226147==--
 
