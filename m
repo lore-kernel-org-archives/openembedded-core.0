@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 082B0EB64DC
-	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 14:37:59 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.239.1686926276349835117
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F049AEB64DB
+	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 14:37:58 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.281.1686926273092501479
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jun 2023 07:37:56 -0700
+ Fri, 16 Jun 2023 07:37:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=gSbWlcEo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b51414b080so5579275ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 07:37:56 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=n9RuB5X0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1b512309c86so6563515ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 07:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686926275; x=1689518275;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686926272; x=1689518272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+b+yhZy2Wb0vjTZED++HNHFm5i82S+tHWl7KBNGuTkU=;
-        b=gSbWlcEoCzqZJrt7ouFp80AMV53rURv+uzRlat/pUCqyeNxCTkEkZtDkSeP7/m9dC/
-         yd05o/QO/iMd/ufvwcbVpoZ1XHJit++MbiwVD7ACKcqD3NHhKxNZuTbL6NLyM29ILwb9
-         Qjhn9/3CAPOW2edm3z6UZ2cDUy3cE98yq5EoBMTqmJpIPJvlmTt2CW6MU+3O//mmR0+B
-         +HN/m0wXemNZWJEooHWcD/zbWHayJWDySK0lOBIVra2/72zffqDn9XRtwSkiKZpsfbpy
-         iTFyhEovnNYE3FAzVkw7nyxhjKvrqj0II55LAb8HWKrhHN1pec2l2Urct1VDFBXJ7d53
-         VQ1A==
+        bh=TOTMTGSz7QBh7DT97mrIaGKW6SQ+FKVMzQ2lPDG7mG4=;
+        b=n9RuB5X0GThMlvdrLtnJP9hegPPxdbENjwDU5Gt1Quaqp+TfPgGacAUSJfghd7b+lv
+         EUArmEivPzR/bIES6nFzS0ug3Q79TLOtsTXIcYf67ZPIBNI3XwGyz1YQcu8uyXUx3983
+         m2dAbPbXQOXw/lc3pYWyoskdiq0ykJ76YCz9T+o3vBMNTAWx6qHT678WGGzTkruARqWr
+         l6TqPbwZja9PuCeIan9iXuaW9CJXnG0tDRYw1wk0Xtc0u0pT1jIXbb7uMk2Bognjs1X7
+         9AyZfmvtJHvqfUm0iF3bcgzrq/kHDsOlzYPsRaAv62/HkjnsvsskvDG/zxpAr1xvCSZ0
+         LPQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686926275; x=1689518275;
+        d=1e100.net; s=20221208; t=1686926272; x=1689518272;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+b+yhZy2Wb0vjTZED++HNHFm5i82S+tHWl7KBNGuTkU=;
-        b=Lyc7x4LnbdYePyvyNYmkoAzfKaN6IKGM4nnP8TdyUMmBlfHohi/ddICBtPIglcEfgd
-         dI2lUoXbUFnzSaxSLXIR9qGqPYyYj6YdSgWGIEIbAawLDBjjIjlKPowdRNKggmWaYjOE
-         +Xx80BPwE0NU5zaLU0NEF6LRRVUhO28i61OXjlaUjCkUBDFm2BkGDLokv6VcF865PdXh
-         e7kfw/hz5NNS/M5CWbzH1xw1mQpK1qQo5Plelm/FuUgfb3Tq9yF8PV9dHowtDlmPNARP
-         t3T8FgIxPEQkL3+CmqdiTdj4ECsah73JOKxIzAoZ8nBbq/vmhL2gIq81g+L1Yh7mjGcR
-         4IvQ==
-X-Gm-Message-State: AC+VfDxXzsLBrmc4kSu6cGJ21XtD5Ba6C6/vSKD5Qiu31ejbdjq5MqZQ
-	EgMW4gmFH+pHGcWImx04cBZabcnjWL8kTCuySVs=
-X-Google-Smtp-Source: ACHHUZ5OUKpSO9PFwX7sjOHcjXsMw7KCcjYwvW8ccOVKS9x+fO5HF0+L6iin57e4iKlFIBW2Ms6Ymw==
-X-Received: by 2002:a17:902:744a:b0:1b5:25bd:df2b with SMTP id e10-20020a170902744a00b001b525bddf2bmr2011651plt.14.1686926275472;
-        Fri, 16 Jun 2023 07:37:55 -0700 (PDT)
+        bh=TOTMTGSz7QBh7DT97mrIaGKW6SQ+FKVMzQ2lPDG7mG4=;
+        b=PbkRNJBRi1y0u9eCBC9GX0nxUsScavFMOQKvsYMgej25/0W9HXmORSg/PFhJVcgqPp
+         o5FLrPmK/l3Pz73rh6Ol+I37t4/Nfq8TjmlxiaZ5tdQ3eL8sMgbz7Gd79w1WP3nlSprx
+         aIAXIxy/U0QilIqnAaFakcNwZJlrX5RZGTWTEthlFa0HiVEf7GFZnjCEmfR9FoKEhQWS
+         xtwgH5uuBCCoIc5hhGIgQF2waIzCrIhpVLzD7UB35YroIDzqCOCMaKCiwMB/SDZpJ7P9
+         b6Stl/91gj9O03La1sFBEp1H1ciqFAhYxhHgtCH5rzJc66E8mLL8EI8BMsHzX6Kii3Cj
+         Unow==
+X-Gm-Message-State: AC+VfDxNde5mMMMEr5DVRSoiG1uKhjL04SHVO7QE59Fxekhw7IvL+LXM
+	pTxh8Z4DcWFk3vkoV2o9GQ7huFPhlfWCqpZ6bgs=
+X-Google-Smtp-Source: ACHHUZ4o7dhwUc5WxiSozH6abrCL3AowyWaoFWJKF8g80I9ehVfZ62p/g97v+SVOvZqmaD+OI4lvQA==
+X-Received: by 2002:a17:902:f7d3:b0:1b3:b84b:9008 with SMTP id h19-20020a170902f7d300b001b3b84b9008mr2618963plw.5.1686926272140;
+        Fri, 16 Jun 2023 07:37:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id k21-20020a170902761500b001b03f208323sm15865547pll.64.2023.06.16.07.37.54
+        by smtp.gmail.com with ESMTPSA id k21-20020a170902761500b001b03f208323sm15865547pll.64.2023.06.16.07.37.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 07:37:55 -0700 (PDT)
+        Fri, 16 Jun 2023 07:37:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 20/24] maintainers.inc: correct unassigned entries
-Date: Fri, 16 Jun 2023 04:37:11 -1000
-Message-Id: <27f15bc3166fda5acd07e9e1c34842a641d24e37.1686925952.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 18/24] =?UTF-8?q?maintainers.inc:=20unassign?= =?UTF-8?q?=20Andreas=20M=C3=BCller=20from=20itstool=20entry?=
+Date: Fri, 16 Jun 2023 04:37:09 -1000
+Message-Id: <8c9a247c3bffeda1aae9af69656337a0b8afabfb.1686925952.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686925952.git.steve@sakoman.com>
 References: <cover.1686925952.git.steve@sakoman.com>
@@ -61,61 +61,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 14:37:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183041
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 14:37:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183039
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Modify packages to unassigned where appropriate
+This was confirmed via private email.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ab37ddf53607111bf5c49c4f2388224999c4a5a9)
+(cherry picked from commit cc8bb0da24419424989548ced27b2e76030340d9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 098bd96c28..d9e00bcdac 100644
+index db0563810d..733d40ce58 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -41,7 +41,7 @@ RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@bootli
- RECIPE_MAINTAINER:pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER:pn-apt = "Aníbal Limón <limon.anibal@gmail.com>"
-+RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-argp-standalone = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-asciidoc = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-aspell = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -60,7 +60,7 @@ RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-bash-completion = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-bc = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER:pn-bind = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER:pn-bind = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-binutils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-binutils-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
-@@ -152,7 +152,7 @@ RECIPE_MAINTAINER:pn-docbook-xml-dtd4 = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER:pn-dpkg = "Aníbal Limón <limon.anibal@gmail.com>"
-+RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER:pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -415,7 +415,7 @@ RECIPE_MAINTAINER:pn-liburcu = "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER:pn-liburi-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libusb1 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libubootenv = "Stefano Babic <sbabic@denx.de>"
--RECIPE_MAINTAINER:pn-libuv = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER:pn-libuv = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libva-initial = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -288,7 +288,7 @@ RECIPE_MAINTAINER:pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER:pn-iptables = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER:pn-iputils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER:pn-iso-codes = "Wang Mingyu <wangmy@cn.fujitsu.com>"
+-RECIPE_MAINTAINER:pn-itstool = "Andreas Müller <schnitzeltony@gmail.com>"
++RECIPE_MAINTAINER:pn-itstool = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-iw = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER:pn-libjpeg-turbo = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-json-c = "Yi Zhao <yi.zhao@windriver.com>"
 -- 
 2.34.1
 
