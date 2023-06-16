@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A6EC27C56
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45691C27C5E
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.808.1686887483060848858
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.820.1686887482959638911
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ri7ruUI6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010188c254431c-7f4fe1ca-0e99-4cb6-bf1a-b2fa1d81946e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=as2gUY7s;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188c2544404-34ee11b9-0f5b-4491-9228-d2c2d6c04cbc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4jC7VZJfB5r3gYNwLNrmIOBwmaPKI9JQNvPTChbjfnQ=;
-	b=Ri7ruUI6h3JUTq03LQecLKtaW+FBdrkXcDTeqRupOrwFYusEGzG8U/6Gf8XMBj+/
-	/bhacaVYFHinU6EYVLkR5BHDPMQvAgqcqEmBgnQ7uBPtIHYXScsNFHu/8FBQoPB7+tk
-	8dz9A+9NCK1TFk8NKqaLLmuFCVDBsb7xZAcsRLks=
+	bh=y/Bo67LeyVmaj4klX+ORhuTFGN7DrM6DWB0akfxpJjQ=;
+	b=as2gUY7stsXxEXLb+g4lCYcgXPWsze5qg20y5gsl0a6fq2Dmh/CXa8q9G8NQQ74W
+	xWK8vgEh+XKCuO3ZNxW7PK9vcrpWo/rWLrlfIc3w3Ou16ONMl5IPctAV0DOMG5Z1LHD
+	Hd688YnybhfIeyNfP+vRcA96s88FM5Guncqhsv3k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4jC7VZJfB5r3gYNwLNrmIOBwmaPKI9JQNvPTChbjfnQ=;
-	b=gvrBaeKBfKYqDVgF3HMI0SChoyU2DflZ7NuQIrgryvmxZWnh6RYHgfQX/2rSUj0E
-	0IDJ3WG+n297o7E2LpVLYYT5AkXFAKtWi9JkJIkY6bkuTQ8pbsEulqlcXFsRZ2VuImj
-	5K8f9QpeS0il0DyzCpNuny0JWcO2TiHQH0d0AwG4=
-Content-Type: multipart/mixed; boundary="===============8404211432876391243=="
+	bh=y/Bo67LeyVmaj4klX+ORhuTFGN7DrM6DWB0akfxpJjQ=;
+	b=BMExB7poAsh4BujkxQH37KjCA5JRi9l7ZftV89OTK5gqBOeILedQFsFmtIHE1vav
+	QsojHeRl6op7Zvu1ymGXbgWieQU9OSN4Cp1BWJdcO1nvHsPD2BF3UGekIVDttKDQj66
+	jXVR6BOzUika3ny3UGl36N6IAegzOYRr3Y7fiUNs=
+Content-Type: multipart/mixed; boundary="===============4199927924855053192=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libmodulemd: upgrading to 2.15.0 SUCCEEDED
-Message-ID: <01010188c254431c-7f4fe1ca-0e99-4cb6-bf1a-b2fa1d81946e-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-certifi: upgrading to 2023.5.7 SUCCEEDED
+Message-ID: <01010188c2544404-34ee11b9-0f5b-4491-9228-d2c2d6c04cbc-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.33
+X-SES-Outgoing: 2023.06.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182913
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182912
 
---===============8404211432876391243==
+--===============4199927924855053192==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libmodulemd* to *2.15.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-certifi* to *2023.5.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libmodulemd-upgrade-2.14.0-2.15.0.patch
+    - apply the patch: git am 0001-python3-certifi-upgrade-2022.12.7-2023.5.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,101 +71,124 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 562014cde90b77403aec24c85d4019347f5d37f6 Mon Sep 17 00:00:00 2001
+From 94454b8e032963c80e637f6ae7eb4df0af30fb34 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 09:21:56 +0000
-Subject: [PATCH] libmodulemd: upgrade 2.14.0 -> 2.15.0
+Date: Thu, 15 Jun 2023 12:07:42 +0000
+Subject: [PATCH] python3-certifi: upgrade 2022.12.7 -> 2023.5.7
 
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...python3-certifi_2022.12.7.bb => python3-certifi_2023.5.7.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-certifi_2022.12.7.bb => python3-certifi_2023.5.7.bb} (86%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-index 9e32134628..d3bef83306 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
+diff --git a/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb b/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-certifi_2022.12.7.bb
+rename to meta/recipes-devtools/python/python3-certifi_2023.5.7.bb
+index b2e3ec125a..924b05c12c 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3c2b7404369c587c3559afb604fce2f2"
  
- SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main"
+-SRC_URI[sha256sum] = "35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3"
++SRC_URI[sha256sum] = "0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"
  
--PV = "2.14.0"
--SRCREV = "ee80309bc766d781a144e6879419b29f444d94eb"
-+PV = "2.15.0"
-+SRCREV = "bfde7f2d04fbb22e26c9eb843e4ccc478762dd8d"
- 
- S = "${WORKDIR}/git"
+ inherit pypi setuptools3
  
 -- 
 2.39.2
 
 
---===============8404211432876391243==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libmodulemd-upgrade-2.14.0-2.15.0.patch"
-
-RnJvbSA1NjIwMTRjZGU5MGI3NzQwM2FlYzI0Yzg1ZDQwMTkzNDdmNWQzN2Y2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMDk6MjE6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJtb2R1bGVtZDogdXBncmFkZSAyLjE0LjAgLT4gMi4xNS4wCgotLS0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9saWJtb2R1bGVtZC9saWJtb2R1bGVtZF9naXQuYmIgfCA0ICsrLS0KIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2xpYm1vZHVsZW1kL2xpYm1vZHVsZW1kX2dpdC5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9saWJtb2R1bGVtZC9saWJtb2R1bGVtZF9naXQuYmIKaW5kZXggOWUz
-MjEzNDYyOC4uZDNiZWY4MzMwNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xp
-Ym1vZHVsZW1kL2xpYm1vZHVsZW1kX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-bGlibW9kdWxlbWQvbGlibW9kdWxlbWRfZ2l0LmJiCkBAIC02LDggKzYsOCBAQCBMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yNWEzOTI3YmZmM2VlNGY1YjIxYmNiMGVkM2Zj
-ZDZiYiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2ZlZG9yYS1tb2R1bGFyaXR5L2xp
-Ym1vZHVsZW1kO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogCi1QViA9ICIyLjE0LjAiCi1T
-UkNSRVYgPSAiZWU4MDMwOWJjNzY2ZDc4MWExNDRlNjg3OTQxOWIyOWY0NDRkOTRlYiIKK1BWID0g
-IjIuMTUuMCIKK1NSQ1JFViA9ICJiZmRlN2YyZDA0ZmJiMjJlMjZjOWViODQzZTRjY2M0Nzg3NjJk
-ZDhkIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjM5LjIKCg==
-
---===============8404211432876391243==
+--===============4199927924855053192==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libmodulemd: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PKGSIZE changed from 1316844 to 1321708 (+0%)
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: FILELIST: removed "/usr/lib/.debug/libmodulemd.so.2.14.0", added "/usr/lib/.debug/libmodulemd.so.2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PKGSIZE changed from 991847 to 994291 (+0%)
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-doc: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-doc: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-locale: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-locale: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PKGSIZE changed from 1210796 to 1223091 (+1%)
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-staticdev: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd-staticdev: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd: PKGSIZE changed from 666837 to 671021 (+1%)
-packages/core2-32-poky-linux/libmodulemd/libmodulemd: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
-packages/core2-32-poky-linux/libmodulemd/libmodulemd: PV changed from "2.14.0" to "2.15.0"
-packages/core2-32-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.14.0", added "/usr/lib/libmodulemd.so.2.15.0"
-Changes to packages/core2-32-poky-linux/libmodulemd (sysroot):
-  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.14.0 to libmodulemd.so.2.15.0
-  /usr/lib/libmodulemd.so.2.14.0 moved to /usr/lib/libmodulemd.so.2.15.0
+packages/core2-32-poky-linux/python3-certifi: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2022.12.7.tar.gz;downloadfilename=certifi-2022.12.7.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2023.5.7.tar.gz;downloadfilename=certifi-2023.5.7.tar.gz"
+packages/core2-32-poky-linux/python3-certifi: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi: PV changed from "2022.12.7" to "2023.5.7"
+packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2022.12.7 [default] to 2023.5.7 [default]
+packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 288912 to 291905 (+1%)
+Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was removed
 
---===============8404211432876391243==
+--===============4199927924855053192==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-certifi-upgrade-2022.12.7-2023.5.7.patch"
+
+RnJvbSA5NDQ1NGI4ZTAzMjk2M2M4MGU2MzdmNmFlN2ViNGRmMGFmMzBmYjM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTI6MDc6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyMi4xMi43IC0+IDIwMjMuNS43CgotLS0KIC4uLnB5
+dGhvbjMtY2VydGlmaV8yMDIyLjEyLjcuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2VydGlmaV8yMDIy
+LjEyLjcuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJifSAoODYlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuMTIu
+Ny5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjMu
+NS43LmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuMTIuNy5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMy41LjcuYmIKaW5kZXgg
+YjJlM2VjMTI1YS4uOTI0YjA1YzEyYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMi4xMi43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjMuNS43LmJiCkBAIC03LDcgKzcsNyBA
+QCBIT01FUEFHRSA9ICIgaHR0cDovL2NlcnRpZmkuaW8vIgogTElDRU5TRSA9ICJJU0MiCiBMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0zYzJiNzQwNDM2OWM1ODdjMzU1OWFm
+YjYwNGZjZTJmMiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM1ODI0YjRjM2E5NzExNTk2NGI0
+MDg4NDRkNjRhYTE0ZGIxY2M1MThmNjU2MmU4ZDcyNjE2OTlkMTM1MGE5ZTMiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMGYwZDU2ZGM1YTZhZDU2ZmQ0YmEzNjQ4NGQ2Y2MzNDQ1MWUxYzY1NDhjNjFk
+YWFkOGMzMjAxNjlmOTFlZGRjNyIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLS0gCjIu
+MzkuMgoK
+
+--===============4199927924855053192==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.14.0", added "/usr/lib/libmodulemd.so.2.15.0"
-Changes to packages/core2-32-poky-linux/libmodulemd (sysroot):
-  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.14.0 to libmodulemd.so.2.15.0
-  /usr/lib/libmodulemd.so.2.14.0 moved to /usr/lib/libmodulemd.so.2.15.0
+Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/certifi-2023.5.7.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was removed
 
---===============8404211432876391243==--
+--===============4199927924855053192==--
 
