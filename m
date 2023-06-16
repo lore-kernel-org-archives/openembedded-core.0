@@ -2,235 +2,370 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DCDC27C43
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0598AC25B7E
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.828.1686887483469151791
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.810.1686887483449222380
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BZeT19TI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010188c25445d1-741f0cf6-c618-4628-8e52-05ed36fa5eae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=es2wgkrq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188c2544427-6049bb31-c7da-43d5-bfc7-bac4a9d6c788-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887483;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DzSlrF2Tte3QtCzX5vhxqghfmgW8Wc1gt+VgKcb8SAw=;
-	b=BZeT19TIE65itKO0kxrwLQdRwdXE10J4huInc5sKr9JzuOcshMNU3EbaEz9vQLFs
-	uQpBS4C1Z2IRF3BHSF0EEcjvd73w5I9vAzWxYVkaj+PjxdjcTYcMjxQlMcJSDnT1H/J
-	P7HtVuy5QMECstnfKHpDcln0K/ssRenSp6q5bRP4=
+	bh=t1iA7eTr5mOy2lDPKpP0cQMCVCP4UmaDDbcklr/dX6k=;
+	b=es2wgkrqI698+pIyOLXhVcDFjfr1dxKTjideKmzAjFMvzMqUgUtUQqIVd7//J6KD
+	47nKAxz3FC7ICashDDWQATiWPLLKOqf7HsUdUaI3ZWjgp/pQ68gBCZ6fFbpvVBY1YIQ
+	UnhfXu2ZqtuoZlCDXnaFiseGlPP9SJY98vuXuuIk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887483;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DzSlrF2Tte3QtCzX5vhxqghfmgW8Wc1gt+VgKcb8SAw=;
-	b=Pv4aMWYffnm45QJYSFLR7J9T3tRGB4sOB9ei4ZnL0KQTKpCO/Czx6clrL8BBu3qQ
-	V7stS/DTrEJIo+gzZZk/n3QWbmUZ7OIm/NCg+DeQiDmscAHYcAv0zXE8E8slLbWAZO9
-	0fbrHLl+8NDB+eQixTqOZVp9/22TeMzIPQD0ctnI=
-Content-Type: multipart/mixed; boundary="===============5094707367590901522=="
+	bh=t1iA7eTr5mOy2lDPKpP0cQMCVCP4UmaDDbcklr/dX6k=;
+	b=niZ7q3SrwUzTSZx95IZiWwZUF6M9Qnla4uzYMUQwJg5+NIx+HNYVW7KCHEwIYkWf
+	Pk3i0uBMmntbZiizE5Kxx48UJOQIWhFuqAflPgvv4xAQwfszbv2eAGO6T5YUou3nePA
+	bReGXaceNOwVZ1I713xW/A9OH5WbFgZ/Oxv76OBE=
+Content-Type: multipart/mixed; boundary="===============0654620023008151347=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest-subtests: upgrading to 0.11.0 FAILED
-Message-ID: <01010188c25445d1-741f0cf6-c618-4628-8e52-05ed36fa5eae-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-docutils: upgrading to 0.20.1 SUCCEEDED
+Message-ID: <01010188c2544427-6049bb31-c7da-43d5-bfc7-bac4a9d6c788-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.29
+X-SES-Outgoing: 2023.06.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182924
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182926
 
---===============5094707367590901522==
-Content-Type: text/plain; charset="us-ascii"
+--===============0654620023008151347==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+ICpweXRob24zLWRvY3V0aWxzKiB0byAqMC4yMC4xKiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVw
+czoKICAgIC0gYXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1weXRob24zLWRvY3V0aWxzLXVw
+Z3JhZGUtMC4xOS0wLjIwLjEucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJl
+YW0gcGF0Y2hlcyBhbmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAg
+LSBjb21waWxlIGFuIGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9y
+bSBzb21lIGJhc2ljIHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24g
+aXQgb2ZmOiBnaXQgY29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBp
+dCB0byB0aGUgYXBwcm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3Ug
+YmVsaWV2ZSB0aGUgcmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5
+b3UgY2FuIGZpbGwgUkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUg
+ZmlsZSBzbyB0aGF0CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1w
+dGVkLgoKUGxlYXNlIHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3Jt
+YXRpb24gYW5kIGJ1aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUg
+YSBidWcgYXQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/
+cHJvZHVjdD1BdXRvbWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFk
+ZSBIZWxwZXIKCi0tID44IC0tCkZyb20gZWRkYjQ0MjU3MGZiZGE2N2Y5YzVhMzliZjg3MDQzYzJk
+ZmFkMWI2YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1
+aEB5b2N0b3Byb2plY3Qub3JnPgpEYXRlOiBUaHUsIDE1IEp1biAyMDIzIDEzOjAwOjE1ICswMDAw
+ClN1YmplY3Q6IFtQQVRDSF0gcHl0aG9uMy1kb2N1dGlsczogdXBncmFkZSAwLjE5IC0+IDAuMjAu
+MQoKLS0tCiAuLi4vcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4xOS5iYiAgICAgICAgICAgfCAg
+MTEgLS0KIC4uLi9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIgICAgICAgICB8IDEw
+OCArKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTA4IGluc2VydGlvbnMoKyks
+IDExIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjE5LmJiCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAuMjAuMS5iYgoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18w
+LjE5LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAu
+MTkuYmIKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDdhZTkzYWI1NTcuLjAwMDAwMDAw
+MDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAu
+MTkuYmIKKysrIC9kZXYvbnVsbApAQCAtMSwxMSArMCwwIEBACi1TVU1NQVJZID0gIkRvY3V0aWxz
+IGlzIGEgbW9kdWxhciBzeXN0ZW0gZm9yIHByb2Nlc3NpbmcgZG9jdW1lbnRhdGlvbiBpbnRvIHVz
+ZWZ1bCBmb3JtYXRzIgotSE9NRVBBR0UgPSAiaHR0cDovL2RvY3V0aWxzLnNvdXJjZWZvcmdlLm5l
+dCIKLVNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgotTElDRU5TRSA9ICJQU0YtMi4wICYgQlNELTIt
+Q2xhdXNlICYgR1BMLTMuMC1vbmx5IgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlO
+Ry50eHQ7bWQ1PTQxMDAxYjI5NmE4OWJiMjc4MGJiZTMwNmU5NDdlY2VlIgotCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMzM5OTVhNjc1M2MzMGI3ZjU3N2ZlYmZjMmM1MDQxMWZlYzZhYWM3ZjdmZmVi
+N2M0Y2ZlNTk5MTA3MmRjZjllNiIKLQotaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCi0KLUJCQ0xB
+U1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiCm5ldyBmaWxlIG1vZGUg
+MTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLjI0OWE3NWVhMzkKLS0tIC9kZXYvbnVsbAorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiCkBA
+IC0wLDAgKzEsMTA4IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2
+ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMg
+dGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4K
+KyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJp
+emUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRh
+dGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1
+cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORy50eHQKKyMgKysr
+IENPUFlJTkcudHh0CisjIEBAIC0xLDE3ICsxLDE5IEBACisjICsuLiBpbmNsdWRlOjogZG9jcy9o
+ZWFkZXIwLnR4dAorIyArCisjICA9PT09PT09PT09PT09PT09PT0KKyMgICBDb3B5aW5nIERvY3V0
+aWxzCisjICA9PT09PT09PT09PT09PT09PT0KKyMgIAorIyAgOkF1dGhvcjogRGF2aWQgR29vZGdl
+cgorIyAgOkNvbnRhY3Q6IGdvb2RnZXJAcHl0aG9uLm9yZworIyAtOkRhdGU6ICREYXRlOiAyMDIy
+LTA1LTMwIDE4OjU0OjQ2ICswMjAwIChNbywgMzAuIE1haSAyMDIyKSAkCisjICs6RGF0ZTogJERh
+dGU6IDIwMjItMTEtMjkgMDA6NTU6MjUgKzAxMDAgKERpLCAyOS4gTm92IDIwMjIpICQKKyMgIDpX
+ZWIgc2l0ZTogaHR0cHM6Ly9kb2N1dGlscy5zb3VyY2Vmb3JnZS5pby8KKyMgIDpDb3B5cmlnaHQ6
+IFRoaXMgZG9jdW1lbnQgaGFzIGJlZW4gcGxhY2VkIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyAg
+CisjICBNb3N0IG9mIHRoZSBmaWxlcyBpbmNsdWRlZCBpbiB0aGlzIHByb2plY3QgaGF2ZSBiZWVu
+IHBsYWNlZCBpbiB0aGUKKyMgIHB1YmxpYyBkb21haW4sIGFuZCB0aGVyZWZvcmUgaGF2ZSBubyBs
+aWNlbnNlIHJlcXVpcmVtZW50cyBhbmQgbm8KKyMgIHJlc3RyaWN0aW9ucyBvbiBjb3B5aW5nIG9y
+IHVzYWdlOyBzZWUgdGhlIGBQdWJsaWMgRG9tYWluIERlZGljYXRpb25gXworIyAtYmVsb3cuICBU
+aGVyZSBhcmUgYSBmZXcgZXhjZXB0aW9uc18sIGxpc3RlZCBiZWxvdy4KKyMgK2JlbG93LiAgVGhl
+cmUgYXJlIGV4Y2VwdGlvbnNfLCBsaXN0ZWQgYmVsb3cuCisjICBGaWxlcyBpbiB0aGUgU2FuZGJv
+eF8gYXJlIG5vdCBkaXN0cmlidXRlZCB3aXRoIERvY3V0aWxzIHJlbGVhc2VzIGFuZAorIyAgbWF5
+IGhhdmUgZGlmZmVyZW50IGxpY2Vuc2UgdGVybXMuCisjICAKKyMgQEAgLTg3LDggKzg5LDggQEAK
+KyMgICAgUmVsZWFzZWQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBgQlNEIDItQ2xhdXNlIExpY2Vu
+c2VgXworIyAgICAoYGxvY2FsIGNvcHkgPGxpY2Vuc2VzL0JTRC0yLUNsYXVzZS50eHQ+YF9fKS4K
+KyMgIAorIyAtKiBkb2N1dGlscy91dGlscy9tYXRoL21hdGgyaHRtbC5weSwKKyMgLSAgZG9jdXRp
+bHMvd3JpdGVycy9odG1sNV9wb2x5Z2xvdC9tYXRoLmNzcworIyArKiB8IGRvY3V0aWxzL3V0aWxz
+L21hdGgvbWF0aDJodG1sLnB5LAorIyArICB8IGRvY3V0aWxzL3dyaXRlcnMvaHRtbDVfcG9seWds
+b3QvbWF0aC5jc3MKKyMgIAorIyAgICBDb3B5cmlnaHQgwqkgMjAwOSwyMDEwIEFsZXggRmVybsOh
+bmRlejsgMjAyMSBHw7xudGVyIE1pbGRlCisjICAKKyMgQEAgLTk5LDI4ICsxMDEsMjggQEAKKyMg
+IAorIyAgICAuLiBfZUx5WGVyOiBodHRwczovL2dpdGh1Yi5jb20vYWxleGZlcm5hbmRlei9lbHl4
+ZXIKKyMgIAorIyAtKiBkb2N1dGlscy9fX21haW5fXy5weSwKKyMgLSAgZG9jdXRpbHMvcGFyc2Vy
+cy9jb21tb25tYXJrX3dyYXBwZXIucHksCisjIC0gIGRvY3V0aWxzL3BhcnNlcnMvcmVjb21tb25t
+YXJrX3dyYXBwZXIucHksCisjIC0gIGRvY3V0aWxzL3V0aWxzL2Vycm9yX3JlcG9ydGluZy5weSwK
+KyMgLSAgZG9jdXRpbHMvdXRpbHMvbWF0aC9fX2luaXRfXy5weSwKKyMgLSAgZG9jdXRpbHMvdXRp
+bHMvbWF0aC9sYXRleDJtYXRobWwucHksCisjIC0gIGRvY3V0aWxzL3V0aWxzL21hdGgvdGV4Mm1h
+dGhtbF9leHRlcm4ucHksCisjIC0gIGRvY3V0aWxzL3V0aWxzL3B1bmN0dWF0aW9uX2NoYXJzLnB5
+LAorIyAtICBkb2N1dGlscy91dGlscy9zbWFydHF1b3Rlcy5weSwKKyMgLSAgZG9jdXRpbHMvd3Jp
+dGVycy9odG1sNV9wb2x5Z2xvdC9fX2luaXRfXy5weSwKKyMgLSAgZG9jdXRpbHMvd3JpdGVycy9o
+dG1sNV9wb2x5Z2xvdC8qLmNzcywKKyMgLSAgZG9jdXRpbHMvd3JpdGVycy9sYXRleDJlL2RvY3V0
+aWxzLnN0eSwKKyMgLSAgZG9jdXRpbHMvd3JpdGVycy94ZXRleC9fX2luaXRfXy5weSwKKyMgLSAg
+dGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yZWNvbW1vbm1hcmsvXCoucHksCisjIC0gIHRlc3QvdGVz
+dF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfZGlyZWN0aXZlcy90ZXN0X19pbml0X18ucHksCisjIC0g
+IHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfZGlyZWN0aXZlcy90ZXN0X2NvZGVfcGFy
+c2luZy5weSwKKyMgLSAgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3QvdGVzdF9saW5lX2xlbmd0
+aF9saW1pdF9kZWZhdWx0LnB5LAorIyAtICB0ZXN0L3Rlc3RfcGFyc2Vycy90ZXN0X3JzdC90ZXN0
+X2xpbmVfbGVuZ3RoX2xpbWl0LnB5LAorIyAtICB0ZXN0L3Rlc3Rfd3JpdGVycy90ZXN0X2xhdGV4
+MmVfbWlzYy5weSwKKyMgLSAgdGVzdC90cmFuc2Zvcm1zL3Rlc3Rfc21hcnRxdW90ZXMucHksCisj
+IC0gIHRvb2xzL2RvY3V0aWxzLWNsaS5weSwKKyMgLSAgdG9vbHMvcnN0Mmh0bWw1LnB5CisjICsq
+IHwgZG9jdXRpbHMvX19tYWluX18ucHksCisjICsgIHwgZG9jdXRpbHMvcGFyc2Vycy9jb21tb25t
+YXJrX3dyYXBwZXIucHksCisjICsgIHwgZG9jdXRpbHMvcGFyc2Vycy9yZWNvbW1vbm1hcmtfd3Jh
+cHBlci5weSwKKyMgKyAgfCBkb2N1dGlscy91dGlscy9lcnJvcl9yZXBvcnRpbmcucHksCisjICsg
+IHwgZG9jdXRpbHMvdXRpbHMvbWF0aC9fX2luaXRfXy5weSwKKyMgKyAgfCBkb2N1dGlscy91dGls
+cy9tYXRoL2xhdGV4Mm1hdGhtbC5weSwKKyMgKyAgfCBkb2N1dGlscy91dGlscy9tYXRoL3RleDJt
+YXRobWxfZXh0ZXJuLnB5LAorIyArICB8IGRvY3V0aWxzL3V0aWxzL3B1bmN0dWF0aW9uX2NoYXJz
+LnB5LAorIyArICB8IGRvY3V0aWxzL3V0aWxzL3NtYXJ0cXVvdGVzLnB5LAorIyArICB8IGRvY3V0
+aWxzL3dyaXRlcnMvaHRtbDVfcG9seWdsb3QvX19pbml0X18ucHksCisjICsgIHwgZG9jdXRpbHMv
+d3JpdGVycy9odG1sNV9wb2x5Z2xvdC9cKi5jc3MsCisjICsgIHwgZG9jdXRpbHMvd3JpdGVycy9s
+YXRleDJlL2RvY3V0aWxzLnN0eSwKKyMgKyAgfCBkb2N1dGlscy93cml0ZXJzL3hldGV4L19faW5p
+dF9fLnB5LAorIyArICB8IHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcmVjb21tb25tYXJrL1wqLnB5
+LAorIyArICB8IHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfZGlyZWN0aXZlcy90ZXN0
+X19pbml0X18ucHksCisjICsgIHwgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3QvdGVzdF9kaXJl
+Y3RpdmVzL3Rlc3RfY29kZV9wYXJzaW5nLnB5LAorIyArICB8IHRlc3QvdGVzdF9wYXJzZXJzL3Rl
+c3RfcnN0L3Rlc3RfbGluZV9sZW5ndGhfbGltaXRfZGVmYXVsdC5weSwKKyMgKyAgfCB0ZXN0L3Rl
+c3RfcGFyc2Vycy90ZXN0X3JzdC90ZXN0X2xpbmVfbGVuZ3RoX2xpbWl0LnB5LAorIyArICB8IHRl
+c3QvdGVzdF93cml0ZXJzL3Rlc3RfbGF0ZXgyZV9taXNjLnB5LAorIyArICB8IHRlc3QvdHJhbnNm
+b3Jtcy90ZXN0X3NtYXJ0cXVvdGVzLnB5LAorIyArICB8IHRvb2xzL2RvY3V0aWxzLWNsaS5weSwK
+KyMgKyAgfCB0b29scy9yc3QyaHRtbDUucHkKKyMgIAorIyAgICBDb3B5cmlnaHQgwqkgR8O8bnRl
+ciBNaWxkZS4KKyMgICAgUmVsZWFzZWQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBgQlNEIDItQ2xh
+dXNlIExpY2Vuc2VgXworIyAKKyMKKworU1VNTUFSWSA9ICJEb2N1dGlscyBpcyBhIG1vZHVsYXIg
+c3lzdGVtIGZvciBwcm9jZXNzaW5nIGRvY3VtZW50YXRpb24gaW50byB1c2VmdWwgZm9ybWF0cyIK
+K0hPTUVQQUdFID0gImh0dHA6Ly9kb2N1dGlscy5zb3VyY2Vmb3JnZS5uZXQiCitTRUNUSU9OID0g
+ImRldmVsL3B5dGhvbiIKK0xJQ0VOU0UgPSAiUFNGLTIuMCAmIEJTRC0yLUNsYXVzZSAmIEdQTC0z
+LjAtb25seSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkcudHh0O21kNT0wOGY1
+ZjhhYTZhMWRiMjUwMGMwOGEyYmI1NThlNDVhZiIKKworU1JDX1VSSVtzaGEyNTZzdW1dID0gImYw
+OGE0ZTI3NmMzYTE1ODNhODZkY2UzZTM0YWJhM2ZlMDRkMDJiYmEyZGQ1MWVkMTYxMDYyNDRlOGE5
+MjNlM2IiCisKK2luaGVyaXQgcHlwaSBzZXR1cHRvb2xzMworCitCQkNMQVNTRVhURU5EID0gIm5h
+dGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjM5LjIKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytest-subtests* to *0.11.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-pytest-subtests-upgrade-0.10.0-0.11.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 1f8927acfabe675ec7d49b46fbfefdf3d253dc6d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 13:44:43 +0000
-Subject: [PATCH] python3-pytest-subtests: upgrade 0.10.0 -> 0.11.0
-
----
- ...est-subtests_0.10.0.bb => python3-pytest-subtests_0.11.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest-subtests_0.10.0.bb => python3-pytest-subtests_0.11.0.bb} (86%)
-
-diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb
-rename to meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb
-index e1f2a49d31..bbcc2a7a17 100644
---- a/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb
-+++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "https://github.com/pytest-dev/pytest-subtests/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=242b4e17fa287dcf7aef372f6bc3dcb1"
- 
--SRC_URI[sha256sum] = "d9961a67c1791e8c1e32dce7a70ed1e54f3b1e641087f2094f2d37087ab7fb17"
-+SRC_URI[sha256sum] = "51865c88457545f51fb72011942f0a3c6901ee9e24cbfb6d1b9dc1348bafbe37"
- 
- inherit pypi setuptools3
- 
--- 
-2.39.2
-
-
---===============5094707367590901522==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1801 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1801 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:92a7ba3bf5813a9479eb14ebec2206ac9bc35cec"
-workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 153 Local 144 Mirrors 0 Missed 9 Current 331 (94% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 453 of 484 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 469 of 484 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_create_spdx_setscene)
-NOTE: Running task 934 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_fetch)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_fetch: Succeeded
-NOTE: recipe glibc-2.37-r1: task do_create_spdx_setscene: Started
-NOTE: Running task 1230 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_unpack)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_unpack: Started
-NOTE: recipe glibc-2.37-r1: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 476 of 484 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1246 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_patch)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_patch: Started
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_patch: Succeeded
-NOTE: Running task 1247 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1248 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_populate_lic)
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1512 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_populate_lic: Started
-NOTE: Running task 1592 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_collect_spdx_deps)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1701 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_configure)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_configure: Started
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_configure: Succeeded
-NOTE: Running task 1702 of 1711 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_compile)
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/pytest-subtests-0.11.0/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401:180 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401, line 180
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401, line 170
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401, line 152
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401, line 184
-NOTE: recipe python3-pytest-subtests-0.11.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1702 tasks of which 1693 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pytest-subtests-0.11.0-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-pytest-subtests-0.11.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/run.do_compile.2776401', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pytest-subtests/0.11.0-r0/temp/log.do_compile.2776401
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.11.0.bb:do_compile) failed with exit code '1'
-
---===============5094707367590901522==
+--===============0654620023008151347==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pytest-subtests-upgrade-0.10.0-0.11.0.patch"
+ filename="0001-python3-docutils-upgrade-0.19-0.20.1.patch"
 
-RnJvbSAxZjg5MjdhY2ZhYmU2NzVlYzdkNDliNDZmYmZlZmRmM2QyNTNkYzZkIE1vbiBTZXAgMTcg
+RnJvbSBlZGRiNDQyNTcwZmJkYTY3ZjljNWEzOWJmODcwNDNjMmRmYWQxYjZjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTM6NDQ6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0czogdXBncmFkZSAwLjEwLjAgLT4gMC4xMS4wCgotLS0KIC4u
-LmVzdC1zdWJ0ZXN0c18wLjEwLjAuYmIgPT4gcHl0aG9uMy1weXRlc3Qtc3VidGVzdHNfMC4xMS4w
-LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0ZXN0LXN1
-YnRlc3RzXzAuMTAuMC5iYiA9PiBweXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjExLjAuYmJ9ICg4
-NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5
-dGVzdC1zdWJ0ZXN0c18wLjEwLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0LXN1YnRl
-c3RzXzAuMTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXB5dGVzdC1zdWJ0ZXN0c18wLjExLjAuYmIKaW5kZXggZTFmMmE0OWQzMS4uYmJjYzJhN2Ex
-NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVz
-dC1zdWJ0ZXN0c18wLjEwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjExLjAuYmIKQEAgLTcsNyArNyw3IEBAIEJVR1RSQUNL
-RVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5dGVzdC1kZXYvcHl0ZXN0LXN1YnRlc3RzL2lzc3Vl
-cyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTtt
-ZDU9MjQyYjRlMTdmYTI4N2RjZjdhZWYzNzJmNmJjM2RjYjEiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJkOTk2MWE2N2MxNzkxZThjMWUzMmRjZTdhNzBlZDFlNTRmM2IxZTY0MTA4N2YyMDk0ZjJk
-MzcwODdhYjdmYjE3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUxODY1Yzg4NDU3NTQ1ZjUxZmI3
-MjAxMTk0MmYwYTNjNjkwMWVlOWUyNGNiZmI2ZDFiOWRjMTM0OGJhZmJlMzciCiAKIGluaGVyaXQg
-cHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTM6MDA6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWRvY3V0aWxzOiB1cGdyYWRlIDAuMTkgLT4gMC4yMC4xCgotLS0KIC4uLi9weXRob24v
+cHl0aG9uMy1kb2N1dGlsc18wLjE5LmJiICAgICAgICAgICB8ICAxMSAtLQogLi4uL3B5dGhvbi9w
+eXRob24zLWRvY3V0aWxzXzAuMjAuMS5iYiAgICAgICAgIHwgMTA4ICsrKysrKysrKysrKysrKysr
+KwogMiBmaWxlcyBjaGFuZ2VkLCAxMDggaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiBk
+ZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRv
+Y3V0aWxzXzAuMTkuYmIKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4yMC4xLmJiCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAuMTkuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4xOS5iYgpkZWxldGVkIGZpbGUg
+bW9kZSAxMDA2NDQKaW5kZXggN2FlOTNhYjU1Ny4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRpbHNfMC4xOS5iYgorKysgL2Rldi9udWxs
+CkBAIC0xLDExICswLDAgQEAKLVNVTU1BUlkgPSAiRG9jdXRpbHMgaXMgYSBtb2R1bGFyIHN5c3Rl
+bSBmb3IgcHJvY2Vzc2luZyBkb2N1bWVudGF0aW9uIGludG8gdXNlZnVsIGZvcm1hdHMiCi1IT01F
+UEFHRSA9ICJodHRwOi8vZG9jdXRpbHMuc291cmNlZm9yZ2UubmV0IgotU0VDVElPTiA9ICJkZXZl
+bC9weXRob24iCi1MSUNFTlNFID0gIlBTRi0yLjAgJiBCU0QtMi1DbGF1c2UgJiBHUEwtMy4wLW9u
+bHkiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HLnR4dDttZDU9NDEwMDFiMjk2
+YTg5YmIyNzgwYmJlMzA2ZTk0N2VjZWUiCi0KLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzMzk5NWE2
+NzUzYzMwYjdmNTc3ZmViZmMyYzUwNDExZmVjNmFhYzdmN2ZmZWI3YzRjZmU1OTkxMDcyZGNmOWU2
+IgotCi1pbmhlcml0IHB5cGkgc2V0dXB0b29sczMKLQotQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUg
+bmF0aXZlc2RrIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLWRvY3V0aWxzXzAuMjAuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAw
+MDAwMC4uMjQ5YTc1ZWEzOQotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjIwLjEuYmIKQEAgLTAsMCArMSwxMDggQEAKKyMg
+RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
+ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
+ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
+ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
+IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
+bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
+IGNoYW5nZXM6CisjCisjIC0tLSBDT1BZSU5HLnR4dAorIyArKysgQ09QWUlORy50eHQKKyMgQEAg
+LTEsMTcgKzEsMTkgQEAKKyMgKy4uIGluY2x1ZGU6OiBkb2NzL2hlYWRlcjAudHh0CisjICsKKyMg
+ID09PT09PT09PT09PT09PT09PQorIyAgIENvcHlpbmcgRG9jdXRpbHMKKyMgID09PT09PT09PT09
+PT09PT09PQorIyAgCisjICA6QXV0aG9yOiBEYXZpZCBHb29kZ2VyCisjICA6Q29udGFjdDogZ29v
+ZGdlckBweXRob24ub3JnCisjIC06RGF0ZTogJERhdGU6IDIwMjItMDUtMzAgMTg6NTQ6NDYgKzAy
+MDAgKE1vLCAzMC4gTWFpIDIwMjIpICQKKyMgKzpEYXRlOiAkRGF0ZTogMjAyMi0xMS0yOSAwMDo1
+NToyNSArMDEwMCAoRGksIDI5LiBOb3YgMjAyMikgJAorIyAgOldlYiBzaXRlOiBodHRwczovL2Rv
+Y3V0aWxzLnNvdXJjZWZvcmdlLmlvLworIyAgOkNvcHlyaWdodDogVGhpcyBkb2N1bWVudCBoYXMg
+YmVlbiBwbGFjZWQgaW4gdGhlIHB1YmxpYyBkb21haW4uCisjICAKKyMgIE1vc3Qgb2YgdGhlIGZp
+bGVzIGluY2x1ZGVkIGluIHRoaXMgcHJvamVjdCBoYXZlIGJlZW4gcGxhY2VkIGluIHRoZQorIyAg
+cHVibGljIGRvbWFpbiwgYW5kIHRoZXJlZm9yZSBoYXZlIG5vIGxpY2Vuc2UgcmVxdWlyZW1lbnRz
+IGFuZCBubworIyAgcmVzdHJpY3Rpb25zIG9uIGNvcHlpbmcgb3IgdXNhZ2U7IHNlZSB0aGUgYFB1
+YmxpYyBEb21haW4gRGVkaWNhdGlvbmBfCisjIC1iZWxvdy4gIFRoZXJlIGFyZSBhIGZldyBleGNl
+cHRpb25zXywgbGlzdGVkIGJlbG93LgorIyArYmVsb3cuICBUaGVyZSBhcmUgZXhjZXB0aW9uc18s
+IGxpc3RlZCBiZWxvdy4KKyMgIEZpbGVzIGluIHRoZSBTYW5kYm94XyBhcmUgbm90IGRpc3RyaWJ1
+dGVkIHdpdGggRG9jdXRpbHMgcmVsZWFzZXMgYW5kCisjICBtYXkgaGF2ZSBkaWZmZXJlbnQgbGlj
+ZW5zZSB0ZXJtcy4KKyMgIAorIyBAQCAtODcsOCArODksOCBAQAorIyAgICBSZWxlYXNlZCB1bmRl
+ciB0aGUgdGVybXMgb2YgdGhlIGBCU0QgMi1DbGF1c2UgTGljZW5zZWBfCisjICAgIChgbG9jYWwg
+Y29weSA8bGljZW5zZXMvQlNELTItQ2xhdXNlLnR4dD5gX18pLgorIyAgCisjIC0qIGRvY3V0aWxz
+L3V0aWxzL21hdGgvbWF0aDJodG1sLnB5LAorIyAtICBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3Bv
+bHlnbG90L21hdGguY3NzCisjICsqIHwgZG9jdXRpbHMvdXRpbHMvbWF0aC9tYXRoMmh0bWwucHks
+CisjICsgIHwgZG9jdXRpbHMvd3JpdGVycy9odG1sNV9wb2x5Z2xvdC9tYXRoLmNzcworIyAgCisj
+ICAgIENvcHlyaWdodCDCqSAyMDA5LDIwMTAgQWxleCBGZXJuw6FuZGV6OyAyMDIxIEfDvG50ZXIg
+TWlsZGUKKyMgIAorIyBAQCAtOTksMjggKzEwMSwyOCBAQAorIyAgCisjICAgIC4uIF9lTHlYZXI6
+IGh0dHBzOi8vZ2l0aHViLmNvbS9hbGV4ZmVybmFuZGV6L2VseXhlcgorIyAgCisjIC0qIGRvY3V0
+aWxzL19fbWFpbl9fLnB5LAorIyAtICBkb2N1dGlscy9wYXJzZXJzL2NvbW1vbm1hcmtfd3JhcHBl
+ci5weSwKKyMgLSAgZG9jdXRpbHMvcGFyc2Vycy9yZWNvbW1vbm1hcmtfd3JhcHBlci5weSwKKyMg
+LSAgZG9jdXRpbHMvdXRpbHMvZXJyb3JfcmVwb3J0aW5nLnB5LAorIyAtICBkb2N1dGlscy91dGls
+cy9tYXRoL19faW5pdF9fLnB5LAorIyAtICBkb2N1dGlscy91dGlscy9tYXRoL2xhdGV4Mm1hdGht
+bC5weSwKKyMgLSAgZG9jdXRpbHMvdXRpbHMvbWF0aC90ZXgybWF0aG1sX2V4dGVybi5weSwKKyMg
+LSAgZG9jdXRpbHMvdXRpbHMvcHVuY3R1YXRpb25fY2hhcnMucHksCisjIC0gIGRvY3V0aWxzL3V0
+aWxzL3NtYXJ0cXVvdGVzLnB5LAorIyAtICBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3BvbHlnbG90
+L19faW5pdF9fLnB5LAorIyAtICBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3BvbHlnbG90LyouY3Nz
+LAorIyAtICBkb2N1dGlscy93cml0ZXJzL2xhdGV4MmUvZG9jdXRpbHMuc3R5LAorIyAtICBkb2N1
+dGlscy93cml0ZXJzL3hldGV4L19faW5pdF9fLnB5LAorIyAtICB0ZXN0L3Rlc3RfcGFyc2Vycy90
+ZXN0X3JlY29tbW9ubWFyay9cKi5weSwKKyMgLSAgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3Qv
+dGVzdF9kaXJlY3RpdmVzL3Rlc3RfX2luaXRfXy5weSwKKyMgLSAgdGVzdC90ZXN0X3BhcnNlcnMv
+dGVzdF9yc3QvdGVzdF9kaXJlY3RpdmVzL3Rlc3RfY29kZV9wYXJzaW5nLnB5LAorIyAtICB0ZXN0
+L3Rlc3RfcGFyc2Vycy90ZXN0X3JzdC90ZXN0X2xpbmVfbGVuZ3RoX2xpbWl0X2RlZmF1bHQucHks
+CisjIC0gIHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcnN0L3Rlc3RfbGluZV9sZW5ndGhfbGltaXQu
+cHksCisjIC0gIHRlc3QvdGVzdF93cml0ZXJzL3Rlc3RfbGF0ZXgyZV9taXNjLnB5LAorIyAtICB0
+ZXN0L3RyYW5zZm9ybXMvdGVzdF9zbWFydHF1b3Rlcy5weSwKKyMgLSAgdG9vbHMvZG9jdXRpbHMt
+Y2xpLnB5LAorIyAtICB0b29scy9yc3QyaHRtbDUucHkKKyMgKyogfCBkb2N1dGlscy9fX21haW5f
+Xy5weSwKKyMgKyAgfCBkb2N1dGlscy9wYXJzZXJzL2NvbW1vbm1hcmtfd3JhcHBlci5weSwKKyMg
+KyAgfCBkb2N1dGlscy9wYXJzZXJzL3JlY29tbW9ubWFya193cmFwcGVyLnB5LAorIyArICB8IGRv
+Y3V0aWxzL3V0aWxzL2Vycm9yX3JlcG9ydGluZy5weSwKKyMgKyAgfCBkb2N1dGlscy91dGlscy9t
+YXRoL19faW5pdF9fLnB5LAorIyArICB8IGRvY3V0aWxzL3V0aWxzL21hdGgvbGF0ZXgybWF0aG1s
+LnB5LAorIyArICB8IGRvY3V0aWxzL3V0aWxzL21hdGgvdGV4Mm1hdGhtbF9leHRlcm4ucHksCisj
+ICsgIHwgZG9jdXRpbHMvdXRpbHMvcHVuY3R1YXRpb25fY2hhcnMucHksCisjICsgIHwgZG9jdXRp
+bHMvdXRpbHMvc21hcnRxdW90ZXMucHksCisjICsgIHwgZG9jdXRpbHMvd3JpdGVycy9odG1sNV9w
+b2x5Z2xvdC9fX2luaXRfXy5weSwKKyMgKyAgfCBkb2N1dGlscy93cml0ZXJzL2h0bWw1X3BvbHln
+bG90L1wqLmNzcywKKyMgKyAgfCBkb2N1dGlscy93cml0ZXJzL2xhdGV4MmUvZG9jdXRpbHMuc3R5
+LAorIyArICB8IGRvY3V0aWxzL3dyaXRlcnMveGV0ZXgvX19pbml0X18ucHksCisjICsgIHwgdGVz
+dC90ZXN0X3BhcnNlcnMvdGVzdF9yZWNvbW1vbm1hcmsvXCoucHksCisjICsgIHwgdGVzdC90ZXN0
+X3BhcnNlcnMvdGVzdF9yc3QvdGVzdF9kaXJlY3RpdmVzL3Rlc3RfX2luaXRfXy5weSwKKyMgKyAg
+fCB0ZXN0L3Rlc3RfcGFyc2Vycy90ZXN0X3JzdC90ZXN0X2RpcmVjdGl2ZXMvdGVzdF9jb2RlX3Bh
+cnNpbmcucHksCisjICsgIHwgdGVzdC90ZXN0X3BhcnNlcnMvdGVzdF9yc3QvdGVzdF9saW5lX2xl
+bmd0aF9saW1pdF9kZWZhdWx0LnB5LAorIyArICB8IHRlc3QvdGVzdF9wYXJzZXJzL3Rlc3RfcnN0
+L3Rlc3RfbGluZV9sZW5ndGhfbGltaXQucHksCisjICsgIHwgdGVzdC90ZXN0X3dyaXRlcnMvdGVz
+dF9sYXRleDJlX21pc2MucHksCisjICsgIHwgdGVzdC90cmFuc2Zvcm1zL3Rlc3Rfc21hcnRxdW90
+ZXMucHksCisjICsgIHwgdG9vbHMvZG9jdXRpbHMtY2xpLnB5LAorIyArICB8IHRvb2xzL3JzdDJo
+dG1sNS5weQorIyAgCisjICAgIENvcHlyaWdodCDCqSBHw7xudGVyIE1pbGRlLgorIyAgICBSZWxl
+YXNlZCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIGBCU0QgMi1DbGF1c2UgTGljZW5zZWBfCisjIAor
+IworCitTVU1NQVJZID0gIkRvY3V0aWxzIGlzIGEgbW9kdWxhciBzeXN0ZW0gZm9yIHByb2Nlc3Np
+bmcgZG9jdW1lbnRhdGlvbiBpbnRvIHVzZWZ1bCBmb3JtYXRzIgorSE9NRVBBR0UgPSAiaHR0cDov
+L2RvY3V0aWxzLnNvdXJjZWZvcmdlLm5ldCIKK1NFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgorTElD
+RU5TRSA9ICJQU0YtMi4wICYgQlNELTItQ2xhdXNlICYgR1BMLTMuMC1vbmx5IgorTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORy50eHQ7bWQ1PTA4ZjVmOGFhNmExZGIyNTAwYzA4YTJi
+YjU1OGU0NWFmIgorCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjA4YTRlMjc2YzNhMTU4M2E4NmRj
+ZTNlMzRhYmEzZmUwNGQwMmJiYTJkZDUxZWQxNjEwNjI0NGU4YTkyM2UzYiIKKworaW5oZXJpdCBw
+eXBpIHNldHVwdG9vbHMzCisKK0JCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLS0g
+CjIuMzkuMgoK
 
---===============5094707367590901522==--
+--===============0654620023008151347==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-docutils: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.19.tar.gz;downloadfilename=docutils-0.19.tar.gz" to "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.20.1.tar.gz;downloadfilename=docutils-0.20.1.tar.gz"
+packages/core2-32-poky-linux/python3-docutils: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-dbg: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-dbg: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-dev: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-dev: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-doc: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-doc: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-locale: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-locale: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-src: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-src: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-staticdev: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils-staticdev: PV changed from "0.19" to "0.20.1"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils: PKGSIZE changed from 3964079 to 3983926 (+1%)
+packages/core2-32-poky-linux/python3-docutils/python3-docutils: FILELIST: removed "/usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA", added "/usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils/languages/uk.py /us
+ r/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-docutils/python3-docutils: PKGV changed from 0.19 [default] to 0.20.1 [default]
+packages/core2-32-poky-linux/python3-docutils/python3-docutils: PV changed from "0.19" to "0.20.1"
+Changes to packages/core2-32-poky-linux/python3-docutils (sysroot):
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils/languages/uk.py was added
+  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py was added
+  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py was added
+  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL was removed
+
+--===============0654620023008151347==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-docutils/python3-docutils: FILELIST: removed "/usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD", added "/usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py /usr/lib/python3.11/site-packages/docutils/languages/uk.py /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL 
+ /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt"
+Changes to packages/core2-32-poky-linux/python3-docutils (sysroot):
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/docutils-0.20.1.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/docutils/languages/__pycache__/uk.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils/languages/uk.py was added
+  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/__pycache__/uk.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils/parsers/rst/languages/uk.py was added
+  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/prepstyles.py was added
+  /usr/lib/python3.11/site-packages/docutils/writers/odf_odt/__pycache__/prepstyles.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/dependency_links.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/SOURCES.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.html was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/docutils-0.19.dist-info/WHEEL was removed
+
+--===============0654620023008151347==--
 
