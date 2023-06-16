@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 930D7C18E72
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 190EEC04A94
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:28 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.815.1686887482252421980
+ by mx.groups.io with SMTP id smtpd.web11.809.1686887483191781218
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hb7oG+z9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188c254496b-123cceb3-393e-4724-a494-791d05647d0b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XrRiE3sL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188c2544b6a-8d42a970-5c29-4084-840d-c9f2a6ee1ae6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887484;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hyhOHz34LCGEbIc58t1/EpOWjhLFuI061mdoJVvn/Ss=;
-	b=hb7oG+z94vAXwG8PbcaMHyruYm0rCQgY2Jcq5YFlciFQ3eRibjKLRd500j8kaJ7N
-	uf9gemgvh2lj2P0d1LVPMbAfxxBuTdgaQyc5/1HT4CjE66G3TnB2xg7Gk7Z69IUa+C2
-	1oEnO0KaCciCX1QRZ7a+udFnUPz6dFrUsEIGb9Qk=
+	bh=NORnagtaK99Y4+M39WGcybn1ycMwPUv24g/a9hpksYQ=;
+	b=XrRiE3sLgXxAVN6+yE9CVrB0LACGU/rwqrXI8bdLXdhvb7f9h6vWqXa4hazZwAk+
+	+pl36VULjmHG98LLa9CuJVFRoszKy/3b0whaOUusX1WDPbdnwPjlQjm/IHtPsm7DiTv
+	Dp2QBZkc7Pc5pTps7G3XxynBKg7o/es7+HO2vEvA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887484;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hyhOHz34LCGEbIc58t1/EpOWjhLFuI061mdoJVvn/Ss=;
-	b=TgoUU30LllUi+cfu6nrJEYs8QI7tKRpsdYxIhh67OzFkQZoX0EfixnpxwQnEzaBp
-	GCsBkbgw625z1jWKjTIeyMQ7ABsW5PEDytZpUheccm8ZkCAGhYvJyh3w2qwiWTlQseX
-	VSmdSnk7igUBXFCxfz9Lu+XXFxWh1t+jUDWH4I5s=
-Content-Type: multipart/mixed; boundary="===============2499645039275610631=="
+	bh=NORnagtaK99Y4+M39WGcybn1ycMwPUv24g/a9hpksYQ=;
+	b=EbHM/InRn/DqzLjQhBWEFA7qBLJcX6fAa5+fD1s76Jyj/3GuKlzQfVAcaNtri3J6
+	5v3ft9I+Z/DmdxjYNNM4Y10WCTiW9DaKMq9K7EwMg6xk29vPz7q5owJZAQ4shCnnVH8
+	n1Fn7yaKjndlMFKpCUbYS04gaduY1q/IKGvDZMjQ=
+Content-Type: multipart/mixed; boundary="===============4016895330201519394=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 44.3 FAILED
-Message-ID: <01010188c254496b-123cceb3-393e-4724-a494-791d05647d0b-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jun 2023 03:51:23 +0000
+Subject: [AUH] shaderc: upgrading to 2023.4 SUCCEEDED
+Message-ID: <01010188c2544b6a-8d42a970-5c29-4084-840d-c9f2a6ee1ae6-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jun 2023 03:51:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.06.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182947
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182966
 
---===============2499645039275610631==
+--===============4016895330201519394==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *44.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *shaderc* to *2023.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-43.1-44.3.patch
+    - apply the patch: git am 0001-shaderc-upgrade-2023.2-2023.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,56 +71,976 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2174de4d1e31745dedecd6f5761f3cea044f3139 Mon Sep 17 00:00:00 2001
+From 2d0194b570c46afa28f6ca90f462aabbb7a70d26 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 18:38:54 +0000
-Subject: [PATCH] epiphany: upgrade 43.1 -> 44.3
+Date: Thu, 15 Jun 2023 20:51:59 +0000
+Subject: [PATCH] shaderc: upgrade 2023.2 -> 2023.4
 
 ---
- .../epiphany/{epiphany_43.1.bb => epiphany_44.3.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_43.1.bb => epiphany_44.3.bb} (93%)
+ ...isable-building-external-dependencies.patch | 18 ++++++++----------
+ .../{shaderc_2023.2.bb => shaderc_2023.4.bb}   |  2 +-
+ 2 files changed, 9 insertions(+), 11 deletions(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2023.2.bb => shaderc_2023.4.bb} (95%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_43.1.bb b/meta/recipes-gnome/epiphany/epiphany_44.3.bb
-similarity index 93%
-rename from meta/recipes-gnome/epiphany/epiphany_43.1.bb
-rename to meta/recipes-gnome/epiphany/epiphany_44.3.bb
-index ea22723a97..44cf6ee308 100644
---- a/meta/recipes-gnome/epiphany/epiphany_43.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_44.3.bb
-@@ -31,7 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "e86ead27cb9982815150664de3bf20faf375f77b8065b02b31180c65b6bbebb4"
-+SRC_URI[archive.sha256sum] = "f5e904b2e5102104d8b7fe3a615034add78de03116492b54cbdebca280bdd899"
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index cc9a400028..a6bf1bdd65 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+@@ -1,7 +1,7 @@
+-From 071a9d71bea91bbefcf15e061fc87e53568f3188 Mon Sep 17 00:00:00 2001
++From 08eaf5b5b3834bb84206f506413bd67bfcc0158c Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+-Subject: [PATCH 1/3] cmake: disable building external dependencies
++Subject: [PATCH] cmake: disable building external dependencies
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+ - add cmake option to disable the build of the third_party dependencies
+ - change the update_build_version.py to use pkg-config when third_party dependencies not found
+@@ -9,24 +9,25 @@ Subject: [PATCH 1/3] cmake: disable building external dependencies
+ Upstream-Status: Inappropriate [OE-core specific]
+ 
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
++
+ ---
+  CMakeLists.txt                | 13 ++++++++++---
+  utils/update_build_version.py | 22 +++++++++++++++-------
+  2 files changed, 25 insertions(+), 10 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 5c74cd8..b358f6b 100644
++index 633c244..75b01da 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -41,6 +41,7 @@ else()
++@@ -67,6 +67,7 @@ else()
+  endif()
+  
+  option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
+ +option(BUILD_EXTERNAL "Build external dependencies in /third_party" ON)
+  
+- set (CMAKE_CXX_STANDARD 11)
++ set (CMAKE_CXX_STANDARD 17)
+  
+-@@ -101,8 +102,14 @@ endif(MSVC)
++@@ -129,8 +130,14 @@ endif(MSVC)
+  
+  
+  # Configure subdirectories.
+@@ -43,7 +44,7 @@ index 5c74cd8..b358f6b 100644
+  
+  add_subdirectory(libshaderc_util)
+  add_subdirectory(libshaderc)
+-@@ -112,7 +119,7 @@ add_subdirectory(examples)
++@@ -142,7 +149,7 @@ endif()
+  add_custom_target(build-version
+    ${PYTHON_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
+@@ -104,6 +105,3 @@ index 5785390..f72b762 100755
+      mkdir_p(os.path.dirname(output_file))
+  
+      if os.path.isfile(output_file):
+--- 
+-2.30.1
+-
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2023.2.bb b/meta/recipes-graphics/shaderc/shaderc_2023.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2023.2.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2023.4.bb
+index 07fae0bb7e..739e7ae81c 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2023.2.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2023.4.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRCREV = "55f4bbd993de3a3cad34cb41cd07b82fa1c77dd6"
++SRCREV = "7a8b3da0583425cf511336cf3afbdcf2ebc8b36b"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
 -- 
 2.39.2
 
 
---===============2499645039275610631==
+--===============4016895330201519394==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1801 entries from dependency cache.
+Loaded 1804 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1801 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1802 targets, 36 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:13cea3fc9c633b0f38550ce97bda0545aeea175a"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 36 Local 12 Mirrors 0 Missed 24 Current 196 (33% match, 89% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 689 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_fetch)
+NOTE: Running task 722 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 723 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_fetch)
+NOTE: Running task 730 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: Running task 781 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_unpack)
+NOTE: Running task 782 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Succeeded
+NOTE: Running task 783 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 784 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_unpack)
+NOTE: Running task 785 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 786 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_unpack)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 787 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_patch)
+NOTE: Running task 788 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 790 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 791 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 792 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 793 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_patch)
+NOTE: Running task 794 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 795 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 796 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Succeeded
+NOTE: Running task 797 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 798 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_generate_toolchain_file)
+NOTE: Running task 799 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 800 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 801 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 802 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic unihash changed to b1454c899fea3a5be0b701d7d169b0458b747d3be359dbc370c91fb01a6301b1
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 803 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 804 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 805 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 806 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_compile)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 807 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_populate_sysroot)
+NOTE: Running task 808 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 809 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 810 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 811 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 812 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 813 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_create_spdx)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 814 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 815 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 816 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_package)
+NOTE: Running task 817 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 818 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 818 tasks of which 776 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/glslang/1_1.3.243.0-r0/temp/log.do_packagedata.1748112
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata) failed with exit code '1'
+
+--===============4016895330201519394==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/shaderc: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-dbg: PKGSIZE changed from 6617920 to 6632156 (+0%)
+packages/core2-32-poky-linux/shaderc/shaderc-dbg: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-dev: PKGSIZE changed from 62114 to 63477 (+2%)
+packages/core2-32-poky-linux/shaderc/shaderc-dev: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-dev: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-doc: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-doc: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-locale: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-locale: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-src: PKGSIZE changed from 319425 to 323859 (+1%)
+packages/core2-32-poky-linux/shaderc/shaderc-src: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-src: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 2466106 to 2474228 (+0%)
+packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2023.2 [default] to 2023.4 [default]
+packages/core2-32-poky-linux/shaderc/shaderc: PKGSIZE changed from 298420 to 302516 (+1%)
+packages/core2-32-poky-linux/shaderc/shaderc: PV changed from "2023.2" to "2023.4"
+packages/core2-32-poky-linux/shaderc/shaderc: PKGV changed from 2023.2 [default] to 2023.4 [default]
+
+--===============4016895330201519394==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 53 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:13cea3fc9c633b0f38550ce97bda0545aeea175a"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 37 Local 13 Mirrors 0 Missed 24 Current 195 (35% match, 89% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 689 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_fetch)
+NOTE: Running task 722 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_fetch)
+NOTE: Running task 723 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 730 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_fetch)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Succeeded
+NOTE: Running task 781 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_unpack)
+NOTE: Running task 782 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 783 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 784 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_unpack)
+NOTE: Running task 785 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_unpack)
+NOTE: Running task 786 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 787 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_patch)
+NOTE: Running task 788 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 790 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 791 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 792 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 793 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_patch)
+NOTE: Running task 794 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 795 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 796 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Succeeded
+NOTE: Running task 797 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 798 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_generate_toolchain_file)
+NOTE: Running task 799 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 800 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 801 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 802 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic unihash changed to b1454c899fea3a5be0b701d7d169b0458b747d3be359dbc370c91fb01a6301b1
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 803 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 804 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 805 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 806 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_compile)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 807 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_populate_sysroot)
+NOTE: Running task 808 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 809 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 810 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 811 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 812 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 813 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_create_spdx)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 814 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 815 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 816 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_package)
+NOTE: Running task 817 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 818 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_install)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 819 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_package)
+NOTE: Running task 820 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 821 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 821 tasks of which 776 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/glslang/1_1.3.243.0-r0/temp/log.do_packagedata.1753948
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata) failed with exit code '1'
+
+--===============4016895330201519394==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 69 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:13cea3fc9c633b0f38550ce97bda0545aeea175a"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 37 Local 13 Mirrors 0 Missed 24 Current 195 (35% match, 89% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 689 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_fetch)
+NOTE: Running task 722 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 723 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_fetch)
+NOTE: Running task 730 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Succeeded
+NOTE: Running task 781 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_unpack)
+NOTE: Running task 782 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 783 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 784 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_unpack)
+NOTE: Running task 785 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_unpack)
+NOTE: Running task 786 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 787 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_patch)
+NOTE: Running task 788 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 790 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 791 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 792 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 793 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_patch)
+NOTE: Running task 794 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 795 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 796 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Succeeded
+NOTE: Running task 797 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 798 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_generate_toolchain_file)
+NOTE: Running task 799 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 800 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 801 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 802 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic unihash changed to b1454c899fea3a5be0b701d7d169b0458b747d3be359dbc370c91fb01a6301b1
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 803 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 804 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 805 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 806 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_compile)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 807 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_populate_sysroot)
+NOTE: Running task 808 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 809 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 810 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 811 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 812 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 813 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_create_spdx)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 814 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 815 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 816 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_package)
+NOTE: Running task 817 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 818 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_install)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 819 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_package)
+NOTE: Running task 820 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 821 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shaderc-2023.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shaderc-2023.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 822 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_configure)
+NOTE: recipe shaderc-2023.4-r0: task do_configure: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 823 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Failed
+NOTE: recipe shaderc-2023.4-r0: task do_configure: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 823 tasks of which 776 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/glslang/1_1.3.243.0-r0/temp/log.do_packagedata.1768272
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata) failed with exit code '1'
+
+--===============4016895330201519394==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 63 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:13cea3fc9c633b0f38550ce97bda0545aeea175a"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 37 Local 13 Mirrors 0 Missed 24 Current 195 (35% match, 89% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 689 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_fetch)
+NOTE: Running task 722 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_fetch)
+NOTE: Running task 723 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 730 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: Running task 781 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_unpack)
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Succeeded
+NOTE: Running task 782 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 783 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 784 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_unpack)
+NOTE: Running task 785 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 786 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_unpack)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 787 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_patch)
+NOTE: Running task 788 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Succeeded
+NOTE: Running task 789 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 790 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 791 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 792 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 793 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_patch)
+NOTE: Running task 794 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 795 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 796 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Succeeded
+NOTE: Running task 797 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 798 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_generate_toolchain_file)
+NOTE: Running task 799 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 800 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Started
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Started
+NOTE: Running task 801 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 802 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic unihash changed to b1454c899fea3a5be0b701d7d169b0458b747d3be359dbc370c91fb01a6301b1
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 803 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 804 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 805 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 806 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_compile)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 807 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_populate_sysroot)
+NOTE: Running task 808 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 809 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 810 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 811 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 812 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 813 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_create_spdx)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 814 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 815 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_install)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 816 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_package)
+NOTE: Running task 817 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 818 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 819 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_package)
+NOTE: Running task 820 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 821 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe shaderc-2023.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shaderc-2023.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 822 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_configure)
+NOTE: recipe shaderc-2023.4-r0: task do_configure: Started
+NOTE: recipe shaderc-2023.4-r0: task do_configure: Succeeded
+NOTE: Running task 823 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_compile)
+NOTE: recipe shaderc-2023.4-r0: task do_compile: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 824 of 837 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 824 tasks of which 776 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/glslang/1_1.3.243.0-r0/temp/log.do_packagedata.1762099
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata) failed with exit code '1'
+
+--===============4016895330201519394==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-shaderc-upgrade-2023.2-2023.4.patch"
+
+RnJvbSAyZDAxOTRiNTcwYzQ2YWZhMjhmNmNhOTBmNDYyYWFiYmI3YTcwZDI2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMjA6NTE6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+aGFkZXJjOiB1cGdyYWRlIDIwMjMuMiAtPiAyMDIzLjQKCi0tLQogLi4uaXNhYmxlLWJ1aWxkaW5n
+LWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCB8IDE4ICsrKysrKysrLS0tLS0tLS0tLQogLi4u
+L3tzaGFkZXJjXzIwMjMuMi5iYiA9PiBzaGFkZXJjXzIwMjMuNC5iYn0gICB8ICAyICstCiAyIGZp
+bGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMve3NoYWRlcmNfMjAyMy4yLmJiID0+IHNoYWRlcmNf
+MjAyMy40LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFk
+ZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNp
+ZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtl
+LWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwtZGVwZW5kZW5jaWVzLnBhdGNoCmluZGV4IGNjOWE0
+MDAwMjguLmE2YmYxYmRkNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFk
+ZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNp
+ZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1j
+bWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaApAQCAtMSw3
+ICsxLDcgQEAKLUZyb20gMDcxYTlkNzFiZWE5MWJiZWZjZjE1ZTA2MWZjODdlNTM1NjhmMzE4OCBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMDhlYWY1YjViMzgzNGJiODQyMDZmNTA2NDEz
+YmQ2N2JmY2MwMTU4YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVz
+bWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTogU2F0LCAxMyBGZWIgMjAyMSAwMDo0
+NTo1NiArMDAwMAotU3ViamVjdDogW1BBVENIIDEvM10gY21ha2U6IGRpc2FibGUgYnVpbGRpbmcg
+ZXh0ZXJuYWwgZGVwZW5kZW5jaWVzCitTdWJqZWN0OiBbUEFUQ0hdIGNtYWtlOiBkaXNhYmxlIGJ1
+aWxkaW5nIGV4dGVybmFsIGRlcGVuZGVuY2llcwogCiAtIGFkZCBjbWFrZSBvcHRpb24gdG8gZGlz
+YWJsZSB0aGUgYnVpbGQgb2YgdGhlIHRoaXJkX3BhcnR5IGRlcGVuZGVuY2llcwogLSBjaGFuZ2Ug
+dGhlIHVwZGF0ZV9idWlsZF92ZXJzaW9uLnB5IHRvIHVzZSBwa2ctY29uZmlnIHdoZW4gdGhpcmRf
+cGFydHkgZGVwZW5kZW5jaWVzIG5vdCBmb3VuZApAQCAtOSwyNCArOSwyNSBAQCBTdWJqZWN0OiBb
+UEFUQ0ggMS8zXSBjbWFrZTogZGlzYWJsZSBidWlsZGluZyBleHRlcm5hbCBkZXBlbmRlbmNpZXMK
+IFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbT0UtY29yZSBzcGVjaWZpY10KIAogU2ln
+bmVkLW9mZi1ieTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CisKIC0t
+LQogIENNYWtlTGlzdHMudHh0ICAgICAgICAgICAgICAgIHwgMTMgKysrKysrKysrKy0tLQogIHV0
+aWxzL3VwZGF0ZV9idWlsZF92ZXJzaW9uLnB5IHwgMjIgKysrKysrKysrKysrKysrLS0tLS0tLQog
+IDIgZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCiAKIGRp
+ZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1pbmRleCA1Yzc0Y2Q4
+Li5iMzU4ZjZiIDEwMDY0NAoraW5kZXggNjMzYzI0NC4uNzViMDFkYSAxMDA2NDQKIC0tLSBhL0NN
+YWtlTGlzdHMudHh0CiArKysgYi9DTWFrZUxpc3RzLnR4dAotQEAgLTQxLDYgKzQxLDcgQEAgZWxz
+ZSgpCitAQCAtNjcsNiArNjcsNyBAQCBlbHNlKCkKICBlbmRpZigpCiAgCiAgb3B0aW9uKFNIQURF
+UkNfRU5BQkxFX1dFUlJPUl9DT01QSUxFICJFbmFibGUgcGFzc2luZyAtV2Vycm9yIHRvIGNvbXBp
+bGVyLCBpZiBhdmFpbGFibGUiIE9OKQogK29wdGlvbihCVUlMRF9FWFRFUk5BTCAiQnVpbGQgZXh0
+ZXJuYWwgZGVwZW5kZW5jaWVzIGluIC90aGlyZF9wYXJ0eSIgT04pCiAgCi0gc2V0IChDTUFLRV9D
+WFhfU1RBTkRBUkQgMTEpCisgc2V0IChDTUFLRV9DWFhfU1RBTkRBUkQgMTcpCiAgCi1AQCAtMTAx
+LDggKzEwMiwxNCBAQCBlbmRpZihNU1ZDKQorQEAgLTEyOSw4ICsxMzAsMTQgQEAgZW5kaWYoTVNW
+QykKICAKICAKICAjIENvbmZpZ3VyZSBzdWJkaXJlY3Rvcmllcy4KQEAgLTQzLDcgKzQ0LDcgQEAg
+aW5kZXggNWM3NGNkOC4uYjM1OGY2YiAxMDA2NDQKICAKICBhZGRfc3ViZGlyZWN0b3J5KGxpYnNo
+YWRlcmNfdXRpbCkKICBhZGRfc3ViZGlyZWN0b3J5KGxpYnNoYWRlcmMpCi1AQCAtMTEyLDcgKzEx
+OSw3IEBAIGFkZF9zdWJkaXJlY3RvcnkoZXhhbXBsZXMpCitAQCAtMTQyLDcgKzE0OSw3IEBAIGVu
+ZGlmKCkKICBhZGRfY3VzdG9tX3RhcmdldChidWlsZC12ZXJzaW9uCiAgICAke1BZVEhPTl9FWEVD
+VVRBQkxFfQogICAgJHtDTUFLRV9DVVJSRU5UX1NPVVJDRV9ESVJ9L3V0aWxzL3VwZGF0ZV9idWls
+ZF92ZXJzaW9uLnB5CkBAIC0xMDQsNiArMTA1LDMgQEAgaW5kZXggNTc4NTM5MC4uZjcyYjc2MiAx
+MDA3NTUKICAgICAgbWtkaXJfcChvcy5wYXRoLmRpcm5hbWUob3V0cHV0X2ZpbGUpKQogIAogICAg
+ICBpZiBvcy5wYXRoLmlzZmlsZShvdXRwdXRfZmlsZSk6Ci0tLSAKLTIuMzAuMQotCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjMuMi5iYiBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3NoYWRlcmNfMjAyMy40LmJiCnNpbWlsYXJpdHkg
+aW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3NoYWRl
+cmNfMjAyMy4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFk
+ZXJjXzIwMjMuNC5iYgppbmRleCAwN2ZhZTBiYjdlLi43MzllN2FlODFjIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjMuMi5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjMuNC5iYgpAQCAtNiw3ICs2LDcg
+QEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL2dvb2dsZS9zaGFkZXJjIgogTElDRU5T
+RSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9
+ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjciCiAKLVNSQ1JFViA9ICI1NWY0YmJkOTkz
+ZGUzYTNjYWQzNGNiNDFjZDA3YjgyZmExYzc3ZGQ2IgorU1JDUkVWID0gIjdhOGIzZGEwNTgzNDI1
+Y2Y1MTEzMzZjZjNhZmJkY2YyZWJjOGIzNmIiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+Z29vZ2xlL3NoYWRlcmMuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIFwKICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNp
+ZXMucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMi1saWJzaGFkZXJjX3V0aWwtZml4LWds
+c2xhbmctaGVhZGVyLWZpbGUtbG9jYXRpb24ucGF0Y2ggXAotLSAKMi4zOS4yCgo=
+
+--===============4016895330201519394==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 47 skipped, 0 masked, 0 errors.
+Removing 8 recipes from the core2-32 sysroot...done.
+Removing 8 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
@@ -134,130 +1048,213 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a17121a8aece78353de0edd26a3ff65fdb870239"
+meta-yocto-bsp       = "tmp-auh-upgrades:13cea3fc9c633b0f38550ce97bda0545aeea175a"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 273 Local 264 Mirrors 0 Missed 9 Current 979 (96% match, 99% complete)
+Sstate summary: Wanted 70 Local 46 Mirrors 0 Missed 24 Current 167 (65% match, 89% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 184 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 191 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 558 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_fetch)
+NOTE: Running task 573 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_fetch)
+NOTE: Running task 574 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_fetch)
+NOTE: Running task 575 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_fetch: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_fetch: Succeeded
+NOTE: Running task 608 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_unpack)
+NOTE: Running task 609 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_unpack)
+NOTE: Running task 610 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_unpack)
+NOTE: Running task 611 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_unpack)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 199 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 201 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Started
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 205 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 208 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 209 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 685 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_patch)
+NOTE: recipe shaderc-2023.4-r0: task do_unpack: Succeeded
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 686 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_patch)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 214 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 687 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_patch)
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 215 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 689 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 690 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_unpack: Succeeded
+NOTE: Running task 691 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_patch)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: Running task 692 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 693 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 218 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 219 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 220 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe shaderc-2023.4-r0: task do_patch: Succeeded
+NOTE: Running task 694 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 695 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_generate_toolchain_file)
+NOTE: Running task 696 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 221 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 222 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_patch: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 702 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_generate_toolchain_file)
+NOTE: Running task 703 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shaderc-2023.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_populate_lic: Succeeded
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/shaderc/shaderc_2023.4.bb:do_populate_lic unihash changed to b1454c899fea3a5be0b701d7d169b0458b747d3be359dbc370c91fb01a6301b1
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shaderc-2023.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 231 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 234 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 235 of 237 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 3402 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_fetch)
-NOTE: Running task 3672 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_write_config)
-NOTE: recipe epiphany-44.3-r0: task do_fetch: Started
-NOTE: recipe epiphany-44.3-r0: task do_fetch: Succeeded
-NOTE: Running task 3849 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_unpack)
-NOTE: Running task 3850 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-44.3-r0: task do_write_config: Started
-NOTE: recipe epiphany-44.3-r0: task do_unpack: Started
-NOTE: recipe epiphany-44.3-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-44.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-44.3-r0: task do_unpack: Succeeded
-NOTE: Running task 3935 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_patch)
-NOTE: Running task 3936 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_collect_spdx_deps)
-NOTE: recipe epiphany-44.3-r0: task do_patch: Started
-NOTE: recipe epiphany-44.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe epiphany-44.3-r0: task do_patch: Succeeded
-NOTE: Running task 3937 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3938 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_populate_lic)
-NOTE: recipe epiphany-44.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-44.3-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-44.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe epiphany-44.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe epiphany-44.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe epiphany-44.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3939 of 3949 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_configure)
-NOTE: recipe epiphany-44.3-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gcr/gcr3_3.41.1.bb:do_populate_sysroot
- ', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libportal/libportal_0.6.bb:do_pop
- ulate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.8.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/r
- ecipes-devtools/meson/meson_1.1.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'desktop-file-utils', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'libarchive', 'gcr3', 'gdk-pixbuf', 'gsettings-desktop-schemas', 'gtk+3', 'hicolor-icon-theme', 'json-glib', 'libdazzle', 'libhandy', 'libportal', 'webkitgtk', 'libsoup', 'nettle', 'coreutils-native', 'gettext-native', 'glib-2.0-native', 'desktop-file-utils-native', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'gtk+3-native', 'linux-libc-headers', 'libgcc', 'gobject-introspection', 'vala', 'libxi-native', 'libjpeg-turbo-native', 'gdk-pixbuf-native', 'libxcursor-native', 'fontconfig-native', 'libxrender-native', 'libxdamage-native', 'pango-native', 'gobject-introspection-native', 'libpng-native', 'libxext-native', 'cairo-native', 'at-spi2-core-native', 'gettext-minimal-native', 'libx11-native', 'libxrandr-native', 'libxfixes-native', 'libxcomposite-native', 'pango', 'at-spi2
- -core', 'wayland', 'fontconfig', 'libxi', 'wayland-protocols', 'glib-2.0', 'libxkbcommon', 'libx11', 'libxdamage', 'libpng', 'libjpeg-turbo', 'opkg-utils', 'libxcursor', 'libxext', 'libxfixes', 'mesa', 'libxrandr', 'libxcomposite', 'libepoxy', 'libxrender', 'cairo', 'attr-native', 'texinfo-dummy-native', 'libtool-native', 'ncurses-native', 'libedit-native', 'openssl-native', 'sqlite3-native', 'util-linux-libuuid-native', 'expat-native', 'libnsl2-native', 'libtirpc-native', 'libffi-native', 'bzip2-native', 'zlib-native', 'gdbm-native', 're2c-native', 'bzip2', 'zstd', 'acl', 'attr', 'xz', 'zlib', 'python3-installer-native', 'python3-build-native', 'python3-wheel-native', 'python3-setuptools-native', 'libpsl', 'sqlite3', 'libxml2', 'nghttp2', 'gmp', 'libxt', 'enchant2', 'libsecret', 'wpebackend-fdo', 'systemd', 'libnotify', 'harfbuzz', 'gstreamer1.0', 'libxslt', 'libwpe', 'libtasn1', 'libwebp', 'gstreamer1.0-plugins-base', 'binutils-cross-i686', 'zstd-native', 'flex-native', 'libmpc-na
- tive', 'gmp-native', 'mpfr-native', 'gnu-config-native', 'gtk4', 'libgcrypt', 'shared-mime-info', 'p11-kit', 'util-linux-native', 'libpcre2-native', 'libffi', 'python3', 'xorgproto-native', 'util-macros-native', 'cmake-native', 'shared-mime-info-native', 'freetype-native', 'harfbuzz-native', 'fribidi-native', 'libxft-native', 'libsm-native', 'libxcb-native', 'pixman-native', 'dbus-native', 'libxtst-native', 'libxml2-native', 'xtrans-native', 'libxft', 'fribidi', 'freetype', 'libxtst', 'dbus', 'expat', 'util-linux', 'util-macros', 'xorgproto', 'bash-completion', 'libpcre2', 'libxcb', 'xkeyboard-config', 'xtrans', 'libdrm', 'vulkan-headers', 'xrandr', 'libxshmfence', 'vulkan-loader', 'libxxf86vm', 'pixman', 'libsm', 'perl-native', 'python3-flit-core-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'icu', 'libxdmcp', 'aspell', 'base-files', 'shadow-native', 'libcap', 'initscripts', 'update-rc.d', 'kmod', 'shadow', 'shadow-sysroot', 'libseccomp', 'base-passwd', 'li
- bpam', 'alsa-lib', 'libvorbis', 'iso-codes', 'libtheora', 'orc', 'libogg', 'libxv', 'm4-native', 'tiff', 'gi-docgen', 'libxinerama', 'librsvg', 'gstreamer1.0-plugins-bad', 'graphene', 'libgpg-error', 'libcap-ng-native', 'libedit', 'libtirpc', 'ncurses', 'libxcrypt', 'gdbm', 'openssl', 'libnsl2', 'util-linux-libuuid', 'itstool-native', 'icu-native', 'libice-native', 'libxau-native', 'xcb-proto-native', 'libpthread-stubs-native', 'libxdmcp-native', 'libcap-ng', 'xcb-proto', 'libpthread-stubs', 'libxau', 'libpciaccess', 'libice', 'make-native', 'unzip-native', 'cracklib', 'libstd-rs', 'curl', 'sbc', 'libgudev', 'bluez5', 'libsndfile1', 'libusb1', 'libidn2', 'libical', 'readline', 'flac', 'libunistring']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false...
-| The Meson build system
-| Version: 1.1.0
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/epiphany-44.3
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 44.3
-| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/recipe-sysroot (gcc 13.1.1 "i686-poky-linux-gcc (GCC) 13.1.1 20230520")
-| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/recipe-sysroot ld.bfd 2.40.0.20230419
-| C compiler for the build machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
-| C linker for the build machine: gcc ld.bfd 2.40.20230119
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86
-| Host machine cpu: i686
-| Target machine cpu family: x86
-| Target machine cpu: i686
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
-| Run-time dependency iso-codes found: YES 4.15.0
-| Run-time dependency cairo found: YES 1.16.0
-| Found CMake: NO
-| Run-time dependency gcr-4 found: NO (tried pkgconfig)
-| 
-| ../epiphany-44.3/meson.build:89:10: ERROR: Dependency "gcr-4" not found, tried pkgconfig
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279:174 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279, line 174
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279, line 163
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279, line 149
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279, line 187
-NOTE: recipe epiphany-44.3-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3939 tasks of which 3930 didn't need to be rerun and 1 failed.
+NOTE: Running task 800 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 807 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 812 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: Running task 813 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 814 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_configure)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 815 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 816 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 817 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 818 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 819 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_populate_sysroot)
+NOTE: Running task 820 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_package)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 821 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 822 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_configure: Succeeded
+NOTE: Running task 823 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 824 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 825 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.243.0.bb:do_create_spdx)
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Started
+NOTE: recipe spirv-headers-1_1.3.243.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 826 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 827 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Running task 828 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_package)
+NOTE: Running task 829 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_populate_sysroot)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_package: Succeeded
+NOTE: Running task 830 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata)
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_compile: Succeeded
+NOTE: Running task 831 of 849 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.243.0.bb:do_install)
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Started
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Started
+NOTE: recipe glslang-1_1.3.243.0-r0: task do_packagedata: Failed
+NOTE: recipe spirv-tools-1_1.3.243.0-r0: task do_install: Succeeded
+NOTE: Tasks Summary: Attempted 831 tasks of which 788 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_configure
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: epiphany-44.3-r0 do_configure: meson failed
-ERROR: epiphany-44.3-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/run.do_configure.4016279', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.3-r0/temp/log.do_configure.4016279
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.3.bb:do_configure) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-src went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dbg went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-staticdev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-dev went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-doc went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang-locale went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: QA Issue: Package version for package glslang went backwards which would break package feeds (from 1:1.3.250.0-r0 to 1:1.3.243.0-r0) [version-going-backwards]
+ERROR: glslang-1_1.3.243.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/glslang/1_1.3.243.0-r0/temp/log.do_packagedata.1779739
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.243.0.bb:do_packagedata) failed with exit code '1'
 
---===============2499645039275610631==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-43.1-44.3.patch"
-
-RnJvbSAyMTc0ZGU0ZDFlMzE3NDVkZWRlY2Q2ZjU3NjFmM2NlYTA0NGYzMTM5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTg6Mzg6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-cGlwaGFueTogdXBncmFkZSA0My4xIC0+IDQ0LjMKCi0tLQogLi4uL2VwaXBoYW55L3tlcGlwaGFu
-eV80My4xLmJiID0+IGVwaXBoYW55XzQ0LjMuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWdub21lL2VwaXBoYW55L3tlcGlwaGFueV80My4xLmJiID0+IGVwaXBoYW55XzQ0LjMuYmJ9
-ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55
-XzQzLjEuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDQuMy5iYgpz
-aW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
-bnkvZXBpcGhhbnlfNDMuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55
-L2VwaXBoYW55XzQ0LjMuYmIKaW5kZXggZWEyMjcyM2E5Ny4uNDRjZjZlZTMwOCAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQzLjEuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ0LjMuYmIKQEAgLTMxLDcgKzMxLDcg
-QEAgU1JDX1VSSSA9ICIke0dOT01FX01JUlJPUn0vJHtHTk9NRUJOfS8ke0BvZS51dGlscy50cmlt
-X3ZlcnNpb24oIiR7UFZ9IiwgMSl9LyR7R04KICAgICAgICAgICAgZmlsZTovL21pZ3JhdG9yLnBh
-dGNoIFwKICAgICAgICAgICAgZmlsZTovL2Rpc3RyaWJ1dG9yLnBhdGNoIFwKICAgICAgICAgICAg
-IgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZTg2ZWFkMjdjYjk5ODI4MTUxNTA2NjRk
-ZTNiZjIwZmFmMzc1Zjc3YjgwNjViMDJiMzExODBjNjViNmJiZWJiNCIKK1NSQ19VUklbYXJjaGl2
-ZS5zaGEyNTZzdW1dID0gImY1ZTkwNGIyZTUxMDIxMDRkOGI3ZmUzYTYxNTAzNGFkZDc4ZGUwMzEx
-NjQ5MmI1NGNiZGViY2EyODBiZGQ4OTkiCiAKICMgRGV2ZWxvcGVyIG1vZGUgZW5hYmxlcyBkZWJ1
-Z2dpbmcKIFBBQ0tBR0VDT05GSUdbZGV2ZWxvcGVyLW1vZGVdID0gIi1EZGV2ZWxvcGVyX21vZGU9
-dHJ1ZSwtRGRldmVsb3Blcl9tb2RlPWZhbHNlIgotLSAKMi4zOS4yCgo=
-
---===============2499645039275610631==--
+--===============4016895330201519394==--
 
