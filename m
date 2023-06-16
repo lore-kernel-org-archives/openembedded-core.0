@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55621C2FC1C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6B8C2FC1B
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:30 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.829.1686887483527884075
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.820.1686887485589540921
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EJ4cNGYT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010188c2544ed1-5d08b099-c00e-405b-ac8d-031403bbbe4d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P5DxAz42;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010188c2544d89-9418e869-da5e-458e-bba4-e95d6a4a6456-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887485;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Iy6gubbKqwXtguoALK4YzoC2VidPgO17CzCkrlWfLn0=;
-	b=EJ4cNGYTgaFT1YtsNKS+qZ6ORTp97Eecd2WvaVzivPoIInrgiWqITWqnP819CWFz
-	ap24Z6cnfW9CsHOmOpqzsbmCu9DW3NURJ97twwZcff6nVzZQWcRnmTxNO4RNfB+AnCX
-	W0xy6cGV75bqsALwqZdsAfUMl/tO7dzCH8xr7aoU=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=9bJztJc9/+yWlOoqUwtd8SP2Q96V01qjQ8jaeiglDhM=;
+	b=P5DxAz42cbGHPnl1PbQv3lxUf+lSjuLw/vRZScq1jBQBAOiNoG5EitRu1XpXOM+k
+	WctiLpmsP9HwGNYdYGel0aHuAqv4VTUyt/cAqFLaFqwY0ZdCCTiU3iggKrQvvKxeuTR
+	MYYp2Bn/R0dBBy8jcYLyvaWa63nkLYg4nNfp9BV0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887485;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Iy6gubbKqwXtguoALK4YzoC2VidPgO17CzCkrlWfLn0=;
-	b=kMWXnh9dy8bd58I7WjxdM5f6+DMYOlLZsUJjBrehDBAyRdj5Mn6Rfo6M/g5qvgfD
-	79qKlunXp5yAiABUmAp8fHjJhSm4cYAG4YrWQtzliU0GKNKD2Rw1BP+LdAoJlXiIS/+
-	5JIncXZDXkCD0MN7UvrvulctD/85MD+FGRXg0Ahs=
-Content-Type: multipart/mixed; boundary="===============4229083839754178909=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=9bJztJc9/+yWlOoqUwtd8SP2Q96V01qjQ8jaeiglDhM=;
+	b=ekJyedfKbt/LrwoQsi3a9zx2rzKhsPqTuhk2e+yNrDZlNbbE9zJ879MW+YZcn8B/
+	dAaSaXWEI8C/we0LbUG0wK/OqUwReIw0rVouAix+Csq8ZRG7ka0ewqI5ugIL2Q2PjSN
+	MstD+huIbUYKIC+kRmBcbQHQt64HP3Wkd96Z+6BY=
+Content-Type: multipart/mixed; boundary="===============3787775250805741953=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.48.3 SUCCEEDED
-Message-ID: <01010188c2544ed1-5d08b099-c00e-405b-ac8d-031403bbbe4d-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Jun 2023 03:51:25 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xwayland: upgrading to 23.1.2 SUCCEEDED
+Message-ID: <01010188c2544d89-9418e869-da5e-458e-bba4-e95d6a4a6456-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Jun 2023 03:51:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.45
+X-SES-Outgoing: 2023.06.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182987
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182989
 
---===============4229083839754178909==
+--===============3787775250805741953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.48.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *xwayland* to *23.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.48.0-2.48.3.patch
+    - apply the patch: git am 0001-xwayland-upgrade-23.1.1-23.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,299 +70,281 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d0f550741f3c7041cf4d16879a58dcc772689b16 Mon Sep 17 00:00:00 2001
+From d074c04dbb478775b08dcf5d4cae9a2d838a01cb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 23:11:30 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.48.0 -> 2.48.3
+Date: Thu, 15 Jun 2023 22:00:19 +0000
+Subject: [PATCH] xwayland: upgrade 23.1.1 -> 23.1.2
 
 ---
- .../atk/{at-spi2-core_2.48.0.bb => at-spi2-core_2.48.3.bb}      | 2 +-
+ .../xwayland/{xwayland_23.1.1.bb => xwayland_23.1.2.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.48.0.bb => at-spi2-core_2.48.3.bb} (95%)
+ rename meta/recipes-graphics/xwayland/{xwayland_23.1.1.bb => xwayland_23.1.2.bb} (95%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.48.0.bb b/meta/recipes-support/atk/at-spi2-core_2.48.3.bb
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb
 similarity index 95%
-rename from meta/recipes-support/atk/at-spi2-core_2.48.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.48.3.bb
-index e9648ffe07..17b0e39a5e 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.48.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.48.3.bb
-@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+rename from meta/recipes-graphics/xwayland/xwayland_23.1.1.bb
+rename to meta/recipes-graphics/xwayland/xwayland_23.1.2.bb
+index a065e92f01..de516536d1 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.1.1.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "fb9461f5cb9fea5e07e91882311b0c88b43e8843b017ebac05eb5af69aa34c15"
++SRC_URI[sha256sum] = "bd25d8498ee4d77874fda125127e2db37fc332531febc966231ea06fae8cf77f"
  
--SRC_URI[sha256sum] = "905a5b6f1790b68ee803bffa9f5fab4ceb591fb4fae0b2f8c612c54f1d4e8a30"
-+SRC_URI[sha256sum] = "37316df43ca9989ce539d54cf429a768c28bb38a0b34950beadd0421827edf55"
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
  
- DEPENDS = " \
- 	dbus \
 -- 
 2.39.2
 
 
---===============4229083839754178909==
+--===============3787775250805741953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1802 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1802 targets, 36 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2ac7961018fe658b960fea04bddaedb1fef20293"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 52 Local 37 Mirrors 0 Missed 15 Current 511 (71% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 522 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 529 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 539 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 555 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_create_spdx_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libx11/1_1.8.4-r0/temp/log.do_packagedata_setscene.3647072
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 558 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_package_setscene)
+NOTE: Running task 1503 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_fetch)
+NOTE: Running task 1536 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
+NOTE: Running task 1575 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_write_config)
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Started
+NOTE: Running task 1612 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_unpack)
+NOTE: Running task 1613 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1614 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1615 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_patch)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 1616 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1617 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1618 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic unihash changed to 536d7b0714186ee575b6d2d987ea2f0ca5d385047238ea3ec60b9091ce79136b
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/xorgproto/2022.2-r0/temp/log.do_packagedata_setscene.3647609
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 562 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1634 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata)
+NOTE: Running task 1726 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1735 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1752 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1802 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_collect_spdx_deps)
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1803 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_configure)
+NOTE: Running task 1804 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1805 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_write_rpm)
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1806 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_compile)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 1807 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
+NOTE: Running task 1808 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
+NOTE: Running task 1809 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1810 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_install)
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
+NOTE: Running task 1811 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 1812 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
+NOTE: Running task 1813 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1814 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package)
+NOTE: Running task 1815 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_sysroot)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1816 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_packagedata)
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1817 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_spdx)
+NOTE: Running task 1818 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_write_rpm)
+NOTE: Running task 1819 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_qa)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1820 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_runtime_spdx)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1821 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1821 tasks of which 1786 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-src went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dbg went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-staticdev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-doc went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-locale went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============3787775250805741953==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.48.0-2.48.3.patch"
+ filename="0001-xwayland-upgrade-23.1.1-23.1.2.patch"
 
-RnJvbSBkMGY1NTA3NDFmM2M3MDQxY2Y0ZDE2ODc5YTU4ZGNjNzcyNjg5YjE2IE1vbiBTZXAgMTcg
+RnJvbSBkMDc0YzA0ZGJiNDc4Nzc1YjA4ZGNmNWQ0Y2FlOWEyZDgzOGEwMWNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMjM6MTE6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi40OC4wIC0+IDIuNDguMwoKLS0tCiAuLi4vYXRrL3thdC1z
-cGkyLWNvcmVfMi40OC4wLmJiID0+IGF0LXNwaTItY29yZV8yLjQ4LjMuYmJ9ICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsve2F0LXNwaTItY29yZV8yLjQ4LjAuYmIgPT4gYXQtc3Bp
-Mi1jb3JlXzIuNDguMy5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9hdGsvYXQtc3BpMi1jb3JlXzIuNDguMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
-dC1zcGkyLWNvcmVfMi40OC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi40OC4wLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNDguMy5iYgppbmRleCBlOTY0
-OGZmZTA3Li4xN2IwZTM5YTVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsv
-YXQtc3BpMi1jb3JlXzIuNDguMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQt
-c3BpMi1jb3JlXzIuNDguMy5iYgpAQCAtMTEsNyArMTEsNyBAQCBNQUpfVkVSID0gIiR7QG9lLnV0
-aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0iCiAKIFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJS
-T1J9LyR7QlBOfS8ke01BSl9WRVJ9LyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICI5MDVhNWI2ZjE3OTBiNjhlZTgwM2JmZmE5ZjVmYWI0Y2ViNTkxZmI0ZmFlMGIy
-ZjhjNjEyYzU0ZjFkNGU4YTMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3MzE2ZGY0M2NhOTk4
-OWNlNTM5ZDU0Y2Y0MjlhNzY4YzI4YmIzOGEwYjM0OTUwYmVhZGQwNDIxODI3ZWRmNTUiCiAKIERF
-UEVORFMgPSAiIFwKIAlkYnVzIFwKLS0gCjIuMzkuMgoK
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMjI6MDA6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+d2F5bGFuZDogdXBncmFkZSAyMy4xLjEgLT4gMjMuMS4yCgotLS0KIC4uLi94d2F5bGFuZC97eHdh
+eWxhbmRfMjMuMS4xLmJiID0+IHh3YXlsYW5kXzIzLjEuMi5iYn0gICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC97eHdheWxhbmRfMjMuMS4xLmJiID0+IHh3YXlsYW5k
+XzIzLjEuMi5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdh
+eWxhbmQveHdheWxhbmRfMjMuMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5k
+L3h3YXlsYW5kXzIzLjEuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjMuMS4xLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjMuMS4yLmJiCmluZGV4IGEw
+NjVlOTJmMDEuLmRlNTE2NTM2ZDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
+d2F5bGFuZC94d2F5bGFuZF8yMy4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3
+YXlsYW5kL3h3YXlsYW5kXzIzLjEuMi5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNFTlNFID0gIk1J
+VCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTVkZjg3OTUwYWY1MWFj
+MmM1ODIyMDk0NTUzZWExODgwIgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3Lngub3JnL2FyY2hp
+dmUvaW5kaXZpZHVhbC94c2VydmVyL3h3YXlsYW5kLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICJmYjk0NjFmNWNiOWZlYTVlMDdlOTE4ODIzMTFiMGM4OGI0M2U4ODQzYjAxN2Vi
+YWMwNWViNWFmNjlhYTM0YzE1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJkMjVkODQ5OGVlNGQ3
+Nzg3NGZkYTEyNTEyN2UyZGIzN2ZjMzMyNTMxZmViYzk2NjIzMWVhMDZmYWU4Y2Y3N2YiCiAKIFVQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gInh3YXlsYW5kLSg/UDxwdmVyPlxkKyhcLig/ITkwXGQpXGQr
+KSspXC50YXIiCiAKLS0gCjIuMzkuMgoK
 
---===============4229083839754178909==
+--===============3787775250805741953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.24809.1", added "/usr/lib/.debug/libatk-1.0.so.0.24812.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 1625456 to 1624892 (-0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 2073618 to 2073619 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2026540 to 2027352 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.24809.1", added "/usr/lib/libatk-1.0.so.0.24812.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 952623 to 948527 (-0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-packages/core2-32-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.48/at-spi2-core-2.48.0.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.48/at-spi2-core-2.48.3.tar.xz"
-packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.48.0" to "2.48.3"
-packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
-Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.24809.1 to libatk-1.0.so.0.24812.1
-  /usr/lib/libatk-1.0.so.0.24809.1 moved to /usr/lib/libatk-1.0.so.0.24812.1
+packages/core2-32-poky-linux/xwayland: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-23.1.1.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-23.1.2.tar.xz"
+packages/core2-32-poky-linux/xwayland: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 10560856 to 10568824 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-src: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGSIZE changed from 8710479 to 8720007 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland: PV changed from "23.1.1" to "23.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland: PKGV changed from 23.1.1 [default] to 23.1.2 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1746,16 +1727,394 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============4229083839754178909==
+--===============3787775250805741953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 53 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2ac7961018fe658b960fea04bddaedb1fef20293"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 53 Local 38 Mirrors 0 Missed 15 Current 510 (71% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 522 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 529 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 539 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 555 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_create_spdx_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1503 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_fetch)
+NOTE: Running task 1536 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
+NOTE: Running task 1575 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_write_config)
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libx11/1_1.8.4-r0/temp/log.do_packagedata_setscene.3703787
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 558 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_package_setscene)
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1612 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_unpack)
+NOTE: Running task 1613 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1614 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1615 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_patch)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 1616 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1617 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1618 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic unihash changed to 536d7b0714186ee575b6d2d987ea2f0ca5d385047238ea3ec60b9091ce79136b
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/xorgproto/2022.2-r0/temp/log.do_packagedata_setscene.3706789
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 562 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1634 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata)
+NOTE: Running task 1726 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1728 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
+NOTE: Running task 1736 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1753 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_configure)
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1803 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_collect_spdx_deps)
+NOTE: Running task 1804 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1805 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_write_rpm)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1806 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_compile)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 1807 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
+NOTE: Running task 1808 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
+NOTE: Running task 1809 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
+NOTE: Running task 1810 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 1811 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
+NOTE: Running task 1812 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1813 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_install)
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1814 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package)
+NOTE: Running task 1815 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_sysroot)
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1816 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_packagedata)
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1817 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_spdx)
+NOTE: Running task 1818 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_write_rpm)
+NOTE: Running task 1819 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_qa)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1820 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_runtime_spdx)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1821 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1821 tasks of which 1786 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-src went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dbg went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-staticdev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-doc went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-locale went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============3787775250805741953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 69 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2ac7961018fe658b960fea04bddaedb1fef20293"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 53 Local 38 Mirrors 0 Missed 15 Current 510 (71% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 522 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 529 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 539 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 555 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_create_spdx_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libx11/1_1.8.4-r0/temp/log.do_packagedata_setscene.3790512
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 558 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_package_setscene)
+NOTE: Running task 1503 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_fetch)
+NOTE: Running task 1536 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
+NOTE: Running task 1575 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_write_config)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1612 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_unpack)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1613 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1614 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1615 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_patch)
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1616 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1617 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 1618 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic unihash changed to 536d7b0714186ee575b6d2d987ea2f0ca5d385047238ea3ec60b9091ce79136b
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/xorgproto/2022.2-r0/temp/log.do_packagedata_setscene.3791507
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 562 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1634 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata)
+NOTE: Running task 1726 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1735 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1752 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1802 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_collect_spdx_deps)
+NOTE: Running task 1803 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1804 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_write_rpm)
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1805 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_configure)
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1806 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_compile)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 1807 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
+NOTE: Running task 1808 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
+NOTE: Running task 1809 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
+NOTE: Running task 1810 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 1811 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
+NOTE: Running task 1812 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1813 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1814 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package)
+NOTE: Running task 1815 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_sysroot)
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1816 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_packagedata)
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1817 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_spdx)
+NOTE: Running task 1818 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_write_rpm)
+NOTE: Running task 1819 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_qa)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1820 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_runtime_spdx)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1821 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1821 tasks of which 1786 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-src went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dbg went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-staticdev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-doc went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-locale went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============3787775250805741953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.24809.1", added "/usr/lib/libatk-1.0.so.0.24812.1"
-Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.24809.1 to libatk-1.0.so.0.24812.1
-  /usr/lib/libatk-1.0.so.0.24809.1 moved to /usr/lib/libatk-1.0.so.0.24812.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3138,5 +3497,757 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============4229083839754178909==--
+--===============3787775250805741953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 63 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2ac7961018fe658b960fea04bddaedb1fef20293"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 53 Local 38 Mirrors 0 Missed 15 Current 510 (71% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 522 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 529 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 539 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 555 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_create_spdx_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1503 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_fetch)
+NOTE: Running task 1536 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
+NOTE: Running task 1575 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_write_config)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Started
+NOTE: Running task 1612 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1613 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_unpack)
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libx11/1_1.8.4-r0/temp/log.do_packagedata_setscene.3740776
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 558 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_package_setscene)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1614 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_patch)
+NOTE: Running task 1615 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Succeeded
+NOTE: Running task 1616 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1617 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
+NOTE: Running task 1618 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic unihash changed to 536d7b0714186ee575b6d2d987ea2f0ca5d385047238ea3ec60b9091ce79136b
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/xorgproto/2022.2-r0/temp/log.do_packagedata_setscene.3741358
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 562 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1634 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata)
+NOTE: Running task 1726 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1735 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata)
+NOTE: Running task 1748 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1753 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_configure)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1803 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_collect_spdx_deps)
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Started
+NOTE: Running task 1804 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1805 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_write_rpm)
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1806 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_compile)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 1807 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
+NOTE: Running task 1808 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
+NOTE: Running task 1809 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1810 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_install)
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
+NOTE: Running task 1811 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1812 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package)
+NOTE: Running task 1813 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_sysroot)
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 1814 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
+NOTE: Running task 1815 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1816 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_packagedata)
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1817 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_spdx)
+NOTE: Running task 1818 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_write_rpm)
+NOTE: Running task 1819 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_qa)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1820 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_runtime_spdx)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1821 of 1821 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1821 tasks of which 1786 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-src went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dbg went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-staticdev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-doc went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-locale went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============3787775250805741953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 47 skipped, 0 masked, 0 errors.
+Removing 56 recipes from the core2-32 sysroot...done.
+Removing 55 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2ac7961018fe658b960fea04bddaedb1fef20293"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 314 Local 299 Mirrors 0 Missed 15 Current 249 (95% match, 97% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 256 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 257 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 258 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 259 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 260 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 270 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 271 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 272 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 273 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 274 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxfont2-2.0.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 768 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_fetch)
+NOTE: Running task 771 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
+NOTE: Running task 772 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_write_config)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 289 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 290 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
+NOTE: recipe libxcvt-0.1.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 292 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 293 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 296 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 297 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata_setscene)
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 781 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
+NOTE: recipe xwayland-23.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata_setscene: Started
+NOTE: Running task 782 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_unpack)
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_write_config: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
+NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 304 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_packagedata_setscene)
+NOTE: recipe mesa-2_23.0.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 305 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 306 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 309 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 311 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 312 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 318 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_create_spdx_setscene)
+NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 325 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 326 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 806 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 807 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_patch)
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 329 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 340 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_create_spdx_setscene)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 808 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 346 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 347 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_packagedata_setscene)
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 349 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 350 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Started
+NOTE: recipe openssl-3.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_patch: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 817 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Started
+NOTE: Running task 818 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic)
+NOTE: recipe mesa-2_23.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 352 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_setscene)
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Started
+NOTE: recipe openssl-3.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe font-util-1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_lic unihash changed to 536d7b0714186ee575b6d2d987ea2f0ca5d385047238ea3ec60b9091ce79136b
+NOTE: Running setscene task 360 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 362 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_create_spdx_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 367 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 368 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 370 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 374 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 378 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
+NOTE: Running setscene task 379 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 380 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 381 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.243.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 382 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.243.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 383 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 384 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 385 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 386 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 387 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 388 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 389 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 390 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 392 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 397 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.243.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 398 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 399 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 402 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.243.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 404 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 406 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 409 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
+NOTE: Running setscene task 410 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 412 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 415 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 416 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 419 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.4.bb:do_packagedata_setscene)
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 423 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 425 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 426 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.10.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 431 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.10.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 433 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.10.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 436 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 437 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libx11/1_1.8.4-r0/temp/log.do_packagedata_setscene.3817364
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 439 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_package_setscene)
+NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Started
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 441 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 442 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 443 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 444 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 445 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 446 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 448 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 449 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 451 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 452 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 453 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 454 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 455 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 456 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 458 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 459 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 460 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 461 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 462 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 463 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 468 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 473 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 480 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 481 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 492 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 495 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 497 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 498 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 499 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 500 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 506 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 507 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 508 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 509 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 511 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 512 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 513 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 514 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 518 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 519 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 524 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 525 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/xorgproto/2022.2-r0/temp/log.do_packagedata_setscene.3820687
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 528 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package_setscene)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 529 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 532 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 533 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 536 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 538 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 540 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 541 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 545 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 546 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 547 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 556 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1450 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata)
+NOTE: Running task 1711 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1716 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1734 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1751 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1801 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_collect_spdx_deps)
+NOTE: Running task 1802 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
+NOTE: Running task 1803 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_package_write_rpm)
+NOTE: recipe xwayland-23.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1804 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_configure)
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1805 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_compile)
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 1806 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
+NOTE: Running task 1807 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1809 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_install)
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_install: Succeeded
+NOTE: Running task 1810 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package)
+NOTE: Running task 1811 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_populate_sysroot)
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
+NOTE: Running task 1812 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 1813 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
+NOTE: Running task 1814 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
+NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package: Succeeded
+NOTE: Running task 1815 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_packagedata)
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1816 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_spdx)
+NOTE: Running task 1817 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_write_rpm)
+NOTE: Running task 1818 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_package_qa)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1819 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_create_runtime_spdx)
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe xwayland-23.1.2-r0: task do_package_qa: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe xwayland-23.1.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1820 of 1820 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xwayland/xwayland_23.1.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1820 tasks of which 1785 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.5-r0 to 1:1.8.4-r0) [version-going-backwards]
+ERROR: libx11-1_1.8.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-src went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dbg went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-staticdev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-dev went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-doc went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto-locale went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: QA Issue: Package version for package xorgproto went backwards which would break package feeds (from 0:2023.1-r0 to 0:2022.2-r0) [version-going-backwards]
+ERROR: xorgproto-2022.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============3787775250805741953==--
 
