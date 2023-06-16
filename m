@@ -2,92 +2,100 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9516EB64D7
-	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 14:37:58 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.235.1686926271356255597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09166C001B1
+	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 14:37:59 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.291.1686926278100367569
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jun 2023 07:37:51 -0700
+ Fri, 16 Jun 2023 07:37:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=24jUGZyB;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b3c578c602so5379205ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 07:37:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=LnDVcejx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b50394a7f2so5447405ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 07:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686926270; x=1689518270;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1686926277; x=1689518277;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BwOfe5WimSdx2jncJ58jqQUzieQ1kuQrni7bFdEYn4E=;
-        b=24jUGZyB6duzQks0f5wcq0iVmLFXGRZX8fHlZpfUAJP8sQ532GPifA71H5DFqHkkr8
-         Z8u4PUo2b/IJ0eK7s107lAGsFBXM+/pa2FnkNBzJBrkSS90RYy+Z9mPvORLxwdkYy5ld
-         UKzbZgk8JynZDKL2P27aicTFDHE/g/jqei43YbC1nGjQGK2dYxlBp4xyXGp1wU/jE2ap
-         ykLP1SopuMDKowQdi4MsK+JkZlXuSsAveQT9x0BmIBKcRC83Ih8cHSIZsYKPdsxj/igU
-         gLN74ezfh7rVBxvHlvbnPW2ABRjWdKxup9/Sh34iXMnJeIl0sIBCr71aWNzuDf/6h2Fr
-         ZaFA==
+        bh=dAb+yaDyA7Tqpwhho5ibVdnnx3CKoxfeXA11J768gY4=;
+        b=LnDVcejxz3hdCz5xo6JHrgA4K0NszYo9WkVODy+EESSFrzsr2DXRY1EUoKvelnUy8H
+         1cifFkObgaLvLWq+JkpPvYP+oDJWLw7O51ahAdAcpkjRaGUcgvdxJ6dDGrIg0AMnnR/A
+         TrBZFH0gAhMYgTR84vvMI4RNtvB+Vb8UbAfVdLvpre+ucmtXvQiNgwAgbPHlnmL9D2Z7
+         n1zR6QVGpJWGpihcrEI6p6YjfHSq7g7w9Od/c0NAnuRC0udNl1D6IUYfaWDH60EuwydD
+         N9lPcX04iadzRIkAfdIe/PaYdUB9MiyRYe5Xu45hGugpoiqzjHyc1Uw1BjYLvz/VD0Kt
+         xTog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686926270; x=1689518270;
+        d=1e100.net; s=20221208; t=1686926277; x=1689518277;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BwOfe5WimSdx2jncJ58jqQUzieQ1kuQrni7bFdEYn4E=;
-        b=U6Tph3+C5x5DAOIew7hhZo3ZTvmwnBzQ06q/+B3dsMyHO9G5eIyGtvoavURn6oEtEJ
-         RJE6PB+S0g3eC9HMNCx9McVeyABN6ahNNfiaY5w6uQKsd5BfillZ3PRuI3bl7jRn2Iy4
-         Ws3gap4XbWg0EWev2XNBNnxF3967RHhDRLRVbWd2/sYFtwcuoK363JpW7WZbiRaQzm8X
-         6iZSLqCqkuIE1EYrqQ1EPSST0jy3bF7eTEelff4EIBuJ2ccEv61kTLcUJqyIMBqsylNK
-         eNin6GJFSTqGIMxlxUfs4TJTeX8N7NmjaoqNo34a4gsNg6LAAtRuhcU+g+6deqqeSbh+
-         bVbA==
-X-Gm-Message-State: AC+VfDxuAe6HkbSnPiu+z0HCLk8bgfER0zlaZxu/HegGSIjysxcVY88f
-	LAhSoBihGBkPIcqjfWxAhrIVKbr/YwRWK72M8Js=
-X-Google-Smtp-Source: ACHHUZ7Ss1uI0nycOC3jYXlwe7AE8K78SPjq7Ms2dPBT+wdWCdn7j0hE0xyuYu7/jhFA7aWS6ibPIw==
-X-Received: by 2002:a17:902:da91:b0:1ae:6cf0:94eb with SMTP id j17-20020a170902da9100b001ae6cf094ebmr2132531plx.5.1686926270498;
-        Fri, 16 Jun 2023 07:37:50 -0700 (PDT)
+        bh=dAb+yaDyA7Tqpwhho5ibVdnnx3CKoxfeXA11J768gY4=;
+        b=I63hvA5SUYfzoaxDKSAc+Xs6qHWLr8U3CP3leuvMr0KX71VKXgnuub6kp2tgg2pk+c
+         6SpDcBC4rwXgxDqelNnros3qDiIAntbWxLJfVx08n3oaGQUYU6lLP44+E0KCbtEqZiOp
+         k1rnkIE26uryIWRiCmabWIKS1uJf0DlGjllAm+9Kv6o7YCS7ZIX2Q4MdkIITLDTImcBo
+         8uiluerh5gEiZx36S7kwF+NY7nRcFWHF+qA2i/fzzGATyezeo06VOpS6WYPC+SkoZwxo
+         EReArjrqHfNR8QM36/aDO0I6B+iFXpSN8fvFFu+sgTCgkxCts5hInAwESwi+o4XCK+7I
+         /oTQ==
+X-Gm-Message-State: AC+VfDzMaiLJn828KWi1Da2KfCBStdgJ3FlrOTTBsdpIntrcG9yYangA
+	FXmaR6Y0Kv8WPaJ94KVV6FSLbppPbu0vWJQ3Pzo=
+X-Google-Smtp-Source: ACHHUZ4rdMYkB9u41ffbuDCQ6I/4ym8Al+HIG7PRnPs1tz+jLBWGSEUYE/xDIi3cd9g5prf6jxlpvw==
+X-Received: by 2002:a17:902:8647:b0:1b3:97a7:c106 with SMTP id y7-20020a170902864700b001b397a7c106mr1613099plt.52.1686926277067;
+        Fri, 16 Jun 2023 07:37:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id k21-20020a170902761500b001b03f208323sm15865547pll.64.2023.06.16.07.37.49
+        by smtp.gmail.com with ESMTPSA id k21-20020a170902761500b001b03f208323sm15865547pll.64.2023.06.16.07.37.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 07:37:50 -0700 (PDT)
+        Fri, 16 Jun 2023 07:37:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 17/24] maintaines.inc: unassign Richard Weinberger from erofs-utils entry
-Date: Fri, 16 Jun 2023 04:37:08 -1000
-Message-Id: <4c345fbf7dd009eaffe09c9d218e697145ad8ee2.1686925952.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 21/24] connman: fix warning by specifying runstatedir at configure time
+Date: Fri, 16 Jun 2023 04:37:12 -1000
+Message-Id: <8ea652072f78cce76996ceefe3559a9c0fbc35c8.1686925952.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1686925952.git.steve@sakoman.com>
 References: <cover.1686925952.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 14:37:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183038
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 14:37:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183042
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Marc Ferland <ferlandm@amotus.ca>
 
-This was confirmed via private email.
+Without this patch, systemd complains on startup with messages similar
+to:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+systemd-tmpfiles[128]: /etc/tmpfiles.d/connman_resolvconf.conf:1: Line references path below legacy directory /var/run/, updating /var/run/connman → /run/connman; please update the tmpfiles.d/ drop-in file accordingly.
+systemd-tmpfiles[172]: /etc/tmpfiles.d/connman_resolvconf.conf:1: Line references path below legacy directory /var/run/, updating /var/run/connman → /run/connman; please update the tmpfiles.d/ drop-in file accordingly.
+
+By default, connman will use "/var/run/connman" for runstatedir
+instead of the now recommended "/run/connman".
+
+Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 834519933fcd6e4ff54f24d0cf671ea9ce24398a)
+(cherry picked from commit 8d17776765a99a4ae327797206ef2a8a735ce87b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/connman/connman.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index b4ce618ca0..db0563810d 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -165,7 +165,7 @@ RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
- RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER:pn-erofs-utils = "Richard Weinberger <richard@nod.at>"
-+RECIPE_MAINTAINER:pn-erofs-utils = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-ethtool = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER:pn-eudev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-expat = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index d7af94f792..7487ca0d0c 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -27,6 +27,7 @@ EXTRA_OECONF += "\
+     --enable-ethernet \
+     --enable-tools \
+     --disable-polkit \
++    --runstatedir=/run \
+ "
+ # For smooth operation it would be best to start only one wireless daemon at a time.
+ # If wpa-supplicant is running, connman will use it preferentially.
 -- 
 2.34.1
 
