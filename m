@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFECC27C53
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A02BC27C55
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.825.1686887483284132094
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.809.1686887483191781218
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fnw4bZdc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010188c2544458-40759436-fb19-4e2d-bf2d-3c58e8517a4c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F3VbXN/X;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188c2544499-3ffff94f-20b1-4792-9fd6-afd19614cdd6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LAMdTlQpKuEvaweatnCJuQiNGetQ5Yk1TiHnEba3RL8=;
-	b=fnw4bZdcrG7HzIBMnFnzTtZMAQJjoeDFBVlmduHE38rZN/UmItf6E9czR3n3ebwO
-	AuxtxGtMoVHPJidSjw4grpxAN7GtOJsH4/cxGpC1AAiSCNznZ7jUXwM06Bu/eV0L0N9
-	JdstxFsDdFFLWDLbgbq90mvfAhvdD4VvWuOX4WM0=
+	bh=Hxm9QhH/pSD8PXKUJYy25SxGz8nAJUKffm0d7K84zvI=;
+	b=F3VbXN/XPqoAJnA8mSDTUhbF1kSoVEKNgl6afDETDhaPuAmdbuVOYh4iPiRfh1G9
+	cjsiJtr/VmjWiuqNLJzsFLP8XZqxy/AYIM6cg/5Kj6lzvjkXDUPH6gc/9/2YXxpEZwo
+	gAqGxfkPJhJEjv9Ren4VR6ZzpTtfNoZmJhDpJT3Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LAMdTlQpKuEvaweatnCJuQiNGetQ5Yk1TiHnEba3RL8=;
-	b=WAkFMhsHN2vGWu84dygAwUulBRjmZuyxev6i3S/oX6CVD2M/wHt5OiOe1UMzqckC
-	TeeZLpS04E2s79cPM506LVL/zDlxf2n4A87bXe9MubTSAnX8JkimMJEaU49xaGQFjZ/
-	JtuebVCDSW386VrRdMRZ952XhhbtdMPsMWunwMD4=
-Content-Type: multipart/mixed; boundary="===============5238805600182879250=="
+	bh=Hxm9QhH/pSD8PXKUJYy25SxGz8nAJUKffm0d7K84zvI=;
+	b=pkdqBVJz40DGil6o19jD5CwQRIkzpKuLCgkssZxmciWG3h1qW+ttmBlyyqSihIya
+	cW7bg6pXpkVsEX/GiCbti3Htqi+KZeXz22vVyxvTRNIG2YGCEosAfhaPZ35NMVN7Xjn
+	Eej9WufIyAz89mBCs8Hf6mKpD9ya3ihWAES91xXE=
+Content-Type: multipart/mixed; boundary="===============8018292293591052897=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-flit-core: upgrading to 3.9.0 SUCCEEDED
-Message-ID: <01010188c2544458-40759436-fb19-4e2d-bf2d-3c58e8517a4c-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cryptography: upgrading to 41.0.1 FAILED
+Message-ID: <01010188c2544499-3ffff94f-20b1-4792-9fd6-afd19614cdd6-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.191
+X-SES-Outgoing: 2023.06.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182919
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182916
 
---===============5238805600182879250==
+--===============8018292293591052897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,130 +50,97 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-flit-core* to *3.9.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-cryptography* to *41.0.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-flit-core-upgrade-3.8.0-3.9.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe python3-cryptography failed.
+NOTE: Starting bitbake server...
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1802 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:39d98180af84e12363a535253f0a5b3113c7a368"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1802 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (897 cached, 2 parsed). 1803 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:39d98180af84e12363a535253f0a5b3113c7a368"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  34% |############                        | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-41.0.1.tar.gz;downloadfilename=cryptography-41.0.1.tar.gz...
+INFO: Rebasing devtool onto d57e6ac56ffb662cf5a49f2fdf66eeba73a29471
+WARNING: Command 'git rebase d57e6ac56ffb662cf5a49f2fdf66eeba73a29471' failed:
+Auto-merging pyproject.toml
+CONFLICT (content): Merge conflict in pyproject.toml
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-cryptography
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-cryptography/python3-cryptography_41.0.1.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From b5fa0808fd5fa787fb14f5389a105b65f1634c51 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Jun 2023 13:06:36 +0000
-Subject: [PATCH] python3-flit-core: upgrade 3.8.0 -> 3.9.0
-
----
- .../{python3-flit-core_3.8.0.bb => python3-flit-core_3.9.0.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-flit-core_3.8.0.bb => python3-flit-core_3.9.0.bb} (92%)
-
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.8.0.bb b/meta/recipes-devtools/python/python3-flit-core_3.9.0.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-flit-core_3.8.0.bb
-rename to meta/recipes-devtools/python/python3-flit-core_3.9.0.bb
-index 2e5b1e8069..b0bef4b6b6 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.9.0.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://github.com/pypa/flit/issues"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
- 
--SRC_URI[sha256sum] = "d0f2a8f4bd45dc794befbf5839ecc0fd3830d65a57bd52b5997542fac5d5e937"
-+SRC_URI[sha256sum] = "d75edf5eb324da20d53570a6a6f87f51e606eee8384925cd66a90611140844c7"
- 
- inherit pypi python_flit_core
- 
--- 
-2.39.2
-
-
---===============5238805600182879250==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-flit-core-upgrade-3.8.0-3.9.0.patch"
-
-RnJvbSBiNWZhMDgwOGZkNWZhNzg3ZmIxNGY1Mzg5YTEwNWI2NWYxNjM0YzUxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMTM6MDY6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWZsaXQtY29yZTogdXBncmFkZSAzLjguMCAtPiAzLjkuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtZmxpdC1jb3JlXzMuOC4wLmJiID0+IHB5dGhvbjMtZmxpdC1jb3JlXzMuOS4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWZsaXQtY29yZV8zLjguMC5i
-YiA9PiBweXRob24zLWZsaXQtY29yZV8zLjkuMC5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZmxpdC1jb3JlXzMuOC4wLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV8zLjkuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtZmxpdC1jb3JlXzMuOC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtZmxpdC1jb3JlXzMuOS4wLmJiCmluZGV4IDJlNWIxZTgwNjkuLmIw
-YmVmNGI2YjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1mbGl0LWNvcmVfMy44LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWZsaXQtY29yZV8zLjkuMC5iYgpAQCAtOCw3ICs4LDcgQEAgQlVHVFJBQ0tFUiA9ICJo
-dHRwczovL2dpdGh1Yi5jb20vcHlwYS9mbGl0L2lzc3VlcyIKIExJQ0VOU0UgPSAiQlNELTMtQ2xh
-dXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NDFlYjc4ZmE4YTg3
-Mjk4M2E4ODJjNjk0YTgzMDVmMDgiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkMGYyYThmNGJk
-NDVkYzc5NGJlZmJmNTgzOWVjYzBmZDM4MzBkNjVhNTdiZDUyYjU5OTc1NDJmYWM1ZDVlOTM3Igor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImQ3NWVkZjVlYjMyNGRhMjBkNTM1NzBhNmE2Zjg3ZjUxZTYw
-NmVlZTgzODQ5MjVjZDY2YTkwNjExMTQwODQ0YzciCiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxp
-dF9jb3JlCiAKLS0gCjIuMzkuMgoK
-
---===============5238805600182879250==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-flit-core: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/f/flit/flit-3.8.0.tar.gz;downloadfilename=flit-3.8.0.tar.gz" to "https://files.pythonhosted.org/packages/source/f/flit/flit-3.9.0.tar.gz;downloadfilename=flit-3.9.0.tar.gz"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-dbg: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-dbg: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-dev: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-dev: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-doc: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-doc: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-locale: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-locale: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-src: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-src: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-staticdev: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-staticdev: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-tests: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-tests: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core-tests: PKGSIZE changed from 87520 to 88427 (+1%)
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core: PV changed from "3.8.0" to "3.9.0"
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core: PKGV changed from 3.8.0 [default] to 3.9.0 [default]
-packages/core2-32-poky-linux/python3-flit-core/python3-flit-core: PKGSIZE changed from 239828 to 241833 (+1%)
-Changes to packages/core2-32-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.11/site-packages/flit_core-3.8.0.dist-info moved to /usr/lib/python3.11/site-packages/flit_core-3.9.0.dist-info
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.11/site-packages/flit_core-3.8.0.dist-info moved to /usr/lib/python3.11/site-packages/flit_core-3.9.0.dist-info
-
---===============5238805600182879250==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.11/site-packages/flit_core-3.8.0.dist-info moved to /usr/lib/python3.11/site-packages/flit_core-3.9.0.dist-info
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.11/site-packages/flit_core-3.8.0.dist-info moved to /usr/lib/python3.11/site-packages/flit_core-3.9.0.dist-info
-
---===============5238805600182879250==--
+--===============8018292293591052897==--
 
