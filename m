@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2301DC3DA45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55621C2FC1C
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:30 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.816.1686887482516053385
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.829.1686887483527884075
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jun 2023 20:51:26 -0700
+ Thu, 15 Jun 2023 20:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XNCGsw36;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010188c254506e-b13d2028-2d3a-44e0-94c6-d7cc18b25af9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EJ4cNGYT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010188c2544ed1-5d08b099-c00e-405b-ac8d-031403bbbe4d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yZbDhmD7MMlZ+G0uxNl841TO1ROxVnkSASvJNzlTDUA=;
-	b=XNCGsw36t18bXajia1m6PcM6GpxEtMbQCWrc0El1NseAvVuHE4fh4MMC202cvwg0
-	TSkmeYPyPPSxTd/0pmvB+Y8CuBW3pg2hDoP470uL6IAnNrvxHr5MUPcC9o4oPM5XmLR
-	d0sL6YspbthoBNq6bf2yi5c703KvaQyyMUbteB6g=
+	bh=Iy6gubbKqwXtguoALK4YzoC2VidPgO17CzCkrlWfLn0=;
+	b=EJ4cNGYTgaFT1YtsNKS+qZ6ORTp97Eecd2WvaVzivPoIInrgiWqITWqnP819CWFz
+	ap24Z6cnfW9CsHOmOpqzsbmCu9DW3NURJ97twwZcff6nVzZQWcRnmTxNO4RNfB+AnCX
+	W0xy6cGV75bqsALwqZdsAfUMl/tO7dzCH8xr7aoU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yZbDhmD7MMlZ+G0uxNl841TO1ROxVnkSASvJNzlTDUA=;
-	b=RK1l8AmRpZ33YTMh2+FGm203EI7BkDBc2Fa1sF1WA7SwIrDhX76ADrNirSQ87QQD
-	vP99/YX9WF6Ia7471X1KyYCR3bA/kJFenjE9yKUfQgAAypLOu89yfs1zyLulMKK8Xpn
-	NUkEdKRaMymjvXmz0yTWml5RDcJVzW6XU0YO2jlA=
-Content-Type: multipart/mixed; boundary="===============1433719283318553371=="
+	bh=Iy6gubbKqwXtguoALK4YzoC2VidPgO17CzCkrlWfLn0=;
+	b=kMWXnh9dy8bd58I7WjxdM5f6+DMYOlLZsUJjBrehDBAyRdj5Mn6Rfo6M/g5qvgfD
+	79qKlunXp5yAiABUmAp8fHjJhSm4cYAG4YrWQtzliU0GKNKD2Rw1BP+LdAoJlXiIS/+
+	5JIncXZDXkCD0MN7UvrvulctD/85MD+FGRXg0Ahs=
+Content-Type: multipart/mixed; boundary="===============4229083839754178909=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.42.0 SUCCEEDED
-Message-ID: <01010188c254506e-b13d2028-2d3a-44e0-94c6-d7cc18b25af9-000000@us-west-2.amazonses.com>
+Subject: [AUH] at-spi2-core: upgrading to 2.48.3 SUCCEEDED
+Message-ID: <01010188c2544ed1-5d08b099-c00e-405b-ac8d-031403bbbe4d-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.29
+X-SES-Outgoing: 2023.06.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182992
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182987
 
---===============1433719283318553371==
+--===============4229083839754178909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.42.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.48.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.41.2-3.42.0.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.48.0-2.48.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,95 +71,299 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4d030fe129ab77fd95513b887215071a3cf53da9 Mon Sep 17 00:00:00 2001
+From d0f550741f3c7041cf4d16879a58dcc772689b16 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Jun 2023 03:33:13 +0000
-Subject: [PATCH] sqlite3: upgrade 3.41.2 -> 3.42.0
+Date: Thu, 15 Jun 2023 23:11:30 +0000
+Subject: [PATCH] at-spi2-core: upgrade 2.48.0 -> 2.48.3
 
 ---
- .../sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb}             | 2 +-
+ .../atk/{at-spi2-core_2.48.0.bb => at-spi2-core_2.48.3.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb} (86%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.48.0.bb => at-spi2-core_2.48.3.bb} (95%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-similarity index 86%
-rename from meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-index b09e8e7f55..f60aca63d2 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.48.0.bb b/meta/recipes-support/atk/at-spi2-core_2.48.3.bb
+similarity index 95%
+rename from meta/recipes-support/atk/at-spi2-core_2.48.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.48.3.bb
+index e9648ffe07..17b0e39a5e 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.48.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.48.3.bb
+@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499"
-+SRC_URI[sha256sum] = "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
  
- # -19242 is only an issue in specific development branch commits
- CVE_CHECK_IGNORE += "CVE-2019-19242"
+-SRC_URI[sha256sum] = "905a5b6f1790b68ee803bffa9f5fab4ceb591fb4fae0b2f8c612c54f1d4e8a30"
++SRC_URI[sha256sum] = "37316df43ca9989ce539d54cf429a768c28bb38a0b34950beadd0421827edf55"
+ 
+ DEPENDS = " \
+ 	dbus \
 -- 
 2.39.2
 
 
---===============1433719283318553371==
+--===============4229083839754178909==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.41.2-3.42.0.patch"
+ filename="0001-at-spi2-core-upgrade-2.48.0-2.48.3.patch"
 
-RnJvbSA0ZDAzMGZlMTI5YWI3N2ZkOTU1MTNiODg3MjE1MDcxYTNjZjUzZGE5IE1vbiBTZXAgMTcg
+RnJvbSBkMGY1NTA3NDFmM2M3MDQxY2Y0ZDE2ODc5YTU4ZGNjNzcyNjg5YjE2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgSnVuIDIwMjMgMDM6MzM6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cWxpdGUzOiB1cGdyYWRlIDMuNDEuMiAtPiAzLjQyLjAKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
-M18zLjQxLjIuYmIgPT4gc3FsaXRlM18zLjQyLjAuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDEuMi5iYiA9PiBzcWxpdGUzXzMuNDIu
-MC5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
-aXRlM18zLjQxLjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQy
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvc3FsaXRlL3NxbGl0ZTNfMy40MS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQyLjAuYmIKaW5kZXggYjA5ZThlN2Y1NS4uZjYwYWNhNjNkMiAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40MS4yLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDIuMC5iYgpAQCAt
-NCw3ICs0LDcgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
-bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
-IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyMy9zcWxpdGUtYXV0b2NvbmYt
-JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlOThjMTAwZGQxZGE0
-ZTMwZmE0NjA3NjFkYWI3YzBiOTFhNTBiNzg1ZTE2N2Y4YzU3YWNjNDY1MTRmYWU5NDk5IgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjdhYmNmZDE2MWM2ZTI3NDJjYTVjNmMwODk1ZDFmODUzYzk0MGYy
-MDMzMDRhMGI0OWRhNGUxZWNhNWQwODhjYTYiCiAKICMgLTE5MjQyIGlzIG9ubHkgYW4gaXNzdWUg
-aW4gc3BlY2lmaWMgZGV2ZWxvcG1lbnQgYnJhbmNoIGNvbW1pdHMKIENWRV9DSEVDS19JR05PUkUg
-Kz0gIkNWRS0yMDE5LTE5MjQyIgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMjM6MTE6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi40OC4wIC0+IDIuNDguMwoKLS0tCiAuLi4vYXRrL3thdC1z
+cGkyLWNvcmVfMi40OC4wLmJiID0+IGF0LXNwaTItY29yZV8yLjQ4LjMuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsve2F0LXNwaTItY29yZV8yLjQ4LjAuYmIgPT4gYXQtc3Bp
+Mi1jb3JlXzIuNDguMy5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9hdGsvYXQtc3BpMi1jb3JlXzIuNDguMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
+dC1zcGkyLWNvcmVfMi40OC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi40OC4wLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNDguMy5iYgppbmRleCBlOTY0
+OGZmZTA3Li4xN2IwZTM5YTVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsv
+YXQtc3BpMi1jb3JlXzIuNDguMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQt
+c3BpMi1jb3JlXzIuNDguMy5iYgpAQCAtMTEsNyArMTEsNyBAQCBNQUpfVkVSID0gIiR7QG9lLnV0
+aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0iLCAyKX0iCiAKIFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJS
+T1J9LyR7QlBOfS8ke01BSl9WRVJ9LyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICI5MDVhNWI2ZjE3OTBiNjhlZTgwM2JmZmE5ZjVmYWI0Y2ViNTkxZmI0ZmFlMGIy
+ZjhjNjEyYzU0ZjFkNGU4YTMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3MzE2ZGY0M2NhOTk4
+OWNlNTM5ZDU0Y2Y0MjlhNzY4YzI4YmIzOGEwYjM0OTUwYmVhZGQwNDIxODI3ZWRmNTUiCiAKIERF
+UEVORFMgPSAiIFwKIAlkYnVzIFwKLS0gCjIuMzkuMgoK
 
---===============1433719283318553371==
+--===============4229083839754178909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3410200.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 658159 to 663439 (+1%)
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1475867 to 1500475 (+2%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5072956 to 5134184 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10144652 to 10238112 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 329864 to 333960 (+1%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.24809.1", added "/usr/lib/.debug/libatk-1.0.so.0.24812.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 1625456 to 1624892 (-0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 2073618 to 2073619 (+0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2026540 to 2027352 (+0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.24809.1", added "/usr/lib/libatk-1.0.so.0.24812.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 952623 to 948527 (-0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+packages/core2-32-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.48/at-spi2-core-2.48.0.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.48/at-spi2-core-2.48.3.tar.xz"
+packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.48.0" to "2.48.3"
+packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.48.0 [default] to 2.48.3 [default]
+Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.24809.1 to libatk-1.0.so.0.24812.1
+  /usr/lib/libatk-1.0.so.0.24809.1 moved to /usr/lib/libatk-1.0.so.0.24812.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1542,12 +1746,16 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============1433719283318553371==
+--===============4229083839754178909==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.24809.1", added "/usr/lib/libatk-1.0.so.0.24812.1"
+Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.24809.1 to libatk-1.0.so.0.24812.1
+  /usr/lib/libatk-1.0.so.0.24809.1 moved to /usr/lib/libatk-1.0.so.0.24812.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2930,5 +3138,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============1433719283318553371==--
+--===============4229083839754178909==--
 
