@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 325F6C2FC1F
-	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:30 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.834.1686887483995938221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5F1C2FC16
+	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.797.1686887481398404189
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZH2RtL73;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188c2545026-bc649a98-6e16-4b29-850f-c0a51fec1ad2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XP4DoiAk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010188c2544e6f-d40bb88c-4b00-44c5-b9c6-a050b8dc74db-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xNyiHxaIRaxlAIJwJtcWBpCkQF/DMCp68ccIgVkgKP8=;
-	b=ZH2RtL73I9iJA0T0+SL60rU8LHS5XwN+kG055wyHEqVaAHTaVtxP7fFmYBo/jWtP
-	nRF3lsqeSG01eqZCqyzE3QeqPFJrcGLiXChFdMllU61n4sNSVJfSPvs58vRhLh7wV6p
-	s3ewsY6ucjKHtgo5U44ghdYs8gC0vV6HvGWEwWyo=
+	bh=7XBJmKXsuLOosHlFOAlpo91L5iAhNjootZ5N2t3YL4k=;
+	b=XP4DoiAkLYlOmqpmQmQE3qoWC8AF+Xy5UlLcOY8E+hrRzb1a+K4PIUnbtYDPcv6O
+	2ffiIMQEIUS2efiG/3zOuXpUFbs++RgFwbOyTFu/iqXmjCspOXmWS8XIaZGu6PLS3Cp
+	dcsp0419O8Yc+IdN9P1nyF9UihOkSYBdFtS69brs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xNyiHxaIRaxlAIJwJtcWBpCkQF/DMCp68ccIgVkgKP8=;
-	b=TGagGeNfUJ5viRbP+qnPY4LhITRSZ1zJYtJjO3J1zKBRMBGnMG4ytHQIk6Nrs3Fj
-	b9NcH0LJ7vn49a7b26x3wvTYR8CcwjJk5fqJXtety4a/M8NrF8GLk7jJmkUzL8lVVLT
-	RvIBapLgD4t688RB3bfBAUR/zrlqVBS+/s5//yBs=
-Content-Type: multipart/mixed; boundary="===============5093402242176926844=="
+	bh=7XBJmKXsuLOosHlFOAlpo91L5iAhNjootZ5N2t3YL4k=;
+	b=PWmXbB9cSqKnVwKGyLunDqp2h5uJcyJ/ktGt1Sg65rB7moKUC4zGLA6/8FioyyVl
+	3KbZ6WzyN3s6TbN/xT7fsyq6dgX6WRIVw5hbfY2DMezjvPV0iZKW4nZbru0bu0s0qab
+	ongOag61k98a/FBuV0PhX75KAJvv8LX0zkXqt8Tk=
+Content-Type: multipart/mixed; boundary="===============2676985048374760113=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] serf: upgrading to 1.3.10 SUCCEEDED
-Message-ID: <01010188c2545026-bc649a98-6e16-4b29-850f-c0a51fec1ad2-000000@us-west-2.amazonses.com>
+Subject: [AUH] puzzles: upgrading to 1a316f47ad3d1749b9b31a99cdb1ebf472fe1d85
+ SUCCEEDED
+Message-ID: <01010188c2544e6f-d40bb88c-4b00-44c5-b9c6-a050b8dc74db-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.193
+X-SES-Outgoing: 2023.06.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182990
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182981
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *serf* to *1.3.10* has Succeeded.
+that the automatic attempt to upgrade the recipe *puzzles* to *1a316f47ad3d1749b9b31a99cdb1ebf472fe1d85* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-serf-upgrade-1.3.9-1.3.10.patch
+    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,156 +72,128 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 33624b895f7df7185763fb5248af92c94a68f586 Mon Sep 17 00:00:00 2001
+From b38531964f43915a23559c28e25b4446ca798246 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Jun 2023 01:40:51 +0000
-Subject: [PATCH] serf: upgrade 1.3.9 -> 1.3.10
+Date: Thu, 15 Jun 2023 22:47:32 +0000
+Subject: [PATCH] puzzles: upgrade to latest revision
 
 ---
- ...print-in-the-scons-file-to-unbreak-b.patch | 29 -------------------
- ...sl_buckets.c-do-not-use-ERR_GET_FUNC.patch | 28 ------------------
- ...11083-fix-building-with-scons-3.0.0-.patch | 29 -------------------
- .../serf/{serf_1.3.9.bb => serf_1.3.10.bb}    |  6 +---
- 4 files changed, 1 insertion(+), 91 deletions(-)
- delete mode 100644 meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
- delete mode 100644 meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
- delete mode 100644 meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
- rename meta/recipes-support/serf/{serf_1.3.9.bb => serf_1.3.10.bb} (78%)
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch b/meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
-deleted file mode 100644
-index 4a5832ac1a..0000000000
---- a/meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 99f6e1b0d68281b63218d6adfe68cd9e331ac5be Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 3 Sep 2018 10:50:08 -0700
--Subject: [PATCH] Fix syntax of a print() in the scons file to unbreak building
-- with most recent scons version.
--
--* SConstruct Use Python 3.0 valid syntax to make Scons 3.0.0 happy on both python
--  3.0 and 2.7.
--
--Upstream-Status: Backport
--[https://svn.apache.org/viewvc/serf/trunk/SConstruct?r1=1809132&r2=1811083&diff_format=h]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- SConstruct | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/SConstruct b/SConstruct
--index 1670459..18a45fa 100644
----- a/SConstruct
--+++ b/SConstruct
--@@ -184,7 +184,7 @@ CALLOUT_OKAY = not (env.GetOption('clean') or env.GetOption('help'))
-- 
-- unknown = opts.UnknownVariables()
-- if unknown:
---  print 'Warning: Used unknown variables:', ', '.join(unknown.keys())
--+  print('Warning: Used unknown variables:', ', '.join(unknown.keys()))
-- 
-- apr = str(env['APR'])
-- apu = str(env['APU'])
-diff --git a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
-deleted file mode 100644
-index 91ccc8a474..0000000000
---- a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 2f45711a66ff99886b6e4a5708e2db01a63e5af4 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Fri, 10 Sep 2021 11:05:10 +0200
--Subject: [PATCH] buckets/ssl_buckets.c: do not use ERR_GET_FUNC
--
--Upstream removed it in
--https://github.com/openssl/openssl/pull/16004
--
--Upstream-Status: Inactive-Upstream [lastrelease: 2015, lastcommit: 2019]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- buckets/ssl_buckets.c | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/buckets/ssl_buckets.c b/buckets/ssl_buckets.c
--index b01e535..9801f87 100644
----- a/buckets/ssl_buckets.c
--+++ b/buckets/ssl_buckets.c
--@@ -1325,8 +1325,7 @@ static int ssl_need_client_cert(SSL *ssl, X509 **cert, EVP_PKEY **pkey)
--                 return 0;
--             }
--             else {
---                printf("OpenSSL cert error: %d %d %d\n", ERR_GET_LIB(err),
---                       ERR_GET_FUNC(err),
--+                printf("OpenSSL cert error: %d %d\n", ERR_GET_LIB(err),
--                        ERR_GET_REASON(err));
--                 PKCS12_free(p12);
--                 bio_meth_free(biom);
-diff --git a/meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch b/meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
-deleted file mode 100644
-index 02fa9e3a06..0000000000
---- a/meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 565211fd082ef653ca9c44a345350fc1451f5a0f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 3 Sep 2018 11:12:38 -0700
--Subject: [PATCH] Follow-up to r1811083 fix building with scons 3.0.0 and
-- Python3
--
--* SConstruct: Append decode('utf-8) to FILE.get_contents() to avoid
--  TypeError: cannot use a string pattern on a bytes-like object
--
--Upstream-Status: Backport
--[https://svn.apache.org/viewvc/serf/trunk/SConstruct?r1=1811088&r2=1814604]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- SConstruct | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/SConstruct b/SConstruct
--index 877731e..7678bb1 100644
----- a/SConstruct
--+++ b/SConstruct
--@@ -169,7 +169,7 @@ env.Append(BUILDERS = {
-- match = re.search('SERF_MAJOR_VERSION ([0-9]+).*'
--                   'SERF_MINOR_VERSION ([0-9]+).*'
--                   'SERF_PATCH_VERSION ([0-9]+)',
---                  env.File('serf.h').get_contents(),
--+                  env.File('serf.h').get_contents().decode('utf-8'),
--                   re.DOTALL)
-- MAJOR, MINOR, PATCH = [int(x) for x in match.groups()]
-- env.Append(MAJOR=str(MAJOR))
-diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.10.bb
-similarity index 78%
-rename from meta/recipes-support/serf/serf_1.3.9.bb
-rename to meta/recipes-support/serf/serf_1.3.10.bb
-index 669f42b8e7..c6b51452aa 100644
---- a/meta/recipes-support/serf/serf_1.3.9.bb
-+++ b/meta/recipes-support/serf/serf_1.3.10.bb
-@@ -7,16 +7,12 @@ HOMEPAGE = "http://serf.apache.org/"
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://norpath.patch \
-            file://env.patch \
--           file://0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch \
-            file://0002-SConstruct-Fix-path-quoting-for-.def-generator.patch \
-            file://0003-gen_def.patch \
--           file://0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch \
-            file://SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch \
--           file://0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch \
-            "
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 4b04588682..0d1af5b8c2 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
  
--SRC_URI[md5sum] = "370a6340ff20366ab088012cd13f2b57"
--SRC_URI[sha256sum] = "549c2d21c577a8a9c0450facb5cca809f26591f048e466552240947bdf7a87cc"
-+SRC_URI[sha256sum] = "be81ef08baa2516ecda76a77adf7def7bc3227eeb578b9a33b45f7b41dc064e6"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "5a491c5ad333ef34c1e7713f920f51cbb205af60"
++SRCREV = "1a316f47ad3d1749b9b31a99cdb1ebf472fe1d85"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
  
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 -- 
 2.39.2
 
 
---===============5093402242176926844==
+--===============2676985048374760113==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1801 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1801 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
+workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
+
+Initialising tasks...done.
+Sstate summary: Wanted 300 Local 291 Mirrors 0 Missed 9 Current 477 (97% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2198 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: Running task 2456 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: Running task 2457 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
+NOTE: Running task 2458 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: Running task 2459 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: Running task 2460 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2461 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2462 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2463 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2464 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2465 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2466 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2467 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2468 tasks of which 2454 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-src went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-dbg went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-staticdev went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-dev went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-doc went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles-locale went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: QA Issue: Package version for package puzzles went backwards which would break package feeds (from 2:0.0+git0+5a491c5ad3-r0 to 2:0.0+git0+1a316f47ad-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/temp/log.do_packagedata.1287320
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata) failed with exit code '1'
+
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -228,7 +201,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1804 entries from dependency cache.
+Loaded 1802 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 898 .bb files complete (897 cached, 1 parsed). 1802 targets, 36 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -245,268 +218,209 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a5a95bdf9dd0ca45f389c6132d676f800f8fe207"
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 30 Local 11 Mirrors 0 Missed 19 Current 300 (36% match, 94% complete)
+Sstate summary: Wanted 50 Local 40 Mirrors 0 Missed 10 Current 727 (80% match, 98% complete)
 NOTE: Executing Tasks
+NOTE: Running setscene task 747 of 777 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 748 of 777 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.38-r0/temp/log.do_packagedata_setscene.1288071
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 776 of 777 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_package_setscene)
+NOTE: Running task 2167 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: Running task 2394 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 826 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_fetch)
-NOTE: Running task 895 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_fetch)
-NOTE: Running task 1035 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_fetch)
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1109 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_unpack)
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1110 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_unpack)
-NOTE: Running task 1111 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_unpack)
-NOTE: Running task 1112 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Started
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1113 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_patch)
-NOTE: Running task 1114 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_patch)
-NOTE: recipe serf-1.3.10-r0: task do_patch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1115 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_patch)
-NOTE: Running task 1116 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_collect_spdx_deps)
-NOTE: recipe apr-1.7.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 1117 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_patch: Succeeded
-NOTE: Running task 1118 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1119 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Started
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic unihash changed to 761254ce560f32f5fbba85247c1fcf35f5ea740f624164a70bf91b6133c5de5f
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Succeeded
-NOTE: Running task 1120 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1121 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure)
-NOTE: recipe apr-1.7.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure: Succeeded
-NOTE: Running task 1122 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1123 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile)
-NOTE: recipe apr-1.7.3-r0: task do_compile: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile: Succeeded
-NOTE: Running task 1124 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1125 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install)
-NOTE: recipe apr-1.7.3-r0: task do_install: Started
-NOTE: recipe apr-1.7.3-r0: task do_install: Succeeded
-NOTE: Running task 1126 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1127 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_populate_sysroot)
-NOTE: Running task 1128 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_package)
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Started
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1129 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1130 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_configure)
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Succeeded
-NOTE: Running task 1131 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata)
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Started
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Failed
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1131 tasks of which 1105 didn't need to be rerun and 1 failed.
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
+NOTE: Running task 2423 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata)
+NOTE: Running task 2429 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: Running task 2436 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: Running task 2438 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2439 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2440 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 10ba71f492d90836477a6c78b19c2f872951a7f2e4f3c761e213733c97c5f8ff
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2460 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_collect_spdx_deps)
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2461 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2462 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx)
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2463 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2464 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2465 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2466 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2467 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Succeeded
+NOTE: Running task 2469 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
+NOTE: Running task 2470 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
+NOTE: Running task 2471 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2472 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2473 of 2473 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 2473 tasks of which 2451 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
+NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-src went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dbg went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-ptest went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-staticdev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-doc went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-locale went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-bin went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/apr/1.7.3-r0/temp/log.do_packagedata.3915371
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata) failed with exit code '1'
+Summary: There were 52 ERROR messages, returning a non-zero exit code.
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-src went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dbg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-staticdev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-doc went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-af went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ar went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-az went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-bg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ca went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-crh went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-cs went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-da went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-de went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-el went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-en-gb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-eo went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-es went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fur went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-gl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-he went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hu went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-id went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-it went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ja went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ka went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ko went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ky went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-lt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt-br went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ro went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ru went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-rw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sq went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sv went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-tr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-uk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-vi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-cn went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-tw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-serf-upgrade-1.3.9-1.3.10.patch"
+ filename="0001-puzzles-upgrade-to-latest-revision.patch"
 
-RnJvbSAzMzYyNGI4OTVmN2RmNzE4NTc2M2ZiNTI0OGFmOTJjOTRhNjhmNTg2IE1vbiBTZXAgMTcg
+RnJvbSBiMzg1MzE5NjRmNDM5MTVhMjM1NTljMjhlMjViNDQ0NmNhNzk4MjQ2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgSnVuIDIwMjMgMDE6NDA6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-ZXJmOiB1cGdyYWRlIDEuMy45IC0+IDEuMy4xMAoKLS0tCiAuLi5wcmludC1pbi10aGUtc2NvbnMt
-ZmlsZS10by11bmJyZWFrLWIucGF0Y2ggfCAyOSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5zbF9i
-dWNrZXRzLmMtZG8tbm90LXVzZS1FUlJfR0VUX0ZVTkMucGF0Y2ggfCAyOCAtLS0tLS0tLS0tLS0t
-LS0tLS0KIC4uLjExMDgzLWZpeC1idWlsZGluZy13aXRoLXNjb25zLTMuMC4wLS5wYXRjaCB8IDI5
-IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9zZXJmL3tzZXJmXzEuMy45LmJiID0+IHNlcmZfMS4z
-LjEwLmJifSAgICB8ICA2ICstLS0KIDQgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDkx
-IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L3Nl
-cmYvc2VyZi8wMDAxLUZpeC1zeW50YXgtb2YtYS1wcmludC1pbi10aGUtc2NvbnMtZmlsZS10by11
-bmJyZWFrLWIucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9z
-ZXJmL3NlcmYvMDAwMS1idWNrZXRzLXNzbF9idWNrZXRzLmMtZG8tbm90LXVzZS1FUlJfR0VUX0ZV
-TkMucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9zZXJmL3Nl
-cmYvMDAwNC1Gb2xsb3ctdXAtdG8tcjE4MTEwODMtZml4LWJ1aWxkaW5nLXdpdGgtc2NvbnMtMy4w
-LjAtLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi97c2VyZl8xLjMuOS5i
-YiA9PiBzZXJmXzEuMy4xMC5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9zZXJmL3NlcmYvMDAwMS1GaXgtc3ludGF4LW9mLWEtcHJpbnQtaW4tdGhlLXNjb25zLWZp
-bGUtdG8tdW5icmVhay1iLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi9zZXJmLzAw
-MDEtRml4LXN5bnRheC1vZi1hLXByaW50LWluLXRoZS1zY29ucy1maWxlLXRvLXVuYnJlYWstYi5w
-YXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNGE1ODMyYWMxYS4uMDAwMDAwMDAw
-MAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zZXJmL3NlcmYvMDAwMS1GaXgtc3ludGF4LW9m
-LWEtcHJpbnQtaW4tdGhlLXNjb25zLWZpbGUtdG8tdW5icmVhay1iLnBhdGNoCisrKyAvZGV2L251
-bGwKQEAgLTEsMjkgKzAsMCBAQAotRnJvbSA5OWY2ZTFiMGQ2ODI4MWI2MzIxOGQ2YWRmZTY4Y2Q5
-ZTMzMWFjNWJlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KLURhdGU6IE1vbiwgMyBTZXAgMjAxOCAxMDo1MDowOCAtMDcwMAotU3Vi
-amVjdDogW1BBVENIXSBGaXggc3ludGF4IG9mIGEgcHJpbnQoKSBpbiB0aGUgc2NvbnMgZmlsZSB0
-byB1bmJyZWFrIGJ1aWxkaW5nCi0gd2l0aCBtb3N0IHJlY2VudCBzY29ucyB2ZXJzaW9uLgotCi0q
-IFNDb25zdHJ1Y3QgVXNlIFB5dGhvbiAzLjAgdmFsaWQgc3ludGF4IHRvIG1ha2UgU2NvbnMgMy4w
-LjAgaGFwcHkgb24gYm90aCBweXRob24KLSAgMy4wIGFuZCAyLjcuCi0KLVVwc3RyZWFtLVN0YXR1
-czogQmFja3BvcnQKLVtodHRwczovL3N2bi5hcGFjaGUub3JnL3ZpZXd2Yy9zZXJmL3RydW5rL1ND
-b25zdHJ1Y3Q/cjE9MTgwOTEzMiZyMj0xODExMDgzJmRpZmZfZm9ybWF0PWhdCi1TaWduZWQtb2Zm
-LWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gU0NvbnN0cnVjdCB8IDIg
-Ky0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlm
-ZiAtLWdpdCBhL1NDb25zdHJ1Y3QgYi9TQ29uc3RydWN0Ci1pbmRleCAxNjcwNDU5Li4xOGE0NWZh
-IDEwMDY0NAotLS0tIGEvU0NvbnN0cnVjdAotKysrIGIvU0NvbnN0cnVjdAotQEAgLTE4NCw3ICsx
-ODQsNyBAQCBDQUxMT1VUX09LQVkgPSBub3QgKGVudi5HZXRPcHRpb24oJ2NsZWFuJykgb3IgZW52
-LkdldE9wdGlvbignaGVscCcpKQotIAotIHVua25vd24gPSBvcHRzLlVua25vd25WYXJpYWJsZXMo
-KQotIGlmIHVua25vd246Ci0tICBwcmludCAnV2FybmluZzogVXNlZCB1bmtub3duIHZhcmlhYmxl
-czonLCAnLCAnLmpvaW4odW5rbm93bi5rZXlzKCkpCi0rICBwcmludCgnV2FybmluZzogVXNlZCB1
-bmtub3duIHZhcmlhYmxlczonLCAnLCAnLmpvaW4odW5rbm93bi5rZXlzKCkpKQotIAotIGFwciA9
-IHN0cihlbnZbJ0FQUiddKQotIGFwdSA9IHN0cihlbnZbJ0FQVSddKQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi9zZXJmLzAwMDEtYnVja2V0cy1zc2xfYnVja2V0cy5jLWRv
-LW5vdC11c2UtRVJSX0dFVF9GVU5DLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi9z
-ZXJmLzAwMDEtYnVja2V0cy1zc2xfYnVja2V0cy5jLWRvLW5vdC11c2UtRVJSX0dFVF9GVU5DLnBh
-dGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA5MWNjYzhhNDc0Li4wMDAwMDAwMDAw
-Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NlcmYvc2VyZi8wMDAxLWJ1Y2tldHMtc3NsX2J1
-Y2tldHMuYy1kby1ub3QtdXNlLUVSUl9HRVRfRlVOQy5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0x
-LDI4ICswLDAgQEAKLUZyb20gMmY0NTcxMWE2NmZmOTk4ODZiNmU0YTU3MDhlMmRiMDFhNjNlNWFm
-NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-QGxpbnV0cm9uaXguZGU+Ci1EYXRlOiBGcmksIDEwIFNlcCAyMDIxIDExOjA1OjEwICswMjAwCi1T
-dWJqZWN0OiBbUEFUQ0hdIGJ1Y2tldHMvc3NsX2J1Y2tldHMuYzogZG8gbm90IHVzZSBFUlJfR0VU
-X0ZVTkMKLQotVXBzdHJlYW0gcmVtb3ZlZCBpdCBpbgotaHR0cHM6Ly9naXRodWIuY29tL29wZW5z
-c2wvb3BlbnNzbC9wdWxsLzE2MDA0Ci0KLVVwc3RyZWFtLVN0YXR1czogSW5hY3RpdmUtVXBzdHJl
-YW0gW2xhc3RyZWxlYXNlOiAyMDE1LCBsYXN0Y29tbWl0OiAyMDE5XQotU2lnbmVkLW9mZi1ieTog
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIGJ1Y2tldHMvc3Ns
-X2J1Y2tldHMuYyB8IDMgKy0tCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRl
-bGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvYnVja2V0cy9zc2xfYnVja2V0cy5jIGIvYnVja2V0
-cy9zc2xfYnVja2V0cy5jCi1pbmRleCBiMDFlNTM1Li45ODAxZjg3IDEwMDY0NAotLS0tIGEvYnVj
-a2V0cy9zc2xfYnVja2V0cy5jCi0rKysgYi9idWNrZXRzL3NzbF9idWNrZXRzLmMKLUBAIC0xMzI1
-LDggKzEzMjUsNyBAQCBzdGF0aWMgaW50IHNzbF9uZWVkX2NsaWVudF9jZXJ0KFNTTCAqc3NsLCBY
-NTA5ICoqY2VydCwgRVZQX1BLRVkgKipwa2V5KQotICAgICAgICAgICAgICAgICByZXR1cm4gMDsK
-LSAgICAgICAgICAgICB9Ci0gICAgICAgICAgICAgZWxzZSB7Ci0tICAgICAgICAgICAgICAgIHBy
-aW50ZigiT3BlblNTTCBjZXJ0IGVycm9yOiAlZCAlZCAlZFxuIiwgRVJSX0dFVF9MSUIoZXJyKSwK
-LS0gICAgICAgICAgICAgICAgICAgICAgIEVSUl9HRVRfRlVOQyhlcnIpLAotKyAgICAgICAgICAg
-ICAgICBwcmludGYoIk9wZW5TU0wgY2VydCBlcnJvcjogJWQgJWRcbiIsIEVSUl9HRVRfTElCKGVy
-ciksCi0gICAgICAgICAgICAgICAgICAgICAgICBFUlJfR0VUX1JFQVNPTihlcnIpKTsKLSAgICAg
-ICAgICAgICAgICAgUEtDUzEyX2ZyZWUocDEyKTsKLSAgICAgICAgICAgICAgICAgYmlvX21ldGhf
-ZnJlZShiaW9tKTsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NlcmYvc2VyZi8w
-MDA0LUZvbGxvdy11cC10by1yMTgxMTA4My1maXgtYnVpbGRpbmctd2l0aC1zY29ucy0zLjAuMC0u
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zZXJmL3NlcmYvMDAwNC1Gb2xsb3ctdXAtdG8t
-cjE4MTEwODMtZml4LWJ1aWxkaW5nLXdpdGgtc2NvbnMtMy4wLjAtLnBhdGNoCmRlbGV0ZWQgZmls
-ZSBtb2RlIDEwMDY0NAppbmRleCAwMmZhOWUzYTA2Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVj
-aXBlcy1zdXBwb3J0L3NlcmYvc2VyZi8wMDA0LUZvbGxvdy11cC10by1yMTgxMTA4My1maXgtYnVp
-bGRpbmctd2l0aC1zY29ucy0zLjAuMC0ucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwyOSArMCww
-IEBACi1Gcm9tIDU2NTIxMWZkMDgyZWY2NTNjYTljNDRhMzQ1MzUwZmMxNDUxZjVhMGYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgot
-RGF0ZTogTW9uLCAzIFNlcCAyMDE4IDExOjEyOjM4IC0wNzAwCi1TdWJqZWN0OiBbUEFUQ0hdIEZv
-bGxvdy11cCB0byByMTgxMTA4MyBmaXggYnVpbGRpbmcgd2l0aCBzY29ucyAzLjAuMCBhbmQKLSBQ
-eXRob24zCi0KLSogU0NvbnN0cnVjdDogQXBwZW5kIGRlY29kZSgndXRmLTgpIHRvIEZJTEUuZ2V0
-X2NvbnRlbnRzKCkgdG8gYXZvaWQKLSAgVHlwZUVycm9yOiBjYW5ub3QgdXNlIGEgc3RyaW5nIHBh
-dHRlcm4gb24gYSBieXRlcy1saWtlIG9iamVjdAotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0
-Ci1baHR0cHM6Ly9zdm4uYXBhY2hlLm9yZy92aWV3dmMvc2VyZi90cnVuay9TQ29uc3RydWN0P3Ix
-PTE4MTEwODgmcjI9MTgxNDYwNF0KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+Ci0tLS0KLSBTQ29uc3RydWN0IHwgMiArLQotIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvU0NvbnN0cnVjdCBiL1ND
-b25zdHJ1Y3QKLWluZGV4IDg3NzczMWUuLjc2NzhiYjEgMTAwNjQ0Ci0tLS0gYS9TQ29uc3RydWN0
-Ci0rKysgYi9TQ29uc3RydWN0Ci1AQCAtMTY5LDcgKzE2OSw3IEBAIGVudi5BcHBlbmQoQlVJTERF
-UlMgPSB7Ci0gbWF0Y2ggPSByZS5zZWFyY2goJ1NFUkZfTUFKT1JfVkVSU0lPTiAoWzAtOV0rKS4q
-JwotICAgICAgICAgICAgICAgICAgICdTRVJGX01JTk9SX1ZFUlNJT04gKFswLTldKykuKicKLSAg
-ICAgICAgICAgICAgICAgICAnU0VSRl9QQVRDSF9WRVJTSU9OIChbMC05XSspJywKLS0gICAgICAg
-ICAgICAgICAgICBlbnYuRmlsZSgnc2VyZi5oJykuZ2V0X2NvbnRlbnRzKCksCi0rICAgICAgICAg
-ICAgICAgICAgZW52LkZpbGUoJ3NlcmYuaCcpLmdldF9jb250ZW50cygpLmRlY29kZSgndXRmLTgn
-KSwKLSAgICAgICAgICAgICAgICAgICByZS5ET1RBTEwpCi0gTUFKT1IsIE1JTk9SLCBQQVRDSCA9
-IFtpbnQoeCkgZm9yIHggaW4gbWF0Y2guZ3JvdXBzKCldCi0gZW52LkFwcGVuZChNQUpPUj1zdHIo
-TUFKT1IpKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi9zZXJmXzEuMy45
-LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2VyZi9zZXJmXzEuMy4xMC5iYgpzaW1pbGFyaXR5
-IGluZGV4IDc4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9zZXJmL3NlcmZfMS4z
-LjkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3NlcmYvc2VyZl8xLjMuMTAuYmIK
-aW5kZXggNjY5ZjQyYjhlNy4uYzZiNTE0NTJhYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvc2VyZi9zZXJmXzEuMy45LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NlcmYv
-c2VyZl8xLjMuMTAuYmIKQEAgLTcsMTYgKzcsMTIgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3NlcmYu
-YXBhY2hlLm9yZy8iCiBTUkNfVVJJID0gIiR7QVBBQ0hFX01JUlJPUn0vJHtCUE59LyR7QlBOfS0k
-e1BWfS50YXIuYnoyIFwKICAgICAgICAgICAgZmlsZTovL25vcnBhdGgucGF0Y2ggXAogICAgICAg
-ICAgICBmaWxlOi8vZW52LnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtRml4LXN5bnRh
-eC1vZi1hLXByaW50LWluLXRoZS1zY29ucy1maWxlLXRvLXVuYnJlYWstYi5wYXRjaCBcCiAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAyLVNDb25zdHJ1Y3QtRml4LXBhdGgtcXVvdGluZy1mb3ItLmRlZi1n
-ZW5lcmF0b3IucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMy1nZW5fZGVmLnBhdGNoIFwK
-LSAgICAgICAgICAgZmlsZTovLzAwMDQtRm9sbG93LXVwLXRvLXIxODExMDgzLWZpeC1idWlsZGlu
-Zy13aXRoLXNjb25zLTMuMC4wLS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9TQ29uc3RydWN0
-LnN0b3AuY3JlYXRpbmcuZGlyZWN0b3JpZXMud2l0aG91dC5zYW5kYm94LWluc3RhbGwucHJlZml4
-LnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtYnVja2V0cy1zc2xfYnVja2V0cy5jLWRv
-LW5vdC11c2UtRVJSX0dFVF9GVU5DLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW21k
-NXN1bV0gPSAiMzcwYTYzNDBmZjIwMzY2YWIwODgwMTJjZDEzZjJiNTciCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNTQ5YzJkMjFjNTc3YThhOWMwNDUwZmFjYjVjY2E4MDlmMjY1OTFmMDQ4ZTQ2NjU1
-MjI0MDk0N2JkZjdhODdjYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiZTgxZWYwOGJhYTI1MTZl
-Y2RhNzZhNzdhZGY3ZGVmN2JjMzIyN2VlYjU3OGI5YTMzYjQ1ZjdiNDFkYzA2NGU2IgogCiBMSUNF
-TlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
-NT04NmQzZjNhOTVjMzI0Yzk0NzliZDg5ODY5NjhmNDMyNyIKLS0gCjIuMzkuMgoK
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMjI6NDc6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtc2F0
+by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6
+emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19n
+aXQuYmIKaW5kZXggNGIwNDU4ODY4Mi4uMGQxYWY1YjhjMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9w
+dXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFJFUVVJUkVEX0RJU1RST19G
+RUFUVVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24v
+cHV6emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNL
+X0NPTU1JVFMgPSAiMSIKLVNSQ1JFViA9ICI1YTQ5MWM1YWQzMzNlZjM0YzFlNzcxM2Y5MjBmNTFj
+YmIyMDVhZjYwIgorU1JDUkVWID0gIjFhMzE2ZjQ3YWQzZDE3NDliOWIzMWE5OWNkYjFlYmY0NzJm
+ZTFkODUiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCR7U1JDUFZ9IgogCi0tIAoyLjM5LjIKCg==
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/serf: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf: SRC_URI changed from "https://archive.apache.org/dist/serf/serf-1.3.9.tar.bz2 file://norpath.patch file://env.patch file://0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch file://0002-SConstruct-Fix-path-quoting-for-.def-generator.patch file://0003-gen_def.patch file://0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch file://SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch file://0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch" to "https://archive.apache.org/dist/serf/serf-1.3.10.tar.bz2 file://norpath.patch file://env.patch file://0002-SConstruct-Fix-path-quoting-for-.def-generator.patch file://0003-gen_def.patch file://SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch"
-packages/core2-32-poky-linux/serf/serf-dbg: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-dbg: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf-dbg: PKGSIZE changed from 300000 to 300132 (+0%)
-packages/core2-32-poky-linux/serf/serf-dev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-dev: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf-dev: PKGSIZE changed from 69732 to 69734 (+0%)
-packages/core2-32-poky-linux/serf/serf-doc: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-doc: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf-locale: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-locale: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf-src: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-src: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf-src: PKGSIZE changed from 435970 to 437497 (+0%)
-packages/core2-32-poky-linux/serf/serf-staticdev: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf-staticdev: PV changed from "1.3.9" to "1.3.10"
-packages/core2-32-poky-linux/serf/serf: PKGV changed from 1.3.9 [default] to 1.3.10 [default]
-packages/core2-32-poky-linux/serf/serf: PV changed from "1.3.9" to "1.3.10"
+packages/core2-32-poky-linux/puzzles: PKGV changed from 0.0+gitAUTOINC+5a491c5ad3 [default] to 0.0+gitAUTOINC+1a316f47ad [default]
+packages/core2-32-poky-linux/puzzles: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-dbg: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 14447260 to 15589508 (+8%)
+packages/core2-32-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+5a491c5ad3-r0'])", added "puzzles (['= 2:0.0+git0+1a316f47ad-r0'])"
+packages/core2-32-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-dev: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-doc: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-locale: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-src: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3542339 to 3695312 (+4%)
+packages/core2-32-poky-linux/puzzles/puzzles-src: FILELIST: removed "/usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/unruly.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/untangle.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/drawing.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/random.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/bridges.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/puzzles.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/fifteen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/midend.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/map.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/slant.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/sort.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/tdq.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/dominosa.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/lightup.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5
+ ad3-r0/no-icon.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/sixteen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/penrose.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/inertia.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/penrose.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/misc.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/version.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/grid.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/matching.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/netslide.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/galaxies.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/grid.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/keen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/divvy.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/dsf.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/findloop.c /usr/src/debug/puzzles/2_0.0+gitAU
+ TOINC+5a491c5ad3-r0/latin.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/magnets.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/mines.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/solo.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/rect.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/guess.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/filling.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/loopgen.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/gtk.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/samegame.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/tracks.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/net.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/range.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/loopgen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/flip.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/pattern.c /usr/src/debug/puzzles/2_0.0+git
+ AUTOINC+5a491c5ad3-r0/signpost.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/gtk.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/laydomino.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/tents.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/ps.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/twiddle.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/unequal.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/pearl.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/flood.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/blackbox.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/cube.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/loopy.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/pegs.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/singles.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/towers.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/printing.c /usr/src/debug/puzzles/2
+ _0.0+gitAUTOINC+5a491c5ad3-r0/tree234.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/combi.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/latin.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/undead.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/mosaic.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/matching.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/malloc.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/tree234.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+5a491c5ad3-r0/palisade.c", added "/usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/palisade.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/dsf.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/fifteen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/slant.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/filling.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/solo.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/gtk.h /usr/
+ src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/untangle.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/puzzles.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/latin.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/matching.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/range.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/galaxies.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/misc.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/gtk.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/malloc.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/matching.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/latin.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/ps.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/twiddle.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/penrose.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/laydomino.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/v
+ ersion.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/divvy.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/penrose.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/pattern.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/undead.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/sort.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/hat-tables.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/blackbox.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/magnets.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/hat-internal.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/signpost.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/guess.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/random.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/tents.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/hat.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/tdq.c /usr/src/debug/puzzles/2_0.0+gitAUTOI
+ NC+1a316f47ad-r0/tree234.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/keen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/net.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/samegame.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/drawing.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/flood.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/grid.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/loopy.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/map.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/inertia.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/sixteen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/hat.h /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/tree234.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/dominosa.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/grid.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/rect.c /usr/src/debug/puzzles/2_0.0+gitAUTO
+ INC+1a316f47ad-r0/bridges.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/netslide.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/printing.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/singles.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/unequal.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/mines.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/pearl.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/midend.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/flip.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/pegs.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/combi.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/unruly.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/no-icon.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/mosaic.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/cube.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/lightup.c /usr/src/debug/puzzles/2_
+ 0.0+gitAUTOINC+1a316f47ad-r0/loopgen.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/towers.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/findloop.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/tracks.c /usr/src/debug/puzzles/2_0.0+gitAUTOINC+1a316f47ad-r0/loopgen.h"
+packages/core2-32-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+5a491c5ad3-r0'])", added "puzzles-dev (['= 2:0.0+git0+1a316f47ad-r0'])"
+packages/core2-32-poky-linux/puzzles/puzzles-staticdev: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles: PV changed from "0.0+gitAUTOINC+5a491c5ad3" to "0.0+gitAUTOINC+1a316f47ad"
+packages/core2-32-poky-linux/puzzles/puzzles: PKGSIZE changed from 6847938 to 7445958 (+9%)
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -533,121 +447,148 @@ TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a5a95bdf9dd0ca45f389c6132d676f800f8fe207"
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 38 Local 19 Mirrors 0 Missed 19 Current 292 (50% match, 94% complete)
-Removing 2 stale sstate objects for arch cortexa15t2hf-neon...done.
+Sstate summary: Wanted 51 Local 41 Mirrors 0 Missed 10 Current 720 (80% match, 98% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 304 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 305 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running task 766 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_fetch)
-NOTE: Running task 823 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_fetch)
-NOTE: Running task 935 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_fetch)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Succeeded
-NOTE: Running task 983 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_unpack)
-NOTE: Running task 984 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_unpack)
-NOTE: Running task 985 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_unpack)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 741 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 742 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/xkeyboard-config/2.38-r0/temp/log.do_packagedata_setscene.1474079
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 770 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_package_setscene)
+NOTE: Running task 2149 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Started
+NOTE: Running task 2372 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1066 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Succeeded
-NOTE: Running task 1113 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_patch)
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1114 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_patch)
-NOTE: recipe serf-1.3.10-r0: task do_patch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1115 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_patch)
-NOTE: Running task 1116 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_collect_spdx_deps)
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 1117 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_patch: Succeeded
-NOTE: Running task 1118 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1119 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Started
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic unihash changed to 761254ce560f32f5fbba85247c1fcf35f5ea740f624164a70bf91b6133c5de5f
-NOTE: recipe apr-1.7.3-r0: task do_patch: Succeeded
-NOTE: Running task 1120 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1121 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure)
-NOTE: recipe apr-1.7.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure: Succeeded
-NOTE: Running task 1122 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1123 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile)
-NOTE: recipe apr-1.7.3-r0: task do_compile: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile: Succeeded
-NOTE: Running task 1124 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1125 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install)
-NOTE: recipe apr-1.7.3-r0: task do_install: Started
-NOTE: recipe apr-1.7.3-r0: task do_install: Succeeded
-NOTE: Running task 1126 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1127 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_populate_sysroot)
-NOTE: Running task 1128 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_package)
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Started
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1129 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1130 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_configure)
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Succeeded
-NOTE: Running task 1131 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata)
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Started
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Failed
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1131 tasks of which 1105 didn't need to be rerun and 1 failed.
+NOTE: Running task 2401 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata)
+NOTE: Running task 2407 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: Running task 2414 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: Running task 2416 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2417 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2418 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 10ba71f492d90836477a6c78b19c2f872951a7f2e4f3c761e213733c97c5f8ff
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2438 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_collect_spdx_deps)
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2439 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2440 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx)
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2441 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2442 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2443 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2444 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2445 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2446 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Succeeded
+NOTE: Running task 2447 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
+NOTE: Running task 2448 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
+NOTE: Running task 2449 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2450 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2451 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 2451 tasks of which 2429 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
+NOTE: Writing buildhistory took: 3 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-src went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dbg went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-ptest went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-staticdev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-doc went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-locale went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-bin went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/apr/1.7.3-r0/temp/log.do_packagedata.4056955
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata) failed with exit code '1'
+Summary: There were 52 ERROR messages, returning a non-zero exit code.
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-src went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dbg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-staticdev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-doc went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-af went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ar went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-az went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-bg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ca went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-crh went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-cs went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-da went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-de went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-el went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-en-gb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-eo went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-es went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fur went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-gl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-he went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hu went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-id went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-it went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ja went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ka went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ko went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ky went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-lt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt-br went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ro went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ru went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-rw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sq went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sv went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-tr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-uk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-vi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-cn went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-tw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -674,121 +615,164 @@ TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a5a95bdf9dd0ca45f389c6132d676f800f8fe207"
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 38 Local 19 Mirrors 0 Missed 19 Current 292 (50% match, 94% complete)
-Removing 2 stale sstate objects for arch ppc7400...done.
+Sstate summary: Wanted 51 Local 41 Mirrors 0 Missed 10 Current 720 (80% match, 98% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 304 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 305 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running task 767 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_fetch)
-NOTE: Running task 823 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_fetch)
-NOTE: Running task 935 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Succeeded
-NOTE: Running task 983 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_unpack)
-NOTE: Running task 984 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_unpack)
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Succeeded
-NOTE: Running task 985 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_unpack)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 741 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 742 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/xkeyboard-config/2.38-r0/temp/log.do_packagedata_setscene.1686402
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 770 of 771 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_package_setscene)
+NOTE: Running task 2149 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: Running task 2372 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
+NOTE: Running task 2373 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: Running task 2374 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2375 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2376 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1089 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Started
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Succeeded
-NOTE: Running task 1113 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_patch)
-NOTE: Running task 1114 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_patch)
-NOTE: recipe serf-1.3.10-r0: task do_patch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1115 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_patch)
-NOTE: Running task 1116 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_collect_spdx_deps)
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 1117 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_patch: Succeeded
-NOTE: Running task 1118 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1119 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic unihash changed to 761254ce560f32f5fbba85247c1fcf35f5ea740f624164a70bf91b6133c5de5f
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Succeeded
-NOTE: Running task 1120 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1121 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure)
-NOTE: recipe apr-1.7.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure: Succeeded
-NOTE: Running task 1122 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1123 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile)
-NOTE: recipe apr-1.7.3-r0: task do_compile: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile: Succeeded
-NOTE: Running task 1124 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1125 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install)
-NOTE: recipe apr-1.7.3-r0: task do_install: Started
-NOTE: recipe apr-1.7.3-r0: task do_install: Succeeded
-NOTE: Running task 1126 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1127 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_populate_sysroot)
-NOTE: Running task 1128 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_package)
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Started
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1129 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1130 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_configure)
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Succeeded
-NOTE: Running task 1131 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata)
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Started
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Failed
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1131 tasks of which 1105 didn't need to be rerun and 1 failed.
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 2405 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata)
+NOTE: Running task 2417 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 10ba71f492d90836477a6c78b19c2f872951a7f2e4f3c761e213733c97c5f8ff
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2438 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_collect_spdx_deps)
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2439 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2440 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2441 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2442 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2443 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2444 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2445 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2446 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Succeeded
+NOTE: Running task 2447 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
+NOTE: Running task 2448 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
+NOTE: Running task 2449 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2450 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2451 of 2451 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 2451 tasks of which 2429 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 6 seconds
+NOTE: Writing buildhistory took: 3 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-src went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dbg went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-ptest went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-staticdev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-doc went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-locale went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-bin went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/apr/1.7.3-r0/temp/log.do_packagedata.195559
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata) failed with exit code '1'
+Summary: There were 52 ERROR messages, returning a non-zero exit code.
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-src went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dbg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-staticdev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-doc went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-af went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ar went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-az went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-bg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ca went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-crh went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-cs went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-da went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-de went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-el went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-en-gb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-eo went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-es went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fur went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-gl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-he went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hu went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-id went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-it went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ja went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ka went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ko went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ky went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-lt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt-br went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ro went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ru went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-rw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sq went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sv went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-tr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-uk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-vi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-cn went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-tw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============5093402242176926844==
+--===============2676985048374760113==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+5a491c5ad3-r0'])", added "puzzles (['= 2:0.0+git0+1a316f47ad-r0'])"
+packages/core2-32-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+packages/core2-32-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+5a491c5ad3-r0'])", added "puzzles-dev (['= 2:0.0+git0+1a316f47ad-r0'])"
+packages/core2-32-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+5a491c5ad3 to 0.0+git0+1a316f47ad
+
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -815,121 +799,148 @@ TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a5a95bdf9dd0ca45f389c6132d676f800f8fe207"
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 38 Local 19 Mirrors 0 Missed 19 Current 292 (50% match, 94% complete)
-Removing 2 stale sstate objects for arch mips32r2...done.
+Sstate summary: Wanted 51 Local 41 Mirrors 0 Missed 10 Current 715 (80% match, 98% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 304 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 305 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running task 767 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_fetch)
-NOTE: Running task 823 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_fetch)
-NOTE: Running task 935 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Succeeded
-NOTE: Running task 983 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_unpack)
-NOTE: Running task 984 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_unpack)
-NOTE: Running task 985 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_unpack)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 736 of 766 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 737 of 766 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/xkeyboard-config/2.38-r0/temp/log.do_packagedata_setscene.1620261
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 765 of 766 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_package_setscene)
+NOTE: Running task 2137 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: Running task 2356 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
+NOTE: Running task 2357 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1066 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1113 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_patch)
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1114 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_patch)
-NOTE: recipe serf-1.3.10-r0: task do_patch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1115 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_patch)
-NOTE: Running task 1116 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_collect_spdx_deps)
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 1117 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_patch: Succeeded
-NOTE: Running task 1118 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1119 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic unihash changed to 761254ce560f32f5fbba85247c1fcf35f5ea740f624164a70bf91b6133c5de5f
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_patch: Succeeded
-NOTE: Running task 1120 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1121 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure)
-NOTE: recipe apr-1.7.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure: Succeeded
-NOTE: Running task 1122 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1123 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile)
-NOTE: recipe apr-1.7.3-r0: task do_compile: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile: Succeeded
-NOTE: Running task 1124 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1125 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install)
-NOTE: recipe apr-1.7.3-r0: task do_install: Started
-NOTE: recipe apr-1.7.3-r0: task do_install: Succeeded
-NOTE: Running task 1126 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1127 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_populate_sysroot)
-NOTE: Running task 1128 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_package)
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Started
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1129 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1130 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_configure)
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Succeeded
-NOTE: Running task 1131 of 1155 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata)
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Started
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Failed
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1131 tasks of which 1105 didn't need to be rerun and 1 failed.
+NOTE: Running task 2386 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata)
+NOTE: Running task 2398 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Started
+NOTE: Running task 2400 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2401 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2402 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 10ba71f492d90836477a6c78b19c2f872951a7f2e4f3c761e213733c97c5f8ff
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2422 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_collect_spdx_deps)
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2423 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2424 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx)
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2425 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2426 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2427 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2428 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2429 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2430 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Succeeded
+NOTE: Running task 2431 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
+NOTE: Running task 2432 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
+NOTE: Running task 2433 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2434 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2435 of 2435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 2435 tasks of which 2413 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 7 seconds
+NOTE: Writing buildhistory took: 2 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-src went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dbg went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-ptest went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-staticdev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-doc went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-locale went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-bin went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/apr/1.7.3-r0/temp/log.do_packagedata.39618
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata) failed with exit code '1'
+Summary: There were 52 ERROR messages, returning a non-zero exit code.
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-src went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dbg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-staticdev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-doc went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-af went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ar went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-az went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-bg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ca went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-crh went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-cs went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-da went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-de went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-el went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-en-gb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-eo went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-es went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fur went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-gl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-he went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hu went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-id went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-it went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ja went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ka went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ko went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ky went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-lt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt-br went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ro went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ru went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-rw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sq went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sv went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-tr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-uk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-vi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-cn went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-tw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============5093402242176926844==
+--===============2676985048374760113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -940,8 +951,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 898 .bb files complete (0 cached, 898 parsed). 1802 targets, 47 skipped, 0 masked, 0 errors.
-Removing 21 recipes from the core2-32 sysroot...done.
-Removing 20 recipes from the qemux86 sysroot...done.
+Removing 89 recipes from the core2-32 sysroot...done.
+Removing 89 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -956,257 +967,654 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a5a95bdf9dd0ca45f389c6132d676f800f8fe207"
+meta-yocto-bsp       = "tmp-auh-upgrades:f61f8b1b278e9325388324b8151d595a120f7b8f"
 workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
 
 Initialising tasks...done.
-Sstate summary: Wanted 132 Local 113 Mirrors 0 Missed 19 Current 198 (85% match, 94% complete)
+Sstate summary: Wanted 458 Local 449 Mirrors 0 Missed 9 Current 281 (98% match, 98% complete)
 Removing 3 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 202 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 203 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 205 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 206 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 218 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 219 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 222 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 224 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running task 574 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_fetch)
-NOTE: Running task 602 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_fetch)
-NOTE: Running task 663 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_fetch)
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Started
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_fetch: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_fetch: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_fetch: Succeeded
-NOTE: Running task 676 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_unpack)
-NOTE: Running task 677 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_unpack)
-NOTE: Running task 678 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_unpack)
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 235 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Started
-NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 236 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 237 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 240 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 241 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 247 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe serf-1.3.10-r0: task do_unpack: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 679 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_patch)
-NOTE: Running task 680 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_patch)
-NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Started
-NOTE: recipe serf-1.3.10-r0: task do_patch: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 250 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe apr-1.7.3-r0: task do_unpack: Succeeded
-NOTE: Running task 686 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_patch)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 282 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 285 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 288 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 295 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 834 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 313 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 391 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_fetch: Succeeded
+NOTE: Running task 872 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe apr-1.7.3-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Started
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 256 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 394 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 260 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe apr-util-1.6.3-r0: task do_patch: Succeeded
-NOTE: Running task 695 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 398 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_unpack: Succeeded
+NOTE: Running task 1101 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_patch: Succeeded
+NOTE: Running task 1141 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1142 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1143 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to 10ba71f492d90836477a6c78b19c2f872951a7f2e4f3c761e213733c97c5f8ff
+NOTE: recipe gtk+3-3.24.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 403 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 404 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 406 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 407 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 408 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 409 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 410 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 411 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 412 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 413 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 414 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 415 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 416 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.48.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 417 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.48.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe at-spi2-core-2.48.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe at-spi2-core-2.48.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 422 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 423 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata_setscene)
+NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 426 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.3.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 429 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 430 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 433 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 434 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe at-spi2-core-2.48.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-7.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-7.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe harfbuzz-7.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe harfbuzz-7.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 440 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 441 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 443 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 444 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/xkeyboard-config/2.38-r0/temp/log.do_packagedata_setscene.2008732
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 446 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_package_setscene)
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 449 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 450 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 451 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 452 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.0.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 453 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 454 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe at-spi2-core-2.48.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 458 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 459 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 460 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 461 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dbus-1.14.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 466 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.74.0.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 467 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.74.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 468 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 469 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 470 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 471 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 474 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 475 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_23.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.74.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.74.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 478 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 479 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 480 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 481 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 482 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 484 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 485 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mesa-2_23.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 490 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
+NOTE: Running setscene task 491 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 493 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.243.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 494 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.243.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 495 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 496 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 497 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 498 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 499 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 500 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 501 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 502 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gobject-introspection-1.74.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe freetype-2.13.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 503 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 505 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 506 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 508 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe gobject-introspection-1.74.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.13.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 512 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_packagedata_setscene)
+NOTE: Running setscene task 513 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Started
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 519 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 527 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.243.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 528 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 529 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-loader-1.3.243.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 530 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.243.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 532 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 535 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 536 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpng-1.6.39-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 544 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 548 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
+NOTE: Running setscene task 549 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 552 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 553 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 558 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 559 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 562 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 564 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 566 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 569 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 570 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.10.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.243.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.10.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.38-r0: task do_package_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 579 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_packagedata_setscene)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 583 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.10.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.10.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 586 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 588 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 590 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 591 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.8.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 593 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 594 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.11.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.11.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 598 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 599 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 600 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 601 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 602 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 603 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 605 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 606 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 607 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 608 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 609 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 610 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 611 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 612 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 614 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 615 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 616 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 617 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 619 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 620 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 621 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 622 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 625 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 626 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 627 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 628 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 629 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 630 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 633 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 636 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 643 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 644 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 649 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 650 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 662 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 663 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 262 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 263 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 264 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 265 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 267 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 268 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 269 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 270 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 271 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 272 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 674 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 675 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 676 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 677 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 679 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 680 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 681 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 682 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 683 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
 NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_patch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe apr-util-1.6.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running setscene task 284 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 285 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 849 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 850 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic)
+NOTE: Running setscene task 693 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 694 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Started
-NOTE: recipe serf-1.3.10-r0: task do_populate_lic: Succeeded
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/serf/serf_1.3.10.bb:do_populate_lic unihash changed to 761254ce560f32f5fbba85247c1fcf35f5ea740f624164a70bf91b6133c5de5f
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe serf-1.3.10-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 289 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 290 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 698 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 699 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
 NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
 NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe apr-1.7.3-r0: task do_patch: Succeeded
-NOTE: Running task 859 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Started
 NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 293 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 294 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 295 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe apr-1.7.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 702 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 703 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 298 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 300 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 709 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 710 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 303 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 305 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 712 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 307 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 714 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
 NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 716 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 717 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 309 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 310 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 311 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 720 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 721 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 722 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 312 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 317 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 318 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 723 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 724 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 324 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 732 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 327 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 736 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 328 of 330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 737 of 739 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1030 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1113 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_collect_spdx_deps)
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe apr-1.7.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe apr-1.7.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1120 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure)
-NOTE: recipe apr-1.7.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure: Succeeded
-NOTE: Running task 1121 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_configure_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1122 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile)
-NOTE: recipe apr-1.7.3-r0: task do_compile: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile: Succeeded
-NOTE: Running task 1123 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_compile_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1124 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install)
-NOTE: recipe apr-1.7.3-r0: task do_install: Started
-NOTE: recipe apr-1.7.3-r0: task do_install: Succeeded
-NOTE: Running task 1125 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_install_ptest_base)
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Started
-NOTE: recipe apr-1.7.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1126 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_populate_sysroot)
-NOTE: Running task 1127 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_package)
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Started
-NOTE: recipe apr-1.7.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1128 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe apr-util-1.6.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1129 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr-util_1.6.3.bb:do_configure)
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Started
-NOTE: recipe apr-1.7.3-r0: task do_package: Succeeded
-NOTE: Running task 1130 of 1154 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata)
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Started
-NOTE: recipe apr-1.7.3-r0: task do_packagedata: Failed
-NOTE: recipe apr-util-1.6.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1130 tasks of which 1104 didn't need to be rerun and 1 failed.
+NOTE: Running task 2250 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.38.bb:do_packagedata)
+NOTE: Running task 2289 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2344 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2345 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_configure: Succeeded
+NOTE: Running task 2346 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_compile: Succeeded
+NOTE: Running task 2347 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_install: Succeeded
+NOTE: Running task 2348 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 2349 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package: Succeeded
+NOTE: Running task 2350 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_packagedata: Succeeded
+NOTE: Running task 2351 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_spdx)
+NOTE: Running task 2352 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_write_rpm)
+NOTE: Running task 2353 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_package_qa)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2354 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_create_runtime_spdx)
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Started
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe puzzles-2_0.0+gitAUTOINC+1a316f47ad-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2355 of 2355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 2355 tasks of which 2335 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 5 seconds
+NOTE: Writing buildhistory took: 3 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-src went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dbg went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-ptest went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-staticdev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-dev went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-doc went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-locale went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr-bin went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: QA Issue: Package version for package apr went backwards which would break package feeds (from 0:1.7.4-r0 to 0:1.7.3-r0) [version-going-backwards]
-ERROR: apr-1.7.3-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/apr/1.7.3-r0/temp/log.do_packagedata.369158
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/apr/apr_1.7.3.bb:do_packagedata) failed with exit code '1'
+Summary: There were 52 ERROR messages, returning a non-zero exit code.
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-src went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dbg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-staticdev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-dev went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-doc went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-af went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ar went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-az went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-bg went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ca went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-crh went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-cs went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-da went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-de went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-el went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-en-gb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-eo went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-es went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-fur went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-gl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-he went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-hu went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-id went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-it went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ja went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ka went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ko went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ky went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-lt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nb went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-nl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-pt-br went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ro went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-ru went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-rw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sl went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sq went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-sv went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-tr went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-uk went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-vi went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-cn went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: QA Issue: Package version for package xkeyboard-config-locale-zh-tw went backwards which would break package feeds (from 0:2.39-r0 to 0:2.38-r0) [version-going-backwards]
+ERROR: xkeyboard-config-2.38-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============5093402242176926844==--
+--===============2676985048374760113==--
 
