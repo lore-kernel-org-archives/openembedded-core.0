@@ -2,582 +2,147 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A7AEB64DA
-	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 10:38:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.5333.1686911875927358429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0BCEB64D7
+	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 10:40:02 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.76])
+ by mx.groups.io with SMTP id smtpd.web11.5369.1686911995412169801
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Jun 2023 03:37:56 -0700
+ Fri, 16 Jun 2023 03:39:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 008D71FB;
-	Fri, 16 Jun 2023 03:38:39 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 616FC3F5A1;
-	Fri, 16 Jun 2023 03:37:54 -0700 (PDT)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] ghostscript: mostly rewrite recipe
-Date: Fri, 16 Jun 2023 11:37:52 +0100
-Message-Id: <20230616103752.468683-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=3iZ8A8rU;
+ spf=pass (domain: arm.com, ip: 40.107.21.76, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NyrfsvSojN2HHsoOvaAK6ndxRVcbSYBdRDtDshHSOLo=;
+ b=3iZ8A8rUSPjT61Ac6r5VSj0yF9yZlCxReKgUFmxmYWx3z4FjNDbMo0K/ou41N7nWUo5FTJB0nxbyOfqmdYGl/bjjvImPw+/eTduO8hqKBfAjnmnvdEBoh5mMiglz8rt72fS+/4YanTtwYutkDrtn9tqtMxfGGg1GFtJ8fcuDbQo=
+Received: from DB6PR07CA0195.eurprd07.prod.outlook.com (2603:10a6:6:42::25) by
+ PAVPR08MB9138.eurprd08.prod.outlook.com (2603:10a6:102:30d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.29; Fri, 16 Jun
+ 2023 10:39:52 +0000
+Received: from DBAEUR03FT028.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:6:42:cafe::4a) by DB6PR07CA0195.outlook.office365.com
+ (2603:10a6:6:42::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.13 via Frontend
+ Transport; Fri, 16 Jun 2023 10:39:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT028.mail.protection.outlook.com (100.127.142.236) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.13 via Frontend Transport; Fri, 16 Jun 2023 10:39:51 +0000
+Received: ("Tessian outbound 945aec65ec65:v136"); Fri, 16 Jun 2023 10:39:51 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 5da9c6d4848d3636
+X-CR-MTA-TID: 64aa7808
+Received: from 8a37c13779e7.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B1F1DDBD-8A5C-466F-BD6F-69993F8B7381.1;
+	Fri, 16 Jun 2023 10:39:09 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8a37c13779e7.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 16 Jun 2023 10:39:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VIc5/Jvc/7jbJuBQF/j0TJFxt8N5THss9I2eqcolAdSeBwfcUTPdHOzy6s6dCXCmOj3W3uRxwn61WsD1QWzEzQDa0acTn7mKqn4SvGYGIZwHDhzRNHYkl9nkekk4dVmYbIE+FGTcwDEKfU4ulxZdp+mPFGPl4yW4W3JRBpng9DuKCnFPh0Y0fRu3+x/PmviXQIaS1C/EUaZZ2lzKn1wlgkmAu1sRk/AOa4Pszq67I7AT2NyYcjY6gX88ZSJlfugtIn0ywT9JNOl6j/r9LDpqxb9+ys0aM1VGRKLAq9KgwGBJF2g4qVE7nZjnrwF7KZJ/Sdec0/DKAI1qXAsggu1VOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NyrfsvSojN2HHsoOvaAK6ndxRVcbSYBdRDtDshHSOLo=;
+ b=diH6cOLeNoQQbTNnneq42MvMHekKKxISSof1ffdx2V/JrbvixU/GwjCEDXSd1SdNrVa2X7crWxalLmQ8EmN7G5qFpV4ahItjLpD2116wC7biEXa1iJNzOq4KR/c1jb13tQfMMFKSbm38LshktkStOFqWDm0YV5ISPRgnCTkLI16W+ced92oCIdM4sqkq2MEPlqO/QPaSYrDlEiQKCqeJzKvvF/IVWTzxziYFMJIVNGUiJrDMCSg1koAxoJe+GlilWY0L4hayEGcoQ3hR1phubNQBNNerD7igSBw67kqJqRsfVnmuBvsYvzN2U9fGb47+i9j4I8tq89esmRfCGfAunA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NyrfsvSojN2HHsoOvaAK6ndxRVcbSYBdRDtDshHSOLo=;
+ b=3iZ8A8rUSPjT61Ac6r5VSj0yF9yZlCxReKgUFmxmYWx3z4FjNDbMo0K/ou41N7nWUo5FTJB0nxbyOfqmdYGl/bjjvImPw+/eTduO8hqKBfAjnmnvdEBoh5mMiglz8rt72fS+/4YanTtwYutkDrtn9tqtMxfGGg1GFtJ8fcuDbQo=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAVPR08MB8824.eurprd08.prod.outlook.com (2603:10a6:102:2fd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.25; Fri, 16 Jun
+ 2023 10:39:06 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::eb3c:9b42:21c9:494e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::eb3c:9b42:21c9:494e%7]) with mapi id 15.20.6455.045; Fri, 16 Jun 2023
+ 10:39:06 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 08/55] ghostscript: remove mkdir-p.patch
+Thread-Topic: [OE-core] [PATCH 08/55] ghostscript: remove mkdir-p.patch
+Thread-Index: AQHZnqLmOY32N2gwf0iX/IeMJQ649a+NQDoA
+Date: Fri, 16 Jun 2023 10:39:06 +0000
+Message-ID: <FAA09785-91DA-465F-910B-81AFB4EEE956@arm.com>
+References: <20230614092918.4065570-1-alex@linutronix.de>
+ <20230614092918.4065570-8-alex@linutronix.de>
+In-Reply-To: <20230614092918.4065570-8-alex@linutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.600.7)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAVPR08MB8824:EE_|DBAEUR03FT028:EE_|PAVPR08MB9138:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a9425d3-b304-438b-7775-08db6e560416
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ s9EIUGUuVEcS5PpYjYRqz6g7ZYVXzdplnBbKbrgaYW03sAbgpBn6FB2bCPyoekyAt69BbNrkPOZNts36VDCpuoBMXRMw0bk+g54tFG1uf7nzKbPh0xQZSZB8Wc51iS/fo0kd3NSWSkoIXINGcftiZu9gNXWOK95EZeALJvSB//0tLj4iz5GxpBvQ1jNuUOHHEBkcDowXtCSEHCOcrOyv0b+JyLJGrThHR6Tk1LRWzG2vqMi7Y4sr5KAqr1xw22dCgc4ksQf+PMsQ5C0Mh4NIhUIOt6SPgfiMD8yquCSTKXNe2h2J5hSdO5R6H9vvXDGbZmXIcy+SfOSMW1v5dTkwKCGmk81pgQhlGQmLXEYCXXo/zvdT1eRS3HLbLI6KHd8gjkOcsahvdhGSjRdgHrs/YjFtruHUQi+s01Xu/tJumNn1iBDYADv4IohEJXuIHH3c4Xuyerol3iHCN3M1T7YBlqmtzs40G22WJpDHaR1ARa+QNnyx4j286wk45EzOMgi7x8ZSvML7STsrW/1p6CVHKum+Zc9sUczq+44VVKRTE5cJyN5iFxXXFqnnvV2LbkkitYklMvL41BKHdDLmjmx2Jkdu1yrmunylRsi46gBvKsTpZsDBFQA6khsUwUEO2IWYtdVci5GARP6O4T2cTNTEKg==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(346002)(366004)(396003)(39860400002)(451199021)(5660300002)(38100700002)(122000001)(186003)(2616005)(2906002)(4744005)(6506007)(53546011)(6512007)(478600001)(26005)(38070700005)(66446008)(6916009)(66946007)(316002)(33656002)(66476007)(6486002)(71200400001)(64756008)(66556008)(8936002)(8676002)(41300700001)(86362001)(76116006)(91956017)(4326008)(36756003)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <95472BB24BE80B49BA7096CAE2B17F40@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB8824
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT028.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	f54a7d6f-87bf-49f3-a42c-08db6e55e923
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	iPcEk93uzp63p+ySarmuiy6CBffxgCbNDMUGoFYjiR4A/lTlL32MdrZppRQO3vIMAaNk12NWzIj/MeD40N/7NeZ3UjdwPI3Zdt9kQl3b4Xe2wlDXwKCuN0YODOmNZQpwDdJK2kcZrCLQUm75LZeOeELwfAkQbUqTmvWDbpQnOzkGnsT896fufZrbfEUqDGAe0bojiLVRuV896IQAnniL+pz6AdL6zkk44uZi+Cpn9r2skdPTDzZPyptktGccf1XCyrlPB0EC5Lcsjc6nxXfBj09ag/NShA3b3QLCkeXjz0cnbyjAc1Ule9XJIaacdn8ZcbK42ulzVO2fopDiMCwn4SGeGk8Ek2fLClF7FOhTku22sAeIrwM/WzxRXRUrpxlITQfUIU+P+Vd3BFmbhb70eJNyr5UQNsAf+A+5oEg0KvSH7cnPgGUrT9JC+RCPobOmbaMUCB5KAML7gSd+N7pGZTV0FjiPG3mxemMXVsmydyBfcW2rFCaYCY0XJBVWBeiPKgj33qRU9qL/qkJRJ/dP4Ss9atO1/rHS+xb/26BrGwf+Q2Jy9/hGt4Vs15GAbocpBlMnZHkRiUX65zIb8rxWojRBMhH5SCjYTeM0liKOa6PKnQPHU+1cIHiTqOsWc8MrCpPsq0/1/aL7tYJPZdi1oz/QIdghukfxGmZmcZd5FbHBTN4pFApOFH9KCES65bArM/8j697SFgnwfYbOiJiyIp/m304wB0rVGZMNd7+QHZaGAQkB/ClR89iKoDa1m+ltmWYpKGLlztcMK0Um5vhKVtxSNocf2V0QoKioaijgJJ8=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199021)(46966006)(36840700001)(40470700004)(478600001)(6486002)(40460700003)(81166007)(356005)(5660300002)(8936002)(41300700001)(8676002)(82310400005)(36756003)(4744005)(2906002)(86362001)(33656002)(6862004)(82740400003)(40480700001)(316002)(4326008)(70206006)(70586007)(26005)(186003)(6512007)(53546011)(6506007)(36860700001)(47076005)(2616005)(336012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 10:39:51.7881
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a9425d3-b304-438b-7775-08db6e560416
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT028.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9138
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 10:38:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183007
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 10:40:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183008
 
-From: Ross Burton <ross.burton@arm.com>
-
-This started as a patch cleanup but escalated rapidly.
-
-Remove unneeded patches:
-- mkdir-p.patch isn't needed now the Makefiles appear to have the correct
-  dependencies.
-- ghostscript-9.15-parallel-make.patch appears to be unneeded for the sam=
-e
-  reason
-- base-genht.c-add-a-preprocessor-define-to-allow-fope.patch isn't needed
-- cups-no-gcrypt.patch isn't needed
-- do-not-check-local-libpng-source.patch can be replaced by deleting
-  the libpng/ directory, as is already done for jpeg/
-- ghostscript-9.21-native-fix-disable-system-libtiff.patch is not needed
-  when we stop doing native builds (see below)
-
-Remove the need for ghostscript-native to build and install tools that
-are needed at target build-time: ghostscript can do this itself.  Remove
-the BBCLASSEXTEND and all of the native overrides.
-
-Inherit pkgconfig and explicitly tell configure to use the pkgconfig
-binary: unless told otherwise this configure will refuse to use an
-unprefixed pkgconfig in cross builds.
-
-Review DEPENDS and add missing freetype and zlib dependencies.
-
-Ghostcript will use the embedded copies of libraries over system
-libraries, so extend the deletion of jpeg and libpng to include expat,
-freetype, zlib, and cups as we want to link to our build of those.
-
-Add PACKAGECONFIGs for optional libidn and libpaper dependencies.
-
-Remove HAVE_SYS_TIME_H assignments, the upstream bug was fixed in 2011.
-
-Clean up comments: there's no need to explain how to use PACKAGECONFIG,
-and justify the use of autotools-brokensep.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../avoid-host-contamination.patch            |  3 +-
- ...-a-preprocessor-define-to-allow-fope.patch | 42 --------
- .../ghostscript/cups-no-gcrypt.patch          | 37 -------
- .../do-not-check-local-libpng-source.patch    | 31 ------
- .../ghostscript-9.15-parallel-make.patch      | 28 ------
- ...21-native-fix-disable-system-libtiff.patch | 47 ---------
- .../ghostscript/ghostscript/mkdir-p.patch     | 50 ----------
- .../ghostscript/ghostscript_10.01.1.bb        | 96 ++++---------------
- 8 files changed, 20 insertions(+), 314 deletions(-)
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/base-ge=
-nht.c-add-a-preprocessor-define-to-allow-fope.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/cups-no=
--gcrypt.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/do-not-=
-check-local-libpng-source.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostsc=
-ript-9.15-parallel-make.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostsc=
-ript-9.21-native-fix-disable-system-libtiff.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mkdir-p=
-.patch
-
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-con=
-tamination.patch b/meta/recipes-extended/ghostscript/ghostscript/avoid-ho=
-st-contamination.patch
-index e8cb16c36b4..15c7eb5a774 100644
---- a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contaminat=
-ion.patch
-+++ b/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contaminat=
-ion.patch
-@@ -5,8 +5,7 @@ Subject: [PATCH 04/10] avoid host contamination
-=20
- Remove hardcode path refer to host to avoid host contamination.
-=20
--Upstream-Status: Inappropriate [embedded specific]
--
-+Upstream-Status: Pending
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
-=20
- Rebase to 9.23
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/base-genht.c-a=
-dd-a-preprocessor-define-to-allow-fope.patch b/meta/recipes-extended/ghos=
-tscript/ghostscript/base-genht.c-add-a-preprocessor-define-to-allow-fope.=
-patch
-deleted file mode 100644
-index 7d80066a80e..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/base-genht.c-add-a-pr=
-eprocessor-define-to-allow-fope.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 9ca6f795409b988d38dd98bc2a6ecb68a9392312 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 29 Mar 2018 16:37:40 +0800
--Subject: [PATCH 10/10] base/genht.c: add a preprocessor define to allow =
-fopen
-- calling
--
--The commit in upstream:
--http://git.ghostscript.com/?p=3Dghostpdl.git;a=3Dcommitdiff;h=3D773c69e4=
-6e70bdd5482676437dafd2ca83397643
--
--Replace all fopen calls with gp_fopen and add a preprocessor define so
--that any unintential calls directly to fopen will cause an error.
--
--Only exceptions are those in the platform specific code, and mkromfs.c.
--This patch add a preprocessor define to allow fopen calling in
--base/genht.c.
--
--Upstream-Status: Pending
--
--Rebase to 9.23
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- base/genht.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/base/genht.c b/base/genht.c
--index e597e72..e96bfb5 100644
----- a/base/genht.c
--+++ b/base/genht.c
--@@ -16,6 +16,10 @@
--=20
-- /* Generate C code for compiling halftones into ROM. */
-- #include "malloc_.h"
--+
--+/* prevent gp.h from defining fopen */
--+#define fopen fopen
--+
-- #include "stdio_.h"
-- #include "string_.h"
-- #include "gscdefs.h"
----=20
--1.8.3.1
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/cups-no-gcrypt=
-.patch b/meta/recipes-extended/ghostscript/ghostscript/cups-no-gcrypt.pat=
-ch
-deleted file mode 100644
-index 4c9bb22fa2d..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/cups-no-gcrypt.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 9129eb7fa9dc160d64a7d9df9279a3b1dae4d793 Mon Sep 17 00:00:00 2001
--From: Jackie Huang <jackie.huang@windriver.com>
--Date: Thu, 29 Mar 2018 16:16:18 +0800
--Subject: [PATCH 08/10] cups no gcrypt
--
--Don't build-depend on libgcrypt, as nothing is used from it
--
--Backported from
--http://www.cups.org/strfiles.php/3308/cups-no-gcrypt.patch
--
--This addresses the cryto dependency seen during build.
--
--Upstream-Status: Backport
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
--
--Rebase to 9.23
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- cups/libs/cups/http-private.h | 1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/cups/libs/cups/http-private.h b/cups/libs/cups/http-private=
-.h
--index 99a85c3..a674852 100644
----- a/cups/libs/cups/http-private.h
--+++ b/cups/libs/cups/http-private.h
--@@ -80,7 +80,6 @@ typedef int socklen_t;
-- #  elif defined HAVE_GNUTLS
-- #    include <gnutls/gnutls.h>
-- #    include <gnutls/x509.h>
---#    include <gcrypt.h>
-- #  elif defined(HAVE_CDSASSL)
-- #    include <CoreFoundation/CoreFoundation.h>
-- #    include <Security/Security.h>
----=20
--1.8.3.1
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/do-not-check-l=
-ocal-libpng-source.patch b/meta/recipes-extended/ghostscript/ghostscript/=
-do-not-check-local-libpng-source.patch
-deleted file mode 100644
-index 13e71c824f8..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/do-not-check-local-li=
-bpng-source.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 108a7d3f79af8c669af129bd87401402e76edfa9 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Mon, 18 Jan 2016 01:00:30 -0500
--Subject: [PATCH] configure.ac: do not check local png source
--
--In oe-core, it did not need to compile local libpng
--source in ghostscript, so do not check local png
--source, and directly check the existance of shared
--libpng library.
--
--Upstream-Status: Inappropriate [OE-Core specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index bb57825..389c473 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1441,7 +1441,7 @@ else
--   PNGDEVS=3D''
--   PNGDEVS_ALL=3D'png48 png16m pnggray pngmono pngmonod png256 png16 png=
-alpha png16malpha'
--   AC_MSG_CHECKING([for local png library source])
---  if test -f $srcdir/libpng/pngread.c; then
--+  if false; then
--           AC_MSG_RESULT([yes])
--           SHARE_LIBPNG=3D0
--           LIBPNGDIR=3D$srcdir/libpng
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.=
-15-parallel-make.patch b/meta/recipes-extended/ghostscript/ghostscript/gh=
-ostscript-9.15-parallel-make.patch
-deleted file mode 100644
-index 5b57da2a972..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.15-para=
-llel-make.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 04a86a613e0f9bfbbad99874f72217f75e8c53a3 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 29 Mar 2018 15:59:05 +0800
--Subject: [PATCH] contrib.mak: fix for parallel build
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--
--Rebase to 9.23
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-----
-- contrib/contrib.mak | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/contrib/contrib.mak b/contrib/contrib.mak
--index 2edee7a..c9100e8 100644
----- a/contrib/contrib.mak
--+++ b/contrib/contrib.mak
--@@ -1241,6 +1241,7 @@ $(DEVOBJ)gdevalps.$(OBJ) : $(JAPSRC)gdevalps.c $(P=
-DEVH) \
-- ### ----------------- Additional .upp files ---------------- ###
--=20
-- extra-upp-install: install-libdata
--+	mkdir -p $(DESTDIR)$(gsdatadir)$(D)lib
-- 	for f in $(CONTRIBSRC)uniprint$(D)*.upp; do \
-- 	    $(INSTALL_DATA) $$f $(DESTDIR)$(gsdatadir)$(D)lib || exit 1; \
-- 	done
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.=
-21-native-fix-disable-system-libtiff.patch b/meta/recipes-extended/ghosts=
-cript/ghostscript/ghostscript-9.21-native-fix-disable-system-libtiff.patc=
-h
-deleted file mode 100644
-index a382c7f8917..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.21-nati=
-ve-fix-disable-system-libtiff.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 0124b1c29b9cfe46d73ae82ce023dd7c5b055744 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 29 Mar 2018 16:36:12 +0800
--Subject: [PATCH 09/10] ghostscript-native:fix disable-system-libtiff
--
--Modify configure to add the check to make sure
--ghostscrip could work while system-libtiff is
--disabled.
--
--Upstream-Status: Pending
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
--Rebase to ghostscript 9.25.
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-----
-- configure.ac | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 80a60b1..f3e9efb 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1319,6 +1319,7 @@ AC_TRY_COMPILE([], [return 0;],
-- CFLAGS=3D$CGLAGS_STORE
--=20
-- if test x"$SHARE_LIBTIFF" =3D x"0" ; then
--+    if test -e $LIBTIFFDIR/configure; then
--       echo "Running libtiff configure script..."
--       olddir=3D`pwd`
--       if ! test -d "$LIBTIFFCONFDIR" ; then
--@@ -1337,6 +1338,10 @@ if test x"$SHARE_LIBTIFF" =3D x"0" ; then
--=20
--       echo
--       echo "Continuing with Ghostscript configuration..."
--+    else
--+      AC_MSG_NOTICE([Could not find local copy of libtiff.
--+Disabling tiff output devices.])
--+    fi
-- fi
--=20
-- AC_SUBST(SHARE_LIBTIFF)
----=20
--1.8.3.1
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/mkdir-p.patch =
-b/meta/recipes-extended/ghostscript/ghostscript/mkdir-p.patch
-deleted file mode 100644
-index 3e6d3e3c48a..00000000000
---- a/meta/recipes-extended/ghostscript/ghostscript/mkdir-p.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 2b23026f8e2a352417fb1c4da94bf69b19bef267 Mon Sep 17 00:00:00 2001
--From: Joe Slater <joe.slater@windriver.com>
--Date: Thu, 29 Mar 2018 16:04:32 +0800
--Subject: [PATCH 05/10] ghostscript: allow directories to be created more=
- than
-- once
--
--When doing parallel builds, we might try to create directories
--more than once.  This should not cause an error.
--
--Upstream-Status: Pending
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
--Rebase to 9.23
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- base/unix-end.mak | 17 ++++++++---------
-- 1 file changed, 8 insertions(+), 9 deletions(-)
--
--diff --git a/base/unix-end.mak b/base/unix-end.mak
--index 9ce599a..feff5a6 100644
----- a/base/unix-end.mak
--+++ b/base/unix-end.mak
--@@ -17,15 +17,14 @@
-- UNIX_END_MAK=3D$(GLSRC)unix-end.mak $(TOP_MAKEFILES)
-- # Define the rule for building standard configurations.
-- directories: $(UNIX_END_MAK)
---	@if test "$(BINDIR)"    !=3D "" -a ! -d $(BINDIR);        then mkdir $=
-(BINDIR);        fi
---	@if test "$(GLGENDIR)"  !=3D "" -a ! -d $(GLGENDIR);      then mkdir $=
-(GLGENDIR);      fi
---	@if test "$(GLOBJDIR)"  !=3D "" -a ! -d $(GLOBJDIR);      then mkdir $=
-(GLOBJDIR);      fi
---	@if test "$(DEVGENDIR)" !=3D "" -a ! -d $(DEVGENDIR);     then mkdir $=
-(DEVGENDIR);     fi
---	@if test "$(DEVOBJDIR)" !=3D "" -a ! -d $(DEVOBJDIR);     then mkdir $=
-(DEVOBJDIR);     fi
---	@if test "$(AUXDIR)"    !=3D "" -a ! -d $(AUXDIR);        then mkdir $=
-(AUXDIR);        fi
---	@if test "$(PSGENDIR)"  !=3D "" -a ! -d $(PSGENDIR);      then mkdir $=
-(PSGENDIR);      fi
---	@if test "$(PSGENDIR)"  !=3D "" -a ! -d $(PSGENDIR)/cups; then mkdir $=
-(PSGENDIR)/cups; fi
---	@if test "$(PSOBJDIR)"  !=3D "" -a ! -d $(PSOBJDIR);      then mkdir $=
-(PSOBJDIR);      fi
--+	@if test "$(BINDIR)"    !=3D "" -a ! -d $(BINDIR);        then mkdir -=
-p $(BINDIR);        fi
--+	@if test "$(GLGENDIR)"  !=3D "" -a ! -d $(GLGENDIR);      then mkdir -=
-p $(GLGENDIR);      fi
--+	@if test "$(GLOBJDIR)"  !=3D "" -a ! -d $(GLOBJDIR);      then mkdir -=
-p $(GLOBJDIR);      fi
--+	@if test "$(DEVGENDIR)" !=3D "" -a ! -d $(DEVGENDIR);     then mkdir -=
-p $(DEVGENDIR);     fi
--+	@if test "$(DEVOBJDIR)" !=3D "" -a ! -d $(DEVOBJDIR);     then mkdir -=
-p $(DEVOBJDIR);     fi
--+	@if test "$(AUXDIR)"    !=3D "" -a ! -d $(AUXDIR);        then mkdir -=
-p $(AUXDIR);        fi
--+	@if test "$(PSGENDIR)"  !=3D "" -a ! -d $(PSGENDIR)/cups; then mkdir -=
-p $(PSGENDIR)/cups; fi
--+	@if test "$(PSOBJDIR)"  !=3D "" -a ! -d $(PSOBJDIR);      then mkdir -=
-p $(PSOBJDIR);      fi
--=20
--=20
-- gs: .gssubtarget $(UNIX_END_MAK)
----=20
--1.8.3.1
--
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb b/m=
-eta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-index 5d4b8cdc913..84e3351f7dd 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-@@ -13,91 +13,49 @@ SECTION =3D "console/utils"
- LICENSE =3D "GPL-3.0-only"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df98ffa763e50cded76f49bce73aad=
-e16"
-=20
--DEPENDS =3D "ghostscript-native tiff jpeg fontconfig cups libpng"
--DEPENDS:class-native =3D "libpng-native"
-+DEPENDS =3D "tiff jpeg fontconfig cups libpng freetype zlib"
-=20
- UPSTREAM_CHECK_URI =3D "https://github.com/ArtifexSoftware/ghostpdl-down=
-loads/releases"
- UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)\.tar"
-=20
--# As of ghostscript 9.54.0 the jpeg issue in the CVE is present in the g=
-s jpeg sources
--# however we use an external jpeg which doesn't have the issue.
-+# We use a system libjpeg-turbo which has this fix
- CVE_CHECK_IGNORE +=3D "CVE-2013-6629"
-=20
- def gs_verdir(v):
-     return "".join(v.split("."))
-=20
-=20
--SRC_URI_BASE =3D "https://github.com/ArtifexSoftware/ghostpdl-downloads/=
-releases/download/gs${@gs_verdir("${PV}")}/${BPN}-${PV}.tar.gz \
--                file://ghostscript-9.15-parallel-make.patch \
--                file://ghostscript-9.16-Werror-return-type.patch \
--                file://do-not-check-local-libpng-source.patch \
--                file://avoid-host-contamination.patch \
--                file://mkdir-p.patch \
-+SRC_URI =3D "https://github.com/ArtifexSoftware/ghostpdl-downloads/relea=
-ses/download/gs${@gs_verdir("${PV}")}/${BPN}-${PV}.tar.gz \
-+           file://ghostscript-9.16-Werror-return-type.patch \
-+           file://avoid-host-contamination.patch \
- "
-=20
--SRC_URI =3D "${SRC_URI_BASE} \
--           file://cups-no-gcrypt.patch \
--           "
--
--SRC_URI:class-native =3D "${SRC_URI_BASE} \
--                        file://ghostscript-9.21-native-fix-disable-syste=
-m-libtiff.patch \
--                        file://base-genht.c-add-a-preprocessor-define-to=
--allow-fope.patch \
--                        "
--
- SRC_URI[sha256sum] =3D "4df18a808cd4369f25e02dbcec2f133cb6d674627b2c6b15=
-02020e58d43e32ce"
-=20
--# Put something like
--#
--#   PACKAGECONFIG:append:pn-ghostscript =3D " x11"
--#
--# in local.conf to enable building with X11.  Be careful.  The order
--# of the overrides matters!
--#
--#PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1=
-1', '', d)}"
--PACKAGECONFIG:class-native =3D ""
--
-+PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG[gtk] =3D "--enable-gtk,--disable-gtk,gtk+3"
-+PACKAGECONFIG[libidn] =3D "--with-libidn,--without-libidn,libidn"
-+PACKAGECONFIG[libpaper] =3D "--with-libpaper,--without-libpaper,libpaper=
-"
- PACKAGECONFIG[x11] =3D "--with-x --x-includes=3D${STAGING_INCDIR} --x-li=
-braries=3D${STAGING_LIBDIR}, \
--                      --without-x, virtual/libx11 libxext libxt gtk+3\
--                      "
-+                      --without-x, virtual/libx11 libxext libxt"
-=20
--EXTRA_OECONF =3D "--without-libpaper --with-system-libtiff --with-jbig2d=
-ec \
-+EXTRA_OECONF =3D "--with-jbig2dec \
-                 --with-fontpath=3D${datadir}/fonts \
--                --without-libidn --with-cups-serverbin=3D${exec_prefix}/=
-lib/cups \
--                --with-cups-datadir=3D${datadir}/cups \
-                 CUPSCONFIG=3D"${STAGING_BINDIR_CROSS}/cups-config" \
-+                PKGCONFIG=3Dpkg-config \
-                 "
-=20
- EXTRA_OECONF:append:mipsarcho32 =3D " --with-large_color_index=3D0"
-=20
--# Explicity disable libtiff, fontconfig,
--# freetype, cups for ghostscript-native
--EXTRA_OECONF:class-native =3D "--without-x --with-system-libtiff=3Dno \
--                             --without-libpaper \
--                             --with-fontpath=3D${datadir}/fonts \
--                             --without-libidn --disable-fontconfig \
--                             --enable-freetype --disable-cups "
--
--# This has been fixed upstream but for now we need to subvert the check =
-for time.h
--# http://bugs.ghostscript.com/show_bug.cgi?id=3D692443
--# http://bugs.ghostscript.com/show_bug.cgi?id=3D692426
--CFLAGS +=3D "-DHAVE_SYS_TIME_H=3D1"
--BUILD_CFLAGS +=3D "-DHAVE_SYS_TIME_H=3D1"
--
--inherit autotools-brokensep
--
--do_configure:prepend:class-target () {
--        rm -rf ${S}/jpeg/
--}
-+# Uses autoconf but not automake, can't do out-of-tree
-+inherit autotools-brokensep pkgconfig
-=20
--do_configure:append () {
--	# copy tools from the native ghostscript build
--	if [ "${PN}" !=3D "ghostscript-native" ]; then
--		mkdir -p obj/aux soobj
--		for i in genarch genconf mkromfs echogs gendev genht packps; do
--			cp ${STAGING_BINDIR_NATIVE}/ghostscript-${PV}/$i obj/aux/$i
--		done
--	fi
-+# Prune the source tree of libraries that we're using our packaging of, =
-so that
-+# ghostscript can't link to them.
-+prune_sources() {
-+    rm -rf ${S}/jpeg/ ${S}/libpng/ ${S}/tiff/ ${S}/expat/ ${S}/freetype/=
- ${S}/zlib/ ${S}/cups/lib
- }
-+do_unpack[postfuncs] +=3D "prune_sources"
-=20
- do_install:append () {
-     mkdir -p ${D}${datadir}/ghostscript/${PV}/
-@@ -105,22 +63,6 @@ do_install:append () {
-     cp -r ${S}/iccprofiles ${D}${datadir}/ghostscript/${PV}/
- }
-=20
--do_compile:class-native () {
--    mkdir -p obj
--    for i in genarch genconf mkromfs echogs gendev genht packps; do
--        oe_runmake obj/aux/$i
--    done
--}
--
--do_install:class-native () {
--    install -d ${D}${bindir}/ghostscript-${PV}
--    for i in genarch genconf mkromfs echogs gendev genht packps; do
--        install -m 755 obj/aux/$i ${D}${bindir}/ghostscript-${PV}/$i
--    done
--}
--
--BBCLASSEXTEND =3D "native"
--
- # ghostscript does not supports "arc"
- COMPATIBLE_HOST =3D "^(?!arc).*"
-=20
---=20
-2.34.1
-
+T24gMTQgSnVuIDIwMjMsIGF0IDEwOjI4LCBBbGV4YW5kZXIgS2FuYXZpbiB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8YWxleC5rYW5hdmluPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPiB3cm90ZToNCj4gDQo+IFRoZSBzY2VuYXJpbyB3aGVyZSB0aGluZ3MgYnJlYWsgZG93biB3
+aXRob3V0IHRoaXMgcGF0Y2ggaXMgbm90IGNsZWFyOg0KPiBpdCdzIGEgbWFrZSBydWxlLCBhbmQg
+c28gbWFrZSBpdHNlbGYgd2lsbCBlbnN1cmUgaXQncyBub3QgcnVuIHNldmVyYWwgdGltZXMNCj4g
+aW4gcGFyYWxsZWwuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
+eEBsaW51dHJvbml4LmRlPg0KDQpEcm9wIHRoaXMsIEnigJl2ZSBpbmNvcnBvcmF0ZWQgaXQgaW50
+byBteSBnaG9zdHNjcmlwdCByZXdyaXRlIHBhdGNoIHRoYXQgSSBqdXN0IHNlbnQuDQoNClJvc3M=
 
