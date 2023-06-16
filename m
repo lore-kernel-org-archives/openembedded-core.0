@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A02BC27C55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A6EC27C56
 	for <webhook@archiver.kernel.org>; Fri, 16 Jun 2023 03:51:29 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.809.1686887483191781218
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.808.1686887483060848858
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Jun 2023 20:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F3VbXN/X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010188c2544499-3ffff94f-20b1-4792-9fd6-afd19614cdd6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ri7ruUI6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010188c254431c-7f4fe1ca-0e99-4cb6-bf1a-b2fa1d81946e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Hxm9QhH/pSD8PXKUJYy25SxGz8nAJUKffm0d7K84zvI=;
-	b=F3VbXN/XPqoAJnA8mSDTUhbF1kSoVEKNgl6afDETDhaPuAmdbuVOYh4iPiRfh1G9
-	cjsiJtr/VmjWiuqNLJzsFLP8XZqxy/AYIM6cg/5Kj6lzvjkXDUPH6gc/9/2YXxpEZwo
-	gAqGxfkPJhJEjv9Ren4VR6ZzpTtfNoZmJhDpJT3Y=
+	bh=4jC7VZJfB5r3gYNwLNrmIOBwmaPKI9JQNvPTChbjfnQ=;
+	b=Ri7ruUI6h3JUTq03LQecLKtaW+FBdrkXcDTeqRupOrwFYusEGzG8U/6Gf8XMBj+/
+	/bhacaVYFHinU6EYVLkR5BHDPMQvAgqcqEmBgnQ7uBPtIHYXScsNFHu/8FBQoPB7+tk
+	8dz9A+9NCK1TFk8NKqaLLmuFCVDBsb7xZAcsRLks=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1686887482;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Hxm9QhH/pSD8PXKUJYy25SxGz8nAJUKffm0d7K84zvI=;
-	b=pkdqBVJz40DGil6o19jD5CwQRIkzpKuLCgkssZxmciWG3h1qW+ttmBlyyqSihIya
-	cW7bg6pXpkVsEX/GiCbti3Htqi+KZeXz22vVyxvTRNIG2YGCEosAfhaPZ35NMVN7Xjn
-	Eej9WufIyAz89mBCs8Hf6mKpD9ya3ihWAES91xXE=
-Content-Type: multipart/mixed; boundary="===============8018292293591052897=="
+	bh=4jC7VZJfB5r3gYNwLNrmIOBwmaPKI9JQNvPTChbjfnQ=;
+	b=gvrBaeKBfKYqDVgF3HMI0SChoyU2DflZ7NuQIrgryvmxZWnh6RYHgfQX/2rSUj0E
+	0IDJ3WG+n297o7E2LpVLYYT5AkXFAKtWi9JkJIkY6bkuTQ8pbsEulqlcXFsRZ2VuImj
+	5K8f9QpeS0il0DyzCpNuny0JWcO2TiHQH0d0AwG4=
+Content-Type: multipart/mixed; boundary="===============8404211432876391243=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cryptography: upgrading to 41.0.1 FAILED
-Message-ID: <01010188c2544499-3ffff94f-20b1-4792-9fd6-afd19614cdd6-000000@us-west-2.amazonses.com>
+Subject: [AUH] libmodulemd: upgrading to 2.15.0 SUCCEEDED
+Message-ID: <01010188c254431c-7f4fe1ca-0e99-4cb6-bf1a-b2fa1d81946e-000000@us-west-2.amazonses.com>
 Date: Fri, 16 Jun 2023 03:51:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.06.16-54.240.27.193
+X-SES-Outgoing: 2023.06.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Jun 2023 03:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182916
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/182913
 
---===============8018292293591052897==
+--===============8404211432876391243==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,97 +50,122 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cryptography* to *41.0.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libmodulemd* to *2.15.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libmodulemd-upgrade-2.14.0-2.15.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-cryptography failed.
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1802 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:39d98180af84e12363a535253f0a5b3113c7a368"
-workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 4 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1802 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (897 cached, 2 parsed). 1803 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:39d98180af84e12363a535253f0a5b3113c7a368"
-workspace            = "master:d9cf8973d01b74aa2680dba5ac46c5cea3d1a6d0"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  34% |############                        | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-41.0.1.tar.gz;downloadfilename=cryptography-41.0.1.tar.gz...
-INFO: Rebasing devtool onto d57e6ac56ffb662cf5a49f2fdf66eeba73a29471
-WARNING: Command 'git rebase d57e6ac56ffb662cf5a49f2fdf66eeba73a29471' failed:
-Auto-merging pyproject.toml
-CONFLICT (content): Merge conflict in pyproject.toml
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-cryptography
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-cryptography/python3-cryptography_41.0.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8018292293591052897==--
+
+-- >8 --
+From 562014cde90b77403aec24c85d4019347f5d37f6 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Jun 2023 09:21:56 +0000
+Subject: [PATCH] libmodulemd: upgrade 2.14.0 -> 2.15.0
+
+---
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 9e32134628..d3bef83306 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
+ 
+ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main"
+ 
+-PV = "2.14.0"
+-SRCREV = "ee80309bc766d781a144e6879419b29f444d94eb"
++PV = "2.15.0"
++SRCREV = "bfde7f2d04fbb22e26c9eb843e4ccc478762dd8d"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.39.2
+
+
+--===============8404211432876391243==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libmodulemd-upgrade-2.14.0-2.15.0.patch"
+
+RnJvbSA1NjIwMTRjZGU5MGI3NzQwM2FlYzI0Yzg1ZDQwMTkzNDdmNWQzN2Y2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgSnVuIDIwMjMgMDk6MjE6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJtb2R1bGVtZDogdXBncmFkZSAyLjE0LjAgLT4gMi4xNS4wCgotLS0KIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9saWJtb2R1bGVtZC9saWJtb2R1bGVtZF9naXQuYmIgfCA0ICsrLS0KIDEgZmlsZSBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2xpYm1vZHVsZW1kL2xpYm1vZHVsZW1kX2dpdC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9saWJtb2R1bGVtZC9saWJtb2R1bGVtZF9naXQuYmIKaW5kZXggOWUz
+MjEzNDYyOC4uZDNiZWY4MzMwNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xp
+Ym1vZHVsZW1kL2xpYm1vZHVsZW1kX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+bGlibW9kdWxlbWQvbGlibW9kdWxlbWRfZ2l0LmJiCkBAIC02LDggKzYsOCBAQCBMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yNWEzOTI3YmZmM2VlNGY1YjIxYmNiMGVkM2Zj
+ZDZiYiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2ZlZG9yYS1tb2R1bGFyaXR5L2xp
+Ym1vZHVsZW1kO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogCi1QViA9ICIyLjE0LjAiCi1T
+UkNSRVYgPSAiZWU4MDMwOWJjNzY2ZDc4MWExNDRlNjg3OTQxOWIyOWY0NDRkOTRlYiIKK1BWID0g
+IjIuMTUuMCIKK1NSQ1JFViA9ICJiZmRlN2YyZDA0ZmJiMjJlMjZjOWViODQzZTRjY2M0Nzg3NjJk
+ZDhkIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjM5LjIKCg==
+
+--===============8404211432876391243==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libmodulemd: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PKGSIZE changed from 1316844 to 1321708 (+0%)
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dbg: FILELIST: removed "/usr/lib/.debug/libmodulemd.so.2.14.0", added "/usr/lib/.debug/libmodulemd.so.2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PKGSIZE changed from 991847 to 994291 (+0%)
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-dev: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-doc: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-doc: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-locale: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-locale: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PKGSIZE changed from 1210796 to 1223091 (+1%)
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-src: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-staticdev: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd-staticdev: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd: PKGSIZE changed from 666837 to 671021 (+1%)
+packages/core2-32-poky-linux/libmodulemd/libmodulemd: PKGV changed from 2.14.0 [default] to 2.15.0 [default]
+packages/core2-32-poky-linux/libmodulemd/libmodulemd: PV changed from "2.14.0" to "2.15.0"
+packages/core2-32-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.14.0", added "/usr/lib/libmodulemd.so.2.15.0"
+Changes to packages/core2-32-poky-linux/libmodulemd (sysroot):
+  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.14.0 to libmodulemd.so.2.15.0
+  /usr/lib/libmodulemd.so.2.14.0 moved to /usr/lib/libmodulemd.so.2.15.0
+
+--===============8404211432876391243==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.14.0", added "/usr/lib/libmodulemd.so.2.15.0"
+Changes to packages/core2-32-poky-linux/libmodulemd (sysroot):
+  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.14.0 to libmodulemd.so.2.15.0
+  /usr/lib/libmodulemd.so.2.14.0 moved to /usr/lib/libmodulemd.so.2.15.0
+
+--===============8404211432876391243==--
 
