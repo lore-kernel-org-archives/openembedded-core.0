@@ -1,128 +1,113 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B300EB64D7
-	for <webhook@archiver.kernel.org>; Sun, 18 Jun 2023 09:37:29 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.2880.1687081046679765356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB631EB64D8
+	for <webhook@archiver.kernel.org>; Sun, 18 Jun 2023 11:20:59 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+ by mx.groups.io with SMTP id smtpd.web11.3879.1687087253366087317
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Jun 2023 02:37:27 -0700
+ Sun, 18 Jun 2023 04:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=llyYvG7g;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1687081045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DnkN2aSE9zZjh/224xfQmFT3WWI6F58V/LYaYAh7qGM=;
-	b=llyYvG7gqePC5lxBuhqiKTOrYDcJkBoUwIteNB8RKvxQfi+FY3P7KMK3Ciy0hMAqf/2dAz
-	WDhmFjsuCVCwpLRlTW5ckSEQ9zQbJGfpmo1FpSHTjj7bIhegpjdiirs/RzTMgRAZzfka11
-	NN/1EpcJFGXrF+cl0sgKtit0VpNpmV2wxk0r/aaA07SlSCxQyLe3bdDRhEUyxBN9v1GLig
-	u6nl4e5q5BWSl8/uobzrb4m+f1w2sQpu8yoqpvXamBIQVg5tsAl/ekDx5A2gn6EEq0Dk+X
-	X5iGNSsITkV2pdTOYCy0kLXXbyDCHsekJPaaqjDTjg9K8Xswaq6L/wPj/FGVNA==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 705C860007;
-	Sun, 18 Jun 2023 09:37:24 +0000 (UTC)
-Date: Sun, 18 Jun 2023 11:37:24 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Louis Rannou <lrannou@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com
-Subject: Re: [OE-core] [PATCH 3/3] base-passwd: add the wheel group
-Message-ID: <20230618093724c7508d8b@mail.local>
-References: <20230613-sysusersd-v1-0-eaddf3179773@baylibre.com>
- <20230613-sysusersd-v1-3-eaddf3179773@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230613-sysusersd-v1-3-eaddf3179773@baylibre.com>
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=afvuon0L;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-39e86b3da59so2048741b6e.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Jun 2023 04:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687087252; x=1689679252;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DFgfvQ7TI3yfgOg6KERB+VfnmhtkRpTZSWtzbdVppG8=;
+        b=afvuon0LYlseLu234Rd8hhaLULuOjFQRxh1MHXecjhDGbEDjNXdtyYF+pZ2QgC471f
+         15qJjOaelfgVc6B7BN4vkgiPhjhQOA5W9R9SppvGg4EkRhTUqJiCxFv4IyiHjBceNTop
+         dZs0rf4/AOO0y/HL7ar7pWwiQDfhCOwGht27opo0GpyGCn/FWTT65+Itx9R6Yy6AukjH
+         paicfLveOVRRppfDtHLxtdxnZJ368ecKZKJCxfasiHi3vTEZSkiXqwWs0xfD0w18st84
+         KVh70R8pJGwbglHMkcczCkuMDOXPziwNeuu1zrNZvWg6RhTh+O1nm0yM69NIvd8w07uT
+         YANA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687087252; x=1689679252;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DFgfvQ7TI3yfgOg6KERB+VfnmhtkRpTZSWtzbdVppG8=;
+        b=VsT/+zQ1Vai8G3GG6BGmLRKd04TmvU4thVXfnayEw8f79LZqshQzMfXUHUs//dTkGf
+         44RSHswAVSuWeNCs7QsI4mgfnfbi8VGs13Y2zV50SetGpQC25v3kkO3yxyeTV8bp9ACw
+         0aSWaHf8TKyc/xiU4wu7LxR4Gp6HYifoT2o8cYyKp0EDKMLnLd/7qFq7/h0bsMx4seih
+         8J3OfQnw+4RsRfky8BAPeE1moJCi8dri5yJLhjObX+BTE3kPXseghD+OlawNnjVh8EzB
+         NnKEK+WfZ2NlRYbuMyE1bcvz7DsKWZAo5R5KqSS9o7ukgZ1ZqCqO7JYaHc+VaZvK0s3v
+         FQdA==
+X-Gm-Message-State: AC+VfDzNs5cIou2cyLA2xMroT49bqXTvxI8ieFwbvniYipkK+d/y1ScK
+	Iakwgf0d3wtLW3ymiRhPs2N7Ryn8I9l/Af86n14=
+X-Google-Smtp-Source: ACHHUZ52eaCGVVV58CipFM9sQOfGQUEKDbwN+twN750t/S1JBHZyo4HYpSjQ46sR8EApu9O0CsOXIQ==
+X-Received: by 2002:aca:1114:0:b0:398:50f1:ad19 with SMTP id 20-20020aca1114000000b0039850f1ad19mr7703725oir.39.1687087252096;
+        Sun, 18 Jun 2023 04:20:52 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id j15-20020aa783cf000000b0064fde7ae1ffsm14898517pfn.38.2023.06.18.04.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 04:20:51 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id B50679604C2; Sun, 18 Jun 2023 01:20:49 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 18 Jun 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 18 Jun 2023 01:20:49 -1000
+Message-Id: <20230618112049.B50679604C2@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Jun 2023 09:37:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183058
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Jun 2023 11:20:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183059
 
-On 15/06/2023 13:43:55+0200, Louis Rannou wrote:
-> The wheel group is not declared while it can be used to access the systemd
-> journal and to configure printers in CUPS. It can also be used for su and sudo
-> permissions.
-> 
-> So far it was created later in the rootfs postcommand systemd_create_users.
-> 
-> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-> ---
->  .../base-passwd/0007-Add-wheel-group.patch           | 20 ++++++++++++++++++++
->  meta/recipes-core/base-passwd/base-passwd_3.6.1.bb   |  1 +
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-> new file mode 100644
-> index 0000000000..00eaec38a2
-> --- /dev/null
-> +++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
-> @@ -0,0 +1,20 @@
-> +
-> +We need to have a wheel group which has some system privileges to consult the
-> +systemd journal or manage printers with cups.
-> +
-> +Upstream status says the group does not exist by default.
+Branch: master
 
-This should be rephrased because it causes:
+New this week: 4 CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2023-3141 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3141 *
+CVE-2023-33551 (CVSS3: 7.8 HIGH): erofs-utils:erofs-utils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33551 *
+CVE-2023-33552 (CVSS3: 7.8 HIGH): erofs-utils:erofs-utils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33552 *
 
-Malformed Upstream-Status 'Upstream status' (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
-Unknown Upstream-Status value 'says' (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
-Patches missing Upstream-Status: 0 (0%)
-Patches with malformed Upstream-Status: 1 (0%)
+Removed this week: 15 CVEs
+CVE-2023-2002 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2002 *
+CVE-2023-2194 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2194 *
+CVE-2023-2235 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2235 *
+CVE-2023-2598 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2598 *
+CVE-2023-28328 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28328 *
+CVE-2023-28866 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28866 *
+CVE-2023-2985 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2985 *
+CVE-2023-30456 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30456 *
+CVE-2023-30772 (CVSS3: 6.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30772 *
+CVE-2023-31436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31436 *
+CVE-2023-32233 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32233 *
+CVE-2023-32324 (CVSS3: 5.5 MEDIUM): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32324 *
+CVE-2023-33203 (CVSS3: 6.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33203 *
+CVE-2023-33288 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33288 *
+CVE-2023-34256 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-34256 *
 
+Full list:  Found 24 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
+CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-48425 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48425 *
+CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-2124 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2124 *
+CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-28464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28464 *
+CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
+CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
+CVE-2023-3141 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3141 *
+CVE-2023-33551 (CVSS3: 7.8 HIGH): erofs-utils:erofs-utils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33551 *
+CVE-2023-33552 (CVSS3: 7.8 HIGH): erofs-utils:erofs-utils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33552 *
 
-> +
-> +Upstream-Status: Inappropriate [enable feature]
-> +
-> +Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-> +Index: base-passwd-3.5.26/group.master
-> +===================================================================
-> +--- base-passwd-3.5.29.orig/group.master
-> ++++ base-passwd-3.5.29/group.master
-> +@@ -38,5 +38,6 @@
-> + staff:*:50:
-> + games:*:60:
-> + shutdown:*:70:
-> ++wheel:*:80:
-> + users:*:100:
-> + nogroup:*:65534:
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-> index 853717176d..204016b3e7 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-> @@ -12,6 +12,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
->             file://0004-Add-an-input-group-for-the-dev-input-devices.patch \
->             file://0005-Add-kvm-group.patch \
->             file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch \
-> +           file://0007-Add-wheel-group.patch \
->             "
->  
->  SRC_URI[sha256sum] = "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6c6428f2c92866f79af"
-> 
-> -- 
-> 2.41.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182849): https://lists.openembedded.org/g/openembedded-core/message/182849
-> Mute This Topic: https://lists.openembedded.org/mt/99546759/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
