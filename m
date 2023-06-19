@@ -1,88 +1,81 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967EDC0015E
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 13:22:33 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web10.7396.1687180949021799337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B282EB64DB
+	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 13:27:14 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.7516.1687181227272405126
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 06:22:29 -0700
+ Mon, 19 Jun 2023 06:27:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=xGtYhpCQ;
- spf=pass (domain: baylibre.com, ip: 209.85.222.171, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-76246351f0cso252749485a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 06:22:28 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=IZJzU1ne;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3112d202363so1884984f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 06:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687180947; x=1689772947;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yeu7QD4fPrHFvFPsUHDwn4N4ktcKdBPoItqTgV5WydQ=;
-        b=xGtYhpCQ3bEc8JnX8eciXIbTSAqlummqnnBIFki8AMIivjzPNhGUrk/NZ4Zi40R+hb
-         h04tXlQwHYwTcB0IkBgqi8teZe0QivInphQ58swlF0/nIuLEa6JcLedE01y/kErSb4kg
-         TPN6XlXiSfXtwREoof7DKs5wldt/danccGlivLr7+Eu2/e+egdSzZdBuxlrVM+WaDm2F
-         TTSAcyVVDl/yzOOkG1icHZrlhVycjYb2G4ZxzTIxK4g4ekbiisNcaWTtZAczy3JQVURh
-         gVQAQDkfO5iEvsC9F26Gqv6FooebsLBKH0GHo1qiWHdEbO1Ws7d8Fr9f7Yo1Qy4Af4i9
-         L0AQ==
+        d=linuxfoundation.org; s=google; t=1687181226; x=1689773226;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8Dz4JsdrbNVYIbupXnGUSaJvoDhDRmlwsb+3QuH0alk=;
+        b=IZJzU1nenVmOUGmIg74j7p8O3mzHn/04tbdPRtSg5wD2sLL0xFKRpW1bf9yQnzf004
+         zQqnmr3V5rscay+q6ScpwLbohGL/vPwBUNwnoMeK2Yk/TGXlIPuPL0Vz9wTbzHf/dK6B
+         yvjRTQoKkISrwPPxB621Yp1AgkPTvEulATK0Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687180947; x=1689772947;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yeu7QD4fPrHFvFPsUHDwn4N4ktcKdBPoItqTgV5WydQ=;
-        b=bU6oCHIlUS3xwsYtEMezZJM4NIQ7e8v2v92PLb1Shi80ZD1BNWG5CObg4U/NU+a24Z
-         JkHBgEUBDTO7/Cp9x7b1RZDG7877crSUQGBx4UnOla24VrGR3CFXwiRZIxQu1Q8jW5kT
-         IgYO/3tSPlQV1I7ipsYi1xyz/A/qc9Erza59bB0ULh92b9CkYwyll4d3xY1geCs9duuj
-         TaZn6w+UCAq22J5SuxgBpv2moD7u5XzyY0kO3ZrZtlzlWHCxQWkJ6QmitbQORYvIfjsd
-         cMPgFIw6KbKeD+Mf3xYxd/dZE2ttG/uWfaNUgwsFynU2qNR3DGODagYRhmP3jHDSgH9K
-         VASw==
-X-Gm-Message-State: AC+VfDzKkcLkHqPYZvU6H3IzF0L4c8iDYifNbv1U9P/PJVT/egEQlZ6M
-	bnqpESqQOQi6AVQX5B7HrUGvpjput/yTssWTZK0=
-X-Google-Smtp-Source: ACHHUZ7uBsrJqTa9YaN3V8VGhyH8/OEITV6ewPWS3usSz+CkDOmOhIgvLDGIc9vDEhGWOGO25xiC1g==
-X-Received: by 2002:a05:620a:888c:b0:761:cc6c:d9b4 with SMTP id qk12-20020a05620a888c00b00761cc6cd9b4mr869200qkn.20.1687180947484;
-        Mon, 19 Jun 2023 06:22:27 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id a8-20020a05620a16c800b00763a01c6791sm624012qkn.96.2023.06.19.06.22.26
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1687181226; x=1689773226;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Dz4JsdrbNVYIbupXnGUSaJvoDhDRmlwsb+3QuH0alk=;
+        b=FR/0edQFHbgnIsrqM18IF8M9M4bIfnEb8GG82yhbhrUMdGNMjI++2FtVNhUsBc0jHU
+         xg9K05WDNy60JrsbM56BUGydXSruHM65T6GaWrSByWiAKM270gdpWf5nwi7agmWEDEIH
+         NyV6D7vMRb7JofX5pHCyNP9C+57jUNSIkHFYg9kt50o9QICFxm2wx6Bvu6Er4l9IGYC9
+         TEyHAlL178lD/9uLSVwB9hhrMZJKC1qDz1wXrlCk6r4Y8pK0NY1AaXqWwxlr0KxWTSmR
+         pR2QAreg0mHbySi0ba61gdZfLnQM4r4Hmo4CNNfOz1nypyaJvHX3y2zbz3+fo9c5+aRn
+         YThA==
+X-Gm-Message-State: AC+VfDww7NJf+K21/JX7Ijqyt3cBNgLfBsHwNMW2HU7eeRb4RYEx154p
+	fZby/5fqSHyuwjy2+YLnB8apfQ==
+X-Google-Smtp-Source: ACHHUZ56vK/bmd6e/RbNiW9kJ3JPid3+H4jyAObjaUrTO4kRC8fd67xDdPukojxtXeIAVE4P8sM4Ww==
+X-Received: by 2002:adf:fe11:0:b0:30f:cc8f:e48c with SMTP id n17-20020adffe11000000b0030fcc8fe48cmr6830564wrr.25.1687181225706;
+        Mon, 19 Jun 2023 06:27:05 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f105:ba55:87cc:dc34? ([2001:8b0:aba:5f3c:f105:ba55:87cc:dc34])
+        by smtp.gmail.com with ESMTPSA id c3-20020adffb03000000b0030ab5ebefa8sm31331267wrr.46.2023.06.19.06.27.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 06:22:27 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] runqemu-gen-tapdevs: fix missing variable quote
-Date: Mon, 19 Jun 2023 09:22:25 -0400
-Message-Id: <20230619132225.1618014-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.40.1
+        Mon, 19 Jun 2023 06:27:05 -0700 (PDT)
+Message-ID: <acca71ff9f0c053f16c3b489557415b25659abcc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] base-passwd: fix patchreview warning
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, alexandre.belloni@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Jun 2023 14:27:04 +0100
+In-Reply-To: <CANNYZj85WkWiLNMjmGVijaNRXf3uzJRtS6Oi8rGi5QpX=yyZTQ@mail.gmail.com>
+References: <20230618212617.232149-1-alexandre.belloni@bootlin.com>
+	 <CANNYZj85WkWiLNMjmGVijaNRXf3uzJRtS6Oi8rGi5QpX=yyZTQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 13:22:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183107
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 13:27:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183108
 
-Commit d43c41fcaf061eaf8bff7bc03de19cdc80226796 refactors the script but
-there's a missing '"' in one line, leading to the following message:
+On Mon, 2023-06-19 at 15:18 +0200, Alexander Kanavin wrote:
+> Should the regex that finds these lines be fixed rather? It=E2=80=99s
+> entirely valid to say =E2=80=98upstream status=E2=80=99 somewhere, it sho=
+uld be
+> matching =E2=80=98Upstream-Status:=E2=80=99 at the start of the line exac=
+tly.
 
-poky/scripts/runqemu-gen-tapdevs: command substitution: line 62: unexpected EOF while looking for matching `"'
+The check is deliberately doing fuzzy matching to spot "broken" lines.
+Whether we need that any more now we have other checks for correct
+lines is probably a better question...
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- scripts/runqemu-gen-tapdevs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index 4f8ea979d2..ec3ecb03b9 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -59,7 +59,7 @@ if [ ! -x "$RUNQEMU_IFUP" ]; then
- fi
- 
- if interfaces=`ip tuntap list` 2>/dev/null; then
--	interfaces=`echo "$interfaces |cut -f1 -d:`
-+	interfaces=`echo "$interfaces" |cut -f1 -d:`
- else
- 	echo "Failed to call 'ip tuntap list'" >&2
- 	exit 1
--- 
-2.40.1
+Richard
+
 
 
