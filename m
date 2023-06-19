@@ -1,133 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5604FEB64DB
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 17:16:15 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.13177.1687194972396653417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11EE3EB64DA
+	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 23:18:17 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.21854.1687216695617763090
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 10:16:12 -0700
+ Mon, 19 Jun 2023 16:18:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NpKcKbX0;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-988b75d8b28so153118866b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 10:16:12 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=cAIjsmF0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-30af56f5f52so3115255f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 16:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687194971; x=1689786971;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X3UgSaiUzGhpmmDmMasVrsNnWpxCJQxPXj8oFISU1v0=;
-        b=NpKcKbX0UOPio3ItghQLEQ2vKB0UQGsd3gnHEqiOiZ7WHOqodcyGXH/YhpH0eYWqXk
-         UoRN04FwP07lUejgd7VtYubuVRyAa+6n4SFK1YkOMbhJw5qFqzxG7ea3JuMkYktXr19K
-         6kfpq9/CfXS+Iw1LVdg+/LiZv3m7QCBH9ozQbwwJKAb2aYHBKdOvGisUczDal+9sTgJd
-         pnl0tONoF81dJUJi3mWY/AsPB4L5LDg76pTuF3yg76qtl3K7hJd42srF2tPj946XA5Hb
-         yvNml14fSWVL6HubUafXYbAo+2nPUZsR1OvZBH/UuRDR1HPZAoDWOoxcmNVhMKSXQ1zW
-         w5NA==
+        d=gmail.com; s=20221208; t=1687216694; x=1689808694;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DMB3EBLBIbSKlwgYwqJpqVk2W6FtPO1XAs882AP0OzE=;
+        b=cAIjsmF0xqwdezDBLWH3jyophgBYCVIw4lmGyrQgGin/hIPoBLA/J4GF2qCvcwZvIe
+         pGimFLu6bz9y0Kdz+U9xCQs1QSrf8WKwDxS3+JZ58lV5BRdeMtNp4PcikZWndmdlmc3v
+         6ovpwmOGkC1fKnDdvkzhR9bHJUF0tY2VeRK8Bu5HY12lShZaFNfFIHbtc8Hy6prHZx2e
+         lox3E2AL14TVQgOtk+SCvVfJ9I7rx5BfUbWIHcuHPqDxjBVIHXriPy67bHsO72FEkCgA
+         6gCesnYBAQA50LYIuW3BxRv2OehhaG0pfCs+6GIUAAbQUyAonII/PSFV7FZgq1RcPipB
+         GFlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687194971; x=1689786971;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X3UgSaiUzGhpmmDmMasVrsNnWpxCJQxPXj8oFISU1v0=;
-        b=GYh9jg7kJQ1IKFwxIIdZwsw4okxCSRWJqko25Q5IC+Y+Adg3FtKSihKccVmkpZ4bkn
-         PiXQsAEz79SAARLaxdYOzCGeNdThRZrw3VDkUwKD7rDIDwiXyY4qVoFjvhzGfkXWG9rR
-         8iAN6/RDH5idaL9WrQ3WTuaS+Zeszm7TOOWUUc11gygTwgy2uqrKOjvZWI399gaXH3sy
-         9yWpfz5vu0RuHAgBcIOPFqXWoCdkWkwySgBgTYkVc1m9s8ARqWKnoC5JFI9BKTBefP1Z
-         j42ZRX93He2gTZHUbL1xEyG1qfVpj0p547degj0d2GPDiiemGMjDq6nBWqilyXOVCYH9
-         /39Q==
-X-Gm-Message-State: AC+VfDyLYHY/AFLhMS6gtfmyH1mHuJqg593p1j5O/llmFMw49KTzyVxE
-	EvjakgI1b5sZeA8VncQkvLDvjS9zvR8=
-X-Google-Smtp-Source: ACHHUZ7zuHLWKJc2XvB7BDKACAByca+ji3IcxaJg2Fqu5dx625z0eGA12+DJjGsx1MYwMaVm/W8SrA==
-X-Received: by 2002:a17:907:6e90:b0:987:525e:302d with SMTP id sh16-20020a1709076e9000b00987525e302dmr7435191ejc.69.1687194970542;
-        Mon, 19 Jun 2023 10:16:10 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h3-20020a170906398300b00988f066fe33sm636703eje.94.2023.06.19.10.16.09
+        d=1e100.net; s=20221208; t=1687216694; x=1689808694;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DMB3EBLBIbSKlwgYwqJpqVk2W6FtPO1XAs882AP0OzE=;
+        b=G67AC4v/s7PQ/v9f4aIbkqkNLTJTMdxihvWOKScdxCzjV7PDys0wpUZK3Dh0WtbS6I
+         2MLNZZrzJ9wIhKcItIJoCSaYDD7huxS+MiJsXjPgscc3L32nknvSVUkR6/YkowZSrtvu
+         ILm3tNOcsiL2uZ06yLBtACEm5mBBL4WrT9AmM/zg6aPMPDmRpCzSopE0jseFe8YjB+uC
+         olwNFsQVJrCl9F/a+WI56CHskBg2pxHmljmxxWe6byLT/VbqSsCb0lJO6awMVxLfto4O
+         fEeTWPlGmlVZYbyNL+xhgs8zydoLsIeJzvs7cKwZ28nzctl09KwoDvVkTeX1yktcUGuV
+         yvFw==
+X-Gm-Message-State: AC+VfDwlSDi9PwMj2IVTzpVcKCDhVu4PwoGJKOAeo51A+VDmBlW5KMvj
+	megXb987u3g7jFW0kRojFEE4XxQhg6o=
+X-Google-Smtp-Source: ACHHUZ6BGSQOPqb+MXMJSUv30ILgfnvYAn/PD99v5B4GB5/VF7cqHbXndkyau5kfcCDnYxODUHjHKA==
+X-Received: by 2002:a5d:6289:0:b0:311:ac3:909f with SMTP id k9-20020a5d6289000000b003110ac3909fmr7192536wru.56.1687216693589;
+        Mon, 19 Jun 2023 16:18:13 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id k18-20020adfe8d2000000b0030ae3a6be4asm615610wrn.72.2023.06.19.16.18.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 10:16:10 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Mon, 19 Jun 2023 16:18:13 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] zstd: fix a reproducibility issue in 1.5.5
-Date: Mon, 19 Jun 2023 19:16:07 +0200
-Message-Id: <20230619171607.2600309-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [PATCH V2 2/2] kernel: autoload and probeconf are handled by kernel-module-split
+Date: Mon, 19 Jun 2023 23:13:44 +0000
+Message-Id: <20230619231343.1683736-2-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230619231343.1683736-1-jose.quaresma@foundries.io>
+References: <20230619231343.1683736-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 17:16:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183121
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 23:18:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183122
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- ...-use-directly-for-the-test-c-snippet.patch | 39 +++++++++++++++++++
- meta/recipes-extended/zstd/zstd_1.5.5.bb      |  3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/zstd/zstd/0001-pzstd-use-directly-for-the-test-c-snippet.patch
+ meta/classes-recipe/kernel.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-extended/zstd/zstd/0001-pzstd-use-directly-for-the-test-c-snippet.patch b/meta/recipes-extended/zstd/zstd/0001-pzstd-use-directly-for-the-test-c-snippet.patch
-new file mode 100644
-index 00000000000..847a641691d
---- /dev/null
-+++ b/meta/recipes-extended/zstd/zstd/0001-pzstd-use-directly-for-the-test-c-snippet.patch
-@@ -0,0 +1,39 @@
-+From 121ef5253a49065dea6a89536ca7bd3dabd40e25 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Mon, 19 Jun 2023 17:10:09 +0200
-+Subject: [PATCH] pzstd: use c++14 without conditions
-+
-+Doing this check with a direct c++ snippet is prone to portability problems:
-+
-+- \043 is not portable between shells: dash expands it to #,
-+bash does not;
-+
-+- using # directly works with make 4.3 but does not with make 4.2.
-+
-+Let's just use the c++ version that covers both the code and the gtest.
-+
-+Upstream-Status: Submitted [https://github.com/facebook/zstd/pull/3682]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+---
-+ contrib/pzstd/Makefile | 7 ++-----
-+ 1 file changed, 2 insertions(+), 5 deletions(-)
-+
-+diff --git a/contrib/pzstd/Makefile b/contrib/pzstd/Makefile
-+index e62f8e87..58fb82a1 100644
-+--- a/contrib/pzstd/Makefile
-++++ b/contrib/pzstd/Makefile
-+@@ -37,11 +37,8 @@ CFLAGS   += -Wno-deprecated-declarations
-+ PZSTD_INC  = -I$(ZSTDDIR) -I$(ZSTDDIR)/common -I$(PROGDIR) -I.
-+ GTEST_INC  = -isystem googletest/googletest/include
-+ 
-+-# If default C++ version is older than C++11, explicitly set C++11, which is the
-+-# minimum required by the code.
-+-ifeq ($(shell echo "\043if __cplusplus < 201103L\n\043error\n\043endif" | $(CXX) -x c++ -Werror -c - -o /dev/null 2>/dev/null && echo 1 || echo 0),0)
-+-PZSTD_CXX_STD := -std=c++11
-+-endif
-++# Set the minimum required by gtest
-++PZSTD_CXX_STD := -std=c++14
-+ 
-+ PZSTD_CPPFLAGS  = $(PZSTD_INC)
-+ PZSTD_CCXXFLAGS =
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.5.bb b/meta/recipes-extended/zstd/zstd_1.5.5.bb
-index 487465b6c70..5c5fb5e7340 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.5.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.5.bb
-@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
-                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0 \
-                     "
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index e82b696d1a..855c784149 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -483,8 +483,6 @@ kernel_do_install() {
+ 	install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION}
+ 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
+-	install -d ${D}${sysconfdir}/modules-load.d
+-	install -d ${D}${sysconfdir}/modprobe.d
+ }
  
--SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https"
-+SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https \
-+           file://0001-pzstd-use-directly-for-the-test-c-snippet.patch"
- 
- SRCREV = "63779c798237346c2b245c546c40b72a5a5913fe"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
 -- 
-2.30.2
+2.34.1
 
 
