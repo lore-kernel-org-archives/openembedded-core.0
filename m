@@ -1,150 +1,311 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8359EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 10:24:32 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.4451.1687170262509056246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB522EB64DB
+	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 10:32:12 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.4527.1687170725237978199
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 03:24:22 -0700
+ Mon, 19 Jun 2023 03:32:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=jSkqRkjs;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=55342238ed=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35J8CuGh004627
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 10:24:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=5GU8zMkKSG5YCCoYcx1aETeUtbRen6pvTClWoVO9gzU=;
- b=jSkqRkjsP7Z2+Ew0wIJ0K58MZZ6MXMKYdLJe7tGNafPYmOxEHNs+fmI9TY4t64tIz8+g
- EcGihOaoKcK5Va/k+Z1IpClL7sC9zZ3ZTPaeaIIh58RfDxZwULR9KaTnzWrsO3LBALw6
- 16hWyQ3xCp7aw9s6fQD1+rapP4ATM8hp1iCnxEzKVQH7K6LpOlVBoCXD0FRLwOnwVUf2
- BusYbkbRT+qzch5c4zfGyhP2TEJVpOBtjPvjIQTx+N0U14XDsHfjiPbBVeCV8K9+fH+Z
- KjnwduwE1D071yx2bA1wnz2Nf+tjsYDdU8FRm3Ut7sgFy95JVjQrrKHTgPOlHfrURNan yw== 
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3r93t89fcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 10:24:21 +0000
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 03:24:18 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] nasm: fix CVE-2022-46457
-Date: Mon, 19 Jun 2023 10:23:37 +0000
-Message-ID: <20230619102337.743917-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A62D0150C;
+	Mon, 19 Jun 2023 03:32:48 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 682393F64C;
+	Mon, 19 Jun 2023 03:32:04 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH 3/3] erofs-utils: backport fixes for CVE-2023-33551 and CVE-2023-33552
+Date: Mon, 19 Jun 2023 11:32:00 +0100
+Message-Id: <20230619103200.516550-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230619103200.516550-1-ross.burton@arm.com>
+References: <20230619103200.516550-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: bP-KLt69UT0I2fvkRdlCDbW_uf9DH8MU
-X-Proofpoint-ORIG-GUID: bP-KLt69UT0I2fvkRdlCDbW_uf9DH8MU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-19_07,2023-06-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 adultscore=0 spamscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 suspectscore=0 mlxlogscore=941
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306190095
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 10:24:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183096
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 10:32:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183099
 
-NASM v2.16 was discovered to contain a segmentation violation
-in the component ieee_write_file at /output/outieee.c.
+From: Ross Burton <ross.burton@arm.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-46457
-
-Upstream patches:
-https://github.com/netwide-assembler/nasm/commit/c8af73112027fad0ecbb277e9cba257678c405af
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../nasm/nasm/CVE-2022-46457.patch            | 50 +++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.15.05.bb    |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2022-46457.patch
+ .../erofs-utils/erofs-utils_1.6.bb            |   5 +-
+ ...-don-t-allocate-read-too-large-exten.patch | 126 ++++++++++++++++++
+ ...-block-insane-long-paths-when-extrac.patch |  80 +++++++++++
+ 3 files changed, 210 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/erofs-utils/files/0001-erofs-ut=
+ils-fsck-don-t-allocate-read-too-large-exten.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/files/0002-erofs-ut=
+ils-fsck-block-insane-long-paths-when-extrac.patch
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2022-46457.patch b/meta/recipes-devtools/nasm/nasm/CVE-2022-46457.patch
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb b/meta/=
+recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+index 43643e07bbc..5a89e4b8ee6 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+@@ -6,7 +6,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D73001d804ea1e=
+3d84365f652242cca20"
+ HOMEPAGE =3D "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erof=
+s-utils.git/tree/README"
+=20
+ SRCREV =3D "21710612d35cd952490959bfa6ea9fe87aaa52dd"
+-SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
+tils.git;branch=3Dmaster;protocol=3Dhttps"
++SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
+tils.git;branch=3Dmaster;protocol=3Dhttps \
++           file://0001-erofs-utils-fsck-don-t-allocate-read-too-large-ex=
+ten.patch \
++           file://0002-erofs-utils-fsck-block-insane-long-paths-when-ext=
+rac.patch \
++"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>(\d+(\.\d+)+))"
+=20
+diff --git a/meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsc=
+k-don-t-allocate-read-too-large-exten.patch b/meta/recipes-devtools/erofs=
+-utils/files/0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.pa=
+tch
 new file mode 100644
-index 0000000000..3502d572cd
+index 00000000000..52f475dc424
 --- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2022-46457.patch
-@@ -0,0 +1,50 @@
-+From c8af73112027fad0ecbb277e9cba257678c405af Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin" <hpa@zytor.com>
-+Date: Wed, 7 Dec 2022 10:23:46 -0800
-+Subject: [PATCH] outieee: fix segfault on empty input
++++ b/meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsck-don-t=
+-allocate-read-too-large-exten.patch
+@@ -0,0 +1,126 @@
++From c769805c79d5acede65d96e5786aa5ebb46c01e0 Mon Sep 17 00:00:00 2001
++From: Gao Xiang <hsiangkao@linux.alibaba.com>
++Date: Fri, 2 Jun 2023 11:05:19 +0800
++Subject: [PATCH 1/2] erofs-utils: fsck: don't allocate/read too large ex=
+tents
 +
-+Fix the IEEE backend crashing if the input file is empty.
++Since some crafted EROFS filesystem images could have insane large
++extents, which causes unexpected bahaviors when extracting data.
 +
-+Signed-off-by: H. Peter Anvin <hpa@zytor.com>
++Fix it by extracting large extents with a buffer of a reasonable
++maximum size limit and reading multiple times instead.
 +
-+Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/c8af73112027fad0ecbb277e9cba257678c405af]
-+CVE: CVE-2022-46457
++Note that only `--extract` option is impacted.
 +
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++CVE: CVE-2023-33552
++Closes: https://nvd.nist.gov/vuln/detail/CVE-2023-33552
++Reported-by: Chaoming Yang <lometsj@live.com>
++Fixes: 412c8f908132 ("erofs-utils: fsck: add --extract=3DX support to ex=
+tract to path X")
++Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
++Link: https://lore.kernel.org/r/20230602030519.117071-1-hsiangkao@linux.=
+alibaba.com
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ output/outieee.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ fsck/main.c | 63 +++++++++++++++++++++++++++++++++++++++++------------
++ 1 file changed, 49 insertions(+), 14 deletions(-)
 +
-+diff --git a/output/outieee.c b/output/outieee.c
-+index cdb8333..8bc5eaa 100644
-+--- a/output/outieee.c
-++++ b/output/outieee.c
-+@@ -919,7 +919,7 @@ static void ieee_write_file(void)
-+      * Write the section headers
-+      */
-+     seg = seghead;
-+-    if (!debuginfo && !strcmp(seg->name, "??LINE"))
-++    if (!debuginfo && seg && !strcmp(seg->name, "??LINE"))
-+         seg = seg->next;
-+     while (seg) {
-+         char buf[256];
-+@@ -954,7 +954,7 @@ static void ieee_write_file(void)
-+     /*
-+      * write the start address if there is one
-+      */
-+-    if (ieee_entry_seg) {
-++    if (ieee_entry_seg && seghead) {
-+         for (seg = seghead; seg; seg = seg->next)
-+             if (seg->index == ieee_entry_seg)
-+                 break;
-+@@ -1067,7 +1067,7 @@ static void ieee_write_file(void)
-+      *  put out section data;
-+      */
-+     seg = seghead;
-+-    if (!debuginfo && !strcmp(seg->name, "??LINE"))
-++    if (!debuginfo && seg && !strcmp(seg->name, "??LINE"))
-+         seg = seg->next;
-+     while (seg) {
-+         if (seg->currentpos) {
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/nasm/nasm_2.15.05.bb b/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-index 59b1121bd4..bcb7e071d6 100644
---- a/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://0001-stdlib-Add-strlcat.patch \
-            file://0002-Add-debug-prefix-map-option.patch \
-            file://CVE-2022-44370.patch \
-+           file://CVE-2022-46457.patch \
-            "
- 
- SRC_URI[sha256sum] = "3c4b8339e5ab54b1bcb2316101f8985a5da50a3f9e504d43fa6f35668bee2fd0"
--- 
-2.40.0
++diff --git a/fsck/main.c b/fsck/main.c
++index 6b42252..6689ad8 100644
++--- a/fsck/main.c
+++++ b/fsck/main.c
++@@ -392,6 +392,8 @@ static int erofs_verify_inode_data(struct erofs_inod=
+e *inode, int outfd)
++ 	}
++=20
++ 	while (pos < inode->i_size) {
+++		unsigned int alloc_rawsize;
+++
++ 		map.m_la =3D pos;
++ 		if (compressed)
++ 			ret =3D z_erofs_map_blocks_iter(inode, &map,
++@@ -420,10 +422,28 @@ static int erofs_verify_inode_data(struct erofs_in=
+ode *inode, int outfd)
++ 		if (!(map.m_flags & EROFS_MAP_MAPPED) || !fsckcfg.check_decomp)
++ 			continue;
++=20
++-		if (map.m_plen > raw_size) {
++-			raw_size =3D map.m_plen;
++-			raw =3D realloc(raw, raw_size);
++-			BUG_ON(!raw);
+++		if (map.m_plen > Z_EROFS_PCLUSTER_MAX_SIZE) {
+++			if (compressed) {
+++				erofs_err("invalid pcluster size %" PRIu64 " @ offset %" PRIu64 " o=
+f nid %" PRIu64,
+++					  map.m_plen, map.m_la,
+++					  inode->nid | 0ULL);
+++				ret =3D -EFSCORRUPTED;
+++				goto out;
+++			}
+++			alloc_rawsize =3D Z_EROFS_PCLUSTER_MAX_SIZE;
+++		} else {
+++			alloc_rawsize =3D map.m_plen;
+++		}
+++
+++		if (alloc_rawsize > raw_size) {
+++			char *newraw =3D realloc(raw, alloc_rawsize);
+++
+++			if (!newraw) {
+++				ret =3D -ENOMEM;
+++				goto out;
+++			}
+++			raw =3D newraw;
+++			raw_size =3D alloc_rawsize;
++ 		}
++=20
++ 		if (compressed) {
++@@ -434,18 +454,27 @@ static int erofs_verify_inode_data(struct erofs_in=
+ode *inode, int outfd)
++ 			}
++ 			ret =3D z_erofs_read_one_data(inode, &map, raw, buffer,
++ 						    0, map.m_llen, false);
+++			if (ret)
+++				goto out;
+++
+++			if (outfd >=3D 0 && write(outfd, buffer, map.m_llen) < 0)
+++				goto fail_eio;
++ 		} else {
++-			ret =3D erofs_read_one_data(&map, raw, 0, map.m_plen);
++-		}
++-		if (ret)
++-			goto out;
+++			u64 p =3D 0;
++=20
++-		if (outfd >=3D 0 && write(outfd, compressed ? buffer : raw,
++-					map.m_llen) < 0) {
++-			erofs_err("I/O error occurred when verifying data chunk @ nid %llu",
++-				  inode->nid | 0ULL);
++-			ret =3D -EIO;
++-			goto out;
+++			do {
+++				u64 count =3D min_t(u64, alloc_rawsize,
+++						  map.m_llen);
+++
+++				ret =3D erofs_read_one_data(&map, raw, p, count);
+++				if (ret)
+++					goto out;
+++
+++				if (outfd >=3D 0 && write(outfd, raw, count) < 0)
+++					goto fail_eio;
+++				map.m_llen -=3D count;
+++				p +=3D count;
+++			} while (map.m_llen);
++ 		}
++ 	}
++=20
++@@ -460,6 +489,12 @@ out:
++ 	if (buffer)
++ 		free(buffer);
++ 	return ret < 0 ? ret : 0;
+++
+++fail_eio:
+++	erofs_err("I/O error occurred when verifying data chunk @ nid %llu",
+++		  inode->nid | 0ULL);
+++	ret =3D -EIO;
+++	goto out;
++ }
++=20
++ static inline int erofs_extract_dir(struct erofs_inode *inode)
++--=20
++2.34.1
++
+diff --git a/meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsc=
+k-block-insane-long-paths-when-extrac.patch b/meta/recipes-devtools/erofs=
+-utils/files/0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.pa=
+tch
+new file mode 100644
+index 00000000000..f2f1e343686
+--- /dev/null
++++ b/meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsck-block=
+-insane-long-paths-when-extrac.patch
+@@ -0,0 +1,80 @@
++From 6cebfbb79b1d5d8feb48801e1008eea5bfa8b599 Mon Sep 17 00:00:00 2001
++From: Gao Xiang <hsiangkao@linux.alibaba.com>
++Date: Fri, 2 Jun 2023 13:52:56 +0800
++Subject: [PATCH 2/2] erofs-utils: fsck: block insane long paths when
++ extracting images
++
++Since some crafted EROFS filesystem images could have insane deep
++hierarchy (or may form directory loops) which triggers the
++PATH_MAX-sized path buffer OR stack overflow.
++
++Actually some crafted images cannot be deemed as real corrupted
++images but over-PATH_MAX paths are not something that we'd like to
++support for now.
++
++CVE: CVE-2023-33551
++Closes: https://nvd.nist.gov/vuln/detail/CVE-2023-33551
++Reported-by: Chaoming Yang <lometsj@live.com>
++Fixes: f44043561491 ("erofs-utils: introduce fsck.erofs")
++Fixes: b11f84f593f9 ("erofs-utils: fsck: convert to use erofs_iterate_di=
+r()")
++Fixes: 412c8f908132 ("erofs-utils: fsck: add --extract=3DX support to ex=
+tract to path X")
++Signeo-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
++Link: https://lore.kernel.org/r/20230602055256.18061-1-hsiangkao@linux.a=
+libaba.com
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ fsck/main.c | 23 +++++++++++++++--------
++ 1 file changed, 15 insertions(+), 8 deletions(-)
++
++diff --git a/fsck/main.c b/fsck/main.c
++index 6689ad8..28d95ec 100644
++--- a/fsck/main.c
+++++ b/fsck/main.c
++@@ -680,28 +680,35 @@ again:
++ static int erofsfsck_dirent_iter(struct erofs_dir_context *ctx)
++ {
++ 	int ret;
++-	size_t prev_pos =3D fsckcfg.extract_pos;
+++	size_t prev_pos, curr_pos;
++=20
++ 	if (ctx->dot_dotdot)
++ 		return 0;
++=20
++-	if (fsckcfg.extract_path) {
++-		size_t curr_pos =3D prev_pos;
+++	prev_pos =3D fsckcfg.extract_pos;
+++	curr_pos =3D prev_pos;
+++
+++	if (prev_pos + ctx->de_namelen >=3D PATH_MAX) {
+++		erofs_err("unable to fsck since the path is too long (%u)",
+++			  curr_pos + ctx->de_namelen);
+++		return -EOPNOTSUPP;
+++	}
++=20
+++	if (fsckcfg.extract_path) {
++ 		fsckcfg.extract_path[curr_pos++] =3D '/';
++ 		strncpy(fsckcfg.extract_path + curr_pos, ctx->dname,
++ 			ctx->de_namelen);
++ 		curr_pos +=3D ctx->de_namelen;
++ 		fsckcfg.extract_path[curr_pos] =3D '\0';
++-		fsckcfg.extract_pos =3D curr_pos;
+++	} else {
+++		curr_pos +=3D ctx->de_namelen;
++ 	}
++-
+++	fsckcfg.extract_pos =3D curr_pos;
++ 	ret =3D erofsfsck_check_inode(ctx->dir->nid, ctx->de_nid);
++=20
++-	if (fsckcfg.extract_path) {
+++	if (fsckcfg.extract_path)
++ 		fsckcfg.extract_path[prev_pos] =3D '\0';
++-		fsckcfg.extract_pos =3D prev_pos;
++-	}
+++	fsckcfg.extract_pos =3D prev_pos;
++ 	return ret;
++ }
++=20
++--=20
++2.34.1
++
+--=20
+2.34.1
 
 
