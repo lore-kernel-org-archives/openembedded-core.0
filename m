@@ -2,189 +2,581 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B2EEB64DC
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 23:18:17 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.21910.1687216696115013199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F010EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 23:21:07 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.21890.1687216866471852416
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 16:18:16 -0700
+ Mon, 19 Jun 2023 16:21:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=HlYdxVZn;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f9b4a71623so8398705e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 16:18:15 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=kLjfCseL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-62de5392c7bso26449816d6.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 16:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687216694; x=1689808694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RN6PgcgYI/ocOW7VGiGyvvuiMsEVufaEotoad72l6Bs=;
-        b=HlYdxVZnh5HRbAVD2hvNLxcfnIzkvL3jo820RSY4P5z+kH+NGgL9QHvyTla44tdmuV
-         H4axoBMoNNQSprPeFCsP9Bzdv3CFJPh2UlwA+8XmK5e7JVcN10YVoxJRscZOekdSFm6J
-         uI/114WcQeZYoEal36u1+urNaWfSmwu0Ouzc55VBuYPGirHD2LdEecShB7wurQY8j8fs
-         tTy3a7BKXuaJeL/gfOdJybT9wcdq+3w1aiRlT894BtbEaPS/QIdcyux02BqqFplkfqTd
-         s/1qjFuacwYCoQlUjV1xFxhOemh3IlR6Z6zsBBct01xlEI3rnUqgHiDI21bCNVzAZofp
-         XWKw==
+        d=gmail.com; s=20221208; t=1687216865; x=1689808865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GpvEru6+tWdSHbCGH/1JmeocyJVNbmL2B4TXd62dV6k=;
+        b=kLjfCseL/FDZ/1lTlRVNKJuLg2EddQh6S1dp0jPCdRs1fyav740PH+yKD5TE1pAEIn
+         VqoarabNJxoVzhzDNvI+4NbLBN+bvYlHTJdeI3UywJndnblEK4QWmaJ2ldYy9aYvbjJN
+         sPTAW0GJkcnyotxc8Kw6OT7pHmlgk+yHrKVnzm7trTFFCu+JsunJ4mU1iRnwxL6C17Uw
+         VihRVDzNnF/NZcuRNu+pSfars8r8mWsgxd7rjJLcXXkUKNDpQQU1bvSG0Ep48k0FHl6Q
+         BHzwprxmLaSUo21NsVVTG30j5pZyo3IcTCyu3unDpzgSSYRQKvW/hlet99LeL1Ugwyb9
+         b2hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687216694; x=1689808694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1687216865; x=1689808865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RN6PgcgYI/ocOW7VGiGyvvuiMsEVufaEotoad72l6Bs=;
-        b=egw1tqDIVjxw7LWIkorHFO+hLlm/lD4UrQ3d31KNIIWDkPJkRjfNNZvPVspzh2TUyZ
-         tc3T5iB2g4X0CbnPjw+vgvC7AXU0AqNK9Ab651Sx0MpcFSjBJnLQ9LqBzkNgJUDLnOcL
-         HvXGW7qlXg/HgdlAtVZmNHIBJ3/0Gfn2y+INbirvSGhVCTeGZkrPlfbgybNNB1HFZBui
-         xFwBsGE9kNfFhqhf1PnSyd8EMmPA9WO7e9WwNhiuGqOTmLjez96goX81SYYKj6KqqVrK
-         lY7/UGW9hVbZ3sTguhxX0YfRepu+z4c8puAZnnXs9pZ4yT0GQ0MjluullUJPhxx6ANY0
-         iJDA==
-X-Gm-Message-State: AC+VfDyUuMn2mpNjYITQ+WIHaP1fF7mx6syOXpRVm6k4zcTLqT57UpUS
-	v2X8D2KNbuMqhgRFgmQaRMkYHtGRwNw=
-X-Google-Smtp-Source: ACHHUZ7iyPbw3P35BP1hQ1lhHcAAPJdJNpzb7g900BudeWnGkis9SJbqwS1D4Tj77CT6mcuLN5vIaw==
-X-Received: by 2002:a5d:660f:0:b0:311:e41:d71d with SMTP id n15-20020a5d660f000000b003110e41d71dmr6745780wru.28.1687216693051;
-        Mon, 19 Jun 2023 16:18:13 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id k18-20020adfe8d2000000b0030ae3a6be4asm615610wrn.72.2023.06.19.16.18.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 16:18:12 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>,
-	Ola x Nilsson <Ola.x.Nilsson@axis.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH V2 1/2] kernel-module-split: make autoload and probeconf distribution specific
-Date: Mon, 19 Jun 2023 23:13:43 +0000
-Message-Id: <20230619231343.1683736-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        bh=GpvEru6+tWdSHbCGH/1JmeocyJVNbmL2B4TXd62dV6k=;
+        b=Czx7Jyngko8ziWKBoSw97ZG5Rszc4fJbNzVzkb2QIetSG0XG8KJARaxXQnNXaWHrjy
+         PElp0CIbDnBUKMpgTSc6I6b0FgBoKk0uS8QR4to8sCuimLZvbKnHptDcWj7J21vyXr8c
+         Eqx+P8BUq3ignf7qUhOFFXq2QZP3T6cmYY6Bhq+sno2Zbyekf+H6r5LCodqkhGPs46pJ
+         cDi+4l0wd3VIfL5NqO4bqQI6SemoHFQNM1sC9ufU8DN5Btf7lHYsLRkGqlKmLJRB4KsV
+         y8m5bP5kd6x0FwJd+fWEPmYybzrtFck8YjNSZXyh2JrxAve2r0hj8g36WWRdZrA7PZ0s
+         u5YA==
+X-Gm-Message-State: AC+VfDxDwKjoAEBFwTuTcXNiq7r+Q1cprCcKQb1RWqg/8KxTLls25EFd
+	W7++Q0kPtg2KhnWtuaJQETnFdMw7MVyv3ssZsYk=
+X-Google-Smtp-Source: ACHHUZ6dVAFw78QQ5DLT2P+z5k4vVDw/AYIoR4RFxtUkewCP5w1TcEXepPu0cYmRCtFOBfqa8+a9fjxSBPnX+pxzyuU=
+X-Received: by 2002:a05:6214:1242:b0:626:169e:7700 with SMTP id
+ r2-20020a056214124200b00626169e7700mr13393777qvv.9.1687216865480; Mon, 19 Jun
+ 2023 16:21:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230215130057.1923450-1-jose.quaresma@foundries.io>
+ <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
+ <CANPvuRm+Df-HVCi-KDOUPzKeUJz9VvznSKLVu1vWCK9Fx+YOoA@mail.gmail.com>
+ <jwqv8k26mv2.fsf@axis.com> <CANPvuRmKaCc36+7ra0is3RUk_nKJEpwKWD0BzWWxX3e0iGb0-w@mail.gmail.com>
+ <DB5PR02MB1021369B7BC87D237D5E6C7FDEFA19@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANPvuRn7-H+QFWdC5n0e7nf-XWXZsVcAuX=KT7axrNKoSiwM-w@mail.gmail.com> <DB5PR02MB10213359F2E09206BA8420559EF58A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213359F2E09206BA8420559EF58A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 20 Jun 2023 00:20:54 +0100
+Message-ID: <CANPvuRkjQdZGDTMdzPqwJR3a5_st-tQeA5rg1CWM5Rc8U7suLg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload and
+ probeconf distribution specific
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Ola x Nilsson <Ola.x.Nilsson@axis.com>, 
+	Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	Jose Quaresma <jose.quaresma@foundries.io>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ed14bd05fe83c9f7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 23:18:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183123
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 23:21:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183124
 
-The modules-load.d [1] - Configure kernel modules to load at boot
-should install their configuration files in /usr/lib/modules-load.d.
+--000000000000ed14bd05fe83c9f7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The modprobe.d [2] - Configuration directory for modprobe
-should install their configuration files in /lib/modprobe.d
+Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia sexta,
+16/06/2023 =C3=A0(s) 17:03:
 
-[1] https://www.freedesktop.org/software/systemd/man/modules-load.d.html
-[2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
+> Did anything ever become of this? This is a change that at least we would
+> appreciate.
+>
 
-[YOCTO #12212] https://bugzilla.yoctoproject.org/show_bug.cgi?id=12212
+Hi Pete,
 
-CC: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-CC: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
+V2 send with your suggestions:
+https://lists.openembedded.org/g/openembedded-core/message/183123
 
-V2: use the same location as before on the class and define the new
-location just for systemd.
+Thanks for the remainder
 
- .../kernel-module-split.bbclass               | 30 +++++++++----------
- .../distro/include/init-manager-systemd.inc   |  4 +++
- 2 files changed, 18 insertions(+), 16 deletions(-)
+Jose
 
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-index 50882c31a7..ee14bb6910 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -30,8 +30,11 @@ fi
- 
- PACKAGE_WRITE_DEPS += "kmod-native depmodwrapper-cross"
- 
-+modulesloaddir ??= "${sysconfdir}/modules-load.d"
-+modprobedir ??= "${sysconfdir}/modprobe.d"
-+
- do_install:append() {
--	install -d ${D}${sysconfdir}/modules-load.d/ ${D}${sysconfdir}/modprobe.d/
-+	install -d ${D}${modulesloaddir} ${D}${modprobedir}
- }
- 
- KERNEL_SPLIT_MODULES ?= "1"
-@@ -93,8 +96,9 @@ python split_kernel_module_packages () {
- 
-         dvar = d.getVar('PKGD')
- 
--        # If autoloading is requested, output /etc/modules-load.d/<name>.conf and append
-+        # If autoloading is requested, output ${modulesloaddir}/<name>.conf and append
-         # appropriate modprobe commands to the postinst
-+        autoloadpath = '%s/%s.conf' % (d.getVar('modulesloaddir'), basename)
-         autoloadlist = (d.getVar("KERNEL_MODULE_AUTOLOAD") or "").split()
-         autoload = d.getVar('module_autoload_%s' % basename)
-         if autoload and autoload == basename:
-@@ -102,8 +106,7 @@ python split_kernel_module_packages () {
-         if autoload and basename not in autoloadlist:
-             bb.warn("module_autoload_%s is defined but '%s' isn't included in KERNEL_MODULE_AUTOLOAD, please add it there" % (basename, basename))
-         if basename in autoloadlist:
--            name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
--            f = open(name, 'w')
-+            f = open("%s%s" % (dvar, autoloadpath), 'w')
-             if autoload:
-                 for m in autoload.split():
-                     f.write('%s\n' % m)
-@@ -117,23 +120,19 @@ python split_kernel_module_packages () {
-             d.setVar('pkg_postinst:%s' % pkg, postinst)
- 
-         # Write out any modconf fragment
-+        modconfpath = '%s/%s.conf' % (d.getVar('modprobedir'), basename)
-         modconflist = (d.getVar("KERNEL_MODULE_PROBECONF") or "").split()
-         modconf = d.getVar('module_conf_%s' % basename)
-         if modconf and basename in modconflist:
--            name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
--            f = open(name, 'w')
-+            f = open("%s%s" % (dvar, modconfpath), 'w')
-             f.write("%s\n" % modconf)
-             f.close()
-         elif modconf:
-             bb.error("Please ensure module %s is listed in KERNEL_MODULE_PROBECONF since module_conf_%s is set" % (basename, basename))
- 
--        files = d.getVar('FILES:%s' % pkg)
--        files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
--        d.setVar('FILES:%s' % pkg, files)
--
--        conffiles = d.getVar('CONFFILES:%s' % pkg)
--        conffiles = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (conffiles, basename, basename)
--        d.setVar('CONFFILES:%s' % pkg, conffiles)
-+        appendfiles = " %s %s" % (autoloadpath, modconfpath)
-+        d.appendVar('FILES:%s' % pkg, appendfiles)
-+        d.appendVar('CONFFILES:%s' % pkg, appendfiles)
- 
-         if "description" in vals:
-             old_desc = d.getVar('DESCRIPTION:' + pkg) or ""
-@@ -169,8 +168,7 @@ python split_kernel_module_packages () {
-     postrm = d.getVar('pkg_postrm:modules')
- 
-     if splitmods != '1':
--        etcdir = d.getVar('sysconfdir')
--        d.appendVar('FILES:' + metapkg, '%s/modules-load.d/ %s/modprobe.d/ %s/modules/' % (etcdir, etcdir, d.getVar("nonarch_base_libdir")))
-+        d.appendVar('FILES:' + metapkg, '%s/ %s/ %s/modules/' % (modulesloaddir, modprobedir, d.getVar("nonarch_base_libdir")))
-         d.appendVar('pkg_postinst:%s' % metapkg, postinst)
-         d.prependVar('pkg_postrm:%s' % metapkg, postrm);
-         return
-@@ -189,7 +187,7 @@ python split_kernel_module_packages () {
-     # avoid warnings. removedirs only raises an OSError if an empty
-     # directory cannot be removed.
-     dvar = d.getVar('PKGD')
--    for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar), "%s/etc" % (dvar)]:
-+    for dir in ["%s%s" % (dvar, modprobedir), "%s%s" % (dvar, modulesloaddir)]:
-         if len(os.listdir(dir)) == 0:
-             os.rmdir(dir)
- }
-diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
-index 7867d90028..fc13089764 100644
---- a/meta/conf/distro/include/init-manager-systemd.inc
-+++ b/meta/conf/distro/include/init-manager-systemd.inc
-@@ -5,3 +5,7 @@ VIRTUAL-RUNTIME_init_manager ??= "systemd"
- VIRTUAL-RUNTIME_initscripts ??= "systemd-compat-units"
- VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
- VIRTUAL-RUNTIME_dev_manager ??= "systemd"
-+
-+# use autoload and probeconf distribution specific
-+modulesloaddir ?= "${libdir}/modules-load.d"
-+modprobedir ?= "${nonarch_base_libdir}/modprobe.d"
--- 
-2.34.1
 
+>
+>
+> //Peter
+>
+>
+>
+> *From:* Jose Quaresma <quaresma.jose@gmail.com>
+> *Sent:* den 17 februari 2023 17:53
+> *To:* Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> *Cc:* Ola x Nilsson <Ola.x.Nilsson@axis.com>; Otavio Salvador <
+> otavio.salvador@ossystems.com.br>; Jose Quaresma <
+> jose.quaresma@foundries.io>; openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload
+> and probeconf distribution specific
+>
+>
+>
+> Hi Peter,
+>
+>
+>
+> Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia sexta,
+> 17/02/2023 =C3=A0(s) 10:52:
+>
+> Wouldn=E2=80=99t the easiest solution be to define two variables:
+>
+> modulesloaddir ??=3D "${sysconfdir}/modules-load.d "
+> modprobedir ??=3D "${sysconfdir}/modprobe.d "
+>
+> then in init-manager-systemd.inc you could change them to:
+>
+> modulesloaddir ?=3D "${nonarch_libdir}/modules-load.d"
+> modprobedir ?=3D "${nonarch_base_libdir}/modprobe.d"
+>
+> Using a single prefix variable doesn=E2=80=99t really work since they nee=
+d
+> different paths in the latter case.
+>
+>
+> I was thinking of something similar to what you suggest but only on the
+> class:
+>
+> modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${nonarch_libdir}', '${sysconfdir}', d)}"
+> modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${nonarch_base_libdir}', '${sysconfdir}', d)}"
+>
+>
+>
+> Anyway your approach looks good to me too so i'll use yours, hope I can
+> test it next week.
+>
+>
+>
+> Jose
+>
+>
+>
+>
+>
+> //Peter
+>
+>
+>
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> *On Behalf Of *Jose Quaresma
+> *Sent:* den 16 februari 2023 12:08
+> *To:* Ola x Nilsson <Ola.x.Nilsson@axis.com>
+> *Cc:* Otavio Salvador <otavio.salvador@ossystems.com.br>; Jose Quaresma <
+> jose.quaresma@foundries.io>; openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload
+> and probeconf distribution specific
+>
+>
+>
+>
+>
+> Ola x Nilsson <ola.x.nilsson@axis.com> escreveu no dia quinta, 16/02/2023
+> =C3=A0(s) 08:22:
+>
+>
+> On Wed, Feb 15 2023, Jose Quaresma wrote:
+>
+> > Hi Octavio,
+> >
+> > Otavio Salvador <otavio.salvador@ossystems.com.br<mailto:
+> otavio.salvador@ossystems.com.br>> escreveu no dia quarta, 15/02/2023
+> =C3=A0(s) 13:25:
+> > Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma
+> > <quaresma.jose@gmail.com<mailto:quaresma.jose@gmail.com>> escreveu:
+> >>
+> >> The modules-load.d [1] - Configure kernel modules to load at boot
+> >> should install their configuration files in /usr/lib/modules-load.d.
+> >>
+> >> The modprobe.d [2] - Configuration directory for modprobe
+> >> should install their configuration files in /lib/modprobe.d
+> >>
+> >> [1]
+> https://www.freedesktop.org/software/systemd/man/modules-load.d.html
+> >> [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
+> <https://www.man7.org/linux/man-pages/man5/modprobe.d.5.html>
+> >>
+> >> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io<mailto:
+> jose.quaresma@foundries.io>>
+> >
+> >
+> > Did you validate this using busybox only? Using sysv and busybox need
+> > to be validated as well.
+> >
+> > Please drop this patch series because it doesn work with busybox.
+> >
+> > Looks like busybox don't support other path than /etc:
+> >
+> https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8eb=
+f480c95ce36135104e474e361a7e6#n658
+> >
+> > So I need to implement this in another way, maybe relocating the files
+> from /etc only when systemd is enabled.
+> >
+> > Thanks for raising the issue.
+> >
+> > Jose
+> >
+>
+> Hi,
+>
+> Please consider https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212
+> as well.
+>
+> --
+> Ola x Nilsson
+>
+>
+> Hi Ola,
+>
+> We use usermerge too but I think the weird issue here is we need to have
+> this distribution specified only for systemd
+>
+> excluding busybox and sysint as pointed out by Octavio.
+>
+> The other solution is adding support on busybox and sysint if needed.
+>
+> My idea is add a prefix variable with path "/etc" by default but
+> conditioned by systemd DISTRO_FEATURES
+>
+> Thanks for the bug hint.
+>
+> --
+>
+> Best regards,
+>
+>
+> Jos=C3=A9 Quaresma
+>
+>
+>
+>
+> --
+>
+> Best regards,
+>
+>
+> Jos=C3=A9 Quaresma
+>
+
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000ed14bd05fe83c9f7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Peter Kjellerstedt &lt;<a href=3D"mai=
+lto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; escrev=
+eu no dia sexta, 16/06/2023 =C3=A0(s) 17:03:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex"><div class=3D"msg7403212755073492290">
+
+
+
+
+
+<div lang=3D"SV" style=3D"overflow-wrap: break-word;">
+<div class=3D"m_7403212755073492290WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+Did anything ever become of this? This is a change that at least we would a=
+ppreciate.</span></p></div></div></div></blockquote><div><br>Hi Pete,</div>=
+<div><br></div><div>V2 send with your=C2=A0suggestions:<br></div><div><a hr=
+ef=3D"https://lists.openembedded.org/g/openembedded-core/message/183123">ht=
+tps://lists.openembedded.org/g/openembedded-core/message/183123</a><br><br>=
+<div>Thanks=C2=A0for the remainder</div><div><br></div>Jose</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"ms=
+g7403212755073492290"><div lang=3D"SV" style=3D"overflow-wrap: break-word;"=
+><div class=3D"m_7403212755073492290WordSection1"><p class=3D"MsoNormal"><s=
+pan lang=3D"EN-US" style=3D"color:rgb(148,54,52)"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+//Peter<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+<u></u>=C2=A0<u></u></span></p>
+<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
+eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
+top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
+=3D"EN-US"> Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
+rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;
+<br>
+<b>Sent:</b> den 17 februari 2023 17:53<br>
+<b>To:</b> Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis=
+.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
+<b>Cc:</b> Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" targ=
+et=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;; Otavio Salvador &lt;<a href=
+=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
+dor@ossystems.com.br</a>&gt;; Jose Quaresma &lt;<a href=3D"mailto:jose.quar=
+esma@foundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;; <a=
+ href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank"=
+>openembedded-core@lists.openembedded.org</a><br>
+<b>Subject:</b> Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload=
+ and probeconf distribution specific<u></u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Hi Peter,<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjell=
+erstedt@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt; esc=
+reveu no dia sexta, 17/02/2023 =C3=A0(s) 10:52:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+Wouldn=E2=80=99t the easiest solution be to define two variables:</span><u>=
+</u><u></u></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:Consolas;c=
+olor:rgb(148,54,52)">modulesloaddir ??=3D &quot;${sysconfdir}/modules-load.=
+d &quot;</span><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)"><br>
+</span><span lang=3D"EN-US" style=3D"font-family:Consolas;color:rgb(148,54,=
+52)">modprobedir ??=3D &quot;${sysconfdir}/modprobe.d &quot;</span><span la=
+ng=3D"EN-US" style=3D"color:rgb(148,54,52)"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+then in
+</span><span lang=3D"EN-US" style=3D"font-family:Consolas;color:rgb(148,54,=
+52)">init-manager-systemd.inc</span><span lang=3D"EN-US" style=3D"color:rgb=
+(148,54,52)"> you could change them to:</span><span lang=3D"EN-US"><u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:Consolas;c=
+olor:rgb(148,54,52)">modulesloaddir ?=3D &quot;${nonarch_libdir}/modules-lo=
+ad.d&quot;<br>
+modprobedir ?=3D &quot;${nonarch_base_libdir}/modprobe.d&quot;<u></u><u></u=
+></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+Using a single prefix variable doesn=E2=80=99t really work since they need =
+different paths in the latter case.</span><span lang=3D"EN-US"><u></u><u></=
+u></span></p>
+</div>
+</div>
+</div>
+</blockquote>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><br>
+</span>I was thinking of something=C2=A0similar to what you suggest but onl=
+y on the class:<br>
+<br>
+modulesloaddir ??=3D &quot;<a href=3D"mailto:$%7b@bb.utils.contains(&#39;DI=
+STRO_FEATURES&#39;,%20&#39;systemd&#39;,%20&#39;$%7bnonarch_libdir%7d&#39;,=
+%20&#39;$%7bsysconfdir%7d&#39;,%20d)%7d" target=3D"_blank">${@bb.utils.cont=
+ains(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;${nonarch_libdir}&#=
+39;, &#39;${sysconfdir}&#39;, d)}</a>&quot;<br>
+modprobedir ??=3D &quot;<a href=3D"mailto:$%7b@bb.utils.contains(&#39;DISTR=
+O_FEATURES&#39;,%20&#39;systemd&#39;,%20&#39;$%7bnonarch_base_libdir%7d&#39=
+;,%20&#39;$%7bsysconfdir%7d&#39;,%20d)%7d" target=3D"_blank">${@bb.utils.co=
+ntains(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;${nonarch_base_li=
+bdir}&#39;, &#39;${sysconfdir}&#39;, d)}</a>&quot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Anyway your approach looks good to me too so i&#39;l=
+l use yours, hope I can test it next week.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Jose<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
+.8pt;margin-right:0cm">
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+=C2=A0</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+//Peter</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
+=C2=A0</span><u></u><u></u></p>
+<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
+eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
+top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
+=3D"EN-US">
+<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto:opene=
+mbedded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@li=
+sts.openembedded.org</a>&gt;
+<b>On Behalf Of </b>Jose Quaresma<br>
+<b>Sent:</b> den 16 februari 2023 12:08<br>
+<b>To:</b> Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" targ=
+et=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;<br>
+<b>Cc:</b> Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.=
+com.br" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&gt;; Jose Qu=
+aresma &lt;<a href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">=
+jose.quaresma@foundries.io</a>&gt;;
+<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">openembedded-core@lists.openembedded.org</a><br>
+<b>Subject:</b> Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload=
+ and probeconf distribution specific</span><u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal">Ola x Nilsson &lt;<a href=3D"mailto:ola.x.nilsson@ax=
+is.com" target=3D"_blank">ola.x.nilsson@axis.com</a>&gt; escreveu no dia qu=
+inta, 16/02/2023 =C3=A0(s) 08:22:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
+order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin:5pt 0c=
+m 5pt 4.8pt">
+<p class=3D"MsoNormal"><br>
+On Wed, Feb 15 2023, Jose Quaresma wrote:<br>
+<br>
+&gt; Hi Octavio,<br>
+&gt;<br>
+&gt; Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br=
+" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&lt;mailto:<a href=
+=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
+dor@ossystems.com.br</a>&gt;&gt; escreveu no dia quarta,
+ 15/02/2023 =C3=A0(s) 13:25:<br>
+&gt; Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma<br>
+&gt; &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quare=
+sma.jose@gmail.com</a>&lt;mailto:<a href=3D"mailto:quaresma.jose@gmail.com"=
+ target=3D"_blank">quaresma.jose@gmail.com</a>&gt;&gt; escreveu:<br>
+&gt;&gt;<br>
+&gt;&gt; The modules-load.d [1] - Configure kernel modules to load at boot<=
+br>
+&gt;&gt; should install their configuration files in /usr/lib/modules-load.=
+d.<br>
+&gt;&gt;<br>
+&gt;&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
+&gt;&gt; should install their configuration files in /lib/modprobe.d<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/mo=
+dules-load.d.html" target=3D"_blank">
+https://www.freedesktop.org/software/systemd/man/modules-load.d.html</a><br=
+>
+&gt;&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages/man5/modprobe.=
+d.5.html" target=3D"_blank">
+https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html</a><br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@f=
+oundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&lt;mailto:<a =
+href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">jose.quaresma@=
+foundries.io</a>&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Did you validate this using busybox only? Using sysv and busybox need<=
+br>
+&gt; to be validated as well.<br>
+&gt;<br>
+&gt; Please drop this patch series because it doesn work with busybox.<br>
+&gt;<br>
+&gt; Looks like busybox don&#39;t support other path than /etc:<br>
+&gt; <a href=3D"https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=
+=3D669c40ed8ebf480c95ce36135104e474e361a7e6#n658" target=3D"_blank">
+https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8ebf4=
+80c95ce36135104e474e361a7e6#n658</a><br>
+&gt;<br>
+&gt; So I need to implement this in another way, maybe relocating the files=
+ from /etc only when systemd is enabled.<br>
+&gt;<br>
+&gt; Thanks for raising the issue.<br>
+&gt;<br>
+&gt; Jose<br>
+&gt;<br>
+<br>
+Hi,<br>
+<br>
+Please consider <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?i=
+d=3D12212" target=3D"_blank">
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212</a><br>
+as well.<br>
+<br>
+-- <br>
+Ola x Nilsson<u></u><u></u></p>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal">Hi Ola,<br>
+<br>
+We use usermerge too but I think the weird issue here is we need to have th=
+is distribution=C2=A0specified only for systemd<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">excluding busybox and sysint as pointed out by Octav=
+io.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">The other solution is a=
+dding support on busybox and sysint if needed.<br>
+<br>
+My idea is add a prefix variable with path &quot;/etc&quot; by default but =
+conditioned=C2=A0by systemd=C2=A0DISTRO_FEATURES<br>
+<br>
+Thanks for the bug hint.<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal">--
+<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Best regards,<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><br>
+Jos=C3=A9 Quaresma<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<p class=3D"MsoNormal">-- <u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Best regards,<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><br>
+Jos=C3=A9 Quaresma<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gm=
+ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
+re"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></=
+div></div>
+
+--000000000000ed14bd05fe83c9f7--
 
