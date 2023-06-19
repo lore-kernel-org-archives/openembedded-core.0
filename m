@@ -1,156 +1,199 @@
-Return-Path: <lrannou@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCF1EB64DB
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 12:28:43 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.6218.1687177720206936133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A188EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 13:18:53 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web10.7300.1687180723504702751
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 05:28:40 -0700
+ Mon, 19 Jun 2023 06:18:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=gEZA4uFE;
- spf=pass (domain: baylibre.com, ip: 209.85.221.52, mailfrom: lrannou@baylibre.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31121494630so3945959f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 05:28:39 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=q4yR8qbz;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4f8735ac3e3so1042633e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 06:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687177718; x=1689769718;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b0+t6UCAISCMcFuElmPLECsnFRx7V43DFryO6xH0EUo=;
-        b=gEZA4uFEl4z9yEuaDCVdAOARjkiaygRs0ZE43f13UToRVZe4u+aZ+1g62DKt3aAU3I
-         gZQbBl2Hm0Xyvh12qc+5mdnioG50G5yoOGg09mkx6a8fPxo1KYfFIipJT5eDzR36Isrk
-         mG2IYN1+Mj6+9vPVQBey/sIJa0tX074KH15/K6k4TTWVR19Gx/zrsgXRHUpCvFIAlgD2
-         0y/9w6gwrSJlgbrwIt+oD/4g4oshysfMxBW0J5HNbFnF8ZcmnXcRXg5q97zQKP96Kuz0
-         TC+7GIExunGmJmd49I6ODugzYGbI/eAPcsE5JbK7PHthdbnr6J1+FjnJ2HUZM746/2m6
-         TnQA==
+        d=gmail.com; s=20221208; t=1687180722; x=1689772722;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+roJ50bo4cbNJzw3RBcQDulp7KDerrODSBVbSev1qc=;
+        b=q4yR8qbztaN3r3RrfDo0BkNsskB1w1AAoQJo2WID16XqGjnGFs1GrRbWwEHzHtUnss
+         vZtu1koYb9dAUWv4OOhEWKmT1B+Irifoy+OEsmExyZsQnUZIOiNNUtlwYHYXRI/a69rT
+         6NB+F6yvVbGO3PxKlY+btPCjqzBBEA5aroYrZxLRZs9GMXX+e6e79PJvvqkqLqP+Lgc3
+         8nm5Xyt67FLw5UDkrY/kjRcT/FB1gFRQClmqTmJiL4Kxf7KrM6DFGQhKyuVk0vYDsnUy
+         5G0OV511yG9vstIe6Vw39y3Rtjy4RsNNnNoFfca4tgq0cEeqCxL1u0R3xOSy8uIkNqYE
+         0vVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687177718; x=1689769718;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0+t6UCAISCMcFuElmPLECsnFRx7V43DFryO6xH0EUo=;
-        b=jJo5MHWl2LBFfJML52nnmuSEPi6ArDrRFtnIM/5e/nQSy64Lp53qq9OUTKMyB6QItj
-         FKZGJodGlK/DWbd2X/npmJvjVZruz9IXxIQD8JiG7slg/5inb3bOCOO0oGq/FgT4ZNYQ
-         MNcqE1erc0AwtTak1UW2BitWbQ/BFxIZtAXu+3DgMQFXpo7HFFLkCv8+chRzx5ZHMeXa
-         kUEFkJg2VQYNXDTHQlpau4epWvfFrVGOMMz0PzyYom/CYdqqwlv7hVFs3n03T9hYS7B2
-         AcEeLLoWkzZUvZpfh/Q+eiFR7Nv7aOwj5o7QEpLkT2eDkdiLSv+Qv5R4avswU06eut6j
-         Wl/w==
-X-Gm-Message-State: AC+VfDz/OxO+HbjS8aIoHPIMB7RzCiMynlUCP67QmbbWAAbrhEu2ja3H
-	HA8NdjQezBePNSCbOt7t/TdH3w==
-X-Google-Smtp-Source: ACHHUZ4e/afXJY9ax8KZoNjwDruzBSxg28YyjD0VUUJMceWSqapFaDw94goHtB+DNTsaIXPnKKBQXg==
-X-Received: by 2002:a5d:4643:0:b0:30e:4a21:808b with SMTP id j3-20020a5d4643000000b0030e4a21808bmr7918521wrs.55.1687177718568;
-        Mon, 19 Jun 2023 05:28:38 -0700 (PDT)
-Received: from [172.30.105.10] (lmontsouris-658-1-109-35.w92-154.abo.wanadoo.fr. [92.154.6.35])
-        by smtp.gmail.com with ESMTPSA id q7-20020adff947000000b0030af72bca98sm31332210wrr.103.2023.06.19.05.28.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jun 2023 05:28:38 -0700 (PDT)
-Message-ID: <ee772c69-22a6-9add-afbe-89c55e0026c7@baylibre.com>
-Date: Mon, 19 Jun 2023 14:28:37 +0200
+        d=1e100.net; s=20221208; t=1687180722; x=1689772722;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s+roJ50bo4cbNJzw3RBcQDulp7KDerrODSBVbSev1qc=;
+        b=lMt1qRwmzG17vJsVDmEFgSNHbOydteWpl2sw221KBKPOXDSQ8RPP6y4y66L/0Cpdgf
+         inz+FaknuCgAGqL6FlT/VAOIgpAce2jzfh8p9w/sYu1T+kaH/OJZQM6Qu8B6xmHFTdTW
+         K3v6tp+tJNAEASvHTywuTdbi5blKPjC7cLfwrVhISTe3kPuCctQvh1KgdQwavWwMTOZA
+         lgLxDCFOlhHxPm4I+STx3o5r+jtQWuBlDAtinOfvZU1OwHby7N7NUIq3Efv3bu1tJfV1
+         5NLyvZOdHKRJfLujHNQA82u77SfpmMxDt3Y1p4q3rbpCZZY4cxA6HIZAvicX9D+JYTuU
+         zYZQ==
+X-Gm-Message-State: AC+VfDzT9xEJf6AvwNhlYt/EnSsFLJzW3p9lEhHhhzEA2ZAUedl7uyUE
+	Rd7ZwnUWGzq97mDuh7YkQ/h1v7qSGsUC2R696X0=
+X-Google-Smtp-Source: ACHHUZ5Bic3xzxp/JigrgNKLggcwxUqFDkhij43YCzC224R4n0wRwirNwyOq3VxF5fcl8tm3DiIlpQwx4RH8q9mldDs=
+X-Received: by 2002:a19:5018:0:b0:4f8:75b0:2297 with SMTP id
+ e24-20020a195018000000b004f875b02297mr731923lfb.43.1687180721297; Mon, 19 Jun
+ 2023 06:18:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [OE-core] [PATCH 3/3] base-passwd: add the wheel group
-Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com
-References: <20230613-sysusersd-v1-0-eaddf3179773@baylibre.com>
- <20230613-sysusersd-v1-3-eaddf3179773@baylibre.com>
- <20230618093724c7508d8b@mail.local>
-From: Louis Rannou <lrannou@baylibre.com>
-In-Reply-To: <20230618093724c7508d8b@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230618212617.232149-1-alexandre.belloni@bootlin.com>
+In-Reply-To: <20230618212617.232149-1-alexandre.belloni@bootlin.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 19 Jun 2023 15:18:30 +0200
+Message-ID: <CANNYZj85WkWiLNMjmGVijaNRXf3uzJRtS6Oi8rGi5QpX=yyZTQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] base-passwd: fix patchreview warning
+To: alexandre.belloni@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000909e2505fe7b5f58"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 12:28:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183105
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 13:18:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183106
 
+--000000000000909e2505fe7b5f58
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Should the regex that finds these lines be fixed rather? It=E2=80=99s entir=
+ely
+valid to say =E2=80=98upstream status=E2=80=99 somewhere, it should be matc=
+hing
+=E2=80=98Upstream-Status:=E2=80=99 at the start of the line exactly.
 
-On 18/06/2023 11:37, Alexandre Belloni wrote:
-> On 15/06/2023 13:43:55+0200, Louis Rannou wrote:
->> The wheel group is not declared while it can be used to access the systemd
->> journal and to configure printers in CUPS. It can also be used for su and sudo
->> permissions.
->>
->> So far it was created later in the rootfs postcommand systemd_create_users.
->>
->> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
->> ---
->>   .../base-passwd/0007-Add-wheel-group.patch           | 20 ++++++++++++++++++++
->>   meta/recipes-core/base-passwd/base-passwd_3.6.1.bb   |  1 +
->>   2 files changed, 21 insertions(+)
->>
->> diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
->> new file mode 100644
->> index 0000000000..00eaec38a2
->> --- /dev/null
->> +++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
->> @@ -0,0 +1,20 @@
->> +
->> +We need to have a wheel group which has some system privileges to consult the
->> +systemd journal or manage printers with cups.
->> +
->> +Upstream status says the group does not exist by default.
-> 
-> This should be rephrased because it causes:
-> 
-> Malformed Upstream-Status 'Upstream status' (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
-> Unknown Upstream-Status value 'says' (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
-> Patches missing Upstream-Status: 0 (0%)
-> Patches with malformed Upstream-Status: 1 (0%
+Alex
 
-Sorry for that. I didn't expect it would parse any line starting with 
-Upstream status...
+On Sun 18. Jun 2023 at 23.26, Alexandre Belloni via lists.openembedded.org
+<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
 
-> 
-> 
->> +
->> +Upstream-Status: Inappropriate [enable feature]
->> +
->> +Signed-off-by: Louis Rannou <lrannou@baylibre.com>
->> +Index: base-passwd-3.5.26/group.master
->> +===================================================================
->> +--- base-passwd-3.5.29.orig/group.master
->> ++++ base-passwd-3.5.29/group.master
->> +@@ -38,5 +38,6 @@
->> + staff:*:50:
->> + games:*:60:
->> + shutdown:*:70:
->> ++wheel:*:80:
->> + users:*:100:
->> + nogroup:*:65534:
->> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
->> index 853717176d..204016b3e7 100644
->> --- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
->> +++ b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
->> @@ -12,6 +12,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
->>              file://0004-Add-an-input-group-for-the-dev-input-devices.patch \
->>              file://0005-Add-kvm-group.patch \
->>              file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch \
->> +           file://0007-Add-wheel-group.patch \
->>              "
->>   
->>   SRC_URI[sha256sum] = "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6c6428f2c92866f79af"
->>
->> -- 
->> 2.41.0
->>
-> 
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#182849): https://lists.openembedded.org/g/openembedded-core/message/182849
->> Mute This Topic: https://lists.openembedded.org/mt/99546759/3617179
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
-> 
-> 
+> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>
+> Fix:
+>
+> Malformed Upstream-Status 'Upstream status'
+> (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
+> Unknown Upstream-Status value 'says'
+> (meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch)
+>
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> ---
+>  .../base-passwd/base-passwd/0007-Add-wheel-group.patch          | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git
+> a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+> b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+> index 00eaec38a294..d77122789d5e 100644
+> --- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patc=
+h
+> +++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patc=
+h
+> @@ -2,7 +2,7 @@
+>  We need to have a wheel group which has some system privileges to consul=
+t
+> the
+>  systemd journal or manage printers with cups.
+>
+> -Upstream status says the group does not exist by default.
+> +Upstream says the group does not exist by default.
+>
+>  Upstream-Status: Inappropriate [enable feature]
+>
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183064):
+> https://lists.openembedded.org/g/openembedded-core/message/183064
+> Mute This Topic: https://lists.openembedded.org/mt/99611534/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Louis
+--000000000000909e2505fe7b5f58
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Should the regex that finds these lines be fixed rather? =
+It=E2=80=99s entirely valid to say =E2=80=98upstream status=E2=80=99 somewh=
+ere, it should be matching =E2=80=98Upstream-Status:=E2=80=99 at the start =
+of the line exactly.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Ale=
+x</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Sun 18. Jun 2023 at 23.26, Alexandre Belloni via <a href=3D"http:/=
+/lists.openembedded.org">lists.openembedded.org</a> &lt;alexandre.belloni=
+=3D<a href=3D"mailto:bootlin.com@lists.openembedded.org">bootlin.com@lists.=
+openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:s=
+olid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Alexandre B=
+elloni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blan=
+k">alexandre.belloni@bootlin.com</a>&gt;<br>
+<br>
+Fix:<br>
+<br>
+Malformed Upstream-Status &#39;Upstream status&#39; (meta/recipes-core/base=
+-passwd/base-passwd/0007-Add-wheel-group.patch)<br>
+Unknown Upstream-Status value &#39;says&#39; (meta/recipes-core/base-passwd=
+/base-passwd/0007-Add-wheel-group.patch)<br>
+<br>
+Signed-off-by: Alexandre Belloni &lt;<a href=3D"mailto:alexandre.belloni@bo=
+otlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>&gt;<br>
+---<br>
+=C2=A0.../base-passwd/base-passwd/0007-Add-wheel-group.patch=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group=
+.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.pat=
+ch<br>
+index 00eaec38a294..d77122789d5e 100644<br>
+--- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch<=
+br>
++++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch<=
+br>
+@@ -2,7 +2,7 @@<br>
+=C2=A0We need to have a wheel group which has some system privileges to con=
+sult the<br>
+=C2=A0systemd journal or manage printers with cups.<br>
+<br>
+-Upstream status says the group does not exist by default.<br>
++Upstream says the group does not exist by default.<br>
+<br>
+=C2=A0Upstream-Status: Inappropriate [enable feature]<br>
+<br>
+-- <br>
+2.40.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#183064): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/183064" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/183064</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99611534/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/99611534/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000909e2505fe7b5f58--
 
