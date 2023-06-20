@@ -1,79 +1,67 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D129EB64D8
-	for <webhook@archiver.kernel.org>; Tue, 20 Jun 2023 12:34:16 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.9137.1687264447470528956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C448EB64DB
+	for <webhook@archiver.kernel.org>; Tue, 20 Jun 2023 13:00:26 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.9695.1687266023469662915
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jun 2023 05:34:07 -0700
+ Tue, 20 Jun 2023 06:00:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2E841063;
-	Tue, 20 Jun 2023 05:34:50 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7A97B3F71E;
-	Tue, 20 Jun 2023 05:34:06 -0700 (PDT)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 1/3] sysfsutils: fetch a supported fork from github
-Date: Tue, 20 Jun 2023 13:34:02 +0100
-Message-Id: <20230620123404.3854578-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=n4hVi9Up;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: luca.ceresoli@bootlin.com)
+X-GND-Sasl: luca.ceresoli@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1687266021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lVH7rOcjLmMgbqoCOMCeMSlcj1ZzLxra0qbOO4YPEvI=;
+	b=n4hVi9UpXGYRoeLWo9TSFsSnUnSs2B0ywSCyd8F6O/PvTVrDRpj60i3+veS/DBXYZ7t2wR
+	g/eSuT//ehgZ7ipLNdh6C8GuP90uza21upg6ndJ4KLLL/BxazKT3WSvH+Od4NALVZMsoTA
+	I5YyFzuBnf4RRWaK4Q92YgnbhDLiMFGlx1U4smdV5/LixdYU7TO9W1/jEeYVbP4IbGn4W9
+	TxBQ4JvShH1WDwrfMUJUj0RJqSQnJG08hMAKnUxcv9sfNB4ZL5pNWmSzRCGdAlB3ouh9O2
+	xI8A8J5DF7qW1Wc4ArdRahkRbnk9MbYIfm1QSQXZYsSny9qc6VFQ7o0VeyfTCA==
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Sasl: luca.ceresoli@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6841724001B;
+	Tue, 20 Jun 2023 13:00:20 +0000 (UTC)
+Date: Tue, 20 Jun 2023 15:00:19 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Ross Burton" <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH 3/3] sysfstools: don't install to base_libdir
+Message-ID: <20230620150019.14645e48@booty>
+In-Reply-To: <20230620123404.3854578-3-ross.burton@arm.com>
+References: <20230620123404.3854578-1-ross.burton@arm.com>
+	<20230620123404.3854578-3-ross.burton@arm.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 12:34:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183133
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 13:00:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183136
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Hi Ross,
 
-Debian does the same:
-https://packages.debian.org/source/sid/sysfsutils
+On Tue, 20 Jun 2023 13:34:04 +0100
+"Ross Burton" <ross.burton@arm.com> wrote:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+> From: Ross Burton <ross.burton@arm.com>
 
-diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb b/meta/reci=
-pes-core/sysfsutils/sysfsutils_2.1.0.bb
-index c90a02f1319..fd72cf41659 100644
---- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
-+++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
-@@ -10,18 +10,14 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3d06403ea5=
-4c7574a9e581c6478cc393 \
-                     file://lib/LGPL;md5=3Db75d069791103ffe1c0d6435deeff7=
-2e"
- PR =3D "r5"
-=20
--SRC_URI =3D "${SOURCEFORGE_MIRROR}/linux-diag/sysfsutils-${PV}.tar.gz \
-+SRC_URI =3D "git://github.com/linux-ras/sysfsutils.git;protocol=3Dhttps;=
-branch=3Dmaster \
-            file://sysfsutils-2.0.0-class-dup.patch \
-            file://obsolete_automake_macros.patch \
-            file://separatebuild.patch"
-=20
--SRC_URI[md5sum] =3D "14e7dcd0436d2f49aa403f67e1ef7ddc"
--SRC_URI[sha256sum] =3D "e865de2c1f559fff0d3fc936e660c0efaf7afe662064f2fb=
-97ccad1ec28d208a"
-+SRCREV =3D "0d5456e1c9d969cdad6accef2ae2d4881d5db085"
-=20
--UPSTREAM_CHECK_URI =3D "http://sourceforge.net/projects/linux-diag/files=
-/sysfsutils/"
--UPSTREAM_CHECK_REGEX =3D "/sysfsutils/(?P<pver>(\d+[\.\-_]*)+)/"
--
--S =3D "${WORKDIR}/sysfsutils-${PV}"
-+S =3D "${WORKDIR}/git"
-=20
- inherit autotools
-=20
---=20
-2.34.1
+I guess the Subject line should s/sysfstools/sysfsutils/, so I fixed
+that locally for my AB testing branch.
 
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
