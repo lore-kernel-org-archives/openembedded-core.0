@@ -2,65 +2,66 @@ Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD55EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C62FCEB64D8
 	for <webhook@archiver.kernel.org>; Tue, 20 Jun 2023 14:16:26 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.63])
- by mx.groups.io with SMTP id smtpd.web10.11554.1687270578253864040
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.72])
+ by mx.groups.io with SMTP id smtpd.web10.11555.1687270583237028949
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jun 2023 07:16:19 -0700
+ Tue, 20 Jun 2023 07:16:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=j18kOIwW;
- spf=pass (domain: siemens.com, ip: 40.107.21.63, mailfrom: andrej.valek@siemens.com)
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=FG84bKFr;
+ spf=pass (domain: siemens.com, ip: 40.107.241.72, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LcAnFGEfYvJ2Ot7YoGo9bnvAtiZEaVLUU6fuFHFSJVhUjytJqD+jxM4a/Debz9ZhF16tQe4iGO1nG0K7PMCb0YP0HDd5LVZZirJxzc6ABf9DTjTzij5ioswI1zdVqBwFIXiA3rZH9L0UHz6cLmtgfe1oTn/E5RDDBlKbkAijsZ6cGcH7cItz4Z3tetHbZHAZLQwBpNBalZvUw3j5e/9jX5OXvT2zSHdVCTIP5Jb+XG8/zRYjjO97f5rlkM/bH5zRGX2OncxqAgsY1rrdOu5Sf/CwUn0NtgQyqN7DpXpAI2BlfrmZeQynVLPbSFmL+8dHaKekX1mV2F2ZLd3853LOLw==
+ b=P6DEwIAqKmq4UH+V1WNPZYuHQZFItWT4GGglQfQqVjOC5mttmaeepHg8xKv7uiAk5tJrgeFhxmidy+oK49jFv0desQLxMS0Hj8bTicfn/oKBgPzlpDiQIUuGjyPw4qy3q0yhulSXfgoZ7qiy6lh50A0K1CdSrxJS/paDtSPY4MN+pDQshISH8ysKKpiXc/Xt3L0K4np4lyyV0d1RHQijrPGlyCiuCt84mR8LNjuQY9YwQ/9Kr8r0c/i8S2VdB3W59L/KbBNa8P92rCKWV13odTi4HAGn56koLAHrvAN8U5xJk6H//zcFQJlM7mJlCL9mjgyoqxPmyLkIZJGlPPvXlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LknUy6qO+BefjRBll3p1hBCmSto72g74hAzdabjjgnI=;
- b=XAc81uvUfhmrhFvaOhcZHfexkfIlJGyAy6Oku+8F4zzkLd3xafl/7ECB1OBe+SmRxklMT1tawBaQ0wF7vSKefURrLFmljC8eT7qk8asqtv7ubMjvhLMqtwsizBMLFXdYElBktkT02I1o8PC8HnnPez48brscQQuYDyV46zfiJixMHrU+j7dbfj3NL123ktC9jvbchX/tR+B5KVz6fAl495/Jf3a5LMdGRK3UlDzu9KKB2/cZEeUOxX+IaBFOVdiU5xxfHsDe+WzbklaWJhYZ9bjMB3CbbkRvgYP3A6LxaUUSjuSK7DTCYGEVvoluyiWwenTREavefH/PH00GfctOkg==
+ bh=tUcX8AIrVOB6ufUlme54K2E5AvuWEHbxYUxNLEZvHBQ=;
+ b=j2D0x3Am7WDs01rn4WKmbSiKq5y+cG/elG2UeJzRWlsnwLfUnMuCj6AJkURPSDKl8IoiO9pehJG/69Ri9isAnfcslLsHmIPrmkm8Jd2G8k+H2g1I33iZ1XguKZDnmekosC41aMnngr7eDn8ipTQoT0erfhiYJCHRKXJE0MPEwsY0Lmb/JoGCFHXCGd9i1b3erUg1O/1RxifTYm2jwCQqHBTJoCOHuzzzxLzrJ7IpjN4pNByFGHBRvvYMxp+UzR7ihkru5uxuc73QwtzKAHlRJ+YzI/FaPk+0bVVE0tB0DAaGxMm3Ywbt31QUf3gAWEFuOtSvvMlFxapGDW4BPzswfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.74) smtp.rcpttodomain=lists.openembedded.org
+ 194.138.21.76) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
  action=none header.from=siemens.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LknUy6qO+BefjRBll3p1hBCmSto72g74hAzdabjjgnI=;
- b=j18kOIwW7h9AfV0czoq8OlHj4/Gtv2iQuSDV51XlXFgDNVFqz5CsmIXMHmZ8r4XSgD+zBa6qBikI7AyNAlhWS/0iP4uOAW1D0ADwNDMKbg2kW9c9F8SD9kOzdNbcveqm8zHJ1PMO5dCFcndU9poDIAJasBQyOC5Q71F3ACIsFktww2d1us5hn+Ke2x0HOB2xZhbHnpVlB/yg/PKyIuHLTaJdNyYjz/DxGERaXiPIT1AL1qbABpt1XR0hqIN8rveY7rJQbQRYwWqeQZcikqbNX/SyysR1zIvw4B7Zh6oLJY02oTpIEcZPxvBM5XKt0vUCigdt4SWyK9yKVlzIG3GLvw==
-Received: from GV3P280CA0016.SWEP280.PROD.OUTLOOK.COM (2603:10a6:150:b::26) by
- PAWPR10MB6808.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:338::12) with
+ bh=tUcX8AIrVOB6ufUlme54K2E5AvuWEHbxYUxNLEZvHBQ=;
+ b=FG84bKFrTkCBBNjRJVZzE7GAjE1H32og0B0iU795R90AA4T51piOPIO0fLc6ZtAheXsiL+8YFVHcqT6n2nUdq/9B/tvHIpr4OGr3FnrCtsTDacGO59cmQYuWBgl598O3zlB9zs6w1R2WVIDFZVChwTmiZ+tzSNc0OZKPZSjUAkCpR1VsaLFOZFFV+lswYXG/ac8pdNKR9rpqmjUxlaMgbn4VfimBkFZEryLttOv/I/BCGGOyi0ZzGnnVVX2HgkyMkZPbNHEQYbL/Ge6VEhpMhGbw0TyUTIW48DjLp6Am+Maq2HljdNKhl/IN+whyXDY/7sunsZPW747j0g3UXhEwsw==
+Received: from FR3P281CA0183.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a4::11)
+ by PAXPR10MB5205.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:287::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Tue, 20 Jun
- 2023 14:16:14 +0000
-Received: from HE1EUR01FT097.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:150:b:cafe::14) by GV3P280CA0016.outlook.office365.com
- (2603:10a6:150:b::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37 via Frontend
- Transport; Tue, 20 Jun 2023 14:16:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35; Tue, 20 Jun
+ 2023 14:16:19 +0000
+Received: from VE1EUR01FT021.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:d10:a4:cafe::7e) by FR3P281CA0183.outlook.office365.com
+ (2603:10a6:d10:a4::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.21 via Frontend
+ Transport; Tue, 20 Jun 2023 14:16:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
  smtp.mailfrom=siemens.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=siemens.com;
 Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
-Received: from hybrid.siemens.com (194.138.21.74) by
- HE1EUR01FT097.mail.protection.outlook.com (10.152.1.54) with Microsoft SMTP
+ 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.76) by
+ VE1EUR01FT021.mail.protection.outlook.com (10.152.2.223) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.21 via Frontend Transport; Tue, 20 Jun 2023 14:16:14 +0000
+ 15.20.6521.21 via Frontend Transport; Tue, 20 Jun 2023 14:16:19 +0000
 Received: from DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) by
- DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
+ DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 20 Jun 2023 16:16:13 +0200
+ 15.2.1118.25; Tue, 20 Jun 2023 16:16:17 +0200
 Received: from md3hr6tc.ad001.siemens.net (163.242.56.90) by
  DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 20 Jun 2023 16:16:13 +0200
+ 15.2.1118.25; Tue, 20 Jun 2023 16:16:17 +0200
 From: Andrej Valek <andrej.valek@siemens.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH v6 0/2] RFC: CVE-check handling
-Date: Tue, 20 Jun 2023 16:15:55 +0200
-Message-ID: <20230620141557.54562-1-andrej.valek@siemens.com>
+CC: Andrej Valek <andrej.valek@siemens.com>, Peter Marko
+	<peter.marko@siemens.com>
+Subject: [OE-core][PATCH v6 1/2] RFC: cve-check: add option to add additional patched CVEs
+Date: Tue, 20 Jun 2023 16:15:56 +0200
+Message-ID: <20230620141557.54562-2-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230519081850.82586-1-andrej.valek@siemens.com>
 References: <20230519081850.82586-1-andrej.valek@siemens.com>
@@ -72,54 +73,268 @@ X-ClientProxiedBy: DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) To
  DEMCHDC8WBA.ad011.siemens.net (139.25.226.105)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HE1EUR01FT097:EE_|PAWPR10MB6808:EE_
-X-MS-Office365-Filtering-Correlation-Id: d973533a-86a7-4692-6619-08db7198e849
+X-MS-TrafficTypeDiagnostic: VE1EUR01FT021:EE_|PAXPR10MB5205:EE_
+X-MS-Office365-Filtering-Correlation-Id: a33154d0-65f8-47cd-4298-08db7198eaf3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	9SAwV6UkqJVMEEYIKd32WgOFYgA1ngS/nhhfmqZdaEXWXx06MhmBl/KgkDWE6/D9sxxQqnlGU8SY1MlGheMWZCwx9kMK3DWyB6W6miCivJ7alJ7npCuuQG+M1RrTzIJuDoiQPATw/US8Dx2oVLvGCvlRVDIbPYzAKn5DgyqKwZ5M0nblGBedCy19m0tG8YVPL544YRjPqd4wjI0kOQK8xEgw/NC79R0Wx5JNMEZXos6ceyPB5e+zk/WRqValKhSNFpH1fcKz12J7APvrq2tMyYL85C/17wePZBgBUX72ALV5jfrAxYseZSM56t2ADaUqc9hSgu4kDVNj8KMzafBwmQWiZGj6/SfJhAGAKvoELOBtWke8p4bOvbrIdU/5VmNPPWxCYImfYEKKnLmX0hcFuffUKHgYGlWjX96YaC0wM+3gWUZMmFbhuPxdBuIBVocd0Ims/gAKj1j7dEdAOLKsYwhSigTpuXcgiOB8lfRI4ytVvIOUqngah2OJpI8bt6JtcXNedv8Rq+kHSC4xwVvGrLFMIpwn+cg0NzGei24lzu5dmOeZbmY43B4QwmLN0y29mTQ/Rv10jNemXdRWyncz3qLtPyAcNJ/l93mtR3akZ6lxipJ5Dx2xLXFX0u9GB5po6m9ibSIJvuMRjnjPOEP7QILKqCvXSFmnQAs3Rago5SoUDw5yMfHGpQPQtYcqeBux32BnSjavSO0rMyf/q/GTC7oH4acnKX+j7NZ1jpP/v84Aq2lMqcOAgWJa3Bm8CAYX
+	OU2ULNt0u3+K22MWn7Enmnk3iePQWGInJ608iSuMUs1tbF6pf/PhH1xYLfD8d1J7bK56fUCgUINccVF//PuHwMYeoiTOMXVFIWLLVXeRxgaG1176BG0FQUU+OoKNH75ZLH/J3SeJHQ6Bt//gYYQ5WVA+nSG1zZx6vDeQ0/dOfgp3u2HaVLY2zqixMdt7vr1kkN/5uL9MY1NSAyI0MiLhudOExSszZAMlFGZ1wiUYGEKZMT7Yfd5Sj5SJQTIeRGhXwuObly8HDh/qyqwcBBonmbr61HDEUuXUV1d4LGtG/Ji91uwDr7xmZ/kHNzwXrn1eN1bv50KcUhOX/6wPtzq0RXQrwX2CPwPp6kob4MhUErb1Uw/1VYo+Wm0mcnN+FkefrjVJVn9I1rns07bnUH4xndrqbY6FH1v1inmCCGueRsgSGUXEvZRwFQKuD46P/IhDnJzsdljy9nR8b2UcsSZcldOVS9SPw5BY+xGqvg51gLan+1knWVRo6MuHWgnv/HLpaq20D/BXXfCGklCfhZDt6ovGItNBnHG+XzW5zQC4HdgTsu3isH4wjN4NT/C6gVqSoaKRpcaFu4uIW2h5eOuhNOHrUw2rpFkaMDDcI85CEZal5/5r93VycrXgB9llUtw9FlD9gV6W5tiCe+TENZPdYQUf4dYZv/4ULH25Puc/g5nw9Vuyl/zwBamM19RVn4x5n2SAcmj9WNehPg2z3zyHkZSWOctfkDvXmulCcJLeGyDHAooh+1IVGU7o9maZ4phosCGfwFvp9+H+9t0GXkcFxQ==
 X-Forefront-Antispam-Report: 
-	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(376002)(39860400002)(396003)(451199021)(46966006)(40470700004)(36840700001)(8936002)(40460700003)(41300700001)(8676002)(82310400005)(478600001)(16526019)(82740400003)(356005)(82960400001)(7636003)(7596003)(956004)(83380400001)(336012)(2616005)(6666004)(26005)(107886003)(186003)(36860700001)(47076005)(40480700001)(86362001)(36756003)(316002)(4326008)(1076003)(70206006)(70586007)(6916009)(4744005)(44832011)(2906002)(5660300002)(66899021);DIR:OUT;SFP:1101;
+	CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(136003)(346002)(451199021)(36840700001)(46966006)(40470700004)(47076005)(36860700001)(83380400001)(336012)(70206006)(70586007)(6916009)(8676002)(41300700001)(8936002)(956004)(2616005)(81166007)(356005)(316002)(82740400003)(186003)(4326008)(26005)(82960400001)(16526019)(40460700003)(1076003)(82310400005)(6666004)(107886003)(478600001)(44832011)(40480700001)(54906003)(5660300002)(2906002)(36756003)(86362001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 14:16:14.8116
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 14:16:19.3210
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d973533a-86a7-4692-6619-08db7198e849
+X-MS-Exchange-CrossTenant-Network-Message-Id: a33154d0-65f8-47cd-4298-08db7198eaf3
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	HE1EUR01FT097.eop-EUR01.prod.protection.outlook.com
+	VE1EUR01FT021.eop-EUR01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB6808
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5205
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 14:16:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183139
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183141
 
-After discussion in all parallel threads we proposed following variant whic=
-h
-covers both expressed requirements to have very small number of different c=
-ve
-statuses and also very large number of them at the same time.
-This is a compromise version which maybe is not ideal but deals with
-conflicting responses we got.
+- Replace CVE_CHECK_IGNORE with CVE_STATUS to be more flexible.
+The CVE_STATUS should contain an information about status wich
+is decoded in 3 items:
+- generic status: "Ignored", "Patched" or "Unpatched"
+- more detailed status enum
+- description: free text describing reason for status
 
-This patches version is missing commit for CVE_CHECK_IGNORE to CVE_STATUS
-conversion as it is large effort and current implementation is still in
-discussion. Once the concept is agreed, that commit will be added in next
-patchset version.
+Examples of usage:
+CVE_STATUS[CVE-1234-0001] =3D "not-applicable-platform: Issue only applies =
+on Windows"
+CVE_STATUS[CVE-1234-0002] =3D "fixed-version: Fixed externally"
 
-Documentation is not updated too while current implementation is still in
-discussion.
+CVE_CHECK_STATUSMAP[not-applicable-platform] =3D "Ignored"
+CVE_CHECK_STATUSMAP[fixed-version] =3D "Patched"
 
- meta/classes/cve-check.bbclass                | 86 ++++++++++++++++---
- meta/lib/oe/cve_check.py                      | 25 ++++++
- meta/lib/oeqa/selftest/cases/cve_check.py     | 26 ++++--
- .../logrotate/logrotate_3.21.0.bb             |  5 +-
- 4 files changed, 122 insertions(+), 20 deletions(-)
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/classes/cve-check.bbclass | 86 +++++++++++++++++++++++++++++-----
+ meta/lib/oe/cve_check.py       | 25 ++++++++++
+ 2 files changed, 98 insertions(+), 13 deletions(-)
 
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
+s
+index bd9e7e7445..6710c1d6bb 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -70,14 +70,35 @@ CVE_CHECK_COVERAGE ??=3D "1"
+ # Skip CVE Check for packages (PN)
+ CVE_CHECK_SKIP_RECIPE ?=3D ""
+=20
+-# Ingore the check for a given list of CVEs. If a CVE is found,
+-# then it is considered patched. The value is a string containing
+-# space separated CVE values:
++# Replace NVD DB check status for a given CVE. Each of CVE has to be menti=
+oned
++# separately with optional detail and description for this status.
+ #
+-# CVE_CHECK_IGNORE =3D 'CVE-2014-2524 CVE-2018-1234'
++# CVE_STATUS[CVE-1234-0001] =3D "not-applicable-platform: Issue only appli=
+es on Windows"
++# CVE_STATUS[CVE-1234-0002] =3D "fixed-version: Fixed externally"
+ #
++# CVE_CHECK_STATUSMAP[not-applicable-platform] =3D "Ignored"
++# CVE_CHECK_STATUSMAP[fixed-version] =3D "Patched"
++#
++# CVE_CHECK_IGNORE is deprecated and CVE_STATUS has to be used instead.
++# Keep CVE_CHECK_IGNORE until other layers migrate to new variables
+ CVE_CHECK_IGNORE ?=3D ""
+=20
++# Possible options for CVE statuses
++CVE_CHECK_STATUSMAP[patched] =3D "Patched"
++CVE_CHECK_STATUSMAP[fixed-version] =3D "Patched"
++CVE_CHECK_STATUSMAP[backported-patch] =3D "Patched"
++CVE_CHECK_STATUSMAP[cpe-stable-backport] =3D "Patched"
++
++CVE_CHECK_STATUSMAP[unpatched] =3D "Unpatched"
++CVE_CHECK_STATUSMAP[vulnerable-investigating] =3D "Unpatched"
++
++CVE_CHECK_STATUSMAP[ignored] =3D "Ignored"
++CVE_CHECK_STATUSMAP[cpe-incorrect] =3D "Ignored"
++CVE_CHECK_STATUSMAP[not-applicable-platform] =3D "Ignored"
++CVE_CHECK_STATUSMAP[upstream-wontfix] =3D "Ignored"
++CVE_CHECK_STATUSMAP[not-applicable-config] =3D "Ignored"
++CVE_CHECK_STATUSMAP[not-affected] =3D "Ignored"
++
+ # Layers to be excluded
+ CVE_CHECK_LAYER_EXCLUDELIST ??=3D ""
+=20
+@@ -88,6 +109,24 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
+ # set to "alphabetical" for version using single alphabetical character as=
+ increment release
+ CVE_VERSION_SUFFIX ??=3D ""
+=20
++python () {
++    # Fallback all CVEs from CVE_CHECK_IGNORE to CVE_STATUS
++    cve_check_ignore =3D d.getVar("CVE_CHECK_IGNORE")
++    if cve_check_ignore:
++        bb.warn("CVE_CHECK_IGNORE is deprecated in favor of CVE_STATUS")
++        for cve in (d.getVar("CVE_CHECK_IGNORE") or "").split():
++            d.setVarFlag("CVE_STATUS", cve, "ignored")
++
++    # Process CVE_STATUS_GROUPS to set multiple statuses and optional deta=
+il or description at once
++    for cve_status_group in (d.getVar("CVE_STATUS_GROUPS") or "").split():
++        cve_group =3D d.getVar(cve_status_group)
++        if cve_group is not None:
++            for cve in cve_group.split():
++                d.setVarFlag("CVE_STATUS", cve, d.getVarFlag(cve_status_gr=
+oup, "status"))
++        else:
++            bb.warn("CVE_STATUS_GROUPS contains undefined variable %s" % c=
+ve_status_group)
++}
++
+ def generate_json_report(d, out_path, link_path):
+     if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+         import json
+@@ -260,7 +299,7 @@ def check_cves(d, patched_cves):
+     """
+     Connect to the NVD database and find unpatched cves.
+     """
+-    from oe.cve_check import Version, convert_cve_version
++    from oe.cve_check import Version, convert_cve_version, decode_cve_stat=
+us
+=20
+     pn =3D d.getVar("PN")
+     real_pv =3D d.getVar("PV")
+@@ -282,7 +321,12 @@ def check_cves(d, patched_cves):
+         bb.note("Recipe has been skipped by cve-check")
+         return ([], [], [], [])
+=20
+-    cve_ignore =3D d.getVar("CVE_CHECK_IGNORE").split()
++    # Convert CVE_STATUS into ignored CVEs and check validity
++    cve_ignore =3D []
++    for cve in (d.getVarFlags("CVE_STATUS") or {}):
++        decoded_status, _, _ =3D decode_cve_status(d, cve)
++        if decoded_status =3D=3D "Ignored":
++            cve_ignore.append(cve)
+=20
+     import sqlite3
+     db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
+@@ -413,6 +457,8 @@ def cve_write_data_text(d, patched, unpatched, ignored,=
+ cve_data):
+     CVE manifest if enabled.
+     """
+=20
++    from oe.cve_check import decode_cve_status
++
+     cve_file =3D d.getVar("CVE_CHECK_LOG")
+     fdir_name  =3D d.getVar("FILE_DIRNAME")
+     layer =3D fdir_name.split("/")[-3]
+@@ -441,20 +487,27 @@ def cve_write_data_text(d, patched, unpatched, ignore=
+d, cve_data):
+         is_patched =3D cve in patched
+         is_ignored =3D cve in ignored
+=20
++        status =3D "Unpatched"
+         if (is_patched or is_ignored) and not report_all:
+             continue
++        if is_ignored:
++            status =3D "Ignored"
++        elif is_patched:
++            status =3D "Patched"
++        else:
++            # default value of status is Unpatched
++            unpatched_cves.append(cve)
+=20
+         write_string +=3D "LAYER: %s\n" % layer
+         write_string +=3D "PACKAGE NAME: %s\n" % d.getVar("PN")
+         write_string +=3D "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"=
+), d.getVar("PV"))
+         write_string +=3D "CVE: %s\n" % cve
+-        if is_ignored:
+-            write_string +=3D "CVE STATUS: Ignored\n"
+-        elif is_patched:
+-            write_string +=3D "CVE STATUS: Patched\n"
+-        else:
+-            unpatched_cves.append(cve)
+-            write_string +=3D "CVE STATUS: Unpatched\n"
++        write_string +=3D "CVE STATUS: %s\n" % status
++        _, detail, description =3D decode_cve_status(d, cve)
++        if detail:
++            write_string +=3D "CVE DETAIL: %s\n" % detail
++        if description:
++            write_string +=3D "CVE DESCRIPTION: %s\n" % description
+         write_string +=3D "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+         write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scor=
+ev2"]
+         write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scor=
+ev3"]
+@@ -516,6 +569,8 @@ def cve_write_data_json(d, patched, unpatched, ignored,=
+ cve_data, cve_status):
+     Prepare CVE data for the JSON format, then write it.
+     """
+=20
++    from oe.cve_check import decode_cve_status
++
+     output =3D {"version":"1", "package": []}
+     nvd_link =3D "https://nvd.nist.gov/vuln/detail/"
+=20
+@@ -576,6 +631,11 @@ def cve_write_data_json(d, patched, unpatched, ignored=
+, cve_data, cve_status):
+             "status" : status,
+             "link": issue_link
+         }
++        _, detail, description =3D decode_cve_status(d, cve)
++        if detail:
++            cve_item["detail"] =3D detail
++        if description:
++            cve_item["description"] =3D description
+         cve_list.append(cve_item)
+=20
+     package_data["issue"] =3D cve_list
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index dbaa0b373a..5bf3caac47 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -130,6 +130,13 @@ def get_patched_cves(d):
+         if not fname_match and not text_match:
+             bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
+=20
++    # Search for additional patched CVEs
++    for cve in (d.getVarFlags("CVE_STATUS") or {}):
++        decoded_status, _, _ =3D decode_cve_status(d, cve)
++        if decoded_status =3D=3D "Patched":
++            bb.debug(2, "CVE %s is additionally patched" % cve)
++            patched_cves.add(cve)
++
+     return patched_cves
+=20
+=20
+@@ -218,3 +225,21 @@ def convert_cve_version(version):
+=20
+     return version + update
+=20
++def decode_cve_status(d, cve):
++    """
++    Convert CVE_STATUS into status, detail and description.
++    """
++    status =3D d.getVarFlag("CVE_STATUS", cve)
++    if status is None:
++        return ("", "", "")
++
++    status_split =3D status.split(':', 1)
++    detail =3D status_split[0]
++    description =3D status_split[1].strip() if (len(status_split) > 1) els=
+e ""
++
++    status_mapping =3D d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
++    if status_mapping is None:
++        bb.warn('Invalid detail %s for CVE_STATUS[%s] =3D "%s", fallback t=
+o Unpatched' % (detail, cve, status))
++        status_mapping =3D "Unpatched"
++
++    return (status_mapping, detail, description)
 --=20
 2.41.0
 
