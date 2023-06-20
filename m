@@ -1,582 +1,290 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F010EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 19 Jun 2023 23:21:07 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.21890.1687216866471852416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 081ADEB64D9
+	for <webhook@archiver.kernel.org>; Tue, 20 Jun 2023 00:35:33 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.13.1687221327804757862
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Jun 2023 16:21:06 -0700
+ Mon, 19 Jun 2023 17:35:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=kLjfCseL;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-62de5392c7bso26449816d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 16:21:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=NJZ/N+60;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-25eb9e82a2bso1963237a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 17:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687216865; x=1689808865;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GpvEru6+tWdSHbCGH/1JmeocyJVNbmL2B4TXd62dV6k=;
-        b=kLjfCseL/FDZ/1lTlRVNKJuLg2EddQh6S1dp0jPCdRs1fyav740PH+yKD5TE1pAEIn
-         VqoarabNJxoVzhzDNvI+4NbLBN+bvYlHTJdeI3UywJndnblEK4QWmaJ2ldYy9aYvbjJN
-         sPTAW0GJkcnyotxc8Kw6OT7pHmlgk+yHrKVnzm7trTFFCu+JsunJ4mU1iRnwxL6C17Uw
-         VihRVDzNnF/NZcuRNu+pSfars8r8mWsgxd7rjJLcXXkUKNDpQQU1bvSG0Ep48k0FHl6Q
-         BHzwprxmLaSUo21NsVVTG30j5pZyo3IcTCyu3unDpzgSSYRQKvW/hlet99LeL1Ugwyb9
-         b2hg==
+        d=gmail.com; s=20221208; t=1687221327; x=1689813327;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f/n9ABa99zb4mz/l8KKY08XBatqvUVM+QLHK6uWbJCg=;
+        b=NJZ/N+60cbCZa5h7aMg6iC0LaBVIx0ToCRGA/diGYpehfvEDU8Zyjx53anuR9/rN1f
+         AufH6dTRdQRAt360OrAi9OOUOjjg06GYudPxPaH5EKEzKhh2Zwnztstk5Cm2jydr1TIb
+         H0oYuPSBPiJwOfy7rkshqzwTfjcbEv5KRVKRBOEzOsxeu+5HgE8nuTkGqiM6qLQaZ3Se
+         ohn3L40p17KsYfzi0C4W8j44Hj1263K400ugzZ9XBeTs1p5YReM5kqocDbepkeRXAM4V
+         kWSEX6QFAW4m8CX+4Q86BI/9/BYsNyu2+1uvfDuUXhuFabJmyMQqW36+U5c5SZ6yqR+7
+         UY1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687216865; x=1689808865;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1687221327; x=1689813327;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GpvEru6+tWdSHbCGH/1JmeocyJVNbmL2B4TXd62dV6k=;
-        b=Czx7Jyngko8ziWKBoSw97ZG5Rszc4fJbNzVzkb2QIetSG0XG8KJARaxXQnNXaWHrjy
-         PElp0CIbDnBUKMpgTSc6I6b0FgBoKk0uS8QR4to8sCuimLZvbKnHptDcWj7J21vyXr8c
-         Eqx+P8BUq3ignf7qUhOFFXq2QZP3T6cmYY6Bhq+sno2Zbyekf+H6r5LCodqkhGPs46pJ
-         cDi+4l0wd3VIfL5NqO4bqQI6SemoHFQNM1sC9ufU8DN5Btf7lHYsLRkGqlKmLJRB4KsV
-         y8m5bP5kd6x0FwJd+fWEPmYybzrtFck8YjNSZXyh2JrxAve2r0hj8g36WWRdZrA7PZ0s
-         u5YA==
-X-Gm-Message-State: AC+VfDxDwKjoAEBFwTuTcXNiq7r+Q1cprCcKQb1RWqg/8KxTLls25EFd
-	W7++Q0kPtg2KhnWtuaJQETnFdMw7MVyv3ssZsYk=
-X-Google-Smtp-Source: ACHHUZ6dVAFw78QQ5DLT2P+z5k4vVDw/AYIoR4RFxtUkewCP5w1TcEXepPu0cYmRCtFOBfqa8+a9fjxSBPnX+pxzyuU=
-X-Received: by 2002:a05:6214:1242:b0:626:169e:7700 with SMTP id
- r2-20020a056214124200b00626169e7700mr13393777qvv.9.1687216865480; Mon, 19 Jun
- 2023 16:21:05 -0700 (PDT)
+        bh=f/n9ABa99zb4mz/l8KKY08XBatqvUVM+QLHK6uWbJCg=;
+        b=QGFuwHs7lEUDVnBDmGnH498wOSX9oqM24FvasajfIqozZMz2NYb39HXwq2hCQILfGP
+         +yVfjDYIgtQSFVwPQm6pHrFBo55cfz3PM3P3t3h3gynPbOKw5Ge8AppKuTB3M5VeTCmL
+         Cs+LUQCGcWAlS1sWlue1VQMygYHf472onQ6CdzfJp3olvuJs7UsJhjHac+SkbZtYLsEc
+         IBgzqjY+cAXd06YVlzb7Go9+9IyvuB+3MS3ZX7V0D0ZnBX1WohhBujBRYo1jHGocsdPY
+         uxITQCPrAdo4dgZGCLz9nOda6dxn8r5YfTxR3Js7wM1XFHIeYwPJlvOMbzjuF6x3olsq
+         neDQ==
+X-Gm-Message-State: AC+VfDy/o77xcmpPbnBd3x5/u1PZZIk/Mf0oNJ0LRgAq6gFY1XWyfHUH
+	8EszzphQz1y3BjClO++7loogC94JBFk=
+X-Google-Smtp-Source: ACHHUZ5nLM9VfHs9B1BsD3UOHp4Vj63fc+bOePxuQHxz6CzhFXsh4QZhRy5gLAqjlb/KIEm0TcLJwA==
+X-Received: by 2002:a17:90b:4a05:b0:253:971b:dd1e with SMTP id kk5-20020a17090b4a0500b00253971bdd1emr8475947pjb.0.1687221326548;
+        Mon, 19 Jun 2023 17:35:26 -0700 (PDT)
+Received: from skjolley ([2600:1011:a122:34d2:28e7:9ea4:5bbb:7068])
+        by smtp.gmail.com with ESMTPSA id pm2-20020a17090b3c4200b002609cadc56esm349521pjb.11.2023.06.19.17.35.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Jun 2023 17:35:26 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 19 Jun 2023 17:35:25 -0700
+Message-ID: <123a01d9a30f$1b50b010$51f21030$@gmail.com>
 MIME-Version: 1.0
-References: <20230215130057.1923450-1-jose.quaresma@foundries.io>
- <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
- <CANPvuRm+Df-HVCi-KDOUPzKeUJz9VvznSKLVu1vWCK9Fx+YOoA@mail.gmail.com>
- <jwqv8k26mv2.fsf@axis.com> <CANPvuRmKaCc36+7ra0is3RUk_nKJEpwKWD0BzWWxX3e0iGb0-w@mail.gmail.com>
- <DB5PR02MB1021369B7BC87D237D5E6C7FDEFA19@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <CANPvuRn7-H+QFWdC5n0e7nf-XWXZsVcAuX=KT7axrNKoSiwM-w@mail.gmail.com> <DB5PR02MB10213359F2E09206BA8420559EF58A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213359F2E09206BA8420559EF58A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 20 Jun 2023 00:20:54 +0100
-Message-ID: <CANPvuRkjQdZGDTMdzPqwJR3a5_st-tQeA5rg1CWM5Rc8U7suLg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload and
- probeconf distribution specific
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Ola x Nilsson <Ola.x.Nilsson@axis.com>, 
-	Otavio Salvador <otavio.salvador@ossystems.com.br>, 
-	Jose Quaresma <jose.quaresma@foundries.io>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ed14bd05fe83c9f7"
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_123B_01D9A2D4.6EF42200"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIFLcqquBwJbasYopj0hG9UMZEJVg==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Jun 2023 23:21:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183124
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 00:35:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183125
 
---000000000000ed14bd05fe83c9f7
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
+
+------=_NextPart_000_123B_01D9A2D4.6EF42200
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 432
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.3", "4.4", "4.99" and "Future", the more pressing/urgent
+issues being in "4.3" and then "4.4".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_123B_01D9A2D4.6EF42200
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0CD4_01D99D4D.F4854E80";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia sexta,
-16/06/2023 =C3=A0(s) 17:03:
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 432 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.3&#8221;, =
+&#8220;4.4&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.3&quot; and then =
+&#8220;4.4&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_123B_01D9A2D4.6EF42200--
 
-> Did anything ever become of this? This is a change that at least we would
-> appreciate.
->
-
-Hi Pete,
-
-V2 send with your suggestions:
-https://lists.openembedded.org/g/openembedded-core/message/183123
-
-Thanks for the remainder
-
-Jose
-
-
->
->
-> //Peter
->
->
->
-> *From:* Jose Quaresma <quaresma.jose@gmail.com>
-> *Sent:* den 17 februari 2023 17:53
-> *To:* Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> *Cc:* Ola x Nilsson <Ola.x.Nilsson@axis.com>; Otavio Salvador <
-> otavio.salvador@ossystems.com.br>; Jose Quaresma <
-> jose.quaresma@foundries.io>; openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload
-> and probeconf distribution specific
->
->
->
-> Hi Peter,
->
->
->
-> Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia sexta,
-> 17/02/2023 =C3=A0(s) 10:52:
->
-> Wouldn=E2=80=99t the easiest solution be to define two variables:
->
-> modulesloaddir ??=3D "${sysconfdir}/modules-load.d "
-> modprobedir ??=3D "${sysconfdir}/modprobe.d "
->
-> then in init-manager-systemd.inc you could change them to:
->
-> modulesloaddir ?=3D "${nonarch_libdir}/modules-load.d"
-> modprobedir ?=3D "${nonarch_base_libdir}/modprobe.d"
->
-> Using a single prefix variable doesn=E2=80=99t really work since they nee=
-d
-> different paths in the latter case.
->
->
-> I was thinking of something similar to what you suggest but only on the
-> class:
->
-> modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '${nonarch_libdir}', '${sysconfdir}', d)}"
-> modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '${nonarch_base_libdir}', '${sysconfdir}', d)}"
->
->
->
-> Anyway your approach looks good to me too so i'll use yours, hope I can
-> test it next week.
->
->
->
-> Jose
->
->
->
->
->
-> //Peter
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *Jose Quaresma
-> *Sent:* den 16 februari 2023 12:08
-> *To:* Ola x Nilsson <Ola.x.Nilsson@axis.com>
-> *Cc:* Otavio Salvador <otavio.salvador@ossystems.com.br>; Jose Quaresma <
-> jose.quaresma@foundries.io>; openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload
-> and probeconf distribution specific
->
->
->
->
->
-> Ola x Nilsson <ola.x.nilsson@axis.com> escreveu no dia quinta, 16/02/2023
-> =C3=A0(s) 08:22:
->
->
-> On Wed, Feb 15 2023, Jose Quaresma wrote:
->
-> > Hi Octavio,
-> >
-> > Otavio Salvador <otavio.salvador@ossystems.com.br<mailto:
-> otavio.salvador@ossystems.com.br>> escreveu no dia quarta, 15/02/2023
-> =C3=A0(s) 13:25:
-> > Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma
-> > <quaresma.jose@gmail.com<mailto:quaresma.jose@gmail.com>> escreveu:
-> >>
-> >> The modules-load.d [1] - Configure kernel modules to load at boot
-> >> should install their configuration files in /usr/lib/modules-load.d.
-> >>
-> >> The modprobe.d [2] - Configuration directory for modprobe
-> >> should install their configuration files in /lib/modprobe.d
-> >>
-> >> [1]
-> https://www.freedesktop.org/software/systemd/man/modules-load.d.html
-> >> [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
-> <https://www.man7.org/linux/man-pages/man5/modprobe.d.5.html>
-> >>
-> >> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io<mailto:
-> jose.quaresma@foundries.io>>
-> >
-> >
-> > Did you validate this using busybox only? Using sysv and busybox need
-> > to be validated as well.
-> >
-> > Please drop this patch series because it doesn work with busybox.
-> >
-> > Looks like busybox don't support other path than /etc:
-> >
-> https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8eb=
-f480c95ce36135104e474e361a7e6#n658
-> >
-> > So I need to implement this in another way, maybe relocating the files
-> from /etc only when systemd is enabled.
-> >
-> > Thanks for raising the issue.
-> >
-> > Jose
-> >
->
-> Hi,
->
-> Please consider https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212
-> as well.
->
-> --
-> Ola x Nilsson
->
->
-> Hi Ola,
->
-> We use usermerge too but I think the weird issue here is we need to have
-> this distribution specified only for systemd
->
-> excluding busybox and sysint as pointed out by Octavio.
->
-> The other solution is adding support on busybox and sysint if needed.
->
-> My idea is add a prefix variable with path "/etc" by default but
-> conditioned by systemd DISTRO_FEATURES
->
-> Thanks for the bug hint.
->
-> --
->
-> Best regards,
->
->
-> Jos=C3=A9 Quaresma
->
->
->
->
-> --
->
-> Best regards,
->
->
-> Jos=C3=A9 Quaresma
->
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000ed14bd05fe83c9f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Peter Kjellerstedt &lt;<a href=3D"mai=
-lto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; escrev=
-eu no dia sexta, 16/06/2023 =C3=A0(s) 17:03:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex"><div class=3D"msg7403212755073492290">
-
-
-
-
-
-<div lang=3D"SV" style=3D"overflow-wrap: break-word;">
-<div class=3D"m_7403212755073492290WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-Did anything ever become of this? This is a change that at least we would a=
-ppreciate.</span></p></div></div></div></blockquote><div><br>Hi Pete,</div>=
-<div><br></div><div>V2 send with your=C2=A0suggestions:<br></div><div><a hr=
-ef=3D"https://lists.openembedded.org/g/openembedded-core/message/183123">ht=
-tps://lists.openembedded.org/g/openembedded-core/message/183123</a><br><br>=
-<div>Thanks=C2=A0for the remainder</div><div><br></div>Jose</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"ms=
-g7403212755073492290"><div lang=3D"SV" style=3D"overflow-wrap: break-word;"=
-><div class=3D"m_7403212755073492290WordSection1"><p class=3D"MsoNormal"><s=
-pan lang=3D"EN-US" style=3D"color:rgb(148,54,52)"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-//Peter<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-<u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
-eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
-top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
-rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;
-<br>
-<b>Sent:</b> den 17 februari 2023 17:53<br>
-<b>To:</b> Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis=
-.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-<b>Cc:</b> Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" targ=
-et=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;; Otavio Salvador &lt;<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;; Jose Quaresma &lt;<a href=3D"mailto:jose.quar=
-esma@foundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;; <a=
- href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank"=
->openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload=
- and probeconf distribution specific<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Hi Peter,<u></u><u></u></p>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjell=
-erstedt@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt; esc=
-reveu no dia sexta, 17/02/2023 =C3=A0(s) 10:52:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
-order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
-.8pt;margin-right:0cm">
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-Wouldn=E2=80=99t the easiest solution be to define two variables:</span><u>=
-</u><u></u></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:Consolas;c=
-olor:rgb(148,54,52)">modulesloaddir ??=3D &quot;${sysconfdir}/modules-load.=
-d &quot;</span><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)"><br>
-</span><span lang=3D"EN-US" style=3D"font-family:Consolas;color:rgb(148,54,=
-52)">modprobedir ??=3D &quot;${sysconfdir}/modprobe.d &quot;</span><span la=
-ng=3D"EN-US" style=3D"color:rgb(148,54,52)"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-then in
-</span><span lang=3D"EN-US" style=3D"font-family:Consolas;color:rgb(148,54,=
-52)">init-manager-systemd.inc</span><span lang=3D"EN-US" style=3D"color:rgb=
-(148,54,52)"> you could change them to:</span><span lang=3D"EN-US"><u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:Consolas;c=
-olor:rgb(148,54,52)">modulesloaddir ?=3D &quot;${nonarch_libdir}/modules-lo=
-ad.d&quot;<br>
-modprobedir ?=3D &quot;${nonarch_base_libdir}/modprobe.d&quot;<u></u><u></u=
-></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-Using a single prefix variable doesn=E2=80=99t really work since they need =
-different paths in the latter case.</span><span lang=3D"EN-US"><u></u><u></=
-u></span></p>
-</div>
-</div>
-</div>
-</blockquote>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><br>
-</span>I was thinking of something=C2=A0similar to what you suggest but onl=
-y on the class:<br>
-<br>
-modulesloaddir ??=3D &quot;<a href=3D"mailto:$%7b@bb.utils.contains(&#39;DI=
-STRO_FEATURES&#39;,%20&#39;systemd&#39;,%20&#39;$%7bnonarch_libdir%7d&#39;,=
-%20&#39;$%7bsysconfdir%7d&#39;,%20d)%7d" target=3D"_blank">${@bb.utils.cont=
-ains(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;${nonarch_libdir}&#=
-39;, &#39;${sysconfdir}&#39;, d)}</a>&quot;<br>
-modprobedir ??=3D &quot;<a href=3D"mailto:$%7b@bb.utils.contains(&#39;DISTR=
-O_FEATURES&#39;,%20&#39;systemd&#39;,%20&#39;$%7bnonarch_base_libdir%7d&#39=
-;,%20&#39;$%7bsysconfdir%7d&#39;,%20d)%7d" target=3D"_blank">${@bb.utils.co=
-ntains(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;${nonarch_base_li=
-bdir}&#39;, &#39;${sysconfdir}&#39;, d)}</a>&quot;<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Anyway your approach looks good to me too so i&#39;l=
-l use yours, hope I can test it next week.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Jose<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
-order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
-.8pt;margin-right:0cm">
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-=C2=A0</span><u></u><u></u></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-//Peter</span><u></u><u></u></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-=C2=A0</span><u></u><u></u></p>
-<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
-eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
-top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US">
-<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto:opene=
-mbedded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@li=
-sts.openembedded.org</a>&gt;
-<b>On Behalf Of </b>Jose Quaresma<br>
-<b>Sent:</b> den 16 februari 2023 12:08<br>
-<b>To:</b> Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" targ=
-et=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;<br>
-<b>Cc:</b> Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.=
-com.br" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&gt;; Jose Qu=
-aresma &lt;<a href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">=
-jose.quaresma@foundries.io</a>&gt;;
-<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload=
- and probeconf distribution specific</span><u></u><u></u></p>
-</div>
-</div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<div>
-<p class=3D"MsoNormal">Ola x Nilsson &lt;<a href=3D"mailto:ola.x.nilsson@ax=
-is.com" target=3D"_blank">ola.x.nilsson@axis.com</a>&gt; escreveu no dia qu=
-inta, 16/02/2023 =C3=A0(s) 08:22:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
-order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin:5pt 0c=
-m 5pt 4.8pt">
-<p class=3D"MsoNormal"><br>
-On Wed, Feb 15 2023, Jose Quaresma wrote:<br>
-<br>
-&gt; Hi Octavio,<br>
-&gt;<br>
-&gt; Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br=
-" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&lt;mailto:<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;&gt; escreveu no dia quarta,
- 15/02/2023 =C3=A0(s) 13:25:<br>
-&gt; Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma<br>
-&gt; &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quare=
-sma.jose@gmail.com</a>&lt;mailto:<a href=3D"mailto:quaresma.jose@gmail.com"=
- target=3D"_blank">quaresma.jose@gmail.com</a>&gt;&gt; escreveu:<br>
-&gt;&gt;<br>
-&gt;&gt; The modules-load.d [1] - Configure kernel modules to load at boot<=
-br>
-&gt;&gt; should install their configuration files in /usr/lib/modules-load.=
-d.<br>
-&gt;&gt;<br>
-&gt;&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
-&gt;&gt; should install their configuration files in /lib/modprobe.d<br>
-&gt;&gt;<br>
-&gt;&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/mo=
-dules-load.d.html" target=3D"_blank">
-https://www.freedesktop.org/software/systemd/man/modules-load.d.html</a><br=
->
-&gt;&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages/man5/modprobe.=
-d.5.html" target=3D"_blank">
-https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html</a><br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@f=
-oundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&lt;mailto:<a =
-href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">jose.quaresma@=
-foundries.io</a>&gt;&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; Did you validate this using busybox only? Using sysv and busybox need<=
-br>
-&gt; to be validated as well.<br>
-&gt;<br>
-&gt; Please drop this patch series because it doesn work with busybox.<br>
-&gt;<br>
-&gt; Looks like busybox don&#39;t support other path than /etc:<br>
-&gt; <a href=3D"https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=
-=3D669c40ed8ebf480c95ce36135104e474e361a7e6#n658" target=3D"_blank">
-https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8ebf4=
-80c95ce36135104e474e361a7e6#n658</a><br>
-&gt;<br>
-&gt; So I need to implement this in another way, maybe relocating the files=
- from /etc only when systemd is enabled.<br>
-&gt;<br>
-&gt; Thanks for raising the issue.<br>
-&gt;<br>
-&gt; Jose<br>
-&gt;<br>
-<br>
-Hi,<br>
-<br>
-Please consider <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?i=
-d=3D12212" target=3D"_blank">
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212</a><br>
-as well.<br>
-<br>
--- <br>
-Ola x Nilsson<u></u><u></u></p>
-</blockquote>
-</div>
-<p class=3D"MsoNormal"><br clear=3D"all">
-<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal">Hi Ola,<br>
-<br>
-We use usermerge too but I think the weird issue here is we need to have th=
-is distribution=C2=A0specified only for systemd<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">excluding busybox and sysint as pointed out by Octav=
-io.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">The other solution is a=
-dding support on busybox and sysint if needed.<br>
-<br>
-My idea is add a prefix variable with path &quot;/etc&quot; by default but =
-conditioned=C2=A0by systemd=C2=A0DISTRO_FEATURES<br>
-<br>
-Thanks for the bug hint.<u></u><u></u></p>
-</div>
-<p class=3D"MsoNormal">--
-<u></u><u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Best regards,<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><br>
-Jos=C3=A9 Quaresma<u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</blockquote>
-</div>
-<p class=3D"MsoNormal"><br clear=3D"all">
-<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<p class=3D"MsoNormal">-- <u></u><u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Best regards,<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><br>
-Jos=C3=A9 Quaresma<u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div></blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gm=
-ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
-re"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></=
-div></div>
-
---000000000000ed14bd05fe83c9f7--
 
