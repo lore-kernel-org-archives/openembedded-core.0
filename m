@@ -2,93 +2,122 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B3EEB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DCCEB64DC
 	for <webhook@archiver.kernel.org>; Tue, 20 Jun 2023 15:40:05 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.719.1687275603855702437
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.711.1687275598733334332
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jun 2023 08:40:03 -0700
+ Tue, 20 Jun 2023 08:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PyFf8JVe;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1b52bf6e659so21848765ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 08:40:03 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=3Gy1AA9O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-51452556acdso2130358a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 08:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687275603; x=1689867603;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dxuCSPIjXcCFA6VE9io5o3mAshrjpiul3fIpp2+ZIOk=;
-        b=PyFf8JVeymYmtZKI3Fe1D6xYX454yHanxh91ya0xR4P1g9jg7nXi0OxOdCA/ofLVp4
-         B6M9u3fpIgA71XgWdcjRs7z3jBFF7dTYL93MZG9z1V9cphIwzGzIiNXMjDsYJEwMxh05
-         RXkmOt68IuDvtSUd1SWQ3852NSjW/VyJbUr0pR3xTL1dAUKPlIkiDd87VUWtCNjKc0TU
-         1RHKkV5UCU7YWPr6//u9di6L/2HPfDLPx9mZgfFfrW6zku+kPnz/qEOR2aZhvesRYcQi
-         X3tl4Hx4saqs7NLIhW8bvmAwVrwKk4hIpSUDVJ8ov1R6R5nOkueoA/6RLRbzOGQe4zA1
-         osKw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687275597; x=1689867597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0cT4VJLXGTJlGFDYLjs6/8X8y0+UuIxyIZG3S46p6yc=;
+        b=3Gy1AA9Od8Oz3OdMaJ+DDHbMMbnH2Xw9d3+MuIkNScl/uvXzH66wxL91mq8u4tEvKO
+         1tZFB1mZ3XmRm/zdBtJGaevcbUAoL1B6//lYyZOh0NZAI1tJd35+n38w1Zf13A/kf/8b
+         0s1jzZa/u3dopFKZ/SjfNbbY1whJUi23omEn5AvpRDEWKPCfeE2xTbaL/ChX/ByCwrmx
+         cTTPpfk2UBiF7NWNd7+lP5y1Vn5aqTyJ0C3o6lmZx+szcPn4YOuZrjzTUdXsuFyWVOe4
+         XsiXMrt62K3JALRWDZLpwzhdV+B7B5S/nV6CHogzotipjFv0abDXL2FMarIfFgxAG8nt
+         V5QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687275603; x=1689867603;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dxuCSPIjXcCFA6VE9io5o3mAshrjpiul3fIpp2+ZIOk=;
-        b=JpIaP47AaKs44PAm51q07CXz/T8sN64c4AOGRxccR4JYXfzmzLCys9/+G9o1jTJrov
-         nqGFdXBL2kbJ0DM+PU9aq5yCtIADfIDXKTTQ8Ll8v2LcbM68L1iEeA7h0ZgtyTCC0f7L
-         hweTVH/pEZIiMz0Z9e7V6gZffgo6Ib6cBTd4/09rInF/ZCDgi3jDBZXtPIUDGTb6SQqv
-         ZNUKsCciYX8natNs2/fTFiOgqDMbfH2HYFNg8bY+6Yxzs7jaH6zOAwFnjBJY8/3s/zbZ
-         P3LdYRzfJC0CiXzTS+aZxL6U8EM68fail27r5zVtECi1t5gPV0v6YrJhWyx1Bp/7mfUB
-         n0+A==
-X-Gm-Message-State: AC+VfDx+VF6MXzTblz4+jnVk2cIsult/F8y+FQfd5aogSFd/56ZnEW3J
-	aDZH7vwWCW36+EfVsKk9kxPY5TZ6W+8THUjW/rw=
-X-Google-Smtp-Source: ACHHUZ6vK1oaqcgBIC1KVb/6cFwigcqOjZhe7hqpBMV3VNe3e75W3WvdDLoxpz3lCGqwULGIEa6zvQ==
-X-Received: by 2002:a17:902:8ec8:b0:1b3:c578:c3e9 with SMTP id x8-20020a1709028ec800b001b3c578c3e9mr7175037plo.62.1687275602875;
-        Tue, 20 Jun 2023 08:40:02 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687275597; x=1689867597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0cT4VJLXGTJlGFDYLjs6/8X8y0+UuIxyIZG3S46p6yc=;
+        b=MgyFC8ipN8+lBl5/QTD5gGfqtKTclWabousnZct1aFmIQhhKWLnxaiK4p0g8GsTM17
+         WeXTw//hH/l9+PIkFqy3oT+fqIUYAM62LMBh9ucZk+Lyvmt6qI2xcpXBpUC8JqkDmf+m
+         x9ytbkC7y2qI5tMTvqKV843geug68JWGkivFrejobYZRKes0RMYJZe2RgLBWMJe21LoZ
+         sfEVJjgmmAuoqliEFuPDiR0itdc1be6dOprZJdrmkpqrRB7mv6hK73XFrAUkw+NenAeY
+         eSbc5IWpmlABzoh9+KfYWfUS1uzeGZa3IUQA6mC41c0jqJaikOT9nn2F3F8UwBRo37DN
+         q4Og==
+X-Gm-Message-State: AC+VfDzvKBOfLeq2Jtqwr8loXqUAMSaw40jz6UEWk3MLA3DskCIqwv8B
+	4hHlNSOHeSugEWSESfpjDgI/t08p+vmI2iSkKmo=
+X-Google-Smtp-Source: ACHHUZ5KDqubELHm0rq+8ndEus3nw9VcTAKt6uRN+7pir1fLHFmO/aUuE87aVobnQOCxNMZ5Wh7xPw==
+X-Received: by 2002:a17:902:8c8a:b0:1b5:2728:4721 with SMTP id t10-20020a1709028c8a00b001b527284721mr6675472plo.58.1687275597540;
+        Tue, 20 Jun 2023 08:39:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c14-20020a170902b68e00b001ab2592ed33sm1792119pls.171.2023.06.20.08.40.02
+        by smtp.gmail.com with ESMTPSA id c14-20020a170902b68e00b001ab2592ed33sm1792119pls.171.2023.06.20.08.39.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jun 2023 08:40:02 -0700 (PDT)
+        Tue, 20 Jun 2023 08:39:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/9] go.bbclass: don't use test to check output from ls
-Date: Tue, 20 Jun 2023 05:37:22 -1000
-Message-Id: <f9b1a56c50a96ad6300a48bf74a540579b352411.1687274724.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 0/9] Patch review
+Date: Tue, 20 Jun 2023 05:37:19 -1000
+Message-Id: <cover.1687274724.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1687274724.git.steve@sakoman.com>
-References: <cover.1687274724.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Jun 2023 15:40:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183146
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183143
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday.
 
-* avoids possibly confusing error message in log.do_install like:
-  ls: cannot access 'etcd/3.5.7-r0/build/bin/linux_arm64/': No such file or directory
+Passed a-full on autobuilder:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 2f1777e6ac5269a71203b6a2c562a43503be95ae)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/go.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5492
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index f3d83febbf..d944722309 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -122,7 +122,7 @@ go_do_install() {
- 	tar -C ${B} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' pkg | \
- 		tar -C ${D}${libdir}/go --no-same-owner -xf -
- 
--	if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
-+	if ls ${B}/${GO_BUILD_BINDIR}/* >/dev/null 2>/dev/null ; then
- 		install -d ${D}${bindir}
- 		install -m 0755 ${B}/${GO_BUILD_BINDIR}/* ${D}${bindir}/
- 	fi
+The following changes since commit 0e17a5a4f0e3301bf78f77bb5ca4aaf3e4dbc7af:
+
+  Revert "ipk: Decode byte data to string in manifest handling" (2023-06-17 05:18:44 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Archana Polampalli (1):
+  nasm: fix CVE-2022-46457
+
+Bruce Ashfield (1):
+  kernel: don't force PAHOLE=false
+
+Chen Qi (1):
+  staging.bbclass: do not add extend_recipe_sysroot to prefuncs of
+    prepare_recipe_sysroot
+
+Lorenzo Arena (1):
+  conf: add nice level to the hash config ignred variables
+
+Martin Jansa (1):
+  go.bbclass: don't use test to check output from ls
+
+Pavel Zhukov (1):
+  lib/terminal.py: Add urxvt terminal
+
+Ranjitsinh Rathod (1):
+  kmscube: Correct DEPENDS to avoid overwrite
+
+Thomas Roos (1):
+  oeqa/selftest/cases/devtool.py: skip all tests require folder a git
+    repo
+
+Wang Mingyu (1):
+  iso-codes: upgrade 4.13.0 -> 4.15.0
+
+ meta/classes/go.bbclass                       |  2 +-
+ meta/classes/kernel.bbclass                   |  2 +-
+ meta/classes/staging.bbclass                  |  2 +-
+ meta/conf/bitbake.conf                        |  2 +-
+ meta/lib/oe/terminal.py                       |  4 ++
+ meta/lib/oeqa/selftest/cases/devtool.py       |  8 +++
+ .../nasm/nasm/CVE-2022-46457.patch            | 50 +++++++++++++++++++
+ meta/recipes-devtools/nasm/nasm_2.15.05.bb    |  1 +
+ meta/recipes-graphics/kmscube/kmscube_git.bb  |  3 +-
+ ...so-codes_4.13.0.bb => iso-codes_4.15.0.bb} |  2 +-
+ 10 files changed, 69 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2022-46457.patch
+ rename meta/recipes-support/iso-codes/{iso-codes_4.13.0.bb => iso-codes_4.15.0.bb} (94%)
+
 -- 
 2.34.1
 
