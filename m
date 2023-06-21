@@ -1,68 +1,68 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4357FEB64D7
-	for <webhook@archiver.kernel.org>; Wed, 21 Jun 2023 14:09:47 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.11615.1687356585213696153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BEDDEB64D7
+	for <webhook@archiver.kernel.org>; Wed, 21 Jun 2023 14:14:57 +0000 (UTC)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+ by mx.groups.io with SMTP id smtpd.web10.11755.1687356891993522544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Jun 2023 07:09:45 -0700
+ Wed, 21 Jun 2023 07:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=b1aQaOvc;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.175, mailfrom: steve@sakoman.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b47742de92so52891411fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Jun 2023 07:09:44 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=bKsxX2aY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.172, mailfrom: sakoman@gmail.com)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-47164fe4941so1721197e0c.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Jun 2023 07:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687356583; x=1689948583;
+        d=gmail.com; s=20221208; t=1687356891; x=1689948891;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rVAj2qPm66aKeI7zoi4rL1zNx6CliIGdjh93/XXWaQ8=;
-        b=b1aQaOvcLknNDphoHBgqFTX98FNkcP5noZzZ2lMMnolcn+RFiFCVT620FAe1jQlOfr
-         84YLdGCqfZfpYBPh0HptsYSIW+8t2+8qx+JJj1yrL/I/B80cmkOosw/um18vNR1ocmOu
-         +CAMXeKg1jcit2EiIWBbceRgP71rx/6OBLk+Zzgdh4UV2CrIYZsT7tlJT8dImEyZ1KU8
-         4AVJQRXzXDEi2vVZCSZJdrnC5c21bcsTiRlzZhmkzZ9h9LxHq6adexdWUcCyARdvWrZt
-         8i4fbeyPhpoSiGNJxWYMaK7TFVdIx2H0xZ32OoiafFGK4BHqJIFcwhmiC8GvcfukZgcL
-         x9RQ==
+        bh=pEtVvQhHPwHplTtoqscycTwii9VbuA8LJx2SIoMv1Mk=;
+        b=bKsxX2aYIPonlzqIjllDnEu37XL/iTfB+mTmEfLyhs5vdM8rtm3aVVhSE0g5fiKbhm
+         ESBHH9t680mqmk0rFCZMZeyY4wciaRV1k/LM7ircwsBud0dCYd5idwcCNPE3nEjHJD2u
+         Ml3c8CtjzexuC6ExgPIFwC7Dn5w1KP+AxMosx7B1ZpiD7v2mp7ByJswq/TXSlgh57hyD
+         /v8AS+a2fyMTCxqrjuAD2HjfSwCoXrVLiMXWVWKn9aKdRURZB6W33AQPMWbpFkpSyfUU
+         O1TazGy6LDR43KUMpwCjJwpOZV34OuSYoHjFnLK1CRlM9t2v2ATo4pAEJk7J5DzzwWSy
+         zJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687356583; x=1689948583;
+        d=1e100.net; s=20221208; t=1687356891; x=1689948891;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rVAj2qPm66aKeI7zoi4rL1zNx6CliIGdjh93/XXWaQ8=;
-        b=WurRBmn/t5MJ4TU9p/cldxg+GcOBSMiVn7B1aYShlziS19/ysXA7C2WGSdWlQF8LVP
-         kdn/WlVwMNmFhcPxoUHwJ+t5RS4GnmBZfboka+0b3xmf1V+6kJKE5IDfmZZv4u2nVBBV
-         qgv86Zf3vTy17TGIvbSJD401F/EsEfdQGZiQbPLehT5X+J93qdFOhGtzASaFAhJqYDSO
-         NXUcTUapeoCsZdBkeGv1YFbAW8m75AmqLwayFeGFGWKs/aIaP42gZHguqU55CK9xLGP/
-         g0oazQGjHkyKYCsmKmxQ788gPEX9Wa+8VGbWEEWcZGHT2Ngzh/B/vXx7whXWFEAVImSm
-         xB2g==
-X-Gm-Message-State: AC+VfDzl7XwRklmjjsB6azTaZ/zs1DcYLbblJmScIONmfQZIN+sQ4Xav
-	XgTXHcX0RMWPYRrBt/ukgsZikYdB8u0y+/udyy+5xA==
-X-Google-Smtp-Source: ACHHUZ7MUxZn6uA2wRXfruD6SC1IIepb5whpFRWdx169ChTFAO5R4WLCmnBmmZftVN8IKb8xc5ALO6ItnfFROwuhARc=
-X-Received: by 2002:a05:6512:3b08:b0:4f8:6ff9:ec53 with SMTP id
- f8-20020a0565123b0800b004f86ff9ec53mr821732lfv.34.1687356583083; Wed, 21 Jun
- 2023 07:09:43 -0700 (PDT)
+        bh=pEtVvQhHPwHplTtoqscycTwii9VbuA8LJx2SIoMv1Mk=;
+        b=jnxe+nci9kfQeirak2WYvyUKuRhPgrnSf3tPwCfWM4AOxrKAMUtgfsKpgsFyi2QKgf
+         1cbMF/woCrswvNk+Q5vo160cUZkvTxjGyKCSbRFQV99GFGute2apRXbjFM72g1rH3kSU
+         ABLVgNMWdGb4uftMjABZeuM/iUPqiN+ExTaizMbHT7Q1F3BaJ9lCR3WMSHAfzV8e+0lt
+         wHZHjZHLVjLIK5RB4sCsssgNuqfDuEck1VZtl1P02BUYAgkbyJc5tFj/0sNCqVfVuTkd
+         AJw8QfvYcMiI702DCAFdI6ozLkS3KUbCHSL1m8IkYcKIDrUOw2287aGUsetPGefcQ+Cj
+         Orkw==
+X-Gm-Message-State: AC+VfDynqc2X0bwkJpL79LCDAz5Rcu8pJxDl/lpX3obSE4eF8UK13iGl
+	sQ82aYJv/igJ7Shm9qliuEQy0yxG+NORuSULXBQ=
+X-Google-Smtp-Source: ACHHUZ53QYTGU03pT1oNlNKVy97+rxI/jmZjDV/EwRekHxW01x0NgSIktCO5dycp2Tf3ThLE14wXg3cx8HNe6dLwXEY=
+X-Received: by 2002:a1f:bf92:0:b0:46e:4ffb:2f8 with SMTP id
+ p140-20020a1fbf92000000b0046e4ffb02f8mr6478516vkf.0.1687356890907; Wed, 21
+ Jun 2023 07:14:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1687143192.git.steve@sakoman.com> <cf741646f41835024c7e53234cfd527ff3f8542b.1687143192.git.steve@sakoman.com>
- <SJ0PR11MB6717DC7CA09D8738FB1C3FB9DC5DA@SJ0PR11MB6717.namprd11.prod.outlook.com>
-In-Reply-To: <SJ0PR11MB6717DC7CA09D8738FB1C3FB9DC5DA@SJ0PR11MB6717.namprd11.prod.outlook.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 21 Jun 2023 04:09:31 -1000
-Message-ID: <CAOSpxdauUbANSmM++qUM0VxwoBxmQwx-PgEfohC0xAYTKEYVPg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 02/18] cups: Fix CVE-2023-32324
-To: "Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco)" <schitrod@cisco.com>
+References: <17684EF49825A362.24824@lists.openembedded.org> <SJ0PR11MB6717769519ADFAB3420CD874DC5DA@SJ0PR11MB6717.namprd11.prod.outlook.com>
+In-Reply-To: <SJ0PR11MB6717769519ADFAB3420CD874DC5DA@SJ0PR11MB6717.namprd11.prod.outlook.com>
+From: Steve Sakoman <sakoman@gmail.com>
+Date: Wed, 21 Jun 2023 04:14:39 -1000
+Message-ID: <CAGDS+nn=eq889XVPJt0mn0f+KCcFSMFcCg-dk7QFN4rjVaHtew@mail.gmail.com>
+Subject: Re: [OE-core] [OE-core,dunfell][PATCH] cups: Fix CVE-2023-32324
+To: schitrod@cisco.com
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Jun 2023 14:09:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183181
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Jun 2023 14:14:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183182
 
-On Tue, Jun 20, 2023 at 10:00=E2=80=AFPM Sanjaykumar kantibhai Chitroda -X
-(schitrod - E-INFO CHIPS INC at Cisco) <schitrod@cisco.com> wrote:
+On Tue, Jun 20, 2023 at 10:04=E2=80=AFPM Sanjaykumar kantibhai Chitroda -X
+(schitrod - E-INFO CHIPS INC at Cisco) via lists.openembedded.org
+<schitrod=3Dcisco.com@lists.openembedded.org> wrote:
 >
 > Hi Steve,
 >
@@ -70,25 +70,26 @@ On Tue, Jun 20, 2023 at 10:00=E2=80=AFPM Sanjaykumar kantibhai Chitroda -X
 > https://github.com/openembedded/openembedded-core/commit/a4bdbc82f7e5cc9a=
 5cb603cb720f09b0216b0a0e
 >
-> Is there any comment for similar fix on kirkstone branch?
+> Is there any comment for similar fix on dunfell branch?
 
 Hi Sanjay,
 
-Also accepted and merged on kirkstone:
+It is in the current test queue for dunfell, which you can browse at:
 
-https://git.openembedded.org/openembedded-core/commit/?h=3Dkirkstone&id=3Dc=
-f741646f41835024c7e53234cfd527ff3f8542b
+https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/dunf=
+ell-nut
 
 Steve
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Steve Sakoman
-> Sent: Monday, June 19, 2023 8:25 AM
+penembedded.org> On Behalf Of Sanjaykumar kantibhai Chitroda -X (schitrod -=
+ E-INFO CHIPS INC at Cisco) via lists.openembedded.org
+> Sent: Wednesday, June 14, 2023 1:04 AM
 > To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core][kirkstone 02/18] cups: Fix CVE-2023-32324
->
-> From: Sanjay Chitroda <schitrod@cisco.com>
+> Cc: Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cis=
+co) <schitrod@cisco.com>
+> Subject: [OE-core] [OE-core,dunfell][PATCH] cups: Fix CVE-2023-32324
 >
 > OpenPrinting CUPS is an open source printing system. In versions 2.4.2 an=
 d prior, a heap buffer overflow vulnerability would allow a remote attacker=
@@ -106,7 +107,6 @@ to `DEBUG`. No known patches or workarounds exist at time of publication.
 > https://github.com/OpenPrinting/cups/commit/fd8bc2d32589
 >
 > Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > ---
 >  meta/recipes-extended/cups/cups.inc           |  1 +
 >  .../cups/cups/CVE-2023-32324.patch            | 36 +++++++++++++++++++
@@ -115,18 +115,18 @@ to `DEBUG`. No known patches or workarounds exist at time of publication.
 >
 > diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
 cups/cups.inc
-> index 0acc5c575e..1b87d47a49 100644
+> index 21c56e1430..d6e7d95800 100644
 > --- a/meta/recipes-extended/cups/cups.inc
 > +++ b/meta/recipes-extended/cups/cups.inc
-> @@ -15,6 +15,7 @@ SRC_URI =3D "https://github.com/OpenPrinting/cups/relea=
-ses/download/v${PV}/cups-${
->             file://0004-cups-fix-multilib-install-file-conflicts.patch \
->             file://volatiles.99_cups \
->             file://cups-volatiles.conf \
+> @@ -14,6 +14,7 @@ SRC_URI =3D "https://github.com/apple/cups/releases/dow=
+nload/v${PV}/${BP}-source.t
+>             file://0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch \
+>             file://0004-cups-fix-multilib-install-file-conflicts.patch\
+>             file://CVE-2022-26691.patch \
 > +           file://CVE-2023-32324.patch \
 >             "
 >
->  UPSTREAM_CHECK_URI =3D "https://github.com/OpenPrinting/cups/releases"
+>  UPSTREAM_CHECK_URI =3D "https://github.com/apple/cups/releases"
 > diff --git a/meta/recipes-extended/cups/cups/CVE-2023-32324.patch b/meta/=
 recipes-extended/cups/cups/CVE-2023-32324.patch
 > new file mode 100644
@@ -174,6 +174,17 @@ stination string */
 > +   * Figure out how much room is needed...
 > +   */
 > --
-> 2.34.1
+> 2.35.6
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183175): https://lists.openembedded.org/g/openembedde=
+d-core/message/183175
+> Mute This Topic: https://lists.openembedded.org/mt/99513156/3617601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sa=
+koman@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
