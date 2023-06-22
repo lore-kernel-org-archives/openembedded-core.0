@@ -1,112 +1,196 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.hoyes@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F4FEB64D8
-	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 16:30:48 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.16302.1687451441487012724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E8B2EB64D8
+	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 16:34:38 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.16460.1687451670324620884
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 09:30:41 -0700
+ Thu, 22 Jun 2023 09:34:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=XA9uL7Sm;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2b47bfd4e45so68238891fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 09:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687451439; x=1690043439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NK738gRiBpKD//cQKFZDcbXewnp7KiNvsa5B+4941V8=;
-        b=XA9uL7Smd/28q8oZR8bb6Nm14AkkRVRhFyhN0+Kaoy+aEyMkkpJbwtUlNz/3XlvUoD
-         IYTjcL45O+jbNvit3En9G7rhB6J5Qq085zHNt+DckY2MG/TAeIsTArTTdf6Tsevud8Fq
-         B4XZ+QllHZ8sF954225j6R2k0XzAbS+/LLYYa8oX/656GvAj0VazHKeogGjIc8AkSI12
-         IzENGoC6Uyvu/ClDboisCktGGCTh0QX9D9zL7Il5uwkvzAMou+qOrwFo9mf/bFyZXM1B
-         ga4+e+Ep8Lk9epKCKIRqlWtjlMKKR5v73KDwJVbHBLuBSW5LxXpAYjJ/Bk152vKbvlvT
-         LXEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687451439; x=1690043439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NK738gRiBpKD//cQKFZDcbXewnp7KiNvsa5B+4941V8=;
-        b=hgKf4Y93/DQVnuBgqsagpZeaHvvGmkjR3p+a9Q57timBuyji8Xur4toOTQDc1cRNd2
-         gIwkcJsdnlSZ4fitpi4ENC6yMyPGpWWpuLcdxkLFOfGbV8BDkKrFPXrAwPcz+WVzpDop
-         k6GmgV9l6EV8cqF+P25dZxBazNacvPnSkvzSCQ5gtFXF42Ip2kuW5N2K4xIigulBTTgj
-         W8Vcr2Bay7ed+y7D5e0MAOGF/IPjj63BFmXkQJGHWGxO7RpgnYAqMbAHzNR/xP0WrAwo
-         boe+O2KFE/a8LEh9jZSqHCgC6ecemcYXccFdwu/UJ0gVu3tmQ+y0YgB0Ovy4/wEn90Y5
-         TgQA==
-X-Gm-Message-State: AC+VfDx7ZgLO5vYK8ByikpJKEBtm//r/fdmvLiFO/To9XpfhfeBDIKG8
-	Erhq1RcydOZPRvqr3V3Xekuv0FNNU8hRXD2FCuo2k+gf
-X-Google-Smtp-Source: ACHHUZ5vxI+/AZbsFCzBESN9AtS3zR4T6pb4ySpgDzkQ9laDSXnAXvDQKlp9jwVDB80FHu5daevqMY1YO8wR91PKH2U=
-X-Received: by 2002:a19:ca45:0:b0:4f8:651f:9bbe with SMTP id
- h5-20020a19ca45000000b004f8651f9bbemr9242912lfj.54.1687451439369; Thu, 22 Jun
- 2023 09:30:39 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5A90C14;
+	Thu, 22 Jun 2023 09:35:13 -0700 (PDT)
+Received: from e125920.cambridge.arm.com (unknown [10.1.199.64])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14C8B3F663;
+	Thu, 22 Jun 2023 09:34:28 -0700 (PDT)
+From: Peter Hoyes <peter.hoyes@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ross.Burton@arm.com,
+	richard.purdie@linuxfoundation.org,
+	Peter Hoyes <Peter.Hoyes@arm.com>
+Subject: [PATCH v2] rootfs-postcommands: Set vardeps for write_image_test_data
+Date: Thu, 22 Jun 2023 17:34:13 +0100
+Message-Id: <20230622163413.839916-1-peter.hoyes@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230622161749.797820-1-maxime.roussinbelanger@gmail.com> <20230622161749.797820-3-maxime.roussinbelanger@gmail.com>
-In-Reply-To: <20230622161749.797820-3-maxime.roussinbelanger@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 22 Jun 2023 18:30:28 +0200
-Message-ID: <CANNYZj-pa8CDzKEU12OxYpAqXG3z+ptwoW90pZ6Ps=h2p+YQKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] bitbake.conf: add debug symbol for sdk
-To: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 16:30:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183268
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 16:34:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183269
 
-This change is unnecessary, as there is already a mechanism. Just
-slightly further down you can see that BUILDSDK_CFLAGS pulls in
-BUILD_OPTIMIZATION, which sets -g if you enable DEBUG_BUILD in your
-config.
+From: Peter Hoyes <Peter.Hoyes@arm.com>
 
-Alex
+The testdata.json file generated as part of the rootfs postprocess
+commands currently contains almost all Bitbake variables and is used by
+OEQA test cases to inspect the build environment. However only a small
+number of variables are actually used and the testdata.json is not
+automatically updated when the variables are updated.
 
-On Thu, 22 Jun 2023 at 18:20, Maxime Roussin-B=C3=A9langer
-<maxime.roussinbelanger@gmail.com> wrote:
->
-> From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
->
-> Without adding debug flag nativesdk dbg package is not packaged since
-> there is no debugging information
->
-> Signed-off-by: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
-> ---
-> v2: New commit
->
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9d9b268858..0635affbc1 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -601,7 +601,7 @@ PATCHRESOLVE =3D "noop"
->  ##################################################################
->
->  export BUILD_CPPFLAGS =3D "-isystem${STAGING_INCDIR_NATIVE}"
-> -BUILDSDK_CPPFLAGS =3D ""
-> +BUILDSDK_CPPFLAGS ?=3D "-g"
->  export CPPFLAGS =3D "${TARGET_CPPFLAGS}"
->  TARGET_CPPFLAGS =3D ""
->
-> --
-> 2.36.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#183265): https://lists.openembedded.org/g/openembedde=
-d-core/message/183265
-> Mute This Topic: https://lists.openembedded.org/mt/99701056/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Introduce the TESTIMAGE_EXPORT_VARS variable to explicitly define the
+variables to be collected for testdata.json and populate with all
+variables used by runtime tests in OE-core. Use this variable to set the
+vardeps of write_image_test_data.
+
+Modify export2json to take an explicit list of keys to export, instead
+of exporting everything in the datastore.
+
+Add a demonstrative OE selftest to rootfspostcommandstests.
+
+Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
+---
+ .../rootfs-postcommands.bbclass               | 28 ++++++++++++++++++-
+ meta/lib/oe/data.py                           | 19 ++-----------
+ .../selftest/cases/rootfspostcommandstests.py | 19 +++++++++++++
+ 3 files changed, 48 insertions(+), 18 deletions(-)
+
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
+es-recipe/rootfs-postcommands.bbclass
+index 652601b95f..cb5b0727b8 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -453,6 +453,30 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+=20
++TESTIMAGE_EXPORT_VARS ?=3D "\
++    ARCH \
++    DEPLOY_DIR \
++    DEPLOY_DIR_DEB \
++    DISTRO_FEATURES \
++    DL_DIR \
++    IMAGE \
++    IMAGE_FEATURES \
++    libdir \
++    MACHINE \
++    MULTILIB_VARIANTS \
++    PACKAGE_FEED_GPG_NAME \
++    PTEST_EXPECT_FAILURE \
++    QEMU_USE_KVM \
++    SDK_DEPLOY \
++    SDKPATH \
++    T \
++    TEST_LOG_DIR \
++    TOOLCHAINEXT_OUTPUTNAME \
++    TUNE_PKGARCH \
++    VIRTUAL-RUNTIME_init_manager \
++    WORKDIR \
++"
++
+ # Generated test data json file
+ python write_image_test_data() {
+     from oe.data import export2json
+@@ -462,7 +486,8 @@ python write_image_test_data() {
+     testdata_name =3D os.path.join(deploy_dir, "%s.testdata.json" % d.ge=
+tVar('IMAGE_NAME'))
+=20
+     searchString =3D "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+-    export2json(d, testdata_name, searchString=3DsearchString, replaceSt=
+ring=3D"")
++    exportkeys =3D d.getVar('TESTIMAGE_EXPORT_VARS').split()
++    export2json(d, exportkeys, testdata_name, searchString=3DsearchStrin=
+g, replaceString=3D"")
+=20
+     if os.path.exists(testdata_name) and link_name:
+         testdata_link =3D os.path.join(deploy_dir, "%s.testdata.json" % =
+link_name)
+@@ -471,6 +496,7 @@ python write_image_test_data() {
+                 os.remove(testdata_link)
+             os.symlink(os.path.basename(testdata_name), testdata_link)
+ }
++write_image_test_data[vardeps] +=3D "${TESTIMAGE_EXPORT_VARS}"
+ write_image_test_data[vardepsexclude] +=3D "TOPDIR"
+=20
+ # Check for unsatisfied recommendations (RRECOMMENDS)
+diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
+index 37121cfad2..101a52e5e0 100644
+--- a/meta/lib/oe/data.py
++++ b/meta/lib/oe/data.py
+@@ -23,25 +23,10 @@ def typed_value(key, d):
+     except (TypeError, ValueError) as exc:
+         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
+=20
+-def export2json(d, json_file, expand=3DTrue, searchString=3D"",replaceSt=
+ring=3D""):
++def export2json(d, keys, json_file, expand=3DTrue, searchString=3D"",rep=
+laceString=3D""):
+     data2export =3D {}
+-    keys2export =3D []
+=20
+-    for key in d.keys():
+-        if key.startswith("_"):
+-            continue
+-        elif key.startswith("BB"):
+-            continue
+-        elif key.startswith("B_pn"):
+-            continue
+-        elif key.startswith("do_"):
+-            continue
+-        elif d.getVarFlag(key, "func"):
+-            continue
+-
+-        keys2export.append(key)
+-
+-    for key in keys2export:
++    for key in keys:
+         try:
+             data2export[key] =3D d.getVar(key, expand).replace(searchStr=
+ing,replaceString)
+         except bb.data_smart.ExpansionError:
+diff --git a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py b/me=
+ta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+index 44e2c09a6f..d15e766f49 100644
+--- a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
++++ b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+@@ -2,6 +2,7 @@
+ #
+ # SPDX-License-Identifier: MIT
+=20
++import json
+ import os
+ import oe
+ import unittest
+@@ -95,3 +96,21 @@ class ShadowUtilsTidyFiles(OESelftestTestCase):
+                 unsorted.append(file)
+         if (unsorted):
+             raise Exception("The following files were not sorted by ID a=
+s expected: %s" % unsorted)
++
++
++class TestDataTests(OESelftestTestCase):
++    def test_vardeps(self):
++        """
++        Test that variables changes are reflected in testdata.json
++        """
++        test_image =3D "core-image-minimal"
++        self.write_config('TESTIMAGE_EXPORT_VARS:append =3D " TEST_VARIA=
+BLE"\nTEST_VARIABLE =3D "VALUE1"')
++        bitbake(test_image)
++        self.append_config('TEST_VARIABLE =3D "VALUE2"')
++        bitbake(test_image)
++
++        vars =3D get_bb_vars(('DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'), te=
+st_image)
++        testdata_json =3D "%s/%s.testdata.json" % (vars['DEPLOY_DIR_IMAG=
+E'], vars['IMAGE_LINK_NAME'])
++        with open(testdata_json, 'r') as tf:
++            testdata_vars =3D json.load(tf)
++        self.assertEqual(testdata_vars['TEST_VARIABLE'], 'VALUE2')
+--=20
+2.34.1
+
 
