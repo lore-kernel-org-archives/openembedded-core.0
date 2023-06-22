@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD4DEB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FB78EB64D8
 	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 15:32:08 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.14562.1687447927376876778
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.14622.1687447920153589872
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 08:32:07 -0700
+ Thu, 22 Jun 2023 08:32:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Kuur8Ekf;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-54faf8db79fso3031805a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 08:32:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=h/THFz6F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-52cb8e5e9f5so564830a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 08:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687447926; x=1690039926;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687447919; x=1690039919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
-        b=Kuur8Ekf8gDQBlbM0u1VjN5xh4PNCMBoIoGSbonNvvGosrvMuK9vsq3A3c0zb8yQRv
-         r81kURdkSz/JwtTM53+oLHP3eJn6NNPAVFnewF4TImRFF0N4F1hbiLgsAvVkBaK9TQX7
-         2DgGGnWhp1EOeZB3UaRUUpqgJaJKR8Ou36NrdMzGP8qtMBkL9YNMi0iJmXUG2jMuyPjT
-         zwK11BVgUJD9yYl6mMq+yT+bbNeM7SFmjDEioa/vlip8sNqBBUkdPx1twgIjADeaI4Pt
-         SmszU4Ed2ffLJ0F7W24vJxT7joVmVPZyS/b+C+jKNjPDKvMXzn6LkfegIT/xnOSfNGJV
-         yzAQ==
+        bh=ZMVe4KGel3CgGezSb221m9/phemN/qDE6k+51SEcmlY=;
+        b=h/THFz6FHNKrpncB+WoZ1iR2cQoPq0yAyCG30lFi2MIOZrfDsZOh3SoWC0wV9HzRVe
+         HJHHZT4df47fppH1rlF2DrVwtfnIvkWUu1p8NnfvSiaLVPpLjbnhuHhuiUk+TmMmp58A
+         7YQ9gXoj4OW7scJT78PXkecXuzeCgVDNBsrcSIcUTVA9ksz/r3skAzBuWJSrQgyBuIZC
+         Dgk6yxY0Yh4Gope0vTzg1OhXEdFOiL7DIo8OXSzDOYUZYn4wVfQWoiD5ERxPSWEAY9hs
+         Voy4qbaN5fnvJ5fC7pCzsgOXypJ6Cf4JR5HmmTGKHJY5/K4cr1efOsHCHB78p2VuSJKj
+         Ui+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687447926; x=1690039926;
+        d=1e100.net; s=20221208; t=1687447919; x=1690039919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y2DXY0rkq/i8yPccomW4TBuIc6WRwOAXTQ7Pnp02RM0=;
-        b=MX/Dn1sRmbdax8ysWx5B6m3hHk7PlQCZffeQzuaeA0taFRy1JDf+g5D9+VNThQrQN9
-         Lu+2NdQUn7TSCXF/6BFzLeVwsYqwhj/mTbP/H6WBUOHZcr9o69bXLaakCCbgihcjmpwU
-         UtQJ6z0eI7DVsWwsfAIqxVDdgn9BvCRUuWyrHPYZELPwhaIQyz+fjvJAo6j48b1rcpkz
-         gul7tCrstcdYnJcpNwEXV5iSIpgaJpmqR8mDBWhsnYlK42oC3q6u25GGBp6P2CpM09v6
-         2tEapdz1bGobC3+1Mm3aeksl0uNoqS8hgg6jihNyfxpR6gV+4s4hWvXi4FYi7VBDKCTp
-         YdIw==
-X-Gm-Message-State: AC+VfDw3x5zlTk6lgB1vUYNE3kH7byLXWpELbWjsCTz45NeIs4vNI0tP
-	wcCF3t1SELopeQyghxmqUB8eIUC9bCWTQNgyOoA=
-X-Google-Smtp-Source: ACHHUZ6a4BlKq6qGRc6Slr0TbUgbhJKgR67TXpNK5dYcTWJPpWnq0dk/k5vTPLMLgce5+gT2oPDToA==
-X-Received: by 2002:a05:6a21:108d:b0:114:f824:67c with SMTP id nl13-20020a056a21108d00b00114f824067cmr14187714pzb.33.1687447926441;
-        Thu, 22 Jun 2023 08:32:06 -0700 (PDT)
+        bh=ZMVe4KGel3CgGezSb221m9/phemN/qDE6k+51SEcmlY=;
+        b=Rs7Fv079jOkahEryW3zoILY8Z/csvttPvETVYeTyIDRxkiaICWb9Qjs6OG+r4CE8Jc
+         QEYfLDe6ahVW431mw9AmTVgNzsRNW87feT9G1YQ5boLQkbllBelxYamwx88/eiCz4pk4
+         quWqpG2eR4J9aN0kOEcu4OoLA+W8IR4u7xVaqZjJ8VDGRhwHPpszvVuUKDKpY6XLYqkq
+         EGjrK2OujOz6AtJd59suXh+u0RyF8u3igKs+hPo9w16L9jfnpRUt+cfl8SVt1FVoZjeG
+         CMqTEJKdVCMjha1mlXt5zH/uwFe6lCgR+v4IiA5MXzo/xy8Rim1Xed9lOg9HsYpZr+W6
+         /iXw==
+X-Gm-Message-State: AC+VfDwH40arefyXXWrPGQj2aWGSchaZNpShQ5l3gnbS6MhSWYyFOLLh
+	aaBIJpuXzLhBR+f2KmufTxQ1vSXY2L8D2aNmrzs=
+X-Google-Smtp-Source: ACHHUZ5IeNxzadZ2oVAjjgSRZFAKc99T8HLsGGDBqui89GwWook7zP9RpAJOUUE3Z+znlXeM8Yr3Zg==
+X-Received: by 2002:a05:6a20:442a:b0:100:ba96:e5e7 with SMTP id ce42-20020a056a20442a00b00100ba96e5e7mr28514483pzb.18.1687447918816;
+        Thu, 22 Jun 2023 08:31:58 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id bm17-20020a056a00321100b0064ccfb73cb8sm4713240pfb.46.2023.06.22.08.32.05
+        by smtp.gmail.com with ESMTPSA id bm17-20020a056a00321100b0064ccfb73cb8sm4713240pfb.46.2023.06.22.08.31.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 08:32:06 -0700 (PDT)
+        Thu, 22 Jun 2023 08:31:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/14] uninative: Upgrade to 3.10 to support gcc 13
-Date: Thu, 22 Jun 2023 05:31:37 -1000
-Message-Id: <15287d18c18152efcfc56a2ae16efdc42c53d92a.1687446532.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/14] cve-update-nvd2-native: new CVE database fetcher
+Date: Thu, 22 Jun 2023 05:31:32 -1000
+Message-Id: <191e2c6d7009999f049a0cf8460259f8f91a829d.1687446532.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687446532.git.steve@sakoman.com>
 References: <cover.1687446532.git.steve@sakoman.com>
@@ -61,36 +61,392 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 15:32:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183255
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183250
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f811bffb861b23238e8291394bd6e8407f013619)
+Add new fetcher for the NVD database using the 2.0 API [1].
+The implementation changes as little as possible, keeping the current
+database format (but using a different database file for the transition
+period), with a notable exception of not using the META table.
+
+Minor changes that could be visible:
+- the database starts in 1999 instead of 2002
+- the complete fetch is longer (30 minutes typically)
+
+[1] https://nvd.nist.gov/developers/vulnerabilities
+
+Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit fb62c4c3dbca4e58f7ce6cf29d4b630a06411a97)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/cve-check.bbclass                |   4 +-
+ .../meta/cve-update-nvd2-native.bb            | 333 ++++++++++++++++++
+ 2 files changed, 335 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/meta/cve-update-nvd2-native.bb
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 8a5cab5360..f3c05b7e20 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 05b9cb47dc..b0ccefc84d 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
  
- UNINATIVE_MAXGLIBCVERSION = "2.37"
--UNINATIVE_VERSION = "3.9"
-+UNINATIVE_VERSION = "3.10"
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
+ CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
  
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "de35708c95c34573af140da910132c3291ba4fd26ebf7b74b755ada432cdf07b"
--UNINATIVE_CHECKSUM[i686] ?= "adac07b08adb88eb26fc7fd87fee0cec9d5be167bf7c5ffd3a549a2a6699c29c"
--UNINATIVE_CHECKSUM[x86_64] ?= "3dd82c3fbdb59e87bf091c3eef555a05fae528eeda3083828f76cd4deaceca8b"
-+UNINATIVE_CHECKSUM[aarch64] ?= "b11f7dff0ff5e3c971f22e89a105efb0f8d2006fd71d1ea3e5da771e416b0e01"
-+UNINATIVE_CHECKSUM[i686] ?= "ad7daa7fca7693ca07eea5279f830333530171d357759b380954a25254edd8dd"
-+UNINATIVE_CHECKSUM[x86_64] ?= "ce8ff7e3247da312fbf84008f415bc1b4d113ac9fe4ec91581e4a20cd8b475d3"
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+@@ -154,7 +154,7 @@ python do_cve_check () {
+ }
+ 
+ addtask cve_check before do_build
+-do_cve_check[depends] = "cve-update-db-native:do_fetch"
++do_cve_check[depends] = "cve-update-nvd2-native:do_fetch"
+ do_cve_check[nostamp] = "1"
+ 
+ python cve_check_cleanup () {
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+new file mode 100644
+index 0000000000..1c14481c21
+--- /dev/null
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -0,0 +1,333 @@
++SUMMARY = "Updates the NVD CVE database"
++LICENSE = "MIT"
++
++# Important note:
++# This product uses the NVD API but is not endorsed or certified by the NVD.
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++inherit native
++
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
++deltask do_populate_sysroot
++
++NVDCVE_URL ?= "https://services.nvd.nist.gov/rest/json/cves/2.0"
++
++# CVE database update interval, in seconds. By default: once a day (24*60*60).
++# Use 0 to force the update
++# Use a negative value to skip the update
++CVE_DB_UPDATE_INTERVAL ?= "86400"
++
++# Timeout for blocking socket operations, such as the connection attempt.
++CVE_SOCKET_TIMEOUT ?= "60"
++
++CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
++
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
++
++python () {
++    if not bb.data.inherits_class("cve-check", d):
++        raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
++}
++
++python do_fetch() {
++    """
++    Update NVD database with API 2.0
++    """
++    import bb.utils
++    import bb.progress
++    import shutil
++
++    bb.utils.export_proxies(d)
++
++    db_file = d.getVar("CVE_CHECK_DB_FILE")
++    db_dir = os.path.dirname(db_file)
++    db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
++
++    cleanup_db_download(db_file, db_tmp_file)
++    # By default let's update the whole database (since time 0)
++    database_time = 0
++
++    # The NVD database changes once a day, so no need to update more frequently
++    # Allow the user to force-update
++    try:
++        import time
++        update_interval = int(d.getVar("CVE_DB_UPDATE_INTERVAL"))
++        if update_interval < 0:
++            bb.note("CVE database update skipped")
++            return
++        if time.time() - os.path.getmtime(db_file) < update_interval:
++            bb.note("CVE database recently updated, skipping")
++            return
++        database_time = os.path.getmtime(db_file)
++
++    except OSError:
++        pass
++
++    bb.utils.mkdirhier(db_dir)
++    if os.path.exists(db_file):
++        shutil.copy2(db_file, db_tmp_file)
++
++    if update_db_file(db_tmp_file, d, database_time) == True:
++        # Update downloaded correctly, can swap files
++        shutil.move(db_tmp_file, db_file)
++    else:
++        # Update failed, do not modify the database
++        bb.warn("CVE database update failed")
++        os.remove(db_tmp_file)
++}
++
++do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
++do_fetch[file-checksums] = ""
++do_fetch[vardeps] = ""
++
++def cleanup_db_download(db_file, db_tmp_file):
++    """
++    Cleanup the download space from possible failed downloads
++    """
++
++    # Clean up the updates done on the main file
++    # Remove it only if a journal file exists - it means a complete re-download
++    if os.path.exists("{0}-journal".format(db_file)):
++        # If a journal is present the last update might have been interrupted. In that case,
++        # just wipe any leftovers and force the DB to be recreated.
++        os.remove("{0}-journal".format(db_file))
++
++        if os.path.exists(db_file):
++            os.remove(db_file)
++
++    # Clean-up the temporary file downloads, we can remove both journal
++    # and the temporary database
++    if os.path.exists("{0}-journal".format(db_tmp_file)):
++        # If a journal is present the last update might have been interrupted. In that case,
++        # just wipe any leftovers and force the DB to be recreated.
++        os.remove("{0}-journal".format(db_tmp_file))
++
++    if os.path.exists(db_tmp_file):
++        os.remove(db_tmp_file)
++
++def nvd_request_next(url, api_key, args):
++    """
++    Request next part of the NVD dabase
++    """
++
++    import urllib.request
++    import urllib.parse
++    import gzip
++
++    headers = {}
++    if api_key:
++        headers['apiKey'] = api_key
++
++    data = urllib.parse.urlencode(args)
++
++    full_request = url + '?' + data
++
++    for attempt in range(3):
++        try:
++            r = urllib.request.urlopen(full_request)
++
++            if (r.headers['content-encoding'] == 'gzip'):
++                buf = r.read()
++                raw_data = gzip.decompress(buf)
++            else:
++                raw_data = r.read().decode("utf-8")
++
++            r.close()
++
++        except UnicodeDecodeError:
++            # Received garbage, retry
++            bb.debug(2, "CVE database: received malformed data, retrying (request: %s)" %(full_request))
++            pass
++        except http.client.IncompleteRead:
++            # Read incomplete, let's try again
++            bb.debug(2, "CVE database: received incomplete data, retrying (request: %s)" %(full_request))
++            pass
++        else:
++            return raw_data
++    else:
++        # We failed at all attempts
++        return None
++
++def update_db_file(db_tmp_file, d, database_time):
++    """
++    Update the given database file
++    """
++    import bb.utils, bb.progress
++    import datetime
++    import sqlite3
++    import json
++
++    # Connect to database
++    conn = sqlite3.connect(db_tmp_file)
++    initialize_db(conn)
++
++    req_args = {'startIndex' : 0}
++
++    # The maximum range for time is 120 days
++    # Force a complete update if our range is longer
++    if (database_time != 0):
++        database_date = datetime.datetime.combine(datetime.date.fromtimestamp(database_time), datetime.time())
++        today_date = datetime.datetime.combine(datetime.date.today(), datetime.time())
++        delta = today_date - database_date
++        if delta.days < 120:
++            bb.debug(2, "CVE database: performing partial update")
++            req_args['lastModStartDate'] = database_date.isoformat()
++            req_args['lastModEndDate'] = today_date.isoformat()
++        else:
++            bb.note("CVE database: file too old, forcing a full update")
++
++    with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
++
++        bb.debug(2, "Updating entries")
++        index = 0
++        url = d.getVar("NVDCVE_URL")
++        while True:
++            req_args['startIndex'] = index
++            raw_data = nvd_request_next(url, None, req_args)
++            if raw_data is None:
++                # We haven't managed to download data
++                return False
++
++            data = json.loads(raw_data)
++
++            index = data["startIndex"]
++            total = data["totalResults"]
++            per_page = data["resultsPerPage"]
++
++            for cve in data["vulnerabilities"]:
++               update_db(conn, cve)
++
++            index += per_page
++            ph.update((float(index) / (total+1)) * 100)
++            if index >= total:
++               break
++
++            # Recommended by NVD
++            time.sleep(6)
++
++        # Update success, set the date to cve_check file.
++        cve_f.write('CVE database update : %s\n\n' % datetime.date.today())
++
++    conn.commit()
++    conn.close()
++    return True
++
++def initialize_db(conn):
++    with conn:
++        c = conn.cursor()
++
++        c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
++
++        c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
++            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
++
++        c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
++            VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
++            VERSION_END TEXT, OPERATOR_END TEXT)")
++        c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_ID_IDX on PRODUCTS(ID);")
++
++        c.close()
++
++def parse_node_and_insert(conn, node, cveId):
++
++    def cpe_generator():
++        for cpe in node.get('cpeMatch', ()):
++            if not cpe['vulnerable']:
++                return
++            cpe23 = cpe.get('criteria')
++            if not cpe23:
++                return
++            cpe23 = cpe23.split(':')
++            if len(cpe23) < 6:
++                return
++            vendor = cpe23[3]
++            product = cpe23[4]
++            version = cpe23[5]
++
++            if cpe23[6] == '*' or cpe23[6] == '-':
++                version_suffix = ""
++            else:
++                version_suffix = "_" + cpe23[6]
++
++            if version != '*' and version != '-':
++                # Version is defined, this is a '=' match
++                yield [cveId, vendor, product, version + version_suffix, '=', '', '']
++            elif version == '-':
++                # no version information is available
++                yield [cveId, vendor, product, version, '', '', '']
++            else:
++                # Parse start version, end version and operators
++                op_start = ''
++                op_end = ''
++                v_start = ''
++                v_end = ''
++
++                if 'versionStartIncluding' in cpe:
++                    op_start = '>='
++                    v_start = cpe['versionStartIncluding']
++
++                if 'versionStartExcluding' in cpe:
++                    op_start = '>'
++                    v_start = cpe['versionStartExcluding']
++
++                if 'versionEndIncluding' in cpe:
++                    op_end = '<='
++                    v_end = cpe['versionEndIncluding']
++
++                if 'versionEndExcluding' in cpe:
++                    op_end = '<'
++                    v_end = cpe['versionEndExcluding']
++
++                if op_start or op_end or v_start or v_end:
++                    yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++                else:
++                    # This is no version information, expressed differently.
++                    # Save processing by representing as -.
++                    yield [cveId, vendor, product, '-', '', '', '']
++
++    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator()).close()
++
++def update_db(conn, elt):
++    """
++    Update a single entry in the on-disk database
++    """
++
++    accessVector = None
++    cveId = elt['cve']['id']
++    if elt['cve']['vulnStatus'] ==  "Rejected":
++        return
++    cveDesc = ""
++    for desc in elt['cve']['descriptions']:
++        if desc['lang'] == 'en':
++            cveDesc = desc['value']
++    date = elt['cve']['lastModified']
++    try:
++        accessVector = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
++        cvssv2 = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
++    except KeyError:
++        cvssv2 = 0.0
++    try:
++        accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
++        cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
++    except KeyError:
++        accessVector = accessVector or "UNKNOWN"
++        cvssv3 = 0.0
++
++    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
++                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
++
++    try:
++        configurations = elt['cve']['configurations'][0]['nodes']
++        for config in configurations:
++            parse_node_and_insert(conn, config, cveId)
++    except KeyError:
++        bb.debug(2, "Entry without a configuration")
++
++do_fetch[nostamp] = "1"
++
++EXCLUDE_FROM_WORLD = "1"
 -- 
 2.34.1
 
