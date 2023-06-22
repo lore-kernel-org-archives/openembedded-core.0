@@ -1,131 +1,116 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC599EB64D8
-	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 17:11:08 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web10.17412.1687453860695314449
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD082EB64DD
+	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 17:11:18 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.17331.1687453870631971391
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 10:11:00 -0700
+ Thu, 22 Jun 2023 10:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=KXBmKzLc;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: maxime.roussinbelanger@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-55e4b840858so3325968eaf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:00 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MGbKd7eF;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b46cfde592so84915231fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687453860; x=1690045860;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1687453868; x=1690045868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GK8fugzcxurEyXwtWNoj5B3WTxwfUoWlIWI92oF6mUs=;
-        b=KXBmKzLcsCXygGBmdo8LSk89q+gIV/B1323+dNAO07xF3IvThAzAO0B/4cJiuGWhy9
-         NQSDYUt3UPeaQK8XVeSMaFOmNfSZ6ElWTG9d81dAMbBjmwnR4OjXakq3KO3OjmPy50T0
-         KIqFX9BKhnq86XHd2HT79SU9h3z0n0rTqks3ZNwlu/tXnDvwwI7heJXr7To5TqvWqXLy
-         F7ExgG2usWLaaEKq9I0TK2erlEHQWk32z/sT1ULtlmJFKYXXLnTiQCUqSTz7/OqdmDld
-         HkPqHEOOs/u6jEnHOvhOqK3Utrge80bAI9bk+tEgbKMtt7RdHRWStrxLTD75Q8hKonIc
-         Rn/Q==
+        bh=s6MbWQS15cHVvl56zQhC+6DHzBfvRuPBDwqTf9vAZIg=;
+        b=MGbKd7eFHEINxu9AmX/4Tz8W7Ip8IKhlFSQSh4/Nuhq0z3cnqavxLvRBST+zCQiF66
+         v4xvATk+Uii0n1zVMxYP7/Em+uRaIH8zQ9s73CGSI2XHIHdCx62fijgPA0zGX9mA0UeI
+         eDv9WQ+wT/ZAvdudSZ59TKnUlR5MLM4ov8nXjYirQPzbtV93JuzJ/cWU3HYzajJjqG4p
+         t4H6pvPuh2KORmvxNqiYS+LEZKp6KEZGxTJ18KipTqBQK/ECXTA+iFbV5fs0V2nEital
+         xEP8xDCzF0951NX5YlMZGRvcIYg7D9oo2vPeYtKoNJOz/qLErWe6Apjx3c4F0XTngy3k
+         u+UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687453860; x=1690045860;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1687453868; x=1690045868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GK8fugzcxurEyXwtWNoj5B3WTxwfUoWlIWI92oF6mUs=;
-        b=bxzseVpnOMYHhYGpg6a+1dfK8Acri0jKPVdTKDjHRsrhYzkd0touk1kC7sz2Kx8dJD
-         f+LXnx6oxPZ8B8cc+7IiaJTLjAnxV57GsMN73ZG+VTXeUSfGUfrH+OOYcNXq4slknm4Y
-         u/VUZ6cqwpgAbBpjRO0O1qg5Q/uf0jO7Aer3FS3DRE2TlAwf55QSVpLuco39POxXxASZ
-         XW1SuwrzeVzNGpKcv9WNjnydZKnvDthFCJci7AFR+xHe9xESK47lg5ybCi7sLI2T+WwB
-         BSO74pvtReaUHfUVpo3HmNWxZlrtpK10fdi4ENjAedZp6bvDXYW3GwN4siFKMEAOrcZt
-         aSug==
-X-Gm-Message-State: AC+VfDwnX3QZPieIMlcn/lZbWn83ytUxZLrjZn/fXxy/2KnCBBU/0THk
-	pvzK5BoUXSgJllZ0GE/R2pzom1n8C9nbvKMBchg=
-X-Google-Smtp-Source: ACHHUZ6ePAGkyVc0Lt8QkG+FN6Ltcx7pqEC18Rdm0YzuKENQYemY4AF42Ue7wyo27Cf2piHzxdUPUWlpR5MDvokWOfs=
-X-Received: by 2002:a05:6870:3a0f:b0:1a9:9bd5:8405 with SMTP id
- du15-20020a0568703a0f00b001a99bd58405mr15922160oab.49.1687453859817; Thu, 22
- Jun 2023 10:10:59 -0700 (PDT)
+        bh=s6MbWQS15cHVvl56zQhC+6DHzBfvRuPBDwqTf9vAZIg=;
+        b=bDBJGmu7CHc+80VLn1hrUwTanFL1ziJA87Podp7+ZB0RI5pOLUqw4EgnhxSxy2XcPp
+         4rywRLr9Q5nUKb46QvIU8RnohcSrodKbLHsRFLv1WT0opD7eZ112EfVjUDY7fNl09ph/
+         rG4rhsoOWSDGdV4hnuH+ULDU9jVKutjpSlKW8XfppbWd2TPzngMt4uqQwaK8vpiCrGt0
+         Satr2OLnXiRrtYegVhAgK0oLYMNjBTpl36JvJzUbZOEJwd1QaNt1ljBsjyX9v4ewKDhM
+         aCuN0YZ+rEvCb2euDXvxhBb/Ts17iAlfmyCm0Hcn84JyWKvMaMwsI4K44gOPS/gijd/L
+         7a0Q==
+X-Gm-Message-State: AC+VfDwCrDElIPhTEbm99AQpz0AB/MMrnGBVMMSZorMbR/Lmry+V0ChW
+	zB6e3N99ioCSSfvtJeYb0Lp1ozMPofU=
+X-Google-Smtp-Source: ACHHUZ7Xq5NqOTZ+dAE0JRK7YWT3S33r49SGXY76pORlji9/+4W0T4+eTB7D8La2slMUFze5MkuONg==
+X-Received: by 2002:a2e:b0ed:0:b0:2b5:882c:5a8d with SMTP id h13-20020a2eb0ed000000b002b5882c5a8dmr4015829ljl.8.1687453868273;
+        Thu, 22 Jun 2023 10:11:08 -0700 (PDT)
+Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 10:11:07 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 1/9] runqemu-ifup: remove uid parameter
+Date: Thu, 22 Jun 2023 19:01:21 +0200
+Message-ID: <20230622170946.10082-2-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230622170946.10082-1-adrian.freihofer@siemens.com>
+References: <20230622170946.10082-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-References: <20230622161749.797820-1-maxime.roussinbelanger@gmail.com>
- <20230622161749.797820-2-maxime.roussinbelanger@gmail.com> <CANNYZj8KCSygjo9EPUD91oqOzdZhBkYVrJCVthu66bBSoQz8Jg@mail.gmail.com>
-In-Reply-To: <CANNYZj8KCSygjo9EPUD91oqOzdZhBkYVrJCVthu66bBSoQz8Jg@mail.gmail.com>
-From: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
-Date: Thu, 22 Jun 2023 13:10:33 -0400
-Message-ID: <CAE=T-s5gvt=Dz+TckRU31SA5DOfFpSJgPi8gTmRf5wgcYPJirQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/3] insane: ignore nativesdk-${PN}-src host
- contaminated issue
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 17:11:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183276
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 17:11:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183278
 
-Hello Alex,
+ip tuntap does not need the uid, it was an unused variable/parameter.
+Backward compatibility should be fine.
 
-On Thu, Jun 22, 2023 at 12:24=E2=80=AFPM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I'm not sure I understand this. The check is to ensure build process
-> works as it should, specifically to prevent build host ownership
-> leaking into packages. Yes this information doesn't matter when these
-> packages are installed, but it matters for correctness of the build.
->
-> Alex
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/runqemu-ifup | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Maybe I don't get how this check is done because everything in the TMPDIR
-is owned by the user running bitbake.
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index 5dc765dee82..26714518020 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -21,7 +21,7 @@
+ #
+ 
+ usage() {
+-	echo "sudo $(basename $0) <uid> <gid>"
++	echo "sudo $(basename $0) <gid>"
+ }
+ 
+ if [ $EUID -ne 0 ]; then
+@@ -29,17 +29,20 @@ if [ $EUID -ne 0 ]; then
+ 	exit 1
+ fi
+ 
+-if [ $# -ne 2 ]; then
++if [ $# -eq 2 ]; then
++	echo "Warning: uid parameter is ignored. It is no longer needed."
++	GROUP="$2"
++elif [ $# -eq 1 ]; then
++	GROUP="$1"
++else
+ 	usage
+ 	exit 1
+ fi
+ 
+-USERID="-u $1"
+-GROUP="-g $2"
+ 
+ if taps=$(ip tuntap list 2>/dev/null); then
+ 	tap_no=$(( $(echo "$taps" |cut -f 1 -d ":" | sed 's/tap//g' | sort -rn | head -n 1) + 1 ))
+-	ip tuntap add tap$tap_no mode tap group $2 && TAP=tap$tap_no
++	ip tuntap add tap$tap_no mode tap group "$GROUP" && TAP=tap$tap_no
+ fi
+ 
+ if [ -z $TAP ]; then
+-- 
+2.41.0
 
-Max
-
->
-> On Thu, 22 Jun 2023 at 18:20, Maxime Roussin-B=C3=A9langer
-> <maxime.roussinbelanger@gmail.com> wrote:
-> >
-> > From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
-> >
-> > nativesdk-${PN}-src will be installed to a different machine and files
-> > ownership will change at install. Since the ownership will change based
-> > on how the user will install the sdk there is no point in checking
-> > ownership
-> >
-> > Signed-off-by: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.co=
-m>
-> > ---
-> > v2: New commit
-> >
-> >  meta/classes-global/insane.bbclass | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/i=
-nsane.bbclass
-> > index a4dbc9a123..82ea834f99 100644
-> > --- a/meta/classes-global/insane.bbclass
-> > +++ b/meta/classes-global/insane.bbclass
-> > @@ -1116,6 +1116,9 @@ def package_qa_check_host_user(path, name, d, elf=
-, messages):
-> >      if path =3D=3D home or path.startswith(home + os.sep):
-> >          return
-> >
-> > +    if name.startswith("nativesdk-") and name.endswith("-src"):
-> > +        return
-> > +
-> >      try:
-> >          stat =3D os.lstat(path)
-> >      except OSError as exc:
-> > --
-> > 2.36.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#183264): https://lists.openembedded.org/g/openembed=
-ded-core/message/183264
-> > Mute This Topic: https://lists.openembedded.org/mt/99701051/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
 
