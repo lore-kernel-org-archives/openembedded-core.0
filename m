@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD082EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B25ACC001B1
 	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 17:11:18 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.17331.1687453870631971391
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.17334.1687453872299458015
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 10:11:11 -0700
+ Thu, 22 Jun 2023 10:11:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MGbKd7eF;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b46cfde592so84915231fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=WPA7RAw4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-98cd280cf94so239533466b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687453868; x=1690045868;
+        d=gmail.com; s=20221208; t=1687453870; x=1690045870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s6MbWQS15cHVvl56zQhC+6DHzBfvRuPBDwqTf9vAZIg=;
-        b=MGbKd7eFHEINxu9AmX/4Tz8W7Ip8IKhlFSQSh4/Nuhq0z3cnqavxLvRBST+zCQiF66
-         v4xvATk+Uii0n1zVMxYP7/Em+uRaIH8zQ9s73CGSI2XHIHdCx62fijgPA0zGX9mA0UeI
-         eDv9WQ+wT/ZAvdudSZ59TKnUlR5MLM4ov8nXjYirQPzbtV93JuzJ/cWU3HYzajJjqG4p
-         t4H6pvPuh2KORmvxNqiYS+LEZKp6KEZGxTJ18KipTqBQK/ECXTA+iFbV5fs0V2nEital
-         xEP8xDCzF0951NX5YlMZGRvcIYg7D9oo2vPeYtKoNJOz/qLErWe6Apjx3c4F0XTngy3k
-         u+UQ==
+        bh=UJdi2W7eQjewNQILqxtGVlJpVZ+0LilyZ5SEztoHKLI=;
+        b=WPA7RAw49WrZJM5iKAdOz7h3Oj/fj1t/ZlRhPQulmaNSY8jxZJDNGVXKFwvlQlUkqP
+         HhEI2TcXGSrot5LxKGAGhc41EDVl/MrWVEDTgIeapZWJifBd//akhQT5I61wkfOHUYDy
+         oKR2VzPvB57MSFucGKL7cPyaisWAyG7CvOpUlgu3mTODmQ7q5A6qw2lgrsVWZiq1dJa8
+         7R5nRCpzCsRAOBsn692LKBlT5txveTYZUZ3DupkYehDClEhlizK4bjuD9JYsluUdwxuJ
+         edhq2QPsLhiqfusdJ6AUPvuWHX5a6XglO+j+696oCJnKSYRNAA8ltRUrSiwFkkUM16+c
+         CjVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687453868; x=1690045868;
+        d=1e100.net; s=20221208; t=1687453870; x=1690045870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s6MbWQS15cHVvl56zQhC+6DHzBfvRuPBDwqTf9vAZIg=;
-        b=bDBJGmu7CHc+80VLn1hrUwTanFL1ziJA87Podp7+ZB0RI5pOLUqw4EgnhxSxy2XcPp
-         4rywRLr9Q5nUKb46QvIU8RnohcSrodKbLHsRFLv1WT0opD7eZ112EfVjUDY7fNl09ph/
-         rG4rhsoOWSDGdV4hnuH+ULDU9jVKutjpSlKW8XfppbWd2TPzngMt4uqQwaK8vpiCrGt0
-         Satr2OLnXiRrtYegVhAgK0oLYMNjBTpl36JvJzUbZOEJwd1QaNt1ljBsjyX9v4ewKDhM
-         aCuN0YZ+rEvCb2euDXvxhBb/Ts17iAlfmyCm0Hcn84JyWKvMaMwsI4K44gOPS/gijd/L
-         7a0Q==
-X-Gm-Message-State: AC+VfDwCrDElIPhTEbm99AQpz0AB/MMrnGBVMMSZorMbR/Lmry+V0ChW
-	zB6e3N99ioCSSfvtJeYb0Lp1ozMPofU=
-X-Google-Smtp-Source: ACHHUZ7Xq5NqOTZ+dAE0JRK7YWT3S33r49SGXY76pORlji9/+4W0T4+eTB7D8La2slMUFze5MkuONg==
-X-Received: by 2002:a2e:b0ed:0:b0:2b5:882c:5a8d with SMTP id h13-20020a2eb0ed000000b002b5882c5a8dmr4015829ljl.8.1687453868273;
-        Thu, 22 Jun 2023 10:11:08 -0700 (PDT)
+        bh=UJdi2W7eQjewNQILqxtGVlJpVZ+0LilyZ5SEztoHKLI=;
+        b=IeYTUPKoSjOjkhH2m1tobRZjICZlAM4PrPe+1mBZc6FDmzyK+DAvyFUmitozEgVGEE
+         sXPgfLYLHy9hUxP/TJM7eAQKl/cDx3F2JQotyiY1RxfDeOFNtCnSnZmLqxdLdRJuolBV
+         N8rgvQGDuYUiHlQVdpmsDVvxodnAn3a3a/DdiFFnXzpwuAVNwUhramgF1aWgEc95neoW
+         Uc9iRMM6an2M3mG3I6MFoPn8ctc7goeDIXlM14seQnB5WQdFyLgPdBDWGXQE0bz4sJzo
+         Xua4GwsiZRKgUXOOPVhr7EGGa01jumXj1hn6nAgAyANIhmhIIntgEj0wzJCxlfA6Wnr5
+         yR2g==
+X-Gm-Message-State: AC+VfDxdAi/4VBdxiPrvWHIcuKy+Xdr7TrYNOCeqm4+LUp7IwWhO+LjG
+	Nv3FbXhYr4bTBlm4avkbV+6n/uMXeDU=
+X-Google-Smtp-Source: ACHHUZ6HZHjO3yTmJubhFrijXGEMSBEzl36GMgvm9HbNn+qKBLWyaMtB3Y3oHiKu52ihvLTJ6d7XmQ==
+X-Received: by 2002:a17:907:7faa:b0:988:2037:c688 with SMTP id qk42-20020a1709077faa00b009882037c688mr16444434ejc.65.1687453870383;
+        Thu, 22 Jun 2023 10:11:10 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.07
+        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 10:11:07 -0700 (PDT)
+        Thu, 22 Jun 2023 10:11:09 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 1/9] runqemu-ifup: remove uid parameter
-Date: Thu, 22 Jun 2023 19:01:21 +0200
-Message-ID: <20230622170946.10082-2-adrian.freihofer@siemens.com>
+Subject: [PATCH 4/9] runqemu-ifup: remove only our taps
+Date: Thu, 22 Jun 2023 19:01:24 +0200
+Message-ID: <20230622170946.10082-5-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230622170946.10082-1-adrian.freihofer@siemens.com>
 References: <20230622170946.10082-1-adrian.freihofer@siemens.com>
@@ -62,54 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 17:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183278
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183281
 
-ip tuntap does not need the uid, it was an unused variable/parameter.
-Backward compatibility should be fine.
+If there are other tap interfaces than the interfaces created by the
+runqemu-* scripts, these interfaces are not ignored. This is now fixed
+by filtering the interfaces for a specific prefix in the interface name.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/runqemu-ifup | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ scripts/runqemu-ifup | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 5dc765dee82..26714518020 100755
+index fe4492e78b7..c65ceaf1c83 100755
 --- a/scripts/runqemu-ifup
 +++ b/scripts/runqemu-ifup
-@@ -21,7 +21,7 @@
- #
- 
- usage() {
--	echo "sudo $(basename $0) <uid> <gid>"
-+	echo "sudo $(basename $0) <gid>"
- }
- 
- if [ $EUID -ne 0 ]; then
-@@ -29,17 +29,20 @@ if [ $EUID -ne 0 ]; then
- 	exit 1
+@@ -45,7 +45,7 @@ if [ -z "$OE_TAP_NAME" ]; then
  fi
- 
--if [ $# -ne 2 ]; then
-+if [ $# -eq 2 ]; then
-+	echo "Warning: uid parameter is ignored. It is no longer needed."
-+	GROUP="$2"
-+elif [ $# -eq 1 ]; then
-+	GROUP="$1"
-+else
- 	usage
- 	exit 1
- fi
- 
--USERID="-u $1"
--GROUP="-g $2"
  
  if taps=$(ip tuntap list 2>/dev/null); then
- 	tap_no=$(( $(echo "$taps" |cut -f 1 -d ":" | sed 's/tap//g' | sort -rn | head -n 1) + 1 ))
--	ip tuntap add tap$tap_no mode tap group $2 && TAP=tap$tap_no
-+	ip tuntap add tap$tap_no mode tap group "$GROUP" && TAP=tap$tap_no
- fi
- 
- if [ -z $TAP ]; then
+-	tap_no_last=$(echo "$taps" |cut -f 1 -d ":" |sed "s/$OE_TAP_NAME//g" | sort -rn | head -n 1)
++	tap_no_last=$(echo "$taps" |cut -f 1 -d ":" |grep -E "^$OE_TAP_NAME.*" |sed "s/$OE_TAP_NAME//g" | sort -rn | head -n 1)
+ 	if [ -z "$tap_no_last" ]; then
+ 		tap_no=0
+ 	else
 -- 
 2.41.0
 
