@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 402AAEB64DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 340BCEB64DC
 	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 15:32:18 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.14570.1687447933916729163
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.14567.1687447932723798608
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 08:32:13 -0700
+ Thu, 22 Jun 2023 08:32:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=3K8Jjejm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-666edfc50deso594401b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 08:32:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ntqgc43+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-553a998bca3so4078558a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 08:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687447933; x=1690039933;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687447932; x=1690039932;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DWpUKyisWO/BDExBZU7x6KObQgi1+KnZMJovuuQjF3U=;
-        b=3K8Jjejm46fbekPOKfUz79yVIMqvgnttDgN2ipJhi/um9Z3pru6z0P374AENc7evD0
-         vH8RO7fXPBpqd0yBG0Er9q3nCG3Nj2lAQIrSj+mYkCkhVtDpXN7jWTMRbChAmOX9/231
-         xX/m8oYieWC0dclNUOD9PAqfal2mPajnRI/3kHpJclZTZ8alnekjQGzeMKb6D75K8rj5
-         PHWQiqk/YsHCWLOsvZvPvffKXDTSM7f3HGZKlg3sqiEeHqzRw2is5N55IOjzk0/lH+pn
-         d9jJER6cgBGDUgTiN4an6ZmcjzPFlSC0ZfD1d7nBLxlDrf27nCli1dL9Y+9WiPG6lWKH
-         KXYQ==
+        bh=MDuWe8osTBOoJ2L1ytvZrK/AjPFc0WsFldxoo9/6Cz4=;
+        b=Ntqgc43+GUKqsRknpbmiDO2geProWHmpwj44IR9sdJK7AWkOTIj3ho6NfsyZwKRnRy
+         Y/lPg+m8NR/auxriSS42FEqjqWBT5XOKJZlHH5l6X/sZMvIOPo/nulSjHY0hy5XNvHKI
+         6eQ9kLcQfkDyvGA9m+agxUju0iv5mxsuvEuluSX3veWrJ7g/Wy9i0IwyHRVI3JoP7wm7
+         LJ+bq8l92B+rAa2AGZROgR5O/M+aKEPi9Hg7/JpG+LWvRnfAMUW2dmMnpQZa3LFitmj7
+         0AYZAh7E3HyNbXX6WqGQIyLTsIOqLS/g8wSafVnS+d3SgfmX6s2S8PJKONWceiG4nvkg
+         KQgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687447933; x=1690039933;
+        d=1e100.net; s=20221208; t=1687447932; x=1690039932;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DWpUKyisWO/BDExBZU7x6KObQgi1+KnZMJovuuQjF3U=;
-        b=Re1KeIALIAciNCcWRyCHzBEosZMftler5P5FkZq1F8PA92DaHQq2OZQAOm7ho3f9b1
-         8TiaD10srkK2rW+GzU3F66IjI4oJ8kX6r7faqLsy2vAZOc44BILJVM4lw9XD1UCrJQBl
-         f4siBJfFf9+vSzAnzgfj/S7eZu9q2G5PonqpoXNgwgNmiWc4bunmJzebQCpBj0ln5b2v
-         5JFrn8FC6MCNV0Q00G8UT2Jjx9zlOXQwSLrxt1eWC1yu3nArJpKttRLol5gqxbSh0ZQ1
-         zjVm8XJlzOEc5a+Y8VOlyldJWOokjYK6h51o4x4dyzXRe/vjCOk0Hnd5RNAfqom1t9Rs
-         fu5Q==
-X-Gm-Message-State: AC+VfDw+MQJ+I5HJ/HrZk867BqJh7+HWAdMUKegbn12fL1vSvaEsAJbK
-	6n9WIl5mj/8TpHu3Q0zZunKkSpq2WF9a684PumU=
-X-Google-Smtp-Source: ACHHUZ5T1WmC4n6913GC4G22fn6bvvW+le4ynDuyl6JBqE+HuLztZvB/symev+7uu2P59EuU/nePaw==
-X-Received: by 2002:a05:6a00:1305:b0:666:c1ab:d6e5 with SMTP id j5-20020a056a00130500b00666c1abd6e5mr24109352pfu.16.1687447933009;
-        Thu, 22 Jun 2023 08:32:13 -0700 (PDT)
+        bh=MDuWe8osTBOoJ2L1ytvZrK/AjPFc0WsFldxoo9/6Cz4=;
+        b=Zpwqus7OrFkIbad0PowjH6Uchmb1IiuuVZffnip3q3W+GpBiUvqWK1DSeSHbPzBXJB
+         hiPPf8kBCgOxSFVeKdr3FEl2y+YEWSsxBUUyA4adzwm7nYgxVxeoV0C1aM85xw2jjmyl
+         esHyU2egwAfzDamSpEdVqUS1JMUrXfz7zbhjI8mNvYDQcOHLn9Pt75ZxEcj/RcVte+Lp
+         hmGjL0xqO8Pb3OLcnc16HFUvqJ6t0Hd2ESw0139hGUXjtLaEkB+QoO2NjeFdk8t9GIQl
+         aU8ux8cmL1NAjLud0SZjjGRql50+Ha07c2YFLwG0LO+2P/keqJgHITlRzey2pHd6rORb
+         P8uw==
+X-Gm-Message-State: AC+VfDwLy8J1iS8uiNsXcGO7/rYnJrVem1sAEOiogBDWq3XfKRLITuhW
+	zIW0aDCYA2deKQa0Q7UHLm0jupw6bayV8bnjxK4=
+X-Google-Smtp-Source: ACHHUZ57D9FonJJVbMlX0U/j0L+6oMGXnRgY/rVre65ZBCDm9yIhrdj4bihzESDQ0vESa78rqQ25Sw==
+X-Received: by 2002:a05:6a20:4328:b0:125:377c:831d with SMTP id h40-20020a056a20432800b00125377c831dmr1769481pzk.3.1687447931415;
+        Thu, 22 Jun 2023 08:32:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id bm17-20020a056a00321100b0064ccfb73cb8sm4713240pfb.46.2023.06.22.08.32.12
+        by smtp.gmail.com with ESMTPSA id bm17-20020a056a00321100b0064ccfb73cb8sm4713240pfb.46.2023.06.22.08.32.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 08:32:12 -0700 (PDT)
+        Thu, 22 Jun 2023 08:32:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/14] kernel-fitimage: use correct kernel image
-Date: Thu, 22 Jun 2023 05:31:41 -1000
-Message-Id: <8280c089b0df97368476b8bc54ed758e809f42f5.1687446532.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/14] kernel-fitimage: adding support for Initramfs bundle and u-boot script
+Date: Thu, 22 Jun 2023 05:31:40 -1000
+Message-Id: <e3eb79c0a11e9f67af3161361fb88b00123ecbac.1687446532.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687446532.git.steve@sakoman.com>
 References: <cover.1687446532.git.steve@sakoman.com>
@@ -61,57 +61,353 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 15:32:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183259
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183258
 
-From: Andrej Valek <andrej.valek@siemens.com>
+From: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
 
-Even if initramfs_bundle_path was used, a wrong compression was reflected
-in output its template file. Use linux.bin as universal kernel image.
-The linux.bin file covers both cases because it's beying created from
-vmlinux.
+This commit adds Initramfs bundle support to the FIT image in addition
+to u-boot boot script capability.
 
-We know, that vmlinux is created inside compressed directory already,
-so no external compression will be used.
+These new features are selectable.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Walter Schweizer <walter.schweizer@siemens.com>
+In case of Initramfs, the kernel is configured to be bundled with the rootfs
+in the same binary (ie: zImage-initramfs-<machine>.bin). When the kernel is
+copied to RAM and executed, it unpacks the Initramfs rootfs.
+
+For more information about Initramfs please read:
+
+https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+
+For more details about the Initramfs bundle and boot script implementation
+please check the kernel-fitimage.bbclass paragraph in Yocto reference
+or mega manual.
+
+Current limitations:
+
+- Initramfs bundle FIT support has been tested on ARM 32-bit
+- The kernel image type in case of ARM 32-bit is zImage
+
+Change-Id: I901bfd899e8d733c5b9a2b6645b1d4748f4b1fda
+Signed-off-by: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backport of 27fbbeaf972bb7e2535c1b23375cfa9d66b69db6 in master branch
+Backport of 19fa415c8769a67b52babd80f71d68bf36a21db2 in master branch
 Signed-off-by: Remi Peuvergne <remi.peuvergne@non.se.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ meta/classes/kernel-fitimage.bbclass | 157 +++++++++++++++++++++++----
+ 1 file changed, 134 insertions(+), 23 deletions(-)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 3b23138628..b88d7dbe4b 100644
+index e0dd215167..3b23138628 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -431,22 +431,7 @@ fitimage_assemble() {
+@@ -1,5 +1,7 @@
+ inherit kernel-uboot kernel-artifact-names uboot-sign
+ 
++KERNEL_IMAGETYPE_REPLACEMENT = ""
++
+ python __anonymous () {
+     kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
+     if 'fitImage' in kerneltypes.split():
+@@ -21,6 +23,8 @@ python __anonymous () {
+         else:
+             replacementtype = "zImage"
+ 
++        d.setVar("KERNEL_IMAGETYPE_REPLACEMENT", replacementtype)
++
+         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+         # to kernel.bbclass . We have to override it, since we pack zImage
+         # (at least for now) into the fitImage .
+@@ -45,6 +49,8 @@ python __anonymous () {
+         if d.getVar('UBOOT_SIGN_ENABLE') == "1" and d.getVar('UBOOT_DTB_BINARY'):
+             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+             d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
++            if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
++                d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
+ }
+ 
+ # Options for the device tree compiler passed to mkimage '-D' feature:
+@@ -180,6 +186,43 @@ fitimage_emit_section_dtb() {
+ EOF
+ }
+ 
++#
++# Emit the fitImage ITS u-boot script section
++#
++# $1 ... .its filename
++# $2 ... Image counter
++# $3 ... Path to boot script image
++fitimage_emit_section_boot_script() {
++
++	bootscr_csum="${FIT_HASH_ALG}"
++	bootscr_sign_algo="${FIT_SIGN_ALG}"
++	bootscr_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
++
++        cat << EOF >> $1
++                bootscr-$2 {
++                        description = "U-boot script";
++                        data = /incbin/("$3");
++                        type = "script";
++                        arch = "${UBOOT_ARCH}";
++                        compression = "none";
++                        hash-1 {
++                                algo = "$bootscr_csum";
++                        };
++                };
++EOF
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$bootscr_sign_keyname" ] ; then
++		sed -i '$ d' $1
++		cat << EOF >> $1
++                        signature-1 {
++                                algo = "$bootscr_csum,$bootscr_sign_algo";
++                                key-name-hint = "$bootscr_sign_keyname";
++                        };
++                };
++EOF
++	fi
++}
++
+ #
+ # Emit the fitImage ITS setup section
+ #
+@@ -250,8 +293,9 @@ EOF
+ # $2 ... Linux kernel ID
+ # $3 ... DTB image name
+ # $4 ... ramdisk ID
+-# $5 ... config ID
+-# $6 ... default flag
++# $5 ... u-boot script ID
++# $6 ... config ID
++# $7 ... default flag
+ fitimage_emit_section_config() {
+ 
+ 	conf_csum="${FIT_HASH_ALG}"
+@@ -267,6 +311,7 @@ fitimage_emit_section_config() {
+ 	kernel_line=""
+ 	fdt_line=""
+ 	ramdisk_line=""
++	bootscr_line=""
+ 	setup_line=""
+ 	default_line=""
+ 
+@@ -289,21 +334,28 @@ fitimage_emit_section_config() {
+ 	fi
+ 
+ 	if [ -n "${5}" ]; then
++		conf_desc="${conf_desc}${sep}u-boot script"
++		sep=", "
++		bootscr_line="bootscr = \"bootscr-${5}\";"
++	fi
++
++	if [ -n "${6}" ]; then
+ 		conf_desc="${conf_desc}${sep}setup"
+-		setup_line="setup = \"setup-${5}\";"
++		setup_line="setup = \"setup-${6}\";"
+ 	fi
+ 
+-	if [ "${6}" = "1" ]; then
++	if [ "${7}" = "1" ]; then
+ 		default_line="default = \"conf-${3}\";"
+ 	fi
+ 
+ 	cat << EOF >> ${1}
+                 ${default_line}
+                 conf-${3} {
+-			description = "${6} ${conf_desc}";
++			description = "${7} ${conf_desc}";
+ 			${kernel_line}
+ 			${fdt_line}
+ 			${ramdisk_line}
++			${bootscr_line}
+ 			${setup_line}
+                         hash-1 {
+                                 algo = "${conf_csum}";
+@@ -331,6 +383,11 @@ EOF
+ 		fi
+ 
+ 		if [ -n "${5}" ]; then
++			sign_line="${sign_line}${sep}\"bootscr\""
++			sep=", "
++		fi
++
++		if [ -n "${6}" ]; then
+ 			sign_line="${sign_line}${sep}\"setup\""
+ 		fi
+ 
+@@ -363,6 +420,7 @@ fitimage_assemble() {
+ 	DTBS=""
+ 	ramdiskcount=${3}
+ 	setupcount=""
++	bootscr_id=""
+ 	rm -f ${1} arch/${ARCH}/boot/${2}
+ 
+ 	fitimage_emit_fit_header ${1}
+@@ -373,7 +431,22 @@ fitimage_assemble() {
  	fitimage_emit_section_maint ${1} imagestart
  
  	uboot_prep_kimage
--
--	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
--		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
--		if [ -e "${initramfs_bundle_path}" ]; then
--
--			#
--			# Include the kernel/rootfs bundle.
--			#
--
--			fitimage_emit_section_kernel ${1} "${kernelcount}" "${initramfs_bundle_path}" "${linux_comp}"
--		else
--			bbwarn "${initramfs_bundle_path} not found."
--		fi
--	else
--		fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
--	fi
-+	fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
+-	fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
++
++	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
++		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
++		if [ -e "${initramfs_bundle_path}" ]; then
++
++			#
++			# Include the kernel/rootfs bundle.
++			#
++
++			fitimage_emit_section_kernel ${1} "${kernelcount}" "${initramfs_bundle_path}" "${linux_comp}"
++		else
++			bbwarn "${initramfs_bundle_path} not found."
++		fi
++	else
++		fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
++	fi
  
  	#
  	# Step 2: Prepare a DTB image section
+@@ -407,7 +480,21 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 3: Prepare a setup section. (For x86)
++	# Step 3: Prepare a u-boot script section
++	#
++
++	if [ -n "${UBOOT_ENV}" ] && [ -d "${STAGING_DIR_HOST}/boot" ]; then
++		if [ -e "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY}" ]; then
++			cp ${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} ${B}
++			bootscr_id="${UBOOT_ENV_BINARY}"
++			fitimage_emit_section_boot_script ${1} "${bootscr_id}" ${UBOOT_ENV_BINARY}
++		else
++			bbwarn "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} not found."
++		fi
++	fi
++
++	#
++	# Step 4: Prepare a setup section. (For x86)
+ 	#
+ 	if [ -e arch/${ARCH}/boot/setup.bin ]; then
+ 		setupcount=1
+@@ -415,9 +502,9 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 4: Prepare a ramdisk section.
++	# Step 5: Prepare a ramdisk section.
+ 	#
+-	if [ "x${ramdiskcount}" = "x1" ] ; then
++	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+ 		# Find and use the first initramfs image archive type we find
+ 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz ext2.gz cpio; do
+ 			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
+@@ -438,7 +525,7 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 5: Prepare a configurations section
++	# Step 6: Prepare a configurations section
+ 	#
+ 	fitimage_emit_section_maint ${1} confstart
+ 
+@@ -449,7 +536,7 @@ fitimage_assemble() {
+ 			if [ "${dtb_ext}" = "dtbo" ]; then
+ 				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
+ 			else
+-				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
++				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${bootscr_id}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
+ 			fi
+ 			i=`expr ${i} + 1`
+ 		done
+@@ -460,7 +547,7 @@ fitimage_assemble() {
+ 	fitimage_emit_section_maint ${1} fitend
+ 
+ 	#
+-	# Step 6: Assemble the image
++	# Step 7: Assemble the image
+ 	#
+ 	uboot-mkimage \
+ 		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+@@ -468,7 +555,7 @@ fitimage_assemble() {
+ 		arch/${ARCH}/boot/${2}
+ 
+ 	#
+-	# Step 7: Sign the image and add public key to U-Boot dtb
++	# Step 8: Sign the image and add public key to U-Boot dtb
+ 	#
+ 	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+ 		add_key_to_u_boot=""
+@@ -500,7 +587,11 @@ do_assemble_fitimage_initramfs() {
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+ 		test -n "${INITRAMFS_IMAGE}" ; then
+ 		cd ${B}
+-		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
++		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
++			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage ""
++		else
++			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
++		fi
+ 	fi
+ }
+ 
+@@ -511,22 +602,32 @@ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy_append() {
+ 	# Update deploy directory
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+-		echo "Copying fit-image.its source file..."
+-		install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
+-		ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
++		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
++			echo "Copying fit-image.its source file..."
++			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
++			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
++				ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
++			fi
+ 
+-		echo "Copying linux.bin file..."
+-		install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
+-		ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
++			echo "Copying linux.bin file..."
++			install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
++			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
++				ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
++			fi
++		fi
+ 
+ 		if [ -n "${INITRAMFS_IMAGE}" ]; then
+ 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+ 			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+ 			ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+ 
+-			echo "Copying fitImage-${INITRAMFS_IMAGE} file..."
+-			install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin"
+-			ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
++			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
++				echo "Copying fitImage-${INITRAMFS_IMAGE} file..."
++				install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin"
++				if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
++					ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
++				fi
++			fi
+ 		fi
+ 		if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
+ 			# UBOOT_DTB_IMAGE is a realfile, but we can't use
+@@ -536,3 +637,13 @@ kernel_do_deploy_append() {
+ 		fi
+ 	fi
+ }
++
++# The function below performs the following in case of initramfs bundles:
++# - Removes do_assemble_fitimage. FIT generation is done through
++#   do_assemble_fitimage_initramfs. do_assemble_fitimage is not needed
++#   and should not be part of the tasks to be executed.
++python () {
++    d.appendVarFlag('do_compile', 'vardeps', ' INITRAMFS_IMAGE_BUNDLE')
++    if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
++        bb.build.deltask('do_assemble_fitimage', d)
++}
 -- 
 2.34.1
 
