@@ -1,296 +1,165 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CDFEB64DA
-	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 10:13:36 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web10.7988.1687428813294856031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1966EB64DC
+	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 12:00:36 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.42])
+ by mx.groups.io with SMTP id smtpd.web10.9465.1687435231952762364
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 03:13:33 -0700
+ Thu, 22 Jun 2023 05:00:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=p9QQeGpA;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7918b56b1e1so1763308241.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 03:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687428812; x=1690020812;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CgNNjomAiWYp9P0oHKgycPkBpeZPnJVEfH0ts6Jw6GQ=;
-        b=p9QQeGpA5a+/sNzr5kj4L6cyMGAwMhQKVpzyuzIzv38HFfqcVR9RWiwQzIxOvGTaXj
-         LjSm3r097fkAq15+/DNs5v1s3psLMyiDu1uljHlfpI+nknS0IU3iy4w2bRcAUfU1D+5W
-         N8BP4Oo1c8wX2X1vaRZ4J+f0xqoVAO43NLEAHvf0qKPiNY84uSD3CAT/ZQMsJ3IPHk0K
-         GDSfXmWpxxT3yUPxdyiXV6gi+nxYDKXdvMtSKC9pBfn9q4qlcSe0IFiACb7WgQ0ma8Qk
-         M7OcncVEPiX2hDHfEQgKKnAUHdFdPl3k/K/K0O+BF0g4tZ8zLXpISrZ4qVolxsi0iuA1
-         IG+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687428812; x=1690020812;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CgNNjomAiWYp9P0oHKgycPkBpeZPnJVEfH0ts6Jw6GQ=;
-        b=UO6qVe4pVOd573GT1ZSx6kENLZNGSlj/vlRfkhkFXW+5XsglD04YKSpnI1fAeMhPLl
-         pgO6JsJS50VsTGC3oqoGagiew8CyaD0PrmjS4QVy5XfGNu9TBAxk8cKGNFAjyMFVaIlR
-         GeS/TNGeeemcDV7KcR9Iw8erITcIp3grZmTJSQmIr3IOpiekaBztMJ1NCbdRmK9OxnxD
-         zaN8XkliVuUQF5h6tG63Rb8FUA5pMds/RlW5uD2+1LpJTwBlN7ne70hg+BEqJrkUSpzi
-         d/neot4IiKH5w4hJ2xpKK7m+XBwYHIsnE244XKa2cb2D3D1XlKnfdGwJ97BpU06/0wN7
-         4tnQ==
-X-Gm-Message-State: AC+VfDxw4n6JsH7MKAOsNyRs3tCtctfIJBCghMh7dBQO40y3OGjQWOkP
-	wulVs9+j36rn8Kpw+RvNZxjAavRO0O8V0ygILQlsfQqP35UxkzxK
-X-Google-Smtp-Source: ACHHUZ5UBpRQyJRZbQkhroR+vLR06UxxYMAEek7oVDNZ9LOu3SfRLTg4GXIVmbk7/K4Ld8f7YvW+dyHvpwLTWTtC0uE=
-X-Received: by 2002:a05:6102:499:b0:440:ab90:7c95 with SMTP id
- n25-20020a056102049900b00440ab907c95mr7938247vsa.9.1687428812308; Thu, 22 Jun
- 2023 03:13:32 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=hyA0asap;
+ spf=pass (domain: siemens.com, ip: 40.107.7.42, mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bluB6bWp7KZ0bNHw+9miUT27rJbzCwBuAtea6SS2w5d54wqC6jytN3s/PnK80vfrejstUuV0RUC+e6c8BA0opbuW22HB5Fok9bjgjunWP/FPrTcGDjCA8CpDMi+QsV8CfbOGDD3/ISGKm27atQRFoy2KSBF3N1bIPn5O2fniLOWj5/iBFmpXTnpZXArH8zcMHnkqqtuOpqRoRIF7191YEKePXoUdY0KSSUsa+WKHv9M4ge55acibjWs25cCs9oMN+J3GvE7thtSqDDPO5kbEwi+6RzyIuQ6gMyYKiOGV+fDULJE/Y/Cx4+u1TJ53htXp8tIUJGMC/C7/IgnIGGUf2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zAoRY/b1D0UYK0W6gbaHqK41vc9F8azXOfgylRa77lI=;
+ b=eKnrg6Rahm6asMecHj+PQWdVGJvJCn9W1Jevg1sYDY6GrNiLAcA1WGNQP2LbfyTcRAQZVfEJBssV/ON7Z4p0lx7CH6qrzKFnlgf9FNbCSHptLP2J8K2UZDtxiQ1hJfWORSL27bFgoZw4PJ12HXb+xuRTiylHdq6mzPZpiGnyJq7aBISCwG/nXEIyWP344Va+IfOxJGVm4RwBrf0oqwPRdDOlw56SFvjdHLKp2WWX/ITt/8vkz03QYr/kmKTMY8rZj3t9PFSRmtZdmYbW/MOmVoBzC9L15za6qiXezBm/VIJWCebNvkQOT9lAymQ8o+7AT8TXQA9LtYmi6zo8OAb0Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.76) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=siemens.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zAoRY/b1D0UYK0W6gbaHqK41vc9F8azXOfgylRa77lI=;
+ b=hyA0asap2EXqeDgmDcygH0DLgaBVmXaL0Y25AoAuOagqni/d5HjGCpsaa75erpX082pDvKIevgnmNldT3oc67bUyHg4kIp0wJ9S5wDjiZEaI9maAXHATUbKBKSKqDydlTrcHs8wYe/PZRugTSah1h0QmKOZjLrUZiHMVDkQ+j5W6TB+9gYdYc6W8I4c+t2v7odfXITStgbkoWNRaqkd+NnIiMR3KgkajDym6EUBHCaRHrxJThWIC9gPvKN+jEHdt4uWTEBpr2rYSTjprKcJHxP4F1uM000ZVGWPjJ5hG4PL24cH3mPq/f0lAno1xpTaMJ7k/ODcKNrcvTDahhFfhVw==
+Received: from FR3P281CA0106.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a3::16)
+ by DB9PR10MB5355.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:337::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.36; Thu, 22 Jun
+ 2023 12:00:28 +0000
+Received: from VE1EUR01FT009.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:d10:a3:cafe::5b) by FR3P281CA0106.outlook.office365.com
+ (2603:10a6:d10:a3::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.9 via Frontend
+ Transport; Thu, 22 Jun 2023 12:00:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.76)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.76 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.76; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.76) by
+ VE1EUR01FT009.mail.protection.outlook.com (10.152.2.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.24 via Frontend Transport; Thu, 22 Jun 2023 12:00:27 +0000
+Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
+ DEMCHDC8VSA.ad011.siemens.net (194.138.21.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Thu, 22 Jun 2023 14:00:27 +0200
+Received: from md3hr6tc.ad001.siemens.net (163.242.56.90) by
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Thu, 22 Jun 2023 14:00:26 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v8 0/3] CVE-check handling
+Date: Thu, 22 Jun 2023 14:00:00 +0200
+Message-ID: <20230622120009.28939-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230519081850.82586-1-andrej.valek@siemens.com>
+References: <20230519081850.82586-1-andrej.valek@siemens.com>
 MIME-Version: 1.0
-References: <20230622084452.2026849-1-jose.quaresma@foundries.io> <DB5PR02MB102131AE5F3ADE6C7AEB5B197EF22A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB102131AE5F3ADE6C7AEB5B197EF22A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 22 Jun 2023 11:13:21 +0100
-Message-ID: <CANPvuRm4-uPVN9T_56AzFN9ajRa7M0OczX3WfOj7w0GmH3+=rg@mail.gmail.com>
-Subject: Re: [PATCH V4 1/3] kernel-module-split: make autoload and probeconf
- distribution specific
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Jose Quaresma <jose.quaresma@foundries.io>, Ola x Nilsson <Ola.x.Nilsson@axis.com>
-Content-Type: multipart/alternative; boundary="000000000000f103cf05feb52239"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [163.242.56.90]
+X-ClientProxiedBy: DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) To
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1EUR01FT009:EE_|DB9PR10MB5355:EE_
+X-MS-Office365-Filtering-Correlation-Id: a16c2a9a-7988-41b0-0244-08db73184504
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	gzK2Zv/HhUpGmLb2AGOQ5W0PeuZN/XH4rCx2ILFScdyhHevL1YqCHApBAXJBmIjoQuZUmv0DOMbq0S78wP1UiPfutPnv7inWjnISGgOytLEVZLmlWond19hC+TjzyeusIBZMzHe8Zm4vzVjkqXSozBjn8m+EDTrLYU/aHxMm4jIDsuVAXcdiMF887SXm6U+jfcaZaLvK6CGGKb29X7NFcXw31B+t/oNb+nY7gGAQAiKrK+5/4Z68SsvwTtsF7t32Pgt3uPaRU7ItcKkzGe25IBGY5cnCdYUXkgjlPs2VS/iw/x5FUAN4fpksjYpLV1Yb7KgrmM1OACWaQwQ6iBCQ4SftaPEsMYCujMEKg+tuf23kK8drixglUVTwc+LukwaAkQllsngYTZAWj6DclDhq1Fv+vtnNTfqTAewhADbmWUTXICNCigkndZZtM6F0mRDqxgjMTlag3X4R4x114TpY41TKXCuEz+hGnj/y/Dkhcy003gid4LsOZrdim+rjs1cJ+qvN9hN5nbvStpMzGi4lQbHrbJ33yoy+LjrSmUQjd9G1o/h+OiezpOumee8jOV+cB8+N0r2vr+L2LYdbZTGqI3iduZNWw2E+2kpNV1A+yA8zCEZ51DSzy0oI3sQ8g4D+8jgIYvkOzUJSUZvM0oOmyr4WwHc7hehnBJYbYqvNeQQLb3S/OCGxgxcnVLuUmq+ua3RiWDA01eUry4n2tXg97zwHpnbMkznqpiobFiJaXzGNBnShXqCaUcZm5vymdzQE1YbKCzyk/wbOnd9FhwNFZA==
+X-Forefront-Antispam-Report: 
+	CIP:194.138.21.76;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199021)(46966006)(40470700004)(36840700001)(4326008)(478600001)(1076003)(26005)(40460700003)(107886003)(16526019)(40480700001)(186003)(6666004)(36756003)(2906002)(8676002)(41300700001)(70206006)(70586007)(6916009)(316002)(5660300002)(82960400001)(8936002)(44832011)(336012)(82310400005)(66899021)(83380400001)(86362001)(47076005)(81166007)(356005)(36860700001)(2616005)(956004)(82740400003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 12:00:27.6888
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a16c2a9a-7988-41b0-0244-08db73184504
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.76];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR01FT009.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5355
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:13:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183236
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 12:00:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183237
 
---000000000000f103cf05feb52239
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+After discussion in all parallel threads we proposed following variant whic=
+h
+covers both expressed requirements to have very small number of different c=
+ve
+statuses and also very large number of them at the same time.
+This is a compromise version which maybe is not ideal but deals with
+conflicting responses we got.
 
-Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia quinta,
-22/06/2023 =C3=A0(s) 10:49:
+Changes compared to version 7:
+ - reverted dropped CVE ignores for lz4 and tiff
 
-> > -----Original Message-----
-> > From: Jose Quaresma <quaresma.jose@gmail.com>
-> > Sent: den 22 juni 2023 10:45
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Jose Quaresma <jose.quaresma@foundries.io>; Ola x Nilsson <
-> Ola.x.Nilsson@axis.com>; Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Subject: [PATCH V4 1/3] kernel-module-split: make autoload and probecon=
-f
-> distribution specific
-> >
-> > Also take the oportunity to only add configuration files to FILES
-> > and CONFFILES when they exist and are used.
-> >
-> > The modules-load.d [1] - Configure kernel modules to load at boot
-> > should install their configuration files in /usr/lib/modules-load.d.
-> >
-> > The modprobe.d [2] - Configuration directory for modprobe
-> > should install their configuration files in /lib/modprobe.d
-> >
-> > [1] https://www.freedesktop.org/software/systemd/man/modules-load.d.htm=
-l
-> > [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
-> >
-> > [YOCTO #12212] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1221=
-2
-> >
-> > CC: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-> > CC: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> >
-> > v4: also remove the sysconfdir when systemd is not used as it causes
-> > QA Issue: linux-yocto: Files/directories were installed but not shipped
-> in
-> > any package
-> >
-> > v3: fix v2 build issue and only add configuration files to FILES
-> > and CONFFILES when they exist and are used.
-> >
-> > v2: use the same location as before on the class and define the new
-> > location just for systemd.
-> >
-> >  .../kernel-module-split.bbclass               | 38 ++++++++++---------
-> >  .../distro/include/init-manager-systemd.inc   |  4 ++
-> >  2 files changed, 24 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/kernel-module-split.bbclass
-> b/meta/classes-recipe/kernel-module-split.bbclass
-> > index 50882c31a7..1d5e39b44d 100644
-> > --- a/meta/classes-recipe/kernel-module-split.bbclass
-> > +++ b/meta/classes-recipe/kernel-module-split.bbclass
->
-> [cut]
->
-> > @@ -189,8 +191,8 @@ python split_kernel_module_packages () {
-> >      # avoid warnings. removedirs only raises an OSError if an empty
-> >      # directory cannot be removed.
-> >      dvar =3D d.getVar('PKGD')
-> > -    for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" =
-%
-> (dvar), "%s/etc" % (dvar)]:
-> > -        if len(os.listdir(dir)) =3D=3D 0:
-> > +    for dir in ["%s%s" % (dvar, modprobedir), "%s%s" % (dvar,
-> modulesloaddir), "%s%s" % (dvar, d.getVar('sysconfdir'))]:
-> > +        if os.path.isdir(dir) and len(os.listdir(dir)) =3D=3D 0:
-> >              os.rmdir(dir)
-> >  }
-> >
->
-> But if modprobedir and modulesloaddir are /usr/lib-based, why should this
-> code
-> try to remove /etc? Don't you really want something corresponding to:
->
-> rmdir -p --ignore-fail-on-non-empty ${PKGD}${modprobedir}
-> ${PKGD}${modulesloaddir}
->
-> e.g.:
->
->     for dir in ["%s%s" % (dvar, modprobedir), "%s%s" % (dvar,
-> modulesloaddir)]:
->         while dir !=3D "/" and os.path.isdir(dir) and len(os.listdir(dir)=
-)
-> =3D=3D 0:
->             os.rmdir(dir)
->             dir =3D os.path.dirname(dir)
->
-> //Peter
->
->
-I have another patch to remove this block internally where we only create
-the directories
-when needed (if we have mod config files) and with that we do not need to
-remove the end.
-I will submit after this series passing the tests on the autobuilder.
+Documentation will be updated in separated repository.
 
-Jose
+ meta/classes/cve-check.bbclass                |  99 ++++-
+ .../distro/include/cve-extra-exclusions.inc   | 371 +++++++++---------
+ meta/lib/oe/cve_check.py                      |  25 ++
+ meta/lib/oeqa/selftest/cases/cve_check.py     |  26 +-
+ meta/recipes-bsp/grub/grub2.inc               |   6 +-
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   3 +-
+ .../recipes-connectivity/bind/bind_9.18.15.bb |   2 +-
+ .../bluez5/bluez5_5.66.bb                     |   4 +-
+ .../openssh/openssh_9.3p1.bb                  |   9 +-
+ .../openssl/openssl_3.1.1.bb                  |   3 +-
+ meta/recipes-core/coreutils/coreutils_9.3.bb  |   4 +-
+ meta/recipes-core/glibc/glibc_2.37.bb         |  17 +-
+ meta/recipes-core/libxml/libxml2_2.10.4.bb    |   4 -
+ meta/recipes-core/systemd/systemd_253.3.bb    |   3 -
+ meta/recipes-devtools/cmake/cmake.inc         |   4 +-
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |   6 +-
+ meta/recipes-devtools/gcc/gcc-13.1.inc        |   3 +-
+ meta/recipes-devtools/git/git_2.39.3.bb       |   7 -
+ meta/recipes-devtools/jquery/jquery_3.6.3.bb  |   5 +-
+ meta/recipes-devtools/ninja/ninja_1.11.1.bb   |   3 +-
+ .../recipes-devtools/python/python3_3.11.3.bb |  13 +-
+ meta/recipes-devtools/qemu/qemu.inc           |  13 +-
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   3 -
+ meta/recipes-devtools/tcltk/tcl_8.6.13.bb     |   4 -
+ meta/recipes-extended/cpio/cpio_2.14.bb       |   3 +-
+ meta/recipes-extended/cups/cups.inc           |  17 +-
+ .../ghostscript/ghostscript_10.01.1.bb        |   3 +-
+ .../iputils/iputils_20221126.bb               |   5 +-
+ .../libtirpc/libtirpc_1.3.3.bb                |   3 +-
+ .../logrotate/logrotate_3.21.0.bb             |   5 +-
+ meta/recipes-extended/procps/procps_4.0.3.bb  |   4 -
+ meta/recipes-extended/shadow/shadow_4.13.bb   |   7 +-
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   3 +-
+ .../xinetd/xinetd_2.3.15.4.bb                 |   2 +-
+ meta/recipes-extended/zip/zip_3.0.bb          |   7 +-
+ .../libnotify/libnotify_0.8.2.bb              |   2 +-
+ meta/recipes-gnome/librsvg/librsvg_2.56.0.bb  |   3 +-
+ meta/recipes-graphics/builder/builder_0.1.bb  |   3 +-
+ .../xorg-xserver/xserver-xorg.inc             |  19 +-
+ .../linux/cve-exclusion_6.1.inc               |  11 +-
+ .../libpng/libpng_1.6.39.bb                   |   3 +-
+ meta/recipes-multimedia/libtiff/tiff_4.5.0.bb |  10 +-
+ .../libgcrypt/libgcrypt_1.10.2.bb             |   4 +-
+ .../recipes-support/libxslt/libxslt_1.1.38.bb |   4 +-
+ meta/recipes-support/lz4/lz4_1.9.4.bb         |   3 +-
+ meta/recipes-support/sqlite/sqlite3_3.41.2.bb |   7 -
+ 46 files changed, 392 insertions(+), 373 deletions(-)
 
 --=20
-Best regards,
+2.41.0
 
-Jos=C3=A9 Quaresma
-
---000000000000f103cf05feb52239
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjelle=
-rstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; escreveu no dia quinta=
-, 22/06/2023 =C3=A0(s) 10:49:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">&gt; -----Original Message-----<br>
-&gt; From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" tar=
-get=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
-&gt; Sent: den 22 juni 2023 10:45<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@foundries.io" ta=
-rget=3D"_blank">jose.quaresma@foundries.io</a>&gt;; Ola x Nilsson &lt;<a hr=
-ef=3D"mailto:Ola.x.Nilsson@axis.com" target=3D"_blank">Ola.x.Nilsson@axis.c=
-om</a>&gt;; Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axi=
-s.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-&gt; Subject: [PATCH V4 1/3] kernel-module-split: make autoload and probeco=
-nf distribution specific<br>
-&gt; <br>
-&gt; Also take the oportunity to only add configuration files to FILES<br>
-&gt; and CONFFILES when they exist and are used.<br>
-&gt; <br>
-&gt; The modules-load.d [1] - Configure kernel modules to load at boot<br>
-&gt; should install their configuration files in /usr/lib/modules-load.d.<b=
-r>
-&gt; <br>
-&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
-&gt; should install their configuration files in /lib/modprobe.d<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/module=
-s-load.d.html" rel=3D"noreferrer" target=3D"_blank">https://www.freedesktop=
-.org/software/systemd/man/modules-load.d.html</a><br>
-&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages//man5/modprobe.d.5=
-.html" rel=3D"noreferrer" target=3D"_blank">https://www.man7.org/linux/man-=
-pages//man5/modprobe.d.5.html</a><br>
-&gt; <br>
-&gt; [YOCTO #12212] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D12212" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctop=
-roject.org/show_bug.cgi?id=3D12212</a><br>
-&gt; <br>
-&gt; CC: Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" target=
-=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;<br>
-&gt; CC: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.c=
-om" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt; <br>
-&gt; v4: also remove the sysconfdir when systemd is not used as it causes<b=
-r>
-&gt; QA Issue: linux-yocto: Files/directories were installed but not shippe=
-d in<br>
-&gt; any package<br>
-&gt; <br>
-&gt; v3: fix v2 build issue and only add configuration files to FILES<br>
-&gt; and CONFFILES when they exist and are used.<br>
-&gt; <br>
-&gt; v2: use the same location as before on the class and define the new<br=
->
-&gt; location just for systemd.<br>
-&gt; <br>
-&gt;=C2=A0 .../kernel-module-split.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 38 ++++++++++---------<br>
-&gt;=C2=A0 .../distro/include/init-manager-systemd.inc=C2=A0 =C2=A0|=C2=A0 =
-4 ++<br>
-&gt;=C2=A0 2 files changed, 24 insertions(+), 18 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/cl=
-asses-recipe/kernel-module-split.bbclass<br>
-&gt; index 50882c31a7..1d5e39b44d 100644<br>
-&gt; --- a/meta/classes-recipe/kernel-module-split.bbclass<br>
-&gt; +++ b/meta/classes-recipe/kernel-module-split.bbclass<br>
-<br>
-[cut]<br>
-<br>
-&gt; @@ -189,8 +191,8 @@ python split_kernel_module_packages () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # avoid warnings. removedirs only raises an OSErro=
-r if an empty<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # directory cannot be removed.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 dvar =3D d.getVar(&#39;PKGD&#39;)<br>
-&gt; -=C2=A0 =C2=A0 for dir in [&quot;%s/etc/modprobe.d&quot; % (dvar), &qu=
-ot;%s/etc/modules-load.d&quot; % (dvar), &quot;%s/etc&quot; % (dvar)]:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(os.listdir(dir)) =3D=3D 0:<br>
-&gt; +=C2=A0 =C2=A0 for dir in [&quot;%s%s&quot; % (dvar, modprobedir), &qu=
-ot;%s%s&quot; % (dvar, modulesloaddir), &quot;%s%s&quot; % (dvar, d.getVar(=
-&#39;sysconfdir&#39;))]:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.isdir(dir) and len(os.listdir(=
-dir)) =3D=3D 0:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.rmdir(dir)<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-<br>
-But if modprobedir and modulesloaddir are /usr/lib-based, why should this c=
-ode <br>
-try to remove /etc? Don&#39;t you really want something corresponding to:<b=
-r>
-<br>
-rmdir -p --ignore-fail-on-non-empty ${PKGD}${modprobedir} ${PKGD}${modulesl=
-oaddir}<br>
-<br>
-e.g.:<br>
-<br>
-=C2=A0 =C2=A0 for dir in [&quot;%s%s&quot; % (dvar, modprobedir), &quot;%s%=
-s&quot; % (dvar, modulesloaddir)]:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while dir !=3D &quot;/&quot; and os.path.isdir(=
-dir) and len(os.listdir(dir)) =3D=3D 0:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.rmdir(dir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir =3D os.path.dirname(dir)<br>
-<br>
-//Peter<br>
-<br>
-</blockquote></div><br>I have another patch to remove this block internally=
- where we only create the directories<div>when needed (if we have mod confi=
-g files) and with that=C2=A0we do not need to remove the end.<br>I will sub=
-mit after this series passing the tests on the autobuilder.<br clear=3D"all=
-"><div><br></div><div>Jose<br><br></div><span class=3D"gmail_signature_pref=
-ix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"lt=
-r">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></div></div>
-
---000000000000f103cf05feb52239--
 
