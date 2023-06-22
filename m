@@ -2,119 +2,211 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A42E6C0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4207EB64DC
 	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 17:11:18 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.17332.1687453870843929384
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.17329.1687453869834016087
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 10:11:11 -0700
+ Thu, 22 Jun 2023 10:11:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=JVXS6Qiy;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-51bea30ccbcso876773a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=oyA5DSnm;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-988a076a7d3so700254066b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687453869; x=1690045869;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YJaALFaVd9wts4+5UTP+qAt/kwrsDkyMJy+zCwegHIk=;
-        b=JVXS6QiyIhRUzgLmS7n7UAa00GQyPWNW/gt+M6Wkbm2zUbQ4VG/FabAUMXXyGuXX66
-         SxNFb4r9DoAL621U95mcs+VHoDUOW2h887NQr6CKRP9hXM4psxIQOAdIpAId1Jdr6tKu
-         d0gRto+cSnA9+Jx4f+UIhu7uhx2gbteduHlnWCpBEtig+3SSprKg/hNAKdY081WQy0KN
-         R/uoKpNWkkhalCLctY/VTWq5k/94r3qmp452LvQbNhOJv0wmxrhtctdVvIcMXzQQSAfh
-         LqHa3kiP0W3JlE3r4/fwZYTykxIYIUdIQBsCGMiqJSRbZHZw8yqAJPNcR5pKwrA98CMH
-         4iNw==
+        d=gmail.com; s=20221208; t=1687453868; x=1690045868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nuQByMN3nmu2V9tADR0A1mWyqgKtEwYXzlcDVwH3VpY=;
+        b=oyA5DSnmNKoRa2ppK+ih0FCSyiREBBJWDujjzCxif/2v1BEzdQOLLbSC9Ituw6wFUR
+         ylWBHfe2IelkNr4uoAmc0X+7N37ShjnvdMYSWWkkWGxT4Udp5/UpRkrKu9ltyBAz0LE5
+         y8MmGf4R/DREJv8gALQ0UOx4WpDy2gxHInhAir/VmVzDKzidBg7LIA/naQVnPJhr3tWs
+         tmE1rkUwrL9MKQqTgInAiH7D5bERaFMaM6BRwNnLPmtE2lRg1qPIkfzgvFty53Okbe36
+         OBhHeLHiUdyJ8a/6aNuhoMhCK8QNRRqMXTUnZkw6X3ZBV5R8fsaDFBn4mNAzLk4Lsp1J
+         8+tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687453869; x=1690045869;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YJaALFaVd9wts4+5UTP+qAt/kwrsDkyMJy+zCwegHIk=;
-        b=gm4/z1PpeEvXLgHxWpCtD+qPUZDqF2DU0pAvFCNucTAwQ1mdK5Q5wDO/LgCpN/70ha
-         XIf76e3BYp/dS6ZvsI1IsIAqouB1UfL7CPDqMf9i3c7Yr3Ub4Tt6EXhG46mw6+6kei7T
-         jSX5IjPURaVD+O1nTNxWhObX961qvgQrc7E2W26j6L+PHYny8O4u6cg2rEU6L9PZc5sF
-         swbBZ0ye7eTUb6+EU2bctq7pKWhQd5IUfZ5CGMyQHlsZ7QqG9qaFx2xj7FoZks3bKFl3
-         z9eZyXB7vNzIKHe7VQxd6+uAQ3JnlE+aCEDGpduGizkBZGIzRRJVUeouoOyhYworAnR6
-         EkrA==
-X-Gm-Message-State: AC+VfDzrVxsPa8AXFNUGOZ3XSnXHR2gp9T+NgyrX4dQMc74eqKOwQQ3s
-	CSXYXwausywqFXSQstTVy77DULAP8Rs=
-X-Google-Smtp-Source: ACHHUZ4G1gEUy3JEJn0bcoakunIxAuHY3eXPHcKnt/QoOfsr21CDLEZKqnQKADmU/18JVMoSYrBDpw==
-X-Received: by 2002:a17:907:3f99:b0:973:e349:43c9 with SMTP id hr25-20020a1709073f9900b00973e34943c9mr17199207ejc.77.1687453868934;
-        Thu, 22 Jun 2023 10:11:08 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687453868; x=1690045868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nuQByMN3nmu2V9tADR0A1mWyqgKtEwYXzlcDVwH3VpY=;
+        b=V6Lo/7bPnE1ybZg3Bgsg6Ayxg6nG5SrpCbEuwsQVdc4eEu9GFw8/7qQjPj3mrgPwq3
+         3uiuo69WblKXyzBHHdewJXY9qEP7YrdoApUiijPPv5BUSEm0eLOiX4dP8xB2aZ4WJkUw
+         1NrnlewJKQA22jls8cM0dUhMoci+/CCGCX/lK3J3oZCxU9BJAjIfwzaVxc571EOuVSlS
+         jUfiKS3LXOnAJU6qFk8OC7f2RuGZFVcuVWgqjJl1yWI1sGofK8etQ+Sq2GIhUNZMFryy
+         bByoGu5w8RDHJaL89Uv+cEN40GxawAWsUhOGnwGnDUuJALWOZghPuU6877xyFQkdk3hA
+         pb3Q==
+X-Gm-Message-State: AC+VfDwwmF3M/Kgjl57bvq/fNmOLiOjwLuACcaB+XU3uRmQAtNBeHXDE
+	Kzg8sqm8KPfarAuZN6FwmExy/1cyHhQ=
+X-Google-Smtp-Source: ACHHUZ6yW91gFSxMfgneD41wzTRcR6Z6mHj3OQdQW0gsfkkXtP0eqI9KJH9UXvBuzB++5GVS+TqvLw==
+X-Received: by 2002:a17:907:72c1:b0:96f:a891:36cb with SMTP id du1-20020a17090772c100b0096fa89136cbmr17903473ejc.0.1687453867691;
+        Thu, 22 Jun 2023 10:11:07 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.08
+        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 10:11:08 -0700 (PDT)
+        Thu, 22 Jun 2023 10:11:07 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/9] runqemu-ifup: configurable tap names
-Date: Thu, 22 Jun 2023 19:01:22 +0200
-Message-ID: <20230622170946.10082-3-adrian.freihofer@siemens.com>
+Subject: [PATCH 0/9] fixes for runqemu-gen-tapdevs
+Date: Thu, 22 Jun 2023 19:01:20 +0200
+Message-ID: <20230622170946.10082-1-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230622170946.10082-1-adrian.freihofer@siemens.com>
-References: <20230622170946.10082-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 17:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183279
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183277
 
-Feature: Hard-coding the interface names to tap* is not always a good
-idea. Introduce an environment variable which allows to change this:
-OE_TAP_NAME.
+At least on my machine recent the changes related to the tap interface
+setup for Qemu broke even more than already discussed e.g. here:
+https://lists.openembedded.org/g/openembedded-core/message/183176
+These patches should fix and improve the related scripts:
+- First interface is now tap1 with IP address 192.168.7.3. Go back to
+  tap0 with IP 192.168.7.1.
+- Rather than looping over all tap interfaces which are available on a
+  machine, handle only interfaces with a name like tap*. (I need my VPN.)
+- New feature: Make the tap interface names configurable at least for
+  the basic runqemu use case.
+- Cleanup unused parameters and variables. Scripts are supposed to be
+  backward compatible. They print warnings for deprecated parameters.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/runqemu-ifup | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+I did not yet run the self tests, but I tested it like that:
 
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 26714518020..9820dc535c9 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -40,12 +40,16 @@ else
- fi
- 
- 
-+if [ -z "$OE_TAP_NAME" ]; then
-+	OE_TAP_NAME=tap
-+fi
-+
- if taps=$(ip tuntap list 2>/dev/null); then
--	tap_no=$(( $(echo "$taps" |cut -f 1 -d ":" | sed 's/tap//g' | sort -rn | head -n 1) + 1 ))
--	ip tuntap add tap$tap_no mode tap group "$GROUP" && TAP=tap$tap_no
-+	tap_no=$(( $(echo "$taps" |cut -f 1 -d ":" | sed "s/$OE_TAP_NAME//g" | sort -rn | head -n 1) + 1 ))
-+	ip tuntap add "$OE_TAP_NAME$tap_no" mode tap group "$GROUP" && TAP="$OE_TAP_NAME$tap_no"
- fi
- 
--if [ -z $TAP ]; then
-+if [ -z "$TAP" ]; then
- 	echo "Error: Unable to find a tap device to use"
- 	exit 1
- fi
-@@ -69,7 +73,7 @@ if [ ! -x "$IPTABLES" ]; then
- 	exit 1
- fi
- 
--n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
-+n=$[ (`echo $TAP | sed "s/$OE_TAP_NAME//"` * 2) + 1 ]
- $IPTOOL addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
- STATUS=$?
- if [ $STATUS -ne 0 ]; then
-@@ -83,7 +87,7 @@ if [ $STATUS -ne 0 ]; then
-     exit 1
- fi
- 
--dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
-+dest=$[ (`echo $TAP | sed "s/$OE_TAP_NAME//"` * 2) + 2 ]
- $IPTOOL route add to 192.168.7.$dest dev $TAP
- STATUS=$?
- if [ $STATUS -ne 0 ]; then
+Without these patches:
+The tap interfaces get created with index 1 instead of 0. Also the ip starts at 3 instead of 1.
+This breaks probably several things which use the well known 7.2 IP.
+
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 1000 0 $BUILDDIR/tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin
+$ ip l
+#OK no tap interfaces
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 1000 2 $BUILDDIR/tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin
+Creating 2 tap devices for UID: 1000 GID: 1000...
+Creating tap0
+Creating tap1
+
+$ ip l
+80: tap1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether 36:74:1b:fa:be:df brd ff:ff:ff:ff:ff:ff
+81: tap2: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether e2:49:ac:ff:cf:0f brd ff:ff:ff:ff:ff:ff
+$ ip address show dev tap1
+80: tap1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 36:74:1b:fa:be:df brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.3/32 brd 192.168.7.255 scope global tap1
+       valid_lft forever preferred_lft forever
+# Bug: Why not tap0? Also the first IP is now 192.168.7.3 instead of 192.168.7.1
+
+With these patches:
+
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 1000 0 $BUILDDIR/tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin
+Warning: Ignoring the <native-sysroot-basedir> parameter. It is no longer needed.
+Warning: Ignoring the <uid> parameter. It is no longer needed.
+Note: Destroying pre-existing tap interface tap0...
+Note: Destroying pre-existing tap interface tap1...
+$ ip l
+#OK no tap interfaces
+
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 1000 2 $BUILDDIR/tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin
+Warning: Ignoring the <native-sysroot-basedir> parameter. It is no longer needed.
+Warning: Ignoring the <uid> parameter. It is no longer needed.
+Creating 2 tap devices for GID: 1000...
+Creating tap0
+Creating tap1
+$ ip a
+84: tap0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 1e:d7:db:93:1d:dc brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.1/32 brd 192.168.7.255 scope global tap0
+       valid_lft forever preferred_lft forever
+85: tap1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 36:74:1b:fa:be:df brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.3/32 brd 192.168.7.255 scope global tap1
+       valid_lft forever preferred_lft forever
+#OK: fixed start index of tap
+
+
+Without these patches the scripts try to delete other tap interfaces asa well:
+
+$ sudo ip tuntap add foo-tap mode tap group 1000
+sudo -E ./scripts/runqemu-gen-tapdevs 1000 1000 0 $BUILDDIR/tmp/sysroots-components/x86_64/qemu-helper-native/usr/bin
+Note: Destroying pre-existing tap interface tap0...
+Note: Destroying pre-existing tap interface tap1...
+--> Note: Destroying pre-existing tap interface foo-tap...
+
+With these patches this is fixed:
+
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 2
+Creating 2 tap devices for GID: 1000...
+Creating tap0
+Creating tap1
+$ sudo ip tuntap add foo-tap mode tap group 1000
+$ ip l
+89: foo-tap: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 8a:93:d3:4f:0d:ae brd ff:ff:ff:ff:ff:ff
+90: tap0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether 1e:d7:db:93:1d:dc brd ff:ff:ff:ff:ff:ff
+91: tap1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether 36:74:1b:fa:be:df brd ff:ff:ff:ff:ff:ff
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 0
+Note: Destroying pre-existing tap interface tap0...
+Note: Destroying pre-existing tap interface tap1...
+
+ip l
+89: foo-tap: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 8a:93:d3:4f:0d:ae brd ff:ff:ff:ff:ff:ff
+
+
+New feature: OE_TAP_NAME variable allows to rename the tap
+
+export OE_TAP_NAME=tap-yocto-
+$ sudo -E ./scripts/runqemu-gen-tapdevs 1000 2
+Creating 2 tap devices for GID: 1000...
+Creating tap-yocto-0
+Creating tap-yocto-1
+Note: For systems running NetworkManager, it's recommended
+Note: that the tap devices be set as unmanaged in the
+Note: NetworkManager.conf file. Add the following lines to
+Note: /etc/NetworkManager/NetworkManager.conf
+[keyfile]
+unmanaged-devices=interface-name:tap-yocto-*
+$ ip a
+92: tap-yocto-0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether f2:9c:14:41:b1:e3 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.1/32 brd 192.168.7.255 scope global tap-yocto-0
+       valid_lft forever preferred_lft forever
+93: tap-yocto-1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 06:08:16:73:be:48 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.3/32 brd 192.168.7.255 scope global tap-yocto-1
+       valid_lft forever preferred_lft forever
+
+runqemu serialstdio
+...
+runqemu - INFO - Using preconfigured tap device tap-yocto-0
+runqemu - INFO - If this is not intended, touch /tmp/qemu-tap-locks/tap-yocto-0.skip to make runqemu skip tap-yocto-0.
+runqemu - INFO - Network configuration: ip=192.168.7.2::192.168.7.1:255.255.255.0::eth0:off:8.8.8.8
+...
+
+
+
+Adrian Freihofer (9):
+  runqemu-ifup: remove uid parameter
+  runqemu-ifup: configurable tap names
+  runqemu-ifup: fix tap index
+  runqemu-ifup: remove only our taps
+  runqemu-gen-tapdevs: remove staging dir parameter
+  runqemu-gen-tapdevs: remove uid parameter
+  runqemu-gen-tapdevs: configurable tap names
+  runqemu-gen-tapdevs: remove only our taps
+  runqemu: configurable tap names
+
+ scripts/runqemu             |  8 +++++--
+ scripts/runqemu-gen-tapdevs | 45 ++++++++++++++++++++++---------------
+ scripts/runqemu-ifup        | 30 +++++++++++++++++--------
+ 3 files changed, 54 insertions(+), 29 deletions(-)
+
 -- 
 2.41.0
 
