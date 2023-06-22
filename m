@@ -1,92 +1,105 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <peter.hoyes@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A178BEB64D8
-	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 16:36:38 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.16502.1687451791194799598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDC6EB64DC
+	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 16:37:48 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.16538.1687451859841096905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jun 2023 09:36:31 -0700
+ Thu, 22 Jun 2023 09:37:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QROfsd8j;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: luca.ceresoli@bootlin.com)
-X-GND-Sasl: luca.ceresoli@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1687451789;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ed26GAVpxS4iCjAk8u71D1bQ1FUKeIT0k8JoCAA85i4=;
-	b=QROfsd8jfQqy31BODPL5oPSbds2BKNOuya4z5q/lhgLpybLaAxYffgye6j+dLE/7fSNFLD
-	yoMDFDDL4ZhjxuNz5DknJodNPmiPS5GzXdLqPc0uzUu6OnOR4Ny2Sb/RChqrJ1HLJpICHY
-	hDItXTgKXjJN3EzpM8uGljQHvnKkMcB3HdqhNXVGFxq1zLQWwY10cTCMhFn3kGalR7Uodl
-	fvPZQD8G/JIl/2U5sRXmQ7/RRgu/VR2qdwYigY5NNQw+kj4GAFqDwzClNs7HnRFZ7RVaSO
-	hRdZmnqXrCeSYhZRXtcsA1D+sFjZ/ZMdT0h5YiXmMj7U7gz7RAb49JFe6RExiw==
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-GND-Sasl: luca.ceresoli@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 06DA7FF803;
-	Thu, 22 Jun 2023 16:36:27 +0000 (UTC)
-Date: Thu, 22 Jun 2023 18:36:25 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Jose Quaresma" <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Jose Quaresma
- <jose.quaresma@foundries.io>, Ola x Nilsson <Ola.x.Nilsson@axis.com>, Peter
- Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: [OE-core] [PATCH V4 1/3] kernel-module-split: make autoload and
- probeconf distribution specific
-Message-ID: <20230622183625.1d1dc9e6@booty>
-In-Reply-To: <20230622084452.2026849-1-jose.quaresma@foundries.io>
-References: <20230622084452.2026849-1-jose.quaresma@foundries.io>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37750C14;
+	Thu, 22 Jun 2023 09:38:23 -0700 (PDT)
+Received: from [10.1.199.64] (unknown [10.1.199.64])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D02133F663;
+	Thu, 22 Jun 2023 09:37:38 -0700 (PDT)
+Message-ID: <b1299dc9-4099-4792-e1f1-5322e56a9a69@arm.com>
+Date: Thu, 22 Jun 2023 17:37:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [OE-core] [PATCH] rootfs-postcommands: Set vardeps for
+ write_image_test_data
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20230517162906.2395999-1-peter.hoyes@arm.com>
+ <F3C8EF1B-E5EA-4357-8977-1FCC0F5E553D@arm.com>
+ <a87d5dd9-4128-6d02-eda2-c0c15f5a52fc@arm.com>
+ <b4852d5295cc250431cf375ba4677c9cc5cbbfc1.camel@linuxfoundation.org>
+ <88d7eb23-d5e1-71db-f789-1c9dff4fcf47@arm.com>
+ <d3cdc91111da08f19d47cfc1e5fb861fd8882543.camel@linuxfoundation.org>
+From: Peter Hoyes <Peter.Hoyes@arm.com>
+In-Reply-To: <d3cdc91111da08f19d47cfc1e5fb861fd8882543.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 16:36:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183270
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 16:37:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183271
 
-Hi Jose,
 
-On Thu, 22 Jun 2023 08:44:51 +0000
-"Jose Quaresma" <quaresma.jose@gmail.com> wrote:
+On 19/06/2023 13:07, Richard Purdie wrote:
+> On Mon, 2023-06-19 at 12:47 +0100, Peter Hoyes wrote:
+>>  =20
+>> It sounds like moving testdata creation to a separate task doesn't
+>> bring much benefit so I'll revert to something based off this patch.
+>>
+>> It looks like a relatively small number of variables are actually
+>> used by OEQA tests in OE-core:
+>>  =20
+>>  =C2=A0* IMAGE
+>>  =C2=A0* ARCH
+>>  =C2=A0* MACHINE
+>>  =C2=A0* PACKAGE_FEED_GPG_NAME
+>>  =C2=A0* VIRTUAL-RUNTIME_init_manager
+>>  =C2=A0* WORKDIR
+>>  =C2=A0* DISTRO_FEATURES
+>>  =C2=A0* PTEST_EXPECT_FAILURE
+>>  =C2=A0* TEST_LOG_DIR
+>>  =C2=A0* libdir
+>>  =C2=A0* T
+>>  =C2=A0* MULTILIB_VARIANTS
+>>  =C2=A0* SDKPATH
+>>  =C2=A0* SDK_DEPLOY
+>>  =C2=A0* TOOLCHAINEXT_OUTPUTNAME
+>>  =C2=A0* QEMU_USE_KVM
+>>     =20
+>>  =C2=A0* DL_DIR
+>>     =20
+>> Notably, DATE/TIME do not seem to be referenced at all (apart from a
+>> comment in oeqa/runtime/cases/ptest.py recommending *not* using
+>> DATETIME for test output). Additionally, DL_DIR and WORKDIR are
+>> updated on each testimage execution using TESTIMAGE_UPDATE_VARS.
+>>  =20
+>>  =20
+>> How about introducing a new variable, e.g. TESTIMAGE_EXPORT_VARS,
+>> containing just the list above (to which other variables could
+>> optionally be appended in other layers)?
+>>
+> I think that is certainly worth trying.
+>
+> Cheers,
+>
+> Richard
 
-> Also take the oportunity to only add configuration files to FILES
-> and CONFFILES when they exist and are used.
-> 
-> The modules-load.d [1] - Configure kernel modules to load at boot
-> should install their configuration files in /usr/lib/modules-load.d.
-> 
-> The modprobe.d [2] - Configuration directory for modprobe
-> should install their configuration files in /lib/modprobe.d
-> 
-> [1] https://www.freedesktop.org/software/systemd/man/modules-load.d.html
-> [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
-> 
-> [YOCTO #12212] https://bugzilla.yoctoproject.org/show_bug.cgi?id=12212
-> 
-> CC: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-> CC: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+This is implemented in v2.
 
-This has now turned to:
+I have validated the new patch locally on:
 
-ERROR: linux-yocto-6.1.33+gitAUTOINC+db25e51e20_947f660bde-r0 do_package: QA Issue: linux-yocto: Files/directories were installed but not shipped in any package:
-  /usr/lib
+ =C2=A0* The new test case
+ =C2=A0* sstatetests.SStateHashSameSigs
+ =C2=A0* qemuarm64 core-image-sato testimage
+ =C2=A0* qemuarm64 core-image-minimal-dev testimage
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5410/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5383/steps/15/logs/stdio
+Thanks,
 
-Luca
+Peter
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
