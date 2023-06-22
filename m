@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A98C001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F83C00528
 	for <webhook@archiver.kernel.org>; Thu, 22 Jun 2023 17:11:18 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.17338.1687453874898691744
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.17421.1687453875525092070
  for <openembedded-core@lists.openembedded.org>;
  Thu, 22 Jun 2023 10:11:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PnBukERA;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b45b6adffbso101798531fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:14 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=eTU4LeuK;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-98746d7f35dso939965966b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 10:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687453873; x=1690045873;
+        d=gmail.com; s=20221208; t=1687453874; x=1690045874;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pnBny6s1kUXPkb1ezOM2RAnALkyUOxh1mS9b/6Ww1/U=;
-        b=PnBukERA4kZ+Q60zdM546O1evKIfzik82ZtH3Ao8GQHsKqJtZkqB3y+K15FHaCLmw4
-         Xhe3ujX8FUyOLAMFXPiqmPR3EdWEGDUs01VPd4Pk0VAV7Gw4h0DYUfi9vf2MCO+X1G79
-         ABHjjq7O5tOpd94M412sSydf2hyzx0Mw+tV9tvlCJvdkWLIZzDzJzk+P6UJQ2+X+Fe25
-         mYzVaMk6R8McLPk0HqrcgCS6R7idvUB72i+se4zTD36AMXfoJTTQNeWMV8vdOwfyyhMf
-         XeL2Ph7s8mYFy+dDeDVCIbbcwzwUrUxPN6f+ftEgUMHatdlNjnj/MBJNVAeAtt4J9Dnl
-         qQ9g==
+        bh=ki+oKs7SUp039+dlPzmQSzDPO7J2VBoVujIcH9yywOc=;
+        b=eTU4LeuKZPxQS6zYKj2jnERIeklpfZsG0xQUYkf+SgN25sXYMJteXPS1Y+Iht5OKKx
+         fIWWFcXpHRyNb03iYKrb1FN/rCMvAYfy3IXJekM+TFKf9Zs5ldLERNr5gvRNupG/XiTW
+         Ec+K6bCWeE0bPSQ9sUCRLffqOLvC9N9dmMcIEgcWTztK3cwuWi7gwD27EqZ8q9c4xax8
+         Wehp2CXOSsEi3olS77MdCPnqabetb5G0BBZrDI7lwX5pIiJx3XsDXt9feRMuMlIaN0kX
+         /D+8T2tPVPzqu4SO90WoYFOjU3l1Eb/4zQSK3YKWxO8W+dUmNVUISyvdMKYRB8RE5NV5
+         mMWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687453873; x=1690045873;
+        d=1e100.net; s=20221208; t=1687453874; x=1690045874;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pnBny6s1kUXPkb1ezOM2RAnALkyUOxh1mS9b/6Ww1/U=;
-        b=DbZ1xSSK4n3Uv75lO+IhLWbS1TXah6lo444EuINuSG3N44c6Br65YU8sdV8kFYWZEu
-         hNQQJeuFTTial/E3MomTbbd+0H1xRPjlC2H+6EAWjVfgssmvV+VEj2Tpsjl/i2hM8//9
-         z3xHZX1VsXj3dO88eOKDf+7Wa20xX4gO48Rue4y/ljJqa6etFUkZGK4WGFLUQw10c4Qq
-         vPB/A1O2bs45fN3EvF+gU1YIj+7fbNWm9h5kskU9PsXi4jlTHZ74tQAD6HmpUMEjNyiD
-         xCMi8p2QlbLi0Jfzp8ZVp+g/ej5iLssY+kbN1HuligdKqzWw0VJ9UKN5UW4/OKAFZD4s
-         8K3Q==
-X-Gm-Message-State: AC+VfDyoAK/ydm/N9vFaLOFX8ixCvIYLoAZrKmqi9CBQIrASI7TSWAgp
-	Bp+gHW/pgRHTjJw6EB6XZCEVitWmZmQ=
-X-Google-Smtp-Source: ACHHUZ6F1RpjZeNmcKlTz2MlD4wYCdisWDM2Pj0rU5zLzfN7o3kSJZoYbgDiTCRnXAlZicm0X2uQQA==
-X-Received: by 2002:a2e:9d19:0:b0:2b5:8153:deb3 with SMTP id t25-20020a2e9d19000000b002b58153deb3mr4713327lji.4.1687453872487;
-        Thu, 22 Jun 2023 10:11:12 -0700 (PDT)
+        bh=ki+oKs7SUp039+dlPzmQSzDPO7J2VBoVujIcH9yywOc=;
+        b=iNkMx1XkPwoPhXkMDq9EVCzRYpzvkJzogC9PrhZnjXf4LY0thl5MJ951mfcVFMLfnY
+         VIfZ+k1/paJuoqACWTuldL/MZN/1kBUdFfCNaPA6LDkvGLIIDgM2CfvuhzCG074h6Rn4
+         xHA7fHB26RqwppUtJ27jiypI3DHSIMojH2z8ooeMG2lDcKrjNgAwmYFtMMvNRexAactk
+         1XbA76VDcZqquDxw6Mfx7FBHmh0jakJwgbm1t2NetXfHBgEm+RAngBBFHP3HbPdB9UwM
+         1Py/FCrg3UwOWhKnVUpVFOH6ErGMIASHVRVIAm4Wh8NxxZfcmii09ybFb4X6SVcQY8FA
+         RM+A==
+X-Gm-Message-State: AC+VfDxagd3uO+0H14fs+W+o+hJLtET9bzj+Bo+UMN7jSHimkMVDefd5
+	4TsOn3qQiT7MzxS1sXf8M+u9VoTSHUk=
+X-Google-Smtp-Source: ACHHUZ7R/ZnNZ8n/ioZx6vYXbolaI+8uknLO9p6bN8Y1WuTLzdxr17Z3DQ9t63eOcUVxSm/82T+XyQ==
+X-Received: by 2002:a17:906:14ca:b0:974:62bc:33d5 with SMTP id y10-20020a17090614ca00b0097462bc33d5mr14863454ejc.20.1687453873732;
+        Thu, 22 Jun 2023 10:11:13 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.11
+        by smtp.gmail.com with ESMTPSA id m12-20020a1709062acc00b00982b8cd7a44sm4917053eje.139.2023.06.22.10.11.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 10:11:12 -0700 (PDT)
+        Thu, 22 Jun 2023 10:11:13 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 7/9] runqemu-gen-tapdevs: configurable tap names
-Date: Thu, 22 Jun 2023 19:01:27 +0200
-Message-ID: <20230622170946.10082-8-adrian.freihofer@siemens.com>
+Subject: [PATCH 9/9] runqemu: configurable tap names
+Date: Thu, 22 Jun 2023 19:01:29 +0200
+Message-ID: <20230622170946.10082-10-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230622170946.10082-1-adrian.freihofer@siemens.com>
 References: <20230622170946.10082-1-adrian.freihofer@siemens.com>
@@ -62,58 +62,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Jun 2023 17:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183284
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183286
 
-Feature: Hard-coding the interface names to tap* is not always a good
-idea.
+Support the new environment variable OE_TAP_NAME.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/runqemu-gen-tapdevs | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ scripts/runqemu | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index 7f67ee5540e..cbf80089290 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -45,6 +45,10 @@ else
- fi
- 
- 
-+if [ -z "$OE_TAP_NAME" ]; then
-+	OE_TAP_NAME=tap
-+fi
-+
- # check if COUNT is a number and >= 0
- if ! [ $COUNT -ge 0 ]; then
- 	echo "Error: Incorrect count: $COUNT"
-@@ -64,7 +68,7 @@ if [ ! -x "$RUNQEMU_IFUP" ]; then
- fi
- 
- if interfaces=`ip tuntap list` 2>/dev/null; then
--	interfaces=`echo "$interfaces" |cut -f1 -d:`
-+	interfaces=`echo "$interfaces" |cut -f1 -d: `
- else
- 	echo "Failed to call 'ip tuntap list'" >&2
- 	exit 1
-@@ -83,7 +87,7 @@ fi
- 
- echo "Creating $COUNT tap devices for GID: $GID..."
- for ((index=0; index < $COUNT; index++)); do
--	echo "Creating tap$index"
-+	echo "Creating $OE_TAP_NAME$index"
- 	if ! ifup=`$RUNQEMU_IFUP $GID 2>&1`; then
- 		echo "Error bringing up interface: $ifup"
- 		exit 1
-@@ -95,7 +99,7 @@ echo "Note: that the tap devices be set as unmanaged in the"
- echo "Note: NetworkManager.conf file. Add the following lines to"
- echo "Note: /etc/NetworkManager/NetworkManager.conf"
- echo "[keyfile]"
--echo "unmanaged-devices=interface-name:tap*"
-+echo "unmanaged-devices=interface-name:$OE_TAP_NAME*"
- 
- # The runqemu script will check for this file, and if it exists,
- # will use the existing bank of tap devices without creating
+diff --git a/scripts/runqemu b/scripts/runqemu
+index bd1f8366b63..e1aa5a925c8 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1159,7 +1159,11 @@ to your build configuration.
+         logger.debug('Running %s...' % str(cmd))
+         ip_link = subprocess.check_output(cmd).decode('utf-8')
+         # Matches line like: 6: tap0: <foo>
+-        possibles = re.findall('^[0-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
++        oe_tap_name = 'tap'
++        if 'OE_TAP_NAME' in os.environ:
++            oe_tap_name = os.environ['OE_TAP_NAME']
++        tap_re = '^[0-9]+: +(' + oe_tap_name + '[0-9]+): <.*'
++        possibles = re.findall(tap_re, ip_link, re.M)
+         tap = ""
+         for p in possibles:
+             lockfile = os.path.join(lockdir, p)
+@@ -1198,7 +1202,7 @@ to your build configuration.
+             logger.error("Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.")
+             sys.exit(1)
+         self.tap = tap
+-        tapnum = int(tap[3:])
++        tapnum = int(tap[len(oe_tap_name):])
+         gateway = tapnum * 2 + 1
+         client = gateway + 1
+         if self.fstype == 'nfs':
 -- 
 2.41.0
 
