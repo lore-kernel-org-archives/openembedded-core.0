@@ -1,154 +1,332 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <russ.dill@nikolamotor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF57DEB64D7
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 18:45:08 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.80])
- by mx.groups.io with SMTP id smtpd.web10.6130.1687545904194377496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C3AFEB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 20:39:59 +0000 (UTC)
+Received: from MW2PR02CU001.outbound.protection.outlook.com (MW2PR02CU001.outbound.protection.outlook.com [52.101.48.27])
+ by mx.groups.io with SMTP id smtpd.web11.8738.1687552789025591723
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 11:45:04 -0700
+ Fri, 23 Jun 2023 13:39:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=nceS4iRP;
- spf=pass (domain: arm.com, ip: 40.107.14.80, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x4yDLFaNzZSAU6EsYBkaqypdN2fRrAu3yqkOU6vxZDU=;
- b=nceS4iRP+LcFC77fzJo3MFYC/NrbrTxbLBuMM9mATI+T4ZGox3Mi9oOHHmuFBLB67R8Lk2X+j4tEyhS0pxg0LPStEX9yhLhj9Uzlu0xtReCHcbGnVsn5Pzc8wnKSSVHVthNuBZ7f29z3eksLwtvvTSVQBy2dQeJGyIo8jMSxHUU=
-Received: from DB8PR03CA0025.eurprd03.prod.outlook.com (2603:10a6:10:be::38)
- by PAVPR08MB9674.eurprd08.prod.outlook.com (2603:10a6:102:31d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 23 Jun
- 2023 18:44:57 +0000
-Received: from DBAEUR03FT026.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:be:cafe::1) by DB8PR03CA0025.outlook.office365.com
- (2603:10a6:10:be::38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26 via Frontend
- Transport; Fri, 23 Jun 2023 18:44:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT026.mail.protection.outlook.com (100.127.142.242) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6544.11 via Frontend Transport; Fri, 23 Jun 2023 18:44:56 +0000
-Received: ("Tessian outbound 7c913606c6e6:v142"); Fri, 23 Jun 2023 18:44:56 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: ffd2a0f14ac26168
-X-CR-MTA-TID: 64aa7808
-Received: from 32b2ce3d2405.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 57E98AF7-C490-4257-86A2-4184F04C7A1B.1;
-	Fri, 23 Jun 2023 18:44:51 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 32b2ce3d2405.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 23 Jun 2023 18:44:51 +0000
+ dkim=pass header.i=@nikolamotor.com header.s=selector2 header.b=QdQbCpj3;
+ spf=pass (domain: nikolamotor.com, ip: 52.101.48.27, mailfrom: russ.dill@nikolamotor.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lT/4zPw10bM94fMGoqK21eyTb6ocxrkootTy2h45hhgrw3mE8RBgXgsvgHomrH7E26QBfe4J43SAJmluwD7xHyk69ZD0Nv/ZUmY7dNDR8PfbwXpn3MOhV3XeFw6fxtA9W3zTXKQpc6cx/lbvKv4VG+JceXwzl03GQKLdmEIZ7mQUPQY+vh/tqvnZXlMYc/s2yi3xczSZMwxdeVtT+AdR7JoRFc1RsWSjOR1rJcVbeRRfMFH+t3RP/B8VCSAVgIhSoJ47jiIhZC8oMqYUkG5TMLD9Twf9fj/kayvhCEZAOFt/331Qlx9CC9ms+01GxiG0QVcylb1woIkW/+d3PANF7g==
+ b=AJMgH43m2obK3QQ3djaxjfwI+QPoEkrG5lQzUkdjIolXWOl76Z2r1A6E3K9STi0FiCf306mDpZcgkt59Qh8v/fN+sz+cnfAeC1A1tdeHs5OJa6ogLtofP6tMU3KpyYBwuWuuBvQYM6ftCPQinehANN1ZtCF66h/ELzeAuOgMQTN5u/bAP6MJMzR5m2B3p7Oba1OvDHVWLqA4pch8i+27wjCRNZdel8h+8EXzIzdAX0XuY8s8tm2FR6cYTCtrR/EYHynthzUXbJxgAAjc0ZTlL1w1altO3jpTKjZYz+GUf/7zSlel+KnvD+Fq0iVpNITiUVZVtWGp4pcAKwwH/R+Kbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x4yDLFaNzZSAU6EsYBkaqypdN2fRrAu3yqkOU6vxZDU=;
- b=IUhAU5Drn9LScwVJxy2ED4JpjY/IOfx3Hn0oiLmw7i1nXiZzwM3iJ7FUlYM1D4H8mELOQOMnCrgvxaBmh3Lf2scx1x4ALdLJLlnW6Yw7snb5dWysW5mTtWS55IZuugTCFYjWn1RXlqe2PZ1P5G+w0Ka3es3LCC35zUIEVFT+qblUPwxKpv4ZZI/6wsQc+2ryy69g3DRD2lj/OG6RMVQP6Qm8UfvMR4SsBBDsicg2RxMfzuKc2RpEaCtib6DaFfdeWB4aWVTv7ZZ512p/szBjudWLYHEvToIjF0FKavJAnEP9K3dXiAfUHoOm57DoPLuF4PzPsuA6xWOMxzFnb6b9hQ==
+ bh=T3ePwJ1cVWtfrVMKw9HDOmTnaNWE2RZfBLph6ZL1OtU=;
+ b=EpYU9WUl0ytqcAAUusWjHQON6NqoCVud3ticVWP0kaPxBrJ5ORhyR5A/Qy/gJrV0EJaN4OPYTrnwT96/dX2k19nzpqMMYPdFsP3pVHeiV/3CiXJ80dAgZTRoHTmWtNVUybEcoKVYDbEHm+CzGoDIm6sjO62wCpZ+b15QNoizv2n7VgW8ypIQnEih3Zxf7sDv8JdUgiiRjm32bpVXhgNGCP9GCo2gRbUbX+sl0zNNlAwr+X577woStHcAx5QgFjHtUbJqBxju+D6wrvEhu2rsx3NbBb7/siLNCC8drYwAhrwKfuDfloQ4WAjVpaINRDj15Gjw2x+6pDF7FXJKjdiQEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
+ smtp.mailfrom=nikolamotor.com; dmarc=pass action=none
+ header.from=nikolamotor.com; dkim=pass header.d=nikolamotor.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nikolamotor.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x4yDLFaNzZSAU6EsYBkaqypdN2fRrAu3yqkOU6vxZDU=;
- b=nceS4iRP+LcFC77fzJo3MFYC/NrbrTxbLBuMM9mATI+T4ZGox3Mi9oOHHmuFBLB67R8Lk2X+j4tEyhS0pxg0LPStEX9yhLhj9Uzlu0xtReCHcbGnVsn5Pzc8wnKSSVHVthNuBZ7f29z3eksLwtvvTSVQBy2dQeJGyIo8jMSxHUU=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AM7PR08MB5336.eurprd08.prod.outlook.com (2603:10a6:20b:105::9) with
+ bh=T3ePwJ1cVWtfrVMKw9HDOmTnaNWE2RZfBLph6ZL1OtU=;
+ b=QdQbCpj3GXxRkTeY45b0x1f19gDRntAk887bEe5m/GEr5Tz0gOqKw9obmRMOZK78UbwEzvfe/HlO9Tj6GnzqXWzJNaF1h0KemH8cYj/kc0nLNkM1L/wU8GJtkFKmUiVRf05W/YlOd49VvkN9xQAeamxAc81DJmsRKXOwKMa+RL3httBP63EPNTzjC2undxgmjKe2YS2SRSfBzJVA6Vyk3vYIbgDwZ6tQw4dLT7gJmtYz2yY9hpVF1Bq9v/Fnkg+kVDO4wBcM1FQJ7KBkF8EcNiiJ+3xqbmJtCvDW/mbNz5niBtu3CzVzWuSF022LqCDaZ8GiLhR1R0ehbcjeRg81mg==
+Received: from CH3PR05MB9388.namprd05.prod.outlook.com (2603:10b6:610:148::20)
+ by SJ0PR05MB8744.namprd05.prod.outlook.com (2603:10b6:a03:389::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 23 Jun
- 2023 18:44:49 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::30b4:3110:b02d:7f21%6]) with mapi id 15.20.6521.024; Fri, 23 Jun 2023
- 18:44:49 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "f_l_k@t-online.de" <f_l_k@t-online.de>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] python3-pygobject: disable features_check for
- class-native
-Thread-Topic: [oe-core][PATCH] python3-pygobject: disable features_check for
- class-native
-Thread-Index: AQHZpfs4SjaGIFBkakSegP5W9ixKxq+YuZAA
-Date: Fri, 23 Jun 2023 18:44:49 +0000
-Message-ID: <6214B370-3EAD-4D61-91AA-1DCA4D1B5212@arm.com>
-References: <20230623175013.103510-1-f_l_k@t-online.de>
-In-Reply-To: <20230623175013.103510-1-f_l_k@t-online.de>
-Accept-Language: en-GB, en-US
+ 2023 20:39:45 +0000
+Received: from CH3PR05MB9388.namprd05.prod.outlook.com
+ ([fe80::7146:2857:d710:f2c5]) by CH3PR05MB9388.namprd05.prod.outlook.com
+ ([fe80::7146:2857:d710:f2c5%4]) with mapi id 15.20.6521.024; Fri, 23 Jun 2023
+ 20:39:45 +0000
+From: Russ Dill <russ.dill@nikolamotor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "vkumbhar@mvista.com"
+	<vkumbhar@mvista.com>
+Subject: Re: [OE-core][kirkstone][PATCH] libcap: CVE-2023-2603 Integer
+ Overflow in _libcap_strdup()
+Thread-Topic: [OE-core][kirkstone][PATCH] libcap: CVE-2023-2603 Integer
+ Overflow in _libcap_strdup()
+Thread-Index: AQHZpZJJa4m1tkncdEWN1+RxoHvfCK+Y2f2N
+Date: Fri, 23 Jun 2023 20:39:45 +0000
+Message-ID: 
+ <CH3PR05MB938888DFAA8F20B852C7396AF423A@CH3PR05MB9388.namprd05.prod.outlook.com>
+References: <20230623051913.843560-1-vkumbhar@mvista.com>
+In-Reply-To: <20230623051913.843560-1-vkumbhar@mvista.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.600.7)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AM7PR08MB5336:EE_|DBAEUR03FT026:EE_|PAVPR08MB9674:EE_
-X-MS-Office365-Filtering-Correlation-Id: f28d481e-9ac0-4cb6-095d-08db7419f103
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- rhSRQRNXsgyOeQ5eRLTqz2dqPtucHxSWGNhUIkPqZdJhL+wN+koOdFGmaAeAI81whXBlQgOP7hOICRUGOMzl3GoU6pVkFkQUsk/T4e46pFTmICAW14vYe09ZZkmqG60ER2yKs7Fsb164ky3NyztA9DY4SUDCoVIo9G5PHrBb6ExEBFmqhzzarn6hUjOV4D5vlbpguwGaxk88iYKQye/CJtBn0+b+YJg+uyvQOBSE4bkMWgja4gwtUEZNqPAHS7ZgXq9MGBl9FUe0xQyM/WcBdpXl+uogK5KX1HTaMhdH8BEPDROFV/fy1gASpSw7Gh+VX1Ks5QM/HaDUdui2LywGHdJn+3aB4GUbTZ191tiw93NKpWpdY6eCEA0pR5NJDdP8CTvP+ForlE88DluMQk0WXoEZnC9Ayg5hf6DBWMydt7M8geVlaWhbrWjDXoiaCIJlclb5sCpxNTPObKccPW5mPz3Or0OqiyrJkzVT4CVjjhXe/P+R7M7gPRUIh6oH3hM785fQApDwVfvhFcs3ekHVN/7Lq633PIdCBGiTbIkVyrs9WLFLkrnBMOWLqUEwFfgCmqtMgnXNsaVnTfDz1G18F32X00TQx8SxRnbPI7EMu70FJrFJd/R1qyRD8mSiNQMYHAqeJR4f4k5twXg/PqhPEg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(346002)(366004)(39850400004)(396003)(451199021)(478600001)(71200400001)(4326008)(91956017)(76116006)(2616005)(86362001)(36756003)(33656002)(38070700005)(2906002)(6486002)(186003)(26005)(4744005)(53546011)(6506007)(966005)(66946007)(6512007)(38100700002)(122000001)(66556008)(66476007)(66446008)(5660300002)(316002)(8936002)(64756008)(41300700001)(6916009)(8676002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <690F5E68F5F6A24EA6D70E16150DE09B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nikolamotor.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR05MB9388:EE_|SJ0PR05MB8744:EE_
+x-ms-office365-filtering-correlation-id: 08ef0748-d58a-4c2e-d889-08db7429faaf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ zYqhMJelHm63Mqis60MS0oMaKgIBVBItKmLUchoWBrDbRw8BIPb2jBDftIoEl6cWA1MhXCrB2Sfs6LIaUXVrWQglzVM/JH4vtf2t8X6x7yare7Z/B2hU6Gv8ohAto58KqTBuMsnsLR/kuzx9rJXL2C/IhYlcvQ1x0/N8v3+1qVXS600xjq4fRcjHaTQITGGmXSJ0IIn8fi/pBdDf/yf8JzEOMFa9yBVmpjAirIsEz5Z6w3hd6f1tCSTQ0L2iH/Pq8XsLWvxaljFxAnE4sQicGD6d0CQyTm8n2akGbGtAQadDwrBzuvQdf8NEO+EsVgcJB6F+eL4X74tIuAkuyTUv0vMjmKkZ9NGNjifPAoZ+RIf32kIGmS2pN6WvAchxK5p8AwEFodz4X56+4UirJ9u9itWK+OInlLk+vOj5Tgj7PMoFxR9/mjdJaz0wniyavlII7SG8UIvmDcb/n9YM57pjLxAQvStoxGrbKNXqheFXJrnxXHgOHBdz2LzLWMiynIJED1uo4f66Ohc5jhm38UILP/QVsEZawxc+BCw9f2tl9rkQyjtzMx3S/EoxznyHQaajDWqPYVK+Hxnd/xB7W7gkgeksgkcdKNctl+A7HL5mSVaSoESMEN5jwusyqe+myNdzPMbNr7VadR62Buz6odRB+A==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR05MB9388.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39850400004)(366004)(346002)(376002)(136003)(451199021)(5660300002)(41300700001)(83380400001)(19627405001)(122000001)(91956017)(316002)(76116006)(44832011)(8676002)(8936002)(52536014)(66476007)(66556008)(66946007)(66446008)(64756008)(38100700002)(2906002)(55016003)(71200400001)(86362001)(33656002)(166002)(110136005)(6506007)(26005)(9686003)(7696005)(966005)(478600001)(186003)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?hL35KkrgkSZHK8pkHN/ZBGAZbfVAcvHo4C91mBnoJ/hU+4wlfW5rBK6MiagD?=
+ =?us-ascii?Q?gezrXuj4TY8tZ4g4pj/NWlkTIuwPxh716mfd9SaICTHG6UIvavetXMD/Ikb2?=
+ =?us-ascii?Q?+9UVcKwozdQUGBNOvZGo7jjuYlrOdcqdZzuTrXo3U42m1lnP32PPbKamneAV?=
+ =?us-ascii?Q?OOzX312KZDXjnXF00ROX+F8PTF8oRHK3qDRB6lK1PUq39CQ1b7FxDqFb8nYo?=
+ =?us-ascii?Q?z6s0CQom6nkyQ3BWh7wJIAuMNR0vzgmLF6ui+D3O6G/XeOXyGoQuoBHfd+nX?=
+ =?us-ascii?Q?T5Oy6Y2iSAg2qXugvWUej0Z3uw5nj6CGY4YxqTg+AVXhCHyIWYe6RK4MZSE5?=
+ =?us-ascii?Q?9xjSR6/Vap5ODTahbQRru2ccxUM7cOD/Mo2cALcZWLCLLYe7jTw2QaX5l5JB?=
+ =?us-ascii?Q?AZOxanyDMllgVjwD0UiO1OoTEtrXfPR5SMlSTTYbKDX0J0QsfRGJAGav8IPi?=
+ =?us-ascii?Q?wvZoGrpB80JiTSH7piuNTX/FWu/jZsA6cUV1cu006WURFvC2OVk06G35GHIo?=
+ =?us-ascii?Q?QeTeL4oCHPwqyabcARbKETXNxgQsh4uAojNpHMnGLra9Otlk/j9heAstOOW9?=
+ =?us-ascii?Q?pQQpvuhos37n8ZFy9H5BpesyrKOTTfA1AybA7h+x53EcIpqe2w6XhlYvagi8?=
+ =?us-ascii?Q?Re5XZhXsTpAKkvnYkUOiEHtdEbJ8ZVMHMKpAzjfpKSxDJBNcXiaP1Cvxx3zR?=
+ =?us-ascii?Q?2sY+gbFoRsu2YmLG0dNU1vPAkNUe5/75wYcCoKBOhGwBWq4OGy6Xrt9CnHSu?=
+ =?us-ascii?Q?ZhusWl+fl6xiVXG1+0G7AAajF40+YMN3FILmcBgAuZC1K4T3/CO3E5AtI+if?=
+ =?us-ascii?Q?CSSJwC9ES3I/ENqlr00LI6lvm9pXBUdP94U5+9wtlWXDlbDMKLCjGDexJ949?=
+ =?us-ascii?Q?elBx1VX+haoLNmWkiW6BcF7Z3l1ijClL7VuwvMPSOXg/mArhs9I32koqDHOf?=
+ =?us-ascii?Q?iAGiynweo8nk5DoU8cEj9p/LY7y8NaIpEIsE4uUnG3xpfGtKOgS5ioU2uEc5?=
+ =?us-ascii?Q?yZxqLfVm2rcPu95rqjddgpjoDQ0fyIarQ25GQfYUajfMxduxhKv+fu/R+gQx?=
+ =?us-ascii?Q?mLhHV3r9KUW7lFSjyzJT4lGOUTN3MEw67b5O1WsQrJQnyEMrz3RSIfS8p/4n?=
+ =?us-ascii?Q?jyEWM9TPryW2YkzKan0h00mgc5ezKkkmtdTum5ewRcJ1Qjk8Am/T6V12wQBL?=
+ =?us-ascii?Q?ND5Qay+rlk33FX3hWYAsVfJcHJhCtDdPlytW4y0tD022UICf0AYvrfk/hsqw?=
+ =?us-ascii?Q?9LlUc7Qyyx1/TDmqtsKCyNMuOBT1CUJYeNwoyhAnAO5s6VXuD653O8R5PFsg?=
+ =?us-ascii?Q?1rHpDNIjD1gUgNfGk4gUwylQHpBobDSl3fjx36/kBT8Gdv/DGpbrigtI3/gR?=
+ =?us-ascii?Q?+ZdbknoDGB44B9xIOsD028IXyy6Pku250n62d3CBbOOT1oGeBJ0uMONLloQ5?=
+ =?us-ascii?Q?k2W9j3tXrhVFxDz1R3BbvQzV0nP2RhE51/qqRwPDTN4L+6JHXXFwbxnCYggj?=
+ =?us-ascii?Q?TJHIzqlKXMoqWp45h8cM3+UMmVogKh4et9JVgbBg0+EgqwS0czpd40UY6JTF?=
+ =?us-ascii?Q?vpwUP+azesgVbQpjb59HoYlEsmoTnGm3LRYv7WXO?=
+Content-Type: multipart/alternative;
+	boundary="_000_CH3PR05MB938888DFAA8F20B852C7396AF423ACH3PR05MB9388namp_"
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5336
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT026.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	ac0d084f-0d16-4557-bd4d-08db7419ec98
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	33bhij+biCFHPBL5xIdxY1f297X5TcZj7V2mDUXIRX7J+gLftodagiX3/vUQ+tUBr2CyhzmzqPAVq2bp3Wp3QKcPIxk9OgJKrmUIEhsj8Hu36XYjT5eKwUNok7g1WeHxCPT9BiX37D4G50h3mqwv/OeyQ4qyIuRBvVgILJPFz1aAjH4LM3K4eBBXmvKub2P9hbEXrm2YZQRYiPSwlAMcwjkeYkYED3oDftAnkE0lifhxVLNMXhI8T75t53a48Z+Q2ujaWn5u7O8fSqxelf23cTnHg/cALPeh+0W5LYJbxM6BZ1Bz+UUSQBWsUOBn9CgizfiS87xrsaxT+sxweh+f4vUFvDEdy7PDv7BqWEFjPDhivDCtQlZYohJzs+47ENHZqZPD2kw/jDpsCFXNkFAXty1+Fn3Am9lq5C/anX0PvXgQ7EH7mWpEazQUjBGfKrH9+vkJMgT1IfDHAUMa6se5oCLp3M6MRKFHTuR5Bu1/d48TissqNtJYGZ2KvzXUdZcor35VWC6EeWp/zxlL8psDRytRq12A/+ZXR3dilR81XMzHUZZDBYtBH6yJpt8BtCYrYT6PTf30sEEaQFrGXCvMN+Mz6LQjgV6+z2DWtiF2piLOAJXFlDA2vbk77eAszJZ3tViSNV5HzOFfkNOHrhlWgX11u6l3Jk5+oKzVZQj8nHTo7eeC1+ZdjeSQTj0cEi9/5SvaltI3RDfDbDIm30h+DhPMVTvDZPLL8FXYz2d75kE=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199021)(36840700001)(46966006)(40470700004)(4326008)(70206006)(70586007)(33656002)(478600001)(40480700001)(36756003)(316002)(8936002)(8676002)(6862004)(5660300002)(2906002)(4744005)(40460700003)(966005)(36860700001)(86362001)(41300700001)(82310400005)(6486002)(53546011)(47076005)(6512007)(6506007)(26005)(186003)(356005)(336012)(82740400003)(81166007)(83380400001)(2616005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 18:44:56.9569
+X-OriginatorOrg: nikolamotor.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR05MB9388.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08ef0748-d58a-4c2e-d889-08db7429faaf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2023 20:39:45.0758
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f28d481e-9ac0-4cb6-095d-08db7419f103
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT026.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9674
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: cd45403b-72e2-4592-a46a-4687dcacfc95
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MobuNbAGK6H66vOGQk5W0wV3c515nQzo8x2sBQEHHDYD3nQNdv63oIZec0n2DKK+5dbyLChUYtQos22DGWWfD8ZKlNtLm5HhhvuXW8MoFy4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR05MB8744
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 18:45:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183352
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 20:39:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183353
 
-T24gMjMgSnVuIDIwMjMsIGF0IDE4OjUwLCBNYXJrdXMgVm9sayB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyA8Zl9sX2s9dC1vbmxpbmUuZGVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6
-DQo+IA0KPiBodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3kvY29tbWl0Lz9pZD0xZWU5
-M2RjMTE0ZGYyNmQ5NDMxMDY4MmU2YTYzMjMyN2U4YmNlMDYyDQo+IG1hbmRhdGVzIGdvYmplY3Qt
-aW50cm9zcGVjdGlvbi1kYXRhIERJU1RST19GRUFUVVJFIHdoaWNoIGlzIG5vdCBhdmFpbGFiZSBm
-b3IgbmF0aXZlLg0KPiBUaHVzIHB5dGhvbjMtcHlnb2JqZWN0LW5hdGl2ZSBnZXRzIHVuYnVpbGRh
-YmxlDQo+IA0KPiBFUlJPUjogTm90aGluZyBQUk9WSURFUyAncHl0aG9uMy1weWdvYmplY3QtbmF0
-aXZlJw0KPiBweXRob24zLXB5Z29iamVjdC1uYXRpdmUgd2FzIHNraXBwZWQ6IG1pc3NpbmcgcmVx
-dWlyZWQgZGlzdHJvIGZlYXR1cmUgJ2dvYmplY3QtaW50cm9zcGVjdGlvbi1kYXRhJyAobm90IGlu
-IERJU1RST19GRUFUVVJFUykNCg0KcHlnb2JqZWN0IGNhbuKAmXQgd29yayB3aXRob3V0IGctaSBz
-byB0aGlzIGluZGljYXRlcyB0aGF0IHlvdSBuZWVkIHRvIGZpeCBhIERFUEVORFMsIG5vdCBlbmFi
-bGUgdGhlIGJ1aWxkaW5nIG9mIGFuIHVudXNhYmxlIHJlY2lwZS4NCg0KUm9zcw==
+--_000_CH3PR05MB938888DFAA8F20B852C7396AF423ACH3PR05MB9388namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Due to a space in the URL the backport resolves to the wrong patch (HEAD) w=
+hich is included rather than the one actually at
+https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=3D422bec25=
+ae4a1ab03fd4d6f728695ed279173b18
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of vkumbhar via lists.openembedded.org <vkumbhar=
+=3Dmvista.com@lists.openembedded.org>
+Sent: Thursday, June 22, 2023 10:19 PM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] libcap: CVE-2023-2603 Integer Overflow=
+ in _libcap_strdup()
+
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ .../libcap/files/CVE-2023-2603.patch          | 31 +++++++++++++++++++
+ meta/recipes-support/libcap/libcap_2.66.bb    |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/libcap/files/CVE-2023-2603.patch
+
+diff --git a/meta/recipes-support/libcap/files/CVE-2023-2603.patch b/meta/r=
+ecipes-support/libcap/files/CVE-2023-2603.patch
+new file mode 100644
+index 0000000000..c5ecb70896
+--- /dev/null
++++ b/meta/recipes-support/libcap/files/CVE-2023-2603.patch
+@@ -0,0 +1,31 @@
++From 8785077d6c69482a2814a2f771aaada2f6ea1894 Mon Sep 17 00:00:00 2001
++From: "Andrew G. Morgan" <morgan@kernel.org>
++Date: Wed, 24 May 2023 06:55:47 -0700
++Subject: Tidy up the overview example for the "cap" package.
++
++Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libc=
+ap.git/commit/?%20id=3D422bec25ae4a1ab03fd4d6f728695ed279173b18]
++CVE: CVE-2023-2603
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ cap/cap.go | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/cap/cap.go b/cap/cap.go
++index 784bf65..df32436 100644
++--- a/cap/cap.go
+++++ b/cap/cap.go
++@@ -17,7 +17,8 @@
++ //
++ //   // Read and display the capabilities of the running process
++ //   c :=3D cap.GetProc()
++-//   log.Printf("this process has these caps:", c)
+++//   iab :=3D cap.IABGetProc()
+++//   log.Printf("this process has these caps: %q [%v]", c, iab)
++ //
++ //   // Drop any privilege a process might have (including for root,
++ //   // but note root 'owns' a lot of system files so a cap-limited
++--
++2.25.1
++
+diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-supp=
+ort/libcap/libcap_2.66.bb
+index c50e9d8cc7..844ae58506 100644
+--- a/meta/recipes-support/libcap/libcap_2.66.bb
++++ b/meta/recipes-support/libcap/libcap_2.66.bb
+@@ -19,6 +19,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/libs/security/linu=
+x-privs/${BPN}2/${BPN}-${
+            "
+ SRC_URI:append:class-nativesdk =3D " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containin=
+g.patch \
++           file://CVE-2023-2603.patch \
+            "
+ SRC_URI[sha256sum] =3D "15c40ededb3003d70a283fe587a36b7d19c8b3b554e33f8612=
+9c059a4bb466b2"
+
+--
+2.25.1
+
+
+--_000_CH3PR05MB938888DFAA8F20B852C7396AF423ACH3PR05MB9388namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+Due to a space in the URL the backport resolves to the wrong patch (HEAD) w=
+hich is included rather than the one actually at</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
+tPasted1">
+<a href=3D"https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=
+=3D422bec25ae4a1ab03fd4d6f728695ed279173b18" id=3D"LPlnk651427">https://git=
+.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=3D422bec25ae4a1ab03fd=
+4d6f728695ed279173b18</a><br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of vkumbhar via lists.openembedded.org &lt;vkumbhar=3Dmvista.com@lists.=
+openembedded.org&gt;<br>
+<b>Sent:</b> Thursday, June 22, 2023 10:19 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc:</b> Vivek Kumbhar &lt;vkumbhar@mvista.com&gt;<br>
+<b>Subject:</b> [OE-core][kirkstone][PATCH] libcap: CVE-2023-2603 Integer O=
+verflow in _libcap_strdup()</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Signed-off-by: Vivek Kumbhar &lt;vkumbhar@mvista.c=
+om&gt;<br>
+---<br>
+&nbsp;.../libcap/files/CVE-2023-2603.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; | 31 +++++++++++++++++++<br>
+&nbsp;meta/recipes-support/libcap/libcap_2.66.bb&nbsp;&nbsp;&nbsp; |&nbsp; =
+1 +<br>
+&nbsp;2 files changed, 32 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-support/libcap/files/CVE-2023-2603.pa=
+tch<br>
+<br>
+diff --git a/meta/recipes-support/libcap/files/CVE-2023-2603.patch b/meta/r=
+ecipes-support/libcap/files/CVE-2023-2603.patch<br>
+new file mode 100644<br>
+index 0000000000..c5ecb70896<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/libcap/files/CVE-2023-2603.patch<br>
+@@ -0,0 +1,31 @@<br>
++From 8785077d6c69482a2814a2f771aaada2f6ea1894 Mon Sep 17 00:00:00 2001<br>
++From: &quot;Andrew G. Morgan&quot; &lt;morgan@kernel.org&gt;<br>
++Date: Wed, 24 May 2023 06:55:47 -0700<br>
++Subject: Tidy up the overview example for the &quot;cap&quot; package.<br>
++<br>
++Signed-off-by: Andrew G. Morgan &lt;morgan@kernel.org&gt;<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://git.kernel.org/pub/scm/libs/=
+libcap/libcap.git/commit/?%20id=3D422bec25ae4a1ab03fd4d6f728695ed279173b18"=
+>https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?%20id=3D422b=
+ec25ae4a1ab03fd4d6f728695ed279173b18</a>]<br>
++CVE: CVE-2023-2603<br>
++Signed-off-by: Vivek Kumbhar &lt;vkumbhar@mvista.com&gt;<br>
++---<br>
++ cap/cap.go | 3 ++-<br>
++ 1 file changed, 2 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/cap/cap.go b/cap/cap.go<br>
++index 784bf65..df32436 100644<br>
++--- a/cap/cap.go<br>
+++++ b/cap/cap.go<br>
++@@ -17,7 +17,8 @@<br>
++ //<br>
++ //&nbsp;&nbsp; // Read and display the capabilities of the running proces=
+s<br>
++ //&nbsp;&nbsp; c :=3D cap.GetProc()<br>
++-//&nbsp;&nbsp; log.Printf(&quot;this process has these caps:&quot;, c)<br=
+>
+++//&nbsp;&nbsp; iab :=3D cap.IABGetProc()<br>
+++//&nbsp;&nbsp; log.Printf(&quot;this process has these caps: %q [%v]&quot=
+;, c, iab)<br>
++ //<br>
++ //&nbsp;&nbsp; // Drop any privilege a process might have (including for =
+root,<br>
++ //&nbsp;&nbsp; // but note root 'owns' a lot of system files so a cap-lim=
+ited<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-supp=
+ort/libcap/libcap_2.66.bb<br>
+index c50e9d8cc7..844ae58506 100644<br>
+--- a/meta/recipes-support/libcap/libcap_2.66.bb<br>
++++ b/meta/recipes-support/libcap/libcap_2.66.bb<br>
+@@ -19,6 +19,7 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/libs/security=
+/linux-privs/${BPN}2/${BPN}-${<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
+r>
+&nbsp;SRC_URI:append:class-nativesdk =3D &quot; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch"=
+>
+file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch</a> =
+\<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2023-2603.patch">file://CVE-2023-2603.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
+r>
+&nbsp;SRC_URI[sha256sum] =3D &quot;15c40ededb3003d70a283fe587a36b7d19c8b3b5=
+54e33f86129c059a4bb466b2&quot;<br>
+&nbsp;<br>
+-- <br>
+2.25.1<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_CH3PR05MB938888DFAA8F20B852C7396AF423ACH3PR05MB9388namp_--
 
