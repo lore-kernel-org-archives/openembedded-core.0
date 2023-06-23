@@ -1,137 +1,192 @@
-Return-Path: <philip@balister.org>
+Return-Path: <nat.bailey@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4647EEB64DD
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 16:52:38 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.39453.1687518925163091871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0AAEB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 17:49:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.4962.1687542540859711255
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 04:15:25 -0700
+ Fri, 23 Jun 2023 10:49:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=x/J6+v6o;
- spf=pass (domain: baylibre.com, ip: 209.85.221.51, mailfrom: pidge@baylibre.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3112902f785so1646983f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 04:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687518923; x=1690110923;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fBA2ZSco5wm8WD2STol51tVGcPeqW9mwc/QFNV4N6bQ=;
-        b=x/J6+v6oYfakHDm0AdY4kyhZ9agZyPf4l3lwgGWl+OUy4KT3bKqEqf5R99Co4ocTFk
-         NHo+waOsglXR4xVW8eUBNDFzGHAhA50/MDgowjzxmWiaKYKz0WNlt5Qg6VZuWhWajCUO
-         HmbEZpaTjbOhQAVqRNvPlZoz6FLHoBnM7DP0i1OqH3eRWvIXKCWMqBcJ5r2xw6Y8tsvR
-         /p1leXeyjkkSMT6YuKxxzmr9xcujRBcfT861LEHlWtyF8rfDN2AiblC9p8kfqJD+urov
-         edrbTUg+caIjZCV6bGHyepoGz3Ua5DjNn7Uzw9Y100Ua8LH1qJZfCYt9aHlw+luNnO/l
-         rtXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687518923; x=1690110923;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fBA2ZSco5wm8WD2STol51tVGcPeqW9mwc/QFNV4N6bQ=;
-        b=f9+STGs/yB7OIp4Lihg4zDac8+lq0PfK5zatbnaXDhkIu8mfY+BXDiZgEwFZ+E5wcR
-         EOKzca/iyaGDHWZEQJsNm862C2wvxWXIFLyqijWK2EoyJ90ZDxg2pV4IE+Ohzwz1zIg/
-         toHf/S50mP55exX+fxYE/Vcdjb4Kha1Osw8xad+9AJRsnYcECSlRH3T0QqkgzBsFTvmz
-         Ldj3jYhzLCGvvva3nt2sXFU5AA7UAE6013E7pUUaSY4alq/umlLmz0rofW8rZ8awvyGO
-         8zxh92mjmuxvHuJUTwySgjeH+vcm6Gvm1/DjQJpz+pmaXh5wCfFYCmuCC4P83kfZeKvL
-         +cDw==
-X-Gm-Message-State: AC+VfDy4coBKNNh8b/e2xi9P5nMhUSgDwJPeYVMRV9iE5xhjcVwhdvs+
-	AZjb4NfGO4FbvWiQ5yWW555Hxg==
-X-Google-Smtp-Source: ACHHUZ7KyAYXLO3vZCYNgcvhWPnP/YcuyRWTL8kPOOEugYlzZvaMgpECedxdH4Yh8Nm+CyNM7HyIGA==
-X-Received: by 2002:a5d:430d:0:b0:30f:d052:2edb with SMTP id h13-20020a5d430d000000b0030fd0522edbmr19915534wrq.35.1687518923515;
-        Fri, 23 Jun 2023 04:15:23 -0700 (PDT)
-Received: from [192.168.178.55] ([194.110.145.167])
-        by smtp.gmail.com with ESMTPSA id q6-20020adff506000000b00307c8d6b4a0sm9284200wro.26.2023.06.23.04.15.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 04:15:22 -0700 (PDT)
-Message-ID: <f8451ff2-de3d-5ef6-1bf1-53ad9bd8f381@baylibre.com>
-Date: Fri, 23 Jun 2023 12:15:17 +0100
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=dw4JOydD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=55381c39fc=nat.bailey@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35NHInYO030369
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 10:49:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=0gUJe
+	IwxrygMyIEqMqwirhrE8Yp5Jg202hx4wlALfBw=; b=dw4JOydDp5ef2hSsF+yYP
+	gBw1wW5RU4HvEBOdfS0YR10OwK46yOnJEq3U1cCZxXbH36H69eNPJZEaDCI4DCqW
+	BaxdX4I42PYybxMqK+qtDZ4ZtctJ70cjTBz23T4dJD2w7Wnxpn30P/GHqCtNItuP
+	+Vh0cVWAbwIFInnTtOEf1f8P8jnDzUhkeJN8mvK9U78lJcw6KMReHhD6BAYUd3jU
+	4QluULaHOPpLgPLUxpi8saPBG62+q/1Nn9k8SCz2+PhSLnbcg8/AEkGh8Em1S5pp
+	qxIK8fqR2A93SAvQeIPgBtK8myuT6UFpKJxgiJzBvhoMrgRfcUrWbg8chOVNIHZX
+	A==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rcy540t1u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 10:49:00 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 23 Jun 2023 10:48:59 -0700
+Received: from ala-lpggp2.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.23 via Frontend Transport; Fri, 23 Jun 2023 10:48:59 -0700
+From: Natasha Bailey <nat.bailey@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] tiff: backport a fix for CVE-2023-26965
+Date: Fri, 23 Jun 2023 10:47:44 -0700
+Message-ID: <20230623174744.54981-1-nat.bailey@windriver.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [OE-core] [PATCH v2 2/3] weston: Upgrade 11.0.1 -> 12.0.1
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
- Tom Hochstein <tom.hochstein@nxp.com>
-References: <cover.1687444823.git.pidge@baylibre.com>
- <acca25d2cbd58d50cbaa3962f922990fee700403.1687444823.git.pidge@baylibre.com>
- <20230623121659.75aefd1e@booty>
-From: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?= <pidge@baylibre.com>
-In-Reply-To: <20230623121659.75aefd1e@booty>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: l_L5eaBBQDBu0vQviaJ0Lv20dlyA7gXT
+X-Proofpoint-GUID: l_L5eaBBQDBu0vQviaJ0Lv20dlyA7gXT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-23_10,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0 mlxlogscore=803
+ suspectscore=0 impostorscore=0 clxscore=1011 lowpriorityscore=0
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306230159
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 16:52:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183349
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 17:49:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183350
 
-On 23/06/2023 11:16, Luca Ceresoli wrote:
-> Hello Eilís,
-> 
-> On Thu, 22 Jun 2023 15:42:16 +0100
-> Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com> wrote:
-> 
->> Tracking https://gitlab.freedesktop.org/wayland/weston/-/issues/488
->> we're keeping -Ddeprecated-launcher-logind but plans should be made to
->> remove this/work around.
->>
->> We also need to add xcb-util-cursor from meta-openembedded as this is
->> now required for ptest. When this is pulled we can remove from meta-oe.
->>
->> Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
->> ---
->>   .../wayland/{weston_11.0.1.bb => weston_12.0.1.bb}    | 11 ++++++++---
->>   .../xorg-lib/xcb-util-cursor_0.1.4.bb                 | 10 ++++++++++
-> 
-> This is triggering failures on no-x11 builds:
-> 
-> stdio: ERROR: Nothing PROVIDES 'xcb-util' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston_12.0.1.bb DEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing PROVIDES 'xcb-util-cursor' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston_12.0.1.bb DEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing RPROVIDES 'weston' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston_12.0.1.bb, /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston-init.bb, /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing RPROVIDES 'weston-init' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston_12.0.1.bb, /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston-init.bb, /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing RPROVIDES 'weston-dev' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston_12.0.1.bb RDEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing RPROVIDES 'weston-init-dev' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/wayland/weston-init.bb RDEPENDS on or otherwise requires it)
-> stdio: ERROR: Nothing RPROVIDES 'weston-examples' (but /home/pokybuild/yocto-worker/no-x11/build/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
-> 
-> Full logs:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7354/steps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7354/steps/15/logs/stdio
-> 
-> Patch "weston: Cleanup and fix x11 and xwayland dependencies"
-> (https://lore.kernel.org/openembedded-core/20230622203913.183451-1-tom.hochstein@nxp.com/T/#u)
-> was sent a few hours after yours by Tom (in Cc:). Do think it could fix
-> this error? FYI I'm running a new test build with Tom's patch and
-> without this series.
+Fixes a bug where a buffer was used after a potential reallocation.
 
-No, but it does point to where I think the issue is. Specifically, the 
-DEPENDS for ptest was incorrect, in that it pulls xcb-util for ptest, 
-even if we're doing a no-x11 build. I need to see what ptest does for 
-no-x11 if xcb-util doesn't exist and rework based on that. I'll have a 
-v3 early next week.
+Signed-off-by: Natasha Bailey <nat.bailey@windriver.com>
+---
+ .../libtiff/files/CVE-2023-26965.patch        | 99 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.5.0.bb |  1 +
+ 2 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
 
-> 
-> Additionally a new recipe in core needs a maintainer, and as such it is
-> warning:
-> 
-> WARNING: xcb-util-cursor-0.1.4-r0 do_fetch: QA Issue: Recipe xcb-util-cursor in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-graphics/xorg-lib/xcb-util-cursor_0.1.4.bb does not have an assigned maintainer. Please add an entry into meta/conf/distro/include/maintainers.inc. [missing-metadata]
-> 
-
-I'll add that in v3 and take maintainership.
-
-> Full log:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5511/steps/13/logs/stdio
-> 
-> Luca
-> 
-
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+new file mode 100644
+index 0000000000..5fdc1ed013
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+@@ -0,0 +1,99 @@
++From ec8ef90c1f573c9eb1f17d6a056aa0015f184acf Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Tue, 14 Feb 2023 20:43:43 +0100
++Subject: [PATCH] tiffcrop: Do not reuse input buffer for subsequent images.
++ Fix issue 527
++
++Reuse of read_buff within loadImage() from previous image is quite unsafe, because other functions (like rotateImage() etc.) reallocate that buffer with different size without updating the local prev_readsize value.
++
++Closes #527
++
++CVE: CVE-2023-26965
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/ec8ef90c1f573c9eb1f17d6a056aa0015f184acf]
++Signed-off-by: Natasha Bailey <nat.bailey@windriver.com>
++---
++ tools/tiffcrop.c | 47 +++++++++++++----------------------------------
++ 1 file changed, 13 insertions(+), 34 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index d7ad5ca8..d3e11ba2 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -6771,9 +6771,7 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
++     uint32_t tw = 0, tl = 0; /* Tile width and length */
++     tmsize_t tile_rowsize = 0;
++     unsigned char *read_buff = NULL;
++-    unsigned char *new_buff = NULL;
++     int readunit = 0;
++-    static tmsize_t prev_readsize = 0;
++ 
++     TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
++     TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
++@@ -7097,43 +7095,25 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
++     }
++ 
++     read_buff = *read_ptr;
++-    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
++-    /* outside buffer */
++-    if (!read_buff)
+++    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit
+++     * outside buffer */
+++    /* Reuse of read_buff from previous image is quite unsafe, because other
+++     * functions (like rotateImage() etc.) reallocate that buffer with different
+++     * size without updating the local prev_readsize value. */
+++    if (read_buff)
++     {
++-        if (buffsize > 0xFFFFFFFFU - 3)
++-        {
++-            TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
++-            return (-1);
++-        }
++-        read_buff =
++-            (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
+++        _TIFFfree(read_buff);
++     }
++-    else
+++    if (buffsize > 0xFFFFFFFFU - 3)
++     {
++-        if (prev_readsize < buffsize)
++-        {
++-            if (buffsize > 0xFFFFFFFFU - 3)
++-            {
++-                TIFFError("loadImage",
++-                          "Unable to allocate/reallocate read buffer");
++-                return (-1);
++-            }
++-            new_buff =
++-                _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVERSIZE_BYTES);
++-            if (!new_buff)
++-            {
++-                free(read_buff);
++-                read_buff = (unsigned char *)limitMalloc(
++-                    buffsize + NUM_BUFF_OVERSIZE_BYTES);
++-            }
++-            else
++-                read_buff = new_buff;
++-        }
+++        TIFFError("loadImage", "Required read buffer size too large");
+++        return (-1);
++     }
+++    read_buff =
+++        (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
++     if (!read_buff)
++     {
++-        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+++        TIFFError("loadImage", "Unable to allocate read buffer");
++         return (-1);
++     }
++ 
++@@ -7141,7 +7121,6 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
++     read_buff[buffsize + 1] = 0;
++     read_buff[buffsize + 2] = 0;
++ 
++-    prev_readsize = buffsize;
++     *read_ptr = read_buff;
++ 
++     /* N.B. The read functions used copy separate plane data into a buffer as
++-- 
++2.39.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
+index ca4a3eff91..2bde8fe9d6 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
+@@ -11,6 +11,7 @@ CVE_PRODUCT = "libtiff"
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-48281.patch \
+            file://CVE-2023-2731.patch \
++           file://CVE-2023-26965.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "c7a1d9296649233979fa3eacffef3fa024d73d05d589cb622727b5b08c423464"
 -- 
-Eilís 'pidge' Ní Fhlannagáin
-BayLibre - At the Heart of Embedded Linux
-www.baylibre.com
+2.39.0
 
 
