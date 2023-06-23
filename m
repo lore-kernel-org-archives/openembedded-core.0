@@ -1,177 +1,199 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2305EB64D7
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 11:07:54 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.39361.1687518466192830147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A8EEB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 11:16:24 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.73])
+ by mx.groups.io with SMTP id smtpd.web11.39599.1687518978400700850
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 04:07:46 -0700
+ Fri, 23 Jun 2023 04:16:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=bO3YeMeg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f9c532f9e3so6664665e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 04:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1687518464; x=1690110464;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WgRBh6AoOOY+A7XTAaq+QEF873D8T1bMvY8ywd6wb0I=;
-        b=bO3YeMeg2wdTWu7YtnnGtwlGm5ZIrvjZC7sR3/XCVOlyK00hdTj9dLYdYtvETBMcxd
-         +26zQOTkyGDFb9cPIrDunEKKfM4BGBOE0kHaWxt32Qot8OqljIPJt9TShh1n70BG9B5Y
-         aYxfCTApYnVHyI64TzXpBVGAT7de0GT1ge1FI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687518464; x=1690110464;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WgRBh6AoOOY+A7XTAaq+QEF873D8T1bMvY8ywd6wb0I=;
-        b=eRtAku1jlDrn/mAWGSCvEq2vfJ+RfsQn9O0ogncss25pWqSP+TdSymOWB7eEN9BFst
-         QhWjDW46smj8XU/6MizgjGY6SGlOkig7TQBb10LnfuV7Y25ByMjiW7llvIk2oe33QkiH
-         2z81zwndXnABiYFl/9nOoeY6zBHmet3nIBcyDP88j5bBkmy4TKJBy7o00gi/blMd/sYt
-         itIBULQ8oXEIA/sAgz2XKsm74diSiltj+W7jVDy+fEzQ3i/6pBpgmXbrO8EVRC96KtA2
-         S+O4RWLY/QyAdX1W45hP/pfYBe8uY9hapDgX0R3TPgyfYaK2VSZb2YEg2RyT0kkydGrA
-         GJzA==
-X-Gm-Message-State: AC+VfDzallnekCLMjTMhXKxn3WurFIaLhjwEFxxGbBi3U8ozUmYZ/f9N
-	TiI3pDyWbq6VRyMKlxAfEXqBmA==
-X-Google-Smtp-Source: ACHHUZ6Vs3pIFcY5w8+DLFks0CRBm+1VYEx9bJzzp4MKA7yMjFFIQZwxwwDcDvbPRJDPVvDcszq5xg==
-X-Received: by 2002:a7b:c045:0:b0:3f8:d0e7:dad8 with SMTP id u5-20020a7bc045000000b003f8d0e7dad8mr17471757wmc.3.1687518464462;
-        Fri, 23 Jun 2023 04:07:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:aeb7:8756:e8c1:1c97? ([2001:8b0:aba:5f3c:aeb7:8756:e8c1:1c97])
-        by smtp.gmail.com with ESMTPSA id z18-20020a1c4c12000000b003f7361ca753sm2028453wmf.24.2023.06.23.04.07.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 04:07:44 -0700 (PDT)
-Message-ID: <674d0a964611cc1e5451318976f17a4a24cbca5a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: hoist up "unset S" bbfatal
- from kernel-yocto.bbclass to kernel.bbclass
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: luca.ceresoli@bootlin.com, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 23 Jun 2023 12:07:43 +0100
-In-Reply-To: <20230605141319.532136-1-luca.ceresoli@bootlin.com>
-References: <20230605141319.532136-1-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=N7GB2TsZ;
+ spf=pass (domain: siemens.com, ip: 40.107.8.73, mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Es9BEEozRwRHuRYN4IOIQIAlkhYCV7V3/TJYZQ1nvhkgRwNlWG+GtMheLKJAIyxBfzIJi9DgDD1sovAr5lLbPRGCS906DBcR3tL26e6xj5X0dAoakDIJPra0KurU9E6hkn7nwjzIYH53t2ZVNGo5TVuC/ZGMJntyf+AG+mEbSBdzTDwpEjicb0FGuo0vtWmCW+uDxqeqeCSFOpU27inVtUJjOZhix7GQvV+/NQ8IyUDooms0OJRBKtt2rJBiKTYvhUXlOQySYUWK89IkBkdJQ8klaB6nQ5C5hzW8zRec5kOaQ/TSkezolPmBuE1msXlfZ+TPe1pkZqNOFHcrfZiA1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OJPZ09NSHY2LJBONSPY8Jpvj33zsTgKbX/FtqJxSWBY=;
+ b=l0mx0aElyDmTVyDDIirk5Oq48F24pkPfUOt/jFPGmodNWiVp/v7mWqHACj2PXYS8VP0NNJ8DWOfOPn+tLpMXXMmY5IY+2q5Zm9HS0K8Rnzw7tJ/kI461EjWcuH6FaufrggIEzVWMeT4tAj9tGBItpDmam1N9AgGq7S+EZGI7osyagvOCPSVDtesZwYBYxNu6d9Kvrh6BqQp9ro/qpqQG4nBSQt1SyeDpg3rVRjQz7VDv4jQUcuaVjAHlpcpcIZk8FitvSB3Fbv8GlTJfRLCO1GNgXYqUhB0DoNnLNOOK4tIsxDMPAlUaFNcjLwKE/dZ0g2eI6GfaOuWVC9B4ikHX0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=siemens.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OJPZ09NSHY2LJBONSPY8Jpvj33zsTgKbX/FtqJxSWBY=;
+ b=N7GB2TsZFVQNoQMKUcQHEkEuQcJ27TGUz8x+cve8Be8GLc7gjaqiD7w03ytiRPVS1fPd6Y/mx6NDIEMYJbde9Hk9ztIXU0/Q8TtZxz4TczZuSx8b2YdGWo8aL9L7hqHoHrBU45R4ZyrbEkkCdkIYLkofGawXVUzf50oU8B4udn+R3/vbPlJ4+SabCdz8nc8sdZ9SYBlaimnog/NHSHZH0O2FHU4TJjfoH6xXFHkhU4z32zVFPXMBHUXcSMu287EgGiP1ZwTY6gnv3E2aBrUM2Y/JM9oNR2bOibpVTB6ULuuHCBjWE8bQa5z3CVZqR+yHY2pq0FYCBNHP2n3zoJZv+Q==
+Received: from FR3P281CA0099.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a1::16)
+ by AS2PR10MB7226.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:60a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 23 Jun
+ 2023 11:16:15 +0000
+Received: from VE1EUR01FT008.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:d10:a1:cafe::a3) by FR3P281CA0099.outlook.office365.com
+ (2603:10a6:d10:a1::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.9 via Frontend
+ Transport; Fri, 23 Jun 2023 11:16:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.74)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.74; helo=hybrid.siemens.com; pr=C
+Received: from hybrid.siemens.com (194.138.21.74) by
+ VE1EUR01FT008.mail.protection.outlook.com (10.152.2.67) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.24 via Frontend Transport; Fri, 23 Jun 2023 11:16:14 +0000
+Received: from DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) by
+ DEMCHDC8VQA.ad011.siemens.net (194.138.21.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Fri, 23 Jun 2023 13:16:14 +0200
+Received: from md3hr6tc.ad001.com (167.87.2.72) by
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Fri, 23 Jun 2023 13:16:14 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <luca.ceresoli@bootlin.com>, Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v9 2/3] oeqa/selftest/cve_check: rework test to new cve status handling
+Date: Fri, 23 Jun 2023 13:14:57 +0200
+Message-ID: <20230623111459.97933-4-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230519081850.82586-1-andrej.valek@siemens.com>
+References: <20230519081850.82586-1-andrej.valek@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [167.87.2.72]
+X-ClientProxiedBy: DEMCHDC8WBA.ad011.siemens.net (139.25.226.105) To
+ DEMCHDC8WAA.ad011.siemens.net (139.25.226.104)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1EUR01FT008:EE_|AS2PR10MB7226:EE_
+X-MS-Office365-Filtering-Correlation-Id: f836811e-f27f-4766-913e-08db73db4240
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Syl+XfxZu9Zr/c3/Y0uSGVYLZNiyRYSMPZUw/yR4NDlZb6RAmnF4G34SWU/xWXbRTOk8tkahD8tgtg7obFovbF3D1vdVP46LKpulbg/bJoASi2p2koFcMXVoXwmhqIBjblbarkqh7Ji/bNyA0w5WY/z3ESugrqV9kJuIIdwG4OMrrmc43GtyMpddeeYEkjZehQNqsg1drD27DdC9ar3jpYGOfApRK6yZAdYXL+jepmspIgvqV1XJ3DXbtSsQOtCOsVTCDT6cROeGBUZM5tbcOQ7kzxQFVdlRz81GXEF0AlkeUoJh/P9psAWCsrNnNQFRjlT+6zZ97FUiE8OqlCF1COv7E6O8RC+gWgaBR359xY9OrSye1pyta8w2TvUcIBy+jXxJ6rlwX+T0yzOCojil4goyvjrtTlSplJCvMKdpLmUjN6JWMlKgJpxN/1gnZNQCvFzUi79Sic7egOZlH/eYZQMHHaw0sCLTnzpk6z4ynQNW1Yej0dmhnmHjmXOngw04TWeN/OW8izEgqyezrtnCz2Da1tnnYYy+A9iUiRsJ/6AZekqG2ENuAaFdfr+f0UUCIE6YntkHpUHNjH+RIDlk254LS2VN486/Q8NY+1v0vpZqp8WIekmN1nZsk9u4io/ZNgVPKjJSBcW1YsAsRcHLz0uaFNlXeZuFwpFy7Y0JyHgafk2eJ3PTSzcS3uZqqtOBEWo9FqUDMWgE5jU8E06nmmWAuzfwww5pSWHFoJeGeV4gbT31XrPOHD13GXLet1Y+
+X-Forefront-Antispam-Report: 
+	CIP:194.138.21.74;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(346002)(376002)(396003)(451199021)(36840700001)(46966006)(40470700004)(4326008)(7636003)(82740400003)(356005)(54906003)(82960400001)(7596003)(82310400005)(86362001)(70586007)(70206006)(6916009)(478600001)(316002)(6666004)(36860700001)(47076005)(83380400001)(336012)(956004)(2616005)(8676002)(2906002)(16526019)(8936002)(41300700001)(36756003)(186003)(26005)(5660300002)(107886003)(40460700003)(1076003)(44832011)(40480700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 11:16:14.9148
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f836811e-f27f-4766-913e-08db73db4240
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.74];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR01FT008.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7226
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 11:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183320
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 11:16:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183323
 
-Hi Luca,
+From: Andrej Valek <andrej.valek@siemens.com>
 
-On Mon, 2023-06-05 at 16:13 +0200, Luca Ceresoli via lists.openembedded.org=
- wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> Writing a simple recipe that inherits kernel.bbclass and downloads a kern=
-el
-> tarball (e.g. a mainline release from kernel.org) via http or ftp fails
-> with either:
->=20
->   ERROR: linux-acme-6.3.3-r0 do_configure: oe_runmake failed
->   ...
->   | make: *** No rule to make target 'oldnoconfig'.  Stop.
->=20
-> or (seen on a different setup, based on kirkstone):
->=20
->   ... do_populate_lic: QA Issue: ... LIC_FILES_CHKSUM points to an invali=
-d file: .../work-shared/.../kernel-source/COPYING [license-checksum]
->=20
-> This happens when not setting S in the recipe. In this case, kernel.bbcla=
-ss
-> sets it to ${STAGING_KERNEL_DIR}
-> (${TMPDIR}/work-shared/${MACHINE}/kernel-source).  This means that in
-> do_symlink_kernsrc(), the 'if s !=3D kernsrc' never triggers and thus the
-> kernel tree will not me moved into work/shared, which results in an empty
-> work-shared/.../kernel-source directory.
->=20
-> When downloading a tarball it is usually not required to set S in recipes=
-,
-> so this is not obvious here and the error message does not point to the
-> problem or its solution.
->=20
-> There is such a check in kernel-yocto.bbclass though, so move it to
-> kernel.bbclass so that also kernel recipes not based on kernel-yocto can
-> benefit from it.
->=20
-> The check is moved:
->=20
->  - from the beginning of do_kernel_checkout() in kernel-yocto
->  - to the end of do_symlink_kernsrc() in kernel.bbclass
->=20
-> and since do_kernel_checkout is executed 'after do_symlink_kernsrc', the
-> code flow does not change in a relevant way when using linux-yocto.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 8 --------
->  meta/classes-recipe/kernel.bbclass       | 6 ++++++
->  2 files changed, 6 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index 108b7e675212..ceb451b69969 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -394,16 +394,8 @@ do_kernel_checkout() {
->  		# case: we have no git repository at all.=20
->  		# To support low bandwidth options for building the kernel, we'll just=
+- After introducing the CVE_STATUS and CVE_CHECK_STATUSMAP flag
+variables, CVEs could contain a more information for assigned statuses.
+- Add an example conversion in logrotate recipe.
+
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/cve_check.py     | 26 +++++++++++++++----
+ .../logrotate/logrotate_3.21.0.bb             |  5 ++--
+ 2 files changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/self=
+test/cases/cve_check.py
+index 9534c9775c..60cecd1328 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -207,18 +207,34 @@ CVE_CHECK_REPORT_PATCHED =3D "1"
+             self.assertEqual(len(report["package"]), 1)
+             package =3D report["package"][0]
+             self.assertEqual(package["name"], "logrotate")
+-            found_cves =3D { issue["id"]: issue["status"] for issue in pac=
+kage["issue"]}
++            found_cves =3D {}
++            for issue in package["issue"]:
++                found_cves[issue["id"]] =3D {
++                    "status" : issue["status"],
++                    "detail" : issue["detail"] if "detail" in issue else "=
+",
++                    "description" : issue["description"] if "description" =
+in issue else ""
++                }
+             # m4 CVE should not be in logrotate
+             self.assertNotIn("CVE-2008-1687", found_cves)
+             # logrotate has both Patched and Ignored CVEs
+             self.assertIn("CVE-2011-1098", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1098"], "Patched")
++            self.assertEqual(found_cves["CVE-2011-1098"]["status"], "Patch=
+ed")
++            self.assertEqual(len(found_cves["CVE-2011-1098"]["detail"]), 0=
+)
++            self.assertEqual(len(found_cves["CVE-2011-1098"]["description"=
+]), 0)
++            detail =3D "not-applicable-platform"
++            description =3D "CVE is debian, gentoo or SUSE specific on the=
+ way logrotate was installed/used"
+             self.assertIn("CVE-2011-1548", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1548"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1548"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1548"]["detail"], detail=
+)
++            self.assertEqual(found_cves["CVE-2011-1548"]["description"], d=
+escription)
+             self.assertIn("CVE-2011-1549", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1549"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1549"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1549"]["detail"], detail=
+)
++            self.assertEqual(found_cves["CVE-2011-1549"]["description"], d=
+escription)
+             self.assertIn("CVE-2011-1550", found_cves)
+-            self.assertEqual(found_cves["CVE-2011-1550"], "Ignored")
++            self.assertEqual(found_cves["CVE-2011-1550"]["status"], "Ignor=
+ed")
++            self.assertEqual(found_cves["CVE-2011-1550"]["detail"], detail=
+)
++            self.assertEqual(found_cves["CVE-2011-1550"]["description"], d=
+escription)
 =20
->  		# convert the tree to a git repo and let the rest of the process work =
-unchanged
-> -	=09
-> -		# if ${S} hasn't been set to the proper subdirectory a default of "lin=
-ux" is=20
-> -		# used, but we can't initialize that empty directory. So check it and =
-throw a
-> -		# clear error
-> =20
->  	        cd ${S}
-> -		if [ ! -f "Makefile" ]; then
-> -			bberror "S is not set to the linux source directory. Check "
-> -			bbfatal "the recipe and set S to the proper extracted subdirectory"
-> -		fi
->  		rm -f .gitignore
->  		git init
->  		check_git_config
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-> index 9c8036f4df01..5ed4a2e03c72 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -195,6 +195,12 @@ python do_symlink_kernsrc () {
->              import shutil
->              shutil.move(s, kernsrc)
->              os.symlink(kernsrc, s)
-> +
-> +    # When not using git, we cannot figure out automatically the extract=
-ed
-> +    # directory. So check it and throw a clear error.
-> +    if not os.path.isdir(os.path.join(d.getVar("WORKDIR"), "git")) and \
-> +       not os.path.exists(os.path.join(s, "Makefile")):
-> +        bb.fatal("S is not set to the linux source directory. Check the =
-recipe and set S to the proper extracted subdirectory.")
->  }
->  # do_patch is normally ordered before do_configure, but
->  # externalsrc.bbclass deletes do_patch, breaking the dependency of
-
-Sorry this has taken a bit of time to get to.
-
-We can't check for "git" as the workdir directory in this test as it
-can be overridden in the fetcher. We'll need to find some other better
-approach.=C2=A0Can't we just use ${S}/Makefile ?
-
-Please also copy Bruce on these changes going forward.
-
-Cheers,
-
-Richard
-
-
+         self.assertExists(summary_json)
+         check_m4_json(summary_json)
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.21.0.bb b/meta/rec=
+ipes-extended/logrotate/logrotate_3.21.0.bb
+index 87c0d9ae60..b83f39b129 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
+@@ -16,8 +16,9 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.=
+xz \
+=20
+ SRC_URI[sha256sum] =3D "8fa12015e3b8415c121fc9c0ca53aa872f7b0702f543afda7e=
+32b6c4900f6516"
+=20
+-# These CVEs are debian, gentoo or SUSE specific on the way logrotate was =
+installed/used
+-CVE_CHECK_IGNORE +=3D "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
++CVE_STATUS_GROUPS =3D "CVE_STATUS_RECIPE"
++CVE_STATUS_RECIPE =3D "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
++CVE_STATUS_RECIPE[status] =3D "not-applicable-platform: CVE is debian, gen=
+too or SUSE specific on the way logrotate was installed/used"
+=20
+ PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d=
+)}"
+=20
+--=20
+2.41.0
 
 
