@@ -1,80 +1,185 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D17EB64D7
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 15:54:07 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web10.2063.1687535640157644560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE4DEB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 16:00:27 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.2224.1687536018485429044
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 08:54:00 -0700
+ Fri, 23 Jun 2023 09:00:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=XeaAmakN;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4f86e1bdce5so1073212e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 08:53:59 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=SjSPcCdr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b479d53d48so14441331fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 09:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687535638; x=1690127638;
+        d=gmail.com; s=20221208; t=1687536017; x=1690128017;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yo6T+zdzao2C+R8RWsIJf+QLbOVpmOjM+xr/JHQU+O0=;
-        b=XeaAmakNy20VhT/beqlTtASsRRE3rA5IoNIf3vgsw0OvzSYgL3z+uzDv1ofXCQioaK
-         64caELvlk1Hm1gOxIb3mYTYRifdr6JfLlhhxuz29S9aZjeDQ7DF+CSUGU4OLbU87ZP78
-         dqjvLcIThCJ/zkuV7SZBBtTHY/JSJM+Z5s9L7k8lDCPgLnsTPCWTSWVu50QDQ601lEz7
-         Ok9gMrosSalqkKG1t8rBUjwnTls1WF6lAq0lt3Vn+r4EntquDjOJGazDV/lU/+ErOR0u
-         TBx3mrODbDpUrGhTUWfTD6/S7ZdzIQ0eGWwemtO6g5/wf5v+f91fPQvBVVquisgCd7NQ
-         vo3A==
+        bh=VZxpzaJyT87bvbUzA4ou39XyFhvOR1j5pEUEYVf9L6E=;
+        b=SjSPcCdrhUQTXJZZZaSKoLkuqi4zX/ejSrQecf82675t9xqZfPLLR4xK5R+Bz1M+Tl
+         amnJ/0K64c+jwfrDpxhvsuBmjStl80Bizy+8UDrVjx6qX5BiVJcJ0zfB32HBvvKZqReL
+         IANiI9PxIRAMTaXSd9m5gWBAXGNifaRxn34HpLDy4Dj8APYM7vcDM6Km3Ga6bYlahBwq
+         LXrfOHEXtuXOdaKNpdiP7f72CGg7s4t6svgIa4BjxQh/9Fbec/1YJL7H0Y8Mqiesk6jl
+         bMO9EE2JKfQwXTy7+kKP3JYl5+HrL5YVDm8LxPhAfQTbWKoyU3r/hogQVTXoeM4npu+F
+         HEbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687535638; x=1690127638;
+        d=1e100.net; s=20221208; t=1687536017; x=1690128017;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yo6T+zdzao2C+R8RWsIJf+QLbOVpmOjM+xr/JHQU+O0=;
-        b=ZLp7HyRwBmktEx5HWBz0jTZ5u6BuiUqn9AtcInHgA/VzRcmMZ1YCS3RJHJPX8uSjJQ
-         MIE5IODMGGUEIfAcGq2M1723DxwS6X0HvWUzrZO7ktWuPAt7b+b7xT4pL/yHbvBWGQmw
-         8bkjIl1SLLO1mQmyutaO2k2WoYx+1Ly+hLaxg3ojHWmhyFGrPiYAbfjdtkB1gWQqc6B0
-         +aOTpUvPsRLTAOBDXoDKTq3TwtGzYmWuVpyU5PCtc6ewbg7ROHZTqYQV5BdxjPUNr6Jm
-         KxYAHpZVJAnx3A7ngKxKzy6oz4arD/OYumGnQdKC4yiKoNjZ7axb7qVEaR8hfLDGEI0Z
-         UC5Q==
-X-Gm-Message-State: AC+VfDyvblAaO7mV/uocg7UNnrzMIJ4/EwlIOnhjhnJVRyQtFMlWfyG5
-	jorJgkAzO+qRKR/DQole4U3XAYy5ds8aduoSoFE=
-X-Google-Smtp-Source: ACHHUZ7HSGOOCOJl7+qMoM9wsYVrHqsx4hpY2SwIsnsVc5jKR4nHcDrlG5HywlmiApOrMp6o74Dtb7oAbGaiW/7W8UQ=
-X-Received: by 2002:a19:6d02:0:b0:4f4:d2ed:410 with SMTP id
- i2-20020a196d02000000b004f4d2ed0410mr13051522lfc.41.1687535638121; Fri, 23
- Jun 2023 08:53:58 -0700 (PDT)
+        bh=VZxpzaJyT87bvbUzA4ou39XyFhvOR1j5pEUEYVf9L6E=;
+        b=YzTtti+OKPSYZtbFjyrpYC9iGgFBRCGfLbKJHoA4tEWIyZyXuzOoLd/BRR6500LIIE
+         U/zg63iJTWEVK2h9EjygXURcSW0uIrVdCBEPCXHgg5X3tsGti//lthQP3hyMUwbsbw8g
+         +I321B8H6NzIor8b4gAJonCpCTSU8Yy5dKzWcGuMMSgLIRQKB1p+hd+AYs+T5fksZ0a1
+         HqNRtxytJpgqQ6pdnSuPmYGLhoxtUCVFCLpLakCsSC2Av8CgRLAR+qLp9KjzgP4PZOxn
+         10fSkI3RqcbDy/gJ9t1AKAnFNw+//0G3h8jCDA9dWwYKRgkQvQFqw6b2IubqIcn6rCoz
+         vbmg==
+X-Gm-Message-State: AC+VfDx75LhabojFDv/4mXwuV8qir3oEeGSfbu9UnyM9VneT/c9K6lDi
+	eCu1elMNpKju0Ac8GQhgoiMXhYT8mciMLd1BvCM=
+X-Google-Smtp-Source: ACHHUZ76fbPYKrkNwioTbpbhAzg0U7Nl3cgIOBGS7ya4FL1gwYW/TfuZ4X7ztXyzHOAxUjviwSUBvZoPROere578scg=
+X-Received: by 2002:a2e:95d7:0:b0:2b4:65bf:d7b with SMTP id
+ y23-20020a2e95d7000000b002b465bf0d7bmr11818339ljh.2.1687536016366; Fri, 23
+ Jun 2023 09:00:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230622161749.797820-1-maxime.roussinbelanger@gmail.com>
- <CANNYZj--pKA7ASdohuoOmrOwK+UZAJPS1WsFVcbqRXEvw+3K-Q@mail.gmail.com>
- <CAE=T-s5zCTKjZ6g6-J_dUYjJFrL5AK69Y-dRtmdA+=zeXcCUyw@mail.gmail.com> <4821006.GXAFRqVoOG@n95hx1g2>
-In-Reply-To: <4821006.GXAFRqVoOG@n95hx1g2>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 23 Jun 2023 17:53:46 +0200
-Message-ID: <CANNYZj-r8obYydCCNEysqP5d8T-8Hu_KViQJLTQR_pv-RfXMAg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] bitbake.conf: add debug symbol for sdk
-To: Christian Eggers <ceggers@arri.de>
-Cc: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?= <maxime.roussinbelanger@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20230623123250.726731-1-ross.burton@arm.com> <20230623123250.726731-3-ross.burton@arm.com>
+In-Reply-To: <20230623123250.726731-3-ross.burton@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 23 Jun 2023 12:00:03 -0400
+Message-ID: <CAApg2=Tc=rSXz6F76-dcXYjd9UEyRqJTeC+Ewecnts3Ea9e7Rw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] cve-update-nvd2-native: handle all configuration
+ nodes, not just first
+To: Ross Burton <ross.burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000cd243b05fece1822"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 15:54:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183335
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 16:00:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183336
 
-On Fri, 23 Jun 2023 at 17:42, Christian Eggers <ceggers@arri.de> wrote:
-> In my project I have added BBCLASSEXTEND="nativesdk" to many bbappends in order to have most
-> libraries I use on my target also for nativesdk (I can compile my embedded application also
-> for nativesdk then). As debugging performance using gdbserver is quite poor on my system,
-> developing my application with nativesdk is a welcome alternative (that's  why I also have
-> enabled debug information nativesdk).
+--000000000000cd243b05fece1822
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, 23 Jun 2023, 08:32 , <ross.burton@arm.com> wrote:
+
+> From: Ross Burton <ross.burton@arm.com>
 >
-> But from some previous comments on the OE list it seems that nativesdk is not really intended
-> for this purpose. But what is the alternative? Having two SDKs?
+> Some CVEs, such as CVE-2013-6629, list multiple configurations which are
+> vulnerable. The current JSON parser only considers the first
+> configuration.
+>
+> Instead, consider every configuration. We don't yet handle the AND/OR
+> logical operators, but this is a step in the right direction.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-core/meta/cve-update-nvd2-native.bb | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> index 2b585983ac7..0c627ef2623 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -323,11 +323,12 @@ def update_db(conn, elt):
+>                  [cveId, cveDesc, cvssv2, cvssv3, date,
+> accessVector]).close()
+>
+>      try:
+> -        configurations = elt['cve']['configurations'][0]['nodes']
+> -        for config in configurations:
+> -            parse_node_and_insert(conn, config, cveId)
+> +        for config in elt['cve']['configurations']:
+> +            # This is suboptimal as it doesn't handle AND/OR and negate,
+> but is better than nothing
+> +            for node in config["nodes"]:
+> +                parse_node_and_insert(conn, node, cveId)
+>      except KeyError:
+> -        bb.debug(2, "Entry without a configuration")
+> +        bb.debug(2, "CVE %s has no configurations" % cveId)
+>
+>  do_fetch[nostamp] = "1"
+>
 
-The intended way to debug an app is to actually run it in a target
-environment or in qemu system emulation. Yes this is more tricky to
-set up, but allowing native or nativesdk builds of the target stack
-for the sake of debugging is a can of worms I would not want to open.
+Looks good to me, thank you Ross.
 
-Alex
+Regards,
+Marta
+
+>
+
+--000000000000cd243b05fece1822
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, 23 Jun 2023, 08:32 , &lt;<a href=3D"mailto:ros=
+s.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.c=
+om" target=3D"_blank" rel=3D"noreferrer">ross.burton@arm.com</a>&gt;<br>
+<br>
+Some CVEs, such as CVE-2013-6629, list multiple configurations which are<br=
+>
+vulnerable. The current JSON parser only considers the first<br>
+configuration.<br>
+<br>
+Instead, consider every configuration. We don&#39;t yet handle the AND/OR<b=
+r>
+logical operators, but this is a step in the right direction.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank" rel=3D"noreferrer">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a=
+> | 9 +++++----<br>
+=C2=A01 file changed, 5 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-nativ=
+e.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">cve-update-nvd2-nativ=
+e.bb</a> b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.=
+bb" rel=3D"noreferrer noreferrer" target=3D"_blank">cve-update-nvd2-native.=
+bb</a><br>
+index 2b585983ac7..0c627ef2623 100644<br>
+--- a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a=
+><br>
++++ b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a=
+><br>
+@@ -323,11 +323,12 @@ def update_db(conn, elt):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[cveId, cveDe=
+sc, cvssv2, cvssv3, date, accessVector]).close()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 configurations =3D elt[&#39;cve&#39;][&#39;con=
+figurations&#39;][0][&#39;nodes&#39;]<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for config in configurations:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_node_and_insert(conn, conf=
+ig, cveId)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for config in elt[&#39;cve&#39;][&#39;configur=
+ations&#39;]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # This is suboptimal as it doesn=
+&#39;t handle AND/OR and negate, but is better than nothing<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for node in config[&quot;nodes&q=
+uot;]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_node_and_ins=
+ert(conn, node, cveId)<br>
+=C2=A0 =C2=A0 =C2=A0except KeyError:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Entry without a configuratio=
+n&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;CVE %s has no configurations=
+&quot; % cveId)<br>
+<br>
+=C2=A0do_fetch[nostamp] =3D &quot;1&quot;<br></blockquote></div></div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">Looks good to me, thank you Ross.<=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=
+=3D"auto">Marta</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"></blockquote></div></div></div>
+
+--000000000000cd243b05fece1822--
 
