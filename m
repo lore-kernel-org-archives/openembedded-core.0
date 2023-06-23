@@ -2,97 +2,149 @@ Return-Path: <maxime.roussinbelanger@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BA0EB64D7
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 14:56:17 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.608.1687532170795365314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B262EB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 14:59:27 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.702.1687532367169856561
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 07:56:10 -0700
+ Fri, 23 Jun 2023 07:59:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=eAnhW0c8;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: maxime.roussinbelanger@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1a9a2724a62so557812fac.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 07:56:10 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=gjFpiavY;
+ spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: maxime.roussinbelanger@gmail.com)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-55b3a245359so514682eaf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 07:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687532170; x=1690124170;
+        d=gmail.com; s=20221208; t=1687532366; x=1690124366;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GqMRSK7itVMvaGhW1Ry7j8iA/rTKtm4STaoLo2zarJM=;
-        b=eAnhW0c8/0mk5LutrliNmnlWP0KbDUkQ07hY3s/Wi9SoglcCcuCJ6S9nJxLPE9topB
-         0IqNzrAxT5RGW2u8rtoqqMPDBsQEhVnyZPwQulC+9AYUbvSXt39f1xki+7xppjDlTztZ
-         8FCv3JEXtPv12gOu1CknawV1YjjmH/REN6fTs78HWQygONPRPRmWxJK0l93mUn5QPai0
-         Xa6wE//9Dl+1cyGoUKx7I7dlMa06D0OlQmh4L0fmZvn7OTgwdr8G3oSqQsVfkLimShMO
-         N1f/YYLx1Mttx6JtYm06fkip1RqqDWcvgPu53zf80mkpZCC2KmhRVZodPjopDpixqM/i
-         Sl4g==
+        bh=Xvn09tK0YfxlOsDLnBawokc0NeP+bBCEoLC9sRUQxDw=;
+        b=gjFpiavYSKZgln0zJc0z8Vu9NzNl0Nn6dcuR9hOYUPqTtVySUvDhwQIXC1sbQbhqeg
+         Qa/9VBjEiIqGvqfMntFGWaQ1US4R7rPoGKic9KLr7m4mjUEnphQMgV0uL52bckQdmsii
+         dxH98YHy8iz+EqQY1OVLRPmJ7tKurFWTQCVZi/P62BalpvmhFLOaq1wPpBx8CNxTPdh4
+         vCrh+vHFyACQO+g18b9i9CHQThGVVzdsaA0ncriTWV1sV1ahq6pPdoSMi3HYCHGGoQZy
+         KDohRDCg2d54rDzKVF9gwU1fgPYyXO/BmIfgoayl6u9SukdCvuQneLWqyPujYe0jQG9L
+         RYww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687532170; x=1690124170;
+        d=1e100.net; s=20221208; t=1687532366; x=1690124366;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GqMRSK7itVMvaGhW1Ry7j8iA/rTKtm4STaoLo2zarJM=;
-        b=Hs04qHdbeSavipoFF3T06s22Kvedft/qffKLYHct1gwR3i3L52bvyE+/XxBEGWf/74
-         ezs2YYZCKAIQ/3PR/XwGmXsT7ZaH4WZMQzpGPtJN0LJX39IIe6QhW5ixX/W/Zb/BTYQJ
-         /bjLfAgUp89CphWLqj8Vn/ZbL7yoyaCblc1O5mhF5Njh4oyQOBmEx6vLIy9V8BzypcIE
-         0+TprmJ7Bff3jR+2ae2yFBM/q4aqBuMgZkVCzoJEUGcJR9YnUHbz7CY43hAIcaEcFKvA
-         hI6HnhszzJamOn2bR0WmSo0koUHP28yP9lvmiNdWVqlim4cOHVpkMgqfbfyDLPqheRTm
-         T/NA==
-X-Gm-Message-State: AC+VfDyCBatNYZQaMqvmpdj7mShcrGb56nAMlRP+foSGWNdXjef8Bu8S
-	B41Vdc+8//qBobKXAXsoG8xGm+Gg5cnFafppdkgouKpD
-X-Google-Smtp-Source: ACHHUZ5iT/7fQXj1h8nUDeX/jAs033BZZEvqkI4A/eEuOkkosfZVpyQBwkY4jyvDHnn+yHipaVlnyobzvIa5an6N36E=
-X-Received: by 2002:a05:6870:1a90:b0:19f:3ea6:413c with SMTP id
- ef16-20020a0568701a9000b0019f3ea6413cmr14877912oab.0.1687532169931; Fri, 23
- Jun 2023 07:56:09 -0700 (PDT)
+        bh=Xvn09tK0YfxlOsDLnBawokc0NeP+bBCEoLC9sRUQxDw=;
+        b=Yw5uFxkG1BdHWxkeminqhB7XWwqlBeyLbGShFx3odOJKMPo/empJsjAb06XmhqGPUz
+         ZeF4cChhqJFrARpItKNepXxNPupbLbQC5dCqk8XbLmKSs4/RhtLSDCi224beq9eb/MNg
+         lKoWUNCHju7XzSaUKQlsENElGM63gLqjk/d9rqvZwNtM0sO5AOl3fN+CWynvV0joX7x1
+         MEHhvxgg6tR6Wqz3Ju6E3Pb6b89uvz1gFBdJ5csaMZSu2YkiFAw6XnuxdMwpwPgad/hQ
+         /uh02Yjb9JfjIWTKbGwflMt8xCYM9/9FEuy7h8iMwWaF720XlLe8FC6TqUT1cYcs+EbB
+         4z+A==
+X-Gm-Message-State: AC+VfDzvTPGhK+sJpd51HlbAgXiCensnu5GHYLUop3K95klwY7gtItuW
+	WwCF+xs+OUWdVXVLBwt7LF5Mn3ZHNzV4xpp3fK5HkBSXGJI=
+X-Google-Smtp-Source: ACHHUZ6iLp4xi3G1rCCU5vroXD8uX+oMNLA/ML+zF82odOg3ICzTCEMZ7yx42H25gRUfhtGQNTOuriVJbEEmi23fDDQ=
+X-Received: by 2002:a4a:d18d:0:b0:562:eb64:73f6 with SMTP id
+ j13-20020a4ad18d000000b00562eb6473f6mr3856286oor.4.1687532366139; Fri, 23 Jun
+ 2023 07:59:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230622161749.797820-1-maxime.roussinbelanger@gmail.com>
- <20230622161749.797820-2-maxime.roussinbelanger@gmail.com>
- <CANNYZj8KCSygjo9EPUD91oqOzdZhBkYVrJCVthu66bBSoQz8Jg@mail.gmail.com>
- <CAE=T-s78z1EsvaTs6AiSU2LXwB9Niq1_UGSWG1RmhSUkk1eGBw@mail.gmail.com> <CANNYZj_afN2+PxGrQVLShBnrKK6th7=EeUO-nrb3B7oZHrEU1w@mail.gmail.com>
-In-Reply-To: <CANNYZj_afN2+PxGrQVLShBnrKK6th7=EeUO-nrb3B7oZHrEU1w@mail.gmail.com>
+ <20230622161749.797820-3-maxime.roussinbelanger@gmail.com>
+ <CANNYZj-pa8CDzKEU12OxYpAqXG3z+ptwoW90pZ6Ps=h2p+YQKw@mail.gmail.com>
+ <CAE=T-s7EzA1J+F36TqZJ2soXKUkT4r4AxctP4JNDe1snYFW9_A@mail.gmail.com> <CANNYZj--pKA7ASdohuoOmrOwK+UZAJPS1WsFVcbqRXEvw+3K-Q@mail.gmail.com>
+In-Reply-To: <CANNYZj--pKA7ASdohuoOmrOwK+UZAJPS1WsFVcbqRXEvw+3K-Q@mail.gmail.com>
 From: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
-Date: Fri, 23 Jun 2023 10:55:40 -0400
-Message-ID: <CAE=T-s4rMrn93u3f+BK-+XLyraaor0v75X5RXVhfBHMosJKz_g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/3] insane: ignore nativesdk-${PN}-src host
- contaminated issue
+Date: Fri, 23 Jun 2023 10:58:56 -0400
+Message-ID: <CAE=T-s5zCTKjZ6g6-J_dUYjJFrL5AK69Y-dRtmdA+=zeXcCUyw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] bitbake.conf: add debug symbol for sdk
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 14:56:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183330
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 14:59:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183331
 
-On Fri, Jun 23, 2023 at 3:53=E2=80=AFAM Alexander Kanavin
+On Fri, Jun 23, 2023 at 3:50=E2=80=AFAM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> On Thu, 22 Jun 2023 at 20:04, Maxime Roussin-B=C3=A9langer
-> <maxime.roussinbelanger@gmail.com> wrote:
-> > > I'm not sure I understand this. The check is to ensure build process
-> > > works as it should, specifically to prevent build host ownership
-> > > leaking into packages. Yes this information doesn't matter when these
-> > > packages are installed, but it matters for correctness of the build.
-> > >
-> > > Alex
-> >
-> > Maybe I don't get how this check is done because everything in the TMPD=
-IR
-> > is owned by the user running bitbake.
+> But then you can set the parameters as you want them in your local
+> configuration. Setting -g globally in the absence of DEBUG_BUILD needs
+> a use case that applies to most users.
 >
-> Installation and packaging tasks run under 'pseudo', an abstraction
-> that gives the tasks an illusion of running as root and setting file
-> ownership without restrictions. On build host's disk it's all owned by
-> bitbake user, but actual packages contain the desired ownership for
-> the target package installation.
+> Alex
 
-When you mention `packages`, do you mean the .rpm, .deb, etc?
+If user wants to install nativesdk dgb/src package you need to add that fla=
+g,
+so instead of modifying the `BUILDSDK_CPPFLAGS`, it should probably be
+documented.
 
-What would be proper desired ownership inside those packages
-for a nativesdk -src package? Is it suppose to be root?
+Do you have any pointers where it could be documented?
 
 Max.
 
 >
-> Alex
+> On Thu, 22 Jun 2023 at 19:11, Maxime Roussin-B=C3=A9langer
+> <maxime.roussinbelanger@gmail.com> wrote:
+> >
+> > Hi Alex,
+> >
+> > I don't want a complete debug build. I want to keep optimization and
+> > have the debug symbols. I don't think I can achieve that with
+> > DEBUG_BUILD.
+> >
+> > Max
+> >
+> > On Thu, Jun 22, 2023 at 12:30=E2=80=AFPM Alexander Kanavin
+> > <alex.kanavin@gmail.com> wrote:
+> > >
+> > > This change is unnecessary, as there is already a mechanism. Just
+> > > slightly further down you can see that BUILDSDK_CFLAGS pulls in
+> > > BUILD_OPTIMIZATION, which sets -g if you enable DEBUG_BUILD in your
+> > > config.
+> > >
+> > > Alex
+> > >
+> > > On Thu, 22 Jun 2023 at 18:20, Maxime Roussin-B=C3=A9langer
+> > > <maxime.roussinbelanger@gmail.com> wrote:
+> > > >
+> > > > From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
+> > > >
+> > > > Without adding debug flag nativesdk dbg package is not packaged sin=
+ce
+> > > > there is no debugging information
+> > > >
+> > > > Signed-off-by: Maxime Roussin-Belanger <maxime.roussinbelanger@gmai=
+l.com>
+> > > > ---
+> > > > v2: New commit
+> > > >
+> > > >  meta/conf/bitbake.conf | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > > index 9d9b268858..0635affbc1 100644
+> > > > --- a/meta/conf/bitbake.conf
+> > > > +++ b/meta/conf/bitbake.conf
+> > > > @@ -601,7 +601,7 @@ PATCHRESOLVE =3D "noop"
+> > > >  ##################################################################
+> > > >
+> > > >  export BUILD_CPPFLAGS =3D "-isystem${STAGING_INCDIR_NATIVE}"
+> > > > -BUILDSDK_CPPFLAGS =3D ""
+> > > > +BUILDSDK_CPPFLAGS ?=3D "-g"
+> > > >  export CPPFLAGS =3D "${TARGET_CPPFLAGS}"
+> > > >  TARGET_CPPFLAGS =3D ""
+> > > >
+> > > > --
+> > > > 2.36.0
+> > > >
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#183265): https://lists.openembedded.org/g/opene=
+mbedded-core/message/183265
+> > > > Mute This Topic: https://lists.openembedded.org/mt/99701056/1686489
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub [alex.kanavin@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
 
