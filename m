@@ -1,222 +1,297 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F8EEB64D7
-	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 08:51:33 +0000 (UTC)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.web10.37882.1687510291185733671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 527F5EB64D7
+	for <webhook@archiver.kernel.org>; Fri, 23 Jun 2023 09:31:04 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.50])
+ by mx.groups.io with SMTP id smtpd.web11.38432.1687512658420176180
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jun 2023 01:51:31 -0700
+ Fri, 23 Jun 2023 02:30:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ae8HyAHq;
- spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-78f1dd09289so110519241.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 01:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687510290; x=1690102290;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=54Hil7FM6KnRjBLpp8YT3N4J3Z3NBakWBO0ksJmH6Dc=;
-        b=ae8HyAHq/qNM4KrckCvdIyp2llfqcpA1JEQASrBmtUbm6tqb1maJzIR6UhKdPoi4Od
-         QjIoYrLYUC2F1JGcgLyfF5YBx1oi+uGc8CpL+G26ZiU8Ev548JJSWFrD19dMEo7Mw8JB
-         9vQyEhhlQFqHIt6seI+a//3EGZ1jcSuCTotHLwCmTF0VqOUiURZEc7sSSrrF9LTSKbao
-         2sQbYGHOsyaMd+G1+tIvWNJj2MV8dS+cG01VkyqeIs0kW0cJzqu7Ea1KK5vVXEVmq7Pq
-         0/J0NhCJz1UL7P/b0ng6JuZX3LH5jsVd5BHaRYOaVY/pl2jAwdDoYZwtxvNxeO3g1jOw
-         hnmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687510290; x=1690102290;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=54Hil7FM6KnRjBLpp8YT3N4J3Z3NBakWBO0ksJmH6Dc=;
-        b=YWSRQ1DaaM6B1+OWcxYxCRi1yjWSlErblCJjYOu+4t2fzlmJcNoYFBtaKaqkM/S2DC
-         pkmnGivatXSxZ55osNjJMV3sDyQE2zvSKjP99O4vd1SmqRsOHkEThC4tXPppwMDhLJzj
-         7s8G1VbwpKqr92805CndKxqYMZ1LdA8UQsIxHR4ohzIPmofyQt6vjlmSvSAiur5rKy25
-         o/qpY/Qc6jReXb2BX+yvnpvBh1grKfQJ3jPfQL/6K/+/rjy/OEq4HlxgN8nq5QZ3keX5
-         Wrp/0WEes6y/yK8q8sjPMMfLVWQi6gObIdkvg4jb7EVkX8te4g1NxHvk2te0G7gU7424
-         kImA==
-X-Gm-Message-State: AC+VfDyWKxynCTtq8sw5nFz5AAkCKnXtLSQGqVcqkbwyNowhKHrGZA7R
-	Uvq2kWTEgFBAYeK5LvlLW5ay+6etHZOfS7EfbQk=
-X-Google-Smtp-Source: ACHHUZ6pa7CFcKWYgDspOSNVn+ZD16Zu4hUB/vL8zZtozdT4mQeNtv5lyQW54XnGw/mr8+sCsd2ieKA362qHiMW5cNA=
-X-Received: by 2002:a05:6102:3176:b0:440:c366:3378 with SMTP id
- l22-20020a056102317600b00440c3663378mr6203092vsm.17.1687510289963; Fri, 23
- Jun 2023 01:51:29 -0700 (PDT)
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=PEHjO/y/;
+ spf=pass (domain: navimatix.de, ip: 40.107.15.50, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bt5tDLzmKIpd1/b6Z2XTy+tiwpLWcsHnc5wmQWujBcW3WABbqV0K4XMlKshpX3EfkMaB5p6M+8WGz3+N6i+3T8FeUqPvSMLHr2e4JSR4NToCXfKESCESTFmMpptybR0CuSpV6vGRK18u7w3iHLZgVma6MvVARs5U9kl9LhxQv/MdBPMKgGM8bzIfgw/CwE8WHL6GW0DYNPzTgNwnKw2nIJ+kfBtLlMzpogS24K9u2/GS9GtYegkQ1683JOFjl6lZijoVx20xe7yRoeJ037wmmIZh4yGXMNyq+mnHlNaEoUNMoEWIxnNX9Jop37z63yOVZka5pvv3SLdTvRCYG6L6UQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lZ5QESCGGPkCTBDoSX3DYXs2jkWw6phKpNEVHnyfrbo=;
+ b=YPWGG3CPGdSAirE4KYDPOiXBOH9+77Fc1gfL07PoZUSkZoY9c3gzpYdIPW8w8x6CWKj4Q5+/wqJQFGqKo9Ab0N7SyS0O0s32L+vIeNqEpN4mmQrjwNhHUimcJQw3gEmFeAKPrtwXzzZdvAwMm9o+5ULdCOKT+CuZmiknJpFY0QFhvQGffOPDVLvPFBgwv+KfhGIKga82Ei6FZtun1KYFaqk0HQT3LdNse+eAwbwyD7GZ/4XD8FnhCxhwqF4vZbZvtHgbcm7IoTKND1ythixKbrJXTm2TW4wJKMAGb5I33WJMYbpz7ql7fgBy7A8qUI8cJr/E9egNjnd8Kwmb7TG0cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lZ5QESCGGPkCTBDoSX3DYXs2jkWw6phKpNEVHnyfrbo=;
+ b=PEHjO/y/NQ7i7sZttepIMux63ES4nkpHRFZQ/vEtDtuRnZ2Fjuzb4wfJz7BzJ4hijwE2KNz2uhT6ir3udm79Q3PvSyGAY4YHieLpSgK2g6XF5VzOJ86SjuBKGVNXCp2CdLTuPj5wdyPPl0o/+kIeha299IcjoXUnvNWhlIc3HWc=
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:5::26) by GV1PR01MB8642.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:29::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 23 Jun
+ 2023 09:30:53 +0000
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::c7e1:753a:b31b:9135]) by
+ VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::c7e1:753a:b31b:9135%5]) with mapi id 15.20.6521.024; Fri, 23 Jun 2023
+ 09:30:53 +0000
+From: =?iso-8859-1?Q?J=F6rg_Sommer?= <joerg.sommer@navimatix.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "adrian.freihofer@gmail.com"
+	<adrian.freihofer@gmail.com>
+CC: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: Re: [OE-core] [PATCH 1/9] runqemu-ifup: remove uid parameter
+Thread-Topic: [OE-core] [PATCH 1/9] runqemu-ifup: remove uid parameter
+Thread-Index: AQHZpSyOHw7+dYOM9EmD5auUm3llDq+YHoRV
+Date: Fri, 23 Jun 2023 09:30:52 +0000
+Message-ID: 
+ <VI1PR0102MB313661740E953109CED0526EFC23A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
+References: <20230622170946.10082-1-adrian.freihofer@siemens.com>
+ <20230622170946.10082-2-adrian.freihofer@siemens.com>
+In-Reply-To: <20230622170946.10082-2-adrian.freihofer@siemens.com>
+Accept-Language: en-DE, de-DE, en-US
+Content-Language: aa
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR0102MB3136:EE_|GV1PR01MB8642:EE_
+x-ms-office365-filtering-correlation-id: d7e60bb0-5824-4c55-0bc6-08db73cc8a10
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ rN6P6O0c6qx2rr7nepP5E1DjGOi1VX9OPb1lQIxqBi9PDT3ocPDNdP6KaGhlW+PJs3mZwyVPSwWFQsorN9gwnt1+UzhZQbCLZhTtZ2g5DZzn0V8f0V8LNc0/XZdqsdfIv8M9PXyBLqdHxt0MYfIFhWce8Xrq22iI7OwOHfn0j2X+dXs+4H30mvlMNecWLBdhv4LCfQSStUmnBvXbHoWfT/c7/lVKV7W5GJeIGNDxPlFlphRKkWTAh/b/tjEu+ZYBnpDhAA0NSlgHYJ3GJPUlbzDxOVkSdSxaS4T7aKTTL7bVFhguo0AlS0njds2C8QqjHPCo4lRadAOxDcIWr38X7eTA1D59UofABaKVFLbIrwYS70rsAx1hFlkpNNf+0AnWCnMN7N2Zp8OnuTAnfof1fy2l4JBwDJBGV2XJ/2pFAdpdl35UAZ8QILAnT/VqoaCziz8uR0wgmZhiIYGrEgaX100dBMW10OAOjt871Klaq8GGoIQkQDqt71lIVwvYPY/i2zOtW/0M5u+1vm80ajR2GYOOVRtMAypZ9hXC6d9Q5iKlWZNi3jMha4nIL6I3HCKaMhGKuW1sqa+0xIultnb1rzPfeiCQCEqvnE7YWp9sFCM=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0102MB3136.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(39840400004)(366004)(376002)(396003)(451199021)(19627405001)(66946007)(4326008)(91956017)(76116006)(66476007)(66446008)(33656002)(8936002)(8676002)(66556008)(64756008)(508600001)(316002)(5660300002)(52536014)(55016003)(110136005)(41300700001)(86362001)(38070700005)(7696005)(2906002)(9686003)(53546011)(186003)(26005)(66574015)(6506007)(38100700002)(71200400001)(122000001)(83380400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?T8l3yLEXx9zcZ7vvCy5vSRb5mHGRfRFL/CawVKO2wxm9ZbU2szcp52M7Wo?=
+ =?iso-8859-1?Q?uxsWvXt9XGn9QE9A0bgKRxQnJ5wC7upPRJvB59C+sA7nlm9iTFHZ8jpSd8?=
+ =?iso-8859-1?Q?/W17KMUnNuuSZLJkukg+G93zelc9MPZoPOVQvtjpA8xPetfpMGXgsK642L?=
+ =?iso-8859-1?Q?o8C2PUwh2mDVPlN6PQN2hyqjpuyK+rW6fuAgykd84IgEc3QhHX4VBFY4/v?=
+ =?iso-8859-1?Q?wzu3i9K5vYazbhIeOZW7gICBorG9ATcaK4ZKvY8wOdcVaai8+3KAAoPX3x?=
+ =?iso-8859-1?Q?PEM/R2all8Rp7Xro4O18Ninzf5+n/EaddlBj/UMZfN3bl/KAi+C6E9U59r?=
+ =?iso-8859-1?Q?onqElwV4gTWj8AaVeTcLe7XUvoBwdyNqPw9nuWQ3crTS7i/irWwdsmqPbo?=
+ =?iso-8859-1?Q?4i5uNaFGea89RHpWcbVJGR153RmH3dFR2ThMGE13SpYK9zmg5LatwDw+sv?=
+ =?iso-8859-1?Q?wUPcc9elKjr/SuP6iAU4ArJujar0L779W/ms358c5G9KLKiAT7l1DTSGe+?=
+ =?iso-8859-1?Q?G8OhLlBS/ETfAlk/ADLxciiSslsDgibpzvlUS1mqU4VlAMRx5sSpHJFolw?=
+ =?iso-8859-1?Q?WdK1HySdZcia4X6lp2AutuV5dYNA5jvLtp8Eu/AGcijbOpjFz9MkYEtgAg?=
+ =?iso-8859-1?Q?Evlj/FaYOUHfmiPsx8hWJEWEs9M3BxPMBRZicbldFwpI89zMNcTQO8IEPU?=
+ =?iso-8859-1?Q?NO/zyiJLMaa/kWBEKIY2JXu0iRo0NK/BzMNWglwcN3t3Xj3pHl3Ch25DhN?=
+ =?iso-8859-1?Q?3U2KFauailR6g3dnLwGRTeBrRytInVMt0qEfiziA8wldjInhY5r8teFzbo?=
+ =?iso-8859-1?Q?XarB0eQwbn6VSwk779iT/Eoxz8Bva5ZBKlw+++5ZXuC0YBdo8HArNqXpi4?=
+ =?iso-8859-1?Q?k0ETwP0s1HRvrT4r75aKB9FrLbQHd6yPM015+WtzoM9/jM15wl8Ihc0pUJ?=
+ =?iso-8859-1?Q?HJF/8fM0+auwOjCM8oCZlcOlZ0sjyQdQ02vXQGrKPrZQz2fr9+rYjka1jz?=
+ =?iso-8859-1?Q?cbWJsLlWTVAu/4B8aavy9RCTwLPqRbNcR6m2hjdPAU/sxHxnMqlGwEgu4u?=
+ =?iso-8859-1?Q?t7y0PBPlokgXauqvDq/cxgrRzuTjaRiFDB+UixqbTtd3wprw8gCKG8fQG4?=
+ =?iso-8859-1?Q?VkX0MBtZo75Vr91dtUehAPgXtF5w5ry8U9jlLKe6a0TgJy6RLWk++hmipt?=
+ =?iso-8859-1?Q?XH79V+bP0YHFguVmJ0yLlqH3oqemlO+koLLFZ+GksgmypriocrFFZmcYhr?=
+ =?iso-8859-1?Q?DKR+DA2Y5Q8aroX5H2TD22MYb+YuM62Tkw8IPofpcYDVh9koZjoj39oxhu?=
+ =?iso-8859-1?Q?Si/VV0IfdynE7NoI394ncDg2MveFdJZhKDZoWMRBx+1qTiLjvnj3UKMkOr?=
+ =?iso-8859-1?Q?oCwVy32XdB9NhjI6c6MvMNikMjEefWpIXXQdNQSjI2OFwR2qGqJNa/dXI8?=
+ =?iso-8859-1?Q?harWsoASq4GomS5aKmLoUZ/JgKY744awIm+O6qXoSVTDjlkSA7pWSbfXlc?=
+ =?iso-8859-1?Q?KNwpbLe9BpuoFIP7idWtMsGo6drcICB3Dp7Fmz++cV2W0s9FC11xYe1TDs?=
+ =?iso-8859-1?Q?v73J4n8Mkhp2NAsoVxvySArxlXz1VuaDDojYyhlH6FgYcUIQjc6lwrL9iK?=
+ =?iso-8859-1?Q?QmnGO7TMseFkvMhUOMt7n4zeR1nFiDVHIb?=
+Content-Type: multipart/alternative;
+	boundary="_000_VI1PR0102MB313661740E953109CED0526EFC23AVI1PR0102MB3136_"
 MIME-Version: 1.0
-References: <20230622084452.2026849-1-jose.quaresma@foundries.io> <20230622183625.1d1dc9e6@booty>
-In-Reply-To: <20230622183625.1d1dc9e6@booty>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 23 Jun 2023 09:51:19 +0100
-Message-ID: <CANPvuRnm2j0zDavOPLx2uBbGmHgcY7ie8tDGs-iD1o2QQRWcfw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V4 1/3] kernel-module-split: make autoload and
- probeconf distribution specific
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>, Ola x Nilsson <Ola.x.Nilsson@axis.com>, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Content-Type: multipart/alternative; boundary="0000000000006361f205fec81bf4"
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7e60bb0-5824-4c55-0bc6-08db73cc8a10
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2023 09:30:52.9398
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ghz2CzueOLkiCAToMGZOALnF61IIJFw/pRRPLeTDysnPeNPDTPnsXiDjukYxVTHVdzoQ9lv9QFuyx62ASFpA2RaWOCa3dLLy/BxQGB8Kjus=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR01MB8642
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 08:51:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183311
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Jun 2023 09:31:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183312
 
---0000000000006361f205fec81bf4
-Content-Type: text/plain; charset="UTF-8"
+--_000_VI1PR0102MB313661740E953109CED0526EFC23AVI1PR0102MB3136_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Luca,
-
-Luca Ceresoli <luca.ceresoli@bootlin.com> escreveu no dia quinta,
-22/06/2023 =C3=A0(s) 17:36:
-
-> Hi Jose,
+On 22 June 2023 19:01, openembedded-core@lists.openembedded.org wrote:
+> ip tuntap does not need the uid, it was an unused variable/parameter.
+> Backward compatibility should be fine.
 >
-> On Thu, 22 Jun 2023 08:44:51 +0000
-> "Jose Quaresma" <quaresma.jose@gmail.com> wrote:
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+> scripts/runqemu-ifup | 13 ++++++++-----
+> 1 file changed, 8 insertions(+), 5 deletions(-)
 >
-> > Also take the oportunity to only add configuration files to FILES
-> > and CONFFILES when they exist and are used.
-> >
-> > The modules-load.d [1] - Configure kernel modules to load at boot
-> > should install their configuration files in /usr/lib/modules-load.d.
-> >
-> > The modprobe.d [2] - Configuration directory for modprobe
-> > should install their configuration files in /lib/modprobe.d
-> >
-> > [1] https://www.freedesktop.org/software/systemd/man/modules-load.d.htm=
-l
-> > [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
-> >
-> > [YOCTO #12212] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1221=
-2
-> >
-> > CC: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-> > CC: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+> index 5dc765dee82..26714518020 100755
+> --- a/scripts/runqemu-ifup
+> +++ b/scripts/runqemu-ifup
+> @@ -21,7 +21,7 @@
+> #
 >
-> This has now turned to:
+> usage() {
+> -       echo "sudo $(basename $0) <uid> <gid>"
+> +       echo "sudo $(basename $0) <gid>"
+> }
 >
-> ERROR: linux-yocto-6.1.33+gitAUTOINC+db25e51e20_947f660bde-r0 do_package:
-> QA Issue: linux-yocto: Files/directories were installed but not shipped i=
-n
-> any package:
->   /usr/lib
+> if [ $EUID -ne 0 ]; then
+> @@ -29,17 +29,20 @@ if [ $EUID -ne 0 ]; then
+> exit 1
+> fi
 >
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5410/st=
-eps/14/logs/stdio
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5383/st=
-eps/15/logs/stdio
+> -if [ $# -ne 2 ]; then
+> +if [ $# -eq 2 ]; then
+> +       echo "Warning: uid parameter is ignored. It is no longer needed."
+
+Would it be better to send this message to stderr (use `>&2`)?
+
+Regards
+
+J=F6rg Sommer
+
+Software Developer / Programmierer
+--
+
+Navimatix GmbH
+
+Tatzendpromenade 2
+
+07745 Jena
 
 
-I have another patch where we only create the directories when needed (if
-we have mod config files)
-and with that we do not need to remove them at the end.
-However this one changes the logic a bit, so I'd like to send this one
-separately
-but I can see that it won't work so I'll have to insert it on V5.
+T: 03641 - 327 99 0
 
-Once again thanks for testing.
+F: 03641 - 526 306
 
-Jose
+M: joerg.sommer@navimatix.de
+
+www.navimatix.de
 
 
->
-> Luca
->
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
 
 
---=20
-Best regards,
+Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley
 
-Jos=C3=A9 Quaresma
+Registergericht: Amtsgericht Jena, HRB 501480
 
---0000000000006361f205fec81bf4
-Content-Type: text/html; charset="UTF-8"
+
+
+--_000_VI1PR0102MB313661740E953109CED0526EFC23AVI1PR0102MB3136_
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Luca,</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Luca Ceresoli &lt;<a href=3D"mailto:luca.cere=
-soli@bootlin.com">luca.ceresoli@bootlin.com</a>&gt; escreveu no dia quinta,=
- 22/06/2023 =C3=A0(s) 17:36:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Hi Jose,<br>
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+On 22 June 2023 19:01, openembedded-core@lists.openembedded.org wrote:
+<div>&gt; ip tuntap does not need the uid, it was an unused variable/parame=
+ter.</div>
+<div>&gt; Backward compatibility should be fine.</div>
+<div>&gt; </div>
+<div>&gt; Signed-off-by: Adrian Freihofer &lt;adrian.freihofer@siemens.com&=
+gt;</div>
+<div>&gt; ---</div>
+<div>&gt; scripts/runqemu-ifup | 13 ++++++++-----</div>
+<div>&gt; 1 file changed, 8 insertions(+), 5 deletions(-)</div>
+<div>&gt; </div>
+<div>&gt; diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup</div>
+<div>&gt; index 5dc765dee82..26714518020 100755</div>
+<div>&gt; --- a/scripts/runqemu-ifup</div>
+<div>&gt; +++ b/scripts/runqemu-ifup</div>
+<div>&gt; @@ -21,7 +21,7 @@</div>
+<div>&gt; #</div>
+<div>&gt; </div>
+<div>&gt; usage() {</div>
+<div>&gt; - &nbsp; &nbsp; &nbsp; echo &quot;sudo $(basename $0) &lt;uid&gt;=
+ &lt;gid&gt;&quot;</div>
+<div>&gt; + &nbsp; &nbsp; &nbsp; echo &quot;sudo $(basename $0) &lt;gid&gt;=
+&quot;</div>
+<div>&gt; }</div>
+<div>&gt; </div>
+<div>&gt; if [ $EUID -ne 0 ]; then</div>
+<div>&gt; @@ -29,17 +29,20 @@ if [ $EUID -ne 0 ]; then</div>
+<div>&gt; exit 1</div>
+<div>&gt; fi</div>
+<div>&gt; </div>
+<div>&gt; -if [ $# -ne 2 ]; then</div>
+<div>&gt; +if [ $# -eq 2 ]; then</div>
+<div class=3D"elementToProof">&gt; + &nbsp; &nbsp; &nbsp; echo &quot;Warnin=
+g: uid parameter is ignored. It is no longer needed.&quot;</div>
+<div class=3D"elementToProof" style=3D"font-family: Calibri, Arial, Helveti=
+ca, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
 <br>
-On Thu, 22 Jun 2023 08:44:51 +0000<br>
-&quot;Jose Quaresma&quot; &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
-rget=3D"_blank">quaresma.jose@gmail.com</a>&gt; wrote:<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Calibri, Arial, Helveti=
+ca, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Would it be better to send this message to stderr (use `&gt;&amp;2`)?</div>
+<div class=3D"elementToProof" style=3D"font-family: Calibri, Arial, Helveti=
+ca, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
 <br>
-&gt; Also take the oportunity to only add configuration files to FILES<br>
-&gt; and CONFFILES when they exist and are used.<br>
-&gt; <br>
-&gt; The modules-load.d [1] - Configure kernel modules to load at boot<br>
-&gt; should install their configuration files in /usr/lib/modules-load.d.<b=
-r>
-&gt; <br>
-&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
-&gt; should install their configuration files in /lib/modprobe.d<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/module=
-s-load.d.html" rel=3D"noreferrer" target=3D"_blank">https://www.freedesktop=
-.org/software/systemd/man/modules-load.d.html</a><br>
-&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages//man5/modprobe.d.5=
-.html" rel=3D"noreferrer" target=3D"_blank">https://www.man7.org/linux/man-=
-pages//man5/modprobe.d.5.html</a><br>
-&gt; <br>
-&gt; [YOCTO #12212] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D12212" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctop=
-roject.org/show_bug.cgi?id=3D12212</a><br>
-&gt; <br>
-&gt; CC: Ola x Nilsson &lt;<a href=3D"mailto:Ola.x.Nilsson@axis.com" target=
-=3D"_blank">Ola.x.Nilsson@axis.com</a>&gt;<br>
-&gt; CC: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.c=
-om" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-<br>
-This has now turned to:<br>
-<br>
-ERROR: linux-yocto-6.1.33+gitAUTOINC+db25e51e20_947f660bde-r0 do_package: Q=
-A Issue: linux-yocto: Files/directories were installed but not shipped in a=
-ny package:<br>
-=C2=A0 /usr/lib<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/87/build=
-s/5410/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5410/steps/14/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
-s/5383/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5383/steps/15/logs/=
-stdio</a></blockquote><div><br><span style=3D"color:rgb(0,0,0)">I have anot=
-her patch where we only create the directories=C2=A0</span><span style=3D"c=
-olor:rgb(0,0,0)">when needed (if we have mod config files)</span></div><div=
-><span style=3D"color:rgb(0,0,0)">and with that=C2=A0we do not need to remo=
-ve them at the end.</span></div><div>However this one changes the logic a b=
-it, so I&#39;d like to send this one separately</div><div>but I can see tha=
-t it won&#39;t work so I&#39;ll have to insert it on V5.</div><div><br>Once=
- again thanks for testing.<br>=C2=A0<br>Jose</div><div><br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-Luca<br>
-<br>
--- <br>
-Luca Ceresoli, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Regards</div>
+<div><br>
+</div>
+<div>J=F6rg Sommer</div>
+<div><br>
+</div>
+<div>Software Developer / Programmierer</div>
+<div class=3D"elementToProof">--&nbsp;</div>
+<div><br>
+</div>
+<div>Navimatix GmbH</div>
+<div><br>
+</div>
+<div>Tatzendpromenade 2</div>
+<div><br>
+</div>
+<div>07745 Jena</div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div>T: 03641 - 327 99 0</div>
+<div><br>
+</div>
+<div>F: 03641 - 526 306</div>
+<div><br>
+</div>
+<div>M: joerg.sommer@navimatix.de</div>
+<div><br>
+</div>
+<div>www.navimatix.de</div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div>Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley</div>
+<div><br>
+</div>
+<div>Registergericht: Amtsgericht Jena, HRB 501480</div>
+<div><br>
+</div>
+<div><br>
+</div>
+</body>
+</html>
 
---0000000000006361f205fec81bf4--
+--_000_VI1PR0102MB313661740E953109CED0526EFC23AVI1PR0102MB3136_--
 
