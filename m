@@ -1,565 +1,149 @@
-Return-Path: <marex@denx.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C62EB64DC
-	for <webhook@archiver.kernel.org>; Sun, 25 Jun 2023 13:50:35 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web10.11751.1687701029527341941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01D5EB64DC
+	for <webhook@archiver.kernel.org>; Sun, 25 Jun 2023 14:20:45 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.12039.1687702842898067662
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Jun 2023 06:50:30 -0700
+ Sun, 25 Jun 2023 07:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=xztiBCN2;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 31EE5861A5;
-	Sun, 25 Jun 2023 15:50:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1687701027;
-	bh=BAWKccrJis8tRGfdmZC5I+AVrGjx5uGAixS8mOyI7Qw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=xztiBCN2MQTHJkYEUzMF4xKjOB6UiEqGe7h+vFGobbUfSJyfW/70ZzeelHEgsGadr
-	 hg5gVo/CK7qUORXI5U9RIbYmmridxDKkxvhn9LOiSWqUkPNw+1f38Ta8P3F+/hGHfR
-	 nahtLjhG4z+8kD6veAH83rO3krGSEClKXnjGgJhQJhusLoZbY7+AY7mAdj/hNMeA4g
-	 N4AUV4tw1MBXKhk8HV4+tQDl2V6oms6DtBEQKx6YEXbsKv1q9xkMnYsToR4OesW9+c
-	 6O7oFiCOnpNkqJNvcdMdrzymN1vk3M3hSu5ER31eiACq5xn4Wq7xUO7D4L0PSsl7eZ
-	 RCVhyhaSWOwVw==
-From: Marek Vasut <marex@denx.de>
-To: steve@sakoman.com,
-	openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [kirkstone][PATCH] cpio: Replace fix wrong CRC with ASCII CRC for large files with upstream backport
-Date: Sun, 25 Jun 2023 15:50:20 +0200
-Message-Id: <20230625135020.104159-1-marex@denx.de>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=OTpIK+En;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-666fb8b1bc8so2374076b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Jun 2023 07:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687702842; x=1690294842;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YgMDYnbSR3CFN6M25o0gnfNYSAY1OlEcSAwI9TgFT0U=;
+        b=OTpIK+EnazN3q8fel4wSy5TGhgbp53X3Il9HgaIzd5QGioz/US1uIuLlfw9oIax4L8
+         Bn3uYomZWupeh/QhqaZdeYKNdFdJwa77ZzKeElXkKpYxy0nkjEUbuLN5g6XPnZcRY/8C
+         LvsIbWdEjB4db1eTq14ehaBIStsJARUOO/S2tZa2AlIQ/UGendSwA0pxWD4HJVr/EWLf
+         Yv2Us1RbuYI4pQXsNRZ4UoAgXFRRiWqWXKU/nEMPl1U9wHmSyhALUJudkp3A0+oaW/91
+         wKCoir2tHglPu/Cbx+FL9iZmYK9JTiHc53O68YROh29FEKHui6sQQukwOXRAyRMTRmJF
+         PLqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687702842; x=1690294842;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YgMDYnbSR3CFN6M25o0gnfNYSAY1OlEcSAwI9TgFT0U=;
+        b=VdfJnO5Ja7VKOgxeymLUyMniXHdjsOtBBdd6WJyOowa1kIW0O6txkgyuS71VrxYy04
+         8rRWbHN6nFeAeTKovMHp2VDDxevv1IkXpvK/LAoWCGKuGoo5H/LLEiKUhLDuBR0c4fU7
+         RXhOOAxCMZojSEGYye29FP6A4Q3+ctO05sOC5wlSja5eiqJBrvR4AUp63aPJkHaLSZt1
+         VL9Lrbbbd6SQGAtdwDVxmd/fzioXR7Tt7QSgyoYyxI8csTQ+V1bsb8Cfh9a34p6TXFxM
+         XIf8D1S5ZU0qEU+tHYRf8qjmO1NXlRB3Jt+HQsLG1HQ8RdjFXXlfgW0VfK6FrTMZ38uS
+         irvA==
+X-Gm-Message-State: AC+VfDzn5NFScXYeINuNPo8yDHsFiEgiDC/VpAjCtn9i9j04wWpgi2n0
+	W7S6OkDn68iOnljA0OXI91ly7bySzOiPppF+TL4=
+X-Google-Smtp-Source: ACHHUZ7HiUblTjnZWrG3V/JUHCfQ2Y7A+LAwf1YJoys9VCXN1fPIjzLKYK0e0NtPqcHlDjYkhHjwpg==
+X-Received: by 2002:a05:6a00:844:b0:668:8c7a:47e2 with SMTP id q4-20020a056a00084400b006688c7a47e2mr22753319pfk.19.1687702840858;
+        Sun, 25 Jun 2023 07:20:40 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id n13-20020aa78a4d000000b0064559b58eb8sm2291003pfa.154.2023.06.25.07.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jun 2023 07:20:40 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id AB60F960522; Sun, 25 Jun 2023 04:20:38 -1000 (HST)
+Subject: OE-core CVE metrics for mickledore on Sun 25 Jun 2023 04:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 25 Jun 2023 04:20:38 -1000
+Message-Id: <20230625142038.AB60F960522@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Jun 2023 13:50:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183373
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Jun 2023 14:20:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183374
 
-Replace the original "Wrong CRC with ASCII CRC for large files"
-patch with upstream backport, and add additional fix on top of
-the same problem which upstream detected and fixed.
+Branch: mickledore
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-NOTE: There is no oe-core/master counterpart, since oe-core/master
-      updated to cpio 2.14 in the meantime.
----
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@arm.com>
-Cc: Steve Sakoman <steve@sakoman.com>
----
- ...g-CRC-with-ASCII-CRC-for-large-files.patch |  39 ---
- ...-calculation-of-CRC-in-copy-out-mode.patch |  55 ++++
- ...appending-to-archives-bigger-than-2G.patch | 309 ++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.13.bb       |   3 +-
- 4 files changed, 366 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-w=
-ith-ASCII-CRC-for-large-files.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calcula=
-tion-of-CRC-in-copy-out-mode.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appendi=
-ng-to-archives-bigger-than-2G.patch
+New this week: 4 CVEs
+CVE-2023-25434 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25434 *
+CVE-2023-26965 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26965 *
+CVE-2023-3161 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3161 *
+CVE-2023-35788 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35788 *
 
-diff --git a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASC=
-II-CRC-for-large-files.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-=
-Wrong-CRC-with-ASCII-CRC-for-large-files.patch
-deleted file mode 100644
-index 4b96e4316c..0000000000
---- a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-=
-for-large-files.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 77ff5f1be394eb2c786df561ff37dde7f982ec76 Mon Sep 17 00:00:00 2001
--From: Stefano Babic <sbabic@denx.de>
--Date: Fri, 28 Jul 2017 13:20:52 +0200
--Subject: [PATCH] Wrong CRC with ASCII CRC for large files
--
--Due to signedness, the checksum is not computed when filesize is bigger
--a 2GB.
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-cpio/=
-2017-07/msg00004.html]
--Signed-off-by: Stefano Babic <sbabic@denx.de>
-----
-- src/copyout.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/src/copyout.c b/src/copyout.c
--index 1f0987a..727aeca 100644
----- a/src/copyout.c
--+++ b/src/copyout.c
--@@ -34,13 +34,13 @@
--    compute and return a checksum for them.  */
--=20
-- static uint32_t
---read_for_checksum (int in_file_des, int file_size, char *file_name)
--+read_for_checksum (int in_file_des, unsigned int file_size, char *file_=
-name)
-- {
--   uint32_t crc;
--   char buf[BUFSIZ];
---  int bytes_left;
---  int bytes_read;
---  int i;
--+  unsigned int bytes_left;
--+  unsigned int bytes_read;
--+  unsigned int i;
--=20
--   crc =3D 0;
--=20
----=20
--2.7.4
--
-diff --git a/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of=
--CRC-in-copy-out-mode.patch b/meta/recipes-extended/cpio/cpio-2.13/0003-F=
-ix-calculation-of-CRC-in-copy-out-mode.patch
-new file mode 100644
-index 0000000000..aa478b5126
---- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in=
--copy-out-mode.patch
-@@ -0,0 +1,55 @@
-+From d257e47a6c6b41ba727b196ac96c05ab91bd9d65 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Fri, 7 Apr 2023 11:23:37 +0300
-+Subject: [PATCH 3/4] Fix calculation of CRC in copy-out mode.
-+
-+* src/copyout.c (read_for_checksum): Fix type of the file_size argument.
-+Rewrite the reading loop.
-+
-+Original patch by Stefano Babic <sbabic@denx.de>
-+---
-+ src/copyout.c | 16 +++++++---------
-+ 1 file changed, 7 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/copyout.c b/src/copyout.c
-+index 8b0beb6..f1ff351 100644
-+--- a/src/copyout.c
-++++ b/src/copyout.c
-+@@ -34,27 +34,25 @@
-+    compute and return a checksum for them.  */
-+=20
-+ static uint32_t
-+-read_for_checksum (int in_file_des, int file_size, char *file_name)
-++read_for_checksum (int in_file_des, off_t file_size, char *file_name)
-+ {
-+   uint32_t crc;
-+-  char buf[BUFSIZ];
-+-  int bytes_left;
-+-  int bytes_read;
-+-  int i;
-++  unsigned char buf[BUFSIZ];
-++  ssize_t bytes_read;
-++  ssize_t i;
-+=20
-+   crc =3D 0;
-+=20
-+-  for (bytes_left =3D file_size; bytes_left > 0; bytes_left -=3D bytes_=
-read)
-++  while (file_size > 0)
-+     {
-+       bytes_read =3D read (in_file_des, buf, BUFSIZ);
-+       if (bytes_read < 0)
-+ 	error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_=
-name);
-+       if (bytes_read =3D=3D 0)
-+ 	break;
-+-      if (bytes_left < bytes_read)
-+-        bytes_read =3D bytes_left;
-+-      for (i =3D 0; i < bytes_read; ++i)
-++      for (i =3D 0; i < bytes_read; i++)
-+ 	crc +=3D buf[i] & 0xff;
-++      file_size -=3D bytes_read;
-+     }
-+   if (lseek (in_file_des, 0L, SEEK_SET))
-+     error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), fi=
-le_name);
-+--=20
-+2.39.2
-+
-diff --git a/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-a=
-rchives-bigger-than-2G.patch b/meta/recipes-extended/cpio/cpio-2.13/0004-=
-Fix-appending-to-archives-bigger-than-2G.patch
-new file mode 100644
-index 0000000000..677702c0bc
---- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives=
--bigger-than-2G.patch
-@@ -0,0 +1,309 @@
-+From 8513495ab5cfb63eb7c4c933fdf0b78c6196cd27 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Fri, 28 Apr 2023 15:23:46 +0300
-+Subject: [PATCH 4/4] Fix appending to archives bigger than 2G
-+
-+* src/extern.h (last_header_start): Change type to off_t.
-+* src/global.c: Likewise.
-+* src/util.c (prepare_append): Use off_t for file offsets.
-+---
-+ src/extern.h | 11 ++++-----
-+ src/global.c |  2 +-
-+ src/util.c   | 66 ++++++++++++++++++++++++++--------------------------
-+ 3 files changed, 39 insertions(+), 40 deletions(-)
-+
-+diff --git a/src/extern.h b/src/extern.h
-+index 11ac6bf..12f14a9 100644
-+--- a/src/extern.h
-++++ b/src/extern.h
-+@@ -67,7 +67,7 @@ extern int ignore_devno_option;
-+=20
-+ extern bool to_stdout_option;
-+=20
-+-extern int last_header_start;
-++extern off_t last_header_start;
-+ extern int copy_matching_files;
-+ extern int numeric_uid;
-+ extern char *pattern_file_name;
-+@@ -123,7 +123,7 @@ void field_width_error (const char *filename, const =
-char *fieldname,
-+=20
-+ /* copypass.c */
-+ void process_copy_pass (void);
-+-int link_to_maj_min_ino (char *file_name, int st_dev_maj,=20
-++int link_to_maj_min_ino (char *file_name, int st_dev_maj,
-+ 			 int st_dev_min, ino_t st_ino);
-+ int link_to_name (char const *link_name, char const *link_target);
-+=20
-+@@ -171,7 +171,7 @@ void copy_files_tape_to_disk (int in_des, int out_de=
-s, off_t num_bytes);
-+ void copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes,=
- char *filename);
-+ void copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes,=
- char *filename);
-+ void warn_if_file_changed (char *file_name, off_t old_file_size,
-+-                           time_t old_file_mtime);
-++			   time_t old_file_mtime);
-+ void create_all_directories (char const *name);
-+ void prepare_append (int out_file_des);
-+ char *find_inode_file (ino_t node_num,
-+@@ -185,7 +185,7 @@ void set_new_media_message (char *message);
-+ #ifdef HPUX_CDF
-+ char *add_cdf_double_slashes (char *filename);
-+ #endif
-+-void write_nuls_to_file (off_t num_bytes, int out_des,=20
-++void write_nuls_to_file (off_t num_bytes, int out_des,
-+ 			 void (*writer) (char *in_buf,
-+ 					 int out_des, off_t num_bytes));
-+ #define DISK_IO_BLOCK_SIZE	512
-+@@ -229,6 +229,5 @@ void delay_set_stat (char const *file_name, struct s=
-tat *st,
-+ 		     mode_t invert_permissions);
-+ int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
-+ void apply_delayed_set_stat (void);
-+-    =20
-+-int arf_stores_inode_p (enum archive_format arf);
-+=20
-++int arf_stores_inode_p (enum archive_format arf);
-+diff --git a/src/global.c b/src/global.c
-+index fb3abe9..5c9fc05 100644
-+--- a/src/global.c
-++++ b/src/global.c
-+@@ -114,7 +114,7 @@ int debug_flag =3D false;
-+=20
-+ /* File position of last header read.  Only used during -A to determine
-+    where the old TRAILER!!! record started.  */
-+-int last_header_start =3D 0;
-++off_t last_header_start =3D 0;
-+=20
-+ /* With -i; if true, copy only files that match any of the given patter=
-ns;
-+    if false, copy only files that do not match any of the patterns. (-f=
-) */
-+diff --git a/src/util.c b/src/util.c
-+index 4421b20..3be89a4 100644
-+--- a/src/util.c
-++++ b/src/util.c
-+@@ -60,8 +60,8 @@ tape_empty_output_buffer (int out_des)
-+   static long output_bytes_before_lseek =3D 0;
-+=20
-+   /* Some tape drivers seem to have a signed internal seek pointer and
-+-     they lose if it overflows and becomes negative (e.g. when writing=20
-+-     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e=20
-++     they lose if it overflows and becomes negative (e.g. when writing
-++     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e
-+      seek pointer and prevent it from overflowing.  */
-+   if (output_is_special
-+      && ( (output_bytes_before_lseek +=3D output_size) >=3D 1073741824L=
-) )
-+@@ -106,7 +106,7 @@ static ssize_t sparse_write (int fildes, char *buf, =
-size_t nbyte, bool flush);
-+    descriptor OUT_DES and reset `output_size' and `out_buff'.
-+    If `swapping_halfwords' or `swapping_bytes' is set,
-+    do the appropriate swapping first.  Our callers have
-+-   to make sure to only set these flags if `output_size'=20
-++   to make sure to only set these flags if `output_size'
-+    is appropriate (a multiple of 4 for `swapping_halfwords',
-+    2 for `swapping_bytes').  The fact that DISK_IO_BLOCK_SIZE
-+    must always be a multiple of 4 helps us (and our callers)
-+@@ -188,8 +188,8 @@ tape_fill_input_buffer (int in_des, int num_bytes)
-+ {
-+ #ifdef BROKEN_LONG_TAPE_DRIVER
-+   /* Some tape drivers seem to have a signed internal seek pointer and
-+-     they lose if it overflows and becomes negative (e.g. when writing=20
-+-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e=20
-++     they lose if it overflows and becomes negative (e.g. when writing
-++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e
-+      seek pointer and prevent it from overflowing.  */
-+   if (input_is_special
-+       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
-)
-+@@ -332,8 +332,8 @@ tape_buffered_peek (char *peek_buf, int in_des, int =
-num_bytes)
-+=20
-+ #ifdef BROKEN_LONG_TAPE_DRIVER
-+   /* Some tape drivers seem to have a signed internal seek pointer and
-+-     they lose if it overflows and becomes negative (e.g. when writing=20
-+-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e=20
-++     they lose if it overflows and becomes negative (e.g. when writing
-++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
-e
-+      seek pointer and prevent it from overflowing.  */
-+   if (input_is_special
-+       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
-)
-+@@ -404,7 +404,7 @@ tape_toss_input (int in_des, off_t num_bytes)
-+=20
-+       if (crc_i_flag && only_verify_crc_flag)
-+ 	{
-+- 	  int k;
-++	  int k;
-+ 	  for (k =3D 0; k < space_left; ++k)
-+ 	    crc +=3D in_buff[k] & 0xff;
-+ 	}
-+@@ -416,14 +416,14 @@ tape_toss_input (int in_des, off_t num_bytes)
-+ }
-+ =0C
-+ void
-+-write_nuls_to_file (off_t num_bytes, int out_des,=20
-+-                    void (*writer) (char *in_buf, int out_des, off_t nu=
-m_bytes))
-++write_nuls_to_file (off_t num_bytes, int out_des,
-++		    void (*writer) (char *in_buf, int out_des, off_t num_bytes))
-+ {
-+   off_t	blocks;
-+   off_t	extra_bytes;
-+   off_t	i;
-+   static char zeros_512[512];
-+- =20
-++
-+   blocks =3D num_bytes / sizeof zeros_512;
-+   extra_bytes =3D num_bytes % sizeof zeros_512;
-+   for (i =3D 0; i < blocks; ++i)
-+@@ -603,7 +603,7 @@ create_all_directories (char const *name)
-+   char *dir;
-+=20
-+   dir =3D dir_name (name);
-+- =20
-++
-+   if (dir =3D=3D NULL)
-+     error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
-+=20
-+@@ -637,9 +637,9 @@ create_all_directories (char const *name)
-+ void
-+ prepare_append (int out_file_des)
-+ {
-+-  int start_of_header;
-+-  int start_of_block;
-+-  int useful_bytes_in_block;
-++  off_t start_of_header;
-++  off_t start_of_block;
-++  size_t useful_bytes_in_block;
-+   char *tmp_buf;
-+=20
-+   start_of_header =3D last_header_start;
-+@@ -697,8 +697,8 @@ inode_val_compare (const void *val1, const void *val=
-2)
-+   const struct inode_val *ival1 =3D val1;
-+   const struct inode_val *ival2 =3D val2;
-+   return ival1->inode =3D=3D ival2->inode
-+-         && ival1->major_num =3D=3D ival2->major_num
-+-         && ival1->minor_num =3D=3D ival2->minor_num;
-++	 && ival1->major_num =3D=3D ival2->major_num
-++	 && ival1->minor_num =3D=3D ival2->minor_num;
-+ }
-+=20
-+ static struct inode_val *
-+@@ -706,10 +706,10 @@ find_inode_val (ino_t node_num, unsigned long majo=
-r_num,
-+ 		 unsigned long minor_num)
-+ {
-+   struct inode_val sample;
-+- =20
-++
-+   if (!hash_table)
-+     return NULL;
-+- =20
-++
-+   sample.inode =3D node_num;
-+   sample.major_num =3D major_num;
-+   sample.minor_num =3D minor_num;
-+@@ -734,7 +734,7 @@ add_inode (ino_t node_num, char *file_name, unsigned=
- long major_num,
-+ {
-+   struct inode_val *temp;
-+   struct inode_val *e =3D NULL;
-+- =20
-++
-+   /* Create new inode record.  */
-+   temp =3D (struct inode_val *) xmalloc (sizeof (struct inode_val));
-+   temp->inode =3D node_num;
-+@@ -1007,7 +1007,7 @@ buf_all_zeros (char *buf, int bufsize)
-+=20
-+ /* Write NBYTE bytes from BUF to file descriptor FILDES, trying to
-+    create holes instead of writing blockfuls of zeros.
-+-  =20
-++
-+    Return the number of bytes written (including bytes in zero
-+    regions) on success, -1 on error.
-+=20
-+@@ -1027,7 +1027,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
-, bool flush)
-+=20
-+   enum { begin, in_zeros, not_in_zeros } state =3D
-+ 			   delayed_seek_count ? in_zeros : begin;
-+- =20
-++
-+   while (nbytes)
-+     {
-+       size_t rest =3D nbytes;
-+@@ -1042,7 +1042,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
-, bool flush)
-+ 	      if (state =3D=3D not_in_zeros)
-+ 		{
-+ 		  ssize_t bytes =3D buf - start_ptr + rest;
-+-		 =20
-++
-+ 		  n =3D write (fildes, start_ptr, bytes);
-+ 		  if (n =3D=3D -1)
-+ 		    return -1;
-+@@ -1091,8 +1091,8 @@ sparse_write (int fildes, char *buf, size_t nbytes=
-, bool flush)
-+       if (n !=3D 1)
-+ 	return n;
-+       delayed_seek_count =3D 0;
-+-    }     =20
-+- =20
-++    }
-++
-+   return nwritten + seek_count;
-+ }
-+=20
-+@@ -1222,7 +1222,7 @@ set_perms (int fd, struct cpio_file_stat *header)
-+   if (!no_chown_flag)
-+     {
-+       uid_t uid =3D CPIO_UID (header->c_uid);
-+-      gid_t gid =3D CPIO_GID (header->c_gid);=20
-++      gid_t gid =3D CPIO_GID (header->c_gid);
-+       if ((fchown_or_chown (fd, header->c_name, uid, gid) < 0)
-+ 	  && errno !=3D EPERM)
-+ 	chown_error_details (header->c_name, uid, gid);
-+@@ -1239,13 +1239,13 @@ set_file_times (int fd,
-+ 		const char *name, unsigned long atime, unsigned long mtime)
-+ {
-+   struct timespec ts[2];
-+- =20
-++
-+   memset (&ts, 0, sizeof ts);
-+=20
-+   ts[0].tv_sec =3D atime;
-+   ts[1].tv_sec =3D mtime;
-+=20
-+-  /* Silently ignore EROFS because reading the file won't have upset it=
-s=20
-++  /* Silently ignore EROFS because reading the file won't have upset it=
-s
-+      timestamp if it's on a read-only filesystem. */
-+   if (fdutimens (fd, name, ts) < 0 && errno !=3D EROFS)
-+     utime_error (name);
-+@@ -1297,7 +1297,7 @@ cpio_safer_name_suffix (char *name, bool link_targ=
-et, bool absolute_names,
-+ =0C
-+ /* This is a simplified form of delayed set_stat used by GNU tar.
-+    With the time, both forms will merge and pass to paxutils
-+-  =20
-++
-+    List of directories whose statuses we need to extract after we've
-+    finished extracting their subsidiary files.  If you consider each
-+    contiguous subsequence of elements of the form [D]?[^D]*, where [D]
-+@@ -1415,7 +1415,7 @@ cpio_mkdir (struct cpio_file_stat *file_hdr, int *=
-setstat_delayed)
-+ {
-+   int rc;
-+   mode_t mode =3D file_hdr->c_mode;
-+- =20
-++
-+   if (!(file_hdr->c_mode & S_IWUSR))
-+     {
-+       rc =3D mkdir (file_hdr->c_name, mode | S_IWUSR);
-+@@ -1438,10 +1438,10 @@ cpio_create_dir (struct cpio_file_stat *file_hdr=
-, int existing_dir)
-+ {
-+   int res;			/* Result of various function calls.  */
-+   int setstat_delayed =3D 0;
-+- =20
-++
-+   if (to_stdout_option)
-+     return 0;
-+- =20
-++
-+   /* Strip any trailing `/'s off the filename; tar puts
-+      them on.  We might as well do it here in case anybody
-+      else does too, since they cause strange things to happen.  */
-+@@ -1530,7 +1530,7 @@ arf_stores_inode_p (enum archive_format arf)
-+     }
-+   return 1;
-+ }
-+- =20
-++
-+ void
-+ cpio_file_stat_init (struct cpio_file_stat *file_hdr)
-+ {
-+--=20
-+2.39.2
-+
-diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-exten=
-ded/cpio/cpio_2.13.bb
-index dd3541096f..6ac5653eab 100644
---- a/meta/recipes-extended/cpio/cpio_2.13.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.13.bb
-@@ -10,7 +10,8 @@ SRC_URI =3D "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.p=
-atch \
-            file://0002-src-global.c-Remove-superfluous-declaration-of-pr=
-ogr.patch \
-            file://CVE-2021-38185.patch \
--           file://0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch \
-+           file://0003-Fix-calculation-of-CRC-in-copy-out-mode.patch \
-+           file://0004-Fix-appending-to-archives-bigger-than-2G.patch \
-            "
-=20
- SRC_URI[md5sum] =3D "389c5452d667c23b5eceb206f5000810"
---=20
-2.40.1
+Removed this week: 10 CVEs
+CVE-2021-4336 (CVSS3: 9.8 CRITICAL): ninja:ninja-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4336 *
+CVE-2023-0465 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0465 *
+CVE-2023-0466 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0466 *
+CVE-2023-1255 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1255 *
+CVE-2023-2650 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2650 *
+CVE-2023-28319 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28319 *
+CVE-2023-28320 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28320 *
+CVE-2023-28321 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28321 *
+CVE-2023-28322 (CVSS3: 3.7 LOW): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28322 *
+CVE-2023-32324 (CVSS3: 5.5 MEDIUM): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32324 *
 
+Full list:  Found 65 unpatched CVEs
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
+CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
+CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-48425 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48425 *
+CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
+CVE-2023-0330 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0330 *
+CVE-2023-0615 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0615 *
+CVE-2023-1380 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1380 *
+CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
+CVE-2023-1611 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1611 *
+CVE-2023-1855 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1855 *
+CVE-2023-1859 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1859 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-1972 (CVSS3: 6.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1972 *
+CVE-2023-1989 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1989 *
+CVE-2023-1990 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1990 *
+CVE-2023-1998 (CVSS3: 5.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1998 *
+CVE-2023-2002 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2002 *
+CVE-2023-2124 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2124 *
+CVE-2023-2156 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2156 *
+CVE-2023-2162 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2162 *
+CVE-2023-2194 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2194 *
+CVE-2023-2235 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2235 *
+CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
+CVE-2023-25434 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25434 *
+CVE-2023-25652 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25652 *
+CVE-2023-2609 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2609 *
+CVE-2023-2610 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2610 *
+CVE-2023-26965 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26965 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-28328 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28328 *
+CVE-2023-28464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28464 *
+CVE-2023-28484 (CVSS3: 6.5 MEDIUM): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28484 *
+CVE-2023-28866 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28866 *
+CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
+CVE-2023-29007 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29007 *
+CVE-2023-29402 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29402 *
+CVE-2023-29403 (CVSS3: 7.8 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
+CVE-2023-29404 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29404 *
+CVE-2023-29405 (CVSS3: 9.8 CRITICAL): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29405 *
+CVE-2023-29469 (CVSS3: 6.5 MEDIUM): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29469 *
+CVE-2023-2985 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2985 *
+CVE-2023-30456 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30456 *
+CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
+CVE-2023-30630 (CVSS3: 7.8 HIGH): dmidecode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30630 *
+CVE-2023-30772 (CVSS3: 6.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30772 *
+CVE-2023-3141 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3141 *
+CVE-2023-31436 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31436 *
+CVE-2023-3161 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3161 *
+CVE-2023-32233 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32233 *
+CVE-2023-32681 (CVSS3: 6.1 MEDIUM): python3-requests https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32681 *
+CVE-2023-33203 (CVSS3: 6.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33203 *
+CVE-2023-33288 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-33288 *
+CVE-2023-34256 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-34256 *
+CVE-2023-35788 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35788 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
