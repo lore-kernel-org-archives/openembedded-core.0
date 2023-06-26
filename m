@@ -1,281 +1,195 @@
-Return-Path: <philip@balister.org>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16074EB64DC
-	for <webhook@archiver.kernel.org>; Mon, 26 Jun 2023 21:23:48 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.1743.1687799564825535289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6A1EB64DC
+	for <webhook@archiver.kernel.org>; Mon, 26 Jun 2023 21:46:48 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.4828.1687816006281395437
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jun 2023 10:12:45 -0700
+ Mon, 26 Jun 2023 14:46:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@snap.com header.s=google header.b=ch77lAD5;
- spf=pass (domain: snapchat.com, ip: 209.85.218.45, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-988a076a7d3so529501866b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 10:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1687799563; x=1690391563;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9eHTtx8/8K8f17dReRzf/jYJH6su371IF69p1u29ZfY=;
-        b=ch77lAD5snM/M361ds3zjPqZp7vfoUI3u33xpTD5MHgGxAO9FEWIeGlVYtRmDAopca
-         DzaNmOOhomFbo0HPgaQBn2eHYBPVaV0NqB20ll6s6zka1e0ljiK//xLWqABDT9WccRxI
-         NoKs428PlN8rjOOmxPhbtGGawl1cwcqT32LCo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687799563; x=1690391563;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9eHTtx8/8K8f17dReRzf/jYJH6su371IF69p1u29ZfY=;
-        b=UIRQ117Rs3Qw3FfxqvtQfIsXS2L3nPjZumzXSdA+Rml2XFu2JyZhWMcOr0HL8P4F7a
-         iu2k1p69yXzJ7cjYKM+c35yYVa4C5eEnsAJL0bNzNXYmMR3Rrz3lqRzSUHJWBrWxQtOB
-         YVEraf9m4JfkDbhphutJQKzZf8gZhl88bJw8G0OZO3OaCDYq7P8VGlsjAJ0YqnMkqglw
-         gla38qMpO7Ga5bEnBjGU2hnsV2zTHZeSQxYyHSm23S0MNUv9/zWcgdZnNLZUQ92wfPTm
-         HyEcr27zaC0XkEDrqJOBhrsr9zwWEgc5OlvzerSxLljiJhBWyvabXHU4QItul5Jf5zXn
-         dLXQ==
-X-Gm-Message-State: AC+VfDxJuvZXaIZYaubziA9okM5EOnRsDKd0kJ+btEvag7WE7QvVIIWb
-	rh8xQVMXywz+hEaOZ7WwYBclFrsNHjzDZqyhQHrIxA==
-X-Google-Smtp-Source: ACHHUZ4kvtz21tirLviZ1IQ0AdtwsvIB2D1Fg7qZtqavvcLqniwx+T26rJz2RnUezFKyinmn1IixhkE0dHVV4QQpwXw=
-X-Received: by 2002:a17:907:6e88:b0:988:8536:8886 with SMTP id
- sh8-20020a1709076e8800b0098885368886mr26704641ejc.21.1687799555978; Mon, 26
- Jun 2023 10:12:35 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=nydBPr11;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5541c98b54=sakib.sajal@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35QLTlRL004305
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 21:46:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=iidIinHjKHQZ3ERBde
+	JV2FLjns8IjBPVrS1jdG5Hzig=; b=nydBPr11mwLAIB7XzO5FFjIWUPD3/AXd/E
+	3JJBW4XWkg50HceKuquvzYlBFmrBC3fiVS6RqueVNlhPnZ/4uGD89JxjN2A/K+FK
+	Fm1jD5P6W3W2a62ON8DNj4sMgGj577kYQxdcaNXLA5C9IUaemiePAmWyed0LCAMj
+	+Pw7u6RqYPnvpwDIVspY1bKA2SjsyOpA0e9llThWitpgATLqpxoycBOHQRlkQeOQ
+	+3Mu6c1ZZwTjeHv90kRDAYG8xdBmL1Y2acNe4C5cZTlTuWLXWPvNHFdC7jb9HqMH
+	pI+Xtlgg6PJMO9bie/nhhQfj6eQZ5TnupmWrWNvUAXgWpp4K4Vtg==
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdqf4a5et-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 21:46:45 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I8IWdxn9JxiGW59vkFT6uxIX8P4f17D/QAisdQbLgl1M2TmvBKTpLc4mYdXgy6mKMxNKzGrcPzyx3+SC3eCYhyt5dW+39x0uQK3X2tFLLnvKYfyjRMrTEadSTux4X3Ux8rnOIvjITlWnmg3IMDAUX5yyhafemap/2gj6I1t5dgJqboIcjLAW0LS3YhRss4qlRnXf/WjparwCwoiBHzrH/uNkcTHr8nilc5pRPK0jBVjfy4HWx7jN8avpQCqfOQsqBSIyRKOretQG9xEU60fpmD1K5CGRvwmm+W0DsXczMG8zlPd538fQxGVfqRD2lT6OUrK62ZH8fsCQ8piWzV0WqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iidIinHjKHQZ3ERBdeJV2FLjns8IjBPVrS1jdG5Hzig=;
+ b=cUOKZzr0N2bUlf3mmZ6Ux3Ngk3qgmj3UE1PSrl+K1p4Zb+70vtLvlYWiZsYI0y04ICIbIgXCFGW9rUOtNdcZaf5SvernbB5X/xZ0KuE14XmXVnCdW1HW1+3gAL0zlCcLvq1e9EOzeUVx+N7Y9YTmMR9DnYyLuOjSKplMdGz6rTHfot/+sRI0lY9Z93Tf1BgAFqYGhV3WTqDO49fu9j9k1cvLfq+Tw73VzCR8Mn10hhNVAz+dr2DD3aSfIIEVFJQ4ewxB4XgwrIVmrtEZOF0tyIdKxILeJnSpplqwjtwT1LQtvQF/FUGLOWLz8ii3M2JrxK1RIuCUZ30DWvsvA6n0wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
+ CO1PR11MB5041.namprd11.prod.outlook.com (2603:10b6:303:90::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.21; Mon, 26 Jun 2023 21:46:41 +0000
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::8dd:d4cb:2602:c41]) by DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::8dd:d4cb:2602:c41%4]) with mapi id 15.20.6521.026; Mon, 26 Jun 2023
+ 21:46:41 +0000
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bno_plot.py, btt_plot.py: Ask for python3 specifically
+Date: Mon, 26 Jun 2023 17:46:20 -0400
+Message-Id: <20230626214620.121199-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR19CA0063.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::40) To DM6PR11MB2538.namprd11.prod.outlook.com
+ (2603:10b6:5:be::20)
 MIME-Version: 1.0
-References: <20230526115155.1953481-1-ecordonnier@snap.com>
- <CAHUKmYbZdJ3kws3ujidWy89pZSM_siGYBbcLzMJtWKbT_6A5dQ@mail.gmail.com>
- <B5654344-F58D-4A5D-8AD7-668A866E9CD4@arm.com> <2023060915502700eeb2a1@mail.local>
-In-Reply-To: <2023060915502700eeb2a1@mail.local>
-From: "Etienne Cordonnier" <ecordonnier@snap.com>
-Date: Mon, 26 Jun 2023 19:12:25 +0200
-Message-ID: <CAHUKmYavmC2sXTqswwBZ7VZcTioUtgiukLt-i-aA_iQ7MGRkfw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libxcrypt: fix hard-coded ".so" extension
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Ross Burton <ross.burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fcdcb705ff0b741d"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:EE_|CO1PR11MB5041:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1ebb6493-26d5-4389-b828-08db768ed375
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	a+KPdHBclqMPmFvAd9rnrQcHcOqZJV8a7Rh+tEI0lonXEfYJRCN0Qe2MoFpv0VIfyAOY6nQGArOfC740FvgCX5/Q0ZcjnOeVlSMKVZsvXanDJkcFeHXoC0ib6kWfU8fcTsW2Qe+6TFiQKyWDWjD2xLSd/zF8keaqe01ex52DPY9dD8In3vcNlVKzE6L1PW7KQV8CPXfCy0egn5JrbSFJQyhLykTq3dW1T24D6kAcXNuRtxXro+5DWY0FlRyHRfqW9wLfLrzteZ/GF/JNELww10cfPgWZal/A5ia2XZ48ItzZ2Rd83MObLkQYD6RsQFzIgZaydaAxHGPv5LnYCDjZ+cH3SIO00gXh26zysRQlY+jRZehn5ICcO5KizjkTBXthhhVaxsUDsOgHUkax4dv9nUlKGTQeX2gyw/UcMVquZFqGiTwt5CmxkcqHWzelALjq7DhwuPqEMcdVskymUJXqRWLfDCBQ56SG5wHS+Gfw1kt+0EjEAN1rbCEKZhb231SPznIzfdkgr3tbJp0dfz9MbBafNHmMRB53QpdIhp2TSn5IPUSPRUpeJbppFjEiDnSYJ2+jtmuQouRcAP+ku8tc9x9ZzU3HZSFUyN0LuUjrMAA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(366004)(396003)(346002)(39850400004)(451199021)(83380400001)(316002)(8936002)(6486002)(6666004)(52116002)(8676002)(41300700001)(36756003)(86362001)(38100700002)(38350700002)(44832011)(2616005)(5660300002)(66946007)(66556008)(66476007)(6916009)(2906002)(478600001)(26005)(6512007)(186003)(1076003)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?z3t5fNV3nG7STJ5RQn0q/sIPu/7hAzmKNGiSrYq4krJ3orCwx1XVLNjHn5If?=
+ =?us-ascii?Q?H++CclD9xr2iGrRYG6Z5z6ArYyrbr0fAyowh8CTU1Hlp8xxgmj1C8wUgR54/?=
+ =?us-ascii?Q?69PsPTPZkxTMCHj9mxZ5xmRLLvxW0GU6k/Yrfg205cwCWCr0sf1oJW049lYN?=
+ =?us-ascii?Q?FH3K4Ec+XOvJX0TK7SS1MM5R1hzu35i0iptapRoQbKi8eoqKXV7GJg9sBWY5?=
+ =?us-ascii?Q?zEbK+7GNpv1roUAcqXQ5i0/AvDyyetqEgWoR79peoZaCwJjHJxkqjQ3BI3PW?=
+ =?us-ascii?Q?RbtjH4b//vWwpS+SRP0geCLSQCmBmBmqMsUCV1q762gRYi0t0yY7S60o5npg?=
+ =?us-ascii?Q?UMhSvLr1OiFT3oS6aTkuhzmRA+p3clBWDyyLJiFxSnNRB9XO7qX6IyIpIXym?=
+ =?us-ascii?Q?zlXMfmE2yuhVoK728dY0N4oxwjKeuJmFHWEC60W0A2KvTF/lPNnm8RIPHn02?=
+ =?us-ascii?Q?WDsM9OLzhFiCYWA3yWMHDgjXNT144pxHHMc06nW/H1H2mQFpztI4weAc8uqd?=
+ =?us-ascii?Q?VWge2+9eTp6q38AO51fAHtVMvS1HraHlMkrDIAPau5uOWS48NudPJn9kLcw3?=
+ =?us-ascii?Q?yytmuujBmx+ytXg1Ui0EnMnDQBYHn+ivj52i26Zo2olBXqly/Pvm3ia2Qj4W?=
+ =?us-ascii?Q?NrJbx1sgu7OIPi7DCER+yMcRjjVGSWxI1jaEAiteMcOqiIcnT/AAVSR/5K1X?=
+ =?us-ascii?Q?xUiNCoI9jmPokXns+nLbSTzr3ps3kUylUxR7F7c16cwfVYmzKEdBYLlVtDxm?=
+ =?us-ascii?Q?lcJDzhg91efs8UdtwYHafY3fZKOIZ9l5Bq7+BF+iw4dQtzrMCifcX00+W3ff?=
+ =?us-ascii?Q?xHSOV7F9te7tzE7GCtRj6rKTo02MvBD7+CTwjivlhyxmGkHApgcZRMBuulAo?=
+ =?us-ascii?Q?oOSwzxf4UqufZEb6KFtynD43elNjA1MWwGtPYFQY6meZV5P7ns0UvUufhpPN?=
+ =?us-ascii?Q?QvqmS2bnbZLW8dBDNsIKtUZN/o5/9wQ0mGtoPxDiTT8AjCBtO9p9TAMBoUEM?=
+ =?us-ascii?Q?vl8Uhppq3NyVj7nOe1mSQ2epvEblEUeKnti6jyvIgVgVdoHbfrqbD+1tQZVY?=
+ =?us-ascii?Q?mb1Z19aY6Jn9ODyMklDILUkU14zM9kyrC+OerL0ADLZ2yqdx43aLEMtmhop9?=
+ =?us-ascii?Q?r+ffBlrmXco7BRY65vYEzSKNNLL0DNqthb9Rfu3iVV/C/KUDXeR1tDZNj5lx?=
+ =?us-ascii?Q?tylCVfr2BBRdDb0SXKtnlsM+DmIMtCn30xPnmjYG7SqkQCcJl/HZq5ApOPWF?=
+ =?us-ascii?Q?oP5rIU3hhpxMHyaCMBBWemPSP6M9l6t9y4SIzwpP+LKdHezFNAq/7j8xhhrx?=
+ =?us-ascii?Q?FqecNGSQ+cVrJE4CI1p6djl/rpLrWG+4qeBVJ/d8rM1tJAhSQK5fXS+CwjY4?=
+ =?us-ascii?Q?WnXTgwYtJJ9QZaGl9Vw4Jpuf1x8bNQdzhe4GPZeXvmHCmGU+dcG1m2iBZjIG?=
+ =?us-ascii?Q?HPiPPiBbrkoh6b6xMoK99aUvmBpHDYJuWjYJHWfhlD0yKFEce21K+L7erW7W?=
+ =?us-ascii?Q?kha89gcAc0Em6QuBbOPPnJ7NDiofpNgdJhHs8hNvMbK4ot6vXHzcoCUDCDPL?=
+ =?us-ascii?Q?qHloXMDekkSlPCCHWyNoMIhD80wzZuVTkG79KdPEAA6UhMge1lxHh3ENEmVE?=
+ =?us-ascii?Q?oQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ebb6493-26d5-4389-b828-08db768ed375
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2023 21:46:40.9635
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mf3p9V3l5oW7KBnPcSe/D24Wr/Mg3HPkD6bEW0Wd3wgZkIIEPP3M/zL7RnoipaIzzl905UU14fSNLUciX97zEFhGm4GR51Cvd37Ou46qifY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5041
+X-Proofpoint-ORIG-GUID: T-sDfk343YFAwr75wtc01aSVzs8ppElH
+X-Proofpoint-GUID: T-sDfk343YFAwr75wtc01aSVzs8ppElH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-26_18,2023-06-26_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 clxscore=1011 mlxlogscore=498 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306260202
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 21:23:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183430
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 21:46:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183431
 
---000000000000fcdcb705ff0b741d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+python2 has been deprecated, use python3 instead
 
-> It didn't apply cleanly on my master-next and I was waiting for things
-> to calm down to get back to it.
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ ...plot.py-Ask-for-python3-specifically.patch | 35 +++++++++++++++++++
+ meta/recipes-kernel/blktrace/blktrace_git.bb  |  4 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
 
-OK, thanks for the update. Don't hesitate to let me know in case I should
-rebase the patch to avoid a git conflict. It seems to work on the latest
-master-next. The files in libxcrypt and libxcrypt-dev are the same before
-and after the patch:
+diff --git a/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch b/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
+new file mode 100644
+index 0000000000..a3b8a98589
+--- /dev/null
++++ b/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
+@@ -0,0 +1,35 @@
++From b8d9618cbbec5a04cf6dede0a6ceda41021b92ae Mon Sep 17 00:00:00 2001
++From: Sakib Sajal <sakib.sajal@windriver.com>
++Date: Mon, 26 Jun 2023 17:34:01 -0400
++Subject: [PATCH] bno_plot.py, btt_plot.py: Ask for python3 specifically
++
++python2 is deprecated, use python3.
++
++Upstream-Status: Denied [https://www.spinics.net/lists/linux-btrace/msg01364.html]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ btt/bno_plot.py | 2 +-
++ btt/btt_plot.py | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/btt/bno_plot.py b/btt/bno_plot.py
++index 3aa4e19..d7d7159 100644
++--- a/btt/bno_plot.py
+++++ b/btt/bno_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt blkno plotting interface
++ #
++diff --git a/btt/btt_plot.py b/btt/btt_plot.py
++index 40bc71f..8620d31 100755
++--- a/btt/btt_plot.py
+++++ b/btt/btt_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt_plot.py: Generate matplotlib plots for BTT generate data files
++ #
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index d0eeba3208..288784236a 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -14,7 +14,9 @@ SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
+ 
+ PV = "1.3.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.kernel.dk/blktrace.git;branch=master;protocol=https"
++SRC_URI = "git://git.kernel.dk/blktrace.git;branch=master;protocol=https \
++           file://0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.40.0
 
-$ oe-pkgdata-util list-pkg-files libxcrypt
-libxcrypt:
-/usr/lib/libcrypt.so.2
-/usr/lib/libcrypt.so.2.0.0
-
-libxcrypt-dev:
-/usr/include/crypt.h
-/usr/lib/libcrypt.so
-/usr/lib/pkgconfig/libcrypt.pc
-/usr/lib/pkgconfig/libxcrypt.pc
-
-
-On Fri, Jun 9, 2023 at 5:50=E2=80=AFPM Alexandre Belloni <
-alexandre.belloni@bootlin.com> wrote:
-
-> On 09/06/2023 15:19:12+0000, Ross Burton wrote:
-> > Probably just fell through a crack, I=E2=80=99ve queued it locally for =
-testing.
-> >
->
-> It didn't apply cleanly on my master-next and I was waiting for things
-> to calm down to get back to it.
->
-> > Sorry about that!
-> >
-> > Ross
-> >
-> > > On 9 Jun 2023, at 10:37, Etienne Cordonnier via lists.openembedded.or=
-g
-> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
-> > >
-> > > Hello,
-> > > is everything OK with the patch? Is there anything blocking a merge?
-> > >
-> > > On Fri, May 26, 2023 at 1:52=E2=80=AFPM <ecordonnier@snap.com> wrote:
-> > > From: Etienne Cordonnier <ecordonnier@snap.com>
-> > >
-> > > 2 issues:
-> > > - the .so extension is hard-coded, and therefore the libxcryt package
-> compiled with
-> > >   meta-darwin is empty, because the dylib files are not contained in
-> FILES_${PN}
-> > > - nothing actually produces a file libcrypt-*.so (the symlink file is
-> libcrypt.so, without dash), thus
-> > >   defining FILES:${PN} manually to contain libcrypt-*.so has no effec=
-t.
-> > >
-> > > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> > > ---
-> > >  meta/recipes-core/libxcrypt/libxcrypt.inc | 6 ------
-> > >  1 file changed, 6 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc
-> b/meta/recipes-core/libxcrypt/libxcrypt.inc
-> > > index 61b0381076..454a55d73d 100644
-> > > --- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-> > > +++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-> > > @@ -17,12 +17,6 @@ SRC_URI +=3D "file://fix_cflags_handling.patch"
-> > >
-> > >  PROVIDES =3D "virtual/crypt"
-> > >
-> > > -FILES:${PN} =3D "${libdir}/libcrypt*.so.* \
-> > > -               ${libdir}/libcrypt-*.so \
-> > > -               ${libdir}/libowcrypt*.so.* \
-> > > -               ${libdir}/libowcrypt-*.so \
-> > > -"
-> > > -
-> > >  S =3D "${WORKDIR}/git"
-> > >
-> > >  BUILD_CPPFLAGS =3D "-I${STAGING_INCDIR_NATIVE}"
-> > > --
-> > > 2.36.1.vfs.0.0
-> > >
-> > >
-> > >
-> > >
-> >
->
-> >
-> >=20
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&d=3DDw=
-IDaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
-j9TsRih1DULJTKUkSGa66m67E&m=3D12f3CsTplzLkTcoMijzp0ABurdB9V1l2zSzRlTZfbJX-s=
--QgWApUHSds7cLJYJfD&s=3DqgbUtzi4aOcTJaUzK5IgGCUAlilJwvwSsSgKsBLvADI&e=3D
->
-
---000000000000fcdcb705ff0b741d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">&gt; It didn&#39;t apply cleanly on my master-next and I w=
-as waiting for things<br>&gt; to calm down to get back to it.<br><br>OK, th=
-anks for the update. Don&#39;t hesitate to let me know in case I should reb=
-ase the patch to avoid a git conflict. It seems to work on the latest maste=
-r-next. The files in libxcrypt and libxcrypt-dev are the same before and af=
-ter the patch:<br><br>$ oe-pkgdata-util list-pkg-files libxcrypt<br>libxcry=
-pt:<br>	/usr/lib/libcrypt.so.2<br>	/usr/lib/libcrypt.so.2.0.0<br><br>libxcr=
-ypt-dev:<br>	/usr/include/crypt.h<br>	/usr/lib/libcrypt.so<br>	/usr/lib/pkg=
-config/libcrypt.pc<br>	/usr/lib/pkgconfig/libxcrypt.pc<br><br></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 9=
-, 2023 at 5:50=E2=80=AFPM Alexandre Belloni &lt;<a href=3D"mailto:alexandre=
-.belloni@bootlin.com">alexandre.belloni@bootlin.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">On 09/06/2023 15:19:12+0=
-000, Ross Burton wrote:<br>
-&gt; Probably just fell through a crack, I=E2=80=99ve queued it locally for=
- testing.<br>
-&gt; <br>
-<br>
-It didn&#39;t apply cleanly on my master-next and I was waiting for things<=
-br>
-to calm down to get back to it.<br>
-<br>
-&gt; Sorry about that!<br>
-&gt; <br>
-&gt; Ross<br>
-&gt; <br>
-&gt; &gt; On 9 Jun 2023, at 10:37, Etienne Cordonnier via <a href=3D"http:/=
-/lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openemb=
-edded.org</a> &lt;ecordonnier=3D<a href=3D"mailto:snap.com@lists.openembedd=
-ed.org" target=3D"_blank">snap.com@lists.openembedded.org</a>&gt; wrote:<br=
->
-&gt; &gt; <br>
-&gt; &gt; Hello,<br>
-&gt; &gt; is everything OK with the patch? Is there anything blocking a mer=
-ge?<br>
-&gt; &gt; <br>
-&gt; &gt; On Fri, May 26, 2023 at 1:52=E2=80=AFPM &lt;<a href=3D"mailto:eco=
-rdonnier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt; wrote:<br=
->
-&gt; &gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.c=
-om" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; 2 issues:<br>
-&gt; &gt; - the .so extension is hard-coded, and therefore the libxcryt pac=
-kage compiled with<br>
-&gt; &gt;=C2=A0 =C2=A0meta-darwin is empty, because the dylib files are not=
- contained in FILES_${PN}<br>
-&gt; &gt; - nothing actually produces a file libcrypt-*.so (the symlink fil=
-e is libcrypt.so, without dash), thus<br>
-&gt; &gt;=C2=A0 =C2=A0defining FILES:${PN} manually to contain libcrypt-*.s=
-o has no effect.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonni=
-er@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-core/libxcrypt/libxcrypt.inc | 6 ------<br>
-&gt; &gt;=C2=A0 1 file changed, 6 deletions(-)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/rec=
-ipes-core/libxcrypt/libxcrypt.inc<br>
-&gt; &gt; index 61b0381076..454a55d73d 100644<br>
-&gt; &gt; --- a/meta/recipes-core/libxcrypt/libxcrypt.inc<br>
-&gt; &gt; +++ b/meta/recipes-core/libxcrypt/libxcrypt.inc<br>
-&gt; &gt; @@ -17,12 +17,6 @@ SRC_URI +=3D &quot;file://fix_cflags_handling.=
-patch&quot;<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 PROVIDES =3D &quot;virtual/crypt&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; -FILES:${PN} =3D &quot;${libdir}/libcrypt*.so.* \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${libdir}=
-/libcrypt-*.so \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${libdir}=
-/libowcrypt*.so.* \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${libdir}=
-/libowcrypt-*.so \<br>
-&gt; &gt; -&quot;<br>
-&gt; &gt; -<br>
-&gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 BUILD_CPPFLAGS =3D &quot;-I${STAGING_INCDIR_NATIVE}&quot;<b=
-r>
-&gt; &gt; -- <br>
-&gt; &gt; 2.36.1.vfs.0.0<br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; <br>
-<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.c=
-om&amp;d=3DDwIDaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D12f3CsTplzLkTcoMijzp=
-0ABurdB9V1l2zSzRlTZfbJX-s-QgWApUHSds7cLJYJfD&amp;s=3DqgbUtzi4aOcTJaUzK5IgGC=
-UAlilJwvwSsSgKsBLvADI&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https:=
-//urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bootlin.com&amp;d=3DDwIDaQ=
-&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRf=
-Px_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D12f3CsTplzLkTcoMijzp0ABurdB9V1l2zSzRl=
-TZfbJX-s-QgWApUHSds7cLJYJfD&amp;s=3DqgbUtzi4aOcTJaUzK5IgGCUAlilJwvwSsSgKsBL=
-vADI&amp;e=3D</a> <br>
-</blockquote></div>
-
---000000000000fcdcb705ff0b741d--
 
