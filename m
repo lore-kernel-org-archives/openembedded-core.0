@@ -1,299 +1,316 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A87EB64DC
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 06:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF44EEB64DD
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 07:06:04 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7309.1687848964658714890
+ by mx.groups.io with SMTP id smtpd.web11.7391.1687849556720398205
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jun 2023 23:56:04 -0700
+ Tue, 27 Jun 2023 00:05:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=B+LR+ZuH;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5542140cb8=archana.polampalli@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=my/GMA+f;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=55427ce27d=changqing.li@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35R6o2Vt007575
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:03 GMT
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35R5T7VX001078
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:05:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=mvnLH
-	dljGHlYJfdg9E5zubILS6Me8lqJBrPR1rmBHrY=; b=B+LR+ZuH0D7ohMy99JIKG
-	zRQbZ2SCLgQ9VVl/GzOTCOrjmwdcs5egDPhLQznY/TLTw7vZLERBXUD8sWbaVGbv
-	0lZ7hGC/K528UeTY1yqQe74mN40VLd82A89M24e8hb3JsW/+jQTX19kwaVFPF5ex
-	axDrzvaStA5hkinJT8LXjOsmEd01nEWJrhIUat95aBoIgIk+lrRuPJ3uNfZOSf3J
-	WZLYkJHWqBwU9xr2+TxY6iCD724eDZZ7w3JfAdLn2wtZhmqEkh6Zj7EzVyFvwotf
-	XWftRxtcHgnLvsOef4z4UkKrb1pRqVrz+jVkmWwwwwZh45VRcYJjaXM2fpOZ5x+O
-	w==
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=BcAiBVWI+PP3l/kiYVn77T1njFFvn9l4NDW6xebv5Q0=; b=
+	my/GMA+fC9lHJ+oWQhP/KCYpQyUUFp2Et8wlu70IuW/CrRpQFaAPEwv0WjmATDA4
+	icpBE1a4Iy5i+6JC4PptcraS00jdoRBkY8sAmzCyeFFQODaHmYydAq/FVMwULDsG
+	w14aPko+actmZAZmRtaEJ2M9NO8rEuAmXj+piS/LntnPkiLrWtliXYToNw3xaizJ
+	ZV3/21+HufQND5llTlxXowqZo1csAnj4mysa2+TuV0HnHIOZCzq90y9n0iRrEa2z
+	6dALn4g8aSTQzPXYkGKYuSK8z3dGhYHW0CjHKxmKFBJ+2IDO4cLfqZcs70Uou9/o
+	lcSLzGcJl6+I92cETHpLBw==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb2gng-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb2gwv-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:03 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:05:55 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 26 Jun 2023 23:55:49 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
+ 15.1.2507.27; Tue, 27 Jun 2023 00:05:54 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Tue, 27 Jun 2023 00:05:54 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] go: fix CVE-2023-29402
-Date: Tue, 27 Jun 2023 06:55:37 +0000
-Message-ID: <20230627065537.3293452-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+Subject: [mickledore][PATCH 2/2] erofs-utils: backport fixes for CVE-2023-33551 and CVE-2023-33552
+Date: Tue, 27 Jun 2023 15:05:52 +0800
+Message-ID: <20230627070552.2017915-2-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230627070552.2017915-1-changqing.li@windriver.com>
+References: <20230627070552.2017915-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: anK1e7Cz433RikQm8Irl7naOaHlAEfZn
-X-Proofpoint-GUID: anK1e7Cz433RikQm8Irl7naOaHlAEfZn
+X-Proofpoint-ORIG-GUID: JDmOCDAwxOFgo5BbnFJNKjrquf_KfM3K
+X-Proofpoint-GUID: JDmOCDAwxOFgo5BbnFJNKjrquf_KfM3K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-06-27_04,2023-06-26_03,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
  spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=762 bulkscore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2306270065
+ engine=8.19.0-2305260000 definitions=main-2306270066
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183439
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:06:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183441
 
-The go command may generate unexpected code at build time when using cgo.
-This may result in unexpected behavior when running a go program which uses cgo.
-This may occur when running an untrusted module which contains directories
-with newline characters in their names. Modules which are retrieved using the go
-command, i.e. via "go get", are not affected (modules retrieved using GOPATH-mode,
-i.e. GO111MODULE=off, may be affected).
+From: Ross Burton <ross.burton@arm.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-29402
+(From OE-Core rev: fb0e4612b3b54746043205b56b2c3782489c191e)
 
-Upstream patches:
-https://github.com/golang/go/commit/4dae3bbe0e6a5700037bb996ae84d6f457c4f58a
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.19/CVE-2023-29402.patch           | 194 ++++++++++++++++++
- 2 files changed, 195 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+ .../erofs-utils/erofs-utils_1.6.bb            |   5 +-
+ ...-don-t-allocate-read-too-large-exten.patch | 126 ++++++++++++++++++
+ ...-block-insane-long-paths-when-extrac.patch |  80 +++++++++++
+ 3 files changed, 210 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 9af9eb2752..3365075fe5 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -34,6 +34,7 @@ SRC_URI += "\
-     file://CVE-2023-24539.patch \
-     file://CVE-2023-29404.patch \
-     file://CVE-2023-29405.patch \
-+    file://CVE-2023-29402.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+index 43643e07bb..5a89e4b8ee 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+@@ -6,7 +6,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73001d804ea1e3d84365f652242cca20"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
  
-diff --git a/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+ SRCREV = "21710612d35cd952490959bfa6ea9fe87aaa52dd"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https \
++           file://0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.patch \
++           file://0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.patch \
++"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
+ 
+diff --git a/meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.patch b/meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.patch
 new file mode 100644
-index 0000000000..c3efeeffd0
+index 0000000000..52f475dc42
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
-@@ -0,0 +1,194 @@
-+From 749bd10e0be0968b666d15ec0b255fdfe298228e Mon Sep 17 00:00:00 2001
-+From: Archana Polampalli <archana.polampalli@windriver.com>
-+Date: Fri, 23 Jun 2023 08:34:42 +0000
-+Subject: [PATCH] cmd/go: disallow package directories containing newlines
++++ b/meta/recipes-devtools/erofs-utils/files/0001-erofs-utils-fsck-don-t-allocate-read-too-large-exten.patch
+@@ -0,0 +1,126 @@
++From c769805c79d5acede65d96e5786aa5ebb46c01e0 Mon Sep 17 00:00:00 2001
++From: Gao Xiang <hsiangkao@linux.alibaba.com>
++Date: Fri, 2 Jun 2023 11:05:19 +0800
++Subject: [PATCH 1/2] erofs-utils: fsck: don't allocate/read too large extents
 +
-+Directory or file paths containing newlines may cause tools (such as
-+cmd/cgo) that emit "//line" or "#line" -directives to write part of
-+the path into non-comment lines in generated source code. If those
-+lines contain valid Go code, it may be injected into the resulting
-+binary.
++Since some crafted EROFS filesystem images could have insane large
++extents, which causes unexpected bahaviors when extracting data.
 +
-+(Note that Go import paths and file paths within module zip files
-+already could not contain newlines.)
++Fix it by extracting large extents with a buffer of a reasonable
++maximum size limit and reading multiple times instead.
 +
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
++Note that only `--extract` option is impacted.
 +
-+Fixes #60167.
-+Fixes CVE-2023-29402.
++CVE: CVE-2023-33552
++Closes: https://nvd.nist.gov/vuln/detail/CVE-2023-33552
++Reported-by: Chaoming Yang <lometsj@live.com>
++Fixes: 412c8f908132 ("erofs-utils: fsck: add --extract=X support to extract to path X")
++Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
++Link: https://lore.kernel.org/r/20230602030519.117071-1-hsiangkao@linux.alibaba.com
 +
-+Change-Id: I64572e9f454bce7b685d00e2e6a1c96cd33d53df
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1882606
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Russ Cox <rsc@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/501226
-+Run-TryBot: David Chase <drchase@google.com>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Michael Knyszek <mknyszek@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/c160b49b6d328c86bd76ca2fff9009a71347333f]
-+CVE: CVE-2023-29402
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ src/cmd/go/internal/load/pkg.go               |   4 +
-+ src/cmd/go/internal/work/exec.go              |   6 ++
-+ src/cmd/go/script_test.go                     |   1 +
-+ .../go/testdata/script/build_cwd_newline.txt  | 100 ++++++++++++++++++
-+ 4 files changed, 111 insertions(+)
-+ create mode 100644 src/cmd/go/testdata/script/build_cwd_newline.txt
++ fsck/main.c | 63 +++++++++++++++++++++++++++++++++++++++++------------
++ 1 file changed, 49 insertions(+), 14 deletions(-)
 +
-+diff --git a/src/cmd/go/internal/load/pkg.go b/src/cmd/go/internal/load/pkg.go
-+index a83cc9a..d4da86d 100644
-+--- a/src/cmd/go/internal/load/pkg.go
-++++ b/src/cmd/go/internal/load/pkg.go
-+@@ -1897,6 +1897,10 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
-+		setError(fmt.Errorf("invalid input directory name %q", name))
-+		return
-+	}
-++	if strings.ContainsAny(p.Dir, "\r\n") {
-++		setError(fmt.Errorf("invalid package directory %q", p.Dir))
-++		return
++diff --git a/fsck/main.c b/fsck/main.c
++index 6b42252..6689ad8 100644
++--- a/fsck/main.c
+++++ b/fsck/main.c
++@@ -392,6 +392,8 @@ static int erofs_verify_inode_data(struct erofs_inode *inode, int outfd)
++ 	}
++ 
++ 	while (pos < inode->i_size) {
+++		unsigned int alloc_rawsize;
+++
++ 		map.m_la = pos;
++ 		if (compressed)
++ 			ret = z_erofs_map_blocks_iter(inode, &map,
++@@ -420,10 +422,28 @@ static int erofs_verify_inode_data(struct erofs_inode *inode, int outfd)
++ 		if (!(map.m_flags & EROFS_MAP_MAPPED) || !fsckcfg.check_decomp)
++ 			continue;
++ 
++-		if (map.m_plen > raw_size) {
++-			raw_size = map.m_plen;
++-			raw = realloc(raw, raw_size);
++-			BUG_ON(!raw);
+++		if (map.m_plen > Z_EROFS_PCLUSTER_MAX_SIZE) {
+++			if (compressed) {
+++				erofs_err("invalid pcluster size %" PRIu64 " @ offset %" PRIu64 " of nid %" PRIu64,
+++					  map.m_plen, map.m_la,
+++					  inode->nid | 0ULL);
+++				ret = -EFSCORRUPTED;
+++				goto out;
+++			}
+++			alloc_rawsize = Z_EROFS_PCLUSTER_MAX_SIZE;
+++		} else {
+++			alloc_rawsize = map.m_plen;
+++		}
+++
+++		if (alloc_rawsize > raw_size) {
+++			char *newraw = realloc(raw, alloc_rawsize);
+++
+++			if (!newraw) {
+++				ret = -ENOMEM;
+++				goto out;
+++			}
+++			raw = newraw;
+++			raw_size = alloc_rawsize;
++ 		}
++ 
++ 		if (compressed) {
++@@ -434,18 +454,27 @@ static int erofs_verify_inode_data(struct erofs_inode *inode, int outfd)
++ 			}
++ 			ret = z_erofs_read_one_data(inode, &map, raw, buffer,
++ 						    0, map.m_llen, false);
+++			if (ret)
+++				goto out;
+++
+++			if (outfd >= 0 && write(outfd, buffer, map.m_llen) < 0)
+++				goto fail_eio;
++ 		} else {
++-			ret = erofs_read_one_data(&map, raw, 0, map.m_plen);
++-		}
++-		if (ret)
++-			goto out;
+++			u64 p = 0;
++ 
++-		if (outfd >= 0 && write(outfd, compressed ? buffer : raw,
++-					map.m_llen) < 0) {
++-			erofs_err("I/O error occurred when verifying data chunk @ nid %llu",
++-				  inode->nid | 0ULL);
++-			ret = -EIO;
++-			goto out;
+++			do {
+++				u64 count = min_t(u64, alloc_rawsize,
+++						  map.m_llen);
+++
+++				ret = erofs_read_one_data(&map, raw, p, count);
+++				if (ret)
+++					goto out;
+++
+++				if (outfd >= 0 && write(outfd, raw, count) < 0)
+++					goto fail_eio;
+++				map.m_llen -= count;
+++				p += count;
+++			} while (map.m_llen);
++ 		}
++ 	}
++ 
++@@ -460,6 +489,12 @@ out:
++ 	if (buffer)
++ 		free(buffer);
++ 	return ret < 0 ? ret : 0;
+++
+++fail_eio:
+++	erofs_err("I/O error occurred when verifying data chunk @ nid %llu",
+++		  inode->nid | 0ULL);
+++	ret = -EIO;
+++	goto out;
++ }
++ 
++ static inline int erofs_extract_dir(struct erofs_inode *inode)
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.patch b/meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.patch
+new file mode 100644
+index 0000000000..f2f1e34368
+--- /dev/null
++++ b/meta/recipes-devtools/erofs-utils/files/0002-erofs-utils-fsck-block-insane-long-paths-when-extrac.patch
+@@ -0,0 +1,80 @@
++From 6cebfbb79b1d5d8feb48801e1008eea5bfa8b599 Mon Sep 17 00:00:00 2001
++From: Gao Xiang <hsiangkao@linux.alibaba.com>
++Date: Fri, 2 Jun 2023 13:52:56 +0800
++Subject: [PATCH 2/2] erofs-utils: fsck: block insane long paths when
++ extracting images
++
++Since some crafted EROFS filesystem images could have insane deep
++hierarchy (or may form directory loops) which triggers the
++PATH_MAX-sized path buffer OR stack overflow.
++
++Actually some crafted images cannot be deemed as real corrupted
++images but over-PATH_MAX paths are not something that we'd like to
++support for now.
++
++CVE: CVE-2023-33551
++Closes: https://nvd.nist.gov/vuln/detail/CVE-2023-33551
++Reported-by: Chaoming Yang <lometsj@live.com>
++Fixes: f44043561491 ("erofs-utils: introduce fsck.erofs")
++Fixes: b11f84f593f9 ("erofs-utils: fsck: convert to use erofs_iterate_dir()")
++Fixes: 412c8f908132 ("erofs-utils: fsck: add --extract=X support to extract to path X")
++Signeo-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
++Link: https://lore.kernel.org/r/20230602055256.18061-1-hsiangkao@linux.alibaba.com
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ fsck/main.c | 23 +++++++++++++++--------
++ 1 file changed, 15 insertions(+), 8 deletions(-)
++
++diff --git a/fsck/main.c b/fsck/main.c
++index 6689ad8..28d95ec 100644
++--- a/fsck/main.c
+++++ b/fsck/main.c
++@@ -680,28 +680,35 @@ again:
++ static int erofsfsck_dirent_iter(struct erofs_dir_context *ctx)
++ {
++ 	int ret;
++-	size_t prev_pos = fsckcfg.extract_pos;
+++	size_t prev_pos, curr_pos;
++ 
++ 	if (ctx->dot_dotdot)
++ 		return 0;
++ 
++-	if (fsckcfg.extract_path) {
++-		size_t curr_pos = prev_pos;
+++	prev_pos = fsckcfg.extract_pos;
+++	curr_pos = prev_pos;
+++
+++	if (prev_pos + ctx->de_namelen >= PATH_MAX) {
+++		erofs_err("unable to fsck since the path is too long (%u)",
+++			  curr_pos + ctx->de_namelen);
+++		return -EOPNOTSUPP;
 ++	}
++ 
+++	if (fsckcfg.extract_path) {
++ 		fsckcfg.extract_path[curr_pos++] = '/';
++ 		strncpy(fsckcfg.extract_path + curr_pos, ctx->dname,
++ 			ctx->de_namelen);
++ 		curr_pos += ctx->de_namelen;
++ 		fsckcfg.extract_path[curr_pos] = '\0';
++-		fsckcfg.extract_pos = curr_pos;
+++	} else {
+++		curr_pos += ctx->de_namelen;
++ 	}
++-
+++	fsckcfg.extract_pos = curr_pos;
++ 	ret = erofsfsck_check_inode(ctx->dir->nid, ctx->de_nid);
++ 
++-	if (fsckcfg.extract_path) {
+++	if (fsckcfg.extract_path)
++ 		fsckcfg.extract_path[prev_pos] = '\0';
++-		fsckcfg.extract_pos = prev_pos;
++-	}
+++	fsckcfg.extract_pos = prev_pos;
++ 	return ret;
++ }
++ 
++-- 
++2.34.1
 +
-+	// Build list of imported packages and full dependency list.
-+	imports := make([]*Package, 0, len(p.Imports))
-+diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
-+index b35caa4..b1bf347 100644
-+--- a/src/cmd/go/internal/work/exec.go
-++++ b/src/cmd/go/internal/work/exec.go
-+@@ -505,6 +505,12 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
-+		b.Print(a.Package.ImportPath + "\n")
-+	}
-+
-++	if p.Error != nil {
-++		// Don't try to build anything for packages with errors. There may be a
-++		// problem with the inputs that makes the package unsafe to build.
-++		return p.Error
-++	}
-++
-+	if a.Package.BinaryOnly {
-+		p.Stale = true
-+		p.StaleReason = "binary-only packages are no longer supported"
-+diff --git a/src/cmd/go/script_test.go b/src/cmd/go/script_test.go
-+index c0156d0..ce4ff37 100644
-+--- a/src/cmd/go/script_test.go
-++++ b/src/cmd/go/script_test.go
-+@@ -182,6 +182,7 @@ func (ts *testScript) setup() {
-+		"devnull=" + os.DevNull,
-+		"goversion=" + goVersion(ts),
-+		":=" + string(os.PathListSeparator),
-++		"newline=\n",
-+	}
-+	if !testenv.HasExternalNetwork() {
-+		ts.env = append(ts.env, "TESTGONETWORK=panic", "TESTGOVCS=panic")
-+diff --git a/src/cmd/go/testdata/script/build_cwd_newline.txt b/src/cmd/go/testdata/script/build_cwd_newline.txt
-+new file mode 100644
-+index 0000000..61c6966
-+--- /dev/null
-++++ b/src/cmd/go/testdata/script/build_cwd_newline.txt
-+@@ -0,0 +1,100 @@
-++[windows] skip 'filesystem normalizes / to \'
-++[plan9] skip 'filesystem disallows \n in paths'
-++
-++# If the directory path containing a package to be built includes a newline,
-++# the go command should refuse to even try to build the package.
-++
-++env DIR=$WORK${/}${newline}'package main'${newline}'func main() { panic("uh-oh")'${newline}'/*'
-++
-++mkdir $DIR
-++cd $DIR
-++exec pwd
-++cp $WORK/go.mod ./go.mod
-++cp $WORK/main.go ./main.go
-++cp $WORK/main_test.go ./main_test.go
-++
-++! go build -o $devnull .
-++stderr 'package example: invalid package directory .*uh-oh'
-++
-++! go build -o $devnull main.go
-++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
-++
-++! go run .
-++stderr 'package example: invalid package directory .*uh-oh'
-++
-++! go run main.go
-++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
-++
-++! go test .
-++stderr 'package example: invalid package directory .*uh-oh'
-++
-++! go test -v main.go main_test.go
-++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
-++
-++
-++# Since we do preserve $PWD (or set it appropriately) for commands, and we do
-++# not resolve symlinks unnecessarily, referring to the contents of the unsafe
-++# directory via a safe symlink should be ok, and should not inject the data from
-++# the symlink target path.
-++
-++[!symlink] stop 'remainder of test checks symlink behavior'
-++[short] stop 'links and runs binaries'
-++
-++symlink $WORK${/}link -> $DIR
-++
-++go run $WORK${/}link${/}main.go
-++! stdout panic
-++! stderr panic
-++stderr '^ok$'
-++
-++go test -v $WORK${/}link${/}main.go $WORK${/}link${/}main_test.go
-++! stdout panic
-++! stderr panic
-++stdout '^ok$'   # 'go test' combines the test's stdout into stderr
-++
-++cd $WORK/link
-++
-++! go run $DIR${/}main.go
-++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
-++
-++go run .
-++! stdout panic
-++! stderr panic
-++stderr '^ok$'
-++
-++go run main.go
-++! stdout panic
-++! stderr panic
-++stderr '^ok$'
-++
-++go test -v
-++! stdout panic
-++! stderr panic
-++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
-++
-++go test -v .
-++! stdout panic
-++! stderr panic
-++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
-++
-++
-++-- $WORK/go.mod --
-++module example
-++go 1.19
-++-- $WORK/main.go --
-++package main
-++
-++import "C"
-++
-++func main() {
-++	/* nothing here */
-++	println("ok")
-++}
-++-- $WORK/main_test.go --
-++package main
-++
-++import "testing"
-++
-++func TestMain(*testing.M) {
-++	main()
-++}
-+--
-+2.40.0
 -- 
-2.40.0
+2.25.1
 
 
