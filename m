@@ -1,92 +1,299 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 048E7EB64D9
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 07:34:56 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.7703.1687851291785530525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44438EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 08:13:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.8118.1687853629923870808
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 00:34:51 -0700
+ Tue, 27 Jun 2023 01:13:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=iIUH0C5T;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1b7f92b764dso10852215ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 00:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687851291; x=1690443291;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LjGMQXBRPkXLAIYuW+xoJYj/PKspDgXpQKsC0Vr4ShU=;
-        b=iIUH0C5Ta7G/6/wmacDtfZdVWdcHn0Se3rjTGS/q33I6cW+VtPsSO/X/3JGZXkZdgA
-         PCaODyyXG/srzSDJtN8vAIGnKRb4Vxg27aY+nJ1AJl08YQTKj9ch8MFdao1swRrDvi7G
-         YYfsZhB+n6AIxmrSBv49+4/zOrGGWE2JHH3cidW7CS7b3VThbdd0rN7MT94cVLYwL4ml
-         gk/WzAr8hZNAPmhIHYRtmx1Ox6PZvCZ+fs/iEejBXRACRU6DxXpfUVDD/t769tRbSI2i
-         UP0F62UbKP6EAmME8lQkcdDOZm46asu5CfsiqTCbFdKyjRd9+YXHPls+lcNkotyh4m5H
-         gIrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687851291; x=1690443291;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LjGMQXBRPkXLAIYuW+xoJYj/PKspDgXpQKsC0Vr4ShU=;
-        b=BLtRMx6JWol6r+QCFq+fHn81Nyr/uld2khgWvmlYckY9UiCedsZDQQgssF7WEDPCj3
-         o5+UyyEK/weL/H/fSJeSsEl3SU9vomyhIWD7lDGREj572jh5dFAHBveyKdy0yZXdBJN1
-         +advepvE9CGpvt1Y6Mz7a6KKaVh0UqpesNfhz2+DSPDZ1Ox0PaYlycjD4N7Wz5pYpNjg
-         oiKe6DOyIunrrcW2xrdikU2uxOVrlrXV0LuN0pRkBGOnIXDeXRlvYmSYn27IuNfVarTh
-         uPL2vBFmpuxXMVcbYfHyKzzOGTXexLDYdhb18PSGssIvIB5L9sxMXT1h3U+AnnsN9mfb
-         745Q==
-X-Gm-Message-State: AC+VfDyZLft7iZpa5qU3ep/vMuCBHT/F2z2Jdjy1LETHqwNcIpRzhP5t
-	D3w1MyVOv7RfcT2ixyw9pam9AuXYNG8=
-X-Google-Smtp-Source: ACHHUZ4uYOVsQloLL5SScHpOz5TgCpCrtNCJMs40RpC5pxwwGoh85IIKtxe9mN+i7P6tMp7XCcQrBQ==
-X-Received: by 2002:a17:902:8ec9:b0:1b1:753a:49ce with SMTP id x9-20020a1709028ec900b001b1753a49cemr5253122plo.53.1687851290801;
-        Tue, 27 Jun 2023 00:34:50 -0700 (PDT)
-Received: from localhost.localdomain ([223.233.81.169])
-        by smtp.gmail.com with ESMTPSA id f3-20020a170902860300b0019f3cc463absm5360341plo.0.2023.06.27.00.34.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 00:34:50 -0700 (PDT)
-From: virendra thakur <thakur.virendra1810@gmail.com>
-X-Google-Original-From: virendra thakur <virendrak@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][dunfell][PATCH] ninja: Whitelist CVE-2021-4336, wrong ninja
-Date: Tue, 27 Jun 2023 13:04:28 +0530
-Message-Id: <20230627073428.23120-1-virendrak@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=dG6o833P;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5542140cb8=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35R80kMA031565
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 08:13:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=DJjtQ
+	P9OWgkc4qHnqB4B4+TAs7glTdAIOTccKGoFZb4=; b=dG6o833PNrY3flk9JmUSO
+	l66EDvEBY3TFQMmZmGiu1ZYIlcmNhkb5YH5BTuMXw4UJGLPmie3Kiz9Fsifd0DTL
+	l+QHlI6udIv02Jbiu/SI2DppXQnqneERyhu8wFtNvejwXQncNoKKD6I9Zw/LBpsl
+	qLwX3wzz/94W7xD8ZgDE4l17u69J4duarhvsQWms+vIFTphBzLrX5+PHSWeoGcWT
+	bEv0oaOr8MbX/Kr4CC2cjUeZpaBvgmTVUmpNX8pqo7MdBvBaiUzAJ31HwOCQqQnQ
+	D0bXNZ+kH3y1LW7x6nKL2FNLWoa/pvJbW3YhdgPQlIRiNmOIlYqhszmRNpTSDmD8
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdqf4ajat-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 08:13:48 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 27 Jun 2023 01:13:46 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH V2 1/1] go: fix CVE-2023-29402
+Date: Tue, 27 Jun 2023 08:13:33 +0000
+Message-ID: <20230627081333.2366926-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: LqZGIjMzJHZovtnm2A9cJszw0eQtrOOq
+X-Proofpoint-GUID: LqZGIjMzJHZovtnm2A9cJszw0eQtrOOq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-27_04,2023-06-26_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 clxscore=1015 mlxlogscore=999 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306270077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:34:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183476
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 08:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183477
 
-From: Ross Burton <ross.burton@arm.com>
+The go command may generate unexpected code at build time when using cgo.
+This may result in unexpected behavior when running a go program which uses cgo.
+This may occur when running an untrusted module which contains directories
+with newline characters in their names. Modules which are retrieved using the go
+command, i.e. via "go get", are not affected (modules retrieved using GOPATH-mode,
+i.e. GO111MODULE=off, may be affected).
 
-(From OE-Core rev: c2dd2c13ff26c3f046e35a2f6b8afeb099ef422a)
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-29402
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9a106486ad7900924a87c5869702903204a35b54)
-Signed-off-by: virendra thakur <virendrak@kpit.com>
+Upstream patches:
+https://github.com/golang/go/commit/4dae3bbe0e6a5700037bb996ae84d6f457c4f58a
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-devtools/ninja/ninja_1.10.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.19/CVE-2023-29402.patch           | 194 ++++++++++++++++++
+ 2 files changed, 195 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
 
-diff --git a/meta/recipes-devtools/ninja/ninja_1.10.0.bb b/meta/recipes-devtools/ninja/ninja_1.10.0.bb
-index ae3f3f1ea8..755b73a173 100644
---- a/meta/recipes-devtools/ninja/ninja_1.10.0.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.10.0.bb
-@@ -29,3 +29,6 @@ do_install() {
- }
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 9af9eb2752..3365075fe5 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -34,6 +34,7 @@ SRC_URI += "\
+     file://CVE-2023-24539.patch \
+     file://CVE-2023-29404.patch \
+     file://CVE-2023-29405.patch \
++    file://CVE-2023-29402.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+new file mode 100644
+index 0000000000..bf1fbbe0d6
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+@@ -0,0 +1,194 @@
++From  4dae3bbe0e6a5700037bb996ae84d6f457c4f58a Mon Sep 17 00:00:00 2001
++From: Bryan C. Mills <bcmills@google.com>
++Date: Fri, 12 May 2023 14:15:16 -0400
++Subject: [PATCH] cmd/go: disallow package directories containing newlines
 +
-+# This is a different Ninja
-+CVE_CHECK_WHITELIST += "CVE-2021-4336"
++Directory or file paths containing newlines may cause tools (such as
++cmd/cgo) that emit "//line" or "#line" -directives to write part of
++the path into non-comment lines in generated source code. If those
++lines contain valid Go code, it may be injected into the resulting
++binary.
++
++(Note that Go import paths and file paths within module zip files
++already could not contain newlines.)
++
++Thanks to Juho Nurminen of Mattermost for reporting this issue.
++
++Fixes #60167.
++Fixes CVE-2023-29402.
++
++Change-Id: I64572e9f454bce7b685d00e2e6a1c96cd33d53df
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1882606
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Russ Cox <rsc@google.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/501226
++Run-TryBot: David Chase <drchase@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Michael Knyszek <mknyszek@google.com>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/4dae3bbe0e6a5700037bb996ae84d6f457c4f58a]
++CVE: CVE-2023-29402
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/cmd/go/internal/load/pkg.go               |   4 +
++ src/cmd/go/internal/work/exec.go              |   6 ++
++ src/cmd/go/script_test.go                     |   1 +
++ .../go/testdata/script/build_cwd_newline.txt  | 100 ++++++++++++++++++
++ 4 files changed, 111 insertions(+)
++ create mode 100644 src/cmd/go/testdata/script/build_cwd_newline.txt
++
++diff --git a/src/cmd/go/internal/load/pkg.go b/src/cmd/go/internal/load/pkg.go
++index a83cc9a..d4da86d 100644
++--- a/src/cmd/go/internal/load/pkg.go
+++++ b/src/cmd/go/internal/load/pkg.go
++@@ -1897,6 +1897,10 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
++		setError(fmt.Errorf("invalid input directory name %q", name))
++		return
++	}
+++	if strings.ContainsAny(p.Dir, "\r\n") {
+++		setError(fmt.Errorf("invalid package directory %q", p.Dir))
+++		return
+++	}
++
++	// Build list of imported packages and full dependency list.
++	imports := make([]*Package, 0, len(p.Imports))
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index b35caa4..b1bf347 100644
++--- a/src/cmd/go/internal/work/exec.go
+++++ b/src/cmd/go/internal/work/exec.go
++@@ -505,6 +505,12 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
++		b.Print(a.Package.ImportPath + "\n")
++	}
++
+++	if p.Error != nil {
+++		// Don't try to build anything for packages with errors. There may be a
+++		// problem with the inputs that makes the package unsafe to build.
+++		return p.Error
+++	}
+++
++	if a.Package.BinaryOnly {
++		p.Stale = true
++		p.StaleReason = "binary-only packages are no longer supported"
++diff --git a/src/cmd/go/script_test.go b/src/cmd/go/script_test.go
++index c0156d0..ce4ff37 100644
++--- a/src/cmd/go/script_test.go
+++++ b/src/cmd/go/script_test.go
++@@ -182,6 +182,7 @@ func (ts *testScript) setup() {
++		"devnull=" + os.DevNull,
++		"goversion=" + goVersion(ts),
++		":=" + string(os.PathListSeparator),
+++		"newline=\n",
++	}
++	if !testenv.HasExternalNetwork() {
++		ts.env = append(ts.env, "TESTGONETWORK=panic", "TESTGOVCS=panic")
++diff --git a/src/cmd/go/testdata/script/build_cwd_newline.txt b/src/cmd/go/testdata/script/build_cwd_newline.txt
++new file mode 100644
++index 0000000..61c6966
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/build_cwd_newline.txt
++@@ -0,0 +1,100 @@
+++[windows] skip 'filesystem normalizes / to \'
+++[plan9] skip 'filesystem disallows \n in paths'
+++
+++# If the directory path containing a package to be built includes a newline,
+++# the go command should refuse to even try to build the package.
+++
+++env DIR=$WORK${/}${newline}'package main'${newline}'func main() { panic("uh-oh")'${newline}'/*'
+++
+++mkdir $DIR
+++cd $DIR
+++exec pwd
+++cp $WORK/go.mod ./go.mod
+++cp $WORK/main.go ./main.go
+++cp $WORK/main_test.go ./main_test.go
+++
+++! go build -o $devnull .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go build -o $devnull main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++! go run .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go run main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++! go test .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go test -v main.go main_test.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++
+++# Since we do preserve $PWD (or set it appropriately) for commands, and we do
+++# not resolve symlinks unnecessarily, referring to the contents of the unsafe
+++# directory via a safe symlink should be ok, and should not inject the data from
+++# the symlink target path.
+++
+++[!symlink] stop 'remainder of test checks symlink behavior'
+++[short] stop 'links and runs binaries'
+++
+++symlink $WORK${/}link -> $DIR
+++
+++go run $WORK${/}link${/}main.go
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go test -v $WORK${/}link${/}main.go $WORK${/}link${/}main_test.go
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'   # 'go test' combines the test's stdout into stderr
+++
+++cd $WORK/link
+++
+++! go run $DIR${/}main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++go run .
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go run main.go
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go test -v
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
+++
+++go test -v .
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
+++
+++
+++-- $WORK/go.mod --
+++module example
+++go 1.19
+++-- $WORK/main.go --
+++package main
+++
+++import "C"
+++
+++func main() {
+++	/* nothing here */
+++	println("ok")
+++}
+++-- $WORK/main_test.go --
+++package main
+++
+++import "testing"
+++
+++func TestMain(*testing.M) {
+++	main()
+++}
++--
++2.40.0
 -- 
-2.25.1
+2.40.0
 
 
