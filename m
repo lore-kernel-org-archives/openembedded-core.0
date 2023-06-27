@@ -1,182 +1,607 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 122F7EB64D9
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 11:23:57 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.10537.1687865032269867025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D731BEB64D9
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 14:08:37 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.14256.1687874915413499886
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 04:23:52 -0700
+ Tue, 27 Jun 2023 07:08:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=RAq7Mlvi;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: asharma@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b7f223994fso24093155ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 04:23:52 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=qWhZkFNm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.51, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-510d6b939bfso5983787a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1687865031; x=1690457031;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687874914; x=1690466914;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nywb/eii6rIsAwhf/vRRNFra6QXbqgPPQ2Yig8O5qIA=;
-        b=RAq7MlviaxOKGLFMjKKt4Zaho9eeDaBpQ/uZUMYolKomE1AYeP9XymaCpKPF1In/dx
-         +Xzf4OyEmrui2cK/lY91lqfubmuNvROu1t7TU6Csa3+LIfumHUA+yJgMycJB8ZFeIgtx
-         27imSPZ1RayykoxmqY+RR/XpLu1dhPTiak8OU=
+        bh=ft8sGp7u93IQFScWNbFKzswt/fCS64lK4Zu33zHvuoY=;
+        b=qWhZkFNm2ChGB7GEW5kuLqgUEdcSPhL3Iuyp4jYVzgLvGReOej7Qzl0/mfTd6CG4Dq
+         uIAe1kJHt84HL43OLVyqOjoxHctLV9GjPg4L/FOCV1sSsAV9wXP6bWudD5gHIACfmXzu
+         CsKR88uh3O148MNA1qCA3yLD97ctbq8XS1Bybi71mzMqRrErX8aEtBe3cIYnMrMpUi/r
+         fn5lgfhjl/cyO/ayz4uaz0Kq9HQaMmalTl33Todxy6rZAmxppyeUGSsAlou4YEYhao7r
+         USJmA209j9GUiCz6UnYAJdAckfDuGD9yoO3cP21A9vOePEmNoJCVHy8a8CNATtzMYYfe
+         tovA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687865031; x=1690457031;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1687874914; x=1690466914;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nywb/eii6rIsAwhf/vRRNFra6QXbqgPPQ2Yig8O5qIA=;
-        b=lG1ng0KFyrJla7+W9DaeJF/aEyLy2jACR74NeP7satisz12xwC3drryxHTSl8jsT9M
-         EMSAngEqRFPBZ8fcpoKExvsvDBQl17AFd/4hxBmM8RdKOa0IDUuShpkninB9ibQFyaMb
-         MR+SoxiWrzrI7tS4p+nu3bRg+0t1R97Vzt6sWYUxdfHlEcERGmQZsRUk7Lo9LZHgH1Iy
-         4UBGYVtg9Ozk4NMqp4pUUD83N7WqihF0I2Sxir4d1k5+fxX49TGTXAFow87pMYoKytMe
-         RBa2/aUgSBEDQ/uw2BRHr+Rhs8+hSSANHQMlb1zEe2HFmkGEqTOpK7fB+u0FWc0aWXb3
-         Nodw==
-X-Gm-Message-State: AC+VfDy9cnjxSNqEDdctCxw5IHnhG9AiLe526VS0KGvUnt+YFmWFWh2g
-	hD7OXyLRppQKfOa4g9PekwmYGprhmKd98qRnuM0=
-X-Google-Smtp-Source: ACHHUZ6D8YKpHAHahWwSeFh8+X8PctEPyDHppL9mghGiI8+OjIYUNfX6k6d3NI8Cm/7LOZu2EHOuMA==
-X-Received: by 2002:a17:902:ec88:b0:1b6:9853:1757 with SMTP id x8-20020a170902ec8800b001b698531757mr12431987plg.23.1687865031154;
-        Tue, 27 Jun 2023 04:23:51 -0700 (PDT)
-Received: from asharma-Latitude-3400 ([2401:4900:1c68:df03:c4e6:1ddb:b8ec:1db5])
-        by smtp.gmail.com with ESMTPSA id q14-20020a170902bd8e00b001aad714400asm5743801pls.229.2023.06.27.04.23.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 27 Jun 2023 04:23:50 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Tue, 27 Jun 2023 16:53:46 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][dunfell][PATCH] go: Fix CVE-2023-29400
-Date: Tue, 27 Jun 2023 16:53:45 +0530
-Message-Id: <20230627112345.5724-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.17.1
+        bh=ft8sGp7u93IQFScWNbFKzswt/fCS64lK4Zu33zHvuoY=;
+        b=fW9xHjtboeLhgb1xdHjwMrM8kIOu2DgtWjPyJ6KL24sGCeT9wqIKBeLj1gqAbVW4RI
+         UTxHnFWbD4SletyaPBZL8bqiQ5BgCy0IWlKrnRkylaSd+HJYuBh9MH1crx1GVjNz4IlN
+         esUfLkEmKy40cUUTzDNUijGN2HmbragD7VG1ctJyK93wFqlBQLN09fAD1rZ7DIzoPJrJ
+         CvcvyfWoeewuQXSsgOlbV9uOY+22O5mUWzGz69KvCFi0BelZL9w6hqSVlQJnk+NYb1Vk
+         e8zkWbGP4St9nKPxIXZXi2vN6Xl+vul6MBMcw8P5g+jqjZ7gk+KdEiFcPptI++IY9Aly
+         MxoA==
+X-Gm-Message-State: AC+VfDz6RP7Mc3VD6+HyHkLPqtJ/iYOAUlBskZYrEpWZavT63w4j5EHk
+	GhRXcF0c1vhCIuBdYHO6a7Na1KmOAs7GhyCWzwgbWw==
+X-Google-Smtp-Source: ACHHUZ4hbh7DeVjUdWtXgBHOY+yXObifnlqgn5fwTr4eTY1YFIebt8HDpSkkfOa02x7SPSLfwn+mBWtJfQpLIWjb2GA=
+X-Received: by 2002:aa7:d7d1:0:b0:51d:8955:9c8f with SMTP id
+ e17-20020aa7d7d1000000b0051d89559c8fmr6791532eds.29.1687874913564; Tue, 27
+ Jun 2023 07:08:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230625135020.104159-1-marex@denx.de>
+In-Reply-To: <20230625135020.104159-1-marex@denx.de>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 27 Jun 2023 04:08:21 -1000
+Message-ID: <CAOSpxdYin7XBvq-r+CW1s6wan28cNnuJbsj-rHLXEx7_+NMCuw@mail.gmail.com>
+Subject: Re: [kirkstone][PATCH] cpio: Replace fix wrong CRC with ASCII CRC for
+ large files with upstream backport
+To: Marek Vasut <marex@denx.de>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Khem Raj <raj.khem@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 11:23:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183485
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 14:08:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183486
 
-emit filterFailsafe for empty unquoted attr
-value
+On Sun, Jun 25, 2023 at 3:50=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
+>
+> Replace the original "Wrong CRC with ASCII CRC for large files"
+> patch with upstream backport, and add additional fix on top of
+> the same problem which upstream detected and fixed.
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
----
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2023-29400.patch           | 93 +++++++++++++++++++
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
+Your replacement patches are missing Upstream-Status and Signed-off-by tags=
+:
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index c544b00b22d..1e0c3fab6fa 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -66,6 +66,7 @@ SRC_URI += "\
-     file://CVE-2023-24538-3.patch \
-     file://CVE-2023-24539.patch \
-     file://CVE-2023-24540.patch \
-+    file://CVE-2023-29400.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
-new file mode 100644
-index 00000000000..cb0419a920e
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
-@@ -0,0 +1,93 @@
-+From 0d347544cbca0f42b160424f6bc2458ebcc7b3fc Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Thu, 13 Apr 2023 14:01:50 -0700
-+Subject: [PATCH] html/template: emit filterFailsafe for empty unquoted attr
-+ value
-+
-+An unquoted action used as an attribute value can result in unsafe
-+behavior if it is empty, as HTML normalization will result in unexpected
-+attributes, and may allow attribute injection. If executing a template
-+results in a empty unquoted attribute value, emit filterFailsafe
-+instead.
-+
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
-+
-+Fixes #59722
-+Fixes CVE-2023-29400
-+
-+Change-Id: Ia38d1b536ae2b4af5323a6c6d861e3c057c2570a
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1826631
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/491617
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+
-+Upstream-Status: Backport from [https://github.com/golang/go/commit/0d347544cbca0f42b160424f6bc2458ebcc7b3fc]
-+CVE: CVE-2023-29400
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+---
-+ src/html/template/escape.go      |  5 ++---
-+ src/html/template/escape_test.go | 15 +++++++++++++++
-+ src/html/template/html.go        |  3 +++
-+ 3 files changed, 20 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/html/template/escape.go b/src/html/template/escape.go
-+index 4ba1d6b31897e..a62ef159f0dcd 100644
-+--- a/src/html/template/escape.go
-++++ b/src/html/template/escape.go
-+@@ -382,9 +382,8 @@ func normalizeEscFn(e string) string {
-+ // for all x.
-+ var redundantFuncs = map[string]map[string]bool{
-+ 	"_html_template_commentescaper": {
-+-		"_html_template_attrescaper":    true,
-+-		"_html_template_nospaceescaper": true,
-+-		"_html_template_htmlescaper":    true,
-++		"_html_template_attrescaper": true,
-++		"_html_template_htmlescaper": true,
-+ 	},
-+ 	"_html_template_cssescaper": {
-+ 		"_html_template_attrescaper": true,
-+diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
-+index 3dd212bac9406..f8b2b448f2dfa 100644
-+--- a/src/html/template/escape_test.go
-++++ b/src/html/template/escape_test.go
-+@@ -678,6 +678,21 @@ func TestEscape(t *testing.T) {
-+ 			`<img srcset={{",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"}}>`,
-+ 			`<img srcset=,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,>`,
-+ 		},
-++		{
-++			"unquoted empty attribute value (plaintext)",
-++			"<p name={{.U}}>",
-++			"<p name=ZgotmplZ>",
-++		},
-++		{
-++			"unquoted empty attribute value (url)",
-++			"<p href={{.U}}>",
-++			"<p href=ZgotmplZ>",
-++		},
-++		{
-++			"quoted empty attribute value",
-++			"<p name=\"{{.U}}\">",
-++			"<p name=\"\">",
-++		},
-+ 	}
-+ 
-+ 	for _, test := range tests {
-+diff --git a/src/html/template/html.go b/src/html/template/html.go
-+index bcca0b51a0ef9..a181699a5bda8 100644
-+--- a/src/html/template/html.go
-++++ b/src/html/template/html.go
-+@@ -14,6 +14,9 @@ import (
-+ // htmlNospaceEscaper escapes for inclusion in unquoted attribute values.
-+ func htmlNospaceEscaper(args ...any) string {
-+ 	s, t := stringify(args...)
-++	if s == "" {
-++		return filterFailsafe
-++	}
-+ 	if t == contentTypeHTML {
-+ 		return htmlReplacer(stripTags(s), htmlNospaceNormReplacementTable, false)
-+ 	}
--- 
-2.17.1
+ERROR: cpio-2.13-r0 do_patch: Missing Upstream-Status in patch
+/home/steve/builds/poky-contrib-kirkstone/meta/recipes-extended/cpio/cpio-2=
+.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch
+Please add according to
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Hea=
+der_Recommendations:_Upstream-Status
+.
+ERROR: cpio-2.13-r0 do_patch: Missing Upstream-Status in patch
+/home/steve/builds/poky-contrib-kirkstone/meta/recipes-extended/cpio/cpio-2=
+.13/0004-Fix-appending-to-archives-bigger-than-2G.patch
+Please add according to
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Hea=
+der_Recommendations:_Upstream-Status
+.
 
+Please submit a V2!
+
+Thanks,
+
+Steve
+
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> NOTE: There is no oe-core/master counterpart, since oe-core/master
+>       updated to cpio 2.14 in the meantime.
+> ---
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Khem Raj <raj.khem@gmail.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Ross Burton <ross.burton@arm.com>
+> Cc: Steve Sakoman <steve@sakoman.com>
+> ---
+>  ...g-CRC-with-ASCII-CRC-for-large-files.patch |  39 ---
+>  ...-calculation-of-CRC-in-copy-out-mode.patch |  55 ++++
+>  ...appending-to-archives-bigger-than-2G.patch | 309 ++++++++++++++++++
+>  meta/recipes-extended/cpio/cpio_2.13.bb       |   3 +-
+>  4 files changed, 366 insertions(+), 40 deletions(-)
+>  delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-w=
+ith-ASCII-CRC-for-large-files.patch
+>  create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calcula=
+tion-of-CRC-in-copy-out-mode.patch
+>  create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appendi=
+ng-to-archives-bigger-than-2G.patch
+>
+> diff --git a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASC=
+II-CRC-for-large-files.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Wr=
+ong-CRC-with-ASCII-CRC-for-large-files.patch
+> deleted file mode 100644
+> index 4b96e4316c..0000000000
+> --- a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-=
+for-large-files.patch
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -From 77ff5f1be394eb2c786df561ff37dde7f982ec76 Mon Sep 17 00:00:00 2001
+> -From: Stefano Babic <sbabic@denx.de>
+> -Date: Fri, 28 Jul 2017 13:20:52 +0200
+> -Subject: [PATCH] Wrong CRC with ASCII CRC for large files
+> -
+> -Due to signedness, the checksum is not computed when filesize is bigger
+> -a 2GB.
+> -
+> -Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-cpio/=
+2017-07/msg00004.html]
+> -Signed-off-by: Stefano Babic <sbabic@denx.de>
+> ----
+> - src/copyout.c | 8 ++++----
+> - 1 file changed, 4 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/src/copyout.c b/src/copyout.c
+> -index 1f0987a..727aeca 100644
+> ---- a/src/copyout.c
+> -+++ b/src/copyout.c
+> -@@ -34,13 +34,13 @@
+> -    compute and return a checksum for them.  */
+> -
+> - static uint32_t
+> --read_for_checksum (int in_file_des, int file_size, char *file_name)
+> -+read_for_checksum (int in_file_des, unsigned int file_size, char *file_=
+name)
+> - {
+> -   uint32_t crc;
+> -   char buf[BUFSIZ];
+> --  int bytes_left;
+> --  int bytes_read;
+> --  int i;
+> -+  unsigned int bytes_left;
+> -+  unsigned int bytes_read;
+> -+  unsigned int i;
+> -
+> -   crc =3D 0;
+> -
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of=
+-CRC-in-copy-out-mode.patch b/meta/recipes-extended/cpio/cpio-2.13/0003-Fix=
+-calculation-of-CRC-in-copy-out-mode.patch
+> new file mode 100644
+> index 0000000000..aa478b5126
+> --- /dev/null
+> +++ b/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in=
+-copy-out-mode.patch
+> @@ -0,0 +1,55 @@
+> +From d257e47a6c6b41ba727b196ac96c05ab91bd9d65 Mon Sep 17 00:00:00 2001
+> +From: Sergey Poznyakoff <gray@gnu.org>
+> +Date: Fri, 7 Apr 2023 11:23:37 +0300
+> +Subject: [PATCH 3/4] Fix calculation of CRC in copy-out mode.
+> +
+> +* src/copyout.c (read_for_checksum): Fix type of the file_size argument.
+> +Rewrite the reading loop.
+> +
+> +Original patch by Stefano Babic <sbabic@denx.de>
+> +---
+> + src/copyout.c | 16 +++++++---------
+> + 1 file changed, 7 insertions(+), 9 deletions(-)
+> +
+> +diff --git a/src/copyout.c b/src/copyout.c
+> +index 8b0beb6..f1ff351 100644
+> +--- a/src/copyout.c
+> ++++ b/src/copyout.c
+> +@@ -34,27 +34,25 @@
+> +    compute and return a checksum for them.  */
+> +
+> + static uint32_t
+> +-read_for_checksum (int in_file_des, int file_size, char *file_name)
+> ++read_for_checksum (int in_file_des, off_t file_size, char *file_name)
+> + {
+> +   uint32_t crc;
+> +-  char buf[BUFSIZ];
+> +-  int bytes_left;
+> +-  int bytes_read;
+> +-  int i;
+> ++  unsigned char buf[BUFSIZ];
+> ++  ssize_t bytes_read;
+> ++  ssize_t i;
+> +
+> +   crc =3D 0;
+> +
+> +-  for (bytes_left =3D file_size; bytes_left > 0; bytes_left -=3D bytes_=
+read)
+> ++  while (file_size > 0)
+> +     {
+> +       bytes_read =3D read (in_file_des, buf, BUFSIZ);
+> +       if (bytes_read < 0)
+> +       error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), =
+file_name);
+> +       if (bytes_read =3D=3D 0)
+> +       break;
+> +-      if (bytes_left < bytes_read)
+> +-        bytes_read =3D bytes_left;
+> +-      for (i =3D 0; i < bytes_read; ++i)
+> ++      for (i =3D 0; i < bytes_read; i++)
+> +       crc +=3D buf[i] & 0xff;
+> ++      file_size -=3D bytes_read;
+> +     }
+> +   if (lseek (in_file_des, 0L, SEEK_SET))
+> +     error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), fi=
+le_name);
+> +--
+> +2.39.2
+> +
+> diff --git a/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-a=
+rchives-bigger-than-2G.patch b/meta/recipes-extended/cpio/cpio-2.13/0004-Fi=
+x-appending-to-archives-bigger-than-2G.patch
+> new file mode 100644
+> index 0000000000..677702c0bc
+> --- /dev/null
+> +++ b/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives=
+-bigger-than-2G.patch
+> @@ -0,0 +1,309 @@
+> +From 8513495ab5cfb63eb7c4c933fdf0b78c6196cd27 Mon Sep 17 00:00:00 2001
+> +From: Sergey Poznyakoff <gray@gnu.org>
+> +Date: Fri, 28 Apr 2023 15:23:46 +0300
+> +Subject: [PATCH 4/4] Fix appending to archives bigger than 2G
+> +
+> +* src/extern.h (last_header_start): Change type to off_t.
+> +* src/global.c: Likewise.
+> +* src/util.c (prepare_append): Use off_t for file offsets.
+> +---
+> + src/extern.h | 11 ++++-----
+> + src/global.c |  2 +-
+> + src/util.c   | 66 ++++++++++++++++++++++++++--------------------------
+> + 3 files changed, 39 insertions(+), 40 deletions(-)
+> +
+> +diff --git a/src/extern.h b/src/extern.h
+> +index 11ac6bf..12f14a9 100644
+> +--- a/src/extern.h
+> ++++ b/src/extern.h
+> +@@ -67,7 +67,7 @@ extern int ignore_devno_option;
+> +
+> + extern bool to_stdout_option;
+> +
+> +-extern int last_header_start;
+> ++extern off_t last_header_start;
+> + extern int copy_matching_files;
+> + extern int numeric_uid;
+> + extern char *pattern_file_name;
+> +@@ -123,7 +123,7 @@ void field_width_error (const char *filename, const =
+char *fieldname,
+> +
+> + /* copypass.c */
+> + void process_copy_pass (void);
+> +-int link_to_maj_min_ino (char *file_name, int st_dev_maj,
+> ++int link_to_maj_min_ino (char *file_name, int st_dev_maj,
+> +                        int st_dev_min, ino_t st_ino);
+> + int link_to_name (char const *link_name, char const *link_target);
+> +
+> +@@ -171,7 +171,7 @@ void copy_files_tape_to_disk (int in_des, int out_de=
+s, off_t num_bytes);
+> + void copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes,=
+ char *filename);
+> + void copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes,=
+ char *filename);
+> + void warn_if_file_changed (char *file_name, off_t old_file_size,
+> +-                           time_t old_file_mtime);
+> ++                         time_t old_file_mtime);
+> + void create_all_directories (char const *name);
+> + void prepare_append (int out_file_des);
+> + char *find_inode_file (ino_t node_num,
+> +@@ -185,7 +185,7 @@ void set_new_media_message (char *message);
+> + #ifdef HPUX_CDF
+> + char *add_cdf_double_slashes (char *filename);
+> + #endif
+> +-void write_nuls_to_file (off_t num_bytes, int out_des,
+> ++void write_nuls_to_file (off_t num_bytes, int out_des,
+> +                        void (*writer) (char *in_buf,
+> +                                        int out_des, off_t num_bytes));
+> + #define DISK_IO_BLOCK_SIZE    512
+> +@@ -229,6 +229,5 @@ void delay_set_stat (char const *file_name, struct s=
+tat *st,
+> +                    mode_t invert_permissions);
+> + int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
+> + void apply_delayed_set_stat (void);
+> +-
+> +-int arf_stores_inode_p (enum archive_format arf);
+> +
+> ++int arf_stores_inode_p (enum archive_format arf);
+> +diff --git a/src/global.c b/src/global.c
+> +index fb3abe9..5c9fc05 100644
+> +--- a/src/global.c
+> ++++ b/src/global.c
+> +@@ -114,7 +114,7 @@ int debug_flag =3D false;
+> +
+> + /* File position of last header read.  Only used during -A to determine
+> +    where the old TRAILER!!! record started.  */
+> +-int last_header_start =3D 0;
+> ++off_t last_header_start =3D 0;
+> +
+> + /* With -i; if true, copy only files that match any of the given patter=
+ns;
+> +    if false, copy only files that do not match any of the patterns. (-f=
+) */
+> +diff --git a/src/util.c b/src/util.c
+> +index 4421b20..3be89a4 100644
+> +--- a/src/util.c
+> ++++ b/src/util.c
+> +@@ -60,8 +60,8 @@ tape_empty_output_buffer (int out_des)
+> +   static long output_bytes_before_lseek =3D 0;
+> +
+> +   /* Some tape drivers seem to have a signed internal seek pointer and
+> +-     they lose if it overflows and becomes negative (e.g. when writing
+> +-     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> ++     they lose if it overflows and becomes negative (e.g. when writing
+> ++     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> +      seek pointer and prevent it from overflowing.  */
+> +   if (output_is_special
+> +      && ( (output_bytes_before_lseek +=3D output_size) >=3D 1073741824L=
+) )
+> +@@ -106,7 +106,7 @@ static ssize_t sparse_write (int fildes, char *buf, =
+size_t nbyte, bool flush);
+> +    descriptor OUT_DES and reset `output_size' and `out_buff'.
+> +    If `swapping_halfwords' or `swapping_bytes' is set,
+> +    do the appropriate swapping first.  Our callers have
+> +-   to make sure to only set these flags if `output_size'
+> ++   to make sure to only set these flags if `output_size'
+> +    is appropriate (a multiple of 4 for `swapping_halfwords',
+> +    2 for `swapping_bytes').  The fact that DISK_IO_BLOCK_SIZE
+> +    must always be a multiple of 4 helps us (and our callers)
+> +@@ -188,8 +188,8 @@ tape_fill_input_buffer (int in_des, int num_bytes)
+> + {
+> + #ifdef BROKEN_LONG_TAPE_DRIVER
+> +   /* Some tape drivers seem to have a signed internal seek pointer and
+> +-     they lose if it overflows and becomes negative (e.g. when writing
+> +-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> ++     they lose if it overflows and becomes negative (e.g. when writing
+> ++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> +      seek pointer and prevent it from overflowing.  */
+> +   if (input_is_special
+> +       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
+)
+> +@@ -332,8 +332,8 @@ tape_buffered_peek (char *peek_buf, int in_des, int =
+num_bytes)
+> +
+> + #ifdef BROKEN_LONG_TAPE_DRIVER
+> +   /* Some tape drivers seem to have a signed internal seek pointer and
+> +-     they lose if it overflows and becomes negative (e.g. when writing
+> +-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> ++     they lose if it overflows and becomes negative (e.g. when writing
+> ++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset th=
+e
+> +      seek pointer and prevent it from overflowing.  */
+> +   if (input_is_special
+> +       && ( (input_bytes_before_lseek +=3D num_bytes) >=3D 1073741824L) =
+)
+> +@@ -404,7 +404,7 @@ tape_toss_input (int in_des, off_t num_bytes)
+> +
+> +       if (crc_i_flag && only_verify_crc_flag)
+> +       {
+> +-        int k;
+> ++        int k;
+> +         for (k =3D 0; k < space_left; ++k)
+> +           crc +=3D in_buff[k] & 0xff;
+> +       }
+> +@@ -416,14 +416,14 @@ tape_toss_input (int in_des, off_t num_bytes)
+> + }
+> +
+> + void
+> +-write_nuls_to_file (off_t num_bytes, int out_des,
+> +-                    void (*writer) (char *in_buf, int out_des, off_t nu=
+m_bytes))
+> ++write_nuls_to_file (off_t num_bytes, int out_des,
+> ++                  void (*writer) (char *in_buf, int out_des, off_t num_=
+bytes))
+> + {
+> +   off_t       blocks;
+> +   off_t       extra_bytes;
+> +   off_t       i;
+> +   static char zeros_512[512];
+> +-
+> ++
+> +   blocks =3D num_bytes / sizeof zeros_512;
+> +   extra_bytes =3D num_bytes % sizeof zeros_512;
+> +   for (i =3D 0; i < blocks; ++i)
+> +@@ -603,7 +603,7 @@ create_all_directories (char const *name)
+> +   char *dir;
+> +
+> +   dir =3D dir_name (name);
+> +-
+> ++
+> +   if (dir =3D=3D NULL)
+> +     error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
+> +
+> +@@ -637,9 +637,9 @@ create_all_directories (char const *name)
+> + void
+> + prepare_append (int out_file_des)
+> + {
+> +-  int start_of_header;
+> +-  int start_of_block;
+> +-  int useful_bytes_in_block;
+> ++  off_t start_of_header;
+> ++  off_t start_of_block;
+> ++  size_t useful_bytes_in_block;
+> +   char *tmp_buf;
+> +
+> +   start_of_header =3D last_header_start;
+> +@@ -697,8 +697,8 @@ inode_val_compare (const void *val1, const void *val=
+2)
+> +   const struct inode_val *ival1 =3D val1;
+> +   const struct inode_val *ival2 =3D val2;
+> +   return ival1->inode =3D=3D ival2->inode
+> +-         && ival1->major_num =3D=3D ival2->major_num
+> +-         && ival1->minor_num =3D=3D ival2->minor_num;
+> ++       && ival1->major_num =3D=3D ival2->major_num
+> ++       && ival1->minor_num =3D=3D ival2->minor_num;
+> + }
+> +
+> + static struct inode_val *
+> +@@ -706,10 +706,10 @@ find_inode_val (ino_t node_num, unsigned long majo=
+r_num,
+> +                unsigned long minor_num)
+> + {
+> +   struct inode_val sample;
+> +-
+> ++
+> +   if (!hash_table)
+> +     return NULL;
+> +-
+> ++
+> +   sample.inode =3D node_num;
+> +   sample.major_num =3D major_num;
+> +   sample.minor_num =3D minor_num;
+> +@@ -734,7 +734,7 @@ add_inode (ino_t node_num, char *file_name, unsigned=
+ long major_num,
+> + {
+> +   struct inode_val *temp;
+> +   struct inode_val *e =3D NULL;
+> +-
+> ++
+> +   /* Create new inode record.  */
+> +   temp =3D (struct inode_val *) xmalloc (sizeof (struct inode_val));
+> +   temp->inode =3D node_num;
+> +@@ -1007,7 +1007,7 @@ buf_all_zeros (char *buf, int bufsize)
+> +
+> + /* Write NBYTE bytes from BUF to file descriptor FILDES, trying to
+> +    create holes instead of writing blockfuls of zeros.
+> +-
+> ++
+> +    Return the number of bytes written (including bytes in zero
+> +    regions) on success, -1 on error.
+> +
+> +@@ -1027,7 +1027,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
+> +
+> +   enum { begin, in_zeros, not_in_zeros } state =3D
+> +                          delayed_seek_count ? in_zeros : begin;
+> +-
+> ++
+> +   while (nbytes)
+> +     {
+> +       size_t rest =3D nbytes;
+> +@@ -1042,7 +1042,7 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
+> +             if (state =3D=3D not_in_zeros)
+> +               {
+> +                 ssize_t bytes =3D buf - start_ptr + rest;
+> +-
+> ++
+> +                 n =3D write (fildes, start_ptr, bytes);
+> +                 if (n =3D=3D -1)
+> +                   return -1;
+> +@@ -1091,8 +1091,8 @@ sparse_write (int fildes, char *buf, size_t nbytes=
+, bool flush)
+> +       if (n !=3D 1)
+> +       return n;
+> +       delayed_seek_count =3D 0;
+> +-    }
+> +-
+> ++    }
+> ++
+> +   return nwritten + seek_count;
+> + }
+> +
+> +@@ -1222,7 +1222,7 @@ set_perms (int fd, struct cpio_file_stat *header)
+> +   if (!no_chown_flag)
+> +     {
+> +       uid_t uid =3D CPIO_UID (header->c_uid);
+> +-      gid_t gid =3D CPIO_GID (header->c_gid);
+> ++      gid_t gid =3D CPIO_GID (header->c_gid);
+> +       if ((fchown_or_chown (fd, header->c_name, uid, gid) < 0)
+> +         && errno !=3D EPERM)
+> +       chown_error_details (header->c_name, uid, gid);
+> +@@ -1239,13 +1239,13 @@ set_file_times (int fd,
+> +               const char *name, unsigned long atime, unsigned long mtim=
+e)
+> + {
+> +   struct timespec ts[2];
+> +-
+> ++
+> +   memset (&ts, 0, sizeof ts);
+> +
+> +   ts[0].tv_sec =3D atime;
+> +   ts[1].tv_sec =3D mtime;
+> +
+> +-  /* Silently ignore EROFS because reading the file won't have upset it=
+s
+> ++  /* Silently ignore EROFS because reading the file won't have upset it=
+s
+> +      timestamp if it's on a read-only filesystem. */
+> +   if (fdutimens (fd, name, ts) < 0 && errno !=3D EROFS)
+> +     utime_error (name);
+> +@@ -1297,7 +1297,7 @@ cpio_safer_name_suffix (char *name, bool link_targ=
+et, bool absolute_names,
+> +
+> + /* This is a simplified form of delayed set_stat used by GNU tar.
+> +    With the time, both forms will merge and pass to paxutils
+> +-
+> ++
+> +    List of directories whose statuses we need to extract after we've
+> +    finished extracting their subsidiary files.  If you consider each
+> +    contiguous subsequence of elements of the form [D]?[^D]*, where [D]
+> +@@ -1415,7 +1415,7 @@ cpio_mkdir (struct cpio_file_stat *file_hdr, int *=
+setstat_delayed)
+> + {
+> +   int rc;
+> +   mode_t mode =3D file_hdr->c_mode;
+> +-
+> ++
+> +   if (!(file_hdr->c_mode & S_IWUSR))
+> +     {
+> +       rc =3D mkdir (file_hdr->c_name, mode | S_IWUSR);
+> +@@ -1438,10 +1438,10 @@ cpio_create_dir (struct cpio_file_stat *file_hdr=
+, int existing_dir)
+> + {
+> +   int res;                    /* Result of various function calls.  */
+> +   int setstat_delayed =3D 0;
+> +-
+> ++
+> +   if (to_stdout_option)
+> +     return 0;
+> +-
+> ++
+> +   /* Strip any trailing `/'s off the filename; tar puts
+> +      them on.  We might as well do it here in case anybody
+> +      else does too, since they cause strange things to happen.  */
+> +@@ -1530,7 +1530,7 @@ arf_stores_inode_p (enum archive_format arf)
+> +     }
+> +   return 1;
+> + }
+> +-
+> ++
+> + void
+> + cpio_file_stat_init (struct cpio_file_stat *file_hdr)
+> + {
+> +--
+> +2.39.2
+> +
+> diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-exten=
+ded/cpio/cpio_2.13.bb
+> index dd3541096f..6ac5653eab 100644
+> --- a/meta/recipes-extended/cpio/cpio_2.13.bb
+> +++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+> @@ -10,7 +10,8 @@ SRC_URI =3D "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+>             file://0001-Unset-need_charset_alias-when-building-for-musl.p=
+atch \
+>             file://0002-src-global.c-Remove-superfluous-declaration-of-pr=
+ogr.patch \
+>             file://CVE-2021-38185.patch \
+> -           file://0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch \
+> +           file://0003-Fix-calculation-of-CRC-in-copy-out-mode.patch \
+> +           file://0004-Fix-appending-to-archives-bigger-than-2G.patch \
+>             "
+>
+>  SRC_URI[md5sum] =3D "389c5452d667c23b5eceb206f5000810"
+> --
+> 2.40.1
+>
 
