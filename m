@@ -1,216 +1,299 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1686EB64DC
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 06:34:14 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.7091.1687847649759237604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A87EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 06:56:14 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.7309.1687848964658714890
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jun 2023 23:34:09 -0700
+ Mon, 26 Jun 2023 23:56:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=W7bvU/us;
- spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: sdoshi@mvista.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6686ef86110so2006359b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jun 2023 23:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1687847648; x=1690439648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qlj94OAjGD0MQfeaeChXNeblRkj2zQ7w1qjlqjrl97I=;
-        b=W7bvU/usOsL+QBzoGzbmY/UyWdjlhN1iGpd2yMOx4RI3ahv9jnPsMibIDZ6fmlfLmg
-         QI/WR+JpiuxnxN/ec1lkpGOad8v5iFBvvE9AvR82jetRNDkqvf0TkqI1wI8sHotzlBSv
-         L2yQfkLGgnsTavx1rLe00EUAA0h5DFQGhOvcc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687847648; x=1690439648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qlj94OAjGD0MQfeaeChXNeblRkj2zQ7w1qjlqjrl97I=;
-        b=SynC8FtfbGQej1LJWTWsGO2bKORV5I1ka+zIuYnN0go2I915JrGKAyThxiuDoKcCCq
-         o3sS0HN/2qUwD34lHci3kXDt24qQ2zRs17E4Zv07ME7fwBpdUNOXunHPc7Bom28PJ01m
-         PXTCy5LgcL5NdP0x0HtRTfCPbPQhnNTNSa9iki1V+UdD2ONi51XVTLASM5Zrf1ClsePE
-         OKVLalkoRHjQEuIAazUOVuxVL7/ahGYlwVvQDQwR2DZVkZq+M24+wcD2Mybj7/VsKzOf
-         zc3EkPJRGlkmxwD/TV1JwR7JzuI8kg0dBVb/Z/BAklKADf9iA7zdS/Ev8cqFVbGjveGL
-         XWGQ==
-X-Gm-Message-State: AC+VfDw25oLEYWoo/MOSxz89EDZLKU6astypj6WkrU7WUpAjtyFC5IZp
-	w3D29VSobr8OH9p/XUtQ+A8m9XVtR8g3cZIigms=
-X-Google-Smtp-Source: ACHHUZ5bY0xfK4aIoPIRL/Dyb06nstKtBGgo6WsFoXqFkuQavKVnhfh5UwRabib6/4KrXWw/u1IDAg==
-X-Received: by 2002:a05:6a20:12d3:b0:122:8096:7012 with SMTP id v19-20020a056a2012d300b0012280967012mr16787954pzg.3.1687847648267;
-        Mon, 26 Jun 2023 23:34:08 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([49.34.217.132])
-        by smtp.gmail.com with ESMTPSA id a6-20020a1709027d8600b001b392bf9192sm5183501plm.145.2023.06.26.23.34.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jun 2023 23:34:07 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][master][PATCH] bind: Upgrade 9.18.15 -> 9.18.16
-Date: Tue, 27 Jun 2023 12:02:00 +0530
-Message-Id: <20230627063200.12025-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=B+LR+ZuH;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5542140cb8=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35R6o2Vt007575
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=mvnLH
+	dljGHlYJfdg9E5zubILS6Me8lqJBrPR1rmBHrY=; b=B+LR+ZuH0D7ohMy99JIKG
+	zRQbZ2SCLgQ9VVl/GzOTCOrjmwdcs5egDPhLQznY/TLTw7vZLERBXUD8sWbaVGbv
+	0lZ7hGC/K528UeTY1yqQe74mN40VLd82A89M24e8hb3JsW/+jQTX19kwaVFPF5ex
+	axDrzvaStA5hkinJT8LXjOsmEd01nEWJrhIUat95aBoIgIk+lrRuPJ3uNfZOSf3J
+	WZLYkJHWqBwU9xr2+TxY6iCD724eDZZ7w3JfAdLn2wtZhmqEkh6Zj7EzVyFvwotf
+	XWftRxtcHgnLvsOef4z4UkKrb1pRqVrz+jVkmWwwwwZh45VRcYJjaXM2fpOZ5x+O
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb2gng-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:03 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 26 Jun 2023 23:55:49 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] go: fix CVE-2023-29402
+Date: Tue, 27 Jun 2023 06:55:37 +0000
+Message-ID: <20230627065537.3293452-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: anK1e7Cz433RikQm8Irl7naOaHlAEfZn
+X-Proofpoint-GUID: anK1e7Cz433RikQm8Irl7naOaHlAEfZn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-27_04,2023-06-26_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306270065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:34:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183438
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 06:56:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183439
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+The go command may generate unexpected code at build time when using cgo.
+This may result in unexpected behavior when running a go program which uses cgo.
+This may occur when running an untrusted module which contains directories
+with newline characters in their names. Modules which are retrieved using the go
+command, i.e. via "go get", are not affected (modules retrieved using GOPATH-mode,
+i.e. GO111MODULE=off, may be affected).
 
-- Remove configure options no longer supported online.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-29402
 
-Changelog:
-=========
-[security]	A query that prioritizes stale data over lookup
-		triggers a fetch to refresh the stale data in cache.
-		If the fetch is aborted for exceeding the recursion
-		quota, it was possible for 'named' to enter an infinite
-		callback loop and crash due to stack overflow. This has
-		been fixed. (CVE-2023-2911) [GL #4089]
+Upstream patches:
+https://github.com/golang/go/commit/4dae3bbe0e6a5700037bb996ae84d6f457c4f58a
 
-[security]	Improve the overmem cleaning process to prevent the
-		cache going over the configured limit. (CVE-2023-2828)
-		[GL #4055]
-
-[performance]	Reduce memory consumption by allocating properly
-		sized send buffers for stream-based transports.
-		[GL #4038]
-
-[bug]		Fix a 'clients-per-query' miscalculation bug. When the
-		'stale-answer-enable' options was enabled and the
-		'stale-answer-client-timeout' option was enabled and
-		larger than 0, named was taking two places from the
-		'clients-per-query' limit for each client and was
-		failing to gradually auto-tune its value, as configured.
-		[GL #4074]
-
-[func]		Add "ClientQuota" statistics channel counter, which
-		indicates the number of the resolver's spilled queries
-		due to reaching the clients per query quota. [GL !7978]
-
-[bug]		Fix a serve-stale bug where a delegation from cache
-		could be returned to the client. [GL #3950]
-
-[cleanup]	Remove configure checks for epoll, kqueue and
-		/dev/poll. [GL #4098]
-
-[func]		The "tkey-dhkey" option has been deprecated; a
-		warning will be logged when it is used. In a future
-		release, Diffie-Hellman TKEY mode will be removed.
-		[GL #3905]
-
-[bug]		The session key object could be incorrectly added
-		to multiple different views' keyrings. [GL #4079]
-
-[bug]		Fix an interfacemgr use-after-free error in
-		zoneconf.c:isself(). [GL #3765]
-
-[test]		Add support for using pytest & pytest-xdist to
-		execute the system test suite. [GL #3978]
-
-[bug]		BIND could get stuck on reconfiguration when a
-		'listen' statement for HTTP is removed from the
-		configuration. That has been fixed. [GL #4071]
-
-[bug]		Properly process extra "nameserver" lines in
-		resolv.conf otherwise the next line is not properly
-		processed. [GL #4066]
-
-[bug]		named could crash when deleting inline-signing zones
-		with "rndc delzone". [GL #4054]
-
-[bug]		Fix a logic error in dighost.c which could call the
-		dighost_shutdown() callback twice and cause problems
-		if the callback function was not idempotent. [GL #4039]
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch             | 0
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/bind9                 | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/conf.patch            | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/generate-rndc-key.sh  | 0
- .../init.d-add-support-for-read-only-rootfs.patch             | 0
- .../make-etc-initd-bind-stop-work.patch                       | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/named.service         | 0
- .../bind/{bind_9.18.15.bb => bind_9.18.16.bb}                 | 4 ++--
- 10 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.15.bb => bind_9.18.16.bb} (96%)
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.19/CVE-2023-29402.patch           | 194 ++++++++++++++++++
+ 2 files changed, 195 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/bind9 b/meta/recipes-connectivity/bind/bind-9.18.16/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.16/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.16/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/named.service b/meta/recipes-connectivity/bind/bind-9.18.16/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.16/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.15.bb b/meta/recipes-connectivity/bind/bind_9.18.16.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.18.15.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.16.bb
-index 80164aad87..1b1649566a 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.15.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.16.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 9af9eb2752..3365075fe5 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -34,6 +34,7 @@ SRC_URI += "\
+     file://CVE-2023-24539.patch \
+     file://CVE-2023-29404.patch \
+     file://CVE-2023-29405.patch \
++    file://CVE-2023-29402.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
--SRC_URI[sha256sum] = "28ae8db14862801bc2bd4fd820db00667d3f1ff9ae9cc2d06a0ef7810fed7a4e"
-+SRC_URI[sha256sum] = "c88234fe07ee75c3c8a9e59152fee64b714643de8e22cf98da3db4d0b57e0775"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
-@@ -39,7 +39,7 @@ PACKAGECONFIG[readline] = "--with-readline=readline,,readline"
- PACKAGECONFIG[libedit] = "--with-readline=libedit,,libedit"
- PACKAGECONFIG[dns-over-http] = "--enable-doh,--disable-doh,nghttp2"
- 
--EXTRA_OECONF = " --disable-devpoll --disable-auto-validation --enable-epoll \
-+EXTRA_OECONF = " --disable-auto-validation \
-                  --with-gssapi=no --with-lmdb=no --with-zlib \
-                  --sysconfdir=${sysconfdir}/bind \
-                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
+diff --git a/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+new file mode 100644
+index 0000000000..c3efeeffd0
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.19/CVE-2023-29402.patch
+@@ -0,0 +1,194 @@
++From 749bd10e0be0968b666d15ec0b255fdfe298228e Mon Sep 17 00:00:00 2001
++From: Archana Polampalli <archana.polampalli@windriver.com>
++Date: Fri, 23 Jun 2023 08:34:42 +0000
++Subject: [PATCH] cmd/go: disallow package directories containing newlines
++
++Directory or file paths containing newlines may cause tools (such as
++cmd/cgo) that emit "//line" or "#line" -directives to write part of
++the path into non-comment lines in generated source code. If those
++lines contain valid Go code, it may be injected into the resulting
++binary.
++
++(Note that Go import paths and file paths within module zip files
++already could not contain newlines.)
++
++Thanks to Juho Nurminen of Mattermost for reporting this issue.
++
++Fixes #60167.
++Fixes CVE-2023-29402.
++
++Change-Id: I64572e9f454bce7b685d00e2e6a1c96cd33d53df
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1882606
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Russ Cox <rsc@google.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/501226
++Run-TryBot: David Chase <drchase@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Michael Knyszek <mknyszek@google.com>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/c160b49b6d328c86bd76ca2fff9009a71347333f]
++CVE: CVE-2023-29402
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/cmd/go/internal/load/pkg.go               |   4 +
++ src/cmd/go/internal/work/exec.go              |   6 ++
++ src/cmd/go/script_test.go                     |   1 +
++ .../go/testdata/script/build_cwd_newline.txt  | 100 ++++++++++++++++++
++ 4 files changed, 111 insertions(+)
++ create mode 100644 src/cmd/go/testdata/script/build_cwd_newline.txt
++
++diff --git a/src/cmd/go/internal/load/pkg.go b/src/cmd/go/internal/load/pkg.go
++index a83cc9a..d4da86d 100644
++--- a/src/cmd/go/internal/load/pkg.go
+++++ b/src/cmd/go/internal/load/pkg.go
++@@ -1897,6 +1897,10 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
++		setError(fmt.Errorf("invalid input directory name %q", name))
++		return
++	}
+++	if strings.ContainsAny(p.Dir, "\r\n") {
+++		setError(fmt.Errorf("invalid package directory %q", p.Dir))
+++		return
+++	}
++
++	// Build list of imported packages and full dependency list.
++	imports := make([]*Package, 0, len(p.Imports))
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index b35caa4..b1bf347 100644
++--- a/src/cmd/go/internal/work/exec.go
+++++ b/src/cmd/go/internal/work/exec.go
++@@ -505,6 +505,12 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
++		b.Print(a.Package.ImportPath + "\n")
++	}
++
+++	if p.Error != nil {
+++		// Don't try to build anything for packages with errors. There may be a
+++		// problem with the inputs that makes the package unsafe to build.
+++		return p.Error
+++	}
+++
++	if a.Package.BinaryOnly {
++		p.Stale = true
++		p.StaleReason = "binary-only packages are no longer supported"
++diff --git a/src/cmd/go/script_test.go b/src/cmd/go/script_test.go
++index c0156d0..ce4ff37 100644
++--- a/src/cmd/go/script_test.go
+++++ b/src/cmd/go/script_test.go
++@@ -182,6 +182,7 @@ func (ts *testScript) setup() {
++		"devnull=" + os.DevNull,
++		"goversion=" + goVersion(ts),
++		":=" + string(os.PathListSeparator),
+++		"newline=\n",
++	}
++	if !testenv.HasExternalNetwork() {
++		ts.env = append(ts.env, "TESTGONETWORK=panic", "TESTGOVCS=panic")
++diff --git a/src/cmd/go/testdata/script/build_cwd_newline.txt b/src/cmd/go/testdata/script/build_cwd_newline.txt
++new file mode 100644
++index 0000000..61c6966
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/build_cwd_newline.txt
++@@ -0,0 +1,100 @@
+++[windows] skip 'filesystem normalizes / to \'
+++[plan9] skip 'filesystem disallows \n in paths'
+++
+++# If the directory path containing a package to be built includes a newline,
+++# the go command should refuse to even try to build the package.
+++
+++env DIR=$WORK${/}${newline}'package main'${newline}'func main() { panic("uh-oh")'${newline}'/*'
+++
+++mkdir $DIR
+++cd $DIR
+++exec pwd
+++cp $WORK/go.mod ./go.mod
+++cp $WORK/main.go ./main.go
+++cp $WORK/main_test.go ./main_test.go
+++
+++! go build -o $devnull .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go build -o $devnull main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++! go run .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go run main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++! go test .
+++stderr 'package example: invalid package directory .*uh-oh'
+++
+++! go test -v main.go main_test.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++
+++# Since we do preserve $PWD (or set it appropriately) for commands, and we do
+++# not resolve symlinks unnecessarily, referring to the contents of the unsafe
+++# directory via a safe symlink should be ok, and should not inject the data from
+++# the symlink target path.
+++
+++[!symlink] stop 'remainder of test checks symlink behavior'
+++[short] stop 'links and runs binaries'
+++
+++symlink $WORK${/}link -> $DIR
+++
+++go run $WORK${/}link${/}main.go
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go test -v $WORK${/}link${/}main.go $WORK${/}link${/}main_test.go
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'   # 'go test' combines the test's stdout into stderr
+++
+++cd $WORK/link
+++
+++! go run $DIR${/}main.go
+++stderr 'package command-line-arguments: invalid package directory .*uh-oh'
+++
+++go run .
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go run main.go
+++! stdout panic
+++! stderr panic
+++stderr '^ok$'
+++
+++go test -v
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
+++
+++go test -v .
+++! stdout panic
+++! stderr panic
+++stdout '^ok$'  # 'go test' combines the test's stdout into stderr
+++
+++
+++-- $WORK/go.mod --
+++module example
+++go 1.19
+++-- $WORK/main.go --
+++package main
+++
+++import "C"
+++
+++func main() {
+++	/* nothing here */
+++	println("ok")
+++}
+++-- $WORK/main_test.go --
+++package main
+++
+++import "testing"
+++
+++func TestMain(*testing.M) {
+++	main()
+++}
++--
++2.40.0
 -- 
-2.25.1
+2.40.0
 
 
