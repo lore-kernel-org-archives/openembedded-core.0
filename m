@@ -1,83 +1,92 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 917F4C00528
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 07:19:45 +0000 (UTC)
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
- by mx.groups.io with SMTP id smtpd.web10.7580.1687850377078420346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC55EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 07:26:35 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.7633.1687850793064724235
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 00:19:37 -0700
+ Tue, 27 Jun 2023 00:26:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="101083433"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684767600"; 
-   d="scan'208";a="101083433"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 16:19:34 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id A55EBDDC66
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 16:19:32 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id CC2A4D501D
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 16:19:31 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.225.33])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4812240B4D;
-	Tue, 27 Jun 2023 16:19:31 +0900 (JST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-hypothesis: upgrade 6.75.7 -> 6.79.2
-Date: Tue, 27 Jun 2023 15:17:18 +0800
-Message-Id: <1687850250-20040-21-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1687850250-20040-1-git-send-email-wangmy@fujitsu.com>
-References: <1687850250-20040-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27716.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27716.005
-X-TMASE-Result: 10--0.456400-10.000000
-X-TMASE-MatchedRID: 6e3s/u+cBDSjz0nOeth/yUIIxwDaU5mrZG3SCLP7QtI+++3dUGxY376p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74DCHpeB2SdtvoFum2PEjqt1o8W
-	MkQWv6iV3LAytsQR4e1cppCzPq+1UxlblqLlYqXJ8IfMI6h8nAoMd7WKxG6ftYWGbQWNEgJ/QGP
-	i1BgXYsT3aiq2nXNH/MJMpdvDXL/i7fvNXZSNMI+QS6f9EzICcO6IcZa5Rz0f+v9v52ZIoWjoAf
-	389xF3XFSk9HhUZnw7OGIWnws4LoyHWPYzouJUy
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=WyZnLT/M;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-666ecb21f86so4112849b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 00:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687850791; x=1690442791;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JJ4JpnkVBDl3/oFy+3vBA/8ohYHP9Hcwa8om48XBUTg=;
+        b=WyZnLT/MkE1it0CAtw3fZNL5GBdwp10Um04tX6bc7PL5pMSXXI1W6NpL+UOaFZW+2D
+         BMxta7T/s0ba/9gDMsRghec57XBfzxoauLzrUlvZWa1WwzYkR4w6P1mihu6vs1ZkWB8T
+         4TRP4dgAxh6xM8htWcIvboPEs3mMX7O6ydzSiRV/JDCjUWjlexkm2GrwRsaw9qVTSPDx
+         Pp6ex/IaY201eIJGyyKu5sxa/65bU7fiZ8cWY+BJRkILzwTE1QElg6TktA6ard5L20JW
+         0wSaMgwHMN4PX5KD9zPIEEsfc8l34uQVA8ESM7T0Btd+NjWycxT5mQjGZuDTryt5NXIz
+         DSrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687850791; x=1690442791;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JJ4JpnkVBDl3/oFy+3vBA/8ohYHP9Hcwa8om48XBUTg=;
+        b=LC6OdWc74cNrLnqEgQO+uDTtjxuhwYpXmK8XQqLJOegHuGjWiVemhqujCIcR78UMVl
+         pnOAkfeYqmK0JnUYUNyz85aJY/HFMaUtniA31TOx2Pa1NaWlh/SPKqALYuNg2gnNY+p3
+         1JphhXn200vFpAx4D+MCaRBvq8TpMlf9dNieRatFNVBwCGwe+/POLQXDRoUfb+UJZxfp
+         EepPPxZHpJZewiViB6J7xBG8CYTzEnOObkjAVBE0OYy47jHi4ysIL5I8ifcZA56qjNOs
+         Kt9FGqsKVReD2rdcUg+ee7CTIy58NRUDuz35ajmc1q/mxjqscRFovhuc9cVSlbnymT3S
+         QjAA==
+X-Gm-Message-State: AC+VfDym06dF0tEW83MaKynHX5ef3kQQWfGV3O4rzZES2Cc0lc0J2vqS
+	Y9YNgDIXfwd3wW3BMOUUv3rVU97/W1g=
+X-Google-Smtp-Source: ACHHUZ55d5yT3ylwh/cwD/taLleBr2KGW/r6j5SzTKpRYfM7ixbKrjaHslcgnx90+Hq4oLm0dPNjQg==
+X-Received: by 2002:a05:6a20:4287:b0:12b:6898:2989 with SMTP id o7-20020a056a20428700b0012b68982989mr626423pzj.28.1687850791373;
+        Tue, 27 Jun 2023 00:26:31 -0700 (PDT)
+Received: from localhost.localdomain ([223.233.81.169])
+        by smtp.gmail.com with ESMTPSA id q10-20020a170902daca00b001b694130c05sm5327286plx.1.2023.06.27.00.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 00:26:30 -0700 (PDT)
+From: virendra thakur <thakur.virendra1810@gmail.com>
+X-Google-Original-From: virendra thakur <virendrak@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone][PATCH] ninja: ignore CVE-2021-4336, wrong ninja
+Date: Tue, 27 Jun 2023 12:55:13 +0530
+Message-Id: <20230627072513.22484-1-virendrak@kpit.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:19:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183463
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 07:26:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183475
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Changelog:
-https://hypothesis.readthedocs.io/en/latest/changes.html
+(From OE-Core rev: c2dd2c13ff26c3f046e35a2f6b8afeb099ef422a)
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9a106486ad7900924a87c5869702903204a35b54)
+Signed-off-by: virendra thakur <virendrak@kpit.com>
 ---
- ...ython3-hypothesis_6.75.7.bb => python3-hypothesis_6.79.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.75.7.bb => python3-hypothesis_6.79.2.bb} (91%)
+ meta/recipes-devtools/ninja/ninja_1.10.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.75.7.bb b/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.75.7.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb
-index dc21bc67c6..c98f10e1ee 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.75.7.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/ninja/ninja_1.10.2.bb b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
+index 7270321d6e..1509a54c9e 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.10.2.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
+@@ -29,3 +29,6 @@ do_install() {
+ }
  
--SRC_URI[sha256sum] = "a8ef2e0c7d5ebd90043a4ed8f6987de6a2b497b2caf6863364ff41db25971856"
-+SRC_URI[sha256sum] = "51fb2259489dc446d3edc04cbc8ebd5848d7d3f238121183bee5449b91f7a8d8"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ BBCLASSEXTEND = "native nativesdk"
++
++# This is a different Ninja
++CVE_CHECK_IGNORE += "CVE-2021-4336"
 -- 
-2.34.1
+2.25.1
 
 
