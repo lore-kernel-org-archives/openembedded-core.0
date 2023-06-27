@@ -1,59 +1,188 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B707EB64D9
-	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 19:27:04 +0000 (UTC)
-Subject: Re: [PATCH 3/3] vulkan-validation: Add the official Vulkan validation layers
-To: openembedded-core@lists.openembedded.org
-From: "Vincent Davis Jr" <vince@underview.tech>
-X-Originating-Location: Richmond, Texas, US (99.113.4.128)
-X-Originating-Platform: Linux Firefox 114
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14637EB64D9
+	for <webhook@archiver.kernel.org>; Tue, 27 Jun 2023 19:43:10 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.293.1687894986268996481
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 27 Jun 2023 12:43:06 -0700
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=bmxc3NiJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-307d20548adso4515307f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 12:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1687894985; x=1690486985;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NucKLQ8oI+HeFdXnkJFI5oH4MV2ujbJcCsmK6SrkCCU=;
+        b=bmxc3NiJ/sSQSUOSSuHaUzJ0BDiD6sZTN37v5ez5lYkt+tmH9oOFvLcxPsT6iwDFb7
+         2H3BcmrTkGieKgYIDfg8Ixo1OErwoqC4kWgZE5+cgGGaCnREimvfkhnTkf/kcauSSSGs
+         HlXyK5UycLRFZEjWdffgoFpR1+6eotwmrdPa4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687894985; x=1690486985;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NucKLQ8oI+HeFdXnkJFI5oH4MV2ujbJcCsmK6SrkCCU=;
+        b=N252pvLXEpXVOt9/SjYKiGvU/Apbi3SyMNdb2EET9u8Jl2O50cgkYN2PK4pcyaP/pF
+         NiA9hMZeo4pzSetVbnAydkDPX95x3EVlgyzlbeeKxjTgDdCjnDeM5kWn93gPfe8f19ZK
+         UrKryw1mLZXiU+4O9fWF0CUVrQyWHgAN4cacSybzgHegxxG266MqGon5TGEEfUWqNTD6
+         opir4li+ec/w7liNpiQ0xrMTIO1oPqRhcsxY1zfV6Z8HPlNFodGlUNSeJYW4tHKnnYOx
+         gVSk8uqoqG5oK8ARicEWb9tclu+ee1+5oJ4Qstx00aRWL3771H8DHYOtRQyF3cMCwEOw
+         4QTg==
+X-Gm-Message-State: AC+VfDw8y5MPoCmZlgDMxtqlkF4jO560JuHSUZonj52vPL3glah1L4oE
+	UDSGMfJYwKVFjFOqsZA5U4CHLmP00NFMEdZ791o=
+X-Google-Smtp-Source: ACHHUZ5vbSWKgupOzzWVKXqyVAzsvbiVCAcuiXPVtQegyYb2dR8hLD/yRjM4LRfRdPd1JdCBpiaiIQ==
+X-Received: by 2002:adf:efca:0:b0:313:f711:9e54 with SMTP id i10-20020adfefca000000b00313f7119e54mr4069831wrp.56.1687894984359;
+        Tue, 27 Jun 2023 12:43:04 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a71a:20d6:74fc:9334? ([2001:8b0:aba:5f3c:a71a:20d6:74fc:9334])
+        by smtp.gmail.com with ESMTPSA id j4-20020adfea44000000b0030fa3567541sm11340248wrn.48.2023.06.27.12.43.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 12:43:03 -0700 (PDT)
+Message-ID: <b08ae6a31bca73e15a176c7965e25125f6d18b5b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V2] flac: upgrade 1.4.0 -> 1.4.2
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: cp0613 <cp0613@linux.alibaba.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 27 Jun 2023 20:43:03 +0100
+In-Reply-To: <20221122015407.838-1-cp0613@linux.alibaba.com>
+References: <20221121132515.2028-1-cp0613@linux.alibaba.com>
+	 <20221122015407.838-1-cp0613@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Date: Tue, 27 Jun 2023 12:26:55 -0700
-References: <20230627171028.j6yianz4ppa4skff@amazon.com>
-In-Reply-To: <20230627171028.j6yianz4ppa4skff@amazon.com>
-Message-ID: <28192.1687894015480721156@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="LZuszAx0c8qcuSnWR3UM"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:27:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183499
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:43:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183500
 
---LZuszAx0c8qcuSnWR3UM
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2022-11-22 at 09:54 +0800, cp0613 wrote:
+> From: Chen Pei <cp0613@linux.alibaba.com>
+>=20
+> This small version release only has a few changes, but fixes several bugs=
+.
+>=20
+> License-Update:
+> 	File removed
+> 	License URL updated
+>=20
+> FLAC 1.4.2 released 2022-10-22
+> Like the last release, this release only has a few changes. A problem wit=
+h FLAC playback in GStreamer (and possibly other libFLAC users) was the rea=
+son for the short time since the last release.
+> Changes:
+> 	Remove xmms plugin
+> 	Remove all pure assembler, removing build dependency on nasm
+> 	Made console output more uniform across different platforms and CPUs
+> 	Improve ability to tune compile for a certain system (for example with -=
+march=3Dnative) when combining with --disable-asm-optimizations: plain C fu=
+nctions can now be better optimized
+> 	Default CFLAGS are now prepended instead of dropped when user CFLAGS are=
+ set
+> 	-msse2 is no longer added by default (was only applicable to x86)
+> 	Fix cross-compiling and out-of-tree building when pandoc and doxygen are=
+ not available
+> 	Fix issue with Clang not compiling functions with intrinsics
+> 	Fix detection of bswap intrinsics
+> 	Improve search for libssp on MinGW
+> 	Fix issue when the libFLAC user seeks in a file instead of libFLAC itsel=
+f
+>=20
+> FLAC 1.4.1 released 2022-09-22
+> This release fixes the release tarball (which was missing man pages and a=
+pi documentation in FLAC 1.4.0) and some build problems that were found wit=
+h FLAC 1.4.0.
+> Changes:
+> 	CMake fixes
+> 	Add checks that man pages and api docs end up in tarball
+> 	Enable installation of prebuilt man pages and api docs
+> 	Fix compiler warnings
+> 	Fix format specifier
+> 	Enable building on Universal Windows Platform
+> 	Fix versioning from git
+>=20
+> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
+> ---
+>  .../flac/{flac_1.4.0.bb =3D> flac_1.4.2.bb}                | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>  rename meta/recipes-multimedia/flac/{flac_1.4.0.bb =3D> flac_1.4.2.bb} (=
+80%)
+>=20
+> diff --git a/meta/recipes-multimedia/flac/flac_1.4.0.bb b/meta/recipes-mu=
+ltimedia/flac/flac_1.4.2.bb
+> similarity index 80%
+> rename from meta/recipes-multimedia/flac/flac_1.4.0.bb
+> rename to meta/recipes-multimedia/flac/flac_1.4.2.bb
+> index 360396380d..32383927a2 100644
+> --- a/meta/recipes-multimedia/flac/flac_1.4.0.bb
+> +++ b/meta/recipes-multimedia/flac/flac_1.4.2.bb
+> @@ -9,29 +9,25 @@ LIC_FILES_CHKSUM =3D "file://COPYING.FDL;md5=3Dad1419ec=
+c56e060eccf8184a87c4285f \
+>                      file://COPYING.GPL;md5=3Db234ee4d69f5fce4486a80fdaf4=
+a4263 \
+>                      file://src/flac/main.c;beginline=3D1;endline=3D18;md=
+5=3D893456854ce6bf14a1a7ea77266eebab \
+>                      file://COPYING.LGPL;md5=3Dfbc093901857fcd118f065f900=
+982c24 \
+> -                    file://src/plugin_common/all.h;beginline=3D1;endline=
+=3D18;md5=3D73c74192ce89ee6238d15a171e00c971 \
+>                      file://COPYING.Xiph;md5=3D3d6da238b5b57a0965d6730291=
+119f65 \
+> -                    file://include/FLAC/all.h;beginline=3D65;endline=3D7=
+0;md5=3D64474f2b22e9e77b28d8b8b25c983a48"
+> +                    file://include/FLAC/all.h;beginline=3D65;endline=3D7=
+0;md5=3D39aaf5e03c7364363884c8b8ddda8eea"
+> =20
+>  SRC_URI =3D "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
+> -SRC_URI[sha256sum] =3D "af41c0733c93c237c3e52f64dd87e3b0d9af38259f1c7d11=
+e8cbf583c48c2506"
+> +SRC_URI[sha256sum] =3D "e322d58a1f48d23d9dd38f432672865f6f79e73a6f9cc5a5=
+f57fcaa83eb5a8e4"
+> =20
+>  CVE_PRODUCT =3D "libflac flac"
+> =20
+>  inherit autotools gettext
+> =20
+>  EXTRA_OECONF =3D "--disable-oggtest \
+> -                --disable-xmms-plugin \
+>                  --without-libiconv-prefix \
+>                  ac_cv_prog_NASM=3D"" \
+>                  "
+> =20
+>  PACKAGECONFIG ??=3D " \
+>      ${@bb.utils.filter("TUNE_FEATURES", "altivec vsx", d)} \
+> -    ${@bb.utils.contains_any("TUNE_FEATURES", "core2 corei7", "sse", "",=
+ d)} \
+>      ogg \
+>  "
+> -PACKAGECONFIG[sse] =3D "--enable-sse,--disable-sse"
+>  PACKAGECONFIG[altivec] =3D "--enable-altivec,--disable-altivec"
+>  PACKAGECONFIG[vsx] =3D "--enable-vsx,--disable-vsx"
+>  PACKAGECONFIG[avx] =3D "--enable-avx,--disable-avx"
+> @@ -41,3 +37,4 @@ PACKAGES +=3D "libflac libflac++"
+>  FILES:${PN} =3D "${bindir}/*"
+>  FILES:libflac =3D "${libdir}/libFLAC.so.*"
+>  FILES:libflac++ =3D "${libdir}/libFLAC++.so.*"
+> +
 
-Hey Jordan,
+On qemuppc this is showing:
 
-Yeah, the issue turned out to be a property set in SPIRV-ToolsTarget.cmake.=
- Commit bellow should explain
-Although ${base_libdir} should of been ${baselib}.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/4775/ste=
+ps/12/logs/warnings
 
-https://lists.openembedded.org/g/openembedded-core/message/182445
+WARNING: flac-1.4.3-r0 do_configure: QA Issue: flac: invalid PACKAGECONFIG:=
+ altivec [invalid-packageconfig]
 
-Also, renamed recipe to vulkan-validation-layers. Let me know if you have i=
-ssues everything
-looks good in my setup.
+so I suspect there is another tweak needed there?
 
-https://lists.openembedded.org/g/openembedded-core/message/182446
+Cheers,
 
---LZuszAx0c8qcuSnWR3UM
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-Hey Jordan,<br /><br />Yeah, the issue turned out to be a property set in S=
-PIRV-ToolsTarget.cmake. Commit bellow should explain<br />Although ${base_l=
-ibdir} should of been ${baselib}.<br /><br /><a href=3D"https://lists.opene=
-mbedded.org/g/openembedded-core/message/182445" target=3D"_blank" rel=3D"no=
-opener">https://lists.openembedded.org/g/openembedded-core/message/182445</=
-a><br /><br />Also, renamed recipe to vulkan-validation-layers. Let me know=
- if you have issues everything<br />looks good in my setup.<br /><br /><a h=
-ref=3D"https://lists.openembedded.org/g/openembedded-core/message/182446" t=
-arget=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/openembe=
-dded-core/message/182446</a>
-
---LZuszAx0c8qcuSnWR3UM--
 
