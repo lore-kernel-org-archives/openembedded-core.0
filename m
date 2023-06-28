@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2253AEB64DC
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 14:13:08 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.17359.1687961586694360919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DECEB64D7
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 14:13:07 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.17560.1687961585112138182
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 07:13:06 -0700
+ Wed, 28 Jun 2023 07:13:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=GD+0WfkX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1b7ef3e74edso23651695ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:06 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=aORjMQlW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b8171718a1so18902515ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961586; x=1690553586;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961584; x=1690553584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=loP5wWKD0zyTlNRt8BejD15MO3zSsVlgQKC+p/3HpNI=;
-        b=GD+0WfkXgnrP343NxPkZMux9oG7sbrYP0FJgHYIBRMvV3qOm19U2vqHRd1HyjnH16N
-         HuVVsU3pYGTSNgyW00vjmsvI4Csq9Wwvm1qpOplN4H6NyLPrjl5qfEX7ByRwcPYimysA
-         DOako6cstCrjJ3t80MTbJaySthjjBgo7Z4ZboyZbWj/VTToa2wLRxeD79FHy/JiKHucr
-         SO3+iWrg2DiKoAcGpX9kfubuMDLUFWD3yYf4kzBy8GeGz9yAIUH1m/VIZw5WuJeYwBHX
-         CW21xSCwjxJ/17+TfgVraNba9Qj2Py7Xg3aVVCabQa8WlivH0e9O8I2adaAuY/COc4LA
-         vpHw==
+        bh=is7Rdi+ks0N1IwBQzff26eadxBGmKiQE56im/aUWyms=;
+        b=aORjMQlW5PsnGMjqijipDHDFNlgVxZmy/XKoopnshYOOF1Hk/agsywt4gAwyKz9+aO
+         Tn4zOnJbMtwkeNj4g3P+GA7qErn011r6PqhmSAje9eIXrZ533PD68qOiZj7sKwDWOZvK
+         jblf8q4ReocnGoVAjqmKzmSgoi3/iWgtrf7l8rn2h1vmN6oZirHxmxiW3XVbLOVe/5Xg
+         dHKQWMZjw3gajoRE9Rbsa4bmmCV01tSmq4kyoYj4FpjRL5smfi44a3ht8168f6CSoxUr
+         ktn1MSMlIdAVpahucYRM7064sQPa+fXvG22hZbrhU37dcTv+wWrx4n/MxrBknVyzOIxz
+         TSyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687961586; x=1690553586;
+        d=1e100.net; s=20221208; t=1687961584; x=1690553584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=loP5wWKD0zyTlNRt8BejD15MO3zSsVlgQKC+p/3HpNI=;
-        b=k/aIXgmypFXwLCShMIo4+4AQem7I4P1wq5X6sSHSs2zWhV6+lFtPCwlpLluvnaYMFJ
-         m2VI6JJDQmEQYRk0mBhs4YHht4W9kl2anKIuaib+zY3zHnEDhF2tHz6I7EIwKTdlUCCM
-         dl8Y6UxXOL9Nfy89s/VYqNiOT+pCj8AGT9YdFrKXn1sWcCpczTaxEuaquBs2yz7AaK/r
-         Nts35DG2opLIeV/IbdzRSnliTc1xW6L7cjQaunPdFN9SXlVevaxH+v4wA73v1jvXFryu
-         OsQ4kfTV5SYQ5SA9pHls8P+syudM0SkxLegbJ/djXTOuH184r1ThDGmZmzSQOFrdt89u
-         Zmeg==
-X-Gm-Message-State: AC+VfDy3EbN5j7FO+8QLLFcjAL8Z1xPbIv9MXMCsmVAskX3AhzEoCBB6
-	cxgYtG9Sk0hJhgPLIxxPE5ToL53Pm213hB5B4MXDwA==
-X-Google-Smtp-Source: ACHHUZ6iJFRGA/uVKHf1TSYrh7JVPNyTXE0qoagVdokgOhdyygvYw+bJt+sj0caKH2sNVsSWBsG0qA==
-X-Received: by 2002:a17:903:1112:b0:1ac:8475:87c5 with SMTP id n18-20020a170903111200b001ac847587c5mr9355501plh.56.1687961585709;
-        Wed, 28 Jun 2023 07:13:05 -0700 (PDT)
+        bh=is7Rdi+ks0N1IwBQzff26eadxBGmKiQE56im/aUWyms=;
+        b=HjsZdq3A59I+PkCOpQTR5TDFX4Q6J5waWyZqq3WrpzP3Ea+PPsI8+0F1n2sVSrGQxt
+         c4V4bd9EJJ+un/p6lsJhDijCvKdsUq88HZ2Nva7lMFR6kckinIcWQM44syqoItSL8Iag
+         peNOElFqGBFD3H7zsV/Dp8k2uoPvqoPiprCAolCp0iK8M9q4bjo0iXx0Rgrr+6M3PsU9
+         XcwxvslajjQJapUDRZ80Ejv17InKDyzPl4/KFCaACijjN9/tcWSZMvZsoJRWlJuQggvC
+         ffoouO67XzptCG0V0pOuUvqMMnFVdhxZQ8+0pCWihDXP7vxAk3q3hMuah5nV+NKQ+Y8V
+         PRCA==
+X-Gm-Message-State: AC+VfDzfBBPnJiKSD7vsrBfx4SVBafwE34s9dlI23CFkwA1g0hbsZwHp
+	0lDxrOIwNjQ5JQ/oviMtrGxCogRXwyZnxeTwkZjStw==
+X-Google-Smtp-Source: ACHHUZ5WZPg+HywVoUeifqkuq4LVYB9zQexmwtv7FwpTTKWtOT0NtyIkukjciB4V1BQhE+ZklPSbAw==
+X-Received: by 2002:a17:902:ecc5:b0:1b7:f98d:5567 with SMTP id a5-20020a170902ecc500b001b7f98d5567mr11598402plh.68.1687961583896;
+        Wed, 28 Jun 2023 07:13:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.04
+        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 07:13:05 -0700 (PDT)
+        Wed, 28 Jun 2023 07:13:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/29] libcap: CVE-2023-2602 Memory Leak on pthread_create() Error
-Date: Wed, 28 Jun 2023 04:12:28 -1000
-Message-Id: <7e4f3c51c0bac772bf56f69a3c065b2b2d095335.1687961326.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/29] go: fix CVE-2023-29405
+Date: Wed, 28 Jun 2023 04:12:27 -1000
+Message-Id: <7ce6d0029effc06cff500271a124150f1a7db7b3.1687961326.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687961326.git.steve@sakoman.com>
 References: <cover.1687961326.git.steve@sakoman.com>
@@ -60,84 +60,160 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:13:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183558
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:13:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183557
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Upstream-Status: Backport from https://git.kernel.org/pub/scm/libs/libcap/libcap.git/patch/?id=bc6b36682f188020ee4770fae1d41bde5b2c97bb
+The go command may execute arbitrary code at build time when using cgo.
+This may occur when running "go get" on a malicious module, or when running
+any other command which builds untrusted code. This is can by triggered by
+linker flags, specified via a "#cgo LDFLAGS" directive. Flags containing
+embedded spaces are mishandled, allowing disallowed flags to be smuggled
+through the LDFLAGS sanitization by including them in the argument of
+another flag. This only affects usage of the gccgo compiler.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-29405
+
+Upstream patches:
+https://github.com/golang/go/commit/6d8af00a630aa51134e54f0f321658621c6410f0
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libcap/files/CVE-2023-2602.patch          | 45 +++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.66.bb    |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-support/libcap/files/CVE-2023-2602.patch
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.19/CVE-2023-29405.patch           | 109 ++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.19/CVE-2023-29405.patch
 
-diff --git a/meta/recipes-support/libcap/files/CVE-2023-2602.patch b/meta/recipes-support/libcap/files/CVE-2023-2602.patch
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 2c1febfe9c..9af9eb2752 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -33,6 +33,7 @@ SRC_URI += "\
+     file://CVE-2023-24540.patch \
+     file://CVE-2023-24539.patch \
+     file://CVE-2023-29404.patch \
++    file://CVE-2023-29405.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.19/CVE-2023-29405.patch b/meta/recipes-devtools/go/go-1.19/CVE-2023-29405.patch
 new file mode 100644
-index 0000000000..1ad5aeb826
+index 0000000000..d806e1e67d
 --- /dev/null
-+++ b/meta/recipes-support/libcap/files/CVE-2023-2602.patch
-@@ -0,0 +1,45 @@
-+From bc6b36682f188020ee4770fae1d41bde5b2c97bb Mon Sep 17 00:00:00 2001
-+From: "Andrew G. Morgan" <morgan@kernel.org>
-+Date: Wed, 3 May 2023 19:18:36 -0700
-+Subject: Correct the check of pthread_create()'s return value.
++++ b/meta/recipes-devtools/go/go-1.19/CVE-2023-29405.patch
+@@ -0,0 +1,109 @@
++From 6d8af00a630aa51134e54f0f321658621c6410f0 Mon Sep 17 00:00:00 2001
++From: Ian Lance Taylor <iant@golang.org>
++Date: Thu, 4 May 2023 14:06:39 -0700
++Subject: [PATCH] cmd/go,cmd/cgo: in _cgo_flags use one line per flag
 +
-+This function returns a positive number (errno) on error, so the code
-+wasn't previously freeing some memory in this situation.
++The flags that we recorded in _cgo_flags did not use any quoting,
++so a flag containing embedded spaces was mishandled.
++Change the _cgo_flags format to put each flag on a separate line.
++That is a simple format that does not require any quoting.
 +
-+Discussion:
++As far as I can tell only cmd/go uses _cgo_flags, and it is only
++used for gccgo. If this patch doesn't cause any trouble, then
++in the next release we can change to only using _cgo_flags for gccgo.
 +
-+  https://stackoverflow.com/a/3581020/14760867
++Thanks to Juho Nurminen of Mattermost for reporting this issue.
 +
-+Credit for finding this bug in libpsx goes to David Gstir of
-+X41 D-Sec GmbH (https://x41-dsec.de/) who performed a security
-+audit of the libcap source code in April of 2023. The audit
-+was sponsored by the Open Source Technology Improvement Fund
-+(https://ostif.org/).
++Fixes #60306
++Fixes CVE-2023-29405
 +
-+Audit ref: LCAP-CR-23-01 (CVE-2023-2602)
++Change-Id: I81fb5337db8a22e1f4daca22ceff4b79b96d0b4f
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1875094
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/501224
++Reviewed-by: Ian Lance Taylor <iant@google.com>
++Run-TryBot: David Chase <drchase@google.com>
++Reviewed-by: Michael Knyszek <mknyszek@google.com>
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++TryBot-Result: Gopher Robot <gobot@golang.org>
 +
-+Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
++Upstream-Status: Backport [https://github.com/golang/go/commit/6d8af00a630aa51134e54f0f321658621c6410f0]
++CVE: CVE-2023-29405
 +
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/patch/?id=bc6b36682f188020ee4770fae1d41bde5b2c97bb]
-+CVE: CVE-2023-2602
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ psx/psx.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/cmd/cgo/out.go                            |  4 +++-
++ src/cmd/go/internal/work/gccgo.go             | 14 ++++++-------
++ .../go/testdata/script/gccgo_link_ldflags.txt | 20 +++++++++++++++++++
++ 3 files changed, 29 insertions(+), 9 deletions(-)
++ create mode 100644 src/cmd/go/testdata/script/gccgo_link_ldflags.txt
 +
-+diff --git a/psx/psx.c b/psx/psx.c
-+index d9c0485..65eb2aa 100644
-+--- a/psx/psx.c
-++++ b/psx/psx.c
-+@@ -516,7 +516,7 @@ int __wrap_pthread_create(pthread_t *thread, const pthread_attr_t *attr,
-+     pthread_sigmask(SIG_BLOCK, &sigbit, NULL);
-+ 
-+     int ret = __real_pthread_create(thread, attr, _psx_start_fn, starter);
-+-    if (ret == -1) {
-++    if (ret > 0) {
-+ 	psx_new_state(_PSX_CREATE, _PSX_IDLE);
-+ 	memset(starter, 0, sizeof(*starter));
-+ 	free(starter);
-+-- 
-+2.25.1
++diff --git a/src/cmd/cgo/out.go b/src/cmd/cgo/out.go
++index 94152f4..62e6528 100644
++--- a/src/cmd/cgo/out.go
+++++ b/src/cmd/cgo/out.go
++@@ -47,7 +47,9 @@ func (p *Package) writeDefs() {
 +
-diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-support/libcap/libcap_2.66.bb
-index c50e9d8cc7..d3189fb105 100644
---- a/meta/recipes-support/libcap/libcap_2.66.bb
-+++ b/meta/recipes-support/libcap/libcap_2.66.bb
-@@ -16,6 +16,7 @@ DEPENDS = "hostperl-runtime-native gperf-native"
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            file://0002-tests-do-not-run-target-executables.patch \
-+           file://CVE-2023-2602.patch \
-            "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
++	fflg := creat(*objDir + "_cgo_flags")
++	for k, v := range p.CgoFlags {
++-		fmt.Fprintf(fflg, "_CGO_%s=%s\n", k, strings.Join(v, " "))
+++		for _, arg := range v {
+++			fmt.Fprintf(fflg, "_CGO_%s=%s\n", k, arg)
+++		}
++		if k == "LDFLAGS" && !*gccgo {
++			for _, arg := range v {
++				fmt.Fprintf(fgo2, "//go:cgo_ldflag %q\n", arg)
++diff --git a/src/cmd/go/internal/work/gccgo.go b/src/cmd/go/internal/work/gccgo.go
++index 1499536..bb4be2f 100644
++--- a/src/cmd/go/internal/work/gccgo.go
+++++ b/src/cmd/go/internal/work/gccgo.go
++@@ -283,14 +283,12 @@ func (tools gccgoToolchain) link(b *Builder, root *Action, out, importcfg string
++		const ldflagsPrefix = "_CGO_LDFLAGS="
++		for _, line := range strings.Split(string(flags), "\n") {
++			if strings.HasPrefix(line, ldflagsPrefix) {
++-				newFlags := strings.Fields(line[len(ldflagsPrefix):])
++-				for _, flag := range newFlags {
++-					// Every _cgo_flags file has -g and -O2 in _CGO_LDFLAGS
++-					// but they don't mean anything to the linker so filter
++-					// them out.
++-					if flag != "-g" && !strings.HasPrefix(flag, "-O") {
++-						cgoldflags = append(cgoldflags, flag)
++-					}
+++				flag := line[len(ldflagsPrefix):]
+++				// Every _cgo_flags file has -g and -O2 in _CGO_LDFLAGS
+++				// but they don't mean anything to the linker so filter
+++				// them out.
+++				if flag != "-g" && !strings.HasPrefix(flag, "-O") {
+++					cgoldflags = append(cgoldflags, flag)
++				}
++			}
++		}
++diff --git a/src/cmd/go/testdata/script/gccgo_link_ldflags.txt b/src/cmd/go/testdata/script/gccgo_link_ldflags.txt
++new file mode 100644
++index 0000000..4e91ae5
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/gccgo_link_ldflags.txt
++@@ -0,0 +1,20 @@
+++# Test that #cgo LDFLAGS are properly quoted.
+++# The #cgo LDFLAGS below should pass a string with spaces to -L,
+++# as though searching a directory with a space in its name.
+++# It should not pass --nosuchoption to the external linker.
+++
+++[!cgo] skip
+++
+++go build
+++
+++[!exec:gccgo] skip
+++
+++go build -compiler gccgo
+++
+++-- go.mod --
+++module m
+++-- cgo.go --
+++package main
+++// #cgo LDFLAGS: -L "./ -Wl,--nosuchoption"
+++import "C"
+++func main() {}
++--
++2.40.0
 -- 
 2.34.1
 
