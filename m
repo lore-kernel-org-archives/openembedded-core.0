@@ -1,88 +1,86 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21831EB64D7
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 20:45:01 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.168.1687985098838142947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D01AEB64D7
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 21:10:21 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.850.1687986616580711238
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 13:44:58 -0700
+ Wed, 28 Jun 2023 14:10:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=LBZtqZ90;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1b80ddce748so2893405ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 13:44:58 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Az8+0ncV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso5468475e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687985098; x=1690577098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uTjI1+In6Z9hCYSQqBN5e+guBpxP4XfnGttybveIgpU=;
-        b=LBZtqZ90chGwsKB328rAQpbBbY67ZwZRPXzBvk/y46M0L+rhcwgRT4tGTa7nxZZxl5
-         0uWWBBpJNCE54muoE8ufma1cySeqVkAbxE2vUFBElEllXxF2jM3AT3yKBIkuHgUlMZte
-         GrcUtOIM4sCfU6s7n8ugyOGKtxE/Z8pAiIaE6y60KYcBC+5/e5OVLiT6v8UlUrLC/Krf
-         F18NUdgGIqoxd+DBNWo3j0xbPttJpHp2p0ABuG84xa3DGeRs2P1Ytc2/Ewp45MugDmmp
-         1jjLPab6DMDyqc/53O9J4HVwOwdjB0Xbs7a+0paQnYnlcywKQtdlh0OoQklWEAA1QPIO
-         0qQA==
+        d=linuxfoundation.org; s=google; t=1687986615; x=1690578615;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=io9UR2sKJCEthNRbkZb5GC4AUirvq0mGA1izY+aSe1E=;
+        b=Az8+0ncVRWPLuqweZIPqwSeLkfyCB5C0GLAc/+6oAMSNnEkM1IAkaMsPeH3k3r05gj
+         MDg5gGm6l4D87Zixfr+MnVojC0JfdK0V5ABrd+jG+VNPp+ky46hpzgU2kjRpkPOfKpFm
+         dpehUJNcc7fBUqnnYpx3tHQT9treNK1Lg2oWQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687985098; x=1690577098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uTjI1+In6Z9hCYSQqBN5e+guBpxP4XfnGttybveIgpU=;
-        b=hOWuLAhSyogbpHhWusnR+j8XpjIs1Iu2eqNUMeeWSzfKDNCRobNlrNkoh9R+Amgkg4
-         99ysfEM/PAcVsxG5sfSVSEElUaDFL5MPfwD/MSfaYCeYzIQSB16LGTYzbsSVsUSfjrP1
-         //hQZtUNaHb24PBSQ1F6EaEGXkPZWgSwTc/OCI5EEYlTB89hPK+TgpKbTTDuh4G14wNS
-         qXAf1cVaZ3EIatZksBcYqz5DsqM4CPFs/FkXce6NM5cBeTccie57OCKY3yHDnxNW07Es
-         yYXGXOzkO4OdHMSsmNWGKp6ZXbFVaOHleCY9nikcceSCtsL/3H/LVcTyrsMiEQdl7hqZ
-         usZA==
-X-Gm-Message-State: ABy/qLbVNJ599t+jfqmzcOXHQIGigtnVfdiQbWdSZKP76NzPfGJiIBEl
-	85hH810Aub3I8JfKDtPGe0Bj3rbCWzaJHg==
-X-Google-Smtp-Source: APBJJlHKUqBPQ9AX+tmKcjcXVzNAPIvaAEouCXc1NhJ39WkqS4DacO4E6vUCvxyhVHPdv/yxjqK/qA==
-X-Received: by 2002:a17:902:c941:b0:1b8:5541:9d5b with SMTP id i1-20020a170902c94100b001b855419d5bmr71094pla.17.1687985097897;
-        Wed, 28 Jun 2023 13:44:57 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::fd9d])
-        by smtp.gmail.com with ESMTPSA id jw19-20020a170903279300b001b7ed16c7ffsm7270299plb.306.2023.06.28.13.44.57
+        d=1e100.net; s=20221208; t=1687986615; x=1690578615;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=io9UR2sKJCEthNRbkZb5GC4AUirvq0mGA1izY+aSe1E=;
+        b=crUl41+DgWokDQ52DBANDPyFX3SGzgtilfES5OCalYk0GOiuwwR4pXKEGydECBreuJ
+         cHazyuCsYVu1wXScI49y4hQl1CdHcPTFsz1TU06QzPmNGp+kplG7ADDXw0RLaiNtUFlz
+         gVj16Wqapj8LFNhy8Aw4MrxZZcm/ldywpDQQZjwSjT4BjnEL9k3MsZVS8Td3Esv7bk/n
+         sdcLHCZUj/4WWrQq+vhQVeeJmwnZyIm82/qFAda57mTCoWFJsBLZ98o/qIJBnttljbzY
+         ovCpDAMYL5fe8MFln8wfGzgcbRjPn8bQt6bB5Ws2/cSqGDAQwuuApB3NDeb7sw3TnYqI
+         za4w==
+X-Gm-Message-State: AC+VfDzOVd5ptyTlSbiiqPgnCqOPA8KSwC/LSPeMNUQZzV5XFQnxjKNc
+	rYOlAkK7WuMgA0GfJBfWN1JDsQ==
+X-Google-Smtp-Source: ACHHUZ53RboV1m0C94wX7NJXqFY6a6Ez3BpKp6Uvk3psaB+m87KBzw+yu4CBwp5ZrUw6BBpJPmZ/yQ==
+X-Received: by 2002:a05:600c:214f:b0:3fb:b280:f548 with SMTP id v15-20020a05600c214f00b003fbb280f548mr2651544wml.0.1687986614965;
+        Wed, 28 Jun 2023 14:10:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5a50:d5ad:bafb:a717? ([2001:8b0:aba:5f3c:5a50:d5ad:bafb:a717])
+        by smtp.gmail.com with ESMTPSA id k10-20020a05600c1c8a00b003f9b3829269sm7385173wms.2.2023.06.28.14.10.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 13:44:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Guard fallocate64 with _LARGEFILE64_SOURCE
-Date: Wed, 28 Jun 2023 13:44:54 -0700
-Message-ID: <20230628204454.2251485-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        Wed, 28 Jun 2023 14:10:14 -0700 (PDT)
+Message-ID: <65959bf734fec05fa14ceddf20733b851bf8d78d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ptest-runner: Pull in sync fix to improve log
+ warnings
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Jun 2023 22:10:13 +0100
+In-Reply-To: <CANNYZj9exqWr7e2yd_JcYLhjV_D4QZ=TRnwDMWdcKjNNN=6ekQ@mail.gmail.com>
+References: <20230618090946.2478083-1-richard.purdie@linuxfoundation.org>
+	 <CANNYZj9exqWr7e2yd_JcYLhjV_D4QZ=TRnwDMWdcKjNNN=6ekQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 20:45:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183600
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 21:10:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183601
 
-Gets this fix
+On Wed, 2023-06-28 at 16:24 +0200, Alexander Kanavin wrote:
+> This appears to have regressed glib-2.0 ptest, particularly:
+> Failed ptests:
+> {'glib-2.0': ['glib/codegen.py.test']}
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5273/st=
+eps/12/logs/stdio
+>=20
+> I didn't yet got to the root cause, just wanted to register where it
+> happened. Note that the ptest passes when run directly and fails only
+> under ptest-runner, and it somehow is specific to qemux86_64 as well.
+> Bizarre, yes.
 
-* 718f363b move fallocate64 declaration under _LARGEFILE64_SOURCE feature test
+It happens on qemuarm64 too:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5091/step=
+s/12/logs/stdio
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 7c8434f23f1..b4c2b1f8980 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "f5f55d6589940fd2c2188d76686efe3a530e64e0"
-+SRCREV = "718f363bc2067b6487900eddc9180c84e7739f80"
- 
- BASEVER = "1.2.4"
- 
--- 
-2.41.0
+Cheers,
 
+Richard
 
