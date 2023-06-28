@@ -1,468 +1,359 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37F64EB64DC
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 15:00:58 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.18763.1687964451208362090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F162EB64DC
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 15:15:48 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.19235.1687965345634604332
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 08:00:51 -0700
+ Wed, 28 Jun 2023 08:15:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Qg2jH5HE;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-98934f000a5so702109866b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 08:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687964449; x=1690556449;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vi5t2a9MYuyp/wIaphUCkXkHQWz5PuRamRT27WH+Db8=;
-        b=Qg2jH5HEumQoFEMGO06HKnq/vhvxBaJED9T/wWZmqjqv/soO3lhO5XmY1A9ceDAPR6
-         smSslDzvLxEpO8WLDoW+/yYWpVelbK+0Dvfz+3dYu8gV0jSkvjNb40r2b7h7Jc739ay9
-         EPC4RZIq19tVgtYNFOqvpB3Z3bhS6uwvsadXQtZdV/XL4Lh4CVejnHXhhLRvZe4SYxdR
-         vo8EgNxERGEHijvOVWEf7+bDBFG+GnbNa2RTw4N3JH+bC6UUvAhuKwjpsnTo7+buttL2
-         koiGcqfwojt1mYuURi7RaM1zF9pHj2rQvrIyvBPBnXYcZUgt4U3lUhJylGB0hu436Y1h
-         nZsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687964449; x=1690556449;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vi5t2a9MYuyp/wIaphUCkXkHQWz5PuRamRT27WH+Db8=;
-        b=ZB3wLSIAYQwu577MIdGby8tIDdJiLryIASe9r0MZSNeN3m1ZaX8H0ZK1DpFTLle8sH
-         ur5YAXJOGUGP8O0SQeHCuprY7wtdhwJXP+n0Yc6R7IoIcHy0Y0hQmhJt072b2tHXGka/
-         H5x/DFepbBGtcbiuoMacT3Ac0wnXzjqH0sE1XRcEsf/xuP2A9mTtHymRJCOcJa2mAR36
-         N/hrIf+X7CWEtKXcxMIuBllZ/m8UjfpKNdno/loP5zST7N0RifAlFDT7toggYBHpddUU
-         joqwjPvP20wEjvSwsIWbSkf18dH97mU4V/9B/t2BZRD8Xdwe0DNGH3DGkudQznJ5eN2y
-         QRcQ==
-X-Gm-Message-State: AC+VfDyrhjVweAVdsPN2KFENUEqIUayJyd1wgW451fnyQkGhPGxMY/BG
-	ymdIRnuWdqeE5R4c1v4lUpWQWUDbQjnglA==
-X-Google-Smtp-Source: ACHHUZ4eor9Tb9OZ0cWnZ1W7f8cSF8ydoMX0IADZRB2hyW3e12CvlmnIpmtu5qpQU+EavouDTcJjcQ==
-X-Received: by 2002:a17:907:848:b0:988:aeb7:2a37 with SMTP id ww8-20020a170907084800b00988aeb72a37mr24888444ejb.33.1687964449456;
-        Wed, 28 Jun 2023 08:00:49 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m3-20020a170906720300b009926928d486sm969433ejk.35.2023.06.28.08.00.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 08:00:49 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/4] webkitgtk: update 2.38.5 -> 2.40.2
-Date: Wed, 28 Jun 2023 17:00:41 +0200
-Message-Id: <20230628150043.70814-2-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230628150043.70814-1-alex@linutronix.de>
-References: <20230628150043.70814-1-alex@linutronix.de>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nsNUG5sG;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1687965342;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0By2dAd9geYHt0sjUM9ztEtHPzlF0jc0mvlLerGLIEc=;
+	b=nsNUG5sGn2+hcG91oQz6TXRc1AauUxkSGx3WH56oKC/huTZ+3SzMITRMm6BAHvQ7B6Ii6D
+	KciEwbnEyQ2g6MHkNHYyHTgQOq7Lmrm2EWvvGxkvi5DQJKv30iE0ldPrCxW2uS6tTQKdm4
+	uB8Fn7NYaoO6Is3XZzoRmhB+v9wTcUlP98XNutbQFvNny7MN4fPZ42sVMyjNUHx92MuSnK
+	S4l8Tb8nQ033ns/zpKQEeP55mBa1bCOqMyUaV9sGlYGCL+HKNfo0+unngpIaFGLHvtUnl1
+	+uVXU8B2aV9TMPPvNdd1Ep8QV9vNaDVTu9P8T/PR9Bgm5fdkyC4sNM7y9kLLAw==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3264160002;
+	Wed, 28 Jun 2023 15:15:42 +0000 (UTC)
+Date: Wed, 28 Jun 2023 17:15:41 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: joerg.sommer@navimatix.de
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] bonnie++: New recipe for version 2.0
+Message-ID: <20230628151541240e8c06@mail.local>
+References: <f9be76642c5464c317ad0aac165a0970ec95da04.1687780832.git.joerg.sommer@navimatix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f9be76642c5464c317ad0aac165a0970ec95da04.1687780832.git.joerg.sommer@navimatix.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 15:00:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183589
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 15:15:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183592
 
-Drop backports.
+Hello,
 
-Add extra options that require additional dependencies, and fail without them.
+On 26/06/2023 14:00:32+0200, J�rg Sommer via lists.openembedded.org wrote:
+> Newer versions of bonnie get published on
+> <https://doc.coker.com.au/projects/bonnie/>. Unfortunately, the new version
+> doesn't compile with g++�11 which requires *fix-csv2html-data.patch* and
+> configure fails due to cross compilation which gets fixed
+> with *fix-configure-lfs.patch*
+> 
+> Signed-off-by: J�rg Sommer <joerg.sommer@navimatix.de>
+> ---
+>  .../bonnie/bonnie++/fix-configure-lfs.patch   |  37 ++++
+>  .../bonnie/bonnie++/fix-csv2html-data.patch   | 181 ++++++++++++++++++
+>  .../bonnie/bonnie++_2.00a.bb                  |  33 ++++
+>  3 files changed, 251 insertions(+)
+>  create mode 100644 meta-oe/recipes-benchmark/bonnie/bonnie++/fix-configure-lfs.patch
+>  create mode 100644 meta-oe/recipes-benchmark/bonnie/bonnie++/fix-csv2html-data.patch
+>  create mode 100644 meta-oe/recipes-benchmark/bonnie/bonnie++_2.00a.bb
 
-Disable the recipe on ancient x86 without SSE support; SSE is now
-required.
+You certainly need to add a maintainers.inc entry for this new recipes,
+else oe-selftest is going to complain.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-gnome/epiphany/epiphany_43.1.bb  |  3 ++
- ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 +++++++++++++
- ...44e17d258106617b0e6d783d073b188a2548.patch | 42 ++++++++++++-------
- ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 ++++++++++++++++++
- ...0b55f52ff8b883296f4845269e2ed746acb3.patch | 37 ----------------
- ...bb461f040b90453bc4e100dcf967243ecd98.patch | 30 -------------
- ...ebkitgtk_2.38.5.bb => webkitgtk_2.40.2.bb} | 16 ++++---
- 7 files changed, 111 insertions(+), 86 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/93920b55f52ff8b883296f4845269e2ed746acb3.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb => webkitgtk_2.40.2.bb} (90%)
+> 
+> diff --git a/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-configure-lfs.patch b/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-configure-lfs.patch
+> new file mode 100644
+> index 0000000000..d28e28658c
+> --- /dev/null
+> +++ b/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-configure-lfs.patch
+> @@ -0,0 +1,37 @@
+> +diff --git i/configure.in w/configure.in
+> +index 080e40c..f2a2bbe 100644
+> +--- i/configure.in
+> ++++ w/configure.in
+> +@@ -82,8 +82,15 @@ void * thread_func(void * param) { return NULL; }
+> +   , thread_ldflags="-lpthread"
+> +   , thread_ldflags="-pthread")
+> + 
+> +-AC_SUBST(large_file)
+> +-AC_TRY_RUN([#ifndef _LARGEFILE64_SOURCE
+> ++AC_ARG_ENABLE(lfs,
+> ++      [  --disable-lfs  disable large file support],
+> ++      LFS_CHOICE=$enableval, LFS_CHOICE=check)
+> ++
+> ++if test "$LFS_CHOICE" = yes; then
+> ++   bonniepp_cv_large_file=yes
+> ++elif test "$LFS_CHOICE" = check; then
+> ++   AC_CACHE_CHECK([whether to enable -D_LARGEFILE64_SOURCE], bonniepp_cv_large_file,
+> ++      AC_TRY_RUN([#ifndef _LARGEFILE64_SOURCE
+> + #define _LARGEFILE64_SOURCE
+> + #endif
+> + #include <stdio.h>
+> +@@ -118,8 +125,12 @@ int main () {
+> +   }
+> +   close(fd);
+> +   return 0;
+> +-}], large_file="yes")
+> +-if [[ -n "$large_file" ]]; then
+> ++}], bonniepp_cv_large_file="yes"))
+> ++fi
+> ++
+> ++AC_SUBST(large_file)
+> ++
+> ++if [[ -n "$bonniepp_cv_large_file" ]]; then
+> +    large_file="#define _LARGEFILE64_SOURCE"
+> + fi
+> + 
+> diff --git a/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-csv2html-data.patch b/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-csv2html-data.patch
+> new file mode 100644
+> index 0000000000..78ac347aa8
+> --- /dev/null
+> +++ b/meta-oe/recipes-benchmark/bonnie/bonnie++/fix-csv2html-data.patch
+> @@ -0,0 +1,181 @@
+> +commit 7e9433a56f22426b11cbc9bd80e0debca67c893b
+> +Author: J�rg Sommer <joerg.sommer@navimatix.de>
+> +Date:   Mon Jun 26 12:38:30 2023 +0200
+> +
+> +    csv2html: Explicitly reference data in top level
+> +    
+> +    With g++ 11 *data* became ambiguous with [std::data][1]. Therefore it's
+> +    needed to explicitly address the variable from the top level scope.
+> +    
+> +    [1]�https://en.cppreference.com/w/cpp/iterator/data
+> +
+> +diff --git a/bon_csv2html.cpp b/bon_csv2html.cpp
+> +index e9d9c50..652e330 100644
+> +--- a/bon_csv2html.cpp
+> ++++ b/bon_csv2html.cpp
+> +@@ -87,8 +87,8 @@ int main(int argc, char **argv)
+> +     read_in(buf);
+> +   }
+> + 
+> +-  props = new PPCCHAR[data.size()];
+> +-  for(i = 0; i < data.size(); i++)
+> ++  props = new PPCCHAR[::data.size()];
+> ++  for(i = 0; i < ::data.size(); i++)
+> +   {
+> +     props[i] = new PCCHAR[MAX_ITEMS];
+> +     props[i][0] = NULL;
+> +@@ -109,7 +109,7 @@ int main(int argc, char **argv)
+> +   }
+> +   calc_vals();
+> +   int mid_width = header();
+> +-  for(i = 0; i < data.size(); i++)
+> ++  for(i = 0; i < ::data.size(); i++)
+> +   {
+> + // First print the average speed line
+> +     printf("<tr>");
+> +@@ -171,23 +171,23 @@ int compar(const void *a, const void *b)
+> + 
+> + void calc_vals()
+> + {
+> +-  ITEM *arr = new ITEM[data.size()];
+> ++  ITEM *arr = new ITEM[::data.size()];
+> +   for(unsigned int column_ind = 0; column_ind < MAX_ITEMS; column_ind++)
+> +   {
+> +     switch(vals[column_ind])
+> +     {
+> +     case eNoCols:
+> +     {
+> +-      for(unsigned int row_ind = 0; row_ind < data.size(); row_ind++)
+> ++      for(unsigned int row_ind = 0; row_ind < ::data.size(); row_ind++)
+> +       {
+> +         if(column_ind == COL_CONCURRENCY)
+> +         {
+> +-          if(data[row_ind][column_ind] && strcmp("1", data[row_ind][column_ind]))
+> ++          if(::data[row_ind][column_ind] && strcmp("1", ::data[row_ind][column_ind]))
+> +             col_used[column_ind] = true;
+> +         }
+> +         else
+> +         {
+> +-          if(data[row_ind][column_ind] && strlen(data[row_ind][column_ind]))
+> ++          if(::data[row_ind][column_ind] && strlen(::data[row_ind][column_ind]))
+> +             col_used[column_ind] = true;
+> +         }
+> +       }
+> +@@ -195,22 +195,22 @@ void calc_vals()
+> +     break;
+> +     case eCPU:
+> +     {
+> +-      for(unsigned int row_ind = 0; row_ind < data.size(); row_ind++)
+> ++      for(unsigned int row_ind = 0; row_ind < ::data.size(); row_ind++)
+> +       {
+> +         double work, cpu;
+> +         arr[row_ind].val = 0.0;
+> +-        if(data[row_ind].size() > column_ind
+> +-         && sscanf(data[row_ind][column_ind - 1], "%lf", &work) == 1
+> +-         && sscanf(data[row_ind][column_ind], "%lf", &cpu) == 1)
+> ++        if(::data[row_ind].size() > column_ind
+> ++         && sscanf(::data[row_ind][column_ind - 1], "%lf", &work) == 1
+> ++         && sscanf(::data[row_ind][column_ind], "%lf", &cpu) == 1)
+> +         {
+> +           arr[row_ind].val = cpu / work;
+> +         }
+> +         arr[row_ind].pos = row_ind;
+> +       }
+> +-      qsort(arr, data.size(), sizeof(ITEM), compar);
+> ++      qsort(arr, ::data.size(), sizeof(ITEM), compar);
+> +       int col_count = -1;
+> +       double min_col = -1.0, max_col = -1.0;
+> +-      for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++      for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +       {
+> +         // if item is different from previous or if the first row
+> +         // (sort_ind == 0) then increment col count
+> +@@ -239,7 +239,7 @@ void calc_vals()
+> +           min_col /= mult;
+> +         }
+> +         double range_col = max_col - min_col;
+> +-        for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++        for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +         {
+> +           if(arr[sort_ind].col_ind > -1)
+> +           {
+> +@@ -250,7 +250,7 @@ void calc_vals()
+> +       }
+> +       else
+> +       {
+> +-        for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++        for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +         {
+> +           if(vals[column_ind] == eLatency)
+> +           {
+> +@@ -263,25 +263,25 @@ void calc_vals()
+> +     case eSpeed:
+> +     case eLatency:
+> +     {
+> +-      for(unsigned int row_ind = 0; row_ind < data.size(); row_ind++)
+> ++      for(unsigned int row_ind = 0; row_ind < ::data.size(); row_ind++)
+> +       {
+> +         arr[row_ind].val = 0.0;
+> +-        if(data[row_ind].size() <= column_ind
+> +-         || sscanf(data[row_ind][column_ind], "%lf", &arr[row_ind].val) == 0)
+> ++        if(::data[row_ind].size() <= column_ind
+> ++         || sscanf(::data[row_ind][column_ind], "%lf", &arr[row_ind].val) == 0)
+> +           arr[row_ind].val = 0.0;
+> +         if(vals[column_ind] == eLatency && arr[row_ind].val != 0.0)
+> +         {
+> +-          if(strstr(data[row_ind][column_ind], "ms"))
+> ++          if(strstr(::data[row_ind][column_ind], "ms"))
+> +             arr[row_ind].val *= 1000.0;
+> +-          else if(!strstr(data[row_ind][column_ind], "us"))
+> ++          else if(!strstr(::data[row_ind][column_ind], "us"))
+> +             arr[row_ind].val *= 1000000.0; // is !us && !ms then secs!
+> +         }
+> +         arr[row_ind].pos = row_ind;
+> +       }
+> +-      qsort(arr, data.size(), sizeof(ITEM), compar);
+> ++      qsort(arr, ::data.size(), sizeof(ITEM), compar);
+> +       int col_count = -1;
+> +       double min_col = -1.0, max_col = -1.0;
+> +-      for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++      for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +       {
+> +         // if item is different from previous or if the first row
+> +         // (sort_ind == 0) then increment col count
+> +@@ -310,7 +310,7 @@ void calc_vals()
+> +           min_col /= mult;
+> +         }
+> +         double range_col = max_col - min_col;
+> +-        for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++        for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +         {
+> +           if(arr[sort_ind].col_ind > -1)
+> +           {
+> +@@ -332,7 +332,7 @@ void calc_vals()
+> +       }
+> +       else
+> +       {
+> +-        for(unsigned int sort_ind = 0; sort_ind < data.size(); sort_ind++)
+> ++        for(unsigned int sort_ind = 0; sort_ind < ::data.size(); sort_ind++)
+> +         {
+> +           if(vals[column_ind] == eLatency)
+> +           {
+> +@@ -481,16 +481,16 @@ void read_in(CPCCHAR buf)
+> +     free((void *)arr[0]);
+> +     return;
+> +   }
+> +-  data.push_back(arr);
+> ++  ::data.push_back(arr);
+> + }
+> + 
+> + void print_item(int num, int item, CPCCHAR extra)
+> + {
+> +   PCCHAR line_data;
+> +   char buf[1024];
+> +-  if(int(data[num].size()) > item)
+> ++  if(int(::data[num].size()) > item)
+> +   {
+> +-    line_data = data[num][item];
+> ++    line_data = ::data[num][item];
+> +     switch(item)
+> +     {
+> +     case COL_PUT_BLOCK:
+> diff --git a/meta-oe/recipes-benchmark/bonnie/bonnie++_2.00a.bb b/meta-oe/recipes-benchmark/bonnie/bonnie++_2.00a.bb
+> new file mode 100644
+> index 0000000000..f31fd09fc4
+> --- /dev/null
+> +++ b/meta-oe/recipes-benchmark/bonnie/bonnie++_2.00a.bb
+> @@ -0,0 +1,33 @@
+> +SUMMARY = "Tests large file IO and creation/deletion of small files"
+> +HOMEPAGE = "https://doc.coker.com.au/projects/bonnie/"
+> +SECTION = "benchmark/tests"
+> +LICENSE = "GPL-2.0-only"
+> +LIC_FILES_CHKSUM = "file://copyright.txt;md5=cd4dde95a6b9d122f0a9150ae9cc3ee0"
+> +
+> +SRC_URI = "http://www.coker.com.au/bonnie++/${BPN}-${PV}.tgz \
+> +    file://fix-configure-lfs.patch \
+> +    file://fix-csv2html-data.patch \
+> +"
+> +SRC_URI[md5sum] = "3a16b3a91b1d38b6f5561e197f81d870"
+> +SRC_URI[sha256sum] = "a8d33bbd81bc7eb559ce5bf6e584b9b53faea39ccfb4ae92e58f27257e468f0e"
+> +
+> +SCRIPTS = "bon_csv2html bon_csv2txt"
+> +EXES = "bonnie++ zcav"
+> +
+> +TARGET_CC_ARCH += "${LDFLAGS}"
+> +# force lfs to skip configure's check, because we are cross-building
+> +EXTRA_OECONF:append="--enable-lfs"
+> +
+> +do_install () {
+> +    install -d ${D}/${bindir}
+> +    install -d ${D}/${sbindir}
+> +    install -m 0755 ${EXES} ${D}/${sbindir}
+> +    install -m 0755 ${SCRIPTS} ${D}/${bindir}
+> +}
+> +
+> +PACKAGES =+ "bonnie-scripts"
+> +
+> +FILES:${PN} = "${sbindir}"
+> +FILES:bonnie-scripts = "${bindir}"
+> +
+> +RDEPENDS:bonnie-scripts += "perl"
+> -- 
+> 2.34.1
+> 
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_43.1.bb b/meta/recipes-gnome/epiphany/epiphany_43.1.bb
-index ea22723a97a..c97ede459da 100644
---- a/meta/recipes-gnome/epiphany/epiphany_43.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_43.1.bb
-@@ -38,3 +38,6 @@ PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
- 
- FILES:${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS:${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-+
-+# ANGLE requires SSE support as of webkit 2.40.x on 32 bit x86
-+COMPATIBLE_HOST:x86 = "${@bb.utils.contains_any('TUNE_FEATURES', 'core2 corei7', '.*', 'null', d)}"
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
-new file mode 100644
-index 00000000000..bbe265059d5
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
-@@ -0,0 +1,28 @@
-+From cd65e3d9256a4f6eb7906a9f10678c29a4ffef2f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Mon, 26 Jun 2023 14:30:02 +0200
-+Subject: [PATCH] Source/JavaScriptCore/CMakeLists.txt: ensure reproducibility
-+ of __TIMESTAMP__
-+
-+__TIMESTAMP__ refers to mtime of the file that contains it, which is unstable
-+and breaks binary reproducibility when the file is generated at build time. To ensure
-+this does not happen, mtime should be set from the original file.
-+
-+Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/15293]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Source/JavaScriptCore/CMakeLists.txt | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Source/JavaScriptCore/CMakeLists.txt b/Source/JavaScriptCore/CMakeLists.txt
-+index 43dc22ff..c2e3b1cd 100644
-+--- a/Source/JavaScriptCore/CMakeLists.txt
-++++ b/Source/JavaScriptCore/CMakeLists.txt
-+@@ -159,6 +159,7 @@ add_custom_command(
-+     OUTPUT ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
-+     MAIN_DEPENDENCY ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in
-+     COMMAND ${PERL_EXECUTABLE} -pe s/CACHED_TYPES_CKSUM/__TIMESTAMP__/ ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in > ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
-++    COMMAND touch -r ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
-+             VERBATIM
-+ )
-+ 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-index 32f92f7ff5f..34e0ff9af38 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-@@ -1,8 +1,8 @@
--From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
-+From 647c93de99a0f71f478d76a4cc7714eba7ba1447 Mon Sep 17 00:00:00 2001
- From: Adrian Perez de Castro <aperez@igalia.com>
- Date: Thu, 2 Jun 2022 11:19:06 +0300
--Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
-- path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
-+Subject: [PATCH] FELightningNEON.cpp fails to build, NEON fast path seems
-+ unused https://bugs.webkit.org/show_bug.cgi?id=241182
- 
- Reviewed by NOBODY (OOPS!).
- 
-@@ -30,19 +30,21 @@ left for a follow-up fix.
- * Source/WebCore/platform/graphics/filters/PointLightSource.h:
- * Source/WebCore/platform/graphics/filters/SpotLightSource.h:
- * Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
-----
-+
- Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-+---
-  .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
-- .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
-+ .../graphics/cpu/arm/filters/FELightingNEON.h | 52 +++++++++----------
-  .../graphics/filters/DistantLightSource.h     |  4 ++
-  .../platform/graphics/filters/FELighting.h    |  7 ---
-  .../graphics/filters/PointLightSource.h       |  4 ++
-  .../graphics/filters/SpotLightSource.h        |  4 ++
-  .../software/FELightingSoftwareApplier.h      | 16 ++++++
-- 7 files changed, 57 insertions(+), 36 deletions(-)
-+ 7 files changed, 56 insertions(+), 35 deletions(-)
- 
-+diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-+index f6ff8c20..42a97ffc 100644
- --- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
- +++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
- @@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
-@@ -63,6 +65,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  {
-      // Calling a powf function from the assembly code would require to save
-      // and reload a lot of NEON registers. Since the base is in range [0..1]
-+diff --git a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-+index b17c603d..e4629cda 100644
- --- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
- +++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
- @@ -24,14 +24,15 @@
-@@ -104,7 +108,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-          0,
-          0,
-          0,
--@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
-+@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-      // Set light source arguments.
-      floatArguments.constOne = 1;
-  
-@@ -133,7 +137,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-          floatArguments.lightX = spotLightSource.position().x();
-          floatArguments.lightY = spotLightSource.position().y();
-          floatArguments.lightZ = spotLightSource.position().z();
--@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
-+@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-          if (spotLightSource.specularExponent() == 1)
-              neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
-      } else {
-@@ -142,7 +146,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-          floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
-          floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
-          floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
--@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
-+@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-      // Set lighting arguments.
-      floatArguments.surfaceScale = data.surfaceScale;
-      floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
-@@ -192,16 +196,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-              }
-              parallelJobs.execute();
-              return;
--@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
-+@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeon(const LightingData& data, const LightS
-  } // namespace WebCore
-  
-  #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
- -
- -#endif // FELightingNEON_h
-+diff --git a/Source/WebCore/platform/graphics/filters/DistantLightSource.h b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-+index 70c6512f..b032c82e 100644
- --- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
- +++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
--@@ -25,6 +25,10 @@
-- #include "LightSource.h"
-+@@ -26,6 +26,10 @@
-+ #include <wtf/ArgumentCoder.h>
-  #include <wtf/Ref.h>
-  
- +namespace WTF {
-@@ -211,6 +217,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  namespace WebCore {
-  
-  class DistantLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Source/WebCore/platform/graphics/filters/FELighting.h
-+index 53beb596..e78a9354 100644
- --- a/Source/WebCore/platform/graphics/filters/FELighting.h
- +++ b/Source/WebCore/platform/graphics/filters/FELighting.h
- @@ -35,8 +35,6 @@
-@@ -222,7 +230,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  class FELighting : public FilterEffect {
-  public:
-      const Color& lightingColor() const { return m_lightingColor; }
--@@ -67,11 +65,6 @@ protected:
-+@@ -64,11 +62,6 @@ protected:
-  
-      std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
-  
-@@ -234,6 +242,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-      Color m_lightingColor;
-      float m_surfaceScale;
-      float m_diffuseConstant;
-+diff --git a/Source/WebCore/platform/graphics/filters/PointLightSource.h b/Source/WebCore/platform/graphics/filters/PointLightSource.h
-+index 3a5723f0..675d63f5 100644
- --- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
- +++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
- @@ -26,6 +26,10 @@
-@@ -247,6 +257,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  namespace WebCore {
-  
-  class PointLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/SpotLightSource.h b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-+index 684626f7..dea58389 100644
- --- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
- +++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
- @@ -26,6 +26,10 @@
-@@ -260,6 +272,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  namespace WebCore {
-  
-  class SpotLightSource : public LightSource {
-+diff --git a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-+index c974d921..e2896660 100644
- --- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
- +++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
- @@ -36,6 +36,7 @@
-diff --git a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
-new file mode 100644
-index 00000000000..79da855ff45
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
-@@ -0,0 +1,41 @@
-+From 4977290ab4ab35258a6da9b13795c9b0f7894bf4 Mon Sep 17 00:00:00 2001
-+From: Diego Pino Garcia <dpino@igalia.com>
-+Date: Mon, 22 May 2023 19:58:50 -0700
-+Subject: [PATCH] [GLIB] Fix build error after 264196@main
-+ https://bugs.webkit.org/show_bug.cgi?id=256917
-+
-+Reviewed by Michael Catanzaro.
-+
-+Variable BWRAP_EXECUTABLE is only defined when BUBBLEWRAP_SANDBOX is
-+enabled.
-+
-+* Source/WTF/wtf/glib/Sandbox.cpp:
-+(WTF::isInsideUnsupportedContainer):
-+
-+Canonical link: https://commits.webkit.org/264395@main
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/4977290ab4ab35258a6da9b13795c9b0f7894bf4]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Source/WTF/wtf/glib/Sandbox.cpp | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Source/WTF/wtf/glib/Sandbox.cpp b/Source/WTF/wtf/glib/Sandbox.cpp
-+index 7d84e830ab33e..9b07bb8cb5a9b 100644
-+--- a/Source/WTF/wtf/glib/Sandbox.cpp
-++++ b/Source/WTF/wtf/glib/Sandbox.cpp
-+@@ -36,6 +36,7 @@ bool isInsideFlatpak()
-+     return returnValue;
-+ }
-+ 
-++#if ENABLE(BUBBLEWRAP_SANDBOX)
-+ bool isInsideUnsupportedContainer()
-+ {
-+     static bool inContainer = g_file_test("/run/.containerenv", G_FILE_TEST_EXISTS);
-+@@ -64,6 +65,7 @@ bool isInsideUnsupportedContainer()
-+ 
-+     return inContainer && !supportedContainer;
-+ }
-++#endif
-+ 
-+ bool isInsideSnap()
-+ {
-diff --git a/meta/recipes-sato/webkit/webkitgtk/93920b55f52ff8b883296f4845269e2ed746acb3.patch b/meta/recipes-sato/webkit/webkitgtk/93920b55f52ff8b883296f4845269e2ed746acb3.patch
-deleted file mode 100644
-index 762de409957..00000000000
---- a/meta/recipes-sato/webkit/webkitgtk/93920b55f52ff8b883296f4845269e2ed746acb3.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 93920b55f52ff8b883296f4845269e2ed746acb3 Mon Sep 17 00:00:00 2001
--From: Michael Catanzaro <mcatanzaro@redhat.com>
--Date: Fri, 31 Mar 2023 12:24:09 -0700
--Subject: [PATCH] Fix build of SourceBrush.cpp
-- https://bugs.webkit.org/show_bug.cgi?id=254821
--
--Unreviewed build fix.
--
--* Source/WebCore/platform/graphics/SourceBrush.cpp:
--(WebCore::SourceBrush::setGradient):
--(WebCore::SourceBrush::setPattern):
--
--Canonical link: https://commits.webkit.org/262434@main
--
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/93920b55f52ff8b883296f4845269e2ed746acb3]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Source/WebCore/platform/graphics/SourceBrush.cpp | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
----- a/Source/WebCore/platform/graphics/SourceBrush.cpp
--+++ b/Source/WebCore/platform/graphics/SourceBrush.cpp
--@@ -65,12 +65,12 @@ Pattern* SourceBrush::pattern() const
-- 
-- void SourceBrush::setGradient(Ref<Gradient>&& gradient, const AffineTransform& spaceTransform)
-- {
---    m_brush = { Brush::LogicalGradient { WTFMove(gradient), spaceTransform } };
--+    m_brush = Brush { Brush::LogicalGradient { { WTFMove(gradient) }, spaceTransform } };
-- }
-- 
-- void SourceBrush::setPattern(Ref<Pattern>&& pattern)
-- {
---    m_brush = { WTFMove(pattern) };
--+    m_brush = Brush { WTFMove(pattern) };
-- }
-- 
-- WTF::TextStream& operator<<(TextStream& ts, const SourceBrush& brush)
-diff --git a/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch b/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
-deleted file mode 100644
-index 1ff9dcea7ef..00000000000
---- a/meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From d318bb461f040b90453bc4e100dcf967243ecd98 Mon Sep 17 00:00:00 2001
--From: Michael Catanzaro <mcatanzaro@redhat.com>
--Date: Mon, 16 Jan 2023 16:55:26 -0800
--Subject: [PATCH] WebKitGTK 2.39.4 does not build due to missing #include in
-- ANGLE https://bugs.webkit.org/show_bug.cgi?id=250689
--
--Unreviewed build fix.
--
--* Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h:
--
--Canonical link: https://commits.webkit.org/258968@main
--
--Upstream-Status: Backport [https://bugs.webkit.org/show_bug.cgi?id=250689]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h b/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
--index 94cb93e01fc0..ec7bda372f30 100644
----- a/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
--+++ b/Source/ThirdParty/ANGLE/include/GLSLANG/ShaderVars.h
--@@ -12,6 +12,7 @@
-- 
-- #include <algorithm>
-- #include <array>
--+#include <cstdint>
-- #include <string>
-- #include <vector>
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-index f7fa6dfb98c..ac6681a0ced 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.38.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-@@ -13,10 +13,10 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
--           file://d318bb461f040b90453bc4e100dcf967243ecd98.patch \
--           file://93920b55f52ff8b883296f4845269e2ed746acb3.patch \
-+           file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch \
-+           file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch \
-            "
--SRC_URI[sha256sum] = "40c20c43022274df5893f22b1054fa894c3eea057389bb08aee08c5b0bb0c1a7"
-+SRC_URI[sha256sum] = "96898870d994da406ee7a632816dcde9a3bb395ee5f344fcb3f3b8cc8a77e000"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
-@@ -28,6 +28,7 @@ CVE_PRODUCT = "webkitgtk webkitgtk\+"
- DEPENDS += " \
-           ruby-native \
-           gperf-native \
-+          unifdef-native \
-           cairo \
-           harfbuzz \
-           jpeg \
-@@ -72,6 +73,8 @@ PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
- PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
- PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
- PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
-+PACKAGECONFIG[avif] = "-DUSE_AVIF_LOG=ON,-DUSE_AVIF=OFF,libavif"
-+PACKAGECONFIG[media-recorder] = "-DENABLE_MEDIA_RECORDER=ON,-DENABLE_MEDIA_RECORDER=OFF,gstreamer1.0-plugins-bad"
- 
- EXTRA_OECMAKE = " \
- 		-DPORT=GTK \
-@@ -137,6 +140,9 @@ ARM_INSTRUCTION_SET:armv7a = "thumb"
- ARM_INSTRUCTION_SET:armv7r = "thumb"
- ARM_INSTRUCTION_SET:armv7ve = "thumb"
- 
-+# ANGLE requires SSE support as of webkit 2.40.x on 32 bit x86
-+COMPATIBLE_HOST:x86 = "${@bb.utils.contains_any('TUNE_FEATURES', 'core2 corei7', '.*', 'null', d)}"
-+
- # introspection inside qemu-arm hangs forever on musl/arm builds
- # therefore disable GI_DATA
- GI_DATA_ENABLED:libc-musl:armv7a = "False"
-@@ -152,8 +158,8 @@ src_package_preprocess () {
-             ${B}/JavaScriptCore/DerivedSources/*.h \
-             ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
-             ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
--            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.cpp \
--            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.h
-+            ${B}/WebCore/DerivedSources/*.cpp \
-+            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
- 
- }
- 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183411): https://lists.openembedded.org/g/openembedded-core/message/183411
+> Mute This Topic: https://lists.openembedded.org/mt/99785933/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.30.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
