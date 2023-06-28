@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94361C3DA41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB36EB64DD
 	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 02:30:34 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web10.7302.1687919427372495920
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.7393.1687919432363752386
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 19:30:27 -0700
+ Tue, 27 Jun 2023 19:30:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WU1yNkKn;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-39e86b3da59so4705910b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:27 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WUgVKoBW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-666e6541c98so5128697b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919426; x=1690511426;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919431; x=1690511431;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P85p6aV/KmHTok0XSQ/cX+m7ePj0S0sCUd7LhS+NWtI=;
-        b=WU1yNkKnb1jZlMxvlCiTlkxcCbYlX9gF0CvTphte9/EizwwySD3zaFE/0lklcc9rPV
-         /JePcv14sf3nLPjTVy1FHcZUppL+P3a3JfV2B9PhgA67dYTwVcpaxblnXaTkeErG7VUf
-         6WrmN/fFS2xu0Wp+crVawVjD2j1l407O1hUWVyXbb5w55Ivo7TAz7o2CJJ1H6GtvCCnF
-         GF7+XF8zsZpr7TGV15a5zwBO+s4qZjAoZAq5WugZ4cf7IGt11OOWBnYBM2fWwZ5QSZXn
-         i1JM7xeQ6ll8+HGTTb7210eiNEVr9A73GnQbiRk4nw9RsG9kgqxngoB3zZJ4Bybvs5s1
-         v1+g==
+        bh=8sX+/gntmGoIkvqxz/Q40iQ9hJk8RS8zPW10jG+Dl5A=;
+        b=WUgVKoBWVb7B/MbITGQ6Jh4/BgUFwU4yzi0PMWAVlNmZuVPToRp28SeCFVUKufPZgO
+         xs5cDiH9zDmQkRkoDOTAEZXIqfJqVTMRIKddkEgsGEz12sL30otDTp7T2SOMwismPYL9
+         52XLuX3kDAqorjFFp8b/tv5dqSfFnlkgaPe73naQiJN6ysog+1ZbcFuxJPsic/yCR2Tc
+         gsBNYtmNDOJYju/X+7NucY9c48ksU2csbknYazV8CeyeYZCdsZEtfGyAB1HylFy+KD0+
+         xGM5vi3a29WO7VuK3XUhnCnHa1GTuLF19TfoyzdBeGdIMXRWYVvI9Ycb3DZm4Ae41YH6
+         BNQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687919426; x=1690511426;
+        d=1e100.net; s=20221208; t=1687919431; x=1690511431;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P85p6aV/KmHTok0XSQ/cX+m7ePj0S0sCUd7LhS+NWtI=;
-        b=EGDcb+bH8vhxGwVW/U+CN8LbEGEL7pqtBBMKIXEcPnXX3STELgpVMLS6N25n3POIT7
-         TFfkMv3XO1ll2uTogI2e/MrdZPFZkQl3OWAQc+ncWkNcBaXtx4/MUC0xt83PSqrEBY2Y
-         Dj2WETn7qv/2Q7zTd4yQhw4AZgj6GxGzbOHBsROOQww6tO+Nm5lmU7CRoK4ds0SJN0Mo
-         S3wcGwq1S5lAIM5qLLDxveYW/CpgfJpUeK8dfUN86fx+VLuFXyJWYzq6S7v4506LPYsu
-         +Z6BZJl6P6cX0ZCcOmEeqqCyBobPu0vGEMLfrgYYD2/trar9cGC4ZtfxCJceXYhYSx5T
-         AjVA==
-X-Gm-Message-State: AC+VfDwWedP+cilbrpzkv3hbI2u0k36PK8wONYMv7XQctNzUWVjirfrM
-	iLT082YAvrGq9ENR5n5lbA21nl0fn76p+4R4ISnwpQ==
-X-Google-Smtp-Source: ACHHUZ5yeoSvr1v7lKTxUtqW8z4VaNr8Y7aoAsyWA+jjPaym2FHOpYGTDYf2NQYPQd96wuV5FXv3wQ==
-X-Received: by 2002:a54:400a:0:b0:3a1:df81:a22d with SMTP id x10-20020a54400a000000b003a1df81a22dmr6292990oie.37.1687919426269;
-        Tue, 27 Jun 2023 19:30:26 -0700 (PDT)
+        bh=8sX+/gntmGoIkvqxz/Q40iQ9hJk8RS8zPW10jG+Dl5A=;
+        b=GDvVUfF5UYzg0qT+yMNlsxqFUFMWjV1Yq2N5RlFq65oVx1UxaydmgFjRd/YwK426fL
+         sd6v8/A2N2zYm3WGFSMXFDwmsOwea1sgjQuQkRvPCgnoA1jHj9nDSyasnIcmaxwcnp5s
+         l4349x967mAOvk7V6w64CV0OFbVhzNU5swrMAX9xnluTqqGu+axSzl/u1Hkm0X35lBr/
+         FemiKj7vCR7u1Y5k+UDcbIt0ACXc9ecLYve+cwuingg05TW5yrjQ4287TTxeczXj1wE8
+         CEPpYT/t2NVjmrkdLVFn2grqqXei3DFPGKpfdn1/OaIijO4ZKgeZ0TRKLJVvh7hzbhuW
+         BgmQ==
+X-Gm-Message-State: AC+VfDwI2K0eI1V2S+mKpAMeE1UVwqnFT3inctqdtxMMtosHvyCg0Z7a
+	JIC/114/gjL0djSCA1oT+MbYQnNmDsi0o7v4iYNjhQ==
+X-Google-Smtp-Source: ACHHUZ4nDHM4q3MdaymCoyY7xP81wn4mNoQvtCpCxT6UhYrLV0ufEPZN3XoAIjs7OpkXcY0vRTbkVQ==
+X-Received: by 2002:a05:6a20:7f99:b0:10b:4539:fa0a with SMTP id d25-20020a056a207f9900b0010b4539fa0amr42019448pzj.1.1687919431356;
+        Tue, 27 Jun 2023 19:30:31 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.25
+        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 19:30:25 -0700 (PDT)
+        Tue, 27 Jun 2023 19:30:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 19/30] qemurunner.py: fix error message about qmp
-Date: Tue, 27 Jun 2023 16:29:35 -1000
-Message-Id: <60466c8ee5c055bdc01582f3809c7b36bb646a1d.1687919241.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 22/30] image_types: Fix reproducible builds for initramfs and UKI img
+Date: Tue, 27 Jun 2023 16:29:38 -1000
+Message-Id: <7bf9463665c46e331f40f9ca4f04733d14f9ab44.1687919241.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687919241.git.steve@sakoman.com>
 References: <cover.1687919241.git.steve@sakoman.com>
@@ -61,45 +61,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 02:30:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183528
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183531
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Frieder Paape <frieder@konvera.io>
 
-The error message is a little misleading as the qmp module is a
-directory with __init__.py file, not qmp.py file. Also, put the
-path where we try to import it from in the error message to make
-the message more indicative.
+I've encountered issues reproducing initramfs and UKI image builds,
+which will be fixed with this patch.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+1. initramfs
+There's a symbolic link to /sbin/init, which is appended to the cpio archive after creation.
+The links timestamp needs to be static and the cpio append command needs the '--reproducible' flag to produce deterministic outcomes.
+
+2. Unified Kernel Image
+'--preserve-dates' is required for a static 'Time/Date' entry.
+I've added '--enable-deterministic-archives' although in my case this
+didn't change anything.
+
+Signed-off-by: Frieder Paape <frieder@konvera.io>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 08bacbf797f6a50ae8abe8fc3455b3a15a0a94b3)
+(cherry picked from commit fd027729bafb4e085ba0949e38e724f3a8cad102)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-recipe/image_types.bbclass       | 5 +++--
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 2 ++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 8bb35f5a8b..49c70727a2 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -188,7 +188,7 @@ class QemuRunner:
-     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
-         # use logfile to determine the recipe-sysroot-native path and
-         # then add in the site-packages path components and add that
--        # to the python sys.path so qmp.py can be found.
-+        # to the python sys.path so the qmp module can be found.
-         python_path = os.path.dirname(os.path.dirname(self.logfile))
-         python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
-         sys.path.append(python_path)
-@@ -196,7 +196,7 @@ class QemuRunner:
-         try:
-             qmp = importlib.import_module("qmp")
-         except Exception as e:
--            self.logger.error("qemurunner: qmp.py missing, please ensure it's installed (%s)" % str(e))
-+            self.logger.error("qemurunner: qmp module missing, please ensure it's installed in %s (%s)" % (python_path, str(e)))
-             return False
-         # Path relative to tmpdir used as cwd for qemu below to avoid unix socket path length issues
-         qmp_file = "." + next(tempfile._get_candidate_names())
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index bbddfaf272..023eb87537 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -148,10 +148,11 @@ IMAGE_CMD:cpio () {
+ 		if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; then
+ 			if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init ]; then
+ 				ln -sf /sbin/init ${WORKDIR}/cpio_append/init
++                                touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init
+ 			else
+-				touch ${WORKDIR}/cpio_append/init
++                                touch -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_append/init
+ 			fi
+-			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
++			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+ 		fi
+ 	fi
+ }
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index d6aeab2aad..8ebb2a9be8 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -351,6 +351,8 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+                 # https://www.freedesktop.org/software/systemd/man/systemd-stub.html
+                 objcopy_cmd = "%s-objcopy" % target_sys
++                objcopy_cmd += " --enable-deterministic-archives"
++                objcopy_cmd += " --preserve-dates"
+                 objcopy_cmd += " --add-section .osrel=%s/usr/lib/os-release" % staging_dir_host
+                 objcopy_cmd += " --change-section-vma .osrel=0x20000"
+                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
 -- 
 2.34.1
 
