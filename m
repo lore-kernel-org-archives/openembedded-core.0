@@ -1,193 +1,131 @@
-Return-Path: <nat.bailey@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC79EB64D7
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 17:26:28 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.22817.1687973171897663432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05EA9EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 19:47:12 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.3745.1687981628794680373
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 10:26:20 -0700
+ Wed, 28 Jun 2023 12:47:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Gy7CBki5;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=654382f37a=nat.bailey@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35SAqQNl030756
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 17:26:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=GMBza
-	qo34OC1mAKAT/Pln2EVIzu5isNjsjx+5xOzprk=; b=Gy7CBki5tS8EQuDgiarrf
-	UTGlN0cZlKYIOPkBha8kxLSzqrFDy9CVe8o0tf1k8HweL+eAS93ancSu5zAoqhNM
-	tyqyUU25MtVct/902DjWwuenRCKb0Y7xOAjToMRLE+xr8nQcQ4QWr0tGUW/8ZzwJ
-	OHwcm0q/uxv+IsQtS2cqA1QhgmDPrgPNebCB7A2gxWVVftdbyFxRfuhl515KJ3C4
-	0p9yIIpc6P11vl14BEhaZkglwTkaHuZYr9a7znkCeVTxZPGLU7wZ55J73FsjBPQF
-	sDVrC4sOYMf30znr+0IYrSpRlPlpwmpixUovdgLBMfAnAV7kOduHk4Db6w8YVNQF
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdqf4c37y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 17:26:10 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 28 Jun 2023 10:25:57 -0700
-Received: from ala-lpggp2.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Wed, 28 Jun 2023 10:25:57 -0700
-From: Natasha Bailey <nat.bailey@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][mickledore][PATCH] tiff: backport a fix for CVE-2023-26965
-Date: Wed, 28 Jun 2023 10:25:52 -0700
-Message-ID: <20230628172552.2122139-1-nat.bailey@windriver.com>
-X-Mailer: git-send-email 2.39.0
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=RL4y51hw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fb4146e8ceso4296765e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 12:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1687981627; x=1690573627;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jD5v8wKCSxa8JFlH0jiiJOAxxSHDSuUVvGcAOikVcUk=;
+        b=RL4y51hwp271nKVreUXVNQFthKcrRpMFliLMTYghvtznM8wkMNxyndAr5oi5R45v5a
+         3KnwpS4aJ87VCSqQ3um5mCozl5tbiDQ3MJcDApBpB7XfpgHJ2bwmtBoCPKadiUnMibc9
+         GlieiUPGvseuDf8RXntHlwvVu9Az9yw0MYil0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687981627; x=1690573627;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jD5v8wKCSxa8JFlH0jiiJOAxxSHDSuUVvGcAOikVcUk=;
+        b=MmeHgV8Ki6MbBvTtwvpV0bLmULZgaJWdJ9QIXziKgQG2rFBsQ69CmqpJ9+FYZkd8Pj
+         0nqiNs9n2TiS7ijnA/sgqPrrUe8ewdAmxYx/daMWorDqqKyfPAfsKdcIK5toC23I7Ekf
+         /2Agxkomr7Hd0MjNYF1lX+eVnPkyljJPYGfFX4MWfzk99RoqrbybqQrQheFSZ/o078/c
+         w4ydzitnP3S9DetvgIyuWYAzBmpzGs6QakajwTeJSUgRvLWyz9uiuaIK25yl1Jz3RJPC
+         dD8T+9XAhoWtZy4Z0gs0pwM65VfuWj/2fPPbHqdPsHJUsxblXxQetQXWDtqQLQIaDEfJ
+         I1Xw==
+X-Gm-Message-State: AC+VfDyvErbBUUr0SmX507hDO0zuCvXk43rUJLTygzBh9AK2Kdu2VbS4
+	ESH4oBuU2O38droc5v6LXbW3kg==
+X-Google-Smtp-Source: ACHHUZ42tL7XhjjRfXFQLVTw0BopNJPjunpIVuF9HmeIzgPxZqAU5qdPIl81seIaqELPakC5gxULXg==
+X-Received: by 2002:a1c:f70d:0:b0:3f8:b6c:84aa with SMTP id v13-20020a1cf70d000000b003f80b6c84aamr26991152wmh.24.1687981627100;
+        Wed, 28 Jun 2023 12:47:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5a50:d5ad:bafb:a717? ([2001:8b0:aba:5f3c:5a50:d5ad:bafb:a717])
+        by smtp.gmail.com with ESMTPSA id t24-20020a7bc3d8000000b003fba94c9e18sm4805708wmj.4.2023.06.28.12.47.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 12:47:06 -0700 (PDT)
+Message-ID: <213c079050886cbd2e74fa048b83b0d36e5c82f4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/devtool: add unit test for
+ "devtool add -b"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Cc: Fawzi KHABER <fawzi.khaber@smile.fr>
+Date: Wed, 28 Jun 2023 20:47:05 +0100
+In-Reply-To: <20230628070939.1298739-1-yoann.congal@smile.fr>
+References: <20230628070939.1298739-1-yoann.congal@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Uml-luVD_py8Y8yquDGjuNVyyKoE0ZFb
-X-Proofpoint-GUID: Uml-luVD_py8Y8yquDGjuNVyyKoE0ZFb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_12,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- phishscore=0 clxscore=1015 mlxlogscore=744 lowpriorityscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2306280156
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 17:26:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183597
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 19:47:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183598
 
-Fixes a bug where a buffer was used after a potential reallocation.
+On Wed, 2023-06-28 at 09:09 +0200, Yoann Congal wrote:
+> From: Fawzi KHABER <fawzi.khaber@smile.fr>
+>=20
+> Fix [Yocto #15085]
+>=20
+> Signed-off-by: Fawzi KHABER <fawzi.khaber@smile.fr>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/lib/oeqa/selftest/cases/devtool.py | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/self=
+test/cases/devtool.py
+> index 4c8e375d00..c5ed8f5720 100644
+> --- a/meta/lib/oeqa/selftest/cases/devtool.py
+> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
+> @@ -366,6 +366,29 @@ class DevtoolAddTests(DevtoolBase):
+>              bindir =3D bindir[1:]
+>          self.assertTrue(os.path.isfile(os.path.join(installdir, bindir, =
+'pv')), 'pv binary not found in D')
+> =20
+> +    def test_devtool_add_binary(self):
+> +        # Test "devtool add -b" with an arbitrary binary package from Yo=
+cto mirrors
+> +        pn =3D 'pvr-bin-cdv-devel'
+> +        pv =3D '1.0.3-1.1'
+> +        url =3D 'http://downloads.yoctoproject.org/mirror/sources/pvr-bi=
+n-cdv-devel-1.0.3-1.1.i586.rpm'
+> +
+> +        self.track_for_cleanup(self.workspacedir)
+> +        self.add_command_to_tearDown('bitbake -c cleansstate %s' % pn)
+> +        self.add_command_to_tearDown('bitbake-layers remove-layer */work=
+space')
+> +
+> +        # Test devtool add -b
+> +        result =3D runCmd('devtool add  -b %s %s' % (pn, url))
+> +        self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer=
+.conf'), 'Workspace directory not created')
+> +
+> +        # Test devtool build
+> +        result =3D runCmd('devtool build %s' % pn)
+> +        bb_vars =3D get_bb_vars(['D', 'bindir'], pn)
+> +        installdir =3D bb_vars['D']
+> +        self.assertTrue(installdir, 'Could not query installdir variable=
+')
+> +
+> +        # Check that a known file from the binary package has indeed bee=
+n installed
+> +        self.assertTrue(os.path.isfile(os.path.join(installdir, 'usr', '=
+include', 'EGL', 'egl.h')), 'egl.h not found in D')
+> +
+>      def test_devtool_add_git_local(self):
+>          # We need dbus built so that DEPENDS recognition works
+>          bitbake('dbus')
 
-Signed-off-by: Natasha Bailey <nat.bailey@windriver.com>
----
- .../libtiff/files/CVE-2023-26965.patch        | 100 ++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.5.0.bb |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
-new file mode 100644
-index 0000000000..987ee5178f
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
-@@ -0,0 +1,100 @@
-+From ec8ef90c1f573c9eb1f17d6a056aa0015f184acf Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Tue, 14 Feb 2023 20:43:43 +0100
-+Subject: [mickledore][PATCH] tiffcrop: Do not reuse input buffer for
-+ subsequent images. Fix issue 527
-+
-+Reuse of read_buff within loadImage() from previous image is quite unsafe, because other functions (like rotateImage() etc.) reallocate that buffer with different size without updating the local prev_readsize value.
-+
-+Closes #527
-+
-+CVE: CVE-2023-26965
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/ec8ef90c1f573c9eb1f17d6a056aa0015f184acf?merge_request_iid=472]
-+Signed-off-by: Natasha Bailey <nat.bailey@windriver.com>
-+
-+---
-+ tools/tiffcrop.c | 47 +++++++++++++----------------------------------
-+ 1 file changed, 13 insertions(+), 34 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index d7ad5ca8..d3e11ba2 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -6771,9 +6771,7 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
-+     uint32_t tw = 0, tl = 0; /* Tile width and length */
-+     tmsize_t tile_rowsize = 0;
-+     unsigned char *read_buff = NULL;
-+-    unsigned char *new_buff = NULL;
-+     int readunit = 0;
-+-    static tmsize_t prev_readsize = 0;
-+ 
-+     TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
-+     TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
-+@@ -7097,43 +7095,25 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
-+     }
-+ 
-+     read_buff = *read_ptr;
-+-    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
-+-    /* outside buffer */
-+-    if (!read_buff)
-++    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit
-++     * outside buffer */
-++    /* Reuse of read_buff from previous image is quite unsafe, because other
-++     * functions (like rotateImage() etc.) reallocate that buffer with different
-++     * size without updating the local prev_readsize value. */
-++    if (read_buff)
-+     {
-+-        if (buffsize > 0xFFFFFFFFU - 3)
-+-        {
-+-            TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
-+-            return (-1);
-+-        }
-+-        read_buff =
-+-            (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
-++        _TIFFfree(read_buff);
-+     }
-+-    else
-++    if (buffsize > 0xFFFFFFFFU - 3)
-+     {
-+-        if (prev_readsize < buffsize)
-+-        {
-+-            if (buffsize > 0xFFFFFFFFU - 3)
-+-            {
-+-                TIFFError("loadImage",
-+-                          "Unable to allocate/reallocate read buffer");
-+-                return (-1);
-+-            }
-+-            new_buff =
-+-                _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+-            if (!new_buff)
-+-            {
-+-                free(read_buff);
-+-                read_buff = (unsigned char *)limitMalloc(
-+-                    buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+-            }
-+-            else
-+-                read_buff = new_buff;
-+-        }
-++        TIFFError("loadImage", "Required read buffer size too large");
-++        return (-1);
-+     }
-++    read_buff =
-++        (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+     if (!read_buff)
-+     {
-+-        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
-++        TIFFError("loadImage", "Unable to allocate read buffer");
-+         return (-1);
-+     }
-+ 
-+@@ -7141,7 +7121,6 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
-+     read_buff[buffsize + 1] = 0;
-+     read_buff[buffsize + 2] = 0;
-+ 
-+-    prev_readsize = buffsize;
-+     *read_ptr = read_buff;
-+ 
-+     /* N.B. The read functions used copy separate plane data into a buffer as
-+-- 
-+2.39.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
-index ca4a3eff91..2bde8fe9d6 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
-@@ -11,6 +11,7 @@ CVE_PRODUCT = "libtiff"
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2022-48281.patch \
-            file://CVE-2023-2731.patch \
-+           file://CVE-2023-26965.patch \
- "
- 
- SRC_URI[sha256sum] = "c7a1d9296649233979fa3eacffef3fa024d73d05d589cb622727b5b08c423464"
--- 
-2.39.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5437/step=
+s/14/logs/stdio
+
+There are systems where rpm doesn't exist so the test can fail?
+
+Cheers,
+
+Richard
 
 
