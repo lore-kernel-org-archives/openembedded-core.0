@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94045EB64DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D79AEB64D9
 	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 02:30:54 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.7315.1687919444544541976
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web10.7316.1687919446302744215
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 19:30:44 -0700
+ Tue, 27 Jun 2023 19:30:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Sa4mo69z;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-666edfc50deso359080b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:44 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=i0kKuJx6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-39ed11d6a50so3838981b6e.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919443; x=1690511443;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919445; x=1690511445;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=itaF3b0ukpMGTYvabuAPb/EDfvafem8I38z6NP9Jieo=;
-        b=Sa4mo69zgbuRi8I6Ip1R42AP4dXbz7rxwmk9EpW5sxEONzhBFMk1IXKDXv3RD6V8YW
-         NZ6jKqKdU2uplqYTDZ4g6arNoYFkLsNp4GZw6ktAlTm1x4mtMzrr6pYgGBGo8Eb0LGEo
-         ybp832aN3bnhcm8tqWqbDTBolFf9/od8o9aaZifRDm54BiBYv5b5uRs+0Fd4xA3yX3yG
-         486r2J6IBZnjFoFOXSZBUqAI0yecVoCxdhSrcCGU1st+lYbWcx3PrnQiGO6U9SMkJYBq
-         CKyefwRkPO34Js0lX5rWZY99l8Ow32nSfMhC+BaJiOeqUT5AlD1BEk34XOOFfmWqu7S6
-         WorA==
+        bh=qjHAMEKXAjoQzjilHcxR8Fgqgz5M16gDkZOQ4iKwyfE=;
+        b=i0kKuJx67hr0Ifb3/tqB4M6+6mbkI8DSvgTBFlF6yA4/HCsWERcgDZqYfBhodk0Yhl
+         dP81cRObOqYEpGOdmRS9etf/arFg82wGB94C3PRQfIz7qpdhqGV5vY4PlLTODWBdA8l6
+         DaM2nSPDtdj/AO1Xtar5enx8/RNNrOaoUd3j8Bkco99AQA/lg9TbqKzGGndPYLttAOE+
+         wkLK7CiUR5ppp8oWHEwWIxRHkiHbsTzuNa40OgmSWQ+AnrZnv3Uf9wc911yNpB7TIrmQ
+         H6079sQ5QjK2WD8Oh1xkwJ3XQJT4buJO74xL+bvuBsJhzDAZvRXmTYxKhGP4/8EVAzp6
+         +pwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687919443; x=1690511443;
+        d=1e100.net; s=20221208; t=1687919445; x=1690511445;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=itaF3b0ukpMGTYvabuAPb/EDfvafem8I38z6NP9Jieo=;
-        b=Q+ldV5eeH/mMF7sM+ELVAtXxdMOUHtI5O0aPrH1UmO1jhcg95W4oIyj/XxYmXEByEE
-         HnhjzI6FT3y2pA4oJn9TYXN6PFEkMx6o/kVXqutUW+bEf4+ikDSaHThUNJ4FKdD3d90e
-         tnJZhsEulItnrMv/4sgUgLsXGrOzXTJDZR+a/LVQ6Wsy05qXYoWZ82439LemcFFqpGjM
-         mp/rKoKpQmbjwD2p0qJ3PUoPy7VDHFo+sTBPm876cJsXtmeQtp6TRuR4pXCFCLioMIu4
-         +c/Fvfdi2kg2ZgLG9M1rVdCZvr905KRDMDTyujkXCF4B0Deisugx73vsFDoSFWvhwBuR
-         C1rg==
-X-Gm-Message-State: AC+VfDzhITY+l5m8iWCraGkaYaf+iyHa+LY7TPkXUQvxIRu2SSRv6x76
-	DryoY7TsL9KBXcJYSSAR++XM/MGxUQBv1gO2EtN8zQ==
-X-Google-Smtp-Source: ACHHUZ6t2T/G50HMFn1s6O7bf21f9Xt4bv5sahIsu7eTVYk/W1H6ax4jbrUJruZmCpn5uOh/OJy4Pw==
-X-Received: by 2002:a05:6a20:748b:b0:117:19d1:8385 with SMTP id p11-20020a056a20748b00b0011719d18385mr49751pzd.20.1687919443572;
-        Tue, 27 Jun 2023 19:30:43 -0700 (PDT)
+        bh=qjHAMEKXAjoQzjilHcxR8Fgqgz5M16gDkZOQ4iKwyfE=;
+        b=BY/4i20PadU7BUl1dpA/rk1PQ4R5qKteY9Izh+y+xme1b1QK+hJcRLDFUt3DaZKMi7
+         V01rWP1L6dZtakNcl1ygejxiFOMTwPVHTQFWk6UgmjLvS4woizC51fwK5wNb87Xot34c
+         yHUxq4cEm2gKvZJM/CcgTH9BPurTxCwLLfbQ9vREZZXNLT1wlOSWXB8dBy2VVs5qV/mq
+         5sXSfg0LCplDQTvOZwpCqH4+lApNq+/l2eXt1UdLcduF9Mob+3cVzGH2+fFIqgPJDBPc
+         FwU+mBSY7MEIXYuz2nBVrule3b1AFgntN577wgn6cor2aOlBsBdKXyEDPni2RecK5M3t
+         +hcQ==
+X-Gm-Message-State: AC+VfDyqzVB1VorwhT+T5bnXdthi2Bc21h4qo02OV/HjPQsJf38De5MQ
+	gDJ9c1fhErnmrrOiJSvAejyivIQdJFHuqRxc7u3Icg==
+X-Google-Smtp-Source: ACHHUZ5jbnmR/3hO7eN9ZrOu/pBPR1Xi4yYYLdEj86lrlIXJnwv30qhq3OMkMvTXroTbc6aBGcYcaA==
+X-Received: by 2002:aca:230e:0:b0:3a1:f3d6:4e7a with SMTP id e14-20020aca230e000000b003a1f3d64e7amr3518845oie.13.1687919445166;
+        Tue, 27 Jun 2023 19:30:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.42
+        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 19:30:43 -0700 (PDT)
+        Tue, 27 Jun 2023 19:30:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 29/30] strace: Disable failing test
-Date: Tue, 27 Jun 2023 16:29:45 -1000
-Message-Id: <ef1b309ec04aa16020c6a8ca3939fb8eccca3edb.1687919241.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 30/30] maintainers.inc: update version for gcc-source
+Date: Tue, 27 Jun 2023 16:29:46 -1000
+Message-Id: <4df0b835fae3af1dbde4a06568a652ce46d7af7a.1687919241.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687919241.git.steve@sakoman.com>
 References: <cover.1687919241.git.steve@sakoman.com>
@@ -61,78 +61,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 02:30:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183538
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183539
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Resolves error:
 
-This test is failing for uncertain reasons. We have reported upstream, disable
-it until we can work out why this happened. The point it started failing is
-unclear due to other test framework issues.
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+gcc-source-12.3.0 (/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/recipes-devtools/gcc/gcc-source_12.3.bb)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2e9165a854c7b83f163479e9dbd3cb183a9d71f5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../strace/strace/skip-sockopt-test.patch     | 37 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_6.2.bb    |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/skip-sockopt-test.patch
+ meta/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/strace/strace/skip-sockopt-test.patch b/meta/recipes-devtools/strace/strace/skip-sockopt-test.patch
-new file mode 100644
-index 0000000000..5741bf8672
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/skip-sockopt-test.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Inappropriate [avoid this test until fixed by upstream]
-+
-+Reported at https://github.com/strace/strace/issues/257
-+
-+root@qemux86-64:/usr/lib/strace/ptest/tests# make sockopt-sol_netlink.gen.log
-+FAIL: sockopt-sol_netlink.gen.test
-+
-+#root@qemux86-64:/usr/lib/strace/ptest/tests# diff sockopt-sol_netlink.dir/exp sockopt-sol_netlink.dir/out
-+#--- sockopt-sol_netlink.dir/exp
-+#+++ sockopt-sol_netlink.dir/out
-+#@@ -86,11 +86,11 @@
-+ setsockopt(3, SOL_NETLINK, NETLINK_LISTEN_ALL_NSID, 0x7fa18a802ffc, -1) = -1 EINVAL (Invalid argument)
-+ setsockopt(3, SOL_NETLINK, NETLINK_LISTEN_ALL_NSID, 0x7fa18a802ffc, 3) = 0
-+ setsockopt(3, SOL_NETLINK, NETLINK_LISTEN_ALL_NSID, 0x7fa18a803000, 4) = -1 EFAULT (Bad address)
-+-getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [0], [8]) = 0
-++getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [0], [4 => 8]) = 0
-+ getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [0], [5 => 8]) = 0
-+ getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, NULL, [0 => 8]) = 0
-+ getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [], [3 => 8]) = 0
-+-getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, 0x7fa18a803000, [8]) = -1 EFAULT (Bad address)
-++getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, 0x7fa18a803000, [4]) = -1 EFAULT (Bad address)
-+ getsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, 0x7fa18a802ffc, 0x7fa18a7fd000) = -1 EFAULT (Bad address)
-+ setsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [233811181], 4) = -1 ENOPROTOOPT (Protocol not available)
-+ setsockopt(3, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, [233811181], 5) = -1 ENOPROTOOPT (Protocol not available)
-+
-+
-+
-+Index: strace-6.3/tests/sockopt-sol_netlink.gen.test
-+===================================================================
-+--- strace-6.3.orig/tests/sockopt-sol_netlink.gen.test
-++++ strace-6.3/tests/sockopt-sol_netlink.gen.test
-+@@ -1,4 +1,5 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (sockopt-sol_netlink -e trace=getsockopt,setsockopt); do not edit.
-+ . "${srcdir=.}/init.sh"
-++skip_ "Test failing after system upgrades, wait for upstream fixes"
-+ run_strace_match_diff -e trace=getsockopt,setsockopt
-diff --git a/meta/recipes-devtools/strace/strace_6.2.bb b/meta/recipes-devtools/strace/strace_6.2.bb
-index dc01b57d80..94eb81480b 100644
---- a/meta/recipes-devtools/strace/strace_6.2.bb
-+++ b/meta/recipes-devtools/strace/strace_6.2.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://skip-load.patch \
-            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
-            file://0002-tests-Replace-off64_t-with-off_t.patch \
-+           file://skip-sockopt-test.patch \
-            "
- SRC_URI[sha256sum] = "0c7d38a449416268d3004029a220a15a77c2206a03cc88120f37f46e949177e8"
- 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 8a38f508b0..5e2206e11f 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -189,7 +189,7 @@ RECIPE_MAINTAINER:pn-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <r
+ RECIPE_MAINTAINER:pn-gcc-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-gcc-runtime = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-gcc-sanitizers = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-gcc-source-12.2.0 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-gcc-source-12.3.0 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-gconf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-gcr3 = "Markus Volk <f_l_k@t-online.de>"
+ RECIPE_MAINTAINER:pn-gcr = "Alexander Kanavin <alex.kanavin@gmail.com>"
 -- 
 2.34.1
 
