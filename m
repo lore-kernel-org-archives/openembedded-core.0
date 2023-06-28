@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC35C001B1
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 14:13:17 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.17566.1687961593505481702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F42EB64D7
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 14:13:27 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.17575.1687961600196493499
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 07:13:13 -0700
+ Wed, 28 Jun 2023 07:13:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=EQGM1iKV;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1b7e94912daso21614735ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:13 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=zEunxw9y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b7db2e162cso25382545ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961592; x=1690553592;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961599; x=1690553599;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MTk4gRRa6hUPTnhQXnxmxgW9dEm5jgMWXprHt+KBi8E=;
-        b=EQGM1iKVSRnhFqpCyWI2b2U8oaOmsv0tgzK7TmdGzEFPMOJOIZtP/wzY15GVk0nAF0
-         XKCMQtAkFs4PXukB6bcVihyA6EGlpaEA93uQ1NyeQY3eIcxZwbjacBRcxWAeV7wMKGYM
-         vfRaigLVYrdYXvqrtuhHFM6GNPwRViFmAnDip6qyFbeLO33xgp8W+MBJ1IiZpcRill4V
-         PML9+ZHXaZJTqc0pk5/61P9QbOP1fxlK5PtJdAL+sQ3PUotrP9e4qBlvI/d8JgVOAOXC
-         Hx0wmvurA8L86Qj5D3U+CCwYyTONjx+vh7GWXMlcFyyov4cbJ7qubO5rszTATaG055XA
-         AD6A==
+        bh=4XvyFCPLQ5TojzI2yBMnY5hA7GUBcDEqzoNguv/9evM=;
+        b=zEunxw9yleDo8zGAfxfExU2HaD66wAz/e05zpXh/TugnIUFoDETlRb9DloQqxRL49g
+         C09raWrgHfWelOCLcUdSd04h0CMWybbV8TCn8Btt/ML7PeHZhcHJDsZi73kzawlX9C7K
+         Ig3jvzyRxQkY2dJKnRAHjsLGVF3tgAHTr8mR3x/3xVxrAJGlLDX5/UprbuFDvLlxSJIx
+         GwKC+e2z/z6HhaPu4SJ+zGZyO2c2gBjtUq4mWeb1xmkPEzXkb7vd4eMVwgcU1gzZpj9Z
+         IKKuRMWRI+EJ3xsUhxoxR+rjHHqfZLEQWJJ/dvLDZSzx5BRCcX2XhNuGelfxHRfdrpb6
+         2DeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687961592; x=1690553592;
+        d=1e100.net; s=20221208; t=1687961599; x=1690553599;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MTk4gRRa6hUPTnhQXnxmxgW9dEm5jgMWXprHt+KBi8E=;
-        b=dCRoz8qkG3lYlP1n3hpMNciZUod9Eu57kZA3eBmUyaBqTt2Et39S2alBykXyyOjetq
-         cPq7HuxfC9g/u/zA3qJnGXezK6e4SHkisO5LOh6CC943bAOIRHzrNvwc/K3eakqVaz4B
-         4HknJUz5ZStk0IT+hqkBi8ReKX2kELoTM9WUkXC4lDcXKlvhYK88KpvR+U+9gpbgcAVH
-         9/ovdpfhq3IGlwSyTh6+khzEyUvQgDEP3iMg+l9Q3lClyk9tDALyMyt5+Nn6Itd4B9y8
-         bAbW1LZkDwXptDXoRN8agz0/ldqT+62W3inGD89keL/zHJ4aAqQR/fSRgwPErzkDgEnP
-         Uthw==
-X-Gm-Message-State: AC+VfDzv200syeujCYSsQGpS7ifENN79pPeEYkQD4YIgHC3IE4fufb/A
-	Nn3huPYFSsVHH4KMRWVAdXIhF2t6QDiG1/GEaLzxdg==
-X-Google-Smtp-Source: ACHHUZ7izzUzCLY0usMizAGexp+pW9VT7uLKi5wJ56jEEvu46cSFEn0VUwvnoHhIvxrDHGAtV8jQPg==
-X-Received: by 2002:a17:902:8a90:b0:1b8:4199:edfb with SMTP id p16-20020a1709028a9000b001b84199edfbmr911410plo.25.1687961592633;
-        Wed, 28 Jun 2023 07:13:12 -0700 (PDT)
+        bh=4XvyFCPLQ5TojzI2yBMnY5hA7GUBcDEqzoNguv/9evM=;
+        b=CLeGYvMTylvCuu5Y7aYO5Ej7ZXGTlYxQUNmAsEbmW9Y2Weg0QncVrt55HQmNlNwRYD
+         Mkq3NOXF45/aWEmCu7+SM5G4z93E7X9Xy/s6HMWLgQRrdwYQrZK9gz0Djim9AHSW3qPU
+         h8dtO8k6a43/7TJhZBm8Z/PkaO6TMKjWzoE5LYxjgJhnUeiMf7Hu6RGKn61tSjjCYVTA
+         sMHu1MLcY9Qrgsb4lGUv9AMpWQObKAIopFKdvlr76FLbEfzQ2M5nZ370wmWhYTz3nCEd
+         Z8f4UCWjZbey7homTUNr6I4usRx545aNFZrF5gbQbGSBDuRYvhiaYbzh1NKchpdteL6e
+         mMyQ==
+X-Gm-Message-State: AC+VfDxu7LFiEIFgtMo8Qt8gaS8BLo89Vo5DCb9xE91sYYPnnRQSF3bJ
+	N0ukGnzEN+/ELMIf3vX+CCPRfBY/ZXq/gqz1v379Rg==
+X-Google-Smtp-Source: ACHHUZ4hxDdj6n1k/noGGVR7Jk5PovCKh0ZX+/NAzPyffz/TpeyvVWbycwRhG+OMGGkG+uyRYD00ZA==
+X-Received: by 2002:a17:902:ea02:b0:1b6:b95d:768e with SMTP id s2-20020a170902ea0200b001b6b95d768emr11638036plg.32.1687961599288;
+        Wed, 28 Jun 2023 07:13:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.11
+        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 07:13:12 -0700 (PDT)
+        Wed, 28 Jun 2023 07:13:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/29] fribidi: upgrade 1.0.12 -> 1.0.13
-Date: Wed, 28 Jun 2023 04:12:32 -1000
-Message-Id: <7e4915c4be7dca35a63a912a55bcfa525a532e22.1687961326.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/29] dbus: upgrade 1.14.6 -> 1.14.8
+Date: Wed, 28 Jun 2023 04:12:36 -1000
+Message-Id: <fc3067f163c21434d3f79d03b26b21165be6927a.1687961326.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687961326.git.steve@sakoman.com>
 References: <cover.1687961326.git.steve@sakoman.com>
@@ -60,39 +60,59 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:13:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183562
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:13:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183566
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Changelog:
-* Adding missing man pages to the tar release file.
+Update dbus to 1.14.8 to fix CVE-2023-34969 and serveral bugs
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 0f6da8601fd4d992550e8afe7b09ba7c491250fd)
+changes:
+https://gitlab.freedesktop.org/dbus/dbus/-/blob/f90d4f16933ee5153fe02c405eb883c9cb8f0ad5/NEWS
+
+commits:
+55d11f57 doc/dbus-api-design: fix wrong closing tag
+a96f417f CI: Run a detached pipeline for merge requests
+9e0477fc CI: Only run for pushes to dbus
+077f7e43 CI: Remove an obsolete workaround
+07fe44f4 CI: Update Windows runners
+ec708d55 CI: Avoid using a no-op download location that gives a 403 error
+45e6e93e dbus_message_iter_get_signature: Fix two memory leaks on OOM
+0bb1942e dbus-internals: use `_DBUS_FUNCTION_NAME` in `_dbus_verbose()`
+8df1b8be dbus-sysdeps-win: do not log function name twice
+5c3a4e81 dbus-spawn-win: use `_DBUS_FUNCTION_NAME` instead of `__FUNCTION__`
+8e457296 Update NEWS
+e1ffce17 Revert "CI: Remove an obsolete workaround"
+40c0802f monitor test: Log the messages that we monitored
+a70c8f2f bus: Assign a serial number for messages from the driver
+39b5c617 monitor test: Reproduce #457
+f99e5de1 Update NEWS
+21414587 AUTHORS: Update
+f90d4f16 Release v1.14.8
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../fribidi/{fribidi_1.0.12.bb => fribidi_1.0.13.bb}            | 2 +-
+ meta/recipes-core/dbus/{dbus_1.14.6.bb => dbus_1.14.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/fribidi/{fribidi_1.0.12.bb => fribidi_1.0.13.bb} (90%)
+ rename meta/recipes-core/dbus/{dbus_1.14.6.bb => dbus_1.14.8.bb} (98%)
 
-diff --git a/meta/recipes-support/fribidi/fribidi_1.0.12.bb b/meta/recipes-support/fribidi/fribidi_1.0.13.bb
-similarity index 90%
-rename from meta/recipes-support/fribidi/fribidi_1.0.12.bb
-rename to meta/recipes-support/fribidi/fribidi_1.0.13.bb
-index b29c47822f..cdcac9315b 100644
---- a/meta/recipes-support/fribidi/fribidi_1.0.12.bb
-+++ b/meta/recipes-support/fribidi/fribidi_1.0.13.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.xz \
+diff --git a/meta/recipes-core/dbus/dbus_1.14.6.bb b/meta/recipes-core/dbus/dbus_1.14.8.bb
+similarity index 98%
+rename from meta/recipes-core/dbus/dbus_1.14.6.bb
+rename to meta/recipes-core/dbus/dbus_1.14.8.bb
+index cc81047cef..2ba56bf782 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.6.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.8.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
+            file://dbus-1.init \
             "
--SRC_URI[sha256sum] = "0cd233f97fc8c67bb3ac27ce8440def5d3ffacf516765b91c2cc654498293495"
-+SRC_URI[sha256sum] = "7fa16c80c81bd622f7b198d31356da139cc318a63fc7761217af4130903f54a2"
  
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+-SRC_URI[sha256sum] = "fd2bdf1bb89dc365a46531bff631536f22b0d1c6d5ce2c5c5e59b55265b3d66b"
++SRC_URI[sha256sum] = "a6bd5bac5cf19f0c3c594bdae2565a095696980a683a0ef37cb6212e093bde35"
  
+ EXTRA_OECONF = "--disable-xml-docs \
+                 --disable-doxygen-docs \
 -- 
 2.34.1
 
