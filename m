@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8457C001B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB42EB64DD
 	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 02:30:24 +0000 (UTC)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web10.7296.1687919422347084310
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.7295.1687919420566473841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jun 2023 19:30:22 -0700
+ Tue, 27 Jun 2023 19:30:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Sgaz9cVm;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-39eab4bbe8aso3793501b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:22 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Vq/xpPl8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-666e6541c98so5128558b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jun 2023 19:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919421; x=1690511421;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687919419; x=1690511419;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hmAFciUnDC/WRAPa3dST1SkfEQxCZ76i+/BYUOnjb5Q=;
-        b=Sgaz9cVmGf86TNcsHfYqKdtmv3Ex4kIdc6JC0uNoBbldfcANUIMHKP/H5w0WBgApPW
-         XECqcxBunZV63UBtTET+bHChZ9OfcpGGKoHq8775AB8l9R80rTHSjVG97WatDUIXmZLK
-         HpSgnSR2qltZ3a2mL5NKE2R/qdTQ1ODqTaqwWK2Y+hsk5y1E+4ecXbCB3icVnjmHbyiB
-         JJEsZGmX1oqmtM7gh0B+xIrVrdIHONmrdCySoM1nujvDS8jivYDq47BZBoWlRHLO3q95
-         pLDiKJQGji2I15lz5ITwAb1Pv4gnmq7Bf/iaw2OquCRO55p5B18QQQFxtSB7SGbJncB7
-         IInQ==
+        bh=7VkgDxOLJ3Os3D9EaaMghO7hnOSQPrv/NmAUbDJWxXQ=;
+        b=Vq/xpPl8gSNGXTq4TWHhBYsfwb2rXnKvVMAAhVL7Y5MftOHudiNuAuoDBHEcq25xV9
+         7m17Z4koXr9ne8TQENJi2Ll3ksxlNCegPIAMFA7z/tTg7vz4+eZi95JYE+VKwWLFIQnM
+         jpI7sDXpAjR2PGPBTTC+IGOGoTqzj5dUpD0+UfWuJsMZpHOsdPTtrkAZA46m2s2l55gc
+         jVwOYY7LHnB85YpHk2HzR54dmIfooLxbNsTdRHj5MABOkEboaxkEFTpwzj46p/dkbrLn
+         o2JcOC2SiuGAADs1rny29YLst/p6JfTagns3oXQODImdbOsXmB6B4dhAtNcnofqpnG42
+         tt5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687919421; x=1690511421;
+        d=1e100.net; s=20221208; t=1687919419; x=1690511419;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hmAFciUnDC/WRAPa3dST1SkfEQxCZ76i+/BYUOnjb5Q=;
-        b=PmalIGLl+INzWjCyfrWrida5jUvFAQKFyCyENR03k5x2hNhiqdr7aRGOuCSqqd5g4d
-         sTm/jXnrY+JZrEABg0GMVi8xPKmeWkDyJMl5oK/e5rK1+8HQ4iD7Frtd2vh8fAt/dlav
-         GdClOnAR1FIRl3qKF5GLs5Zb7IlRkhyWyhPOzVq0K8J6JsAGGUMMX8R8kki1roMdTonB
-         mO4EbUDVr9jbY5Q0dmVz6e+KKyFH0ll8qTn9myr6I4qZGZhxbb596CmazU8wQR5jnu6P
-         kKtwhmwTk50HIvjSdWmj73sHtSsl3Zg2Qoq0oRTxVl49Xui1GI61y1NWdvwWm8ITeDcY
-         33aA==
-X-Gm-Message-State: AC+VfDxmic1CxuG3lz1GVMxArIMWSf0xu9GmGXUTy7aK5jeE1/u/avnV
-	sGO8GS4ZVcEeDkmjc1c6IJW7JNNA/p1uimUdr+TZeA==
-X-Google-Smtp-Source: ACHHUZ6RYIoFxfnPZMxsHsru7BXjTVWAUFaLY4a/E8PWad+qosqgnB5DFkd0Sq3XWjQhuq8Km2U9Jw==
-X-Received: by 2002:aca:904:0:b0:3a1:df16:2f0b with SMTP id 4-20020aca0904000000b003a1df162f0bmr7047636oij.1.1687919421285;
-        Tue, 27 Jun 2023 19:30:21 -0700 (PDT)
+        bh=7VkgDxOLJ3Os3D9EaaMghO7hnOSQPrv/NmAUbDJWxXQ=;
+        b=M+uI71AXteCSKTxIh1q11H5ztCYY/p0OOdvBjqW6zOTJP1apKrruTbxPwvsD7Trihq
+         BduGPaibpLJEEglOd0F7ek03xH5ieHUnBpy9Md831glRPGLqKOR+TlJkdBbNjTHC8q0k
+         VnCKieX3oeNldwckFObOejLL7Qmgsceyc/x5t/eqmTxpzqorfuLkOCakUuDo4hJVEpc7
+         NK4yRsKkDC/3aiMiMABKZXbQb9WAk2M3KQj33CbC3yQhrRAmo4yuacZTH3VD6v3PCYXj
+         1Rs38n6eWKjsnTnr0XCe4wkXshH7EBfngzPkeezYQ91aiJUCR3ym1B7PDuChU4J6lPGK
+         J6eQ==
+X-Gm-Message-State: AC+VfDxHDpN1zcGHkualGI4dIG7ajATs+AtlZa0C/iuW2QszhRqOebxC
+	JZoC4cNr9m3aC7+W0wWt37IhxT7eyEH2s8W/ACZZHg==
+X-Google-Smtp-Source: ACHHUZ4krXBIQwO5v8Tltyc8izX6sAn7hLiXik/KlS4swk1GSGTwnLt/Gh8O13gaIYCzplPRELT/5g==
+X-Received: by 2002:a05:6a20:3d90:b0:12b:e9a0:f015 with SMTP id s16-20020a056a203d9000b0012be9a0f015mr2503263pzi.17.1687919419528;
+        Tue, 27 Jun 2023 19:30:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.20
+        by smtp.gmail.com with ESMTPSA id c18-20020a62e812000000b0063d2d9990ecsm1568666pfi.87.2023.06.27.19.30.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 19:30:20 -0700 (PDT)
+        Tue, 27 Jun 2023 19:30:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 16/30] git: upgrade to 2.39.3
-Date: Tue, 27 Jun 2023 16:29:32 -1000
-Message-Id: <ebe205b32fd959b3d7281ec95ac7f7cf88e37ed2.1687919241.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 15/30] pkgconf: upgrade 1.9.4 -> 1.9.5
+Date: Tue, 27 Jun 2023 16:29:31 -1000
+Message-Id: <046e33769121aee169ffb6c790a880dc420a5a76.1687919241.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687919241.git.steve@sakoman.com>
 References: <cover.1687919241.git.steve@sakoman.com>
@@ -61,34 +61,55 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 02:30:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183525
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183524
 
 From: Ross Burton <ross.burton@arm.com>
 
-This minor point release fixes CVE-2023-25652 and CVE-2023-29007.
+Changes from 1.9.4 to 1.9.5:
+----------------------------
+
+* Fix incorrect assumptions involving the use of ctype(3) functions.
+  Patch by Taylor R Campbell.
+
+* Fix detection of provided functions on autoconf.
+  Patches by Harmen Stoppels.
+
+* Fix deletion of tests/meson.build by the autoconf build system.
+  Patch by h30032433.
+
+* Fix quoting rules in argvsplit.c.
+  Patch by huyubiao.
+
+* Update libpkgconf documentation and documentation building scripts.
+  Patches by Andrew Shadura.
+
+* Enforce maximum package count correctly for --modversion.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 469c28924ab9debe810e3277b27ad936781e7ce5)
+(cherry picked from commit fb9e05592e7c1c61a677d9cb842c9adc84689dde)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/git/{git_2.39.2.bb => git_2.39.3.bb} | 2 +-
+ .../pkgconf/{pkgconf_1.9.4.bb => pkgconf_1.9.5.bb}              | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/git/{git_2.39.2.bb => git_2.39.3.bb} (98%)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_1.9.4.bb => pkgconf_1.9.5.bb} (96%)
 
-diff --git a/meta/recipes-devtools/git/git_2.39.2.bb b/meta/recipes-devtools/git/git_2.39.3.bb
-similarity index 98%
-rename from meta/recipes-devtools/git/git_2.39.2.bb
-rename to meta/recipes-devtools/git/git_2.39.3.bb
-index 9fac9d13f8..6fdf1caa74 100644
---- a/meta/recipes-devtools/git/git_2.39.2.bb
-+++ b/meta/recipes-devtools/git/git_2.39.3.bb
-@@ -170,4 +170,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.9.4.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
+similarity index 96%
+rename from meta/recipes-devtools/pkgconf/pkgconf_1.9.4.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
+index ab0f371093..4bdf03c574 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.9.4.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "daccf1bbe5a30d149b556c7d2ffffeafd76d7b514e249271abdd501533c1d8ae"
++SRC_URI[sha256sum] = "1ac1656debb27497563036f7bffc281490f83f9b8457c0d60bcfb638fb6b6171"
  
--SRC_URI[tarball.sha256sum] = "fb6807d1eb4094bb2349ab97d203fe1e6c3eb28af73ea391decfbd3a03c02e85"
-+SRC_URI[tarball.sha256sum] = "2f9aa93c548941cc5aff641cedc24add15b912ad8c9b36ff5a41b1a9dcad783e"
+ inherit autotools
+ 
 -- 
 2.34.1
 
