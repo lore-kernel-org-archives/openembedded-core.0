@@ -1,69 +1,155 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FFEEB64D7
-	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 09:39:56 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.12150.1687945189995881406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABAFCEB64D7
+	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 09:56:46 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.12339.1687946202044034958
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 02:39:50 -0700
+ Wed, 28 Jun 2023 02:56:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=capLSIVY;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fb8574a3a1so2691743e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 02:39:49 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=EVdOlI9e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fa9850bfebso31284805e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 02:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687945188; x=1690537188;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLDDju+UmvsFhaxhzKb6/fdJIUeZDqj5U57WGkcO0YU=;
-        b=capLSIVYfIzLVRh7mjWtlZ7GTrECYdSb5KHtm4jRlJ8QsNC6rOHkPJr64SEWUzJ6UO
-         b3kZ96rXtrKgG0jogHYS7u0cbKmA3Gzmmti+jTqd3wlImCE/kQFoaJOaGXekuBd45VYK
-         0ZYZQk10PNvSX6ksGmNrwvOAVuJZ+xUiH5Bm4q/+aKeW3JLGdk2tw98roasIHshEAqMg
-         onWz+AQIsmI6bFIikyVupv2dh4aouJkTVpniLmnSTRXesvPN4XnWai4hT7Y6BS8gPhxD
-         tRSWKUfj8hdq3uSTkg3t0uSerBmPvRuevB1mS4YXJYUdXNQE22tNPlSBu5hte7UJA6vG
-         7lSg==
+        d=linuxfoundation.org; s=google; t=1687946200; x=1690538200;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N+Q83S9Qb32fdBRP0lau/wFnJ//A9dttLrjqNLNvF4Y=;
+        b=EVdOlI9euufxABjiPNaRx44Q/dUsmfsp1x/D1yMGKBDThntFBota7bCnVbDmCiFakv
+         JWWfNEV0ZmG0qcCz3pExLC8rOXl1Z26vr28awHb3hYVojPTETUntuhpMVOCU7covNOFe
+         oRjkWAztj8ci81Ix+MOOIR7sFd00kJ1bOOhBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687945188; x=1690537188;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gLDDju+UmvsFhaxhzKb6/fdJIUeZDqj5U57WGkcO0YU=;
-        b=Fv1WtQRfSrz6x97x/UH9oQCgRprO+zPCzrwxpbfUXfLgoJI9LYkSHuAIz3dHwPDEFc
-         qpHEh6QOLguyEB3qKQY0bmbO+qkj/UfhT9ejRGYkQkfIKWQ9+qZ/a8bvoQK1JU3clNKq
-         kmWbp+KFQtFtJ1yhn6m0tSSe7NYbRyt10NEr3cbDU++hxUN0XF8Gx/WzIT0KqFAyO1ou
-         1iFXWRqRecO4/iJpxyzU5Brk9Bj2PnDlEXOicbl+yWu0J909SrlrizexUAE9WxdvTNOw
-         2ghv4wdUgdjd1v+EMFiVpzP3ZKVE+4byoM/DXhC7ObCU6903+6YKCkWydFpPxQrPy484
-         1vrA==
-X-Gm-Message-State: AC+VfDyGSG89QJHYq99a4fUA+Hy9d8ItrWXQnrl2jJLYdyJxWD3D0+Pb
-	F9YcuH4BpkMlquxOIDZ36TcoS/8GL6+ryQ6jP1s=
-X-Google-Smtp-Source: ACHHUZ5n1lXN39Y/5Z9VLLHp53jLpmf5cHWi6VC2YK8J6uZKi0rkLEPzbLCwYznoNmA7bEgAWzZCExkCSVGIm0Q7tpw=
-X-Received: by 2002:a05:6512:b8b:b0:4fa:ad2d:6c58 with SMTP id
- b11-20020a0565120b8b00b004faad2d6c58mr8489036lfv.61.1687945187843; Wed, 28
- Jun 2023 02:39:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230612014135.4149961-1-raj.khem@gmail.com>
-In-Reply-To: <20230612014135.4149961-1-raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Jun 2023 11:39:36 +0200
-Message-ID: <CANNYZj-R=DsgZxNzW0bVan94-kHz=5NRa09JBqGY_E8M+1tnKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] efivar: Upgrade to tip of trunk
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20221208; t=1687946200; x=1690538200;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N+Q83S9Qb32fdBRP0lau/wFnJ//A9dttLrjqNLNvF4Y=;
+        b=RTRSn7MDIQOSnkxlouOgUWjs+Rf/ZKOtpJCKoppF9mulnBb+K9OxqfX80RhRRdvnF6
+         1acxpveeECVCYdljXbHmtzBACsP/TKSVrOZl1Zj7FNZFIbyhBk4Ebq2oXq+XMYOgDD2M
+         d/Y3dceGymqD6rM9DKBOD665SX2Dj7cFTjhgC8939eZkrogPia3A901EseLMUautgsqo
+         6a40dl18sGmW2jJnp8PO9CYTC+yO3wuw4gyRk0y/UA5a3G9aLjVQupHEwPYMrU9UZ2Lz
+         T65+/DzZgibSHdLsHGFVdErXoi2JgvJI+WL6BJryUp4/oUumTB60Olvus7UNwvOhzLyz
+         e+1A==
+X-Gm-Message-State: AC+VfDzv12zhmA3T96lP0DUNBw2utrJNW5EOtcMVCMd+4eOU+Hz3ptSS
+	OLzor3l5M9ukhlD39D6Kg16Vrg==
+X-Google-Smtp-Source: ACHHUZ4FBDvQvdSSRo6Aqw24+OK6KLsFRZ9UCkkJrfOrsgFFGlqC834rHgDg/hsxzyKqW24ZHeWLBA==
+X-Received: by 2002:a05:600c:2288:b0:3fb:403d:90c5 with SMTP id 8-20020a05600c228800b003fb403d90c5mr4595068wmf.39.1687946200423;
+        Wed, 28 Jun 2023 02:56:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a71a:20d6:74fc:9334? ([2001:8b0:aba:5f3c:a71a:20d6:74fc:9334])
+        by smtp.gmail.com with ESMTPSA id r13-20020adfe68d000000b0030fb4b55c13sm12853062wrm.96.2023.06.28.02.56.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 02:56:39 -0700 (PDT)
+Message-ID: <8987cd39705f1b2ae8ba56f5c18491da2592f909.camel@linuxfoundation.org>
+Subject: Re: [OE-core][master][PATCHv3] Flac: upgrade 1.4.2 -> 1.4.3
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Siddharth <sdoshi@mvista.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 28 Jun 2023 10:56:38 +0100
+In-Reply-To: <20230628075628.146803-1-sdoshi@mvista.com>
+References: <20230628075628.146803-1-sdoshi@mvista.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 09:39:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183549
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 09:56:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183550
 
-On Mon, 12 Jun 2023 at 03:41, Khem Raj <raj.khem@gmail.com> wrote:
-> +PV .= "+39+git${SRCPV}"
+On Wed, 2023-06-28 at 13:26 +0530, Siddharth wrote:
+> From: Siddharth Doshi <sdoshi@mvista.com>
+>=20
+> License-Update: URL fix
+>=20
+> Remove PowerPC related options no longer supported upstream.
+>=20
+> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> ---
+>  .../flac/{flac_1.4.2.bb =3D> flac_1.4.3.bb}            | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+>  rename meta/recipes-multimedia/flac/{flac_1.4.2.bb =3D> flac_1.4.3.bb} (=
+76%)
+>=20
+> diff --git a/meta/recipes-multimedia/flac/flac_1.4.2.bb b/meta/recipes-mu=
+ltimedia/flac/flac_1.4.3.bb
+> similarity index 76%
+> rename from meta/recipes-multimedia/flac/flac_1.4.2.bb
+> rename to meta/recipes-multimedia/flac/flac_1.4.3.bb
+> index d3ece3f3cf..badb43db89 100644
+> --- a/meta/recipes-multimedia/flac/flac_1.4.2.bb
+> +++ b/meta/recipes-multimedia/flac/flac_1.4.3.bb
+> @@ -5,15 +5,15 @@ BUGTRACKER =3D "https://github.com/xiph/flac/issues"
+>  SECTION =3D "libs"
+>  LICENSE =3D "GFDL-1.2 & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Cla=
+use"
+>  LIC_FILES_CHKSUM =3D "file://COPYING.FDL;md5=3Dad1419ecc56e060eccf8184a8=
+7c4285f \
+> -                    file://src/Makefile.am;beginline=3D1;endline=3D17;md=
+5=3D146d2c8c2fd287545cc1bd81f31e8758 \
+> +                    file://src/Makefile.am;beginline=3D1;endline=3D17;md=
+5=3Db1dab2704be7f01bfbd9b7f6d5f000a9 \
+>                      file://COPYING.GPL;md5=3Db234ee4d69f5fce4486a80fdaf4=
+a4263 \
+> -                    file://src/flac/main.c;beginline=3D1;endline=3D18;md=
+5=3D893456854ce6bf14a1a7ea77266eebab \
+> +                    file://src/flac/main.c;beginline=3D1;endline=3D18;md=
+5=3D23099119c034d894bd1bf7ef5bd22101 \
+>                      file://COPYING.LGPL;md5=3Dfbc093901857fcd118f065f900=
+982c24 \
+> -                    file://COPYING.Xiph;md5=3D3d6da238b5b57a0965d6730291=
+119f65 \
+> +                    file://COPYING.Xiph;md5=3D0c90e41ab2fa7e69ca9391330d=
+870221 \
+>                      file://include/FLAC/all.h;beginline=3D65;endline=3D7=
+0;md5=3D39aaf5e03c7364363884c8b8ddda8eea"
+> =20
+>  SRC_URI =3D "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
+> -SRC_URI[sha256sum] =3D "e322d58a1f48d23d9dd38f432672865f6f79e73a6f9cc5a5=
+f57fcaa83eb5a8e4"
+> +SRC_URI[sha256sum] =3D "6c58e69cd22348f441b861092b825e591d0b822e106de6eb=
+0ee4d05d27205b70"
+> =20
+>  CVE_PRODUCT =3D "libflac flac"
+> =20
+> @@ -25,11 +25,9 @@ EXTRA_OECONF =3D "--disable-oggtest \
+>                  "
+> =20
+>  PACKAGECONFIG ??=3D " \
+> -    ${@bb.utils.filter("TUNE_FEATURES", "altivec vsx", d)} \
+> +    ${@bb.utils.filter("TUNE_FEATURES", " ", d)} \
 
-This broke upstream version check :(
-"+39" isn't necessary here, "+git${SRCPV}" would have ensured
-monotonic increase from 38.
+If vsx and altivec are no longer needed, you should remove that line
+entirely as it is pointless if it is empty.
 
-Alex
+The reason you didn't see an issue in testing is that you probably
+didn't try MACHINE=3Dqemuppc which uses altivec.
+
+Cheers,
+
+Richard
+
+
+>      ogg \
+>  "
+> -PACKAGECONFIG[altivec] =3D "--enable-altivec,--disable-altivec"
+> -PACKAGECONFIG[vsx] =3D "--enable-vsx,--disable-vsx"
+>  PACKAGECONFIG[avx] =3D "--enable-avx,--disable-avx"
+>  PACKAGECONFIG[ogg] =3D "--enable-ogg --with-ogg-libraries=3D${STAGING_LI=
+BDIR} --with-ogg-includes=3D${STAGING_INCDIR},--disable-ogg,libogg"
+> =20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183547): https://lists.openembedded.org/g/openembedde=
+d-core/message/183547
+> Mute This Topic: https://lists.openembedded.org/mt/99826072/1686473
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ri=
+chard.purdie@linuxfoundation.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
 
