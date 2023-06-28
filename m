@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2379C3DA40
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E21DDC0015E
 	for <webhook@archiver.kernel.org>; Wed, 28 Jun 2023 14:13:37 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.17586.1687961611191376764
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.17590.1687961616358919913
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jun 2023 07:13:31 -0700
+ Wed, 28 Jun 2023 07:13:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=yMEczqDf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b7dd061e9aso27543975ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:31 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VaNyCoPh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1b7e1875cc1so24994285ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 07:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961610; x=1690553610;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1687961615; x=1690553615;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HmPQr2rJl56a2qql32V2OdWc3MEraY1hpYRmMZTd1wA=;
-        b=yMEczqDf8g3jdQI+eQZrCsMfPKLUswNLZMj0WCRoWVqvatljeNHbA/wY5zMKD/4BDE
-         ZR9/RhZfZ3rDH9n/0cOWJnJLV70WFh09ljkBveblluZWCgmd9CceQuZbMdED8tKDXPSq
-         AtNX/ZXUXfRMyCrS/9SW+9+L2tDeGXT51Ap4r0YFpriWVvmjYIxkPElVbVlCe8M2lf3G
-         5/riZYix42ffkarQ26jnR2ngs2t0BR3XssD/eIJD/WPZ07MnkcsaCYvXfwf3HVceJ63+
-         ahssoWEqc4vJzher+1anNxasB7XPVhXgz187PPg3mwWcBXHnNJHQ+9dOPgJMExKhNwXT
-         PBDA==
+        bh=SDvTlixEiVm1Y2EJ6byPx0ZcJN4IyHsLy5PrZUA9x3o=;
+        b=VaNyCoPheA9YPxmbkN+zuS/sIcHRQ93OavASRWqln9oQr/qchC6bjKucW9DfiS2U54
+         7hB7ZKdBoI1Cxxj0fIwQLpInhdYe57bhrQbyEiy/3VgqRmN4b0KSWFPjZmgt9wLh4lMj
+         C8eKC2kyyhLu9a3aAfjNa1xQMpDo9e7A3jFfH8Yh3jtDVTqwifgHXW6ipgL0IB7Zq2TC
+         SMU4g020qU8+bWCUHZ4WgajNaz2o02UkqIvY3cprQvoy6RWI0vEBSndFzCVfsXdN/0Wx
+         BvWm00u66Tcvt7KL5vK+5h0zQKFJxwwJWk17NRqXGUGjK2bqO92s0XDtYFKiMgzZ+Ngv
+         /WEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687961610; x=1690553610;
+        d=1e100.net; s=20221208; t=1687961615; x=1690553615;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HmPQr2rJl56a2qql32V2OdWc3MEraY1hpYRmMZTd1wA=;
-        b=DX91NSir+/QQy9p5dsGGatqjHo5MT6ck7vZzkfNsKYaH9JE/RPGgPOWtg6Df/m+8fC
-         0kLUbPmL7HPx33tcREerS1a/yV2H+pP3p6UdarmOkLAP102XAHQJ4yIhhj2S9rPb3KvM
-         iRqygQvogq0LnTN+7ESW25jv5gRcSSyv2GhYB6QPzEqwLFPX/Exyd57wm9eYi3XnqfxZ
-         RhU+9qkMasIApYutSr4mcPA91UoE9hKO/mVpBKHR3MCytmQipATccE7U0fHH1gVMa9JZ
-         8ehLdo2FJKHKCgeWDd0Bi79Cv2Wp88B9/pfjIDi0kE6E9F7chmiRmvQBEq6Aywq/cGOj
-         6HIQ==
-X-Gm-Message-State: AC+VfDwgKYVQ/sCCuvGvY4l9E+zB5u9ATidkgVc3PWeV14XUZGA5+Fo6
-	JGRvDDz2yhTfLNFrPB41DhSJMaylJm8v5wlMX23Niw==
-X-Google-Smtp-Source: ACHHUZ4yJgL94Srg7RHYsi0ujVNrfVWhrXUAQceBzqGBF41fcV/ksWFvEIbriXljWxPw/zMZhRqmXQ==
-X-Received: by 2002:a17:902:ecce:b0:1b5:561a:5ca9 with SMTP id a14-20020a170902ecce00b001b5561a5ca9mr11881674plh.50.1687961610196;
-        Wed, 28 Jun 2023 07:13:30 -0700 (PDT)
+        bh=SDvTlixEiVm1Y2EJ6byPx0ZcJN4IyHsLy5PrZUA9x3o=;
+        b=MG1cyYqdyfEfFlLRhD72NzKhe91hSvoprsXfrjGb/Gz+AFinQyixwhWLvBKi4Jy3ha
+         C0TuPu7FFron7+TN/qyoCes4JKuL9oNDag1Zb96RB1dBf/tZUEm1mSyBzbxu91FHPL4V
+         GZA3C5xK4rj87XCAH2tudlwOeBjuLOhiYVu7cbw9EPGbBZsVFOnXCF2bDREegd0a9l0Q
+         tXOri8vQP1+tgtH5v51E2YrW52PmXu9ormAue+4243UXkHPLI0lmgcaIj6v0lnev2XCM
+         eFOm/J0hKTF6aEL2n3kr1JRw5lqxXJYhjpb8VgPxEXNUdQKVGLVTe+clWrZrD90lF0Is
+         3K3g==
+X-Gm-Message-State: AC+VfDzPfHG7wBW8Zs/nB7f7Fbm0Sr89qotmG2VeXu2ejXCZYycz/zcw
+	7E6QACIiboOiR1eJeU198vyK+GAb0XUzL8GxU1DHKg==
+X-Google-Smtp-Source: ACHHUZ7CsLCFRRtkH2bbyCWFA7VZ94OiddYiuO8DGUrcBikT/uZbGmZEDOy1HHWDZMvBcaaZA6CJRQ==
+X-Received: by 2002:a17:902:ce01:b0:1b6:9b29:bb1a with SMTP id k1-20020a170902ce0100b001b69b29bb1amr8963856plg.9.1687961615458;
+        Wed, 28 Jun 2023 07:13:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.29
+        by smtp.gmail.com with ESMTPSA id b19-20020a170902d89300b001b3ce619e2esm7792092plz.179.2023.06.28.07.13.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 07:13:29 -0700 (PDT)
+        Wed, 28 Jun 2023 07:13:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/29] psmisc: Set ALTERNATIVE for pstree to resolve conflict with busybox
-Date: Wed, 28 Jun 2023 04:12:42 -1000
-Message-Id: <b40a33f0665c7086e806da4f670a3eb25351216c.1687961326.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 20/29] pm-utils: fix multilib conflictions
+Date: Wed, 28 Jun 2023 04:12:45 -1000
+Message-Id: <7d99987f76c58ec1f9ee5efffee0705b2c542ad7.1687961326.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687961326.git.steve@sakoman.com>
 References: <cover.1687961326.git.steve@sakoman.com>
@@ -61,43 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Jun 2023 14:13:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183572
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183575
 
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
+From: Kai Kang <kai.kang@windriver.com>
 
-If pstree in busybox is enabled there is a conflict with pstree from
-psmisc resulting in:
+It fails to instal pm-utils and lib32-pm-utils at same time:
 
-  do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If
-  the intention is to defer them to first boot, then please place
-  them into pkg_postinst_ontarget:${PN} ().
-  Deferring to first boot via 'exit 1' is no longer supported.
+Error: Transaction test error:
+  file /usr/bin/pm-is-supported conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-hibernate conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-powersave conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-suspend conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-suspend-hybrid conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
 
-And more detailed in do_rootfs.log:
+All of the conflicted files either is script which source a file in
+${libdir}, or a link file to some file in ${libdir}. Compare the content
+of installed files in ${libdir} exclude binaries, only the paths of
+${libdir} diff. So re-define libdir with ${nonarch_libdir} to fix the
+conflicts.
 
-  update-alternatives: Error: not linking [...]/rootfs/usr/bin/pstree to /bin/busybox.nosuid since [...]/rootfs/usr/bin/pstree exists and is not a link
-
-On order to fix this set ALTERNATIVE:pstree accordingly.
-
-Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit deb2176df76dcb16c0d90072ad63d308a0ab1158)
+(cherry picked from commit f836541bcfdbf033a37537530b4e3b87b0a7f003)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/psmisc/psmisc.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
-index 12539dad53..44b82bd325 100644
---- a/meta/recipes-extended/psmisc/psmisc.inc
-+++ b/meta/recipes-extended/psmisc/psmisc.inc
-@@ -54,3 +54,5 @@ ALTERNATIVE_PRIORITY = "90"
- ALTERNATIVE:killall = "killall"
+diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+index c6a4bc4932..dcc09f279e 100644
+--- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
++++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+@@ -19,9 +19,12 @@ PACKAGECONFIG[manpages] = "--enable-doc, --disable-doc, libxslt-native xmlto-nat
  
- ALTERNATIVE:fuser = "fuser"
+ RDEPENDS:${PN} = "grep bash"
+ 
++EXTRA_OECONF = "--libdir=${nonarch_libdir}"
 +
-+ALTERNATIVE:pstree = "pstree"
+ do_configure:prepend () {
+ 	( cd ${S}; autoreconf -f -i -s )
+ }
+ 
+-FILES:${PN} += "${libdir}/${BPN}/*"
++FILES:${PN} += "${nonarch_libdir}/${BPN}/*"
+ FILES:${PN}-dbg += "${datadir}/doc/pm-utils/README.debugging"
++FILES:${PN}-dev += "${nonarch_libdir}/pkgconfig/pm-utils.pc"
 -- 
 2.34.1
 
