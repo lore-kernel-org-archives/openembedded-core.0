@@ -1,210 +1,227 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96234EB64D9
-	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 09:13:24 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.4356.1688030001407886774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDB4EB64D9
+	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 09:35:34 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.4541.1688031325010547035
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 02:13:21 -0700
+ Thu, 29 Jun 2023 02:35:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=s/nEDedQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=65441b46f9=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35T8bMu0008564
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 02:13:21 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=sC/sF
-	Ja4n0pDtNwkJebExmxpXBWkCs80ic9ug024ckA=; b=s/nEDedQdGvloqTh3p4iI
-	a7o1nbrnQoYP9EY3FVSne39kZffvxkoQJPMw+pw5I+8mAKn1ZQ/mwB8ryUG7iabU
-	dCIjs7vI8XZB5Mv/f1WAmb7zGcF1XWbMk/QEkMUTzK2BLxHWCKh6U7Y3tHTAsqCL
-	asG3m/Io6Y6Ygf/f3+1qBwb8gPhNgAwGvkmyW/yjaBGWqv9tHJ7Dch9Mmq5iAIx4
-	g5HprhsPnmGzQDtQ2KFXUV4fedyteS6Lm/3yAHxPNGoEyd5xHz6NuHdG/hkmaUnR
-	3mV/0zyx/5u0c1SPbKtA53iyoJGXQwPci/w0U/5eD4RJI7PI9DglJyYiJ/AvD4tQ
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3regfb3w7f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 02:13:20 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 02:13:20 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Thu, 29 Jun 2023 02:13:19 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [master][PATCH] systemd: fix a dead link under /var/log
-Date: Thu, 29 Jun 2023 17:13:18 +0800
-Message-ID: <20230629091318.1038965-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NWxKQ3+m;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1688031323;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vj39XVBN3q+OAgMXPZbLMFRi03iJZTMNvNO63yyjECs=;
+	b=NWxKQ3+m72jCRgqhkJA3jrMn1OQ3isN6WfGg6HRtqSQLdZVtS0WsaO16kJq21BtNL6c2XR
+	BbW/lBp2AMLG/AMu6ii4nr77dnav4uR8a0eiOs2cm2aQh2mUSn1b0Rr2IYy+gcyAn8EpnS
+	8bccwFeX9ugQcs2qIEw0drDu2ltbAzEPVlgcvtdrlx64DQb+bGX4mfC/KlyTfowtUf6GHE
+	qq32MMkBGV4dzFRBDLKRi8ek9Oei/DviyCBAZxq6eLHlGXkoocMzfJ1ne3ukP4Bdd4MnYl
+	Tnninjm89hhbKQrpazGwmakzEB3V9BbSOuq4Ty3eDDiLF9IXtaY94gUNLfuY0g==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ACE13C0027;
+	Thu, 29 Jun 2023 09:35:22 +0000 (UTC)
+Date: Thu, 29 Jun 2023 11:35:22 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V4] kbd: Add ptest support
+Message-ID: <2023062909352285065e09@mail.local>
+References: <1685601998-1446-1-git-send-email-qiutt@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: KKkTDB4ulnqjFQFTXXjMnX1yCLHzkJUo
-X-Proofpoint-ORIG-GUID: KKkTDB4ulnqjFQFTXXjMnX1yCLHzkJUo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-29_01,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 phishscore=0
- bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2306290081
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1685601998-1446-1-git-send-email-qiutt@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 09:13:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183612
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 09:35:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183613
 
-From: Changqing Li <changqing.li@windriver.com>
+Hello,
 
-Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
-install README.logs under systemd doc dir.
+While this patch was working fine, it is now broken on master because of
+the kbd upgrade to 2.6.0 from wangmy.
 
-But for OE, systemd doc dir is splited into package systemd-doc, when it
-is not installed on the target, there will be an dead link:
-Eg:
-root@intel-x86-64:/var/log# ls -l README
-lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
-root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
-ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
+https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/4812/steps/13/logs/stdio
 
-Meantime, relative path for a symlink also will meet issue like
-"No such file or directory"
+ERROR: kbd-2.6.0-r0 do_compile_ptest_base: ExecutionError('/home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/run.do_compile_ptest_base.44912', 2, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/log.do_compile_ptest_base.44912
+Log data follows:
+| DEBUG: Executing shell function do_compile_ptest_base
+| sed: can't read /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/build/tests/libtswrap/Makefile: No such file or directory
+| WARNING: /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/run.do_compile_ptest_base.44912:162 exit 2 from 'sed -i 's,-D_TIME_BITS=64,,g' /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/build/tests/libtswrap/Makefile'
+| WARNING: Backtrace (BB generated script):
+| 	#1: do_compile_ptest, /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/run.do_compile_ptest_base.44912, line 162
+| 	#2: do_compile_ptest_base, /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/run.do_compile_ptest_base.44912, line 151
+| 	#3: main, /home/pokybuild/yocto-worker/qemumips-alt/build/build/tmp/work/mips32r2-poky-linux/kbd/2.6.0-r0/temp/run.do_compile_ptest_base.44912, line 205
+NOTE: recipe kbd-2.6.0-r0: task do_compile_ptest_base: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/qemumips-alt/build/meta/recipes-core/kbd/kbd_2.6.0.bb:do_compile_ptest_base) failed with exit code '1'
 
-So remove this symlink from package systemd, and create legacy-doc.conf,
-only create the symlink when systemd-doc is installed.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...on-t-create-symlink-README-in-this-f.patch | 42 +++++++++++++++++++
- ....in-split-out-the-doc-related-config.patch | 41 ++++++++++++++++++
- meta/recipes-core/systemd/systemd_253.3.bb    |  3 ++
- 3 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
+On 01/06/2023 14:46:38+0800, qiutt@fujitsu.com wrote:
+> From: Qiu Tingting <qiutt@fujitsu.com>
+> 
+> Add a ptest for kbd
+> - It is taking around 1s to execute with kvm, so added it to PTESTS_FAST
+> - It contains libkeymap unit tests(27 cases) and libkbdfile unit tests(13 cases)
+> 
+> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  meta/recipes-core/kbd/files/run-ptest         | 11 +++
+>  meta/recipes-core/kbd/kbd_2.5.1.bb            | 74 ++++++++++++++++++-
+>  3 files changed, 85 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/kbd/files/run-ptest
+> 
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+> index da9153b998..7d5883604c 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -27,6 +27,7 @@ PTESTS_FAST = "\
+>      gzip \
+>      json-c \
+>      json-glib \
+> +    kbd \
+>      libconvert-asn1-perl \
+>      liberror-perl \
+>      libgpg-error\
+> diff --git a/meta/recipes-core/kbd/files/run-ptest b/meta/recipes-core/kbd/files/run-ptest
+> new file mode 100644
+> index 0000000000..3b154c4d73
+> --- /dev/null
+> +++ b/meta/recipes-core/kbd/files/run-ptest
+> @@ -0,0 +1,11 @@
+> +#!/bin/sh
+> +
+> +# Define test work dir
+> +WORKDIR=@PTEST_PATH@/tests/
+> +
+> +# Run test
+> +cd ${WORKDIR}
+> +
+> +./testsuite -k unittest | sed -e '/[0-9]:/s/://' \
+> +    -e '/ ok/s/^/PASS: /;/ FAILED/s/^/FAIL: /;/ skipped/s/^/SKIP: /' \
+> +    -e '/ ok/s/ ok.*//;/ skipped/s/ skipped.*//;/ FAILED/s/ FAILED.*//'
+> diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb b/meta/recipes-core/kbd/kbd_2.5.1.bb
+> index 7662b8f685..283617aaaa 100644
+> --- a/meta/recipes-core/kbd/kbd_2.5.1.bb
+> +++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION = "The kbd project contains tools for managing Linux console (Linux
+>  LICENSE = "GPL-2.0-or-later"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  
+> -inherit autotools gettext pkgconfig
+> +inherit autotools gettext pkgconfig ptest
+>  
+>  DEPENDS += "flex-native"
+>  
+> @@ -14,6 +14,7 @@ RPROVIDES:${PN} = "console-tools"
+>  RCONFLICTS:${PN} = "console-tools"
+>  
+>  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+> +           file://run-ptest \
+>             "
+>  
+>  SRC_URI[sha256sum] = "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+> @@ -45,3 +46,74 @@ ALTERNATIVE:${PN} = "chvt deallocvt fgconsole openvt showkey \
+>  ALTERNATIVE_PRIORITY = "100"
+>  
+>  BBCLASSEXTEND = "native"
+> +
+> +do_compile_ptest() {
+> +    # update DATADIR in Makefile
+> +    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/libkeymap/Makefile
+> +    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/helpers/Makefile
+> +    sed -i 's,-DDATADIR=.*,-DDATADIR=\\\"${PTEST_PATH}/tests\\\" \\,g' ${B}/tests/libkbdfile/Makefile
+> +
+> +    # unset -D_TIME_BITS=64 in Makefile
+> +    sed -i 's,-D_TIME_BITS=64,,g' ${B}/tests/libtswrap/Makefile
+> +
+> +    # recompile tests
+> +    oe_runmake -C ${B}/tests/ clean
+> +    oe_runmake -C ${B}/tests/
+> +}
+> +
+> +do_install_ptest() {
+> +    # install files from build directory
+> +    install -d ${D}${PTEST_PATH}/tests/
+> +    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
+> +    install --mode=755 ${B}/tests/testsuite ${D}${PTEST_PATH}/tests/
+> +    install -d ${D}${PTEST_PATH}/tests/libkeymap/
+> +    find ${B}/tests/libkeymap/ -type f -not -name "*.o" -not -name "Makefile" \
+> +        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/libkeymap/ \;
+> +    install -d ${D}${PTEST_PATH}/tests/helpers/
+> +    find ${B}/tests/helpers/ -type f -not -name "*.o" -not -name "Makefile" \
+> +        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/helpers/ \;
+> +    install -d ${D}${PTEST_PATH}/tests/libkbdfile/
+> +    find ${B}/tests/libkbdfile/ -type f -not -name "*.o" -not -name "Makefile" \
+> +        -exec install --mode=755 {} ${D}${PTEST_PATH}/tests/libkbdfile/ \;
+> +    install -d ${D}${PTEST_PATH}/src/
+> +    install --mode=755 ${B}/src/loadkeys ${D}${PTEST_PATH}/src/
+> +
+> +    # install files from src/data directory
+> +    install -d ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
+> +    install ${S}/data/keymaps/i386/qwerty/defkeymap.map ${D}${PTEST_PATH}/data/keymaps/i386/qwerty/
+> +
+> +    # install files from src/tests/data directory
+> +    install -d ${D}${PTEST_PATH}/tests/data/
+> +    install -d ${D}${PTEST_PATH}/tests/data/libkeymap/
+> +    install ${S}/tests/data/libkeymap/* ${D}${PTEST_PATH}/tests/data/libkeymap/
+> +    install -d ${D}${PTEST_PATH}/tests/data/alt-is-meta/
+> +    install ${S}/tests/data/alt-is-meta/* ${D}${PTEST_PATH}/tests/data/alt-is-meta/
+> +    install -d ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
+> +    install ${S}/tests/data/bkeymap-2.0.4/* ${D}${PTEST_PATH}/tests/data/bkeymap-2.0.4/
+> +    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
+> +    install ${S}/tests/data/dumpkeys-mktable/* ${D}${PTEST_PATH}/tests/data/dumpkeys-mktable/
+> +    install -d ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
+> +    install ${S}/tests/data/dumpkeys-fulltable/* ${D}${PTEST_PATH}/tests/data/dumpkeys-fulltable/
+> +    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
+> +    install ${S}/tests/data/findfile/test_1/consolefonts/* ${D}${PTEST_PATH}/tests/data/findfile/test_1/consolefonts/
+> +    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
+> +    install ${S}/tests/data/findfile/test_0/keymaps/test0.map ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/
+> +    install ${S}/tests/data/findfile/test_0/keymaps/include/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/include/
+> +    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
+> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/include/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/include/
+> +    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
+> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwerty/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwerty/
+> +    install -d ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
+> +    install ${S}/tests/data/findfile/test_0/keymaps/i386/qwertz/* ${D}${PTEST_PATH}/tests/data/findfile/test_0/keymaps/i386/qwertz/
+> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
+> +    install ${S}/tests/data/keymaps/i386/qwerty/* ${D}${PTEST_PATH}/tests/data/keymaps/i386/qwerty/
+> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
+> +    install ${S}/tests/data/keymaps/i386/include/* ${D}${PTEST_PATH}/tests/data/keymaps/i386/include/
+> +    install -d ${D}${PTEST_PATH}/tests/data/keymaps/include/
+> +    install ${S}/tests/data/keymaps/include/* ${D}${PTEST_PATH}/tests/data/keymaps/include/
+> +
+> +
+> +    # update PTEST_PATH in run-ptest and atconfig
+> +    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
+> +    sed -i -e 's,${B},${PTEST_PATH},g' -e 's,/\.\./kbd-2.5.1,,g' ${D}${PTEST_PATH}/tests/atconfig
+> +}
+> -- 
+> 2.25.1
+> 
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
-new file mode 100644
-index 0000000000..a2644bba8e
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
-@@ -0,0 +1,42 @@
-+From b17826490c1db2051dda23550ebdcd7f10e23479 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 28 Jun 2023 13:49:41 +0800
-+Subject: [PATCH 1/2] legacy.conf.in: Don't create symlink README in this file
-+
-+Commit 6fe23ff31c0 changed README to an symlink to README.logs, and
-+install README.logs under systemd doc dir.
-+
-+But for OE, systemd doc dir is splited into package systemd-doc, when it
-+is not installed on the target, there will be an dead link:
-+Eg:
-+root@intel-x86-64:/var/log# ls -l README
-+lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
-+root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
-+ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
-+
-+So remove this symlink from package systemd
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tmpfiles.d/legacy.conf.in | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
-+index 4f2c0d7c43..62e2ae0986 100644
-+--- a/tmpfiles.d/legacy.conf.in
-++++ b/tmpfiles.d/legacy.conf.in
-+@@ -12,9 +12,6 @@
-+ 
-+ d /run/lock 0755 root root -
-+ L /var/lock - - - - ../run/lock
-+-{% if CREATE_LOG_DIRS %}
-+-L /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
-+-{% endif %}
-+ 
-+ # /run/lock/subsys is used for serializing SysV service execution, and
-+ # hence without use on SysV-less systems.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch b/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
-new file mode 100644
-index 0000000000..47af64f12f
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
-@@ -0,0 +1,41 @@
-+From 865974a2f268ae6b4dab4f37ba39d86e6600180d Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 28 Jun 2023 16:00:13 +0800
-+Subject: [PATCH 2/2] legacy-doc.conf.in: split out the doc related config
-+
-+split out the doc related config, only install this when
-+package systemd-doc is installed.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tmpfiles.d/legacy-doc.conf.in | 3 +++
-+ tmpfiles.d/meson.build        | 1 +
-+ 2 files changed, 4 insertions(+)
-+ create mode 100644 tmpfiles.d/legacy-doc.conf.in
-+
-+diff --git a/tmpfiles.d/legacy-doc.conf.in b/tmpfiles.d/legacy-doc.conf.in
-+new file mode 100644
-+index 0000000000..9b1cef5a18
-+--- /dev/null
-++++ b/tmpfiles.d/legacy-doc.conf.in
-+@@ -0,0 +1,3 @@
-++{% if CREATE_LOG_DIRS %}
-++L /var/log/README - - - - {{DOC_DIR}}/README.logs
-++{% endif %}
-+diff --git a/tmpfiles.d/meson.build b/tmpfiles.d/meson.build
-+index 4d94e3743f..f78bddf136 100644
-+--- a/tmpfiles.d/meson.build
-++++ b/tmpfiles.d/meson.build
-+@@ -31,6 +31,7 @@ endforeach
-+ 
-+ in_files = [['etc.conf',                      ''],
-+             ['legacy.conf',                   'HAVE_SYSV_COMPAT'],
-++            ['legacy-doc.conf',               'HAVE_SYSV_COMPAT'],
-+             ['static-nodes-permissions.conf', ''],
-+             ['systemd.conf',                  ''],
-+             ['var.conf',                      ''],
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-core/systemd/systemd_253.3.bb
-index 87fbf6f785..7db25db617 100644
---- a/meta/recipes-core/systemd/systemd_253.3.bb
-+++ b/meta/recipes-core/systemd/systemd_253.3.bb
-@@ -28,6 +28,8 @@ SRC_URI += " \
-            file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
-            file://27254.patch \
-            file://27253.patch \
-+           file://0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch \
-+           file://0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch \
-            "
- 
- # patches needed by musl
-@@ -760,6 +762,7 @@ FILES:udev += "${base_sbindir}/udevd \
- 
- FILES:udev-hwdb = "${rootlibexecdir}/udev/hwdb.d \
-                    "
-+FILES:${PN}-doc += "${exec_prefix}/lib/tmpfiles.d/legacy-doc.conf"
- 
- RCONFLICTS:${PN} = "tiny-init ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolvconf', '', d)}"
- 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#182045): https://lists.openembedded.org/g/openembedded-core/message/182045
+> Mute This Topic: https://lists.openembedded.org/mt/99258821/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
