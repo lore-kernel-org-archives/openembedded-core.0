@@ -1,275 +1,109 @@
-Return-Path: <peter.hoyes@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96537EB64D9
-	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 15:27:19 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.52.1688052429521546785
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 312E0EB64D9
+	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 19:48:22 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.6686.1688068096598327489
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 08:27:09 -0700
+ Thu, 29 Jun 2023 12:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35157C14;
-	Thu, 29 Jun 2023 08:27:52 -0700 (PDT)
-Received: from e125920.cambridge.arm.com (unknown [10.1.199.64])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE7923F64C;
-	Thu, 29 Jun 2023 08:27:07 -0700 (PDT)
-From: Peter Hoyes <peter.hoyes@arm.com>
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=smOsvvCe;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-76714caf466so96432885a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 12:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1688068095; x=1690660095;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r9QrLaAbRu0KQ7fsE0XRA1ZnLB3XcUjfBY1lBTRc5Jo=;
+        b=smOsvvCeilfDxfvbTJZSVUPMi2ytLjK9/Lbn6cNdQyINRNomlazte5wlaS5v3YO7Gb
+         7Gm39DMC4uOdiJ24sKmAhfwYxAkg+8om3n5BRMi/KHG8Z+ciezWPQBAcxy+4L8Qb4DJp
+         OtIPfCbzQqC6Wv5QBzXOU8xKg4BaAYJYZISVtny2tR/qtK/KNz7GgNbGAPn0kdjIOAs2
+         xYMDrNngYkCpxsLd3XTBVp4u4a7abUlnJJxogeSs1U1pRjjvbXzNumF1pO6ZULWrVv3h
+         bM4HuOrci1G/eTObqy11mWtCOquRvqQ+MxeRVUbPoMIUG5TPaPySVgGfFcmKo+WzSes5
+         aOqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688068095; x=1690660095;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r9QrLaAbRu0KQ7fsE0XRA1ZnLB3XcUjfBY1lBTRc5Jo=;
+        b=WazSIKZ4PpeIl8VLgMBQWwC/yHmy1s5iVuDN0Is+Rl1glCn/0G3aWryJq5dvOREfPA
+         ckf0xe3ewab2LlE5FngnfTiN6xQQM5VAqCDF7/78wD3c/C/fvKyLrNe1ypE4svvxcYso
+         jhxJqZcOqkSYMCXfsKGYC+zb3MfcQa5UM+YoLybHAfiD/RWJZmBXfOpFlP/OGwyyxpFV
+         3aF9pT1vIzHMIgmFhOXEj8dFTbLXAfVnweyadgx+5U6f1dk5yJziEawVZto7Q0fjR1/7
+         KFw1x+QCpxiUeX/i3sx6oXH95NhblpotON8Z2sKoy1zCi8D5AJ5IZigTMIH+IdPP9xAH
+         N6GQ==
+X-Gm-Message-State: ABy/qLbig8s/QJcopboPxVcxkjEajds04QcWtD82NDWtwNsMLs0c/wBv
+	majcKqUvqz0dSXS0x2QibLb/AlpN0ilJGRFBHnU=
+X-Google-Smtp-Source: APBJJlG8AJiosoRQP5ksAh1hTDY4wKzo441UNSBtfF2t+w1fquiO71w69M/Fgu7/zuMAIOI5WZTZuA==
+X-Received: by 2002:a05:620a:bc2:b0:767:1772:4f4b with SMTP id s2-20020a05620a0bc200b0076717724f4bmr261309qki.68.1688068095174;
+        Thu, 29 Jun 2023 12:48:15 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id cx13-20020a05620a51cd00b007339c5114a9sm3502385qkb.103.2023.06.29.12.48.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 12:48:14 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: luca.ceresoli@bootlin.com,
-	Ross.Burton@arm.com,
-	richard.purdie@linuxfoundation.org,
-	Peter Hoyes <Peter.Hoyes@arm.com>
-Subject: [PATCH v3] rootfs-postcommands: Set vardeps for do_write_test_data
-Date: Thu, 29 Jun 2023 16:26:54 +0100
-Message-Id: <20230629152654.2048044-1-peter.hoyes@arm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH] python3: add cgitb, zipapp ptest dependencies
+Date: Thu, 29 Jun 2023 15:48:13 -0400
+Message-ID: <20230629194813.1171680-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 15:27:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183637
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:48:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183638
 
-From: Peter Hoyes <Peter.Hoyes@arm.com>
+Without these, test_cgitb and test_zipapp both fail when running the
+python3 ptests. Since cgitb is deprecated, I have only added it to
+${PN}-ptest's RDEPENDS specifically, but zipapp is more current and
+therefore I've put it in the ${PN}-misc list instead.
 
-The testdata.json file generated by testdata.bbclass currently contains
-almost all Bitbake variables. However only a small number of variables
-are actually used and the testdata.json is not automatically updated
-when the variables are updated.
+Also reorder the ${PN}-misc list to be alphabetical.
 
-Introduce the testdata_vars bbclass which defines TESTDATA_EXPORT_VARS
-to explicitly set the variables to be collected for testdata.json and
-populate with all variables used by runtime and sdk tests in OE-core.
-Use this variable to set the vardeps of do_write_test_data.
-
-Modify export2json to take an explicit list of keys to export, instead
-of exporting everything in the datastore.
-
-Adapt write_sdk_test_data and meta-ide-support to use the same list of
-testdata variables.
-
-Add a demonstrative OE selftest to rootfspostcommandstests.
-
-Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
+ meta/recipes-devtools/python/python3_3.11.4.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Changes from v2:
- * Move TESTDATA_EXPORT_VARS to common testdata_vars.bbclass
- * Update other export2json call sites (eSDK and meta-ide-support)
-
-Tested with:
- * oe-selftest -r rootfspostcommandstests
- * oe-selftest -r sstatetests.SStateHashSameSigs
- * bitbake core-image-sato -c testimage
- * bitbake core-image-sato -c testsdkext
- * bitbake buildtools-tarball buildtools-extended-tarball
- * bitbake meta-ide-support
-
- meta/classes-recipe/populate_sdk_base.bbclass |  5 +++-
- .../rootfs-postcommands.bbclass               |  6 +++-
- meta/classes-recipe/testdata_vars.bbclass     | 30 +++++++++++++++++++
- meta/lib/oe/data.py                           | 17 +----------
- .../selftest/cases/rootfspostcommandstests.py | 19 ++++++++++++
- meta/recipes-core/meta/meta-ide-support.bb    |  5 +++-
- 6 files changed, 63 insertions(+), 19 deletions(-)
- create mode 100644 meta/classes-recipe/testdata_vars.bbclass
-
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
--recipe/populate_sdk_base.bbclass
-index b23ea26d40..ffb06f2062 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -134,11 +134,14 @@ sdk_prune_dirs () {
-     done
- }
-=20
-+inherit testdata_vars
-+
- python write_sdk_test_data() {
-     from oe.data import export2json
-     testdata =3D "%s/%s.testdata.json" % (d.getVar('SDKDEPLOYDIR'), d.ge=
-tVar('TOOLCHAIN_OUTPUTNAME'))
-     bb.utils.mkdirhier(os.path.dirname(testdata))
--    export2json(d, testdata)
-+    keys =3D d.getVar('TESTDATA_EXPORT_VARS').split()
-+    export2json(d, keys, testdata)
- }
-=20
- python write_host_sdk_manifest () {
-diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
-es-recipe/rootfs-postcommands.bbclass
-index 652601b95f..26eddc8c35 100644
---- a/meta/classes-recipe/rootfs-postcommands.bbclass
-+++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-@@ -454,6 +454,8 @@ rootfs_sysroot_relativelinks () {
- }
-=20
- # Generated test data json file
-+inherit testdata_vars
-+
- python write_image_test_data() {
-     from oe.data import export2json
-=20
-@@ -461,8 +463,9 @@ python write_image_test_data() {
-     link_name =3D d.getVar('IMAGE_LINK_NAME')
-     testdata_name =3D os.path.join(deploy_dir, "%s.testdata.json" % d.ge=
-tVar('IMAGE_NAME'))
-=20
-+    keys =3D d.getVar('TESTDATA_EXPORT_VARS').split()
-     searchString =3D "%s/"%(d.getVar("TOPDIR")).replace("//","/")
--    export2json(d, testdata_name, searchString=3DsearchString, replaceSt=
-ring=3D"")
-+    export2json(d, keys, testdata_name, searchString=3DsearchString, rep=
-laceString=3D"")
-=20
-     if os.path.exists(testdata_name) and link_name:
-         testdata_link =3D os.path.join(deploy_dir, "%s.testdata.json" % =
-link_name)
-@@ -471,6 +474,7 @@ python write_image_test_data() {
-                 os.remove(testdata_link)
-             os.symlink(os.path.basename(testdata_name), testdata_link)
- }
-+write_image_test_data[vardeps] +=3D "${TESTDATA_EXPORT_VARS}"
- write_image_test_data[vardepsexclude] +=3D "TOPDIR"
-=20
- # Check for unsatisfied recommendations (RRECOMMENDS)
-diff --git a/meta/classes-recipe/testdata_vars.bbclass b/meta/classes-rec=
-ipe/testdata_vars.bbclass
-new file mode 100644
-index 0000000000..cecbc6d7ca
---- /dev/null
-+++ b/meta/classes-recipe/testdata_vars.bbclass
-@@ -0,0 +1,30 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+# The variables exported to testdata.json for testimage and other simila=
-r tasks
-+TESTDATA_EXPORT_VARS ?=3D "\
-+    ARCH \
-+    DEPLOY_DIR \
-+    DEPLOY_DIR_DEB \
-+    DISTRO_FEATURES \
-+    DL_DIR \
-+    IMAGE \
-+    IMAGE_FEATURES \
-+    libdir \
-+    MACHINE \
-+    MULTILIB_VARIANTS \
-+    PACKAGE_FEED_GPG_NAME \
-+    PTEST_EXPECT_FAILURE \
-+    QEMU_USE_KVM \
-+    SDK_DEPLOY \
-+    SDKPATH \
-+    T \
-+    TEST_LOG_DIR \
-+    TOOLCHAINEXT_OUTPUTNAME \
-+    TUNE_PKGARCH \
-+    VIRTUAL-RUNTIME_init_manager \
-+    WORKDIR \
-+"
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index 37121cfad2..731f2b5b46 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -23,23 +23,8 @@ def typed_value(key, d):
-     except (TypeError, ValueError) as exc:
-         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
-=20
--def export2json(d, json_file, expand=3DTrue, searchString=3D"",replaceSt=
-ring=3D""):
-+def export2json(d, keys2export, json_file, expand=3DTrue, searchString=3D=
-"",replaceString=3D""):
-     data2export =3D {}
--    keys2export =3D []
--
--    for key in d.keys():
--        if key.startswith("_"):
--            continue
--        elif key.startswith("BB"):
--            continue
--        elif key.startswith("B_pn"):
--            continue
--        elif key.startswith("do_"):
--            continue
--        elif d.getVarFlag(key, "func"):
--            continue
--
--        keys2export.append(key)
-=20
-     for key in keys2export:
-         try:
-diff --git a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py b/me=
-ta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-index 44e2c09a6f..fec13ce213 100644
---- a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-+++ b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-@@ -2,6 +2,7 @@
- #
- # SPDX-License-Identifier: MIT
-=20
-+import json
- import os
- import oe
- import unittest
-@@ -95,3 +96,21 @@ class ShadowUtilsTidyFiles(OESelftestTestCase):
-                 unsorted.append(file)
-         if (unsorted):
-             raise Exception("The following files were not sorted by ID a=
-s expected: %s" % unsorted)
-+
-+
-+class TestDataTests(OESelftestTestCase):
-+    def test_vardeps(self):
-+        """
-+        Test that variables changes are reflected in testdata.json
-+        """
-+        test_image =3D "core-image-minimal"
-+        self.write_config('TESTDATA_EXPORT_VARS:append =3D " TEST_VARIAB=
-LE"\nTEST_VARIABLE =3D "VALUE1"')
-+        bitbake(test_image)
-+        self.append_config('TEST_VARIABLE =3D "VALUE2"')
-+        bitbake(test_image)
-+
-+        vars =3D get_bb_vars(('DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'), te=
-st_image)
-+        testdata_json =3D "%s/%s.testdata.json" % (vars['DEPLOY_DIR_IMAG=
-E'], vars['IMAGE_LINK_NAME'])
-+        with open(testdata_json, 'r') as tf:
-+            testdata_vars =3D json.load(tf)
-+        self.assertEqual(testdata_vars['TEST_VARIABLE'], 'VALUE2')
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-co=
-re/meta/meta-ide-support.bb
-index 7f349f673d..3ee796d124 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -22,13 +22,16 @@ python () {
-=20
- addtask populate_ide_support before do_deploy after do_install
-=20
-+inherit testdata_vars
-+
- python do_write_test_data() {
-     from oe.data import export2json
-=20
-     out_dir =3D d.getVar('B')
-     testdata_name =3D os.path.join(out_dir, "%s.testdata.json" % d.getVa=
-r('PN'))
-=20
--    export2json(d, testdata_name)
-+    keys =3D d.getVar('TESTDATA_EXPORT_VARS').split()
-+    export2json(d, keys, testdata_name)
- }
- addtask write_test_data before do_deploy after do_install
-=20
---=20
-2.34.1
+diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipes-devtools/python/python3_3.11.4.bb
+index 6b074c48cf..cdd8bd0ab7 100644
+--- a/meta/recipes-devtools/python/python3_3.11.4.bb
++++ b/meta/recipes-devtools/python/python3_3.11.4.bb
+@@ -406,13 +406,14 @@ INSANE_SKIP:${PN}-ptest = "dev-deps"
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+ RDEPENDS:${PN}-misc += "\
++  ${PN}-audio \
++  ${PN}-codecs \
+   ${PN}-core \
+   ${PN}-email \
+-  ${PN}-codecs \
+-  ${PN}-pydoc \
+-  ${PN}-pickle \
+-  ${PN}-audio \
+   ${PN}-numbers \
++  ${PN}-pickle \
++  ${PN}-pydoc \
++  ${PN}-zipapp \
+ "
+ RDEPENDS:${PN}-modules:append:class-target = " ${MLPREFIX}python3-misc"
+ RDEPENDS:${PN}-modules:append:class-nativesdk = " ${MLPREFIX}python3-misc"
+@@ -426,7 +427,7 @@ FILES:${PN}-man = "${datadir}/man"
+ # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+ RDEPENDS:libpython3:append:libc-glibc = " libgcc"
+ RDEPENDS:${PN}-ctypes:append:libc-glibc = " ${MLPREFIX}ldconfig"
+-RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip2 libgcc tzdata coreutils sed"
++RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgitb unzip bzip2 libgcc tzdata coreutils sed"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-fr-fr locale-base-en-us locale-base-tr-tr locale-base-de-de"
+ RDEPENDS:${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
+ RDEPENDS:${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter ${MLPREFIX}tcl', '', d)}"
+-- 
+2.41.0
 
 
