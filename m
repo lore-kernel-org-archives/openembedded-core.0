@@ -1,164 +1,211 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBCCEB64DD
-	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 08:41:54 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web10.4026.1688028110432834121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A54EB64DC
+	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 09:12:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.4329.1688029927786640384
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 01:41:50 -0700
+ Thu, 29 Jun 2023 02:12:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Tp6XXtMG;
- spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-784f7f7deddso139362241.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 01:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688028109; x=1690620109;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQHq/4SsFi17jPcuZb0XWQ7m9O+oXRVtd30vct7g9KI=;
-        b=Tp6XXtMG+slJGbtq1YgqQnMnzF7VA5yDh0oB2/PgpndVbXnjd5woBn98i/oTKj4I9k
-         iV8jN8O4KNlX71hUU+eXHznofXj/NTq7kp63yIoatQO5uqhjcmuUr6fl7lXoAPP5/iSD
-         RBLrpkR5NXSq42aBYopmE3HO78FE7Ygt3HoOWRhWPi/YJ6ngA5zmAnWofjTQJmO7iVOd
-         9hMLeM9LYjyUv57KyhcJuTAy3i8Hrz2wPe32GxrDsIj7loOlb4oAkhP6do7yAMRLas4l
-         umzQ6Fs9qFxvNCIxsa6lJ0Lej1tyWUgzVpkufY/+w0Xc5sFy+vBx5Te8mgcXklFwChhF
-         Z9vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688028109; x=1690620109;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iQHq/4SsFi17jPcuZb0XWQ7m9O+oXRVtd30vct7g9KI=;
-        b=Pai6G2quFnIBlyLjf0UmNT0mYdj1h5Tj9UsWikVwgXJLA2DRoeiQe51g4/7JuUCYXP
-         UqsP+dlzX/FbkEhInkta+5rchZgUKxFM9VtEYIl9/IioGfyuzTNCU56OEOisWF+sNkEZ
-         v8mi7WSOvvK6eXn+DQL/JYz70sS/hNVXP+SmvatE20GoRX9vyFsFgr3mzuS3WA1jzOwe
-         d0/xVU69uVLxCPqoOwGm+itK8L0iooM26wa+uaIkQcML5PFt/ZipEgFQOndvjSI5hfoa
-         QThzg6xmXIZPnrTHLGj/s+kfuHXCeIg2tfihZ33mmuNJ296J+CTBI0HpeSB29NrfsYJy
-         3vBA==
-X-Gm-Message-State: AC+VfDyMA9+w5Ns7ro77Z/VZxiEB2i7GsCy4dgdHAztNlNq/duooRKPl
-	R+ZYpZRlbaee54o/AwtgJVlCSDnuUI1nUGjierI=
-X-Google-Smtp-Source: ACHHUZ6tXz9mUFYDcB/wY8SQDIPdOhSBKQ0pbuq3k835rCXDdPA1uOZojaZx8xUtQzgObBKZ2YgYO18ngpJWXAzoFEU=
-X-Received: by 2002:a67:f6c2:0:b0:43f:58a1:b22c with SMTP id
- v2-20020a67f6c2000000b0043f58a1b22cmr17476213vso.16.1688028109466; Thu, 29
- Jun 2023 01:41:49 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=sOKA+2UD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=65441b46f9=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T8CVnZ030110
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 02:12:07 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=pLPsr
+	cV4mkNsQ/c3xnoUQBoMqmfiPFF4C1+0DLoMlgg=; b=sOKA+2UDYWXIaHJUnLvgR
+	D8CtdQ2vbk0u+xO00cSWiS2mxO+t7CFiG75HwPWyKrXabU3Y9Mno/SkWQBF61NiC
+	nY/DUW8JmpDoqXT/D80NdiDTr6meSFdrAeZPru1CUFYGn+v9ZhKFcYZY4FDS2eZf
+	bGG3TqJxS0QuqbSvdysU4FHZvP0RvEWvZxY7BEVad2zQ5C0TeFulT/prxC4/UU5R
+	9W9o1JG+EqxSamcgnxubVrEwjayO8/fHDUfepMYnxGfWaYkpALX8VBwO4r8oKe4s
+	w+t2wAivvNlFmFg1/lZWg4dQK8lVkIRlt8gXsCkcT89aQksrpOq6oUWDfxhmY+m7
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdurxvm4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 02:12:07 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 29 Jun 2023 02:12:06 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Thu, 29 Jun 2023 02:12:06 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [mickledore][PATCH] systemd: fix a dead link under /var/log
+Date: Thu, 29 Jun 2023 17:12:05 +0800
+Message-ID: <20230629091205.1038353-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230627101644.881715-1-jose.quaresma@foundries.io>
- <20230627101644.881715-5-jose.quaresma@foundries.io> <1a0b9d4f242c13cb524d587661b02688d607a30e.camel@linuxfoundation.org>
-In-Reply-To: <1a0b9d4f242c13cb524d587661b02688d607a30e.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 29 Jun 2023 09:41:38 +0100
-Message-ID: <CANPvuR=brJ8e3BEiBsj9yTqD+RAYXF4JvN9WzZQQUBjPraY+0Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] init-manager-systemd: add modulesloaddir
- and modprobedir
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000d5f24f05ff40ab67"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: KZA_5pDPZ_cJhLaA9aXAXqxduEPL1j9P
+X-Proofpoint-GUID: KZA_5pDPZ_cJhLaA9aXAXqxduEPL1j9P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-29_01,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ phishscore=0 impostorscore=0 mlxlogscore=886 lowpriorityscore=0
+ spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306290081
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 08:41:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183610
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 09:12:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183611
 
---000000000000d5f24f05ff40ab67
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Changqing Li <changqing.li@windriver.com>
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quarta,
-28/06/2023 =C3=A0(s) 23:03:
+Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
+install README.logs under systemd doc dir.
 
-> On Tue, 2023-06-27 at 10:16 +0000, Jose Quaresma wrote:
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> >
-> > v5: introduced in v5
-> >
-> >  meta/conf/distro/include/init-manager-systemd.inc | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/meta/conf/distro/include/init-manager-systemd.inc
-> b/meta/conf/distro/include/init-manager-systemd.inc
-> > index 7867d90028..4989b93502 100644
-> > --- a/meta/conf/distro/include/init-manager-systemd.inc
-> > +++ b/meta/conf/distro/include/init-manager-systemd.inc
-> > @@ -5,3 +5,7 @@ VIRTUAL-RUNTIME_init_manager ??=3D "systemd"
-> >  VIRTUAL-RUNTIME_initscripts ??=3D "systemd-compat-units"
-> >  VIRTUAL-RUNTIME_login_manager ??=3D "shadow-base"
-> >  VIRTUAL-RUNTIME_dev_manager ??=3D "systemd"
-> > +
-> > +# Use modules-load and modprobe config path distribution specific
-> > +modulesloaddir ?=3D "${libdir}/modules-load.d"
-> > +modprobedir ?=3D "${nonarch_base_libdir}/modprobe.d"
->
-> Not everyone uses INIT_MANAGER and we don't really want these set in
-> every recipe. I think this should be in the bbclass based upon some
-> conditional, not here...
->
-> Cheers,
->
-> Richard
->
+But for OE, systemd doc dir is splited into package systemd-doc, when it
+is not installed on the target, there will be an dead link:
+Eg:
+root@intel-x86-64:/var/log# ls -l README
+lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
+root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
+ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
 
-Sure, I will add it to the kernel-module-split bbclass conditioned to
-systemd dsitro feature.
-That is something I have been thinking about in the first versions.
+Meantime, relative path for a symlink also will meet issue like
+"No such file or directory"
 
---=20
-Best regards,
+So remove this symlink from package systemd, and create legacy-doc.conf,
+only create the symlink when systemd-doc is installed.
 
-Jos=C3=A9 Quaresma
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...on-t-create-symlink-README-in-this-f.patch | 42 +++++++++++++++++++
+ ....in-split-out-the-doc-related-config.patch | 41 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_253.1.bb    |  4 ++
+ 3 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
 
---000000000000d5f24f05ff40ab67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
+new file mode 100644
+index 0000000000..a2644bba8e
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
+@@ -0,0 +1,42 @@
++From b17826490c1db2051dda23550ebdcd7f10e23479 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 28 Jun 2023 13:49:41 +0800
++Subject: [PATCH 1/2] legacy.conf.in: Don't create symlink README in this file
++
++Commit 6fe23ff31c0 changed README to an symlink to README.logs, and
++install README.logs under systemd doc dir.
++
++But for OE, systemd doc dir is splited into package systemd-doc, when it
++is not installed on the target, there will be an dead link:
++Eg:
++root@intel-x86-64:/var/log# ls -l README
++lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
++root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
++ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
++
++So remove this symlink from package systemd
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ tmpfiles.d/legacy.conf.in | 3 ---
++ 1 file changed, 3 deletions(-)
++
++diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
++index 4f2c0d7c43..62e2ae0986 100644
++--- a/tmpfiles.d/legacy.conf.in
+++++ b/tmpfiles.d/legacy.conf.in
++@@ -12,9 +12,6 @@
++ 
++ d /run/lock 0755 root root -
++ L /var/lock - - - - ../run/lock
++-{% if CREATE_LOG_DIRS %}
++-L /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
++-{% endif %}
++ 
++ # /run/lock/subsys is used for serializing SysV service execution, and
++ # hence without use on SysV-less systems.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch b/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
+new file mode 100644
+index 0000000000..47af64f12f
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch
+@@ -0,0 +1,41 @@
++From 865974a2f268ae6b4dab4f37ba39d86e6600180d Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 28 Jun 2023 16:00:13 +0800
++Subject: [PATCH 2/2] legacy-doc.conf.in: split out the doc related config
++
++split out the doc related config, only install this when
++package systemd-doc is installed.
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ tmpfiles.d/legacy-doc.conf.in | 3 +++
++ tmpfiles.d/meson.build        | 1 +
++ 2 files changed, 4 insertions(+)
++ create mode 100644 tmpfiles.d/legacy-doc.conf.in
++
++diff --git a/tmpfiles.d/legacy-doc.conf.in b/tmpfiles.d/legacy-doc.conf.in
++new file mode 100644
++index 0000000000..9b1cef5a18
++--- /dev/null
+++++ b/tmpfiles.d/legacy-doc.conf.in
++@@ -0,0 +1,3 @@
+++{% if CREATE_LOG_DIRS %}
+++L /var/log/README - - - - {{DOC_DIR}}/README.logs
+++{% endif %}
++diff --git a/tmpfiles.d/meson.build b/tmpfiles.d/meson.build
++index 4d94e3743f..f78bddf136 100644
++--- a/tmpfiles.d/meson.build
+++++ b/tmpfiles.d/meson.build
++@@ -31,6 +31,7 @@ endforeach
++ 
++ in_files = [['etc.conf',                      ''],
++             ['legacy.conf',                   'HAVE_SYSV_COMPAT'],
+++            ['legacy-doc.conf',               'HAVE_SYSV_COMPAT'],
++             ['static-nodes-permissions.conf', ''],
++             ['systemd.conf',                  ''],
++             ['var.conf',                      ''],
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd_253.1.bb b/meta/recipes-core/systemd/systemd_253.1.bb
+index f306765168..85d6efb69c 100644
+--- a/meta/recipes-core/systemd/systemd_253.1.bb
++++ b/meta/recipes-core/systemd/systemd_253.1.bb
+@@ -25,6 +25,8 @@ SRC_URI += " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
+            file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
++           file://0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch \
++           file://0002-legacy-doc.conf.in-split-out-the-doc-related-config.patch \
+            "
+ 
+ # patches needed by musl
+@@ -754,6 +756,8 @@ FILES:udev += "${base_sbindir}/udevd \
+ FILES:udev-hwdb = "${rootlibexecdir}/udev/hwdb.d \
+                    "
+ 
++FILES:${PN}-doc += "${exec_prefix}/lib/tmpfiles.d/legacy-doc.conf"
++
+ RCONFLICTS:${PN} = "tiny-init ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolvconf', '', d)}"
+ 
+ INITSCRIPT_PACKAGES = "udev"
+-- 
+2.25.1
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quarta, 28/06/2023 =C3=A0(s) 23:03:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Tue, 2023-06-27 at 10:16 +0000, =
-Jose Quaresma wrote:<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt; <br>
-&gt; v5: introduced in v5<br>
-&gt; <br>
-&gt;=C2=A0 meta/conf/distro/include/init-manager-systemd.inc | 4 ++++<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/=
-conf/distro/include/init-manager-systemd.inc<br>
-&gt; index 7867d90028..4989b93502 100644<br>
-&gt; --- a/meta/conf/distro/include/init-manager-systemd.inc<br>
-&gt; +++ b/meta/conf/distro/include/init-manager-systemd.inc<br>
-&gt; @@ -5,3 +5,7 @@ VIRTUAL-RUNTIME_init_manager ??=3D &quot;systemd&quot;=
-<br>
-&gt;=C2=A0 VIRTUAL-RUNTIME_initscripts ??=3D &quot;systemd-compat-units&quo=
-t;<br>
-&gt;=C2=A0 VIRTUAL-RUNTIME_login_manager ??=3D &quot;shadow-base&quot;<br>
-&gt;=C2=A0 VIRTUAL-RUNTIME_dev_manager ??=3D &quot;systemd&quot;<br>
-&gt; +<br>
-&gt; +# Use modules-load and modprobe config path distribution specific<br>
-&gt; +modulesloaddir ?=3D &quot;${libdir}/modules-load.d&quot;<br>
-&gt; +modprobedir ?=3D &quot;${nonarch_base_libdir}/modprobe.d&quot;<br>
-<br>
-Not everyone uses INIT_MANAGER and we don&#39;t really want these set in<br=
->
-every recipe. I think this should be in the bbclass based upon some<br>
-conditional, not here...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><div><br></div>Sure, I will add it to the kernel-module-=
-split bbclass conditioned to systemd dsitro feature.<div>That is something =
-I have been thinking about in the first versions.<br><div><br></div><span c=
-lass=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gma=
-il_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</di=
-v></div></div></div></div>
-
---000000000000d5f24f05ff40ab67--
 
