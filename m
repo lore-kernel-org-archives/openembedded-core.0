@@ -1,140 +1,164 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50862EB64D9
-	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 08:19:04 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.3789.1688026735453911588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBCCEB64DD
+	for <webhook@archiver.kernel.org>; Thu, 29 Jun 2023 08:41:54 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web10.4026.1688028110432834121
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 01:18:56 -0700
+ Thu, 29 Jun 2023 01:41:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@smile-fr.20221208.gappssmtp.com header.s=20221208 header.b=ZuVu1nV5;
- spf=pass (domain: smile.fr, ip: 209.85.208.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-51d80d81d6eso476834a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 01:18:55 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Tp6XXtMG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-784f7f7deddso139362241.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 01:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20221208.gappssmtp.com; s=20221208; t=1688026734; x=1690618734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KsGDt9b9EB9pWYttRft2humdZNlUY0tdNRKCuZkOP7c=;
-        b=ZuVu1nV5Egwyf+OTkoyzf4kERMIw7iXNQRTiDrfwlPFIRlj8VqbcYqy3u70+nCMcxZ
-         8hy5TFpTELRJi3+bl/WyiFbbRtazTItLlPQThuejeGGDXl551sx/8p5flSR+JmMg2rRo
-         zj3mgkqYmRtmfDB0fzmywS8qPcvmGbDl7sPIHzCRVm2QK98Dyj5J6LtBLIt60YP3goMD
-         K6F+Ptua27wKCI/+wQQcdD/zWlFZFpIs+IbQgSlLhmlMi1JvkihP4N28WkIedXCo0fWJ
-         lOqmP3xy9PhiI9/p4oelyOAgwT8IeLb+e4nA+UzzaLYzzzX1kcsr1XTdCf1Sm84iK/MB
-         AY5Q==
+        d=gmail.com; s=20221208; t=1688028109; x=1690620109;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQHq/4SsFi17jPcuZb0XWQ7m9O+oXRVtd30vct7g9KI=;
+        b=Tp6XXtMG+slJGbtq1YgqQnMnzF7VA5yDh0oB2/PgpndVbXnjd5woBn98i/oTKj4I9k
+         iV8jN8O4KNlX71hUU+eXHznofXj/NTq7kp63yIoatQO5uqhjcmuUr6fl7lXoAPP5/iSD
+         RBLrpkR5NXSq42aBYopmE3HO78FE7Ygt3HoOWRhWPi/YJ6ngA5zmAnWofjTQJmO7iVOd
+         9hMLeM9LYjyUv57KyhcJuTAy3i8Hrz2wPe32GxrDsIj7loOlb4oAkhP6do7yAMRLas4l
+         umzQ6Fs9qFxvNCIxsa6lJ0Lej1tyWUgzVpkufY/+w0Xc5sFy+vBx5Te8mgcXklFwChhF
+         Z9vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688026734; x=1690618734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KsGDt9b9EB9pWYttRft2humdZNlUY0tdNRKCuZkOP7c=;
-        b=HUpGCxTI15am8Gxvp+ADYk5800NM6dDSvaK7+Z1TBiarHnDJUWCNSh9DhVcoGU39sl
-         HMYf5KIJwIxO+8qj3pNq/OXJYG9Xt+e6eKjsfICFUtuSgwrc3USZSeO1WcJZkrSRBfLC
-         x9G6aVPRitXS1+hAvvpJTSwjwhqpvX85p0nYvt5IpmSZG7CpG+o0njPvHIZuxmJaUH/U
-         zhR/3ytummIeYGBifMerM3EL3JdI0DSK4H8XkvsVDSUS+V6+fULjcxgY1X9JNxdVVfuS
-         Xjw831YUhLXfHjs1LIP2ZeEzEWmPr/1pZ0I/ignyRQrdQixLRXfmdGVZeZHqmB4VMldQ
-         KT0A==
-X-Gm-Message-State: AC+VfDyXvboRARf2Z7IdolIFiRHucoLZ2PJVAnHzS9ais0jvhGfBhKpf
-	HSbTfd2lSpwAEhdGQuInibULsY6deNHK3sgQ19kFTQ==
-X-Google-Smtp-Source: ACHHUZ7DYWW5dMtt38NCTrjFkiMJdld4ftGT/dhjPqmT7/KmumlCIKwIf2QIbJ9XOCVON4QTuLXi+f8oqoEjpy2ZPpY=
-X-Received: by 2002:aa7:ca55:0:b0:51d:9e0c:1396 with SMTP id
- j21-20020aa7ca55000000b0051d9e0c1396mr6300712edt.35.1688026733633; Thu, 29
- Jun 2023 01:18:53 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688028109; x=1690620109;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iQHq/4SsFi17jPcuZb0XWQ7m9O+oXRVtd30vct7g9KI=;
+        b=Pai6G2quFnIBlyLjf0UmNT0mYdj1h5Tj9UsWikVwgXJLA2DRoeiQe51g4/7JuUCYXP
+         UqsP+dlzX/FbkEhInkta+5rchZgUKxFM9VtEYIl9/IioGfyuzTNCU56OEOisWF+sNkEZ
+         v8mi7WSOvvK6eXn+DQL/JYz70sS/hNVXP+SmvatE20GoRX9vyFsFgr3mzuS3WA1jzOwe
+         d0/xVU69uVLxCPqoOwGm+itK8L0iooM26wa+uaIkQcML5PFt/ZipEgFQOndvjSI5hfoa
+         QThzg6xmXIZPnrTHLGj/s+kfuHXCeIg2tfihZ33mmuNJ296J+CTBI0HpeSB29NrfsYJy
+         3vBA==
+X-Gm-Message-State: AC+VfDyMA9+w5Ns7ro77Z/VZxiEB2i7GsCy4dgdHAztNlNq/duooRKPl
+	R+ZYpZRlbaee54o/AwtgJVlCSDnuUI1nUGjierI=
+X-Google-Smtp-Source: ACHHUZ6tXz9mUFYDcB/wY8SQDIPdOhSBKQ0pbuq3k835rCXDdPA1uOZojaZx8xUtQzgObBKZ2YgYO18ngpJWXAzoFEU=
+X-Received: by 2002:a67:f6c2:0:b0:43f:58a1:b22c with SMTP id
+ v2-20020a67f6c2000000b0043f58a1b22cmr17476213vso.16.1688028109466; Thu, 29
+ Jun 2023 01:41:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230628070939.1298739-1-yoann.congal@smile.fr> <213c079050886cbd2e74fa048b83b0d36e5c82f4.camel@linuxfoundation.org>
-In-Reply-To: <213c079050886cbd2e74fa048b83b0d36e5c82f4.camel@linuxfoundation.org>
-From: Yoann CONGAL <yoann.congal@smile.fr>
-Date: Thu, 29 Jun 2023 10:18:27 +0200
-Message-ID: <CAMSfU+5wJtO_JARqLorXFsor8S7OAzzDLs1ux35O2X3pts8RXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/devtool: add unit test for
- "devtool add -b"
+References: <20230627101644.881715-1-jose.quaresma@foundries.io>
+ <20230627101644.881715-5-jose.quaresma@foundries.io> <1a0b9d4f242c13cb524d587661b02688d607a30e.camel@linuxfoundation.org>
+In-Reply-To: <1a0b9d4f242c13cb524d587661b02688d607a30e.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 29 Jun 2023 09:41:38 +0100
+Message-ID: <CANPvuR=brJ8e3BEiBsj9yTqD+RAYXF4JvN9WzZQQUBjPraY+0Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/5] init-manager-systemd: add modulesloaddir
+ and modprobedir
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org, 
-	Fawzi KHABER <fawzi.khaber@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="000000000000d5f24f05ff40ab67"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 08:19:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183609
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 08:41:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183610
 
-Le mer. 28 juin 2023 =C3=A0 21:47, Richard Purdie
-<richard.purdie@linuxfoundation.org> a =C3=A9crit :
->
-> On Wed, 2023-06-28 at 09:09 +0200, Yoann Congal wrote:
-> > From: Fawzi KHABER <fawzi.khaber@smile.fr>
-> >
-> > Fix [Yocto #15085]
-> >
-> > Signed-off-by: Fawzi KHABER <fawzi.khaber@smile.fr>
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+--000000000000d5f24f05ff40ab67
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quarta,
+28/06/2023 =C3=A0(s) 23:03:
+
+> On Tue, 2023-06-27 at 10:16 +0000, Jose Quaresma wrote:
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 > > ---
-> >  meta/lib/oeqa/selftest/cases/devtool.py | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
 > >
-> > diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/se=
-lftest/cases/devtool.py
-> > index 4c8e375d00..c5ed8f5720 100644
-> > --- a/meta/lib/oeqa/selftest/cases/devtool.py
-> > +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-> > @@ -366,6 +366,29 @@ class DevtoolAddTests(DevtoolBase):
-> >              bindir =3D bindir[1:]
-> >          self.assertTrue(os.path.isfile(os.path.join(installdir, bindir=
-, 'pv')), 'pv binary not found in D')
+> > v5: introduced in v5
 > >
-> > +    def test_devtool_add_binary(self):
-> > +        # Test "devtool add -b" with an arbitrary binary package from =
-Yocto mirrors
-> > +        pn =3D 'pvr-bin-cdv-devel'
-> > +        pv =3D '1.0.3-1.1'
-> > +        url =3D 'http://downloads.yoctoproject.org/mirror/sources/pvr-=
-bin-cdv-devel-1.0.3-1.1.i586.rpm'
+> >  meta/conf/distro/include/init-manager-systemd.inc | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/meta/conf/distro/include/init-manager-systemd.inc
+> b/meta/conf/distro/include/init-manager-systemd.inc
+> > index 7867d90028..4989b93502 100644
+> > --- a/meta/conf/distro/include/init-manager-systemd.inc
+> > +++ b/meta/conf/distro/include/init-manager-systemd.inc
+> > @@ -5,3 +5,7 @@ VIRTUAL-RUNTIME_init_manager ??=3D "systemd"
+> >  VIRTUAL-RUNTIME_initscripts ??=3D "systemd-compat-units"
+> >  VIRTUAL-RUNTIME_login_manager ??=3D "shadow-base"
+> >  VIRTUAL-RUNTIME_dev_manager ??=3D "systemd"
 > > +
-> > +        self.track_for_cleanup(self.workspacedir)
-> > +        self.add_command_to_tearDown('bitbake -c cleansstate %s' % pn)
-> > +        self.add_command_to_tearDown('bitbake-layers remove-layer */wo=
-rkspace')
-> > +
-> > +        # Test devtool add -b
-> > +        result =3D runCmd('devtool add  -b %s %s' % (pn, url))
-> > +        self.assertExists(os.path.join(self.workspacedir, 'conf', 'lay=
-er.conf'), 'Workspace directory not created')
-> > +
-> > +        # Test devtool build
-> > +        result =3D runCmd('devtool build %s' % pn)
-> > +        bb_vars =3D get_bb_vars(['D', 'bindir'], pn)
-> > +        installdir =3D bb_vars['D']
-> > +        self.assertTrue(installdir, 'Could not query installdir variab=
-le')
-> > +
-> > +        # Check that a known file from the binary package has indeed b=
-een installed
-> > +        self.assertTrue(os.path.isfile(os.path.join(installdir, 'usr',=
- 'include', 'EGL', 'egl.h')), 'egl.h not found in D')
-> > +
-> >      def test_devtool_add_git_local(self):
-> >          # We need dbus built so that DEPENDS recognition works
-> >          bitbake('dbus')
+> > +# Use modules-load and modprobe config path distribution specific
+> > +modulesloaddir ?=3D "${libdir}/modules-load.d"
+> > +modprobedir ?=3D "${nonarch_base_libdir}/modprobe.d"
 >
+> Not everyone uses INIT_MANAGER and we don't really want these set in
+> every recipe. I think this should be in the bbclass based upon some
+> conditional, not here...
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5437/st=
-eps/14/logs/stdio
+> Cheers,
 >
-> There are systems where rpm doesn't exist so the test can fail?
+> Richard
+>
 
-Yeah you are right !
-I need to find a binary package available from yocto mirrors that can
-be extracted with HOSTTOOLS.
-If I can't find this, I'll build the binary package directly in the test.
+Sure, I will add it to the kernel-module-split bbclass conditioned to
+systemd dsitro feature.
+That is something I have been thinking about in the first versions.
 
-I will send a v2.
-
-Regards,
 --=20
-Yoann Congal
-Smile ECS - Tech expert
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000d5f24f05ff40ab67
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia quarta, 28/06/2023 =C3=A0(s) 23:03:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Tue, 2023-06-27 at 10:16 +0000, =
+Jose Quaresma wrote:<br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
+ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt; v5: introduced in v5<br>
+&gt; <br>
+&gt;=C2=A0 meta/conf/distro/include/init-manager-systemd.inc | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/=
+conf/distro/include/init-manager-systemd.inc<br>
+&gt; index 7867d90028..4989b93502 100644<br>
+&gt; --- a/meta/conf/distro/include/init-manager-systemd.inc<br>
+&gt; +++ b/meta/conf/distro/include/init-manager-systemd.inc<br>
+&gt; @@ -5,3 +5,7 @@ VIRTUAL-RUNTIME_init_manager ??=3D &quot;systemd&quot;=
+<br>
+&gt;=C2=A0 VIRTUAL-RUNTIME_initscripts ??=3D &quot;systemd-compat-units&quo=
+t;<br>
+&gt;=C2=A0 VIRTUAL-RUNTIME_login_manager ??=3D &quot;shadow-base&quot;<br>
+&gt;=C2=A0 VIRTUAL-RUNTIME_dev_manager ??=3D &quot;systemd&quot;<br>
+&gt; +<br>
+&gt; +# Use modules-load and modprobe config path distribution specific<br>
+&gt; +modulesloaddir ?=3D &quot;${libdir}/modules-load.d&quot;<br>
+&gt; +modprobedir ?=3D &quot;${nonarch_base_libdir}/modprobe.d&quot;<br>
+<br>
+Not everyone uses INIT_MANAGER and we don&#39;t really want these set in<br=
+>
+every recipe. I think this should be in the bbclass based upon some<br>
+conditional, not here...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><div><br></div>Sure, I will add it to the kernel-module-=
+split bbclass conditioned to systemd dsitro feature.<div>That is something =
+I have been thinking about in the first versions.<br><div><br></div><span c=
+lass=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gma=
+il_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</di=
+v></div></div></div></div>
+
+--000000000000d5f24f05ff40ab67--
 
