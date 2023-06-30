@@ -1,235 +1,515 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E756CEB64DD
-	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 02:33:54 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.3946.1688092426058727234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB65FEB64DA
+	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 05:18:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.5944.1688102325512449655
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 19:33:46 -0700
+ Thu, 29 Jun 2023 22:18:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=GmqCWRlT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-666edfc50deso873398b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092425; x=1690684425;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+guoK+tclAXIgd4z6ieJxVKcVuYE/9HfWA1VC5a9mmY=;
-        b=GmqCWRlTFtHnz9fIM6jNK/4gv17HTpBMw8+f/7x1+9POd35TOp+utdznqfYeX6xqmy
-         +UxnSeSztkJtY2UevT8WDLhr5iyrdgUEAWWg74mKT2GlVvg4iVNJLx14civ0VYql5pNj
-         H2dEmhp3vITTzU/NZSorOKwccs96g+duuaZNIDF4Zjih7KHBV0U5VHDHsFngYpaW1wks
-         +ZrCGz1bO8U/maeuQledTvw+icPf8ImVIhl+KQ2Y5w4GQJBohdP9hMeJKVPAKxoa8Hys
-         C3c6YT4cmv288XXCH1B5CW+/gtqUiExP2Yjba4zADTTQkllsHWStYQ2iNiXXIioz09DV
-         aFDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688092425; x=1690684425;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+guoK+tclAXIgd4z6ieJxVKcVuYE/9HfWA1VC5a9mmY=;
-        b=HcOpCr2Wx/+t69LUQWxqa3FYSI4pFZPTcbyR8O4jjuoEDAapNgf3465sKu6gdXBjl4
-         iblCyiCB2BEcBGVo+90frh9dmYorjY7oB7E2AWPQ6TJKM8xKkFvRyuyJi2dPd7/bQm2E
-         +OPGG4560zPZu1E0Kq+x7Zqp9msYRixGlVSo0T2j534gQjOS+phEw6VphRHZtXAYxZPS
-         7SfxNeL85tX8ONstvRrT5Stdpnr3fV1vRSRtgAKZa/r95m0tuKSIGhax9rmIRpd3LrhR
-         VgNPi8uyHbS3nluD5QiPMM1NtQdjDyYdsCGnRRTxrkoW+klodBqVljcXWop5nTNCVKDy
-         H68g==
-X-Gm-Message-State: AC+VfDxAlIStOnelrKAL71XPyvmu0dnDHkbcml1DO0JBm8q7MTU28Btr
-	h8NZPFPthsIhUbJUR08WcELb3PU3/3ZVnooMtEairA==
-X-Google-Smtp-Source: ACHHUZ6GT3Qv2/3KQoDYiVygxCleKV0ZXR44PH+bsZ+Sg+54Hrx1dwSnbL8sl4g0mVoGGrK7ry4CJg==
-X-Received: by 2002:a05:6a00:1402:b0:67a:72d5:3365 with SMTP id l2-20020a056a00140200b0067a72d53365mr8630801pfu.6.1688092424979;
-        Thu, 29 Jun 2023 19:33:44 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id l22-20020a62be16000000b006815fbe3245sm3028607pff.37.2023.06.29.19.33.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 19:33:44 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/10] linux-yocto/5.4: update to v5.4.248
-Date: Thu, 29 Jun 2023 16:33:21 -1000
-Message-Id: <ff0f134daad2e1cae942355c9a8eb177be607d13.1688092252.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1688092252.git.steve@sakoman.com>
-References: <cover.1688092252.git.steve@sakoman.com>
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=QKCMWjtU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65456dd8b3=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 35U5A2T9026891
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 05:18:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=Cy57U0VNFl1qtS6ZFyic+nXLOamd4pK6sX0mpGqruso=; b=
+	QKCMWjtU5xl/AHijeu2QqyAZRqxjgVGAvcNmVqh5YfwPn4Q/mhBKLTgtd/5jE7dY
+	1ryejak2Gzkm2c+CNkD/8Fdjd7IXmX/BOj2FT0dc3XJslnEHS4JIWMNpiEyvLt+Q
+	Vm4tr6VBHHq/KrGk4rWxPMxIrjsyYsRxPfXPEsCUdiZasLlfrxtaxNNqont82H9F
+	23RhzglPs9oBSgnTjAm9CSftrpb1He7K1ZWDP6/x/yIrftkFU22aO1FnDAPmwrn9
+	Z7mqNiFaCxAUbtLcgEuvYlKlN+MgJ+n6i2KRJciND7sOT95wKeXCi3NtsWya6pw6
+	jGQrNd3O5oE+4HrPkY5mNQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb5ht2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 05:18:44 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 35U5Ihrx007698;
+	Fri, 30 Jun 2023 05:18:43 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2047.outbound.protection.outlook.com [104.47.56.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rdpqb5ht1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 30 Jun 2023 05:18:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=URT66Gl0190/fFNVyFCyKVlCalMSi1hlGtPyoMOIGbWx1JRJ629CNfaQpfs0UjZAgp2qTdsG6YZDLBECRIwiZTTBiYnTErVsX+7F4a1LYB8kjf/hhfG8+AV5CL/lKAQw317w5aWYoFtpsep6O6RnT42z7UejzB0aP9GqV6VSL8bE42XxvtK84/sRCzRP9QiyLXsX8xlZo/j+WxmbByDqwK47evKFsQWtiPAlnpY1xADEXD+7QYL/CJvMx1qJPKW1GuhApFJ2zPM+MJeWxbmdhlodZZSdM2Wrqrpp9q04cJqE3YG9WFGN3PhdDUm6OqpvgyMqfQmL1JWKaU9/H8BTgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cy57U0VNFl1qtS6ZFyic+nXLOamd4pK6sX0mpGqruso=;
+ b=egeUj1k4qjD94WPGEmfHI8Drw13Q73NTrVnZem0IF6Ofcs2a2nGwFrFshzQkCve0Gv6hGUM3cpXsCA+HS/4MsScBRW0GD/xAmWUh4QPHOcs02xIzcvC2Jx/6IMF73Qcrz/yDN91MWnWEr97YVwSeTuR+O1Ijtegw7IGxNN9vjX20Htb2upHvuFaNfY50DaTSJi0gHPQBrj6u7j8ViQhWwFgzef9+wIo4Vv+pAwmGcTQpnmXfdWgrE5hFRHV3p0wE1fOpWTYwKYR/acfRm33k/1PCUHO0rX99QwKUkA197Rl+XzCq8KiFgi8PQf3g2bpeCNFbiaS45KHT+1vMxUdlZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BN7PR11MB2548.namprd11.prod.outlook.com (2603:10b6:406:b3::19)
+ by SJ0PR11MB5039.namprd11.prod.outlook.com (2603:10b6:a03:2da::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 30 Jun
+ 2023 05:18:39 +0000
+Received: from BN7PR11MB2548.namprd11.prod.outlook.com
+ ([fe80::1725:89dc:a7a3:7472]) by BN7PR11MB2548.namprd11.prod.outlook.com
+ ([fe80::1725:89dc:a7a3:7472%5]) with mapi id 15.20.6521.026; Fri, 30 Jun 2023
+ 05:18:39 +0000
+Message-ID: <87891f93-d265-f58f-f16b-639641a43d24@windriver.com>
+Date: Fri, 30 Jun 2023 13:18:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] [mickledore][PATCH 1/2] erofs-utils: update 1.5 -> 1.6
+Content-Language: en-US
+To: Steve Sakoman <steve@sakoman.com>,
+        Changqing Li <changqing.li@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230627070552.2017915-1-changqing.li@windriver.com>
+ <CAOSpxdYytw7y9EJ2BQ9h+HgY5WakQwO-vW10q3c3Fpcf9rZiaQ@mail.gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <CAOSpxdYytw7y9EJ2BQ9h+HgY5WakQwO-vW10q3c3Fpcf9rZiaQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TYCPR01CA0150.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b7::19) To BN7PR11MB2548.namprd11.prod.outlook.com
+ (2603:10b6:406:b3::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2548:EE_|SJ0PR11MB5039:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fa93664-edaa-4ea2-dee7-08db79297610
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	5gZzNFA/2gBSCcyG0kwz0yKLilSvFxiK/lMEKwXeG2L+KMVozyLSHRoFtoFXUxJ4GplmBVhoMf0FC8MokBO9bvQkeHB5e8lJAD1gLpDPo15hq+Cy4cktjXYSKuiIO8qnx2b77fpuo+0sPImtPbuhnj8OJ2HRr/snT8nhVclFlMHFRe7v2v58Uy5M3/KrH/R5y3wGSrhyMdOyLCTikcpLyQ1K1kReMj7wuutNk9gC/68gJZMmNX1BVc1NJe0aQM/4+GOw9Z6PdLA7KOWD7rsocV93cGR0QW1y+QrbR8eLtHSBpelkGYsszFNdkTwTziZHsaO2OQGKNN0IkahrajSFJYWXZ8S//Yd1XNe1lCxuXJ+lADcS0r4U9Fz9rWI2xNci+Ssy0Upewz2sNCVSYWgBNz/23xPi9O5MbRfZLJQfhQmGXGhS8oKVseF3lYyH05k2MOjV9z8xPK9iKzQAx9htwO4ggdnWYvFb2OXho3lh5hrdffbRGDHqITUEfpwCOA4jAUPvX9nSjQ603eOiqf2JQN0r+6bB+GulinzbaeT75PVsEHB0EoPTjogl/f6hvI1Xf7OQQsmto6P7J7CrGIln3IDqcikIQXUT/BJCeU5+taL/BH+qie+kynDqvxx9HYQuOAJwPhmS6GvnlrnkEOhtONDGezHdZ4rwwRHz8OfNEwzEoGz9d6uTpV6vhglCdICD
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2548.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(366004)(136003)(346002)(39850400004)(451199021)(83380400001)(110136005)(6666004)(478600001)(6486002)(966005)(66946007)(2906002)(186003)(26005)(30864003)(66476007)(66556008)(6512007)(53546011)(6506007)(316002)(41300700001)(44832011)(38100700002)(5660300002)(8676002)(8936002)(15650500001)(36756003)(4326008)(86362001)(31696002)(2616005)(31686004)(66899021)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?QjRGL0RZQjd6cGZ6VEthNTJ2aWJzWTlvaFhCcGo5cGpraVN3elZUakJNK1pJ?=
+ =?utf-8?B?WTF5SWtRb2JtdyszZFY0dGM0cXd1Z1lJdDZSc0NqL0pCSUtIT2tHS0hWbFVP?=
+ =?utf-8?B?aDJJbFVYRHNBQkNOazFxRG1iQUZ5MGF6NHVuWXdGb3VOTnBPcE5ibWZuSU5Z?=
+ =?utf-8?B?YzQ0TENWQ2hPblJ3cVBjb2hSYUFiK0ZCL0U4eUUrUEdPZGNwaUF0Z1lsWnJ6?=
+ =?utf-8?B?OTVwbkdRaFE2UXJ3MURSZG1EOFdXWXIvTE8yUHc5UXRoOFlrdGFxYW1sRFR4?=
+ =?utf-8?B?QU11NURHck5xOXZ0Qk9ybTRiMndhejhIZnp4eFNOSjZWL09idmhjWGx6TmJo?=
+ =?utf-8?B?U1ZSeXo4Mkl4eTQ3WXBNOFlCeHlDUW1kS0xML0lRVjRGSnFQSmNndnJtV1Qy?=
+ =?utf-8?B?LytGbWRoOFZlMFJXelNYeVBNdmQxUGRudGViNWFwVWREdWk4ZC9ZU20vUFFS?=
+ =?utf-8?B?T3FnTlBUUXA4Mm5raUlZUFl0REdpbzVUOUljNG1yM0QvL3ZZTVVaQnBQc252?=
+ =?utf-8?B?ZjFXV1F6eHpVUFlOKzhuZkxvUnU3SzlhTEdaZ3cxcURFTWJMNkR1cys3OTZ3?=
+ =?utf-8?B?TzRtNjl3UnlwVGJQRkZuZzhFenEvZVhmWlU1ZWtTaWRpSk5SblQ0eDBQRVh0?=
+ =?utf-8?B?K3VmU0k1Z3dxeDdZNUhucEwyOU43YW5BR1F4WTc1OEhRb0hUY2lhRlFjeDd0?=
+ =?utf-8?B?bXZ5NjYxNmlvUXNVNXAweTIzd1NBVmVCWitSeXF0UVlvSnVNQTUxMVFvTGdH?=
+ =?utf-8?B?YkhheTA1Y01jMDNoSHJrdkFNTlROM0ZvQ2IvcU01UWxBWlBvcEhoN2JpdnZk?=
+ =?utf-8?B?K2FIWHU3SDlHd3BLN2k1SjFQQnZuTU9IenpBZ3Uramcyc2ZLQitMaFpBMklj?=
+ =?utf-8?B?eHdQNTdQOUU0YVJZYmdCaHBwdDJnS1BTUGkrb055VGZKVDB2ZlNueko5dUNM?=
+ =?utf-8?B?alU4OGt0TkVLUVRBWFpRRWxJdkIzT0VmK2RCYWdvNGZ3bTlQdENNS09pWDB1?=
+ =?utf-8?B?WGg2SlY3cVNTdUpvb0ZsWjJ2VWJBbkdicVI0ZEI3MGVqTnV4SkF0VlRLVGNY?=
+ =?utf-8?B?SG1SejA1QUY3OGswZmxaYXdmOTV0SDg0SXBGbk4zR1RUWXdFdjRZVURPM3RL?=
+ =?utf-8?B?ek1FZVRpckJsQnZuRUMzZkU1aytRWkxSYTBqdHdLeUNndUc5Y21BdW1ERjdG?=
+ =?utf-8?B?Q3VzZUFqQmFkOEN6MEVRakNhOG9qZlJyMFgxU2lLOFRzTUUyQkduYXdEL211?=
+ =?utf-8?B?T0pLSS9iZzBlR1MzWVgxZ1EwaFFjSGRDanVLcVZJSmZPQld3RENpdW1ZSTdH?=
+ =?utf-8?B?N3NjSlpXdVRFZ3cvaitlMUxFSyt3dFc4UjdJV3IvRXpUL3hwTzE0U0dlNGU3?=
+ =?utf-8?B?N081cUtic01MNkpKeHNyV2FVcWFGN1dUSllBYlh4TDhoRmEzWWlDK2tYMlZG?=
+ =?utf-8?B?U20vejN1WlJjSndFOVFneHQ1N21Eb0JtUEtreGhyU0xtRHpUUTJZM09kMGdH?=
+ =?utf-8?B?NlVUVUJlK0RYUUtlaDlTOEN6ZmoxY3orOVRjT3JFZG9TckhYSEVkbHpCSmx5?=
+ =?utf-8?B?VWNyNWF5SzVVY09JRFJjdTYraEZ3dDVaMEFwa0I3bWhpTG4xOGdFVGY1MDBh?=
+ =?utf-8?B?T1J5dkU1RXJMRUN4NERvT1QyRjE1M1hLWEc3cHhyOGRkZEt1eW9xSzJPZnVU?=
+ =?utf-8?B?NmJxTmtBQnJMVFhhT3h0RTQ2YU53QmdLVjVuc1VDNjFqZ2JYaVR2ZVBDK3JO?=
+ =?utf-8?B?dUR0QVkwZFNwbVV0dG04bUZWV1lmOEpLVU9mcFlYZU5KcUsrb1ovTjMvWjB4?=
+ =?utf-8?B?ZmdXdHpQSGpRUUYrM0dGeGo4QlB3TWNmd29nZVVGcjBObHR0QkV2RXNGNnZT?=
+ =?utf-8?B?OERSUHYxNVg5N3lsNmVoeXRpUlcrbkoxWWgyRlNveTdNb3FqUmlxY1pydyt3?=
+ =?utf-8?B?OHJxL2p6aEVmR2YzeU95NGNrTDRya01hTXBVSHJ5RmxTUzRBakhvMEpsNkdW?=
+ =?utf-8?B?SnFOQTB0ek5pSmdDOHpyMC9BZmpxZmhvMWh1STk1WU9wRVh3dTRuMkI5NUdp?=
+ =?utf-8?B?c3Y3bHB0S3lQT0Exbk1CSUNpUFc0bUFXWEJnVFFPQ01DWURUdWt2MHhRb3VN?=
+ =?utf-8?B?eTJ2cEdwVktrUVYrV1lPdnFhcTZuZjRsdnRXcnVtNG5oRkd3MHFrSXpRTmhv?=
+ =?utf-8?B?UkE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fa93664-edaa-4ea2-dee7-08db79297610
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2548.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 05:18:38.7093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vj0WSkoyOKM+3FU8NKwyxI0G6EXk6WLl64IUFlp4OKhR1DFZoAwylnK4936K0UWP0TOGMa3ebkIYYYiBbsRQ4z9ObboJpsrcC97v9ojBIZo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5039
+X-Proofpoint-ORIG-GUID: Y6TsXh-R-JBh01mFd_btHZv2ATkCS06Z
+X-Proofpoint-GUID: odIAtAP2bDoUnUsnLx3TOlDxrFGUycN5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-30_02,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2305260000 definitions=main-2306300045
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 35U5A2T9026891
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 02:33:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183679
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 05:18:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183682
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+On 6/28/23 22:24, Steve Sakoman wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> Sorry, I can only take bug/security fix version bumps .  This update
+> includes new features:
+>
+> erofs-utils 1.6
+> * This release includes the following updates:
+> - support fragments by using `-Efragments` (Yue Hu);
+> - support compressed data deduplication by using `-Ededupe` (Ziyang Zha=
+ng);
+> - (erofsfuse) support extended attributes (Huang Jianan);
+> - (mkfs.erofs) support multiple algorithms in a single image (Gao Xiang=
+);
+> - (mkfs.erofs) support chunk-based sparse files (Gao Xiang);
+> - (mkfs.erofs) add volume-label setting support (Naoto Yamaguchi);
+> - (mkfs.erofs) add uid/gid offsetting support (Naoto Yamaguchi);
+> - (mkfs.erofs) pack files entirely by using `-Eall-fragments` (Gao Xian=
+g);
+> - various bugfixes and cleanups;
+>
+> I assume this also means that I can't take the second patch in the
+> series (the CVE backports)
 
-    f2b499c27a95 Linux 5.4.248
-    1cdc48aaff18 mmc: block: ensure error propagation for non-blk
-    de517032ee39 drm/nouveau/kms: Fix NULL pointer dereference in nouveau_connector_detect_depth
-    d3f7f557d8a2 neighbour: delete neigh_lookup_nodev as not used
-    a433b85d1750 net: Remove unused inline function dst_hold_and_use()
-    fbc0209ae3a7 neighbour: Remove unused inline function neigh_key_eq16()
-    bc1ea55bf1cf afs: Fix vlserver probe RTT handling
-    98acd5f0ce10 selftests/ptp: Fix timestamp printf format for PTP_SYS_OFFSET
-    1140f8bc29c2 net: tipc: resize nlattr array to correct size
-    b83f86ba414c net: lapbether: only support ethernet devices
-    ec694ad393cc net/sched: cls_api: Fix lockup on flushing explicitly created chain
-    0456f470fa02 drm/nouveau: add nv_encoder pointer check for NULL
-    b1d76d16af2a drm/nouveau/kms: Don't change EDID when it hasn't actually changed
-    f654b8a1325f drm/nouveau/dp: check for NULL nv_connector->native_mode
-    2ac7be7718a1 igb: fix nvm.ops.read() error handling
-    44008337f80e sctp: fix an error code in sctp_sf_eat_auth()
-    edd3d3dc4849 ipvlan: fix bound dev checking for IPv6 l3s mode
-    6718478c18a4 IB/isert: Fix incorrect release of isert connection
-    f8a91a024ab9 IB/isert: Fix possible list corruption in CMA handler
-    8a867ab71302 IB/isert: Fix dead lock in ib_isert
-    22125be516ef IB/uverbs: Fix to consider event queue closing also upon non-blocking mode
-    ea4cf04d3f19 iavf: remove mask from iavf_irq_enable_queues()
-    19a500f530c2 RDMA/rxe: Fix the use-before-initialization error of resp_pkts
-    42ab73534583 RDMA/rxe: Removed unused name from rxe_task struct
-    f99b6de58b5e RDMA/rxe: Remove the unused variable obj
-    46305daf8064 net/sched: cls_u32: Fix reference counter leak leading to overflow
-    88d6c1958bc0 ping6: Fix send to link-local addresses with VRF.
-    474e0adf29cf netfilter: nfnetlink: skip error delivery on batch in case of ENOMEM
-    67cafcd3e661 spi: fsl-dspi: avoid SCK glitches with continuous transfers
-    8231594e21d1 spi: spi-fsl-dspi: Remove unused chip->void_write_data
-    9d8b388a24c6 usb: dwc3: gadget: Reset num TRBs before giving back the request
-    94e52fac1519 serial: lantiq: add missing interrupt ack
-    b577b74f8f83 USB: serial: option: add Quectel EM061KGL series
-    6b1203ae83c3 Remove DECnet support from kernel
-    aad6addc17ae ALSA: hda/realtek: Add a quirk for Compaq N14JP6
-    def7e17c98f7 net: usb: qmi_wwan: add support for Compal RXM-G1
-    74bd53737372 RDMA/uverbs: Restrict usage of privileged QKEYs
-    a8997ffad359 nouveau: fix client work fence deletion race
-    01fd784b0762 powerpc/purgatory: remove PGO flags
-    b16bf76b3828 kexec: support purgatories with .text.hot sections
-    b27a5fbe3c87 nilfs2: fix possible out-of-bounds segment allocation in resize ioctl
-    0dd2d8331eb4 nilfs2: fix incomplete buffer cleanup in nilfs_btnode_abort_change_key()
-    e1fb47f13970 nios2: dts: Fix tse_mac "max-frame-size" property
-    5e531f448e5a ocfs2: check new file size on fallocate call
-    f6878da39f47 ocfs2: fix use-after-free when unmounting read-only filesystem
-    82173fde61c7 drm:amd:amdgpu: Fix missing buffer object unlock in failure path
-    63afd766211b xen/blkfront: Only check REQ_FUA for writes
-    27447dada0b5 mips: Move initrd_start check after initrd address sanitisation.
-    a365600bba27 MIPS: Alchemy: fix dbdma2
-    6b39b06b8d5b parisc: Flush gatt writes and adjust gatt mask in parisc_agp_mask_memory()
-    de873bce06a8 parisc: Improve cache flushing for PCXL in arch_sync_dma_for_cpu()
-    28850d25a62c btrfs: handle memory allocation failure in btrfs_csum_one_bio
-    b31586747bae power: supply: Fix logic checking if system is running from battery
-    dd8804117d4b irqchip/meson-gpio: Mark OF related data as maybe unused
-    30ade27dbe66 regulator: Fix error checking for debugfs_create_dir
-    a12155f0b1b6 platform/x86: asus-wmi: Ignore WMI events with codes 0x7B, 0xC0
-    d26edc403c0a power: supply: Ratelimit no data debug output
-    af44b2ddfc08 ARM: dts: vexpress: add missing cache properties
-    bd725832eb50 power: supply: bq27xxx: Use mod_delayed_work() instead of cancel() + schedule()
-    82bfd14f1359 power: supply: sc27xx: Fix external_power_changed race
-    66d5882dcc9f power: supply: ab8500: Fix external_power_changed race
-    a8f286bfbc71 s390/dasd: Use correct lock while counting channel queue length
-    d60be47f4357 dasd: refactor dasd_ioctl_information
-    7f3bb75a0484 KEYS: asymmetric: Copy sig and digest in public_key_verify_signature()
-    75d9e00f65cd test_firmware: fix a memory leak with reqs buffer
+yes.=C2=A0 the second patch cannot apply on 1.5.=C2=A0 We need a V2 to fi=
+x the CVEs.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+Thanks
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 8e0f7ae217..a98a64110a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "3ec10d880e38eb58af39c33094e455da59afd42b"
--SRCREV_meta ?= "b09511ad6dbb6f38303add48d2da78906bab1380"
-+SRCREV_machine ?= "8472ed342e0ac3f529c10b474b12ef0e05995778"
-+SRCREV_meta ?= "5c912968f2cb938ad084d457dae99bf8eb16032d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.247"
-+LINUX_VERSION ?= "5.4.248"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 6a6787a091..46a8856963 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.247"
-+LINUX_VERSION ?= "5.4.248"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "5780bc7b75d300e9b90b78c9297ff4717a78a893"
--SRCREV_machine ?= "45eaa635123abc1568c35d4abd0f31cc7c4f75a9"
--SRCREV_meta ?= "b09511ad6dbb6f38303add48d2da78906bab1380"
-+SRCREV_machine_qemuarm ?= "ca5368c73bab4eb276a8e721df28c02ceb8f3eeb"
-+SRCREV_machine ?= "abb579170926348d1518bc1a2de8cb1cdf403808"
-+SRCREV_meta ?= "5c912968f2cb938ad084d457dae99bf8eb16032d"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 6c9cea6993..fae2de5c72 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "5f8520357626b4a63278e222fa32b322f9811f34"
--SRCREV_machine_qemuarm64 ?= "5aae64158e118c7c96b6b2db41aa0c565d733c47"
--SRCREV_machine_qemumips ?= "50721182f0802cab035f92538c9fe60fa32e27a6"
--SRCREV_machine_qemuppc ?= "032f6844ab616a7c3c96a27a9f7c19c56e4b37a5"
--SRCREV_machine_qemuriscv64 ?= "2ded7ddaca7d93e0df26c4392b713dd7b016a402"
--SRCREV_machine_qemux86 ?= "2ded7ddaca7d93e0df26c4392b713dd7b016a402"
--SRCREV_machine_qemux86-64 ?= "2ded7ddaca7d93e0df26c4392b713dd7b016a402"
--SRCREV_machine_qemumips64 ?= "77a6c71bda43b4d11767ea3946385f6a5d2d24b6"
--SRCREV_machine ?= "2ded7ddaca7d93e0df26c4392b713dd7b016a402"
--SRCREV_meta ?= "b09511ad6dbb6f38303add48d2da78906bab1380"
-+SRCREV_machine_qemuarm ?= "68775a8671944b96c6a1ee795809f81149951f2d"
-+SRCREV_machine_qemuarm64 ?= "54bc3d459501d8df9baf093a34d8bb676c207a07"
-+SRCREV_machine_qemumips ?= "ba2d346cc66307fa6332b9fb86eb8ca66f30ebcd"
-+SRCREV_machine_qemuppc ?= "6703d4c7c75fab78e0c72227a98aba8071d5b1c3"
-+SRCREV_machine_qemuriscv64 ?= "d18af0e8acb7c4cb245739fa8165a44845ff2ba0"
-+SRCREV_machine_qemux86 ?= "d18af0e8acb7c4cb245739fa8165a44845ff2ba0"
-+SRCREV_machine_qemux86-64 ?= "d18af0e8acb7c4cb245739fa8165a44845ff2ba0"
-+SRCREV_machine_qemumips64 ?= "66cac7d41a43594760f6ac48e848d73315cc5dd3"
-+SRCREV_machine ?= "d18af0e8acb7c4cb245739fa8165a44845ff2ba0"
-+SRCREV_meta ?= "5c912968f2cb938ad084d457dae99bf8eb16032d"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.247"
-+LINUX_VERSION ?= "5.4.248"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
--- 
-2.34.1
+Changqing
 
+>   If this isn't the case, please submit a v2
+> of the CVE patch.
+>
+> Thanks!
+>
+> Steve
+>
+> On Mon, Jun 26, 2023 at 9:05=E2=80=AFPM Changqing Li
+> <changqing.li@eng.windriver.com> wrote:
+>> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>>
+>> Drop patches merged upstream.
+>>
+>> --enable-largefile is no longer necessary, as compiler options are bei=
+ng passed in explicitly.
+>>
+>> (From OE-Core rev: 39d38b278cba7b46fd9b367e6f8c989327899e6f)
+>>
+>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+>> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>   .../0001-configure-use-AC_SYS_LARGEFILE.patch |  43 -------
+>>   ...eplace-l-stat64-by-equivalent-l-stat.patch | 109 ----------------=
+--
+>>   ...-Make-LFS-mandatory-for-all-usecases.patch |  41 -------
+>>   ...{erofs-utils_1.5.bb =3D> erofs-utils_1.6.bb} |  10 +-
+>>   4 files changed, 3 insertions(+), 200 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/000=
+1-configure-use-AC_SYS_LARGEFILE.patch
+>>   delete mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/000=
+2-erofs-replace-l-stat64-by-equivalent-l-stat.patch
+>>   delete mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/000=
+3-internal.h-Make-LFS-mandatory-for-all-usecases.patch
+>>   rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.5.bb =3D> er=
+ofs-utils_1.6.bb} (62%)
+>>
+>> diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-config=
+ure-use-AC_SYS_LARGEFILE.patch b/meta/recipes-devtools/erofs-utils/erofs-=
+utils/0001-configure-use-AC_SYS_LARGEFILE.patch
+>> deleted file mode 100644
+>> index 75c91f51a7..0000000000
+>> --- a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-configure-use=
+-AC_SYS_LARGEFILE.patch
+>> +++ /dev/null
+>> @@ -1,43 +0,0 @@
+>> -From fef3b16dba2c5f6ad88951b80cdfbedd423e80a0 Mon Sep 17 00:00:00 200=
+1
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Wed, 7 Dec 2022 20:16:52 -0800
+>> -Subject: [PATCH v3 1/3] configure: use AC_SYS_LARGEFILE
+>> -
+>> -The autoconf macro AC_SYS_LARGEFILE defines _FILE_OFFSET_BITS=3D64
+>> -where necessary to ensure that off_t and all interfaces using off_t
+>> -are 64bit, even on 32bit systems.
+>> -
+>> -Pass -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=3D66 via CFLAGS
+>> -
+>> -Upstream-Status: Submitted [https://lore.kernel.org/linux-erofs/20221=
+215064758.93821-1-raj.khem@gmail.com/T/#t]
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>> - configure.ac | 5 +++++
+>> - 1 file changed, 5 insertions(+)
+>> -
+>> -diff --git a/configure.ac b/configure.ac
+>> -index a736ff0..e8bb003 100644
+>> ---- a/configure.ac
+>> -+++ b/configure.ac
+>> -@@ -13,6 +13,8 @@ AC_CONFIG_MACRO_DIR([m4])
+>> - AC_CONFIG_AUX_DIR(config)
+>> - AM_INIT_AUTOMAKE([foreign -Wall])
+>> -
+>> -+AC_SYS_LARGEFILE
+>> -+
+>> - # Checks for programs.
+>> - AM_PROG_AR
+>> - AC_PROG_CC
+>> -@@ -319,6 +321,9 @@ if test "x$enable_lzma" =3D "xyes"; then
+>> -   CPPFLAGS=3D"${saved_CPPFLAGS}"
+>> - fi
+>> -
+>> -+# Enable 64-bit off_t
+>> -+CFLAGS+=3D" -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=3D64"
+>> -+
+>> - # Set up needed symbols, conditionals and compiler/linker flags
+>> - AM_CONDITIONAL([ENABLE_LZ4], [test "x${have_lz4}" =3D "xyes"])
+>> - AM_CONDITIONAL([ENABLE_LZ4HC], [test "x${have_lz4hc}" =3D "xyes"])
+>> ---
+>> -2.39.0
+>> -
+>> diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils/0002-erofs-=
+replace-l-stat64-by-equivalent-l-stat.patch b/meta/recipes-devtools/erofs=
+-utils/erofs-utils/0002-erofs-replace-l-stat64-by-equivalent-l-stat.patch
+>> deleted file mode 100644
+>> index d12bebbf87..0000000000
+>> --- a/meta/recipes-devtools/erofs-utils/erofs-utils/0002-erofs-replace=
+-l-stat64-by-equivalent-l-stat.patch
+>> +++ /dev/null
+>> @@ -1,109 +0,0 @@
+>> -From 856189c324834b838f0e9cfc0d2e05f12518f264 Mon Sep 17 00:00:00 200=
+1
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Wed, 7 Dec 2022 22:17:35 -0800
+>> -Subject: [PATCH v3 2/3] erofs: replace [l]stat64 by equivalent [l]sta=
+t
+>> -
+>> -Upstream-Status: Submitted [https://lore.kernel.org/linux-erofs/20221=
+215064758.93821-2-raj.khem@gmail.com/T/#u]
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>> - lib/inode.c | 10 +++++-----
+>> - lib/xattr.c |  4 ++--
+>> - mkfs/main.c |  4 ++--
+>> - 3 files changed, 9 insertions(+), 9 deletions(-)
+>> -
+>> -diff --git a/lib/inode.c b/lib/inode.c
+>> -index f192510..38003fc 100644
+>> ---- a/lib/inode.c
+>> -+++ b/lib/inode.c
+>> -@@ -773,7 +773,7 @@ static u32 erofs_new_encode_dev(dev_t dev)
+>> -
+>> - #ifdef WITH_ANDROID
+>> - int erofs_droid_inode_fsconfig(struct erofs_inode *inode,
+>> --                             struct stat64 *st,
+>> -+                             struct stat *st,
+>> -                              const char *path)
+>> - {
+>> -       /* filesystem_config does not preserve file type bits */
+>> -@@ -818,7 +818,7 @@ int erofs_droid_inode_fsconfig(struct erofs_inode=
+ *inode,
+>> - }
+>> - #else
+>> - static int erofs_droid_inode_fsconfig(struct erofs_inode *inode,
+>> --                                    struct stat64 *st,
+>> -+                                    struct stat *st,
+>> -                                     const char *path)
+>> - {
+>> -       return 0;
+>> -@@ -826,7 +826,7 @@ static int erofs_droid_inode_fsconfig(struct erof=
+s_inode *inode,
+>> - #endif
+>> -
+>> - static int erofs_fill_inode(struct erofs_inode *inode,
+>> --                          struct stat64 *st,
+>> -+                          struct stat *st,
+>> -                           const char *path)
+>> - {
+>> -       int err =3D erofs_droid_inode_fsconfig(inode, st, path);
+>> -@@ -910,7 +910,7 @@ static struct erofs_inode *erofs_new_inode(void)
+>> - /* get the inode from the (source) path */
+>> - static struct erofs_inode *erofs_iget_from_path(const char *path, bo=
+ol is_src)
+>> - {
+>> --      struct stat64 st;
+>> -+      struct stat st;
+>> -       struct erofs_inode *inode;
+>> -       int ret;
+>> -
+>> -@@ -918,7 +918,7 @@ static struct erofs_inode *erofs_iget_from_path(c=
+onst char *path, bool is_src)
+>> -       if (!is_src)
+>> -               return ERR_PTR(-EINVAL);
+>> -
+>> --      ret =3D lstat64(path, &st);
+>> -+      ret =3D lstat(path, &st);
+>> -       if (ret)
+>> -               return ERR_PTR(-errno);
+>> -
+>> -diff --git a/lib/xattr.c b/lib/xattr.c
+>> -index 71ffe3e..fd0e728 100644
+>> ---- a/lib/xattr.c
+>> -+++ b/lib/xattr.c
+>> -@@ -467,7 +467,7 @@ static int erofs_count_all_xattrs_from_path(const=
+ char *path)
+>> - {
+>> -       int ret;
+>> -       DIR *_dir;
+>> --      struct stat64 st;
+>> -+      struct stat st;
+>> -
+>> -       _dir =3D opendir(path);
+>> -       if (!_dir) {
+>> -@@ -502,7 +502,7 @@ static int erofs_count_all_xattrs_from_path(const=
+ char *path)
+>> -                       goto fail;
+>> -               }
+>> -
+>> --              ret =3D lstat64(buf, &st);
+>> -+              ret =3D lstat(buf, &st);
+>> -               if (ret) {
+>> -                       ret =3D -errno;
+>> -                       goto fail;
+>> -diff --git a/mkfs/main.c b/mkfs/main.c
+>> -index d2c9830..5279805 100644
+>> ---- a/mkfs/main.c
+>> -+++ b/mkfs/main.c
+>> -@@ -581,7 +581,7 @@ int main(int argc, char **argv)
+>> -       struct erofs_buffer_head *sb_bh;
+>> -       struct erofs_inode *root_inode;
+>> -       erofs_nid_t root_nid;
+>> --      struct stat64 st;
+>> -+      struct stat st;
+>> -       erofs_blk_t nblocks;
+>> -       struct timeval t;
+>> -       char uuid_str[37] =3D "not available";
+>> -@@ -609,7 +609,7 @@ int main(int argc, char **argv)
+>> -                       return 1;
+>> -       }
+>> -
+>> --      err =3D lstat64(cfg.c_src_path, &st);
+>> -+      err =3D lstat(cfg.c_src_path, &st);
+>> -       if (err)
+>> -               return 1;
+>> -       if (!S_ISDIR(st.st_mode)) {
+>> ---
+>> -2.39.0
+>> -
+>> diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils/0003-intern=
+al.h-Make-LFS-mandatory-for-all-usecases.patch b/meta/recipes-devtools/er=
+ofs-utils/erofs-utils/0003-internal.h-Make-LFS-mandatory-for-all-usecases=
+.patch
+>> deleted file mode 100644
+>> index 97faa5d673..0000000000
+>> --- a/meta/recipes-devtools/erofs-utils/erofs-utils/0003-internal.h-Ma=
+ke-LFS-mandatory-for-all-usecases.patch
+>> +++ /dev/null
+>> @@ -1,41 +0,0 @@
+>> -From 8f8cbc7b773da63bce8226249784ba6824635c9c Mon Sep 17 00:00:00 200=
+1
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Wed, 7 Dec 2022 20:19:27 -0800
+>> -Subject: [PATCH v3 3/3] internal.h: Make LFS mandatory for all usecas=
+es
+>> -
+>> -erosfs depend on the consistent use of a 64bit offset
+>> -type, force downstreams to use transparent LFS (_FILE_OFFSET_BITS=3D6=
+4),
+>> -so that it becomes impossible for them to use 32bit interfaces.
+>> -
+>> -Upstream-Status: Submitted [https://lore.kernel.org/linux-erofs/20221=
+215064758.93821-3-raj.khem@gmail.com/T/#u]
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>> - include/erofs/internal.h | 5 +++++
+>> - 1 file changed, 5 insertions(+)
+>> -
+>> -diff --git a/include/erofs/internal.h b/include/erofs/internal.h
+>> -index 6a70f11..d3b2986 100644
+>> ---- a/include/erofs/internal.h
+>> -+++ b/include/erofs/internal.h
+>> -@@ -21,6 +21,7 @@ typedef unsigned short umode_t;
+>> -
+>> - #include "erofs_fs.h"
+>> - #include <fcntl.h>
+>> -+#include <sys/types.h> /* for off_t definition */
+>> -
+>> - #ifndef PATH_MAX
+>> - #define PATH_MAX        4096    /* # chars in a path name including =
+nul */
+>> -@@ -104,6 +105,10 @@ struct erofs_sb_info {
+>> -       };
+>> - };
+>> -
+>> -+
+>> -+/* make sure that any user of the erofs headers has atleast 64bit of=
+f_t type */
+>> -+extern int erofs_assert_largefile[sizeof(off_t)-8];
+>> -+
+>> - /* global sbi */
+>> - extern struct erofs_sb_info sbi;
+>> -
+>> ---
+>> -2.39.0
+>> -
+>> diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb b/me=
+ta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+>> similarity index 62%
+>> rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
+>> rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+>> index 2b5861882d..43643e07bb 100644
+>> --- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
+>> +++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.6.bb
+>> @@ -5,12 +5,8 @@ SECTION =3D "base"
+>>   LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D73001d804ea1e3d84365f6522=
+42cca20"
+>>   HOMEPAGE =3D "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/=
+erofs-utils.git/tree/README"
+>>
+>> -SRCREV =3D "a2821a66b42aee5430bccee82c280e38d1e9ab29"
+>> -SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erof=
+s-utils.git;branch=3Dmaster;protocol=3Dhttps \
+>> -           file://0001-configure-use-AC_SYS_LARGEFILE.patch \
+>> -           file://0002-erofs-replace-l-stat64-by-equivalent-l-stat.pa=
+tch \
+>> -           file://0003-internal.h-Make-LFS-mandatory-for-all-usecases=
+.patch \
+>> -           "
+>> +SRCREV =3D "21710612d35cd952490959bfa6ea9fe87aaa52dd"
+>> +SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erof=
+s-utils.git;branch=3Dmaster;protocol=3Dhttps"
+>>
+>>   UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>(\d+(\.\d+)+))"
+>>
+>> @@ -23,7 +19,7 @@ inherit pkgconfig autotools
+>>   PACKAGECONFIG ??=3D "lz4"
+>>   PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
+>>
+>> -EXTRA_OECONF =3D "${PACKAGECONFIG_CONFARGS} --disable-fuse --enable-l=
+argefile"
+>> +EXTRA_OECONF =3D "${PACKAGECONFIG_CONFARGS} --disable-fuse"
+>>
+>>   CFLAGS:append:powerpc64le =3D " -D__SANE_USERSPACE_TYPES__"
+>>
+>> --
+>> 2.25.1
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#183440): https://lists.openembedded.org/g/openembe=
+dded-core/message/183440
+>> Mute This Topic: https://lists.openembedded.org/mt/99804978/3620601
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[steve@sakoman.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
