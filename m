@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF222C3DA41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03BCC0015E
 	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 02:29:54 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.3863.1688092191612569550
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web10.3862.1688092187074946586
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 19:29:51 -0700
+ Thu, 29 Jun 2023 19:29:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Hfz12D7t;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6687466137bso1218333b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=LnoIwqJX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.43, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-558a79941c6so890269eaf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092191; x=1690684191;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092186; x=1690684186;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bXSzgQItog34PkvBnKayad9JFAU8JoXLpRJRuFy9wKU=;
-        b=Hfz12D7tekPDJqwrb8lkZM8iglkncKXaRD/Q4Q5atmWYJp+mlzTz6VnHuXxO9xI8au
-         bNVOtj+jZ74O9FkqgTlv8bJvTdw23mlVr0obFxm+KdoP1XTaiMstMNmCYiXzY3AGtJNk
-         p0vMDKdbOw+ht8CW6L8YKBoKkW3wlxDklPlw+2yjY0t99xX00GGVjG7JRXORMMvfp18c
-         4SCy4Ym3uUMg9VnHczy2wVbqIexGsBN1i1R3Caz4yVptXPfR80GEHjy2fMFaZPKtyqIN
-         8hgIBOgYO9puH3+rzGjKNhouYEpYpXWunujJbxPYQLcMXTtg1HUJ+GbewmYAApUnh6q8
-         1aeA==
+        bh=esv/Cc65zZf41M/zdD5PrFVGmR1ScxKhguzu2oOWZxE=;
+        b=LnoIwqJXMqJXmiecdTAyx79di2boGgqIWT2NBddPchU6VTekrWvpDnfI5waL4z2h8m
+         JHLXbb/32TDKy1uCvMvSilOInl4AVtp4puOGeCHsjFqkn4fsSKD7ssyZyHpZ446MoS95
+         /ah49wezhMAQHrMfAcH4jFkb4VHdn9MoIMgLBoRDRQKrdWHJE39cR2U/ijJ3alfTeAid
+         fZvXjta9sfVTH/qRTp7NOETNaBIRVPUn/uL4aKo0KmC8QANGAervpHolvr0jOZd5lLqn
+         Gtgu736tmbBIQcT0QGYNB4SF/cwyinAvWTDBOhqsunJM7Xe2wjVOaZaUtuedGHY0SrKx
+         1tQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688092191; x=1690684191;
+        d=1e100.net; s=20221208; t=1688092186; x=1690684186;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bXSzgQItog34PkvBnKayad9JFAU8JoXLpRJRuFy9wKU=;
-        b=hNTLFhTQJu6x3JsWgai3Br+yVtHXdclMKe6jF/gFQUb3fT1vur8O0gdP28KsyDCkGY
-         cv/atUrUz/oOfvJthODyxmwtTYu34rlRafzDWu6RVQQ0ZBE88g8uZQd6dVp5hQx8dsnK
-         /WjmekIug6507JzAVjDQZcGo5Ohc+mNOohl112NhWlM5LlmABCaES3+QPD+o5T9s1jZf
-         VAK282wSKOfn/Nz08W2d9sb3utXqf4QGqJyQhPuNW9w/DC/G3q4+yrJQ5UC/pyBe1C4R
-         gEhwHNYxnf3AhXP3VF6NtXivO7BPxOFi1vJsAq9s71gP/58ptKvRENiU242Gd1NY5sE2
-         +9Hg==
-X-Gm-Message-State: ABy/qLbJl9iD1GWFJMTAH4ltAXM3O3LeACz06S8XFGf6Y7LeYtab+H8t
-	cfW+5BMKIPHuX2/2A4JeZA+V0/+8m/OB8rkxQyeqeg==
-X-Google-Smtp-Source: APBJJlF6w1y/nAAemdisqzbNkAC4oihiVIe8qXRcPP94AlQv7M1V86CxWHV8g5Kssi/T4z+0Vd5YlA==
-X-Received: by 2002:a05:6a00:2309:b0:666:afc1:1f4b with SMTP id h9-20020a056a00230900b00666afc11f4bmr1674916pfh.30.1688092190675;
-        Thu, 29 Jun 2023 19:29:50 -0700 (PDT)
+        bh=esv/Cc65zZf41M/zdD5PrFVGmR1ScxKhguzu2oOWZxE=;
+        b=Q1fd6klFQT/7rx+BN/h8WZ79u0LeP+XGSDi75QrWsFc5UiRKap4I3VksDqvStqRceH
+         8WiVHIkf+yLbH1YsP0MAruM/v3367qJjd+FnI1/r1eN579vPRrzR+qI2RIY8GNiRSuXk
+         q1CQLZ2cPKF624mSpbeLKjDz8tLODqd9lGyrRDVGGDs+lJJ7uyiQ5jgBWk2mr47PTuip
+         aRzr+aFMH1qtDt/fOoseswvhVVrg8PYJ41a8tlAkUov0GybeD7sLFiEYU+hZ/TBCgzDS
+         fvjDMmDYlK03V7cV6sGYEBRISOBhBSypUP73+TtJ9fhjXvtTynzVGcngvyZWHVaX4uI9
+         1zqw==
+X-Gm-Message-State: ABy/qLZufWOkno4+n9pi5UdOxYAwPlgSAPJt4668jvDJXOLxJlEnotd6
+	+gCdx4g4L4/if+6BMALv33BuFiS8C8eLJYHafV6G9Q==
+X-Google-Smtp-Source: APBJJlFQMk8PWEjaulpqIB9hPEwrNy2QoNeuhG4bTaFqjkumrKETcaCLT/QnKct042X5quMO3VDdBA==
+X-Received: by 2002:a05:6358:9d81:b0:12f:2573:45b4 with SMTP id d1-20020a0563589d8100b0012f257345b4mr1364437rwo.26.1688092186012;
+        Thu, 29 Jun 2023 19:29:46 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.49
+        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 19:29:50 -0700 (PDT)
+        Thu, 29 Jun 2023 19:29:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 24/30] maintainers.inc: unassign Ricardo Neri from ovmf
-Date: Thu, 29 Jun 2023 16:29:00 -1000
-Message-Id: <8bd8ea8293a75ffa0e850513c3c15be6bc8c8692.1688092011.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 21/30] maintainers.inc: unassign Alistair Francis from opensbi
+Date: Thu, 29 Jun 2023 16:28:57 -1000
+Message-Id: <deacda2bdccc682b845d5a909adfc172ccfcb5cf.1688092011.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688092011.git.steve@sakoman.com>
 References: <cover.1688092011.git.steve@sakoman.com>
@@ -61,7 +61,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 02:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183664
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183661
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
@@ -70,27 +70,25 @@ has to be unassigned.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 56f1af6d5b3019dccbc27bb0a9692a5f1a32f87b)
+(cherry picked from commit 60eda3dcbf96b5982a0e282fd0c3c13b0b4d7787)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 865c09852a..d58ff99a03 100644
+index 814741f324..3c6a03a919 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -564,8 +564,8 @@ RECIPE_MAINTAINER:pn-opkg-keyrings = "Alex Stewart <alex.stewart@ni.com>"
- RECIPE_MAINTAINER:pn-opkg-utils = "Alex Stewart <alex.stewart@ni.com>"
- RECIPE_MAINTAINER:pn-orc = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-os-release = "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER:pn-ovmf = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
--RECIPE_MAINTAINER:pn-ovmf-shell-image = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
-+RECIPE_MAINTAINER:pn-ovmf = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-ovmf-shell-image = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-p11-kit = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-package-index = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-pango = "Ross Burton <ross.burton@arm.com>"
+@@ -555,7 +555,7 @@ RECIPE_MAINTAINER:pn-npth = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-numactl = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-ofono = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER:pn-opensbi = "Alistair Francis <alistair.francis@wdc.com>"
++RECIPE_MAINTAINER:pn-opensbi = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-openssh = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-openssl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-opkg = "Alex Stewart <alex.stewart@ni.com>"
 -- 
 2.34.1
 
