@@ -1,99 +1,89 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sudipm.mukherjee@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B41EB64D7
-	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 15:25:48 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.15312.1688138743744239678
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE44EB64DC
+	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 15:32:58 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.15533.1688139172220868397
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jun 2023 08:25:44 -0700
+ Fri, 30 Jun 2023 08:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=0a1Ys2pv;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.41, mailfrom: steve@sakoman.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4fb9ae4cef6so3240140e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 08:25:43 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=I/GUZnt+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: sudipm.mukherjee@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbc77e769cso8314015e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 08:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688138742; x=1690730742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UPVJOwiBOYWadln89LrKnnVEcCUjIg8hOtPNTdhdFmQ=;
-        b=0a1Ys2pviVOAAn9WytmY0Xc/XnHYoQPHC6bOvoEeyiIs1+zca2LQANG11i5objkjyV
-         qaKTKj7BgbJ1zvdLrT5oRApzw326iq/UHKyQxXSuzM/wc1FL9b/+rM2wVZ+Q7wO2mf9X
-         cuKE8BTgDeqHab+McxI/RGMkz4VzLSmI9EuxEkLdUygSISXMloLvd8KIAzSfnyDgXJPY
-         +ucQH15ZJbB2dyfA8cD49caADzkgKm6XC7reHOsjWgpg7FEkyCsxODwATugHaFYMH9MN
-         OgNMVvajHHyAcCgKKWR5qnE5WHJ76cWAX4E3/Ie42j+/THtOqtsfEq0J6ozLDflXRkoQ
-         S4mA==
+        d=gmail.com; s=20221208; t=1688139170; x=1690731170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2mRhT7H4wl+nsH6wBceNVc4HdyIftapgrbtUYgDPMHE=;
+        b=I/GUZnt+K8YbX1W1Fw+ijsM0dEEXFSEIAVfTFzL+HSPZScBn/Iz5Y85N72llBDc8og
+         YVdMdO3awNb2Dy1OMA2UCxmPsycV15GFXsyfQkwe7OyEuyNSwLQPyIcoH+Dpvs+oVxs5
+         P/+Lwr8dwhPz5R2B5okEaIw9doGgTUfW2FnIDuK45MG6MUwXawI1MrEOHvPzE3ItPUCc
+         x13c3YLh+8HOtsrZ5iM8pnhQm5PWe6ntk8sQ6TwQnFDQbuOsD450zpmFfajgc0wgIE7E
+         C5UTzDkZ9ZA3KiG82IpdYxsLgkdrQCmIKboHlecDC02h5h1AbedT1kzqt8+01cbt/crv
+         ME1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688138742; x=1690730742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UPVJOwiBOYWadln89LrKnnVEcCUjIg8hOtPNTdhdFmQ=;
-        b=b/UMgOUqmg2wDXWIwfb0i/Li1Ba0XuF7ogpeQG/yNLwvbZq2kcKeVuWgTBluthXVje
-         X10/9CI3EHVNf6uyPF8hXJg3fp8ICa1rbJ+mt1u8C3PCFSaP4GF82XP89fyw/bhejJWd
-         ixrgS7+Ww3Hj7pi7a5EzzOmR0NQRUyLY4nww3VXu85T7b5qHvayy1nUIf4IlWZg0dR7k
-         ek/HtVZjcKzetEA2picyYEev8DH3fE8PqVaEQME00CzP1i/Yb92f2vIPD3SbVjFE2WHF
-         Iwcm+oCoHu3xlqERsis8HiLDjvi0FvucBWrpdJ1XnQJmu95PFcZ7geQ9j6sBLO25FPzH
-         +J7w==
-X-Gm-Message-State: ABy/qLaeJFFLWjm56AF0fkPdzKdvCgQmDeKbt7vkaZ7A+NN6uFTdigJi
-	ODffaBSruIEsKUIlBHMQD/6h1G80Y60e08HWJ/BVVA==
-X-Google-Smtp-Source: APBJJlE1sKR4r94dG6zscU60leXBqsf13G/cT9KXpHBzneV6dVThcMDxUnSzL1IKodu94p45T9jSZjBbcz/DixGz5VY=
-X-Received: by 2002:a19:ca1b:0:b0:4f8:ff52:93b7 with SMTP id
- a27-20020a19ca1b000000b004f8ff5293b7mr2326043lfg.30.1688138741878; Fri, 30
- Jun 2023 08:25:41 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688139170; x=1690731170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2mRhT7H4wl+nsH6wBceNVc4HdyIftapgrbtUYgDPMHE=;
+        b=f+2Xr14pliHpKi5CUvvDMeWv2fU4fJyrH8e17ZI4x0PjV2iHtRn1e6sf25kPSlSq1B
+         MkHyffSe5Ry7Wy6mprktQgqW7hwpTjfddnI9SEETjxabNiEA90+7EHdJ+O1sr32QN1Ih
+         zEFc3es0zs/RvJHf5Tm0t+yumAHeGiKW73MZ6rgKIH8D4t+PutVcE2GJwA40LimrLuqD
+         4bcxln9ihTF8xO5tZ5FxLKIdwpKcPNEF2DbNs5LJd6OvX4njebmJFi0uLPqHe+jB/cUs
+         dxhAHCSmyYCEyuIy5ybaDabtEh7b1bG7CC7l7EzQP+NKKYWxl0Kn/9uYTYhcO/2Ty8vD
+         g4Vw==
+X-Gm-Message-State: AC+VfDxCVXcwxpQN0cWHkafiTP576jx+H7G1OFDAEhK1LxuP6agOsZac
+	69XjYmvfVIyhnL0J0TJIH1YIOLxDt2mi5w==
+X-Google-Smtp-Source: ACHHUZ5abqOYaSh1B7xBtVmz+q9CwNJNODRTn3MPT2BrWIdxKIVpQfi5xsFHN2izIH1yiiaTEm0PsQ==
+X-Received: by 2002:a05:600c:2283:b0:3f9:82f:bad1 with SMTP id 3-20020a05600c228300b003f9082fbad1mr2205935wmf.40.1688139170272;
+        Fri, 30 Jun 2023 08:32:50 -0700 (PDT)
+Received: from debian.office.codethink.co.uk ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id a20-20020a05600c225400b003fbb06af219sm7520912wmm.32.2023.06.30.08.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 08:32:50 -0700 (PDT)
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] libssh2: disable rpath to fix curl-native build
+Date: Fri, 30 Jun 2023 16:32:46 +0100
+Message-Id: <20230630153246.5062-1-sudipm.mukherjee@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230630083221.3927027-1-changqing.li@windriver.com>
- <20230630083221.3927027-2-changqing.li@windriver.com> <CAOSpxdbsXPB6KSUtSiz7Kxvebz7cnZekhLwdT2WfvgcdoYcSPg@mail.gmail.com>
- <076ea49874345a74ebe103d30ff6a169e341c20b.camel@linuxfoundation.org>
-In-Reply-To: <076ea49874345a74ebe103d30ff6a169e341c20b.camel@linuxfoundation.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 30 Jun 2023 05:25:31 -1000
-Message-ID: <CAOSpxdY-AH0=h+Hn4fFMyMjD75q1xwhXsyD8OJMUWFQVoo+upg@mail.gmail.com>
-Subject: Re: [OE-core] [mickledore][PATCH 2/2] rootfs-postcommands.bbclass:
- add post func remove_unused_dnf_log_lock
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Changqing Li <changqing.li@eng.windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 15:25:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183702
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 15:32:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183703
 
-On Fri, Jun 30, 2023 at 4:57=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2023-06-30 at 04:21 -1000, Steve Sakoman wrote:
-> > Is this also a problem in master, or is it mickledore specific?
->
-> The same patches have been proposed for master with an "instant"
-> backport requested. I really don't like this model of development as I
-> have my doubts about how extensively they've been tested in one or the
-> other.
+When curl is built with PACKAGECONFIG:append = " libssh2", the build fails
+with the error:
+gcc: error: unrecognized command-line option '-R'
 
-I typically don't do "instant" backports.  If a patch is proposed for
-both master and a stable branch I wait till it is accepted into
-master. Then I give it a week or two before backporting to see if any
-issues develop in master -- if I remember in the midst of all the
-other patch wrangling for multiple stable branches!
+It was trying to set the rpath for libssh2.
 
-I much prefer that people submit to master first, then when it is
-accepted send a backport patch for the appropriate stable branches.
-Sending all the branches at once just increases the risk that the
-backports get forgotten!
+Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+---
+ meta/recipes-support/libssh2/libssh2_1.11.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Steve
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.0.bb b/meta/recipes-support/libssh2/libssh2_1.11.0.bb
+index 711bf937f5..edc25db1b1 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.0.bb
+@@ -18,6 +18,7 @@ inherit autotools pkgconfig ptest
+ EXTRA_OECONF += "\
+                  --with-libz \
+                  --with-libz-prefix=${STAGING_LIBDIR} \
++                 --disable-rpath \
+                 "
+ DISABLE_STATIC = ""
+ 
+-- 
+2.30.2
 
-
-> I'm also not convinced the patches explain the issue properly or why
-> things should be fixed as proposed. I think at the very least the
-> commit messages need to better explain the issues.
->
-> Cheers,
->
-> Richard
 
