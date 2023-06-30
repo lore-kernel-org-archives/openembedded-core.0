@@ -1,89 +1,87 @@
-Return-Path: <sudipm.mukherjee@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE44EB64DC
-	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 15:32:58 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.15533.1688139172220868397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA470EB64D7
+	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 15:50:08 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.16053.1688140201220115901
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jun 2023 08:32:52 -0700
+ Fri, 30 Jun 2023 08:50:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=I/GUZnt+;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: sudipm.mukherjee@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbc77e769cso8314015e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 08:32:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=d9nwejLq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51d9865b7bdso2067731a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 08:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688139170; x=1690731170;
+        d=gmail.com; s=20221208; t=1688140199; x=1690732199;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mRhT7H4wl+nsH6wBceNVc4HdyIftapgrbtUYgDPMHE=;
-        b=I/GUZnt+K8YbX1W1Fw+ijsM0dEEXFSEIAVfTFzL+HSPZScBn/Iz5Y85N72llBDc8og
-         YVdMdO3awNb2Dy1OMA2UCxmPsycV15GFXsyfQkwe7OyEuyNSwLQPyIcoH+Dpvs+oVxs5
-         P/+Lwr8dwhPz5R2B5okEaIw9doGgTUfW2FnIDuK45MG6MUwXawI1MrEOHvPzE3ItPUCc
-         x13c3YLh+8HOtsrZ5iM8pnhQm5PWe6ntk8sQ6TwQnFDQbuOsD450zpmFfajgc0wgIE7E
-         C5UTzDkZ9ZA3KiG82IpdYxsLgkdrQCmIKboHlecDC02h5h1AbedT1kzqt8+01cbt/crv
-         ME1w==
+        bh=kwOXbwB8LHjvXN0GO2pzZvuhWvL0WQC9XtM1k39dlCY=;
+        b=d9nwejLqMt7h63VJyg87zxrhSheIt7WfnKKKDo/BEfSzNUejuhzKKTtIBwPjPHdHeh
+         jXR0ptc+1/ffLwES2GT5PNyWSsjhm/wtGVvumC9lEInn0AmN0gnN7280tFf+MfInlWBg
+         K5ozmSJKlO7Lq5fRR3CQ04zf+Qpqj2b9cttwqYfKLOi9hnuDWwCuDTojPLJT42TYqrQk
+         KWgb4rLTA9ELZ2dkbjyOxeNTPjp0QScGRf5GwJwGudpHMSY7U3nsD4rSblw5ta4PsoHD
+         PqL5GUmuUhK+RjiW+BRAkHkqMm6CqQaVP2LKjomzaAkh2jBgiaPtrDhqDvgtjnXSJyDz
+         j5uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688139170; x=1690731170;
+        d=1e100.net; s=20221208; t=1688140199; x=1690732199;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2mRhT7H4wl+nsH6wBceNVc4HdyIftapgrbtUYgDPMHE=;
-        b=f+2Xr14pliHpKi5CUvvDMeWv2fU4fJyrH8e17ZI4x0PjV2iHtRn1e6sf25kPSlSq1B
-         MkHyffSe5Ry7Wy6mprktQgqW7hwpTjfddnI9SEETjxabNiEA90+7EHdJ+O1sr32QN1Ih
-         zEFc3es0zs/RvJHf5Tm0t+yumAHeGiKW73MZ6rgKIH8D4t+PutVcE2GJwA40LimrLuqD
-         4bcxln9ihTF8xO5tZ5FxLKIdwpKcPNEF2DbNs5LJd6OvX4njebmJFi0uLPqHe+jB/cUs
-         dxhAHCSmyYCEyuIy5ybaDabtEh7b1bG7CC7l7EzQP+NKKYWxl0Kn/9uYTYhcO/2Ty8vD
-         g4Vw==
-X-Gm-Message-State: AC+VfDxCVXcwxpQN0cWHkafiTP576jx+H7G1OFDAEhK1LxuP6agOsZac
-	69XjYmvfVIyhnL0J0TJIH1YIOLxDt2mi5w==
-X-Google-Smtp-Source: ACHHUZ5abqOYaSh1B7xBtVmz+q9CwNJNODRTn3MPT2BrWIdxKIVpQfi5xsFHN2izIH1yiiaTEm0PsQ==
-X-Received: by 2002:a05:600c:2283:b0:3f9:82f:bad1 with SMTP id 3-20020a05600c228300b003f9082fbad1mr2205935wmf.40.1688139170272;
-        Fri, 30 Jun 2023 08:32:50 -0700 (PDT)
-Received: from debian.office.codethink.co.uk ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id a20-20020a05600c225400b003fbb06af219sm7520912wmm.32.2023.06.30.08.32.49
+        bh=kwOXbwB8LHjvXN0GO2pzZvuhWvL0WQC9XtM1k39dlCY=;
+        b=dm886Kdi5OkTtUn6LmU9EivmArr5kBHF/5iCN86gSFdJHT/6Oph0+5rz8ODUB2BS1u
+         QIggRJnhQS3xLbSkPClvIaH5DcVzacK65jnUJ1H/5GFcku55GeRPVSpYi9Y9y27BqWPG
+         E1MsoT6psVR0TfgPpURBdo4yYRTJGEGUSHW5h5zDMAYR0HzApaVW7asPwa7MPa6OQvS8
+         kiOX8ilmUHZXXgosbZ3eZ/ricE8zojdh+5x5WzWkBAa+CEp97wS2V0YcaQfS1F/vlmX9
+         Imp+9KgV/S2y6AgUubWSHoEdWvtE7R2KuXCBReInn+/GEmzN5au5PjbArQLGPmtJrfC9
+         bunQ==
+X-Gm-Message-State: ABy/qLb8QvJPXA25mZYvZaNN7v9t/SzqYQFsBjIQez1scc4DwzCo3lgn
+	aNTMI+84Qcn7mp18Z91CGr9sFjDVY4A=
+X-Google-Smtp-Source: APBJJlF/uW1+VU836GZYKE8pR/7R0shZ/Pr/hEdjfmAk6PALWuaRbLWU+YcJKZfl0GrHd4wKdW9Kjw==
+X-Received: by 2002:a17:907:76b3:b0:96a:2acf:61e1 with SMTP id jw19-20020a17090776b300b0096a2acf61e1mr2732034ejc.64.1688140198974;
+        Fri, 30 Jun 2023 08:49:58 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id o12-20020a17090637cc00b00993017b64a9sm285121ejc.223.2023.06.30.08.49.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 08:32:50 -0700 (PDT)
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+        Fri, 30 Jun 2023 08:49:58 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH] libssh2: disable rpath to fix curl-native build
-Date: Fri, 30 Jun 2023 16:32:46 +0100
-Message-Id: <20230630153246.5062-1-sudipm.mukherjee@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [PATCH] kernel-module-split add systemd modulesloaddir and modprobedir config
+Date: Fri, 30 Jun 2023 15:49:12 +0000
+Message-Id: <20230630154912.3630297-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 15:32:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183703
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 15:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183704
 
-When curl is built with PACKAGECONFIG:append = " libssh2", the build fails
-with the error:
-gcc: error: unrecognized command-line option '-R'
-
-It was trying to set the rpath for libssh2.
-
-Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/recipes-support/libssh2/libssh2_1.11.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-recipe/kernel-module-split.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.0.bb b/meta/recipes-support/libssh2/libssh2_1.11.0.bb
-index 711bf937f5..edc25db1b1 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.0.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.0.bb
-@@ -18,6 +18,7 @@ inherit autotools pkgconfig ptest
- EXTRA_OECONF += "\
-                  --with-libz \
-                  --with-libz-prefix=${STAGING_LIBDIR} \
-+                 --disable-rpath \
-                 "
- DISABLE_STATIC = ""
+diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+index 0e4f9a6ec3..c1208d55e0 100644
+--- a/meta/classes-recipe/kernel-module-split.bbclass
++++ b/meta/classes-recipe/kernel-module-split.bbclass
+@@ -30,8 +30,8 @@ fi
  
+ PACKAGE_WRITE_DEPS += "kmod-native depmodwrapper-cross"
+ 
+-modulesloaddir ??= "${sysconfdir}/modules-load.d"
+-modprobedir ??= "${sysconfdir}/modprobe.d"
++modulesloaddir ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${nonarch_libdir}', '${sysconfdir}', d)}/modules-load.d"
++modprobedir ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${nonarch_base_libdir}', '${sysconfdir}', d)}/modprobe.d"
+ 
+ KERNEL_SPLIT_MODULES ?= "1"
+ PACKAGESPLITFUNCS =+ "split_kernel_module_packages"
 -- 
-2.30.2
+2.34.1
 
 
