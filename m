@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA7DFEB64D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3744C001B3
 	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 02:29:34 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web10.3852.1688092173025686023
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.3834.1688092165133038583
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 19:29:33 -0700
+ Thu, 29 Jun 2023 19:29:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=jmUmnrUz;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-39ecf031271so1003030b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:32 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WohMBv6w;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-66c729f5618so1274423b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092172; x=1690684172;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092164; x=1690684164;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sqLKFVSah7lKet+SjB5cWRoK5fkloWlHNt+qrYTD8PY=;
-        b=jmUmnrUztRNEgwqsJKtaMm7xu9wSzgi1KnyHCUnSocKfadAA8D2Mc1FtFDJ6BmElt+
-         jbYLbx01g+rN2t20mGr9zMJp0mOUPqileF0cnJkgeKJS4LfSImbrXkyQyLcPJOqFV2Rl
-         ls1OoFPVeE5xKtC8dVcF4/SaVzFEO952+sj4+K+yzVJfFrb7qhQw12nYgEQyacMHtRAA
-         rgFwensejDh8/2X7xufHvUKgoLHHf+seoPUgiPCR8Iv1Pn6YA/Y2MmOqfHvYAOOTu0Q2
-         6x6Y2OK6Y+cmZs72MNR1FqtkWdfPoNor1+bplWILmwdlDUx5Apxfs8QsCXu9nJ+oNrxb
-         kjUw==
+        bh=0Dk9Dh734j6iFpU1322yp4MXgSxUSe63hu5Wy+a9T/I=;
+        b=WohMBv6wTEyIccK+1LmOm716J+hoD6ywF7nkYEvuVkf1zHcX42SImGOYptNrXcaGIb
+         jN6FCUFeVbuZT6fSPIByBFSdEvQpLNJPB1FYOC5ZOEsfsbkVzigB+A38lMhCyg+AV78s
+         OF8SS+pkVqU1e2AcdAZp309OLj8MsVbDEFCy4eVphpztqdnL0O5difLRZZx017sH9p5D
+         hTEE3PtuMZ11/cB6iuLyUC2y3jqOvOWzCLmL2xVKy60bE2tGInoVsro8ocspWrQH9tcS
+         ybBVRETCOkQ3+XT5KbIvgp0fzi5YZTJ/48Wc7QJmrAMpYcJt7bWrRCpC9p4U/O58Dstf
+         Hx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688092172; x=1690684172;
+        d=1e100.net; s=20221208; t=1688092164; x=1690684164;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sqLKFVSah7lKet+SjB5cWRoK5fkloWlHNt+qrYTD8PY=;
-        b=fGzFvF+SOdSsLLn0GLPdrnPvnjDtzsL+I7LFDaDRkKEcPVKM4gd5NC25u+fUphJ2jJ
-         0be3kOeL9VjS+WKJwprLhY/qEm4kh/lu8xSxqaVdvPvhsQXibdzdzIIz329waEsLu6gm
-         SLUFVCqS+z8MlJLO4cFJOOEVGAK07w9K55O6L0bGnPa1Ygt4iCeE4psEd/FH+pTq7zDg
-         aR7gF1LU8Kvy7Pa/kzkq7XKsTl/4EJaojCSUuqz5v2CrvA64Wu545m9NTr2oJy4L7+YZ
-         hMiw6Rsa0Z05/yyiYnz69OjvDZ1C76x8AklChfvliSyYVzUBhmR74f4UFAfPYiOiJscQ
-         U+2w==
-X-Gm-Message-State: AC+VfDxVfv3ql3o5FjSdkQJAyv4pQx16FVI6WOttYjCpJAXO+ZdmsFP2
-	CAcPw27EvtjmkrvI1v0lStCmc67rbWXgovkmTqygAA==
-X-Google-Smtp-Source: ACHHUZ4E4RphQFuzeQuRrXlDu8qevVMGOhjJrcyofo2jMEuCmdTom9Pjdohsp7K0Ze9r389OQ9QMkw==
-X-Received: by 2002:a05:6808:23ca:b0:3a1:b938:e9df with SMTP id bq10-20020a05680823ca00b003a1b938e9dfmr1527944oib.31.1688092172010;
-        Thu, 29 Jun 2023 19:29:32 -0700 (PDT)
+        bh=0Dk9Dh734j6iFpU1322yp4MXgSxUSe63hu5Wy+a9T/I=;
+        b=H6iK3HmFJQIJt5BZvdIHpFmb2nycpMygGwLVukiK6lyVcDQWHP9ZsojLLaBIYGB+R6
+         yVjElBhykPIqPwf0M41RPO7TDYvAhJ8ZszjzaQD56HBs8SOCWzg4ysuFOD7oiq7SaDcS
+         fwPGhjCFlffeZPGpJ6xLoxywrfSrmrLQDa6BwmJslXQnr5t0a4k6fpyCNAxA/LDq/I6u
+         prFPW0LCrb7AUjD76BAYEXgXg48euVd24qN5xwMTgzLBxl4egYOsyxd642co/fbSrlNL
+         V9WqXwVcinUHwse4n0k1np9fM8EOLhdgJ0pNU6JJQiEfpPIJQiYwxlJg4CaVaNuyYPcg
+         N0Vw==
+X-Gm-Message-State: AC+VfDzfbLg2i18Qr6wkZFNpJTsdta6BEmrSBP79xcTeQpFMwc4/U/3H
+	hjtrNHXc9oKdqvoNnHcTjbi1iuIRNX3sVqzuYe6Xmw==
+X-Google-Smtp-Source: ACHHUZ6F9WgAHptCojIQUFnbigaR3lRBAfbVNgzqMloEGI0AS6xsV/FzOeJ8NDhx0XgHEIu2degXUg==
+X-Received: by 2002:a05:6a20:4419:b0:12c:567b:2787 with SMTP id ce25-20020a056a20441900b0012c567b2787mr1818337pzb.19.1688092164062;
+        Thu, 29 Jun 2023 19:29:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.31
+        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 19:29:31 -0700 (PDT)
+        Thu, 29 Jun 2023 19:29:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 12/30] weston-init: guard against systemd configs
-Date: Thu, 29 Jun 2023 16:28:48 -1000
-Message-Id: <2617900f754572cca23e4db73b91a4091b921ac5.1688092011.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 07/30] systemd: fix a dead link under /var/log
+Date: Thu, 29 Jun 2023 16:28:43 -1000
+Message-Id: <7702dc8fc6c9b34647067ffabbc0e24d6109abe7.1688092011.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688092011.git.steve@sakoman.com>
 References: <cover.1688092011.git.steve@sakoman.com>
@@ -61,70 +61,95 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 02:29:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183652
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183647
 
-From: Randolph Sapp <rs@ti.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Just as sysvinit scripts shouldn't be present in a distro using systemd,
-systemd scripts shouldn't be present in a system not using systemd.
+Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
+install README.logs under systemd doc dir.
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 00e3eb3893eeb32839e02b05bc1299440895a53d)
+But for OE, systemd doc dir is splited into package systemd-doc, when it
+is not installed on the target, there will be an dead link:
+Eg:
+root@intel-x86-64:/var/log# ls -l README
+lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
+root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
+ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
+
+Meantime, relative path for a symlink also will meet issue like
+"No such file or directory"
+
+Since OE have set ForwardToSyslog=yes, this README is not needed.
+So remove this symlink from package systemd
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/wayland/weston-init.bb | 29 ++++++++++++--------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ ...on-t-create-symlink-README-in-this-f.patch | 42 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_253.1.bb    |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 6d1bf7a698..be6aef07af 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -25,27 +25,32 @@ DEFAULTBACKEND ??= ""
- DEFAULTBACKEND:qemuall ?= "drm"
+diff --git a/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
+new file mode 100644
+index 0000000000..a2644bba8e
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch
+@@ -0,0 +1,42 @@
++From b17826490c1db2051dda23550ebdcd7f10e23479 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 28 Jun 2023 13:49:41 +0800
++Subject: [PATCH 1/2] legacy.conf.in: Don't create symlink README in this file
++
++Commit 6fe23ff31c0 changed README to an symlink to README.logs, and
++install README.logs under systemd doc dir.
++
++But for OE, systemd doc dir is splited into package systemd-doc, when it
++is not installed on the target, there will be an dead link:
++Eg:
++root@intel-x86-64:/var/log# ls -l README
++lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
++root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
++ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
++
++So remove this symlink from package systemd
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ tmpfiles.d/legacy.conf.in | 3 ---
++ 1 file changed, 3 deletions(-)
++
++diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
++index 4f2c0d7c43..62e2ae0986 100644
++--- a/tmpfiles.d/legacy.conf.in
+++++ b/tmpfiles.d/legacy.conf.in
++@@ -12,9 +12,6 @@
++ 
++ d /run/lock 0755 root root -
++ L /var/lock - - - - ../run/lock
++-{% if CREATE_LOG_DIRS %}
++-L /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
++-{% endif %}
++ 
++ # /run/lock/subsys is used for serializing SysV service execution, and
++ # hence without use on SysV-less systems.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd_253.1.bb b/meta/recipes-core/systemd/systemd_253.1.bb
+index f306765168..59a0ab757f 100644
+--- a/meta/recipes-core/systemd/systemd_253.1.bb
++++ b/meta/recipes-core/systemd/systemd_253.1.bb
+@@ -25,6 +25,7 @@ SRC_URI += " \
+            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0008-implment-systemd-sysv-install-for-OE.patch \
+            file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
++           file://0001-legacy.conf.in-Don-t-create-symlink-README-in-this-f.patch \
+            "
  
- do_install() {
-+	# Install weston-start script
- 	if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
-+		install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
-+		sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
-+		sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
- 		install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
- 		sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}/${sysconfdir}/init.d/weston
- 	fi
--	install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
--	install -Dm644 ${WORKDIR}/weston.env ${D}${sysconfdir}/default/weston
- 
- 	# Install Weston systemd service and accompanying udev rule
--	install -D -p -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
--	install -D -p -m0644 ${WORKDIR}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
-+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -D -p -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
-+		install -D -p -m0644 ${WORKDIR}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
-+		sed -i -e s:/etc:${sysconfdir}:g \
-+			-e s:/usr/bin:${bindir}:g \
-+			-e s:/var:${localstatedir}:g \
-+			${D}${systemd_system_unitdir}/weston.service
-+	fi
-+
- 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
- 		install -D -p -m0644 ${WORKDIR}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
- 	fi
--	sed -i -e s:/etc:${sysconfdir}:g \
--		-e s:/usr/bin:${bindir}:g \
--		-e s:/var:${localstatedir}:g \
--		${D}${systemd_system_unitdir}/weston.service
--	# Install weston-start script
--	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
--	sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
--	sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
-+
-+	install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
-+	install -Dm644 ${WORKDIR}/weston.env ${D}${sysconfdir}/default/weston
-+
- 	if [ -n "${DEFAULTBACKEND}" ]; then
- 		sed -i -e "/^\[core\]/a backend=${DEFAULTBACKEND}-backend.so" ${D}${sysconfdir}/xdg/weston/weston.ini
- 	fi
+ # patches needed by musl
 -- 
 2.34.1
 
