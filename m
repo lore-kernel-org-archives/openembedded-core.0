@@ -2,250 +2,135 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C32D3EB64D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C231DC0015E
 	for <webhook@archiver.kernel.org>; Fri, 30 Jun 2023 02:29:24 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.3833.1688092163668367540
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.3845.1688092161959071155
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jun 2023 19:29:23 -0700
+ Thu, 29 Jun 2023 19:29:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Iy4PvvwC;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-666fb8b1bc8so1231480b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:23 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=cOt5KY0p;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-666ed230c81so1285705b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jun 2023 19:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092163; x=1690684163;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688092161; x=1690684161;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DfV6j8AGWUC5ZmSaPKqNNDB086DckTqN39VZyE3blGE=;
-        b=Iy4PvvwCrAWTj0eXiw1teecfBdMlSvRUTklOmtENj4RcqfyXjT9L9+HC8KRqMuqYlF
-         RDjrzf2KcWBKg4bhooavLNwhPXuWqiLnChAohLMLFZwIFZYD5hgxQzbgli8/RlDZjUHT
-         FPHMOKBLPGYwZrM+ANOfyj2q5OEG7A228v1Vk8iF4tHkLA3+zup2afgdacYgmi3LHNcX
-         8P9nsVU8J5vsS7UYb7XNDB6jytENeSIzf7J7/7TRum+hJUuBD5vPbdoOjWbOSgd7ZoVp
-         CUq+yvMnJR/2QEFkTzOxAH6ZClhH7NcWsDejxwtURQRC6CbetaOTdpmeSJbSI4Wphvh8
-         QQoQ==
+        bh=xfKzUfer7KZaVftsKZNzplsBhoSONvxFvBiKQUmyMv4=;
+        b=cOt5KY0p8tSjQGvMJY534DFlcVUUUrS284vYHfrmRHJAWxxh+L4jWS8+5jtsn+rs1k
+         nCPLZKc4Z8lOncCO6YCMmQBQJ2dfYrooqF+gZO2opas8/4uqE7Ucb308x1ZxGAc8yWla
+         GBHpR+J8wcvjUCbTUnyPWyBba096L/6mX3hkkoOMUZaw1P8Xw7L+aA2YeQVQP5J6COv4
+         5Q2mKCSHMizbIWbPj1kqiVzZBziW6H5w3e+3vtzdDvw6IYDTImQxM2ZhLQ4le5BKGmXa
+         +cEnCe+vtaERrtl+0VXBJuoQtJBEKwUeOwEP3PNchnAwVvoRuU786QkcmpWkdDkoYrFO
+         PnuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688092163; x=1690684163;
+        d=1e100.net; s=20221208; t=1688092161; x=1690684161;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DfV6j8AGWUC5ZmSaPKqNNDB086DckTqN39VZyE3blGE=;
-        b=TxD9xmKmhvpR7D3Vnvp4hWFWBN3LEjNv7NV0eHFBluyRnVT2kg+NuO2r3pwKV/cGpW
-         LxkV01b6lJ3OTGKARXyWrDixl02hX502AbMjWNLVQScyYA5RLZUh1PqL+gDgd6btqk/W
-         P/n6N3WkZuuPomR69I99gIogS6cU/vnhfDsLx+6zXHuvaJumXMk+Tt952yubovzZ3/XF
-         Zx2Pm3dwu4HOq1i0MyDVSm8Iqoi+49KvFOJC9jpeCAAKfeUNl83LMsiumSdN1VsVeOCw
-         2TAPH2rTehP9muU9UhCCxGp56L/lTnjFMsypAau45e5xC8Pm4fwPN5NPk23XISjYUFrk
-         +bDQ==
-X-Gm-Message-State: ABy/qLZvkFP97InW2oTGHD51pZCyoEfMQCu4iXPRoSTc5UR0VVdf4bkX
-	wa4xc/+06e0JPfNe86MJa1yrtwuNZOJrSHSq7RVK0g==
-X-Google-Smtp-Source: APBJJlEgmDXuy+wJNxAnfQ/d+iQXvGsqFRE/FI10UyU8d6gqsnWWwMYp4LeRJskPQEnaU265HoXqVQ==
-X-Received: by 2002:a05:6a00:24d3:b0:63a:ea82:b7b7 with SMTP id d19-20020a056a0024d300b0063aea82b7b7mr2052408pfv.28.1688092162563;
-        Thu, 29 Jun 2023 19:29:22 -0700 (PDT)
+        bh=xfKzUfer7KZaVftsKZNzplsBhoSONvxFvBiKQUmyMv4=;
+        b=SqTr2bCsa+6Rrriv4qwJuoFId90Suz66HoFDNasl1W/agW9exDsBJ5b/eb2xTZQCkk
+         n5OikXmqXtwP+eJzb/NkuJ9E78Z9ePxBMuEG5cGDrO1DOOJ1hQDeOCv9KfwAn4CgRnSZ
+         4oRlPAKywhKSUTAuSX7K+VoMceRJ3DPFX6ID8qZw1k0q92Bs0CJBWksfForx+KEn7ghG
+         tmIxhW/oxAvNkselB6DPPoOjQIUnLAAx8/Qsh0rft8410JT/5GvRk/yZirijI7Is56Yw
+         wOONSvydckmZhotYqGcy9I2GkQ9PVlcvpOc5DqH/jw5fFlrXIgw46QjEdfTv3NcVzt5B
+         T3QQ==
+X-Gm-Message-State: ABy/qLaFSvyGIO72V84dDIdSWtKwFRMfbcc7cWI4RDW24/Bj7+bqyIXS
+	fxQUIV0xu+EFAJEkB5HswTunRhDJUlXYu1KSMzKXtg==
+X-Google-Smtp-Source: APBJJlGqIzyrvbnoZdDsm6nMPCv0yfZh1HlSloqRC9yYr6ynzsO83dKosyZzzeKhTKRNuW9nHfgZvg==
+X-Received: by 2002:a05:6a00:174c:b0:668:81c5:2f8d with SMTP id j12-20020a056a00174c00b0066881c52f8dmr2287914pfc.3.1688092160944;
+        Thu, 29 Jun 2023 19:29:20 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.21
+        by smtp.gmail.com with ESMTPSA id g7-20020a62e307000000b0065016fffc81sm3132030pfh.216.2023.06.29.19.29.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 19:29:22 -0700 (PDT)
+        Thu, 29 Jun 2023 19:29:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 06/30] python3-numpy: remove NPY_INLINE, use inline instead
-Date: Thu, 29 Jun 2023 16:28:42 -1000
-Message-Id: <77a64a8686b6c9ef3bc6adbce6cdc442096decfd.1688092011.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 05/30] bno_plot.py, btt_plot.py: Ask for python3 specifically
+Date: Thu, 29 Jun 2023 16:28:41 -1000
+Message-Id: <055330871b0d8f443d8eded6c0fcc0e404f70b8a.1688092011.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688092011.git.steve@sakoman.com>
 References: <cover.1688092011.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Jun 2023 02:29:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183646
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183645
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-The build fails when DEBUG_BUILD is enabled with GCC-13 as [1] and [2].
+python2 has been deprecated, use python3 instead
 
-Fixes:
-   | numpy/core/src/umath/simd.inc.src:977:20: note: called from here
-   | 977 |     @vtype@ zeros = _mm512_setzero_@vsuffix@();
-      |                    ^~~~~~~~~~~~~~~~~~~
-   | numpy/core/src/umath/simd.inc.src:596:1: error: inlining failed in call to ‘always_inline’ ‘avx512_get_full_load_mask_ps’: target specific option mismatch
-  596 | avx512_get_full_load_mask_ps(void)
-      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   | numpy/core/src/umath/simd.inc.src:976:27: note: called from here
-  976 |     @mask@ load_mask = avx512_get_full_load_mask_@vsuffix@();
-      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   | /usr/lib/gcc/x86_64-redhat-linux/13/include/avx512fintrin.h:6499:1: error: inlining failed in call to ‘always_inline’ ‘_mm512_loadu_si512’: target specific option mismatch
-
-Reference: https://github.com/numpy/numpy/pull/22674/commits/3947b1a023a07a55522de65b4d302339bac2bad7
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=8596678667797971559aed962b1c204266032186
-[2] http://errors.yoctoproject.org/Errors/Details/689841/
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ....inc.src-Change-NPY_INLINE-to-inline.patch | 135 ++++++++++++++++++
- .../python/python3-numpy_1.24.2.bb            |   1 +
- 2 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-numpy/0001-simd.inc.src-Change-NPY_INLINE-to-inline.patch
+ ...plot.py-Ask-for-python3-specifically.patch | 35 +++++++++++++++++++
+ meta/recipes-kernel/blktrace/blktrace_git.bb  |  4 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-simd.inc.src-Change-NPY_INLINE-to-inline.patch b/meta/recipes-devtools/python/python3-numpy/0001-simd.inc.src-Change-NPY_INLINE-to-inline.patch
+diff --git a/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch b/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
 new file mode 100644
-index 0000000000..d733dda333
+index 0000000000..a3b8a98589
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-simd.inc.src-Change-NPY_INLINE-to-inline.patch
-@@ -0,0 +1,135 @@
-+From f2a722aa30a29709bb9b5f60fc6d20a10fe6b4f5 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 28 Jun 2023 17:58:52 +0800
-+Subject: [PATCH] simd.inc.src: Change NPY_INLINE to inline
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-kernel/blktrace/blktrace/0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch
+@@ -0,0 +1,35 @@
++From b8d9618cbbec5a04cf6dede0a6ceda41021b92ae Mon Sep 17 00:00:00 2001
++From: Sakib Sajal <sakib.sajal@windriver.com>
++Date: Mon, 26 Jun 2023 17:34:01 -0400
++Subject: [PATCH] bno_plot.py, btt_plot.py: Ask for python3 specifically
 +
-+Fixes:
-+  | numpy/core/src/umath/simd.inc.src:977:20: note: called from here
-+  | 977 |     @vtype@ zeros = _mm512_setzero_@vsuffix@();
-+      |                    ^~~~~~~~~~~~~~~~~~~
-+  | numpy/core/src/umath/simd.inc.src:596:1: error: inlining failed in call to ‘always_inline’ ‘avx512_get_full_load_mask_ps’: target specific option mismatch
-+  596 | avx512_get_full_load_mask_ps(void)
-+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+  | numpy/core/src/umath/simd.inc.src:976:27: note: called from here
-+  976 |     @mask@ load_mask = avx512_get_full_load_mask_@vsuffix@();
-+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+  | /usr/lib/gcc/x86_64-redhat-linux/13/include/avx512fintrin.h:6499:1: error: inlining failed in call to ‘always_inline’ ‘_mm512_loadu_si512’: target specific option mismatch
++python2 is deprecated, use python3.
 +
-+Upstream-Status: Inappropriate [The file simd.inc.src have been removed in new version as
-+                                https://github.com/numpy/numpy/commit/640e85017aa8eac3e9be68b475acf27d623b16b7]
++Upstream-Status: Denied [https://www.spinics.net/lists/linux-btrace/msg01364.html]
 +
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ numpy/core/src/umath/simd.inc.src | 24 ++++++++++++------------
-+ 1 file changed, 12 insertions(+), 12 deletions(-)
++ btt/bno_plot.py | 2 +-
++ btt/btt_plot.py | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/numpy/core/src/umath/simd.inc.src b/numpy/core/src/umath/simd.inc.src
-+index d6c9a7e..39aec9a 100644
-+--- a/numpy/core/src/umath/simd.inc.src
-++++ b/numpy/core/src/umath/simd.inc.src
-+@@ -61,11 +61,11 @@
-+  */
-+ 
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
-+-static NPY_INLINE NPY_GCC_TARGET_AVX512F void
-++static inline NPY_GCC_TARGET_AVX512F void
-+ AVX512F_@func@_@TYPE@(@type@*, @type@*, const npy_intp n, const npy_intp stride);
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_unary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const npy_intp *steps)
-+ {
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -99,11 +99,11 @@ run_unary_avx512f_@func@_@TYPE@(char **args, const npy_intp *dimensions, const n
-+  */
-+ 
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512_SKX_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && @EXISTS@
-+-static NPY_INLINE NPY_GCC_TARGET_AVX512_SKX void
-++static inline NPY_GCC_TARGET_AVX512_SKX void
-+ AVX512_SKX_@func@_@TYPE@(npy_bool*, @type@*, const npy_intp n, const npy_intp stride);
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_@func@_avx512_skx_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512_SKX_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS && @EXISTS@
-+@@ -144,7 +144,7 @@ sse2_@func@_@TYPE@(@type@ *, @type@ *, const npy_intp n);
-+ 
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_@name@_simd_@func@_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if @vector@ && defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -169,7 +169,7 @@ sse2_@kind@_@TYPE@(npy_bool * op, @type@ * ip1, npy_intp n);
-+ 
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_@kind@_simd_@TYPE@(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if @vector@ && defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -205,7 +205,7 @@ static void
-+ sse2_reduce_@kind@_BOOL(npy_bool * op, npy_bool * ip, npy_intp n);
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_binary_simd_@kind@_BOOL(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -220,7 +220,7 @@ run_binary_simd_@kind@_BOOL(char **args, npy_intp const *dimensions, npy_intp co
-+ }
-+ 
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_reduce_simd_@kind@_BOOL(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -245,7 +245,7 @@ static void
-+ sse2_@kind@_BOOL(npy_bool *, npy_bool *, const npy_intp n);
-+ #endif
-+ 
-+-static NPY_INLINE int
-++static inline int
-+ run_unary_simd_@kind@_BOOL(char **args, npy_intp const *dimensions, npy_intp const *steps)
-+ {
-+ #if defined NPY_HAVE_SSE2_INTRINSICS
-+@@ -875,7 +875,7 @@ NPY_FINLINE NPY_GCC_OPT_3 NPY_GCC_TARGET_@ISA@ @vtype@d
-+  */
-+ 
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512_SKX_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
-+-static NPY_INLINE NPY_GCC_TARGET_AVX512_SKX void
-++static inline NPY_GCC_TARGET_AVX512_SKX void
-+ AVX512_SKX_@func@_@TYPE@(npy_bool* op, @type@* ip, const npy_intp array_size, const npy_intp steps)
-+ {
-+     const npy_intp stride_ip = steps/(npy_intp)sizeof(@type@);
-+@@ -954,7 +954,7 @@ AVX512_SKX_@func@_@TYPE@(npy_bool* op, @type@* ip, const npy_intp array_size, co
-+  */
-+ 
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
-+-static NPY_GCC_OPT_3 NPY_INLINE NPY_GCC_TARGET_AVX512F void
-++static NPY_GCC_OPT_3 inline NPY_GCC_TARGET_AVX512F void
-+ AVX512F_@func@_@TYPE@(@type@ * op,
-+                       @type@ * ip,
-+                       const npy_intp array_size,
-+@@ -1001,7 +1001,7 @@ AVX512F_@func@_@TYPE@(@type@ * op,
-+ /**end repeat1**/
-+ 
-+ #if defined HAVE_ATTRIBUTE_TARGET_AVX512F_WITH_INTRINSICS && defined NPY_HAVE_SSE2_INTRINSICS
-+-static NPY_GCC_OPT_3 NPY_INLINE NPY_GCC_TARGET_AVX512F void
-++static NPY_GCC_OPT_3 inline NPY_GCC_TARGET_AVX512F void
-+ AVX512F_absolute_@TYPE@(@type@ * op,
-+                         @type@ * ip,
-+                         const npy_intp array_size,
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.24.2.bb b/meta/recipes-devtools/python/python3-numpy_1.24.2.bb
-index bfcfc52729..5f88948de2 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.24.2.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.24.2.bb
-@@ -10,6 +10,7 @@ SRCNAME = "numpy"
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-+           file://0001-simd.inc.src-Change-NPY_INLINE-to-inline.patch \
-            file://run-ptest \
-            "
- SRC_URI[sha256sum] = "003a9f530e880cb2cd177cba1af7220b9aa42def9c4afc2a2fc3ee6be7eb2b22"
++diff --git a/btt/bno_plot.py b/btt/bno_plot.py
++index 3aa4e19..d7d7159 100644
++--- a/btt/bno_plot.py
+++++ b/btt/bno_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt blkno plotting interface
++ #
++diff --git a/btt/btt_plot.py b/btt/btt_plot.py
++index 40bc71f..8620d31 100755
++--- a/btt/btt_plot.py
+++++ b/btt/btt_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt_plot.py: Generate matplotlib plots for BTT generate data files
++ #
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index d0eeba3208..288784236a 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -14,7 +14,9 @@ SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
+ 
+ PV = "1.3.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.kernel.dk/blktrace.git;branch=master;protocol=https"
++SRC_URI = "git://git.kernel.dk/blktrace.git;branch=master;protocol=https \
++           file://0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifically.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.34.1
 
