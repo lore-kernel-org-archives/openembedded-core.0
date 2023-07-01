@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7A6C19F4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C566CC3DA44
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.10495.1688227322864681781
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.10767.1688227323365558540
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jul 2023 09:02:02 -0700
+ Sat, 01 Jul 2023 09:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KQE4aJwH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010189123098d6-2ecad3e6-c66c-4c5d-ad83-f594939c517f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Bxv7oEaa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018912309b8d-bba06169-dd7a-4393-b132-58a141d824e5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1688227322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2A117LiofxihRRbUzkk+gHlg9BJf0ueTHSpH6zu0U40=;
-	b=KQE4aJwHdIxuU0NgMY4fmXIUD7wu8Zs6VHv2mAj+hTkfuo9sxVoHXqGSyYS9i7kH
-	EA0z4Ksaj3FpCgBse9kkTrMo4abUoy9POLZuWNKKhslkeFWMpEQwGMq9veWAlPS27jG
-	XbnoVm3Jjq6fJtVTVC+Ywy/XPZ9nTHYB1JHBKJKA=
+	bh=MlhbiAVs4eU1OGhV2gOb6BG16UjYuimwN8JGAE7GAm0=;
+	b=Bxv7oEaaYIVgJ7TLTZ+dtoPwfn9JzN6el7NFel19aDdrf3Nnl0e8uJE8e5rZXAHU
+	t7NueGcXq2HlTUn3XZiznHWuWBmZ+vO62xb5jgXFWVxvyPs+vpzOX8CNl+ag+QSrMW+
+	mnmrHT6sbxv06jDovKtPYBlfslsNAk9yCZFqzVH8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2A117LiofxihRRbUzkk+gHlg9BJf0ueTHSpH6zu0U40=;
-	b=rdYoOYfP//ttPSt0Vodhfpsxn+ZywADMc8LIUftoEqFn2dcUYASKe50Bw9Zc+Z8Q
-	nl+0EjKhAnGKWBXSPFMNRYnf/xkTSAVbwCVkFME5U9QMAhvN2fU/4ln/I47lvG8byO2
-	0oNFstMQqJ9AdlHiH2llOWqCihi+T1ABSbEZ/XRI=
-Content-Type: multipart/mixed; boundary="===============3817471897757555020=="
+	bh=MlhbiAVs4eU1OGhV2gOb6BG16UjYuimwN8JGAE7GAm0=;
+	b=DPWwBDHsqt4Cx5ovfnd2/MWPtq0MIKdmkUOl2R7G5odqSsubTuI1EOY1QCMCOiC6
+	ig+3X+WZ6daMtykMvCPts1vuQFrNg8Y+KAE7SJlRkv/HHa2ayRwPV561MjeGRholrGY
+	3B4Xf8TW/cz0Ah/G0RS6gOiLhmF/Nxe0u2IkWmPE=
+Content-Type: multipart/mixed; boundary="===============3556525081594350905=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] meson: upgrading to 1.2.0 FAILED
-Message-ID: <01010189123098d6-2ecad3e6-c66c-4c5d-ad83-f594939c517f-000000@us-west-2.amazonses.com>
+Subject: [AUH] acpica: upgrading to 20230628 SUCCEEDED
+Message-ID: <0101018912309b8d-bba06169-dd7a-4393-b132-58a141d824e5-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jul 2023 16:02:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.31
+X-SES-Outgoing: 2023.07.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183716
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183731
 
---===============3817471897757555020==
+--===============3556525081594350905==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,92 +50,152 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *meson* to *1.2.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *acpica* to *20230628* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-acpica-upgrade-20230331-20230628.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade meson -V 1.2.0
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (08:39:35.707309)
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:451e61319c73897ba8744cbef0ebeaa4f1aa446a"
-workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1799 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 897 .bb files complete (895 cached, 2 parsed). 1800 targets, 34 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:451e61319c73897ba8744cbef0ebeaa4f1aa446a"
-workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://github.com/mesonbuild/meson/releases//download/1.2.0/meson-1.2.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/mesonbuild/meson/releases//download/1.2.0/meson-1.2.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot-native/usr/bin:/home/
- pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/meson-1.2.0.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://github.com/mesonbuild/meson/releases//download/1.2.0/meson-1.2.0.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/mesonbuild/meson/releases//download/1.2.0/meson-1.2.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gn29xj3z/work/temp/log.do_fetch.1450913
-ERROR: Failed to fetch URL https://github.com/mesonbuild/meson/releases//download/1.2.0/meson-1.2.0.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3817471897757555020==--
+
+-- >8 --
+From f5e6db9ff249cd111a5b263bf6fdd7a3c0c55388 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jul 2023 10:04:42 +0000
+Subject: [PATCH] acpica: upgrade 20230331 -> 20230628
+
+---
+ .../acpica/{acpica_20230331.bb => acpica_20230628.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/acpica/{acpica_20230331.bb => acpica_20230628.bb} (94%)
+
+diff --git a/meta/recipes-extended/acpica/acpica_20230331.bb b/meta/recipes-extended/acpica/acpica_20230628.bb
+similarity index 94%
+rename from meta/recipes-extended/acpica/acpica_20230331.bb
+rename to meta/recipes-extended/acpica/acpica_20230628.bb
+index 01b8833f50..06db99cef5 100644
+--- a/meta/recipes-extended/acpica/acpica_20230331.bb
++++ b/meta/recipes-extended/acpica/acpica_20230628.bb
+@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "0c5d695d605aaa61709f3c63f57a1a99b8902291723998446b0813b57ac310e2"
++SRC_URI[sha256sum] = "86876a745e3d224dcfd222ed3de465b47559e85811df2db9820ef09a9dff5cce"
+ 
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ 
+-- 
+2.39.2
+
+
+--===============3556525081594350905==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 61 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+--===============3556525081594350905==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-acpica-upgrade-20230331-20230628.patch"
+
+RnJvbSBmNWU2ZGI5ZmYyNDljZDExMWE1YjI2M2JmNmZkZDdhM2MwYzU1Mzg4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMDowNDo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFj
+cGljYTogdXBncmFkZSAyMDIzMDMzMSAtPiAyMDIzMDYyOAoKLS0tCiAuLi4vYWNwaWNhL3thY3Bp
+Y2FfMjAyMzAzMzEuYmIgPT4gYWNwaWNhXzIwMjMwNjI4LmJifSAgICAgICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL3thY3BpY2FfMjAyMzAzMzEuYmIgPT4gYWNwaWNhXzIw
+MjMwNjI4LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3Bp
+Y2EvYWNwaWNhXzIwMjMwMzMxLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2FjcGljYS9hY3Bp
+Y2FfMjAyMzA2MjguYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL2FjcGljYS9hY3BpY2FfMjAyMzAzMzEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNhXzIwMjMwNjI4LmJiCmluZGV4IDAxYjg4MzNmNTAu
+LjA2ZGI5OWNlZjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNw
+aWNhXzIwMjMwMzMxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNh
+XzIwMjMwNjI4LmJiCkBAIC0xNyw3ICsxNyw3IEBAIENPTVBBVElCTEVfSE9TVCA9ICIoaS44Nnx4
+ODZfNjR8YXJtfGFhcmNoNjQpLiotbGludXgiCiBERVBFTkRTID0gIm00LW5hdGl2ZSBmbGV4LW5h
+dGl2ZSBiaXNvbi1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9hY3BpY2Eub3JnL3NpdGVz
+L2FjcGljYS9maWxlcy9hY3BpY2EtdW5peC0ke1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiMGM1ZDY5NWQ2MDVhYWE2MTcwOWYzYzYzZjU3YTFhOTliODkwMjI5MTcyMzk5ODQ0NmIw
+ODEzYjU3YWMzMTBlMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4Njg3NmE3NDVlM2QyMjRkY2Zk
+MjIyZWQzZGU0NjViNDc1NTllODU4MTFkZjJkYjk4MjBlZjA5YTlkZmY1Y2NlIgogCiBVUFNUUkVB
+TV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9hY3BpY2Eub3JnL2Rvd25sb2FkcyIKIAotLSAKMi4zOS4y
+Cgo=
+
+--===============3556525081594350905==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 8868372 to 8890928 (+0%)
+packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10435562 to 10457490 (+0%)
+packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica/acpica: PKGSIZE changed from 2686332 to 2695516 (+0%)
+packages/core2-32-poky-linux/acpica/acpica: PV changed from "20230331" to "20230628"
+packages/core2-32-poky-linux/acpica: SRC_URI changed from "https://acpica.org/sites/acpica/files/acpica-unix-20230331.tar.gz" to "https://acpica.org/sites/acpica/files/acpica-unix-20230628.tar.gz"
+packages/core2-32-poky-linux/acpica: PKGV changed from 20230331 [default] to 20230628 [default]
+packages/core2-32-poky-linux/acpica: PV changed from "20230331" to "20230628"
+
+--===============3556525081594350905==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 67 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+--===============3556525081594350905==--
 
