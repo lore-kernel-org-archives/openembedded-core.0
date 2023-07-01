@@ -1,46 +1,46 @@
 Return-Path: <auh@yoctoproject.org>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FDEC3DA42
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E81C3DA43
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.10769.1688227323756206527
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.10504.1688227323435356274
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Mx+wHQXU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018912309b0b-73816f6f-f01a-490a-8a42-52ec44529238-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CPKTBy4A;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018912309b1d-23f40560-01df-48a9-9aa5-8d97e7215cc6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1688227323;
+	t=1688227322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MdZgEI6MfAyqBJyjzvrHJcVqvKHMLJHiw/s2aP1kTkc=;
-	b=Mx+wHQXUfRlh5Zyed93sbBxE2BetmSCV79d8edWPOu8HgfmoAfJoQlLg53DWkiiJ
-	XozYnVdrz2JUsBGWx6gyjumAw6beUrpP5yd6uG5bOrhwxvqfZnUDscJ7nZztA8gmr8P
-	pE7QPTWu0r+m8eBczJHLws9WmxnNnTd/iZoN+YAc=
+	bh=QuaAzPfRCqHKg3FS7xCzEbKULCCcTNZ+X9DHyiDrKsU=;
+	b=CPKTBy4AuCufpRalizHmAj1DW13B5e6ra/jGex6xNartAyaQYLpkwDppGSaN1tW8
+	C3IR5pbhf5ZRrVbOFoNDAXeRf+y3C6V78prlAARiJeqoRWjBSKIQyEg7qCjY7vrd02a
+	66U1eiuI/ZzknNtlWS1MFjbWbWfBIM1yufW4NHBU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227323;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MdZgEI6MfAyqBJyjzvrHJcVqvKHMLJHiw/s2aP1kTkc=;
-	b=UKugwK8VQUJL3Y3z/hiyQ1PWd2jl31N220frcR0ux0B07XlYbVEVKip5pqo+ZAHv
-	3p1nEkagvIwP4O5M1Lrh4PCojxCGgR5vt7dhzOQNHdsBkeGCCZJvE6Vr8J900OCqaqU
-	gcGvII+qiCu9AFoRT2zAd1h3oORoLSIQ3K5uyC6A=
-Content-Type: multipart/mixed; boundary="===============8274985165654786115=="
+	bh=QuaAzPfRCqHKg3FS7xCzEbKULCCcTNZ+X9DHyiDrKsU=;
+	b=WKEwwUomV6JtS8ALtwv+f/rFPo99Af6m/crQGVtP8VseAo6WEEFUEdze/L1Rx6Zh
+	/akiE2BCraLPnJKX1JFaz37IOgCvZ49KpiJ/MiTxIyevGrRmjjW8t5MWT1tMidIsOcS
+	9/O44fcjEWGnZvO8tAvRzUCEf7A/QgujZMMOKlk8=
+Content-Type: multipart/mixed; boundary="===============9070071814911713180=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-typing-extensions: upgrading to 4.7.0 FAILED
-Message-ID: <0101018912309b0b-73816f6f-f01a-490a-8a42-52ec44529238-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-urllib3: upgrading to 2.0.3 FAILED
+Message-ID: <0101018912309b1d-23f40560-01df-48a9-9aa5-8d97e7215cc6-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jul 2023 16:02:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.30
+X-SES-Outgoing: 2023.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183741
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183736
 
---===============8274985165654786115==
+--===============9070071814911713180==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -48,7 +48,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-typing-extensions* to *4.7.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *python3-urllib3* to *2.0.3* has Failed(do_compile).
 
 Detailed error information:
 
@@ -57,7 +57,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.6.3-4.7.0.patch
+    - apply the patch: git am 0001-python3-urllib3-upgrade-2.0.2-2.0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,73 +75,1466 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From eadad133ee0835e29f89bd403d28e9fa82ee8705 Mon Sep 17 00:00:00 2001
+From 0cfa82cfd36ae956a613c4c1471523cc36de7177 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 09:05:57 +0000
-Subject: [PATCH] python3-typing-extensions: upgrade 4.6.3 -> 4.7.0
+Date: Sat, 1 Jul 2023 09:28:03 +0000
+Subject: [PATCH] python3-urllib3: upgrade 2.0.2 -> 2.0.3
 
 ---
- ...g-extensions_4.6.3.bb => python3-typing-extensions_4.7.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.6.3.bb => python3-typing-extensions_4.7.0.bb} (91%)
+ ...lib3_2.0.2.bb => python3-urllib3_2.0.3.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.0.2.bb => python3-urllib3_2.0.3.bb} (37%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
-index ebce6e8d4e..887cece688 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.0.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb
+similarity index 37%
+rename from meta/recipes-devtools/python/python3-urllib3_2.0.2.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.0.3.bb
+index bc1cdb009f..5db86562d5 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.0.2.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb
+@@ -1,9 +1,30 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.txt
++# +++ LICENSE.txt
++# @@ -1,6 +1,6 @@
++#  MIT License
++#  
++# -Copyright (c) 2008-2020 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
++# +Copyright (c) 2008-2020 Andrey Petrov and contributors.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy
++#  of this software and associated documentation files (the "Software"), to deal
++# 
++#
++
+ SUMMARY = "Python HTTP library with thread-safe connection pooling, file post support, sanity friendly, and more"
+ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2823cb995439c984fd62a973d79815c"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
  
--SRC_URI[sha256sum] = "d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"
-+SRC_URI[sha256sum] = "935ccf31549830cda708b42289d44b6f74084d616a00be651601a4f968e77c82"
+-SRC_URI[sha256sum] = "61717a1095d7e155cdb737ac7bb2f4324a858a1e2e6466f6d03ff630ca68d3cc"
++SRC_URI[sha256sum] = "bee28b5e56addb8226c96f7f13ac28cb4c301dd5ea8a6ca179c0b9835e032825"
  
- inherit pypi python_flit_core
+ inherit pypi python_hatchling
  
 -- 
 2.39.2
 
 
---===============8274985165654786115==
+--===============9070071814911713180==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.11/site-packages/typing_extensions-4.6.3.dist-info moved to /usr/lib/python3.11/site-packages/typing_extensions-4.7.0.dist-info
+Changes to packages/core2-32-poky-linux/python3-urllib3 (sysroot):
+  /usr/lib/python3.11/site-packages/urllib3-2.0.2.dist-info moved to /usr/lib/python3.11/site-packages/urllib3-2.0.3.dist-info
 
---===============8274985165654786115==
+--===============9070071814911713180==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 61 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:08a5bc7580428ecb76df6588d3d90ac5f6ef970e"
+workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
+
+Initialising tasks...done.
+Sstate summary: Wanted 87 Local 24 Mirrors 0 Missed 63 Current 453 (27% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1051 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_fetch)
+NOTE: Running task 1124 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_fetch)
+NOTE: Running task 1238 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
+NOTE: Running task 1294 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_fetch)
+NOTE: Running task 1300 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_fetch)
+NOTE: Running task 1301 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_fetch)
+NOTE: Running task 1323 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_fetch)
+NOTE: Running task 1324 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_fetch)
+NOTE: Running task 1459 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Started
+NOTE: Running task 1537 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_fetch)
+NOTE: Running task 1538 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_fetch)
+NOTE: Running task 1539 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_fetch)
+NOTE: Running task 1541 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1543 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_fetch)
+NOTE: Running task 1544 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1649 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_unpack)
+NOTE: Running task 1650 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Started
+NOTE: Running task 1705 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_collect_spdx_deps)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
+NOTE: Running task 1717 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1718 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_unpack)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1719 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_unpack)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Started
+NOTE: Running task 1720 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1721 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_unpack)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Started
+NOTE: Running task 1722 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_unpack)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1723 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_unpack)
+NOTE: Running task 1724 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_unpack)
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1725 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1726 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1728 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1729 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1730 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1731 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_unpack)
+NOTE: Running task 1732 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_unpack)
+NOTE: Running task 1733 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_unpack)
+NOTE: Running task 1734 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1735 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_unpack)
+NOTE: Running task 1736 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1737 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1738 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1739 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1740 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Started
+NOTE: Running task 1741 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_create_spdx)
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1743 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_patch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1744 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1745 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_patch)
+NOTE: Running task 1746 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Started
+NOTE: Running task 1747 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_patch)
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Started
+NOTE: Running task 1748 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_patch)
+NOTE: Running task 1749 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_patch)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1750 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: Running task 1751 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_patch)
+NOTE: Running task 1752 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_patch)
+NOTE: Running task 1753 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1754 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1755 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_patch)
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1756 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1757 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Succeeded
+NOTE: Running task 1758 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1759 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Succeeded
+NOTE: Running task 1760 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Succeeded
+NOTE: Running task 1761 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1762 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1763 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1764 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1765 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Succeeded
+NOTE: Running task 1766 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1767 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1768 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic unihash changed to a1a612b6ddac0af7b01666686afa4c88db1a16e6effd710de2f58d71c84ce51c
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1769 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Started
+NOTE: Running task 1770 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1771 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_configure)
+NOTE: Running task 1772 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
+NOTE: Running task 1773 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_configure)
+NOTE: Running task 1774 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1775 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_configure)
+NOTE: Running task 1776 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1777 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_configure)
+NOTE: Running task 1778 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1779 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_configure)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Started
+NOTE: Running task 1780 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Started
+NOTE: Running task 1781 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure_ptest_base)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Succeeded
+NOTE: Running task 1782 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Succeeded
+NOTE: Running task 1783 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1784 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1785 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_compile)
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Succeeded
+NOTE: Running task 1786 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_compile)
+NOTE: Running task 1787 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: Running task 1788 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Succeeded
+NOTE: Running task 1789 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_compile)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Succeeded
+NOTE: Running task 1790 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_compile)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: Running task 1791 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1792 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: Running task 1793 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1794 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1795 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Succeeded
+NOTE: Running task 1796 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_install)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Succeeded
+NOTE: Running task 1797 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Succeeded
+NOTE: Running task 1799 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1800 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Started
+NOTE: Running task 1801 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1802 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install)
+NOTE: Running task 1803 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Succeeded
+NOTE: Running task 1804 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: Running task 1805 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile_ptest_base)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Succeeded
+NOTE: Running task 1806 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_package)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Started
+NOTE: Running task 1807 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_sysroot)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Started
+NOTE: Running task 1808 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_install)
+NOTE: Running task 1809 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_package)
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1810 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1811 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1812 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Succeeded
+NOTE: Running task 1813 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_package)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Started
+NOTE: Running task 1814 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install_ptest_base)
+NOTE: Running task 1815 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1816 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1817 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Succeeded
+NOTE: Running task 1818 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: Running task 1819 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_packagedata)
+NOTE: Running task 1820 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install_ptest_base)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Succeeded
+NOTE: Running task 1821 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_packagedata)
+NOTE: Running task 1822 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_package)
+NOTE: Running task 1823 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1824 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 1825 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_create_spdx)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Started
+NOTE: Running task 1826 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package_write_rpm)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Started
+NOTE: Running task 1827 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_package)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Started
+NOTE: Running task 1828 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: Running task 1829 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 1830 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_create_spdx)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: Running task 1831 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_packagedata)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Succeeded
+NOTE: Running task 1832 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Succeeded
+NOTE: Running task 1833 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1833 tasks of which 1699 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-src went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dbg went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-ptest went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-staticdev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-doc went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-locale went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-hypothesis/6.79.2-r0/temp/log.do_packagedata.2102435
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata) failed with exit code '1'
+
+--===============9070071814911713180==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1801 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (895 cached, 1 parsed). 1799 targets, 34 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:08a5bc7580428ecb76df6588d3d90ac5f6ef970e"
+workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
+
+Initialising tasks...done.
+Sstate summary: Wanted 87 Local 24 Mirrors 0 Missed 63 Current 453 (27% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1051 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_fetch)
+NOTE: Running task 1124 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_fetch)
+NOTE: Running task 1238 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
+NOTE: Running task 1294 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_fetch)
+NOTE: Running task 1300 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_fetch)
+NOTE: Running task 1301 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_fetch)
+NOTE: Running task 1324 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_fetch)
+NOTE: Running task 1325 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_fetch)
+NOTE: Running task 1459 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Started
+NOTE: Running task 1537 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: Running task 1538 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_fetch)
+NOTE: Running task 1540 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_fetch)
+NOTE: Running task 1541 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_fetch)
+NOTE: Running task 1542 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_fetch)
+NOTE: Running task 1544 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1606 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_unpack)
+NOTE: Running task 1607 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
+NOTE: Running task 1705 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_collect_spdx_deps)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1706 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_unpack)
+NOTE: Running task 1707 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: Running task 1708 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_unpack)
+NOTE: Running task 1709 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_unpack)
+NOTE: Running task 1710 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_unpack)
+NOTE: Running task 1711 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_unpack)
+NOTE: Running task 1712 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_unpack)
+NOTE: Running task 1713 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Started
+NOTE: Running task 1714 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
+NOTE: Running task 1715 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1716 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1717 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Started
+NOTE: Running task 1718 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1719 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1720 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_unpack)
+NOTE: Running task 1721 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_unpack)
+NOTE: Running task 1722 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_unpack)
+NOTE: Running task 1723 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_unpack)
+NOTE: Running task 1724 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1725 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1726 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Started
+NOTE: Running task 1727 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1728 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1729 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_patch)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Started
+NOTE: Running task 1730 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1731 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_patch)
+NOTE: Running task 1732 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: Running task 1733 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_patch)
+NOTE: Running task 1745 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: Running task 1746 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_patch)
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Started
+NOTE: Running task 1747 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_patch)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1748 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1749 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1750 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Succeeded
+NOTE: Running task 1751 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1752 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1753 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1754 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_patch)
+NOTE: Running task 1755 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_patch)
+NOTE: Running task 1756 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 1757 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_create_spdx)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1758 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_patch)
+NOTE: Running task 1760 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic)
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Succeeded
+NOTE: Running task 1761 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1762 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1763 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Succeeded
+NOTE: Running task 1764 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: Running task 1765 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1766 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Succeeded
+NOTE: Running task 1767 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1768 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1769 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_patch)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1770 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
+NOTE: Running task 1771 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic unihash changed to a1a612b6ddac0af7b01666686afa4c88db1a16e6effd710de2f58d71c84ce51c
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1772 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_configure)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1773 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1774 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1775 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_configure)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1776 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1777 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1778 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure)
+NOTE: Running task 1779 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure)
+NOTE: Running task 1780 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_configure)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1781 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_configure)
+NOTE: Running task 1782 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1783 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_compile)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: Running task 1784 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1785 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_rust_gen_targets)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Succeeded
+NOTE: Running task 1786 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_compile)
+NOTE: Running task 1787 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Succeeded
+NOTE: Running task 1788 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure_ptest_base)
+NOTE: Running task 1789 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure_ptest_base)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: Running task 1790 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_compile)
+NOTE: Running task 1791 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_compile)
+NOTE: Running task 1792 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_compile)
+NOTE: Running task 1793 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: Running task 1794 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1795 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Succeeded
+NOTE: Running task 1796 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_install)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Succeeded
+NOTE: Running task 1797 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Succeeded
+NOTE: Running task 1799 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1800 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile_ptest_base)
+NOTE: Running task 1801 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1802 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install)
+NOTE: Running task 1803 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: Running task 1804 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Succeeded
+NOTE: Running task 1805 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_package)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Started
+NOTE: Running task 1806 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_sysroot)
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Succeeded
+NOTE: Running task 1807 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: Running task 1808 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_install)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Succeeded
+NOTE: Running task 1809 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_package)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1810 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1811 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1812 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Succeeded
+NOTE: Running task 1813 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Succeeded
+NOTE: Running task 1814 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1815 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Started
+NOTE: Running task 1816 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_install)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1817 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_package)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Succeeded
+NOTE: Running task 1818 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_packagedata)
+NOTE: Running task 1819 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: Running task 1820 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install_ptest_base)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: Running task 1821 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_packagedata)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1822 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_packagedata)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1823 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: Running task 1824 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_package)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 1825 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_create_spdx)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 1826 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package_write_rpm)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1827 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1828 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Succeeded
+NOTE: Running task 1829 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_package)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_create_spdx)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: Running task 1831 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Succeeded
+NOTE: Running task 1832 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Succeeded
+NOTE: Running task 1833 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1833 tasks of which 1699 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-src went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dbg went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-ptest went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-staticdev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-doc went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-locale went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-hypothesis/6.79.2-r0/temp/log.do_packagedata.2078193
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata) failed with exit code '1'
+
+--===============9070071814911713180==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-typing-extensions: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.6.3.tar.gz;downloadfilename=typing_extensions-4.6.3.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.7.0.tar.gz;downloadfilename=typing_extensions-4.7.0.tar.gz"
-packages/core2-32-poky-linux/python3-typing-extensions: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.6.3" to "4.7.0"
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.6.3 [default] to 4.7.0 [default]
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 248377 to 258228 (+4%)
-packages/core2-32-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.6.3" to "4.7.0"
-Changes to packages/core2-32-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.11/site-packages/typing_extensions-4.6.3.dist-info moved to /usr/lib/python3.11/site-packages/typing_extensions-4.7.0.dist-info
+packages/core2-32-poky-linux/python3-urllib3: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-2.0.2.tar.gz;downloadfilename=urllib3-2.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-2.0.3.tar.gz;downloadfilename=urllib3-2.0.3.tar.gz"
+packages/core2-32-poky-linux/python3-urllib3: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dbg: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dbg: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dev: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dev: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-doc: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-doc: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-locale: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-locale: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-src: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-src: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-staticdev: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-staticdev: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PKGSIZE changed from 850167 to 853347 (+0%)
+Changes to packages/core2-32-poky-linux/python3-urllib3 (sysroot):
+  /usr/lib/python3.11/site-packages/urllib3-2.0.2.dist-info moved to /usr/lib/python3.11/site-packages/urllib3-2.0.3.dist-info
 
---===============8274985165654786115==
+--===============9070071814911713180==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 67 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:08a5bc7580428ecb76df6588d3d90ac5f6ef970e"
+workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
+
+Initialising tasks...done.
+Sstate summary: Wanted 87 Local 24 Mirrors 0 Missed 63 Current 453 (27% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1051 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_fetch)
+NOTE: Running task 1124 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_fetch)
+NOTE: Running task 1238 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
+NOTE: Running task 1294 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_fetch)
+NOTE: Running task 1300 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_fetch)
+NOTE: Running task 1301 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_fetch)
+NOTE: Running task 1323 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_fetch)
+NOTE: Running task 1325 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Started
+NOTE: Running task 1459 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1538 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_fetch)
+NOTE: Running task 1539 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_fetch)
+NOTE: Running task 1540 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_fetch)
+NOTE: Running task 1541 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_fetch)
+NOTE: Running task 1543 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 1545 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1577 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_unpack)
+NOTE: Running task 1578 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1705 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1706 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_unpack)
+NOTE: Running task 1707 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_unpack)
+NOTE: Running task 1708 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_unpack)
+NOTE: Running task 1709 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_unpack)
+NOTE: Running task 1710 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_unpack)
+NOTE: Running task 1711 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: Running task 1712 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_unpack)
+NOTE: Running task 1713 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: Running task 1714 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1715 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
+NOTE: Running task 1716 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1717 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1718 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1719 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_unpack)
+NOTE: Running task 1720 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_unpack)
+NOTE: Running task 1721 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_unpack)
+NOTE: Running task 1722 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_unpack)
+NOTE: Running task 1723 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1724 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1725 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1726 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Started
+NOTE: Running task 1727 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1728 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1729 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_patch)
+NOTE: Running task 1730 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1731 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_patch)
+NOTE: Running task 1732 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_patch)
+NOTE: Running task 1733 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: Running task 1745 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: Running task 1746 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1747 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1748 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1749 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1750 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_patch)
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1751 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1752 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1753 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1754 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 1755 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: Running task 1756 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_create_spdx)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Succeeded
+NOTE: Running task 1758 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1759 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1760 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_patch)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Succeeded
+NOTE: Running task 1761 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Started
+NOTE: Running task 1762 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: Running task 1763 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1764 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1765 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1766 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Succeeded
+NOTE: Running task 1767 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1768 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic unihash changed to a1a612b6ddac0af7b01666686afa4c88db1a16e6effd710de2f58d71c84ce51c
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1769 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_configure)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1770 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_patch)
+NOTE: Running task 1771 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1772 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
+NOTE: Running task 1773 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1774 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1775 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Started
+NOTE: Running task 1776 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1777 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_configure)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1778 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_configure)
+NOTE: Running task 1779 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_configure)
+NOTE: Running task 1780 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Succeeded
+NOTE: Running task 1781 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_compile)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1782 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1783 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Succeeded
+NOTE: Running task 1784 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: Running task 1785 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Succeeded
+NOTE: Running task 1786 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1787 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1788 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure_ptest_base)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
+NOTE: Running task 1789 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Succeeded
+NOTE: Running task 1790 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_compile)
+NOTE: Running task 1791 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: Running task 1792 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_compile)
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: Running task 1793 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Started
+NOTE: Running task 1794 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1795 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Succeeded
+NOTE: Running task 1796 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Succeeded
+NOTE: Running task 1797 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_install)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Succeeded
+NOTE: Running task 1799 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: Running task 1800 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Succeeded
+NOTE: Running task 1801 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Succeeded
+NOTE: Running task 1802 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1803 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: Running task 1804 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_package)
+NOTE: Running task 1805 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: Running task 1806 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_sysroot)
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Succeeded
+NOTE: Running task 1807 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Succeeded
+NOTE: Running task 1808 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Started
+NOTE: Running task 1809 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1810 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1811 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1812 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Succeeded
+NOTE: Running task 1813 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1814 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Succeeded
+NOTE: Running task 1815 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install_ptest_base)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Succeeded
+NOTE: Running task 1816 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_install)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1817 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Succeeded
+NOTE: Running task 1818 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1819 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install_ptest_base)
+NOTE: Running task 1820 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Started
+NOTE: Running task 1821 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_create_spdx)
+NOTE: Running task 1822 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package_write_rpm)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Succeeded
+NOTE: Running task 1823 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_packagedata)
+NOTE: Running task 1824 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_packagedata)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1825 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1826 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_package)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: Running task 1827 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Succeeded
+NOTE: Running task 1828 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_package)
+NOTE: Running task 1829 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 1830 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_create_spdx)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Started
+NOTE: Running task 1831 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_packagedata)
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Succeeded
+NOTE: Running task 1832 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Succeeded
+NOTE: Running task 1833 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_packagedata)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1833 tasks of which 1699 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-src went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dbg went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-ptest went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-staticdev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-doc went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-locale went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-hypothesis/6.79.2-r0/temp/log.do_packagedata.2114510
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata) failed with exit code '1'
+
+--===============9070071814911713180==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -152,8 +1545,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 45 skipped, 0 masked, 0 errors.
-Removing 24 recipes from the core2-32 sysroot...done.
-Removing 48 recipes from the qemux86 sysroot...done.
+Removing 37 recipes from the core2-32 sysroot...done.
+Removing 54 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -168,381 +1561,812 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a1bc01ed5ee27432ec8017d01d7db08c8377d1b8"
+meta-yocto-bsp       = "tmp-auh-upgrades:08a5bc7580428ecb76df6588d3d90ac5f6ef970e"
 workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 190 Local 155 Mirrors 0 Missed 35 Current 200 (81% match, 91% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 285 Local 170 Mirrors 0 Missed 115 Current 278 (59% match, 79% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 201 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 213 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 214 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 215 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 216 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 220 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 227 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 228 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 229 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 230 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 231 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 232 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 233 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 234 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 235 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 236 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 237 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 238 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 239 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 240 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 241 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 242 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 243 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 244 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 245 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 246 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 247 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 251 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 252 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 253 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 259 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 293 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_fetch)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 279 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 314 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 320 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 323 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 337 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 352 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 353 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 354 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 355 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 359 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 366 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 367 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 368 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 369 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 370 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 376 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 377 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 378 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 379 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 380 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 381 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 382 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 383 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 384 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 385 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 386 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 387 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 388 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 389 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 390 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 391 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 395 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 396 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 397 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 400 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 411 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 420 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_deploy_source_date_epoch_setscene)
 NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pytest-7.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Started
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Started
 NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Started
 NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
 NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Started
 NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 268 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running task 326 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_fetch)
-NOTE: Running setscene task 269 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_fetch: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 270 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 271 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_create_spdx_setscene)
-NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 327 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_fetch)
-NOTE: Running setscene task 272 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 273 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_fetch: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 328 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_unpack)
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 329 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_fetch)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 332 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_fetch)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-pytest-7.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 324 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_fetch)
+NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 325 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_fetch)
+NOTE: Running task 326 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_fetch)
+NOTE: Running task 327 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_fetch)
+NOTE: Running task 345 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_fetch)
+NOTE: Running task 346 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_write_config)
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 364 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_rust_gen_targets)
+NOTE: Running task 368 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
+NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe qemu-native-8.0.0-r0: task do_create_spdx_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 278 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running task 378 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_fetch)
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe qemu-native-8.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 383 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_fetch)
+NOTE: Running task 384 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_fetch)
+NOTE: Running task 394 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_fetch)
+NOTE: Running task 395 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: Running task 396 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_fetch)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 419 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 425 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_fetch)
+NOTE: Running task 426 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_fetch)
 NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 279 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 280 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 285 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 288 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 289 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 290 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 291 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 292 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 293 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 335 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_fetch)
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 296 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_fetch: Started
+NOTE: Running setscene task 432 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 427 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_fetch)
+NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 433 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 434 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running task 428 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_fetch)
+NOTE: Running task 429 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_fetch)
+NOTE: Running task 430 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: Running task 431 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.4.0.bb:do_fetch)
+NOTE: Running task 432 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 435 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 436 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 437 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_create_spdx_setscene)
+NOTE: Running task 433 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_fetch)
 NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 297 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_unpack: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 440 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running task 434 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_fetch)
+NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 441 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running task 435 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_fetch)
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_fetch: Started
+NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_fetch: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 442 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_fetch)
+NOTE: recipe libucontext-1.2-r0: task do_write_config: Started
+NOTE: recipe qemu-native-8.0.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Started
 NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 298 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running task 336 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_unpack)
-NOTE: recipe coreutils-9.3-r0: task do_fetch: Started
-NOTE: recipe libcap-2.69-r0: task do_fetch: Started
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.3-r0: task do_fetch: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_fetch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Started
+NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Started
+NOTE: Running setscene task 442 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
 NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 444 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 446 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 448 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 453 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 456 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 457 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 458 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Started
 NOTE: recipe ncurses-6.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_fetch: Started
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-7.4.0-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 459 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 463 of 563 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.1.1.bb:do_create_spdx_setscene)
+NOTE: Running task 460 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_fetch)
+NOTE: Running task 461 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_unpack)
+NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 462 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_unpack)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: Running task 463 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_unpack)
+NOTE: Running task 464 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_unpack)
+NOTE: Running task 465 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_rust_gen_targets: Started
+NOTE: recipe coreutils-9.3-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 466 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running task 466 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_unpack)
+NOTE: Running task 468 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 470 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_unpack)
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 471 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_fetch)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: Running task 472 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_unpack)
+NOTE: Running task 473 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_unpack)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_write_config: Succeeded
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_rust_gen_targets: Succeeded
+NOTE: Running task 474 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: recipe python3-pytest-7.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running task 475 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe coreutils-9.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_fetch: Succeeded
 NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 476 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_unpack)
+NOTE: recipe openssl-3.1.1-r0: task do_fetch: Started
+NOTE: recipe libcap-2.69-r0: task do_fetch: Started
+NOTE: Running setscene task 469 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Succeeded
+NOTE: Running task 479 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
+NOTE: Running task 482 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_unpack)
+NOTE: Running task 483 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.4.0.bb:do_unpack)
+NOTE: Running task 484 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_unpack)
+NOTE: recipe openssl-3.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_fetch: Succeeded
+NOTE: Running task 485 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_unpack)
+NOTE: Running task 486 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_unpack)
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 470 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Started
 NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 303 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 345 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_unpack)
-NOTE: Running setscene task 308 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 309 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_fetch: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_unpack: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 351 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_fetch)
-NOTE: Running task 352 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_fetch)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 317 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 318 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 354 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_fetch)
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Started
+NOTE: Running setscene task 471 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 321 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 322 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Started
-NOTE: recipe shadow-4.13-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Started
+NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 474 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 475 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Succeeded
+NOTE: Running task 492 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_unpack)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe meson-native-1.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 482 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 483 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-7.4.0-r0: task do_unpack: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 498 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_fetch)
 NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Started
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_fetch: Started
-NOTE: Running task 362 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_unpack)
-NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 499 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_fetch)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Started
+NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_fetch: Started
+NOTE: Running task 502 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_fetch)
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Started
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Succeeded
-NOTE: Running task 365 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_unpack)
+NOTE: recipe python3-pytest-7.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe meson-native-1.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_fetch: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe qemu-native-8.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 499 of 563 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 500 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-4.13-r0: task do_fetch: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_fetch: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_fetch: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 335 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 337 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 338 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_fetch: Succeeded
+NOTE: Running task 515 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_unpack)
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Succeeded
+NOTE: Running task 516 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_unpack)
+NOTE: recipe glib-2.0-native-1_2.76.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
 NOTE: recipe shadow-4.13-r0: task do_unpack: Started
 NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_unpack: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 505 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 342 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 344 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 345 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 506 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 519 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_unpack)
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 512 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 513 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 514 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 347 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 516 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_unpack: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_unpack: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Started
+NOTE: recipe libucontext-1.2-r0: task do_fetch: Succeeded
+NOTE: Running task 524 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_unpack)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Succeeded
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-native-1_2.76.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 518 of 563 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 519 of 563 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.1.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_unpack: Succeeded
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 351 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 521 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: recipe libucontext-1.2-r0: task do_unpack: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libunwind-1.6.2-r0: task do_fetch: Succeeded
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 353 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_unpack: Succeeded
+NOTE: Running task 529 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_unpack)
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 358 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 527 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 528 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe openssl-3.1.1-r0: task do_unpack: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_unpack: Succeeded
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe meson-native-1.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_unpack: Started
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-native-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_unpack: Succeeded
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe meson-native-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 363 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
-NOTE: Running task 752 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_patch)
-NOTE: Running task 786 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_patch)
-NOTE: Running task 790 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_unpack)
-NOTE: Running task 794 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_unpack)
-NOTE: Running task 860 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_unpack)
-NOTE: Running task 862 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_patch)
-NOTE: Running task 866 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_unpack)
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 894 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_patch)
-NOTE: Running task 903 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_patch)
+NOTE: Running setscene task 535 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
+NOTE: Running task 859 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_patch)
+NOTE: Running task 939 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_patch)
+NOTE: Running task 943 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_unpack)
+NOTE: recipe libucontext-1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 951 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.70.0.bb:do_rust_gen_targets)
+NOTE: Running task 1014 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_rust_gen_targets)
+NOTE: Running task 1039 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_patch)
+NOTE: Running task 1040 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_patch)
+NOTE: Running task 1041 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_patch)
+NOTE: Running task 1042 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_unpack)
+NOTE: Running task 1089 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_unpack)
+NOTE: Running task 1114 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_unpack)
+NOTE: Running task 1116 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_patch)
+NOTE: Running task 1123 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_unpack)
+NOTE: Running task 1124 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_patch)
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 365 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Started
+NOTE: Running task 1125 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_patch)
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 537 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1135 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_patch)
+NOTE: Running task 1136 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 1137 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_patch)
 NOTE: recipe openssl-3.1.1-r0: task do_patch: Started
-NOTE: recipe libcap-2.69-r0: task do_unpack: Started
-NOTE: recipe libpam-1.5.3-r0: task do_unpack: Started
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_patch: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_patch: Started
-NOTE: recipe coreutils-9.3-r0: task do_unpack: Started
-NOTE: Running setscene task 367 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: Running task 1189 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_patch)
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1208 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 1219 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_patch)
+NOTE: Running task 1222 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_patch)
+NOTE: Running task 1227 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_patch)
+NOTE: Running task 1228 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_patch)
+NOTE: Running task 1229 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_patch)
+NOTE: Running task 1230 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_patch)
+NOTE: Running task 1231 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: Running task 1232 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.4.0.bb:do_patch)
+NOTE: Running task 1233 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: Running task 1234 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_patch)
+NOTE: Running task 1235 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_patch)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_patch: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Started
+NOTE: Running task 1250 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
 NOTE: recipe python3-3.11.4-r0: task do_unpack: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe rust-native-1.70.0-r0: task do_rust_gen_targets: Started
+NOTE: recipe util-linux-native-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Started
+NOTE: recipe libpam-1.5.3-r0: task do_unpack: Started
+NOTE: recipe rust-native-1.70.0-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Started
+NOTE: recipe libcap-2.69-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Succeeded
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_patch: Succeeded
+NOTE: Running task 1307 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.70.0.bb:do_compile)
+NOTE: recipe coreutils-9.3-r0: task do_unpack: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_rust_gen_targets: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Started
+NOTE: Running setscene task 540 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Succeeded
+NOTE: recipe cargo-native-1.70.0-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Started
+NOTE: Running task 1343 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libucontext-1.2-r0: task do_patch: Succeeded
+NOTE: recipe shadow-4.13-r0: task do_patch: Started
+NOTE: Running task 1344 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Started
+NOTE: recipe python3-pytest-7.4.0-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
-NOTE: Running task 940 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 941 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_populate_lic)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_unpack: Succeeded
-NOTE: Running task 943 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_patch)
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 368 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_populate_lic: Started
-NOTE: recipe libcap-2.69-r0: task do_patch: Started
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 371 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 372 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 373 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_unpack: Succeeded
-NOTE: Running task 945 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Succeeded
+NOTE: recipe rust-native-1.70.0-r0: task do_compile: Started
+NOTE: Running task 1345 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1346 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic)
 NOTE: recipe openssl-3.1.1-r0: task do_patch: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Succeeded
+NOTE: Running task 1348 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1349 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1350 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1351 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Succeeded
+NOTE: Running setscene task 541 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-2.69-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1354 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_patch)
+NOTE: recipe rust-native-1.70.0-r0: task do_compile: Succeeded
+NOTE: Running task 1356 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.70.0.bb:do_install)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Succeeded
+NOTE: Running task 1357 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: Running task 1358 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1359 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1360 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-7.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1361 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1362 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1363 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1364 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 545 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 546 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1368 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb:do_populate_lic unihash changed to 2d11a25d71d3859e651aa9e206ffc7990dbfaf3506b553714e581c2c10d41f8c
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcap-2.69-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1369 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_patch)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1370 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1371 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_rust_gen_targets)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe rust-native-1.70.0-r0: task do_install: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_patch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic unihash changed to a1a612b6ddac0af7b01666686afa4c88db1a16e6effd710de2f58d71c84ce51c
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe libunwind-1.6.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1372 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_patch: Started
-NOTE: recipe python3-typing-extensions-4.7.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_patch: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 376 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 377 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 547 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe libcap-2.69-r0: task do_patch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libunwind-1.6.2-r0: task do_deploy_source_date_epoch: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe coreutils-9.3-r0: task do_unpack: Succeeded
-NOTE: Running task 955 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_patch)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 383 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe coreutils-9.3-r0: task do_patch: Started
+NOTE: recipe coreutils-9.3-r0: task do_unpack: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 557 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1397 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_patch)
+NOTE: recipe libunwind-1.6.2-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_patch: Started
 NOTE: recipe coreutils-9.3-r0: task do_patch: Succeeded
 NOTE: recipe python3-3.11.4-r0: task do_unpack: Succeeded
-NOTE: Running task 973 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_patch)
+NOTE: Running task 1399 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_patch)
 NOTE: recipe python3-3.11.4-r0: task do_patch: Started
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 387 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 560 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 388 of 390 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 561 of 563 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1062 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1113 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1152 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1219 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_collect_spdx_deps)
-NOTE: Running task 1226 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_collect_spdx_deps)
+NOTE: Running task 1480 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1526 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1565 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1566 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1588 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1637 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_collect_spdx_deps)
+NOTE: Running task 1644 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_collect_spdx_deps)
+NOTE: Running task 1668 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_collect_spdx_deps)
 NOTE: recipe openssl-3.1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1669 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_collect_spdx_deps)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpam-1.5.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Started
 NOTE: recipe python3-3.11.4-r0: task do_patch: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1268 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_configure)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libucontext-1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpam-1.5.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libucontext-1.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Started
 NOTE: recipe openssl-3.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
 NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1269 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure)
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1698 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure)
+NOTE: Running task 1699 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_configure)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1700 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_configure)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_configure: Started
 NOTE: recipe openssl-3.1.1-r0: task do_configure: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Started
+NOTE: recipe libucontext-1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1701 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_configure)
 NOTE: recipe libpam-1.5.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1270 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure)
+NOTE: Running task 1702 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure)
+NOTE: recipe libucontext-1.2-r0: task do_configure: Started
 NOTE: recipe libpam-1.5.3-r0: task do_configure: Started
+NOTE: recipe libucontext-1.2-r0: task do_configure: Succeeded
+NOTE: Running task 1703 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_compile)
+NOTE: recipe libucontext-1.2-r0: task do_compile: Started
+NOTE: recipe libucontext-1.2-r0: task do_compile: Succeeded
+NOTE: Running task 1704 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_install)
+NOTE: recipe libucontext-1.2-r0: task do_install: Started
+NOTE: recipe libucontext-1.2-r0: task do_install: Succeeded
+NOTE: Running task 1705 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot)
+NOTE: Running task 1706 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_package)
+NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libucontext-1.2-r0: task do_package: Started
+NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libucontext-1.2-r0: task do_package: Succeeded
+NOTE: Running task 1707 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata)
+NOTE: recipe libucontext-1.2-r0: task do_packagedata: Started
+NOTE: recipe libucontext-1.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1708 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_create_spdx)
+NOTE: recipe libucontext-1.2-r0: task do_create_spdx: Started
+NOTE: recipe libucontext-1.2-r0: task do_create_spdx: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_configure: Succeeded
-NOTE: Running task 1271 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_compile)
+NOTE: Running task 1709 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_compile)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1710 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1711 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1712 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_patch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1713 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot)
+NOTE: Running task 1714 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Started
+NOTE: recipe rust-native-1.70.0-r0: task do_install: Succeeded
+NOTE: Running task 1715 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.70.0.bb:do_populate_sysroot)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_patch: Succeeded
+NOTE: Running task 1716 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1717 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_rust_gen_targets)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_rust_gen_targets: Started
+NOTE: recipe rust-native-1.70.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1718 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libunwind-1.6.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1719 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_configure)
+NOTE: recipe libunwind-1.6.2-r0: task do_configure: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1720 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Started
 NOTE: recipe openssl-3.1.1-r0: task do_configure: Succeeded
-NOTE: Running task 1272 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure_ptest_base)
+NOTE: Running task 1721 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure_ptest_base)
 NOTE: recipe openssl-3.1.1-r0: task do_configure_ptest_base: Started
 NOTE: recipe openssl-3.1.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1273 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile)
+NOTE: Running task 1722 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1723 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx)
 NOTE: recipe openssl-3.1.1-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1724 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_collect_spdx_deps)
+NOTE: recipe libunwind-1.6.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe rust-native-1.70.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1725 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe cargo-native-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1726 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_rust_create_wrappers)
+NOTE: recipe cargo-native-1.70.0-r0: task do_rust_create_wrappers: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_rust_create_wrappers: Succeeded
+NOTE: Running task 1727 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_configure)
+NOTE: recipe cargo-native-1.70.0-r0: task do_configure: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_configure: Succeeded
+NOTE: Running task 1728 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_compile)
+NOTE: recipe cargo-native-1.70.0-r0: task do_compile: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_compile: Succeeded
+NOTE: Running task 1729 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_install)
+NOTE: recipe cargo-native-1.70.0-r0: task do_install: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_install: Succeeded
+NOTE: Running task 1730 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_populate_sysroot)
+NOTE: recipe cargo-native-1.70.0-r0: task do_populate_sysroot: Started
+NOTE: recipe cargo-native-1.70.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1731 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1732 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_rust_create_wrappers)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_rust_create_wrappers: Started
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_rust_create_wrappers: Succeeded
+NOTE: Running task 1733 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_configure)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_configure: Started
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_configure: Succeeded
+NOTE: Running task 1734 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_compile)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_compile: Started
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 1735 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_install)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_install: Started
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_install: Succeeded
+NOTE: Running task 1736 of 1959 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.6.0.bb:do_populate_sysroot)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_populate_sysroot: Started
 NOTE: recipe libpam-1.5.3-r0: task do_configure: Succeeded
-NOTE: Running task 1274 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure_ptest_base)
+NOTE: Running task 1737 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure_ptest_base)
 NOTE: recipe libpam-1.5.3-r0: task do_configure_ptest_base: Started
 NOTE: recipe libpam-1.5.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1275 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile)
+NOTE: Running task 1738 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile)
+NOTE: recipe python3-setuptools-rust-native-1.6.0-r0: task do_populate_sysroot: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_compile: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_configure: Succeeded
+NOTE: Running task 1739 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_compile)
+NOTE: recipe libunwind-1.6.2-r0: task do_compile: Started
 NOTE: recipe openssl-3.1.1-r0: task do_compile: Succeeded
-NOTE: Running task 1276 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile_ptest_base)
+NOTE: Running task 1740 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile_ptest_base)
 NOTE: recipe openssl-3.1.1-r0: task do_compile_ptest_base: Started
 NOTE: recipe openssl-3.1.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1277 of 1348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_install)
+NOTE: Running task 1741 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_install)
 NOTE: recipe openssl-3.1.1-r0: task do_install: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_compile: Succeeded
+NOTE: Running task 1742 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_install)
+NOTE: recipe libunwind-1.6.2-r0: task do_install: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_install: Succeeded
+NOTE: Running task 1743 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot)
+NOTE: Running task 1744 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_package)
+NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_package: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1745 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1746 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_rust_create_wrappers)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_rust_create_wrappers: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_rust_create_wrappers: Succeeded
+NOTE: Running task 1747 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_configure)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_configure: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_configure: Succeeded
+NOTE: Running task 1748 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_compile)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_compile: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_package: Succeeded
+NOTE: Running task 1749 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata)
+NOTE: recipe libunwind-1.6.2-r0: task do_packagedata: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1750 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_create_spdx)
+NOTE: recipe libunwind-1.6.2-r0: task do_create_spdx: Started
+NOTE: recipe libunwind-1.6.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1751 of 1959 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_collect_spdx_deps)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_collect_spdx_deps: Succeeded
 Log data follows:
 | DEBUG: Executing python function autotools_aclocals
 | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-musl', 'i686-linux-musl', 'common']
@@ -654,25 +2478,13 @@ Log data follows:
  -32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_modutil_searchkey.lo ../../Linux-PAM-1.5.3/libpam/pam_modutil_searchkey.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_auth.c  -fPIC -DPIC -o .libs/pam_auth.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_handlers.c  -fPIC -DPIC -o .libs/pam_handlers.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_misc.c  -fPIC -DPIC -o .libs/pam_misc.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_check_user.c  -fPIC -DPIC -o .libs/pam_modutil_check_user.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_data.c  -fPIC -DPIC -o .libs/pam_data.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_delay.c  -fPIC -DPIC -o .libs/pam_delay.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_auth.c  -fPIC -DPIC -o .libs/pam_auth.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_account.c  -fPIC -DPIC -o .libs/pam_account.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_delay.c  -fPIC -DPIC -o .libs/pam_delay.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_end.c  -fPIC -DPIC -o .libs/pam_end.o
@@ -681,76 +2493,88 @@ Log data follows:
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dispatch.c  -fPIC -DPIC -o .libs/pam_dispatch.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ingroup.c  -fPIC -DPIC -o .libs/pam_modutil_ingroup.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_handlers.c  -fPIC -DPIC -o .libs/pam_handlers.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_vprompt.c  -fPIC -DPIC -o .libs/pam_vprompt.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getgrnam.c  -fPIC -DPIC -o .libs/pam_modutil_getgrnam.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_syslog.c  -fPIC -DPIC -o .libs/pam_syslog.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_get_authtok.c  -fPIC -DPIC -o .libs/pam_get_authtok.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_audit.c  -fPIC -DPIC -o .libs/pam_audit.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_item.c  -fPIC -DPIC -o .libs/pam_item.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_session.c  -fPIC -DPIC -o .libs/pam_session.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dynamic.c  -fPIC -DPIC -o .libs/pam_dynamic.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_env.c  -fPIC -DPIC -o .libs/pam_env.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwnam.c  -fPIC -DPIC -o .libs/pam_modutil_getpwnam.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getspnam.c  -fPIC -DPIC -o .libs/pam_modutil_getspnam.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_strerror.c  -fPIC -DPIC -o .libs/pam_strerror.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_searchkey.c  -fPIC -DPIC -o .libs/pam_modutil_searchkey.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_account.c  -fPIC -DPIC -o .libs/pam_account.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_start.c  -fPIC -DPIC -o .libs/pam_start.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_password.c  -fPIC -DPIC -o .libs/pam_password.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_syslog.c  -fPIC -DPIC -o .libs/pam_syslog.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_cleanup.c  -fPIC -DPIC -o .libs/pam_modutil_cleanup.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_prelude.c  -fPIC -DPIC -o .libs/pam_prelude.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ioloop.c  -fPIC -DPIC -o .libs/pam_modutil_ioloop.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getlogin.c  -fPIC -DPIC -o .libs/pam_modutil_getlogin.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwuid.c  -fPIC -DPIC -o .libs/pam_modutil_getpwuid.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_priv.c  -fPIC -DPIC -o .libs/pam_modutil_priv.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_env.c  -fPIC -DPIC -o .libs/pam_env.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getgrgid.c  -fPIC -DPIC -o .libs/pam_modutil_getgrgid.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getgrnam.c  -fPIC -DPIC -o .libs/pam_modutil_getgrnam.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_prelude.c  -fPIC -DPIC -o .libs/pam_prelude.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwnam.c  -fPIC -DPIC -o .libs/pam_modutil_getpwnam.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwuid.c  -fPIC -DPIC -o .libs/pam_modutil_getpwuid.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_audit.c  -fPIC -DPIC -o .libs/pam_audit.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_strerror.c  -fPIC -DPIC -o .libs/pam_strerror.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_password.c  -fPIC -DPIC -o .libs/pam_password.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_item.c  -fPIC -DPIC -o .libs/pam_item.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_cleanup.c  -fPIC -DPIC -o .libs/pam_modutil_cleanup.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_misc.c  -fPIC -DPIC -o .libs/pam_misc.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_check_user.c  -fPIC -DPIC -o .libs/pam_modutil_check_user.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_searchkey.c  -fPIC -DPIC -o .libs/pam_modutil_searchkey.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_get_authtok.c  -fPIC -DPIC -o .libs/pam_get_authtok.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_session.c  -fPIC -DPIC -o .libs/pam_session.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_sanitize.c  -fPIC -DPIC -o .libs/pam_modutil_sanitize.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_vprompt.c  -fPIC -DPIC -o .libs/pam_vprompt.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ioloop.c  -fPIC -DPIC -o .libs/pam_modutil_ioloop.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dynamic.c  -fPIC -DPIC -o .libs/pam_dynamic.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ingroup.c  -fPIC -DPIC -o .libs/pam_modutil_ingroup.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_priv.c  -fPIC -DPIC -o .libs/pam_modutil_priv.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getlogin.c  -fPIC -DPIC -o .libs/pam_modutil_getlogin.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getspnam.c  -fPIC -DPIC -o .libs/pam_modutil_getspnam.o
 | /bin/bash ../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/w
  ork/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -f
  PIC  -no-undefined -version-info 85:1:85 -Wl,--version-script=../../Linux-PAM-1.5.3/libpam/libpam.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-
@@ -784,14 +2608,14 @@ Log data follows:
  /core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC
    -c -o pamc_load.lo ../../Linux-PAM-1.5.3/libpamc/pamc_load.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpamc -I.. -I../../Linux-PAM-1.5.3/libpam/include -I../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.
- 5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpamc/pamc_cli
- ent.c  -fPIC -DPIC -o .libs/pamc_client.o
+ 5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpamc/pamc_loa
+ d.c  -fPIC -DPIC -o .libs/pamc_load.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpamc -I.. -I../../Linux-PAM-1.5.3/libpam/include -I../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.
  5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpamc/pamc_con
  verse.c  -fPIC -DPIC -o .libs/pamc_converse.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpamc -I.. -I../../Linux-PAM-1.5.3/libpam/include -I../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.
- 5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpamc/pamc_loa
- d.c  -fPIC -DPIC -o .libs/pamc_load.o
+ 5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpamc/pamc_cli
+ ent.c  -fPIC -DPIC -o .libs/pamc_client.o
 | /bin/bash ../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../Linux-PAM-1.5.3/libpam/include -I../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/
  src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -no-undefined -version-info 82:1:82 -Wl,--version-script=../.
  ./Linux-PAM-1.5.3/libpamc/libpamc.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/l
@@ -981,25 +2805,25 @@ Log data follows:
  ecipe-sysroot-native=  -fPIC  -c -o faillock_config.lo ../../../Linux-PAM-1.5.3/modules/pam_faillock/faillock_config.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
  poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
+ x-PAM-1.5.3/modules/pam_faillock/faillock.c  -fPIC -DPIC -o .libs/faillock.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
+ poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
  x-PAM-1.5.3/modules/pam_faillock/pam_faillock.c  -fPIC -DPIC -o .libs/pam_faillock.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
  poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
  x-PAM-1.5.3/modules/pam_faillock/faillock_config.c  -fPIC -DPIC -o .libs/faillock_config.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
- poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
- x-PAM-1.5.3/modules/pam_faillock/faillock.c  -fPIC -DPIC -o .libs/faillock.o
 | /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -fpie -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-
  PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -pie -Wl,-z,now -Wl,-O1 -Wl,--hash-style=gnu -
  Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/y
  octo-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o faillock faillock-main.o faillock-faillock.o faillock-faillock_config.o ../../libpam/libpam.la
-| libtool: link: i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -fpie -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.
- 3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -pie -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacr
- o-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core
- 2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o .libs/faillock faillock-main.o faillock-faillock.o faillock-faillock_config.o  ../../libpam/.libs/libpam.so
 | /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.
  5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -no-undefined -avoid-version -module -Wl,--version-s
  cript=../../../Linux-PAM-1.5.3/modules/pam_faillock/../modules.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/wo
  rk/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o pam_faillock.la -rpath /lib/security pam_faillock.lo faillock.lo faillock_config.lo ../../libpam/libpam.la
+| libtool: link: i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -fpie -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.
+ 3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -pie -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacr
+ o-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core
+ 2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o .libs/faillock faillock-main.o faillock-faillock.o faillock-faillock_config.o  ../../libpam/.libs/libpam.so
 | libtool: link: i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -shared  -fPIC -DPIC  .libs/pam_faillock.o .libs/faillock.o .libs/faillock_config.o   ../../libpam/.libs/libpam.so  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Lin
  ux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,--version-script=../../../Linux-PAM-1.5.3/modules/pam_faillock/../modules.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work
  /core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,r
@@ -1262,13 +3086,13 @@ Log data follows:
  recipe-sysroot-native=  -fPIC  -c -o argv_parse.lo ../../../Linux-PAM-1.5.3/modules/pam_namespace/argv_parse.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
- ux-PAM-1.5.3/modules/pam_namespace/argv_parse.c  -fPIC -DPIC -o .libs/argv_parse.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
- -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_namespace/md5.c  -fPIC -DPIC -o .libs/md5.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_namespace/pam_namespace.c  -fPIC -DPIC -o .libs/pam_namespace.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
+ -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
+ ux-PAM-1.5.3/modules/pam_namespace/argv_parse.c  -fPIC -DPIC -o .libs/argv_parse.o
 | /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.
  5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -no-undefined -avoid-version -module -Wl,--version-s
  cript=../../../Linux-PAM-1.5.3/modules/pam_namespace/../modules.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/w
@@ -1334,13 +3158,13 @@ Log data follows:
  tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_pwhistory_la-pwhistory_config.lo `test -f 'pwhistory_config.c' || echo '../../../Linux-PAM-1.5.3/modules/pam_pwhistory/'`pwhistory_config.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_pwhistory -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -DPWHISTORY_HELPER=\"/usr/sbin/pwhistory_helper\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yo
  cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5
- .3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_pwhistory/opasswd.c  -fPIC -DPIC -o .libs/pam_pwhistory_la-opasswd.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_pwhistory -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -DPWHISTORY_HELPER=\"/usr/sbin/pwhistory_helper\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yo
- cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5
  .3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_pwhistory/pam_pwhistory.c  -fPIC -DPIC -o .libs/pam_pwhistory_la-pam_pwhistory.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_pwhistory -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -DPWHISTORY_HELPER=\"/usr/sbin/pwhistory_helper\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yo
  cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5
  .3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_pwhistory/pwhistory_config.c  -fPIC -DPIC -o .libs/pam_pwhistory_la-pwhistory_config.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_pwhistory -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -DPWHISTORY_HELPER=\"/usr/sbin/pwhistory_helper\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yo
+ cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5
+ .3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_pwhistory/opasswd.c  -fPIC -DPIC -o .libs/pam_pwhistory_la-opasswd.o
 | /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -DPWHISTORY_HELPER=\"/usr/sbin/pwhistory_helper\" -DHELPER_COMPILE=\"pwhistory_helper\" -fpie -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yoc
  to-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpa
  m/1.5.3-r0/recipe-sysroot-native=  -fPIC  -pie -Wl,-z,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
@@ -1526,13 +3350,13 @@ Log data follows:
 |       |                     ^~~~~
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_timestamp -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
- ux-PAM-1.5.3/modules/pam_timestamp/hmacsha1.c  -fPIC -DPIC -o .libs/pam_timestamp_la-hmacsha1.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_timestamp -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
- -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_timestamp/pam_timestamp.c  -fPIC -DPIC -o .libs/pam_timestamp_la-pam_timestamp.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_timestamp -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_timestamp/sha1.c  -fPIC -DPIC -o .libs/pam_timestamp_la-sha1.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_timestamp -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
+ -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
+ ux-PAM-1.5.3/modules/pam_timestamp/hmacsha1.c  -fPIC -DPIC -o .libs/pam_timestamp_la-hmacsha1.o
 | ../../../Linux-PAM-1.5.3/modules/pam_timestamp/pam_timestamp.c: In function 'check_login_time':
 | ../../../Linux-PAM-1.5.3/modules/pam_timestamp/pam_timestamp.c:226:21: warning: unused variable 'utbuf' [-Wunused-variable]
 |   226 |         struct utmp utbuf, *ut;
@@ -1644,28 +3468,28 @@ Log data follows:
  /1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o bigcrypt bigcrypt-bigcrypt.o bigcrypt-bigcrypt_main.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/passverify.c  -fPIC -DPIC -o .libs/passverify.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_broken.c  -fPIC -DPIC -o .libs/md5_broken.o
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/bigcrypt.c  -fPIC -DPIC -o .libs/bigcrypt.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_acct.c  -fPIC -DPIC -o .libs/pam_unix_acct.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/bigcrypt.c  -fPIC -DPIC -o .libs/bigcrypt.o
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_broken.c  -fPIC -DPIC -o .libs/md5_broken.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_auth.c  -fPIC -DPIC -o .libs/pam_unix_auth.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_sess.c  -fPIC -DPIC -o .libs/pam_unix_sess.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_passwd.c  -fPIC -DPIC -o .libs/pam_unix_passwd.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_good.c  -fPIC -DPIC -o .libs/md5_good.o
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/passverify.c  -fPIC -DPIC -o .libs/passverify.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_sess.c  -fPIC -DPIC -o .libs/pam_unix_sess.o
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_good.c  -fPIC -DPIC -o .libs/md5_good.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/support.c  -fPIC -DPIC -o .libs/support.o
@@ -1829,22 +3653,23 @@ Log data follows:
 | make[2]: *** [Makefile:491: tty_conv.o] Error 1
 | make[2]: *** Waiting for unfinished jobs....
 | make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build/examples'
-| make[1]: *** [Makefile:493: all-recursive] Error 1
 | make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build'
+| make[1]: *** [Makefile:493: all-recursive] Error 1
 | make: *** [Makefile:423: all] Error 2
 | ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828:183 exit 1 from 'exit 1'
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342:183 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 183
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 167
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 162
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 157
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 152
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828, line 196
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 183
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 167
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 162
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 157
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 152
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342, line 196
 NOTE: recipe libpam-1.5.3-r0: task do_compile: Failed
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_compile: Succeeded
 NOTE: recipe openssl-3.1.1-r0: task do_install: Succeeded
-NOTE: Tasks Summary: Attempted 1277 tasks of which 1233 didn't need to be rerun and 1 failed.
+NOTE: recipe libstd-rs-1.70.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1751 tasks of which 1573 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
@@ -1853,41 +3678,513 @@ Summary: 1 task failed:
 Summary: There was 1 WARNING message.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
 ERROR: libpam-1.5.3-r0 do_compile: oe_runmake failed
-ERROR: libpam-1.5.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.1932828', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/log.do_compile.1932828
+ERROR: libpam-1.5.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.2161342', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/log.do_compile.2161342
 ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile) failed with exit code '1'
 
---===============8274985165654786115==
+--===============9070071814911713180==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-typing-extensions-upgrade-4.6.3-4.7.0.patch"
+ filename="0001-python3-urllib3-upgrade-2.0.2-2.0.3.patch"
 
-RnJvbSBlYWRhZDEzM2VlMDgzNWUyOWY4OWJkNDAzZDI4ZTlmYTgyZWU4NzA1IE1vbiBTZXAgMTcg
+RnJvbSAwY2ZhODJjZmQzNmFlOTU2YTYxM2M0YzE0NzE1MjNjYzM2ZGU3MTc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAwOTowNTo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnM6IHVwZ3JhZGUgNC42LjMgLT4gNC43LjAKCi0tLQogLi4u
-Zy1leHRlbnNpb25zXzQuNi4zLmJiID0+IHB5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC43LjAu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy10eXBpbmctZXh0
-ZW5zaW9uc180LjYuMy5iYiA9PiBweXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuNy4wLmJifSAo
-OTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10
-eXBpbmctZXh0ZW5zaW9uc180LjYuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjcuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlwaW5nLWV4
-dGVuc2lvbnNfNC42LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjcuMC5iYgppbmRleCBlYmNlNmU4ZDRlLi44ODdj
-ZWNlNjg4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-dHlwaW5nLWV4dGVuc2lvbnNfNC42LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuNy4wLmJiCkBAIC0xNSw3ICsxNSw3IEBA
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWZjZjZiMjQ5YzI2NDE1NDAy
-MTlhNzI3ZjM1ZDhkMmMyIgogIyBUaGUgbmFtZSBvbiBQeVBpIGlzIHNsaWdodGx5IGRpZmZlcmVu
-dC4KIFBZUElfUEFDS0FHRSA9ICJ0eXBpbmdfZXh0ZW5zaW9ucyIKIAotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImQ5MWQ1OTE5MzU3ZmU3ZjY4MWE5ZjJiNWI0Y2IyYTVmMWVmMGExZTlmNTljNGQ4ZmYw
-ZDM0OTFlMDVjMGZmZDUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTM1Y2NmMzE1NDk4MzBjZGE3
-MDhiNDIyODlkNDRiNmY3NDA4NGQ2MTZhMDBiZTY1MTYwMWE0Zjk2OGU3N2M4MiIKIAogaW5oZXJp
-dCBweXBpIHB5dGhvbl9mbGl0X2NvcmUKIAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAwOToyODowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJsbGliMzogdXBncmFkZSAyLjAuMiAtPiAyLjAuMwoKLS0tCiAuLi5saWIzXzIuMC4y
+LmJiID0+IHB5dGhvbjMtdXJsbGliM18yLjAuMy5iYn0gfCAyNSArKysrKysrKysrKysrKysrKy0t
+CiAxIGZpbGUgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXVybGxpYjNfMi4wLjIuYmIg
+PT4gcHl0aG9uMy11cmxsaWIzXzIuMC4zLmJifSAoMzclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cmxsaWIzXzIuMC4yLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxpYjNfMi4wLjMuYmIKc2ltaWxhcml0eSBp
+bmRleCAzNyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXVybGxpYjNfMi4wLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy11cmxsaWIzXzIuMC4zLmJiCmluZGV4IGJjMWNkYjAwOWYuLjVkYjg2NTYyZDUgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cmxsaWIzXzIu
+MC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cmxsaWIz
+XzIuMC4zLmJiCkBAIC0xLDkgKzEsMzAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VN
+IHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZv
+bGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGlj
+ZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwg
+YW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdM
+aWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJp
+Z2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNF
+LnR4dAorIyArKysgTElDRU5TRS50eHQKKyMgQEAgLTEsNiArMSw2IEBACisjICBNSVQgTGljZW5z
+ZQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMDgtMjAyMCBBbmRyZXkgUGV0cm92IGFuZCBjb250
+cmlidXRvcnMgKHNlZSBDT05UUklCVVRPUlMudHh0KQorIyArQ29weXJpZ2h0IChjKSAyMDA4LTIw
+MjAgQW5kcmV5IFBldHJvdiBhbmQgY29udHJpYnV0b3JzLgorIyAgCisjICBQZXJtaXNzaW9uIGlz
+IGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcg
+YSBjb3B5CisjICBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24g
+ZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwgdG8gZGVhbAorIyAKKyMKKwogU1VNTUFSWSA9ICJQeXRo
+b24gSFRUUCBsaWJyYXJ5IHdpdGggdGhyZWFkLXNhZmUgY29ubmVjdGlvbiBwb29saW5nLCBmaWxl
+IHBvc3Qgc3VwcG9ydCwgc2FuaXR5IGZyaWVuZGx5LCBhbmQgbW9yZSIKIEhPTUVQQUdFID0gImh0
+dHBzOi8vZ2l0aHViLmNvbS9zaGF6b3cvdXJsbGliMyIKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PWMyODIzY2I5OTU0MzljOTg0ZmQ2
+MmE5NzNkNzk4MTVjIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1
+PTUyZDI3M2EzMDU0Y2VkNTYxMjc1ZDRkMTUyNjBlY2RhIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiNjE3MTdhMTA5NWQ3ZTE1NWNkYjczN2FjN2JiMmY0MzI0YTg1OGExZTJlNjQ2NmY2ZDAzZmY2
+MzBjYTY4ZDNjYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiZWUyOGI1ZTU2YWRkYjgyMjZjOTZm
+N2YxM2FjMjhjYjRjMzAxZGQ1ZWE4YTZjYTE3OWMwYjk4MzVlMDMyODI1IgogCiBpbmhlcml0IHB5
+cGkgcHl0aG9uX2hhdGNobGluZwogCi0tIAoyLjM5LjIKCg==
 
---===============8274985165654786115==--
+--===============9070071814911713180==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 51 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:08a5bc7580428ecb76df6588d3d90ac5f6ef970e"
+workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
+
+Initialising tasks...done.
+Sstate summary: Wanted 87 Local 24 Mirrors 0 Missed 63 Current 453 (27% match, 88% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1051 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_fetch)
+NOTE: Running task 1124 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_fetch)
+NOTE: Running task 1238 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
+NOTE: Running task 1294 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_fetch)
+NOTE: Running task 1300 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_fetch)
+NOTE: Running task 1301 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_fetch)
+NOTE: Running task 1323 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_fetch)
+NOTE: Running task 1324 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_fetch)
+NOTE: Running task 1459 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_fetch)
+NOTE: Running task 1539 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Started
+NOTE: Running task 1540 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_fetch)
+NOTE: Running task 1541 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_fetch)
+NOTE: Running task 1542 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_fetch)
+NOTE: Running task 1543 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_fetch)
+NOTE: Running task 1545 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_fetch)
+NOTE: recipe libstd-rs-1.70.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1693 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_unpack)
+NOTE: Running task 1694 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Started
+NOTE: Running task 1705 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_collect_spdx_deps)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Started
+NOTE: Running task 1717 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1719 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_unpack)
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_fetch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1720 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_unpack)
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_fetch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_fetch: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Started
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-idna-3.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1721 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
+NOTE: Running task 1722 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_unpack)
+NOTE: Running task 1723 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_unpack)
+NOTE: Running task 1724 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_unpack)
+NOTE: Running task 1725 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_unpack)
+NOTE: Running task 1726 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1727 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1728 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1729 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_unpack)
+NOTE: Running task 1730 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1731 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1732 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
+NOTE: Running task 1733 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_unpack)
+NOTE: Running task 1734 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_unpack)
+NOTE: Running task 1735 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_unpack)
+NOTE: Running task 1736 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_unpack)
+NOTE: Running task 1737 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_unpack)
+NOTE: Running task 1738 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1739 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1740 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1741 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1742 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_create_spdx)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Started
+NOTE: Running task 1743 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1744 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_patch)
+NOTE: Running task 1745 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_patch)
+NOTE: Running task 1746 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Started
+NOTE: Running task 1747 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_unpack: Succeeded
+NOTE: Running task 1748 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_patch)
+NOTE: Running task 1749 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_patch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1750 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_patch)
+NOTE: Running task 1751 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_patch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1752 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_patch)
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Started
+NOTE: Running task 1753 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
+NOTE: Running task 1754 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_patch)
+NOTE: Running task 1755 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Started
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1756 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_23.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
+NOTE: Running task 1757 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-idna-3.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_patch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1758 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyopenssl-23.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1759 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_patch: Succeeded
+NOTE: Running task 1760 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_patch: Succeeded
+NOTE: Running task 1761 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_patch: Succeeded
+NOTE: Running task 1762 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1763 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_patch: Succeeded
+NOTE: Running task 1764 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1765 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_patch: Succeeded
+NOTE: Running task 1766 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1767 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1768 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_patch)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_lic unihash changed to a1a612b6ddac0af7b01666686afa4c88db1a16e6effd710de2f58d71c84ce51c
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1769 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_patch)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1770 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1771 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_configure)
+NOTE: Running task 1772 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure)
+NOTE: recipe python3-pycparser-2.21-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1773 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_configure)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1774 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_configure)
+NOTE: recipe python3-pytz-2023.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1775 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1776 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_configure)
+NOTE: Running task 1777 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure)
+NOTE: Running task 1778 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_configure)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1779 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_configure)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1780 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_configure)
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
+NOTE: Running task 1781 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1782 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_configure: Succeeded
+NOTE: Running task 1783 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure: Succeeded
+NOTE: Running task 1784 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-pycparser-2.21-r0: task do_configure: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_configure: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_patch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-vectors-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
+NOTE: Running task 1785 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1786 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_41.0.1.bb:do_rust_gen_targets)
+NOTE: Running task 1787 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_compile)
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: Running task 1788 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_configure_ptest_base)
+NOTE: Running task 1789 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_compile)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_configure: Succeeded
+NOTE: Running task 1790 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_compile)
+NOTE: Running task 1791 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_compile)
+NOTE: Running task 1792 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_compile)
+NOTE: Running task 1793 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Started
+NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1794 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1795 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Started
+NOTE: recipe python3-cryptography-41.0.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_compile: Succeeded
+NOTE: Running task 1796 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_install)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_compile: Succeeded
+NOTE: Running task 1797 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_compile: Succeeded
+NOTE: Running task 1798 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Started
+NOTE: Running task 1799 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_compile: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Started
+NOTE: Running task 1800 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_install)
+NOTE: Running task 1801 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_install: Succeeded
+NOTE: Running task 1802 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1803 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_install: Succeeded
+NOTE: Running task 1804 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_package)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_compile: Succeeded
+NOTE: Running task 1805 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_install)
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_install: Succeeded
+NOTE: Running task 1806 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_package)
+NOTE: Running task 1807 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_populate_sysroot)
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Started
+NOTE: Running task 1808 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_compile_ptest_base)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_install: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Started
+NOTE: Running task 1809 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_package)
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1810 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Started
+NOTE: recipe python3-pycparser-2.21-r0: task do_install: Succeeded
+NOTE: Running task 1811 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot)
+NOTE: Running task 1812 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_package)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_install: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Started
+NOTE: Running task 1813 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_package)
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install: Succeeded
+NOTE: Running task 1814 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_install_ptest_base)
+NOTE: recipe python3-psutil-5.9.5-r0: task do_compile: Succeeded
+NOTE: Running task 1815 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_install)
+NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1816 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package: Succeeded
+NOTE: Running task 1817 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_package)
+NOTE: Running task 1818 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_packagedata)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_package: Succeeded
+NOTE: Running task 1819 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Started
+NOTE: Running task 1820 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_install_ptest_base)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Started
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1821 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
+NOTE: Running task 1822 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_create_spdx)
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_package: Succeeded
+NOTE: Running task 1823 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_packagedata)
+NOTE: recipe python3-pytz-2023.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1824 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb:do_package_write_rpm)
+NOTE: Running task 1825 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_2.0.0.bb:do_packagedata)
+NOTE: Running task 1826 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2023.3.bb:do_package)
+NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_install: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Started
+NOTE: Running task 1827 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_package)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_package: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
+NOTE: Running task 1828 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.10.0.bb:do_packagedata)
+NOTE: Running task 1829 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
+NOTE: recipe python3-pycparser-2.21-r0: task do_package: Succeeded
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Started
+NOTE: Running task 1830 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata)
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Started
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 1831 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_2.0.3.bb:do_create_spdx)
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-iso8601-2.0.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Started
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-pytest-subtests-0.10.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-certifi-2023.5.7-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-urllib3-2.0.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_package: Succeeded
+NOTE: Running task 1832 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_package: Succeeded
+NOTE: Running task 1833 of 1894 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.5.bb:do_packagedata)
+NOTE: recipe python3-hypothesis-6.79.2-r0: task do_packagedata: Failed
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Started
+NOTE: recipe python3-psutil-5.9.5-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2023.3-r0: task do_package: Succeeded
+NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
+NOTE: recipe libstd-rs-1.70.0-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1833 tasks of which 1699 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-src went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dbg went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-ptest went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-staticdev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-dev went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-doc went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis-locale went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: QA Issue: Package version for package python3-hypothesis went backwards which would break package feeds (from 0:6.80.0-r0 to 0:6.79.2-r0) [version-going-backwards]
+ERROR: python3-hypothesis-6.79.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-hypothesis/6.79.2-r0/temp/log.do_packagedata.2090168
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb:do_packagedata) failed with exit code '1'
+
+--===============9070071814911713180==--
 
