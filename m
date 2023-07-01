@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C566CC3DA44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD206C25B5C
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.10767.1688227323365558540
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10761.1688227322845751078
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Bxv7oEaa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018912309b8d-bba06169-dd7a-4393-b132-58a141d824e5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AJXpK+ET;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018912309c77-59f0c61c-06c1-49d1-94e2-18e283809ffa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1688227322;
+	t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MlhbiAVs4eU1OGhV2gOb6BG16UjYuimwN8JGAE7GAm0=;
-	b=Bxv7oEaaYIVgJ7TLTZ+dtoPwfn9JzN6el7NFel19aDdrf3Nnl0e8uJE8e5rZXAHU
-	t7NueGcXq2HlTUn3XZiznHWuWBmZ+vO62xb5jgXFWVxvyPs+vpzOX8CNl+ag+QSrMW+
-	mnmrHT6sbxv06jDovKtPYBlfslsNAk9yCZFqzVH8=
+	bh=XrtcyTVEQsMA5g5KsAhXjFmSehLjdVmXvc8se5VJ/zw=;
+	b=AJXpK+ETkuI8VBCi53fIJZxyvnUt66+0bIknlT4/USdVg9j1OlhjqRvVA6s9tk0W
+	fjfp+yWODqE63oZ/WFxZjmduWtzxYuZ8g7tIrSPn8E3HwV+nvkmgTzU4mMF+6X87OAD
+	LsccHMUPAIPeRcXj/wpTv2XrScC0b2UL2TY+bmqQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227322;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MlhbiAVs4eU1OGhV2gOb6BG16UjYuimwN8JGAE7GAm0=;
-	b=DPWwBDHsqt4Cx5ovfnd2/MWPtq0MIKdmkUOl2R7G5odqSsubTuI1EOY1QCMCOiC6
-	ig+3X+WZ6daMtykMvCPts1vuQFrNg8Y+KAE7SJlRkv/HHa2ayRwPV561MjeGRholrGY
-	3B4Xf8TW/cz0Ah/G0RS6gOiLhmF/Nxe0u2IkWmPE=
-Content-Type: multipart/mixed; boundary="===============3556525081594350905=="
+	bh=XrtcyTVEQsMA5g5KsAhXjFmSehLjdVmXvc8se5VJ/zw=;
+	b=ImI0MmuTzZX3veVVmmajAc8Y6QXCLDbXHXee0B3e488EGcgxICSQTqrLPQWtfZxH
+	eytzdagCbtGHkIAIwlUWF+qSsA5dsbx/aZQxGAF1GpDOfq9qpu6NQgkyJLWbMZp4+X3
+	gFTk4g/cOG3FKvyUsnvenQjr4RNecob4YwJu5E8U=
+Content-Type: multipart/mixed; boundary="===============4425405143765359448=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpica: upgrading to 20230628 SUCCEEDED
-Message-ID: <0101018912309b8d-bba06169-dd7a-4393-b132-58a141d824e5-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jul 2023 16:02:02 +0000
+Subject: [AUH] stress-ng: upgrading to 0.15.10 FAILED
+Message-ID: <0101018912309c77-59f0c61c-06c1-49d1-94e2-18e283809ffa-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jul 2023 16:02:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.193
+X-SES-Outgoing: 2023.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183731
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183735
 
---===============3556525081594350905==
+--===============4425405143765359448==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpica* to *20230628* has Succeeded.
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.15.10* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-acpica-upgrade-20230331-20230628.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.15.08-0.15.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,131 +77,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f5e6db9ff249cd111a5b263bf6fdd7a3c0c55388 Mon Sep 17 00:00:00 2001
+From ff796c8f81055815592a22c8d6dbc1de7a010c4b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 10:04:42 +0000
-Subject: [PATCH] acpica: upgrade 20230331 -> 20230628
+Date: Sat, 1 Jul 2023 10:45:24 +0000
+Subject: [PATCH] stress-ng: upgrade 0.15.08 -> 0.15.10
 
 ---
- .../acpica/{acpica_20230331.bb => acpica_20230628.bb}           | 2 +-
+ .../stress-ng/{stress-ng_0.15.08.bb => stress-ng_0.15.10.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/acpica/{acpica_20230331.bb => acpica_20230628.bb} (94%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.15.08.bb => stress-ng_0.15.10.bb} (94%)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20230331.bb b/meta/recipes-extended/acpica/acpica_20230628.bb
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.08.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb
 similarity index 94%
-rename from meta/recipes-extended/acpica/acpica_20230331.bb
-rename to meta/recipes-extended/acpica/acpica_20230628.bb
-index 01b8833f50..06db99cef5 100644
---- a/meta/recipes-extended/acpica/acpica_20230331.bb
-+++ b/meta/recipes-extended/acpica/acpica_20230628.bb
-@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- DEPENDS = "m4-native flex-native bison-native"
+rename from meta/recipes-extended/stress-ng/stress-ng_0.15.08.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb
+index 9952c4ef8a..bd55a5a10d 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.15.08.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "0c5d695d605aaa61709f3c63f57a1a99b8902291723998446b0813b57ac310e2"
-+SRC_URI[sha256sum] = "86876a745e3d224dcfd222ed3de465b47559e85811df2db9820ef09a9dff5cce"
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
+            "
+-SRCREV = "4fc205238518cdaf80cf18e8bd411708f7ba3856"
++SRCREV = "a5787153e0977e18412d8d27bf2c5a1eb00cd3fe"
+ S = "${WORKDIR}/git"
  
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
- 
+ DEPENDS = "coreutils-native libbsd"
 -- 
 2.39.2
 
 
---===============3556525081594350905==
+--===============4425405143765359448==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1798 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 61 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
+Parsing of 896 .bb files complete (895 cached, 1 parsed). 1798 targets, 34 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7a362fd0e4be94dd28c2549a40d013f4dc22523f"
+workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
+
+Initialising tasks...done.
+Sstate summary: Wanted 44 Local 35 Mirrors 0 Missed 9 Current 189 (79% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 762 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_fetch)
+NOTE: recipe stress-ng-0.15.10-r0: task do_fetch: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_fetch: Succeeded
+NOTE: Running task 846 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_unpack)
+NOTE: Running task 847 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_prepare_recipe_sysroot)
+NOTE: recipe stress-ng-0.15.10-r0: task do_unpack: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe stress-ng-0.15.10-r0: task do_unpack: Succeeded
+NOTE: Running task 848 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_patch)
+NOTE: Running task 849 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_collect_spdx_deps)
+NOTE: recipe stress-ng-0.15.10-r0: task do_patch: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_collect_spdx_deps: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_patch: Succeeded
+NOTE: Running task 850 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_deploy_source_date_epoch)
+NOTE: Running task 851 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_populate_lic)
+NOTE: recipe stress-ng-0.15.10-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe stress-ng-0.15.10-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_populate_lic: Started
+NOTE: recipe stress-ng-0.15.10-r0: task do_populate_lic: Succeeded
+NOTE: recipe stress-ng-0.15.10-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 852 of 862 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_configure)
+NOTE: recipe stress-ng-0.15.10-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.7.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do
+ _populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['glibc', 'gcc-cross-i686', 'gcc-runtime', 'quilt-native', 'bash-completion', 'libbsd', 'coreutils-native', 'patch-native', 'pseudo-native', 'linux-libc-headers', 'zlib-native', 'texinfo-dummy-native', 'libtool-native', 'gmp-native', 'xz-native', 'flex-native', 'zstd-native', 'binutils-cross-i686', 'mpfr-native', 'gnu-config-native', 'libmpc-native', 'attr-native', 'gettext-minimal-native', 'libgcc', 'libmd', 'm4-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: make VERBOSE=1 makeconfig
+| Generating config..
+| make CC="i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/recipe-sysroot" STATIC= -f Makefile.config
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/git'
+| checking compiler ...
+| /bin/sh: ./test/test-compiler: No such file or directory
+| /bin/sh: configs/$(./test/test-compiler): Is a directory
+| make[1]: *** [Makefile.config:314: compiler] Error 1
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/git'
+| make: *** [Makefile:577: config.h] Error 2
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035:169 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035, line 169
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035, line 153
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035, line 148
+| 	#4: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035, line 143
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035, line 182
+NOTE: recipe stress-ng-0.15.10-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 852 tasks of which 844 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_configure
 Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: stress-ng-0.15.10-r0 do_configure: oe_runmake failed
+ERROR: stress-ng-0.15.10-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/run.do_configure.525035', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/stress-ng/0.15.10-r0/temp/log.do_configure.525035
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/stress-ng/stress-ng_0.15.10.bb:do_configure) failed with exit code '1'
 
---===============3556525081594350905==
+--===============4425405143765359448==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-acpica-upgrade-20230331-20230628.patch"
+ filename="0001-stress-ng-upgrade-0.15.08-0.15.10.patch"
 
-RnJvbSBmNWU2ZGI5ZmYyNDljZDExMWE1YjI2M2JmNmZkZDdhM2MwYzU1Mzg4IE1vbiBTZXAgMTcg
+RnJvbSBmZjc5NmM4ZjgxMDU1ODE1NTkyYTIyYzhkNmRiYzFkZTdhMDEwYzRiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMDowNDo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFj
-cGljYTogdXBncmFkZSAyMDIzMDMzMSAtPiAyMDIzMDYyOAoKLS0tCiAuLi4vYWNwaWNhL3thY3Bp
-Y2FfMjAyMzAzMzEuYmIgPT4gYWNwaWNhXzIwMjMwNjI4LmJifSAgICAgICAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL3thY3BpY2FfMjAyMzAzMzEuYmIgPT4gYWNwaWNhXzIw
-MjMwNjI4LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3Bp
-Y2EvYWNwaWNhXzIwMjMwMzMxLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2FjcGljYS9hY3Bp
-Y2FfMjAyMzA2MjguYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2FjcGljYS9hY3BpY2FfMjAyMzAzMzEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNhXzIwMjMwNjI4LmJiCmluZGV4IDAxYjg4MzNmNTAu
-LjA2ZGI5OWNlZjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNw
-aWNhXzIwMjMwMzMxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNh
-XzIwMjMwNjI4LmJiCkBAIC0xNyw3ICsxNyw3IEBAIENPTVBBVElCTEVfSE9TVCA9ICIoaS44Nnx4
-ODZfNjR8YXJtfGFhcmNoNjQpLiotbGludXgiCiBERVBFTkRTID0gIm00LW5hdGl2ZSBmbGV4LW5h
-dGl2ZSBiaXNvbi1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9hY3BpY2Eub3JnL3NpdGVz
-L2FjcGljYS9maWxlcy9hY3BpY2EtdW5peC0ke1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiMGM1ZDY5NWQ2MDVhYWE2MTcwOWYzYzYzZjU3YTFhOTliODkwMjI5MTcyMzk5ODQ0NmIw
-ODEzYjU3YWMzMTBlMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4Njg3NmE3NDVlM2QyMjRkY2Zk
-MjIyZWQzZGU0NjViNDc1NTllODU4MTFkZjJkYjk4MjBlZjA5YTlkZmY1Y2NlIgogCiBVUFNUUkVB
-TV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9hY3BpY2Eub3JnL2Rvd25sb2FkcyIKIAotLSAKMi4zOS4y
-Cgo=
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMDo0NToyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmVzcy1uZzogdXBncmFkZSAwLjE1LjA4IC0+IDAuMTUuMTAKCi0tLQogLi4uL3N0cmVzcy1uZy97
+c3RyZXNzLW5nXzAuMTUuMDguYmIgPT4gc3RyZXNzLW5nXzAuMTUuMTAuYmJ9ICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy97c3RyZXNzLW5nXzAuMTUuMDguYmIgPT4gc3Ry
+ZXNzLW5nXzAuMTUuMTAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xNS4wOC5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTUuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xNS4w
+OC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3Mtbmdf
+MC4xNS4xMC5iYgppbmRleCA5OTUyYzRlZjhhLi5iZDU1YTVhMTBkIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE1LjA4LmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTUuMTAuYmIKQEAgLTcs
+NyArNyw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWIyMzRlZTRk
+NjlmNWZjZTQ0ODZhODBmZGFmNGE0MjYzIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+Q29saW5JYW5LaW5nL3N0cmVzcy1uZy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBc
+CiAgICAgICAgICAgICIKLVNSQ1JFViA9ICI0ZmMyMDUyMzg1MThjZGFmODBjZjE4ZThiZDQxMTcw
+OGY3YmEzODU2IgorU1JDUkVWID0gImE1Nzg3MTUzZTA5NzdlMTg0MTJkOGQyN2JmMmM1YTFlYjAw
+Y2QzZmUiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCiBERVBFTkRTID0gImNvcmV1dGlscy1uYXRp
+dmUgbGliYnNkIgotLSAKMi4zOS4yCgo=
 
---===============3556525081594350905==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 8868372 to 8890928 (+0%)
-packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10435562 to 10457490 (+0%)
-packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica/acpica: PKGSIZE changed from 2686332 to 2695516 (+0%)
-packages/core2-32-poky-linux/acpica/acpica: PV changed from "20230331" to "20230628"
-packages/core2-32-poky-linux/acpica: SRC_URI changed from "https://acpica.org/sites/acpica/files/acpica-unix-20230331.tar.gz" to "https://acpica.org/sites/acpica/files/acpica-unix-20230628.tar.gz"
-packages/core2-32-poky-linux/acpica: PKGV changed from 20230331 [default] to 20230628 [default]
-packages/core2-32-poky-linux/acpica: PV changed from "20230331" to "20230628"
-
---===============3556525081594350905==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 67 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
-
---===============3556525081594350905==--
+--===============4425405143765359448==--
 
