@@ -1,250 +1,729 @@
 Return-Path: <auh@yoctoproject.org>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D34C10F1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F157C18E1B
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.10765.1688227323201429882
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.10505.1688227323722669269
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MOkyQrPR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018912309cdb-31acff41-b9a4-4856-a1d4-e90761f55bd5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HMpC4JyQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018912309bb3-7b1db016-f967-485d-a2c4-7514a1576bf4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=semxEoxEIiKiobbfufzAOiMo5EN8TAaEXQx6GsZverQ=;
-	b=MOkyQrPRlBYwhQBMqFIzgwMb/6l8UNn4A5GPCDKJRJtPVRjih8aCyAtGKLP7q1o6
-	3vK2hG2NW+gtK/5aBCh+WlJvcy2wXdSBA4uGvyFkmYbLstCcHoFBzxOGwDgH6vyasSq
-	2X/O/A5DMXCO+YOGQG2YyPGhZpreI1QeCDaM+GB4=
+	bh=r/210d++0GZnoN0e8NhI5j7aCiZSiOqTIds4g3tMUrA=;
+	b=HMpC4JyQdo9Z/u3OeYGlJmMEj9qvjQ4a+5n/sx2OmzXvRg50bhSUOcbQ0gSUYlMQ
+	JcRnQX6kJWyDuXr7tVUJgXbb7DRAfw0pe3Eb5m6f7qXJ1VCvGdfHxCVjtVYeImbZgM/
+	OFiyWDnsDtIn6vQv6jbWQ/c1PWqWUZ2Ka2O20hzk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=semxEoxEIiKiobbfufzAOiMo5EN8TAaEXQx6GsZverQ=;
-	b=PbyfmtrraGx1ZUgSof47q2du5+l426yHuOME8Ayl+JAa4njwyAmNrzFZi2NPwfGj
-	bHPAj66k6ikGmeSzvp49BbCMd5t7ZKrAYBG/G1vQiPMLZiaCkeXky5eTRjImZSZpUQB
-	mulRg18u1o88rVeQmSmSaJ/15JQKDxywv72pofUM=
-Content-Type: multipart/mixed; boundary="===============1286893402682522450=="
+	bh=r/210d++0GZnoN0e8NhI5j7aCiZSiOqTIds4g3tMUrA=;
+	b=XHPJ5Q6VdmLbhMslYbcTXVpnWDtUN2aWlkK5r0eHGelKfKXjDnTUoYyfiVuZT0c3
+	0IKQMUwE+OZ7LEPc2siyynFYF6bDn+wNHiDPGSwxcE7f0wtR7ExPcw2v0FnWH9kTJJd
+	zzXYtmlN4/IKRLO2Pha4pSVaaCpLE7BOPoGoZ2pM=
+Content-Type: multipart/mixed; boundary="===============1898085593064977930=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cups: upgrading to 2.4.6 FAILED
-Message-ID: <0101018912309cdb-31acff41-b9a4-4856-a1d4-e90761f55bd5-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jul 2023 16:02:03 +0000
+Subject: [AUH] strace: upgrading to 6.4 FAILED
+Message-ID: <0101018912309bb3-7b1db016-f967-485d-a2c4-7514a1576bf4-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jul 2023 16:02:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.33
+X-SES-Outgoing: 2023.07.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183744
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183743
 
---===============1286893402682522450==
-Content-Type: text/plain; charset="utf-8"
+--===============1898085593064977930==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICpjdXBzKiB0byAqMi40LjYqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
-ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
-cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtY3Vwcy11cGdyYWRlLTIuNC4yLTIuNC42LnBhdGNo
-CiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMgYW5kIHN1bW1hcml6
-ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBhbiBpbWFnZSB0aGF0
-IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNpYyBzYW5pdHkgdGVz
-dHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0IGNvbW1pdCAtcyAt
-LXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFwcHJvcHJpYXRlIG1h
-aWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhlIHJlY2lwZSBzaG91
-bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxsIFJFQ0lQRV9OT19V
-UERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhhdAphdXRvbWF0aWMg
-dXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFzZSByZXZpZXcgdGhl
-IGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBidWlsZC91cGRhdGUg
-ZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0dHBzOi8vYnVnemls
-bGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0b21hdGVkJTIwVXBk
-YXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgotLSA+OCAtLQpGcm9t
-IDZmZjdhNGRiOGNiY2RkNmE5YjA1N2VhNDA1ZGUzMTJjYmI4MzkyMWIgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9qZWN0Lm9yZz4KRGF0
-ZTogU2F0LCAxIEp1bCAyMDIzIDEwOjE4OjM2ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gY3Vwczog
-dXBncmFkZSAyLjQuMiAtPiAyLjQuNgoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9j
-dXBzLmluYyAgICAgICAgICAgfCAgMSAtCiAuLi4vY3Vwcy9jdXBzL0NWRS0yMDIzLTMyMzI0LnBh
-dGNoICAgICAgICAgICAgfCAzNiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vY3Vwcy97Y3Vwc18y
-LjQuMi5iYiA9PiBjdXBzXzIuNC42LmJifSAgICAgfCAgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMzggZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy9DVkUtMjAyMy0zMjMyNC5wYXRjaAogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL3tjdXBzXzIuNC4yLmJiID0+IGN1cHNfMi40LjYuYmJ9
-ICg1MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy5pbmMg
-Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLmluYwppbmRleCBkNzc3NThmZDNmLi5k
-YTMyMGIxMDg1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLmlu
-YworKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLmluYwpAQCAtMTUsNyArMTUs
-NiBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vY3Vwcy0k
-e1BWfS1zb3VyY2UudGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDQtY3Vwcy1maXgtbXVs
-dGlsaWItaW5zdGFsbC1maWxlLWNvbmZsaWN0cy5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly92
-b2xhdGlsZXMuOTlfY3VwcyBcCiAgICAgICAgICAgIGZpbGU6Ly9jdXBzLXZvbGF0aWxlcy5jb25m
-IFwKLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDIzLTMyMzI0LnBhdGNoIFwKICAgICAgICAgICAg
-IgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL09wZW5QcmludGluZy9j
-dXBzL3JlbGVhc2VzIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vw
-cy9DVkUtMjAyMy0zMjMyNC5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMv
-Q1ZFLTIwMjMtMzIzMjQucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQwYjg5
-Yzk4OTkuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy9D
-VkUtMjAyMy0zMjMyNC5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM2ICswLDAgQEAKLUZyb20g
-MDdjYmZmZDExMTA3ZWVkM2FhZjFjNjRlMzU1NTJhZWMyMGY3OTJkYSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKLUZyb206IFpkZW5layBEb2huYWwgPHpkb2huYWxAcmVkaGF0LmNvbT4KLURhdGU6
-IFRodSwgMSBKdW4gMjAyMyAxMjowNDowMCArMDIwMAotU3ViamVjdDogW1BBVENIXSBjdXBzL3N0
-cmluZy5jOiBSZXR1cm4gaWYgYHNpemVgIGlzIDAgKGZpeGVzIENWRS0yMDIzLTMyMzI0KQotCi1D
-VkU6IENWRS0yMDIzLTMyMzI0Ci1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dp
-dGh1Yi5jb20vT3BlblByaW50aW5nL2N1cHMvY29tbWl0L2ZkOGJjMmQzMjU4OV0KLQotKGNoZXJy
-eSBwaWNrZWQgZnJvbSBjb21taXQgZmQ4YmMyZDMyNTg5ZDFmZDkxZmUxYzA1MjFiZTJhN2MwNDYy
-MTA5ZSkKLVNpZ25lZC1vZmYtYnk6IFNhbmpheSBDaGl0cm9kYSA8c2NoaXRyb2RAY2lzY28uY29t
-PgotLS0tCi0gY3Vwcy9zdHJpbmcuYyB8IDQgKysrKwotIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKykKLQotZGlmZiAtLWdpdCBhL2N1cHMvc3RyaW5nLmMgYi9jdXBzL3N0cmluZy5jCi1p
-bmRleCA5M2NkYWQxOS4uNmVmNTg1MTUgMTAwNjQ0Ci0tLS0gYS9jdXBzL3N0cmluZy5jCi0rKysg
-Yi9jdXBzL3N0cmluZy5jCi1AQCAtMSw2ICsxLDcgQEAKLSAvKgotICAqIFN0cmluZyBmdW5jdGlv
-bnMgZm9yIENVUFMuCi0gICoKLSsgKiBDb3B5cmlnaHQgwqkgMjAyMyBieSBPcGVuUHJpbnRpbmcu
-Ci0gICogQ29weXJpZ2h0IMKpwqAyMDA3LTIwMTkgYnkgQXBwbGUgSW5jLgotICAqIENvcHlyaWdo
-dCDCqcKgMTk5Ny0yMDA3IGJ5IEVhc3kgU29mdHdhcmUgUHJvZHVjdHMuCi0gICoKLUBAIC03MzAs
-NiArNzMxLDkgQEAgX2N1cHNfc3RybGNweShjaGFyICAgICAgICpkc3QsCQkvKiBPIC0gRGVzdGlu
-YXRpb24gc3RyaW5nICovCi0gICBzaXplX3QJc3JjbGVuOwkJCS8qIExlbmd0aCBvZiBzb3VyY2Ug
-c3RyaW5nICovCi0gCi0gCi0rICBpZiAoc2l6ZSA9PSAwKQotKyAgICByZXR1cm4gKDApOwotKwot
-ICAvKgotICAgKiBGaWd1cmUgb3V0IGhvdyBtdWNoIHJvb20gaXMgbmVlZGVkLi4uCi0gICAqLwpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMi5iYiBiL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjYuYmIKc2ltaWxhcml0eSBpbmRleCA1
-MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMi5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuNi5iYgppbmRleCBm
-NWNhNzQ5YmFjLi41ODAyOWZkYmQ0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-Y3Vwcy9jdXBzXzIuNC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNf
-Mi40LjYuYmIKQEAgLTIsNCArMiw0IEBAIHJlcXVpcmUgY3Vwcy5pbmMKIAogTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNjNmJk
-NTciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDNjY2I0MGIwODdkMWUzMDk0MGE0MGUwMTQx
-ZGNiYmEyNjNmMzk5NzRjMjBlYjlmMjUyMTA2NmM5YzZjOTA4IgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjU4ZTk3MGNmMTk1NWUxY2M4N2QwODQ3YzMyNTI2ZDljMmNjZWUzMzVlNWYwZTM4ODJiMjgz
-MTM4YmEwZTcyNjIiCi0tIAoyLjM5LjIKCg==
+Hello,
 
---===============1286893402682522450==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *strace* to *6.4* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-strace-upgrade-6.3-6.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From aa535151c84499fafe8a3892b005ab8b08d8e9e2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 1 Jul 2023 10:00:56 +0000
+Subject: [PATCH] strace: upgrade 6.3 -> 6.4
+
+---
+ ...e1392f5bd289239b755458dcdeeed69af1da.patch | 303 ------------------
+ ...b541b258baec9eba674b5d8dc30007a61542.patch |  50 ---
+ ...2f4494779e5c5f170ad10539bfc2dfafe967.patch |  50 ---
+ .../strace/{strace_6.3.bb => strace_6.4.bb}   |   5 +-
+ 4 files changed, 1 insertion(+), 407 deletions(-)
+ delete mode 100644 meta/recipes-devtools/strace/strace/00ace1392f5bd289239b755458dcdeeed69af1da.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace/3bbfb541b258baec9eba674b5d8dc30007a61542.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace/f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch
+ rename meta/recipes-devtools/strace/{strace_6.3.bb => strace_6.4.bb} (88%)
+
+diff --git a/meta/recipes-devtools/strace/strace/00ace1392f5bd289239b755458dcdeeed69af1da.patch b/meta/recipes-devtools/strace/strace/00ace1392f5bd289239b755458dcdeeed69af1da.patch
+deleted file mode 100644
+index bdf815e55e..0000000000
+--- a/meta/recipes-devtools/strace/strace/00ace1392f5bd289239b755458dcdeeed69af1da.patch
++++ /dev/null
+@@ -1,303 +0,0 @@
+-From 00ace1392f5bd289239b755458dcdeeed69af1da Mon Sep 17 00:00:00 2001
+-From: "Dmitry V. Levin" <ldv@strace.io>
+-Date: Mon, 26 Jun 2023 10:00:00 +0000
+-Subject: [PATCH] tests: avoid accept() libc function when tracing accept()
+- syscall
+-
+-The libc function is allowed to implement accept() using accept4()
+-syscall, so migrate to accept4() those tests that trace accept() syscall
+-but do not test accept() specifically, and change the test of accept()
+-syscall to invoke either __NR_accept or __NR_socketcall(SYS_ACCEPT)
+-directly.
+-
+-* tests/accept_compat.h: Remove.
+-* tests/Makefile.am (EXTRA_DIST): Remove accept_compat.h.
+-* tests/accept.c [TEST_SYSCALL_NAME]: Do not invoke accept(),
+-call __NR_accept or __NR_socketcall if available, or skip the test.
+-* tests/net-y-unix.c: Do not include "accept_compat.h".
+-(main): Invoke accept4() instead of accept().
+-* tests/net-yy-inet.c: Likewise.
+-* tests/net-yy-unix.c: Likewise.
+-
+-Resolves: https://github.com/strace/strace/issues/260
+-
+-Upstream-Status: Backport
+----
+- tests/Makefile.am     |  1 -
+- tests/accept.c        | 36 ++++++++++++++++++++----------------
+- tests/accept_compat.h | 32 --------------------------------
+- tests/net-y-unix.c    | 16 ++++++++--------
+- tests/net-yy-inet.c   | 12 ++++++------
+- tests/net-yy-unix.c   | 16 ++++++++--------
+- 6 files changed, 42 insertions(+), 71 deletions(-)
+- delete mode 100644 tests/accept_compat.h
+-
+-Index: strace-6.3/tests/Makefile.am
+-===================================================================
+---- strace-6.3.orig/tests/Makefile.am
+-+++ strace-6.3/tests/Makefile.am
+-@@ -776,7 +776,6 @@ check_DATA = \
+- 	# end of check_DATA
+- 
+- EXTRA_DIST = \
+--	accept_compat.h \
+- 	attach-p-cmd.h \
+- 	clock_adjtime-common.c \
+- 	clock_xettime-common.c \
+-Index: strace-6.3/tests/accept.c
+-===================================================================
+---- strace-6.3.orig/tests/accept.c
+-+++ strace-6.3/tests/accept.c
+-@@ -9,38 +9,36 @@
+-  */
+- 
+- #include "tests.h"
+--
+-+#include "scno.h"
+- #include <unistd.h>
+- 
+--#include "scno.h"
+-+#ifndef TEST_SYSCALL_NAME
+- 
+--#if defined __NR_accept
+-+# if defined __NR_accept || defined __NR_socketcall
+- 
+--# ifndef TEST_SYSCALL_NAME
+- #  define TEST_SYSCALL_NAME do_accept
+--
+--#  ifndef TEST_SYSCALL_STR
+--#   define TEST_SYSCALL_STR "accept"
+--#  endif
+-+#  define TEST_SYSCALL_STR "accept"
+- 
+- static int
+- do_accept(int sockfd, void *addr, void *addrlen)
+- {
+-+#  ifdef __NR_accept
+- 	return syscall(__NR_accept, sockfd, addr, addrlen);
+-+#  else /* __NR_socketcall */
+-+	const long args[] = { sockfd, (long) addr, (long) addrlen };
+-+	return syscall(__NR_socketcall, 5, args);
+-+#  endif
+- }
+--# endif /* !TEST_SYSCALL_NAME */
+- 
+--#else /* !__NR_accept */
+-+# endif /* __NR_accept || __NR_socketcall */
+- 
+--# ifndef TEST_SYSCALL_NAME
+--#  define TEST_SYSCALL_NAME accept
+--# endif
+-+#endif /* !TEST_SYSCALL_NAME */
+- 
+--#endif /* __NR_accept */
+-+#ifdef TEST_SYSCALL_NAME
+- 
+--#define TEST_SYSCALL_PREPARE connect_un()
+-+# define TEST_SYSCALL_PREPARE connect_un()
+- static void connect_un(void);
+--#include "sockname.c"
+-+# include "sockname.c"
+- 
+- static void
+- connect_un(void)
+-@@ -90,3 +88,9 @@ main(void)
+- 	puts("+++ exited with 0 +++");
+- 	return 0;
+- }
+-+
+-+#else
+-+
+-+SKIP_MAIN_UNDEFINED("__NR_accept || __NR_socketcall")
+-+
+-+#endif
+-Index: strace-6.3/tests/accept_compat.h
+-===================================================================
+---- strace-6.3.orig/tests/accept_compat.h
+-+++ /dev/null
+-@@ -1,32 +0,0 @@
+--/*
+-- * Copyright (c) 2018-2019 The strace developers.
+-- * All rights reserved.
+-- *
+-- * SPDX-License-Identifier: GPL-2.0-or-later
+-- */
+--
+--#ifndef _STRACE_TESTS_ACCEPT_COMPAT_H_
+--# define _STRACE_TESTS_ACCEPT_COMPAT_H_
+--
+--# include <unistd.h>
+--# include <sys/socket.h>
+--# include "scno.h"
+--
+--# if defined __NR_socketcall && defined __sparc__
+--/*
+-- * Work around the fact that
+-- * - glibc >= 2.26 uses accept4 syscall to implement accept() call on sparc;
+-- * - accept syscall had not been wired up on sparc until v4.4-rc8~4^2~1.
+-- */
+--static inline int
+--do_accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+--{
+--	const long args[] = { sockfd, (long) addr, (long) addrlen };
+--
+--	return syscall(__NR_socketcall, 5, args);
+--}
+--# else
+--#  define do_accept accept
+--# endif
+--
+--#endif /* !_STRACE_TESTS_ACCEPT_COMPAT_H_ */
+-Index: strace-6.3/tests/net-y-unix.c
+-===================================================================
+---- strace-6.3.orig/tests/net-y-unix.c
+-+++ strace-6.3/tests/net-y-unix.c
+-@@ -10,6 +10,7 @@
+- 
+- #include "tests.h"
+- #include <assert.h>
+-+#include <fcntl.h>
+- #include <stddef.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+-@@ -18,8 +19,6 @@
+- #include <sys/socket.h>
+- #include <sys/un.h>
+- 
+--#include "accept_compat.h"
+--
+- #define TEST_SOCKET "net-y-unix.socket"
+- 
+- int
+-@@ -88,12 +87,12 @@ main(void)
+- 	struct sockaddr * const accept_sa = tail_alloc(sizeof(addr));
+- 	memset(accept_sa, 0, sizeof(addr));
+- 	*len = sizeof(addr);
+--	int accept_fd = do_accept(listen_fd, accept_sa, len);
+-+	int accept_fd = accept4(listen_fd, accept_sa, len, O_CLOEXEC);
+- 	if (accept_fd < 0)
+- 		perror_msg_and_fail("accept");
+- 	unsigned long accept_inode = inode_of_sockfd(accept_fd);
+--	printf("accept(%d<socket:[%lu]>, {sa_family=AF_UNIX}"
+--	       ", [%d => %d]) = %d<socket:[%lu]>\n",
+-+	printf("accept4(%d<socket:[%lu]>, {sa_family=AF_UNIX}"
+-+	       ", [%d => %d], SOCK_CLOEXEC) = %d<socket:[%lu]>\n",
+- 	       listen_fd, listen_inode,
+- 	       (int) sizeof(addr), (int) *len,
+- 	       accept_fd, accept_inode);
+-@@ -160,14 +159,15 @@ main(void)
+- 
+- 	memset(accept_sa, 0, sizeof(addr));
+- 	*len = sizeof(addr);
+--	accept_fd = do_accept(listen_fd, accept_sa, len);
+-+	accept_fd = accept4(listen_fd, accept_sa, len, O_CLOEXEC);
+- 	if (accept_fd < 0)
+- 		perror_msg_and_fail("accept");
+- 	accept_inode = inode_of_sockfd(accept_fd);
+- 	const char * const sun_path1 =
+- 		((struct sockaddr_un *) accept_sa)->sun_path + 1;
+--	printf("accept(%d<socket:[%lu]>, {sa_family=AF_UNIX"
+--	       ", sun_path=@\"%s\"}, [%d => %d]) = %d<socket:[%lu]>\n",
+-+	printf("accept4(%d<socket:[%lu]>, {sa_family=AF_UNIX"
+-+	       ", sun_path=@\"%s\"}, [%d => %d], SOCK_CLOEXEC)"
+-+	       " = %d<socket:[%lu]>\n",
+- 	       listen_fd, listen_inode, sun_path1,
+- 	       (int) sizeof(addr), (int) *len,
+- 	       accept_fd, accept_inode);
+-Index: strace-6.3/tests/net-yy-inet.c
+-===================================================================
+---- strace-6.3.orig/tests/net-yy-inet.c
+-+++ strace-6.3/tests/net-yy-inet.c
+-@@ -10,6 +10,7 @@
+- 
+- #include "tests.h"
+- #include <assert.h>
+-+#include <fcntl.h>
+- #include <stddef.h>
+- #include <stdio.h>
+- #include <string.h>
+-@@ -19,8 +20,6 @@
+- #include <netinet/tcp.h>
+- #include <arpa/inet.h>
+- 
+--#include "accept_compat.h"
+--
+- #ifndef ADDR_FAMILY
+- # define ADDR_FAMILY_FIELD sin_family
+- # define ADDR_FAMILY AF_INET
+-@@ -104,14 +103,15 @@ main(void)
+- 	struct sockaddr * const accept_sa = tail_alloc(sizeof(addr));
+- 	memset(accept_sa, 0, sizeof(addr));
+- 	*len = sizeof(addr);
+--	const int accept_fd = do_accept(listen_fd, accept_sa, len);
+-+	const int accept_fd = accept4(listen_fd, accept_sa, len, O_CLOEXEC);
+- 	if (accept_fd < 0)
+- 		perror_msg_and_fail("accept");
+- 	const unsigned int connect_port =
+- 		ntohs(((struct SOCKADDR_TYPE *) accept_sa)->INPORT);
+--	printf("accept(%d<" TCP_STR ":[" LOOPBACK ":%u]>, {sa_family=" AF_STR
+--	       ", " INPORT_STR "=htons(%u), " INADDR_STR SA_FIELDS "}"
+--	       ", [%u]) = %d<" TCP_STR ":[" LOOPBACK ":%u->" LOOPBACK ":%u]>\n",
+-+	printf("accept4(%d<" TCP_STR ":[" LOOPBACK ":%u]>, {sa_family=" AF_STR
+-+	       ", " INPORT_STR "=htons(%u), " INADDR_STR SA_FIELDS "}, [%u]"
+-+	       ", SOCK_CLOEXEC) = %d<" TCP_STR ":[" LOOPBACK ":%u->" LOOPBACK
+-+	       ":%u]>\n",
+- 	       listen_fd, listen_port, connect_port, (unsigned) *len,
+- 	       accept_fd, listen_port, connect_port);
+- 
+-Index: strace-6.3/tests/net-yy-unix.c
+-===================================================================
+---- strace-6.3.orig/tests/net-yy-unix.c
+-+++ strace-6.3/tests/net-yy-unix.c
+-@@ -10,6 +10,7 @@
+- 
+- #include "tests.h"
+- #include <assert.h>
+-+#include <fcntl.h>
+- #include <stddef.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+-@@ -22,8 +23,6 @@
+- # include "xmalloc.h"
+- #endif
+- 
+--#include "accept_compat.h"
+--
+- #define TEST_SOCKET "net-yy-unix.socket"
+- 
+- int
+-@@ -112,12 +111,12 @@ main(void)
+- 	struct sockaddr * const accept_sa = tail_alloc(sizeof(addr));
+- 	memset(accept_sa, 0, sizeof(addr));
+- 	*len = sizeof(addr);
+--	int accept_fd = do_accept(listen_fd, accept_sa, len);
+-+	int accept_fd = accept4(listen_fd, accept_sa, len, O_CLOEXEC);
+- 	if (accept_fd < 0)
+- 		perror_msg_and_fail("accept");
+- 	unsigned long accept_inode = inode_of_sockfd(accept_fd);
+--	printf("accept(%d<%s:[%lu,\"%s\"]>, {sa_family=AF_UNIX}"
+--	       ", [%d => %d]) = %d<%s:[%lu->%lu,\"%s\"]>\n",
+-+	printf("accept4(%d<%s:[%lu,\"%s\"]>, {sa_family=AF_UNIX}"
+-+	       ", [%d => %d], SOCK_CLOEXEC) = %d<%s:[%lu->%lu,\"%s\"]>\n",
+- 	       listen_fd, sock_proto_name, listen_inode, TEST_SOCKET,
+- 	       (int) sizeof(addr), (int) *len,
+- 	       accept_fd, sock_proto_name, accept_inode, connect_inode,
+-@@ -191,14 +190,15 @@ main(void)
+- 
+- 	memset(accept_sa, 0, sizeof(addr));
+- 	*len = sizeof(addr);
+--	accept_fd = do_accept(listen_fd, accept_sa, len);
+-+	accept_fd = accept4(listen_fd, accept_sa, len, O_CLOEXEC);
+- 	if (accept_fd < 0)
+- 		perror_msg_and_fail("accept");
+- 	accept_inode = inode_of_sockfd(accept_fd);
+- 	const char * const sun_path1 =
+- 		((struct sockaddr_un *) accept_sa)->sun_path + 1;
+--	printf("accept(%d<%s:[%lu,\"%s\"]>, {sa_family=AF_UNIX"
+--	       ", sun_path=@\"%s\"}, [%d => %d]) = %d<%s:[%lu->%lu,\"%s\"]>\n",
+-+	printf("accept4(%d<%s:[%lu,\"%s\"]>, {sa_family=AF_UNIX"
+-+	       ", sun_path=@\"%s\"}, [%d => %d], SOCK_CLOEXEC)"
+-+	       " = %d<%s:[%lu->%lu,\"%s\"]>\n",
+- 	       listen_fd, sock_proto_name, listen_inode, TEST_SOCKET,
+- 	       sun_path1, (int) sizeof(addr), (int) *len,
+- 	       accept_fd, sock_proto_name, accept_inode, connect_inode,
+diff --git a/meta/recipes-devtools/strace/strace/3bbfb541b258baec9eba674b5d8dc30007a61542.patch b/meta/recipes-devtools/strace/strace/3bbfb541b258baec9eba674b5d8dc30007a61542.patch
+deleted file mode 100644
+index b4c6ff99de..0000000000
+--- a/meta/recipes-devtools/strace/strace/3bbfb541b258baec9eba674b5d8dc30007a61542.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 3bbfb541b258baec9eba674b5d8dc30007a61542 Mon Sep 17 00:00:00 2001
+-From: "Dmitry V. Levin" <ldv@strace.io>
+-Date: Wed, 21 Jun 2023 08:00:00 +0000
+-Subject: [PATCH] net: enhance getsockopt decoding
+-
+-When getsockopt syscall fails the kernel sometimes updates the optlen
+-argument, for example, NETLINK_LIST_MEMBERSHIPS updates it even if
+-optval is not writable.
+-
+-* src/net.c (SYS_FUNC(getsockopt)): Try to fetch and print optlen
+-argument on exiting syscall regardless of getsockopt exit status.
+-
+-Upstream-Status: Backport
+----
+- src/net.c | 15 ++++++++++++++-
+- 1 file changed, 14 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/net.c b/src/net.c
+-index f68ccb947..7244b5e57 100644
+---- a/src/net.c
+-+++ b/src/net.c
+-@@ -1038,7 +1038,7 @@ SYS_FUNC(getsockopt)
+- 	} else {
+- 		ulen = get_tcb_priv_ulong(tcp);
+- 
+--		if (syserror(tcp) || umove(tcp, tcp->u_arg[4], &rlen) < 0) {
+-+		if (umove(tcp, tcp->u_arg[4], &rlen) < 0) {
+- 			/* optval */
+- 			printaddr(tcp->u_arg[3]);
+- 			tprint_arg_next();
+-@@ -1047,6 +1047,19 @@ SYS_FUNC(getsockopt)
+- 			tprint_indirect_begin();
+- 			PRINT_VAL_D(ulen);
+- 			tprint_indirect_end();
+-+		} else if (syserror(tcp)) {
+-+			/* optval */
+-+			printaddr(tcp->u_arg[3]);
+-+			tprint_arg_next();
+-+
+-+			/* optlen */
+-+			tprint_indirect_begin();
+-+			if (ulen != rlen) {
+-+				PRINT_VAL_D(ulen);
+-+				tprint_value_changed();
+-+			}
+-+			PRINT_VAL_D(rlen);
+-+			tprint_indirect_end();
+- 		} else {
+- 			/* optval */
+- 			print_getsockopt(tcp, tcp->u_arg[1], tcp->u_arg[2],
+diff --git a/meta/recipes-devtools/strace/strace/f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch b/meta/recipes-devtools/strace/strace/f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch
+deleted file mode 100644
+index a0843836c2..0000000000
+--- a/meta/recipes-devtools/strace/strace/f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From f31c2f4494779e5c5f170ad10539bfc2dfafe967 Mon Sep 17 00:00:00 2001
+-From: "Dmitry V. Levin" <ldv@strace.io>
+-Date: Sat, 24 Jun 2023 08:00:00 +0000
+-Subject: [PATCH] tests: update sockopt-sol_netlink test
+-
+-Update sockopt-sol_netlink test that started to fail, likely
+-due to recent linux kernel commit f4e4534850a9 ("net/netlink: fix
+-NETLINK_LIST_MEMBERSHIPS length report").
+-
+-* tests/sockopt-sol_netlink.c (main): Always print changing optlen value
+-on exiting syscall.
+-
+-Reported-by: Alexander Gordeev <agordeev@linux.ibm.com>
+----
+- tests/sockopt-sol_netlink.c | 13 ++++++++++---
+- 1 file changed, 10 insertions(+), 3 deletions(-)
+-
+-Upstream-Status: Backport
+-
+-diff --git a/tests/sockopt-sol_netlink.c b/tests/sockopt-sol_netlink.c
+-index 82b98adc23..1c33219ac5 100644
+---- a/tests/sockopt-sol_netlink.c
+-+++ b/tests/sockopt-sol_netlink.c
+-@@ -94,7 +94,10 @@ main(void)
+- 			printf("%p", val);
+- 		else
+- 			printf("[%d]", *val);
+--		printf(", [%d]) = %s\n", *len, errstr);
+-+		printf(", [%d", (int) sizeof(*val));
+-+		if ((int) sizeof(*val) != *len)
+-+			printf(" => %d", *len);
+-+		printf("]) = %s\n", errstr);
+- 
+- 		/* optlen larger than necessary - shortened */
+- 		*len = sizeof(*val) + 1;
+-@@ -150,8 +153,12 @@ main(void)
+- 		/* optval EFAULT - print address */
+- 		*len = sizeof(*val);
+- 		get_sockopt(fd, names[i].val, efault, len);
+--		printf("getsockopt(%d, SOL_NETLINK, %s, %p, [%d]) = %s\n",
+--		       fd, names[i].str, efault, *len, errstr);
+-+		printf("getsockopt(%d, SOL_NETLINK, %s, %p",
+-+		       fd, names[i].str, efault);
+-+		printf(", [%d", (int) sizeof(*val));
+-+		if ((int) sizeof(*val) != *len)
+-+			printf(" => %d", *len);
+-+		printf("]) = %s\n", errstr);
+- 
+- 		/* optlen EFAULT - print address */
+- 		get_sockopt(fd, names[i].val, val, len + 1);
+diff --git a/meta/recipes-devtools/strace/strace_6.3.bb b/meta/recipes-devtools/strace/strace_6.4.bb
+similarity index 88%
+rename from meta/recipes-devtools/strace/strace_6.3.bb
+rename to meta/recipes-devtools/strace/strace_6.4.bb
+index a47cc71724..2174790fbe 100644
+--- a/meta/recipes-devtools/strace/strace_6.3.bb
++++ b/meta/recipes-devtools/strace/strace_6.4.bb
+@@ -14,11 +14,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://skip-load.patch \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+-           file://00ace1392f5bd289239b755458dcdeeed69af1da.patch \
+-           file://f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch \
+-           file://3bbfb541b258baec9eba674b5d8dc30007a61542.patch \
+            "
+-SRC_URI[sha256sum] = "e17878e301506c1cc301611118ad14efee7f8bcef63b27ace5d290acce7bb731"
++SRC_URI[sha256sum] = "27987dbac57fdfd260c6db4dc8328df35c95c6867c8a3d4371d59cdcf4eb9238"
+ 
+ inherit autotools ptest
+ 
+-- 
+2.39.2
+
+
+--===============1898085593064977930==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/nlattr_tcamsg-Xabbrev.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xraw.gen.test /usr/lib/strace/ptest/tests/ip_protocol.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xverbose /usr/lib/strace/ptest/tests/ip_protocol-Xabbrev /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xverbose.gen.test /usr/lib/strace/ptest/tests/ip_protocol-Xverbose.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xraw /usr/lib/strace/ptest/tests/ip_protocol /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf.test /usr/lib/strace/ptest/tests/ip_protocol-Xraw.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xabbrev /usr/lib/strace/ptest/tests/ip_protocol-Xabbrev.gen.test /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf-2.expected /usr/lib/strace/ptest/tests/ip_protocol-Xraw /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf-1.expected /usr/lib/strace/ptest/tests/strace--sysca
+ ll-limit--seccomp-bpf-3.expected /usr/lib/strace/ptest/tests/ip_protocol-Xverbose"
+
+--===============1898085593064977930==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/cups/cups-dbg: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-dbg: PKGSIZE changed from 6639952 to 6650004 (+0%)
-packages/core2-32-poky-linux/cups/cups-dbg: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-dev: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-dev: PKGSIZE changed from 188118 to 188119 (+0%)
-packages/core2-32-poky-linux/cups/cups-dev: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-doc: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-doc: PKGSIZE changed from 225807 to 225888 (+0%)
-packages/core2-32-poky-linux/cups/cups-doc: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-lib: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-lib: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-libimage: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-libimage: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-ca: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-ca: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-cs: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-cs: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-da: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-da: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-de: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-de: PKGSIZE changed from 374840 to 374842 (+0%)
-packages/core2-32-poky-linux/cups/cups-locale-de: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-en: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-en: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-es: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-es: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-fr: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-fr: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-it: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-it: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-ja: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-ja: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-pt-br: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-pt-br: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-ru: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-ru: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-locale-zh-cn: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-locale-zh-cn: PKGSIZE changed from 343139 to 343945 (+0%)
-packages/core2-32-poky-linux/cups/cups-locale-zh-cn: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-src: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-src: PKGSIZE changed from 5880869 to 5904455 (+0%)
-packages/core2-32-poky-linux/cups/cups-src: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-staticdev: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-staticdev: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups-webif: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups-webif: PKGSIZE changed from 1565527 to 1565612 (+0%)
-packages/core2-32-poky-linux/cups/cups-webif: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups/cups: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups/cups: PKGSIZE changed from 7853283 to 7862240 (+0%)
-packages/core2-32-poky-linux/cups/cups: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups: PV changed from "2.4.2" to "2.4.6"
-packages/core2-32-poky-linux/cups: PKGV changed from 2.4.2 [default] to 2.4.6 [default]
-packages/core2-32-poky-linux/cups: SRC_URI changed from "https://github.com/OpenPrinting/cups/releases/download/v2.4.2/cups-2.4.2-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf file://CVE-2023-32324.patch" to "https://github.com/OpenPrinting/cups/releases/download/v2.4.6/cups-2.4.6-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf"
+packages/core2-32-poky-linux/strace: SRC_URI changed from "https://strace.io/files/6.3/strace-6.3.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch file://00ace1392f5bd289239b755458dcdeeed69af1da.patch file://f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch file://3bbfb541b258baec9eba674b5d8dc30007a61542.patch" to "https://strace.io/files/6.4/strace-6.4.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch"
+packages/core2-32-poky-linux/strace: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-dbg: FILELIST: added "/usr/lib/strace/ptest/tests/.debug/ip_protocol /usr/lib/strace/ptest/tests/.debug/nlattr_tcamsg-Xverbose /usr/lib/strace/ptest/tests/.debug/ip_protocol-Xabbrev /usr/lib/strace/ptest/tests/.debug/ip_protocol-Xraw /usr/lib/strace/ptest/tests/.debug/nlattr_tcamsg-Xraw /usr/lib/strace/ptest/tests/.debug/ip_protocol-Xverbose /usr/lib/strace/ptest/tests/.debug/nlattr_tcamsg-Xabbrev"
+packages/core2-32-poky-linux/strace/strace-dbg: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-dbg: PKGSIZE changed from 51503584 to 51931148 (+1%)
+packages/core2-32-poky-linux/strace/strace-dbg: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-dev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-dev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-doc: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-doc: PKGSIZE changed from 56715 to 56802 (+0%)
+packages/core2-32-poky-linux/strace/strace-doc: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-locale: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-locale: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/nlattr_tcamsg-Xverbose.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xraw.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xraw /usr/lib/strace/ptest/tests/ip_protocol-Xverbose.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xabbrev /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf.test /usr/lib/strace/ptest/tests/ip_protocol /usr/lib/strace/ptest/tests/ip_protocol.gen.test /usr/lib/strace/ptest/tests/ip_protocol-Xabbrev /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf-1.expected /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf-2.expected /usr/lib/strace/ptest/tests/strace--syscall-limit--seccomp-bpf-3.expected /usr/lib/strace/ptest/tests/ip_protocol-Xraw.gen.test /usr/lib/strace/ptest/tests/ip_protocol-Xraw /usr/lib/strace/ptest/tests/ip_protocol-Xabbrev.gen.test /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xverbose /usr/lib/strace/ptest/test
+ s/ip_protocol-Xverbose /usr/lib/strace/ptest/tests/nlattr_tcamsg-Xabbrev.gen.test"
+packages/core2-32-poky-linux/strace/strace-ptest: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-ptest: PKGSIZE changed from 29020484 to 29222588 (+1%)
+packages/core2-32-poky-linux/strace/strace-ptest: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-src: FILELIST: directory renamed /usr/src/debug/strace/6.3-r0/bundled/linux/include/uapi/linux/netfilter -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/linux/netfilter, directory renamed /usr/src/debug/strace/6.3-r0/src/linux/i386 -> /usr/src/debug/strace/6.4-r0/src/linux/i386, directory renamed /usr/src/debug/strace/6.3-r0/bundled/linux/include/uapi/mtd -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/mtd, directory renamed /usr/src/debug/strace/6.3-r0/src/linux/generic -> /usr/src/debug/strace/6.4-r0/src/linux/generic, directory renamed /usr/src/debug/strace/6.3-r0/src/gen -> /usr/src/debug/strace/6.4-r0/src/gen, directory renamed /usr/src/debug/strace/6.3-r0/src/linux/x86_64 -> /usr/src/debug/strace/6.4-r0/src/linux/x86_64, directory renamed /usr/src/debug/strace/6.3-r0/bundled/linux/include/uapi/rdma -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/rdma, directory renamed /usr/src/debug/strace/6.3-r0/bundl
+ ed/linux/include/uapi/asm -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/asm, directory renamed /usr/src/debug/strace/6.3-r0/bundled/linux/include/uapi/linux -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/linux, directory renamed /usr/src/debug/strace/6.3-r0/bundled/linux/include/uapi/linux/netfilter/ipset -> /usr/src/debug/strace/6.4-r0/bundled/linux/include/uapi/linux/netfilter/ipset, directory renamed /usr/src/debug/strace/6.3-r0/src -> /usr/src/debug/strace/6.4-r0/src, removed "/usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_crypto_types.h /usr/src/debug/strace/6.3-r0/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.3-r0/tests/inode_of_sockfd.c /usr/src/debug/strace/6.3-r0/src/xlat/fspick_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_ff_types.h /usr/src/debug/s
+ trace/6.3-r0/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.3-r0/tests/xetitimer.c /usr/src/debug/strace/6.3-r0/tests/ioctl_evdev.c /usr/src/debug/strace/6.3-r0/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/6.3-r0/tests/ioctl_sock.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifstats.c /usr/src/debug/strace/6.3-r0/src/xlat/dirent_types.h /usr/src/debug/strace/6.3-r0/src/xlat/routing_protocols.h /usr/src/debug/strace/6.3-r0/tests/zeroargc.c /usr/src/debug/strace/6.3-r0/src/xlat/kvm_cap.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.3-r0/src/xlat/epollctls.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_led_flags.h /usr/src/debug/strace/6.3-r0/tests/lookup_dcookie.c /usr/src/debug/strace/6.3-r0/tests/pread64-pwrite64.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.3-r0/tests/fcntl-common.c /usr/src/debug/strace/6.3-r0/tests/semop-common.c /usr/src/debug
+ /strace/6.3-r0/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.3-r0/tests/fork-f.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.3-r0/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.3-r0/tests/fanotify_mark--secontext.c /usr/src/debug/strace/6.3-r0/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.3-r0/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/6.3-r0/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.3-r0/tests/ioctl_ubi.c /usr/src/debug/strace/6.3-r0/tests/hexdump_strdup.c /usr/src/debug/strace/6.3-r0/src/xlat/term_cflags.h /usr/src/debug/strace/6.3-r0/src/xlat/term_iflags.h /usr/src/debug/strace/6.3-r0/src/xlat/term_lflags.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags.h /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.3-r0/tests/seccomp-filter.c /usr/src/debug/strace/6.3-r0/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/
+ 6.3-r0/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.3-r0/tests/check_sigign.c /usr/src/debug/strace/6.3-r0/tests/memfd_secret.c /usr/src/debug/strace/6.3-r0/tests/seccomp-strict.c /usr/src/debug/strace/6.3-r0/tests/status-unfinished-threads.c /usr/src/debug/strace/6.3-r0/tests/int_0x80.c /usr/src/debug/strace/6.3-r0/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.3-r0/tests/netlink_selinux.c /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.3-r0/tests/umount.c /usr/src/debug/strace/6.3-r0/tests/accept.c /usr/src/debug/strace/6.3-r0/tests/chroot.c /usr/src/debug/strace/6.3-r0/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.3-r0/tests/linkat.c /usr/src/debug/strace/6.3-r0/tests/openat.c /usr/src/debug/strace/6.3-r0/tests/reboot.c /usr/src/debug/strace/6.3-r0/tests/select.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.3-
+ r0/src/xlat/bsg_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/msg_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.3-r0/tests/truncate64.c /usr/src/debug/strace/6.3-r0/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/sigprof_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.3-r0/src/xlat/ipccalls.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_get_flags.h /usr/src/debug/strace/6.3-r0/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.3-r0/src/xlat/epollflags.h /usr/src/debug/strace/6.3-r0/src/xlat/mpol_modes.h /usr/src/debug/strace/6.3-r0/tests/mmsg_name.c /usr/src/debug/strace/6.3-r0/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.3-r0/tests/ioctl_scsi.c /usr/src/debug/strace/6.3-r0/tests/sock_filter-v.c /usr/src/
+ debug/strace/6.3-r0/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.3-r0/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/6.3-r0/tests/skip_unavailable.c /usr/src/debug/strace/6.3-r0/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/numa_node.h /usr/src/debug/strace/6.3-r0/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/smc_diag_mode.h /usr/src/debug/strace/6.3-r0/tests/ioctl_random.c /usr/src/debug/strace/6.3-r0/tests/vmsplice.c /usr/src/debug/strace/6.3-r0/src/xlat/term_cflags_csize.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/6.3-r0/src/xlat/ter
+ m_oflags_nldly.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/6.3-r0/tests/renameat2.c /usr/src/debug/strace/6.3-r0/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.3-r0/tests/init_module.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_size.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.3-r0/tests/remap_file_pages.c /usr/src/debug/strace/6.3-r0/tests/rt_sigpending.c /usr/src/debug/strace/6.3-r0/src/xlat/sg_io_info.h /usr/src/debug/strace/6.3-r0/src/xlat/clone_flags.h /usr/src/debug/strace/6.3-r0/tests/net-yy-netlink.c /usr/src/debug/strace/6.3-r0/src/xlat/statx_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/statx_masks.h /usr/src/debug/strace/6.3-r0/src/xlat/futexwakeops.h /usr/src/debug/strace
+ /6.3-r0/src/xlat/clockflags.h /usr/src/debug/strace/6.3-r0/src/xlat/clocknames.h /usr/src/debug/strace/6.3-r0/src/xlat/vsock_cids.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.3-r0/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.3-r0/tests/membarrier.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.3-r0/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.3-r0/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.3-r0/src/xlat/arp_hardware_types.h /usr/src/debug/strace/6.3-r0/tests/s390_guarded_storage.c /usr/src/debug/strace/6.3-r0/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.3-r0/tests/umoven-illptr.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.3-r0/tests/so_linger.c /usr/src/debug/strace/6.3-r0/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.3-r0/tests/readdir.c /usr/src/debug/strace/6.3-r0/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.3-r
+ 0/tests/status-successful-threads.c /usr/src/debug/strace/6.3-r0/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.3-r0/tests/set_ptracer_any.c /usr/src/debug/strace/6.3-r0/tests/prctl-set_vma.c /usr/src/debug/strace/6.3-r0/tests/xattr-strings.c /usr/src/debug/strace/6.3-r0/src/xlat/futexbitset.h /usr/src/debug/strace/6.3-r0/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.3-r0/tests/nlattr_tc_stats.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.3-r0/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/ioprio_class.h /usr/src/debug/strace/6.3-r0/src/xlat/xattrflags.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.3-r0/src/xlat/mlock_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/vsock_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/vsock_ports.h /usr/src/debug/strace/6.3-r0/tests/nla
+ ttr_inet_diag_req_compat.c /usr/src/debug/strace/6.3-r0/tests/redirect-fds.c /usr/src/debug/strace/6.3-r0/tests/xettimeofday.c /usr/src/debug/strace/6.3-r0/tests/setdomainname.c /usr/src/debug/strace/6.3-r0/src/xlat/flockcmds.h /usr/src/debug/strace/6.3-r0/tests/init_delete_module.h /usr/src/debug/strace/6.3-r0/tests/overflowuid.c /usr/src/debug/strace/6.3-r0/tests/waitpid.c /usr/src/debug/strace/6.3-r0/tests/xetpgid.c /usr/src/debug/strace/6.3-r0/tests/setugid.c /usr/src/debug/strace/6.3-r0/tests/getegid.c /usr/src/debug/strace/6.3-r0/tests/geteuid.c /usr/src/debug/strace/6.3-r0/src/xlat/shm_resource_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/pkey_access.h /usr/src/debug/strace/6.3-r0/tests/getppid.c /usr/src/debug/strace/6.3-r0/tests/getxgid.c /usr/src/debug/strace/6.3-r0/tests/getxpid.c /usr/src/debug/strace/6.3-r0/tests/ioctl_lirc.c /usr/src/debug/strace/6.3-r0/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.3-r0/tes
+ ts/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.3-r0/tests/sched_xetscheduler.c /usr/src/debug/strace/6.3-r0/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.3-r0/tests/msg_control.c /usr/src/debug/strace/6.3-r0/tests/ioctl_loop.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_mode.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.3-r0/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.3-r0/tests/attach-p-cmd.h /usr/src/debug/strace/6.3-r0/tests/test_printstrn.c /usr/src/debug/strace/6.3-r0/tests/access--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_options.h /usr/src/debug/
+ strace/6.3-r0/src/xlat/lockfcmds.h /usr/src/debug/strace/6.3-r0/src/xlat/socktypes.h /usr/src/debug/strace/6.3-r0/tests/sched_yield.c /usr/src/debug/strace/6.3-r0/tests/unix-pair-send-recv.c /usr/src/debug/strace/6.3-r0/src/xlat/delete_module_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.3-r0/tests/set_sigblock.c /usr/src/debug/strace/6.3-r0/tests/ioctl_gpio.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.3-r0/tests/prctl-name.c /usr/src/debug/strace/6.3-r0/tests/epoll_ctl.c /usr/src/debug/strace/6.3-r0/tests/fsconfig.c /usr/src/debug/strace/6.3-r0/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.3-r0/tests/orphaned_process_group.c /usr/src/debug/strace/6.3-r0/src/xlat/statfs_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/cap_version.h /usr/src/debug/strace/6.3-r0/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/6.3-r0/tests/sendfile
+ .c /usr/src/debug/strace/6.3-r0/tests/times.c /usr/src/debug/strace/6.3-r0/src/xlat/archvals.h /usr/src/debug/strace/6.3-r0/tests/io_uring_register.c /usr/src/debug/strace/6.3-r0/tests/oldselect.c /usr/src/debug/strace/6.3-r0/src/xlat/mbind_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_irda_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.3-r0/tests/ioctl_nbd.c /usr/src/debug/strace/6.3-r0/tests/ioctl_ptp.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.3-r0/tests/secontext.h /usr/src/debug/strace/6.3-r0/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.3-r0/src/xlat/ptrace_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.3-r0/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.3-r0/tests/readahead.c /usr/src/debug/strace/
+ 6.3-r0/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/6.3-r0/tests/execve--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_attach_type.h /usr/src/debug/strace/6.3-r0/tests/prctl-dumpable.c /usr/src/debug/strace/6.3-r0/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.3-r0/tests/errno2name.c /usr/src/debug/strace/6.3-r0/tests/truncate.c /usr/src/debug/strace/6.3-r0/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.3-r0/tests/lock_file.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.3-r0/tests/restart_syscall.c /usr/src/debug/strace/6.3-r0/tests/futimesat.c /usr/src/debug/strace/6.3-r0/tests/test_ucopy.h /usr/src/debug/strace/6.3-r0/tests/tail_alloc.c /usr/src/debug/strace/6.3-r0/tests/test_ucopy.c /usr/src/debug/strace/6.3-r0/tests/pkey_alloc.c /usr/src/debug/strace/6.3-r0/tests/netlink_protocol.c /usr/src/debug/strace/6.3-r0/tests/file_handle--secontext.c /usr/src/debug/strac
+ e/6.3-r0/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/6.3-r0/tests/qual_inject-retval.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.3-r0/tests/printxval.c /usr/src/debug/strace/6.3-r0/tests/xgetdents.c /usr/src/debug/strace/6.3-r0/tests/shutdown.c /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.3-r0/tests/gettid.c /usr/src/debug/strace/6.3-r0/tests/kexec_file_load.c /usr/src/debug/strace/6.3-r0/tests/waitid.c /usr/src/debug/strace/6.3-r0/tests/getgid.c /usr/src/debug/strace/6.3-r0/tests/getpid.c /usr/src/debug/strace/6.3-r0/tests/getuid.c /usr/src/debug/strace/6.3-r0/tests/fchmod.c /usr/src/debug/strace/6.3-r0/tests/getcwd.c /usr/src/debug/strace/6.3-r0/tests/getsid.c /usr/src/debug/strace/6.3-r0/src/xlat/caif_protocols.h /usr/src/debug/strace
+ /6.3-r0/src/xlat/quota_formats.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_sw_ids.h /usr/src/debug/strace/6.3-r0/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.3-r0/tests/ioctl_seccomp.c /usr/src/debug/strace/6.3-r0/tests/mount_setattr.c /usr/src/debug/strace/6.3-r0/tests/ksysent.c /usr/src/debug/strace/6.3-r0/tests/fsmount.c /usr/src/debug/strace/6.3-r0/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-spec-inject.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.3-r0/tests/get_process_reaper.c /usr/src/debug/strace/6.3-r0/tests/riscv_flush_icache.c /usr/src/debug/strace/6.3-r0/src/xlat/evdev_abs.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_snd.h /usr/src/debug/strace/6.3-r0/src/xlat/modetypes.h /usr/src/debug/strace/6.3-r0/tests/prctl-no-args.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.3-r0/tests/ip_mreq.c /usr/src/debug/strace/6.3-r0/tests/pselect6-common.c /usr/src/debug/strace/6.3-r0/sr
+ c/xlat/membarrier_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.3-r0/tests/arch_prctl.c /usr/src/debug/strace/6.3-r0/tests/attach-f-p.c /usr/src/debug/strace/6.3-r0/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.3-r0/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.3-r0/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/f_owner_types.h /usr/src/debug/strace/6.3-r0/src/xlat/mdb_flags.h /usr/src/debug/strace/6.3-r0/tests/pipe_maxfd.c /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/6.3-r0/tests/ipc_sem.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.
+ 3-r0/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.3-r0/tests/getresugid.c /usr/src/debug/strace/6.3-r0/tests/setresugid.c /usr/src/debug/strace/6.3-r0/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.3-r0/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.3-r0/tests/ioctl_dm.c /usr/src/debug/strace/6.3-r0/src/xlat/netlink_new_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/umount_flags.h /usr/src/debug/strace/6.3-r0/tests/fallocate.c /usr/src/debug/strace/6.3-r0/tests/ftruncate.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/6.3-r0/tests/ioctl_termios.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/6.3-r0/src/xlat/rtc_params.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_size.h /usr/src/debug/strace/6.3-r0/src/xlat/smc_states.h /usr/src/debug/strace/6.3-r0/tests/status-detached-th
+ reads.c /usr/src/debug/strace/6.3-r0/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.3-r0/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.3-r0/tests/read-write.c /usr/src/debug/strace/6.3-r0/src/xlat/unshare_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_types.h /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.3-r0/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.3-r0/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.3-r0/tests/xchownx.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.3-r0/tests/fchmodat--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/lirc_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.3-r0/tests/xetpriority.c /usr/src/debug/strace/6.3-r0/src/xlat/hdio_ide_nice.
+ h /usr/src/debug/strace/6.3-r0/src/xlat/term_line_discs.h /usr/src/debug/strace/6.3-r0/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.3-r0/tests/kill_child.c /usr/src/debug/strace/6.3-r0/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.3-r0/tests/futex_waitv.c /usr/src/debug/strace/6.3-r0/src/xlat/routing_types.h /usr/src/debug/strace/6.3-r0/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.3-r0/tests/fadvise64_64.c /usr/src/debug/strace/6.3-r0/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.3-r0/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.3-r0/tests/semtimedop-common.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_dumpable.h /usr/src/debug/strace/6.3-r0/tests/rt_sigreturn.c /usr/src/debug/strace/6.3-r0/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.3-r0/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.3-r0/src/xl
+ at/term_cmds_overlapping.h /usr/src/debug/strace/6.3-r0/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/ipc_private.h /usr/src/debug/strace/6.3-r0/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.3-r0/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/efd_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sfd_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.3-r0/tests/get_sigset_size.c /usr/src/debug/strace/6.3-r0/src/xlat/fan_event_flags.h /usr/src/debug/strace/6.3-r0/tests/tprintf.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_class.h /usr/src/debug/strace/6.3-r0/tests/open_tree.c /usr/src/debug/strace/6.3-r0/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.3-r0/tests/netlink_crypto.c /usr/src/debug/strace/6.3-r0/tests/fsync-y.c /usr/src/debug/strace/6.3-r0/src/xlat/ipc_msg_flags.h /usr
+ /src/debug/strace/6.3-r0/tests/brk.c /usr/src/debug/strace/6.3-r0/tests/getegid32.c /usr/src/debug/strace/6.3-r0/tests/geteuid32.c /usr/src/debug/strace/6.3-r0/src/xlat/epollevents.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.3-r0/tests/libsocketcall.c /usr/src/debug/strace/6.3-r0/src/xlat/tun_device_types.h /usr/src/debug/strace/6.3-r0/src/xlat/sigill_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.3-r0/tests/ioctl_tee.c /usr/src/debug/strace/6.3-r0/tests/dup.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/resource_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.3-r0/tests/attach-p-cmd-p.c /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_ex
+ tended_flags.h /usr/src/debug/strace/6.3-r0/tests/nlattr_cachereport.c /usr/src/debug/strace/6.3-r0/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/6.3-r0/tests/mmsg-silent.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_netlink_options.h /usr/src/debug/strace/6.3-r0/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.3-r0/tests/kernel_version.c /usr/src/debug/strace/6.3-r0/src/xlat/open_mode_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.3-r0/tests/timerfd_xettime.c /usr/src/debug/strace/6.3-r0/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.3-r0/tests/prctl-unalign.c /usr/src/debug/strace/6.3-r0/tests/time_enjoyment.h /usr/src/debug/strace/6.3-r0/tests/aio_pgetevents.c /usr/src/debug/strace/6.3-r0/tests/osf_utimes.c /usr/src/debug/strace/6.3-r0/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.3-r0/tests/sxetmask.c /usr/src/debug/strace/6.3-r
+ 0/tests/perf_event_open.c /usr/src/debug/strace/6.3-r0/src/xlat/rename_flags.h /usr/src/debug/strace/6.3-r0/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/bt_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/bootflags1.h /usr/src/debug/strace/6.3-r0/src/xlat/bootflags2.h /usr/src/debug/strace/6.3-r0/src/xlat/bootflags3.h /usr/src/debug/strace/6.3-r0/src/xlat/quotatypes.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/6.3-r0/tests/print_time.c /usr/src/debug/strace/6.3-r0/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.3-r0/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/6.3-r0/src/xlat/clone3_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/can_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/mmap_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/swap_flags.h /usr/src/debug/strace/6.3-r0/tests/s390_p
+ ci_mmio_read_write.c /usr/src/debug/strace/6.3-r0/src/xlat/gpio_handle_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-tsc.c /usr/src/debug/strace/6.3-r0/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.3-r0/tests/migrate_pages.c /usr/src/debug/strace/6.3-r0/src/xlat/falloc_flags.h /usr/src/debug/strace/6.3-r0/tests/fcntl64.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_query_flags.h /usr/src/debug/strace/6.3-r0/tests/so_peercred.c /usr/src/debug/strace/6.3-r0/tests/pkey_mprotect.c /usr/src/debug/strace/6.3-r0/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.3-r0/tests/socketcall.c /usr/src/debug/strace/6.3-r0/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.3-r0/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/move_pages_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.3-r0/src/xlat/setsock_ip_options.h /usr/src/debug/strace/6.3-r0/tests/mlock.c /usr/src
+ /debug/strace/6.3-r0/tests/mount.c /usr/src/debug/strace/6.3-r0/tests/sockopt-timestamp.c /usr/src/debug/strace/6.3-r0/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/mremap_flags.h /usr/src/debug/strace/6.3-r0/tests/umovestr_cached.c /usr/src/debug/strace/6.3-r0/tests/sendfile64.c /usr/src/debug/strace/6.3-r0/src/xlat/mount_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.3-r0/tests/sigreturn.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/6.3-r0/tests/finit_module.c /usr/src/debug/strace/6.3-r0/tests/prctl_marker.c /usr/src/debug/strace/6.3-r0/tests/xstatfsx.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/pollflags.h /usr/src/debug/strace/6.3-r0/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/6.3-r0/tests/setrlimit.c /usr/src/de
+ bug/strace/6.3-r0/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.3-r0/src/xlat/iffflags.h /usr/src/debug/strace/6.3-r0/tests/mq.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.3-r0/tests/getdents.c /usr/src/debug/strace/6.3-r0/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.3-r0/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.3-r0/tests/set_sigign.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.3-r0/tests/unlinkat.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/6.3-r0/tests/net-tpacket_req.c /usr/src/debug/strace/6.3-r0/src/xlat/hw_breakpoint_len.h /usr/src/debu
+ g/strace/6.3-r0/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/scmvals.h /usr/src/debug/strace/6.3-r0/tests/oldselect-efault.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/6.3-r0/tests/scm_rights.c /usr/src/debug/strace/6.3-r0/tests/nanosleep.c /usr/src/debug/strace/6.3-r0/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.3-r0/tests/getdents64.c /usr/src/debug/strace/6.3-r0/tests/xgetrlimit.c /usr/src/debug/strace/6.3-r0/tests/net-tpacket_stats.c /usr/src/debug/strace/6.3-r0/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.3-r0/tests/qual_fault.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/6.3-r0/tests/process_mrelease.c /usr/src/debug/strace/6.3-r0/tests/execveat.c /usr/src/debug/strace/6.3-r0/tests/renameat.c /usr/src/debug/strace/6.3-r0/src/xlat/baud_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sigchld_codes.
+ h /usr/src/debug/strace/6.3-r0/tests/fanotify_init.c /usr/src/debug/strace/6.3-r0/tests/fanotify_mark.c /usr/src/debug/strace/6.3-r0/tests/fill_memory.c /usr/src/debug/strace/6.3-r0/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.3-r0/src/xlat/landlock_rule_types.h /usr/src/debug/strace/6.3-r0/tests/clone-flags.c /usr/src/debug/strace/6.3-r0/src/xlat/smc_decl_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/6.3-r0/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.3-r0/tests/pkey_free.c /usr/src/debug/strace/6.3-r0/tests/openat2.c /usr/src/debug/strace/6.3-r0/tests/time.c /usr/src/debug/strace/6.3-r0/tests/umount2.c /usr/src/debug/strace/6.3-r0/tests/acct.c /usr/src/debug/strace/6.3-r0/tests/caps.c /usr/src/debug/strace/6.3-r0/tests/dup2.c /usr/src/debug/strace/6.3-r0/tests/dup3.c /usr/src/debug/strace/6.3-r0/tests/iopl.c /usr/src/debug/strace/6.3-r0/tests/kcmp.c /usr/src/debug/strace/6.3-r0/tests/kill.c /usr/src/debug/strace/6.3-
+ r0/tests/link.c /usr/src/debug/strace/6.3-r0/src/xlat/af_packet_types.h /usr/src/debug/strace/6.3-r0/tests/newfstatat.c /usr/src/debug/strace/6.3-r0/tests/fdatasync.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/open_access_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.3-r0/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.3-r0/src/xlat/irda_protocols.h /usr/src/debug/strace/6.3-r0/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.3-r0/src/xlat/at_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/dm_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/schedulers.h /usr/src/debug/strace/6.3-r0/tests/faccessat2.c /usr/src/debug/strace/6.3-r0/src/xlat/mctp_nets.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.3-r0/tests/process_madvise.c /usr/src/debug/strace/6.3-r0/
+ tests/landlock_restrict_self.c /usr/src/debug/strace/6.3-r0/tests/quotactl.h /usr/src/debug/strace/6.3-r0/tests/quotactl.c /usr/src/debug/strace/6.3-r0/tests/prctl-mdwe.c /usr/src/debug/strace/6.3-r0/tests/pidfd_getfd.c /usr/src/debug/strace/6.3-r0/src/xlat/inet_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/madvise_cmds.h /usr/src/debug/strace/6.3-r0/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.3-r0/src/xlat/kcmp_types.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_rval.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_shutdown_flags.h /usr/src/debug/strace/6.3-r0/tests/sigaction.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/6.3-r0/src/xlat/wait4_options.h /usr/src/debug/strace/6.3-r0/tests/pc.c /usr/src/debug/strace/6.3-r0/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.3-r0/tests/kern_features.c /usr/src/debug/strace/6.3-r0/tests/pidns-cache.c /usr/src/debug/strace/6.3-r0/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.3-r0
+ /tests/keyctl.c /usr/src/debug/strace/6.3-r0/tests/signal.c /usr/src/debug/strace/6.3-r0/tests/sysctl.c /usr/src/debug/strace/6.3-r0/tests/tgkill.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.3-r0/tests/strace-x.c /usr/src/debug/strace/6.3-r0/tests/kernel_old_timespec.h /usr/src/debug/strace/6.3-r0/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.3-r0/src/xlat/uring_ops.h /usr/src/debug/strace/6.3-r0/tests/personality.c /usr/src/debug/strace/6.3-r0/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.3-r0/tests/fflush.c /usr/src/debug/strace/6.3-r0/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/6.3-r0/tests/fsopen.c /usr/src/debug/strace/6.3-r0/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.3-r0/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.3-r0/tests/ioctl_fiemap.c /usr/src/debug/strace/6.3-r0/tests/rt_sigprocmask.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.3-r0/tests/strace--sysca
+ ll-limit.c /usr/src/debug/strace/6.3-r0/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.3-r0/tests/mincore.c /usr/src/debug/strace/6.3-r0/tests/unshare.c /usr/src/debug/strace/6.3-r0/tests/prctl-fp-mode.c /usr/src/debug/strace/6.3-r0/tests/stack-fcall-0.c /usr/src/debug/strace/6.3-r0/tests/stack-fcall-1.c /usr/src/debug/strace/6.3-r0/tests/stack-fcall-2.c /usr/src/debug/strace/6.3-r0/src/xlat/perf_type_id.h /usr/src/debug/strace/6.3-r0/tests/stack-fcall-3.c /usr/src/debug/strace/6.3-r0/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.3-r0/tests/add_key.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/6.3-r0/tests/strace-n.c /usr/src/debug/strace/6.3-r0/tests/net-accept-connect.c /usr/src/debug/strace/6.3-r0/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/6.3-r0/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.3-r0/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/6.3-r0/tests/ioctl_evdev-success.c /usr/src/debug/strace/6.3-r0/src/x
+ lat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.3-r0/tests/sigpending.c /usr/src/debug/strace/6.3-r0/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.3-r0/tests/msg_name.c /usr/src/debug/strace/6.3-r0/tests/sockname.c /usr/src/debug/strace/6.3-r0/tests/xutimes.c /usr/src/debug/strace/6.3-r0/tests/ioctl_nsfs.c /usr/src/debug/strace/6.3-r0/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_modes.h /usr/src/debug/strace/6.3-r0/tests/ip_local_port_range.c /usr/src/debug/strace/6.3-r0/src/xlat/waitid_types.h /usr/src/debug/strace/6.3-r0/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.3-r0/src/xlat/hci_channels.h /usr/src/debug/strace/6.3-r0/src/xlat/futexops.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_osf.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.3-r0/tests/status-all.c
+  /usr/src/debug/strace/6.3-r0/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.3-r0/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.3-r0/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.3-r0/tests/eventfd.c /usr/src/debug/strace/6.3-r0/tests/ipc.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_src.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.3-r0/tests/ipc_msgbuf.c /usr/src/debug/strace/6.3-r0/tests/unblock_reset_raise.c /usr/src/debug/strace/6.3-r0/src/xlat/madvise_hppa_generic_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/cap_mask0.h /usr/src/debug/strace/6.3-r0/src/xlat/cap_mask1.h /usr/src/debug/strace/6.3-r0/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.3-r0/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.3-r0/src/xlat/xdp_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/adjtimex_state.h /usr
+ /src/debug/strace/6.3-r0/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.3-r0/src/xlat/futex_waiter_flags.h /usr/src/debug/strace/6.3-r0/tests/prlimit64.c /usr/src/debug/strace/6.3-r0/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/6.3-r0/tests/bpf.c /usr/src/debug/strace/6.3-r0/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/6.3-r0/src/xlat/secbits.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_class.h /usr/src/debug/strace/6.3-r0/src/xlat/rwf_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.3-r0/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_port.c /usr/src/debug/strace/6.3-r0/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/6.3-r0/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_balance_state.h /usr/src/debug/strac
+ e/6.3-r0/tests/ioctl_inotify.c /usr/src/debug/strace/6.3-r0/src/xlat/key_spec.h /usr/src/debug/strace/6.3-r0/src/xlat/sigact_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.3-r0/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.3-r0/tests/fchownat--secontext.c /usr/src/debug/strace/6.3-r0/tests/prctl-tid_address.c /usr/src/debug/strace/6.3-r0/tests/test_nlattr.h /usr/src/debug/strace/6.3-r0/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.3-r0/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.3-r0/tests/times-fail.c /usr/src/debug/strace/6.3-r0/tests/setfsugid.c /usr/src/debug/strace/6.3-r0/tests/setreugid.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.3-r0/tests/fsync.c /usr/src/debug/strace/6.3-r0/tests/futex.c /usr/src/debug/strace/6.3-r0/tests/tkill.c /usr/src/debug/strac
+ e/6.3-r0/tests/xattr.c /usr/src/debug/strace/6.3-r0/tests/readv.c /usr/src/debug/strace/6.3-r0/tests/rmdir.c /usr/src/debug/strace/6.3-r0/tests/alarm.c /usr/src/debug/strace/6.3-r0/tests/btrfs.c /usr/src/debug/strace/6.3-r0/tests/chdir.c /usr/src/debug/strace/6.3-r0/tests/chmod.c /usr/src/debug/strace/6.3-r0/tests/looping_threads.c /usr/src/debug/strace/6.3-r0/tests/pidns.h /usr/src/debug/strace/6.3-r0/tests/tests.h /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.3-r0/tests/create_nl_socket.c /usr/src/debug/strace/6.3-r0/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/6.3-r0/tests/io_uring_setup.c /usr/src/debug/strace/6.3-r0/tests/io_uring_enter.c /usr/src/debug/strace/6.3-r0/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.3-r0/src/xlat/fs_xflags.h /usr/src/debug/strace/6.3-r0/tests/epoll_create.c /usr/src/debug/strace/6.3-r0/tests/memfd_create.c /usr/src/debug/strace/6.3-r0/tests/timer_create.c /usr/src/debug/strace/6.3-r0/tests/sethostna
+ me.c /usr/src/debug/strace/6.3-r0/src/xlat/lirc_features.h /usr/src/debug/strace/6.3-r0/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.3-r0/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/prctl_options.h /usr/src/debug/strace/6.3-r0/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.3-r0/src/xlat/splice_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/whence_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.3-r0/tests/inet-cmsg.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_mce_kill.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.3-r0/tests/kernel_old_timex.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/ax25_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/f_seals.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.3-r0/src/xlat
+ /kd_key_cur_keys.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.3-r0/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/6.3-r0/src/xlat/audit_arch.h /usr/src/debug/strace/6.3-r0/tests/inotify_init1.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/6.3-r0/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.3-r0/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.3-r0/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.3-r0/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.3-r0/tests/preadv-pwritev.c /usr/src/debug/strace/6.3-r0/tests/adjtimex.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_default_led_flags
+ .h /usr/src/debug/strace/6.3-r0/tests/execve.c /usr/src/debug/strace/6.3-r0/tests/ptrace.c /usr/src/debug/strace/6.3-r0/tests/rename.c /usr/src/debug/strace/6.3-r0/tests/splice.c /usr/src/debug/strace/6.3-r0/tests/fspick.c /usr/src/debug/strace/6.3-r0/tests/llseek.c /usr/src/debug/strace/6.3-r0/tests/unlink.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.3-r0/tests/mq_sendrecv.c /usr/src/debug/strace/6.3-r0/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.3-r0/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.3-r0/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.3-r0/tests/syslog.c /usr/src/debug/strace/6.3-r0/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.3-r0/tests/ioctl_tiocm.c /usr/src/debug/strace/6.3-r0/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.3-r0/tests/epoll_pwait.c /usr/src/debug/strace/6.3-r0/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/6.3-r0/src/xlat
+ /mq_attr_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.3-r0/tests/getpgrp.c /usr/src/debug/strace/6.3-r0/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.3-r0/src/xlat/addrfams.h /usr/src/debug/strace/6.3-r0/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.3-r0/tests/ioctl_rtc.c /usr/src/debug/strace/6.3-r0/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/6.3-r0/tests/status-unfinished.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/6.3-r0/tests/ioctl_uffdio.c /usr/src/debug/strace/6.3-r0/src/xlat/fan_init_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.3-r0/tests/tee.c /usr/src/debug/strace/6.3-r0/tests/trie_test.c /usr/src/debug/strace/6.3-r0/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.3-r0/tests/ipc_shm.c /usr/src/debug/strace/6.3-r0/src/xlat/sched_flags.h /usr/src/debug/strac
+ e/6.3-r0/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.3-r0/tests/prctl-capbset.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_raw_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_xdp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.3-r0/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.3-r0/src/x
+ lat/btrfs_features_incompat.h /usr/src/debug/strace/6.3-r0/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_vsock_options.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/6.3-r0/src/xlat/mdb_states.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_tsc.h /usr/src/debug/strace/6.3-r0/tests/userfaultfd.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.3-r0/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.3-r0/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.3-r0/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.3-r0/tests/getgroups.c /usr/src/debug/strace/6.3-r0/tests/setgroups.c /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.3-r0/
+ src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_pac_keys.h /usr/src/debug/strace/6.3-r0/tests/get_page_size.c /usr/src/debug/strace/6.3-r0/tests/mbind.c /usr/src/debug/strace/6.3-r0/tests/umask.c /usr/src/debug/strace/6.3-r0/tests/uname.c /usr/src/debug/strace/6.3-r0/tests/ustat.c /usr/src/debug/strace/6.3-r0/tests/utime.c /usr/src/debug/strace/6.3-r0/tests/ioctl.c /usr/src/debug/strace/6.3-r0/tests/semop.c /usr/src/debug/strace/6.3-r0/tests/setns.c /usr/src/debug/strace/6.3-r0/tests/statx.c /usr/src/debug/strace/6.3-r0/tests/pause.c /usr/src/debug/strace/6.3-r0/src/xlat/socketlayers.h /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/resources.h /usr/src/debug/strace/6.3-r0/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rxrpc_services.h /usr/src/debug/strace/6.3-r0/tests/sched_xetparam.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifinfomsg.c /us
+ r/src/debug/strace/6.3-r0/tests/lseek.c /usr/src/debug/strace/6.3-r0/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/6.3-r0/tests/quotactl-xfs.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/6.3-r0/tests/net-sockaddr.c /usr/src/debug/strace/6.3-r0/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.3-r0/tests/xet_thread_area_x86.c /usr/src/debug/strace/6.3-r0/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.3-r0/tests/group_req.c /usr/src/debug/strace/6.3-r0/src/xlat/netlink_states.h /usr/src/debug/strace/6.3-r0/tests/clock_xettime-common.c /usr/src/debug/strace/6.3-r0/src/xlat/socketcalls.h /usr/src/debug/strace/6.3-r0/tests/delete_module.c /usr/src/debug/strace/6.3-r0/tests/dev-yy.c /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/6.3-r0/tests/fadvise64.c /usr/src/debug/strace/6.3-r0/src/xlat/ubi_volume_flags.h /usr/src/debu
+ g/strace/6.3-r0/tests/xselect.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.3-r0/tests/semtimedop.c /usr/src/debug/strace/6.3-r0/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.3-r0/tests/print_ppid_tracerpid.c /usr/src/debug/strace/6.3-r0/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.3-r0/tests/access.c /usr/src/debug/strace/6.3-r0/tests/status.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.3-r0/tests/signal2name.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.3-r0/tests/ioctl_block.c /usr/src/debug/strace/6.3-r0/tests/print_quoted_string.c /usr/src/debug/strace/6.3-r0/tests/getsockname--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/evdev_leds.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_misc.h /usr/src/debug/strace/6.3-r0/src/xla
+ t/evdev_prop.h /usr/src/debug/strace/6.3-r0/src/xlat/getsock_options.h /usr/src/debug/strace/6.3-r0/src/xlat/setsock_options.h /usr/src/debug/strace/6.3-r0/tests/kexec_load.c /usr/src/debug/strace/6.3-r0/tests/nfnetlink_acct.c /usr/src/debug/strace/6.3-r0/tests/sched_xetaffinity.c /usr/src/debug/strace/6.3-r0/tests/status-successful.c /usr/src/debug/strace/6.3-r0/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.3-r0/tests/sprintrc.c /usr/src/debug/strace/6.3-r0/tests/tampering-notes.c /usr/src/debug/strace/6.3-r0/tests/ioctl_v4l2.c /usr/src/debug/strace/6.3-r0/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.3-r0/tests/epoll_create1.c /usr/src/debug/strace/6.3-r0/tests/ioctl_counter.c /usr/src/debug/strace/6.3-r0/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.3-r0/tests/segv_pkuerr.c /usr/src/debug/strace/6.3-r0/tests/filter_seccomp-perf.c /usr/src/debug/s
+ trace/6.3-r0/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.3-r0/tests/netlink_inet_diag.c /usr/src/debug/strace/6.3-r0/tests/netlink_sock_diag.c /usr/src/debug/strace/6.3-r0/tests/netlink_unix_diag.c /usr/src/debug/strace/6.3-r0/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.3-r0/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.3-r0/tests/aio.c /usr/src/debug/strace/6.3-r0/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/advise.h /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.3-r0/tests/printstr.c /usr/src/debug/strace/6.3-r0/tests/umovestr.c /usr
+ /src/debug/strace/6.3-r0/tests/execveat--secontext.c /usr/src/debug/strace/6.3-r0/tests/modify_ldt.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.3-r0/tests/erestartsys.c /usr/src/debug/strace/6.3-r0/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.3-r0/tests/ioctl_perf-success.c /usr/src/debug/strace/6.3-r0/src/xlat/usagewho.h /usr/src/debug/strace/6.3-r0/tests/print_maxfd.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.3-r0/tests/inotify_init.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/6.3-r0/tests/prctl-sme.c /usr/src/debug/strace/6.3-r0/tests/status-failed.c /usr/src/debug/strace/6.3-r0/tests/status-none-f.c /usr/src/debug/strace/6.3-r0/s
+ rc/xlat/rtnl_family.h /usr/src/debug/strace/6.3-r0/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.3-r0/tests/ioctl_watchdog.c /usr/src/debug/strace/6.3-r0/tests/ioctl_fs_x.c /usr/src/debug/strace/6.3-r0/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/priorities.h /usr/src/debug/strace/6.3-r0/tests/wait4.c /usr/src/debug/strace/6.3-r0/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.3-r0/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.3-r0/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_commands.h /usr/src/debug/strace/6.3-r0/tests/list_sigaction_signum.c /usr/src/debug/strace/6.3-r0/src/xlat/faccessat_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_switch.h /usr/src/
+ debug/strace/6.3-r0/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.3-r0/tests/semtimedop-syscall.c /usr/src/debug/strace/6.3-r0/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.3-r0/src/xlat/skf_ad.h /usr/src/debug/strace/6.3-r0/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.3-r0/tests/getpeername.c /usr/src/debug/strace/6.3-r0/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.3-r0/src/xlat/nl_route_types.h /usr/src/debug/strace/6.3-r0/tests/printflags.c /usr/src/debug/strace/6.3-r0/tests/strace-p1-Y-p.c /usr/src/debug/strace/6.3-r0/tests/get_mempolicy.c /usr/src/debug/strace/6.3-r0/tests/set_mempolicy.c /usr/src/debug/strace/6.3-r0/tests/getrandom.c /usr/src/debug/strace/6.3-r0/tests/clone3.c /usr/src/debug/strace/6.3-r0/tests/vhangup.c /usr/src/debug/strace/6.3-r0/tests/netlink_generic.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.3-r0/tests/ioctl_fs_f.c /usr/src/debug/strace/6.3-r0/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.3
+ -r0/tests/ftruncate64.c /usr/src/debug/strace/6.3-r0/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6.3-r0/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/6.3-r0/tests/hexquote_strndup.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/routing_flags.h /usr/src/debug/strace/6.3-r0/tests/status-none.c /usr/src/debug/strace/6.3-r0/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/6.3-r0/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.3-r0/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/6.3-r0/tests/epoll_wait.c /usr/src/debug/strace/6.3-r0/tests/getxuid.c /usr/src/debug/strace/6.3-r0/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.3-r0/tests/ioctl_hdio.c /usr/src/debug/s
+ trace/6.3-r0/src/xlat/shm_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.3-r0/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.3-r0/tests/clone_parent.c /usr/src/debug/strace/6.3-r0/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.3-r0/tests/clone_ptrace.c /usr/src/debug/strace/6.3-r0/tests/epoll_pwait2.c /usr/src/debug/strace/6.3-r0/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.3-r0/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/module_init_flags.h /usr/src/debug/strace/6.3-r0/tests/clock_t_str.c /usr/src/debug/strace/6.3-r0/src/xlat/nfc_saps.h /usr/src/debug/strace/6.3-r0/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.3-r0/t
+ ests/fork--pidns-translation.c /usr/src/debug/strace/6.3-r0/tests/ioctl_perf.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/fdflags.h /usr/src/debug/strace/6.3-r0/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.3-r0/tests/close_range.c /usr/src/debug/strace/6.3-r0/tests/filter-unavailable.c /usr/src/debug/strace/6.3-r0/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.3-r0/tests/prctl-sve.c /usr/src/debug/strace/6.3-r0/tests/s390_sthyi.c /usr/src/debug/strace/6.3-r0/tests/block_reset_run.c /usr/src/debug/strace/6.3-r0/src/xlat/quotacmds.h /usr/src/debug/strace/6.3-r0/tests/utimensat.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/6.3-r0/tests/net-packet_mreq.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.3-r0/tests/fchmod--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_input_types.h /usr/src/debu
+ g/strace/6.3-r0/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.3-r0/tests/qual_inject-signal.c /usr/src/debug/strace/6.3-r0/tests/recvfrom.c /usr/src/debug/strace/6.3-r0/tests/file_handle.c /usr/src/debug/strace/6.3-r0/tests/inject-nf.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.3-r0/tests/xstatx.c /usr/src/debug/strace/6.3-r0/tests/semop-indirect.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_cthelper.c /usr/src/debug/strace/6.3-r0/tests/net-icmp_filter.c /usr/src/debug/strace/6.3-r0/tests/printsignal.c /usr/src/debug/strace/6.3-r0/tests/qual_signal.c /usr/src/debug/strace/6.3-r0/tests/filter_seccomp-flag.c /usr/src/debug/strace/6.3-r0/src/xlat/access_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.3-r0/tests/clock_nanosleep.c /usr/src/debug/strace/6.3-r0/tests/preadv.c /usr/src/debug/strace/6.3-r0/src/xlat/packet_diag_attrs.h 
+ /usr/src/debug/strace/6.3-r0/tests/landlock_add_rule.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla.h /usr/src/debug/strace/6.3-r0/tests/ioctl_kd.c /usr/src/debug/strace/6.3-r0/tests/answer.c /usr/src/debug/strace/6.3-r0/tests/fchdir.c /usr/src/debug/strace/6.3-r0/tests/linkat--secontext.c /usr/src/debug/strace/6.3-r0/tests/nlattr.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.3-r0/tests/openat--secontext.c /usr/src/debug/strace/6.3-r0/tests/subdir.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/6.3-r0/src/xlat/fsmagic.h /usr/src/debug/strace/6.3-r0/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.3-r0/tests/request_key.c /usr/src/debug/strace/6.3-r0/src/xlat/mctl_sync.h /usr/src/debug/strace/6.3-r0/tests/rt_sigsuspend.c /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.3-r0/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/d
+ ebug/strace/6.3-r0/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.3-r0/tests/sigprocmask.c /usr/src/debug/strace/6.3-r0/tests/move_mount.c /usr/src/debug/strace/6.3-r0/tests/prctl-sched-core.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.3-r0/tests/ioctl_mtd.c /usr/src/debug/strace/6.3-r0/src/xlat/mmap_prot.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.3-r0/tests/sockaddr_xlat.c /usr/src/debug/strace/6.3-r0/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/6.3-r0/tests/quotactl_fd.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_types.h /usr/src/debug/strace/6.3-r0/tests/copy_file_range.c /usr/src/de
+ bug/strace/6.3-r0/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/6.3-r0/tests/sync_file_range.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.3-r0/tests/ioctl_winsize.c /usr/src/debug/strace/6.3-r0/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.3-r0/tests/uio.c /usr/src/debug/strace/6.3-r0/tests/umovestr-illptr.c /usr/src/debug/strace/6.3-r0/tests/so_error.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.3-r0/tests/pidfd_open.c /usr/src/debug/strace/6.3-r0/tests/threads-execve.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.3-r0/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.3-r0/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.3-r0/tests/ioperm.c /usr/src/debug/strace/6.3-r0/tests/siginfo.c /usr/src/debug/strace/6.3-r0/tests/sysinfo.c /usr/src/debug/strace/6.3-r0/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.3-r0/tests/create_tmpfile.c /usr/src/debug
+ /strace/6.3-r0/tests/nfnetlink_queue.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.3-r0/tests/mmap.c /usr/src/debug/strace/6.3-r0/tests/mmsg.c /usr/src/debug/strace/6.3-r0/tests/open.c /usr/src/debug/strace/6.3-r0/tests/pipe.c /usr/src/debug/strace/6.3-r0/tests/poke.c /usr/src/debug/strace/6.3-r0/tests/poll.c /usr/src/debug/strace/6.3-r0/tests/swap.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.3-r0/tests/sync.c /usr/src/debug/strace/6.3-r0/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.3-r0/tests/ioprio.c /usr/src/debug/strace/6.3-r0/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.3-r0/src/xlat/modem_flags.h /usr/src/debug/strace/6.3-r0/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.3-r0/tests/print_user_desc.c /usr/src/debug/strace/6.3-r0/tests/old_mmap.c /usr/src/debug/strace/6.3-r0/src/xlat/notifyflags.h /usr/src/debug/strace/6.3-r0/tests/nsyscalls.c /usr/src/debug/strace/6.3-r0/tests/ifindex.c
+  /usr/src/debug/strace/6.3-r0/tests/error_msg.c /usr/src/debug/strace/6.3-r0/tests/umovestr3.c /usr/src/debug/strace/6.3-r0/tests/inotify.c /usr/src/debug/strace/6.3-r0/src/xlat/fan_classes.h /usr/src/debug/strace/6.3-r0/src/xlat/uffd_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/aio_cmds.h /usr/src/debug/strace/6.3-r0/tests/is_linux_mips_n64.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.3-r0/tests/mlock2.c /usr/src/debug/strace/6.3-r0/tests/seccomp-filter-v.c /usr/src/debug/strace/6.3-r0/tests/sigsuspend.c /usr/src/debug/strace/6.3-r0/tests/sched_xetattr.c /usr/src/debug/strace/6.3-r0/tests/timer_xettime.c /usr/src/debug/strace/6.3-r0/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.3-r0/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.3-r0/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.3-r0/tests/chmod--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.3-r0/tests/pwrit
+ ev.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/tcp_states.h /usr/src/debug/strace/6.3-r0/tests/s390_runtime_instr.c /usr/src/debug/strace/6.3-r0/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.3-r0/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.3-r0/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.3-r0/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.3-r0/tests/getrusage.c /usr/src/debug/strace/6.3-r0/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.3-r0/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.3-r0/tests/faccessat--secontext.c /usr/src/debug/strace/6.3-r0/tests/pidfd_send_signal.c /usr/src/debug/strace/6.3-r0/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.3-r0/tests/symlink.c /usr/
+ src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/ptrace_events.h /usr/src/debug/strace/6.3-r0/src/xlat/inotify_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.3-r0/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.3-r0/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.3-r0/tests/net-yy-unix.c /usr/src/debug/strace/6.3-r0/tests/net-y-unix.c /usr/src/debug/strace/6.3-r0/tests/pidns.c /usr/src/debug/strace/6.3-r0/tests/pipe2.c /usr/src/debug/strace/6.3-r0/tests/flock.c /usr/src/debug/strace/6.3-r0/tests/delay.c /usr/src/debug/strace/6.3-r0/tests/dirfd.c /usr/src/debug/strace/6.3-r0/tests/fcntl.c /usr/src/debug/strace/6.3-r0/tests/shmxt.c /usr/src/debug/strace/6.3-r0/src/xlat/semop_flags.h /usr/src/debug/strace/6.3-r0/tests/sleep.c /
+ usr/src/debug/strace/6.3-r0/tests/mknod.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/6.3-r0/tests/test_printpath.c /usr/src/debug/strace/6.3-r0/tests/symlinkat.c /usr/src/debug/strace/6.3-r0/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.3-r0/src/xlat/sigev_value.h /usr/src/debug/strace/6.3-r0/tests/net-yy-inet.c /usr/src/debug/strace/6.3-r0/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.3-r0/src/xlat/ubi_volume_props.h /usr/src/debug/strace/6.3-r0/tests/xet_robust_list.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.3-r0/tests/clock_adjtime-common.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/6.3-r0/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.3-r0/tests/open--secontext.c /usr/src/debug/strace/6.3-r0/src/xlat/ioprio_who.h /usr/src/debug/strace/6.3-r0/src/xlat/neighbor_cache_entry_states.h /usr/s
+ rc/debug/strace/6.3-r0/tests/getsockname.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.3-r0/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/6.3-r0/tests/sync_file_range2.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.3-r0/src/xlat/mtd_flags_options.h /usr/src/debug/strace/6.3-r0/tests/munlockall.c /usr/src/debug/strace/6.3-r0/tests/status-none-threads.c /usr/src/debug/strace/6.3-r0/tests/ppoll.c /usr/src/debug/strace/6.3-r0/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.3-r0/src/xlat/routing_scopes.h /usr/src/debug/strace/6.3-r0/tests/signal_receive.c /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.3-r0/tests/stack-fcall.h /usr/src/debug/strace/6.3-r0/tests/rt_sigaction.c /usr/src/debug/strace/6.
+ 3-r0/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.3-r0/tests/stack-fcall.c /usr/src/debug/strace/6.3-r0/src/xlat/fib_rule_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.3-r0/tests/netlink_audit.c /usr/src/debug/strace/6.3-r0/tests/netlink_route.c /usr/src/debug/strace/6.3-r0/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.3-r0/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.3-r0/tests/prctl-mce-kill.c /usr/src/debug/strace/6.3-r0/tests/ipc_msg.c /usr/src/debug/strace/6.3-r0/tests/libmmsg.c /usr/src/debug/strace/6.3-r0/tests/recvmsg.c /usr/src/debug/strace/6.3-r0/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.3-r0/src/xlat/dcb_commands.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/uring_setup_features.h /usr/src/debug/strace/6.3-r0/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.3
+ -r0/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.3-r0/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.3-r0/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.3-r0/tests/madvise.c /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.3-r0/tests/fadvise.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.3-r0/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.3-r0/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.3-r0/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.3-r0/tests/mknodat.c /usr/src/debug/strace/6.3-r0/src/xlat/termios_cc.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_key_types.h /usr/src/debug/strace/6.3-r0/tests/move_pages.c /usr/src/debug/strace/6.3-r0/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.3-r0/tests/count-f.c /usr/src/debug/strace/6.3-r0/tests/vfork-f.c /usr/
+ src/debug/strace/6.3-r0/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.3-r0/tests/run_expect_termsig.c /usr/src/debug/strace/6.3-r0/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/6.3-r0/tests/faccessat.c /usr/src/debug/strace/6.3-r0/src/xlat/timerfdflags.h /usr/src/debug/strace/6.3-r0/src/xlat/itimer_which.h /usr/src/debug/strace/6.3-r0/tests/check_sigblock.c /usr/src/debug/strace/6.3-r0/tests/nfnetlink_ipset.c /usr/src/debug/strace/6.3-r0/src/xlat/personality_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/personality_types.h /usr/src/debug/strace/6.3-r0/tests/netlink_netfilter.c /usr/src/debug/strace/6.3-r0/tests/getcpu.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.3-r0/tests/fchownat.c /usr/src/debug/strace/6.3-r0/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.3-r0/src/xlat/evdev_mtslots.h /usr/src/debu
+ g/strace/6.3-r0/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.3-r0/tests/umode_t.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.3-r0/tests/localtime.c /usr/src/debug/strace/6.3-r0/tests/signalfd4.c /usr/src/debug/strace/6.3-r0/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.3-r0/tests/printstrn-umoven.c /usr/src/debug/strace/6.3-r0/tests/setpgrp-exec.c /usr/src/debug/strace/6.3-r0/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.3-r0/src/xlat/cap.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.3-r0/tests/segv_accerr.c /usr/src/debug/strace/6.3-r0/tests/fchmodat.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.3-r0/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.3-r0/tests/poke-sendfile.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_link_attrs.h /usr/sr
+ c/debug/strace/6.3-r0/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/netlink_flags.h /usr/src/debug/strace/6.3-r0/tests/netlink_xfrm.c /usr/src/debug/strace/6.3-r0/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.3-r0/tests/sigaltstack.c /usr/src/debug/strace/6.3-r0/tests/getgid32.c /usr/src/debug/strace/6.3-r0/tests/getuid32.c /usr/src/debug/strace/6.3-r0/tests/readlinkat.c /usr/src/debug/strace/6.3-r0/src/xlat/rtc_features.h /usr/src/debug/strace/6.3-r0/src/xlat/close_range_flags.h /usr/src/debug/strace/6.3-r0/tests/readlink.c /usr/src/debug/strace/6.3-r0/src/xlat/key_perms.h /usr/src/debug/strace/6.3-r0/tests/sched_get_priority_mxx.c /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.3-
+ r0/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.3-r0/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.3-r0/tests/semtimedop-ipc.c /usr/src/debug/strace/6.3-r0/src/xlat/bpf_map_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.3-r0/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/evdev_ev.h /usr/src/debug/strace/6.3-r0/tests/prctl-securebits.c /usr/src/debug/strace/6.3-r0/tests/mlockall.c /usr/src/debug/strace/6.3-r0/tests/umovestr2.c /usr/src/debug/strace/6.3-r0/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.3-r0/tests/printpath-umovestr.c /usr/src/debug/strace/6.3-r0/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.3-r0/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.3-r0/s
+ rc/xlat/semctl_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/setns_types.h /usr/src/debug/strace/6.3-r0/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.3-r0/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.3-r0/src/xlat/nfc_protocols.h /usr/src/debug/strace/6.3-r0/src/xlat/smc_protocols.h /usr/src/debug/strace/6.3-r0/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.3-r0/tests/block_reset_raise_run.c", added "/usr/src/debug/strace/6.4-r0/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.4-r0/tests/localtime.c /usr/src/debug/strace/6.4-r0/tests/truncate64.c /usr/src/debug/strace/6.4-r0/src/xlat/routing_types.h /usr/src/debug/strace/6.4-r0/tests/accept.c /usr/src/debug/strace/6.4-r0/tests/chroot.c /usr/src/debug/strace/6.4-r0/tests/linkat.c /usr/src/debug/strace/6.4-r0/tests/openat.c /usr/src/debug/strace/6.4-r0/tests/reboot.c /usr/src/debug/strace/6.4-r0/tests/select.c /usr/src/debug/strace/6.4-r0/tests/umount.c /usr/src/d
+ ebug/strace/6.4-r0/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/secbits.h /usr/src/debug/strace/6.4-r0/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.4-r0/tests/umovestr_cached.c /usr/src/debug/strace/6.4-r0/tests/preadv.c /usr/src/debug/strace/6.4-r0/tests/futimesat.c /usr/src/debug/strace/6.4-r0/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/6.4-r0/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/dm_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/at_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/6.4-r0/tests/keyctl.c /usr/src/debug/strace/6.4-r0/tests/signal.c /usr/src/debug/strace/6.4-r0/tests/strace-x.c /usr/src/debug/strace/6.4-r0/tests/sysctl.c /usr/src/debug/strace/6.4-r0/tests/tgkill.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_files_update_fds.h /usr/src/debug/st
+ race/6.4-r0/tests/clock_nanosleep.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/ioprio_who.h /usr/src/debug/strace/6.4-r0/tests/list_sigaction_signum.c /usr/src/debug/strace/6.4-r0/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/mount_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-sme.c /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_size.h /usr/src/debug/strace/6.4-r0/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.4-r0/src/xlat/inotify_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/delete_module_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_nexthop_attrs
+ .h /usr/src/debug/strace/6.4-r0/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.4-r0/src/xlat/irda_protocols.h /usr/src/debug/strace/6.4-r0/tests/init_module.c /usr/src/debug/strace/6.4-r0/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.4-r0/tests/ioctl_termios.c /usr/src/debug/strace/6.4-r0/tests/aio.c /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/6.4-r0/tests/mq_sendrecv.c /usr/src/debug/strace/6.4-r0/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_input_types.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.4-r0/tests/xstatx.c /usr/src/debug/strace/6.4-r0/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.4-r0/src/xlat/arp_hardware_types.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_vf_vla
+ n_list_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/uring_ops.h /usr/src/debug/strace/6.4-r0/tests/fallocate.c /usr/src/debug/strace/6.4-r0/tests/ftruncate.c /usr/src/debug/strace/6.4-r0/tests/brk.c /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/6.4-r0/tests/sched_xetscheduler.c /usr/src/debug/strace/6.4-r0/tests/qual_inject-signal.c /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.4-r0/src/xlat/ubi_volume_props.h /usr/src/debug/strace/6.4-r0/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.4-r0/tests/get_sigset_size.c /usr/src/debug/strace/6.4-r0/tests/read-write.c /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.4-r0/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_src.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_sw_ids.h /usr/s
+ rc/debug/strace/6.4-r0/src/xlat/flockcmds.h /usr/src/debug/strace/6.4-r0/tests/umovestr-illptr.c /usr/src/debug/strace/6.4-r0/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/mlock_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/vsock_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/vsock_ports.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_tsc.h /usr/src/debug/strace/6.4-r0/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.4-r0/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.4-r0/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.4-r0/tests/rt_sigprocmask.c /usr/src/debug/strace/6.4-r0/tests/get_process_reaper.c /usr/src/debug/strace/6.4-r0/tests/move_pages.c /usr/src/debug/strace/6.4-r0/tests/ioctl_block.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_switch.h /usr/src/
+ debug/strace/6.4-r0/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_netlink_options.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.4-r0/tests/personality.c /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_shutdown_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_loop.c /usr/src/debug/strace/6.4-r0/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.4-r0/tests/io_uring_setup.c /usr/src/debug/strace/6.4-r0/tests/fcntl64.c /usr/src/debug/strace/6.4-r0/tests/fdatasync.c /usr/src/debug/strace/6.4-r0/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.4-r0/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.4-r0/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.4-r0/tests/filter-unavailable.c /usr/src/debug/strace/6.4-r0/src/xlat/wait4_options.h /usr/src/debug/strace/6.4-r0/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.4-r0/tests/clock_adjtime-common
+ .c /usr/src/debug/strace/6.4-r0/tests/execve--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/fdflags.h /usr/src/debug/strace/6.4-r0/tests/attach-p-cmd.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.4-r0/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.4-r0/tests/kernel_old_timex.h /usr/src/debug/strace/6.4-r0/src/xlat/kvm_cap.h /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/6.4-r0/tests/strace--syscall-limit.c /usr/src/debug/strace/6.4-r0/tests/test_printpath.c /usr/src/debug/strace/6.4-r0/tests/adjtimex.c /usr/src/debug/strace/6.4-r0/tests/pipe_maxfd.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.4-r0/tests/nfnetlink_osf.c /usr/src/debug/strace/6.4-r0/src/xlat/numa_node.h /usr/src/debug/strace/6.4-r0/src/xlat/madvise_hppa_generic_cmd
+ s.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.4-r0/tests/tampering-notes.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.4-r0/tests/faccessat2.c /usr/src/debug/strace/6.4-r0/tests/getgroups.c /usr/src/debug/strace/6.4-r0/tests/setgroups.c /usr/src/debug/strace/6.4-r0/tests/poke-sendfile.c /usr/src/debug/strace/6.4-r0/src/xlat/routing_scopes.h /usr/src/debug/strace/6.4-r0/tests/open_tree.c /usr/src/debug/strace/6.4-r0/tests/secontext.h /usr/src/debug/strace/6.4-r0/tests/strace-n.c /usr/src/debug/strace/6.4-r0/src/xlat/cap_mask0.h /usr/src/debug/strace/6.4-r0/src/xlat/cap_mask1.h /usr/src/debug/strace/6.4-r0/src/xlat/xdp_flags.h /usr/src/debug/strace/6.4-r0/tests/membarrier.c /usr/src/debug/strace/6.4-r0/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.4-r0/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.4-r0/src/xlat/epollflags.h /usr/src/debug/strace/6.4-r0/src/xlat/mpol_modes.h /usr/src/debug/st
+ race/6.4-r0/tests/pkey_mprotect.c /usr/src/debug/strace/6.4-r0/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.4-r0/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.4-r0/tests/pkey_free.c /usr/src/debug/strace/6.4-r0/tests/print_quoted_string.c /usr/src/debug/strace/6.4-r0/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.4-r0/tests/file_handle.c /usr/src/debug/strace/6.4-r0/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.4-r0/tests/execveat.c /usr/src/debug/strace/6.4-r0/tests/file_handle--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/timerfdflags.h /usr/src/debug/strace/6.4-r0/tests/renameat.c /usr/src/debug/strace/6.4-r0/tests/symlink.c /usr/src/debug/strace/6.4-r0/tests/netlink_netfilter.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.4-r0/tests/open--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/tls_info_ciph
+ ers.h /usr/src/debug/strace/6.4-r0/tests/futex_waitv.c /usr/src/debug/strace/6.4-r0/src/xlat/routing_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.4-r0/tests/stack-fcall.h /usr/src/debug/strace/6.4-r0/tests/sockaddr_xlat.c /usr/src/debug/strace/6.4-r0/tests/stack-fcall.c /usr/src/debug/strace/6.4-r0/tests/fadvise64.c /usr/src/debug/strace/6.4-r0/src/xlat/shm_resource_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.4-r0/tests/error_msg.c /usr/src/debug/strace/6.4-r0/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.4-r0/src/xlat/ptrace_events.h /usr/src/debug/strace/6.4
+ -r0/tests/ipc_shm.c /usr/src/debug/strace/6.4-r0/tests/msg_control.c /usr/src/debug/strace/6.4-r0/tests/prctl-spec-inject.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.4-r0/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.4-r0/src/xlat/smc_diag_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_uffdio.c /usr/src/debug/strace/6.4-r0/src/xlat/term_cflags_csize.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/6.4-r0/tests/rt_sigsuspend.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_nldly.h /usr/src/debug/strace/6.4-r0/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_vtdly.h /usr/src/debug/st
+ race/6.4-r0/tests/create_tmpfile.c /usr/src/debug/strace/6.4-r0/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.4-r0/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.4-r0/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sigev_value.h /usr/src/debug/strace/6.4-r0/tests/chmod--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/quotacmds.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.4-r0/tests/filter_seccomp-flag.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.4-r0/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.4-r0/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tca_root_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tca_root_flags.h /usr/src/debug/strace/6.4-r0/te
+ sts/mmsg-silent.c /usr/src/debug/strace/6.4-r0/tests/libsocketcall.c /usr/src/debug/strace/6.4-r0/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.4-r0/tests/sigpending.c /usr/src/debug/strace/6.4-r0/src/xlat/fs_xflags.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_mce_kill.h /usr/src/debug/strace/6.4-r0/tests/block_reset_raise_run.c /usr/src/debug/strace/6.4-r0/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_input_status_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifstats.c /usr/src/debug/st
+ race/6.4-r0/src/xlat/shm_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_sock.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/fan_event_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/6.4-r0/tests/printpath-umovestr.c /usr/src/debug/strace/6.4-r0/tests/sched_yield.c /usr/src/debug/strace/6.4-r0/src/xlat/fan_classes.h /usr/src/debug/strace/6.4-r0/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.4-r0/src/xlat/mq_attr_flags.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/6.4-r0/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.4-r0/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.4-r0/src/xlat/routing_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_hdio.c /usr/src/debug/strace/6.4-r0/tests/prctl-mdwe.c /usr/src/debug/stra
+ ce/6.4-r0/tests/ioctl_tiocm.c /usr/src/debug/strace/6.4-r0/src/xlat/statfs_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/6.4-r0/tests/pidfd_open.c /usr/src/debug/strace/6.4-r0/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.4-r0/tests/ifindex.c /usr/src/debug/strace/6.4-r0/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_dm.c /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.4-r0/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.4-r0/tests/net-sockaddr.c /usr/src/debug/strace/6.4-r0/tests/pwritev.c /usr/src/debug/strace/6.4-r0/tests/getpgrp.c /usr/src/debug/strace/6.4-r0/tests/attach-f-p.c /usr/src/debug/strace/6.4-r0/tests/xgetdents.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/quota_formats.h /usr/src/debug/strace/6.4-r0/tests/linkat--secontext.c /usr/src/debug/strace/6.4-r0/tests/openat--secontext.c /usr/src/debug/s
+ trace/6.4-r0/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.4-r0/tests/ioctl_evdev.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_led_flags.h /usr/src/debug/strace/6.4-r0/tests/clone_ptrace.c /usr/src/debug/strace/6.4-r0/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.4-r0/tests/attach-p-cmd-p.c /usr/src/debug/strace/6.4-r0/tests/umovestr3.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_options.h /usr/src/debug/strace/6.4-r0/tests/umoven-illptr.c /usr/src/debug/strace/6.4-r0/tests/perf_event_open.c /usr/src/debug/strace/6.4-r0/tests/nlattr_tc_stats.c /usr/src/debug/strace/6.4-r0/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.4-r0/tests/set_ptracer_any.c /usr/src/debug/strace/6.4-r0/tests/rt_sigreturn.c /usr/src/debug/strace/6.4-r0/src/xlat/addrfams.h /usr/src/debug/strace/6.4-r0/tests/migrate_pages.c /usr/src/debug/strace/6.4-r0/tests/truncate.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_attach_type.h /usr/src/debug/stra
+ ce/6.4-r0/tests/mlock2.c /usr/src/debug/strace/6.4-r0/tests/fadvise64_64.c /usr/src/debug/strace/6.4-r0/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/6.4-r0/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.4-r0/tests/sigreturn.c /usr/src/debug/strace/6.4-r0/tests/copy_file_range.c /usr/src/debug/strace/6.4-r0/tests/sync_file_range.c /usr/src/debug/strace/6.4-r0/tests/trie_test.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.4-r0/tests/signal_receive.c /usr/src/debug/strace/6.4-r0/src/xlat/nfc_saps.h /usr/src/debug/strace/6.4-r0/tests/xettimeofday.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.4-r0/tests/unblock_reset_raise.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.4-r0/tests/inotify.c /usr/src/debug/strace/6.4-r0/tests/swap.c /usr/src/debug/strace/6.4-r0/tests/sync.c /usr/src/debug/str
+ ace/6.4-r0/tests/time.c /usr/src/debug/strace/6.4-r0/tests/dup2.c /usr/src/debug/strace/6.4-r0/tests/dup3.c /usr/src/debug/strace/6.4-r0/tests/iopl.c /usr/src/debug/strace/6.4-r0/tests/is_linux_mips_n64.c /usr/src/debug/strace/6.4-r0/tests/kcmp.c /usr/src/debug/strace/6.4-r0/tests/kill.c /usr/src/debug/strace/6.4-r0/tests/poke.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/6.4-r0/tests/osf_utimes.c /usr/src/debug/strace/6.4-r0/tests/ioctl_fs_f.c /usr/src/debug/strace/6.4-r0/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.4-r0/tests/fchmod--secontext.c /usr/src/debug/strace/6.4-r0/tests/fchownat.c /usr/src/debug/strace/6.4-r0/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.4-r0/tests/kexec_file_load.c /usr/src/debug/strace/6.4-r0/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/6.4-r0/tests/eventfd.c /usr/src/debug/strace/6.4-r0/tests/openat2
+ .c /usr/src/debug/strace/6.4-r0/tests/umount2.c /usr/src/debug/strace/6.4-r0/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/smc_decl_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_rval.h /usr/src/debug/strace/6.4-r0/tests/aio_pgetevents.c /usr/src/debug/strace/6.4-r0/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.4-r0/tests/setrlimit.c /usr/src/debug/strace/6.4-r0/tests/shutdown.c /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.4-r0/tests/getgid32.c /usr/src/debug/strace/6.4-r0/tests/getuid32.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_dev_replace_state.h /usr/src/deb
+ ug/strace/6.4-r0/tests/sigprocmask.c /usr/src/debug/strace/6.4-r0/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.4-r0/tests/mbind.c /usr/src/debug/strace/6.4-r0/tests/mknod.c /usr/src/debug/strace/6.4-r0/tests/statx.c /usr/src/debug/strace/6.4-r0/tests/times.c /usr/src/debug/strace/6.4-r0/tests/tkill.c /usr/src/debug/strace/6.4-r0/tests/umask.c /usr/src/debug/strace/6.4-r0/tests/btrfs.c /usr/src/debug/strace/6.4-r0/tests/fcntl.c /usr/src/debug/strace/6.4-r0/tests/flock.c /usr/src/debug/strace/6.4-r0/tests/fsync.c /usr/src/debug/strace/6.4-r0/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.4-r0/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/futexops.h /usr/src/debug/strace/6.4-r0/tests/delete_module.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.4-r0/tests/nfnetlink_cthelper.c /usr/src/debu
+ g/strace/6.4-r0/tests/so_peercred.c /usr/src/debug/strace/6.4-r0/tests/netlink_audit.c /usr/src/debug/strace/6.4-r0/tests/netlink_route.c /usr/src/debug/strace/6.4-r0/tests/newfstatat.c /usr/src/debug/strace/6.4-r0/tests/test_ucopy.h /usr/src/debug/strace/6.4-r0/src/xlat/bt_protocols.h /usr/src/debug/strace/6.4-r0/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.4-r0/tests/test_ucopy.c /usr/src/debug/strace/6.4-r0/tests/readahead.c /usr/src/debug/strace/6.4-r0/src/xlat/efd_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sfd_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_scsi.c /usr/src/debug/strace/6.4-r0/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.4-r0/tests/fork--pidns-translation.c /usr/src/debug/strace/6.4-r0/tests/fsmount.c /usr/src/debug/strace/6.4-r0/tests/ksysent.c /usr/src/debug/strace/6.4-r0/src/xlat/inet_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/itimer_which.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.4-r0/tests/p
+ select6-common.c /usr/src/debug/strace/6.4-r0/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.4-r0/tests/symlinkat.c /usr/src/debug/strace/6.4-r0/src/xlat/semop_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.4-r0/src/xlat/pkey_access.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_states.h /usr/src/debug/strace/6.4-r0/tests/clock_xettime-common.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.4-r0/tests/old_mmap.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.4-r0/tests/riscv_flush_icache.c /usr/src/debug/strace/6.4-r0/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl
+ _tca_stab_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/6.4-r0/tests/mount_setattr.c /usr/src/debug/strace/6.4-r0/tests/ioctl_seccomp.c /usr/src/debug/strace/6.4-r0/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/6.4-r0/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.4-r0/tests/umovestr2.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.4-r0/tests/xattr.c /usr/src/debug/strace/6.4-r0/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.4-r0/tests/fcntl-common.c /usr/src/debug/strace/6.4-r0/tests/semop-common.c /usr/src/debug/strace/6.4-r0/tests/net-tpacket_req.c /usr/src/debug/strace/6.4-r0/src/xlat/open_mode_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.4-r0/tests/status-detached-threads.c /usr/src
+ /debug/strace/6.4-r0/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/6.4-r0/tests/status-unfinished-threads.c /usr/src/debug/strace/6.4-r0/src/xlat/rename_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/futexwakeops.h /usr/src/debug/strace/6.4-r0/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/6.4-r0/tests/netlink_crypto.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.4-r0/tests/ipc_sem.c /usr/src/debug/strace/6.4-r0/tests/net-tpacket_stats.c /usr/src/debug/strace/6.4-r0/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.4-r0/tests/epoll_create.c /usr/src/debug/strace/6.4-r0/tests/memfd_create.c /usr/src/debug/strace/6.4-r0/tests/timer_create.c /usr/src/debug/strace/6.4-r0/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_dumpable.h /usr/src/debug/strace/6.4-r0/tests/get_mempolicy.c /usr/src/debug/strace/6.4-r0/tests/set_mempolicy.c /usr/src/debug/strace/6.4-r0/tests/strace-p1-Y-p.c /usr/src/debug/str
+ ace/6.4-r0/tests/clone3.c /usr/src/debug/strace/6.4-r0/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.4-r0/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.4-r0/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.4-r0/src/xlat/can_protocols.h /usr/src/debug/strace/6.4-r0/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.4-r0/tests/test_nlattr.h /usr/src/debug/strace/6.4-r0/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/6.4-r0/tests/net-y-unix.c /usr/src/debug/strace/6.4-r0/tests/prctl-set_vma.c /usr/src/debug/strace/6.4-r0/tests/xattr-strings.c /usr/src/debug/strace/6.4-r0/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.4-r0/tests/inotify_init1.c /usr/src/debug/strace/6.4-r0/src/xlat/uffd_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_ulp_info_tls_att
+ rs.h /usr/src/debug/strace/6.4-r0/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/6.4-r0/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/sigprof_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/6.4-r0/tests/lock_file.c /usr/src/debug/strace/6.4-r0/src/xlat/advise.h /usr/src/debug/strace/6.4-r0/tests/sync_file_range2.c /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.4-r0/src/xlat/termios_cc.h /usr/src/debug/strace/6.4-r0/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/6.4-r0/tests/status-failed.c /usr/src/debug/strace/6.4-r0/tests/status-none-f.c /usr/src/debug/strace/6.4-r0/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.4-r0/tests/kexec_load.c /usr/src/debug/strace/6.4-r0/tests/tee.c /usr/src/debug/strace/6.4-r0/src/xlat/gpio_handle_flags.h /usr/src/debug/strace/6.4-r0/tests/orphaned_process_group.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_csum_types.h /usr/src/debug/stra
+ ce/6.4-r0/tests/execve.c /usr/src/debug/strace/6.4-r0/tests/ptrace.c /usr/src/debug/strace/6.4-r0/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.4-r0/tests/rename.c /usr/src/debug/strace/6.4-r0/tests/splice.c /usr/src/debug/strace/6.4-r0/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_ubi.c /usr/src/debug/strace/6.4-r0/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6.4-r0/tests/vmsplice.c /usr/src/debug/strace/6.4-r0/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/6.4-r0/tests/stack-fcall-0.c /usr/src/debug/strace/6.4-r0/tests/stack-fcall-1.c /usr/src/debug/strace/6.4-r0/tests/stack-fcall-2.c /usr/src/debug/strace/6.4-r0/tests/stack-fcall-3.c /usr/src/debug/strace/6.4-r0/tests/prctl-fp-mode.c /usr/src/debug/strace/6.4-r0/tests/sigaltstack.c /usr/src/debug/strace/6.4-r0/src/xlat/personality_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/personality_types.h /usr/src/debug/strace/6.4-r0/tests/ipc.c /usr/src/debug/strace/6.4-r0/tests/seccomp-stric
+ t.c /usr/src/debug/strace/6.4-r0/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.4-r0/tests/wait4.c /usr/src/debug/strace/6.4-r0/tests/hexdump_strdup.c /usr/src/debug/strace/6.4-r0/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/sigchld_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.4-r0/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.4-r0/src/xlat/mdb_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.4-r0/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.4-r0/tests/status-successful-threads.c /usr/src/debug/strace/6.4-r0/tests/setpgrp-exec.c /usr/src/debug/strace/6.4-r0/tests/access.c /usr/src/debug/strace/6.4-r0/tests/status.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_balance_state.h /usr/src/debu
+ g/strace/6.4-r0/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.4-r0/tests/net-yy-unix.c /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.4-r0/tests/overflowuid.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.4-r0/tests/finit_module.c /usr/src/debug/strace/6.4-r0/tests/prctl_marker.c /usr/src/debug/strace/6.4-r0/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.4-r0/tests/mincore.c /usr/src/debug/strace/6.4-r0/tests/unshare.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_setup_features.h /usr/src/debug/strace/6.4-r0/tests/sched_xetattr.c /usr/src/debug/strace/6.4-r0/tests/timer_xettime.c /usr/
+ src/debug/strace/6.4-r0/src/xlat/bpf_query_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.4-r0/src/xlat/mbind_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_std_ids.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.4-r0/tests/fchownat--secontext.c /usr/src/debug/strace/6.4-r0/tests/ioctl_gpio.c /usr/src/debug/strace/6.4-r0/tests/printxval.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_acct.c /usr/src/debug/strace/6.4-r0/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.4-r0/tests/io_uring_enter.c /usr/src/debug/strace/6.4-r0/tests/net-icmp_filter.c /
+ usr/src/debug/strace/6.4-r0/src/xlat/tcp_states.h /usr/src/debug/strace/6.4-r0/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/dirent_types.h /usr/src/debug/strace/6.4-r0/src/xlat/fib_rule_flags.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla.h /usr/src/debug/strace/6.4-r0/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtc_params.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/smc_states.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.4-r0/src/xlat/sched_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.4-r0/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_commands.h /usr/src/deb
+ ug/strace/6.4-r0/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.4-r0/tests/ioctl_nsfs.c /usr/src/debug/strace/6.4-r0/src/xlat/socketlayers.h /usr/src/debug/strace/6.4-r0/tests/ioctl_evdev-success.c /usr/src/debug/strace/6.4-r0/tests/mlockall.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.4-r0/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.4-r0/tests/rt_sigaction.c /usr/src/debug/strace/6.4-r0/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.4-r0/tests/sethostname.c /usr/src/debug/strace/6.4-r0/tests/dup.c /usr/src/debug/strace/6.4-r0/src/xlat/clone3_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-name.c /usr/src/debug/strace/6.4-r0/tests/block_reset_run.c /usr/src/debug/strace/6.4-r0/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/open_access_modes.h /usr/src/debug/strace/6.4-r0/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_xs
+ tats_bond_3ad_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.4-r0/tests/remap_file_pages.c /usr/src/debug/strace/6.4-r0/tests/hexquote_strndup.c /usr/src/debug/strace/6.4-r0/tests/ipc_msgbuf.c /usr/src/debug/strace/6.4-r0/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_modes.h /usr/src/debug/strace/6.4-r0/tests/skip_unavailable.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/6.4-r0/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/6.4-r0/src/xlat/netlink_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/cap.h /usr/src/debug/strace/6.4-r0/src/xlat/unshare_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/resource_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_perf-success.c /usr/src/debug/strace/6.4-r0/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.4-r0/tests/getsockname--secontext.c /usr/src/debug/strace/6.4-r0/tests/prctl-tsc.c /usr
+ /src/debug/strace/6.4-r0/tests/fsync-y.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.4-r0/tests/setdomainname.c /usr/src/debug/strace/6.4-r0/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/ptrace_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/futexbitset.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/splice_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_raw_options.h /usr/src/debug/stra
+ ce/6.4-r0/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_xdp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.4-r0/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_kd.c /usr/src/debug/strace/6.4-r0/tests/fspick.c /usr/src/debug/strace/6.4-r0/tests/llseek.c /usr/src/debug/strace/6.4-r0/tests/unlink.c /usr/src/debug/strace/6.4-r0/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.4-r0/tests/ioprio.c /usr/src/debug/strace/6.4-r0/tests/redirect
+ -fds.c /usr/src/debug/strace/6.4-r0/tests/inet-cmsg.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.4-r0/tests/waitpid.c /usr/src/debug/strace/6.4-r0/tests/xetpgid.c /usr/src/debug/strace/6.4-r0/tests/setugid.c /usr/src/debug/strace/6.4-r0/tests/getegid.c /usr/src/debug/strace/6.4-r0/tests/geteuid.c /usr/src/debug/strace/6.4-r0/tests/getppid.c /usr/src/debug/strace/6.4-r0/tests/getxgid.c /usr/src/debug/strace/6.4-r0/tests/getxpid.c /usr/src/debug/strace/6.4-r0/tests/getxuid.c /usr/src/debug/strace/6.4-r0/tests/epoll_ctl.c /usr/src/debug/strace/6.4-r0/tests/syslog.c /usr/src/debug/strace/6.4-r0/tests/getrusage.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.4-r0/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/bsg_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/msg_flags.h /usr/src/debug/strace/6.4-r0/tests/io_uring_regis
+ ter.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.4-r0/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_family.h /usr/src/debug/strace/6.4-r0/tests/renameat2.c /usr/src/debug/strace/6.4-r0/src/xlat/access_modes.h /usr/src/debug/strace/6.4-r0/src/xlat/kcmp_types.h /usr/src/debug/strace/6.4-r0/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.4-r0/tests/times-fail.c /usr/src/debug/strace/6.4-r0/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.4-r0/tests/ioctl_fs_x.c /usr/src/debug/strace/6.4-r0/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/key_perms.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/schedulers.h /usr/src/debug/strace/6.4-r0/src/xlat/mtd_flags_options.h /usr/src/debug/strace/6.4-r0/tests/uname.c /usr/src/debug/strace/6.4-r0/t
+ ests/ustat.c /usr/src/debug/strace/6.4-r0/tests/utime.c /usr/src/debug/strace/6.4-r0/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/6.4-r0/tests/sendfile64.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.4-r0/src/xlat/madvise_cmds.h /usr/src/debug/strace/6.4-r0/tests/landlock_restrict_self.c /usr/src/debug/strace/6.4-r0/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_new_flags.h /usr/src/debug/strace/6.4-r0/tests/get_page_size.c /usr/src/debug/strace/6.4-r0/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.4-r0/tests/print_time.c /usr/src/debug/strace/6.4-r0/src/xlat/dcb_commands.h /usr/src/debug/strace/6.4-r0/tests/readlink.c
+  /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/close_range_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/term_cmds_overlapping.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.4-r0/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/6.4-r0/src/xlat/af_packet_types.h /usr/src/debug/strace/6.4-r0/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.4-r0/tests/sched_xetparam.c /usr/src/debug/strace/6.4-r0/src/xlat/mmap_prot.h /usr/src/debug/strace/6.4-r0/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.4-r0/tests/pc.c /usr/src/debug/strace/6.4-r0/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.4-r0/tests/msg_name.c /usr/src/debug/strace/6.4-r0/tests/sockname.c /usr/src/debug/strace/6.4-r0/tests/ioctl_ptp.c /usr/src/debug/strace/6.4-r0/tests/xchownx.c /usr/src/debug/strace/6.4-r0/tests/s390_guarded_storage.c /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_attr_flags.h /usr/src/de
+ bug/strace/6.4-r0/src/xlat/futex_waiter_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/modem_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/ipccalls.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/6.4-r0/tests/status-none.c /usr/src/debug/strace/6.4-r0/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_size.h /usr/src/debug/strace/6.4-r0/src/xlat/scmvals.h /usr/src/debug/strace/6.4-r0/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.4-r0/tests/segv_pkuerr.c /usr/src/debug/strace/6.4-r0/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.4-r0/tests/netlink_generic.c /usr/src/debug/strace/6.4-r0/tests/ip_local
+ _port_range.c /usr/src/debug/strace/6.4-r0/src/xlat/pollflags.h /usr/src/debug/strace/6.4-r0/tests/getegid32.c /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.4-r0/tests/geteuid32.c /usr/src/debug/strace/6.4-r0/tests/net-yy-inet.c /usr/src/debug/strace/6.4-r0/tests/segv_accerr.c /usr/src/debug/strace/6.4-r0/src/xlat/hci_channels.h /usr/src/debug/strace/6.4-r0/src/xlat/setns_types.h /usr/src/debug/strace/6.4-r0/tests/epoll_pwait.c /usr/src/debug/strace/6.4-r0/tests/pidfd_getfd.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_input_capabilities_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.4-r0/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.4-r0/tests/add_key.c /usr/src/debug/strace/6.4-r0/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.4-r0/src/xlat
+ /key_spec.h /usr/src/debug/strace/6.4-r0/tests/set_sigign.c /usr/src/debug/strace/6.4-r0/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.4-r0/tests/nsyscalls.c /usr/src/debug/strace/6.4-r0/src/xlat/mmap_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/swap_flags.h /usr/src/debug/strace/6.4-r0/tests/nfnetlink_ipset.c /usr/src/debug/strace/6.4-r0/tests/sxetmask.c /usr/src/debug/strace/6.4-r0/src/xlat/term_line_discs.h /usr/src/debug/strace/6.4-r0/tests/xutimes.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/6.4-r0/tests/ip_mreq.c /usr/src/debug/strace/6.4-r0/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.4-r0/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.4-r0/src/xlat/whence_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.4-r0/src/xlat/sigill_codes.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.4-r0/
+ src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/6.4-r0/tests/qual_fault.c /usr/src/debug/strace/6.4-r0/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.4-r0/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.4-r0/tests/nanosleep.c /usr/src/debug/strace/6.4-r0/src/xlat/ipc_private.h /usr/src/debug/strace/6.4-r0/tests/timerfd_xettime.c /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.4-r0/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.4-r0/tests/signalfd4.c /usr/src/debug/strace/6.4-r0/tests/ioperm.c /usr/src/debug/strace/6.4-r0/tests/time_enjoyment.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.4-r0/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.4-r0/src/xlat/cap_version.h /usr/src/debug/strace/6.4-r0/tests/ioctl_perf.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-no-args.c /
+ usr/src/debug/strace/6.4-r0/tests/ioctl_inotify.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.4-r0/src/xlat/iffflags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/tun_device_types.h /usr/src/debug/strace/6.4-r0/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.4-r0/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_types.h /usr/src/debug/strace/6.4-r0/tests/inotify_init.c /usr/src/debug/strace/6.4-r0/src/xlat/waitid_types.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.4-r0/tests/semop-indirect.c /usr/src/debug/strace/6.4-r0/src/xlat/f_owner_types.h /usr/src/debug/strace/6.4-r0/tests/seccomp-filter-v.c /usr/src/debug/strace/6.4-r0/src/xlat/usagewho.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.4-r0/tests/so_error.c /usr/src/debug/s
+ trace/6.4-r0/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.4-r0/tests/mmsg_name.c /usr/src/debug/strace/6.4-r0/tests/s390_runtime_instr.c /usr/src/debug/strace/6.4-r0/tests/modify_ldt.c /usr/src/debug/strace/6.4-r0/tests/dev-yy.c /usr/src/debug/strace/6.4-r0/tests/ioctl_lirc.c /usr/src/debug/strace/6.4-r0/tests/setfsugid.c /usr/src/debug/strace/6.4-r0/tests/setreugid.c /usr/src/debug/strace/6.4-r0/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.4-r0/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.4-r0/src/xlat/setsock_ip_options.h /usr/src/debug/strace/6.4-r0/src/xlat/epollevents.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_type_id.h /usr/src/debug/strace/6.4-r0/tests/int_0x80.c /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.4-r0/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.4-r0/tests/kill_child.c /usr/src/debug/strace/6.4-r0/src/xlat/umount_flags.h /usr/src/debug/strace/6.4-r
+ 0/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/6.4-r0/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.4-r0/src/xlat/mdb_states.h /usr/src/debug/strace/6.4-r0/tests/mq.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_types.h /usr/src/debug/strace/6.4-r0/tests/restart_syscall.c /usr/src/debug/strace/6.4-r0/tests/status-unfinished.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.4-r0/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/membarrier_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.4-
+ r0/src/xlat/bpf_class.h /usr/src/debug/strace/6.4-r0/src/xlat/rwf_flags.h /usr/src/debug/strace/6.4-r0/tests/sigsuspend.c /usr/src/debug/strace/6.4-r0/src/xlat/sigact_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/6.4-r0/tests/clock_t_str.c /usr/src/debug/strace/6.4-r0/src/xlat/nl_route_types.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_ev.h /usr/src/debug/strace/6.4-r0/src/xlat/landlock_rule_types.h /usr/src/debug/strace/6.4-r0/tests/recvmsg.c /usr/src/debug/strace/6.4-r0/tests/ipc_msg.c /usr/src/debug/strace/6.4-r0/tests/s390_sthyi.c /usr/src/debug/strace/6.4-r0/tests/libmmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.4-r0/tests/tprintf.c /usr/src/debug/strace/6.4-r0/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-sve.c /usr/src/debug/strace/6.4-r0/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/mremap_flags
+ .h /usr/src/debug/strace/6.4-r0/tests/ip_protocol.c /usr/src/debug/strace/6.4-r0/tests/quotactl_fd.c /usr/src/debug/strace/6.4-r0/tests/printstr.c /usr/src/debug/strace/6.4-r0/tests/umovestr.c /usr/src/debug/strace/6.4-r0/tests/madvise.c /usr/src/debug/strace/6.4-r0/tests/sockopt-timestamp.c /usr/src/debug/strace/6.4-r0/tests/fadvise.h /usr/src/debug/strace/6.4-r0/src/xlat/archvals.h /usr/src/debug/strace/6.4-r0/tests/ioctl_winsize.c /usr/src/debug/strace/6.4-r0/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/skf_ad.h /usr/src/debug/strace/6.4-r0/tests/quotactl-xfs.c /usr/src/debug/strace/6.4-r0/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.4-r0/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.4-r0/tests/alarm.c /usr/src/debug/strace/6.4-r0/tests/mlock.c /usr/src/debug/strace/6.4-r0/tests/mount.c /usr/src/debug/strace/6.4-r0/tests/pause.c /usr/src/debug/strace/6.4-r0/tests/pidns.c /usr/src/debug/strace/6.4-r0/tests/pipe2.c /usr/src/debug/strace/6.4-r0/tests/semop
+ .c /usr/src/debug/strace/6.4-r0/tests/delay.c /usr/src/debug/strace/6.4-r0/tests/dirfd.c /usr/src/debug/strace/6.4-r0/tests/kernel_old_timespec.h /usr/src/debug/strace/6.4-r0/tests/pidns.h /usr/src/debug/strace/6.4-r0/tests/semtimedop-syscall.c /usr/src/debug/strace/6.4-r0/tests/status-successful.c /usr/src/debug/strace/6.4-r0/tests/tests.h /usr/src/debug/strace/6.4-r0/tests/readv.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.4-r0/tests/execveat--secontext.c /usr/src/debug/strace/6.4-r0/tests/xstatfsx.c /usr/src/debug/strace/6.4-r0/tests/pidfd_send_signal.c /usr/src/debug/strace/6.4-r0/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.4-r0/tests/inode_of_sockfd.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.4-r0/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.4-r0/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/move_pages_flags
+ .h /usr/src/debug/strace/6.4-r0/tests/setns.c /usr/src/debug/strace/6.4-r0/tests/shmxt.c /usr/src/debug/strace/6.4-r0/tests/sleep.c /usr/src/debug/strace/6.4-r0/tests/chdir.c /usr/src/debug/strace/6.4-r0/tests/chmod.c /usr/src/debug/strace/6.4-r0/src/xlat/priorities.h /usr/src/debug/strace/6.4-r0/tests/rmdir.c /usr/src/debug/strace/6.4-r0/tests/futex.c /usr/src/debug/strace/6.4-r0/tests/ioctl.c /usr/src/debug/strace/6.4-r0/tests/lseek.c /usr/src/debug/strace/6.4-r0/tests/xselect.c /usr/src/debug/strace/6.4-r0/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.4-r0/tests/set_sigblock.c /usr/src/debug/strace/6.4-r0/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_irda_options
+ .h /usr/src/debug/strace/6.4-r0/src/xlat/lockfcmds.h /usr/src/debug/strace/6.4-r0/src/xlat/socktypes.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.4-r0/tests/fanotify_mark--secontext.c /usr/src/debug/strace/6.4-r0/tests/prctl-tid_address.c /usr/src/debug/strace/6.4-r0/tests/sigaction.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.4-r0/tests/qual_inject-retval.c /usr/src/debug/strace/6.4-r0/tests/netlink_inet_diag.c /usr/src/debug/strace/6.4-r0/tests/netlink_sock_diag.c /usr/src/debug/strace/6.4-r0/tests/netlink_unix_diag.c /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.4-r0/tests/ioctl_tee.c /usr/src/debug/strace/6.4-r0/tests/mknodat.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tca_act
+ _hw_stats.h /usr/src/debug/strace/6.4-r0/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.4-r0/tests/pread64-pwrite64.c /usr/src/debug/strace/6.4-r0/tests/move_mount.c /usr/src/debug/strace/6.4-r0/tests/ftruncate64.c /usr/src/debug/strace/6.4-r0/src/xlat/audit_arch.h /usr/src/debug/strace/6.4-r0/tests/create_nl_socket.c /usr/src/debug/strace/6.4-r0/tests/seccomp-filter.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.4-r0/tests/erestartsys.c /usr/src/debug/strace/6.4-r0/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_mode.h /usr/src/debug/strace/6.4-r0/tests/readdir.c /usr/src/debug/strace/6.4-r0/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.4-r0/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.4-r0/tests/getcpu.c /usr/src/debug/strace/6.4-r0/tests/lookup_dcookie.c
+  /usr/src/debug/strace/6.4-r0/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.4-r0/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/6.4-r0/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/6.4-r0/tests/getresugid.c /usr/src/debug/strace/6.4-r0/tests/setresugid.c /usr/src/debug/strace/6.4-r0/tests/umode_t.c /usr/src/debug/strace/6.4-r0/tests/fflush.c /usr/src/debug/strace/6.4-r0/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.4-r0/src/xlat/mctl_sync.h /usr/src/debug/strace/6.4-r0/src/xlat/rxrpc_services.h /usr/src/debug/strace/6.4-r0/tests/sendfile.c /usr/src/debug/strace/6.4-r0/tests/ioctl_watchdog.c /usr/src/debug/strace/6.4-r0/tests/fsopen.c /usr/src/debug/strace/6.4-r0/tests/status-all.c /usr/src/debug/strace/6.4-r0/tests/cl
+ one-flags.c /usr/src/debug/strace/6.4-r0/src/xlat/aio_cmds.h /usr/src/debug/strace/6.4-r0/tests/xetitimer.c /usr/src/debug/strace/6.4-r0/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.4-r0/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.4-r0/tests/fork-f.c /usr/src/debug/strace/6.4-r0/tests/prctl-mce-kill.c /usr/src/debug/strace/6.4-r0/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.4-r0/tests/test_printstrn.c /usr/src/debug/strace/6.4-r0/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.4-r0/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/6.4-r0/tests/fchmod.c /usr/src/debug/strace/6.4-r0/tests/getcwd.c /usr/src/debug/strace/6.4-r0/tests/getgid.c /usr/src/debug/strace/6.4-r0/tests/getpid.c /usr/src/debug/strace/6.4-r0/tests/getsid.c /usr/src/debug/strace/6.4-r0/tests/gettid.c /usr/src/debug/strace/6.4-r0/tests/utimensat.c /usr/src/debug/strace/6.4-r0/tests/getuid.c /usr/src/debug/strace/6.4-r0
+ /tests/waitid.c /usr/src/debug/strace/6.4-r0/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_ff_types.h /usr/src/debug/strace/6.4-r0/tests/printsignal.c /usr/src/debug/strace/6.4-r0/tests/qual_signal.c /usr/src/debug/strace/6.4-r0/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.4-r0/tests/process_madvise.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_queue.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/6.4-r0/tests/kernel_version.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.4-r0/tests/prctl-securebits.c /usr/src/debug/strac
+ e/6.4-r0/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.4-r0/tests/answer.c /usr/src/debug/strace/6.4-r0/tests/fchdir.c /usr/src/debug/strace/6.4-r0/tests/nlattr.c /usr/src/debug/strace/6.4-r0/tests/subdir.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-unalign.c /usr/src/debug/strace/6.4-r0/tests/semtimedop.c /usr/src/debug/strace/6.4-r0/tests/epoll_wait.c /usr/src/debug/strace/6.4-r0/tests/oldselect-efault.c /usr/src/debug/strace/6.4-r0/tests/semtimedop-ipc.c /usr/src/debug/strace/6.4-r0/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.4-r0/tests/fanotify_init.c /usr/src/debug/strace/6.4-r0/tests/fanotify_mark.c /usr/src/debug/strace/6.4-r0/tests/getdents64.c /usr/src/debug/strace/6.4-r0/tests/uio.c /usr/src/debug/strace/6.4-r0/src/xlat/sg_io_info.h /usr/src/debug/strace/6.4-r0/src/xlat/module_
+ init_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/statx_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/statx_masks.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/6.4-r0/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.4-r0/src/xlat/lirc_modes.h /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.4-r0/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.4-r0/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.4-r0/tests/recvfrom.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.4-r0/tests/ioctl_random.c /usr/src/debug/strace/6.4-r0/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/6.4-r0/src/xlat/getsock_options.h /usr/src/debug/strace/6.4-r0/src/xlat/setsock_options.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/6.4-r0/tests/getpeername.c /usr/src/debug/strace/6.4-r0/tests/bpf-obj_get_
+ info_by_fd.c /usr/src/debug/strace/6.4-r0/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/6.4-r0/src/xlat/rtc_features.h /usr/src/debug/strace/6.4-r0/tests/munlockall.c /usr/src/debug/strace/6.4-r0/src/xlat/semctl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.4-r0/src/xlat/falloc_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/nl_crypto_types.h /usr/src/debug/strace/6.4-r0/tests/epoll_create1.c /usr/src/debug/strace/6.4-r0/tests/ioctl_counter.c /usr/src/debug/strace/6.4-r0/src/xlat/ax25_protocols.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.4-r0/tests/fchmodat.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.4-r0/tests/xgetrlimit.c /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.4-
+ r0/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.4-r0/src/xlat/fsmagic.h /usr/src/debug/strace/6.4-r0/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.4-r0/tests/ppoll.c /usr/src/debug/strace/6.4-r0/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.4-r0/tests/prctl-sched-core.c /usr/src/debug/strace/6.4-r0/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.4-r0/tests/ioctl_mtd.c /usr/src/debug/strace/6.4-r0/src/xlat/xattrflags.h /usr/src/debug/strace/6.4-r0/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.4-r0/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/6.4-r0/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/6.4-r0/tests/check_sigign.c /usr/src/debug/strace/6.4-r0/tests/memfd_secret.c /usr/src/debug/strace/6.4-r0/tests/semtimedop-common.c /usr/src/debug/strace/6.4-r0/tests/sched_get_priority_mxx.c /usr/src/debug/strace/6.4-r0/src/xlat/clockflags.h /usr/src/debug/strace/6.4-r0/src/xlat/clockn
+ ames.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.4-r0/src/xlat/vsock_cids.h /usr/src/debug/strace/6.4-r0/src/xlat/term_cflags.h /usr/src/debug/strace/6.4-r0/src/xlat/term_iflags.h /usr/src/debug/strace/6.4-r0/src/xlat/term_lflags.h /usr/src/debug/strace/6.4-r0/src/xlat/term_oflags.h /usr/src/debug/strace/6.4-r0/tests/net-accept-connect.c /usr/src/debug/strace/6.4-r0/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.4-r0/src/xlat/fspick_flags.h /usr/src/debug/strace/6.4-r0/tests/init_delete_module.h /usr/src/debug/strace/6.4-r0/src/xlat/clone_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_abs.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_snd.h /usr/src/debug/strace/6.4-r0/src/xlat/modetypes.h /usr/src/debug/strace/6.4-r0/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.4-r0/tests/prctl-capbset.c /usr/src/debug/strace/6.4-r0/tests/zeroargc.c /usr/src/debug/strace/6.4-r0/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/s
+ trace/6.4-r0/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.4-r0/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_leds.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_misc.h /usr/src/debug/strace/6.4-r0/src/xlat/evdev_prop.h /usr/src/debug/strace/6.4-r0/src/xlat/fan_init_flags.h /usr/src/debug/strace/6.4-r0/tests/sock_filter-v.c /usr/src/debug/strace/6.4-r0/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.4-r0/tests/nlattr_cachereport.c /usr/src/debug/strace/6.4-r0/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.4-r0/tests/xetpriority.c /usr/src/debug/strace/6.4-r0/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.4-r0/tests/pidns-cache.c /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/6.4-r0/tests/count-f.c /usr/src/debug/strace/6.4-r0/tests/vfork-f.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.4-r0/s
+ rc/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.4-r0/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.4-r0/tests/faccessat.c /usr/src/debug/strace/6.4-r0/tests/prctl-dumpable.c /usr/src/debug/strace/6.4-r0/tests/poll.c /usr/src/debug/strace/6.4-r0/tests/link.c /usr/src/debug/strace/6.4-r0/tests/mmap.c /usr/src/debug/strace/6.4-r0/tests/mmsg.c /usr/src/debug/strace/6.4-r0/tests/open.c /usr/src/debug/strace/6.4-r0/tests/pipe.c /usr/src/debug/strace/6.4-r0/tests/acct.c /usr/src/debug/strace/6.4-r0/tests/caps.c /usr/src/debug/strace/6.4-r0/src/xlat/mctp_nets.h /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/6.4-r0/tests/ioctl_v4l2.c /usr/src/debug/strace/6.4-r0/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.4-r0/src/xlat/bootflags1.h /usr/src/debug/strace/6.4-r0/src/xlat/bootflags2.h /usr/src/debug/strace/6.4-r0/s
+ rc/xlat/bootflags3.h /usr/src/debug/strace/6.4-r0/src/xlat/quotatypes.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.4-r0/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.4-r0/tests/so_linger.c /usr/src/debug/strace/6.4-r0/tests/fill_memory.c /usr/src/debug/strace/6.4-r0/tests/signal2name.c /usr/src/debug/strace/6.4-r0/tests/userfaultfd.c /usr/src/debug/strace/6.4-r0/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.4-r0/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.4-r0/tests/check_sigblock.c /usr/src/debug/strace/6.4-r0/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.4-r0/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.4-r0/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.4-r0/tests/unix-pair-send-recv.c /usr/src/debug/strace/6.4-r0/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.4-r0/tests/netlink_xfrm.c /usr/src/debug/strace/6.4-r0/tests/printstrn-umoven.c /usr/src/debug/strace/6.4-r0/src/xlat/ptp_
+ pin_funcs.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.4-r0/src/xlat/caif_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/ebpf_class.h /usr/src/debug/strace/6.4-r0/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.4-r0/tests/looping_threads.c /usr/src/debug/strace/6.4-r0/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.4-r0/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.4-r0/src/xlat/baud_options.h /usr/src/debug/strace/6.4-r0/tests/bpf.c /usr/src/debug/strace/6.4-r0/tests/vhangup.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.4-r0/tests/request_key.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.4-r0/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/6.4-r0/tests/inject-nf.c /usr/src/debug/strace/6.4-r0/tests/errno2name.c /usr/src/de
+ bug/strace/6.4-r0/src/xlat/epollctls.h /usr/src/debug/strace/6.4-r0/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.4-r0/tests/close_range.c /usr/src/debug/strace/6.4-r0/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.4-r0/tests/threads-execve.c /usr/src/debug/strace/6.4-r0/src/xlat/faccessat_flags.h /usr/src/debug/strace/6.4-r0/tests/printflags.c /usr/src/debug/strace/6.4-r0/tests/process_mrelease.c /usr/src/debug/strace/6.4-r0/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/6.4-r0/src/xlat/lirc_features.h /usr/src/debug/strace/6.4-r0/tests/net-packet_mreq.c /usr/src/debug/strace/6.4-r0/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/6.4-r0/src/xlat/prctl_options.h /usr/src/debug/strace/6.4-r0/tests/access--secontext.c /usr/src/debug/strace/6.4-r0/tests/sprintrc.c /usr/src/debug/str
+ ace/6.4-r0/tests/net-yy-netlink.c /usr/src/debug/strace/6.4-r0/src/xlat/ioprio_class.h /usr/src/debug/strace/6.4-r0/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.4-r0/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.4-r0/tests/print_user_desc.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/6.4-r0/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.4-r0/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/6.4-r0/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/6.4-r0/tests/oldselect.c /usr/src/debug/strace/6.4-r0/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/6.4-r0/tests/ioctl_fiemap.c /usr/src/debug/strace/6.4-r0/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.4-r0/tests/getsockname.c /usr/src/debug/strace/6.4-r0/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.4-r0/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.4-r0/tests/run_expect_termsig.c /usr/src/de
+ bug/strace/6.4-r0/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/adjtimex_state.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_port.c /usr/src/debug/strace/6.4-r0/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/6.4-r0/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.4-r0/tests/print_ppid_tracerpid.c /usr/src/debug/strace/6.4-r0/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/6.4-r0/src/xlat/sock_vsock_options.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.4-r0/tests/ioctl_rtc.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_map_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/6.4-r0/tests/readlinkat.c /usr/src/debug/strace/6.4-r0/src/xlat/evdev_mtslots.h /usr/src/debug/strace/6.4-r0/tests/nlattr_ifla_af_inet6.h /usr/s
+ rc/debug/strace/6.4-r0/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.4-r0/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.4-r0/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.4-r0/tests/fsconfig.c /usr/src/debug/strace/6.4-r0/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.4-r0/tests/siginfo.c /usr/src/debug/strace/6.4-r0/tests/sysinfo.c /usr/src/debug/strace/6.4-r0/tests/arch_prctl.c /usr/src/debug/strace/6.4-r0/tests/fchmodat--secontext.c /usr/src/debug/strace/6.4-r0/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.4-r0/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/nfc_protocols.h /usr/src/debug/strace/6.4-r0/src/xlat/smc_protocols.h /usr/src/debug/strace/6.4-r0/tests/faccessat--secontext.c /usr/src/debug/strace/6.4-r0/tests/prlimit64.c /usr/src/debug/strace/6.4-r0/tests/getrandom.c /usr/src/debug/strace/6.4-r0/src/xlat/resources.h /usr/src/debug/strace/6.4-r0/src/xlat/pr_p
+ ac_keys.h /usr/src/debug/strace/6.4-r0/tests/xet_robust_list.c /usr/src/debug/strace/6.4-r0/tests/quotactl.h /usr/src/debug/strace/6.4-r0/tests/group_req.c /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.4-r0/tests/quotactl.c /usr/src/debug/strace/6.4-r0/tests/clone_parent.c /usr/src/debug/strace/6.4-r0/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.4-r0/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.4-r0/tests/scm_rights.c /usr/src/debug/strace/6.4-r0/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.4-r0/tests/sched_xetaffinity.c /usr/src/debug/strace/6.4-r0/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.4-r0/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.4-r0/tests/landlock_add_rule.c /usr/src/debug/strace/6.4-r0/src/xlat/socketcalls.h /usr/src/debug/strace/6.4-r0/tests/xet_thread_area_x86.c /usr/src/debug/strace
+ /6.4-r0/src/xlat/netlink_get_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/6.4-r0/tests/preadv-pwritev.c /usr/src/debug/strace/6.4-r0/tests/status-none-threads.c /usr/src/debug/strace/6.4-r0/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.4-r0/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.4-r0/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.4-r0/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/6.4-r0/src/xlat/btrfs_key_types.h /usr/src/debug/strace/6.4-r0/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.4-r0/tests/kern_features.c /usr/src/debug/strace/6.4-r0/src/xlat/notifyflags.h /usr/src/debug/strace/6.4-r0/tests/netlink_protocol.c /usr/src/debug/strace/6.4-r0/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.4-r0/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.4-r0/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/6.4-r0/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.4-r0/src/xlat/f_sea
+ ls.h /usr/src/debug/strace/6.4-r0/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.4-r0/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.4-r0/tests/unlinkat.c /usr/src/debug/strace/6.4-r0/tests/socketcall.c /usr/src/debug/strace/6.4-r0/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.4-r0/tests/getdents.c /usr/src/debug/strace/6.4-r0/tests/netlink_selinux.c /usr/src/debug/strace/6.4-r0/tests/print_maxfd.c /usr/src/debug/strace/6.4-r0/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.4-r0/tests/pkey_alloc.c /usr/src/debug/strace/6.4-r0/tests/tail_alloc.c /usr/src/debug/strace/6.4-r0/tests/filter_seccomp-perf.c /usr/src/debug/strace/6.4-r0/tests/ioctl_nbd.c /usr/src/debug/strace/6.4-r0/tests/epoll_pwait2.c /usr/src/debug/strace/6.4-r0/tests/rt_sigpending.c"
+packages/core2-32-poky-linux/strace/strace-src: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-src: PKGSIZE changed from 10038153 to 10101448 (+1%)
+packages/core2-32-poky-linux/strace/strace-src: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace-staticdev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace-staticdev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/strace/strace: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/strace/strace: PKGSIZE changed from 1359241 to 1367433 (+1%)
+packages/core2-32-poky-linux/strace/strace: PKGV changed from 6.3 [default] to 6.4 [default]
 
---===============1286893402682522450==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-cups-upgrade-2.4.2-2.4.6.patch"
-
-RnJvbSA2ZmY3YTRkYjhjYmNkZDZhOWIwNTdlYTQwNWRlMzEyY2JiODM5MjFiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMDoxODozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
-cHM6IHVwZ3JhZGUgMi40LjIgLT4gMi40LjYKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1
-cHMvY3Vwcy5pbmMgICAgICAgICAgIHwgIDEgLQogLi4uL2N1cHMvY3Vwcy9DVkUtMjAyMy0zMjMy
-NC5wYXRjaCAgICAgICAgICAgIHwgMzYgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL2N1cHMve2N1
-cHNfMi40LjIuYmIgPT4gY3Vwc18yLjQuNi5iYn0gICAgIHwgIDIgKy0KIDMgZmlsZXMgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDM4IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvQ1ZFLTIwMjMtMzIzMjQucGF0Y2gKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy97Y3Vwc18yLjQuMi5iYiA9PiBjdXBzXzIuNC42
-LmJifSAoNTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMu
-aW5jIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy5pbmMKaW5kZXggZDc3NzU4ZmQz
-Zi4uZGEzMjBiMTA4NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vw
-cy5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy5pbmMKQEAgLTE1LDcg
-KzE1LDYgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9L2N1
-cHMtJHtQVn0tc291cmNlLnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LWN1cHMtZml4
-LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2ggXAogICAgICAgICAgICBmaWxl
-Oi8vdm9sYXRpbGVzLjk5X2N1cHMgXAogICAgICAgICAgICBmaWxlOi8vY3Vwcy12b2xhdGlsZXMu
-Y29uZiBcCi0gICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyMy0zMjMyNC5wYXRjaCBcCiAgICAgICAg
-ICAgICIKIAogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9PcGVuUHJpbnRp
-bmcvY3Vwcy9yZWxlYXNlcyIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBz
-L2N1cHMvQ1ZFLTIwMjMtMzIzMjQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9j
-dXBzL0NWRS0yMDIzLTMyMzI0LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA0
-MGI4OWM5ODk5Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1
-cHMvQ1ZFLTIwMjMtMzIzMjQucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzNiArMCwwIEBACi1G
-cm9tIDA3Y2JmZmQxMTEwN2VlZDNhYWYxYzY0ZTM1NTUyYWVjMjBmNzkyZGEgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCi1Gcm9tOiBaZGVuZWsgRG9obmFsIDx6ZG9obmFsQHJlZGhhdC5jb20+Ci1E
-YXRlOiBUaHUsIDEgSnVuIDIwMjMgMTI6MDQ6MDAgKzAyMDAKLVN1YmplY3Q6IFtQQVRDSF0gY3Vw
-cy9zdHJpbmcuYzogUmV0dXJuIGlmIGBzaXplYCBpcyAwIChmaXhlcyBDVkUtMjAyMy0zMjMyNCkK
-LQotQ1ZFOiBDVkUtMjAyMy0zMjMyNAotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6
-Ly9naXRodWIuY29tL09wZW5QcmludGluZy9jdXBzL2NvbW1pdC9mZDhiYzJkMzI1ODldCi0KLShj
-aGVycnkgcGlja2VkIGZyb20gY29tbWl0IGZkOGJjMmQzMjU4OWQxZmQ5MWZlMWMwNTIxYmUyYTdj
-MDQ2MjEwOWUpCi1TaWduZWQtb2ZmLWJ5OiBTYW5qYXkgQ2hpdHJvZGEgPHNjaGl0cm9kQGNpc2Nv
-LmNvbT4KLS0tLQotIGN1cHMvc3RyaW5nLmMgfCA0ICsrKysKLSAxIGZpbGUgY2hhbmdlZCwgNCBp
-bnNlcnRpb25zKCspCi0KLWRpZmYgLS1naXQgYS9jdXBzL3N0cmluZy5jIGIvY3Vwcy9zdHJpbmcu
-YwotaW5kZXggOTNjZGFkMTkuLjZlZjU4NTE1IDEwMDY0NAotLS0tIGEvY3Vwcy9zdHJpbmcuYwot
-KysrIGIvY3Vwcy9zdHJpbmcuYwotQEAgLTEsNiArMSw3IEBACi0gLyoKLSAgKiBTdHJpbmcgZnVu
-Y3Rpb25zIGZvciBDVVBTLgotICAqCi0rICogQ29weXJpZ2h0IMKpIDIwMjMgYnkgT3BlblByaW50
-aW5nLgotICAqIENvcHlyaWdodCDCqcKgMjAwNy0yMDE5IGJ5IEFwcGxlIEluYy4KLSAgKiBDb3B5
-cmlnaHQgwqnCoDE5OTctMjAwNyBieSBFYXN5IFNvZnR3YXJlIFByb2R1Y3RzLgotICAqCi1AQCAt
-NzMwLDYgKzczMSw5IEBAIF9jdXBzX3N0cmxjcHkoY2hhciAgICAgICAqZHN0LAkJLyogTyAtIERl
-c3RpbmF0aW9uIHN0cmluZyAqLwotICAgc2l6ZV90CXNyY2xlbjsJCQkvKiBMZW5ndGggb2Ygc291
-cmNlIHN0cmluZyAqLwotIAotIAotKyAgaWYgKHNpemUgPT0gMCkKLSsgICAgcmV0dXJuICgwKTsK
-LSsKLSAgLyoKLSAgICogRmlndXJlIG91dCBob3cgbXVjaCByb29tIGlzIG5lZWRlZC4uLgotICAg
-Ki8KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjIuYmIg
-Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzXzIuNC42LmJiCnNpbWlsYXJpdHkgaW5k
-ZXggNTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjIu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjYuYmIKaW5k
-ZXggZjVjYTc0OWJhYy4uNTgwMjlmZGJkNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2N1cHMvY3Vwc18yLjQuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9j
-dXBzXzIuNC42LmJiCkBAIC0yLDQgKzIsNCBAQCByZXF1aXJlIGN1cHMuaW5jCiAKIExJQ19GSUxF
-U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMz
-YzZiZDU3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjAzY2NiNDBiMDg3ZDFlMzA5NDBhNDBl
-MDE0MWRjYmJhMjYzZjM5OTc0YzIwZWI5ZjI1MjEwNjZjOWM2YzkwOCIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICI1OGU5NzBjZjE5NTVlMWNjODdkMDg0N2MzMjUyNmQ5YzJjY2VlMzM1ZTVmMGUzODgy
-YjI4MzEzOGJhMGU3MjYyIgotLSAKMi4zOS4yCgo=
-
---===============1286893402682522450==
+--===============1898085593064977930==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -255,8 +734,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 896 .bb files complete (0 cached, 896 parsed). 1799 targets, 45 skipped, 0 masked, 0 errors.
-Removing 63 recipes from the core2-32 sysroot...done.
-Removing 62 recipes from the qemux86 sysroot...done.
+Removing 106 recipes from the core2-32 sysroot...done.
+Removing 110 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -271,782 +750,1263 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:35818f89fd8417a287832ec423514c5c867af45c"
+meta-yocto-bsp       = "tmp-auh-upgrades:24dcd89994c72a80202f67acd3059910a6cd31db"
 workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 313 Local 220 Mirrors 0 Missed 93 Current 231 (70% match, 82% complete)
+Sstate summary: Wanted 372 Local 189 Mirrors 0 Missed 183 Current 234 (50% match, 69% complete)
 Removing 3 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 232 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 239 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 249 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 250 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 255 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 256 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 257 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 259 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 262 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 263 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 264 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 265 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 267 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 268 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 271 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 272 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 275 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 277 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 279 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 282 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 283 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 284 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_create_spdx_setscene)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 235 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 238 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 256 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 271 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 290 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 298 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 299 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 316 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 317 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 318 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 319 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 324 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 333 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 334 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 335 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 336 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 337 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 338 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 339 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 341 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 342 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 359 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 365 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 366 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 367 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 368 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 369 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 371 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 375 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 377 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 378 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 381 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 383 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 389 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_deploy_source_date_epoch_setscene)
 NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Started
 NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_create_spdx_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 346 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_fetch)
-NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe perl-5.36.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Started
 NOTE: recipe libcap-ng-0.8.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 296 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_create_spdx_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 297 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 298 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 300 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_create_spdx_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 301 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_create_spdx_setscene)
-NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
+NOTE: Running task 339 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_fetch)
+NOTE: Running task 343 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
+NOTE: Running task 344 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_fetch)
+NOTE: Running task 345 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running task 346 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_fetch)
+NOTE: Running task 347 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
+NOTE: Running task 351 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_fetch)
+NOTE: Running task 353 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_fetch)
+NOTE: Running task 354 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
+NOTE: Running task 357 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_fetch)
+NOTE: Running task 358 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_fetch)
+NOTE: Running task 359 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_fetch)
+NOTE: Running task 360 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_fetch)
+NOTE: Running task 361 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_fetch)
+NOTE: Running task 367 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_fetch)
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 369 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_fetch)
+NOTE: recipe libxml2-2.11.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Succeeded
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 302 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 400 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
+NOTE: Running task 370 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_fetch)
+NOTE: recipe perl-5.36.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 401 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 402 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 403 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 404 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 405 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 406 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_create_spdx_setscene)
+NOTE: Running task 371 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_fetch)
+NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: recipe libcap-ng-0.8.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 303 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_create_spdx_setscene)
-NOTE: recipe procps-4.0.3-r0: task do_fetch: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 372 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_fetch)
+NOTE: recipe xz-5.4.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 407 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Started
 NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 310 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 315 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 316 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 321 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 328 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 329 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 330 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 333 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 335 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 336 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 337 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 338 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 339 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 344 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 345 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 349 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 351 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package_setscene)
-NOTE: recipe procps-4.0.3-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 352 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_fetch: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
+NOTE: Running setscene task 411 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 412 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 416 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 423 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 426 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 472 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 473 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 474 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 475 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gmp-6.2.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Succeeded
+NOTE: recipe icu-72-1-r0: task do_fetch: Started
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: recipe grep-3.11-r0: task do_fetch: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe kmod-30-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Started
+NOTE: recipe eudev-3.2.12-r0: task do_fetch: Started
+NOTE: recipe bluez5-5.66-r0: task do_fetch: Started
+NOTE: recipe readline-8.2-r0: task do_fetch: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe strace-6.4-r0: task do_fetch: Started
+NOTE: Running setscene task 476 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_create_spdx_setscene)
+NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_fetch: Started
+NOTE: recipe gawk-5.2.2-r0: task do_fetch: Started
+NOTE: Running setscene task 477 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 478 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 479 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 480 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 482 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_fetch: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_fetch: Started
+NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 483 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: recipe grep-3.11-r0: task do_fetch: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe icu-72-1-r0: task do_fetch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Started
+NOTE: recipe findutils-4.9.0-r0: task do_fetch: Started
+NOTE: Running setscene task 490 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 491 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 492 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 493 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 494 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 495 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 373 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_fetch)
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_fetch: Succeeded
+NOTE: Running task 374 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_fetch)
+NOTE: Running task 375 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_fetch)
+NOTE: Running task 376 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_write_config)
+NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bluez5-5.66-r0: task do_fetch: Succeeded
+NOTE: recipe strace-6.4-r0: task do_fetch: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_fetch: Succeeded
+NOTE: recipe findutils-4.9.0-r0: task do_fetch: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_fetch: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 496 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 497 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 498 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
+NOTE: Running task 377 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_fetch)
+NOTE: Running task 378 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_write_config)
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 379 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_fetch)
+NOTE: Running task 380 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_fetch)
+NOTE: Running task 381 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_fetch)
+NOTE: recipe coreutils-9.3-r0: task do_fetch: Started
 NOTE: recipe ncurses-6.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe perl-5.36.1-r0: task do_fetch: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_fetch: Started
+NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-30-r0: task do_fetch: Succeeded
+NOTE: Running task 382 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_fetch)
+NOTE: Running task 383 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_fetch)
+NOTE: recipe coreutils-9.3-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 384 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_fetch)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 385 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_fetch)
+NOTE: recipe openssl-3.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Succeeded
+NOTE: recipe perl-5.36.1-r0: task do_fetch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 386 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_fetch)
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 357 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 387 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_unpack)
+NOTE: Running task 388 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_fetch)
+NOTE: Running task 389 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_fetch)
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 499 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_package_setscene)
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Started
 NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 358 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_fetch: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Started
+NOTE: recipe attr-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Started
+NOTE: recipe initscripts-1.0-r155: task do_fetch: Started
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_fetch: Started
+NOTE: Running task 390 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_fetch)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 359 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 360 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
-NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 361 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 362 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 363 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 367 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 372 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 373 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 374 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 375 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 380 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 383 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.11.4-r0: task do_fetch: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_write_config: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_fetch: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_fetch: Succeeded
 NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 387 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 390 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 393 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 395 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 400 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 401 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 402 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 405 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 406 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 408 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 409 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 410 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 413 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 414 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 415 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 419 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 420 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 421 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 422 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 423 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 428 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 355 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_fetch)
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 356 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_write_config)
-NOTE: Running task 357 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_fetch)
-NOTE: Running task 359 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_fetch)
-NOTE: Running task 362 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_fetch)
-NOTE: Running task 363 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_fetch)
-NOTE: Running task 366 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libusb/libusb1_1.0.26.bb:do_fetch)
-NOTE: Running task 367 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_fetch)
-NOTE: Running task 368 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_fetch)
-NOTE: Running task 369 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_fetch)
-NOTE: Running task 370 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 371 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_fetch)
-NOTE: Running setscene task 431 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: Running task 376 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
-NOTE: Running task 377 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_fetch)
-NOTE: Running task 378 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_unpack)
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe eudev-3.2.12-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-30-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Started
-NOTE: recipe libusb1-1.0.26-r0: task do_fetch: Started
-NOTE: recipe shadow-4.13-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.39-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Started
-NOTE: recipe libusb1-1.0.26-r0: task do_fetch: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: recipe libcap-2.69-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Started
-NOTE: Running setscene task 432 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: recipe procps-4.0.3-r0: task do_unpack: Started
-NOTE: Running task 379 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_fetch)
-NOTE: recipe cups-2.4.6-r0: task do_fetch: Started
-NOTE: Running task 380 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_unpack)
-NOTE: Running task 381 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_fetch: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_fetch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_fetch: Succeeded
-NOTE: Running task 382 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libusb/libusb1_1.0.26.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Succeeded
-NOTE: Running task 383 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_unpack)
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe eudev-3.2.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 384 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 385 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_fetch)
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_fetch: Started
-NOTE: recipe cups-2.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Started
+NOTE: recipe initscripts-1.0-r155: task do_fetch: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_fetch: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.11.4-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_fetch: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Succeeded
 NOTE: recipe util-linux-2.38.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 436 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running task 387 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_fetch)
-NOTE: recipe openssl-3.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 388 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_unpack)
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_fetch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Started
+NOTE: recipe openssl-3.1.1-r0: task do_unpack: Started
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Started
+NOTE: Running setscene task 503 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 389 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_fetch)
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_fetch: Succeeded
 NOTE: recipe glib-2.0-1_2.76.3-r0: task do_write_config: Succeeded
-NOTE: Running task 390 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_fetch)
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe kmod-30-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Succeeded
-NOTE: Running task 391 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_fetch)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 392 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_fetch)
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 445 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_fetch: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 450 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_unpack: Started
-NOTE: recipe libusb1-1.0.26-r0: task do_unpack: Started
-NOTE: Running setscene task 457 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_fetch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_unpack: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe eudev-3.2.12-r0: task do_fetch: Started
 NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Started
-NOTE: recipe libpam-1.5.3-r0: task do_fetch: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Started
-NOTE: recipe eudev-3.2.12-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 463 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
-NOTE: Running task 414 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_unpack)
-NOTE: recipe openssl-3.1.1-r0: task do_fetch: Started
-NOTE: recipe cups-2.4.6-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_fetch: Succeeded
-NOTE: Running task 415 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_unpack)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_fetch: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 416 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_unpack)
-NOTE: recipe kmod-30-r0: task do_fetch: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_fetch: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 465 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: recipe libusb1-1.0.26-r0: task do_unpack: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe eudev-3.2.12-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Started
-NOTE: recipe kmod-30-r0: task do_fetch: Succeeded
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 419 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_unpack)
-NOTE: recipe openssl-3.1.1-r0: task do_unpack: Started
-NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 470 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 510 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 511 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_package_setscene)
+NOTE: Running setscene task 512 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 518 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 519 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 521 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 522 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 528 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 529 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 541 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 542 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 543 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 544 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running task 392 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_fetch)
+NOTE: Running task 398 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_fetch)
+NOTE: Running task 406 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_fetch)
+NOTE: Running task 412 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_unpack)
+NOTE: Running task 415 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_unpack)
+NOTE: Running task 416 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_fetch)
+NOTE: Running task 419 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_fetch)
+NOTE: Running task 420 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_unpack)
+NOTE: Running task 421 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_unpack)
+NOTE: Running task 424 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_unpack)
+NOTE: Running task 425 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
+NOTE: Running task 426 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_unpack)
+NOTE: Running task 427 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_unpack)
+NOTE: Running task 430 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_unpack)
+NOTE: Running task 432 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_unpack)
+NOTE: Running task 435 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_fetch)
+NOTE: Running task 436 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_unpack)
+NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe eudev-3.2.12-r0: task do_fetch: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 440 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_unpack)
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 471 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe eudev-3.2.12-r0: task do_unpack: Succeeded
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Succeeded
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 475 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_unpack: Started
+NOTE: recipe libpam-1.5.3-r0: task do_fetch: Started
+NOTE: recipe shadow-4.13-r0: task do_fetch: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_unpack: Started
+NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Started
 NOTE: recipe kmod-30-r0: task do_unpack: Started
-NOTE: recipe cups-2.4.6-r0: task do_unpack: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe procps-4.0.3-r0: task do_unpack: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dbus-1.14.8-r0: task do_fetch: Started
+NOTE: recipe libpam-1.5.3-r0: task do_fetch: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_unpack: Succeeded
+NOTE: recipe icu-72-1-r0: task do_unpack: Started
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Started
+NOTE: recipe shadow-4.13-r0: task do_fetch: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_unpack: Started
+NOTE: Running task 441 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_unpack)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Succeeded
+NOTE: recipe dbus-1.14.8-r0: task do_fetch: Succeeded
+NOTE: recipe readline-8.2-r0: task do_unpack: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Started
+NOTE: Running setscene task 546 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe liberror-perl-0.17029-r1: task do_unpack: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_unpack: Succeeded
+NOTE: recipe perl-5.36.1-r0: task do_unpack: Started
+NOTE: recipe eudev-3.2.12-r0: task do_unpack: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_unpack: Started
+NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_unpack: Succeeded
 NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_unpack: Succeeded
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 482 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe kmod-30-r0: task do_unpack: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_fetch: Succeeded
+NOTE: recipe shadow-4.13-r0: task do_unpack: Started
+NOTE: recipe readline-8.2-r0: task do_unpack: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 447 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_unpack)
 NOTE: recipe openssl-3.1.1-r0: task do_unpack: Succeeded
-NOTE: Running task 683 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_unpack)
-NOTE: Running task 843 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_unpack)
-NOTE: Running task 898 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_patch)
-NOTE: Running task 910 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_unpack)
-NOTE: Running task 960 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_patch)
-NOTE: Running task 966 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_unpack)
-NOTE: Running task 973 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_patch)
-NOTE: Running task 974 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_unpack)
-NOTE: Running task 975 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_unpack)
-NOTE: Running task 1013 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_patch)
-NOTE: Running task 1014 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_patch)
-NOTE: Running task 1015 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libusb/libusb1_1.0.26.bb:do_patch)
-NOTE: Running task 1028 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_unpack)
+NOTE: recipe eudev-3.2.12-r0: task do_unpack: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_unpack: Succeeded
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 560 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe gawk-5.2.2-r0: task do_unpack: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_package_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_unpack: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_fetch: Succeeded
+NOTE: recipe kmod-30-r0: task do_unpack: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 564 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_unpack: Succeeded
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_package_setscene: Succeeded
+NOTE: Running task 686 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_unpack)
+NOTE: Running task 750 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_unpack)
+NOTE: Running task 756 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_patch)
+NOTE: recipe sed-4.9-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 569 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 570 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 571 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 572 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 901 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_unpack)
+NOTE: Running task 905 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_patch)
+NOTE: Running task 908 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_unpack)
+NOTE: Running task 918 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_patch)
+NOTE: Running task 920 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_unpack)
+NOTE: Running task 929 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_unpack)
+NOTE: Running task 945 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_patch)
+NOTE: Running task 966 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_unpack)
+NOTE: Running task 967 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_unpack)
+NOTE: Running task 968 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_unpack)
+NOTE: Running task 969 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_unpack)
+NOTE: Running task 970 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_patch)
+NOTE: Running task 971 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_unpack)
+NOTE: Running task 972 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_unpack)
+NOTE: Running task 974 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_patch)
 NOTE: recipe libpam-1.5.3-r0: task do_unpack: Started
-NOTE: Running task 1029 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
-NOTE: Running task 1030 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_patch)
-NOTE: Running task 1038 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_patch)
-NOTE: Running task 1052 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_unpack)
-NOTE: Running task 1053 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: Running task 1070 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_patch)
-NOTE: Running task 1071 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_patch)
-NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Started
+NOTE: Running task 977 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_unpack)
+NOTE: Running task 978 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_unpack)
+NOTE: Running task 981 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_unpack)
+NOTE: Running task 986 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe perl-5.36.1-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe openssl-3.1.1-r0: task do_patch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Started
+NOTE: recipe sed-4.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 1052 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
+NOTE: Running task 1055 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_patch)
+NOTE: Running task 1056 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: Running task 1057 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_unpack)
+NOTE: Running task 1058 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_patch)
+NOTE: Running task 1059 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_patch)
+NOTE: Running task 1060 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_unpack)
+NOTE: Running task 1072 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_patch)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_patch: Started
+NOTE: recipe initscripts-1.0-r155: task do_patch: Started
+NOTE: Running task 1077 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_unpack)
+NOTE: Running task 1084 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_patch)
+NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Started
+NOTE: Running task 1085 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_unpack)
+NOTE: Running task 1087 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_unpack)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Started
+NOTE: Running task 1103 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_fetch)
+NOTE: Running task 1104 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_patch)
+NOTE: Running task 1107 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_unpack)
+NOTE: Running task 1111 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_patch)
+NOTE: Running task 1112 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_unpack)
+NOTE: Running task 1119 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_collect_spdx_deps)
+NOTE: recipe libxml2-2.11.4-r0: task do_unpack: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_patch: Started
+NOTE: recipe initscripts-1.0-r155: task do_prepare_recipe_sysroot: Started
+NOTE: recipe sed-4.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_unpack: Started
+NOTE: Running task 1140 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_fetch)
+NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Started
+NOTE: recipe libxcb-1.15-r0: task do_unpack: Started
 NOTE: recipe libx11-1_1.8.6-r0: task do_unpack: Started
 NOTE: recipe shadow-4.13-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_fetch: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 574 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: Running task 1141 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_unpack)
+NOTE: recipe initscripts-1.0-r155: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe readline-8.2-r0: task do_patch: Started
+NOTE: recipe dbus-1.14.8-r0: task do_unpack: Started
+NOTE: recipe initscripts-1.0-r155: task do_patch: Succeeded
+NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: Running task 1142 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libical-3.0.16-r0: task do_patch: Started
 NOTE: recipe libcap-2.69-r0: task do_unpack: Started
 NOTE: recipe eudev-3.2.12-r0: task do_patch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.8-r0: task do_unpack: Started
-NOTE: recipe libusb1-1.0.26-r0: task do_patch: Started
-NOTE: recipe kmod-30-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_patch: Started
-NOTE: recipe libpng-1.6.39-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Started
-NOTE: recipe procps-4.0.3-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe python3-3.11.4-r0: task do_unpack: Started
-NOTE: recipe cups-2.4.6-r0: task do_patch: Started
-NOTE: recipe libpam-1.5.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1095 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_patch)
-NOTE: recipe sqlite3-3_3.41.2-r0: task do_patch: Succeeded
-NOTE: recipe eudev-3.2.12-r0: task do_patch: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_unpack: Succeeded
-NOTE: Running task 1098 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_patch)
-NOTE: recipe libpam-1.5.3-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_patch: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_patch: Succeeded
-NOTE: recipe libusb1-1.0.26-r0: task do_patch: Succeeded
-NOTE: Running task 1099 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_generate_toolchain_file)
-NOTE: recipe procps-4.0.3-r0: task do_patch: Succeeded
-NOTE: Running task 1100 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1101 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1102 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libusb/libusb1_1.0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe kmod-30-r0: task do_patch: Succeeded
-NOTE: Running task 1103 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpng-1.6.39-r0: task do_unpack: Succeeded
-NOTE: Running task 1105 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_patch)
-NOTE: recipe openssl-3.1.1-r0: task do_patch: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.8-r0: task do_unpack: Succeeded
-NOTE: Running task 1107 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_patch)
-NOTE: recipe libx11-1_1.8.6-r0: task do_unpack: Succeeded
-NOTE: Running task 1108 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libpam-1.5.3-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1109 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
-NOTE: recipe libusb1-1.0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Succeeded
-NOTE: recipe procps-4.0.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shadow-4.13-r0: task do_patch: Succeeded
-NOTE: Running setscene task 487 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 488 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 489 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 490 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 492 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 493 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 494 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 495 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1111 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_fetch)
-NOTE: recipe libpng-1.6.39-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_patch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_patch: Succeeded
-NOTE: Running task 1113 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1114 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_deploy_source_date_epoch)
-NOTE: recipe cups-2.4.6-r0: task do_patch: Succeeded
-NOTE: Running task 1115 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1116 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_populate_lic)
-NOTE: recipe libcap-2.69-r0: task do_patch: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Started
-NOTE: recipe libdaemon-0.14-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Succeeded
-NOTE: Running task 1119 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_unpack)
-NOTE: recipe libpng-1.6.39-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libusb1-1.0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe procps-4.0.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cups-2.4.6-r0: task do_populate_lic: Started
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cups-2.4.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 499 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 500 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 505 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 506 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cups-2.4.6-r0: task do_populate_lic: Succeeded
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cups/cups_2.4.6.bb:do_populate_lic unihash changed to 64549155cd38670993ed5185f5512ee244e5ba238fc0001f92abf91794d09901
-NOTE: recipe libpng-1.6.39-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1138 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_patch)
-NOTE: recipe cups-2.4.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1139 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_patch)
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_patch: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 510 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 511 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bluez5-5.66-r0: task do_unpack: Started
+NOTE: recipe perl-5.36.1-r0: task do_patch: Started
+NOTE: recipe strace-6.4-r0: task do_unpack: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 514 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 517 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.38.1-r0: task do_patch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe kmod-30-r0: task do_patch: Started
+NOTE: Running setscene task 575 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe coreutils-9.3-r0: task do_unpack: Started
+NOTE: recipe make-4.4.1-r0: task do_fetch: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Started
+NOTE: recipe gawk-5.2.2-r0: task do_patch: Started
+NOTE: recipe initscripts-1.0-r155: task do_collect_spdx_deps: Started
+NOTE: recipe grep-3.11-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_patch: Started
+NOTE: recipe make-4.4.1-r0: task do_fetch: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_unpack: Succeeded
+NOTE: recipe findutils-4.9.0-r0: task do_unpack: Started
+NOTE: recipe sed-4.9-r0: task do_fetch: Started
+NOTE: Running task 1152 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_patch)
+NOTE: Running task 1153 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_unpack)
+NOTE: Running task 1154 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_patch)
+NOTE: recipe initscripts-1.0-r155: task do_collect_spdx_deps: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_patch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_unpack: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Succeeded
+NOTE: recipe sed-4.9-r0: task do_fetch: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_patch: Succeeded
+NOTE: Running task 1155 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1156 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_patch)
+NOTE: Running task 1157 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_patch)
+NOTE: Running task 1158 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_patch)
+NOTE: Running task 1159 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_patch)
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_unpack: Started
+NOTE: Running task 1160 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1161 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_unpack)
+NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_patch: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_unpack: Succeeded
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1163 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_patch)
+NOTE: Running task 1164 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_patch)
+NOTE: recipe libxcb-1.15-r0: task do_unpack: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_unpack: Started
+NOTE: Running task 1165 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_patch)
+NOTE: recipe eudev-3.2.12-r0: task do_patch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Started
+NOTE: Running task 1166 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe libice-1_1.1.1-r0: task do_patch: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+8259375d30-r0: task do_patch: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_patch: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_patch: Started
+NOTE: recipe gawk-5.2.2-r0: task do_patch: Succeeded
+NOTE: recipe readline-8.2-r0: task do_patch: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_patch: Succeeded
+NOTE: Running task 1168 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcap-2.69-r0: task do_unpack: Succeeded
+NOTE: Running task 1169 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1170 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1171 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_patch)
+NOTE: recipe xorgproto-2023.2-r0: task do_patch: Started
+NOTE: recipe sed-4.9-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_patch: Succeeded
+NOTE: Running task 1172 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe make-4.4.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1173 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Started
+NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_patch: Started
+NOTE: recipe kmod-30-r0: task do_patch: Succeeded
+NOTE: Running task 1176 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1177 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
+NOTE: Running task 1178 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1179 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_deploy_source_date_epoch)
+NOTE: recipe dbus-1.14.8-r0: task do_unpack: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_patch: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_patch: Started
+NOTE: Running task 1180 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_patch)
+NOTE: Running task 1181 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Succeeded
+NOTE: Running task 1182 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_patch: Succeeded
+NOTE: Running task 1183 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_configure)
+NOTE: recipe eudev-3.2.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1184 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_patch: Started
+NOTE: Running setscene task 579 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
+NOTE: recipe readline-8.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_unpack: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe liberror-perl-0.17029-r1: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1185 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_patch)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe grep-3.11-r0: task do_unpack: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1186 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_patch)
+NOTE: recipe libpam-1.5.3-r0: task do_patch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_unpack: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_patch: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1188 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
+NOTE: Running task 1189 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe kmod-30-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shadow-4.13-r0: task do_patch: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe findutils-4.9.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_patch: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1191 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_patch)
+NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1192 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_deploy_source_date_epoch)
+NOTE: recipe dbus-1.14.8-r0: task do_patch: Started
+NOTE: recipe initscripts-1.0-r155: task do_configure: Started
+NOTE: recipe bluez5-5.66-r0: task do_unpack: Succeeded
+NOTE: Running task 1193 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_patch)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe sed-4.9-r0: task do_unpack: Succeeded
 NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 519 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
+NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 521 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 523 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 524 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 525 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Started
+NOTE: Running setscene task 581 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe grep-3.11-r0: task do_patch: Started
+NOTE: recipe libcap-2.69-r0: task do_patch: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_unpack: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_configure: Succeeded
+NOTE: Running task 1198 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_patch)
+NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1199 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_compile)
+NOTE: recipe eudev-3.2.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe grep-3.11-r0: task do_patch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Started
+NOTE: recipe dbus-1.14.8-r0: task do_patch: Succeeded
+NOTE: Running task 1200 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1201 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Succeeded
+NOTE: recipe readline-8.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe liberror-perl-0.17029-r1: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bluez5-5.66-r0: task do_patch: Started
+NOTE: Running task 1202 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_patch)
+NOTE: recipe findutils-4.9.0-r0: task do_patch: Started
+NOTE: recipe icu-72-1-r0: task do_unpack: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1203 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_patch)
+NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Succeeded
 NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1158 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_patch)
+NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1204 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 583 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.11.4-r0: task do_unpack: Succeeded
+NOTE: recipe kmod-30-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1205 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_patch)
+NOTE: recipe findutils-4.9.0-r0: task do_patch: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_compile: Started
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1206 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_patch: Started
+NOTE: Running task 1207 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Succeeded
+NOTE: recipe grep-3.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1208 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe initscripts-1.0-r155: task do_compile: Succeeded
+NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1209 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_install)
+NOTE: Running task 1210 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_patch)
+NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Started
+NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.36.1-r0: task do_patch: Succeeded
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_patch: Succeeded
+NOTE: recipe icu-72-1-r0: task do_patch: Started
+NOTE: Running task 1212 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_generate_toolchain_file)
+NOTE: recipe coreutils-9.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1213 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe findutils-4.9.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1214 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_patch)
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_patch: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 584 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: Running task 1216 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe initscripts-1.0-r155: task do_install: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_generate_toolchain_file: Started
+NOTE: recipe bluez5-5.66-r0: task do_patch: Succeeded
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1217 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.66.bb:do_deploy_source_date_epoch)
+NOTE: recipe grep-3.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxml2-2.11.4-r0: task do_patch: Succeeded
+NOTE: recipe coreutils-9.3-r0: task do_patch: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_patch: Started
+NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 587 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 588 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 589 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe strace-6.4-r0: task do_unpack: Succeeded
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1219 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_patch)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe findutils-4.9.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bluez5-5.66-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 526 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.11.4-r0: task do_patch: Started
+NOTE: recipe icu-72-1-r0: task do_patch: Succeeded
+NOTE: Running task 1220 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_deploy_source_date_epoch)
+NOTE: recipe strace-6.4-r0: task do_patch: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 590 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 591 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe coreutils-9.3-r0: task do_patch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+gitAUTOINC+f5f55d6589-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 531 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 532 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe icu-72-1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe bluez5-5.66-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_patch: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 538 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe icu-72-1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 600 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Succeeded
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_patch: Succeeded
+NOTE: recipe strace-6.4-r0: task do_patch: Succeeded
+NOTE: Running task 1245 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1246 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_populate_lic)
+NOTE: recipe strace-6.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe strace-6.4-r0: task do_populate_lic: Started
+NOTE: recipe python3-3.11.4-r0: task do_unpack: Succeeded
+NOTE: recipe strace-6.4-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1247 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_patch)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/strace/strace_6.4.bb:do_populate_lic unihash changed to f153ab268099a251ad5831772a7dd1bfefe8e455f50790bd088a463d88b585c6
+NOTE: recipe strace-6.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_install: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_patch: Started
+NOTE: Running task 1248 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_package)
+NOTE: recipe initscripts-1.0-r155: task do_package: Started
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 541 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 603 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 542 of 544 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 604 of 606 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_patch: Succeeded
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1268 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1314 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1422 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1435 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1495 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata)
-NOTE: Running task 1497 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1512 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_collect_spdx_deps)
-NOTE: Running task 1513 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1514 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1336 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1368 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1407 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1420 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1422 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1443 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot)
+NOTE: Running task 1446 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1447 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1461 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1469 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1492 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1530 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_collect_spdx_deps)
+NOTE: Running task 1537 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_collect_spdx_deps)
 NOTE: recipe libpam-1.5.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1539 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_prepare_recipe_sysroot)
 NOTE: recipe openssl-3.1.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1542 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_collect_spdx_deps)
-NOTE: Running task 1553 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_collect_spdx_deps)
-NOTE: recipe libx11-1_1.8.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1560 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_collect_spdx_deps)
+NOTE: Running task 1540 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_collect_spdx_deps)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1565 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_collect_spdx_deps)
-NOTE: recipe libxcb-1.15-r0: task do_packagedata: Started
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1566 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_collect_spdx_deps)
-NOTE: Running task 1567 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_collect_spdx_deps)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpng-1.6.39-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1568 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_collect_spdx_deps)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot: Started
+NOTE: Running task 1549 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xorgproto-2023.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1562 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_collect_spdx_deps)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1571 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_prepare_recipe_sysroot)
+NOTE: recipe icu-72-1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1574 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_collect_spdx_deps)
+NOTE: recipe readline-8.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1586 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_collect_spdx_deps)
+NOTE: recipe perl-5.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1587 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_collect_spdx_deps)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1588 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_collect_spdx_deps)
+NOTE: Running task 1589 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_collect_spdx_deps)
+NOTE: Running task 1593 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_prepare_recipe_sysroot)
 NOTE: recipe libpam-1.5.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe procps-4.0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1604 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_collect_spdx_deps)
+NOTE: recipe findutils-4.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1605 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_collect_spdx_deps)
+NOTE: Running task 1606 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_collect_spdx_deps)
+NOTE: recipe grep-3.11-r0: task do_prepare_recipe_sysroot: Started
 NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcb-1.15-r0: task do_collect_spdx_deps: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libdaemon-0.14-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpng-1.6.39-r0: task do_collect_spdx_deps: Started
-NOTE: recipe procps-4.0.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe openssl-3.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1569 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure)
-NOTE: recipe libxcb-1.15-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe readline-8.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_prepare_recipe_sysroot: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_prepare_recipe_sysroot: Started
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1570 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_configure)
-NOTE: recipe libdaemon-0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1571 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_configure)
-NOTE: recipe libpng-1.6.39-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1572 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_configure)
-NOTE: recipe procps-4.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe procps-4.0.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1573 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_configure)
-NOTE: recipe openssl-3.1.1-r0: task do_configure: Started
+NOTE: Running task 1610 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_configure)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe icu-72-1-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1611 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_configure)
+NOTE: recipe perl-5.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1612 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure)
+NOTE: Running task 1613 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.1.bb:do_configure)
+NOTE: recipe sed-4.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe make-4.4.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1614 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_configure)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe readline-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe readline-8.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1615 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_configure)
+NOTE: recipe icu-72-1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe icu-72-1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1616 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_make_icudata)
+NOTE: recipe grep-3.11-r0: task do_collect_spdx_deps: Started
+NOTE: recipe sed-4.9-r0: task do_collect_spdx_deps: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_configure: Started
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1617 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_create_spdx)
+NOTE: recipe openssl-3.1.1-r0: task do_configure: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_configure: Started
+NOTE: recipe findutils-4.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_configure: Started
+NOTE: Running task 1618 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_configure)
+NOTE: recipe readline-8.2-r0: task do_configure: Started
+NOTE: recipe make-4.4.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1619 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx)
+NOTE: recipe grep-3.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe grep-3.11-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1620 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_configure)
+NOTE: recipe perl-5.36.1-r0: task do_configure: Started
+NOTE: recipe icu-72-1-r0: task do_make_icudata: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_prepare_recipe_sysroot: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1574 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_configure)
-NOTE: recipe libxcb-1.15-r0: task do_packagedata: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_collect_spdx_deps: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1575 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure)
-NOTE: recipe libpng-1.6.39-r0: task do_configure: Started
-NOTE: Running task 1576 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_create_spdx)
-NOTE: recipe procps-4.0.3-r0: task do_configure: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1577 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_configure)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_configure: Started
+NOTE: Running task 1621 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure)
+NOTE: Running task 1622 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_configure)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe sed-4.9-r0: task do_create_spdx: Started
+NOTE: Running task 1623 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_configure)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe icu-72-1-r0: task do_make_icudata: Succeeded
+NOTE: Running task 1624 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_configure)
+NOTE: recipe findutils-4.9.0-r0: task do_configure: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1625 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_configure)
+NOTE: recipe make-4.4.1-r0: task do_create_spdx: Started
+NOTE: recipe grep-3.11-r0: task do_configure: Started
 NOTE: recipe libpam-1.5.3-r0: task do_configure: Started
-NOTE: recipe libxcb-1.15-r0: task do_create_spdx: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_configure: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 1578 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_compile)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_compile: Started
-NOTE: recipe libxcb-1.15-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1579 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_collect_spdx_deps)
-NOTE: recipe libx11-1_1.8.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 1580 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_install)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_install: Succeeded
-NOTE: Running task 1581 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_package)
-NOTE: Running task 1582 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_populate_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_package: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_configure: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_configure: Started
+NOTE: recipe icu-72-1-r0: task do_configure: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_configure: Started
+NOTE: recipe initscripts-1.0-r155: task do_package: Succeeded
+NOTE: Running task 1626 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata)
+NOTE: recipe initscripts-1.0-r155: task do_packagedata: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_configure: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1627 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_compile)
+NOTE: recipe sed-4.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_packagedata: Succeeded
+NOTE: Running task 1628 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx)
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_compile: Started
+NOTE: recipe initscripts-1.0-r155: task do_create_spdx: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_compile: Succeeded
+NOTE: Running task 1629 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_install)
+NOTE: recipe initscripts-1.0-r155: task do_create_spdx: Succeeded
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_install: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_install: Succeeded
+NOTE: Running task 1630 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_package)
+NOTE: recipe xorgproto-2023.2-r0: task do_configure: Succeeded
+NOTE: Running task 1631 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_compile)
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_package: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_compile: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_compile: Succeeded
+NOTE: Running task 1632 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_install)
+NOTE: recipe xorgproto-2023.2-r0: task do_install: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_configure: Succeeded
+NOTE: Running task 1633 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_compile)
+NOTE: recipe xorgproto-2023.2-r0: task do_install: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_compile: Started
+NOTE: Running task 1634 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot)
+NOTE: Running task 1635 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_package)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_compile: Succeeded
+NOTE: Running task 1636 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_install)
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_package: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_configure: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_install: Started
+NOTE: Running task 1637 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_compile)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_compile: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_compile: Succeeded
+NOTE: Running task 1638 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_install)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_install: Succeeded
+NOTE: Running task 1639 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot)
+NOTE: Running task 1640 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_package)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_install: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_package: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_configure: Succeeded
+NOTE: Running task 1641 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_compile)
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_package: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1642 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_compile: Started
+NOTE: Running task 1643 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1644 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1645 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_compile: Succeeded
+NOTE: Running task 1646 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_install)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_packagedata: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_install: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_install: Succeeded
+NOTE: Running task 1647 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot)
+NOTE: Running task 1648 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_package)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1649 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_configure)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1650 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_configure)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_install: Succeeded
+NOTE: Running task 1651 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_configure)
+NOTE: Running task 1652 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot)
+NOTE: Running task 1653 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_package)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_package: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_configure: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_configure: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_configure: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_package: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot: Started
+NOTE: Running task 1654 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_package: Started
+NOTE: recipe musl-locales-1.0+gitAUTOINC+5663f5bfd3-r0: task do_packagedata: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1655 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_create_spdx)
+NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_package: Succeeded
+NOTE: Running task 1656 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata)
+NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_package: Succeeded
+NOTE: Running task 1657 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1658 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1659 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_create_spdx)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_package: Succeeded
+NOTE: Running task 1660 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_collect_spdx_deps)
+NOTE: Running task 1661 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_collect_spdx_deps)
+NOTE: Running task 1662 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata)
+NOTE: Running task 1663 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_collect_spdx_deps)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata: Started
+NOTE: recipe readline-8.2-r0: task do_configure: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1664 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_compile)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe readline-8.2-r0: task do_compile: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1665 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_create_spdx)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_configure: Succeeded
-NOTE: Running task 1583 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_compile)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_create_spdx: Started
+NOTE: Running task 1666 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.41.2.bb:do_compile)
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_package: Succeeded
-NOTE: Running task 1584 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_packagedata)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1585 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb:do_create_spdx)
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_create_spdx: Started
-NOTE: recipe libjpeg-turbo-1_2.1.5.1-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_configure: Succeeded
-NOTE: Running task 1586 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_compile)
-NOTE: recipe libpng-1.6.39-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1587 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_compile)
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1588 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_install)
-NOTE: recipe libdaemon-0.14-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_install: Succeeded
-NOTE: Running task 1589 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot)
-NOTE: Running task 1590 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_package)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe icu-72-1-r0: task do_configure: Succeeded
+NOTE: Running task 1667 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_compile)
+NOTE: recipe icu-72-1-r0: task do_compile: Started
+NOTE: recipe readline-8.2-r0: task do_compile: Succeeded
+NOTE: Running task 1668 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_install)
+NOTE: recipe readline-8.2-r0: task do_install: Started
+NOTE: recipe readline-8.2-r0: task do_install: Succeeded
+NOTE: Running task 1669 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot)
+NOTE: Running task 1670 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_package)
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot: Started
+NOTE: recipe readline-8.2-r0: task do_package: Started
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1671 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gawk-5.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gawk-5.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1672 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_configure)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_configure: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_configure: Started
+NOTE: Running task 1673 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_compile)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_compile: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_compile: Succeeded
+NOTE: Running task 1674 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_install)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_install: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_install: Succeeded
+NOTE: Running task 1675 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot)
+NOTE: Running task 1676 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_package)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_package: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1677 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libice-1_1.1.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe readline-8.2-r0: task do_package: Succeeded
+NOTE: Running task 1678 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata)
+NOTE: recipe readline-8.2-r0: task do_packagedata: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1679 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_configure)
+NOTE: recipe libice-1_1.1.1-r0: task do_configure: Started
 NOTE: recipe openssl-3.1.1-r0: task do_configure: Succeeded
-NOTE: Running task 1591 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure_ptest_base)
+NOTE: Running task 1680 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_configure_ptest_base)
+NOTE: recipe readline-8.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1681 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_create_spdx)
 NOTE: recipe openssl-3.1.1-r0: task do_configure_ptest_base: Started
 NOTE: recipe openssl-3.1.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1592 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile)
-NOTE: recipe libpng-1.6.39-r0: task do_compile: Succeeded
-NOTE: Running task 1593 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_install)
+NOTE: Running task 1682 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile)
+NOTE: recipe readline-8.2-r0: task do_create_spdx: Started
 NOTE: recipe openssl-3.1.1-r0: task do_compile: Started
-NOTE: recipe libpng-1.6.39-r0: task do_install: Started
-NOTE: recipe libdaemon-0.14-r0: task do_package: Succeeded
-NOTE: Running task 1594 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Started
-NOTE: recipe libpng-1.6.39-r0: task do_install: Succeeded
-NOTE: Running task 1595 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_package)
-NOTE: Running task 1596 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_populate_sysroot)
-NOTE: recipe procps-4.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1597 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_compile)
-NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot: Started
-NOTE: recipe libpng-1.6.39-r0: task do_package: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata: Succeeded
-NOTE: Running task 1598 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_create_spdx)
-NOTE: recipe procps-4.0.3-r0: task do_compile: Started
-NOTE: recipe libdaemon-0.14-r0: task do_create_spdx: Started
-NOTE: recipe libpng-1.6.39-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpng-1.6.39-r0: task do_package: Succeeded
-NOTE: Running task 1599 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_packagedata)
-NOTE: recipe libpng-1.6.39-r0: task do_packagedata: Started
-NOTE: recipe libpng-1.6.39-r0: task do_packagedata: Succeeded
-NOTE: Running task 1600 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.39.bb:do_create_spdx)
-NOTE: recipe libpng-1.6.39-r0: task do_create_spdx: Started
-NOTE: recipe libpng-1.6.39-r0: task do_create_spdx: Succeeded
-NOTE: recipe procps-4.0.3-r0: task do_compile: Succeeded
-NOTE: Running task 1601 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_install)
-NOTE: recipe procps-4.0.3-r0: task do_install: Started
-NOTE: recipe procps-4.0.3-r0: task do_install: Succeeded
-NOTE: Running task 1602 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_package)
-NOTE: recipe procps-4.0.3-r0: task do_package: Started
+NOTE: recipe readline-8.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1683 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_collect_spdx_deps)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_package: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 1684 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata)
+NOTE: recipe gawk-5.2.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1685 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_create_spdx)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1686 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_collect_spdx_deps)
+NOTE: recipe libice-1_1.1.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_configure: Succeeded
+NOTE: Running task 1687 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_compile)
+NOTE: recipe libxau-1_1.0.11-r0: task do_compile: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_configure: Succeeded
+NOTE: Running task 1688 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_compile)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_compile: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_compile: Succeeded
+NOTE: Running task 1689 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_install)
+NOTE: recipe libxau-1_1.0.11-r0: task do_install: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_compile: Succeeded
+NOTE: Running task 1690 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_install)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_install: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_install: Succeeded
+NOTE: Running task 1691 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot)
+NOTE: Running task 1692 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_package)
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_package: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_install: Succeeded
+NOTE: Running task 1693 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot)
+NOTE: Running task 1694 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_package)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_package: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1695 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxcb-1.15-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcb-1.15-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1696 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_configure)
+NOTE: recipe libxcb-1.15-r0: task do_configure: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_package: Succeeded
+NOTE: Running task 1697 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata)
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_package: Succeeded
+NOTE: Running task 1698 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata: Succeeded
+NOTE: Running task 1699 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_create_spdx)
+NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1700 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_create_spdx)
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1701 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_collect_spdx_deps)
+NOTE: recipe libxcb-1.15-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxcb-1.15-r0: task do_collect_spdx_deps: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_configure: Succeeded
-NOTE: Running task 1603 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure_ptest_base)
+NOTE: Running task 1702 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_configure_ptest_base)
 NOTE: recipe libpam-1.5.3-r0: task do_configure_ptest_base: Started
 NOTE: recipe libpam-1.5.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1604 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile)
+NOTE: Running task 1703 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile)
 NOTE: recipe libpam-1.5.3-r0: task do_compile: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_configure: Succeeded
-NOTE: Running task 1605 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_compile)
-NOTE: recipe libx11-1_1.8.6-r0: task do_compile: Started
-NOTE: recipe procps-4.0.3-r0: task do_package: Succeeded
-NOTE: Running task 1606 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_packagedata)
-NOTE: recipe procps-4.0.3-r0: task do_packagedata: Started
-NOTE: recipe procps-4.0.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 1607 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_create_spdx)
-NOTE: Running task 1608 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb:do_package_write_rpm)
-NOTE: recipe procps-4.0.3-r0: task do_create_spdx: Started
-NOTE: recipe procps-4.0.3-r0: task do_package_write_rpm: Started
-NOTE: recipe procps-4.0.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_configure: Succeeded
+NOTE: Running task 1704 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_compile)
+NOTE: recipe libice-1_1.1.1-r0: task do_compile: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_compile: Succeeded
+NOTE: Running task 1705 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_install)
+NOTE: recipe libice-1_1.1.1-r0: task do_install: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_install: Succeeded
+NOTE: Running task 1706 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot)
+NOTE: Running task 1707 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_package)
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_package: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1708 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsm-1_1.2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1709 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_configure)
+NOTE: recipe libsm-1_1.2.4-r0: task do_configure: Started
 NOTE: recipe openssl-3.1.1-r0: task do_compile: Succeeded
-NOTE: Running task 1609 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile_ptest_base)
+NOTE: Running task 1710 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_compile_ptest_base)
 NOTE: recipe openssl-3.1.1-r0: task do_compile_ptest_base: Started
 NOTE: recipe openssl-3.1.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1610 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_install)
+NOTE: Running task 1711 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_install)
 NOTE: recipe openssl-3.1.1-r0: task do_install: Started
-NOTE: recipe procps-4.0.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_compile: Succeeded
-NOTE: Running task 1611 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_install)
-NOTE: recipe libx11-1_1.8.6-r0: task do_install: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_install: Succeeded
-NOTE: Running task 1612 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_populate_sysroot)
-NOTE: Running task 1613 of 1759 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_package)
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_package: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_package: Succeeded
+NOTE: Running task 1712 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata)
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1713 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_create_spdx)
+NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx: Started
+NOTE: recipe grep-3.11-r0: task do_configure: Succeeded
+NOTE: Running task 1714 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_compile)
+NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe grep-3.11-r0: task do_compile: Started
+NOTE: Running task 1715 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe libsm-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_configure: Succeeded
+NOTE: Running task 1716 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_compile)
+NOTE: recipe libxcb-1.15-r0: task do_compile: Started
+NOTE: recipe gawk-5.2.2-r0: task do_configure: Succeeded
+NOTE: Running task 1717 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_configure_ptest_base)
+NOTE: recipe gawk-5.2.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe gawk-5.2.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1718 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_compile)
+NOTE: recipe gawk-5.2.2-r0: task do_compile: Started
+NOTE: recipe grep-3.11-r0: task do_compile: Succeeded
+NOTE: Running task 1719 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_install)
+NOTE: recipe grep-3.11-r0: task do_install: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_configure: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_compile: Succeeded
+NOTE: Running task 1720 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_install)
+NOTE: Running task 1721 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_compile)
+NOTE: recipe libsm-1_1.2.4-r0: task do_compile: Started
+NOTE: recipe libxcb-1.15-r0: task do_install: Started
+NOTE: recipe grep-3.11-r0: task do_install: Succeeded
+NOTE: Running task 1722 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_package)
+NOTE: recipe grep-3.11-r0: task do_package: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_compile: Succeeded
+NOTE: Running task 1723 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_install)
+NOTE: recipe libsm-1_1.2.4-r0: task do_install: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_install: Succeeded
+NOTE: Running task 1724 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot)
+NOTE: Running task 1725 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_package)
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_package: Started
+NOTE: recipe findutils-4.9.0-r0: task do_configure: Succeeded
+NOTE: Running task 1726 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_configure_ptest_base)
+NOTE: recipe findutils-4.9.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe findutils-4.9.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1727 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_compile)
+NOTE: recipe findutils-4.9.0-r0: task do_compile: Started
+NOTE: recipe libxcb-1.15-r0: task do_install: Succeeded
+NOTE: Running task 1728 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot)
+NOTE: Running task 1729 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcb-1.15-r0: task do_package: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_package: Succeeded
+NOTE: Running task 1730 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata)
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 1731 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1732 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 1733 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_compile_ptest_base)
+NOTE: recipe grep-3.11-r0: task do_package: Succeeded
+NOTE: Running task 1734 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_packagedata)
+NOTE: recipe libx11-1_1.8.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1735 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_configure)
+NOTE: recipe gawk-5.2.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe grep-3.11-r0: task do_packagedata: Started
+NOTE: recipe gawk-5.2.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1736 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.2.2.bb:do_install)
+NOTE: recipe libx11-1_1.8.6-r0: task do_configure: Started
+NOTE: recipe gawk-5.2.2-r0: task do_install: Started
+NOTE: recipe grep-3.11-r0: task do_packagedata: Succeeded
+NOTE: Running task 1737 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_create_spdx)
+NOTE: Running task 1738 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.11.bb:do_package_write_rpm)
+NOTE: recipe grep-3.11-r0: task do_create_spdx: Started
+NOTE: recipe grep-3.11-r0: task do_package_write_rpm: Started
+NOTE: recipe icu-72-1-r0: task do_compile: Succeeded
+NOTE: Running task 1739 of 1970 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_install)
 Log data follows:
 | DEBUG: Executing python function autotools_aclocals
 | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-musl', 'i686-linux-musl', 'common']
@@ -1147,114 +2107,114 @@ Log data follows:
 | /bin/bash ../libtool  --tag=CC   --mode=compile i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I..    -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefi
  x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
  -32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_modutil_ingroup.lo ../../Linux-PAM-1.5.3/libpam/pam_modutil_ingroup.c
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_data.c  -fPIC -DPIC -o .libs/pam_data.o
 | /bin/bash ../libtool  --tag=CC   --mode=compile i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I..    -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefi
  x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
  -32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_modutil_priv.lo ../../Linux-PAM-1.5.3/libpam/pam_modutil_priv.c
 | /bin/bash ../libtool  --tag=CC   --mode=compile i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I..    -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefi
  x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
  -32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_modutil_sanitize.lo ../../Linux-PAM-1.5.3/libpam/pam_modutil_sanitize.c
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_delay.c  -fPIC -DPIC -o .libs/pam_delay.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_auth.c  -fPIC -DPIC -o .libs/pam_auth.o
 | /bin/bash ../libtool  --tag=CC   --mode=compile i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I..    -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefi
  x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
  -32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -c -o pam_modutil_searchkey.lo ../../Linux-PAM-1.5.3/libpam/pam_modutil_searchkey.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_end.c  -fPIC -DPIC -o .libs/pam_end.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_get_authtok.c  -fPIC -DPIC -o .libs/pam_get_authtok.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_env.c  -fPIC -DPIC -o .libs/pam_env.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dispatch.c  -fPIC -DPIC -o .libs/pam_dispatch.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_item.c  -fPIC -DPIC -o .libs/pam_item.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_prelude.c  -fPIC -DPIC -o .libs/pam_prelude.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_misc.c  -fPIC -DPIC -o .libs/pam_misc.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_data.c  -fPIC -DPIC -o .libs/pam_data.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_account.c  -fPIC -DPIC -o .libs/pam_account.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_start.c  -fPIC -DPIC -o .libs/pam_start.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_end.c  -fPIC -DPIC -o .libs/pam_end.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_vprompt.c  -fPIC -DPIC -o .libs/pam_vprompt.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_strerror.c  -fPIC -DPIC -o .libs/pam_strerror.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_session.c  -fPIC -DPIC -o .libs/pam_session.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_password.c  -fPIC -DPIC -o .libs/pam_password.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dispatch.c  -fPIC -DPIC -o .libs/pam_dispatch.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_handlers.c  -fPIC -DPIC -o .libs/pam_handlers.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_syslog.c  -fPIC -DPIC -o .libs/pam_syslog.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_audit.c  -fPIC -DPIC -o .libs/pam_audit.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_delay.c  -fPIC -DPIC -o .libs/pam_delay.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_misc.c  -fPIC -DPIC -o .libs/pam_misc.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_strerror.c  -fPIC -DPIC -o .libs/pam_strerror.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_vprompt.c  -fPIC -DPIC -o .libs/pam_vprompt.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getgrgid.c  -fPIC -DPIC -o .libs/pam_modutil_getgrgid.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_check_user.c  -fPIC -DPIC -o .libs/pam_modutil_check_user.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwnam.c  -fPIC -DPIC -o .libs/pam_modutil_getpwnam.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getspnam.c  -fPIC -DPIC -o .libs/pam_modutil_getspnam.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
- h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_audit.c  -fPIC -DPIC -o .libs/pam_audit.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_get_authtok.c  -fPIC -DPIC -o .libs/pam_get_authtok.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_dynamic.c  -fPIC -DPIC -o .libs/pam_dynamic.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_auth.c  -fPIC -DPIC -o .libs/pam_auth.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_syslog.c  -fPIC -DPIC -o .libs/pam_syslog.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_password.c  -fPIC -DPIC -o .libs/pam_password.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwnam.c  -fPIC -DPIC -o .libs/pam_modutil_getpwnam.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_session.c  -fPIC -DPIC -o .libs/pam_session.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ingroup.c  -fPIC -DPIC -o .libs/pam_modutil_ingroup.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_cleanup.c  -fPIC -DPIC -o .libs/pam_modutil_cleanup.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_prelude.c  -fPIC -DPIC -o .libs/pam_prelude.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getlogin.c  -fPIC -DPIC -o .libs/pam_modutil_getlogin.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_start.c  -fPIC -DPIC -o .libs/pam_start.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_item.c  -fPIC -DPIC -o .libs/pam_item.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_check_user.c  -fPIC -DPIC -o .libs/pam_modutil_check_user.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_ioloop.c  -fPIC -DPIC -o .libs/pam_modutil_ioloop.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_priv.c  -fPIC -DPIC -o .libs/pam_modutil_priv.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_cleanup.c  -fPIC -DPIC -o .libs/pam_modutil_cleanup.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwuid.c  -fPIC -DPIC -o .libs/pam_modutil_getpwuid.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_priv.c  -fPIC -DPIC -o .libs/pam_modutil_priv.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getgrnam.c  -fPIC -DPIC -o .libs/pam_modutil_getgrnam.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
- sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_sanitize.c  -fPIC -DPIC -o .libs/pam_modutil_sanitize.o
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getpwuid.c  -fPIC -DPIC -o .libs/pam_modutil_getpwuid.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getspnam.c  -fPIC -DPIC -o .libs/pam_modutil_getspnam.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
  h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
  sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_searchkey.c  -fPIC -DPIC -o .libs/pam_modutil_searchkey.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_sanitize.c  -fPIC -DPIC -o .libs/pam_modutil_sanitize.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../Linux-PAM-1.5.3/libpam -I.. -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-
+ sysroot-native= -fPIC -c ../../Linux-PAM-1.5.3/libpam/pam_modutil_getlogin.c  -fPIC -DPIC -o .libs/pam_modutil_getlogin.o
 | /bin/bash ../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DDEFAULT_MODULE_PATH=\"/lib/security/\" -DLIBPAM_COMPILE -I../../Linux-PAM-1.5.3/libpam/include   -DPAM_VERSION=\"1.5.3\" -DSYSCONFDIR=\"/etc\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/w
  ork/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -f
  PIC  -no-undefined -version-info 85:1:85 -Wl,--version-script=../../Linux-PAM-1.5.3/libpam/libpam.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-
@@ -1485,10 +2445,10 @@ Log data follows:
  ecipe-sysroot-native=  -fPIC  -c -o faillock_config.lo ../../../Linux-PAM-1.5.3/modules/pam_faillock/faillock_config.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
  poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
- x-PAM-1.5.3/modules/pam_faillock/pam_faillock.c  -fPIC -DPIC -o .libs/pam_faillock.o
+ x-PAM-1.5.3/modules/pam_faillock/faillock_config.c  -fPIC -DPIC -o .libs/faillock_config.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
  poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
- x-PAM-1.5.3/modules/pam_faillock/faillock_config.c  -fPIC -DPIC -o .libs/faillock_config.o
+ x-PAM-1.5.3/modules/pam_faillock/pam_faillock.c  -fPIC -DPIC -o .libs/pam_faillock.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_faillock -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
  poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linu
  x-PAM-1.5.3/modules/pam_faillock/faillock.c  -fPIC -DPIC -o .libs/faillock.o
@@ -1766,13 +2726,13 @@ Log data follows:
  recipe-sysroot-native=  -fPIC  -c -o argv_parse.lo ../../../Linux-PAM-1.5.3/modules/pam_namespace/argv_parse.c
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
- ux-PAM-1.5.3/modules/pam_namespace/md5.c  -fPIC -DPIC -o .libs/md5.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
- -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_namespace/pam_namespace.c  -fPIC -DPIC -o .libs/pam_namespace.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
  -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
  ux-PAM-1.5.3/modules/pam_namespace/argv_parse.c  -fPIC -DPIC -o .libs/argv_parse.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_namespace -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
+ -poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Lin
+ ux-PAM-1.5.3/modules/pam_namespace/md5.c  -fPIC -DPIC -o .libs/md5.o
 | /bin/bash ../../libtool  --tag=CC   --mode=link i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.
  5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -fPIC  -no-undefined -avoid-version -module -Wl,--version-s
  cript=../../../Linux-PAM-1.5.3/modules/pam_namespace/../modules.map -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/w
@@ -2148,31 +3108,31 @@ Log data follows:
  /1.5.3-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o bigcrypt bigcrypt-bigcrypt.o bigcrypt-bigcrypt_main.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_auth.c  -fPIC -DPIC -o .libs/pam_unix_auth.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_good.c  -fPIC -DPIC -o .libs/md5_good.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_acct.c  -fPIC -DPIC -o .libs/pam_unix_acct.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_auth.c  -fPIC -DPIC -o .libs/pam_unix_auth.o
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_sess.c  -fPIC -DPIC -o .libs/pam_unix_sess.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/support.c  -fPIC -DPIC -o .libs/support.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/passverify.c  -fPIC -DPIC -o .libs/passverify.o
+| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
+ prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/bigcrypt.c  -fPIC -DPIC -o .libs/bigcrypt.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_passwd.c  -fPIC -DPIC -o .libs/pam_unix_passwd.o
 | libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
  prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
  32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_broken.c  -fPIC -DPIC -o .libs/md5_broken.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/md5_good.c  -fPIC -DPIC -o .libs/md5_good.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/bigcrypt.c  -fPIC -DPIC -o .libs/bigcrypt.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/support.c  -fPIC -DPIC -o .libs/support.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/pam_unix_sess.c  -fPIC -DPIC -o .libs/pam_unix_sess.o
-| libtool: compile:  i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../Linux-PAM-1.5.3/modules/pam_unix -I../.. -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-
- prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -c ../../../Linux-PAM-1.5.3/modules/pam_unix/passverify.c  -fPIC -DPIC -o .libs/passverify.o
 | libtool: link: i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2
  -32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -fPIC -Wl,-O1 -Wl,
  --hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/
@@ -2193,14 +3153,14 @@ Log data follows:
  er/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/re
  cipe-sysroot-native= -fPIC -pie -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-mus
  l/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o unix_chkpwd unix_chkpwd-unix_chkpwd.o unix_chkpwd-md5_good.o unix_chkpwd-md5_broken.o unix_chkpwd-bigcrypt.o unix_chkpwd-passverify.o
-| libtool: link: i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -fpie -DHELPER_COMPILE=\"unix_update\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-work
- er/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/re
- cipe-sysroot-native= -fPIC -pie -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-mus
- l/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o unix_update unix_update-unix_update.o unix_update-md5_good.o unix_update-md5_broken.o unix_update-bigcrypt.o unix_update-passverify.o
 | libtool: link: i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -shared  -fPIC -DPIC  .libs/bigcrypt.o .libs/pam_unix_acct.o .libs/pam_unix_auth.o .libs/pam_unix_passwd.o .libs/pam_unix_sess.o .libs/support.o .libs/passverify.o .libs/md5_good.o .libs/md5_broken.o   ../../libpam/.libs/libpam.so  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug
  -prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,--version-script=../../../Linux-PAM-1.5.3/modules/pam_unix/../modules.map -Wl,-O1 -Wl,--hash-style=gnu -
  Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-wo
  rker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1   -Wl,-soname -Wl,pam_unix.so -o .libs/pam_unix.so
+| libtool: link: i686-poky-linux-musl-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot -I../../../Linux-PAM-1.5.3/libpam/include -I../../../Linux-PAM-1.5.3/libpamc/include -DCHKPWD_HELPER=\"/usr/sbin/unix_chkpwd\" -DUPDATE_HELPER=\"/usr/sbin/unix_update\" -W -Wall -Wbad-function-cast -Wcast-align -Wcast-align=strict -Wcast-qual -Wdeprecated -Wformat=2 -Winit-self -Winline -Wmain -Wmissing-declarations -Wmissing-format-attribute -Wmissing-prototypes -Wnull-dereference -Wpointer-arith -Wreturn-type -Wshadow -Wstrict-prototypes -Wundef -Wuninitialized -Wunused -Wwrite-strings -fpie -DHELPER_COMPILE=\"unix_update\" -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-work
+ er/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/re
+ cipe-sysroot-native= -fPIC -pie -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/Linux-PAM-1.5.3=/usr/src/debug/libpam/1.5.3-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build=/usr/src/debug/libpam/1.5.3-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-mus
+ l/libpam/1.5.3-r0/recipe-sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 -o unix_update unix_update-unix_update.o unix_update-md5_good.o unix_update-md5_broken.o unix_update-bigcrypt.o unix_update-passverify.o
 | libtool: link: ( cd ".libs" && rm -f "pam_unix.la" && ln -s "../pam_unix.la" "pam_unix.la" )
 | make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build/modules/pam_unix'
 | Making all in pam_usertype
@@ -2337,19 +3297,27 @@ Log data follows:
 | make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/build'
 | make: *** [Makefile:423: all] Error 2
 | ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447:183 exit 1 from 'exit 1'
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359:183 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 183
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 167
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 162
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 157
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 152
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447, line 196
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 183
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 167
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 162
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 157
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 152
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359, line 196
 NOTE: recipe libpam-1.5.3-r0: task do_compile: Failed
-NOTE: recipe libx11-1_1.8.6-r0: task do_package: Succeeded
+NOTE: recipe icu-72-1-r0: task do_install: Started
+NOTE: recipe grep-3.11-r0: task do_create_spdx: Succeeded
+NOTE: recipe gawk-5.2.2-r0: task do_install: Succeeded
+NOTE: recipe grep-3.11-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe findutils-4.9.0-r0: task do_compile: Succeeded
+NOTE: recipe icu-72-1-r0: task do_install: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_package: Succeeded
+NOTE: recipe perl-5.36.1-r0: task do_configure: Succeeded
+NOTE: recipe libx11-1_1.8.6-r0: task do_configure: Succeeded
 NOTE: recipe sqlite3-3_3.41.2-r0: task do_compile: Succeeded
 NOTE: recipe openssl-3.1.1-r0: task do_install: Succeeded
-NOTE: Tasks Summary: Attempted 1613 tasks of which 1478 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 1739 tasks of which 1423 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
@@ -2358,9 +3326,305 @@ Summary: 1 task failed:
 Summary: There was 1 WARNING message.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
 ERROR: libpam-1.5.3-r0 do_compile: oe_runmake failed
-ERROR: libpam-1.5.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.4054447', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/log.do_compile.4054447
+ERROR: libpam-1.5.3-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/run.do_compile.3505359', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libpam/1.5.3-r0/temp/log.do_compile.3505359
 ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_compile) failed with exit code '1'
 
---===============1286893402682522450==--
+--===============1898085593064977930==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-strace-upgrade-6.3-6.4.patch"
+
+RnJvbSBhYTUzNTE1MWM4NDQ5OWZhZmU4YTM4OTJiMDA1YWI4YjA4ZDhlOWUyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMDowMDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmFjZTogdXBncmFkZSA2LjMgLT4gNi40CgotLS0KIC4uLmUxMzkyZjViZDI4OTIzOWI3NTU0NThk
+Y2RlZWVkNjlhZjFkYS5wYXRjaCB8IDMwMyAtLS0tLS0tLS0tLS0tLS0tLS0KIC4uLmI1NDFiMjU4
+YmFlYzllYmE2NzRiNWQ4ZGMzMDAwN2E2MTU0Mi5wYXRjaCB8ICA1MCAtLS0KIC4uLjJmNDQ5NDc3
+OWU1YzVmMTcwYWQxMDUzOWJmYzJkZmFmZTk2Ny5wYXRjaCB8ICA1MCAtLS0KIC4uLi9zdHJhY2Uv
+e3N0cmFjZV82LjMuYmIgPT4gc3RyYWNlXzYuNC5iYn0gICB8ICAgNSArLQogNCBmaWxlcyBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgNDA3IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwYWNlMTM5MmY1YmQyODkyMzli
+NzU1NDU4ZGNkZWVlZDY5YWYxZGEucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8zYmJmYjU0MWIyNThiYWVjOWViYTY3NGI1ZDhkYzMw
+MDA3YTYxNTQyLnBhdGNoCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2UvZjMxYzJmNDQ5NDc3OWU1YzVmMTcwYWQxMDUzOWJmYzJkZmFmZTk2Ny5w
+YXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uve3N0cmFjZV82LjMuYmIg
+PT4gc3RyYWNlXzYuNC5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvc3RyYWNlL3N0cmFjZS8wMGFjZTEzOTJmNWJkMjg5MjM5Yjc1NTQ1OGRjZGVlZWQ2OWFmMWRh
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDBhY2UxMzkyZjVi
+ZDI4OTIzOWI3NTU0NThkY2RlZWVkNjlhZjFkYS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
+NDQKaW5kZXggYmRmODE1ZTU1ZS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvc3RyYWNlL3N0cmFjZS8wMGFjZTEzOTJmNWJkMjg5MjM5Yjc1NTQ1OGRjZGVlZWQ2OWFmMWRh
+LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzAzICswLDAgQEAKLUZyb20gMDBhY2UxMzkyZjVi
+ZDI4OTIzOWI3NTU0NThkY2RlZWVkNjlhZjFkYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZy
+b206ICJEbWl0cnkgVi4gTGV2aW4iIDxsZHZAc3RyYWNlLmlvPgotRGF0ZTogTW9uLCAyNiBKdW4g
+MjAyMyAxMDowMDowMCArMDAwMAotU3ViamVjdDogW1BBVENIXSB0ZXN0czogYXZvaWQgYWNjZXB0
+KCkgbGliYyBmdW5jdGlvbiB3aGVuIHRyYWNpbmcgYWNjZXB0KCkKLSBzeXNjYWxsCi0KLVRoZSBs
+aWJjIGZ1bmN0aW9uIGlzIGFsbG93ZWQgdG8gaW1wbGVtZW50IGFjY2VwdCgpIHVzaW5nIGFjY2Vw
+dDQoKQotc3lzY2FsbCwgc28gbWlncmF0ZSB0byBhY2NlcHQ0KCkgdGhvc2UgdGVzdHMgdGhhdCB0
+cmFjZSBhY2NlcHQoKSBzeXNjYWxsCi1idXQgZG8gbm90IHRlc3QgYWNjZXB0KCkgc3BlY2lmaWNh
+bGx5LCBhbmQgY2hhbmdlIHRoZSB0ZXN0IG9mIGFjY2VwdCgpCi1zeXNjYWxsIHRvIGludm9rZSBl
+aXRoZXIgX19OUl9hY2NlcHQgb3IgX19OUl9zb2NrZXRjYWxsKFNZU19BQ0NFUFQpCi1kaXJlY3Rs
+eS4KLQotKiB0ZXN0cy9hY2NlcHRfY29tcGF0Lmg6IFJlbW92ZS4KLSogdGVzdHMvTWFrZWZpbGUu
+YW0gKEVYVFJBX0RJU1QpOiBSZW1vdmUgYWNjZXB0X2NvbXBhdC5oLgotKiB0ZXN0cy9hY2NlcHQu
+YyBbVEVTVF9TWVNDQUxMX05BTUVdOiBEbyBub3QgaW52b2tlIGFjY2VwdCgpLAotY2FsbCBfX05S
+X2FjY2VwdCBvciBfX05SX3NvY2tldGNhbGwgaWYgYXZhaWxhYmxlLCBvciBza2lwIHRoZSB0ZXN0
+LgotKiB0ZXN0cy9uZXQteS11bml4LmM6IERvIG5vdCBpbmNsdWRlICJhY2NlcHRfY29tcGF0Lmgi
+LgotKG1haW4pOiBJbnZva2UgYWNjZXB0NCgpIGluc3RlYWQgb2YgYWNjZXB0KCkuCi0qIHRlc3Rz
+L25ldC15eS1pbmV0LmM6IExpa2V3aXNlLgotKiB0ZXN0cy9uZXQteXktdW5peC5jOiBMaWtld2lz
+ZS4KLQotUmVzb2x2ZXM6IGh0dHBzOi8vZ2l0aHViLmNvbS9zdHJhY2Uvc3RyYWNlL2lzc3Vlcy8y
+NjAKLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAotLS0tCi0gdGVzdHMvTWFrZWZpbGUuYW0g
+ICAgIHwgIDEgLQotIHRlc3RzL2FjY2VwdC5jICAgICAgICB8IDM2ICsrKysrKysrKysrKysrKysr
+KysrLS0tLS0tLS0tLS0tLS0tLQotIHRlc3RzL2FjY2VwdF9jb21wYXQuaCB8IDMyIC0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0gdGVzdHMvbmV0LXktdW5peC5jICAgIHwgMTYgKysr
+KysrKystLS0tLS0tLQotIHRlc3RzL25ldC15eS1pbmV0LmMgICB8IDEyICsrKysrKy0tLS0tLQot
+IHRlc3RzL25ldC15eS11bml4LmMgICB8IDE2ICsrKysrKysrLS0tLS0tLS0KLSA2IGZpbGVzIGNo
+YW5nZWQsIDQyIGluc2VydGlvbnMoKyksIDcxIGRlbGV0aW9ucygtKQotIGRlbGV0ZSBtb2RlIDEw
+MDY0NCB0ZXN0cy9hY2NlcHRfY29tcGF0LmgKLQotSW5kZXg6IHN0cmFjZS02LjMvdGVzdHMvTWFr
+ZWZpbGUuYW0KLT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT0KLS0tLSBzdHJhY2UtNi4zLm9yaWcvdGVzdHMvTWFrZWZpbGUu
+YW0KLSsrKyBzdHJhY2UtNi4zL3Rlc3RzL01ha2VmaWxlLmFtCi1AQCAtNzc2LDcgKzc3Niw2IEBA
+IGNoZWNrX0RBVEEgPSBcCi0gCSMgZW5kIG9mIGNoZWNrX0RBVEEKLSAKLSBFWFRSQV9ESVNUID0g
+XAotLQlhY2NlcHRfY29tcGF0LmggXAotIAlhdHRhY2gtcC1jbWQuaCBcCi0gCWNsb2NrX2FkanRp
+bWUtY29tbW9uLmMgXAotIAljbG9ja194ZXR0aW1lLWNvbW1vbi5jIFwKLUluZGV4OiBzdHJhY2Ut
+Ni4zL3Rlc3RzL2FjY2VwdC5jCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gc3RyYWNlLTYuMy5vcmlnL3Rlc3Rz
+L2FjY2VwdC5jCi0rKysgc3RyYWNlLTYuMy90ZXN0cy9hY2NlcHQuYwotQEAgLTksMzggKzksMzYg
+QEAKLSAgKi8KLSAKLSAjaW5jbHVkZSAidGVzdHMuaCIKLS0KLSsjaW5jbHVkZSAic2Nuby5oIgot
+ICNpbmNsdWRlIDx1bmlzdGQuaD4KLSAKLS0jaW5jbHVkZSAic2Nuby5oIgotKyNpZm5kZWYgVEVT
+VF9TWVNDQUxMX05BTUUKLSAKLS0jaWYgZGVmaW5lZCBfX05SX2FjY2VwdAotKyMgaWYgZGVmaW5l
+ZCBfX05SX2FjY2VwdCB8fCBkZWZpbmVkIF9fTlJfc29ja2V0Y2FsbAotIAotLSMgaWZuZGVmIFRF
+U1RfU1lTQ0FMTF9OQU1FCi0gIyAgZGVmaW5lIFRFU1RfU1lTQ0FMTF9OQU1FIGRvX2FjY2VwdAot
+LQotLSMgIGlmbmRlZiBURVNUX1NZU0NBTExfU1RSCi0tIyAgIGRlZmluZSBURVNUX1NZU0NBTExf
+U1RSICJhY2NlcHQiCi0tIyAgZW5kaWYKLSsjICBkZWZpbmUgVEVTVF9TWVNDQUxMX1NUUiAiYWNj
+ZXB0IgotIAotIHN0YXRpYyBpbnQKLSBkb19hY2NlcHQoaW50IHNvY2tmZCwgdm9pZCAqYWRkciwg
+dm9pZCAqYWRkcmxlbikKLSB7Ci0rIyAgaWZkZWYgX19OUl9hY2NlcHQKLSAJcmV0dXJuIHN5c2Nh
+bGwoX19OUl9hY2NlcHQsIHNvY2tmZCwgYWRkciwgYWRkcmxlbik7Ci0rIyAgZWxzZSAvKiBfX05S
+X3NvY2tldGNhbGwgKi8KLSsJY29uc3QgbG9uZyBhcmdzW10gPSB7IHNvY2tmZCwgKGxvbmcpIGFk
+ZHIsIChsb25nKSBhZGRybGVuIH07Ci0rCXJldHVybiBzeXNjYWxsKF9fTlJfc29ja2V0Y2FsbCwg
+NSwgYXJncyk7Ci0rIyAgZW5kaWYKLSB9Ci0tIyBlbmRpZiAvKiAhVEVTVF9TWVNDQUxMX05BTUUg
+Ki8KLSAKLS0jZWxzZSAvKiAhX19OUl9hY2NlcHQgKi8KLSsjIGVuZGlmIC8qIF9fTlJfYWNjZXB0
+IHx8IF9fTlJfc29ja2V0Y2FsbCAqLwotIAotLSMgaWZuZGVmIFRFU1RfU1lTQ0FMTF9OQU1FCi0t
+IyAgZGVmaW5lIFRFU1RfU1lTQ0FMTF9OQU1FIGFjY2VwdAotLSMgZW5kaWYKLSsjZW5kaWYgLyog
+IVRFU1RfU1lTQ0FMTF9OQU1FICovCi0gCi0tI2VuZGlmIC8qIF9fTlJfYWNjZXB0ICovCi0rI2lm
+ZGVmIFRFU1RfU1lTQ0FMTF9OQU1FCi0gCi0tI2RlZmluZSBURVNUX1NZU0NBTExfUFJFUEFSRSBj
+b25uZWN0X3VuKCkKLSsjIGRlZmluZSBURVNUX1NZU0NBTExfUFJFUEFSRSBjb25uZWN0X3VuKCkK
+LSBzdGF0aWMgdm9pZCBjb25uZWN0X3VuKHZvaWQpOwotLSNpbmNsdWRlICJzb2NrbmFtZS5jIgot
+KyMgaW5jbHVkZSAic29ja25hbWUuYyIKLSAKLSBzdGF0aWMgdm9pZAotIGNvbm5lY3RfdW4odm9p
+ZCkKLUBAIC05MCwzICs4OCw5IEBAIG1haW4odm9pZCkKLSAJcHV0cygiKysrIGV4aXRlZCB3aXRo
+IDAgKysrIik7Ci0gCXJldHVybiAwOwotIH0KLSsKLSsjZWxzZQotKwotK1NLSVBfTUFJTl9VTkRF
+RklORUQoIl9fTlJfYWNjZXB0IHx8IF9fTlJfc29ja2V0Y2FsbCIpCi0rCi0rI2VuZGlmCi1JbmRl
+eDogc3RyYWNlLTYuMy90ZXN0cy9hY2NlcHRfY29tcGF0LmgKLT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tLSBzdHJh
+Y2UtNi4zLm9yaWcvdGVzdHMvYWNjZXB0X2NvbXBhdC5oCi0rKysgL2Rldi9udWxsCi1AQCAtMSwz
+MiArMCwwIEBACi0tLyoKLS0gKiBDb3B5cmlnaHQgKGMpIDIwMTgtMjAxOSBUaGUgc3RyYWNlIGRl
+dmVsb3BlcnMuCi0tICogQWxsIHJpZ2h0cyByZXNlcnZlZC4KLS0gKgotLSAqIFNQRFgtTGljZW5z
+ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyCi0tICovCi0tCi0tI2lmbmRlZiBfU1RSQUNF
+X1RFU1RTX0FDQ0VQVF9DT01QQVRfSF8KLS0jIGRlZmluZSBfU1RSQUNFX1RFU1RTX0FDQ0VQVF9D
+T01QQVRfSF8KLS0KLS0jIGluY2x1ZGUgPHVuaXN0ZC5oPgotLSMgaW5jbHVkZSA8c3lzL3NvY2tl
+dC5oPgotLSMgaW5jbHVkZSAic2Nuby5oIgotLQotLSMgaWYgZGVmaW5lZCBfX05SX3NvY2tldGNh
+bGwgJiYgZGVmaW5lZCBfX3NwYXJjX18KLS0vKgotLSAqIFdvcmsgYXJvdW5kIHRoZSBmYWN0IHRo
+YXQKLS0gKiAtIGdsaWJjID49IDIuMjYgdXNlcyBhY2NlcHQ0IHN5c2NhbGwgdG8gaW1wbGVtZW50
+IGFjY2VwdCgpIGNhbGwgb24gc3BhcmM7Ci0tICogLSBhY2NlcHQgc3lzY2FsbCBoYWQgbm90IGJl
+ZW4gd2lyZWQgdXAgb24gc3BhcmMgdW50aWwgdjQuNC1yYzh+NF4yfjEuCi0tICovCi0tc3RhdGlj
+IGlubGluZSBpbnQKLS1kb19hY2NlcHQoaW50IHNvY2tmZCwgc3RydWN0IHNvY2thZGRyICphZGRy
+LCBzb2NrbGVuX3QgKmFkZHJsZW4pCi0tewotLQljb25zdCBsb25nIGFyZ3NbXSA9IHsgc29ja2Zk
+LCAobG9uZykgYWRkciwgKGxvbmcpIGFkZHJsZW4gfTsKLS0KLS0JcmV0dXJuIHN5c2NhbGwoX19O
+Ul9zb2NrZXRjYWxsLCA1LCBhcmdzKTsKLS19Ci0tIyBlbHNlCi0tIyAgZGVmaW5lIGRvX2FjY2Vw
+dCBhY2NlcHQKLS0jIGVuZGlmCi0tCi0tI2VuZGlmIC8qICFfU1RSQUNFX1RFU1RTX0FDQ0VQVF9D
+T01QQVRfSF8gKi8KLUluZGV4OiBzdHJhY2UtNi4zL3Rlc3RzL25ldC15LXVuaXguYwotPT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQotLS0tIHN0cmFjZS02LjMub3JpZy90ZXN0cy9uZXQteS11bml4LmMKLSsrKyBzdHJhY2Ut
+Ni4zL3Rlc3RzL25ldC15LXVuaXguYwotQEAgLTEwLDYgKzEwLDcgQEAKLSAKLSAjaW5jbHVkZSAi
+dGVzdHMuaCIKLSAjaW5jbHVkZSA8YXNzZXJ0Lmg+Ci0rI2luY2x1ZGUgPGZjbnRsLmg+Ci0gI2lu
+Y2x1ZGUgPHN0ZGRlZi5oPgotICNpbmNsdWRlIDxzdGRpby5oPgotICNpbmNsdWRlIDxzdGRsaWIu
+aD4KLUBAIC0xOCw4ICsxOSw2IEBACi0gI2luY2x1ZGUgPHN5cy9zb2NrZXQuaD4KLSAjaW5jbHVk
+ZSA8c3lzL3VuLmg+Ci0gCi0tI2luY2x1ZGUgImFjY2VwdF9jb21wYXQuaCIKLS0KLSAjZGVmaW5l
+IFRFU1RfU09DS0VUICJuZXQteS11bml4LnNvY2tldCIKLSAKLSBpbnQKLUBAIC04OCwxMiArODcs
+MTIgQEAgbWFpbih2b2lkKQotIAlzdHJ1Y3Qgc29ja2FkZHIgKiBjb25zdCBhY2NlcHRfc2EgPSB0
+YWlsX2FsbG9jKHNpemVvZihhZGRyKSk7Ci0gCW1lbXNldChhY2NlcHRfc2EsIDAsIHNpemVvZihh
+ZGRyKSk7Ci0gCSpsZW4gPSBzaXplb2YoYWRkcik7Ci0tCWludCBhY2NlcHRfZmQgPSBkb19hY2Nl
+cHQobGlzdGVuX2ZkLCBhY2NlcHRfc2EsIGxlbik7Ci0rCWludCBhY2NlcHRfZmQgPSBhY2NlcHQ0
+KGxpc3Rlbl9mZCwgYWNjZXB0X3NhLCBsZW4sIE9fQ0xPRVhFQyk7Ci0gCWlmIChhY2NlcHRfZmQg
+PCAwKQotIAkJcGVycm9yX21zZ19hbmRfZmFpbCgiYWNjZXB0Iik7Ci0gCXVuc2lnbmVkIGxvbmcg
+YWNjZXB0X2lub2RlID0gaW5vZGVfb2Zfc29ja2ZkKGFjY2VwdF9mZCk7Ci0tCXByaW50ZigiYWNj
+ZXB0KCVkPHNvY2tldDpbJWx1XT4sIHtzYV9mYW1pbHk9QUZfVU5JWH0iCi0tCSAgICAgICAiLCBb
+JWQgPT4gJWRdKSA9ICVkPHNvY2tldDpbJWx1XT5cbiIsCi0rCXByaW50ZigiYWNjZXB0NCglZDxz
+b2NrZXQ6WyVsdV0+LCB7c2FfZmFtaWx5PUFGX1VOSVh9IgotKwkgICAgICAgIiwgWyVkID0+ICVk
+XSwgU09DS19DTE9FWEVDKSA9ICVkPHNvY2tldDpbJWx1XT5cbiIsCi0gCSAgICAgICBsaXN0ZW5f
+ZmQsIGxpc3Rlbl9pbm9kZSwKLSAJICAgICAgIChpbnQpIHNpemVvZihhZGRyKSwgKGludCkgKmxl
+biwKLSAJICAgICAgIGFjY2VwdF9mZCwgYWNjZXB0X2lub2RlKTsKLUBAIC0xNjAsMTQgKzE1OSwx
+NSBAQCBtYWluKHZvaWQpCi0gCi0gCW1lbXNldChhY2NlcHRfc2EsIDAsIHNpemVvZihhZGRyKSk7
+Ci0gCSpsZW4gPSBzaXplb2YoYWRkcik7Ci0tCWFjY2VwdF9mZCA9IGRvX2FjY2VwdChsaXN0ZW5f
+ZmQsIGFjY2VwdF9zYSwgbGVuKTsKLSsJYWNjZXB0X2ZkID0gYWNjZXB0NChsaXN0ZW5fZmQsIGFj
+Y2VwdF9zYSwgbGVuLCBPX0NMT0VYRUMpOwotIAlpZiAoYWNjZXB0X2ZkIDwgMCkKLSAJCXBlcnJv
+cl9tc2dfYW5kX2ZhaWwoImFjY2VwdCIpOwotIAlhY2NlcHRfaW5vZGUgPSBpbm9kZV9vZl9zb2Nr
+ZmQoYWNjZXB0X2ZkKTsKLSAJY29uc3QgY2hhciAqIGNvbnN0IHN1bl9wYXRoMSA9Ci0gCQkoKHN0
+cnVjdCBzb2NrYWRkcl91biAqKSBhY2NlcHRfc2EpLT5zdW5fcGF0aCArIDE7Ci0tCXByaW50Zigi
+YWNjZXB0KCVkPHNvY2tldDpbJWx1XT4sIHtzYV9mYW1pbHk9QUZfVU5JWCIKLS0JICAgICAgICIs
+IHN1bl9wYXRoPUBcIiVzXCJ9LCBbJWQgPT4gJWRdKSA9ICVkPHNvY2tldDpbJWx1XT5cbiIsCi0r
+CXByaW50ZigiYWNjZXB0NCglZDxzb2NrZXQ6WyVsdV0+LCB7c2FfZmFtaWx5PUFGX1VOSVgiCi0r
+CSAgICAgICAiLCBzdW5fcGF0aD1AXCIlc1wifSwgWyVkID0+ICVkXSwgU09DS19DTE9FWEVDKSIK
+LSsJICAgICAgICIgPSAlZDxzb2NrZXQ6WyVsdV0+XG4iLAotIAkgICAgICAgbGlzdGVuX2ZkLCBs
+aXN0ZW5faW5vZGUsIHN1bl9wYXRoMSwKLSAJICAgICAgIChpbnQpIHNpemVvZihhZGRyKSwgKGlu
+dCkgKmxlbiwKLSAJICAgICAgIGFjY2VwdF9mZCwgYWNjZXB0X2lub2RlKTsKLUluZGV4OiBzdHJh
+Y2UtNi4zL3Rlc3RzL25ldC15eS1pbmV0LmMKLT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tLSBzdHJhY2UtNi4zLm9y
+aWcvdGVzdHMvbmV0LXl5LWluZXQuYwotKysrIHN0cmFjZS02LjMvdGVzdHMvbmV0LXl5LWluZXQu
+YwotQEAgLTEwLDYgKzEwLDcgQEAKLSAKLSAjaW5jbHVkZSAidGVzdHMuaCIKLSAjaW5jbHVkZSA8
+YXNzZXJ0Lmg+Ci0rI2luY2x1ZGUgPGZjbnRsLmg+Ci0gI2luY2x1ZGUgPHN0ZGRlZi5oPgotICNp
+bmNsdWRlIDxzdGRpby5oPgotICNpbmNsdWRlIDxzdHJpbmcuaD4KLUBAIC0xOSw4ICsyMCw2IEBA
+Ci0gI2luY2x1ZGUgPG5ldGluZXQvdGNwLmg+Ci0gI2luY2x1ZGUgPGFycGEvaW5ldC5oPgotIAot
+LSNpbmNsdWRlICJhY2NlcHRfY29tcGF0LmgiCi0tCi0gI2lmbmRlZiBBRERSX0ZBTUlMWQotICMg
+ZGVmaW5lIEFERFJfRkFNSUxZX0ZJRUxEIHNpbl9mYW1pbHkKLSAjIGRlZmluZSBBRERSX0ZBTUlM
+WSBBRl9JTkVUCi1AQCAtMTA0LDE0ICsxMDMsMTUgQEAgbWFpbih2b2lkKQotIAlzdHJ1Y3Qgc29j
+a2FkZHIgKiBjb25zdCBhY2NlcHRfc2EgPSB0YWlsX2FsbG9jKHNpemVvZihhZGRyKSk7Ci0gCW1l
+bXNldChhY2NlcHRfc2EsIDAsIHNpemVvZihhZGRyKSk7Ci0gCSpsZW4gPSBzaXplb2YoYWRkcik7
+Ci0tCWNvbnN0IGludCBhY2NlcHRfZmQgPSBkb19hY2NlcHQobGlzdGVuX2ZkLCBhY2NlcHRfc2Es
+IGxlbik7Ci0rCWNvbnN0IGludCBhY2NlcHRfZmQgPSBhY2NlcHQ0KGxpc3Rlbl9mZCwgYWNjZXB0
+X3NhLCBsZW4sIE9fQ0xPRVhFQyk7Ci0gCWlmIChhY2NlcHRfZmQgPCAwKQotIAkJcGVycm9yX21z
+Z19hbmRfZmFpbCgiYWNjZXB0Iik7Ci0gCWNvbnN0IHVuc2lnbmVkIGludCBjb25uZWN0X3BvcnQg
+PQotIAkJbnRvaHMoKChzdHJ1Y3QgU09DS0FERFJfVFlQRSAqKSBhY2NlcHRfc2EpLT5JTlBPUlQp
+OwotLQlwcmludGYoImFjY2VwdCglZDwiIFRDUF9TVFIgIjpbIiBMT09QQkFDSyAiOiV1XT4sIHtz
+YV9mYW1pbHk9IiBBRl9TVFIKLS0JICAgICAgICIsICIgSU5QT1JUX1NUUiAiPWh0b25zKCV1KSwg
+IiBJTkFERFJfU1RSIFNBX0ZJRUxEUyAifSIKLS0JICAgICAgICIsIFsldV0pID0gJWQ8IiBUQ1Bf
+U1RSICI6WyIgTE9PUEJBQ0sgIjoldS0+IiBMT09QQkFDSyAiOiV1XT5cbiIsCi0rCXByaW50Zigi
+YWNjZXB0NCglZDwiIFRDUF9TVFIgIjpbIiBMT09QQkFDSyAiOiV1XT4sIHtzYV9mYW1pbHk9IiBB
+Rl9TVFIKLSsJICAgICAgICIsICIgSU5QT1JUX1NUUiAiPWh0b25zKCV1KSwgIiBJTkFERFJfU1RS
+IFNBX0ZJRUxEUyAifSwgWyV1XSIKLSsJICAgICAgICIsIFNPQ0tfQ0xPRVhFQykgPSAlZDwiIFRD
+UF9TVFIgIjpbIiBMT09QQkFDSyAiOiV1LT4iIExPT1BCQUNLCi0rCSAgICAgICAiOiV1XT5cbiIs
+Ci0gCSAgICAgICBsaXN0ZW5fZmQsIGxpc3Rlbl9wb3J0LCBjb25uZWN0X3BvcnQsICh1bnNpZ25l
+ZCkgKmxlbiwKLSAJICAgICAgIGFjY2VwdF9mZCwgbGlzdGVuX3BvcnQsIGNvbm5lY3RfcG9ydCk7
+Ci0gCi1JbmRleDogc3RyYWNlLTYuMy90ZXN0cy9uZXQteXktdW5peC5jCi09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0t
+LS0gc3RyYWNlLTYuMy5vcmlnL3Rlc3RzL25ldC15eS11bml4LmMKLSsrKyBzdHJhY2UtNi4zL3Rl
+c3RzL25ldC15eS11bml4LmMKLUBAIC0xMCw2ICsxMCw3IEBACi0gCi0gI2luY2x1ZGUgInRlc3Rz
+LmgiCi0gI2luY2x1ZGUgPGFzc2VydC5oPgotKyNpbmNsdWRlIDxmY250bC5oPgotICNpbmNsdWRl
+IDxzdGRkZWYuaD4KLSAjaW5jbHVkZSA8c3RkaW8uaD4KLSAjaW5jbHVkZSA8c3RkbGliLmg+Ci1A
+QCAtMjIsOCArMjMsNiBAQAotICMgaW5jbHVkZSAieG1hbGxvYy5oIgotICNlbmRpZgotIAotLSNp
+bmNsdWRlICJhY2NlcHRfY29tcGF0LmgiCi0tCi0gI2RlZmluZSBURVNUX1NPQ0tFVCAibmV0LXl5
+LXVuaXguc29ja2V0IgotIAotIGludAotQEAgLTExMiwxMiArMTExLDEyIEBAIG1haW4odm9pZCkK
+LSAJc3RydWN0IHNvY2thZGRyICogY29uc3QgYWNjZXB0X3NhID0gdGFpbF9hbGxvYyhzaXplb2Yo
+YWRkcikpOwotIAltZW1zZXQoYWNjZXB0X3NhLCAwLCBzaXplb2YoYWRkcikpOwotIAkqbGVuID0g
+c2l6ZW9mKGFkZHIpOwotLQlpbnQgYWNjZXB0X2ZkID0gZG9fYWNjZXB0KGxpc3Rlbl9mZCwgYWNj
+ZXB0X3NhLCBsZW4pOwotKwlpbnQgYWNjZXB0X2ZkID0gYWNjZXB0NChsaXN0ZW5fZmQsIGFjY2Vw
+dF9zYSwgbGVuLCBPX0NMT0VYRUMpOwotIAlpZiAoYWNjZXB0X2ZkIDwgMCkKLSAJCXBlcnJvcl9t
+c2dfYW5kX2ZhaWwoImFjY2VwdCIpOwotIAl1bnNpZ25lZCBsb25nIGFjY2VwdF9pbm9kZSA9IGlu
+b2RlX29mX3NvY2tmZChhY2NlcHRfZmQpOwotLQlwcmludGYoImFjY2VwdCglZDwlczpbJWx1LFwi
+JXNcIl0+LCB7c2FfZmFtaWx5PUFGX1VOSVh9IgotLQkgICAgICAgIiwgWyVkID0+ICVkXSkgPSAl
+ZDwlczpbJWx1LT4lbHUsXCIlc1wiXT5cbiIsCi0rCXByaW50ZigiYWNjZXB0NCglZDwlczpbJWx1
+LFwiJXNcIl0+LCB7c2FfZmFtaWx5PUFGX1VOSVh9IgotKwkgICAgICAgIiwgWyVkID0+ICVkXSwg
+U09DS19DTE9FWEVDKSA9ICVkPCVzOlslbHUtPiVsdSxcIiVzXCJdPlxuIiwKLSAJICAgICAgIGxp
+c3Rlbl9mZCwgc29ja19wcm90b19uYW1lLCBsaXN0ZW5faW5vZGUsIFRFU1RfU09DS0VULAotIAkg
+ICAgICAgKGludCkgc2l6ZW9mKGFkZHIpLCAoaW50KSAqbGVuLAotIAkgICAgICAgYWNjZXB0X2Zk
+LCBzb2NrX3Byb3RvX25hbWUsIGFjY2VwdF9pbm9kZSwgY29ubmVjdF9pbm9kZSwKLUBAIC0xOTEs
+MTQgKzE5MCwxNSBAQCBtYWluKHZvaWQpCi0gCi0gCW1lbXNldChhY2NlcHRfc2EsIDAsIHNpemVv
+ZihhZGRyKSk7Ci0gCSpsZW4gPSBzaXplb2YoYWRkcik7Ci0tCWFjY2VwdF9mZCA9IGRvX2FjY2Vw
+dChsaXN0ZW5fZmQsIGFjY2VwdF9zYSwgbGVuKTsKLSsJYWNjZXB0X2ZkID0gYWNjZXB0NChsaXN0
+ZW5fZmQsIGFjY2VwdF9zYSwgbGVuLCBPX0NMT0VYRUMpOwotIAlpZiAoYWNjZXB0X2ZkIDwgMCkK
+LSAJCXBlcnJvcl9tc2dfYW5kX2ZhaWwoImFjY2VwdCIpOwotIAlhY2NlcHRfaW5vZGUgPSBpbm9k
+ZV9vZl9zb2NrZmQoYWNjZXB0X2ZkKTsKLSAJY29uc3QgY2hhciAqIGNvbnN0IHN1bl9wYXRoMSA9
+Ci0gCQkoKHN0cnVjdCBzb2NrYWRkcl91biAqKSBhY2NlcHRfc2EpLT5zdW5fcGF0aCArIDE7Ci0t
+CXByaW50ZigiYWNjZXB0KCVkPCVzOlslbHUsXCIlc1wiXT4sIHtzYV9mYW1pbHk9QUZfVU5JWCIK
+LS0JICAgICAgICIsIHN1bl9wYXRoPUBcIiVzXCJ9LCBbJWQgPT4gJWRdKSA9ICVkPCVzOlslbHUt
+PiVsdSxcIiVzXCJdPlxuIiwKLSsJcHJpbnRmKCJhY2NlcHQ0KCVkPCVzOlslbHUsXCIlc1wiXT4s
+IHtzYV9mYW1pbHk9QUZfVU5JWCIKLSsJICAgICAgICIsIHN1bl9wYXRoPUBcIiVzXCJ9LCBbJWQg
+PT4gJWRdLCBTT0NLX0NMT0VYRUMpIgotKwkgICAgICAgIiA9ICVkPCVzOlslbHUtPiVsdSxcIiVz
+XCJdPlxuIiwKLSAJICAgICAgIGxpc3Rlbl9mZCwgc29ja19wcm90b19uYW1lLCBsaXN0ZW5faW5v
+ZGUsIFRFU1RfU09DS0VULAotIAkgICAgICAgc3VuX3BhdGgxLCAoaW50KSBzaXplb2YoYWRkciks
+IChpbnQpICpsZW4sCi0gCSAgICAgICBhY2NlcHRfZmQsIHNvY2tfcHJvdG9fbmFtZSwgYWNjZXB0
+X2lub2RlLCBjb25uZWN0X2lub2RlLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2UvM2JiZmI1NDFiMjU4YmFlYzllYmE2NzRiNWQ4ZGMzMDAwN2E2MTU0Mi5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzNiYmZiNTQxYjI1OGJh
+ZWM5ZWJhNjc0YjVkOGRjMzAwMDdhNjE1NDIucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0
+CmluZGV4IGI0YzZmZjk5ZGUuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2UvM2JiZmI1NDFiMjU4YmFlYzllYmE2NzRiNWQ4ZGMzMDAwN2E2MTU0Mi5w
+YXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDUwICswLDAgQEAKLUZyb20gM2JiZmI1NDFiMjU4YmFl
+YzllYmE2NzRiNWQ4ZGMzMDAwN2E2MTU0MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206
+ICJEbWl0cnkgVi4gTGV2aW4iIDxsZHZAc3RyYWNlLmlvPgotRGF0ZTogV2VkLCAyMSBKdW4gMjAy
+MyAwODowMDowMCArMDAwMAotU3ViamVjdDogW1BBVENIXSBuZXQ6IGVuaGFuY2UgZ2V0c29ja29w
+dCBkZWNvZGluZwotCi1XaGVuIGdldHNvY2tvcHQgc3lzY2FsbCBmYWlscyB0aGUga2VybmVsIHNv
+bWV0aW1lcyB1cGRhdGVzIHRoZSBvcHRsZW4KLWFyZ3VtZW50LCBmb3IgZXhhbXBsZSwgTkVUTElO
+S19MSVNUX01FTUJFUlNISVBTIHVwZGF0ZXMgaXQgZXZlbiBpZgotb3B0dmFsIGlzIG5vdCB3cml0
+YWJsZS4KLQotKiBzcmMvbmV0LmMgKFNZU19GVU5DKGdldHNvY2tvcHQpKTogVHJ5IHRvIGZldGNo
+IGFuZCBwcmludCBvcHRsZW4KLWFyZ3VtZW50IG9uIGV4aXRpbmcgc3lzY2FsbCByZWdhcmRsZXNz
+IG9mIGdldHNvY2tvcHQgZXhpdCBzdGF0dXMuCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQK
+LS0tLQotIHNyYy9uZXQuYyB8IDE1ICsrKysrKysrKysrKysrLQotIDEgZmlsZSBjaGFuZ2VkLCAx
+NCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS9zcmMvbmV0LmMg
+Yi9zcmMvbmV0LmMKLWluZGV4IGY2OGNjYjk0Ny4uNzI0NGI1ZTU3IDEwMDY0NAotLS0tIGEvc3Jj
+L25ldC5jCi0rKysgYi9zcmMvbmV0LmMKLUBAIC0xMDM4LDcgKzEwMzgsNyBAQCBTWVNfRlVOQyhn
+ZXRzb2Nrb3B0KQotIAl9IGVsc2UgewotIAkJdWxlbiA9IGdldF90Y2JfcHJpdl91bG9uZyh0Y3Ap
+OwotIAotLQkJaWYgKHN5c2Vycm9yKHRjcCkgfHwgdW1vdmUodGNwLCB0Y3AtPnVfYXJnWzRdLCAm
+cmxlbikgPCAwKSB7Ci0rCQlpZiAodW1vdmUodGNwLCB0Y3AtPnVfYXJnWzRdLCAmcmxlbikgPCAw
+KSB7Ci0gCQkJLyogb3B0dmFsICovCi0gCQkJcHJpbnRhZGRyKHRjcC0+dV9hcmdbM10pOwotIAkJ
+CXRwcmludF9hcmdfbmV4dCgpOwotQEAgLTEwNDcsNiArMTA0NywxOSBAQCBTWVNfRlVOQyhnZXRz
+b2Nrb3B0KQotIAkJCXRwcmludF9pbmRpcmVjdF9iZWdpbigpOwotIAkJCVBSSU5UX1ZBTF9EKHVs
+ZW4pOwotIAkJCXRwcmludF9pbmRpcmVjdF9lbmQoKTsKLSsJCX0gZWxzZSBpZiAoc3lzZXJyb3Io
+dGNwKSkgewotKwkJCS8qIG9wdHZhbCAqLwotKwkJCXByaW50YWRkcih0Y3AtPnVfYXJnWzNdKTsK
+LSsJCQl0cHJpbnRfYXJnX25leHQoKTsKLSsKLSsJCQkvKiBvcHRsZW4gKi8KLSsJCQl0cHJpbnRf
+aW5kaXJlY3RfYmVnaW4oKTsKLSsJCQlpZiAodWxlbiAhPSBybGVuKSB7Ci0rCQkJCVBSSU5UX1ZB
+TF9EKHVsZW4pOwotKwkJCQl0cHJpbnRfdmFsdWVfY2hhbmdlZCgpOwotKwkJCX0KLSsJCQlQUklO
+VF9WQUxfRChybGVuKTsKLSsJCQl0cHJpbnRfaW5kaXJlY3RfZW5kKCk7Ci0gCQl9IGVsc2Ugewot
+IAkJCS8qIG9wdHZhbCAqLwotIAkJCXByaW50X2dldHNvY2tvcHQodGNwLCB0Y3AtPnVfYXJnWzFd
+LCB0Y3AtPnVfYXJnWzJdLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFj
+ZS9zdHJhY2UvZjMxYzJmNDQ5NDc3OWU1YzVmMTcwYWQxMDUzOWJmYzJkZmFmZTk2Ny5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL2YzMWMyZjQ0OTQ3NzllNWM1ZjE3
+MGFkMTA1MzliZmMyZGZhZmU5NjcucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
+IGEwODQzODM2YzIuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFj
+ZS9zdHJhY2UvZjMxYzJmNDQ5NDc3OWU1YzVmMTcwYWQxMDUzOWJmYzJkZmFmZTk2Ny5wYXRjaAor
+KysgL2Rldi9udWxsCkBAIC0xLDUwICswLDAgQEAKLUZyb20gZjMxYzJmNDQ5NDc3OWU1YzVmMTcw
+YWQxMDUzOWJmYzJkZmFmZTk2NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206ICJEbWl0
+cnkgVi4gTGV2aW4iIDxsZHZAc3RyYWNlLmlvPgotRGF0ZTogU2F0LCAyNCBKdW4gMjAyMyAwODow
+MDowMCArMDAwMAotU3ViamVjdDogW1BBVENIXSB0ZXN0czogdXBkYXRlIHNvY2tvcHQtc29sX25l
+dGxpbmsgdGVzdAotCi1VcGRhdGUgc29ja29wdC1zb2xfbmV0bGluayB0ZXN0IHRoYXQgc3RhcnRl
+ZCB0byBmYWlsLCBsaWtlbHkKLWR1ZSB0byByZWNlbnQgbGludXgga2VybmVsIGNvbW1pdCBmNGU0
+NTM0ODUwYTkgKCJuZXQvbmV0bGluazogZml4Ci1ORVRMSU5LX0xJU1RfTUVNQkVSU0hJUFMgbGVu
+Z3RoIHJlcG9ydCIpLgotCi0qIHRlc3RzL3NvY2tvcHQtc29sX25ldGxpbmsuYyAobWFpbik6IEFs
+d2F5cyBwcmludCBjaGFuZ2luZyBvcHRsZW4gdmFsdWUKLW9uIGV4aXRpbmcgc3lzY2FsbC4KLQot
+UmVwb3J0ZWQtYnk6IEFsZXhhbmRlciBHb3JkZWV2IDxhZ29yZGVldkBsaW51eC5pYm0uY29tPgot
+LS0tCi0gdGVzdHMvc29ja29wdC1zb2xfbmV0bGluay5jIHwgMTMgKysrKysrKysrKy0tLQotIDEg
+ZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQotCi1VcHN0cmVh
+bS1TdGF0dXM6IEJhY2twb3J0Ci0KLWRpZmYgLS1naXQgYS90ZXN0cy9zb2Nrb3B0LXNvbF9uZXRs
+aW5rLmMgYi90ZXN0cy9zb2Nrb3B0LXNvbF9uZXRsaW5rLmMKLWluZGV4IDgyYjk4YWRjMjMuLjFj
+MzMyMTlhYzUgMTAwNjQ0Ci0tLS0gYS90ZXN0cy9zb2Nrb3B0LXNvbF9uZXRsaW5rLmMKLSsrKyBi
+L3Rlc3RzL3NvY2tvcHQtc29sX25ldGxpbmsuYwotQEAgLTk0LDcgKzk0LDEwIEBAIG1haW4odm9p
+ZCkKLSAJCQlwcmludGYoIiVwIiwgdmFsKTsKLSAJCWVsc2UKLSAJCQlwcmludGYoIlslZF0iLCAq
+dmFsKTsKLS0JCXByaW50ZigiLCBbJWRdKSA9ICVzXG4iLCAqbGVuLCBlcnJzdHIpOwotKwkJcHJp
+bnRmKCIsIFslZCIsIChpbnQpIHNpemVvZigqdmFsKSk7Ci0rCQlpZiAoKGludCkgc2l6ZW9mKCp2
+YWwpICE9ICpsZW4pCi0rCQkJcHJpbnRmKCIgPT4gJWQiLCAqbGVuKTsKLSsJCXByaW50ZigiXSkg
+PSAlc1xuIiwgZXJyc3RyKTsKLSAKLSAJCS8qIG9wdGxlbiBsYXJnZXIgdGhhbiBuZWNlc3Nhcnkg
+LSBzaG9ydGVuZWQgKi8KLSAJCSpsZW4gPSBzaXplb2YoKnZhbCkgKyAxOwotQEAgLTE1MCw4ICsx
+NTMsMTIgQEAgbWFpbih2b2lkKQotIAkJLyogb3B0dmFsIEVGQVVMVCAtIHByaW50IGFkZHJlc3Mg
+Ki8KLSAJCSpsZW4gPSBzaXplb2YoKnZhbCk7Ci0gCQlnZXRfc29ja29wdChmZCwgbmFtZXNbaV0u
+dmFsLCBlZmF1bHQsIGxlbik7Ci0tCQlwcmludGYoImdldHNvY2tvcHQoJWQsIFNPTF9ORVRMSU5L
+LCAlcywgJXAsIFslZF0pID0gJXNcbiIsCi0tCQkgICAgICAgZmQsIG5hbWVzW2ldLnN0ciwgZWZh
+dWx0LCAqbGVuLCBlcnJzdHIpOwotKwkJcHJpbnRmKCJnZXRzb2Nrb3B0KCVkLCBTT0xfTkVUTElO
+SywgJXMsICVwIiwKLSsJCSAgICAgICBmZCwgbmFtZXNbaV0uc3RyLCBlZmF1bHQpOwotKwkJcHJp
+bnRmKCIsIFslZCIsIChpbnQpIHNpemVvZigqdmFsKSk7Ci0rCQlpZiAoKGludCkgc2l6ZW9mKCp2
+YWwpICE9ICpsZW4pCi0rCQkJcHJpbnRmKCIgPT4gJWQiLCAqbGVuKTsKLSsJCXByaW50ZigiXSkg
+PSAlc1xuIiwgZXJyc3RyKTsKLSAKLSAJCS8qIG9wdGxlbiBFRkFVTFQgLSBwcmludCBhZGRyZXNz
+ICovCi0gCQlnZXRfc29ja29wdChmZCwgbmFtZXNbaV0udmFsLCB2YWwsIGxlbiArIDEpOwpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4zLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi40LmJiCnNpbWlsYXJpdHkgaW5kZXgg
+ODglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzYuMy5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi40LmJiCmlu
+ZGV4IGE0N2NjNzE3MjQuLjIxNzQ3OTBmYmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9zdHJhY2Uvc3RyYWNlXzYuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3Ry
+YWNlL3N0cmFjZV82LjQuYmIKQEAgLTE0LDExICsxNCw4IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9z
+dHJhY2UuaW8vZmlsZXMvJHtQVn0vc3RyYWNlLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZp
+bGU6Ly9za2lwLWxvYWQucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1jb25maWd1cmUt
+VXNlLWF1dG9jb25mLW1hY3JvLXRvLWRldGVjdC1sYXJnZWZpbGUtc3VwLnBhdGNoIFwKICAgICAg
+ICAgICAgZmlsZTovLzAwMDItdGVzdHMtUmVwbGFjZS1vZmY2NF90LXdpdGgtb2ZmX3QucGF0Y2gg
+XAotICAgICAgICAgICBmaWxlOi8vMDBhY2UxMzkyZjViZDI4OTIzOWI3NTU0NThkY2RlZWVkNjlh
+ZjFkYS5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9mMzFjMmY0NDk0Nzc5ZTVjNWYxNzBhZDEw
+NTM5YmZjMmRmYWZlOTY3LnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzNiYmZiNTQxYjI1OGJh
+ZWM5ZWJhNjc0YjVkOGRjMzAwMDdhNjE1NDIucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiZTE3ODc4ZTMwMTUwNmMxY2MzMDE2MTExMThhZDE0ZWZlZTdmOGJjZWY2
+M2IyN2FjZTVkMjkwYWNjZTdiYjczMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyNzk4N2RiYWM1
+N2ZkZmQyNjBjNmRiNGRjODMyOGRmMzVjOTVjNjg2N2M4YTNkNDM3MWQ1OWNkY2Y0ZWI5MjM4Igog
+CiBpbmhlcml0IGF1dG90b29scyBwdGVzdAogCi0tIAoyLjM5LjIKCg==
+
+--===============1898085593064977930==--
 
