@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE456C04A94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81CCCC001DD
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:06 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.10505.1688227323722669269
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.10512.1688227324621470279
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TaRq8Dcn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018912309fda-a80c5145-f44f-480a-a4e1-ad2cece52a34-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T52BxemR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018912309fbe-d3494ff7-850b-4f41-83b0-3374c9476f67-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1688227324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=V++9bKSRzciZzisU+NZalyM/boRfDocoSE7tnvA+4VE=;
-	b=TaRq8Dcn9PZPtMGy3h9xn/h2TJjtTAM0xIRI/eonZ07lsnGYubKNLQDKuuGCGrmT
-	HNqwFtErcFxGG/Of9Va5NcJp5YiNO8n+05Wk0GxcNxA9KJ7gOzEagyCuTPengO0XeZf
-	wAD69NfBVaMgwjckz4xphloowNuIdO++T8Fhbx2U=
+	bh=1MByDeGW9c6hnQqFfBfE4Fumuw/CLknA9tYs5SO70n4=;
+	b=T52BxemRfICgZzBeOKzaHW2LGSKWFL/9+XELeVoHSFZIrAhmc+Ea/w+slJkMWXyH
+	l9Rm90uoOWMjmIkbCTxCIt/j8PO7wV+Lfd8tHTQ8FcyXMtulZzEUOqqeEW+eTzFpk2h
+	ksweqzoGjtHRbkGnLxJ96L/o0+mmCnIR+/fneACY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=V++9bKSRzciZzisU+NZalyM/boRfDocoSE7tnvA+4VE=;
-	b=QYL7T8uo7IKiV+JiOnz5QnFY3K8negkKf4APvcuFCR1q3V5yTnlBW3CzjnU7OMVU
-	XYeYEQdgJScCfxnqGZlPPN+oyLKathtdxjdU+G89kubCDkWePmMa8Z/dVk+D9yjB4HK
-	pv+KD86ERm3ZcEwCjI+2h5kZAd3eh0v59xGJBtAg=
-Content-Type: multipart/mixed; boundary="===============8022421498711532028=="
+	bh=1MByDeGW9c6hnQqFfBfE4Fumuw/CLknA9tYs5SO70n4=;
+	b=HBhYVjSbH2pRd8gOinIEQUw2bGRfqL+I0wEtF6xrdqFyN5qjysVIvXOGT8NFVLgK
+	0BXz6CPv5pv3kHV+LTlBDl2vbwQV/0TRTfEw2Ak4LTMmSlr47EznJS/2JR4rLLs8O0/
+	GbWSAnwz6VdzntQQtM+6GBxNbB5jVGSxmBP+q7Qs=
+Content-Type: multipart/mixed; boundary="===============8585670396922099613=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libwebp: upgrading to 1.3.1 SUCCEEDED
-Message-ID: <0101018912309fda-a80c5145-f44f-480a-a4e1-ad2cece52a34-000000@us-west-2.amazonses.com>
+Subject: [AUH] tiff: upgrading to 4.5.1 SUCCEEDED
+Message-ID: <0101018912309fbe-d3494ff7-850b-4f41-83b0-3374c9476f67-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jul 2023 16:02:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.192
+X-SES-Outgoing: 2023.07.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183759
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183765
 
---===============8022421498711532028==
+--===============8585670396922099613==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libwebp* to *1.3.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *tiff* to *4.5.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libwebp-upgrade-1.3.0-1.3.1.patch
+    - apply the patch: git am 0001-tiff-upgrade-4.5.0-4.5.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,126 +71,432 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 58abc51bd485adcd8ea532f8384bb12c6f6a0f77 Mon Sep 17 00:00:00 2001
+From f938322c9b1939f87035f097f9abd247352ca162 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 14:19:17 +0000
-Subject: [PATCH] libwebp: upgrade 1.3.0 -> 1.3.1
+Date: Sat, 1 Jul 2023 14:14:11 +0000
+Subject: [PATCH] tiff: upgrade 4.5.0 -> 4.5.1
 
 ---
- .../webp/files/CVE-2023-1999.patch            | 55 -------------------
- .../{libwebp_1.3.0.bb => libwebp_1.3.1.bb}    |  6 +-
- 2 files changed, 1 insertion(+), 60 deletions(-)
- delete mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
- rename meta/recipes-multimedia/webp/{libwebp_1.3.0.bb => libwebp_1.3.1.bb} (93%)
+ .../libtiff/files/CVE-2022-48281.patch        | 29 ------
+ .../libtiff/files/CVE-2023-26965.patch        | 99 -------------------
+ .../libtiff/files/CVE-2023-2731.patch         | 39 --------
+ .../libtiff/{tiff_4.5.0.bb => tiff_4.5.1.bb}  |  8 +-
+ 4 files changed, 2 insertions(+), 173 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-2731.patch
+ rename meta/recipes-multimedia/libtiff/{tiff_4.5.0.bb => tiff_4.5.1.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
 deleted file mode 100644
-index d293ab93ab..0000000000
---- a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+index e356d377ea..0000000000
+--- a/meta/recipes-multimedia/libtiff/files/CVE-2022-48281.patch
 +++ /dev/null
-@@ -1,55 +0,0 @@
--From a486d800b60d0af4cc0836bf7ed8f21e12974129 Mon Sep 17 00:00:00 2001
--From: James Zern <jzern@google.com>
--Date: Wed, 22 Feb 2023 22:15:47 -0800
--Subject: [PATCH] EncodeAlphaInternal: clear result->bw on error
+@@ -1,29 +0,0 @@
+-CVE: CVE-2022-48281
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 -
--This avoids a double free should the function fail prior to
--VP8BitWriterInit() and a previous trial result's buffer carried over.
--Previously in ApplyFiltersAndEncode() trial.bw (with a previous
--iteration's buffer) would be freed, followed by best.bw pointing to the
--same buffer.
+-From 97d65859bc29ee334012e9c73022d8a8e55ed586 Mon Sep 17 00:00:00 2001
+-From: Su Laus <sulau@freenet.de>
+-Date: Sat, 21 Jan 2023 15:58:10 +0000
+-Subject: [PATCH] tiffcrop: Correct simple copy paste error. Fix #488.
 -
--Since:
--187d379d add a fallback to ALPHA_NO_COMPRESSION
--
--In addition, check the return value of VP8BitWriterInit() in this
--function.
--
--Bug: webp:603
--Change-Id: Ic258381ee26c8c16bc211d157c8153831c8c6910
--
--CVE: CVE-2023-1999
--Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129]
--Signed-off-by: Nikhil R <nikhil.r@kpit.com>
 ----
-- src/enc/alpha_enc.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
+- tools/tiffcrop.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/src/enc/alpha_enc.c b/src/enc/alpha_enc.c
--index f7c02690e3..7d205586fe 100644
----- a/src/enc/alpha_enc.c
--+++ b/src/enc/alpha_enc.c
--@@ -13,6 +13,7 @@
+-diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+-index 14fa18da..7db69883 100644
+---- a/tools/tiffcrop.c
+-+++ b/tools/tiffcrop.c
+-@@ -8591,7 +8591,7 @@ static int processCropSelections(struct image_data *image,
+-                     cropsize + NUM_BUFF_OVERSIZE_BYTES);
+-             else
+-             {
+--                prev_cropsize = seg_buffs[0].size;
+-+                prev_cropsize = seg_buffs[i].size;
+-                 if (prev_cropsize < cropsize)
+-                 {
+-                     next_buff = _TIFFrealloc(
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+deleted file mode 100644
+index 5fdc1ed013..0000000000
+--- a/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-From ec8ef90c1f573c9eb1f17d6a056aa0015f184acf Mon Sep 17 00:00:00 2001
+-From: Su_Laus <sulau@freenet.de>
+-Date: Tue, 14 Feb 2023 20:43:43 +0100
+-Subject: [PATCH] tiffcrop: Do not reuse input buffer for subsequent images.
+- Fix issue 527
+-
+-Reuse of read_buff within loadImage() from previous image is quite unsafe, because other functions (like rotateImage() etc.) reallocate that buffer with different size without updating the local prev_readsize value.
+-
+-Closes #527
+-
+-CVE: CVE-2023-26965
+-Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/ec8ef90c1f573c9eb1f17d6a056aa0015f184acf]
+-Signed-off-by: Natasha Bailey <nat.bailey@windriver.com>
+----
+- tools/tiffcrop.c | 47 +++++++++++++----------------------------------
+- 1 file changed, 13 insertions(+), 34 deletions(-)
+-
+-diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+-index d7ad5ca8..d3e11ba2 100644
+---- a/tools/tiffcrop.c
+-+++ b/tools/tiffcrop.c
+-@@ -6771,9 +6771,7 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
+-     uint32_t tw = 0, tl = 0; /* Tile width and length */
+-     tmsize_t tile_rowsize = 0;
+-     unsigned char *read_buff = NULL;
+--    unsigned char *new_buff = NULL;
+-     int readunit = 0;
+--    static tmsize_t prev_readsize = 0;
 - 
-- #include <assert.h>
-- #include <stdlib.h>
--+#include <string.h>
-- 
-- #include "src/enc/vp8i_enc.h"
-- #include "src/dsp/dsp.h"
--@@ -148,6 +149,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
--       }
--     } else {
--       VP8LBitWriterWipeOut(&tmp_bw);
--+      memset(&result->bw, 0, sizeof(result->bw));
--       return 0;
+-     TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
+-     TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
+-@@ -7097,43 +7095,25 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
 -     }
--   }
--@@ -162,7 +164,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
--   header = method | (filter << 2);
--   if (reduce_levels) header |= ALPHA_PREPROCESSED_LEVELS << 4;
 - 
---  VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size);
--+  if (!VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size)) ok = 0;
--   ok = ok && VP8BitWriterAppend(&result->bw, &header, ALPHA_HEADER_LEN);
--   ok = ok && VP8BitWriterAppend(&result->bw, output, output_size);
-diff --git a/meta/recipes-multimedia/webp/libwebp_1.3.0.bb b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-similarity index 93%
-rename from meta/recipes-multimedia/webp/libwebp_1.3.0.bb
-rename to meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-index 7ca67e44fb..b9e763b08e 100644
---- a/meta/recipes-multimedia/webp/libwebp_1.3.0.bb
-+++ b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-@@ -14,14 +14,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
-                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
- 
- SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
--SRC_URI[sha256sum] = "64ac4614db292ae8c5aa26de0295bf1623dbb3985054cb656c55e67431def17c"
-+SRC_URI[sha256sum] = "b3779627c2dfd31e3d8c4485962c2efe17785ef975e2be5c8c0c9e6cd3c4ef66"
- 
- UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
- 
--SRC_URI += " \
--    file://CVE-2023-1999.patch \
--"
+-     read_buff = *read_ptr;
+--    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
+--    /* outside buffer */
+--    if (!read_buff)
+-+    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit
+-+     * outside buffer */
+-+    /* Reuse of read_buff from previous image is quite unsafe, because other
+-+     * functions (like rotateImage() etc.) reallocate that buffer with different
+-+     * size without updating the local prev_readsize value. */
+-+    if (read_buff)
+-     {
+--        if (buffsize > 0xFFFFFFFFU - 3)
+--        {
+--            TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+--            return (-1);
+--        }
+--        read_buff =
+--            (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
+-+        _TIFFfree(read_buff);
+-     }
+--    else
+-+    if (buffsize > 0xFFFFFFFFU - 3)
+-     {
+--        if (prev_readsize < buffsize)
+--        {
+--            if (buffsize > 0xFFFFFFFFU - 3)
+--            {
+--                TIFFError("loadImage",
+--                          "Unable to allocate/reallocate read buffer");
+--                return (-1);
+--            }
+--            new_buff =
+--                _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVERSIZE_BYTES);
+--            if (!new_buff)
+--            {
+--                free(read_buff);
+--                read_buff = (unsigned char *)limitMalloc(
+--                    buffsize + NUM_BUFF_OVERSIZE_BYTES);
+--            }
+--            else
+--                read_buff = new_buff;
+--        }
+-+        TIFFError("loadImage", "Required read buffer size too large");
+-+        return (-1);
+-     }
+-+    read_buff =
+-+        (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
+-     if (!read_buff)
+-     {
+--        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+-+        TIFFError("loadImage", "Unable to allocate read buffer");
+-         return (-1);
+-     }
+- 
+-@@ -7141,7 +7121,6 @@ static int loadImage(TIFF *in, struct image_data *image, struct dump_opts *dump,
+-     read_buff[buffsize + 1] = 0;
+-     read_buff[buffsize + 2] = 0;
+- 
+--    prev_readsize = buffsize;
+-     *read_ptr = read_buff;
+- 
+-     /* N.B. The read functions used copy separate plane data into a buffer as
+--- 
+-2.39.0
 -
- EXTRA_OECONF = " \
-     --disable-wic \
-     --enable-libwebpmux \
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-2731.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-2731.patch
+deleted file mode 100644
+index 7db0a35f72..0000000000
+--- a/meta/recipes-multimedia/libtiff/files/CVE-2023-2731.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 9be22b639ea69e102d3847dca4c53ef025e9527b Mon Sep 17 00:00:00 2001
+-From: Even Rouault <even.rouault@spatialys.com>
+-Date: Sat, 29 Apr 2023 12:20:46 +0200
+-Subject: [PATCH] LZWDecode(): avoid crash when trying to read again from a
+- strip whith a missing end-of-information marker (fixes #548)
+-
+-CVE: CVE-2023-2731
+-Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9be22b639ea69e102d3847dca4c53ef025e9527b]
+-
+----
+- libtiff/tif_lzw.c | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/libtiff/tif_lzw.c b/libtiff/tif_lzw.c
+-index ba75a07e..d631fa10 100644
+---- a/libtiff/tif_lzw.c
+-+++ b/libtiff/tif_lzw.c
+-@@ -423,6 +423,10 @@ static int LZWDecode(TIFF *tif, uint8_t *op0, tmsize_t occ0, uint16_t s)
+- 
+-     if (sp->read_error)
+-     {
+-+        TIFFErrorExtR(tif, module,
+-+                      "LZWDecode: Scanline %" PRIu32 " cannot be read due to "
+-+                      "previous error",
+-+                      tif->tif_row);
+-         return 0;
+-     }
+- 
+-@@ -742,6 +746,7 @@ after_loop:
+-     return (1);
+- 
+- no_eoi:
+-+    sp->read_error = 1;
+-     TIFFErrorExtR(tif, module,
+-                   "LZWDecode: Strip %" PRIu32 " not terminated with EOI code",
+-                   tif->tif_curstrip);
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
+similarity index 90%
+rename from meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
+rename to meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
+index 2bde8fe9d6..1c0d54900a 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
+@@ -8,13 +8,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a3e32d664d6db1386b4689c8121531c3"
+ 
+ CVE_PRODUCT = "libtiff"
+ 
+-SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+-           file://CVE-2022-48281.patch \
+-           file://CVE-2023-2731.patch \
+-           file://CVE-2023-26965.patch \
+-"
++SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "c7a1d9296649233979fa3eacffef3fa024d73d05d589cb622727b5b08c423464"
++SRC_URI[sha256sum] = "d7f38b6788e4a8f5da7940c5ac9424f494d8a79eba53d555f4a507167dca5e2b"
+ 
+ # exclude betas
+ UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.39.2
 
 
---===============8022421498711532028==
+--===============8585670396922099613==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-tiff-upgrade-4.5.0-4.5.1.patch"
+
+RnJvbSBmOTM4MzIyYzliMTkzOWY4NzAzNWYwOTdmOWFiZDI0NzM1MmNhMTYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxNDoxNDoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRp
+ZmY6IHVwZ3JhZGUgNC41LjAgLT4gNC41LjEKCi0tLQogLi4uL2xpYnRpZmYvZmlsZXMvQ1ZFLTIw
+MjItNDgyODEucGF0Y2ggICAgICAgIHwgMjkgLS0tLS0tCiAuLi4vbGlidGlmZi9maWxlcy9DVkUt
+MjAyMy0yNjk2NS5wYXRjaCAgICAgICAgfCA5OSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vbGli
+dGlmZi9maWxlcy9DVkUtMjAyMy0yNzMxLnBhdGNoICAgICAgICAgfCAzOSAtLS0tLS0tLQogLi4u
+L2xpYnRpZmYve3RpZmZfNC41LjAuYmIgPT4gdGlmZl80LjUuMS5iYn0gIHwgIDggKy0KIDQgZmls
+ZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxNzMgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlidGlmZi9maWxlcy9DVkUtMjAyMi00
+ODI4MS5wYXRjaAogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xp
+YnRpZmYvZmlsZXMvQ1ZFLTIwMjMtMjY5NjUucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL2ZpbGVzL0NWRS0yMDIzLTI3MzEucGF0Y2gKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL3t0aWZmXzQuNS4wLmJiID0+IHRp
+ZmZfNC41LjEuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+bGlidGlmZi9maWxlcy9DVkUtMjAyMi00ODI4MS5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2xpYnRpZmYvZmlsZXMvQ1ZFLTIwMjItNDgyODEucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUg
+MTAwNjQ0CmluZGV4IGUzNTZkMzc3ZWEuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvbGlidGlmZi9maWxlcy9DVkUtMjAyMi00ODI4MS5wYXRjaAorKysgL2Rldi9udWxs
+CkBAIC0xLDI5ICswLDAgQEAKLUNWRTogQ1ZFLTIwMjItNDgyODEKLVVwc3RyZWFtLVN0YXR1czog
+QmFja3BvcnQKLVNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29t
+PgotCi1Gcm9tIDk3ZDY1ODU5YmMyOWVlMzM0MDEyZTljNzMwMjJkOGE4ZTU1ZWQ1ODYgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBTdSBMYXVzIDxzdWxhdUBmcmVlbmV0LmRlPgotRGF0
+ZTogU2F0LCAyMSBKYW4gMjAyMyAxNTo1ODoxMCArMDAwMAotU3ViamVjdDogW1BBVENIXSB0aWZm
+Y3JvcDogQ29ycmVjdCBzaW1wbGUgY29weSBwYXN0ZSBlcnJvci4gRml4ICM0ODguCi0KLS0tLQot
+IHRvb2xzL3RpZmZjcm9wLmMgfCAyICstCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS90b29scy90aWZmY3JvcC5jIGIvdG9vbHMv
+dGlmZmNyb3AuYwotaW5kZXggMTRmYTE4ZGEuLjdkYjY5ODgzIDEwMDY0NAotLS0tIGEvdG9vbHMv
+dGlmZmNyb3AuYwotKysrIGIvdG9vbHMvdGlmZmNyb3AuYwotQEAgLTg1OTEsNyArODU5MSw3IEBA
+IHN0YXRpYyBpbnQgcHJvY2Vzc0Nyb3BTZWxlY3Rpb25zKHN0cnVjdCBpbWFnZV9kYXRhICppbWFn
+ZSwKLSAgICAgICAgICAgICAgICAgICAgIGNyb3BzaXplICsgTlVNX0JVRkZfT1ZFUlNJWkVfQllU
+RVMpOwotICAgICAgICAgICAgIGVsc2UKLSAgICAgICAgICAgICB7Ci0tICAgICAgICAgICAgICAg
+IHByZXZfY3JvcHNpemUgPSBzZWdfYnVmZnNbMF0uc2l6ZTsKLSsgICAgICAgICAgICAgICAgcHJl
+dl9jcm9wc2l6ZSA9IHNlZ19idWZmc1tpXS5zaXplOwotICAgICAgICAgICAgICAgICBpZiAocHJl
+dl9jcm9wc2l6ZSA8IGNyb3BzaXplKQotICAgICAgICAgICAgICAgICB7Ci0gICAgICAgICAgICAg
+ICAgICAgICBuZXh0X2J1ZmYgPSBfVElGRnJlYWxsb2MoCi0tLSAKLUdpdExhYgotCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL2ZpbGVzL0NWRS0yMDIzLTI2OTY1
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlidGlmZi9maWxlcy9DVkUtMjAyMy0y
+Njk2NS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNWZkYzFlZDAxMy4uMDAw
+MDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL2ZpbGVzL0NWRS0y
+MDIzLTI2OTY1LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsOTkgKzAsMCBAQAotRnJvbSBlYzhl
+ZjkwYzFmNTczYzllYjFmMTdkNmEwNTZhYTAwMTVmMTg0YWNmIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQotRnJvbTogU3VfTGF1cyA8c3VsYXVAZnJlZW5ldC5kZT4KLURhdGU6IFR1ZSwgMTQgRmVi
+IDIwMjMgMjA6NDM6NDMgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gdGlmZmNyb3A6IERvIG5vdCBy
+ZXVzZSBpbnB1dCBidWZmZXIgZm9yIHN1YnNlcXVlbnQgaW1hZ2VzLgotIEZpeCBpc3N1ZSA1MjcK
+LQotUmV1c2Ugb2YgcmVhZF9idWZmIHdpdGhpbiBsb2FkSW1hZ2UoKSBmcm9tIHByZXZpb3VzIGlt
+YWdlIGlzIHF1aXRlIHVuc2FmZSwgYmVjYXVzZSBvdGhlciBmdW5jdGlvbnMgKGxpa2Ugcm90YXRl
+SW1hZ2UoKSBldGMuKSByZWFsbG9jYXRlIHRoYXQgYnVmZmVyIHdpdGggZGlmZmVyZW50IHNpemUg
+d2l0aG91dCB1cGRhdGluZyB0aGUgbG9jYWwgcHJldl9yZWFkc2l6ZSB2YWx1ZS4KLQotQ2xvc2Vz
+ICM1MjcKLQotQ1ZFOiBDVkUtMjAyMy0yNjk2NQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBb
+aHR0cHM6Ly9naXRsYWIuY29tL2xpYnRpZmYvbGlidGlmZi8tL2NvbW1pdC9lYzhlZjkwYzFmNTcz
+YzllYjFmMTdkNmEwNTZhYTAwMTVmMTg0YWNmXQotU2lnbmVkLW9mZi1ieTogTmF0YXNoYSBCYWls
+ZXkgPG5hdC5iYWlsZXlAd2luZHJpdmVyLmNvbT4KLS0tLQotIHRvb2xzL3RpZmZjcm9wLmMgfCA0
+NyArKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQotIDEgZmls
+ZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAzNCBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdp
+dCBhL3Rvb2xzL3RpZmZjcm9wLmMgYi90b29scy90aWZmY3JvcC5jCi1pbmRleCBkN2FkNWNhOC4u
+ZDNlMTFiYTIgMTAwNjQ0Ci0tLS0gYS90b29scy90aWZmY3JvcC5jCi0rKysgYi90b29scy90aWZm
+Y3JvcC5jCi1AQCAtNjc3MSw5ICs2NzcxLDcgQEAgc3RhdGljIGludCBsb2FkSW1hZ2UoVElGRiAq
+aW4sIHN0cnVjdCBpbWFnZV9kYXRhICppbWFnZSwgc3RydWN0IGR1bXBfb3B0cyAqZHVtcCwKLSAg
+ICAgdWludDMyX3QgdHcgPSAwLCB0bCA9IDA7IC8qIFRpbGUgd2lkdGggYW5kIGxlbmd0aCAqLwot
+ICAgICB0bXNpemVfdCB0aWxlX3Jvd3NpemUgPSAwOwotICAgICB1bnNpZ25lZCBjaGFyICpyZWFk
+X2J1ZmYgPSBOVUxMOwotLSAgICB1bnNpZ25lZCBjaGFyICpuZXdfYnVmZiA9IE5VTEw7Ci0gICAg
+IGludCByZWFkdW5pdCA9IDA7Ci0tICAgIHN0YXRpYyB0bXNpemVfdCBwcmV2X3JlYWRzaXplID0g
+MDsKLSAKLSAgICAgVElGRkdldEZpZWxkRGVmYXVsdGVkKGluLCBUSUZGVEFHX0JJVFNQRVJTQU1Q
+TEUsICZicHMpOwotICAgICBUSUZGR2V0RmllbGREZWZhdWx0ZWQoaW4sIFRJRkZUQUdfU0FNUExF
+U1BFUlBJWEVMLCAmc3BwKTsKLUBAIC03MDk3LDQzICs3MDk1LDI1IEBAIHN0YXRpYyBpbnQgbG9h
+ZEltYWdlKFRJRkYgKmluLCBzdHJ1Y3QgaW1hZ2VfZGF0YSAqaW1hZ2UsIHN0cnVjdCBkdW1wX29w
+dHMgKmR1bXAsCi0gICAgIH0KLSAKLSAgICAgcmVhZF9idWZmID0gKnJlYWRfcHRyOwotLSAgICAv
+KiArMyA6IGFkZCBhIGZldyBndWFyZCBieXRlcyBzaW5jZSByZXZlcnNlU2FtcGxlczE2Yml0cygp
+IGNhbiByZWFkIGEgYml0ICovCi0tICAgIC8qIG91dHNpZGUgYnVmZmVyICovCi0tICAgIGlmICgh
+cmVhZF9idWZmKQotKyAgICAvKiArMyA6IGFkZCBhIGZldyBndWFyZCBieXRlcyBzaW5jZSByZXZl
+cnNlU2FtcGxlczE2Yml0cygpIGNhbiByZWFkIGEgYml0Ci0rICAgICAqIG91dHNpZGUgYnVmZmVy
+ICovCi0rICAgIC8qIFJldXNlIG9mIHJlYWRfYnVmZiBmcm9tIHByZXZpb3VzIGltYWdlIGlzIHF1
+aXRlIHVuc2FmZSwgYmVjYXVzZSBvdGhlcgotKyAgICAgKiBmdW5jdGlvbnMgKGxpa2Ugcm90YXRl
+SW1hZ2UoKSBldGMuKSByZWFsbG9jYXRlIHRoYXQgYnVmZmVyIHdpdGggZGlmZmVyZW50Ci0rICAg
+ICAqIHNpemUgd2l0aG91dCB1cGRhdGluZyB0aGUgbG9jYWwgcHJldl9yZWFkc2l6ZSB2YWx1ZS4g
+Ki8KLSsgICAgaWYgKHJlYWRfYnVmZikKLSAgICAgewotLSAgICAgICAgaWYgKGJ1ZmZzaXplID4g
+MHhGRkZGRkZGRlUgLSAzKQotLSAgICAgICAgewotLSAgICAgICAgICAgIFRJRkZFcnJvcigibG9h
+ZEltYWdlIiwgIlVuYWJsZSB0byBhbGxvY2F0ZS9yZWFsbG9jYXRlIHJlYWQgYnVmZmVyIik7Ci0t
+ICAgICAgICAgICAgcmV0dXJuICgtMSk7Ci0tICAgICAgICB9Ci0tICAgICAgICByZWFkX2J1ZmYg
+PQotLSAgICAgICAgICAgICh1bnNpZ25lZCBjaGFyICopbGltaXRNYWxsb2MoYnVmZnNpemUgKyBO
+VU1fQlVGRl9PVkVSU0laRV9CWVRFUyk7Ci0rICAgICAgICBfVElGRmZyZWUocmVhZF9idWZmKTsK
+LSAgICAgfQotLSAgICBlbHNlCi0rICAgIGlmIChidWZmc2l6ZSA+IDB4RkZGRkZGRkZVIC0gMykK
+LSAgICAgewotLSAgICAgICAgaWYgKHByZXZfcmVhZHNpemUgPCBidWZmc2l6ZSkKLS0gICAgICAg
+IHsKLS0gICAgICAgICAgICBpZiAoYnVmZnNpemUgPiAweEZGRkZGRkZGVSAtIDMpCi0tICAgICAg
+ICAgICAgewotLSAgICAgICAgICAgICAgICBUSUZGRXJyb3IoImxvYWRJbWFnZSIsCi0tICAgICAg
+ICAgICAgICAgICAgICAgICAgICAiVW5hYmxlIHRvIGFsbG9jYXRlL3JlYWxsb2NhdGUgcmVhZCBi
+dWZmZXIiKTsKLS0gICAgICAgICAgICAgICAgcmV0dXJuICgtMSk7Ci0tICAgICAgICAgICAgfQot
+LSAgICAgICAgICAgIG5ld19idWZmID0KLS0gICAgICAgICAgICAgICAgX1RJRkZyZWFsbG9jKHJl
+YWRfYnVmZiwgYnVmZnNpemUgKyBOVU1fQlVGRl9PVkVSU0laRV9CWVRFUyk7Ci0tICAgICAgICAg
+ICAgaWYgKCFuZXdfYnVmZikKLS0gICAgICAgICAgICB7Ci0tICAgICAgICAgICAgICAgIGZyZWUo
+cmVhZF9idWZmKTsKLS0gICAgICAgICAgICAgICAgcmVhZF9idWZmID0gKHVuc2lnbmVkIGNoYXIg
+KilsaW1pdE1hbGxvYygKLS0gICAgICAgICAgICAgICAgICAgIGJ1ZmZzaXplICsgTlVNX0JVRkZf
+T1ZFUlNJWkVfQllURVMpOwotLSAgICAgICAgICAgIH0KLS0gICAgICAgICAgICBlbHNlCi0tICAg
+ICAgICAgICAgICAgIHJlYWRfYnVmZiA9IG5ld19idWZmOwotLSAgICAgICAgfQotKyAgICAgICAg
+VElGRkVycm9yKCJsb2FkSW1hZ2UiLCAiUmVxdWlyZWQgcmVhZCBidWZmZXIgc2l6ZSB0b28gbGFy
+Z2UiKTsKLSsgICAgICAgIHJldHVybiAoLTEpOwotICAgICB9Ci0rICAgIHJlYWRfYnVmZiA9Ci0r
+ICAgICAgICAodW5zaWduZWQgY2hhciAqKWxpbWl0TWFsbG9jKGJ1ZmZzaXplICsgTlVNX0JVRkZf
+T1ZFUlNJWkVfQllURVMpOwotICAgICBpZiAoIXJlYWRfYnVmZikKLSAgICAgewotLSAgICAgICAg
+VElGRkVycm9yKCJsb2FkSW1hZ2UiLCAiVW5hYmxlIHRvIGFsbG9jYXRlL3JlYWxsb2NhdGUgcmVh
+ZCBidWZmZXIiKTsKLSsgICAgICAgIFRJRkZFcnJvcigibG9hZEltYWdlIiwgIlVuYWJsZSB0byBh
+bGxvY2F0ZSByZWFkIGJ1ZmZlciIpOwotICAgICAgICAgcmV0dXJuICgtMSk7Ci0gICAgIH0KLSAK
+LUBAIC03MTQxLDcgKzcxMjEsNiBAQCBzdGF0aWMgaW50IGxvYWRJbWFnZShUSUZGICppbiwgc3Ry
+dWN0IGltYWdlX2RhdGEgKmltYWdlLCBzdHJ1Y3QgZHVtcF9vcHRzICpkdW1wLAotICAgICByZWFk
+X2J1ZmZbYnVmZnNpemUgKyAxXSA9IDA7Ci0gICAgIHJlYWRfYnVmZltidWZmc2l6ZSArIDJdID0g
+MDsKLSAKLS0gICAgcHJldl9yZWFkc2l6ZSA9IGJ1ZmZzaXplOwotICAgICAqcmVhZF9wdHIgPSBy
+ZWFkX2J1ZmY7Ci0gCi0gICAgIC8qIE4uQi4gVGhlIHJlYWQgZnVuY3Rpb25zIHVzZWQgY29weSBz
+ZXBhcmF0ZSBwbGFuZSBkYXRhIGludG8gYSBidWZmZXIgYXMKLS0tIAotMi4zOS4wCi0KZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnRpZmYvZmlsZXMvQ1ZFLTIwMjMtMjcz
+MS5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnRpZmYvZmlsZXMvQ1ZFLTIwMjMt
+MjczMS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggN2RiMGEzNWY3Mi4uMDAw
+MDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL2ZpbGVzL0NWRS0y
+MDIzLTI3MzEucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzOSArMCwwIEBACi1Gcm9tIDliZTIy
+YjYzOWVhNjllMTAyZDM4NDdkY2E0YzUzZWYwMjVlOTUyN2IgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCi1Gcm9tOiBFdmVuIFJvdWF1bHQgPGV2ZW4ucm91YXVsdEBzcGF0aWFseXMuY29tPgotRGF0
+ZTogU2F0LCAyOSBBcHIgMjAyMyAxMjoyMDo0NiArMDIwMAotU3ViamVjdDogW1BBVENIXSBMWldE
+ZWNvZGUoKTogYXZvaWQgY3Jhc2ggd2hlbiB0cnlpbmcgdG8gcmVhZCBhZ2FpbiBmcm9tIGEKLSBz
+dHJpcCB3aGl0aCBhIG1pc3NpbmcgZW5kLW9mLWluZm9ybWF0aW9uIG1hcmtlciAoZml4ZXMgIzU0
+OCkKLQotQ1ZFOiBDVkUtMjAyMy0yNzMxCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRw
+czovL2dpdGxhYi5jb20vbGlidGlmZi9saWJ0aWZmLy0vY29tbWl0LzliZTIyYjYzOWVhNjllMTAy
+ZDM4NDdkY2E0YzUzZWYwMjVlOTUyN2JdCi0KLS0tLQotIGxpYnRpZmYvdGlmX2x6dy5jIHwgNSAr
+KysrKwotIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKLQotZGlmZiAtLWdpdCBhL2xp
+YnRpZmYvdGlmX2x6dy5jIGIvbGlidGlmZi90aWZfbHp3LmMKLWluZGV4IGJhNzVhMDdlLi5kNjMx
+ZmExMCAxMDA2NDQKLS0tLSBhL2xpYnRpZmYvdGlmX2x6dy5jCi0rKysgYi9saWJ0aWZmL3RpZl9s
+encuYwotQEAgLTQyMyw2ICs0MjMsMTAgQEAgc3RhdGljIGludCBMWldEZWNvZGUoVElGRiAqdGlm
+LCB1aW50OF90ICpvcDAsIHRtc2l6ZV90IG9jYzAsIHVpbnQxNl90IHMpCi0gCi0gICAgIGlmIChz
+cC0+cmVhZF9lcnJvcikKLSAgICAgewotKyAgICAgICAgVElGRkVycm9yRXh0Uih0aWYsIG1vZHVs
+ZSwKLSsgICAgICAgICAgICAgICAgICAgICAgIkxaV0RlY29kZTogU2NhbmxpbmUgJSIgUFJJdTMy
+ICIgY2Fubm90IGJlIHJlYWQgZHVlIHRvICIKLSsgICAgICAgICAgICAgICAgICAgICAgInByZXZp
+b3VzIGVycm9yIiwKLSsgICAgICAgICAgICAgICAgICAgICAgdGlmLT50aWZfcm93KTsKLSAgICAg
+ICAgIHJldHVybiAwOwotICAgICB9Ci0gCi1AQCAtNzQyLDYgKzc0Niw3IEBAIGFmdGVyX2xvb3A6
+Ci0gICAgIHJldHVybiAoMSk7Ci0gCi0gbm9fZW9pOgotKyAgICBzcC0+cmVhZF9lcnJvciA9IDE7
+Ci0gICAgIFRJRkZFcnJvckV4dFIodGlmLCBtb2R1bGUsCi0gICAgICAgICAgICAgICAgICAgIkxa
+V0RlY29kZTogU3RyaXAgJSIgUFJJdTMyICIgbm90IHRlcm1pbmF0ZWQgd2l0aCBFT0kgY29kZSIs
+Ci0gICAgICAgICAgICAgICAgICAgdGlmLT50aWZfY3Vyc3RyaXApOwotLS0gCi0yLjM0LjEKLQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlidGlmZi90aWZmXzQuNS4wLmJi
+IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlidGlmZi90aWZmXzQuNS4xLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnRpZmYv
+dGlmZl80LjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlidGlmZi90
+aWZmXzQuNS4xLmJiCmluZGV4IDJiZGU4ZmU5ZDYuLjFjMGQ1NDkwMGEgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnRpZmYvdGlmZl80LjUuMC5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9saWJ0aWZmL3RpZmZfNC41LjEuYmIKQEAgLTgsMTMgKzgsOSBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT1hM2UzMmQ2NjRkNmRiMTM4
+NmI0Njg5YzgxMjE1MzFjMyIKIAogQ1ZFX1BST0RVQ1QgPSAibGlidGlmZiIKIAotU1JDX1VSSSA9
+ICJodHRwOi8vZG93bmxvYWQub3NnZW8ub3JnL2xpYnRpZmYvdGlmZi0ke1BWfS50YXIuZ3ogXAot
+ICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjItNDgyODEucGF0Y2ggXAotICAgICAgICAgICBmaWxl
+Oi8vQ1ZFLTIwMjMtMjczMS5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyMy0yNjk2
+NS5wYXRjaCBcCi0iCitTUkNfVVJJID0gImh0dHA6Ly9kb3dubG9hZC5vc2dlby5vcmcvbGlidGlm
+Zi90aWZmLSR7UFZ9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM3YTFkOTI5NjY0
+OTIzMzk3OWZhM2VhY2ZmZWYzZmEwMjRkNzNkMDVkNTg5Y2I2MjI3MjdiNWIwOGM0MjM0NjQiCitT
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZDdmMzhiNjc4OGU0YThmNWRhNzk0MGM1YWM5NDI0ZjQ5NGQ4
+YTc5ZWJhNTNkNTU1ZjRhNTA3MTY3ZGNhNWUyYiIKIAogIyBleGNsdWRlIGJldGFzCiBVUFNUUkVB
+TV9DSEVDS19SRUdFWCA9ICJ0aWZmLSg/UDxwdmVyPlxkKyhcLlxkKykrKS50YXIiCi0tIAoyLjM5
+LjIKCg==
+
+--===============8585670396922099613==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpmux.so.3.0.11 /usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0.0.0 /usr/lib/libwebp.so.7.1.6", added "/usr/lib/libwebpmux.so.3.0.12 /usr/lib/libsharpyuv.so.0.0.1 /usr/lib/libwebpdemux.so.2.0.13 /usr/lib/libwebp.so.7.1.7"
-Changes to packages/core2-32-poky-linux/libwebp (sysroot):
-  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
-  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
-  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
-  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
-  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
-  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
-  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
-  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
-  /usr/lib/libsharpyuv.so.0.0.0 moved to /usr/lib/libsharpyuv.so.0.0.1
-  /usr/lib/libwebpdemux.so.2.0.12 moved to /usr/lib/libwebpdemux.so.2.0.13
-  /usr/lib/libwebpmux.so.3.0.11 moved to /usr/lib/libwebpmux.so.3.0.12
-  /usr/lib/libwebp.so.7.1.6 moved to /usr/lib/libwebp.so.7.1.7
+Changes to packages/core2-32-poky-linux/tiff (sysroot):
+  /usr/lib/libtiff.so.6 changed symlink target from libtiff.so.6.0.0 to libtiff.so.6.0.1
+  /usr/lib/libtiff.so changed symlink target from libtiff.so.6.0.0 to libtiff.so.6.0.1
+  /usr/lib/libtiffxx.so.6 changed symlink target from libtiffxx.so.6.0.0 to libtiffxx.so.6.0.1
+  /usr/lib/libtiffxx.so changed symlink target from libtiffxx.so.6.0.0 to libtiffxx.so.6.0.1
+  /usr/lib/libtiff.so.6.0.0 moved to /usr/lib/libtiff.so.6.0.1
+  /usr/lib/libtiffxx.so.6.0.0 moved to /usr/lib/libtiffxx.so.6.0.1
+packages/core2-32-poky-linux/tiff/tiff-doc: FILELIST: directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/project -> /usr/share/doc/tiff-4.5.1/manual/_sources/project, directory renamed /usr/share/doc/tiff-4.5.0 -> /usr/share/doc/tiff-4.5.1, directory renamed /usr/share/doc/tiff-4.5.0/manual/tools -> /usr/share/doc/tiff-4.5.1/manual/tools, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/tools -> /usr/share/doc/tiff-4.5.1/manual/_sources/tools, directory renamed /usr/share/doc/tiff-4.5.0/manual/_images -> /usr/share/doc/tiff-4.5.1/manual/_images, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/functions -> /usr/share/doc/tiff-4.5.1/manual/_sources/functions, directory renamed /usr/share/doc/tiff-4.5.0/manual/functions -> /usr/share/doc/tiff-4.5.1/manual/functions, directory renamed /usr/share/doc/tiff-4.5.0/manual/project -> /usr/share/doc/tiff-4.5.1/manual/project, directory renamed /usr/share/doc/tiff-4.5.0/manual/specification -> /usr/share/doc/tiff-
+ 4.5.1/manual/specification, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/specification -> /usr/share/doc/tiff-4.5.1/manual/_sources/specification, removed "/usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.4beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.7.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.7.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0beta2.html /usr/share/doc/tiff-4.5.0/manual/_sources/addingtags.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/historical.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/sphinxdoc.css /usr/share/doc/tiff-4.5.0/manual/addingtags.html /usr/share/doc/tiff-4.5.0/manual/_static/documentation_options.js /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.4.rst.txt 
+ /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.6.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.7.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.8.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.9.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.1.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.2.0.html /usr/share/doc/tiff-4.5.0/manual/_static/language_data.js /usr/share/doc/tiff-4.5.0/manual/functions.html /usr/share/doc/tiff-4.5.0/manual/images.html /usr/share/doc/tiff-4.5.0/manual/search.html /usr/share/doc/tiff-4.5.0/manual/releases/historical.html /usr/share/doc/tiff-4.5.0/manual/.buildinfo /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.9.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/_sphinx_javascript_frameworks_compat.js /usr/share/d
+ oc/tiff-4.5.0/manual/_sources/internals.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/functions.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v4.5.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.7.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.6.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.6.1.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.6.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.10.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta029.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta031.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta031.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta032.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta007.rst.txt /usr/
+ share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta016.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/index.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta018.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta024.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta028.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta029.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/build.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/terms.rst.txt /usr/share/doc/tiff-4.5.0/manual/searchindex.js /usr/share/doc/tiff-4.5.0/manual/_sources/libtiff.rst.txt /usr/share/doc/tiff-4.5.0/manual/contrib.html /usr/share/doc/tiff-4.5.0/manual/build.html /usr/share/doc/tiff-4.5.0/manual/terms.html /usr/share/doc/tiff-4.5.0/manual/tools.html /usr/share/doc/tiff-4.5.0/manual/_sources/images.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/index.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0beta2.rst.txt /u
+ sr/share/doc/tiff-4.5.0/manual/_static/searchtools.js /usr/share/doc/tiff-4.5.0/manual/_static/jquery-3.6.0.js /usr/share/doc/tiff-4.5.0/manual/_static/underscore.js /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0alpha.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.6beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.10.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.4.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.5.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.6.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.1.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.2.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources
+ /releases/v4.3.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/index.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.8.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/navigation.png /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.6.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.1.html /usr/share/doc/tiff-4.5.0/manual/_static/underscore-1.13.1.js /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.8.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.8.1.html /usr/share/doc/
+ tiff-4.5.0/manual/releases/v3.8.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.0.html /usr/share/doc/tiff-4.5.0/manual/objects.inv /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/minus.png /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta032.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta033.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta034.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta035.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta036.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta007.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta016.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta018.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta024.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta028.html /usr/share/doc/tiff-
+ 4.5.0/manual/_sources/releases/v3.5.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.3.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.4.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.3.html /usr/share/doc/tiff-4.5.0/manual/_static/jquery.js /usr/share/doc/tiff-4.5.0/manual/internals.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.6
+ beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.0beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.4beta.html /usr/share/doc/tiff-4.5.0/manual/libtiff.html /usr/share/doc/tiff-4.5.0/manual/index.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta033.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta034.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta035.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta036.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.0beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/doctools.js /usr/share/doc/tiff-4.5.0/manual/_static/pygments.css /usr/share/doc/tiff-4.5.0/manual/_static/contents.png /usr/share/doc/tiff-4.5.0/manual/_sources/contrib.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0alpha.rst.txt /usr/shar
+ e/doc/tiff-4.5.0/manual/_sources/releases/v3.5.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/basic.css /usr/share/doc/tiff-4.5.0/manual/_static/file.png /usr/share/doc/tiff-4.5.0/manual/_static/plus.png /usr/share/doc/tiff-4.5.0/manual/_static/sphinx_highlight.js /usr/share/doc/tiff-4.5.0/manual/_sources/tools.rst.txt /usr/share/doc/tiff-4.5.0/manual/genindex.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.1.html", added "/usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.6.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/images.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.4beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.0beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0beta.rst.txt /usr/share/doc/tiff-4.5.1/manua
+ l/releases/v3.4beta032.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta033.html /usr/share/doc/tiff-4.5.1/manual/_static/contents.png /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0alpha.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/file.png /usr/share/doc/tiff-4.5.1/manual/_static/plus.png /usr/share/doc/tiff-4.5.1/manual/_sources/multi_page.rst.txt /usr/share/doc/tiff-4.5.1/manual/genindex.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/index.html /usr/share/doc/tiff-4.5.1/manual/_static/language_data.js /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.8.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta034.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta035.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta036.html /usr/share/doc/tiff-4.5.1
+ /manual/releases/v3.4beta007.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta016.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta018.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta024.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta028.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta029.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta031.html /usr/share/doc/tiff-4.5.1/manual/_sources/libtiff.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.5.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.1.html /usr/share/doc/tiff-4.5.1/manual/contrib.html /usr/share/doc/tiff-4.5.1/manual/addingtags.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.5.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.6.0.rst.txt 
+ /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.8.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.1.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.2.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/sphinx_highlight.js /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.4.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta028.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta029.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta031.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta034.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta035.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta036.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releas
+ es/v3.4beta007.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta016.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta018.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta024.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.7.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.7.rst.txt /usr/share/doc/tiff-4.5.1/manual/functions.html /usr/share/doc/tiff-4.5.1/manual/_sources/internals.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/build.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/index.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/terms.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/tools.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/historical.html /usr/share/doc/tiff-4.5.1/manual/_static/sphinxdoc.css /usr/share/doc/tiff-4.5.1/manual/build.html /usr/share/doc/tiff-4.5.1/manual/multi_page.html /usr/share/doc/tiff-4.5.1/manual/terms.html /usr/share/doc/tiff-4.5.1/manual/tools.html /us
+ r/share/doc/tiff-4.5.1/manual/_sources/releases/v4.3.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/functions.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/navigation.png /usr/share/doc/tiff-4.5.1/manual/_static/basic.css /usr/share/doc/tiff-4.5.1/manual/_static/searchtools.js /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0alpha.html /usr/share/doc/tiff-4.5.1/manual/images.html /usr/share/doc/tiff-4.5.1/manual/search.html /usr/share/doc/tiff-4.5.1/manual/searchindex.js /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0beta2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.8.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.9.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/minus.
+ png /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.10.html /usr/share/doc/tiff-4.5.1/manual/internals.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.5.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.7.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.6beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/addingtags.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.10.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/pygments.css /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.5.1.rst.txt /usr/share/doc/tiff-
+ 4.5.1/manual/_sources/releases/v3.6.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.8.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/index.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta032.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/contrib.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta033.rst.txt /usr/share/doc/tiff-4.5.1/manual/objects.inv /usr/share/doc/tiff-4.5.1/manual/.buildinfo /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.6beta.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0beta.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.0beta.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.4beta.html /usr/share/doc/tiff-4.5.1/manual/_static/documentation_options.js /usr/share/doc/tiff-4.5.1/manual/re
+ leases/v3.6.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.6.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.5.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.6.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.7.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.8.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.9.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.1.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.2.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.3.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.4.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.5.0.html /usr/share/doc/tiff-4.5.1/manual/libtiff.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.4.rst.txt /usr/share/doc/tiff-
+ 4.5.1/manual/_sources/releases/historical.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/doctools.js /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0beta2.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.5.html /usr/share/doc/tiff-4.5.1/manual/index.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4
+ .0.3.rst.txt"
+packages/core2-32-poky-linux/tiff/tiff: FILELIST: removed "/usr/lib/libtiff.so.6.0.0", added "/usr/lib/libtiff.so.6.0.1"
+packages/core2-32-poky-linux/tiff/tiffxx: FILELIST: removed "/usr/lib/libtiffxx.so.6.0.0", added "/usr/lib/libtiffxx.so.6.0.1"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1573,53 +1879,69 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============8022421498711532028==
+--===============8585670396922099613==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libwebp: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp: SRC_URI changed from "http://downloads.webmproject.org/releases/webp/libwebp-1.3.0.tar.gz file://CVE-2023-1999.patch" to "http://downloads.webmproject.org/releases/webp/libwebp-1.3.1.tar.gz"
-packages/core2-32-poky-linux/libwebp/libwebp-bin: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGSIZE changed from 179320 to 183416 (+2%)
-packages/core2-32-poky-linux/libwebp/libwebp-dbg: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-dbg: FILELIST: removed "/usr/lib/.debug/libwebpmux.so.3.0.11 /usr/lib/.debug/libwebp.so.7.1.6 /usr/lib/.debug/libsharpyuv.so.0.0.0 /usr/lib/.debug/libwebpdemux.so.2.0.12", added "/usr/lib/.debug/libwebp.so.7.1.7 /usr/lib/.debug/libwebpmux.so.3.0.12 /usr/lib/.debug/libwebpdemux.so.2.0.13 /usr/lib/.debug/libsharpyuv.so.0.0.1"
-packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGSIZE changed from 3233768 to 3242368 (+0%)
-packages/core2-32-poky-linux/libwebp/libwebp-dev: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGSIZE changed from 103055 to 103150 (+0%)
-packages/core2-32-poky-linux/libwebp/libwebp-doc: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGSIZE changed from 29848 to 30446 (+2%)
-packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-locale: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-locale: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-src: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-src: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp-src: PKGSIZE changed from 2899151 to 2908610 (+0%)
-packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp: PV changed from "1.3.0" to "1.3.1"
-packages/core2-32-poky-linux/libwebp/libwebp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0.0.0 /usr/lib/libwebp.so.7.1.6 /usr/lib/libwebpmux.so.3.0.11", added "/usr/lib/libwebpdemux.so.2.0.13 /usr/lib/libsharpyuv.so.0.0.1 /usr/lib/libwebpmux.so.3.0.12 /usr/lib/libwebp.so.7.1.7"
-Changes to packages/core2-32-poky-linux/libwebp (sysroot):
-  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
-  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
-  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
-  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
-  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
-  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
-  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
-  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
-  /usr/lib/libsharpyuv.so.0.0.0 moved to /usr/lib/libsharpyuv.so.0.0.1
-  /usr/lib/libwebpdemux.so.2.0.12 moved to /usr/lib/libwebpdemux.so.2.0.13
-  /usr/lib/libwebpmux.so.3.0.11 moved to /usr/lib/libwebpmux.so.3.0.12
-  /usr/lib/libwebp.so.7.1.6 moved to /usr/lib/libwebp.so.7.1.7
+packages/core2-32-poky-linux/tiff: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff: SRC_URI changed from "http://download.osgeo.org/libtiff/tiff-4.5.0.tar.gz file://CVE-2022-48281.patch file://CVE-2023-2731.patch file://CVE-2023-26965.patch" to "http://download.osgeo.org/libtiff/tiff-4.5.1.tar.gz"
+packages/core2-32-poky-linux/tiff: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+Changes to packages/core2-32-poky-linux/tiff (sysroot):
+  /usr/lib/libtiff.so.6 changed symlink target from libtiff.so.6.0.0 to libtiff.so.6.0.1
+  /usr/lib/libtiff.so changed symlink target from libtiff.so.6.0.0 to libtiff.so.6.0.1
+  /usr/lib/libtiffxx.so.6 changed symlink target from libtiffxx.so.6.0.0 to libtiffxx.so.6.0.1
+  /usr/lib/libtiffxx.so changed symlink target from libtiffxx.so.6.0.0 to libtiffxx.so.6.0.1
+  /usr/lib/libtiff.so.6.0.0 moved to /usr/lib/libtiff.so.6.0.1
+  /usr/lib/libtiffxx.so.6.0.0 moved to /usr/lib/libtiffxx.so.6.0.1
+packages/core2-32-poky-linux/tiff/tiff-dbg: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-dbg: PKGSIZE changed from 2177756 to 2180984 (+0%)
+packages/core2-32-poky-linux/tiff/tiff-dbg: FILELIST: removed "/usr/lib/.debug/libtiff.so.6.0.0 /usr/lib/.debug/libtiffxx.so.6.0.0", added "/usr/lib/.debug/libtiff.so.6.0.1 /usr/lib/.debug/libtiffxx.so.6.0.1"
+packages/core2-32-poky-linux/tiff/tiff-dbg: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-dev: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-dev: PKGSIZE changed from 93362 to 95606 (+2%)
+packages/core2-32-poky-linux/tiff/tiff-dev: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-doc: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-doc: PKGSIZE changed from 5477418 to 5141657 (-6%)
+packages/core2-32-poky-linux/tiff/tiff-doc: FILELIST: directory renamed /usr/share/doc/tiff-4.5.0 -> /usr/share/doc/tiff-4.5.1, directory renamed /usr/share/doc/tiff-4.5.0/manual/project -> /usr/share/doc/tiff-4.5.1/manual/project, directory renamed /usr/share/doc/tiff-4.5.0/manual/functions -> /usr/share/doc/tiff-4.5.1/manual/functions, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/functions -> /usr/share/doc/tiff-4.5.1/manual/_sources/functions, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/tools -> /usr/share/doc/tiff-4.5.1/manual/_sources/tools, directory renamed /usr/share/doc/tiff-4.5.0/manual/tools -> /usr/share/doc/tiff-4.5.1/manual/tools, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/project -> /usr/share/doc/tiff-4.5.1/manual/_sources/project, directory renamed /usr/share/doc/tiff-4.5.0/manual/_images -> /usr/share/doc/tiff-4.5.1/manual/_images, directory renamed /usr/share/doc/tiff-4.5.0/manual/_sources/specification -> /usr/share/
+ doc/tiff-4.5.1/manual/_sources/specification, directory renamed /usr/share/doc/tiff-4.5.0/manual/specification -> /usr/share/doc/tiff-4.5.1/manual/specification, removed "/usr/share/doc/tiff-4.5.0/manual/index.html /usr/share/doc/tiff-4.5.0/manual/_sources/functions.rst.txt /usr/share/doc/tiff-4.5.0/manual/addingtags.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0beta2.html /usr/share/doc/tiff-4.5.0/manual/_static/doctools.js /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.0beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/navigation.png /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.3.rst.txt /usr/share/doc/tiff-4.5.0/manual/objects.inv /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0alpha.ht
+ ml /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.1.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.2.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.3.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.6.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.4.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.8.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0alpha.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/jquery.js /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta031.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta032.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta033.html /usr/share/doc/tiff-4.5.0/manual/_s
+ ources/internals.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/minus.png /usr/share/doc/tiff-4.5.0/manual/genindex.html /usr/share/doc/tiff-4.5.0/manual/_static/underscore-1.13.1.js /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.6.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.1.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/underscore.js /usr/share/doc/tiff-4.5.0/manual/releases/v3.8.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.4.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.5.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.7.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.4.html /usr/share/doc/tiff-4.5.0/manual/rele
+ ases/v3.5.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.6.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.7.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.9.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/images.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta034.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta035.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta036.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta007.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta018.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta024.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta028.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta029.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta031.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4b
+ eta032.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.6.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/libtiff.rst.txt /usr/share/doc/tiff-4.5.0/manual/libtiff.html /usr/share/doc/tiff-4.5.0/manual/releases/historical.html /usr/share/doc/tiff-4.5.0/manual/releases/index.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.6.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.6.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.8.0.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.7.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.7.rst.txt /usr/share/doc/tiff-4.5.0/man
+ ual/_sources/releases/v3.4beta016.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.4beta033.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/language_data.js /usr/share/doc/tiff-4.5.0/manual/build.html /usr/share/doc/tiff-4.5.0/manual/terms.html /usr/share/doc/tiff-4.5.0/manual/tools.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.4beta.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/sphinxdoc.css /usr/share/doc/tiff-4.5.0/manual/_static/_sphinx_javascript_frameworks_compat.js /usr/share/doc/tiff-4.5.0/manual/_static/jquery-3.6.0.js /usr/share/doc/tiff-4.5.0/manual/_static/searchtools.js /usr/share/doc/tiff-4.5.0/manual/_sources/addingtags.rst.txt /usr/share/doc/tiff-4.5.0/manual/functions.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta034.html /usr/shar
+ e/doc/tiff-4.5.0/manual/releases/v3.4beta035.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta036.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.4.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta007.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta016.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta018.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta024.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta028.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.4beta029.html /usr/share/doc/tiff-4.5.0/manual/.buildinfo /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.0beta2.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.3.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/index.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.4.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.6beta.rst.txt /u
+ sr/share/doc/tiff-4.5.0/manual/releases/v4.0.8.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.9.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.1.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.2.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.3.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.8.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.0.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.1.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.2.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.3.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.4.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.5.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.0.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.5.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/contents.png /usr/share/doc/tiff-4.5.0/manual/images.html 
+ /usr/share/doc/tiff-4.5.0/manual/search.html /usr/share/doc/tiff-4.5.0/manual/searchindex.js /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.10.html /usr/share/doc/tiff-4.5.0/manual/_static/file.png /usr/share/doc/tiff-4.5.0/manual/_static/plus.png /usr/share/doc/tiff-4.5.0/manual/_static/documentation_options.js /usr/share/doc/tiff-4.5.0/manual/internals.html /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.5.0.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.10.rst.txt /usr/share/doc/tiff-4.5.0/manual/releases/v3.5.6beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.7.0beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v3.9.0beta.html /usr/share/doc/tiff-4.5.0/manual/releases/v4.0.4beta.html /usr/share/doc/tiff-4.5.0/manual/contrib.html /usr/share/doc/tiff-4.5.0/manual/_static/sphinx_highlight.js /usr/share/doc/tiff-4.5.0/manual/_sources/contrib.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/build.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/index.r
+ st.txt /usr/share/doc/tiff-4.5.0/manual/_sources/terms.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/tools.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/historical.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/pygments.css /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.5.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.7.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.8.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v3.9.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_sources/releases/v4.0.2.rst.txt /usr/share/doc/tiff-4.5.0/manual/_static/basic.css", added "/usr/share/doc/tiff-4.5.1/manual/libtiff.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.9.rst.txt /usr/share/doc/tiff-4.5.1/manual/searchindex.js /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.4beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0alpha.html /usr/share/doc/tiff-4.5.1/manual/_static/minus.png /usr/share/doc/tiff-4.5.
+ 1/manual/_static/basic.css /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.0beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/navigation.png /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.8.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.5.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.8.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.6.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.1.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/historical.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.6beta.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0beta.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.0beta.html /u
+ sr/share/doc/tiff-4.5.1/manual/releases/v4.0.4beta.html /usr/share/doc/tiff-4.5.1/manual/_sources/contrib.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/multi_page.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.8.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.1.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.2.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.3.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.4.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.5.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.6.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.10.html /usr/share/doc/tiff-4.5.1/manual/_static/pygments.css /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta031.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releas
+ es/v3.4beta007.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta016.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta018.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta024.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta028.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta029.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta032.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta033.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/internals.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0beta2.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.7.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.7.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.10.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.2.rst.txt /usr/share/doc/tiff-4.5.1/m
+ anual/_sources/releases/v3.8.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0alpha.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/sphinxdoc.css /usr/share/doc/tiff-4.5.1/manual/.buildinfo /usr/share/doc/tiff-4.5.1/manual/_static/documentation_options.js /usr/share/doc/tiff-4.5.1/manual/index.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.6.rst.txt /usr/share/doc/tiff-4.5.1/manual/genindex.html /usr/share/doc/tiff-4.5.1/manual/_sources/images.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta028.html /usr/share/doc/tiff-4.5.1/manual/contrib.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta029.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta031.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta032.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta033.html /usr/share/doc/tiff-4.5.1/manual/re
+ leases/v3.4beta034.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.5.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.6.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.7.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.8.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.0.9.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.6beta.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.5.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/historical.html /usr/share/doc/tiff-4.5.1/manual/multi_page.html /usr/share/doc/tiff-4.5.1/manual/_static/language_data.js 
+ /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.5.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.7.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.6.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.6.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta035.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta036.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta007.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta016.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta018.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.4beta024.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.4.rst.txt /usr/share/do
+ c/tiff-4.5.1/manual/_sources/releases/v4.0.4.rst.txt /usr/share/doc/tiff-4.5.1/manual/addingtags.html /usr/share/doc/tiff-4.5.1/manual/_sources/build.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/index.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/terms.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/tools.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/searchtools.js /usr/share/doc/tiff-4.5.1/manual/objects.inv /usr/share/doc/tiff-4.5.1/manual/_sources/libtiff.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.5.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.7.4.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.8.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.9.0.html /usr/share/doc/tiff-4.5.1/
+ manual/releases/v3.9.1.html /usr/share/doc/tiff-4.5.1/manual/_static/file.png /usr/share/doc/tiff-4.5.1/manual/_static/plus.png /usr/share/doc/tiff-4.5.1/manual/functions.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.5.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v4.0.3.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/contents.png /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta034.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta035.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.4beta036.rst.txt /usr/share/doc/tiff-4.5.1/manual/_static/doctools.js /usr/share/doc/tiff-4.5.1/manual/_sources/addingtags.rst.txt /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.7.0beta2.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/v4.1.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.2.0.ht
+ ml /usr/share/doc/tiff-4.5.1/manual/releases/v4.3.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.4.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.5.0.html /usr/share/doc/tiff-4.5.1/manual/releases/v4.5.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.1.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.2.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.3.html /usr/share/doc/tiff-4.5.1/manual/releases/v3.5.4.html /usr/share/doc/tiff-4.5.1/manual/images.html /usr/share/doc/tiff-4.5.1/manual/_static/sphinx_highlight.js /usr/share/doc/tiff-4.5.1/manual/search.html /usr/share/doc/tiff-4.5.1/manual/_sources/functions.rst.txt /usr/share/doc/tiff-4.5.1/manual/releases/index.html /usr/share/doc/tiff-4.5.1/manual/build.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/index.rst.txt /usr/share/doc/tiff-4.5.1/manual/terms.html /usr/share/doc/tiff-4.5.1/manual/tools.html /usr/share/doc/tiff-4.5.1/manual/_sources/releases/v3.9.2.rst.txt /usr/share/doc/tiff-4.5.1/manual/in
+ ternals.html"
+packages/core2-32-poky-linux/tiff/tiff-doc: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-locale: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-locale: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-src: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-src: PKGSIZE changed from 2809900 to 2844647 (+1%)
+packages/core2-32-poky-linux/tiff/tiff-src: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-staticdev: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-staticdev: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff-utils: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff-utils: PKGSIZE changed from 583040 to 583044 (+0%)
+packages/core2-32-poky-linux/tiff/tiff-utils: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiff: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiff: FILELIST: removed "/usr/lib/libtiff.so.6.0.0", added "/usr/lib/libtiff.so.6.0.1"
+packages/core2-32-poky-linux/tiff/tiff: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
+packages/core2-32-poky-linux/tiff/tiffxx: PV changed from "4.5.0" to "4.5.1"
+packages/core2-32-poky-linux/tiff/tiffxx: FILELIST: removed "/usr/lib/libtiffxx.so.6.0.0", added "/usr/lib/libtiffxx.so.6.0.1"
+packages/core2-32-poky-linux/tiff/tiffxx: PKGV changed from 4.5.0 [default] to 4.5.1 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3002,81 +3324,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============8022421498711532028==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libwebp-upgrade-1.3.0-1.3.1.patch"
-
-RnJvbSA1OGFiYzUxYmQ0ODVhZGNkOGVhNTMyZjgzODRiYjEyYzZmNmEwZjc3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxNDoxOToxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YndlYnA6IHVwZ3JhZGUgMS4zLjAgLT4gMS4zLjEKCi0tLQogLi4uL3dlYnAvZmlsZXMvQ1ZFLTIw
-MjMtMTk5OS5wYXRjaCAgICAgICAgICAgIHwgNTUgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL3ts
-aWJ3ZWJwXzEuMy4wLmJiID0+IGxpYndlYnBfMS4zLjEuYmJ9ICAgIHwgIDYgKy0KIDIgZmlsZXMg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDYwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAvZmlsZXMvQ1ZFLTIwMjMtMTk5OS5wYXRj
-aAogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAve2xpYndlYnBfMS4zLjAuYmIg
-PT4gbGlid2VicF8xLjMuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS93ZWJwL2ZpbGVzL0NWRS0yMDIzLTE5OTkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS93ZWJwL2ZpbGVzL0NWRS0yMDIzLTE5OTkucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUg
-MTAwNjQ0CmluZGV4IGQyOTNhYjkzYWIuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvd2VicC9maWxlcy9DVkUtMjAyMy0xOTk5LnBhdGNoCisrKyAvZGV2L251bGwKQEAg
-LTEsNTUgKzAsMCBAQAotRnJvbSBhNDg2ZDgwMGI2MGQwYWY0Y2MwODM2YmY3ZWQ4ZjIxZTEyOTc0
-MTI5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogSmFtZXMgWmVybiA8anplcm5AZ29v
-Z2xlLmNvbT4KLURhdGU6IFdlZCwgMjIgRmViIDIwMjMgMjI6MTU6NDcgLTA4MDAKLVN1YmplY3Q6
-IFtQQVRDSF0gRW5jb2RlQWxwaGFJbnRlcm5hbDogY2xlYXIgcmVzdWx0LT5idyBvbiBlcnJvcgot
-Ci1UaGlzIGF2b2lkcyBhIGRvdWJsZSBmcmVlIHNob3VsZCB0aGUgZnVuY3Rpb24gZmFpbCBwcmlv
-ciB0bwotVlA4Qml0V3JpdGVySW5pdCgpIGFuZCBhIHByZXZpb3VzIHRyaWFsIHJlc3VsdCdzIGJ1
-ZmZlciBjYXJyaWVkIG92ZXIuCi1QcmV2aW91c2x5IGluIEFwcGx5RmlsdGVyc0FuZEVuY29kZSgp
-IHRyaWFsLmJ3ICh3aXRoIGEgcHJldmlvdXMKLWl0ZXJhdGlvbidzIGJ1ZmZlcikgd291bGQgYmUg
-ZnJlZWQsIGZvbGxvd2VkIGJ5IGJlc3QuYncgcG9pbnRpbmcgdG8gdGhlCi1zYW1lIGJ1ZmZlci4K
-LQotU2luY2U6Ci0xODdkMzc5ZCBhZGQgYSBmYWxsYmFjayB0byBBTFBIQV9OT19DT01QUkVTU0lP
-TgotCi1JbiBhZGRpdGlvbiwgY2hlY2sgdGhlIHJldHVybiB2YWx1ZSBvZiBWUDhCaXRXcml0ZXJJ
-bml0KCkgaW4gdGhpcwotZnVuY3Rpb24uCi0KLUJ1Zzogd2VicDo2MDMKLUNoYW5nZS1JZDogSWMy
-NTgzODFlZTI2YzhjMTZiYzIxMWQxNTdjODE1MzgzMWM4YzY5MTAKLQotQ1ZFOiBDVkUtMjAyMy0x
-OTk5Ci1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vd2VibXBy
-b2plY3QvbGlid2VicC9jb21taXQvYTQ4NmQ4MDBiNjBkMGFmNGNjMDgzNmJmN2VkOGYyMWUxMjk3
-NDEyOV0KLVNpZ25lZC1vZmYtYnk6IE5pa2hpbCBSIDxuaWtoaWwuckBrcGl0LmNvbT4KLS0tLQot
-IHNyYy9lbmMvYWxwaGFfZW5jLmMgfCA0ICsrKy0KLSAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS9zcmMvZW5jL2FscGhhX2VuYy5j
-IGIvc3JjL2VuYy9hbHBoYV9lbmMuYwotaW5kZXggZjdjMDI2OTBlMy4uN2QyMDU1ODZmZSAxMDA2
-NDQKLS0tLSBhL3NyYy9lbmMvYWxwaGFfZW5jLmMKLSsrKyBiL3NyYy9lbmMvYWxwaGFfZW5jLmMK
-LUBAIC0xMyw2ICsxMyw3IEBACi0gCi0gI2luY2x1ZGUgPGFzc2VydC5oPgotICNpbmNsdWRlIDxz
-dGRsaWIuaD4KLSsjaW5jbHVkZSA8c3RyaW5nLmg+Ci0gCi0gI2luY2x1ZGUgInNyYy9lbmMvdnA4
-aV9lbmMuaCIKLSAjaW5jbHVkZSAic3JjL2RzcC9kc3AuaCIKLUBAIC0xNDgsNiArMTQ5LDcgQEAg
-c3RhdGljIGludCBFbmNvZGVBbHBoYUludGVybmFsKGNvbnN0IHVpbnQ4X3QqIGNvbnN0IGRhdGEs
-IGludCB3aWR0aCwgaW50IGhlaWdodCwKLSAgICAgICB9Ci0gICAgIH0gZWxzZSB7Ci0gICAgICAg
-VlA4TEJpdFdyaXRlcldpcGVPdXQoJnRtcF9idyk7Ci0rICAgICAgbWVtc2V0KCZyZXN1bHQtPmJ3
-LCAwLCBzaXplb2YocmVzdWx0LT5idykpOwotICAgICAgIHJldHVybiAwOwotICAgICB9Ci0gICB9
-Ci1AQCAtMTYyLDcgKzE2NCw3IEBAIHN0YXRpYyBpbnQgRW5jb2RlQWxwaGFJbnRlcm5hbChjb25z
-dCB1aW50OF90KiBjb25zdCBkYXRhLCBpbnQgd2lkdGgsIGludCBoZWlnaHQsCi0gICBoZWFkZXIg
-PSBtZXRob2QgfCAoZmlsdGVyIDw8IDIpOwotICAgaWYgKHJlZHVjZV9sZXZlbHMpIGhlYWRlciB8
-PSBBTFBIQV9QUkVQUk9DRVNTRURfTEVWRUxTIDw8IDQ7Ci0gCi0tICBWUDhCaXRXcml0ZXJJbml0
-KCZyZXN1bHQtPmJ3LCBBTFBIQV9IRUFERVJfTEVOICsgb3V0cHV0X3NpemUpOwotKyAgaWYgKCFW
-UDhCaXRXcml0ZXJJbml0KCZyZXN1bHQtPmJ3LCBBTFBIQV9IRUFERVJfTEVOICsgb3V0cHV0X3Np
-emUpKSBvayA9IDA7Ci0gICBvayA9IG9rICYmIFZQOEJpdFdyaXRlckFwcGVuZCgmcmVzdWx0LT5i
-dywgJmhlYWRlciwgQUxQSEFfSEVBREVSX0xFTik7Ci0gICBvayA9IG9rICYmIFZQOEJpdFdyaXRl
-ckFwcGVuZCgmcmVzdWx0LT5idywgb3V0cHV0LCBvdXRwdXRfc2l6ZSk7CmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjAuYmIgYi9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUK
-cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMy4wLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjEuYmIK
-aW5kZXggN2NhNjdlNDRmYi4uYjllNzYzYjA4ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
-ZGlhL3dlYnAvbGlid2VicF8xLjMuMS5iYgpAQCAtMTQsMTQgKzE0LDEwIEBAIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTZlOGRlZTkzMmMyNmYyZGFiNTAzYWJmNzBjOTZk
-OGJiIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL1BBVEVOVFM7bWQ1PWM2OTI2ZDBjYjA3
-ZDI5NmY4ODZhYjZlMGNjNWE4NWI3IgogCiBTUkNfVVJJID0gImh0dHA6Ly9kb3dubG9hZHMud2Vi
-bXByb2plY3Qub3JnL3JlbGVhc2VzL3dlYnAvJHtCUH0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjY0YWM0NjE0ZGIyOTJhZThjNWFhMjZkZTAyOTViZjE2MjNkYmIzOTg1MDU0Y2I2NTZj
-NTVlNjc0MzFkZWYxN2MiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjM3Nzk2MjdjMmRmZDMxZTNk
-OGM0NDg1OTYyYzJlZmUxNzc4NWVmOTc1ZTJiZTVjOGMwYzllNmNkM2M0ZWY2NiIKIAogVVBTVFJF
-QU1fQ0hFQ0tfVVJJID0gImh0dHA6Ly9kb3dubG9hZHMud2VibXByb2plY3Qub3JnL3JlbGVhc2Vz
-L3dlYnAvaW5kZXguaHRtbCIKIAotU1JDX1VSSSArPSAiIFwKLSAgICBmaWxlOi8vQ1ZFLTIwMjMt
-MTk5OS5wYXRjaCBcCi0iCi0KIEVYVFJBX09FQ09ORiA9ICIgXAogICAgIC0tZGlzYWJsZS13aWMg
-XAogICAgIC0tZW5hYmxlLWxpYndlYnBtdXggXAotLSAKMi4zOS4yCgo=
-
---===============8022421498711532028==--
+--===============8585670396922099613==--
 
