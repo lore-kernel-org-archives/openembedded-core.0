@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D741C001B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE456C04A94
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:06 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.10503.1688227323418356925
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.10505.1688227323722669269
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=G06J68Gs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101891230a0e8-cf41e9a6-fc9e-4a20-812b-45300a5fe127-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TaRq8Dcn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018912309fda-a80c5145-f44f-480a-a4e1-ad2cece52a34-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1688227324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=c37GNdSABqSeTW+GdeQ2tF+1e409eeWQ0SmauPTTyAE=;
-	b=G06J68GsPaXvewTqCXHo8BsEsiI5GFXmoMwYcJp93g+I+L6XxAH9Q/FAFaIj1ZU1
-	8C05ym591+ldrRq1quL9NtexKjsghIQoCRsF8LQ6Z5Sy/ildmaytFJWy9kUglNVV384
-	rEVaHWQ9S5FjBhta/qDp7/FGM4Y4C0xuxxnqiozM=
+	bh=V++9bKSRzciZzisU+NZalyM/boRfDocoSE7tnvA+4VE=;
+	b=TaRq8Dcn9PZPtMGy3h9xn/h2TJjtTAM0xIRI/eonZ07lsnGYubKNLQDKuuGCGrmT
+	HNqwFtErcFxGG/Of9Va5NcJp5YiNO8n+05Wk0GxcNxA9KJ7gOzEagyCuTPengO0XeZf
+	wAD69NfBVaMgwjckz4xphloowNuIdO++T8Fhbx2U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=c37GNdSABqSeTW+GdeQ2tF+1e409eeWQ0SmauPTTyAE=;
-	b=KbMMIqmkn9x7DouTCdMZ9tL8WLoE6ealHa2rKZDESiYuYGsd6KxTW1x8c1sXqds1
-	oLNJrijNKa/1Tm92xV+ok0ehQqyk36hdv1+qtZAHotWDiv72pZMg9vmdO8EnaQIZtKz
-	jc+Y424bHcJvPcXnU/b3Yv/e3bVyPAe4ZqSwm5jo=
-Content-Type: multipart/mixed; boundary="===============0072047328154824478=="
+	bh=V++9bKSRzciZzisU+NZalyM/boRfDocoSE7tnvA+4VE=;
+	b=QYL7T8uo7IKiV+JiOnz5QnFY3K8negkKf4APvcuFCR1q3V5yTnlBW3CzjnU7OMVU
+	XYeYEQdgJScCfxnqGZlPPN+oyLKathtdxjdU+G89kubCDkWePmMa8Z/dVk+D9yjB4HK
+	pv+KD86ERm3ZcEwCjI+2h5kZAd3eh0v59xGJBtAg=
+Content-Type: multipart/mixed; boundary="===============8022421498711532028=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.42.0 SUCCEEDED
-Message-ID: <010101891230a0e8-cf41e9a6-fc9e-4a20-812b-45300a5fe127-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jul 2023 16:02:04 +0000
+Subject: [AUH] libwebp: upgrading to 1.3.1 SUCCEEDED
+Message-ID: <0101018912309fda-a80c5145-f44f-480a-a4e1-ad2cece52a34-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jul 2023 16:02:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.30
+X-SES-Outgoing: 2023.07.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183766
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183759
 
---===============0072047328154824478==
+--===============8022421498711532028==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.42.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libwebp* to *1.3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.41.2-3.42.0.patch
+    - apply the patch: git am 0001-libwebp-upgrade-1.3.0-1.3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,42 +71,126 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2efaab75ed84c4e1294cc740eaf4158858226215 Mon Sep 17 00:00:00 2001
+From 58abc51bd485adcd8ea532f8384bb12c6f6a0f77 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 15:54:10 +0000
-Subject: [PATCH] sqlite3: upgrade 3.41.2 -> 3.42.0
+Date: Sat, 1 Jul 2023 14:19:17 +0000
+Subject: [PATCH] libwebp: upgrade 1.3.0 -> 1.3.1
 
 ---
- .../sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb} (86%)
+ .../webp/files/CVE-2023-1999.patch            | 55 -------------------
+ .../{libwebp_1.3.0.bb => libwebp_1.3.1.bb}    |  6 +-
+ 2 files changed, 1 insertion(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+ rename meta/recipes-multimedia/webp/{libwebp_1.3.0.bb => libwebp_1.3.1.bb} (93%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-similarity index 86%
-rename from meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-index b09e8e7f55..f60aca63d2 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch b/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
+deleted file mode 100644
+index d293ab93ab..0000000000
+--- a/meta/recipes-multimedia/webp/files/CVE-2023-1999.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From a486d800b60d0af4cc0836bf7ed8f21e12974129 Mon Sep 17 00:00:00 2001
+-From: James Zern <jzern@google.com>
+-Date: Wed, 22 Feb 2023 22:15:47 -0800
+-Subject: [PATCH] EncodeAlphaInternal: clear result->bw on error
+-
+-This avoids a double free should the function fail prior to
+-VP8BitWriterInit() and a previous trial result's buffer carried over.
+-Previously in ApplyFiltersAndEncode() trial.bw (with a previous
+-iteration's buffer) would be freed, followed by best.bw pointing to the
+-same buffer.
+-
+-Since:
+-187d379d add a fallback to ALPHA_NO_COMPRESSION
+-
+-In addition, check the return value of VP8BitWriterInit() in this
+-function.
+-
+-Bug: webp:603
+-Change-Id: Ic258381ee26c8c16bc211d157c8153831c8c6910
+-
+-CVE: CVE-2023-1999
+-Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/a486d800b60d0af4cc0836bf7ed8f21e12974129]
+-Signed-off-by: Nikhil R <nikhil.r@kpit.com>
+----
+- src/enc/alpha_enc.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/enc/alpha_enc.c b/src/enc/alpha_enc.c
+-index f7c02690e3..7d205586fe 100644
+---- a/src/enc/alpha_enc.c
+-+++ b/src/enc/alpha_enc.c
+-@@ -13,6 +13,7 @@
+- 
+- #include <assert.h>
+- #include <stdlib.h>
+-+#include <string.h>
+- 
+- #include "src/enc/vp8i_enc.h"
+- #include "src/dsp/dsp.h"
+-@@ -148,6 +149,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
+-       }
+-     } else {
+-       VP8LBitWriterWipeOut(&tmp_bw);
+-+      memset(&result->bw, 0, sizeof(result->bw));
+-       return 0;
+-     }
+-   }
+-@@ -162,7 +164,7 @@ static int EncodeAlphaInternal(const uint8_t* const data, int width, int height,
+-   header = method | (filter << 2);
+-   if (reduce_levels) header |= ALPHA_PREPROCESSED_LEVELS << 4;
+- 
+--  VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size);
+-+  if (!VP8BitWriterInit(&result->bw, ALPHA_HEADER_LEN + output_size)) ok = 0;
+-   ok = ok && VP8BitWriterAppend(&result->bw, &header, ALPHA_HEADER_LEN);
+-   ok = ok && VP8BitWriterAppend(&result->bw, output, output_size);
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.3.0.bb b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
+similarity index 93%
+rename from meta/recipes-multimedia/webp/libwebp_1.3.0.bb
+rename to meta/recipes-multimedia/webp/libwebp_1.3.1.bb
+index 7ca67e44fb..b9e763b08e 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.3.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
+@@ -14,14 +14,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
  
- SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499"
-+SRC_URI[sha256sum] = "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "64ac4614db292ae8c5aa26de0295bf1623dbb3985054cb656c55e67431def17c"
++SRC_URI[sha256sum] = "b3779627c2dfd31e3d8c4485962c2efe17785ef975e2be5c8c0c9e6cd3c4ef66"
  
- # -19242 is only an issue in specific development branch commits
- CVE_CHECK_IGNORE += "CVE-2019-19242"
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ 
+-SRC_URI += " \
+-    file://CVE-2023-1999.patch \
+-"
+-
+ EXTRA_OECONF = " \
+     --disable-wic \
+     --enable-libwebpmux \
 -- 
 2.39.2
 
 
---===============0072047328154824478==
+--===============8022421498711532028==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpmux.so.3.0.11 /usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0.0.0 /usr/lib/libwebp.so.7.1.6", added "/usr/lib/libwebpmux.so.3.0.12 /usr/lib/libsharpyuv.so.0.0.1 /usr/lib/libwebpdemux.so.2.0.13 /usr/lib/libwebp.so.7.1.7"
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
+  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
+  /usr/lib/libsharpyuv.so.0.0.0 moved to /usr/lib/libsharpyuv.so.0.0.1
+  /usr/lib/libwebpdemux.so.2.0.12 moved to /usr/lib/libwebpdemux.so.2.0.13
+  /usr/lib/libwebpmux.so.3.0.11 moved to /usr/lib/libwebpmux.so.3.0.12
+  /usr/lib/libwebp.so.7.1.6 moved to /usr/lib/libwebp.so.7.1.7
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1489,33 +1573,53 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============0072047328154824478==
+--===============8022421498711532028==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3410200.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 658159 to 663439 (+1%)
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1475867 to 1500475 (+2%)
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5073304 to 5134488 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10144652 to 10238112 (+1%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.41.2" to "3.42.0"
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.41.2 [default] to 3.42.0 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.41.2" to "3.42.0"
+packages/core2-32-poky-linux/libwebp: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp: SRC_URI changed from "http://downloads.webmproject.org/releases/webp/libwebp-1.3.0.tar.gz file://CVE-2023-1999.patch" to "http://downloads.webmproject.org/releases/webp/libwebp-1.3.1.tar.gz"
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGSIZE changed from 179320 to 183416 (+2%)
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: FILELIST: removed "/usr/lib/.debug/libwebpmux.so.3.0.11 /usr/lib/.debug/libwebp.so.7.1.6 /usr/lib/.debug/libsharpyuv.so.0.0.0 /usr/lib/.debug/libwebpdemux.so.2.0.12", added "/usr/lib/.debug/libwebp.so.7.1.7 /usr/lib/.debug/libwebpmux.so.3.0.12 /usr/lib/.debug/libwebpdemux.so.2.0.13 /usr/lib/.debug/libsharpyuv.so.0.0.1"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGSIZE changed from 3233768 to 3242368 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGSIZE changed from 103055 to 103150 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGSIZE changed from 29848 to 30446 (+2%)
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-src: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGSIZE changed from 2899151 to 2908610 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp: PV changed from "1.3.0" to "1.3.1"
+packages/core2-32-poky-linux/libwebp/libwebp: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0.0.0 /usr/lib/libwebp.so.7.1.6 /usr/lib/libwebpmux.so.3.0.11", added "/usr/lib/libwebpdemux.so.2.0.13 /usr/lib/libsharpyuv.so.0.0.1 /usr/lib/libwebpmux.so.3.0.12 /usr/lib/libwebp.so.7.1.7"
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
+  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.0.0 to libsharpyuv.so.0.0.1
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.12 to libwebpdemux.so.2.0.13
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.11 to libwebpmux.so.3.0.12
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.6 to libwebp.so.7.1.7
+  /usr/lib/libsharpyuv.so.0.0.0 moved to /usr/lib/libsharpyuv.so.0.0.1
+  /usr/lib/libwebpdemux.so.2.0.12 moved to /usr/lib/libwebpdemux.so.2.0.13
+  /usr/lib/libwebpmux.so.3.0.11 moved to /usr/lib/libwebpmux.so.3.0.12
+  /usr/lib/libwebp.so.7.1.6 moved to /usr/lib/libwebp.so.7.1.7
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2898,36 +3002,81 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============0072047328154824478==
+--===============8022421498711532028==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.41.2-3.42.0.patch"
+ filename="0001-libwebp-upgrade-1.3.0-1.3.1.patch"
 
-RnJvbSAyZWZhYWI3NWVkODRjNGUxMjk0Y2M3NDBlYWY0MTU4ODU4MjI2MjE1IE1vbiBTZXAgMTcg
+RnJvbSA1OGFiYzUxYmQ0ODVhZGNkOGVhNTMyZjgzODRiYjEyYzZmNmEwZjc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxNTo1NDoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
-bGl0ZTM6IHVwZ3JhZGUgMy40MS4yIC0+IDMuNDIuMAoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
-XzMuNDEuMi5iYiA9PiBzcWxpdGUzXzMuNDIuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40MS4yLmJiID0+IHNxbGl0ZTNfMy40Mi4w
-LmJifSAoODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
-dGUzXzMuNDEuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDIu
-MC5iYgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQxLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L3NxbGl0ZS9zcWxpdGUzXzMuNDIuMC5iYgppbmRleCBiMDllOGU3ZjU1Li5mNjBhY2E2M2QyIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQxLjIuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Mi4wLmJiCkBAIC00
-LDcgKzQsNyBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
-aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
-CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDIzL3NxbGl0ZS1hdXRvY29uZi0k
-e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImU5OGMxMDBkZDFkYTRl
-MzBmYTQ2MDc2MWRhYjdjMGI5MWE1MGI3ODVlMTY3ZjhjNTdhY2M0NjUxNGZhZTk0OTkiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiN2FiY2ZkMTYxYzZlMjc0MmNhNWM2YzA4OTVkMWY4NTNjOTQwZjIw
-MzMwNGEwYjQ5ZGE0ZTFlY2E1ZDA4OGNhNiIKIAogIyAtMTkyNDIgaXMgb25seSBhbiBpc3N1ZSBp
-biBzcGVjaWZpYyBkZXZlbG9wbWVudCBicmFuY2ggY29tbWl0cwogQ1ZFX0NIRUNLX0lHTk9SRSAr
-PSAiQ1ZFLTIwMTktMTkyNDIiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxNDoxOToxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YndlYnA6IHVwZ3JhZGUgMS4zLjAgLT4gMS4zLjEKCi0tLQogLi4uL3dlYnAvZmlsZXMvQ1ZFLTIw
+MjMtMTk5OS5wYXRjaCAgICAgICAgICAgIHwgNTUgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL3ts
+aWJ3ZWJwXzEuMy4wLmJiID0+IGxpYndlYnBfMS4zLjEuYmJ9ICAgIHwgIDYgKy0KIDIgZmlsZXMg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDYwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
+NjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAvZmlsZXMvQ1ZFLTIwMjMtMTk5OS5wYXRj
+aAogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAve2xpYndlYnBfMS4zLjAuYmIg
+PT4gbGlid2VicF8xLjMuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVs
+dGltZWRpYS93ZWJwL2ZpbGVzL0NWRS0yMDIzLTE5OTkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVs
+dGltZWRpYS93ZWJwL2ZpbGVzL0NWRS0yMDIzLTE5OTkucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUg
+MTAwNjQ0CmluZGV4IGQyOTNhYjkzYWIuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvd2VicC9maWxlcy9DVkUtMjAyMy0xOTk5LnBhdGNoCisrKyAvZGV2L251bGwKQEAg
+LTEsNTUgKzAsMCBAQAotRnJvbSBhNDg2ZDgwMGI2MGQwYWY0Y2MwODM2YmY3ZWQ4ZjIxZTEyOTc0
+MTI5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogSmFtZXMgWmVybiA8anplcm5AZ29v
+Z2xlLmNvbT4KLURhdGU6IFdlZCwgMjIgRmViIDIwMjMgMjI6MTU6NDcgLTA4MDAKLVN1YmplY3Q6
+IFtQQVRDSF0gRW5jb2RlQWxwaGFJbnRlcm5hbDogY2xlYXIgcmVzdWx0LT5idyBvbiBlcnJvcgot
+Ci1UaGlzIGF2b2lkcyBhIGRvdWJsZSBmcmVlIHNob3VsZCB0aGUgZnVuY3Rpb24gZmFpbCBwcmlv
+ciB0bwotVlA4Qml0V3JpdGVySW5pdCgpIGFuZCBhIHByZXZpb3VzIHRyaWFsIHJlc3VsdCdzIGJ1
+ZmZlciBjYXJyaWVkIG92ZXIuCi1QcmV2aW91c2x5IGluIEFwcGx5RmlsdGVyc0FuZEVuY29kZSgp
+IHRyaWFsLmJ3ICh3aXRoIGEgcHJldmlvdXMKLWl0ZXJhdGlvbidzIGJ1ZmZlcikgd291bGQgYmUg
+ZnJlZWQsIGZvbGxvd2VkIGJ5IGJlc3QuYncgcG9pbnRpbmcgdG8gdGhlCi1zYW1lIGJ1ZmZlci4K
+LQotU2luY2U6Ci0xODdkMzc5ZCBhZGQgYSBmYWxsYmFjayB0byBBTFBIQV9OT19DT01QUkVTU0lP
+TgotCi1JbiBhZGRpdGlvbiwgY2hlY2sgdGhlIHJldHVybiB2YWx1ZSBvZiBWUDhCaXRXcml0ZXJJ
+bml0KCkgaW4gdGhpcwotZnVuY3Rpb24uCi0KLUJ1Zzogd2VicDo2MDMKLUNoYW5nZS1JZDogSWMy
+NTgzODFlZTI2YzhjMTZiYzIxMWQxNTdjODE1MzgzMWM4YzY5MTAKLQotQ1ZFOiBDVkUtMjAyMy0x
+OTk5Ci1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vd2VibXBy
+b2plY3QvbGlid2VicC9jb21taXQvYTQ4NmQ4MDBiNjBkMGFmNGNjMDgzNmJmN2VkOGYyMWUxMjk3
+NDEyOV0KLVNpZ25lZC1vZmYtYnk6IE5pa2hpbCBSIDxuaWtoaWwuckBrcGl0LmNvbT4KLS0tLQot
+IHNyYy9lbmMvYWxwaGFfZW5jLmMgfCA0ICsrKy0KLSAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRp
+b25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS9zcmMvZW5jL2FscGhhX2VuYy5j
+IGIvc3JjL2VuYy9hbHBoYV9lbmMuYwotaW5kZXggZjdjMDI2OTBlMy4uN2QyMDU1ODZmZSAxMDA2
+NDQKLS0tLSBhL3NyYy9lbmMvYWxwaGFfZW5jLmMKLSsrKyBiL3NyYy9lbmMvYWxwaGFfZW5jLmMK
+LUBAIC0xMyw2ICsxMyw3IEBACi0gCi0gI2luY2x1ZGUgPGFzc2VydC5oPgotICNpbmNsdWRlIDxz
+dGRsaWIuaD4KLSsjaW5jbHVkZSA8c3RyaW5nLmg+Ci0gCi0gI2luY2x1ZGUgInNyYy9lbmMvdnA4
+aV9lbmMuaCIKLSAjaW5jbHVkZSAic3JjL2RzcC9kc3AuaCIKLUBAIC0xNDgsNiArMTQ5LDcgQEAg
+c3RhdGljIGludCBFbmNvZGVBbHBoYUludGVybmFsKGNvbnN0IHVpbnQ4X3QqIGNvbnN0IGRhdGEs
+IGludCB3aWR0aCwgaW50IGhlaWdodCwKLSAgICAgICB9Ci0gICAgIH0gZWxzZSB7Ci0gICAgICAg
+VlA4TEJpdFdyaXRlcldpcGVPdXQoJnRtcF9idyk7Ci0rICAgICAgbWVtc2V0KCZyZXN1bHQtPmJ3
+LCAwLCBzaXplb2YocmVzdWx0LT5idykpOwotICAgICAgIHJldHVybiAwOwotICAgICB9Ci0gICB9
+Ci1AQCAtMTYyLDcgKzE2NCw3IEBAIHN0YXRpYyBpbnQgRW5jb2RlQWxwaGFJbnRlcm5hbChjb25z
+dCB1aW50OF90KiBjb25zdCBkYXRhLCBpbnQgd2lkdGgsIGludCBoZWlnaHQsCi0gICBoZWFkZXIg
+PSBtZXRob2QgfCAoZmlsdGVyIDw8IDIpOwotICAgaWYgKHJlZHVjZV9sZXZlbHMpIGhlYWRlciB8
+PSBBTFBIQV9QUkVQUk9DRVNTRURfTEVWRUxTIDw8IDQ7Ci0gCi0tICBWUDhCaXRXcml0ZXJJbml0
+KCZyZXN1bHQtPmJ3LCBBTFBIQV9IRUFERVJfTEVOICsgb3V0cHV0X3NpemUpOwotKyAgaWYgKCFW
+UDhCaXRXcml0ZXJJbml0KCZyZXN1bHQtPmJ3LCBBTFBIQV9IRUFERVJfTEVOICsgb3V0cHV0X3Np
+emUpKSBvayA9IDA7Ci0gICBvayA9IG9rICYmIFZQOEJpdFdyaXRlckFwcGVuZCgmcmVzdWx0LT5i
+dywgJmhlYWRlciwgQUxQSEFfSEVBREVSX0xFTik7Ci0gICBvayA9IG9rICYmIFZQOEJpdFdyaXRl
+ckFwcGVuZCgmcmVzdWx0LT5idywgb3V0cHV0LCBvdXRwdXRfc2l6ZSk7CmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjAuYmIgYi9tZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMy4wLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjEuYmIK
+aW5kZXggN2NhNjdlNDRmYi4uYjllNzYzYjA4ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL3dlYnAvbGlid2VicF8xLjMuMS5iYgpAQCAtMTQsMTQgKzE0LDEwIEBAIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTZlOGRlZTkzMmMyNmYyZGFiNTAzYWJmNzBjOTZk
+OGJiIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL1BBVEVOVFM7bWQ1PWM2OTI2ZDBjYjA3
+ZDI5NmY4ODZhYjZlMGNjNWE4NWI3IgogCiBTUkNfVVJJID0gImh0dHA6Ly9kb3dubG9hZHMud2Vi
+bXByb2plY3Qub3JnL3JlbGVhc2VzL3dlYnAvJHtCUH0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjY0YWM0NjE0ZGIyOTJhZThjNWFhMjZkZTAyOTViZjE2MjNkYmIzOTg1MDU0Y2I2NTZj
+NTVlNjc0MzFkZWYxN2MiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjM3Nzk2MjdjMmRmZDMxZTNk
+OGM0NDg1OTYyYzJlZmUxNzc4NWVmOTc1ZTJiZTVjOGMwYzllNmNkM2M0ZWY2NiIKIAogVVBTVFJF
+QU1fQ0hFQ0tfVVJJID0gImh0dHA6Ly9kb3dubG9hZHMud2VibXByb2plY3Qub3JnL3JlbGVhc2Vz
+L3dlYnAvaW5kZXguaHRtbCIKIAotU1JDX1VSSSArPSAiIFwKLSAgICBmaWxlOi8vQ1ZFLTIwMjMt
+MTk5OS5wYXRjaCBcCi0iCi0KIEVYVFJBX09FQ09ORiA9ICIgXAogICAgIC0tZGlzYWJsZS13aWMg
+XAogICAgIC0tZW5hYmxlLWxpYndlYnBtdXggXAotLSAKMi4zOS4yCgo=
 
---===============0072047328154824478==--
+--===============8022421498711532028==--
 
