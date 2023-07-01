@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7D1C25B5B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B2EC25B5F
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.10498.1688227322927880097
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.10502.1688227323414916382
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N9vMz2hv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018912309cfa-f9f59bfb-8490-4680-9409-573511a3a4da-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N3Xo3ESw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018912309a74-eff6c389-d167-4712-9fe1-afdf8d73c9db-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1688227323;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=MPuc6crn05ChDHjP4oSRJpzK5hpPgOMtaJm8RstJSiQ=;
-	b=N9vMz2hv74ml3yB4e/iizF6vqrWJVOcQWAUzoMtTU31cxpyCqSzTJYO5JrxXNKQl
-	KO4Fk7oqa64q3GG9Oywi73PIuhNqHx5DZCAHatARaE/Z3eIYGxDtYjmxAc/B+dDoufw
-	2XVJXmKU21MzQNqLWxg+eMDPITK+klkefDx6kx8E=
+	t=1688227322;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=2ynd/v8GGyo8+Hrt327b/l9LCiN7qEoJi00kB/urt+w=;
+	b=N3Xo3ESw6aOz1y/8X4KKVvX4WxBLdd3D/xIQpnUUKEst8j3CaopEyWvZroq+87y8
+	F5/OelzHr0YODmmIX7O9ws5JF6wwnBDlna6GWj0a5qUMI/mkBAlIkUDmsrPJFRkHGui
+	H5MqpfxyNRp0gPGVBA8jRHM9zIyoHMeRw7pB03x8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227323;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=MPuc6crn05ChDHjP4oSRJpzK5hpPgOMtaJm8RstJSiQ=;
-	b=jyofG7hC3+gfcEbfBqby8P1LUDO9WLiBqmmUXXw2I2tqMpvKOsLEseGjBO1+XvkB
-	P0MJKIsyDDXrRBynNyGvEPoNWuppNQNARAukoo5tCHNgf4Gen53HFqprthUL0U4bVks
-	5hQr/UdHz21iunQTG7UA1kxrfbusT2vyWZt3tbwM=
-Content-Type: multipart/mixed; boundary="===============1848018747903378764=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227322;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=2ynd/v8GGyo8+Hrt327b/l9LCiN7qEoJi00kB/urt+w=;
+	b=f0b59vEJ6V1FYVZApy5KRiijjQAgT7xHwPzUN0wlUY75Ow4HrDwYpIO7wfoDVP79
+	+nQoXLM5a7mSSUCPohKnLHQar20P48zvpMtPgaRY+BsbwLcr8Z07wNtmaQOZ8kPW7Nl
+	yp3oSlevGMnIUjvIWBLQiSWLwDpOXyI+c8+k8/vw=
+Content-Type: multipart/mixed; boundary="===============8122847072668865046=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 44.5 FAILED
-Message-ID: <0101018912309cfa-f9f59bfb-8490-4680-9409-573511a3a4da-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Jul 2023 16:02:03 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools: upgrading to 68.0.0 FAILED
+Message-ID: <0101018912309a74-eff6c389-d167-4712-9fe1-afdf8d73c9db-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Jul 2023 16:02:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.45
+X-SES-Outgoing: 2023.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183737
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183732
 
---===============1848018747903378764==
+--===============8122847072668865046==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +49,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *44.5* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *68.0.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +58,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-43.1-44.5.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-67.6.1-68.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,37 +76,48 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e1472e3bf185c1aa5c941923bf04894d78025d1c Mon Sep 17 00:00:00 2001
+From 23f2f5a1327967ccdab8058f6ab8ebc8d6f656df Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 11:17:36 +0000
-Subject: [PATCH] epiphany: upgrade 43.1 -> 44.5
+Date: Sat, 1 Jul 2023 09:01:36 +0000
+Subject: [PATCH] python3-setuptools: upgrade 67.6.1 -> 68.0.0
 
 ---
- .../epiphany/{epiphany_43.1.bb => epiphany_44.5.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_43.1.bb => epiphany_44.5.bb} (94%)
+ .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
+ ...ython3-setuptools_67.6.1.bb => python3-setuptools_68.0.0.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_67.6.1.bb => python3-setuptools_68.0.0.bb} (95%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_43.1.bb b/meta/recipes-gnome/epiphany/epiphany_44.5.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_43.1.bb
-rename to meta/recipes-gnome/epiphany/epiphany_44.5.bb
-index c97ede459d..59f8344cd0 100644
---- a/meta/recipes-gnome/epiphany/epiphany_43.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_44.5.bb
-@@ -31,7 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "e86ead27cb9982815150664de3bf20faf375f77b8065b02b31180c65b6bbebb4"
-+SRC_URI[archive.sha256sum] = "3c475e04ed2a0f410cb44b96937563697079193ac9b7a50c91485fb9b08315ab"
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 4d56dc89ba..f6ef1b351a 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 2b06ca797d3ccc5b195aaa04a085c44bf61d4de3 Mon Sep 17 00:00:00 2001
++From 813f5df9761dc839feda8d53bcdc98439c74e399 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+diff --git a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+index ad0d7cc527..f383550d7a 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+-SRC_URI[sha256sum] = "257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"
++SRC_URI[sha256sum] = "baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
 -- 
 2.39.2
 
 
---===============1848018747903378764==
+--===============8122847072668865046==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -134,130 +144,146 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f874e175cbb44855726c1fda2ce2bbf06e8a6c15"
+meta-yocto-bsp       = "tmp-auh-upgrades:b786addae5147bda241f5c23c7d2758d617a8532"
 workspace            = "master:d221e59a5067266c3f620259a1e56a56823df1fb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 283 Local 274 Mirrors 0 Missed 9 Current 974 (96% match, 99% complete)
+Sstate summary: Wanted 128 Local 116 Mirrors 0 Missed 12 Current 273 (90% match, 97% complete)
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 3413 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_fetch)
-NOTE: Running task 3683 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_write_config)
-NOTE: recipe epiphany-44.5-r0: task do_fetch: Started
-NOTE: recipe epiphany-44.5-r0: task do_fetch: Succeeded
-NOTE: Running task 3851 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_unpack)
-NOTE: Running task 3852 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-44.5-r0: task do_write_config: Started
-NOTE: recipe epiphany-44.5-r0: task do_unpack: Started
-NOTE: recipe epiphany-44.5-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-44.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-44.5-r0: task do_unpack: Succeeded
-NOTE: Running task 3948 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_patch)
-NOTE: Running task 3949 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_collect_spdx_deps)
-NOTE: recipe epiphany-44.5-r0: task do_patch: Started
-NOTE: recipe epiphany-44.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe epiphany-44.5-r0: task do_patch: Succeeded
-NOTE: Running task 3950 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3951 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_populate_lic)
-NOTE: recipe epiphany-44.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-44.5-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-44.5-r0: task do_populate_lic: Succeeded
-NOTE: recipe epiphany-44.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe epiphany-44.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe epiphany-44.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3952 of 3962 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_configure)
-NOTE: recipe epiphany-44.5-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gcr/gcr3_3.41.1.bb:do_populate_sysroot
- ', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libportal/libportal_0.6.bb:do_pop
- ulate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.9.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/r
- ecipes-devtools/meson/meson_1.1.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'desktop-file-utils', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'libarchive', 'gcr3', 'gdk-pixbuf', 'gsettings-desktop-schemas', 'gtk+3', 'hicolor-icon-theme', 'json-glib', 'libdazzle', 'libhandy', 'libportal', 'webkitgtk', 'libsoup', 'nettle', 'coreutils-native', 'gettext-native', 'glib-2.0-native', 'desktop-file-utils-native', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'gtk+3-native', 'gettext-minimal-native', 'libtool-native', 'libsecret', 'systemd', 'at-spi2-core', 'libxslt', 'harfbuzz', 'libtasn1', 'libjpeg-turbo', 'libxrender', 'libxdamage', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libwpe', 'libxcomposite', 'libxt', 'gobject-introspection', 'libwebp', 'cairo', 'wpebackend-fdo', 'enchant2', 'libx11', 'wayland', 'libnotify', 'mesa', 'glib-2.0', 'vala', 'gtk4', 'bzip2', 'zlib', 'acl', 'zstd', 'attr', 'opkg-utils', 'xz', 'texin
- fo-dummy-native', 'linux-libc-headers', 'p11-kit', 'libgcrypt', 'shared-mime-info', 're2c-native', 'libpng', 'libxml2', 'libpsl', 'nghttp2', 'sqlite3', 'attr-native', 'python3-installer-native', 'python3-wheel-native', 'python3-setuptools-native', 'python3-build-native', 'libxrandr-native', 'libxcursor-native', 'libxext-native', 'gobject-introspection-native', 'cairo-native', 'libxcomposite-native', 'libxfixes-native', 'libxdamage-native', 'libx11-native', 'libpng-native', 'gdk-pixbuf-native', 'libxrender-native', 'fontconfig-native', 'libxi-native', 'pango-native', 'at-spi2-core-native', 'libjpeg-turbo-native', 'gmp', 'gmp-native', 'binutils-cross-i686', 'flex-native', 'zlib-native', 'gnu-config-native', 'mpfr-native', 'libmpc-native', 'zstd-native', 'libxrandr', 'libxfixes', 'pango', 'libepoxy', 'libxkbcommon', 'fontconfig', 'libxi', 'libxcursor', 'wayland-protocols', 'libxext', 'libffi-native', 'bzip2-native', 'expat-native', 'util-linux-libuuid-native', 'libnsl2-native', 'ncurse
- s-native', 'gdbm-native', 'libtirpc-native', 'libedit-native', 'openssl-native', 'sqlite3-native', 'libgcc', 'libpcre2-native', 'util-linux-native', 'update-rc.d', 'shadow-sysroot', 'shadow', 'base-passwd', 'libseccomp', 'libpam', 'util-linux', 'base-files', 'kmod', 'initscripts', 'bash-completion', 'shadow-native', 'libcap', 'dbus', 'libxtst', 'icu', 'freetype', 'xorgproto', 'util-macros', 'libxv', 'libdrm', 'alsa-lib', 'libogg', 'libsm', 'iso-codes', 'libglu', 'libvorbis', 'libtheora', 'orc', 'libxcb', 'libxdmcp', 'libffi', 'python3', 'pixman', 'aspell', 'xtrans', 'expat', 'libxshmfence', 'vulkan-loader', 'vulkan-headers', 'libxxf86vm', 'xrandr', 'libpcre2', 'libxinerama', 'librsvg', 'graphene', 'fribidi', 'gi-docgen', 'tiff', 'gstreamer1.0-plugins-bad', 'libgpg-error', 'python3-flit-core-native', 'python3-pyproject-hooks-native', 'python3-packaging-native', 'xorgproto-native', 'util-macros-native', 'libsm-native', 'pixman-native', 'libxcb-native', 'xtrans-native', 'shared-mime-in
- fo-native', 'freetype-native', 'fribidi-native', 'libxft-native', 'harfbuzz-native', 'libxtst-native', 'dbus-native', 'libxml2-native', 'cmake-native', 'm4-native', 'libxft', 'xkeyboard-config', 'perl-native', 'libcap-ng-native', 'libxcrypt', 'cracklib', 'ncurses', 'libcap-ng', 'util-linux-libuuid', 'openssl', 'libpciaccess', 'libpthread-stubs', 'libice', 'xcb-proto', 'libxau', 'gdbm', 'libtirpc', 'libnsl2', 'libedit', 'libstd-rs', 'libgudev', 'bluez5', 'libsndfile1', 'libusb1', 'sbc', 'curl', 'unzip-native', 'libice-native', 'libxau-native', 'xcb-proto-native', 'libpthread-stubs-native', 'libxdmcp-native', 'itstool-native', 'icu-native', 'make-native', 'libical', 'readline', 'flac', 'libidn2', 'libunistring']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false...
-| The Meson build system
-| Version: 1.1.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/epiphany-44.5
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 44.5
-| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/recipe-sysroot (gcc 13.1.1 "i686-poky-linux-gcc (GCC) 13.1.1 20230520")
-| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/recipe-sysroot ld.bfd 2.40.0.20230419
-| C compiler for the build machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
-| C linker for the build machine: gcc ld.bfd 2.40.20230119
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86
-| Host machine cpu: i686
-| Target machine cpu family: x86
-| Target machine cpu: i686
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
-| Run-time dependency iso-codes found: YES 4.15.0
-| Run-time dependency cairo found: YES 1.16.0
-| Found CMake: NO
-| Run-time dependency gcr-4 found: NO (tried pkgconfig)
-| 
-| ../epiphany-44.5/meson.build:89:10: ERROR: Dependency "gcr-4" not found, tried pkgconfig
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393:174 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393, line 174
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393, line 163
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393, line 149
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393, line 187
-NOTE: recipe epiphany-44.5-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3952 tasks of which 3943 didn't need to be rerun and 1 failed.
+NOTE: Running task 1084 of 1387 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_fetch)
+NOTE: Running task 1085 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_fetch)
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1361 of 1387 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_unpack)
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_fetch: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1362 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_unpack)
+NOTE: Running task 1363 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_unpack: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1364 of 1387 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_patch)
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1365 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_patch)
+NOTE: Running task 1366 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_patch: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_patch: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1367 of 1387 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1368 of 1387 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_create_spdx)
+NOTE: Running task 1369 of 1387 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_populate_lic)
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_populate_lic: Failed
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_patch: Failed
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_create_spdx: Started
+NOTE: recipe python3-setuptools-68.0.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-setuptools-native-68.0.0-r0: task do_create_spdx: Succeeded
+NOTE: Tasks Summary: Attempted 1369 tasks of which 1358 didn't need to be rerun and 2 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_configure
+Summary: 2 tasks failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_populate_lic
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_patch
 Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: epiphany-44.5-r0 do_configure: meson failed
-ERROR: epiphany-44.5-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/run.do_configure.1325393', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/44.5-r0/temp/log.do_configure.1325393
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_44.5.bb:do_configure) failed with exit code '1'
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: python3-setuptools-68.0.0-r0 do_populate_lic: QA Issue: python3-setuptools: The LIC_FILES_CHKSUM does not match for file://LICENSE;beginline=1;endline=19;md5=7a7126e068206290f3fe9f8d6c713ea6
+python3-setuptools: The new md5 checksum is 141643e11c48898150daa83802dbc65f
+python3-setuptools: Here is the selected license text:
+vvvvvvvvvvvvvvvvvvvvvvvvvvvv beginline=1 vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
---===============1848018747903378764==
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ endline=19 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+python3-setuptools: Check if the license information has changed in /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-setuptools/68.0.0-r0/setuptools-68.0.0/LICENSE (lines 1 through to 19) to verify that the LICENSE value "MIT" remains valid [license-checksum]
+ERROR: python3-setuptools-68.0.0-r0 do_populate_lic: Fatal QA errors were found, failing task.
+ERROR: python3-setuptools-native-68.0.0-r0 do_patch: QA Issue: Fuzz detected:
+
+Applying patch 0001-conditionally-do-not-fetch-code-by-easy_install.patch
+patching file setuptools/command/easy_install.py
+Hunk #1 succeeded at 644 with fuzz 1 (offset -4 lines).
+
+
+The context lines in the patches can be updated with devtool:
+
+    devtool modify python3-setuptools-native
+    devtool finish --force-patch-refresh python3-setuptools-native <layer_path>
+
+Don't forget to review changes done by devtool!
+
+Patch log indicates that patches do not apply cleanly. [patch-fuzz]
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-setuptools/68.0.0-r0/temp/log.do_populate_lic.1884871
+ERROR: python3-setuptools-native-68.0.0-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/python3-setuptools-native/68.0.0-r0/temp/log.do_patch.1884763
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_populate_lic) failed with exit code '1'
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb:do_patch) failed with exit code '1'
+
+--===============8122847072668865046==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-43.1-44.5.patch"
+ filename="0001-python3-setuptools-upgrade-67.6.1-68.0.0.patch"
 
-RnJvbSBlMTQ3MmUzYmYxODVjMWFhNWM5NDE5MjNiZjA0ODk0ZDc4MDI1ZDFjIE1vbiBTZXAgMTcg
+RnJvbSAyM2YyZjVhMTMyNzk2N2NjZGFiODA1OGY2YWI4ZWJjOGQ2ZjY1NmRmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMToxNzozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVw
-aXBoYW55OiB1cGdyYWRlIDQzLjEgLT4gNDQuNQoKLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55
-XzQzLjEuYmIgPT4gZXBpcGhhbnlfNDQuNS5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZ25vbWUvZXBpcGhhbnkve2VwaXBoYW55XzQzLjEuYmIgPT4gZXBpcGhhbnlfNDQuNS5iYn0g
-KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlf
-NDMuMS5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80NC41LmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFu
-eS9lcGlwaGFueV80My4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkv
-ZXBpcGhhbnlfNDQuNS5iYgppbmRleCBjOTdlZGU0NTlkLi41OWY4MzQ0Y2QwIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDMuMS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDQuNS5iYgpAQCAtMzEsNyArMzEsNyBA
-QCBTUkNfVVJJID0gIiR7R05PTUVfTUlSUk9SfS8ke0dOT01FQk59LyR7QG9lLnV0aWxzLnRyaW1f
-dmVyc2lvbigiJHtQVn0iLCAxKX0vJHtHTgogICAgICAgICAgICBmaWxlOi8vbWlncmF0b3IucGF0
-Y2ggXAogICAgICAgICAgICBmaWxlOi8vZGlzdHJpYnV0b3IucGF0Y2ggXAogICAgICAgICAgICAi
-Ci1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJlODZlYWQyN2NiOTk4MjgxNTE1MDY2NGRl
-M2JmMjBmYWYzNzVmNzdiODA2NWIwMmIzMTE4MGM2NWI2YmJlYmI0IgorU1JDX1VSSVthcmNoaXZl
-LnNoYTI1NnN1bV0gPSAiM2M0NzVlMDRlZDJhMGY0MTBjYjQ0Yjk2OTM3NTYzNjk3MDc5MTkzYWM5
-YjdhNTBjOTE0ODVmYjliMDgzMTVhYiIKIAogIyBEZXZlbG9wZXIgbW9kZSBlbmFibGVzIGRlYnVn
-Z2luZwogUEFDS0FHRUNPTkZJR1tkZXZlbG9wZXItbW9kZV0gPSAiLURkZXZlbG9wZXJfbW9kZT10
-cnVlLC1EZGV2ZWxvcGVyX21vZGU9ZmFsc2UiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAwOTowMTozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA2Ny42LjEgLT4gNjguMC4wCgotLS0KIC4uLi8wMDAx
+LWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoICB8
+IDIgKy0KIC4uLnl0aG9uMy1zZXR1cHRvb2xzXzY3LjYuMS5iYiA9PiBweXRob24zLXNldHVwdG9v
+bHNfNjguMC4wLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhv
+bjMtc2V0dXB0b29sc182Ny42LjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzXzY4LjAuMC5iYn0g
+KDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+c2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9p
+bnN0YWxsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFs
+bC5wYXRjaAppbmRleCA0ZDU2ZGM4OWJhLi5mNmVmMWIzNTFhIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
+bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxs
+eS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDJiMDZjYTc5N2QzY2NjNWIxOTVhYWEwNGEwODVjNDRiZjYxZDRkZTMgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIDgxM2Y1ZGY5NzYxZGM4MzlmZWRhOGQ1M2JjZGM5ODQzOWM3
+NGUzOTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUu
+amlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFz
+eV9pbnN0YWxsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc2V0dXB0b29sc182Ny42LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc2V0dXB0b29sc182OC4wLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjcuNi4x
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29sc182OC4wLjAuYmIKaW5kZXggYWQwZDdjYzUyNy4uZjM4MzU1MGQ3YSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjcuNi4xLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY4
+LjAuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAi
+IGZpbGU6Ly8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZQogU1JDX1VS
+SSArPSAiIFwKICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5
+LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIyNTdkZTkyYTlkNTBhNjBiOGUyMmFiZmNiYjc3MTU3MWZkZTBkYmYzZWMyMzQ0NjMyMTIw
+MjdhNGVlZWNiZTlhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJhZjFmZGI0MWM2ZGE0Y2QyZWFl
+NzIyZTEzNTUwMGRhOTEzMzMyYWIzZjJmNWM3ZDMzYWY5YjQ5MmFjYjUyMzUiCiAKIERFUEVORFMg
+Kz0gIiR7UFlUSE9OX1BOfSIKIAotLSAKMi4zOS4yCgo=
 
---===============1848018747903378764==--
+--===============8122847072668865046==--
 
