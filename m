@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5C4C001DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF0BC05051
 	for <webhook@archiver.kernel.org>; Sat,  1 Jul 2023 16:02:07 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.10772.1688227323994944937
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10773.1688227324005304019
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 Jul 2023 09:02:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=h0yJkBMN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018912309d6e-3dfe1694-a823-43e4-b3dd-c7a894e98e91-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=avX1aw/W;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018912309d60-42a389ab-676a-458d-8faf-b678eacb8266-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GiQvUxHj606M+h1cB3RM+6rNVwP1f79RA3Ln7QQZ+98=;
-	b=h0yJkBMNaY+ldowiQwoNDlD4ccBSPLWL/S7aDsKxBskxWQyRMnWSBIxGzYodCupv
-	VteUHYFrFXFyDwLTsi/C+V02RX+abG6TYcdFqEztoIJSfTSc2gpiCUcdksH6jJ/Buky
-	7P8VI2BlOyeIhJQZHBY0zAAi1yr0MmF6MZ1BU9bo=
+	bh=WTbcBr6EmtoU0vkHTCdxuwJiWl4eMZt1EwslKUQGUIQ=;
+	b=avX1aw/W9qUoXv6BN294tSjGQYfvvNTpbSAjhUzzesBdpFn4ghDe1sdlRudO2lif
+	i0ag6bYukLOI6R+MzlvY8dHEpUSIPIvp+EoJirRgR24heDX1RoLhogX/+En5NWYaRwG
+	NLsbwJ2n2VIOvrqSqvu67JVi7RYTC0po0hpmwoAM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1688227323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GiQvUxHj606M+h1cB3RM+6rNVwP1f79RA3Ln7QQZ+98=;
-	b=ByPTwtDUJ+pW1mPp+ljBUs788PXOaVAUvG56WT5ofetOmhVUflb2BZZzH8D2QrZA
-	AaT3y688pgofPOkB6kkLuexKd4gw5yntES3KmIx/uvPuBihRMophMjzy6fwrOd6NsWi
-	FXWcfwrR5nnBVioDYKy0lVGkf6BB3n0DFkG/VgdE=
-Content-Type: multipart/mixed; boundary="===============7416993215137644318=="
+	bh=WTbcBr6EmtoU0vkHTCdxuwJiWl4eMZt1EwslKUQGUIQ=;
+	b=ZUhLMXeCu0bHlEa77ZhESdLEuZ5CoK0mXSNGpM77Krd8a9aPllu87zL5m4DjeuQX
+	mdZuSaM9q6i+X6dshqVNuvjMdsyl62ZvpHOCi+VWQ3o2gBKDPYh+wx7yswqhcZfl7EN
+	LSWQwZ254SKfBYZ3g+zoDi9USA8YTjtSHlOqgeX8=
+Content-Type: multipart/mixed; boundary="===============3961604492848102923=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Carlos Rafael Giani <crg7475@mailbox.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmscube: upgrading to 0be1681d09e77330e02b8d4708e47a04585f4b16
- SUCCEEDED
-Message-ID: <0101018912309d6e-3dfe1694-a823-43e4-b3dd-c7a894e98e91-000000@us-west-2.amazonses.com>
+Subject: [AUH] glslang: upgrading to 1.3.250.1 SUCCEEDED
+Message-ID: <0101018912309d60-42a389ab-676a-458d-8faf-b678eacb8266-000000@us-west-2.amazonses.com>
 Date: Sat, 1 Jul 2023 16:02:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.01-54.240.27.45
+X-SES-Outgoing: 2023.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Jul 2023 16:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183749
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183751
 
---===============7416993215137644318==
+--===============3961604492848102923==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kmscube* to *0be1681d09e77330e02b8d4708e47a04585f4b16* has Succeeded.
+that the automatic attempt to upgrade the recipe *glslang* to *1.3.250.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-kmscube-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-glslang-upgrade-1.3.250.0-1.3.250.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,66 +71,121 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ad29c953ae6775bdb20a33f01ac7c448321d3db7 Mon Sep 17 00:00:00 2001
+From 48ebcf2abe8cd653bce82fb5b65573fe20051580 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Jul 2023 11:59:18 +0000
-Subject: [PATCH] kmscube: upgrade to latest revision
+Date: Sat, 1 Jul 2023 11:50:37 +0000
+Subject: [PATCH] glslang: upgrade 1.3.250.0 -> 1.3.250.1
 
 ---
- meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
+ .../glslang/{glslang_1.3.250.0.bb => glslang_1.3.250.1.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/glslang/{glslang_1.3.250.0.bb => glslang_1.3.250.1.bb} (96%)
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index ca76251d7a..02fc842471 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -10,7 +10,7 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
+diff --git a/meta/recipes-graphics/glslang/glslang_1.3.250.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.250.1.bb
+similarity index 96%
+rename from meta/recipes-graphics/glslang/glslang_1.3.250.0.bb
+rename to meta/recipes-graphics/glslang/glslang_1.3.250.1.bb
+index 6e9c666d46..16205bf026 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.3.250.0.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.3.250.1.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
  
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
- 
--SRCREV = "cf4ec7f35521eb54d72ce0c92ce65b2249171cbd"
-+SRCREV = "0be1681d09e77330e02b8d4708e47a04585f4b16"
- SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
- UPSTREAM_CHECK_COMMITS = "1"
- 
+-SRCREV = "d1517d64cfca91f573af1bf7341dc3a5113349c0"
++SRCREV = "3ebb72cc7429f0ab8218104dc3687c659c0f364d"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
+            file://0001-generate-glslang-pkg-config.patch \
+            "
 -- 
 2.39.2
 
 
---===============7416993215137644318==
+--===============3961604492848102923==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/glslang/glslang-dev: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGSIZE changed from 0 to 172584 (+100%)
+packages/core2-32-poky-linux/glslang/glslang-staticdev: FILELIST: added "/usr/lib/libglslang-default-resource-limits.a"
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so.12.2.0 /usr/lib/libglslang-default-resource-limits.so.12"
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang-default-resource-limits.a was added
+  /usr/lib/libglslang-default-resource-limits.so.12.2.0 was removed
+  /usr/lib/libglslang-default-resource-limits.so.12 was removed
+  /usr/lib/libglslang-default-resource-limits.so was removed
+
+--===============3961604492848102923==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-glslang-upgrade-1.3.250.0-1.3.250.1.patch"
+
+RnJvbSA0OGViY2YyYWJlOGNkNjUzYmNlODJmYjViNjU1NzNmZTIwMDUxNTgwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMTo1MDozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
+c2xhbmc6IHVwZ3JhZGUgMS4zLjI1MC4wIC0+IDEuMy4yNTAuMQoKLS0tCiAuLi4vZ2xzbGFuZy97
+Z2xzbGFuZ18xLjMuMjUwLjAuYmIgPT4gZ2xzbGFuZ18xLjMuMjUwLjEuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy97Z2xzbGFuZ18xLjMuMjUwLjAuYmIgPT4gZ2xz
+bGFuZ18xLjMuMjUwLjEuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjUwLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+Z2xzbGFuZy9nbHNsYW5nXzEuMy4yNTAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yNTAuMC5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjUwLjEu
+YmIKaW5kZXggNmU5YzY2NmQ0Ni4uMTYyMDViZjAyNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjUwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjUwLjEuYmIKQEAgLTgsNyArOCw3IEBAIEhP
+TUVQQUdFID0gImh0dHBzOi8vd3d3Lmtocm9ub3Mub3JnL29wZW5nbGVzL3Nkay90b29scy9SZWZl
+cmVuY2UtQ29tcGlsZXIiCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSAmIEJTRC0yLUNsYXVzZSAm
+IE1JVCAmIEFwYWNoZS0yLjAgJiBHUEwtMy13aXRoLWJpc29uLWV4Y2VwdGlvbiIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0yYTJiNWFjZDdiYzQ4NDQ5NjRjZmRh
+NDVmZTgwN2RjMyIKIAotU1JDUkVWID0gImQxNTE3ZDY0Y2ZjYTkxZjU3M2FmMWJmNzM0MWRjM2E1
+MTEzMzQ5YzAiCitTUkNSRVYgPSAiM2ViYjcyY2M3NDI5ZjBhYjgyMTgxMDRkYzM2ODdjNjU5YzBm
+MzY0ZCIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvZ2xzbGFuZy5n
+aXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1n
+ZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2ggXAogICAgICAgICAgICAiCi0tIAoyLjM5
+LjIKCg==
+
+--===============3961604492848102923==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/kmscube/kmscube-dbg: PKGSIZE changed from 257144 to 257136 (-0%)
-packages/core2-32-poky-linux/kmscube/kmscube-src: PKGSIZE changed from 4577537 to 4577513 (-0%)
+packages/core2-32-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang-default-resource-limits.so.12.2.0"
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 74683608 to 74612200 (-0%)
+packages/core2-32-poky-linux/glslang/glslang-dbg: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang-dev: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so"
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGSIZE changed from 1020014 to 1020059 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-dev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-doc: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-locale: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang-src: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-src: PKGSIZE changed from 4821631 to 4822370 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-src: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: FILELIST: added "/usr/lib/libglslang-default-resource-limits.a"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGSIZE changed from 0 to 172584 (+100%)
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so.12.2.0 /usr/lib/libglslang-default-resource-limits.so.12"
+packages/core2-32-poky-linux/glslang/glslang: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang/glslang: PKGSIZE changed from 6530999 to 6525523 (-0%)
+packages/core2-32-poky-linux/glslang/glslang: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/glslang: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/glslang: PV changed from "1.3.250.0" to "1.3.250.1"
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang-default-resource-limits.a was added
+  /usr/lib/libglslang-default-resource-limits.so.12.2.0 was removed
+  /usr/lib/libglslang-default-resource-limits.so.12 was removed
+  /usr/lib/libglslang-default-resource-limits.so was removed
 
---===============7416993215137644318==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-kmscube-upgrade-to-latest-revision.patch"
-
-RnJvbSBhZDI5Yzk1M2FlNjc3NWJkYjIwYTMzZjAxYWM3YzQ0ODMyMWQzZGI3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBKdWwgMjAyMyAxMTo1OToxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGtt
-c2N1YmU6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy9rbXNjdWJlL2ttc2N1YmVfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mva21zY3Vi
-ZS9rbXNjdWJlX2dpdC5iYgppbmRleCBjYTc2MjUxZDdhLi4wMmZjODQyNDcxIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYgpAQCAtMTAsNyArMTAsNyBA
-QCBERVBFTkRTID0gInZpcnR1YWwvbGliZ2xlczMgdmlydHVhbC9saWJnbGVzMiB2aXJ0dWFsL2Vn
-bCBsaWJkcm0gdmlydHVhbC9saWJnYm0iCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2tt
-c2N1YmUuYztiZWdpbmxpbmU9MTtlbmRsaW5lPTIzO21kNT04YjMwOWQ0ZWU2N2I3MzE1ZmY3Mzgx
-MjcwZGQ2MzFmYiIKIAotU1JDUkVWID0gImNmNGVjN2YzNTUyMWViNTRkNzJjZTBjOTJjZTY1YjIy
-NDkxNzFjYmQiCitTUkNSRVYgPSAiMGJlMTY4MWQwOWU3NzMzMGUwMmI4ZDQ3MDhlNDdhMDQ1ODVm
-NGIxNiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL2ttc2N1
-YmU7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyIKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMg
-PSAiMSIKIAotLSAKMi4zOS4yCgo=
-
---===============7416993215137644318==--
+--===============3961604492848102923==--
 
