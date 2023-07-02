@@ -1,136 +1,305 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFDBEB64D9
-	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 20:02:57 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.13127.1688328172986696851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EEEEB64D9
+	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 21:40:47 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.14924.1688334046855065704
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 13:02:53 -0700
+ Sun, 02 Jul 2023 14:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=diAayPwk;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b88e99673eso3768165ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 13:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688328172; x=1690920172;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=As9jJIIbrsn8qzqA8qIuB+CmnF9lgQllCbB/00VKn8g=;
-        b=diAayPwkeyrEa8TsG5AhRtmiiM+XlO2nvq08KKVsIxLZjTw8ZAB+PstcZIBWrQsmwV
-         Wq93TA1Kh4SQS1gsEDVHrfMdJf7heXHxmpcfhcd3ygWjH96i3qv24txVsL9Z8/PT2v1P
-         GaXCu6dcrk4PC14CQGP0zNE/Z8YvdHD3c/kKj2C1x6OyTxjAWtRxS+OY09DlQdfrNDtO
-         IwZqxN/arAFqa6IfRqneSDGHDK587xae4OHFBoz5OIURx057axHTkSdEqfyPj2PnfnRD
-         bah6ecrPB2fNIkDmh8+WndS+WjKW2/g3qmtk1jMU6f0xGdMDQr+fI9flMhSuZFz9ngOx
-         otGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688328172; x=1690920172;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=As9jJIIbrsn8qzqA8qIuB+CmnF9lgQllCbB/00VKn8g=;
-        b=WPouG1XjDgTHk84Ky/3RyenvvSIfR1P7pqRN05o1loB2qzV4pWQlNILCodbV3dVSQ6
-         5YvbCvtPgHmEK8hvWOalGmcktqtqd0mOX2MkFhi2Z2DJPJdKuBc2fv20nPrEtD7jZUVT
-         EHWIGYDmqePfECrWSNjuMqDcMHIp7ggP2PhuCy3SVTqfaOQWt5XpX5bjPVVi4CYZW0KJ
-         obJNZuCbKCwSEeRK1HYgug/uFcvzxc1OTUT/5PHOLkKQKuCDN6T12yBqJt56WLkIgAoY
-         GlRV5pVgstXpYbOkvcgAEJmEHv8yZRkXPRjxkoNOotTfp4Pum4oY4XV1nr/zqChjTZ3+
-         TRFQ==
-X-Gm-Message-State: ABy/qLYgTfATZ1BhKV9kcUPNNyUj3Xvdeh02USgCjJKsVj1MV8Nj96rZ
-	5vJZi7S7nYBPEYZ+S4Pc7E043OzDKB8=
-X-Google-Smtp-Source: APBJJlEhMVHATYtqW6/+w1JOEgllkVWXnV9XBLokMOOeI0DqMPrlE9WV6KIVcWeZfl/d8TsGK9qmDw==
-X-Received: by 2002:a17:902:f54e:b0:1b8:5406:a34 with SMTP id h14-20020a170902f54e00b001b854060a34mr9478560plf.24.1688328172081;
-        Sun, 02 Jul 2023 13:02:52 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::1fb3])
-        by smtp.gmail.com with ESMTPSA id p10-20020a170902b08a00b001b882880550sm2620188plr.282.2023.07.02.13.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jul 2023 13:02:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libpam: Fix examples build on musl
-Date: Sun,  2 Jul 2023 13:02:49 -0700
-Message-ID: <20230702200249.1323744-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SZ5tCWZu;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1688334044;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Co4Ei1cs3yg79YvVFnwECQkIdr7ewLp1ydFuRHyM30=;
+	b=SZ5tCWZutmRycVwVq8wx0WAm8P14NtrtAZ1wptil/2lVoJL21E9PEJr1NlKFeOsiJJhmDW
+	LQEcU01RBx9weuQoArSRZwjVeVIofly11g3k3AXIii7SUpi9TmuNVp8IjQF5xFRGQSHq3t
+	1UOlezlbZl1K1VYD53Ate/0mRjQ2tYO5LxnK6rKQogxrQfhcgb3+A8UXS0VCZK3UlN96cg
+	Dyp41SgirKxkOyTPA3pMZ3GizWAe1ygSU1rnGFZMACAzeW6SJR5BjL9kYu7B38ciq4iRNn
+	86SGKvsjoTt9oUOyh3qu0Q/f1Z/jjHIjZAwCiZSfRh7cFKPeGG0SMXHqKtZcCw==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FB601BF205;
+	Sun,  2 Jul 2023 21:40:43 +0000 (UTC)
+Date: Sun, 2 Jul 2023 23:40:42 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Peter Hoyes <peter.hoyes@arm.com>
+Cc: openembedded-core@lists.openembedded.org, luca.ceresoli@bootlin.com,
+	Ross.Burton@arm.com, richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [PATCH v3] rootfs-postcommands: Set vardeps for
+ do_write_test_data
+Message-ID: <20230702214042bb36ffb7@mail.local>
+References: <20230629152654.2048044-1-peter.hoyes@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230629152654.2048044-1-peter.hoyes@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 20:02:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183782
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 21:40:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183783
 
-This came with latest libpam upgrade
+Hello,
 
-../../Linux-PAM-1.5.3/examples/tty_conv.c:9:10: fatal error: 'termio.h' file not found
-         ^~~~~~~~~~
-1 error generated.
+This causes oe-selftest failures on the autobuilders:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...place-use-of-termio.h-with-termios.h.patch | 39 +++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.3.bb     |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-examples-Replace-use-of-termio.h-with-termios.h.patch
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-2280027/meta-selftest/lib/oeqa/runtime/cases/selftest.py", line 18, in test_install_package
+    self.assertEqual(status, 0, msg="socat is not installed")
+AssertionError: 126 != 0 : socat is not installed
+Test case selftest.Selftest.test_verify_uninstall depends on selftest.Selftest.test_install_package but it didn't pass/run.
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-examples-Replace-use-of-termio.h-with-termios.h.patch b/meta/recipes-extended/pam/libpam/0001-examples-Replace-use-of-termio.h-with-termios.h.patch
-new file mode 100644
-index 00000000000..95c437df4f1
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/0001-examples-Replace-use-of-termio.h-with-termios.h.patch
-@@ -0,0 +1,39 @@
-+From 9b96fcfa5748934b8b6a4db4ee25a5e3165905c0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 1 Jul 2023 07:48:17 -0700
-+Subject: [PATCH] examples: Replace use of termio.h with termios.h
-+
-+Fixes build with musl and makes it portable
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/5374f677e4cae669eb9accf2449178b602e8a40a]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ examples/tty_conv.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/examples/tty_conv.c b/examples/tty_conv.c
-+index 23f0684..db22500 100644
-+--- a/examples/tty_conv.c
-++++ b/examples/tty_conv.c
-+@@ -6,7 +6,8 @@
-+ #include <string.h>
-+ #include <errno.h>
-+ #include <unistd.h>
-+-#include <termio.h>
-++#include <termios.h>
-++#include <sys/ioctl.h>
-+ #include <security/pam_appl.h>
-+ 
-+ /***************************************
-+@@ -16,7 +17,7 @@
-+  ***************************************/
-+ static void echoOff(int fd, int off)
-+ {
-+-    struct termio tty;
-++    struct termios tty;
-+     if (ioctl(fd, TCGETA, &tty) < 0)
-+     {
-+         fprintf(stderr, "TCGETA failed: %s\n", strerror(errno));
-+-- 
-+2.41.0
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.3.bb b/meta/recipes-extended/pam/libpam_1.5.3.bb
-index c8f1e164593..eafb5aae43e 100644
---- a/meta/recipes-extended/pam/libpam_1.5.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.3.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
-            file://pam.d/common-session-noninteractive \
-            file://pam.d/other \
-            file://libpam-xtests.patch \
-+           file://0001-examples-Replace-use-of-termio.h-with-termios.h.patch \
-            file://run-ptest \
-            file://pam-volatiles.conf \
-            "
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5450/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5417/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1691/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5373/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5424/steps/14/logs/stdio
+
+On 29/06/2023 16:26:54+0100, Peter Hoyes wrote:
+> From: Peter Hoyes <Peter.Hoyes@arm.com>
+> 
+> The testdata.json file generated by testdata.bbclass currently contains
+> almost all Bitbake variables. However only a small number of variables
+> are actually used and the testdata.json is not automatically updated
+> when the variables are updated.
+> 
+> Introduce the testdata_vars bbclass which defines TESTDATA_EXPORT_VARS
+> to explicitly set the variables to be collected for testdata.json and
+> populate with all variables used by runtime and sdk tests in OE-core.
+> Use this variable to set the vardeps of do_write_test_data.
+> 
+> Modify export2json to take an explicit list of keys to export, instead
+> of exporting everything in the datastore.
+> 
+> Adapt write_sdk_test_data and meta-ide-support to use the same list of
+> testdata variables.
+> 
+> Add a demonstrative OE selftest to rootfspostcommandstests.
+> 
+> Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
+> ---
+> 
+> Changes from v2:
+>  * Move TESTDATA_EXPORT_VARS to common testdata_vars.bbclass
+>  * Update other export2json call sites (eSDK and meta-ide-support)
+> 
+> Tested with:
+>  * oe-selftest -r rootfspostcommandstests
+>  * oe-selftest -r sstatetests.SStateHashSameSigs
+>  * bitbake core-image-sato -c testimage
+>  * bitbake core-image-sato -c testsdkext
+>  * bitbake buildtools-tarball buildtools-extended-tarball
+>  * bitbake meta-ide-support
+> 
+>  meta/classes-recipe/populate_sdk_base.bbclass |  5 +++-
+>  .../rootfs-postcommands.bbclass               |  6 +++-
+>  meta/classes-recipe/testdata_vars.bbclass     | 30 +++++++++++++++++++
+>  meta/lib/oe/data.py                           | 17 +----------
+>  .../selftest/cases/rootfspostcommandstests.py | 19 ++++++++++++
+>  meta/recipes-core/meta/meta-ide-support.bb    |  5 +++-
+>  6 files changed, 63 insertions(+), 19 deletions(-)
+>  create mode 100644 meta/classes-recipe/testdata_vars.bbclass
+> 
+> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+> index b23ea26d40..ffb06f2062 100644
+> --- a/meta/classes-recipe/populate_sdk_base.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
+> @@ -134,11 +134,14 @@ sdk_prune_dirs () {
+>      done
+>  }
+>  
+> +inherit testdata_vars
+> +
+>  python write_sdk_test_data() {
+>      from oe.data import export2json
+>      testdata = "%s/%s.testdata.json" % (d.getVar('SDKDEPLOYDIR'), d.getVar('TOOLCHAIN_OUTPUTNAME'))
+>      bb.utils.mkdirhier(os.path.dirname(testdata))
+> -    export2json(d, testdata)
+> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
+> +    export2json(d, keys, testdata)
+>  }
+>  
+>  python write_host_sdk_manifest () {
+> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
+> index 652601b95f..26eddc8c35 100644
+> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
+> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+> @@ -454,6 +454,8 @@ rootfs_sysroot_relativelinks () {
+>  }
+>  
+>  # Generated test data json file
+> +inherit testdata_vars
+> +
+>  python write_image_test_data() {
+>      from oe.data import export2json
+>  
+> @@ -461,8 +463,9 @@ python write_image_test_data() {
+>      link_name = d.getVar('IMAGE_LINK_NAME')
+>      testdata_name = os.path.join(deploy_dir, "%s.testdata.json" % d.getVar('IMAGE_NAME'))
+>  
+> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
+>      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+> -    export2json(d, testdata_name, searchString=searchString, replaceString="")
+> +    export2json(d, keys, testdata_name, searchString=searchString, replaceString="")
+>  
+>      if os.path.exists(testdata_name) and link_name:
+>          testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
+> @@ -471,6 +474,7 @@ python write_image_test_data() {
+>                  os.remove(testdata_link)
+>              os.symlink(os.path.basename(testdata_name), testdata_link)
+>  }
+> +write_image_test_data[vardeps] += "${TESTDATA_EXPORT_VARS}"
+>  write_image_test_data[vardepsexclude] += "TOPDIR"
+>  
+>  # Check for unsatisfied recommendations (RRECOMMENDS)
+> diff --git a/meta/classes-recipe/testdata_vars.bbclass b/meta/classes-recipe/testdata_vars.bbclass
+> new file mode 100644
+> index 0000000000..cecbc6d7ca
+> --- /dev/null
+> +++ b/meta/classes-recipe/testdata_vars.bbclass
+> @@ -0,0 +1,30 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +# The variables exported to testdata.json for testimage and other similar tasks
+> +TESTDATA_EXPORT_VARS ?= "\
+> +    ARCH \
+> +    DEPLOY_DIR \
+> +    DEPLOY_DIR_DEB \
+> +    DISTRO_FEATURES \
+> +    DL_DIR \
+> +    IMAGE \
+> +    IMAGE_FEATURES \
+> +    libdir \
+> +    MACHINE \
+> +    MULTILIB_VARIANTS \
+> +    PACKAGE_FEED_GPG_NAME \
+> +    PTEST_EXPECT_FAILURE \
+> +    QEMU_USE_KVM \
+> +    SDK_DEPLOY \
+> +    SDKPATH \
+> +    T \
+> +    TEST_LOG_DIR \
+> +    TOOLCHAINEXT_OUTPUTNAME \
+> +    TUNE_PKGARCH \
+> +    VIRTUAL-RUNTIME_init_manager \
+> +    WORKDIR \
+> +"
+> diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
+> index 37121cfad2..731f2b5b46 100644
+> --- a/meta/lib/oe/data.py
+> +++ b/meta/lib/oe/data.py
+> @@ -23,23 +23,8 @@ def typed_value(key, d):
+>      except (TypeError, ValueError) as exc:
+>          bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
+>  
+> -def export2json(d, json_file, expand=True, searchString="",replaceString=""):
+> +def export2json(d, keys2export, json_file, expand=True, searchString="",replaceString=""):
+>      data2export = {}
+> -    keys2export = []
+> -
+> -    for key in d.keys():
+> -        if key.startswith("_"):
+> -            continue
+> -        elif key.startswith("BB"):
+> -            continue
+> -        elif key.startswith("B_pn"):
+> -            continue
+> -        elif key.startswith("do_"):
+> -            continue
+> -        elif d.getVarFlag(key, "func"):
+> -            continue
+> -
+> -        keys2export.append(key)
+>  
+>      for key in keys2export:
+>          try:
+> diff --git a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+> index 44e2c09a6f..fec13ce213 100644
+> --- a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+> +++ b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+> @@ -2,6 +2,7 @@
+>  #
+>  # SPDX-License-Identifier: MIT
+>  
+> +import json
+>  import os
+>  import oe
+>  import unittest
+> @@ -95,3 +96,21 @@ class ShadowUtilsTidyFiles(OESelftestTestCase):
+>                  unsorted.append(file)
+>          if (unsorted):
+>              raise Exception("The following files were not sorted by ID as expected: %s" % unsorted)
+> +
+> +
+> +class TestDataTests(OESelftestTestCase):
+> +    def test_vardeps(self):
+> +        """
+> +        Test that variables changes are reflected in testdata.json
+> +        """
+> +        test_image = "core-image-minimal"
+> +        self.write_config('TESTDATA_EXPORT_VARS:append = " TEST_VARIABLE"\nTEST_VARIABLE = "VALUE1"')
+> +        bitbake(test_image)
+> +        self.append_config('TEST_VARIABLE = "VALUE2"')
+> +        bitbake(test_image)
+> +
+> +        vars = get_bb_vars(('DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'), test_image)
+> +        testdata_json = "%s/%s.testdata.json" % (vars['DEPLOY_DIR_IMAGE'], vars['IMAGE_LINK_NAME'])
+> +        with open(testdata_json, 'r') as tf:
+> +            testdata_vars = json.load(tf)
+> +        self.assertEqual(testdata_vars['TEST_VARIABLE'], 'VALUE2')
+> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
+> index 7f349f673d..3ee796d124 100644
+> --- a/meta/recipes-core/meta/meta-ide-support.bb
+> +++ b/meta/recipes-core/meta/meta-ide-support.bb
+> @@ -22,13 +22,16 @@ python () {
+>  
+>  addtask populate_ide_support before do_deploy after do_install
+>  
+> +inherit testdata_vars
+> +
+>  python do_write_test_data() {
+>      from oe.data import export2json
+>  
+>      out_dir = d.getVar('B')
+>      testdata_name = os.path.join(out_dir, "%s.testdata.json" % d.getVar('PN'))
+>  
+> -    export2json(d, testdata_name)
+> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
+> +    export2json(d, keys, testdata_name)
+>  }
+>  addtask write_test_data before do_deploy after do_install
+>  
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183637): https://lists.openembedded.org/g/openembedded-core/message/183637
+> Mute This Topic: https://lists.openembedded.org/mt/99853010/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.41.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
