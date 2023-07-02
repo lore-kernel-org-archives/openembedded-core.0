@@ -1,105 +1,123 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BE5EB64D9
-	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 10:05:04 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web10.3051.1688292297545093778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05DB8EB64D9
+	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 11:20:05 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.3813.1688296798527724440
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 03:04:57 -0700
+ Sun, 02 Jul 2023 04:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=poEx6bns;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: ticotimo@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a04cb10465so2502519b6e.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 03:04:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sruXjfK1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-263253063f9so2512188a91.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 04:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688292295; x=1690884295;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PuU6c0LtXhxb/D7ke+pQ3/H0YybeG76qr0hcr5OEGwo=;
-        b=poEx6bnsjyactZ7mxKRQ0SD0Zd4r+BbFXi0ndX8WhWNqGYRVgfrp/jwv+ti6vXaJ35
-         FSVU3j5akEbHA9PSK2CGIVdH39UUfGQhUORJaz2/5EpAr7dK5yFfWU6oYffL4TC5PQ0J
-         bqVwx+hd5RdXWF6T0lYYu4JZFLWkNp8mi6DMLMr5i3tuyVXpjmB3SVhK/Ifs0bJ/gd47
-         hZLDFT9NjxHZLvqPbY2n+FLTA2KlhnZGLgY4Le3fxxu+NmADQ4sGtCoYX6WgCjMOpouD
-         JOY8MPKf57Kmfq6qk4d0xzfvrxFVNYGnFRi6TmWEWxYKvUFz6cJA5nve+p5+1YB2Ets/
-         xMwQ==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688296797; x=1690888797;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RdQ3ipbf5143kFY6yFLMFXIYBDAtAGqW7owR7LipIpM=;
+        b=sruXjfK1azyX2ItrxQ/CAahDjp9+DFCNLYbjpguMEiIyDhsfo++Xr2PTtsPUyEMUI0
+         +L5nCS5dTSH29rtHAkCbSWU8WQvak6gUDNG3HAbsyp2KloRNp2+mRh18yzlxMGWD44p4
+         u30Uchug+8wuomgHMKaBoiS/w1cOkNlAOw4MRY21i+ItC4vNREzYSNik9JtVsPIvIz6K
+         hMNp7NpxC1eJyM5EqDhWwVKpWb0fGIWFEv8Y6+8kLknsMHoMa6EKtd+IixxznwObMJMh
+         ZuolUPpT5ILRtR5wzr5pdMY5w7k2wchHB36/N41iPnvlhEP6s/S5Zi4/Y5pXm4qfWHDg
+         1JlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688292295; x=1690884295;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PuU6c0LtXhxb/D7ke+pQ3/H0YybeG76qr0hcr5OEGwo=;
-        b=k9mduNFYr00gmNCaAOsVljEiQl3nLNCoEtxgPlfxKJ1Pcb0OY3w0tU+i4/HpKPZ9gt
-         2PebBbkW1N8vDo2KPTAHmI9hdzxznRICIt/5W89qtQP8cYbxPM7n/pJbblr+ZnKEL8iu
-         WG695JwmM9dlhtIv1n+RedDK2JpVKvqNoeCqY7wZfRdZAIZKPdC3Wtaw3bejM4DYVr9M
-         IcTXpzs8/SeRVhM0rk/uaySW7N54E7VhnGdTc+Mj5SJ8kOQmbOZBnfdTtwlUrAqEv8Mf
-         DhmsU9mTOrKWysY26h9RO4nnKP9Uaxrm/9ybZH3btl8w1NgTJ+QqJ1aK7BjwNfYB1Hg2
-         oJRw==
-X-Gm-Message-State: AC+VfDwf6AMfKEWf4Sye6FIGWXgOnWhw7xXEOBGdo5K35wd0BvDEubhE
-	cCP4Egvao99I98h2esyQRGuDIR679voL/nOT
-X-Google-Smtp-Source: ACHHUZ7jPU+lMX/aM8vWkCU/t5fTXkXZ9PI/noAFJORWQegAaqLcU1T5zK4d3sgUQpJZk2fHqhIC6w==
-X-Received: by 2002:a05:6808:140d:b0:3a1:cbac:38e5 with SMTP id w13-20020a056808140d00b003a1cbac38e5mr11485754oiv.12.1688292295280;
-        Sun, 02 Jul 2023 03:04:55 -0700 (PDT)
-Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:e28f:b00:32f8:7851])
-        by smtp.gmail.com with ESMTPSA id 3-20020a170902c10300b0019aaab3f9d7sm13405586pli.113.2023.07.02.03.04.54
+        d=1e100.net; s=20221208; t=1688296797; x=1690888797;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RdQ3ipbf5143kFY6yFLMFXIYBDAtAGqW7owR7LipIpM=;
+        b=M6amaDDeNs9/3B7aAe4uSEXd2Y5FKpK6qetj5Olt5BoaZc3hgqCUvA39TE9OZwjIBX
+         ghuIOrd1M8fsMunEiRmd/pvfnvxDiau6cbglRyWiPeQT/j0pHucenbqlWH7hQjKwaKXQ
+         YaS+Di5zr8V94/KlAvk7dTNRSWP6LvaJZc9zDzKxqFrxlZOSRQwUKrdk0IAt+NEOflTq
+         u7eOxYUXGNZyPT+zRffEYKO++mTasTsSLBFQhdYa1hIFVxsRl+K6+1nj+Ri7lAW3e7c4
+         0Hj3B1DJxrDdfHbYtkBhS+r5jklNbKkx0BDk8pGNEUgOzxzJg+IOE43I2NWX0Q3XL0B5
+         MAcQ==
+X-Gm-Message-State: ABy/qLYiG7naeDbX1LarlWQVxdPDzC9QoB1EfZdrTVqgZE+Sy9SzGzth
+	Cigx8fwLBys6gu93EWdWhxGVveozbQzzmf/mqd3hyA==
+X-Google-Smtp-Source: APBJJlESkbeWttppsYuskxQD3plJCk9HRFzUv+oR8Q+tlmYfmLOGD118Z4IHJ6fNQEx9biSqqxG6Tg==
+X-Received: by 2002:a17:90a:de90:b0:263:1d18:886a with SMTP id n16-20020a17090ade9000b002631d18886amr8198042pjv.1.1688296797215;
+        Sun, 02 Jul 2023 04:19:57 -0700 (PDT)
+Received: from nuc.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id 18-20020a17090a199200b0024df6bbf5d8sm7779855pji.30.2023.07.02.04.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jul 2023 03:04:54 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-hypothesis: upgrade 6.79.2 -> 6.80.0
-Date: Sun,  2 Jul 2023 03:03:52 -0700
-Message-Id: <20230702100351.2442902-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 02 Jul 2023 04:19:56 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 0879396048C; Sun,  2 Jul 2023 01:19:55 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 02 Jul 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  2 Jul 2023 01:19:55 -1000
+Message-Id: <20230702111955.0879396048C@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 10:05:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183776
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 11:20:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183777
 
-Changes:
-* This release drops support for Python 3.7, which reached end of life
-  on 2023-06-27.
-* Fixes occasional recursion-limit-exceeded errors when validating deeply
-  nested strategies. Closes: issue #3671
-* This patch updates our vendored list of top-level domains, which is used
-  by the provisional domains() strategy.
+Branch: master
 
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-80-0
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-79-4
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-79-3
+New this week: 14 CVEs
+CVE-2019-18910 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18910 *
+CVE-2020-11935 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11935 *
+CVE-2023-25435 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25435 *
+CVE-2023-31486 (CVSS3: 8.1 HIGH): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31486 *
+CVE-2023-3220 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3220 *
+CVE-2023-3268 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3268 *
+CVE-2023-3312 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3312 *
+CVE-2023-34241 (CVSS3: 7.1 HIGH): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-34241 *
+CVE-2023-35823 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35823 *
+CVE-2023-35824 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35824 *
+CVE-2023-35826 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35826 *
+CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
+CVE-2023-35828 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35828 *
+CVE-2023-35829 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35829 *
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+Removed this week: 1 CVEs
+CVE-2023-26965 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26965 *
 
-All ptests passed on qemux86_musl, which had failed in the AUH build
-due to an unrelated libpam issue.
+Full list:  Found 38 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2019-18910 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18910 *
+CVE-2020-11935 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11935 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
+CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-48425 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48425 *
+CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-2124 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2124 *
+CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
+CVE-2023-25434 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25434 *
+CVE-2023-25435 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25435 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-28464 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28464 *
+CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
+CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
+CVE-2023-31486 (CVSS3: 8.1 HIGH): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31486 *
+CVE-2023-3161 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3161 *
+CVE-2023-3220 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3220 *
+CVE-2023-3268 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3268 *
+CVE-2023-3312 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3312 *
+CVE-2023-34241 (CVSS3: 7.1 HIGH): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-34241 *
+CVE-2023-35788 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35788 *
+CVE-2023-35823 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35823 *
+CVE-2023-35824 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35824 *
+CVE-2023-35826 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35826 *
+CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
+CVE-2023-35828 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35828 *
+CVE-2023-35829 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35829 *
 
- ...ython3-hypothesis_6.79.2.bb => python3-hypothesis_6.80.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.79.2.bb => python3-hypothesis_6.80.0.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb
-index c98f10e1eed..82f855d4b78 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.79.2.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "51fb2259489dc446d3edc04cbc8ebd5848d7d3f238121183bee5449b91f7a8d8"
-+SRC_URI[sha256sum] = "75d74da36fd3837b5b3fe15211dabc7389e78d882bf2c91bab2184ccf91fe64c"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
--- 
-2.30.2
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
