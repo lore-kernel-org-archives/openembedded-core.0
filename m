@@ -2,296 +2,114 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EEEEB64D9
-	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 21:40:47 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.14924.1688334046855065704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE434EB64D9
+	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 21:44:37 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.14985.1688334276752468539
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 14:40:47 -0700
+ Sun, 02 Jul 2023 14:44:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SZ5tCWZu;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GFr8c0YJ;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
 X-GND-Sasl: alexandre.belloni@bootlin.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1688334044;
+	t=1688334275;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+Co4Ei1cs3yg79YvVFnwECQkIdr7ewLp1ydFuRHyM30=;
-	b=SZ5tCWZutmRycVwVq8wx0WAm8P14NtrtAZ1wptil/2lVoJL21E9PEJr1NlKFeOsiJJhmDW
-	LQEcU01RBx9weuQoArSRZwjVeVIofly11g3k3AXIii7SUpi9TmuNVp8IjQF5xFRGQSHq3t
-	1UOlezlbZl1K1VYD53Ate/0mRjQ2tYO5LxnK6rKQogxrQfhcgb3+A8UXS0VCZK3UlN96cg
-	Dyp41SgirKxkOyTPA3pMZ3GizWAe1ygSU1rnGFZMACAzeW6SJR5BjL9kYu7B38ciq4iRNn
-	86SGKvsjoTt9oUOyh3qu0Q/f1Z/jjHIjZAwCiZSfRh7cFKPeGG0SMXHqKtZcCw==
+	bh=JV0c0qrAF42HqRWPXhulP7SR9pPR/IQIe71lIdEZcvY=;
+	b=GFr8c0YJ7bmbl7tEfI3cvVITqnzzpyKd0VT/qstkdE93B7/zYfFxul43AE2yj0UEdFDuwu
+	JZQCZyVMDonhuZkh2OoG+1Oq9/SHL3d7da+3Ji3tZ9ffc6zHuE4fYioEy/ukqosJsqbF0d
+	Ei3s4OmPzoDw/CqiF8/gRQJllPpZwz0vLFhmtVwa8yxt0I9AR6YMToiOZuy9JhqM2OvhZh
+	BJmFLVoRAjgLPTLX04dqpHJ2mLqC6NKRtT9vkOgBFtUMvTQacNikbTZvieB8XwUCozlcmB
+	3exgN2IJihNVNvA8jMV1p2MZ0ntG38J2saR492z1yjFN4enGx3evpcGX9FKKNA==
 X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FB601BF205;
-	Sun,  2 Jul 2023 21:40:43 +0000 (UTC)
-Date: Sun, 2 Jul 2023 23:40:42 +0200
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 77FFDFF802;
+	Sun,  2 Jul 2023 21:44:34 +0000 (UTC)
+Date: Sun, 2 Jul 2023 23:44:33 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Peter Hoyes <peter.hoyes@arm.com>
-Cc: openembedded-core@lists.openembedded.org, luca.ceresoli@bootlin.com,
-	Ross.Burton@arm.com, richard.purdie@linuxfoundation.org
-Subject: Re: [OE-core] [PATCH v3] rootfs-postcommands: Set vardeps for
- do_write_test_data
-Message-ID: <20230702214042bb36ffb7@mail.local>
-References: <20230629152654.2048044-1-peter.hoyes@arm.com>
+To: ovidiu.panait@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/4] mdadm: fix util-linux-lsblk ptest
+ dependency
+Message-ID: <202307022144331949919e@mail.local>
+References: <20230629141836.3431391-1-ovidiu.panait@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230629152654.2048044-1-peter.hoyes@arm.com>
+In-Reply-To: <20230629141836.3431391-1-ovidiu.panait@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 21:40:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183783
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 21:44:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183784
 
 Hello,
 
-This causes oe-selftest failures on the autobuilders:
+I had those failures on the AB:
 
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-2280027/meta-selftest/lib/oeqa/runtime/cases/selftest.py", line 18, in test_install_package
-    self.assertEqual(status, 0, msg="socat is not installed")
-AssertionError: 126 != 0 : socat is not installed
-Test case selftest.Selftest.test_verify_uninstall depends on selftest.Selftest.test_install_package but it didn't pass/run.
+{'mdadm': ['/usr/lib/mdadm/ptest/tests/10ddf-createFAILED_-_see_/mdadm-testing-dir/10ddf-create.log_and_/mdadm-testing-dir/fail10ddf-create.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-create-fail-rebuildFAILED_-_see_/mdadm-testing-dir/10ddf-create-fail-rebuild.log_and_/mdadm-testing-dir/fail10ddf-create-fail-rebuild.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-fail-readdFAILED_-_see_/mdadm-testing-dir/10ddf-fail-readd.log_and_/mdadm-testing-dir/fail10ddf-fail-readd.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-fail-readd-readonlyFAILED_-_see_/mdadm-testing-dir/10ddf-fail-readd-readonly.log_and_/mdadm-testing-dir/fail10ddf-fail-readd-readonly.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-fail-spareFAILED_-_see_/mdadm-testing-dir/10ddf-fail-spare.log_and_/mdadm-testing-dir/fail10ddf-fail-spare.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-fail-stop-readdFAILED_-_see_/mdadm-testing-dir/10ddf-fail-stop-readd.log_and_/mdadm-testing-dir/fail10ddf-fail-stop-readd.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-fail-twiceFAILED_-_see_/mdadm-testing-dir/10ddf-fail-twice.log_and_/mdadm-testing-dir/fail10ddf-fail-twice.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/10ddf-sudden-degradedFAILED_-_see_/mdadm-testing-dir/10ddf-sudden-degraded.log_and_/mdadm-testing-dir/fail10ddf-sudden-degraded.log_for_details',
+           '/usr/lib/mdadm/ptest/tests/21raid5cacheFAILED_-_see_/mdadm-testing-dir/21raid5cache.log_and_/mdadm-testing-dir/fail21raid5cache.log_for_details']}
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5450/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5417/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1691/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5373/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5424/steps/14/logs/stdio
 
-On 29/06/2023 16:26:54+0100, Peter Hoyes wrote:
-> From: Peter Hoyes <Peter.Hoyes@arm.com>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5106/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5292/steps/13/logs/stdio
+
+On 29/06/2023 17:18:33+0300, Ovidiu Panait via lists.openembedded.org wrote:
+> From: Ovidiu Panait <ovidiu.panait@windriver.com>
 > 
-> The testdata.json file generated by testdata.bbclass currently contains
-> almost all Bitbake variables. However only a small number of variables
-> are actually used and the testdata.json is not automatically updated
-> when the variables are updated.
+> Trying to run mdadm-ptest in a core-image-minimal build will result in:
+> root@qemux86-64:~# ptest-runner mdadm
+> START: ptest-runner
+> BEGIN: /usr/lib/mdadm/ptest
+> which: no lsblk in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin)
+> lsblk command not found!
+> DURATION: 0
+> END: /usr/lib/mdadm/ptest
+> 2023-06-28T10:14
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 0
 > 
-> Introduce the testdata_vars bbclass which defines TESTDATA_EXPORT_VARS
-> to explicitly set the variables to be collected for testdata.json and
-> populate with all variables used by runtime and sdk tests in OE-core.
-> Use this variable to set the vardeps of do_write_test_data.
+> To fix this, add util-linux-lsblk to RDEPENDS and remove util-linux from
+> RRECOMMENDS.
 > 
-> Modify export2json to take an explicit list of keys to export, instead
-> of exporting everything in the datastore.
-> 
-> Adapt write_sdk_test_data and meta-ide-support to use the same list of
-> testdata variables.
-> 
-> Add a demonstrative OE selftest to rootfspostcommandstests.
-> 
-> Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 > ---
+>  meta/recipes-extended/mdadm/mdadm_4.2.bb | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> Changes from v2:
->  * Move TESTDATA_EXPORT_VARS to common testdata_vars.bbclass
->  * Update other export2json call sites (eSDK and meta-ide-support)
-> 
-> Tested with:
->  * oe-selftest -r rootfspostcommandstests
->  * oe-selftest -r sstatetests.SStateHashSameSigs
->  * bitbake core-image-sato -c testimage
->  * bitbake core-image-sato -c testsdkext
->  * bitbake buildtools-tarball buildtools-extended-tarball
->  * bitbake meta-ide-support
-> 
->  meta/classes-recipe/populate_sdk_base.bbclass |  5 +++-
->  .../rootfs-postcommands.bbclass               |  6 +++-
->  meta/classes-recipe/testdata_vars.bbclass     | 30 +++++++++++++++++++
->  meta/lib/oe/data.py                           | 17 +----------
->  .../selftest/cases/rootfspostcommandstests.py | 19 ++++++++++++
->  meta/recipes-core/meta/meta-ide-support.bb    |  5 +++-
->  6 files changed, 63 insertions(+), 19 deletions(-)
->  create mode 100644 meta/classes-recipe/testdata_vars.bbclass
-> 
-> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-> index b23ea26d40..ffb06f2062 100644
-> --- a/meta/classes-recipe/populate_sdk_base.bbclass
-> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
-> @@ -134,11 +134,14 @@ sdk_prune_dirs () {
->      done
+> diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+> index 14de9d88c2..0a122b0b01 100644
+> --- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
+> +++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+> @@ -101,10 +101,9 @@ do_install_ptest() {
 >  }
 >  
-> +inherit testdata_vars
-> +
->  python write_sdk_test_data() {
->      from oe.data import export2json
->      testdata = "%s/%s.testdata.json" % (d.getVar('SDKDEPLOYDIR'), d.getVar('TOOLCHAIN_OUTPUTNAME'))
->      bb.utils.mkdirhier(os.path.dirname(testdata))
-> -    export2json(d, testdata)
-> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
-> +    export2json(d, keys, testdata)
->  }
->  
->  python write_host_sdk_manifest () {
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-> index 652601b95f..26eddc8c35 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -454,6 +454,8 @@ rootfs_sysroot_relativelinks () {
->  }
->  
->  # Generated test data json file
-> +inherit testdata_vars
-> +
->  python write_image_test_data() {
->      from oe.data import export2json
->  
-> @@ -461,8 +463,9 @@ python write_image_test_data() {
->      link_name = d.getVar('IMAGE_LINK_NAME')
->      testdata_name = os.path.join(deploy_dir, "%s.testdata.json" % d.getVar('IMAGE_NAME'))
->  
-> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
->      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
-> -    export2json(d, testdata_name, searchString=searchString, replaceString="")
-> +    export2json(d, keys, testdata_name, searchString=searchString, replaceString="")
->  
->      if os.path.exists(testdata_name) and link_name:
->          testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
-> @@ -471,6 +474,7 @@ python write_image_test_data() {
->                  os.remove(testdata_link)
->              os.symlink(os.path.basename(testdata_name), testdata_link)
->  }
-> +write_image_test_data[vardeps] += "${TESTDATA_EXPORT_VARS}"
->  write_image_test_data[vardepsexclude] += "TOPDIR"
->  
->  # Check for unsatisfied recommendations (RRECOMMENDS)
-> diff --git a/meta/classes-recipe/testdata_vars.bbclass b/meta/classes-recipe/testdata_vars.bbclass
-> new file mode 100644
-> index 0000000000..cecbc6d7ca
-> --- /dev/null
-> +++ b/meta/classes-recipe/testdata_vars.bbclass
-> @@ -0,0 +1,30 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +# The variables exported to testdata.json for testimage and other similar tasks
-> +TESTDATA_EXPORT_VARS ?= "\
-> +    ARCH \
-> +    DEPLOY_DIR \
-> +    DEPLOY_DIR_DEB \
-> +    DISTRO_FEATURES \
-> +    DL_DIR \
-> +    IMAGE \
-> +    IMAGE_FEATURES \
-> +    libdir \
-> +    MACHINE \
-> +    MULTILIB_VARIANTS \
-> +    PACKAGE_FEED_GPG_NAME \
-> +    PTEST_EXPECT_FAILURE \
-> +    QEMU_USE_KVM \
-> +    SDK_DEPLOY \
-> +    SDKPATH \
-> +    T \
-> +    TEST_LOG_DIR \
-> +    TOOLCHAINEXT_OUTPUTNAME \
-> +    TUNE_PKGARCH \
-> +    VIRTUAL-RUNTIME_init_manager \
-> +    WORKDIR \
-> +"
-> diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-> index 37121cfad2..731f2b5b46 100644
-> --- a/meta/lib/oe/data.py
-> +++ b/meta/lib/oe/data.py
-> @@ -23,23 +23,8 @@ def typed_value(key, d):
->      except (TypeError, ValueError) as exc:
->          bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
->  
-> -def export2json(d, json_file, expand=True, searchString="",replaceString=""):
-> +def export2json(d, keys2export, json_file, expand=True, searchString="",replaceString=""):
->      data2export = {}
-> -    keys2export = []
-> -
-> -    for key in d.keys():
-> -        if key.startswith("_"):
-> -            continue
-> -        elif key.startswith("BB"):
-> -            continue
-> -        elif key.startswith("B_pn"):
-> -            continue
-> -        elif key.startswith("do_"):
-> -            continue
-> -        elif d.getVarFlag(key, "func"):
-> -            continue
-> -
-> -        keys2export.append(key)
->  
->      for key in keys2export:
->          try:
-> diff --git a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-> index 44e2c09a6f..fec13ce213 100644
-> --- a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-> +++ b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
-> @@ -2,6 +2,7 @@
->  #
->  # SPDX-License-Identifier: MIT
->  
-> +import json
->  import os
->  import oe
->  import unittest
-> @@ -95,3 +96,21 @@ class ShadowUtilsTidyFiles(OESelftestTestCase):
->                  unsorted.append(file)
->          if (unsorted):
->              raise Exception("The following files were not sorted by ID as expected: %s" % unsorted)
-> +
-> +
-> +class TestDataTests(OESelftestTestCase):
-> +    def test_vardeps(self):
-> +        """
-> +        Test that variables changes are reflected in testdata.json
-> +        """
-> +        test_image = "core-image-minimal"
-> +        self.write_config('TESTDATA_EXPORT_VARS:append = " TEST_VARIABLE"\nTEST_VARIABLE = "VALUE1"')
-> +        bitbake(test_image)
-> +        self.append_config('TEST_VARIABLE = "VALUE2"')
-> +        bitbake(test_image)
-> +
-> +        vars = get_bb_vars(('DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'), test_image)
-> +        testdata_json = "%s/%s.testdata.json" % (vars['DEPLOY_DIR_IMAGE'], vars['IMAGE_LINK_NAME'])
-> +        with open(testdata_json, 'r') as tf:
-> +            testdata_vars = json.load(tf)
-> +        self.assertEqual(testdata_vars['TEST_VARIABLE'], 'VALUE2')
-> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-> index 7f349f673d..3ee796d124 100644
-> --- a/meta/recipes-core/meta/meta-ide-support.bb
-> +++ b/meta/recipes-core/meta/meta-ide-support.bb
-> @@ -22,13 +22,16 @@ python () {
->  
->  addtask populate_ide_support before do_deploy after do_install
->  
-> +inherit testdata_vars
-> +
->  python do_write_test_data() {
->      from oe.data import export2json
->  
->      out_dir = d.getVar('B')
->      testdata_name = os.path.join(out_dir, "%s.testdata.json" % d.getVar('PN'))
->  
-> -    export2json(d, testdata_name)
-> +    keys = d.getVar('TESTDATA_EXPORT_VARS').split()
-> +    export2json(d, keys, testdata_name)
->  }
->  addtask write_test_data before do_deploy after do_install
->  
+>  RDEPENDS:${PN} += "bash"
+> -RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs"
+> +RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs util-linux-lsblk"
+>  RRECOMMENDS:${PN}-ptest += " \
+>      coreutils \
+> -    util-linux \
+>      kernel-module-loop \
+>      kernel-module-linear \
+>      kernel-module-raid0 \
 > -- 
-> 2.34.1
+> 2.39.1
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#183637): https://lists.openembedded.org/g/openembedded-core/message/183637
-> Mute This Topic: https://lists.openembedded.org/mt/99853010/3617179
+> View/Reply Online (#183631): https://lists.openembedded.org/g/openembedded-core/message/183631
+> Mute This Topic: https://lists.openembedded.org/mt/99851482/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
