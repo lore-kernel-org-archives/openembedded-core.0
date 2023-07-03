@@ -2,123 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C07DEB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFA8EB64D9
 	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 03:00:09 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.19538.1688353203743219086
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.19668.1688353204827965993
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 20:00:03 -0700
+ Sun, 02 Jul 2023 20:00:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ajy22k+q;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b801e6ce85so24202095ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 20:00:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fb8nJAE0;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-553ad54d3c6so2177809a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 20:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688353203; x=1690945203;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gjgA2qr+ReHmwHz7NqtpAViVNDwICVXwue42qCToFl0=;
-        b=ajy22k+qr0LtCOAhEjYIbSIoW4EtZ4MeMq4E5AbFdDKfBEIz2WxmEsPNdS6MMBV2uL
-         l2qHyFIOasMNfOsw98h6cLJlSzGw4qdogQZjv4Ul3JJdIqp1ZikESJlEOzzs4zHXTrme
-         9q03BYR3k4G+S3e4boOynNMuOs7neR7q1bdgHlpXDuajAqBFCbUTvg1We2ecAer684CL
-         YXlhDW+9zv3al0PbJmPpFr0C5aRMnebp5hCYelFhg4AgSmwEpNyQ5F+CUXdN8bOAlYap
-         ri3+wQQEspNouDkwseJOqrjTNpnxhM5WYy8rCXopAVNYQJmukssNkPg+zXYmIqtn3mNg
-         NBPg==
+        d=gmail.com; s=20221208; t=1688353204; x=1690945204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P8ydprSdtweke30RN0RXizh27wwzimdUyqUtExErzEA=;
+        b=fb8nJAE0fKsUTao/AQwivMtlLS0jdAlgVlAJMXaDxgYvGCWUAV1kJtAmPjd2V3sbZR
+         8KtyIiCAYvfC60gk8tBiAmnZU0KoVEZvrXUChLMOdNgYRu+T/JkMq/MlvBsLGaXX5F8h
+         M9ER0w9NokCaJh4zR4IWkDdXLeHH+zqBvU+7yxjHnxdGrcTqt9AUjDD17UYkg/GCLd9d
+         IqeTeV+BUl97/57UB/IHKZfP1OjqrzOCctZyeBpUz93lS17bLYWQj7EcCvbc0Lnggh0W
+         gTSvTpGz8kpZlCIV65JPOYQJl+gUydW5QL5tWy0W0K5Jh06CalOeU6/Egz1s4nwMrmj1
+         H6XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688353203; x=1690945203;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gjgA2qr+ReHmwHz7NqtpAViVNDwICVXwue42qCToFl0=;
-        b=d9FbZh2Pf2FQ9mwk8NTS2oj+DM+Zkv5uB1D2JfZDrZbwNRISB749ddxxh03rpG6I4g
-         ST2s3hC8T8AnOzJMDmYRJovEt9b6khOwfGabj8xO1it6t79wDJBvfsfqKd5rZiU9RZ9c
-         NclZ1xf8rgzTBSjNXkpZ47Ljk7XSQ4Kl87QEx7kxjzW9307z8QVdfqFulNiScNJe5wEM
-         q8K3dUqabALa8xHQRQy1dUjjt/a9l9Hf9XLuqzOermns9Pbh5wRhzMejYh/4jeLcsU2y
-         o+q4CYkPqj+AhTMtVOHlhSLbVzT0d9jNVYgkreIXrlGUTyzsJr2AYNs97iy38wHiJ2W0
-         QMyQ==
-X-Gm-Message-State: AC+VfDxjJaPORDP+PpvaIHaKz5Digv7d4EiBY7MzIq8xg7iKAHx42WCZ
-	87m/hzfpWSBQft1c2/e4CkRZABuI3eo=
-X-Google-Smtp-Source: ACHHUZ6dQ/j5cQfSMehQ3X+UwnOWo0f7Blp0YMyVW5tKaS0CJwmJOIWv/fzK9dJc4dHDXKC9tWQvCg==
-X-Received: by 2002:a17:902:e84e:b0:1b7:de50:7d9c with SMTP id t14-20020a170902e84e00b001b7de507d9cmr22432082plg.15.1688353202557;
-        Sun, 02 Jul 2023 20:00:02 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688353204; x=1690945204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P8ydprSdtweke30RN0RXizh27wwzimdUyqUtExErzEA=;
+        b=gj9ejjXnkB4r3x5iL+QTgAnrjbL+rBtIey3Vu8Rp8kc27PMNxP/2PEd9dAX8fX/ibX
+         6xcZUr73QkxNkW6oTJjD4X5OYVO4ifZiAfLuW9m5ygFgUElZTOGwpykTUlmZ4MQ6Z64Q
+         KYhWp3eIM2LauutCABwgN7U6Yqmz+mzllswFPGuCg7iJSMNMA0tuUWOHg2ANJtXsmKhA
+         cWlTDocTpFaVUekNokLkiFaPC3aI48/aTMKQwJQLx3vvT8aulJZ4AalN+XDHPiy0R9xo
+         1J1HZRcHEcQ9HHBcDZP7mueK/dgk+gkW0AJqr+pBFqpdC2uWi3b/8n60uHh51SwOEucp
+         Me0g==
+X-Gm-Message-State: ABy/qLaE16X69XMHMe0QPsnIGi93dywAvAXhQgV6lT7k8IACCq63KhLV
+	EX1IfX/hHLToNbkrJiDRqVo4Tmw9cyw=
+X-Google-Smtp-Source: APBJJlFxbTmWEFzg65s2od8tmd/Ks5/U+mkzeuW6t/rsDBMhmm324IDBdLUFu1yH7Xo1EpN/8StwvA==
+X-Received: by 2002:a17:903:228e:b0:1b8:5fb4:1c85 with SMTP id b14-20020a170903228e00b001b85fb41c85mr6409281plh.16.1688353203750;
+        Sun, 02 Jul 2023 20:00:03 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::1fb3])
-        by smtp.gmail.com with ESMTPSA id h4-20020a170902f54400b001b03a1a3151sm5622855plf.70.2023.07.02.20.00.01
+        by smtp.gmail.com with ESMTPSA id h4-20020a170902f54400b001b03a1a3151sm5622855plf.70.2023.07.02.20.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jul 2023 20:00:02 -0700 (PDT)
+        Sun, 02 Jul 2023 20:00:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 1/2] mesa: Fix build with upcoming LLVM 17
-Date: Sun,  2 Jul 2023 19:59:58 -0700
-Message-ID: <20230703025959.3968541-1-raj.khem@gmail.com>
+Subject: [PATCH v2 2/2] mesa: Point to native llvm-config
+Date: Sun,  2 Jul 2023 19:59:59 -0700
+Message-ID: <20230703025959.3968541-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230703025959.3968541-1-raj.khem@gmail.com>
+References: <20230703025959.3968541-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 03:00:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183786
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183787
+
+Default search in meson would grok /usr/bin for llvm-config and if found
+will use it, which might add wrong paths into cflags/ldflags, since we
+depend on llvm-native when building gallium support ( thats when
+llvm-config is effective), its better to point llvm-config into native
+sysroot so it can add correct paths into compiler/linker cmdline
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-gallium-Fix-build-with-llvm-17.patch | 34 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+ meta/recipes-graphics/mesa/mesa.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-new file mode 100644
-index 00000000000..3631a918b0c
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-@@ -0,0 +1,34 @@
-+From 865762e0a767a121206d818bdd58301afbf30104 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 23 Jun 2023 01:20:38 -0700
-+Subject: [PATCH] gallium: Fix build with llvm 17
-+
-+These headers are not available for C files in llvm 17+
-+and they seem to be not needed to compile after all with llvm 17
-+so add conditions to exclude them for llvm >= 17
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/gallium/auxiliary/gallivm/lp_bld_init.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/auxiliary/gallivm/lp_bld_init.c
-+index 24d0823..3d4573e 100644
-+--- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
-++++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
-+@@ -42,8 +42,10 @@
-+ 
-+ #include <llvm/Config/llvm-config.h>
-+ #include <llvm-c/Analysis.h>
-++#if LLVM_VERSION_MAJOR < 17
-+ #include <llvm-c/Transforms/Scalar.h>
-+-#if LLVM_VERSION_MAJOR >= 7
-++#endif
-++#if LLVM_VERSION_MAJOR >= 7 && LLVM_VERSION_MAJOR < 17
-+ #include <llvm-c/Transforms/Utils.h>
-+ #endif
-+ #include <llvm-c/BitWriter.h>
-+-- 
-+2.41.0
-+
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a944a7bdd5c..928899008e6 100644
+index 928899008e6..63d7494dfc4 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,7 @@ PE = "2"
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-+           file://0001-gallium-Fix-build-with-llvm-17.patch \
-            "
+@@ -75,6 +75,11 @@ EXTRA_OEMESON = " \
+ def strip_comma(s):
+     return s.strip(',')
  
- SRC_URI[sha256sum] = "2f6d7381bc10fbd2d6263ad1022785b8b511046c1a904162f8f7da18eea8aed9"
++# llvm-config should be the one from llvm-native and not from build host ( if llvm is installed on host )
++do_write_config:append() {
++    sed -i -e '/\[binaries\]/a\' -e "llvm-config = '${STAGING_BINDIR_NATIVE}/llvm-config'" ${WORKDIR}/meson.native
++}
++
+ PACKAGECONFIG = " \
+ 	gallium \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland', d)} \
 -- 
 2.41.0
 
