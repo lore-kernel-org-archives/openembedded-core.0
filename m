@@ -1,123 +1,128 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE434EB64D9
-	for <webhook@archiver.kernel.org>; Sun,  2 Jul 2023 21:44:37 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.14985.1688334276752468539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1BFEB64D9
+	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 02:45:49 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.19493.1688352347553735141
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 14:44:37 -0700
+ Sun, 02 Jul 2023 19:45:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GFr8c0YJ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-X-GND-Sasl: alexandre.belloni@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1688334275;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JV0c0qrAF42HqRWPXhulP7SR9pPR/IQIe71lIdEZcvY=;
-	b=GFr8c0YJ7bmbl7tEfI3cvVITqnzzpyKd0VT/qstkdE93B7/zYfFxul43AE2yj0UEdFDuwu
-	JZQCZyVMDonhuZkh2OoG+1Oq9/SHL3d7da+3Ji3tZ9ffc6zHuE4fYioEy/ukqosJsqbF0d
-	Ei3s4OmPzoDw/CqiF8/gRQJllPpZwz0vLFhmtVwa8yxt0I9AR6YMToiOZuy9JhqM2OvhZh
-	BJmFLVoRAjgLPTLX04dqpHJ2mLqC6NKRtT9vkOgBFtUMvTQacNikbTZvieB8XwUCozlcmB
-	3exgN2IJihNVNvA8jMV1p2MZ0ntG38J2saR492z1yjFN4enGx3evpcGX9FKKNA==
-X-GND-Sasl: alexandre.belloni@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 77FFDFF802;
-	Sun,  2 Jul 2023 21:44:34 +0000 (UTC)
-Date: Sun, 2 Jul 2023 23:44:33 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: ovidiu.panait@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/4] mdadm: fix util-linux-lsblk ptest
- dependency
-Message-ID: <202307022144331949919e@mail.local>
-References: <20230629141836.3431391-1-ovidiu.panait@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=opaq+FKk;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b84c7a2716so18899015ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 19:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688352347; x=1690944347;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a22FvSloQTmMSOQcxuAAOAKWTSCCdvUn6aI5v7hQQOU=;
+        b=opaq+FKkShdlOE6/uj7UyL4ZjwaUgZNCu4Avj5DpQ0OP5y25eTBFbeFnVbGbwsaZ9d
+         lB2uDxpNmXhwQzsR5Uay7/zIHuCzrqtrxWOyR9gVPkHQmCxqiZzcsb3tBDdlhzkZ1twl
+         TEfW5xAkTVyQgUBwY4SMMdgRKJYctUomvpWclZ9Y3goH1ajlh4uvURkh+bny8GMx43ax
+         d0kKjniQE+KhtEYWSId3xEvz2f0kFGgFOntTY3hAFFEEYJb88wTi7j4oq8y+TPPO2S6k
+         3FUwhmmuivpPyghlWEa1aukk2mp/wHAyfGyjGJ1XwQJhbvKAQojSgO2Py4v3D93tWuTi
+         tZqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688352347; x=1690944347;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a22FvSloQTmMSOQcxuAAOAKWTSCCdvUn6aI5v7hQQOU=;
+        b=iBpMFiMtYZbyvi4Y5B5ftU6c9km9sVd6a4v9i2brLbsHT+WjtIn8gewkxZq21uUQIl
+         KlD8fOUUNTi5/Ui/cNTeyeUc/ixCau5BJrjnhrHxs4rYXrxcKfiJROVI35y0Kyz7fPRd
+         IOX09ZJFGqcITWdRMpVKuE5xkS7Tvqlv0foadiXALmUMGkcKpqxLPmia0Lx6n4PlZdQ5
+         MqGrwMpxWDjJbYMNx6AEQxXYczirdv4ZcTp3A4sFPZvPL4HnOaPFn3JBGrKdBzPyimGS
+         xCDedK7d2CdYcxAXlRBEWBQny+saeJUCuf0nJ3uUfuG+fmo6G99n/44rBCv0EwmaVo60
+         ehhg==
+X-Gm-Message-State: AC+VfDzpEpeCtPsjin9mF0hXXQf+ob7iMxWjan7hPr9BIQUMiHN6Bj0N
+	RIB/1ZpgH3QoyVroDvlBVPIjb+on/AI=
+X-Google-Smtp-Source: ACHHUZ7i69KHI4NQjcmgNV7D0EbSe95Y4/dMcF9ARldTkO94cJrHSXPTXOv+v/mfFVmUNRLWDhMjrA==
+X-Received: by 2002:a05:6a20:b711:b0:12c:7528:d981 with SMTP id fg17-20020a056a20b71100b0012c7528d981mr7345195pzb.18.1688352346464;
+        Sun, 02 Jul 2023 19:45:46 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::1fb3])
+        by smtp.gmail.com with ESMTPSA id im16-20020a170902bb1000b001b564563f32sm3028302plb.186.2023.07.02.19.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jul 2023 19:45:46 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ffmpeg: Fix build on riscv
+Date: Sun,  2 Jul 2023 19:45:44 -0700
+Message-ID: <20230703024544.3230136-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230629141836.3431391-1-ovidiu.panait@windriver.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 21:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183784
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 02:45:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183785
 
-Hello,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...bswscale-riscv-Fix-syntax-of-vsetvli.patch | 35 +++++++++++++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb  |  3 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch
 
-I had those failures on the AB:
-
-{'mdadm': ['/usr/lib/mdadm/ptest/tests/10ddf-createFAILED_-_see_/mdadm-testing-dir/10ddf-create.log_and_/mdadm-testing-dir/fail10ddf-create.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-create-fail-rebuildFAILED_-_see_/mdadm-testing-dir/10ddf-create-fail-rebuild.log_and_/mdadm-testing-dir/fail10ddf-create-fail-rebuild.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-fail-readdFAILED_-_see_/mdadm-testing-dir/10ddf-fail-readd.log_and_/mdadm-testing-dir/fail10ddf-fail-readd.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-fail-readd-readonlyFAILED_-_see_/mdadm-testing-dir/10ddf-fail-readd-readonly.log_and_/mdadm-testing-dir/fail10ddf-fail-readd-readonly.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-fail-spareFAILED_-_see_/mdadm-testing-dir/10ddf-fail-spare.log_and_/mdadm-testing-dir/fail10ddf-fail-spare.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-fail-stop-readdFAILED_-_see_/mdadm-testing-dir/10ddf-fail-stop-readd.log_and_/mdadm-testing-dir/fail10ddf-fail-stop-readd.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-fail-twiceFAILED_-_see_/mdadm-testing-dir/10ddf-fail-twice.log_and_/mdadm-testing-dir/fail10ddf-fail-twice.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/10ddf-sudden-degradedFAILED_-_see_/mdadm-testing-dir/10ddf-sudden-degraded.log_and_/mdadm-testing-dir/fail10ddf-sudden-degraded.log_for_details',
-           '/usr/lib/mdadm/ptest/tests/21raid5cacheFAILED_-_see_/mdadm-testing-dir/21raid5cache.log_and_/mdadm-testing-dir/fail21raid5cache.log_for_details']}
-
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5106/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5292/steps/13/logs/stdio
-
-On 29/06/2023 17:18:33+0300, Ovidiu Panait via lists.openembedded.org wrote:
-> From: Ovidiu Panait <ovidiu.panait@windriver.com>
-> 
-> Trying to run mdadm-ptest in a core-image-minimal build will result in:
-> root@qemux86-64:~# ptest-runner mdadm
-> START: ptest-runner
-> BEGIN: /usr/lib/mdadm/ptest
-> which: no lsblk in (/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin)
-> lsblk command not found!
-> DURATION: 0
-> END: /usr/lib/mdadm/ptest
-> 2023-06-28T10:14
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
-> 
-> To fix this, add util-linux-lsblk to RDEPENDS and remove util-linux from
-> RRECOMMENDS.
-> 
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  meta/recipes-extended/mdadm/mdadm_4.2.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> index 14de9d88c2..0a122b0b01 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> @@ -101,10 +101,9 @@ do_install_ptest() {
->  }
->  
->  RDEPENDS:${PN} += "bash"
-> -RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs"
-> +RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs util-linux-lsblk"
->  RRECOMMENDS:${PN}-ptest += " \
->      coreutils \
-> -    util-linux \
->      kernel-module-loop \
->      kernel-module-linear \
->      kernel-module-raid0 \
-> -- 
-> 2.39.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#183631): https://lists.openembedded.org/g/openembedded-core/message/183631
-> Mute This Topic: https://lists.openembedded.org/mt/99851482/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch
+new file mode 100644
+index 00000000000..94e0ba6d104
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch
+@@ -0,0 +1,35 @@
++From 85eefb65eb632d827e17a72518dd289dcd721084 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 2 Jul 2023 19:29:55 -0700
++Subject: [PATCH] libswscale/riscv: Fix syntax of vsetvli
++
++Add missing operand which clang complains about but gcc assumes it to be
++'m1' if not specifiied.
++
++Fixes building with clang
++| src/libswscale/riscv/rgb2rgb_rvv.S:88:25: error: operand must be e[8|16|32|64|128|256|512|1024],m[1|2|4|8|f2|f4|f8],[ta|tu],[ma|mu]
++|         vsetvli t4, t3, e8, ta, ma
++|                         ^
++
++Upstream-Status: Submitted [https://ffmpeg.org/pipermail/ffmpeg-devel/2023-July/311514.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libswscale/riscv/rgb2rgb_rvv.S | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libswscale/riscv/rgb2rgb_rvv.S b/libswscale/riscv/rgb2rgb_rvv.S
++index 5626d90..bbdfdbe 100644
++--- a/libswscale/riscv/rgb2rgb_rvv.S
+++++ b/libswscale/riscv/rgb2rgb_rvv.S
++@@ -85,7 +85,7 @@ func ff_interleave_bytes_rvv, zve32x
++         mv      t3, a3
++         addi    a4, a4, -1
++ 2:
++-        vsetvli    t4, t3, e8, ta, ma
+++        vsetvli    t4, t3, e8, m1, ta, ma
++         sub        t3, t3, t4
++         vle8.v     v8, (t0)
++         add        t0, t4, t0
++-- 
++2.41.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
+index f84d9bb6d03..181c17d9d68 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
+@@ -22,7 +22,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
++SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
++           file://0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch"
+ 
+ SRC_URI[sha256sum] = "57be87c22d9b49c112b6d24bc67d42508660e6b718b3db89c44e47e289137082"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
 
