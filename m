@@ -2,47 +2,47 @@ Return-Path: <christian.meusel@posteo.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B9E6EB64DC
-	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 13:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7CFEB64DD
+	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 13:51:02 +0000 (UTC)
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web11.32884.1688392094656251738
+ by mx.groups.io with SMTP id smtpd.web11.32954.1688392259332417369
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jul 2023 06:48:15 -0700
+ Mon, 03 Jul 2023 06:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@posteo.de header.s=2017 header.b=jqCK3W4M;
+ dkim=fail reason="body hash did not verify" header.i=@posteo.de header.s=2017 header.b=XIbQ3ZNM;
  spf=pass (domain: posteo.de, ip: 185.67.36.66, mailfrom: christian.meusel@posteo.de)
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id C4654240103
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Jul 2023 15:48:12 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id B84C4240104
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Jul 2023 15:50:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-	t=1688392092; bh=pFJZhFcKbwlBnmWQOyY38xM5OwNObHWFykKi/bYlhZE=;
+	t=1688392256; bh=pFJZhFcKbwlBnmWQOyY38xM5OwNObHWFykKi/bYlhZE=;
 	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=jqCK3W4MaxECsdKPYAgMV379Qn0zKMhMe14QMierUB+6HglV+1LotdyeYrmEY2J3V
-	 VHu86JLvudyArNmCI+tnHUKMHIuMjKLfhJCeaE4hIPrJXv53A7HyKm/yq2x35/miwv
-	 xqv+jriYPq+uDTiVUeSBtjN5xxbNTpG0Ub4peXnJo9s/AIe+7ogfDJMpA17/n32vaZ
-	 8bioCNsHejULB0tDypWwkqxqfxD1CSd/XkCPz0okVjuMMqOdWTL1rCMkgEy7vD9bMq
-	 islzY0WQhbKXgBk7ZA8oqUBbpqeYJ/cHjB9Rzs8zqrhyM4dQE+jig3SPRG9LWEMMST
-	 hU3kSuv6TVxxQ==
+	b=XIbQ3ZNM/3WijUhQpdGqElm2RxB89dh8iX7vKZLT5GCfwgL7/gsPvBJLPjmgsERo3
+	 rhzR+zTE5xTVRA7AJdFprAnl/PmnNPdSaKqcTUZxTKMsqMz/YWlJWVWnBy7L3Qorn1
+	 uluQu6dkWXYGGpk2AiHxois1LZFlwCI9PP0dKLAEBq68wNQoCRhu01RiQyGfO16jNX
+	 ufAugUKrjpnFHgjalTw2OhWBat902FJLg9hT/K7zqEBv/kF2V2FIsczzYAIED67gCH
+	 iSVCxKGKproXk6OLY/rSdgknv/wIpfGYtQntMyn9Lq8sv4uaTiQ9++UC4I1NKXV4s4
+	 QYGdS4U32DyQg==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4QvnLg6hdvz6tvc;
-	Mon,  3 Jul 2023 15:48:11 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4QvnPq6CYsz9rxP;
+	Mon,  3 Jul 2023 15:50:55 +0200 (CEST)
 From: Christian Meusel <christian.meusel@posteo.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Rusty Howell <rhowell@control4.com>,
 	Rusty Howell <rustyhowell@gmail.com>,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH] oe-depends-dot: Handle new format for task-depends.dot
-Date: Mon,  3 Jul 2023 13:47:54 +0000
-Message-Id: <20230703134754.903319-1-christian.meusel@posteo.de>
+Subject: [dunfell][PATCH] oe-depends-dot: Handle new format for task-depends.dot
+Date: Mon,  3 Jul 2023 13:50:40 +0000
+Message-Id: <20230703135040.903608-1-christian.meusel@posteo.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 13:48:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183803
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 13:51:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183804
 
 From: Rusty Howell <rhowell@control4.com>
 
