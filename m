@@ -1,140 +1,184 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E56EB64D9
-	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 03:30:49 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web11.19946.1688355033507838924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CCEEB64DC
+	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 05:49:40 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.21200.1688363372841111004
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 20:30:40 -0700
+ Sun, 02 Jul 2023 22:49:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=E7HtB/3D;
- spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688355040; x=1719891040;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=SSGvVfYWkCctDSzWZpgdkUmqYiukFn30HHjPsAeY03Y=;
-  b=E7HtB/3Dt4gq7fGDvtKfUlLCfvRLLHS2leG+Pd+68uZUlBs02GZ7CsWf
-   6MKmtHFNfOlGdPe/JmUiv6K5loRs73UP7M4Tl3N6H6RC4vaWJIzHY3Ogp
-   BDTYCqOQBtzQRUAvtRV0Y87fkYMIQxolmmGRqs40EQi+q3H9TMz0u1ak5
-   f9c6BkFBRaRtnckw82OCg2Ru6kn6REO3r3EG6FyrEimu8psNYIkCidrkW
-   AzDnhob4Y0G82IxQOtk7H86W5pEwQhLCTxJVIf+2Walj4s8n+hyavKS1u
-   G0QTVQ+YZ655dgihX7OAdj7GaZzgHN6OMj1eMDM0F5uUgiaH9uzQ2oyAq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="426461624"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="426461624"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 20:30:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="1048908188"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="1048908188"
-Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.215.151.68])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 20:30:39 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] bluez5: upgrade 5.66 -> 5.68
-Date: Mon,  3 Jul 2023 11:30:25 +0800
-Message-ID: <20230703033025.30865-4-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230703033025.30865-1-anuj.mittal@intel.com>
-References: <20230703033025.30865-1-anuj.mittal@intel.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=VVnArDLp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b69ed7d050so63169591fa.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Jul 2023 22:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688363371; x=1690955371;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9fxSKxQnE2C8Ond3k/e1Nxxd68+wXrsvJ7foLS2z+Po=;
+        b=VVnArDLpqXwr7tXVE5+LCAiT0I6F+GqRYskEJCIjhfRkzxG7plg+J0dnbL/tmI3YLD
+         238nbKdCanQdj9FVFdyrNgdbUc99BX8W5h7Brhde8Bo4pKKbgV8xYgXD/81U+hLW24Ia
+         xArPqJUWibatyhQn1160d3bzQLGXyPuePmjC39oU7XygA/eX9vSqONLO+ADKrO/K871r
+         t2bVGzmrvCZAFynlTrgYjr2E2qb5YMhZKBGdlApwJ8RFY6MB9YsdM4MjMorH+cNE+Jod
+         dI5QRKOITkbnHScHYg4VNa1ZUDxeqaLQrK28FvyAXfazxdJktGAu1ncl7B1cagl5ODpd
+         LpRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688363371; x=1690955371;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9fxSKxQnE2C8Ond3k/e1Nxxd68+wXrsvJ7foLS2z+Po=;
+        b=RZOMdsD5D2l2pIlSnMNmGebuLcPpx4epMW/HII5b3dkhazrcX6mMi11e/7eZaaWAqM
+         IJe5GHor8saDNsAYHAUICvsuGV34eSLxtzyG9pHsnsxumNGqsaIyWcL/g/EkpJr5Htib
+         7UoSxQRavunQpsPlCHqsVo4OE1PyRu/rPyyZjxdQ8duE3lyiFPadx5caMGq9TE31oG2e
+         hTNdk4zT4i9jsZcGmErZQmBRU8tuQNF+DuQ6wu2W6d3lFvcERoo0s3T/cLlDuZCqcAlB
+         XyPlpeU25MXi91blbI0drEyAG1E84wZkQ8KbzWAnzgC7o+mSMf6S/otzBOB5celjwqLo
+         VMww==
+X-Gm-Message-State: ABy/qLatUbJGOF8NXhPcI4EKFSFFFtTS2WLD4czLR/vf35nSYt5fG21A
+	+v5KazYwOlGVfqWP00uBGcraKhpPejVsKzIc830=
+X-Google-Smtp-Source: APBJJlEH7lMwuTm2CTXvwR89TGQDxPK5luuQF7Lg6a1XRpgqooavNONgFppYPWTik7zIIAgdm+wjL4lisJerezuPpyM=
+X-Received: by 2002:ac2:4ed4:0:b0:4fb:52f1:9ab4 with SMTP id
+ p20-20020ac24ed4000000b004fb52f19ab4mr5243911lfr.50.1688363370712; Sun, 02
+ Jul 2023 22:49:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230703025959.3968541-1-raj.khem@gmail.com> <20230703025959.3968541-2-raj.khem@gmail.com>
+In-Reply-To: <20230703025959.3968541-2-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 3 Jul 2023 07:49:19 +0200
+Message-ID: <CANNYZj967uL0xN2e1VhkkVEuVvF8_-XM=mUmWAnKDHyHyZGx5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/2] mesa: Point to native llvm-config
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f6932905ff8ebabe"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 03:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183791
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 05:49:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183792
 
-Include a patch submitted upstream to fix cross-compilation issues.
+--000000000000f6932905ff8ebabe
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- .../bluez5/bluez5/fix-check-ell-path.patch    | 39 +++++++++++++++++++
- .../bluez5/{bluez5_5.66.bb => bluez5_5.68.bb} |  2 +-
- 3 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.66.bb => bluez5_5.68.bb} (95%)
+But should this be fixed in meson class rather?
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index e10158a6e5..d2ee2b4f12 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -55,6 +55,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0004-src-shared-util.c-include-linux-limits.h.patch \
-+           file://fix-check-ell-path.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch b/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
-new file mode 100644
-index 0000000000..7afa63962d
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=168818474411163&w=2]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+From linux-bluetooth  Sat Jul 01 04:12:52 2023
-+From: Rudi Heitbaum <rudi () heitbaum ! com>
-+Date: Sat, 01 Jul 2023 04:12:52 +0000
-+To: linux-bluetooth
-+Subject: [PATCH] configure: Fix check ell path for cross compiling
-+Message-Id: <20230701041252.139338-1-rudi () heitbaum ! com>
-+X-MARC-Message: https://marc.info/?l=linux-bluetooth&m=168818474411163
-+
-+Use of AC_CHECK_FILE prevents cross compilation.
-+Instead use test to support cross compiling.
-+
-+Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
-+---
-+ configure.ac | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index eff297960..bc7edfcd3 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -298,9 +298,10 @@ if (test "${enable_external_ell}" = "yes"); then
-+ 	AC_SUBST(ELL_LIBS)
-+ fi
-+ if (test "${enable_external_ell}" != "yes"); then
-+-	AC_CHECK_FILE(${srcdir}/ell/ell.h, dummy=yes,
-+-			AC_CHECK_FILE(${srcdir}/../ell/ell/ell.h, dummy=yes,
-+-				AC_MSG_ERROR(ELL source is required or use --enable-external-ell)))
-++	if (test ! -f ${srcdir}/ell/ell.h) &&
-++			(test ! -f ${srcdir}/../ell/ell/ell.h); then
-++				AC_MSG_ERROR(ELL source is required or use --enable-external-ell)
-++	fi
-+ fi
-+ AM_CONDITIONAL(EXTERNAL_ELL, test "${enable_external_ell}" = "yes" ||
-+ 				(test "${enable_btpclient}" != "yes" &&
-+-- 
-+2.34.1
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.66.bb b/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.66.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-index 2208b730b0..921f739fb8 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.66.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
- 
--SRC_URI[sha256sum] = "39fea64b590c9492984a0c27a89fc203e1cdc74866086efb8f4698677ab2b574"
-+SRC_URI[sha256sum] = "fc505e6445cb579a55cacee6821fe70d633921522043d322b696de0a175ff933"
- 
- # These issues have kernel fixes rather than bluez fixes so exclude here
- CVE_CHECK_IGNORE += "CVE-2020-12352 CVE-2020-24490"
--- 
-2.41.0
+Alex
 
+On Mon 3. Jul 2023 at 5.00, Khem Raj <raj.khem@gmail.com> wrote:
+
+> Default search in meson would grok /usr/bin for llvm-config and if found
+> will use it, which might add wrong paths into cflags/ldflags, since we
+> depend on llvm-native when building gallium support ( thats when
+> llvm-config is effective), its better to point llvm-config into native
+> sysroot so it can add correct paths into compiler/linker cmdline
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index 928899008e6..63d7494dfc4 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -75,6 +75,11 @@ EXTRA_OEMESON = " \
+>  def strip_comma(s):
+>      return s.strip(',')
+>
+> +# llvm-config should be the one from llvm-native and not from build host
+> ( if llvm is installed on host )
+> +do_write_config:append() {
+> +    sed -i -e '/\[binaries\]/a\' -e "llvm-config =
+> '${STAGING_BINDIR_NATIVE}/llvm-config'" ${WORKDIR}/meson.native
+> +}
+> +
+>  PACKAGECONFIG = " \
+>         gallium \
+>         ${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland', d)} \
+> --
+> 2.41.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183787):
+> https://lists.openembedded.org/g/openembedded-core/message/183787
+> Mute This Topic: https://lists.openembedded.org/mt/99920489/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000f6932905ff8ebabe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">But should this be fixed in meson class rather?</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 3. Jul 2023 at 5.=
+00, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:=
+1ex;border-left-color:rgb(204,204,204)">Default search in meson would grok =
+/usr/bin for llvm-config and if found<br>
+will use it, which might add wrong paths into cflags/ldflags, since we<br>
+depend on llvm-native when building gallium support ( thats when<br>
+llvm-config is effective), its better to point llvm-config into native<br>
+sysroot so it can add correct paths into compiler/linker cmdline<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc<br>
+index 928899008e6..63d7494dfc4 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -75,6 +75,11 @@ EXTRA_OEMESON =3D &quot; \<br>
+=C2=A0def strip_comma(s):<br>
+=C2=A0 =C2=A0 =C2=A0return s.strip(&#39;,&#39;)<br>
+<br>
++# llvm-config should be the one from llvm-native and not from build host (=
+ if llvm is installed on host )<br>
++do_write_config:append() {<br>
++=C2=A0 =C2=A0 sed -i -e &#39;/\[binaries\]/a\&#39; -e &quot;llvm-config =
+=3D &#39;${STAGING_BINDIR_NATIVE}/llvm-config&#39;&quot; ${WORKDIR}/meson.n=
+ative<br>
++}<br>
++<br>
+=C2=A0PACKAGECONFIG =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gallium \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &=
+#39;x11 vulkan wayland&#39;, d)} \<br>
+-- <br>
+2.41.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#183787): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/183787" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/183787</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99920489/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/99920489/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000f6932905ff8ebabe--
 
