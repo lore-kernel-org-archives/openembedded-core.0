@@ -1,134 +1,98 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A1E5EB64DC
-	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 06:59:20 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web11.21828.1688367555821990311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3326EB64DC
+	for <webhook@archiver.kernel.org>; Mon,  3 Jul 2023 08:51:20 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.22994.1688374277829719822
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jul 2023 23:59:16 -0700
+ Mon, 03 Jul 2023 01:51:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=DqebxUHs;
- spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688367555; x=1719903555;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8RozGMyPO8xlJkcC5QLym2c/GCFTsyakL6wGOveCXeY=;
-  b=DqebxUHsJAKYE8Pj6xOe32aCtVEwlcDtumjRap5KNZiUqNXjCCQTdOjf
-   siAjDK0KfYksxhd2VAV+9J1JyQuh+ALc+zWSbkjJOuQ6G7lZJTCEzTT8P
-   Yx2ogzyRmKojKLNFQtP+ZIoxZujyaFwsBypXQQgi3orHlWn8EjoTmNWj+
-   lhQP8w1+SCO84rYz72jLGv8HHwpoCMt4+BDuGKpdzUODlwC7NzToKJoCL
-   A/AK1G8YXA+iV2Vd4RCf+aYtbdwlRz0eGO6oIKiQRidk1lmagNejFIG1/
-   WOi2/4On7Xwtun7ryffuVxhumgMnVsj1qoP5dxohhsqbPfrtcYge1a/Nf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="366292411"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="366292411"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 23:59:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="695713955"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="695713955"
-Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.215.151.68])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 23:59:13 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=XEbV5zgx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-51b4ef5378bso3121124a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 01:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688374277; x=1690966277;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9eAE1K0zy2U3fpHq79TftvuZvpo5qAIWvMM9HpFGpxo=;
+        b=XEbV5zgx9WH9FM+f7gt6J3gOLw7IcZ2swipXnK9iAukReVsKNOwZgWxtmMKitvUZcQ
+         JD33zOlRVTOmf5RrFC7BYK8uNmF3vgOyqgszAvRNI75ckFqLnx50r9rejm6mdkQQiTbZ
+         qJiJBzZDFV8ELdL0l4/QeM9r+YuXfifmLIS1mNymlioNBIRtXmKF3J2FMhHR8tVCgq2H
+         JyY2JjDwSyDDpkvcDpxMoFC+RpydBxsj6NTMtUzBQteU5PzfwiGE/dKpq07R6bbMrxFb
+         nL2DGgrVcYe+AV/bfxI2LjlB8R7QgEwfsN75bUwOhGWTlRWhX4/ITHqnQXp554TeZWQS
+         RTKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688374277; x=1690966277;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9eAE1K0zy2U3fpHq79TftvuZvpo5qAIWvMM9HpFGpxo=;
+        b=MP7J0etqZhQUq3VJJN/ACr0JZBjf3kFrLnGpsDNKj4O9LtaFsegBO+PK68ipThC+4w
+         BV720YHybpTCBbmGJxg1opdj5zDyFEyUvCv6nqjWmYfK1OyaksQuW1OW4c7hT4xuhdwI
+         ZTIF6dzvWCz9qN711vgs8kzM6ui8JElqgpg5MYgrG+rVZgzI5fIZksnIKnGZTOBHkkol
+         q6wdJIfDST8T8Cehy+9y975KOwAa/gQFmlvj06IULz5UxqjjWcFV/x9LZBLtMmX1tU6d
+         WJbAmLStcozcuo/qRADAOAM8kTrHzawicRYs0OHQKoTa3yYZiLcEz82HYx1gPr+Bv4lC
+         sBkQ==
+X-Gm-Message-State: AC+VfDyziRFJS6k0Ta2PEoFImvz63k8ds6cOmug4hAXogVV6m7FwdKDD
+	rSdWTiFoK6pGzx/7cfLq9AVRc14Q/yHe+68W
+X-Google-Smtp-Source: ACHHUZ7j0IAf+jEwc+l7GM21CxLgMuQ8vb9dNaK2jtkRXcM4zlzm8N9x7p3mJHfGB/DUnK5wu+2crw==
+X-Received: by 2002:a05:6a20:4c23:b0:122:20c:fbb3 with SMTP id fm35-20020a056a204c2300b00122020cfbb3mr10078875pzb.39.1688374276559;
+        Mon, 03 Jul 2023 01:51:16 -0700 (PDT)
+Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:48e3:fac:52d:29ab])
+        by smtp.gmail.com with ESMTPSA id z6-20020aa791c6000000b0065434edd521sm7457642pfa.196.2023.07.03.01.51.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 01:51:16 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] rpm: backport fix to prevent crashes with latest sqlite
-Date: Mon,  3 Jul 2023 14:59:08 +0800
-Message-ID: <20230703065909.45555-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-typing-extensions: upgrade 4.6.3 -> 4.7.0
+Date: Mon,  3 Jul 2023 01:51:11 -0700
+Message-Id: <20230703085111.3129537-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 06:59:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183795
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jul 2023 08:51:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183797
 
-SQLite 3.42.0 causes crashes when installing RPM packages at rootfs
-creation time. Backport an upstream fix to resolve the issue.
+New features and bug fixes.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+NOTE: This is expected to be the last feature release supporting Python 3.7,
+      which reaches its end of life on June 27, 2023. Version 4.8.0 will
+      support only Python 3.8.0 and up.
+
+https://github.com/python/typing_extensions/blob/main/CHANGELOG.md#release-470-june-28-2023
+https://github.com/python/typing_extensions/blob/main/CHANGELOG.md#release-470rc1-june-21-2023
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...87cfcf9cac87e5bc5e7db79b0338da9e355e.patch | 51 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch
+ ...g-extensions_4.6.3.bb => python3-typing-extensions_4.7.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-typing-extensions_4.6.3.bb => python3-typing-extensions_4.7.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/rpm/files/ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch b/meta/recipes-devtools/rpm/files/ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch
-new file mode 100644
-index 0000000000..470dda1dcf
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch
-@@ -0,0 +1,51 @@
-+From ea3187cfcf9cac87e5bc5e7db79b0338da9e355e Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Mon, 26 Jun 2023 12:45:09 +0300
-+Subject: [PATCH] Don't muck with per-process global sqlite configuration from
-+ the db backend
-+
-+sqlite3_config() affects all in-process uses of sqlite. librpm being a
-+low-level library, it has no business whatsoever making such decisions
-+for the applications running on top of it. Besides that, the callback can
-+easily end up pointing to an already closed database, causing an
-+innocent API user to crash in librpm on an entirely unrelated error on
-+some other database. "Oops."
-+
-+The sqlite API doesn't seem to provide any per-db or non-global context
-+for logging errors, thus we can only remove the call and let sqlite output
-+errors the way it pleases (print through stderr, presumably).
-+
-+Thanks to Jan Palus for spotting and reporting!
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/ea3187cfcf9cac87e5bc5e7db79b0338da9e355e]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ lib/backend/sqlite.c | 8 --------
-+ 1 file changed, 8 deletions(-)
-+
-+diff --git a/lib/backend/sqlite.c b/lib/backend/sqlite.c
-+index 5a029d575a..b612732267 100644
-+--- a/lib/backend/sqlite.c
-++++ b/lib/backend/sqlite.c
-+@@ -44,13 +44,6 @@ static void rpm_match3(sqlite3_context *sctx, int argc, sqlite3_value **argv)
-+     sqlite3_result_int(sctx, match);
-+ }
-+ 
-+-static void errCb(void *data, int err, const char *msg)
-+-{
-+-    rpmdb rdb = data;
-+-    rpmlog(RPMLOG_WARNING, "%s: %s: %s\n",
-+-		rdb->db_descr, sqlite3_errstr(err), msg);
-+-}
-+-
-+ static int dbiCursorReset(dbiCursor dbc)
-+ {
-+     if (dbc->stmt) {
-+@@ -170,7 +163,6 @@ static int sqlite_init(rpmdb rdb, const char * dbhome)
-+ 	 * the "database is locked" errors at every cost
-+ 	 */
-+ 	sqlite3_busy_timeout(sdb, 10000);
-+-	sqlite3_config(SQLITE_CONFIG_LOG, errCb, rdb);
-+ 
-+ 	sqlexec(sdb, "PRAGMA secure_delete = OFF");
-+ 	sqlexec(sdb, "PRAGMA case_sensitive_like = ON");
-diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-index 83537d4761..95a9e92f96 100644
---- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
-            file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
-            file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
-            file://fix-declaration.patch \
-+           file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb
+rename to meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
+index ebce6e8d4e2..887cece6883 100644
+--- a/meta/recipes-devtools/python/python3-typing-extensions_4.6.3.bb
++++ b/meta/recipes-devtools/python/python3-typing-extensions_4.7.0.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
+ # The name on PyPi is slightly different.
+ PYPI_PACKAGE = "typing_extensions"
  
- PE = "1"
+-SRC_URI[sha256sum] = "d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"
++SRC_URI[sha256sum] = "935ccf31549830cda708b42289d44b6f74084d616a00be651601a4f968e77c82"
+ 
+ inherit pypi python_flit_core
+ 
 -- 
-2.41.0
+2.30.2
 
 
