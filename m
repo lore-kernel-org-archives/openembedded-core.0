@@ -1,141 +1,245 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C24EB64D9
-	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 10:23:18 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.55507.1688466190625311222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A44EB64D9
+	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 10:36:18 +0000 (UTC)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+ by mx.groups.io with SMTP id smtpd.web10.55684.1688466972731180149
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 03:23:10 -0700
+ Tue, 04 Jul 2023 03:36:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80BBD2F4;
-	Tue,  4 Jul 2023 03:23:52 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A4B883F73F;
-	Tue,  4 Jul 2023 03:23:09 -0700 (PDT)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] libjpeg-turbo: upgrade to 3.0.0
-Date: Tue,  4 Jul 2023 11:23:07 +0100
-Message-Id: <20230704102307.3654880-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Kb1nALTc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-783eef15004so1308339241.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 03:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688466971; x=1691058971;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yv52wGKG4/2vBdVv79ihVksW+WWdWl3j7ZPkxxW5bCs=;
+        b=Kb1nALTcdBLxlTa//Og/f81xJnLBEjpGq/x15IFNh3QXzl8fCUiz5vbTIGEIPrMKs4
+         qeiECGIucxaU6ufNWDRuONWnTu5nJDzerYPWfkxIa95HIyXPj48ozhFUFg6Bgf2ETVZl
+         I3r78b7VxKbBTg2EvuNTAVfW1uZgJ62GJ7PCBmTWJBXsFApo8H4XTL/7tikrr1DgS3NB
+         f1iwFPIDw+NyRi+1lzMj7jGnIOK1a61l/0q8yLaGa94AKCFpFXfFGKGO3+5vj0WjBdDP
+         LEKBFSeOxWa9yYVS/HR4OryhppyMoVDCnGBW/tHOu1sCfsE1mYRS8lGFqrCD5Jr7nBpF
+         +Kkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688466971; x=1691058971;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yv52wGKG4/2vBdVv79ihVksW+WWdWl3j7ZPkxxW5bCs=;
+        b=A7XUGQqdqLAXuMTMcjSk580jRuYi0bCZ069Yx9rQKPSiPP7JsNkDUMwV9624nwePmg
+         kjRi2vOSZGsCPMGb6zb/l75cE5Akf43YR2gOhtT+ZfmIs7KENK/ao7xmC/j52PolPCIH
+         2q2jK/4+YCu6YPjA9mdMTSXlQ0rynLuerylxm3JZ8PharXaJ9zkc1d0ehFriKazDU5/x
+         /t7xqWv+qT5mc2JU5Ke0z3fyXcgAvLM4UR8g7lEasA7U+di5ZqnCOea++fiKhzmcM91A
+         N73elgs05ohWeaMEdxUK4sQBygBosgeSc3ou/EVyLk/oSZmXwYmdAe+TPOHhZfZiqy9M
+         NpPA==
+X-Gm-Message-State: ABy/qLYZMiGWb6k6OORFfxnlvz8lwI4HaSZdlSJ+GvNjKyCLHtXG0XN5
+	RF+QM2OZOqhcg4jOpVcjd7bYPy9r2vtuyM3HzmM=
+X-Google-Smtp-Source: APBJJlFetNxKlxGWkRMsjbX72mXee9BL7Q89Vt4UhkNgzrPns7AVn6tqXpSeRzcvNuIY+0+rC9KY55V+B2qhCFfz8jw=
+X-Received: by 2002:a05:6102:50d:b0:443:621e:d138 with SMTP id
+ l13-20020a056102050d00b00443621ed138mr4219721vsa.5.1688466971444; Tue, 04 Jul
+ 2023 03:36:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <176D7A91B0AC29AF.23465@lists.openembedded.org>
+ <CANPvuRnKUisRu9CgkQgv2d1WAr1+hmC_1yr8orLToPw3tcMqmg@mail.gmail.com> <6E876A4F-1E4A-4520-A978-7EA0E142E267@arm.com>
+In-Reply-To: <6E876A4F-1E4A-4520-A978-7EA0E142E267@arm.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 4 Jul 2023 11:36:00 +0100
+Message-ID: <CANPvuRmHjpoVsjDyXpSkKZw-UhaGcYbfhKyDMSMB0aVVC6Ao7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-module-split add systemd modulesloaddir
+ and modprobedir config
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000c489605ffa6dae3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 10:23:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183821
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 10:36:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183822
 
-From: Ross Burton <ross.burton@arm.com>
+--0000000000000c489605ffa6dae3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove 0001-libjpeg-turbo-fix-package_qa-error.patch, doesn't appear to
-be needed anymore.
+Ross Burton <Ross.Burton@arm.com> escreveu no dia ter=C3=A7a, 4/07/2023 =C3=
+=A0(s)
+11:03:
 
-Use the full upstream license for LICENSE, and change LIC_FILES_CHKSUM
-to point at just the license overview in LICENSE.md.
+> The colon can be fixed but a rationale for this change would be useful.
+>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...1-libjpeg-turbo-fix-package_qa-error.patch | 32 -------------------
- ...urbo_2.1.5.1.bb =3D> libjpeg-turbo_3.0.0.bb} | 14 +++-----
- 2 files changed, 5 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-f=
-ix-package_qa-error.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.5.1.bb =3D> libjpeg=
--turbo_3.0.0.bb} (83%)
+Sure, I will send a v2 explaining:
 
-diff --git a/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-pack=
-age_qa-error.patch b/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-=
-fix-package_qa-error.patch
-deleted file mode 100644
-index fab5109f831..00000000000
---- a/meta/recipes-graphics/jpeg/files/0001-libjpeg-turbo-fix-package_qa-=
-error.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 5cf847b5bef8dc3f9f89bd09dd5af4e6603f393c Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Mon, 27 Aug 2018 16:10:55 +0800
--Subject: [PATCH] libjpeg-turbo: fix package_qa error
--
--Fix package qa errors like below:
--libjpeg.so.62.3.0 contains probably-redundant RPATH /usr/lib [useless-rp=
-aths]
--usr/bin/cjpeg contains probably-redundant RPATH /usr/lib
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- CMakeLists.txt | 4 ----
-- 1 file changed, 4 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 2bc3458..ea3041e 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -191,10 +191,6 @@ endif()
-- report_option(ENABLE_SHARED "Shared libraries")
-- report_option(ENABLE_STATIC "Static libraries")
--=20
---if(ENABLE_SHARED)
---  set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR})
---endif()
---
-- if(WITH_JPEG8 OR WITH_JPEG7)
--   set(WITH_ARITH_ENC 1)
--   set(WITH_ARITH_DEC 1)
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb b/meta/r=
-ecipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb
-similarity index 83%
-rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
-rename to meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb
-index e086830c021..146d80008c5 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb
-@@ -2,19 +2,15 @@ SUMMARY =3D "Hardware accelerated JPEG compression/deco=
-mpression library"
- DESCRIPTION =3D "libjpeg-turbo is a derivative of libjpeg that uses SIMD=
- instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression a=
-nd decompression"
- HOMEPAGE =3D "http://libjpeg-turbo.org/"
-=20
--LICENSE =3D "BSD-3-Clause"
--LIC_FILES_CHKSUM =3D "file://cdjpeg.h;endline=3D13;md5=3D8a61af33cc1c681=
-cd5cc297150bbb5bd \
--                    file://jpeglib.h;endline=3D16;md5=3D52b5eaade8d5b6a4=
-52a7693dfe52c084 \
--                    file://djpeg.c;endline=3D11;md5=3D510b386442ab6a27ee=
-241fc5669bc5ea \
--                    "
-+LICENSE =3D "IJG & BSD-3-Clause & Zlib"
-+LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3D2a8e0d8226a102f07ab63ed7fd=
-6ce155"
-+
- DEPENDS:append:x86-64:class-target =3D " nasm-native"
- DEPENDS:append:x86:class-target =3D " nasm-native"
-=20
--SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
--           file://0001-libjpeg-turbo-fix-package_qa-error.patch \
--           "
-+SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
-=20
--SRC_URI[sha256sum] =3D "2fdc3feb6e9deb17adec9bafa3321419aa19f8f4e5dea7bf=
-8486844ca22207bf"
-+SRC_URI[sha256sum] =3D "c77c65fcce3d33417b2e90432e7a0eb05f59a7fff884022a=
-9d931775d583bfaa"
- UPSTREAM_CHECK_URI =3D "http://sourceforge.net/projects/libjpeg-turbo/fi=
-les/"
- UPSTREAM_CHECK_REGEX =3D "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/=
-"
-=20
+Because busybox doesn't support other path than /etc [1] we can't
+change the default path unconditionally so change it only for systemd.
+
+Jose
+
+
+>
+> Ross
+>
+> > On 4 Jul 2023, at 10:03, Jose Quaresma via lists.openembedded.org
+> <quaresma.jose=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > gentle ping
+> >
+> > Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+> gmail.com@lists.openembedded.org> escreveu no dia sexta, 30/06/2023 =C3=
+=A0(s)
+> 16:50:
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > ---
+> >  meta/classes-recipe/kernel-module-split.bbclass | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes-recipe/kernel-module-split.bbclass
+> b/meta/classes-recipe/kernel-module-split.bbclass
+> > index 0e4f9a6ec3..c1208d55e0 100644
+> > --- a/meta/classes-recipe/kernel-module-split.bbclass
+> > +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> > @@ -30,8 +30,8 @@ fi
+> >
+> >  PACKAGE_WRITE_DEPS +=3D "kmod-native depmodwrapper-cross"
+> >
+> > -modulesloaddir ??=3D "${sysconfdir}/modules-load.d"
+> > -modprobedir ??=3D "${sysconfdir}/modprobe.d"
+> > +modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd=
+',
+> '${nonarch_libdir}', '${sysconfdir}', d)}/modules-load.d"
+> > +modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> '${nonarch_base_libdir}', '${sysconfdir}', d)}/modprobe.d"
+> >
+> >  KERNEL_SPLIT_MODULES ?=3D "1"
+> >  PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
+> > --
+> > 2.34.1
+> >
+> >
+> >
+> >
+> >
+> >
+> > --
+> > Best regards,
+> >
+> > Jos=C3=A9 Quaresma
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#183818):
+> https://lists.openembedded.org/g/openembedded-core/message/183818
+> > Mute This Topic: https://lists.openembedded.org/mt/99875687/6875888
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ross.burton@arm.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+
 --=20
-2.34.1
+Best regards,
 
+Jos=C3=A9 Quaresma
+
+--0000000000000c489605ffa6dae3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Ross Burton &lt;<a href=3D"mailto:Ros=
+s.Burton@arm.com">Ross.Burton@arm.com</a>&gt; escreveu no dia ter=C3=A7a, 4=
+/07/2023 =C3=A0(s) 11:03:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">The colon can be fixed but a rationale for this change would be =
+useful.<br></blockquote><div><br></div><div>Sure, I will send a v2 explaini=
+ng:<br><br>Because busybox doesn&#39;t support other path than /etc [1] we =
+can&#39;t<br>change the default path unconditionally so change it only for =
+systemd.<br><br>Jose<br>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+Ross<br>
+<br>
+&gt; On 4 Jul 2023, at 10:03, Jose Quaresma via <a href=3D"http://lists.ope=
+nembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org<=
+/a> &lt;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org"=
+ target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; gentle ping<br>
+&gt; <br>
+&gt; Jose Quaresma via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
+eferrer" target=3D"_blank">lists.openembedded.org</a> &lt;quaresma.jose=3D<=
+a href=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.=
+com@lists.openembedded.org</a>&gt; escreveu no dia sexta, 30/06/2023 =C3=A0=
+(s) 16:50:<br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
+ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes-recipe/kernel-module-split.bbclass | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/cl=
+asses-recipe/kernel-module-split.bbclass<br>
+&gt; index 0e4f9a6ec3..c1208d55e0 100644<br>
+&gt; --- a/meta/classes-recipe/kernel-module-split.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel-module-split.bbclass<br>
+&gt; @@ -30,8 +30,8 @@ fi<br>
+&gt; <br>
+&gt;=C2=A0 PACKAGE_WRITE_DEPS +=3D &quot;kmod-native depmodwrapper-cross&qu=
+ot;<br>
+&gt; <br>
+&gt; -modulesloaddir ??=3D &quot;${sysconfdir}/modules-load.d&quot;<br>
+&gt; -modprobedir ??=3D &quot;${sysconfdir}/modprobe.d&quot;<br>
+&gt; +modulesloaddir ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&=
+#39;, &#39;systemd&#39;, &#39;${nonarch_libdir}&#39;, &#39;${sysconfdir}&#3=
+9;, d)}/modules-load.d&quot;<br>
+&gt; +modprobedir ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39=
+;, &#39;systemd&#39;, &#39;${nonarch_base_libdir}&#39;, &#39;${sysconfdir}&=
+#39;, d)}/modprobe.d&quot;<br>
+&gt; <br>
+&gt;=C2=A0 KERNEL_SPLIT_MODULES ?=3D &quot;1&quot;<br>
+&gt;=C2=A0 PACKAGESPLITFUNCS =3D+ &quot;split_kernel_module_packages&quot;<=
+br>
+&gt; -- <br>
+&gt; 2.34.1<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; -- <br>
+&gt; Best regards,<br>
+&gt; <br>
+&gt; Jos=C3=A9 Quaresma<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#183818): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/183818" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/183818</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99875687=
+/6875888" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
+rg/mt/99875687/6875888</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:ross.burton@arm.com" =
+target=3D"_blank">ross.burton@arm.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--0000000000000c489605ffa6dae3--
 
