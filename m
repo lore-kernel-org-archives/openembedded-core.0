@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2235C001B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DDEEB64D9
 	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 15:30:29 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.61502.1688484620507996669
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.61415.1688484624662111778
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 08:30:20 -0700
+ Tue, 04 Jul 2023 08:30:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=nSXbjelA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b890e2b9b7so12880145ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 08:30:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=li+kC+38;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b8054180acso45882045ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 08:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688484619; x=1691076619;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688484624; x=1691076624;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N0yc151HJsOhnIaw58909l95PAN7dKUawIEYTp9yVs0=;
-        b=nSXbjelAd9Bt8KtB4tTlkvYCI/90puB35VcfPd16GEx+aIx92jD22/MQZLPHsdbm4A
-         CJImtkU8nFWwRpcVCG2iF5NprtczKdAAH4yrlpmewUoJl5Hsh+uh7SxyO97l2iVnL4R7
-         Vebl1Lv9OR3x52ij+6DVywgnIwhzo0eRga+RPZpqatyPukfrYPDFbQkwDsAL0gT4sv4b
-         ug+8DA+gEKilpEpbRkiqBo/op6k/whd349Heag2/G2aQWl7ucJrI9a6bBR4nkXEES18N
-         FFzl2kKSP0spFPl1HtkdouWOW95uWxxhhQmeHcmDh0tvlAT5vbv2iWmdOYm9YbS1VhKV
-         6LIQ==
+        bh=uR2VR55AhsCo6nnJWpoCBdlRJELBeRpnfVLzJZMzOIk=;
+        b=li+kC+386cB6BbNALVkLKVSTST2+TY1rasL6cMtrg254PqhzvJ8thZhhi3yau7+Y63
+         IGx30qmhi/B9sxtjaf94GbYNWil/jKRQ6XIm0LWKSdXtp9Tk9F16jCoSkygO5KwaZU/6
+         l0tO4Pg+zsIOe/6pcOXUxEV1bMzuD74cTdAS5oUnCrv27fnB8c+PKcrj4omTbkLvLyOe
+         3XnO0xfApUkei+LyKSDY8KvhcoUuaC1uvbptrbfGUxHCrkGyfuMb9hACvO+rJoPLOtj+
+         773w2IRICxpvdU3FsSzQfW37Ct8PKwZwZlvTMNPLRJgLu5yBEr/QK9ny6NGsShVz2xmX
+         qmbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688484619; x=1691076619;
+        d=1e100.net; s=20221208; t=1688484624; x=1691076624;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N0yc151HJsOhnIaw58909l95PAN7dKUawIEYTp9yVs0=;
-        b=LsoYslJPKvk71pEYx/zlaRQOnaEGmhKInmgPQlMWxS6TCrw8gknKDRsMTks3FRPlsS
-         YMxTa6+FhNVYH5bteEdpdOixbm+0PS9uIXmzrPC0tFgzjmXC6q81/dn6P7UK3orTMtB4
-         4/JetTtn4YgQJFnksLQRpLIu0LDte2lfiNBT8OBC5xqCcocEyU8YALOnYhXzMHLnyii1
-         AVKSMl9D2Aez1O64q/aWtH22JNRS8uV0z0M9bUsVhBAUN7D3gQnmrauKV80LgdgvqU7c
-         5q+tAdDshSwd6spvKGUwKXQlOu2ob2mQJaWTmtxt3WjYFW8UZqcCJYHVSddyu7FSoHy5
-         3obw==
-X-Gm-Message-State: ABy/qLY8QGAVMsgTM7QFrKa/LNS1XbLGHWCBxArzluP71gCgLA5HufYJ
-	guopbtXfcUtcY4oeFBzTg8hsWkNwLDm07r7lb9tMSw==
-X-Google-Smtp-Source: APBJJlHvEpXdoUJfDmLGuYsfcx/MciKDqutRttpckhlWzKPN6C+R62ux3rbZUhZItqbWjMYEwTPBhQ==
-X-Received: by 2002:a17:902:e74f:b0:1b8:7618:5414 with SMTP id p15-20020a170902e74f00b001b876185414mr11858536plf.60.1688484619541;
-        Tue, 04 Jul 2023 08:30:19 -0700 (PDT)
+        bh=uR2VR55AhsCo6nnJWpoCBdlRJELBeRpnfVLzJZMzOIk=;
+        b=Eqe6Vdfd63gSly6nIBqA6Uq3Mealorqep5Rhlkyoh2gLJrzwiPIhv6WDCfRAwq/n+S
+         vDstvDxrKqFVxFm+HEgk0vPue4PoBNMQiiYj5LwbBLT/aW1xgR8N1n6/Wvd1sTlnqRzZ
+         VKJgYMPumruAIV3U8b7LDOE/djNNnV7chUUhcemvbQwuWk8TwqexMUE4NkUFa0KV3O68
+         VELQsAwOqjfyO8/1C0/B53BxbI5MymFp7laJC+Jn++uln/pfZQgvs12rcqaojSx/qzO9
+         EFT0iZ7LbC7N9iXMChL0oai9phMS+BKJ4k3QpYo482SY/AF5K25lN/UrF8JarJB3uBBC
+         a3Mg==
+X-Gm-Message-State: ABy/qLZ7nN4ic2mH3x3o0FnvSVMrriOCHU8Os0M47u9VJ2joUaEFLQ/z
+	5v0ihoJv+rKw5HUL8YEtmq8RomgENQ+MtVUNM7Tt+Q==
+X-Google-Smtp-Source: APBJJlFBl7Ht4apLwLYGeJFGHx0TjfweQc1QYY2vHNUr69DB9uKpqUZYLey2+ZTeDeGErWu6DZw3HQ==
+X-Received: by 2002:a17:902:ecd2:b0:1b5:5fd2:4d6e with SMTP id a18-20020a170902ecd200b001b55fd24d6emr16559673plh.58.1688484623777;
+        Tue, 04 Jul 2023 08:30:23 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id y22-20020a1709029b9600b001ac40488620sm17332041plp.92.2023.07.04.08.30.18
+        by smtp.gmail.com with ESMTPSA id y22-20020a1709029b9600b001ac40488620sm17332041plp.92.2023.07.04.08.30.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 08:30:19 -0700 (PDT)
+        Tue, 04 Jul 2023 08:30:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 20/30] zip: fix configure check by using _Static_assert
-Date: Tue,  4 Jul 2023 05:29:22 -1000
-Message-Id: <a54619ba8deb6731fdac97a1fe21e7a6ed2b5a75.1688484463.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 22/30] unzip: fix configure check for cross compilation
+Date: Tue,  4 Jul 2023 05:29:24 -1000
+Message-Id: <ed61afde823bcd3eddb984a57c9dec317f8bbbf3.1688484463.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688484463.git.steve@sakoman.com>
 References: <cover.1688484463.git.steve@sakoman.com>
@@ -61,87 +61,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 15:30:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183855
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183857
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-It's incorrect to run a cross-compiled program on build machine
-to check if some feature is available or not. As these two checks
-in zip are basically just checking the size, we can use _Static_assert
-and sizeof to do such check at compile time.
+The original configure runs a generated binary to determine
+features. This is not correct for cross compilation. So change
+the runtime tests into compile-time tests to fix the issue.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dda778d855b1838ae3004a9af310724b913490b4)
+(cherry picked from commit b9aca339b59238988c48b90ea5019bfc939ba4b3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...se-_Static_assert-to-do-correct-dete.patch | 96 +++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  1 +
- 2 files changed, 97 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch
+ ...-fix-detection-for-cross-compilation.patch | 103 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/0001-unix-configure-fix-detection-for-cross-compilation.patch
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch b/meta/recipes-extended/zip/zip-3.0/0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch
+diff --git a/meta/recipes-extended/unzip/unzip/0001-unix-configure-fix-detection-for-cross-compilation.patch b/meta/recipes-extended/unzip/unzip/0001-unix-configure-fix-detection-for-cross-compilation.patch
 new file mode 100644
-index 0000000000..106f246a7c
+index 0000000000..2fa7f481b7
 --- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch
-@@ -0,0 +1,96 @@
-+From 9916fc6f1f93f3e092e3c6937c30dc8137c26d34 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/unzip/unzip/0001-unix-configure-fix-detection-for-cross-compilation.patch
+@@ -0,0 +1,103 @@
++From 5cbf901b5c3b6a7d1d0ed91b6df4194bb6d25a40 Mon Sep 17 00:00:00 2001
 +From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Thu, 15 Jun 2023 18:31:26 +0800
-+Subject: [PATCH] unix/configure: use _Static_assert to do correct detection
++Date: Thu, 15 Jun 2023 07:14:17 -0700
++Subject: [PATCH] unix/configure: fix detection for cross compilation
 +
 +We're doing cross compilation, running a cross-compiled problem
-+on host to detemine feature is not correct. Use _Static_assert
-+to do the detection correctly.
++on host to detemine feature is not correct. So we change runtime
++check into compile-time check to detect the features.
 +
 +Upstream-Status: Inactive-Upstream
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ unix/configure | 42 ++++++++++++------------------------------
-+ 1 file changed, 12 insertions(+), 30 deletions(-)
++ unix/configure | 44 +++++++++++++++-----------------------------
++ 1 file changed, 15 insertions(+), 29 deletions(-)
 +
 +diff --git a/unix/configure b/unix/configure
-+index f2b3d02..f917086 100644
++index 8fd82dd..68dee98 100755
 +--- a/unix/configure
 ++++ b/unix/configure
-+@@ -361,6 +361,10 @@ cat > conftest.c << _EOF_
-+ #include <sys/stat.h>
-+ #include <unistd.h>
-+ #include <stdio.h>
-++
-++_Static_assert(sizeof((struct stat){0}.st_uid) == 2, "sizeof st_uid is not 16 bit");
-++_Static_assert(sizeof((struct stat){0}.st_gid) == 2, "sizeof st_gid is not 16 bit");
-++
-+ int main()
-+ {
-+   struct stat s;
-+@@ -385,21 +389,7 @@ if [ $? -ne 0 ]; then
-+   echo -- UID/GID test failed on compile - disabling old 16-bit UID/GID support
-+   CFLAGS="${CFLAGS} -DUIDGID_NOT_16BIT"
-+ else
-+-# run it
-+-  ./conftest
-+-  r=$?
-+-  if [ $r -eq 1 ]; then
-+-    echo -- UID not 2 bytes - disabling old 16-bit UID/GID support
-+-    CFLAGS="${CFLAGS} -DUIDGID_NOT_16BIT"
-+-  elif [ $r -eq 2 ]; then
-+-    echo -- GID not 2 bytes - disabling old 16-bit UID/GID support
-+-    CFLAGS="${CFLAGS} -DUIDGID_NOT_16BIT"
-+-  elif [ $r -eq 3 ]; then
-+-    echo -- 16-bit UIDs and GIDs - keeping old 16-bit UID/GID support
-+-  else
-+-    echo -- test failed - conftest returned $r - disabling old 16-bit UID/GID support
-+-    CFLAGS="${CFLAGS} -DUIDGID_NOT_16BIT"
-+-  fi
-++  echo -- 16-bit UIDs and GIDs - keeping old 16-bit UID/GID support
-+ fi
-+ 
-+ 
-+@@ -417,6 +407,10 @@ cat > conftest.c << _EOF_
++@@ -259,6 +259,10 @@ cat > conftest.c << _EOF_
 + #include <sys/stat.h>
 + #include <unistd.h>
 + #include <stdio.h>
@@ -152,13 +117,13 @@ index 0000000000..106f246a7c
 + int main()
 + {
 +   off_t offset;
-+@@ -436,24 +430,12 @@ _EOF_
++@@ -278,21 +282,10 @@ _EOF_
 + # compile it
-+ $CC -o conftest conftest.c >/dev/null 2>/dev/null
++ $CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
 + if [ $? -ne 0 ]; then
 +-  echo -- no Large File Support
 ++  echo -- yes we have Large File Support!
-++  CFLAGS="${CFLAGS} -DLARGE_FILE_SUPPORT"
+++  CFLAGSR="${CFLAGSR} -DLARGE_FILE_SUPPORT"
 + else
 +-# run it
 +-  ./conftest
@@ -169,30 +134,71 @@ index 0000000000..106f246a7c
 +-    echo -- no Large File Support - no 64-bit stat
 +-  elif [ $r -eq 3 ]; then
 +-    echo -- yes we have Large File Support!
-+-    CFLAGS="${CFLAGS} -DLARGE_FILE_SUPPORT"
++-    CFLAGSR="${CFLAGSR} -DLARGE_FILE_SUPPORT"
 +-  else
 +-    echo -- no Large File Support - conftest returned $r
 +-  fi
 ++  echo -- no Large File Support
 + fi
 + 
-+-
-+ # Check for wide char for Unicode support
 + # Added 11/24/2005 EG
++@@ -302,6 +295,11 @@ cat > conftest.c << _EOF_
++ #include <stdlib.h>
++ #include <stdio.h>
++ #include <wchar.h>
+++
+++#ifndef __STDC_ISO_10646__
+++#error "__STDC_ISO_10646__ not defined
+++#endif
+++
++ int main()
++ {
++   size_t wsize;
++@@ -327,19 +325,8 @@ if [ $? -ne 0 ]; then
++   echo "-- no Unicode (wchar_t) support"
++ else
++ # have wide char support
++-# run it
++-  ./conftest
++-  r=$?
++-  if [ $r -eq 0 ]; then
++-    echo -- no Unicode wchar_t support - wchar_t allocation error
++-  elif [ $r -eq 1 ]; then
++-    echo -- no Unicode support - wchar_t encoding unspecified
++-  elif [ $r -eq 2 ]; then
++-    echo -- have wchar_t with known UCS encoding - enabling Unicode support!
++-    CFLAGSR="${CFLAGSR} -DUNICODE_SUPPORT -DUNICODE_WCHAR"
++-  else
++-    echo "-- no Unicode (wchar_t) support - conftest returned $r"
++-  fi
+++  echo -- have wchar_t with known UCS encoding - enabling Unicode support!
+++  CFLAGSR="${CFLAGSR} -DUNICODE_SUPPORT -DUNICODE_WCHAR"
++ fi
++ 
++ echo "Check for setlocale support (needed for UNICODE Native check)"
++@@ -418,8 +405,7 @@ temp_link="link_$$"
++   echo "int main() { lchmod(\"${temp_file}\", 0666); }" \
++ ) > conftest.c
++ ln -s "${temp_link}" "${temp_file}" && \
++- $CC $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null && \
++- ./conftest
+++ $CC -Werror=implicit-function-declaration $BFLAG $LDFLAGS -o conftest conftest.c >/dev/null
++ [ $? -ne 0 ] && CFLAGSR="${CFLAGSR} -DNO_LCHMOD"
++ rm -f "${temp_file}"
 + 
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 1930a40140..802877285f 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://0001-configure-Use-CFLAGS-and-LDFLAGS-when-doing-link-tes.patch \
-            file://0001-configure-Specify-correct-function-signatures-and-de.patch \
-            file://0002-unix.c-Do-not-redefine-DIR-as-FILE.patch \
-+           file://0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch \
-            "
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index a4d10c30aa..391e5cd22a 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0529.patch \
+         file://CVE-2022-0530.patch \
+         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
++        file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
+ "
  UPSTREAM_VERSION_UNKNOWN = "1"
  
 -- 
