@@ -2,52 +2,52 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF193C001DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2A1C001B0
 	for <webhook@archiver.kernel.org>; Wed,  5 Jul 2023 20:11:45 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.59497.1688480074976808393
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.62809.1688488107994961286
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 07:14:35 -0700
+ Tue, 04 Jul 2023 09:28:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@snap.com header.s=google header.b=LvR1a8Q3;
- spf=pass (domain: snapchat.com, ip: 209.85.218.41, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9741caaf9d4so500275266b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 07:14:34 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@snap.com header.s=google header.b=PJY/+WVz;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.48, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9891c73e0fbso1047692966b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 09:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1688480073; x=1691072073;
+        d=snap.com; s=google; t=1688488106; x=1691080106;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=sihnCgDjtHEW/tfwUX0MBsDjIDYMuFwJPSZt1rhLTH8=;
-        b=LvR1a8Q32LXdU/E/wwfWVrLasYOpE9mGSI5KWEf0RcYKq828OVNYHFfUANPdhX8y/N
-         9MssLGP0TtvbHf9CwKSksp2f4rJZcmw9TEDLvBjK5QlSfUl39eiUY1I8wzbFc03SBkKG
-         lH2H38DsKwf+2wgAPKxIUSBqJwbJlxa6lL20o=
+        b=PJY/+WVzTswnLggjsVv3I3sVkpNaerRFE3hU6k+JakGJ+vZfj1KFJQp2zZF9u1+h0n
+         bMXj2MNoyrz/BPorpRPPQKXWSH09P44rORK2SXhHGaUd8OAYjW93bo3RLcWONbinoLp7
+         tED1cQt+ygvRuJVLBFEJSDXYUsKOmSu5AFv0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688480073; x=1691072073;
+        d=1e100.net; s=20221208; t=1688488106; x=1691080106;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=sihnCgDjtHEW/tfwUX0MBsDjIDYMuFwJPSZt1rhLTH8=;
-        b=lifOJELn/C68B44zs/P9Pxnk5hSJXkbkcPRCUmjNZGVVo1ycSR0TxSMSaqwIJL2OFk
-         UUjllzceDo1+E1BsHO7JJA2rHMiyt94BI8Q4duJ6HiE3POqf7s+Pd0e44DErD+o4YrK3
-         371Lg9EDe7urqck7YRQjMsTHFaI2iMHXa3sgVRbfhm+c2KXDJuRqwJwml/vs6Xcx4GPx
-         0rZuLQUnWbtqOEuSYGQX2NWfNd23OpU2ubRBGHzculbaEAkmlIinlXZn2Yff9BKK6uU2
-         HxyW18mLhsmm9CiZJ+Ujmgv1aqLyS+ro+G1bemCeRvpPfF4AX91odocuBb5+Vnl8X7GO
-         anKw==
-X-Gm-Message-State: ABy/qLZB35nYmAWPF0GJeloRKUYHUpT06pzrl69mx1DhRRwIyiatZxqR
-	gxTzXJaz9Ya39JpPogczZ6rc3XYymy6YEZXnU9Xlrg==
-X-Google-Smtp-Source: APBJJlHkUCdfUXxuYvxgO/SH9mnjw+GWDJ5HB+QVKfyOW2QnbSEfaRhcGj7lPviJBhuNmQlrTyX+jQ==
-X-Received: by 2002:a17:906:1c42:b0:982:caf9:126 with SMTP id l2-20020a1709061c4200b00982caf90126mr9761706ejg.42.1688480072972;
-        Tue, 04 Jul 2023 07:14:32 -0700 (PDT)
+        b=CVoH9FPMx9bfYnoqPaiCGkFbvwnhE9zMA0LGv0Hbo7EF8JDjJ5WHtd/STq5fzqCDLc
+         JWdMt8QdSUqyTrcWfA5FygYxiHx6qw1l7sbRtrwi55xkXcrlSkYRfxJ6Xst9xtAVp85M
+         6JIbnv9Jv2GY36pQOKSF7WlLy1qLGj5Xeb8x4F8XeNHGZM+GBvIKAxG3Fe/1I+Br695M
+         vOEDwTbPmwLphcjbo1ua1/SlcFZE0eV+198RY/383TtP028PKSRlSHR+EagagBSDMgAM
+         LiIR/XQfMs+YWA+B4eye+hnzGFL4KFIkgilRj7txiGRO2Be0tjvmVJ9iJxbSnhXDyYN1
+         OWUg==
+X-Gm-Message-State: ABy/qLZnLWz9LpVKMUsQzy0PnQ7qiVpo7NQWA2G8MPoXOjGlZLuhEatE
+	wHcUmK+yeyVoDz1GUyOzAiKw8WDt9yiPG0OlwyVenw==
+X-Google-Smtp-Source: APBJJlHC+tOOsDdgqyccwsyB/7swBwxl3WbCqrtFLrIGehlO0CCLt5/sOvXmJ1haRkUG81Cx8H0r7w==
+X-Received: by 2002:a17:906:10dc:b0:992:2f67:cd34 with SMTP id v28-20020a17090610dc00b009922f67cd34mr16506680ejv.22.1688488106082;
+        Tue, 04 Jul 2023 09:28:26 -0700 (PDT)
 Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
-        by smtp.gmail.com with ESMTPSA id t14-20020a170906948e00b0098d2f703408sm13189974ejx.118.2023.07.04.07.14.32
+        by smtp.gmail.com with ESMTPSA id a10-20020a17090640ca00b0098e025cda3bsm13420184ejk.141.2023.07.04.09.28.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 07:14:32 -0700 (PDT)
+        Tue, 04 Jul 2023 09:28:25 -0700 (PDT)
 From: "Etienne Cordonnier" <ecordonnier@snap.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] qemu: fix typo
-Date: Tue,  4 Jul 2023 16:14:00 +0200
-Message-Id: <20230704141400.3519751-1-ecordonnier@snap.com>
+Subject: [OE-core][PATCH] qemu: fix typo
+Date: Tue,  4 Jul 2023 18:28:20 +0200
+Message-Id: <20230704162820.302230-1-ecordonnier@snap.com>
 X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,7 +55,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 20:11:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183908
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183909
 
 From: Etienne Cordonnier <ecordonnier@snap.com>
 
