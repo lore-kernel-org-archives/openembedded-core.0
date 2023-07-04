@@ -1,91 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sudipm.mukherjee@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07659EB64D9
-	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 17:06:26 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.413.1688490385418352252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B31EB64D9
+	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 20:09:21 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.2701.1688501353253866323
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 10:06:25 -0700
+ Tue, 04 Jul 2023 13:09:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=lvbU5H6p;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-55af0a816e4so2959694a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 10:06:25 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QNL8Cnby;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: sudipm.mukherjee@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31434226a2eso4014854f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 13:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688490385; x=1691082385;
+        d=gmail.com; s=20221208; t=1688501351; x=1691093351;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZX94jFQNFsN2fy73bqu/73MBcnhDs2QXkuNqaAjr+M=;
-        b=lvbU5H6prg0Uj++6SLqBrHQaDiJm44CEv8SCit6sGBBRU8iyPCQS2lV7FoCiJZUTHW
-         qd/PcZmBWMTDrP1cxaDz1LBuJcqjwMVSZxMBnBwhiqO64f4pKjuch8GgcgHmG0e+P4Yt
-         uYDlHvrnoNyUNqh6ukd2l5LzrqvLID3vJvyvADkVX8PSaCLVMyRZFtMg57AJdYYxkh8x
-         WaISUqfV1/oNFDOOP4xuovwKYgZzxnG1t7/gOX8W+1v5SQYd/kIsK2AgmM1C20VN7YOS
-         4SKcU23KzN0o5N+balBCIlJEkhuRs4vyUPQuuVoc41lbKttj7Zurbtfp4Pyiwq/mu9ie
-         9PZg==
+        bh=pWCQtzFYi6Jrtn0f2nTxTBUqQ+vM2fE+IJgB9Pejh2E=;
+        b=QNL8Cnby8GFqk9fwVzY+O62sPwGPySBX0ZCQAlT6G+pzmwhcH2BeqtpLVIz9G10Vdf
+         sr+g54CYq3fIV6MSlnqJij5/nIyb4OhYxu0ZVigYCtF9DtLW0sbyIoI9FU2BL9jmxGs9
+         JCsFUce5Q06KcH9nZ3TFyRQwB/Z8eQIkKXRohtRq5P05wkKYshgHqr4dr9oA3MAM3h70
+         YgwOsajROIKf/Ta4jGITpFmFNER457SzYUZfdXJiOfTYemtXJ4mcXLOYht9L9BLGa6M8
+         ew15ofCgnmAmwj/5Gu+NduSZWrEqeku4TOZloyDxgmLKwduvhh16XIdQEbDMDifXAddb
+         xBfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688490385; x=1691082385;
+        d=1e100.net; s=20221208; t=1688501351; x=1691093351;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mZX94jFQNFsN2fy73bqu/73MBcnhDs2QXkuNqaAjr+M=;
-        b=le6WYQXFlFX5fgTE2kPKvexjeePU+Hp49Jtik6BosCYL4aXR8df77nao9btYGnMmbD
-         +Rh5ds8HS5Oh/k6LznOeWJG0xoyrc0D/5MIQjEEQVnsq36D/M2uSQSo9705JBXkLFUXN
-         g1By6iFPi51MyV+RUgDZNagl4aM7cuvLnsprqJNCMh7dLuedt4NeuWuqVChhYlQNbUlk
-         23BGwpDyBKrKTCn91R8vuxm8DPeM7wY+yYRuljv+gprl1i5f/zeADS4OYbCXnBxhdC1z
-         FdwtIodefx+HNIrA8sI7q8TVmWTH7b/mySnQVVe7tPp6BeExLJgeSVJYbdm1BPB4hGv7
-         +olw==
-X-Gm-Message-State: AC+VfDypYnpTNJam7vRiiRcp+O7+0Dsi0qNqYTdvdCSu52dGkc0cJa/R
-	VZ/xzBE3fXFbKVp23YhmKSaOHgBx2z0=
-X-Google-Smtp-Source: ACHHUZ7Jxy9eMjJg3EPBHcNDswSq2XO6EC27JYNfcBatT4wRmHpX7t9SCgkZXHGy0HpjxZIXR7r51w==
-X-Received: by 2002:a05:6a20:a20d:b0:125:5bf3:f62f with SMTP id u13-20020a056a20a20d00b001255bf3f62fmr9108986pzk.8.1688490384452;
-        Tue, 04 Jul 2023 10:06:24 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::9b32])
-        by smtp.gmail.com with ESMTPSA id 204-20020a6300d5000000b0053051d50a48sm16442319pga.79.2023.07.04.10.06.23
+        bh=pWCQtzFYi6Jrtn0f2nTxTBUqQ+vM2fE+IJgB9Pejh2E=;
+        b=MxsmP729V+5zu1dYC8AtzUDKz+oKBPOp7jgSYwvb8gE1uHgKtBnUQjDAjpjorMfbz2
+         EAS//V9liSK72celeSLM35ZiG4EZcTNvEe37uABlpeh7Kl3OSclgs75t9PZBXfRGtfXO
+         17ZZJxDuP0sIlEhh5Dnh2dhw7ETAf9hsXgnNJ+SSDChCHMVNBRry8l+ujR+m196hf8xi
+         OOrEP5l1Zd9nWaPLWabiHzOPMSsMZWh5Nr9sZBze4cG/Za4oCvuruUhmPxI+lzBbQ4tb
+         J8qOi5mEWA8jj2gcVT4Jgq15gDuDQurJihvhUCpo2b5ENdwlYTWvdpfLondjoUO3J/l0
+         /JVw==
+X-Gm-Message-State: ABy/qLZizZB5UDfniOxylfnpEnn7up6rSwBLueJD5HaVjouij7Ssi88v
+	4GuyJzHMaGVSuhUPuu++f/YHeM3sJ7g=
+X-Google-Smtp-Source: APBJJlGhTVboRvBpTDnhbHiEL0LqXZJEJeEIFrVxsXThuISWsUdGCH/AJRGUshGj63BvL17Q0vN7sQ==
+X-Received: by 2002:adf:f049:0:b0:314:1249:d5d7 with SMTP id t9-20020adff049000000b003141249d5d7mr17344782wro.16.1688501351167;
+        Tue, 04 Jul 2023 13:09:11 -0700 (PDT)
+Received: from debian.office.codethink.co.uk ([167.98.27.226])
+        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b003143b032b7asm4734737wrx.116.2023.07.04.13.09.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 10:06:24 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 04 Jul 2023 13:09:10 -0700 (PDT)
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] meson.bbclass: Point to llvm-config from native sysroot
-Date: Tue,  4 Jul 2023 10:06:22 -0700
-Message-ID: <20230704170622.432086-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] python3-pygments: upgrade to 2.15.1
+Date: Tue,  4 Jul 2023 21:09:07 +0100
+Message-Id: <20230704200907.20403-1-sudipm.mukherjee@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 17:06:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183870
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 20:09:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183871
 
-Default search in meson would grok /usr/bin for llvm-config and if found
-will use it, which might add wrong paths into cflags/ldflags, since we
-depend on llvm-native when building gallium support ( thats when
-llvm-config is effective), its better to point llvm-config into native
-sysroot so it can add correct paths into compiler/linker cmdline
+Upstream has removed setup.py and started using pyproject.toml
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 ---
-v2: Move the fix from mesa to meson class
+ ...ython3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} (76%)
 
- meta/classes-recipe/meson.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index 48688bed755..7f5e9b19433 100644
---- a/meta/classes-recipe/meson.bbclass
-+++ b/meta/classes-recipe/meson.bbclass
-@@ -111,6 +111,7 @@ nm = ${@meson_array('BUILD_NM', d)}
- strip = ${@meson_array('BUILD_STRIP', d)}
- readelf = ${@meson_array('BUILD_READELF', d)}
- objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
-+llvm-config = '${STAGING_BINDIR_NATIVE}/llvm-config'
- pkgconfig = 'pkg-config-native'
- ${@rust_tool(d, "BUILD_SYS")}
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-pygments_2.14.0.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+index 16769e9263..7e3b286f41 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+ 
+ inherit setuptools3
+-SRC_URI[sha256sum] = "b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"
++SRC_URI[sha256sum] = "8ace4d3c1dd481894b2005f560ead0f9f19ee64fe983366be1a21e171d12775c"
+ 
+ DEPENDS += "\
+             ${PYTHON_PN} \
+@@ -15,5 +15,9 @@ PYPI_PACKAGE = "Pygments"
+ 
+ inherit pypi
+ 
++do_compile () {
++    python_pep517_do_compile
++}
++
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
-2.41.0
+2.30.2
 
 
