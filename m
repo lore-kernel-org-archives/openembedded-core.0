@@ -2,203 +2,221 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF079EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F34EB64DD
 	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 15:29:49 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.61458.1688484580834701278
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.61464.1688484586933588552
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 08:29:41 -0700
+ Tue, 04 Jul 2023 08:29:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=cdZETSe3;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b8033987baso34782305ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 08:29:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=iVrQrGgX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-55ba895d457so1068704a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 08:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688484580; x=1691076580;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WcRMoWZdD+oHBS7u41NZOoI8EEWWBg/7mopsIHfzqeM=;
-        b=cdZETSe3VSmr+cCPngzn6PXnpNNsJ0nOYjY0hi2B0pFmQ52yHFN8t6JoUhGNL7p78e
-         Mvp5fWbeui+sUlTDk/xvcXDNOersR0wZe9syWGS/H9irKbLOVaNVEBq4gqVA9bsS+ag+
-         o/xYin7vw5jCht06g2NZ5AzqDxZLo6q40iOcQD5oUMkyqdZUUsjivqFrf5QZoBPXeAUG
-         j+L6fAwS8IZUTWJlDmd8kdWxioL29UGbaY+KgX+uC0hk3Kr4/jqYFTSLYgTe2g7UuLEJ
-         Zyo+nk7LTv7PYrN7j8x+SLbVs080Bqrmys9EXtPva1Uzz71EAYIj4XaewazqEvJ2NdCK
-         dyJw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688484586; x=1691076586;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LEma7shBOqWSbEhWAkwBCV5UOfz/UbWcXjw/I0oOHdY=;
+        b=iVrQrGgX3BgQPabfH/WauVqBPlU7I+wuBkLC/pDMG2YQX4KJ/k8tuHxnrPceyqV8sY
+         BIJpSPksrZnDVU3hKcfOtM41MctJeSt4PdApCtN/IFyYzWyBI8WBn49CwhvDE2k14oRb
+         h61SI1Vo+GQdJbMc4N6tNFH54LGJ69EcC8Leo/GL6cvw4Fw31NosKoHbDrsyu9fWZcTT
+         Yv5oWq6t9E5bisAAxwbNZI5aigGVSIZrKKQIN+Yne7H7NlvRGCDFChOy1C3+waSRwbM2
+         5WDfyH9lcaC3IcbpHiEATQ3U9TeVsETtbEfxLanGL/f6eGvx/lOu0ib6H4+5JdJfc0A3
+         ZhuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688484580; x=1691076580;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WcRMoWZdD+oHBS7u41NZOoI8EEWWBg/7mopsIHfzqeM=;
-        b=Z58YJsenoI6VgfN4+OCy0XEVvp1JlFZQMce+TGLaq0Gac6EUnWWSOq07JjltRv6An6
-         ut5whCZEA4YJJ5dmuFNkcmlPfDyt9efAjzH19IW59YS6uwQmcgJ3zDDVlwFJb4j5jx3c
-         8iU83aO4ybcHMBTWQySAORT8F8Cs3JlVKR/LoayAmtTJDG2WUWP6EqcG9G6LS9wldk/n
-         thHxYEULC/Teho512hj01TAPt+wMP4urtCUAtJXruf0q9EIvP+VHK/jx2ILPDIgDS197
-         kJEZnHc6mPed2mgKaoPtO1K2yLggk6yl6EtnpbxFrBnG1yNmq3pKSk8RP5GRsqkhA/Np
-         jzYw==
-X-Gm-Message-State: ABy/qLZho51ZdroJDDLAC0tbssxXETV3dPgb0+by5zjhWUSnJ+8A7l48
-	z3P/lhcewsZAJa3tL8v4igOgKCS2BdTUdUjShLF/IQ==
-X-Google-Smtp-Source: APBJJlFMgpNKDwJHaU1oRdWgK6odmiYnxazKTLdUezgnmHODOjJI4uIFxUz7xoihN5zkqoD/tU9lug==
-X-Received: by 2002:a17:902:d501:b0:1b2:676d:1143 with SMTP id b1-20020a170902d50100b001b2676d1143mr21877139plg.15.1688484579488;
-        Tue, 04 Jul 2023 08:29:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688484586; x=1691076586;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LEma7shBOqWSbEhWAkwBCV5UOfz/UbWcXjw/I0oOHdY=;
+        b=TPwkf5iLrVRDclUQ0u6+pgOgouRr5QtmqVKVIbKizIGTsNL0jaAYDVS6NZbhapi5gy
+         KOoPBI0I8qDc429NoAhHzqInTEiyxZSa5o2wSp8iMKGMZiTKs/9RL7WUXH6tG5r5XaDG
+         GZRp8WEYPTSCrzIsFsI/qbBRIL/nFGgGsGjsuMR2cRlV4PXG1pn4pFGUYr1rngkEhy8E
+         I1qSjvFhfCn+I//jwADnDo4Pv2lp6kkS/Ocs5YitSeJHVNICjcLWm81u2YJRf/mORokC
+         wIryHFg5+dfyTSuSjrPDPrDPpShVKwU1+9EcFZFycyRvUzuVxKfyg8oYageSy+bAxtBR
+         a8VA==
+X-Gm-Message-State: AC+VfDwX0PUsMZHrTu6zkci+fi+8cnGoSocycbT4Fl8awkZh/kKXeKxV
+	lqwto05ry5qizUtiQkNsm35lqwHAoRTQ3hTtLH6/9A==
+X-Google-Smtp-Source: ACHHUZ43CRPwsTETJF97yqm1Mb0SPLm34eXpdVg2zLe84j4SlMN+c8DmjDR/d52rxlRrK4rGPSPcQg==
+X-Received: by 2002:a05:6a20:8e14:b0:12b:5cc3:13c6 with SMTP id y20-20020a056a208e1400b0012b5cc313c6mr14707416pzj.19.1688484585935;
+        Tue, 04 Jul 2023 08:29:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id y22-20020a1709029b9600b001ac40488620sm17332041plp.92.2023.07.04.08.29.38
+        by smtp.gmail.com with ESMTPSA id y22-20020a1709029b9600b001ac40488620sm17332041plp.92.2023.07.04.08.29.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 08:29:38 -0700 (PDT)
+        Tue, 04 Jul 2023 08:29:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 00/30] Patch review
-Date: Tue,  4 Jul 2023 05:29:02 -1000
-Message-Id: <cover.1688484463.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 03/30] gnupg: upgrade 2.4.0 -> 2.4.2
+Date: Tue,  4 Jul 2023 05:29:05 -1000
+Message-Id: <d4ab498958db518a7c67b8cc1f9c15d6ee253097.1688484463.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1688484463.git.steve@sakoman.com>
+References: <cover.1688484463.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 15:29:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183835
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183838
 
-Please review this set of changes for mickledore and have comments back by
-end of day Thursday.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Passed a-full on autobuilder:
+Stable version update
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5556
+Noteworthy changes in version 2.4.2
+===================================
 
-The following changes since commit ce5337d19ad290f30c0250158a1833a2cc3bd0ac:
+  * gpg: Print a warning if no more encryption subkeys are left over
+    after changing the expiration date.  [rGef2c3d50fa]
 
-  grub: submit determinism.patch upstream (2023-06-29 06:22:29 -1000)
+  * gpg: Fix searching for the ADSK key when adding an ADSK.  [T6504]
 
-are available in the Git repository at:
+  * gpgsm: Speed up key listings on Windows.  [rG08ff55bd44]
 
-  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+  * gpgsm: Reduce the number of "failed to open policy file"
+    diagnostics.  [rG68613a6a9d]
 
-Alberto Planas (1):
-  bitbake.conf: add unzstd in HOSTTOOLS
+  * agent: Make updating of private key files more robust and track
+    display S/N.  [T6135]
 
-Alexander Kanavin (9):
-  gawk: upgrade 5.2.1 -> 5.2.2
-  gnupg: upgrade 2.4.0 -> 2.4.2
-  libx11: upgrade 1.8.4 -> 1.8.5
-  linux-firmware: upgrade 20230404 -> 20230515
-  serf: upgrade 1.3.9 -> 1.3.10
-  wget: upgrade 1.21.3 -> 1.21.4
-  wireless-regdb: upgrade 2023.02.13 -> 2023.05.03
-  gdb: upgrade 13.1 -> 13.2
-  sysfsutils: fetch a supported fork from github
+  * keyboxd: Avoid longish delays on Windows when listing keys.
+    [rG6944aefa3c]
 
-Changqing Li (2):
-  dnf: only write the log lock to root for native dnf
-  rootfs-postcommands.bbclass: add post func remove_unused_dnf_log_lock
+  * gpgtar: Emit extra status lines to help GPGME.  [T6497]
 
-Chen Qi (7):
-  sdk.py: error out when moving file fails
-  sdk.py: fix moving dnf contents
-  rpm: write macros under libdir
-  zip: fix configure check by using _Static_assert
-  zip: remove unnecessary LARGE_FILE_SUPPORT CLFAGS
-  unzip: fix configure check for cross compilation
-  unzip: remove hardcoded LARGE_FILE_SUPPORT
+  * w32: Avoid using the VirtualStore.  [T6403]
 
-Jermain Horsman (1):
-  logrotate: Do not create logrotate.status file
-
-Khem Raj (3):
-  rpcsvc-proto: Upgrade to 1.4.4
-  libxml2: Do not use lld linker when building with tests on rv64
-  python3-bcrypt: Use BFD linker when building tests
-
-Richard Purdie (5):
-  strace: Merge two similar patches
-  strace: Update patches/tests with upstream fixes
-  ptest-runner: Pull in sync fix to improve log warnings
-  ptest-runner: Ensure data writes don't race
-  ptest-runner: Pull in "runner: Remove threads and mutexes" fix
-
-Soumya (1):
-  perl: Fix CVE-2023-31484 & CVE-2023-31486
-
-Trevor Gamblin (1):
-  glib-networking: use correct error code in ptest
-
- .../rootfs-postcommands.bbclass               |   7 +
- meta/conf/bitbake.conf                        |   2 +-
- meta/lib/oe/package_manager/rpm/sdk.py        |   3 +-
- meta/lib/oe/sdk.py                            |   2 +-
- .../glib-networking/eagain.patch              |   2 +-
- meta/recipes-core/libxml/libxml2_2.10.4.bb    |   2 +
- .../sysfsutils/sysfsutils_2.1.0.bb            |  10 +-
- meta/recipes-devtools/dnf/dnf_4.14.0.bb       |   3 +-
- ...ian_13.1.bb => gdb-cross-canadian_13.2.bb} |   0
- .../{gdb-cross_13.1.bb => gdb-cross_13.2.bb}  |   0
- meta/recipes-devtools/gdb/gdb.inc             |   4 +-
- ...r-valid-inferior-thread-regcache-bef.patch | 286 ------------------
- ...low.cc-Fix-a-typo-in-ternary-operato.patch |  24 --
- .../gdb/{gdb_13.1.bb => gdb_13.2.bb}          |   0
- .../perl/files/CVE-2023-31484.patch           |  29 ++
- .../perl/files/CVE-2023-31486-0001.patch      | 217 +++++++++++++
- .../perl/files/CVE-2023-31486-0002.patch      |  30 ++
- meta/recipes-devtools/perl/perl_5.36.0.bb     |   3 +
- .../python/python3-bcrypt_4.0.1.bb            |   1 +
- meta/recipes-devtools/rpm/rpm_4.18.1.bb       |   5 +-
- ...0001-caps-abbrev.awk-fix-gawk-s-path.patch |  47 ---
- ...b541b258baec9eba674b5d8dc30007a61542.patch |  50 +++
- ...2f4494779e5c5f170ad10539bfc2dfafe967.patch |  50 +++
- .../strace/strace/skip-sockopt-test.patch     |  37 ---
- .../strace/strace/update-gawk-paths.patch     |  30 ++
- meta/recipes-devtools/strace/strace_6.2.bb    |   4 +-
- .../gawk/{gawk_5.2.1.bb => gawk_5.2.2.bb}     |   2 +-
- .../logrotate/logrotate_3.21.0.bb             |   1 -
- .../rpcsvc-proto/rpcsvc-proto.bb              |   5 +-
- ...FILE-macro-to-control-largefile-supp.patch |  80 -----
- .../0001-Use-cross-compiled-rpcgen.patch      |  11 +-
- ...-fix-detection-for-cross-compilation.patch | 103 +++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |   4 +-
- meta/recipes-extended/wget/wget.inc           |   2 +-
- .../wget/{wget_1.21.3.bb => wget_1.21.4.bb}   |   2 +-
- ...se-_Static_assert-to-do-correct-dete.patch |  96 ++++++
- meta/recipes-extended/zip/zip_3.0.bb          |   4 +-
- .../{libx11_1.8.4.bb => libx11_1.8.5.bb}      |   2 +-
- ...20230404.bb => linux-firmware_20230515.bb} |   4 +-
- ....02.13.bb => wireless-regdb_2023.05.03.bb} |   2 +-
- ...-a-custom-value-for-the-location-of-.patch |   6 +-
- .../gnupg/gnupg/relocate.patch                |  18 +-
- .../gnupg/{gnupg_2.4.0.bb => gnupg_2.4.2.bb}  |   2 +-
- .../ptest-runner/ptest-runner_2.4.2.bb        |   2 +-
- ...print-in-the-scons-file-to-unbreak-b.patch |  29 --
- ...sl_buckets.c-do-not-use-ERR_GET_FUNC.patch |  28 --
- ...11083-fix-building-with-scons-3.0.0-.patch |  29 --
- ...ories.without.sandbox-install.prefix.patch |   2 +-
- .../serf/{serf_1.3.9.bb => serf_1.3.10.bb}    |   6 +-
- 49 files changed, 664 insertions(+), 624 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_13.1.bb => gdb-cross-canadian_13.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_13.1.bb => gdb-cross_13.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-aarch64-Check-for-valid-inferior-thread-regcache-bef.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-gdbserver-linux-low.cc-Fix-a-typo-in-ternary-operato.patch
- rename meta/recipes-devtools/gdb/{gdb_13.1.bb => gdb_13.2.bb} (100%)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/0001-caps-abbrev.awk-fix-gawk-s-path.patch
- create mode 100644 meta/recipes-devtools/strace/strace/3bbfb541b258baec9eba674b5d8dc30007a61542.patch
- create mode 100644 meta/recipes-devtools/strace/strace/f31c2f4494779e5c5f170ad10539bfc2dfafe967.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/skip-sockopt-test.patch
- rename meta/recipes-extended/gawk/{gawk_5.2.1.bb => gawk_5.2.2.bb} (97%)
- delete mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/0001-unix-configure-fix-detection-for-cross-compilation.patch
- rename meta/recipes-extended/wget/{wget_1.21.3.bb => wget_1.21.4.bb} (60%)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch
- rename meta/recipes-graphics/xorg-lib/{libx11_1.8.4.bb => libx11_1.8.5.bb} (92%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230404.bb => linux-firmware_20230515.bb} (99%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.02.13.bb => wireless-regdb_2023.05.03.bb} (94%)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c9eddfded59819a2a375b6f5518bf2c3184237d2)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...e-a-custom-value-for-the-location-of-.patch |  6 +++---
+ .../recipes-support/gnupg/gnupg/relocate.patch | 18 +++++++++---------
+ .../gnupg/{gnupg_2.4.0.bb => gnupg_2.4.2.bb}   |  2 +-
+ 3 files changed, 13 insertions(+), 13 deletions(-)
  rename meta/recipes-support/gnupg/{gnupg_2.4.0.bb => gnupg_2.4.2.bb} (97%)
- delete mode 100644 meta/recipes-support/serf/serf/0001-Fix-syntax-of-a-print-in-the-scons-file-to-unbreak-b.patch
- delete mode 100644 meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
- delete mode 100644 meta/recipes-support/serf/serf/0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch
- rename meta/recipes-support/serf/{serf_1.3.9.bb => serf_1.3.10.bb} (78%)
 
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index 0cd4c45907..81aeaf5d3a 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 346a6b17a07b658954db65f814461b59824d9fcd Mon Sep 17 00:00:00 2001
++From 8b9e3d286e87bc978ec6bb9cfd790d8d253b79c3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 099c6a8..e8cf408 100644
++index a547401..60bc2c5 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1935,7 +1935,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1922,7 +1922,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 071dd93ff5..f7dd12fbcc 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From b1117adeb476304ce2792814516a5b7cd44d0d38 Mon Sep 17 00:00:00 2001
++From c4ddea8e6070d1df51058aac08088e27c37e7e73 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 67bbde8..7f360ba 100644
++index 286685f..212a945 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1171,7 +1171,7 @@ gnupg_socketdir (void)
++@@ -1213,7 +1213,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +26,7 @@ index 67bbde8..7f360ba 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1203,7 +1203,7 @@ gnupg_sysconfdir (void)
++@@ -1245,7 +1245,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +35,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1239,7 +1239,7 @@ gnupg_bindir (void)
++@@ -1281,7 +1281,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +44,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1266,7 +1266,7 @@ gnupg_libexecdir (void)
++@@ -1308,7 +1308,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +53,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1296,7 +1296,7 @@ gnupg_libdir (void)
++@@ -1338,7 +1338,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +62,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1327,7 +1327,7 @@ gnupg_datadir (void)
++@@ -1369,7 +1369,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +71,7 @@ index 67bbde8..7f360ba 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1359,7 +1359,7 @@ gnupg_localedir (void)
++@@ -1401,7 +1401,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.0.bb b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+similarity index 97%
+rename from meta/recipes-support/gnupg/gnupg_2.4.0.bb
+rename to meta/recipes-support/gnupg/gnupg_2.4.2.bb
+index 900aa8ad73..580782037e 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.0.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ 
+-SRC_URI[sha256sum] = "1d79158dd01d992431dd2e3facb89fdac97127f89784ea2cb610c600fb0c1483"
++SRC_URI[sha256sum] = "97eb47df8ae5a3ff744f868005a090da5ab45cb48ee9836dbf5ee739a4e5cf49"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.34.1
 
