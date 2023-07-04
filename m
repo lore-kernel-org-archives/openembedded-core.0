@@ -1,184 +1,136 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1463FEB64D9
-	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 09:03:38 +0000 (UTC)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.web10.54579.1688461411750495015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 122BCEB64D9
+	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 09:24:08 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.54824.1688462647129825714
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 02:03:31 -0700
+ Tue, 04 Jul 2023 02:24:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=qytF4LLZ;
- spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4435c233fa4so1057430137.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 02:03:31 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KfMGwxu9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-51d88f1c476so6069646a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 02:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688461411; x=1691053411;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V8AjFITyI1fbQrQzmcFGxb8Ds2T5BfIi2nHwJx/OQsE=;
-        b=qytF4LLZBNHpnmJgwBzkdN/XXplK20djhaEGh1/RewSf4zFxpb4ZAt81UXJC5cwQly
-         wceAxBDFh+OPVbr/0Bh1Qx3h9Lib8uyOXt8cb0etWMPU3yG4MIJbVsUr9xK/hdXRuALo
-         1BVLyrC7JJgVNafvBbc5Y1Be6uM8uFw6tH08KuVbZTsIoKhPZYOUX/6XIrclNGakpF3d
-         CYkr06C4zuir61C8GlPBQDvPe3oaZy9VWLVRgHZ+0ieCoBBX6O3Xl7b6Pn993lxxquCM
-         NqxQPocxwrvY6rsMEZWx3bVEWPQg65i+7v7e1LhT2M69X30pVQmoeFx/ksBavd/+Uf7x
-         Od/g==
+        d=gmail.com; s=20221208; t=1688462645; x=1691054645;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=EYIjcYd0M4lTUsB4kYeEdkpMy9Eej5fkZ3yOCzm/oWE=;
+        b=KfMGwxu9evYNAaLtGiTtjKjosPh/pYHXk9WiVsh72pygSQcQKzAFYEZu+/hOTkEuZi
+         SlpNWdTvlqKMNOxTPBryKOS4kifsS49yZKMhJBkvNdLuFx8p7FECGOBGeLR+GcG0f4+/
+         HlTIX4d3AduCpImbSMdOLTD3FUcrSKv/WoMAIOnsfc6n9g10sUYWL54WnfcL0Yr7OFqz
+         apNuMVGewNAYwwcKjCSZyXezr3z4abtiwPviE5vW/XiJDKSLxtyEI3O2caTkkS7xwSge
+         8G33pzahApiYulPGRbhlFDG5WOI+QaC4bgRijPgYI+2PQRvQubkC951P1xATHycJuVe7
+         Gykg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688461411; x=1691053411;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V8AjFITyI1fbQrQzmcFGxb8Ds2T5BfIi2nHwJx/OQsE=;
-        b=e4l9Bc2ofbWRyVdlpbKEJz3mHneNBl56W3U6p04no7kcGj/MMjX9QjqZKqJ/vW1rUo
-         ojmOqsF+R2rdzXiZDHGJpJ8jLPu1WeEZZxJhgDfEfdP+J2FHgEGNDRsC6Uoyb6rBIBz3
-         4eUbYU+SRxH14jsFiba+NepXl4t3/rMnDm0KxQoQYwRwrGus1vNdZoZeN79VU6owz+FR
-         tVsaw4Efb/KPcO1bR3U3pPVonLpXSM/ABqYpxixf0gsHx8F38afU6xF+V6FjKasG16ph
-         w5UL8qv8zUXsUdTlu/bVYB6eNYKr/Rd8bIT2jOYgcwDB4Byiu/GpffZOLNDDbFs5vHei
-         kUDA==
-X-Gm-Message-State: ABy/qLa64ECUuwDLSDFYnJG7hi/ZoQnc3A6Vod077S0SGJQVAK3mWKuA
-	b+RO9BGsUSL6V9gKgWnBOJ1BzhFQQAc+RPpaSio=
-X-Google-Smtp-Source: APBJJlFLqe4roXym/HeNSLQnFsp2N4ZhXQLN94Y2nvKHKHj/GA5pba8r4zh7gUqdNLgN38um98yyOs7ATskLP7Ya/GI=
-X-Received: by 2002:a05:6102:386:b0:443:5b1f:12e4 with SMTP id
- m6-20020a056102038600b004435b1f12e4mr3731299vsq.9.1688461410666; Tue, 04 Jul
- 2023 02:03:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688462645; x=1691054645;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EYIjcYd0M4lTUsB4kYeEdkpMy9Eej5fkZ3yOCzm/oWE=;
+        b=gStMA+13Sr9+pqnEkKuR+RVrCXWsOec16GuL3NgMdr+GtXYyUE8zt+yvCDjlCisPqE
+         SSMFzCoYeNaLEwl9dWvqKbZnt5BnGpyjJuYIQUvNVokexyHU6gKCHXSLKzu/d7s2/3ZO
+         bZWCfbtrFphv9S0zMiN10tuh8eVhPfQwExwCoWZYviXvirXloKPUOBnGL+NtM93ux0V9
+         chD7QSE+z/syH337EOIkD42S/eGvo2mK+57Kau/eKt8Lysj7FApO16em+Rvisj4L3uGr
+         EMjbkdJaOXoFk2Z0iCOYNW9L6D0x4VIDRNLK/0kJiy6Fl0Fy4/7mChsBfIpytu34O35F
+         uM8g==
+X-Gm-Message-State: ABy/qLYLdIQGgVug3Dn+wNa21FtvV3ev+EkaH//5Um3IuSnU8Sq0d12I
+	cG0MHl51hcSl3H8lnIAYH8YfL+5xfE/t1A==
+X-Google-Smtp-Source: APBJJlEJQ88uw2YdAOfN0X9YoOjJalvrsZl+ojYajhYSJhmAfb4fR3k7V4MiErPFigsoTBAwgOMFtg==
+X-Received: by 2002:a05:6402:6da:b0:51e:fa7:a292 with SMTP id n26-20020a05640206da00b0051e0fa7a292mr3432182edy.12.1688462645011;
+        Tue, 04 Jul 2023 02:24:05 -0700 (PDT)
+Received: from [129.214.122.111] ([165.225.94.231])
+        by smtp.gmail.com with ESMTPSA id z2-20020a50eb42000000b0051bf17d7710sm11569738edp.57.2023.07.04.02.24.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jul 2023 02:24:04 -0700 (PDT)
+Message-ID: <9e2b277f4e7aa4573dc19e79fdd71189302a2551.camel@gmail.com>
+Subject: [RFC] devtool IDE plugin
+From: adrian.freihofer@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: peter.marko@siemens.com, Andrej Valek <andrej.valek@siemens.com>, 
+	ross.burton@arm.com, peter.kjellerstedt@axis.com, pbarker@konsulko.com, 
+	richard.purdie@linuxfoundation.org
+Date: Tue, 04 Jul 2023 11:24:03 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-References: <176D7A91B0AC29AF.23465@lists.openembedded.org>
-In-Reply-To: <176D7A91B0AC29AF.23465@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 4 Jul 2023 10:03:19 +0100
-Message-ID: <CANPvuRnKUisRu9CgkQgv2d1WAr1+hmC_1yr8orLToPw3tcMqmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-module-split add systemd modulesloaddir
- and modprobedir config
-To: quaresma.jose@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000998ba105ffa58ed5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 09:03:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183818
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 09:24:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183819
 
---000000000000998ba105ffa58ed5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-gentle ping
+On
+https://www.yoctoproject.org/community/yocto-project-engineering-request-fo=
+r-quotation/
+there are some proposed areas of development for the Yocto Project. I
+think I have a first draft implementation available for "VSCode IDE
+Integration =E2=80=93 New developer tooling".
 
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu no dia sexta, 30/06/2023 =C3=A0(=
-s)
-16:50:
+It's available on my branch in poky-contrib:
+https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/devtool-ide.
+Just let me know if patches are preferred over this link.
 
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> ---
->  meta/classes-recipe/kernel-module-split.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes-recipe/kernel-module-split.bbclass
-> b/meta/classes-recipe/kernel-module-split.bbclass
-> index 0e4f9a6ec3..c1208d55e0 100644
-> --- a/meta/classes-recipe/kernel-module-split.bbclass
-> +++ b/meta/classes-recipe/kernel-module-split.bbclass
-> @@ -30,8 +30,8 @@ fi
->
->  PACKAGE_WRITE_DEPS +=3D "kmod-native depmodwrapper-cross"
->
-> -modulesloaddir ??=3D "${sysconfdir}/modules-load.d"
-> -modprobedir ??=3D "${sysconfdir}/modprobe.d"
-> +modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '${nonarch_libdir}', '${sysconfdir}', d)}/modules-load.d"
-> +modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '${nonarch_base_libdir}', '${sysconfdir}', d)}/modprobe.d"
->
->  KERNEL_SPLIT_MODULES ?=3D "1"
->  PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#183704):
-> https://lists.openembedded.org/g/openembedded-core/message/183704
-> Mute This Topic: https://lists.openembedded.org/mt/99875687/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+A brief summary how it works:
 
---=20
-Best regards,
+Prepare the eSDK (not the installer, just the bitbake environment)
+$ . oe-init-build-env
+ =20
+Add this to the local.conf
 
-Jos=C3=A9 Quaresma
+IMAGE_CLASSES +=3D "image-combined-dbg"
+IMAGE_GEN_DEBUGFS =3D "1"
+IMAGE_FEATURES +=3D "ssh-server-dropbear bash-completion-pkgs"
+IMAGE_INSTALL:append =3D "\
+cmake-example-ptest meson-example-ptest gdbserver"
 
---000000000000998ba105ffa58ed5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+$ devtool modify cmake-example
+$ devtool ide cmake-example core-image-minimal
+$ runqemu
 
-<div dir=3D"ltr"><p class=3D"MsoNormal" style=3D"color:rgb(0,0,0)"><span cl=
-ass=3D"gmail-il">gentle</span>=C2=A0<span class=3D"gmail-il">ping</span></p=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->Jose Quaresma via <a href=3D"http://lists.openembedded.org" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;quaresma.jose=3D<a href=3D"mailto:gmail.=
-com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.=
-org</a>&gt; escreveu no dia sexta, 30/06/2023 =C3=A0(s) 16:50:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Jose Quaresma=
- &lt;<a href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">jose.q=
-uaresma@foundries.io</a>&gt;<br>
----<br>
-=C2=A0meta/classes-recipe/kernel-module-split.bbclass | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes=
--recipe/kernel-module-split.bbclass<br>
-index 0e4f9a6ec3..c1208d55e0 100644<br>
---- a/meta/classes-recipe/kernel-module-split.bbclass<br>
-+++ b/meta/classes-recipe/kernel-module-split.bbclass<br>
-@@ -30,8 +30,8 @@ fi<br>
-<br>
-=C2=A0PACKAGE_WRITE_DEPS +=3D &quot;kmod-native depmodwrapper-cross&quot;<b=
-r>
-<br>
--modulesloaddir ??=3D &quot;${sysconfdir}/modules-load.d&quot;<br>
--modprobedir ??=3D &quot;${sysconfdir}/modprobe.d&quot;<br>
-+modulesloaddir ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,=
- &#39;systemd&#39;, &#39;${nonarch_libdir}&#39;, &#39;${sysconfdir}&#39;, d=
-)}/modules-load.d&quot;<br>
-+modprobedir ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#=
-39;systemd&#39;, &#39;${nonarch_base_libdir}&#39;, &#39;${sysconfdir}&#39;,=
- d)}/modprobe.d&quot;<br>
-<br>
-=C2=A0KERNEL_SPLIT_MODULES ?=3D &quot;1&quot;<br>
-=C2=A0PACKAGESPLITFUNCS =3D+ &quot;split_kernel_module_packages&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#183704): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/183704" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/183704</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99875687/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/99875687/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div>
+Start VSCode
+$ code "$BUILDDIR/workspace/sources/cmake-example"
 
---000000000000998ba105ffa58ed5--
+Work in VSCode, after installing the proposed plugins
+Ctrl + Shift + p, cmake Select Configure Preset
+Ctrl + Shift + p, cmake Build
+Ctrl + Shift + p, cmake Test
+...
+
+Remote debugging with GDB
+Ctrl + Shift + p, Run Task --> install && deploy-target cmake-example
+F5 (Debug configuration might be selected before)=20
+
+The same should work for meson.
+
+
+The design goal is to generate a configuration for VSCode (or other
+IDEs) that allows to develop the code of a recipe completely
+independent from bitbake. bitbake is only needed to generate the
+configuration and update the SDK. But bitbake should not be called
+while working in the IDE. This has two major advantages over calling
+devtool build, for example:
+ * The IDE offers plugins e.g. for integration with cmake. These
+   features are usable, which would not be the case if bitbake or
+   devtool were called from the IDE.
+ * It is much faster.
+
+If devtool ide is called for a recipe like none, meta-ide-support a
+cmake-kit
+https://vector-of-bool.github.io/docs/vscode-cmake-tools/kits.html is
+added to the User-Local Kits.
+
+
+There is still a lot of room for improvement and TODOs in the code. But
+I would like to share my current status with you now. Who knows, maybe
+someone is interested in trying it out or even contributing in some way
+so that we can get it into poky before the next LTS release.
+
+Regards,
+Adrian
 
