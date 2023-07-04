@@ -1,99 +1,94 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D00D8EB64D9
-	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 20:58:31 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.3608.1688504302028179115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ABF8EB64D9
+	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 21:51:32 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.4669.1688507487661127913
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 13:58:22 -0700
+ Tue, 04 Jul 2023 14:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TqdiHVG7;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: luca.ceresoli@bootlin.com)
-X-GND-Sasl: luca.ceresoli@bootlin.com
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=oBUBsCSn;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+X-GND-Sasl: alexandre.belloni@bootlin.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1688504300;
+	t=1688507485;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=c48J3dJDWDSYArMzo5Op/Kli9bPp9muD5mElbZbZPVE=;
-	b=TqdiHVG7k0joc8JF6x83ceGE6X7C/VZNT+uozZGP3cIm9ZU3uElM0LBcY0ioIIP29sN+3Q
-	I0OuazAxNYI2DM4BS+wYlCUSFQuincEwAx5jJVT/in5YLandmJKMaOs5B9UoaY40Rss+An
-	o0d4bKsxE9aoFQBTyB7e+dZ5hLXfFsyL26510qfnTydU4Wjc/+bJGqR98ip38CR2Q8F6U6
-	2qJMf2/cVmHcvqHZbnrM9GFDoEeKMl/phh8NX7rVTzj/b35DlXaOAOUGrYCJIUaxaKmewB
-	R3OridnuV46SAD5vLrg28NzhTQZdKyHLpA7ZPv8b7y9r7/F7vqDt4znD6Evv/Q==
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-GND-Sasl: luca.ceresoli@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 76A7B1C0003;
-	Tue,  4 Jul 2023 20:58:19 +0000 (UTC)
-Date: Tue, 4 Jul 2023 22:58:16 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, Richard Purdie
- <richard.purdie@linuxfoundation.org>, Bruce Ashfield
- <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: hoist up "unset S" bbfatal
- from kernel-yocto.bbclass to kernel.bbclass
-Message-ID: <20230704225816.1f9fefeb@booty>
-In-Reply-To: <20230630150651a71148e4@mail.local>
-References: <20230626135024.34405-1-luca.ceresoli@bootlin.com>
- <20230630150651a71148e4@mail.local>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	bh=6DO5QSc2o+3ogkiBXyxmmsogp2C4K6KHxNr+gF8SlCg=;
+	b=oBUBsCSnXFckNRQKuuxEwl03uTNV7SzAnWI8Sr4rE0GiSmvprLGEkSXkASq7/xr1dyEC2y
+	yB5IToFG9CsFQZfwWlj35/NZmq+qmM2K1dYnfjK9EpBKCcA+o5izmAOJt63PoXSApBJoxW
+	Kfd6yflvVl8kpcLBjIWOyZBWiXlRnziL8C+hgl3WrdlJVFSjtWo36LtRyAYTNdBqJMsVd4
+	ID8GFebWyNUeFXN4mwDFzhYNcNkRUDKICgcDFOvTmMqUiHbX9X4L89qT6MsiaDn7duQwAb
+	MSp03JfM+Woqum3awQwxFl0ZjUlc5jrsTe7qW9ZcOyeGeaJCjaec0p45ZdKbpA==
+X-GND-Sasl: alexandre.belloni@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0D9B640002;
+	Tue,  4 Jul 2023 21:51:24 +0000 (UTC)
+Date: Tue, 4 Jul 2023 23:51:24 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] sqlite3: upgrade 3.41.2 -> 3.42.0
+Message-ID: <20230704215124c1e0c037@mail.local>
+References: <20230703065909.45555-1-anuj.mittal@intel.com>
+ <20230703065909.45555-2-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230703065909.45555-2-anuj.mittal@intel.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 20:58:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183872
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 21:51:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183873
 
-Hello Richard, Bruce,
+Hello Anuj,
 
-On Fri, 30 Jun 2023 17:06:51 +0200
-Alexandre Belloni <alexandre.belloni@bootlin.com> wrote:
+Previous testing shows that this breaks rpm, do you know if this was
+fixed?
 
-> Hello,
+On 03/07/2023 14:59:09+0800, Anuj Mittal wrote:
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  .../sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb}             | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/sqlite/{sqlite3_3.41.2.bb => sqlite3_3.42.0.bb} (86%)
 > 
-> This caused the following failures on the AB:
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+> similarity index 86%
+> rename from meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> rename to meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+> index b09e8e7f55..f60aca63d2 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.41.2.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+> @@ -4,7 +4,7 @@ LICENSE = "PD"
+>  LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+>  
+>  SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+> -SRC_URI[sha256sum] = "e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499"
+> +SRC_URI[sha256sum] = "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
+>  
+>  # -19242 is only an issue in specific development branch commits
+>  CVE_CHECK_IGNORE += "CVE-2019-19242"
+> -- 
+> 2.41.0
 > 
-> stdio: ERROR: linux-yocto-6.1.35+gitAUTOINC+b358c237cf_915f4d2237-r0 do_symlink_kernsrc: S is not set to the linux source directory. Check the recipe and set S to the proper extracted subdirectory.
-> stdio: ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/linux-yocto/6.1.35+gitAUTOINC+b358c237cf_915f4d2237-r0/temp/log.do_symlink_kernsrc.3914759
-> stdio: ERROR: Task (/home/pokybuild/yocto-worker/qemuarm/build/meta/recipes-kernel/linux/linux-yocto_6.1.bb:do_symlink_kernsrc) failed with exit code '1'
-> stdio: ERROR: Command . ./oe-init-build-env; bitbake core-image-sato core-image-sato-sdk core-image-minimal core-image-minimal-dev core-image-sato:do_populate_sdk -k failed with exit code 1, see errors above. (1687981572.9: 11986.3)
 
-v2, where I removed the "not git" condition as discussed[0], fails
-because the check is *before* do_kernel_checkout, so the move/clone has
-not been done yet. And cannot be done before in the git case as it
-could be a bare repo thus no Makefile exists yet anywhere.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#183796): https://lists.openembedded.org/g/openembedded-core/message/183796
+> Mute This Topic: https://lists.openembedded.org/mt/99922416/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-I think there are two options:
-
- 1. Move the check *after* do_kernel_checkout, when the source code
-    must be there
- 2. Revert to the v1 approach, which checks only in the tarball case as
-    the current code does
-
-I think it is better to check sooner rather than later (before git init
-+ git add in the tar case). Not only because the user would be warned
-as soon as reasonably possible, but also because an error might cause
-a error path in do_kernel_checkout anyway.
-
-So unless there are better ideas I would get back to initial approach,
-possibly with a different patch to take into account the comments from
-both of you.
-
-[0]
-https://lore.kernel.org/openembedded-core/674d0a964611cc1e5451318976f17a4a24cbca5a.camel@linuxfoundation.org/#t
-
-Luca
 
 -- 
-Luca Ceresoli, Bootlin
+Alexandre Belloni, co-owner and COO, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
 
