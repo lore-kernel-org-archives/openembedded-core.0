@@ -1,97 +1,112 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09129EB64D9
-	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 16:40:00 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web11.63067.1688488791552708030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE8D6EB64DD
+	for <webhook@archiver.kernel.org>; Tue,  4 Jul 2023 16:40:49 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.63154.1688488841276563762
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jul 2023 09:39:51 -0700
+ Tue, 04 Jul 2023 09:40:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=rHwfM6JW;
- spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6b8decf09e1so495403a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 09:39:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=U28u4kUk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-992e22c09edso393326666b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 09:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688488791; x=1691080791;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688488839; x=1691080839;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FjDoYCNBC9bGhd9Kf2TkDMjsTGkkGT5iVmTAZwPrhAg=;
-        b=rHwfM6JW8fybKXqOEEZICBy/izEFonxuVqKo7hA9Wm7mCrTiVPdrB5iEG8KNpNiNHc
-         DbVDTDnUHG/oczPWgYb8FQ/eQaOd4Y82409GwyzyugVLXIpEvKQsiQp/UJ68m/qaCFnA
-         6/htgSU3ObxgiOCPzpW4RkWus705hZevaHWi4j2GdiFvsuQQ183b5xjDp8Sl1EzatYfE
-         gRPJSXrZW/++DIsOuaqHBj57/33BmpD2CvTn3TzTgifnutHlrCTuV6Oyz1YCTwqDsUXE
-         08+syGL2hsV+rri8Xnmj6qVynbX+bd7Wu1eIrv2wUW9LvwpOZpe9k2u+l4GIe9m5a4Av
-         7pOQ==
+        bh=5aI6Qmo2J7zytQN8zf44X8SnXZ8dCiEiRAPFgiZHzKU=;
+        b=U28u4kUkk+hM6jW3mgvH5dOOIuTXkSSFicUedWazDGS3Br6E8XLNIFOQFXwx3eD47x
+         2qUibElOCDwNP/CkQgRSTSnfi3EKCq4484CUb36py644w0ksN82USpyrwcoazRJxKfcx
+         4lxOfJih+I1b34b7gU7phFcAnazVMkISakSyl1oVcdDPqbN0XfSe/kpTsAL64L19kOx6
+         9oRMdeiBQiSyFHXpxiGNaOPndyo7df//KMCokQG9/VJsEVwMRekdZ/gmX5cwDOyfj8jv
+         4t9R8tMzyO1NnaW3OVFxuHC+qXhqZJYDvQLGzs2VHwim5iJXKZYjdvsgYTcPh7vYtQM/
+         ceRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688488791; x=1691080791;
+        d=1e100.net; s=20221208; t=1688488839; x=1691080839;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FjDoYCNBC9bGhd9Kf2TkDMjsTGkkGT5iVmTAZwPrhAg=;
-        b=d0QC2MkvPZlTLvvMSsCiDenI7Qbbe8PuMnjRSuAohnj5+M3eSCWxifiIm/Bn8a/ao2
-         UFcFE+8K90KxhcWi+LCkHQAAbw/QHM19Y+9zOecKpfFdcBfcLeEwXUBufkje5ZOsQyBD
-         TbyWNqwmbcBKtiXPUVi0vICQFxomatoNnCvQZLxXwi91Ya6UUMMOWWdIq+Gc/MrVKtJN
-         0gjVCmJ1C+rngzVWBl++0NPVaCnOon3x+bOb7BKvCbqj6KyTiQGecg52/XpLQpnlM7iA
-         2tvea1jE++Zz26XUmc8RqzhqVhtJfA8tcEQXa34i3MKPzWw9EC/6etuDAw6btwFp3Qs4
-         EqQw==
-X-Gm-Message-State: AC+VfDzgCrUcWqcz1SHa8fxpRkkbGkJnwZ8+Oa+2DG48qfixLPXZ6vzp
-	kKoD4cXjMludi/8n2BIOaLnc1EsVfb6WRLPl820=
-X-Google-Smtp-Source: ACHHUZ6ZHJ1munHA9aotx04IvQ8OjXMb69++oC04KsGi2Oa/unlGcswgqI87R0mcf1707ksJ7bASF2yWmRPoLOewu3s=
-X-Received: by 2002:a05:6808:2197:b0:3a1:b941:fb4b with SMTP id
- be23-20020a056808219700b003a1b941fb4bmr17854902oib.3.1688488790642; Tue, 04
- Jul 2023 09:39:50 -0700 (PDT)
+        bh=5aI6Qmo2J7zytQN8zf44X8SnXZ8dCiEiRAPFgiZHzKU=;
+        b=gO3QAC/dEmo8CkvD6WYbyAdUAHkHKfXsQ3FgxXYa4/E4EiB7gmG3r3E/v3WkzKjG+Z
+         3AYaeCg1oIF9MOaWZnE2wVcCfeIqxfjtnhr5M1Rhr9KVX4/jyWAt91qvYqGe8UeH0oM4
+         AqzEPgQMRTdJhXO3CXnXSdN/mRc30L2nvytKbRsM+rNJ5XJ8ujmjd6mr8su4TeVHiw3M
+         eywQVpRHsoL8aG/xqWP86ASTjuq58RDOUzY+1yNoAugkJJeXCXDFJ4eHhsEJtrdDiedB
+         gUyGTWrgZosYaRx5iDHoKPPTORVOtWa4e9zeILrTKeihkwSv0jbJ9zjsqWAsizpbt9qW
+         p3Ag==
+X-Gm-Message-State: ABy/qLY3vW0x6H188UmYIgtZ/3vPETM/+5VLY3Eh94G3KPUuSvN7sPpH
+	FY5fOI/B+r20Rmr7ISI/PBAbBpFRGs7A8jZkFSlghg==
+X-Google-Smtp-Source: ACHHUZ5TLO3nmcWSL+DNTGCaPNwmgs/OG4ydP5evZ3HcJwzEiRxkU3B5R4/n1TXlAU21sMJkTsh0JOVS3A5PJu6WHMg=
+X-Received: by 2002:a17:906:14db:b0:992:7329:fe4f with SMTP id
+ y27-20020a17090614db00b009927329fe4fmr10227191ejc.73.1688488839473; Tue, 04
+ Jul 2023 09:40:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230624053223.228117-1-raj.khem@gmail.com> <20230624053223.228117-2-raj.khem@gmail.com>
- <20230630133051db39352e@mail.local> <47BAE092-A229-4277-9452-309EB327B0E8@arm.com>
-In-Reply-To: <47BAE092-A229-4277-9452-309EB327B0E8@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 4 Jul 2023 09:39:24 -0700
-Message-ID: <CAMKF1sq_02EBHEHUc10GJ3oZnjdfnHsFGGyon2X-0UpT6zeQ6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] libxcrypt: Limit to enabling strong hash
- algos only
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
+References: <CAHUKmYaD2u05xyrNoGd+8eFFHbFo1wXHN1COxj+TDSmNAkHSXA@mail.gmail.com>
+ <SJ0PR11MB67179B21B31BE9532F28FC87DC28A@SJ0PR11MB6717.namprd11.prod.outlook.com>
+In-Reply-To: <SJ0PR11MB67179B21B31BE9532F28FC87DC28A@SJ0PR11MB6717.namprd11.prod.outlook.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 4 Jul 2023 06:40:28 -1000
+Message-ID: <CAOSpxdbzEZ-o+3LpktayGm+L4CjTBUAEdYFH5RwiL76BQT3p5g@mail.gmail.com>
+Subject: Re: [OE-core] Backport of libxcrypt fix to kirkstone branch
+To: "Sanjaykumar kantibhai Chitroda -X (schitrod - E-INFO CHIPS INC at Cisco)" <schitrod@cisco.com>
+Cc: "ecordonnier@snap.com" <ecordonnier@snap.com>, 
 	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 16:40:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183867
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jul 2023 16:40:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183868
 
-On Tue, Jul 4, 2023 at 3:54=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
-ote:
+Got it, thanks.
+
+Steve
+
+On Sat, Jul 1, 2023 at 6:22=E2=80=AFPM Sanjaykumar kantibhai Chitroda -X
+(schitrod - E-INFO CHIPS INC at Cisco) <schitrod@cisco.com> wrote:
 >
-> On 30 Jun 2023, at 14:30, Alexandre Belloni via lists.openembedded.org <a=
-lexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > Hello Khem,
-> >
-> > This causes python ptest failures:
-> >
-> > {'python3': ['test_crypt', 'test_methods', 'test_sha2_rounds']}
-> >
-> > We should probably disable those
+> Hi Steve,
 >
-> I would say to send a patch upstream to make those tests not depend on th=
-e unsafe algorithms existing, but the entire module has been removed in the=
- next release of Python=E2=80=A6
 >
-
-crypt is already deprecated in python 11 and will be removed from
-python 13. [1] some packages have opened issues to track it
-e.g. [2]
-
-[1] https://peps.python.org/pep-0594/#crypt
-[2] https://github.com/saltstack/salt/issues/64263
-
-This is good but perhaps a bit early for us to act upon it, since this
-would require packages to migrate away from it to use hashlib or
-some such equivalent module.
-
-> Ross
+>
+> I have cherry-picked same commit on Kirkstone branch.
+>
+> [kirkstone] libxcrypt: fix hard-coded ".so" extension - Patchwork (yoctop=
+roject.org)
+>
+>
+>
+> Please review and provide your comment.
+>
+>
+>
+> Thanks,
+>
+> Sanjay
+>
+>
+>
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Etienne Cordonnier via lists.openembedded.org
+> Sent: Friday, June 30, 2023 2:20 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Steve Sakoman <steve@sakoman.com>
+> Subject: [OE-core] Backport of libxcrypt fix to kirkstone branch
+>
+>
+>
+> Hello,
+> can you please cherry-pick / backport following commit to the kirkstone b=
+ranch:
+> "libxcrypt: fix hard-coded ".so" extension" ( 2639746ba7f8a651fffaa9819ef=
+9d9df776108e3 in poky and 7ed6bfa2428b4f1ba7f09d6e9e67c462ff355153 in opene=
+mbedded-core). It is needed to be able to build meta-darwin's kirkstone bra=
+nch with the latest kirkstone branch of meta-clang.
+>
+> Thanks!
+>
 
