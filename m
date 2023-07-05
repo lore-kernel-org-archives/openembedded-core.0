@@ -2,234 +2,113 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6BC8EB64DD
-	for <webhook@archiver.kernel.org>; Wed,  5 Jul 2023 07:45:14 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web10.11760.1688543107484916444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B389EB64DA
+	for <webhook@archiver.kernel.org>; Wed,  5 Jul 2023 08:53:15 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.12517.1688547186871398787
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jul 2023 00:45:07 -0700
+ Wed, 05 Jul 2023 01:53:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=YfCTO1NA;
- spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-579e212668fso6319397b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 00:45:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=l6MioDe2;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-262ff3a4659so4837480a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 01:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688543106; x=1691135106;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=E/YBBqSDcWRDx5YEwGGSxcqG5asjrjQ+pKXyoN+gpXo=;
-        b=YfCTO1NAj9Kwkde5NzJlS6QEmau657V8YF8OGLT1r7SQGPHfbeIeHFdnpeSWQ+LRrz
-         bZ7LULYaNVXwWt9+qK+e0QAuRNQuYvRZuwGhklrlz1ic8Cqg+82hPfvh7769lFSeVj9o
-         eHJ4ifiq2R1gi6uFs+4tL4zl1QBM8qEqruR5mrljM5A01GI/GQMeYxj6c5WDK7dX7WOa
-         BEIkgmJyQd4KpbV+yJE6tt4gByBWk4MfG5eY0PvxHp81GPpQj8pkwjG5Z0mVyL660fSF
-         fCgOBMMO166zPmIQeBWVuzDsf7FfcDrBd1frhp4+TVa58jxoUfdpho879aXRz9oLZ0sn
-         qxZw==
+        d=gmail.com; s=20221208; t=1688547186; x=1691139186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SXayYcCWYH8BnmDgs1n162HIMvXsfYXVP3xtPu+cxHY=;
+        b=l6MioDe2aBrgy+S+xf3J87xOLOjpoD6RMOmnO26ql1JyDZ7mkUwVUuQyhG58XYYS48
+         JOV0kZ3pYt8bbbUssSSpG2e1HS/T6AtMtUzzhHewK9zsgUUnrDTz/XMf/eH3dDvm7w3G
+         b8qOZLZaiYi+kh7k69fUXcMxBvpH/vTd7cyabGfbfa5OabVtGV44n6/ATK2nDmA1r2bA
+         iBLYwHvCmuBZFj/lvDUPxq7uFdu6MY8Y10HQBIRsEKZAem1dBKS/4G3nedvRMmbXC1qU
+         1RaKnJDfN28uGnRL/+Xep+q+dAohJJcvag5ZDmraONm6uKm5xfeFousu54YJDL3PHdSt
+         kQAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688543106; x=1691135106;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1688547186; x=1691139186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E/YBBqSDcWRDx5YEwGGSxcqG5asjrjQ+pKXyoN+gpXo=;
-        b=i/TDv+nCdfnLqBu9TbOuNgxjkGqo5DC7f75GWBeu8z4VqK/dkTN1maVT1KFQFZILio
-         rGer0Rsv/wDx6SXNxZ56wPsONcBBtS4182eJAwGs9j8fSw1i/uY4alhvS+EBFnCHTQdy
-         NcLXTbZOxaTh9yIdzUiuhKx9ink8IoJMl8kudTGKgz7qY5XLkZBtDmiJM+z/w0h72Upv
-         88oVbR39LixXgG/21Fr6g5jWGefxH4nH2McHu5PNdDE/MZxui4qjIrL/A8GFEGx1p5NV
-         aGMQOprgGyTNoZ2a+5qMdNzjTvDhwuHQwzLog3zLXQu1jyGQObCo0oxjiIjqJ5I50/Zo
-         7OiQ==
-X-Gm-Message-State: ABy/qLb5ptdCwmIkiSAmCiYgQToWMjLlWjkYQezT5anS/VZ3IvdPB/uA
-	4ifzin0JH1XdEJJYn77l8VcN4HQCSN/BaXP7REk=
-X-Google-Smtp-Source: APBJJlH3rkViwMVftnwkCsWch1FQKK8jNH8DIJvppblw1hMz9RyiMYWBvwz1jZQCqnSUqVPrvXGkeaeCkrgxlpXHN9Y=
-X-Received: by 2002:a81:6cd6:0:b0:56d:538b:2db5 with SMTP id
- h205-20020a816cd6000000b0056d538b2db5mr1035512ywc.5.1688543106273; Wed, 05
- Jul 2023 00:45:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230704200907.20403-1-sudipm.mukherjee@gmail.com>
-In-Reply-To: <20230704200907.20403-1-sudipm.mukherjee@gmail.com>
+        bh=SXayYcCWYH8BnmDgs1n162HIMvXsfYXVP3xtPu+cxHY=;
+        b=LYW+ZnWYucYTc5ykGtbV3IKXoIqlBfg6Ocf3wgHJCe1yV0wWP1aLu+DhxpshDgfbp2
+         e8o7IyYGSZxiMlYh1xqFWTRXe6hUeXfHrPHGbUJFBZdG9aTVqKRFzvdSwfZgczCVzpFB
+         vz9s5eZCcTm9rnpbhNcJpTgOHQ4TCeHhraaPzKG0Vrudy5q3/IUkysxo2EQEhtP+t3S5
+         1SzFnqItJrqUy7aq7esTsgldXDM0xP1vdY6YDaj832H76o2nnvE+S1pww/tSdMfcX86N
+         yqCVXl+KYqYn0Uo5RUzUJy0TG4vGO9xeC3kinu99DZQBy8gY309VNbiNcZhw9yP/09j4
+         6opA==
+X-Gm-Message-State: ABy/qLZVZsjjetRFrxlhdLz/IM7aJGHPOsYpaTx7gKl13mSRLm1OdXnN
+	AgU9AdnU4AAwDc3I47K5fBKXoZwUqFdrog==
+X-Google-Smtp-Source: APBJJlHwnSP7u8uDutelG1ZamqmWI4XQaMu+0gOXx+1Z8mIrk3IuEKhfJQd8xJXiMSlHvAbO5bGoRg==
+X-Received: by 2002:a17:90a:d085:b0:259:b065:da4f with SMTP id k5-20020a17090ad08500b00259b065da4fmr16207497pju.36.1688547185767;
+        Wed, 05 Jul 2023 01:53:05 -0700 (PDT)
+Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:322:a6e2:db10:abb4])
+        by smtp.gmail.com with ESMTPSA id mg20-20020a17090b371400b00262d9b4b527sm917400pjb.52.2023.07.05.01.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 01:53:05 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 5 Jul 2023 09:44:54 +0200
-Message-ID: <CANx9H-AHG59Fw4s5zQ-2yJRksJszGwdZghznqsjYyxjXnMAiEg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-pygments: upgrade to 2.15.1
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000009964f05ffb89405"
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-pygments: upgrade 2.14.0 -> 2.15.1
+Date: Wed,  5 Jul 2023 01:53:01 -0700
+Message-Id: <20230705085301.3458999-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 07:45:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183876
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 08:53:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183877
 
---00000000000009964f05ffb89405
-Content-Type: text/plain; charset="UTF-8"
+* Upstream has dropped setup.py
+* Inherit python_setuptools_build_meta instead of setuptools3
+* Add self as maintainer, as this is a dependency for python3-sphinx
 
-On Tue, Jul 4, 2023 at 10:09 PM Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-wrote:
+Adds some new lexers, updates a few others. A handful of bug fixes.
 
-> Upstream has removed setup.py and started using pyproject.toml
->
-> Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> ---
->  ...ython3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->  rename meta/recipes-devtools/python/{python3-pygments_2.14.0.bb =>
-> python3-pygments_2.15.1.bb} (76%)
->
-> diff --git a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb
-> b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
-> similarity index 76%
-> rename from meta/recipes-devtools/python/python3-pygments_2.14.0.bb
-> rename to meta/recipes-devtools/python/python3-pygments_2.15.1.bb
-> index 16769e9263..7e3b286f41 100644
-> --- a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb
-> +++ b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
-> @@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
->
->  inherit setuptools3
+https://github.com/pygments/pygments/blob/2.15.1/CHANGES#L6
+https://github.com/pygments/pygments/blob/2.15.1/CHANGES#L18
 
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/conf/distro/include/maintainers.inc                      | 2 +-
+ ...{python3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} (76%)
 
- instead of setuptools3, inherit python_setuptools_build_meta
-Look at the build.backend variable in pyproject.toml for hints
-https://github.com/pygments/pygments/blob/master/pyproject.toml#L4
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 232107cd242..fafa8eeb2ca 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -663,7 +663,7 @@ RECIPE_MAINTAINER:pn-python3-pyasn1 = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pycairo = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-python3-pycparser = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
+-RECIPE_MAINTAINER:pn-python3-pygments = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-python3-pygments = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pygobject = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pyparsing = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-pygments_2.14.0.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+index 16769e92635..e0e477100eb 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+@@ -4,8 +4,8 @@ HOMEPAGE = "http://pygments.org/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+ 
+-inherit setuptools3
+-SRC_URI[sha256sum] = "b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"
++inherit python_setuptools_build_meta
++SRC_URI[sha256sum] = "8ace4d3c1dd481894b2005f560ead0f9f19ee64fe983366be1a21e171d12775c"
+ 
+ DEPENDS += "\
+             ${PYTHON_PN} \
+-- 
+2.30.2
 
->
-> -SRC_URI[sha256sum] =
-> "b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"
-> +SRC_URI[sha256sum] =
-> "8ace4d3c1dd481894b2005f560ead0f9f19ee64fe983366be1a21e171d12775c"
->
->  DEPENDS += "\
->              ${PYTHON_PN} \
-> @@ -15,5 +15,9 @@ PYPI_PACKAGE = "Pygments"
->
->  inherit pypi
->
-> +do_compile () {
-> +    python_pep517_do_compile
-> +}
-> +
-
-inheriting the proper class will do this
-
->
->  BBCLASSEXTEND = "native nativesdk"
->
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#183871):
-> https://lists.openembedded.org/g/openembedded-core/message/183871
-> Mute This Topic: https://lists.openembedded.org/mt/99953624/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000009964f05ffb89405
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><br></div><div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Tue, Jul 4, 2023 at 10:09 PM Sudip Mukherjee =
-&lt;<a href=3D"mailto:sudipm.mukherjee@gmail.com">sudipm.mukherjee@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-le=
-ft:1ex;border-left-color:rgb(204,204,204)">Upstream has removed setup.py an=
-d started using pyproject.toml<br>
-<br>
-Signed-off-by: Sudip Mukherjee &lt;<a href=3D"mailto:sudipm.mukherjee@gmail=
-.com" target=3D"_blank">sudipm.mukherjee@gmail.com</a>&gt;<br>
----<br>
-=C2=A0...<a href=3D"http://ython3-pygments_2.14.0.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">ython3-pygments_2.14.0.bb</a> =3D&gt; <a href=3D"http://pyt=
-hon3-pygments_2.15.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygme=
-nts_2.15.1.bb</a>} | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-pygmen=
-ts_2.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.14.0.=
-bb</a> =3D&gt; <a href=3D"http://python3-pygments_2.15.1.bb" rel=3D"norefer=
-rer" target=3D"_blank">python3-pygments_2.15.1.bb</a>} (76%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pygment=
-s_2.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.14.0.b=
-b</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.1=
-5.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.15.1.bb</a>=
-<br>
-similarity index 76%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-pygments=
-_2.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.14.0.bb=
-</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2=
-.15.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.15.1.bb</=
-a><br>
-index 16769e9263..7e3b286f41 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.14.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.14.0.bb</a><b=
-r>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pygments_2.15.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygments_2.15.1.bb</a><b=
-r>
-@@ -5,7 +5,7 @@ LICENSE =3D &quot;BSD-2-Clause&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D36a13c90514e2899f1eba=
-7f41c3ee592&quot;<br>
-<br>
-=C2=A0inherit setuptools3</blockquote><div dir=3D"auto"><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
-h:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,20=
-4,204)" dir=3D"auto"></blockquote><div dir=3D"auto">=C2=A0instead of setupt=
-ools3, inherit python_setuptools_build_meta</div><div dir=3D"auto">Look at =
-the build.backend variable in pyproject.toml for hints<br><div dir=3D"auto"=
-><a href=3D"https://github.com/pygments/pygments/blob/master/pyproject.toml=
-#L4">https://github.com/pygments/pygments/blob/master/pyproject.toml#L4</a>=
-</div></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-=
-left-color:rgb(204,204,204)" dir=3D"auto"><br>
--SRC_URI[sha256sum] =3D &quot;b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93=
-c078f094ddc476ae297&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;8ace4d3c1dd481894b2005f560ead0f9f19ee64fe9833=
-66be1a21e171d12775c&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${PYTHON_PN} \<br>
-@@ -15,5 +15,9 @@ PYPI_PACKAGE =3D &quot;Pygments&quot;<br>
-<br>
-=C2=A0inherit pypi<br>
-<br>
-+do_compile () {<br>
-+=C2=A0 =C2=A0 python_pep517_do_compile<br>
-+}<br>
-+</blockquote><div dir=3D"auto">inheriting the proper class will do this=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-lef=
-t-color:rgb(204,204,204)" dir=3D"auto"><br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#183871): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/183871" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/183871</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/99953624/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-99953624/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000009964f05ffb89405--
 
