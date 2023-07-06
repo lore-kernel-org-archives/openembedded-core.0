@@ -1,96 +1,83 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F907EB64D9
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 08:42:39 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.17033.1688632954402820894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56013EB64D9
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 09:01:09 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.17505.1688634067304883311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 01:42:34 -0700
+ Thu, 06 Jul 2023 02:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=f6PLugw9;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso3226575e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 01:42:34 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@snap.com header.s=google header.b=QRYQqTen;
+ spf=pass (domain: snapchat.com, ip: 209.85.160.47, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1b06a46e1a9so480841fac.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 02:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688632952; x=1691224952;
+        d=snap.com; s=google; t=1688634066; x=1691226066;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CN+SsSFQoQ95+aiPcG/+xSJwlM4N8YXB2L3yJNjHhkQ=;
-        b=f6PLugw9ALn/9IKFE82IW5OTH9U08VRQvatb8G4BPVMBPa5YY59S5+5aJURtSFtxth
-         hFqCBhMFiu897h5zCyjZtgtUg5Swm8coC+JorehxFoyGzANmLzXBDFk4IqMIGRhhryA0
-         TWdiy38okoyw7vwoDTsf7EKQJ7nVooany5Wnvn0rm85v6Wh3cXd4lm3FvcBmYcMT+CIG
-         tjhS+SyF9K2Lt3BsuuVRQFnFU+KxJvqosVEK7fPHkI2ri+GY17Yld366c4NCtfyuy+ho
-         2mBOsxPIRtGHsL1xDSHBEPsgvXsUctWZV2uiecyTNR56eaOJ8kvtuZJnPHylYz0yilk+
-         dhuA==
+        bh=sihnCgDjtHEW/tfwUX0MBsDjIDYMuFwJPSZt1rhLTH8=;
+        b=QRYQqTenUgAQrZwPsHWkEHDWC/Ji1x4kTxWo22pLMEkVICZo53jLhsDHIwKh8e+CSP
+         1HzgO0O1ORPAXPMSOyARhi1xCWo3ScGU7Idk5YiAwkgOTIvtDCa4QVbCA822DxAEVFWi
+         r71fcR1unpDA51lPSXL5VdcHrXsad8sJtZlqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688632952; x=1691224952;
+        d=1e100.net; s=20221208; t=1688634066; x=1691226066;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CN+SsSFQoQ95+aiPcG/+xSJwlM4N8YXB2L3yJNjHhkQ=;
-        b=CTN+vQ7x6eU862qfApszW8nfOjHCNnJnbpjeYKXXyklNtKE2LgET6b5bgXiAjiVtgw
-         pGFMsBowXBWgv4OEwDcO9g9FnmzQiHs+QEhXANxBoVkfH0Z6b9EQUx6eu0XgRuKPBlL6
-         L3mzFs0PWbTAvu7ZqgVmaQJAvMslScGTqxxLEyV6sVjW1WKqZRadBNBf1SdpN5eI7l5v
-         T+qrcRAVdk4Fg4ANsHxuLrQ7od+vvGVeb4W6y2UFW0eV3bqfQ8bmWO/xPw+tYv/Nbirx
-         pooDRls3pWOCQGqpxWbohbVfbueDv2sOXjeX6zoGigr2FeEYltAuH4bVWKl+yQluXD8Y
-         Eiow==
-X-Gm-Message-State: ABy/qLZvtjVksrYjomiAPxSnvun1XK9tsIeXdwdWDOtwL+gXO7o4rJN8
-	gRAOjp+wjR/fc160ZjW55bBS8piPzV4=
-X-Google-Smtp-Source: APBJJlFCb3sW9VGoqi8nqs0IVITIOqSrO/FMdOYXkOHdPr3ufnGLrDw2DDA0nJeDZPbj+dyXBcQnog==
-X-Received: by 2002:a05:600c:850a:b0:3fa:8c8b:716 with SMTP id gw10-20020a05600c850a00b003fa8c8b0716mr4451172wmb.1.1688632952334;
-        Thu, 06 Jul 2023 01:42:32 -0700 (PDT)
-Received: from localhost.localdomain ([77.243.43.130])
-        by smtp.gmail.com with ESMTPSA id y10-20020a1c4b0a000000b003f91e32b1ebsm4429645wma.17.2023.07.06.01.42.31
+        bh=sihnCgDjtHEW/tfwUX0MBsDjIDYMuFwJPSZt1rhLTH8=;
+        b=NVXw1sKRy9jb/olOZwtbTd6lcJaVCSHjM2xB4V4lgjGH/JfqWroPM340yBpXpy1xlr
+         741RSHT0JUjh1lTQ5lAdCONVle3u5B616MUqUN3ZOHzGHIs8MrQLZiJgCocSVk6b0YAA
+         cdhpJz34p4+Vl0u2yKSqtXo9BegliOWEA8PsXU8F2BwDuIwvVhGQG4LEpmXZ34PJksLl
+         IURe6+G8KzTL12zyiK+r1PcwFIZUqHnuBfqJxifrrYCxrDATizQpEYvTt1DN26qAb5yf
+         V+ViObEUCZNd3gGtIPEBiRZGc5ZL/rC4LWfk5L6Xv3It/aCxfaMkrowx0uFdYOWJL1Kn
+         aL+Q==
+X-Gm-Message-State: ABy/qLZpiPwl6VTF72NEcoXxcNSViAeYQnrrigqZiKPWLvuj1xfvdWhT
+	N+WT5MXpYnSDV7XMcO2Cl5z9TLSOrwugJ3Y56S2CQA==
+X-Google-Smtp-Source: APBJJlGqFLL3wpCvzokFX4VuHOnaagSwnNI/uWIdAFY4ANJU6iMz6QXhWH/s3J+wLWgnZtwaGi49qg==
+X-Received: by 2002:a05:6870:d0d3:b0:1b3:eec8:fa90 with SMTP id k19-20020a056870d0d300b001b3eec8fa90mr1543768oaa.6.1688634066140;
+        Thu, 06 Jul 2023 02:01:06 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id cl12-20020a17090af68c00b00262e9fbd5fbsm2651630pjb.32.2023.07.06.02.01.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 01:42:31 -0700 (PDT)
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
+        Thu, 06 Jul 2023 02:01:05 -0700 (PDT)
+From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
-Cc: Claus Stovgaard <claus.stovgaard@gmail.com>
-Subject: [master][kirkstone][PATCH] cups: Fix missing installation of sysvinit scripts
-Date: Thu,  6 Jul 2023 10:41:40 +0200
-Message-Id: <20230706084140.778241-1-claus.stovgaard@gmail.com>
-X-Mailer: git-send-email 2.39.3
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] qemu: fix typo
+Date: Thu,  6 Jul 2023 11:00:57 +0200
+Message-Id: <20230706090057.388192-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183916
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 09:01:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183917
 
-Configuration with --without-systemd causes the SYSTEMD_DIR to have a
-value of "no"
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-cups configure test for, if SYSTEMD_DIR is empty to decide if the init
-scripts need to be installed. A value of "no" results in that no init
-scripts is installed.
-
-Removing --without-systemd and just keep it empty result in an empty
-SYSTEMD_DIR variable and the sysvinit scripts is installed as expected.
-Though the cups configure script could be improved to work consistent
-with "--without-*" options.
-
-Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/recipes-extended/cups/cups.inc | 2 +-
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index d77758fd3f..865c14851c 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -46,7 +46,7 @@ PACKAGECONFIG[avahi] = "--with-dnssd=avahi,--with-dnssd=no,avahi"
- PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
- PACKAGECONFIG[gnutls] = "--with-tls=gnutls,--with-tls=no,gnutls"
- PACKAGECONFIG[pam] = "--enable-pam --with-pam-module=unix, --disable-pam, libpam"
--PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--without-systemd,systemd"
-+PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},,systemd"
- PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
- PACKAGECONFIG[webif] = "--enable-webif,--disable-webif"
- 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6acda61425..5b0b95c289 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -215,7 +215,7 @@ PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
+ # libnfs is currently provided by meta-kodi
+ PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
+ PACKAGECONFIG[pmem] = "--enable-libpmem,--disable-libpmem,pmdk"
+-PACKAGECONFIG[pulsedio] = "--enable-pa,--disable-pa,pulseaudio"
++PACKAGECONFIG[pulseaudio] = "--enable-pa,--disable-pa,pulseaudio"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+ PACKAGECONFIG[bpf] = "--enable-bpf,--disable-bpf,libbpf"
+ PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
 -- 
-2.39.3
+2.36.1.vfs.0.0
 
 
