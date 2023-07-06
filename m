@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C581EEB64DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF174C001E0
 	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 15:07:30 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.26482.1688656047303019279
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.26519.1688656043453069043
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 08:07:27 -0700
+ Thu, 06 Jul 2023 08:07:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=rUQTCt/a;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b89cfb4571so4937905ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:27 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=iID0Ab+K;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1b8b2886364so5192085ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656046; x=1691248046;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656042; x=1691248042;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fEKxPU/w3F/Wibz22B9RmWDTWFnJQWyN8IO76f/Jns0=;
-        b=rUQTCt/aG5KPaAZkKW5m5FnwxqPzAsUACEXohUhbtJDrRYmqp5jQH0i5HLyMYOH9cL
-         PDvFaALny3qlStHwPIYqikfM7nHRtt10f+EawfMNN/5qTZGJ3UZX41cD9/YqhlQ/xWzM
-         lNhEsOyLmTtecF32M/UnDmCZnQsMIOhGoHduUtZdDlkh6dixM10gBDLa85m0FlvodevU
-         16Z5/fY19+ngjpC6VxHmvYBtOXtOLoQs2WxL/cDe8Qn4q8iNS+UZHy3l504eLgYRPHBq
-         +ukrD2Be4VlW7VHX5QHwUV8a/FMoub1cf030IjcDNzZxMyNTmptRWS9EjBcuotLiEDBy
-         OTIw==
+        bh=DQeZHlitNyzVvD+ecqpdQU6oacdHdd9zUFd56FxMct0=;
+        b=iID0Ab+KvSSmtvJ8BJkkTlO5Wv7oFcMltoF7BryokYETOQIKwaPWdNwzb5VFbSUcij
+         /rYSSzwoemxVOLI5zGASLFfHXko4LceFqCG7OVI3spRP/bsgBw/ZbKt01a+iL8IE69hm
+         HGFo21dvvAt+0cs4cHu1QI2DYcmdjXr9kE11Vxl8DZooXfoTDOoKJoAPJwTZB8gs5d/a
+         YiIpVkf4mkJ0FaGBurPhI26ZkOHD/4ozwRktwqDmgTBLnPfJRjhhItJ+9xGb4VPH+Dc6
+         nXCTKaVzDasBJDg4VaCNBHzK6n5ITW+eWjxkIqnSatrxId0TfTzLL5UyipOTHMuyubSk
+         ua3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688656046; x=1691248046;
+        d=1e100.net; s=20221208; t=1688656042; x=1691248042;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fEKxPU/w3F/Wibz22B9RmWDTWFnJQWyN8IO76f/Jns0=;
-        b=P2fTk1chIXv5Dd5NRH0V/b18SiRN2eCQue0qKCAcfYWLE+D8Ge5ADlYzhjMA4ti01P
-         ASV8NAq6yeOlzY9g9XB0gaOfiGG4yMh4Qw/g2D69dl/Mi/TUZeuIquLjRsParuOd38/3
-         BCUWO1UC/0HXNWUDvCdBSngCKAKlI1co+0scFLg7XzCzgYq57s4R4rJ/aqOPdQgv49fD
-         oNauFwZsctGkHSEAqBMZbr/EF7m3RAfsX+XkndeUTw56R/yNX9iwKZWJCCfWIjwCURzP
-         fECnCuQZ5wMK8ZNYhnAtc1aGQoHeAjPdNKxUrqUTlx+b9H3+4OkD7BMgVmkYmUtowVIM
-         QuBg==
-X-Gm-Message-State: ABy/qLaT4K4lgZieWKkfII3eDeI7heTRqKfTxTqTv7LZk5i7RyGNl3T0
-	8NEW1epEJbvTnGIa+Xom16jvxErmcrN/NsMKmbY=
-X-Google-Smtp-Source: APBJJlHrLVu3lW3HI/IoDnrMUCNiZ1dVkyt9vSFZzu7N5+r6uYMDV7Kw8Ocy2kHtGeX9VdeeVcDAOg==
-X-Received: by 2002:a17:902:ec87:b0:1ac:8717:d436 with SMTP id x7-20020a170902ec8700b001ac8717d436mr2448948plg.60.1688656046338;
-        Thu, 06 Jul 2023 08:07:26 -0700 (PDT)
+        bh=DQeZHlitNyzVvD+ecqpdQU6oacdHdd9zUFd56FxMct0=;
+        b=NUG3926GPjdBeQBmu7N4Urjmtg+GhEezIJKJAYU4XmGhQ5L4sW79EAqmmPhpr8Sr8U
+         4d4piy4Bl90cAmB5cPfJF1lsKjkuwfw5cqlxusb5/MRebV/v4lhxxonctZ+MJeVJdmSq
+         Zv+EypIYBdyvnu0JKMILOUTlBOJ7Lkwq1ZpW2T2R0uHg2VG2BK3Cfh3LtQ/IKR975IkV
+         tJF1umBdZoE6e/oFCV1anvcuNGd1KaBthSx69lUhsF9HCCnKOXgrxxOncxyzIpYg9dK5
+         8eySm6BVk2NdI+G9xy+6EFULwe58UvdBkrtwOFTcyLF3KQa9cRUzHIU/++2y8yylgfTV
+         o28Q==
+X-Gm-Message-State: ABy/qLZT8n/rzmlGYfpaTuSFQHrVwGgGHKP/MPj2g9RPmy+NmpDcZMU1
+	ScCWTtknU245v0q2zOP4b7NrwjxLXTvyu7OWA4E=
+X-Google-Smtp-Source: APBJJlFbHFaY70e5WSgEIqONaF9pJzkSekSOXakBP2jI3y+UvdktzIrLAn9vX4m5fiq5KEN1cnRg4g==
+X-Received: by 2002:a17:902:d504:b0:1b8:9b74:636b with SMTP id b4-20020a170902d50400b001b89b74636bmr1467634plg.68.1688656042526;
+        Thu, 06 Jul 2023 08:07:22 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.25
+        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 08:07:25 -0700 (PDT)
+        Thu, 06 Jul 2023 08:07:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 23/28] useradd-staticids.bbclass: improve error message
-Date: Thu,  6 Jul 2023 05:06:26 -1000
-Message-Id: <572c507736b2fcc31f7f13cb3da0d5be361838f5.1688655871.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/28] maintainers.inc: unassign Ricardo Neri from ovmf
+Date: Thu,  6 Jul 2023 05:06:24 -1000
+Message-Id: <8d2e96c3a611aba63aa9a51f6b350ea8c9654e06.1688655871.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688655871.git.steve@sakoman.com>
 References: <cover.1688655871.git.steve@sakoman.com>
@@ -61,43 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 15:07:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183976
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183974
 
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Current error message is difficult to read:
+We were not able to get a response about availability over email, and so the recipe
+has to be unassigned.
 
-ERROR: Nothing PROVIDES 'image'
-trs-image was skipped: image - image: normal username test does not have a static ID defined. Add test to one of these files
-
-It's not clear that first "image" is recipe name, second "image" is
-binary package name and that "test" is the user account which does not
-have a static ID defined. Improve the error message so that these are
-more explicit. Now the error message looks like:
-
-image was skipped: Recipe image, package image: normal username "test" does not have a static ID defined.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 07898218f3908a83e07178b6530dfa48d55d4ec2)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 56f1af6d5b3019dccbc27bb0a9692a5f1a32f87b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/useradd-staticids.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/maintainers.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index 3acf59cd46..e5527f0529 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -41,7 +41,7 @@ def update_useradd_static_config(d):
-     def handle_missing_id(id, type, pkg, files, var, value):
-         # For backwards compatibility we accept "1" in addition to "error"
-         error_dynamic = d.getVar('USERADD_ERROR_DYNAMIC')
--        msg = "%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN'), pkg, type, id)
-+        msg = 'Recipe %s, package %s: %sname "%s" does not have a static ID defined.' % (d.getVar('PN'), pkg, type, id)
-         if files:
-             msg += " Add %s to one of these files: %s" % (id, files)
-         else:
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 65db1d039a..1d5e070223 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -550,8 +550,8 @@ RECIPE_MAINTAINER:pn-opkg-keyrings = "Alex Stewart <alex.stewart@ni.com>"
+ RECIPE_MAINTAINER:pn-opkg-utils = "Alex Stewart <alex.stewart@ni.com>"
+ RECIPE_MAINTAINER:pn-orc = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-os-release = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER:pn-ovmf = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
+-RECIPE_MAINTAINER:pn-ovmf-shell-image = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
++RECIPE_MAINTAINER:pn-ovmf = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-ovmf-shell-image = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-p11-kit = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-package-index = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-pango = "Ross Burton <ross.burton@arm.com>"
 -- 
 2.34.1
 
