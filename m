@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8DF9C3DA41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9AAEC001DD
 	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 15:07:20 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.26474.1688656037561510634
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.26469.1688656033771762189
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 08:07:17 -0700
+ Thu, 06 Jul 2023 08:07:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=e5MUSd7g;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-666e6ecb52dso539170b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=4exvidLC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b7e6512973so5105545ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656036; x=1691248036;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656033; x=1691248033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xlfUt5NtSgMJtBjUU4hzIrSwwsYVP6tV4OWzSgnNVV0=;
-        b=e5MUSd7gddh/z/tszEk4wgaCW4xy1ltQ1Zb1bEU2kWawLKndv3YHmsHBmdYirswYP7
-         VkfSeWEj2/eld4mtTrHFYh+zcHD00uV0wR4JyZodcJcEIlepOzNYjvhv0lGColB+C/DG
-         qdAGvJCAW9bHZGDfljD8zkpRz6J3z4m3aCwWPgWYok+TVd2v2kcQ8DQ1s4u4TKzqTOG2
-         XJpZg7inFjGUtdUJ6bq1V2CUuN+0Emp5H3oDwJuOuaLpFR9j5KqXdDoZzQEq/tBB4tLo
-         md88eIiPB3vudQ5L7w8MeIrazsBj2SIDc0imbxqVfLHTBhMR2DNRF9XR4IjYbcObT4pd
-         yJJQ==
+        bh=17UF527Ezwx0RQqDAZ2dnucMkqNz+vlyEqQO4SBu33Y=;
+        b=4exvidLClOyIF3004A3ExBzoiOB3kVe4GWAlK6gjWvSSCZpnj2W6+b25gmubRnxOJw
+         Dl/B234xP39yNitXWlQ/F41nfOMYdEL1/VXn0UcSJq1PtmJfC/FNPN3zCYLbPiOIjChy
+         hCdBcpVuzycQGoI7jKLuN8EnBjaBJv/fB2Bx7mU3mdG8ycSK9gnW4mPgj6Zq3ThYcPGG
+         9x+5Q3aM+MhCjsTmVhySB/Wu11fxfBkMqmweZjGAdFzLQKOMV+FquV5jKrFFSUzDdtkG
+         bbfFUtbF6Vc1AeIcWxSUFgy0mtP+M50pFr0vZ8++qHCtqzILsC6M+shgd08H2nd6Svfs
+         Mk6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688656036; x=1691248036;
+        d=1e100.net; s=20221208; t=1688656033; x=1691248033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xlfUt5NtSgMJtBjUU4hzIrSwwsYVP6tV4OWzSgnNVV0=;
-        b=Yi5W1Vl+69c4WCEucu8STTDJk2O9S3jrmt6hotqDwrBWz3oXajqpKGNt8cHQDYfjuH
-         KE0Np/Gzr2A6DojdMGoINwDebPeGPcvA+H5M6WUL8QjnB/hmVxcWUxZvjN7gKQzzG5le
-         gpWUoBW5tpw85an0a76FvHtAdfagXnOuzpnkFr+R3uUIM+MHbHaQpsjK4Zn9VaNBMQ1b
-         nfrxP0dIWWMi8+4XHgThldqSJW3KHqaJyq0cLCy5r2amDJulNZxRGk12MzLy5zTZpMo9
-         6RBMnBQ/X/q+5srSALAYxmk1xSgNonCPQFWxsfG3QCrqR7Nr8ux8wqR1V0DsPTSQ881Y
-         7h9g==
-X-Gm-Message-State: ABy/qLYG9ZTxuoGSSYmSjug0t8EG3yWKdr7rMXJxRqUqWVXEaWxiLKuR
-	QOfgDpOdqfznMfwF1kx4EkjlflIYxlK5pLW1jSA=
-X-Google-Smtp-Source: APBJJlGtOLvzSCqjNigzp9gcX3VtU1r47fWNSjpnCs2ZG5fKVqRWg1sAb/sJLjC/ivxNQSEIJZD06g==
-X-Received: by 2002:a05:6a20:3d90:b0:126:9f02:da6f with SMTP id s16-20020a056a203d9000b001269f02da6fmr1798878pzi.14.1688656036615;
-        Thu, 06 Jul 2023 08:07:16 -0700 (PDT)
+        bh=17UF527Ezwx0RQqDAZ2dnucMkqNz+vlyEqQO4SBu33Y=;
+        b=Cew/pna0x8xkMKChHIdSbweQIhRqEpjPybnkhClUtqWVYKxJ6G86o+bFPqIKRxFsEh
+         rlbjMbHzbYNUD+Ln6awFDs1ugwNvO6Ucwsm103Xd+LuY7HkEqMElShgGeDQTKhbtTIuN
+         XEDPtLsxceUkNQXoA0urXGQo/lAm15w5GR+Kx6qLX9h36QQ8Q52LWTbghPqJzH5gH9ql
+         rmSfz+RpeXHqiP4Xity9nY+HBaE29qQRbH4DgouCgWIpzHR1SaXCgOkp5XgRvbQUbOxk
+         F47RxBJTgybR+Pro5MBfizIQUxz0HxIKkBatjoHclBZPUVuR9BCrivEY9gAxqfI61D9l
+         wFVA==
+X-Gm-Message-State: ABy/qLY30GDa6MDY6JOHoQJIqsM2fsjHJXlz9qEuo7dH8XKdgFVE/gyE
+	BqV/HXrHHBE50xnhS7/G6urbX0M9SEGZ4VXN7Vs=
+X-Google-Smtp-Source: APBJJlEN3a9BGhDjXYX3a1rrew3pUUDLm5q/VHy0o/oQv8GpDhtWsKt08Ohzj0s2PfdAjg8opOs4DQ==
+X-Received: by 2002:a17:903:41d2:b0:1b5:6312:4c5b with SMTP id u18-20020a17090341d200b001b563124c5bmr2214069ple.63.1688656032841;
+        Thu, 06 Jul 2023 08:07:12 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.15
+        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 08:07:16 -0700 (PDT)
+        Thu, 06 Jul 2023 08:07:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/28] oeqa/selftest/bbtests: add non-existent prefile/postfile tests
-Date: Thu,  6 Jul 2023 05:06:21 -1000
-Message-Id: <ef732d6dd735ad06c229eb4e2a4aca295490ec53.1688655871.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/28] scripts/runqemu: split lock dir creation into a reusable function
+Date: Thu,  6 Jul 2023 05:06:19 -1000
+Message-Id: <2ada5f426e71e3873ba8c47dd925d8cfc103524b.1688655871.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688655871.git.steve@sakoman.com>
 References: <cover.1688655871.git.steve@sakoman.com>
@@ -61,47 +61,72 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 15:07:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183971
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183969
 
-From: Fabien Mahot <fabien.mahot@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Fixes [YOCTO #10725]
-
-Signed-off-by: Fabien Mahot <fabien.mahot@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b0c33655fad5b2e7d96a45b6210527dfb766797b)
+(cherry picked from commit 004d6bcb067ecf1d796801fa43a98820c4efd3c7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ scripts/runqemu | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index b42bbb651d..d91c8ea82b 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -188,6 +188,10 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
-         self.assertTrue(find, "No version returned for searched recipe. bitbake output: %s" % result.output)
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 5a98abfffe..f275cf7813 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1062,6 +1062,17 @@ class BaseConfig(object):
+         self.set('NETWORK_CMD', '-netdev bridge,br=%s,id=net0,helper=%s -device virtio-net-pci,netdev=net0 ' % (
+             self.net_bridge, os.path.join(self.bindir_native, 'qemu-oe-bridge-helper')))
  
-     def test_prefile(self):
-+        # Test when the prefile does not exist
-+        result = runCmd('bitbake -r conf/prefile.conf', ignore_status=True)
-+        self.assertEqual(1, result.status, "bitbake didn't error and should have when a specified prefile didn't exist: %s" % result.output)
-+        # Test when the prefile exists
-         preconf = os.path.join(self.builddir, 'conf/prefile.conf')
-         self.track_for_cleanup(preconf)
-         ftools.write_file(preconf ,"TEST_PREFILE=\"prefile\"")
-@@ -198,6 +202,10 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
-         self.assertIn('localconf', result.output)
++    def make_lock_dir(self, lockdir):
++        if not os.path.exists(lockdir):
++            # There might be a race issue when multi runqemu processess are
++            # running at the same time.
++            try:
++                os.mkdir(lockdir)
++                os.chmod(lockdir, 0o777)
++            except FileExistsError:
++                pass
++        return
++
+     def setup_slirp(self):
+         """Setup user networking"""
  
-     def test_postfile(self):
-+        # Test when the postfile does not exist
-+        result = runCmd('bitbake -R conf/postfile.conf', ignore_status=True)
-+        self.assertEqual(1, result.status, "bitbake didn't error and should have when a specified postfile didn't exist: %s" % result.output)
-+        # Test when the postfile exists
-         postconf = os.path.join(self.builddir, 'conf/postfile.conf')
-         self.track_for_cleanup(postconf)
-         ftools.write_file(postconf , "TEST_POSTFILE=\"postfile\"")
+@@ -1080,14 +1091,7 @@ class BaseConfig(object):
+         mac = 2
+ 
+         lockdir = "/tmp/qemu-port-locks"
+-        if not os.path.exists(lockdir):
+-            # There might be a race issue when multi runqemu processess are
+-            # running at the same time.
+-            try:
+-                os.mkdir(lockdir)
+-                os.chmod(lockdir, 0o777)
+-            except FileExistsError:
+-                pass
++        self.make_lock_dir(lockdir)
+ 
+         # Find a free port to avoid conflicts
+         for p in ports[:]:
+@@ -1127,14 +1131,7 @@ class BaseConfig(object):
+             logger.error("ip: %s" % ip)
+             raise OEPathError("runqemu-ifup, runqemu-ifdown or ip not found")
+ 
+-        if not os.path.exists(lockdir):
+-            # There might be a race issue when multi runqemu processess are
+-            # running at the same time.
+-            try:
+-                os.mkdir(lockdir)
+-                os.chmod(lockdir, 0o777)
+-            except FileExistsError:
+-                pass
++        self.make_lock_dir(lockdir)
+ 
+         cmd = (ip, 'link')
+         logger.debug('Running %s...' % str(cmd))
 -- 
 2.34.1
 
