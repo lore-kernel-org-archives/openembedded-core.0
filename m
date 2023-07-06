@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6DA4EB64D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6DDDC001B0
 	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 15:07:10 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.26466.1688656027173632721
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.26467.1688656029711001017
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 08:07:07 -0700
+ Thu, 06 Jul 2023 08:07:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=CCjEZIQL;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b8033987baso14121795ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=5B6jxAi+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-666e6ecb52dso539035b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656026; x=1691248026;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656029; x=1691248029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eqbcmbCBYAp+zhG9717TcnTFy9vDhEQDYEueVcWP4dA=;
-        b=CCjEZIQL2CTA6iBTn80Bz+JbYqsCwPd7rDptJWyFFENmYK86Cu/kmgHC2J7KxOcEal
-         arFuXoAAAlOvmlKo9Kv/v8xacCWiq4hvB82+ifP7leV0QtUPjjBkA4OfVEcW96HGmGlo
-         w12GC4ASz53pQKKzgMQQkn7H8OBV5zTnJG0760F9UuuB0yqMJKJf9rxw0kNoySnjKz+F
-         lYYcq4bsCF/BMCN2H52NWYrwgL1lGBK5LYODI53MDkPLNwTjEwX4xXZd8CX+F7lLPHia
-         m9lOc5yPWNdBWDoPb6OXTWwwfxZIM0/zj2YfCDHnEJEXfiSTCVWare3nvd2OwM8PW92j
-         2PpA==
+        bh=6+HzmG/80t0r2N6damhv67dtUMXD1lFVfrZgUuU9qMM=;
+        b=5B6jxAi+G/Z32jajHs8/rCqeqeg7cZ6WNDXnFQEBZHekLIwHm+fJPYM4s8sY7btnHX
+         yRTjXUGzbpDe20eAqGf4NM83dEVhYV50G6MvvHGdzG4RYqdT3u4smrX8jVw/0C9hmPmg
+         JPLZUnPy/y6zqQ7X888AP79eB9qv/I0yTW8JrMk6PvjC0cpzTBmi82PMVxd7YF81nDKf
+         duuQwk6Dlj/DB7+g3M/UnZ5pNeyddTTtQIYDPXySYVus/f17UOwADcrDckGUgtfxwLAL
+         juPDY3eyRNfESBs0rhC2JJmsfR6KXeBYGO8SC8xpNh19MYeYohdm0MnpT7XDnnO3fOYb
+         QkgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688656026; x=1691248026;
+        d=1e100.net; s=20221208; t=1688656029; x=1691248029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eqbcmbCBYAp+zhG9717TcnTFy9vDhEQDYEueVcWP4dA=;
-        b=jeae2IKO4BDG9ueRGqHjf2J1p9E/gTA6XCZX6qyxFWVBDI8oJ9pmtmxPAUKVFnpuFh
-         pxu36lxSKAZkvmjHgGfdU8t2z4x48q3ZPVaUG0VAIFjE9iCciH7OxRW/MONnw9RsdVQy
-         0FzTTT+BVjnNznVV8dwfIxDOwtkSz+p2VYPudHyuBuMbPzSckIiJgTIBXX2MnmfaOtoF
-         XP1ccAjQKViYbrLpJLp2pl0yzCikUXVGKMXTs+G3WS75K72JUpLmboit1sDDoQyewKLg
-         Oxjn83QNnxgpPUA7wkhz2JMNgIJ1kth15jVlPHluu7rarhtl4Iyzyhmvf4KQp3Qe7xBu
-         XvVg==
-X-Gm-Message-State: ABy/qLYDcEyOaDFtGn71RzBUBRIF559W7e6MQPDSmNMpPrX0Tmz/Nf0b
-	fQ+q1x5DBkPvX0ujklCphweifBkj7UZw2Ovgyfs=
-X-Google-Smtp-Source: APBJJlETag11AOzN9+trUU4WwoV2PDD3n/4sRu9LpEEKtiRXSaNjw6yLLag8gJGbE+Pv6KCLeY3crA==
-X-Received: by 2002:a17:902:e843:b0:1b7:de50:7d9c with SMTP id t3-20020a170902e84300b001b7de507d9cmr8522204plg.15.1688656026182;
-        Thu, 06 Jul 2023 08:07:06 -0700 (PDT)
+        bh=6+HzmG/80t0r2N6damhv67dtUMXD1lFVfrZgUuU9qMM=;
+        b=LeU3MIFaPfOExHIm1zLgNSiddVEMqCch/RVa0leGXkrlfPClAdkVEFqwOboEXyOOeg
+         8VB1rMiEXXhwobE0tR6U0RgaOjI3Ag1BLqGlr/lPY2tmZxzLY1k7RJTHMuRMaSsCk2ux
+         O3ycygrqYjxG+smpj+of/Sjcv6MWgYS22L1dVoIwDMGfoSMyfhudTvYUC07+4hWxsklS
+         /G2ZK8wQcht7aOwWQ+11WEktLSbZPCgPbld+koch5/Gb26pmzlMoDvhMcWv5kP/RIXwJ
+         OREDFHgUSlsRlVPM0PHmVpysXHn8SNtT8JcwchgerLf4UtOneP7adwL42DRprrTlSs0W
+         QAXg==
+X-Gm-Message-State: ABy/qLaZufq1W6deWPyu3Tsdy8JmT1L5+u69au8jjac7SLj4C9jhDOFz
+	vXBCZ7BvMT4naAR7Y/EDHbl/W3oqL/1BSe4amF4=
+X-Google-Smtp-Source: APBJJlHaLMXZr/NVCOVQqbxsprspwuLdlX6+O+guFqct2gQgTmqkKFSYtOQHfxr4ViHf8/yTJDLeGw==
+X-Received: by 2002:a05:6a20:6708:b0:10b:e54f:1c00 with SMTP id q8-20020a056a20670800b0010be54f1c00mr1346596pzh.57.1688656027975;
+        Thu, 06 Jul 2023 08:07:07 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.05
+        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.07.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 08:07:05 -0700 (PDT)
+        Thu, 06 Jul 2023 08:07:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/28] v86d: Improve kernel dependency
-Date: Thu,  6 Jul 2023 05:06:16 -1000
-Message-Id: <b842b8b51e0819eebf1fb3a2359b8c06863e553a.1688655871.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/28] image_types: Fix reproducible builds for initramfs and UKI img
+Date: Thu,  6 Jul 2023 05:06:17 -1000
+Message-Id: <0d8890f7c1fbea5036acefa3031dcd442b316725.1688655871.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688655871.git.steve@sakoman.com>
 References: <cover.1688655871.git.steve@sakoman.com>
@@ -61,41 +61,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 15:07:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183966
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183967
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Frieder Paape <frieder@konvera.io>
 
-Working with enabling SPDX, an issue was observerd where v86d wasn't rebuilding
-when the kernel was changed from linux-yocto to linux-yocto-rt.
+I've encountered issues reproducing initramfs and UKI image builds,
+which will be fixed with this patch.
 
-This is due to the code in sstatesig.py which was seeing the RRECOMMENDS on a
-kernel module and ignoring the DEPENDS. The v86d is technically a kernel module
-since it uses kernel header files.
+1. initramfs
+There's a symbolic link to /sbin/init, which is appended to the cpio archive after creation.
+The links timestamp needs to be static and the cpio append command needs the '--reproducible' flag to produce deterministic outcomes.
 
-There are two ways to address this, we could inherit the module-base class and
-the dependency code does the correct thing. It appears the code doesn't look into
-STAGING_KERNEL_DIR though and doesn't use the kernel sources. We can therefore drop
-the DEPENDS and the code will the do the correct thing.
+2. Unified Kernel Image
+'--preserve-dates' is required for a static 'Time/Date' entry.
+I've added '--enable-deterministic-archives' although in my case this
+didn't change anything.
 
+Signed-off-by: Frieder Paape <frieder@konvera.io>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 37ccd11cb0b89416b8e23160445186269b6c0c8a)
+(cherry picked from commit fd027729bafb4e085ba0949e38e724f3a8cad102)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/v86d/v86d_0.1.10.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/image_types.bbclass              | 5 +++--
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 2 ++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index 5f342b1120..b4fe362f8e 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -6,7 +6,6 @@ DESCRIPTION = "v86d provides a backend for kernel drivers that need to execute x
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://README;md5=94ac1971e4f2309dc322d598e7b1f7dd"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 79081d9f98..9d5f8c68a4 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -130,10 +130,11 @@ IMAGE_CMD:cpio () {
+ 		if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; then
+ 			if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init ]; then
+ 				ln -sf /sbin/init ${WORKDIR}/cpio_append/init
++                                touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init
+ 			else
+-				touch ${WORKDIR}/cpio_append/init
++                                touch -r ${IMAGE_ROOTFS} ${WORKDIR}/cpio_append/init
+ 			fi
+-			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
++			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio --reproducible -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+ 		fi
+ 	fi
+ }
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index c28d3917c2..a2b9f4c893 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -330,6 +330,8 @@ class BootimgEFIPlugin(SourcePlugin):
  
--DEPENDS = "virtual/kernel"
- RRECOMMENDS:${PN} = "kernel-module-uvesafb"
- PR = "r2"
- 
+                 # https://www.freedesktop.org/software/systemd/man/systemd-stub.html
+                 objcopy_cmd = "%s-objcopy" % target_sys
++                objcopy_cmd += " --enable-deterministic-archives"
++                objcopy_cmd += " --preserve-dates"
+                 objcopy_cmd += " --add-section .osrel=%s/usr/lib/os-release" % staging_dir_host
+                 objcopy_cmd += " --change-section-vma .osrel=0x20000"
+                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
 -- 
 2.34.1
 
