@@ -1,106 +1,140 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5093BEB64D9
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 09:16:29 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.17730.1688634981907280009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2EFEB64DC
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 09:28:19 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.17906.1688635694126569646
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 02:16:22 -0700
+ Thu, 06 Jul 2023 02:28:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=eVjoRlsu;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fbc0981755so4882685e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 02:16:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=rvvvNEaF;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.48, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbea147034so4586615e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 02:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688634980; x=1691226980;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1688635692; x=1691227692;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9kOebgC2mXDMACiWCuhK0HspNQyoc/PYEA3k+vUNyEw=;
-        b=eVjoRlsuPJ4MniYjVtrtwVe6gr+5C2Jsc0SOekxbLMGkkrVzcaT8tdgUyYDq1MCiJc
-         thdhGA5ca+BS523Sxhr0DaA+zU/8MFJqWjksDZNn/R6SnbgcKMIouIu4btpfwdHfdkDi
-         Y31Xtj/COAQBaCSxtBW2eeYY3GgfZsr9wmoOCPwq1cVWkaQCmkiNP0Kc6HLZYFQEY5Wb
-         GwW+THdL+24mtiSHUsjtfJ8QkyrEV7sJ5Ss1Woz/c+sobz4Yxes58RIigbOhgX5WMq33
-         miNvQ4ajHkzl1yl5k1p9UtrcJRE6JBTEapVHtiSYHr6ygbufel5/AYCX3eSKcZ5PDrV4
-         QF2w==
+        bh=haUdPGp6X6fPA+fuL7LU5GHXGsGniZimVFhn6QFQajk=;
+        b=rvvvNEaF23ZtphmPL1l8dIPn+czDxJnWv731bFrv9ASGGzFM0ewNzl0Jyby9MLstQj
+         8ue1NoIbFjamW7CDxCugm/lRrygvRQEQypHHnPiVrpmAAw+MUPEnE+T/Jb7PdhkpK1p/
+         mXL1FVOTDbc+JqAzUyGrRmmt7vWUwydqIKFi0wHxx/J7vyxpILeJRdBuAo2UvVTvJmGn
+         BfhaEtidXuUBDfxQIUzth0cy956/O00s2ntgrucstpgx2aWMmK1GxFlC70wQE4Yp54Zk
+         N9a6Kg0gB+qC0Ib2qYkyUdMlzlQkiTYzaEOYNVnIVOBg8jAtWbjkOOJhNdDuOR9jt0CK
+         t+Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688634980; x=1691226980;
+        d=1e100.net; s=20221208; t=1688635692; x=1691227692;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9kOebgC2mXDMACiWCuhK0HspNQyoc/PYEA3k+vUNyEw=;
-        b=MfDTdY8obVMgcVKGouEoxBjOYqgkv+enJnajtN2U4UNSdOn9l22eAS2n4o4I5E4CL+
-         1m1gZSkhVoYCCXniIikdvdOu7VyLgBPK0ajFATd7dNyErStz/rIEVW0A0CA4+meA5aD0
-         fPyoOs4U9irkOFu4MtmyntJbtCrFXeQiRlGfKzlWX4wSUsy6yhy9afGkyDPxGkCuvsJj
-         gb1gIhPD9Av1LbP1bhwrsjC0MRPS7srg1jeqknyui/KhVvBLpPEV1QbjY9zOTVf6XUzp
-         9y79BF7tkIVhQCzYbd3179iZa2meAJoW2pDo/3q2u6L9QglPBKED+yp3W+U5w2UE+hyy
-         oaLg==
-X-Gm-Message-State: ABy/qLbeAXI7hzU3egdXo8zZzxKS10Tde8ziKeZpN3gCOKMThoh6vmDa
-	CQLXXFHs59A2k+kRZ2mXMran5LCWYV4=
-X-Google-Smtp-Source: APBJJlHmm41zp+zO0Fk9AQ+Zf4unYsfeWztQVEX5u+7MqxeGu+O2KNaApOfP5u5DkAv3UJLNOqxYyA==
-X-Received: by 2002:adf:e505:0:b0:314:1ce8:a0a1 with SMTP id j5-20020adfe505000000b003141ce8a0a1mr853531wrm.17.1688634979635;
-        Thu, 06 Jul 2023 02:16:19 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:d306:52c9:26ff:aa02])
-        by smtp.gmail.com with ESMTPSA id i14-20020adffdce000000b003141f96ed36sm1389471wrs.0.2023.07.06.02.16.18
+        bh=haUdPGp6X6fPA+fuL7LU5GHXGsGniZimVFhn6QFQajk=;
+        b=l4/53+Asywy0C4jul/34ZHe6QMghsTYyMrOuGOBNWahhsrIRAi/Is/AqjbYTARDhjS
+         WEDsHL/u+InlE+qHSO2kRn994f+SjgPV/JmmhNHwcrczmUgQOTc+WNgsdKRiCXZ3z7pE
+         pOSLJcslrRNp1qTzRKaeGiKNAfP6zAkvMym5ej2fFNh+Uu21X0g+f8G05SXHJMWvKCtr
+         L0uo72/2oR4LCix4Yku7xbM4+uE5Sd4LlkODkoohyCeFiQaEFIZOEEdorx9xHTMu8hTS
+         PNj8BR+fAV7zzNjTBNLcQ03yrrCRyMIve47kOV9heNAnYJfmcPuwrtFsUEunkgLTBC/R
+         VxsA==
+X-Gm-Message-State: ABy/qLY+DLh7ktQvAEAKZ0JMxL0iTSCUnL7OKv7/clXqaMCUJUxZOSF8
+	RczS2TId4C/TwU4THXQrmpb6sEmqwQHsV3ilJMsUhA==
+X-Google-Smtp-Source: APBJJlH2W3Hh/dVh4TYGOTsLp5kCKFUkxjIZjwhUH8T2Azk0hWpWfkt78JTjnxpNHTgYeLJDfegJFA==
+X-Received: by 2002:adf:db91:0:b0:30e:5bd0:21a2 with SMTP id u17-20020adfdb91000000b0030e5bd021a2mr912798wri.52.1688635691903;
+        Thu, 06 Jul 2023 02:28:11 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id p14-20020a056000018e00b003113ed02080sm1339926wrx.95.2023.07.06.02.28.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 02:16:19 -0700 (PDT)
-From: frederic.martinsons@gmail.com
+        Thu, 06 Jul 2023 02:28:11 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
-Subject: [PATCH] ptest-cargo.bbclass: fix condition to detect test executable
-Date: Thu,  6 Jul 2023 11:16:16 +0200
-Message-Id: <20230706091616.200995-1-frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH v2 0/2] Add ptest for less
+Date: Thu,  6 Jul 2023 11:28:04 +0200
+Message-ID: <20230706092806.507075-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 09:16:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183918
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 09:28:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183919
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+Hi all,
 
-before that, a test executable at None was picked.
-Moreover, use universal_newlines to subprocess call to avoid
-being polluted by fancy carriage return characters.
+This series is adding ptest support for less.
 
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
----
- meta/classes-recipe/ptest-cargo.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+As of today, release tarballs are fetched from
+http://www.greenwoodsoftware.com/ but the less test code is not bundled
+within these releases. A github issue has been opened asking for
+maintainer to add the test code into it [1].
 
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-index 4ed528445a..5d53abe969 100644
---- a/meta/classes-recipe/ptest-cargo.bbclass
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -23,13 +23,13 @@ python do_compile_ptest_cargo() {
-     bb.note(f"Building tests with cargo ({cmd})")
- 
-     try:
--        proc = subprocess.Popen(cmd, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-+        proc = subprocess.Popen(cmd, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-     except subprocess.CalledProcessError as e:
-         bb.fatal(f"Cannot build test with cargo: {e}")
- 
-     lines = []
-     for line in proc.stdout:
--        data = line.decode('utf-8').strip('\n')
-+        data = line.strip('\n')
-         lines.append(data)
-         bb.note(data)
-     proc.communicate()
-@@ -50,7 +50,7 @@ python do_compile_ptest_cargo() {
-                 current_manifest_path = os.path.normpath(data['manifest_path'])
-                 project_manifest_path = os.path.normpath(manifest_path)
-                 if current_manifest_path == project_manifest_path:
--                    if data['target']['test'] or data['target']['doctest'] and data['executable']:
-+                    if (data['target']['test'] or data['target']['doctest']) and data['executable']:
-                         test_bins.append(data['executable'])
-             except KeyError as e:
-                 # skip lines that do not meet the requirements
--- 
-2.34.1
+So before test code gets bundled into the release tarballs, switch to
+github URI.
 
+Here is the output when running the ptest on the target:
+
+ FAIL: chinese1.lt
+ PASS: colorbars.lt
+ PASS: github216.lt
+ PASS: github265.lt
+ PASS: github329.lt
+ PASS: hdr-unicode1.lt
+ PASS: hdr-unicode.lt
+ PASS: proc-special.lt
+ PASS: seq200.lt
+ PASS: table-50x200.lt
+ FAIL: utf8-2.txt.lt
+ PASS: version.c.lt
+ ============================================================================
+ Testsuite summary for less
+ ============================================================================
+ # TOTAL: 12
+ # PASS: 10
+ # FAIL: 2
+ ============================================================================
+
+I am building a core-image-minimal image with poky DISTRO and run it into qemu.
+I have 2 FAIL. All tests PASS on my computer.
+I suspect a locale issue here but I may need some help on this.
+
+I opened a pull request on less for Makefile modification [2]
+
+And I also opened a github issue [3] to ask a reformating of the less
+test summary to follow Automake simple test format to simplify the
+run-ptest script.
+
+My branch is available on poky-contrib repository [4]
+
+[YOCTO #15073]
+
+Best
+Julien
+
+[1]: https://github.com/gwsw/less/issues/344
+[2]: https://github.com/gwsw/less/pull/398
+[3]: https://github.com/gwsw/less/issues/399
+[4]: https://git.yoctoproject.org/poky-contrib/log/?h=jstephan/add-ptest-for-less
+
+v1 can be found here: https://lists.openembedded.org/g/openembedded-core/message/183894
+
+Changes in v2:
+- split commit in two: one for switching to github and one to add the ptest support
+
+Julien Stephan (2):
+  less: switch to github URI
+  less: add ptest support
+
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ ...akefile-allow-CFLAGS-to-be-overitten.patch | 28 +++++++++++++
+ ...esstest-Makefile-add-LDFLAGS-support.patch | 41 +++++++++++++++++++
+ meta/recipes-extended/less/files/run-ptest    | 25 +++++++++++
+ meta/recipes-extended/less/less_633.bb        | 37 ++++++++++++++---
+ 5 files changed, 127 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/less/files/0001-lesstest-Makefile-allow-CFLAGS-to-be-overitten.patch
+ create mode 100644 meta/recipes-extended/less/files/0002-lesstest-Makefile-add-LDFLAGS-support.patch
+ create mode 100644 meta/recipes-extended/less/files/run-ptest
+
+--
+2.41.0
 
