@@ -1,301 +1,163 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED46EB64D9
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 09:54:29 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.18522.1688637265422576192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F27EB64D9
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 10:38:09 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.47])
+ by mx.groups.io with SMTP id smtpd.web10.18937.1688639885040539536
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 02:54:25 -0700
+ Thu, 06 Jul 2023 03:38:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OWx0QqDq;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4fb73ba3b5dso633208e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 02:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688637263; x=1691229263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RcNxzsuYxg1tp3KHHarN0KSsngHDtoIFuV3wNsLps7k=;
-        b=OWx0QqDqYIcJ2OI8txojulndV1EcIW9IUjwKBFkiBEY2cJ7rJd8Uscva7k3N0APGz9
-         QaSuRkgMtL7F03MVixRvAHGtRJYe/hfNffR2RfostP2JuoA9j0MQmTuqvAojlM972D3e
-         9wBTIMre+TX6fuH0+eRtwsH0mgdgjRPkxdL5vE29SZldVNh8p6SrRwZ3DrE48RM9XkrS
-         ha/XaVR7904QwMrswLs7vtj5bKjyZzd7I0eiFF67ivsDG95dzLq7EEvWwdTCi8QjHdTp
-         KWo3J78FlUD/dsHWg1hAlWpVO8XujNhsJmt6onFlcQO35yE4qXI1KWA3av3A4uo1HUYx
-         Kzcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688637263; x=1691229263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RcNxzsuYxg1tp3KHHarN0KSsngHDtoIFuV3wNsLps7k=;
-        b=P0eRYiCXh5SnX7oR6WWT7MSa6XEGY7EJqp44gQk+g1A9ZUylmz4X1AsxuPpu1Y4QRO
-         cWRs0PfMWkj8TYur/u4ix3Zox7y6eWe1yl9X66gPfwp3tILzIf2qPH5TDk8WMD+itPlt
-         ZLVbH911JwwaZvpnIRf9SXSGMTYy9GxHpjzq97FlcnIMMlgUPvnKl6pJX1hjGCsnmv/C
-         wD9TGoDXORmesA90ZRYv2YiVKAGOys9BvvpuZHe5Nnk1K9kYeqspSeXGqcQvjmRK7Icj
-         s8W0lHRfxEJdAGjt8SheMV8PvBSRWGvafruyaRNHSdG/8UpmIvRWcpoFE4YbaHj5xo67
-         aJ6w==
-X-Gm-Message-State: ABy/qLZHs9JCEM6xxfbz5EI/15e90JZNuaSRDdaKNygtxK/cHGoLNWrH
-	IKk+BcjMJi//BtHr/D21mv1sldmZEjqjHLYBOIw=
-X-Google-Smtp-Source: APBJJlESZYk8H0NQgpmkFi4AI3VInRSrt75ZfJuuN6Xx3QbYRVfN2BEe1RkmDN1LrrFl2ZbT9YOWkceCcBIzrFkQajA=
-X-Received: by 2002:a05:6512:694:b0:4f8:5e49:c610 with SMTP id
- t20-20020a056512069400b004f85e49c610mr1304902lfe.35.1688637263248; Thu, 06
- Jul 2023 02:54:23 -0700 (PDT)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=XbnNhL7k;
+ spf=pass (domain: arm.com, ip: 40.107.105.47, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SusxxVR9eJsdYoUQzaYt36qkCSY1ygvr/zW4A8MZjvA=;
+ b=XbnNhL7kIJgMZC02q5zrzZH3NuG1ZbhPLGHde4BI3ABPipvKcxQ1uxEvqhw8Kx5daV7Sk75bzpMlDGzLYhvc8dFvrx0OlwLcJ89q/3mphJ+BQHr27EF40tnO1YESXT0vlBeiDTyxKi+u35RNLA7LEwcd8NtGmdOMPHjpmZPEbHc=
+Received: from AM6PR04CA0013.eurprd04.prod.outlook.com (2603:10a6:20b:92::26)
+ by AM8PR08MB6513.eurprd08.prod.outlook.com (2603:10a6:20b:366::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 10:38:01 +0000
+Received: from AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:92:cafe::ab) by AM6PR04CA0013.outlook.office365.com
+ (2603:10a6:20b:92::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.18 via Frontend
+ Transport; Thu, 6 Jul 2023 10:38:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT042.mail.protection.outlook.com (100.127.140.209) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6565.24 via Frontend Transport; Thu, 6 Jul 2023 10:38:00 +0000
+Received: ("Tessian outbound c08fa2e31830:v142"); Thu, 06 Jul 2023 10:38:00 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 10501081dabfcaae
+X-CR-MTA-TID: 64aa7808
+Received: from 9575ab2cc690.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B55947AD-29CA-46B0-B8DE-0AB80D762D19.1;
+	Thu, 06 Jul 2023 10:37:53 +0000
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 9575ab2cc690.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 06 Jul 2023 10:37:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C1zAycZiFWlV86o+HnRxaBp9p2Yp6geqkzGo+x+Iv1lsX06mEA2zoZcQpZ9D7/4wL9vCPefsfOqN9nQNJ3mdRw9uIS3P23U5OrYRQ7y2E6Qp6WZqXBcOj1JqbznXFB6hF+9qIkOozuxbGzPbLlxZAcgYJvcniP8H+YWKdfQsxaX37OfMUt3DA+4+T3aTDvnp7z1D6aFqLMLE8q2PV+puPiLhSykz/ZgQN1FD073Nmy2r+q39iF2vXMroyANMfzLv+8fd7iwQvCSj+zAs+uo+XQkmZSME25M1J7ggo4jPKWWHxWYEGbFzdoOVSx2yHNcL4e9VDu8op8zq98JJ5ikoCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SusxxVR9eJsdYoUQzaYt36qkCSY1ygvr/zW4A8MZjvA=;
+ b=jtCDlOLsV7RoMOwt4Tb++sJZvgepUBmy8sUUVAngnGKqOgPAlDu4LEC51q7NWTqGr+Wa2RicG6ij3O7jCfPA8jlz1K+9auJTJKQKEmGZ+R4uVybGsp1AEFXTxj3pd95BekQ0R4wTR6dJOVPiMDts2GaTdpWpCvx/rsRzudhQrmTH21JX/bIWmNyH1mzA+fhbfRwhgOUan0UM1kYLcImpWtLxeKCx4dnqCDqgbQ1DYvp8mm+VrxMA3j/QumCIEA0h6WGo7GiLlrKx2Ehw7ceI14Uc249wndNUAnMTUspWmAzJqhEcHHDIxMjY0gjzTM1ywRQ2sEYhLnUFQZb2fb4uPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SusxxVR9eJsdYoUQzaYt36qkCSY1ygvr/zW4A8MZjvA=;
+ b=XbnNhL7kIJgMZC02q5zrzZH3NuG1ZbhPLGHde4BI3ABPipvKcxQ1uxEvqhw8Kx5daV7Sk75bzpMlDGzLYhvc8dFvrx0OlwLcJ89q/3mphJ+BQHr27EF40tnO1YESXT0vlBeiDTyxKi+u35RNLA7LEwcd8NtGmdOMPHjpmZPEbHc=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAVPR08MB9212.eurprd08.prod.outlook.com (2603:10a6:102:307::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Thu, 6 Jul
+ 2023 10:37:51 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21%7]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
+ 10:37:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v2 2/2] openssl: fix the PERLEXTERNAL path
+Thread-Topic: [OE-core][PATCH v2 2/2] openssl: fix the PERLEXTERNAL path
+Thread-Index: AQHZr3FsdHqnPJmZGUqub4gqmXWsQK+sjOMA
+Date: Thu, 6 Jul 2023 10:37:50 +0000
+Message-ID: <87A4E629-0501-4F73-B327-3B20BC734FD5@arm.com>
+References: <20230705184847.587503-1-jose.quaresma@foundries.io>
+ <20230705184847.587503-2-jose.quaresma@foundries.io>
+In-Reply-To: <20230705184847.587503-2-jose.quaresma@foundries.io>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.600.7)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAVPR08MB9212:EE_|AM7EUR03FT042:EE_|AM8PR08MB6513:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a304c70-0e4c-40e2-70db-08db7e0d1220
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ MxDRR9+1XXSZ9mOwbyjM4+bZYIuFNSmOFCVKJNDkDlHHMeI00NJEVzk2eFlVSd+POjuVhWkUQnF97NOBAK8wQKjm5GkChxeji5nyOms/JTlSOnAXNFwWah+cBuASIPaMgMqoDlKREJ8kZcsYijHqJb4cOidne1XhvLMpNukOpaWAm3fHhHBsa0dAqTQKZITYKTt3Pe3Md+bX5kSVqj5eL9hmxV1qZydiiDN2x2CCTdINHSRE0O+GLw4/hu+u5YAea9ne/0QAcXWMXhZjrM+q9/lqEfDwST10hlAIy5L+dawMqmC0Y+/a4pamOmyPlcqD3h31jE82D2i8j/sDOeUVs91b/vtiuyiJmXmNZX+I0o0zm5M1QvEs8PZGSOUDh54anK74sESpwFB3moGzpLGxOOOB0xL2Q3jzMJajCAvW4bbPe7Ncs3RDOAF2NVONFO41UzL8FQ4fx0m5R3tqvWHSZk4zN7O4RtbRJyreqJN/jfTOf0t9pUtOkS4hfuIW+YrpdHusqm2lv0Nb5hc7SssZ/FvY0nYRPUWHLhbIy4XkPjBB4NOYcYTujaNj0uvJ92uQJbtrnjcBKSKpXhQL/+D/m+NiMUNui9wM2BMXNnngamzN7Ypkm6OEue6loDf+ZhA+oHFB4ZpnufqraEahIzxd0A==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(366004)(346002)(39860400002)(451199021)(66446008)(33656002)(66556008)(6916009)(91956017)(66946007)(66476007)(76116006)(478600001)(64756008)(36756003)(8676002)(8936002)(4326008)(5660300002)(2906002)(316002)(26005)(41300700001)(6512007)(38070700005)(86362001)(38100700002)(53546011)(6506007)(186003)(71200400001)(83380400001)(2616005)(6486002)(122000001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <07401774745429468C06A167BEF81238@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <1687850250-20040-1-git-send-email-wangmy@fujitsu.com>
- <1687850250-20040-15-git-send-email-wangmy@fujitsu.com> <833c9684091b2d7ec5326e00a6f76a7aa2c4baf2.camel@linuxfoundation.org>
- <OSBPR01MB184540732F25FAE632D72885DC24A@OSBPR01MB1845.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB184540732F25FAE632D72885DC24A@OSBPR01MB1845.jpnprd01.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 6 Jul 2023 11:54:11 +0200
-Message-ID: <CANNYZj87q8Xxo+mzC-BWtr_SHP-97ZmBEc1nFcXTcWX-8yOhOw@mail.gmail.com>
-Subject: Re: [PATCH] [OE-core] [PATCH] gettext: upgrade 0.21.1 -> 0.22
-To: wangmy <wangmy@fujitsu.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9212
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	1d9be771-bf0b-4a77-66aa-08db7e0d0c46
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1p93cyzLBcC3z+O4lhp4plqNZk9SqcIr6oLrDRVu0y0EorGJeu9MxF1ECclQVgZFVAcmnAdsoqV772Rfp64ysk9xotGByRoltO2pnMRthv0xH0yKPU0P3PLZYuZgRho1IqK7sL1sDd6NXrrd3GHNMfuoSpwShQDiuJB8hO5RA/A1o49l8IJr+LQv94JVHTWpxS+9blexr8p2UJF8tpSzhmg7S/3nSNyBEYH8FjDh6jZE0pasD3vMcKVheYHQhgMfaDhoQfh4wDYoTrgqVVJjMEHQ6MSTquyC1bgzBz2hiTnfdJie/pIOMXTdQY3NYXlwZV5mQxgmsq2iLOUTNeMF72LAziTkq76/wcUai0D3fWXBpDpJShFWe5/2IEo2TPCFx5LxZYhDsc6d4ZPJBvkVMyDJgUFpGx8F01caVg5xNksu8yjx7Ke9yTMF4YJ3apRXcofB/hFXMXI+6OvnD5JR2hLcOxi/VGZh6BDkESMynB0UsZItZHTCcPoVAM7OpvQrh05Q/7+vOsjU2hmi7u3pgIJlKLYWHZnWgVfw4zgLDyFXa1/CfRay/2rEQCyevg0mRbLsq45MxaqtHuMY/nu6SoYZyUGH8ZY0KNv5u4ZGh5304l9hN17DkhZVXRZx+fRPEKMTdBDgQ5jkhtXY5q9F/eZPa+Ig/A8INDPbAIej5gwIeL6VuMneCnwWTJQsdk0zkxRKVbTJFwqstM99mVw7P11zsPcIBlx7CPi+Hk78D3ZS+lNt393R6OsEAHFSAoEt
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(39860400002)(136003)(451199021)(40470700004)(36840700001)(46966006)(81166007)(356005)(6486002)(82740400003)(40460700003)(478600001)(6862004)(5660300002)(8936002)(36756003)(2906002)(8676002)(86362001)(33656002)(82310400005)(40480700001)(4326008)(70586007)(70206006)(316002)(41300700001)(53546011)(6506007)(26005)(36860700001)(336012)(83380400001)(47076005)(186003)(2616005)(6512007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 10:38:00.6222
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a304c70-0e4c-40e2-70db-08db7e0d1220
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6513
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 09:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183923
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 10:38:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183924
 
-I have reworked the gettext-minimal recipe to get the needed files
-directly from upstream tarball:
-https://git.yoctoproject.org/poky-contrib/commit/meta/recipes-core/gettext/=
-gettext-minimal-native_0.21.1.bb?h=3Dakanavin/package-version-updates&id=3D=
-1f9b5e0b158f18d2e66337b1e902977fcd072d5a
-
-You are welcome to cherry-pick this, and verify that it still does the
-right thing with the updated gettext.
-
-Alex
-
-On Wed, 28 Jun 2023 at 10:53, wangmy <wangmy@fujitsu.com> wrote:
->
-> Sorry, I didn't notice that the files in the minimal directory need to be=
- updated based on the source code.
-> Please ignore this patch and I will investigate before considering whethe=
-r to resubmit it.
->
->   --
-> Best Regards
-> ---------------------------------------------------
-> Wang Mingyu
-> Development Dept.I
-> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST) No. 6 Wenzhu Road, N=
-anjing, 210012, China
-> TEL: +86+25-86630566-8568
-> COINS: 79988548
-> FAX: +86+25-83317685
-> MAIL: wangmy@fujitsu.com
-> http://www.fujitsu.com/cn/fnst/
->
-> > -----Original Message-----
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Sent: Tuesday, June 27, 2023 10:25 PM
-> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>;
-> > openembedded-core@lists.openembedded.org
-> > Subject: Re: [PATCH] [OE-core] [PATCH] gettext: upgrade 0.21.1 -> 0.22
-> >
-> > On Tue, 2023-06-27 at 15:17 +0800, wangmy wrote:
-> > > From: Wang Mingyu <wangmy@fujitsu.com>
-> > >
-> > > Changelog:
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > * PO file format:
-> > >   - When a #: line contains references to file names that contain spa=
-ces,
-> > >     these file names are surrounded by Unicode characters U+2068 and
-> > U+2069.
-> > >     This makes it possible to parse such references correctly.
-> > >
-> > > * Improvements for maintainers:
-> > >   - The AM_GNU_GETTEXT macro now defines two variables localedir_c an=
-d
-> > >     localedir_c_make, that can be used in C code or in Makefiles,
-> > >     respectively, for representing the value of the --localedir confi=
-gure
-> > >     option.
-> > >
-> > > * Programming languages support:
-> > >   - C, C++:
-> > >     o xgettext now supports gettext-like functions that take wide str=
-ings
-> > >       (of type 'const wchar_t *', 'const char16_t *', or 'const char3=
-2_t *')
-> > >       as arguments.
-> > >     o xgettext now recognizes numbers with digit separators, as defin=
-ed by
-> > >       ISO C 23, as tokens.
-> > >     o xgettext and msgfmt now recognize the format string directive %=
-b
-> > >       (for binary integer output, as defined by ISO C 23) in format s=
-trings.
-> > >     o xgettext and msgfmt now recognize the argument size specifiers
-> > >       w8, w16, w32, w64, wf8, wf16, wf32, wf64 (as defined by ISO C 2=
-3)
-> > >       in format strings.
-> > >     o xgettext and msgfmt now recognize C++ format strings, as define=
-d by
-> > >       ISO C++ 20.  They are marked as 'c++-format' in POT and PO file=
-s.
-> > >       A new example has been added, 'hello-c++20', that illustrates h=
-ow
-> > >       to use these format strings with gettext.
-> > >   - Java:
-> > >     o The build system and tools now also support Java versions newer=
- than
-> > >       Java 11. This is known to work up to Java 20, at least. On the =
-other
-> > >       hand, support for old versions of Java (Java 1.5 and GCJ) has b=
-een
-> > >       dropped.
-> > >   - Tcl: xgettext now supports the \x, \u, and \U escapes as defined =
-in
-> > >     Tcl 8.6.
-> > >
-> > > * Portability:
-> > >   - On systems with musl libc, the *gettext() functions in libc now w=
-ork
-> > >     with MO files generated from PO files with an encoding other than
-> > UTF-8.
-> > >     To this effect, the msgfmt program now converts the messages to U=
-TF-8
-> > >     encoding before storing them in a MO file.  You can prevent this =
-by
-> > >     using the msgfmt --no-convert option.
-> > >   - On systems with musl libc, the *gettext() functions in libc now w=
-ork
-> > >     with MO files generated from PO files with ISO C 99 <inttypes.h> =
-format
-> > >     string directive macros.  To this effect, the msgfmt program
-> > pre-expands
-> > >     strings with such macros.  You can prevent this by using the msgf=
-mt
-> > >     --no-redundancy option.
-> > >
-> > > * xgettext:
-> > >   - The xgettext option '--sorted-output' is now deprecated.
-> > >   - xgettext input files of type PO that are not all ASCII and not UT=
-F-8
-> > >     encoded are now handled correctly.
-> > >
-> > > * The base Unicode standard is now updated to 15.0.0.
-> > >
-> > > * Emacs PO mode:
-> > >   Fix an incompatibility with Emacs version 29 or newer.
-> > >
-> > >
-> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > > ---
-> > >  .../0001-init-env.in-do-not-add-C-CXX-parameters.patch          | 0
-> > >  .../0001-tests-autopoint-3-unset-MAKEFLAGS.patch                | 0
-> > >  .../gettext/{gettext-0.21.1 =3D> gettext-0.22}/parallel.patch     | =
-0
-> > >  .../gettext/{gettext-0.21.1 =3D> gettext-0.22}/run-ptest          | =
-0
-> > >  .../{gettext-0.21.1 =3D> gettext-0.22}/serial-tests-config.patch  | =
-0
-> > >  .../{gettext-0.21.1 =3D> gettext-0.22}/use-pkgconfig.patch        | =
-0
-> > >  .../{gettext-minimal-0.21.1 =3D> gettext-minimal-0.22}/COPYING    | =
-0
-> > >  .../Makefile.in.in                                              |
-> > 0
-> > >  .../aclocal/gettext.m4                                          |
-> > 0
-> > >  .../aclocal/host-cpu-c-abi.m4                                   | 0
-> > >  .../aclocal/iconv.m4                                            |
-> > 0
-> > >  .../aclocal/intlmacosx.m4                                       |
-> > 0
-> > >  .../aclocal/lib-ld.m4                                           | 0
-> > >  .../aclocal/lib-link.m4                                         | 0
-> > >  .../aclocal/lib-prefix.m4                                       | 0
-> > >  .../aclocal/nls.m4                                              |
-> > 0
-> > >  .../aclocal/po.m4
-> > | 0
-> > >  .../aclocal/progtest.m4                                         |
-> > 0
-> > >  .../config.rpath                                                |
-> > 0
-> > >  .../remove-potcdate.sin                                         |
-> > 0
-> > >  ...-minimal-native_0.21.1.bb =3D> gettext-minimal-native_0.22.bb} | =
-0
-> > > .../recipes-core/gettext/{gettext_0.21.1.bb =3D> gettext_0.22.bb} | 2=
- +-
-> > >  22 files changed, 1 insertion(+), 1 deletion(-)  rename
-> > > meta/recipes-core/gettext/{gettext-0.21.1 =3D>
-> > > gettext-0.22}/0001-init-env.in-do-not-add-C-CXX-parameters.patch
-> > > (100%)  rename meta/recipes-core/gettext/{gettext-0.21.1 =3D>
-> > > gettext-0.22}/0001-tests-autopoint-3-unset-MAKEFLAGS.patch (100%)
-> > > rename meta/recipes-core/gettext/{gettext-0.21.1 =3D>
-> > > gettext-0.22}/parallel.patch (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-0.21.1 =3D> gettext-0.22}/run-ptes=
-t
-> > > (100%)  rename meta/recipes-core/gettext/{gettext-0.21.1 =3D>
-> > > gettext-0.22}/serial-tests-config.patch (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-0.21.1 =3D>
-> > > gettext-0.22}/use-pkgconfig.patch (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/COPYING (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/Makefile.in.in (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/gettext.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/host-cpu-c-abi.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/iconv.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/intlmacosx.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/lib-ld.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/lib-link.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/lib-prefix.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/nls.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/po.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/aclocal/progtest.m4 (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/config.rpath (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-0.21.1 =3D>
-> > > gettext-minimal-0.22}/remove-potcdate.sin (100%)  rename
-> > > meta/recipes-core/gettext/{gettext-minimal-native_0.21.1.bb =3D>
-> > > gettext-minimal-native_0.22.bb} (100%)  rename
-> > > meta/recipes-core/gettext/{gettext_0.21.1.bb =3D> gettext_0.22.bb} (9=
-9%)
-> >
-> > When you upgraded this recipe did you check if there were changes to an=
-y of
-> > the files in gettext-minimal in the new version? I'm a little surprised=
- none of the
-> > files change at all...
-> >
-> > Cheers,
-> >
-> > Richard
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#183548): https://lists.openembedded.org/g/openembedde=
-d-core/message/183548
-> Mute This Topic: https://lists.openembedded.org/mt/99805170/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+T24gNSBKdWwgMjAyMywgYXQgMTk6NDgsIEpvc2UgUXVhcmVzbWEgdmlhIGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgPHF1YXJlc21hLmpvc2U9Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IHdyb3RlOg0KPiANCj4gVGhlIFRleHQtVGVtcGxhdGUgd2FzIHVwZGF0ZWQgZnJvbSAxLjQ2IHRv
+IDEuNTYNCj4gDQo+IHwgRVJST1I6IG9wZW5zc2wtbmF0aXZlLTMuMS4xLXIwIGRvX2NvbmZpZ3Vy
+ZTogUEVSTEVYVEVSTkFMICcvYnVpbGQvdG1wL3dvcmsveDg2XzY0LWxpbnV4L29wZW5zc2wtbmF0
+aXZlLzMuMS4xLXIwL29wZW5zc2wtMy4xLjEvZXh0ZXJuYWwvcGVybC9UZXh0LVRlbXBsYXRlLTEu
+NDYvbGliJyBub3QgZm91bmQhDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKb3NlIFF1YXJlc21hIDxq
+b3NlLnF1YXJlc21hQGZvdW5kcmllcy5pbz4NCj4gLS0tDQo+IG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuMS4xLmJiIHwgMiArLQ0KPiAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjEuMS5iYiBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuMS4xLmJiDQo+IGluZGV4IGI4NDlmOWNh
+NzkuLjVmMzBhMzdjOGEgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
+b3BlbnNzbC9vcGVuc3NsXzMuMS4xLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvb3BlbnNzbC9vcGVuc3NsXzMuMS4xLmJiDQo+IEBAIC0xMzcsNyArMTM3LDcgQEAgZG9fY29u
+ZmlndXJlICgpIHsNCj4gZmkNCj4gIyBXQVJOSU5HOiBkbyBub3Qgc2V0IGNvbXBpbGVyL2xpbmtl
+ciBmbGFncyAoLUkvLUQgZXRjLikgaW4gRVhUUkFfT0VDT05GLCBhcyB0aGV5IHdpbGwgZnVsbHkg
+cmVwbGFjZSB0aGUNCj4gIyBlbnZpcm9ubWVudCB2YXJpYWJsZXMgc2V0IGJ5IGJpdGJha2UuIEFk
+anVzdCB0aGUgZW52aXJvbm1lbnQgdmFyaWFibGVzIGluc3RlYWQuDQo+IC0gUEVSTEVYVEVSTkFM
+PSIke1N9L2V4dGVybmFsL3BlcmwvVGV4dC1UZW1wbGF0ZS0xLjQ2L2xpYiINCj4gKyBQRVJMRVhU
+RVJOQUw9IiR7U30vZXh0ZXJuYWwvcGVybC9UZXh0LVRlbXBsYXRlLTEuNTYvbGliIg0KDQpBcyB5
+b3XigJl2ZSBkZW1vbnN0cmF0ZWQgdGhhdCBpcyB2ZXJ5IGZyYWdpbGUsIGNhbuKAmXQgd2UganVz
+dCB1c2UgYSBnbG9iIHRvIGdldCB0aGUgcmlnaHQgcGF0aD8NCg0KUm9zcw0KDQo=
 
