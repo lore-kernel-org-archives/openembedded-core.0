@@ -2,66 +2,134 @@ Return-Path: <dl9pf@gmx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46ECFEB64D9
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 12:51:10 +0000 (UTC)
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by mx.groups.io with SMTP id smtpd.web10.21313.1688647868954479629
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8B2EB64DC
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 12:51:20 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by mx.groups.io with SMTP id smtpd.web11.21416.1688647875303113281
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 05:51:09 -0700
+ Thu, 06 Jul 2023 05:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=dl9pf@gmx.de header.s=s31663417 header.b=tah33t6D;
- spf=pass (domain: gmx.de, ip: 212.227.17.20, mailfrom: dl9pf@gmx.de)
+ dkim=fail reason="signature has expired" header.i=dl9pf@gmx.de header.s=s31663417 header.b=i5VjpT0J;
+ spf=pass (domain: gmx.de, ip: 212.227.17.22, mailfrom: dl9pf@gmx.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1688647867; x=1689252667; i=dl9pf@gmx.de;
- bh=hcun0J7Yopx+kLQw+h6VhEBPliRvpPOiY5Ji6viI0+0=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=tah33t6DupqUDQw0GCt9ZYhKXC/c4oCGZQKA/awezb+BwJPmHVSUruzzwvWAjo36jSxiu1Q
- WMJ2I+YVTuo164TqzGAc4HGmautrxNVyG5AHmK+PWBoIb/mIR+tNqA3B+FJaVNjNOjIyuk5q6
- buicZq/08fvK5JMksiZ3AcGB/rx5yofAFlInb0SXCUGHVAwwSLltbHhalu7QT21ogrV4gbCXr
- BJy8jFoJtva3aiD7lOFd+4ids2v/Ib7gsbDbdSFehK8INiOWYuZx08RCc1JGjU03QPIfny+cs
- x4snwOMVjeRj1jVBa47/Zj1QryIXDRwG6OvScg4O4g35UUIL2L2w==
+ s=s31663417; t=1688647868; x=1689252668; i=dl9pf@gmx.de;
+ bh=HNWLccJNwIXnOVkyx1R83P69wbu6eXLxNMKrNFcvWXA=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=i5VjpT0JRoGiQconE974iPIXVEd5HAicQNHVuhg/EjVHPRaBrWvrGaY6upm4wPsqdXBWZTV
+ rJZXOmuz7DznStZGpe0eAFYXrDTOW7Pb+IWE97xne+IPrian14r9P4W/oRil9fxtEcfC8BjbS
+ wF23dCqn+iZ4wNbg9kNFJ+yNZaNfu7754gwnGPNmPdcdxGNM1sggC5FQBcGLwZ1q4Baf0G8jZ
+ d8cTOmOyKDJ5o1hqos9lWbS2qmrRnZjsOSw3mYiC9rdSHyVztpEsVDGF3LqO7Z1544zRPvSvO
+ VEKgdUabcOojjckxWKbtolMWmPq321kbvLVq2RdcTF//kraZo02w==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from gmx.de ([77.23.145.57]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MCsUC-1q8YkF0exs-008oLW; Thu, 06
- Jul 2023 14:51:07 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mqb1c-1pdbdj47iC-00mYwQ; Thu, 06
+ Jul 2023 14:51:08 +0200
 From: dl9pf@gmx.de
 To: openembedded-core@lists.openembedded.org
-Cc: dl9pf@gmx.de
-Subject: [kirkstone][PATCH] backport patch to oe-depends-dot
-Date: Thu,  6 Jul 2023 14:49:23 +0200
-Message-ID: <20230706125052.6541-1-dl9pf@gmx.de>
+Cc: dl9pf@gmx.de,
+	Rusty Howell <rhowell@control4.com>,
+	Rusty Howell <rustyhowell@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH] oe-depends-dot: Handle new format for task-depends.dot
+Date: Thu,  6 Jul 2023 14:49:24 +0200
+Message-ID: <20230706125052.6541-2-dl9pf@gmx.de>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230706125052.6541-1-dl9pf@gmx.de>
+References: <20230706125052.6541-1-dl9pf@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Provags-ID: V03:K1:LQslSaiM2xkR3XOg398wHmmedDVl2xU2+ZABG3D3Mon4h6lg2jV
- RslyrUKtUlm8nxjEmKdhAyIyn5DulinnQORpu78dCyn3SeTKjlHEDgH6mCePlwfRIvxDSIq
- rLhhtH47LY4bEvWnLx6pszBY4hIs3k5uK204SBl6CvrbkUcEJfhtu9tCKdYaWyI3ExE+gjE
- FUmp40E6ns6N/u3Zl7cEw==
-UI-OutboundReport: notjunk:1;M01:P0:6PUYU29dGxk=;UrnJ+aWwtazq1NRTalO4+VkknVx
- YZQDXF1ZXdDjXmkjAEHvQYvLzXK6Dd8yVjRC1ac6TjGSF9VUzy2EgAiAivADqkIQKhTtazRgc
- HeC8KDpRPTiegnkvvG1IZ1j+h81axvozntuhdlOcl8EQd1N6Owa0/iJG1yVCBQVTXGD7zGZNW
- fpNtysNKjVVgUFRjwnwU49c3KNBun+kyBzI9PmFAqiAl9N74qxyiiUg7RXkXcITGG18P0D3Vu
- 5p2Guov/c8Odt92DZZYhO3QMk88aLVfka+V5SjbgeZTT6U6fDc/ZasJlHpt9oeG/9oTXDNwG8
- 5fb7KzXw7eVaRkEkG2H+T3bceFNZWU//D6DTaH6MHFs2BVqtUwiPzA8SqPzdZ5dynarU2w3Wi
- Ip8jzd+on7B8os2WrSgRK7sTZSgmK/T+1XyiW3BcZDZxYZG3f8jvGMd1L+S738Dtwuo1sANdt
- PqxeVbleFtiskQKgaiuYmrksIFfV93o1AFC3g29kObGcZZixMSGpAFpkWZhUEjmT7OxEqrSaI
- OhCz9WqgJTwPih9jP519Ripyhz3LCKsk2CA6KLGT9XBfGpXjJ7mbjMgPkifqYvmhDzzG4qOI3
- GQTarYuh9RjADg4vHza6PuGyZ7yQX6Vj3EK/c/1OVI32Pqk1pHNUpt8uRLW3wep+lN87GDA+y
- ljC5UmAZQ+6nIbLQ/u4fOc9lwkKrfQ7WkQSj2AxNHy1zhqH+d7fCNtLvvgoeQk+q3vhMveAip
- zXIByT3G5y76pxTmy7vjA9Xw0At2f4ORZa2EbVP677WnSw8GSRvv5kSIm74Edy4g6yONGOv+k
- 8J5rNHF2O5kX6KksEBByLWXHBX5TlJl9Viz3R+dMqNim2xN8/PuRQCfnrdBHZ6z7WZXCeTCc2
- PE4STNGppqx2pz/aEKfPVSFIzdT+cz0GDiGDRtNac7fcCNTAWH9ERyyjAMU2k2isu3tSBoJiW
- BITuZA==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tOqzNjBprdHWOrFCBhFxSlnw30CIWM456dIk4C/8SRak5YItJEk
+ bQnj8cLZUVjRtjxhWZ1qBJIknHotcIHCdTJcafRUVxMorETnteyUb/XdYSIt7Bx6FWbUorD
+ nPibVXqFsowDBGMkUp1rLDL+/PgPMxzEWeHRJ02pmPUb6clmwISRNaqolobnwisXxx38QLL
+ Jb/JgV0NJdsaV617vUiiA==
+UI-OutboundReport: notjunk:1;M01:P0:NqpZx5kU9NI=;zrImQS1ad0tAV45gw4f4Dd5nz8V
+ hL2O0pc67GVHCB/yvcEzdRDX5WXBTdsUOc7xRSK1oj4G6u6lSAYzAlS1PwVEE9TwudTTVUkBE
+ AkemPgbJUghyXfuExf6HnKv9X6EddzjHWOSI9GSOtyE3vui5muYPjvCMKul31ys0vHLvnIS3P
+ fHC0J+VxzH+SAsHns0zXl08sCb6GQTFIupSqVbWISY4ThzETIoRRN/p3UFowaudspJ8GUyNYN
+ r34h7b4nW106a9kb3otlLhtcrvtfxUWDfZUvpVccwm45GCyyLlFAETWbREoPHxAFv1sBzniNs
+ B5PJanpXLHo/fXmnrFdnt5koluAd9EI1skFjJbexumS8HtA8pk1lsPM+bp/noiVTUboa2wmU/
+ S6ENjWiIhCNSeT/Vxc9mrPAlxH8utFF6HX6uTgWqAY8DLx8IGLvEdk7FiMPrkuiJUa+RXQZbv
+ fwQZC3VIDJKv/JCOwpjuiVcMXmjZADWp5Uc0JKNWd9V0YzS2WldnYtlLrB1g4p3EeC14y2atq
+ QM7hVJZ1B/Xf/yAd7ygHUO7SKAjc1DGfiGxqR5Q5MZHP+e3S9oYvo/opPRyZh/zVyN1h8JR9s
+ EQXP+CRTuJXCE+38RyVwhp24FzZw67XfIpIDzh7JZLnND0A+6QHuT9F21QoCb/GCHVhh5iJ+F
+ qxht0ZfejLKvlnkWhahh75+mAHbXTWzqBXjUoi9mZni8VJZdWWhMWPOXMe8GbfE4SQBN82Tbn
+ WWgnnnL1xWZfCwkSsFf4UBcid6YinYvm+fUVpQJKtXL4e+jj7lSatE5hEpqnNRitJbcV3eLQP
+ hDsDhjamX5AGCro+JDCH6p976e7enL2EpcFOhGRgineBjIBSEwzfLqS0r6ZMu+kwWakLyqJv7
+ R2nL9NniBpIKMKZxVTzS2gzOPXgFDcbk1sAPWI+8wqRZ4x6OxQRkDfLw3LRCBl2+3RYTLonS6
+ drfr5tOXt3xR343b9cO0BavZYvg=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 12:51:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183938
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 12:51:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183939
 
-Without this patch, the call to oe-depends-dot will have no valid output.
+From: Rusty Howell <rhowell@control4.com>
 
-Best,
-Jan-Simon
+The .dot file created by `bitbake -g` changed formats a while ago, which
+broke oe-depends-dot.
 
+Also add some useful examples to the --help output.
+
+Signed-off-by: Rusty Howell <rustyhowell@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7751bc4909f3834e43db020ebb91665a5d7960a9)
+Signed-off-by: Jan-Simon Moeller <dl9pf@gmx.de>
+=2D--
+ scripts/oe-depends-dot | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+index 5eb3e12769..1c2d51c6ec 100755
+=2D-- a/scripts/oe-depends-dot
++++ b/scripts/oe-depends-dot
+@@ -15,7 +15,7 @@ class Dot(object):
+     def __init__(self):
+         parser =3D argparse.ArgumentParser(
+             description=3D"Analyse recipe-depends.dot generated by bitbak=
+e -g",
+-            epilog=3D"Use %(prog)s --help to get help")
++            formatter_class=3Dargparse.RawDescriptionHelpFormatter)
+         parser.add_argument("dotfile",
+             help =3D "Specify the dotfile", nargs =3D 1, action=3D'store'=
+, default=3D'')
+         parser.add_argument("-k", "--key",
+@@ -32,6 +32,21 @@ class Dot(object):
+                     " For example, A->B, B->C, A->C, then A->C can be rem=
+oved.",
+             action=3D"store_true", default=3DFalse)
+
++        parser.epilog =3D """
++Examples:
++First generate the .dot file:
++    bitbake -g core-image-minimal
++
++To find out why a package is being built:
++    %(prog)s -k <package> -w ./task-depends.dot
++
++To find out what a package depends on:
++    %(prog)s -k <package> -d ./task-depends.dot
++
++Reduce the .dot file packages only, no tasks:
++    %(prog)s -r ./task-depends.dot
++"""
++
+         self.args =3D parser.parse_args()
+
+         if len(sys.argv) !=3D 3 and len(sys.argv) < 5:
+@@ -99,6 +114,10 @@ class Dot(object):
+                 if key =3D=3D "meta-world-pkgdata":
+                     continue
+                 dep =3D m.group(2)
++                key =3D key.split('.')[0]
++                dep =3D dep.split('.')[0]
++                if key =3D=3D dep:
++                    continue
+                 if key in depends:
+                     if not key in depends[key]:
+                         depends[key].add(dep)
+=2D-
+2.41.0
 
 
