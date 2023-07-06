@@ -1,177 +1,144 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA0CEB64DC
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 04:52:48 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web10.14619.1688619159640867912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC54EB64D9
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 06:18:58 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web11.15717.1688624331935833975
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jul 2023 21:52:39 -0700
+ Wed, 05 Jul 2023 23:18:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AVdLgVud;
- spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a3df1ee4a3so84340b6e.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Jul 2023 21:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688619158; x=1691211158;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oii29ucmQxC3nc6gsGebzcNb5gBgO+EPxMlcgsRrJ+4=;
-        b=AVdLgVudeDxGxujcKyXYUeW31j3NGLqdjR1acFAWYi4nj1Haa+dYdiTU74pKEfyWSE
-         6FhGMt3Is/5tx9lNdDg6niCXleaMFByO3Mw6BjR4E2T35jCyMmq1SCLklbjRwR/9QZ2K
-         Jg2m3JTC6kMnH0GdTz824Mr0j7LExpkMDat/GrUjC993c5EpdLdSAfEMzeB1exWp24RU
-         KA8GdUlDJlKhmjXibDTCexMJ0z1k29ColXc7T8RNtJTLV7l+96JNXcT4Q/zZfTcdCIGN
-         UGvTB4RWyUjX9qTvS83g1eff3VR4cqiR6NbNHxx2axVnSYhEV4o0yA/gW8FO1TahsaEJ
-         isog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688619158; x=1691211158;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oii29ucmQxC3nc6gsGebzcNb5gBgO+EPxMlcgsRrJ+4=;
-        b=kvwa8s2nAgAwQXdzBzi2FU/0H3IHTWQ1fSO/cOeb0W2b3s5DAlKU7y6ktQW3vSN73I
-         pjlMqe7OMiR7MstFf8TGJMOwMVI+MNthV+cRKs6k+nw7YssR6r+uFUSB5mM23f5oIU12
-         YJwmcKW0ApL3PZSrXeeQ55dmbMjV87m5EhA8sjCqeaWwxR5lu33x8hrz0hjNIOe9ZqnH
-         50KnNuc54j7WF0TCFZkq/NO+JGK8Y7c4tfuTvbekcD2M9KTHuC32AZY1a25yv7MCcTy8
-         GKTKHzyAz1uFVGxbakizUhCpVz9hjXDyZI7J1ggTyIj6IoptE1wexPeEUnJeveYAyHTP
-         7tIQ==
-X-Gm-Message-State: ABy/qLZ6llV4HmLKaCnxy4lUm9FVQC+gkUdDPb8xnp80UrSzqEPJKkJ5
-	MUaGTp2YS0pXNFmD8wZwI7K+5Y13+VpS
-X-Google-Smtp-Source: APBJJlGs2UAXka3+I9hnKEY7++U6IBmAZghppqk6Oiot49fdpRLzOplLnyhSzF2GD1NR105Rpth4Kg==
-X-Received: by 2002:a05:6808:7c1:b0:3a3:7e6f:d5f5 with SMTP id f1-20020a05680807c100b003a37e6fd5f5mr487813oij.25.1688619158298;
-        Wed, 05 Jul 2023 21:52:38 -0700 (PDT)
-Received: from localhost.localdomain ([103.171.59.27])
-        by smtp.gmail.com with ESMTPSA id w14-20020a63b74e000000b0055bc1a28968sm334408pgt.73.2023.07.05.21.52.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 21:52:37 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
-X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	nikhil.r@kpit.com
-Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][kirkstone][PATCH] libpng: Add ptest for libpng
-Date: Thu,  6 Jul 2023 10:22:28 +0530
-Message-Id: <20230706045228.50659-1-nikhil.r@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=VGCY3a/d;
+ spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688624331; x=1720160331;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ErOvmG73a3DRu79DjSi/qxdhrIIMZ66ZU6kVyblIOAg=;
+  b=VGCY3a/dWCG3jb+sorMoP91qRCjeQpYYwcPMxMCjwF7or5QqAcRH9IFR
+   BHu1EYRH3Gm2eMLjD4GnA16SXFccrmc4MWcmoTqyXGnHaQs6/bq/3717c
+   robfqa5fBStkXG/7FEWxcODbeo/2AQDCrbdXJmy2rZDaV4QocukyKc5mz
+   s1VFvKAvU3Jx8hdm2aD/2G9ymbz6jFIk1QwlRbi2FzkmTbIkZlo+Tm9IJ
+   pJMxU1gR5PNg9q/JXA2dxTDOISmOD3Z4z6+igl1Wzt4xGuiWuBv83q0dk
+   Mfpi+JbibsxWyIiIGT8GxNO+0xQapyWzRitsrNHHwLRHUomSHL2+vhLth
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="343847669"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="343847669"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 23:18:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="863984549"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="863984549"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2023 23:18:48 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [mickledore][patch] python3-requests: fix CVE-2023-32681
+Date: Thu,  6 Jul 2023 14:07:09 +0800
+Message-Id: <20230706060709.3354500-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 04:52:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183911
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 06:18:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183912
 
-libpng is a platform-independent library which
-supports all PNG features.
-This ptest executes the below binaries, parses
-the png image and prints the image features.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-1. pngfix - provides information about PNG image
-copyrights details.
-
-2. pngtest - tests, optimizes and optionally fixes
-the zlib header in PNG files.
-
-3. pngstest - verifies the integrity of PNG image by
-dumping chunk level information.
-
-4. timepng - provides details about PNG image chunks.
-
-Signed-off-by: Nikhil R <nikhil.r@kpit.com>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-multimedia/libpng/files/run-ptest | 29 +++++++++++++++++++
- .../libpng/libpng_1.6.39.bb                   | 16 ++++++++--
- 3 files changed, 44 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/libpng/files/run-ptest
+ .../python3-requests/CVE-2023-32681.patch     | 61 +++++++++++++++++++
+ .../python/python3-requests_2.28.2.bb         |  2 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5bcff83093..5c6a30635f 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -29,6 +29,7 @@ PTESTS_FAST = "\
-     libnl-ptest \
-     libmodule-build-perl-ptest \
-     libpcre-ptest \
-+    libpng-ptest \
-     libssh2-ptest \
-     libtimedate-perl-ptest \
-     libtest-needs-perl-ptest \
-diff --git a/meta/recipes-multimedia/libpng/files/run-ptest b/meta/recipes-multimedia/libpng/files/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
 new file mode 100644
-index 0000000000..9ab5d0c1f4
+index 0000000000..0110615572
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/run-ptest
-@@ -0,0 +1,29 @@
-+#!/bin/sh
++++ b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
+@@ -0,0 +1,61 @@
++From 74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5 Mon Sep 17 00:00:00 2001
++From: Nate Prewitt <nate.prewitt@gmail.com>
++Date: Mon, 22 May 2023 08:08:57 -0700
++Subject: [PATCH] Merge pull request from GHSA-j8r2-6x86-q33q
 +
-+set -eux
++CVE: CVE-2023-32681
++Upstream-Status: Backport
++[https://github.com/psf/requests/commit/74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+./pngfix pngtest.png &> log.txt  2>&1
++---
++ requests/sessions.py   |  4 +++-
++ tests/test_requests.py | 20 ++++++++++++++++++++
++ 2 files changed, 23 insertions(+), 1 deletion(-)
 +
-+if grep -i "OK" log.txt 2>&1 ; then
-+   echo "PASS: pngfix passed"
-+else
-+   echo "FAIL: pngfix failed"
-+fi
-+rm -f log.txt
-+
-+./pngtest pngtest.png &> log.txt 2>&1
-+
-+if grep -i "PASS" log.txt 2>&1 ; then
-+   echo "PASS: pngtest passed"
-+else
-+   echo "FAIL: pngtest failed"
-+fi
-+rm -f log.txt
-+
-+for i in pngstest timepng; do
-+    if "./${i}" pngtest.png 2>&1; then
-+        echo "PASS: $i"
-+    else
-+        echo "FAIL: $i"
-+    fi
-+done
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index d9dcf379e9..94db1d3f6b 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -10,7 +10,11 @@ DEPENDS = "zlib"
++diff --git a/requests/sessions.py b/requests/sessions.py
++index 6cb3b4dae3..dbcf2a7b0e 100644
++--- a/requests/sessions.py
+++++ b/requests/sessions.py
++@@ -324,7 +324,9 @@ def rebuild_proxies(self, prepared_request, proxies):
++         except KeyError:
++             username, password = None, None
++ 
++-        if username and password:
+++        # urllib3 handles proxy authorization for us in the standard adapter.
+++        # Avoid appending this to TLS tunneled requests where it may be leaked.
+++        if not scheme.startswith('https') and username and password:
++             headers["Proxy-Authorization"] = _basic_auth_str(username, password)
++ 
++         return new_proxies
++diff --git a/tests/test_requests.py b/tests/test_requests.py
++index b1c8dd4534..b420c44d73 100644
++--- a/tests/test_requests.py
+++++ b/tests/test_requests.py
++@@ -647,6 +647,26 @@ def test_proxy_authorization_preserved_on_request(self, httpbin):
++ 
++         assert sent_headers.get("Proxy-Authorization") == proxy_auth_value
++ 
+++
+++    @pytest.mark.parametrize(
+++        "url,has_proxy_auth",
+++        (
+++            ('http://example.com', True),
+++            ('https://example.com', False),
+++        ),
+++    )
+++    def test_proxy_authorization_not_appended_to_https_request(self, url, has_proxy_auth):
+++        session = requests.Session()
+++        proxies = {
+++            'http': 'http://test:pass@localhost:8080',
+++            'https': 'http://test:pass@localhost:8090',
+++        }
+++        req = requests.Request('GET', url)
+++        prep = req.prepare()
+++        session.rebuild_proxies(prep, proxies)
+++
+++        assert ('Proxy-Authorization' in prep.headers) is has_proxy_auth
+++
++     def test_basicauth_with_netrc(self, httpbin):
++         auth = ("user", "pass")
++         wrong_auth = ("wronguser", "wrongpass")
+diff --git a/meta/recipes-devtools/python/python3-requests_2.28.2.bb b/meta/recipes-devtools/python/python3-requests_2.28.2.bb
+index 2f397ddaad..b57f71673c 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.28.2.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.28.2.bb
+@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
  
- LIBV = "16"
+ SRC_URI[sha256sum] = "98b1b2782e3c6c4904938b84c0eb932721069dfdb9134313beff7c83c2df24bf"
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
-+SRC_URI = "\
-+           ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-+           file://run-ptest \
-+           "
++SRC_URI += " file://CVE-2023-32681.patch"
 +
- SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
+ inherit pypi setuptools3
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/older-releases/"
-@@ -19,7 +23,7 @@ UPSTREAM_CHECK_URI = "http://libpng.org/pub/png/libpng.html"
- 
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
- 
--inherit autotools binconfig-disabled pkgconfig
-+inherit autotools binconfig-disabled pkgconfig ptest
- 
- # Work around missing symbols
- EXTRA_OECONF:append:class-target = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off", d)}"
-@@ -32,3 +36,11 @@ BBCLASSEXTEND = "native nativesdk"
- 
- # CVE-2019-17371 is actually a memory leak in gif2png 2.x
- CVE_CHECK_IGNORE += "CVE-2019-17371"
-+
-+do_install_ptest() {
-+    install -m644 "${S}/pngtest.png" "${D}${PTEST_PATH}"
-+    install -m755 "${B}/.libs/pngfix" "${D}${PTEST_PATH}"
-+    install -m755 "${B}/.libs/pngtest" "${D}${PTEST_PATH}"
-+    install -m755 "${B}/.libs/pngstest" "${D}${PTEST_PATH}"
-+    install -m755 "${B}/.libs/timepng" "${D}${PTEST_PATH}"
-+}
+ RDEPENDS:${PN} += " \
 -- 
-2.25.1
+2.37.3
 
 
