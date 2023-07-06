@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6B5C001DF
-	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 15:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD64C001B0
+	for <webhook@archiver.kernel.org>; Thu,  6 Jul 2023 15:07:00 +0000 (UTC)
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.26454.1688656005648298433
+ by mx.groups.io with SMTP id smtpd.web10.26494.1688656011568645717
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 08:06:46 -0700
+ Thu, 06 Jul 2023 08:06:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=aDe3RXK2;
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=J1vqoZfW;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1b7e66ff65fso5151925ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:06:45 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1b8a44ee159so3694605ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 08:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656005; x=1691248005;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688656010; x=1691248010;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z5G2s/3AoxN3ih+x/Ovc/aQj/KqnnlTVItvLMopknPU=;
-        b=aDe3RXK2qPgk8utSxKvQJ7ShALg3TzdlgMmSObOGRw14ApoxKSHV/It/9RgxiWvSkX
-         76gDxlu5MLYxSaVzGFgnpN/4q1sGvgnWDueRcFz3b28h7kYm/JXiLLDqNo/p9wGk/jBZ
-         DBbahRKfWfCxWmPxa8AIfBJqZV8ZqivrHrX12D7C9Hv/ELDsCs3I4E/JyvDdhbXZTe4h
-         DZetXRUaK/nhZGGHdIVRFUJaOKAn35c9MCglA6rNblcK3nTziyRUWN1vSW3ASTHSEXTS
-         qjOefzmStzK5uykTWvcMl55BbeQjuT8LilJ6cQ30VKyJ9OhBQfxK/gz40slEB1kn1Yqe
-         Ux8Q==
+        bh=jW75ezQsxhrtvA1jS2bv79tNC48t6Dl8jIUQGgXvDR8=;
+        b=J1vqoZfWuLnSF1Mgkpow3l2cJz0z8l9pY2q8hAvhPronlJOM33ner3QlX4+X9bTsyr
+         OTtu2p2GX6mlPoeAHt90foU6inQfGWJZFG4t7X3HYKnPK5qMQQE//ekIV9kWTGF2R8iV
+         /vz7BgWLEjB0hgAOyT6bXiJ54xPdshlq9b26bXncW1Ei5AXL75UW9Xklwv2nmm07dXPf
+         9u+Rw/KJFs4Onwm2sZZGJ+H1N/+C2iWkOe2625uPrCizS626CDacGfeuGDNK8Mys0oo8
+         H7eLdk98IjvntExNz5ImEZrrfE87Lo89mJJLgh/6RmSqPr+YWX24JQl7aTYDBEL7/3D0
+         lg8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688656005; x=1691248005;
+        d=1e100.net; s=20221208; t=1688656010; x=1691248010;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z5G2s/3AoxN3ih+x/Ovc/aQj/KqnnlTVItvLMopknPU=;
-        b=DWPKO62BYdoM7s5wuYkV5FTj3uBxMyccxmdwsVlIxanrXpcgVVgF2PWdXn/9L2r5jt
-         OoarPlpfIgUa/vDYsq7vpQyxDqb7hqu6taYJfRwqM1uxiD+A7l3pWNR9S0iRXTTuOhp6
-         a2uIWvTfs+z2J0CiH9H6AUNDrQp8JoTT3kk7cS4CUKS/UrUrdwielw6BZsIdEb8MzcpC
-         wKJb/SgoeqaupPh7DGCYpHi7W5TDe74+1bDkHY2TPQ0JXLbrAtN+lMaiT4YQfG5KmXbE
-         4rjwAbI6igPtbYpLqrjnsvwMhxofWpTq4i09OSGDn0ORWQ3DAJx3EAEcSFWBA7+3OuOT
-         CPsg==
-X-Gm-Message-State: ABy/qLbKhV/evU9xmy/8w1K7V8CSIc6r6L+LYWica8zyigHleRD/zV+u
-	gmhrh595jY1R7qfuNmeASG9aNkys+xInM52ZG6o=
-X-Google-Smtp-Source: APBJJlF4Ks7Yp0GSqh/+hJ7oqOx/Qd72hdH4lykHIViCpXQe8NS3iPxPN/CKcZXmEnwWBtIRmVFCDQ==
-X-Received: by 2002:a17:902:c3c4:b0:1b8:9b5e:65c8 with SMTP id j4-20020a170902c3c400b001b89b5e65c8mr2063046plj.4.1688656004316;
-        Thu, 06 Jul 2023 08:06:44 -0700 (PDT)
+        bh=jW75ezQsxhrtvA1jS2bv79tNC48t6Dl8jIUQGgXvDR8=;
+        b=Fpno+5bs1u0YIeiOR5TrTg8sO10ssG7yLw+tL2F5s8lMKEUiykDCUu7OUf5mDI9p48
+         bdJ9Pzn1D68DWnYCHOL5efwNoPK3GOOKNOumrR9twhp36Rvlh4IxnQNvx8Dk5zbwAoql
+         XXPC4LuYYOWVIWTnsbepWvIvNRY3DICl1EjViJuTd8Fx7D0/6NebcqHeXCtyoC/QxtNN
+         61/4dOxKXLxAGqfoWISqlF3TXEXLzNC8N8xwwHGXwMR3VYfxs0F0hTXFXvBRNnx0yrZl
+         2Ynv/YLJCMmNtFLpUWuqMgJrSg/zTz8A9Z1UkmzYAFq3uSyMFRHqHalTnOvoA7ETQxUj
+         PVEQ==
+X-Gm-Message-State: ABy/qLb45Qlt60PCIreCBlJoDCuu4oUacir87/UJLzQuW1z+yJkppgQW
+	TlWdcdpdFQwjxd0mSxFxJiS9F/RBi5A/99FtHkY=
+X-Google-Smtp-Source: APBJJlH9h/IRm70BukBGUaUYUNZ96X4zGDeo451EeTi8GnljRvWgSIcwWGUTdE13qSPPXGRE0SrXKg==
+X-Received: by 2002:a17:902:7441:b0:1b7:edcd:8dcd with SMTP id e1-20020a170902744100b001b7edcd8dcdmr1446211plt.21.1688656010630;
+        Thu, 06 Jul 2023 08:06:50 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.06.43
+        by smtp.gmail.com with ESMTPSA id jj7-20020a170903048700b001b3df3ae3f8sm1534159plb.281.2023.07.06.08.06.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 08:06:43 -0700 (PDT)
+        Thu, 06 Jul 2023 08:06:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/28] libcap: fix CVE-2023-2603 Integer Overflow in _libcap_strdup()
-Date: Thu,  6 Jul 2023 05:06:05 -1000
-Message-Id: <92340bc3161259c962b5ed5f9d9055f5bd36a3ce.1688655871.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/28] oe-depends-dot: Handle new format for task-depends.dot
+Date: Thu,  6 Jul 2023 05:06:08 -1000
+Message-Id: <e53842ea6c14ed8e97252626e3ae0d3cf4580fbc.1688655871.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688655871.git.steve@sakoman.com>
 References: <cover.1688655871.git.steve@sakoman.com>
@@ -60,97 +60,70 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 15:06:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183955
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 15:07:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183958
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+From: Rusty Howell <rhowell@control4.com>
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+The .dot file created by `bitbake -g` changed formats a while ago, which
+broke oe-depends-dot.
+
+Also add some useful examples to the --help output.
+
+Signed-off-by: Rusty Howell <rustyhowell@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libcap/files/CVE-2023-2603.patch          | 60 +++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.66.bb    |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/libcap/files/CVE-2023-2603.patch
+ scripts/oe-depends-dot | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcap/files/CVE-2023-2603.patch b/meta/recipes-support/libcap/files/CVE-2023-2603.patch
-new file mode 100644
-index 0000000000..e09be78640
---- /dev/null
-+++ b/meta/recipes-support/libcap/files/CVE-2023-2603.patch
-@@ -0,0 +1,60 @@
-+From 422bec25ae4a1ab03fd4d6f728695ed279173b18 Mon Sep 17 00:00:00 2001
-+From: "Andrew G. Morgan" <morgan@kernel.org>
-+Date: Wed, 3 May 2023 19:44:22 -0700
-+Subject: Large strings can confuse libcap's internal strdup code.
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+index 5eb3e12769..1c2d51c6ec 100755
+--- a/scripts/oe-depends-dot
++++ b/scripts/oe-depends-dot
+@@ -15,7 +15,7 @@ class Dot(object):
+     def __init__(self):
+         parser = argparse.ArgumentParser(
+             description="Analyse recipe-depends.dot generated by bitbake -g",
+-            epilog="Use %(prog)s --help to get help")
++            formatter_class=argparse.RawDescriptionHelpFormatter)
+         parser.add_argument("dotfile",
+             help = "Specify the dotfile", nargs = 1, action='store', default='')
+         parser.add_argument("-k", "--key",
+@@ -32,6 +32,21 @@ class Dot(object):
+                     " For example, A->B, B->C, A->C, then A->C can be removed.",
+             action="store_true", default=False)
+ 
++        parser.epilog = """
++Examples:
++First generate the .dot file:
++    bitbake -g core-image-minimal
 +
-+Avoid something subtle with really long strings: 1073741823 should
-+be enough for anybody. This is an improved fix over something attempted
-+in libcap-2.55 to address some static analysis findings.
++To find out why a package is being built:
++    %(prog)s -k <package> -w ./task-depends.dot
 +
-+Reviewing the library, cap_proc_root() and cap_launcher_set_chroot()
-+are the only two calls where the library is potentially exposed to a
-+user controlled string input.
++To find out what a package depends on:
++    %(prog)s -k <package> -d ./task-depends.dot
 +
-+Credit for finding this bug in libcap goes to Richard Weinberger of
-+X41 D-Sec GmbH (https://x41-dsec.de/) who performed a security audit
-+of the libcap source code in April of 2023. The audit was sponsored
-+by the Open Source Technology Improvement Fund (https://ostif.org/).
++Reduce the .dot file packages only, no tasks:
++    %(prog)s -r ./task-depends.dot
++"""
 +
-+Audit ref: LCAP-CR-23-02 (CVE-2023-2603)
-+
-+Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=422bec25ae4a1ab03fd4d6f728695ed279173b18]
-+CVE: CVE-2023-2603
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+
-+---
-+ libcap/cap_alloc.c | 12 +++++++-----
-+ 1 file changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/libcap/cap_alloc.c b/libcap/cap_alloc.c
-+index c826e7a..25f9981 100644
-+--- a/libcap/cap_alloc.c
-++++ b/libcap/cap_alloc.c
-+@@ -105,15 +105,17 @@ char *_libcap_strdup(const char *old)
-+ 	errno = EINVAL;
-+ 	return NULL;
-+     }
-+-    len = strlen(old) + 1 + 2*sizeof(__u32);
-+-    if (len < sizeof(struct _cap_alloc_s)) {
-+-	len = sizeof(struct _cap_alloc_s);
-+-    }
-+-    if ((len & 0xffffffff) != len) {
-++
-++    len = strlen(old);
-++    if ((len & 0x3fffffff) != len) {
-+ 	_cap_debug("len is too long for libcap to manage");
-+ 	errno = EINVAL;
-+ 	return NULL;
-+     }
-++    len += 1 + 2*sizeof(__u32);
-++    if (len < sizeof(struct _cap_alloc_s)) {
-++	len = sizeof(struct _cap_alloc_s);
-++    }
-+ 
-+     raw_data = calloc(1, len);
-+     if (raw_data == NULL) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-support/libcap/libcap_2.66.bb
-index d3189fb105..7534063b7d 100644
---- a/meta/recipes-support/libcap/libcap_2.66.bb
-+++ b/meta/recipes-support/libcap/libcap_2.66.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://CVE-2023-2602.patch \
-+           file://CVE-2023-2603.patch \
-            "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+         self.args = parser.parse_args()
+ 
+         if len(sys.argv) != 3 and len(sys.argv) < 5:
+@@ -99,6 +114,10 @@ class Dot(object):
+                 if key == "meta-world-pkgdata":
+                     continue
+                 dep = m.group(2)
++                key = key.split('.')[0]
++                dep = dep.split('.')[0]
++                if key == dep:
++                    continue
+                 if key in depends:
+                     if not key in depends[key]:
+                         depends[key].add(dep)
 -- 
 2.34.1
 
