@@ -1,81 +1,134 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDBFEB64D9
-	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 11:09:39 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.9989.1688728169358877125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFB6C0015E
+	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 11:55:59 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web11.10692.1688730951186356636
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jul 2023 04:09:29 -0700
+ Fri, 07 Jul 2023 04:55:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=GHvb0rf7;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fb7589b187so2783299e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 04:09:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688728167; x=1691320167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GxYNnOn40paOO/foX/1gyBReJjAN6GnAU8Q8MO648Vs=;
-        b=GHvb0rf7QTOCC1ObMoajEhnj6LkMxwdHAGS8R1VbD9cMu05RfPuUTANtUhoCOV2w7g
-         bgeU8JCpns2orEORmp6LDhdw/U/eKq2O2pj8JIoOnwo52StP1wCUfloWQ2pQpvmJTrlf
-         qiCOxDFv5KgptRvcK0sMQjHQwu97A2ujAwocunuN1JR8jEN2yjZbcrLuzUWtqL+A6eQG
-         EWcOae8oXwv0cjfEdT/ehGPBcoLJE9YKdVxpqueGEt+TCjr5W4I/M/UXug/BKIFH+UoB
-         jZtc/PG1+i+asMDTw8Xn5tOKJXxe55iiYb47gCXuP2/gpNIH1vQD5tON+vh7z3TPDQKC
-         j77w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688728167; x=1691320167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GxYNnOn40paOO/foX/1gyBReJjAN6GnAU8Q8MO648Vs=;
-        b=l4mJ3vE8FLFyfK3+EOmOZ76qJHP9fuNdHISj19U9sgcQPJToSA4D+1msWWg1dzpI+2
-         tgywkVvP+Zz8ISFQfnnTYOTX5lBwwuT+kUf6ErPLZJARe6fXXdYYrRDRYPkVH9Tbbqse
-         Casc0VUxTVzFdqfbOXUDeyye4NvPWZrxBZ5ti5vFrAmnMY02uN70EpZ/oNqk9ieG4TuW
-         AoBoGMZ91DAVgP5l0lVxyVL7XI/LCK22iC8ABu/19Ag4adJylhPLgI3wY5P5QTPKLGou
-         5yWfTvBjPqt7jy7XWkHgw7TRZ4NDKTzuEFKdYo/UkiKfsh21RY1E+q0ubq8TyG8DJk4e
-         aK5w==
-X-Gm-Message-State: ABy/qLas6jFgdCjkYidZ+bTjxvCN0dGaJ/HceFpPt6ILdzkZY/b0lofP
-	J4Cy9unQ9vjjyC5NlXJeGJmq+lpO6+s9Q/6oN30=
-X-Google-Smtp-Source: APBJJlGxTV8Ixkq/X+Jw7YVvG3pZm7d59w0h0n2bgmuvqB7niNTEAaRg4QYer11QzDmca0VnQwL/fQu5HHHssIFAcyw=
-X-Received: by 2002:a19:655a:0:b0:4fb:7cea:882a with SMTP id
- c26-20020a19655a000000b004fb7cea882amr3295234lfj.3.1688728167249; Fri, 07 Jul
- 2023 04:09:27 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=Y5fo0JZl;
+ spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688730951; x=1720266951;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Xb51EPzA1SLw7tH4lfITSeEV16C+MjJgqFJZDJpBNMM=;
+  b=Y5fo0JZlnIPJsHx7FhScWOSsn1B1Klm3Uf1U9QU4v0La9dwav8VM4ujA
+   KmwRTE6zDJ/G3XRvkS3ecZqHtXdvNQMzWgwIACy8si3ukaceKru7FHU2D
+   ccrkJGX2fY6mTWTiX7Do/tHX+Letdc2pVRjxKZVvkJZMP0nrjauledneC
+   5hE3+3YCKwNK5J98cOPiiIsX7QErU06QQzLB1l2wVZCjMvxTmZNb0RciJ
+   oNkvqjTdGZGE7UVGQJe1XzAxytfedMjhRxKwbz79hhpEqhR8wAbX51h52
+   UBqW/KqReATRrViK2mXrGI+todu3V2de+VYuti0zRSbNAoyeLW2LuXoPf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="427559238"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
+   d="scan'208";a="427559238"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 04:55:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="697216162"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
+   d="scan'208";a="697216162"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga006.jf.intel.com with ESMTP; 07 Jul 2023 04:55:48 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [dunfell][patch  1/2] sysstat: fix CVE-2023-33204
+Date: Fri,  7 Jul 2023 19:44:07 +0800
+Message-Id: <20230707114408.1780251-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20230706134556.2824413-1-tgamblin@baylibre.com>
- <CANNYZj974iNy5tcgmReWXqHBFE8ySEQ9FTBfMCJmUxkk1=X_nA@mail.gmail.com>
- <5633c982-9553-5ee8-167c-04c56577d5e5@baylibre.com> <CANNYZj8PW4efL+U1b6HJwyD+24AT3eaYQRxKz5Ai98x1pVbh5g@mail.gmail.com>
- <5efb8cd4-46ee-50dc-40bf-6d5bf61a7c04@baylibre.com> <CANNYZj8=A9rX55KuA2wB4jPOM_DWApAds2OaLgE+Cjy=Kva0WQ@mail.gmail.com>
- <94B80420-20B1-4AC0-A077-1A4A28482DE8@arm.com>
-In-Reply-To: <94B80420-20B1-4AC0-A077-1A4A28482DE8@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 7 Jul 2023 13:09:15 +0200
-Message-ID: <CANNYZj_jo_aDTRZAYbipK6ZEuxQnaPu6ok+k8Zaq0hzcYjv27Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] python3: disable test_cppext ptest
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Trevor Gamblin <tgamblin@baylibre.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 11:09:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184007
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 11:55:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184008
 
-On Fri, 7 Jul 2023 at 12:22, Ross Burton <Ross.Burton@arm.com> wrote:
-> So I started on this, and there=E2=80=99s a unittest runner in python3-un=
-ittest-automake-output which has our output format.  The problem with pytho=
-n=E2=80=99s test module is that it also has its own runner, so the trick wo=
-uld be interfacing the two.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Until that is ready, I think we should simply use '-m test -W' with no
-post-processing. It would stay quiet for the succeeding tests (which
-is 99.9% of them), but output everything for the failing ones. As long
-as that output is captured and reported as an 'overall fail', we can
-do without per-test split in the qa reports. I'm testing a patch.
+import patch from debian to fix CVE-2023-33204
+http://security.debian.org/debian-security/pool/updates/main/s/sysstat/sysstat_12.0.3-2+deb10u2.debian.tar.xz
 
-Alex
+upstream patch:
+https://github.com/sysstat/sysstat/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../sysstat/sysstat/CVE-2023-33204.patch      | 46 +++++++++++++++++++
+ .../sysstat/sysstat_12.2.1.bb                 |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+
+diff --git a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+new file mode 100644
+index 0000000000..9a27945a8b
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+@@ -0,0 +1,46 @@
++Origin: https://github.com/opencontainers/runc/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0
++Reviewed-by: Sylvain Beucler <beuc@debian.org>
++Last-Update: 2023-02-18
++
++From 954ff2e2673cef48f0ed44668c466eab041db387 Mon Sep 17 00:00:00 2001
++From: Pavel Kopylov <pkopylov@cloudlinux.com>
++Date: Wed, 17 May 2023 11:33:45 +0200
++Subject: [PATCH] Fix an overflow which is still possible for some values.
++
++CVE: CVE-2023-33204
++Upstream-Status: Backport [ upstream: https://github.com/sysstat/sysstat/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0 
++debian: http://security.debian.org/debian-security/pool/updates/main/s/sysstat/sysstat_12.0.3-2+deb10u2.debian.tar.xz ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++---
++ common.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++Index: sysstat-12.0.3/common.c
++===================================================================
++--- sysstat-12.0.3.orig/common.c
+++++ sysstat-12.0.3/common.c
++@@ -1449,15 +1449,16 @@ int parse_values(char *strargv, unsigned
++  */
++ void check_overflow(size_t val1, size_t val2, size_t val3)
++ {
++-	if ((unsigned long long) val1 *
++-	    (unsigned long long) val2 *
++-	    (unsigned long long) val3 > UINT_MAX) {
+++	if ((val1 != 0) && (val2 != 0) && (val3 != 0) &&
+++	    (((unsigned long long) UINT_MAX / (unsigned long long) val1 <
+++	      (unsigned long long) val2) ||
+++	     ((unsigned long long) UINT_MAX / ((unsigned long long) val1 * (unsigned long long) val2) <
+++	      (unsigned long long) val3))) {
++ #ifdef DEBUG
++-		fprintf(stderr, "%s: Overflow detected (%llu). Aborting...\n",
++-			__FUNCTION__,
++-			(unsigned long long) val1 * (unsigned long long) val2 *	(unsigned long long) val3);
+++		fprintf(stderr, "%s: Overflow detected (%u,%u,%u). Aborting...\n",
+++			__FUNCTION__, val1, val2, val3);
++ #endif
++-	exit(4);
+++		exit(4);
++ 	}
++ }
++ 
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.1.bb b/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
+index 2c0d5c8136..ac7b898db9 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
+@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+ SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
+             file://CVE-2022-39377.patch \
++            file://CVE-2023-33204.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9dfff5fac24e35bd92fb7896debf2ffb"
+-- 
+2.37.3
+
 
