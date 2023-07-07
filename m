@@ -2,61 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB163EB64D9
-	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 04:46:57 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.6069.1688705208920724226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC7FEB64D9
+	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 04:51:07 +0000 (UTC)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.web10.6043.1688705463311015375
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 21:46:49 -0700
+ Thu, 06 Jul 2023 21:51:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=QiMP5SSt;
- spf=pass (domain: mvista.com, ip: 209.85.160.44, mailfrom: hprajapati@mvista.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1b0719dd966so1488612fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 21:46:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=ckur6Fs1;
+ spf=pass (domain: mvista.com, ip: 209.85.210.48, mailfrom: hprajapati@mvista.com)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6b72329b63eso1376581a34.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 21:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1688705208; x=1691297208;
+        d=mvista.com; s=google; t=1688705462; x=1691297462;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=6LKVnQBFJ/6DYWO/EKww7ChEhg8d95gSHfHSY6bzS4A=;
-        b=QiMP5SStSbavrUpOYpcQrODVl4SBymlf1EmtK1Be8oXQ4iHtdTx6+1uxCIM0NAcZsz
-         zU4PQbMaevhLUVSZMhrbQAY8fHutLxYm2z2OCqELvBdXs3kZFnAK87NSeGFLRdOq1hZM
-         fi9oSOJDbjT/BkbjNYxK1wP+hGMzGL7dt2w8c=
+        b=ckur6Fs1NvtbAq2DvWKGS6Q/x+yNBzNpeiwaCw4oN+BGh8DM1SlBBBZcm2vgsUnvSF
+         THqJ4DIsmHjmrydngGnccVVK9bNQ8M7L0hQT5ytNfr/y5d6GJcQLwrMsoBjRlZgxHRMK
+         TqGze/XkhDBDbhrq8/BKVp3sSWIAI3CGRJVRE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688705208; x=1691297208;
+        d=1e100.net; s=20221208; t=1688705462; x=1691297462;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=6LKVnQBFJ/6DYWO/EKww7ChEhg8d95gSHfHSY6bzS4A=;
-        b=TlDTxCHF3nNhwydzmVnZtXQ8GwdZLtV/FUo063d1xCRbGCg60/X9UMVoizgBpX+SD8
-         phGZc85ftuPXd0VmWix4zHzOQZL6X6fXDjyNt518LLIb3Il+lqrF7/T6AlprGcD+W9+D
-         Kc2vUXxJ8Gb9P7YfYO/SEYE53H9rFm8Uzebw81wMo+sHkFgHF07yaTz7mqOgOPphpM0D
-         erREoDckbYFHTBmO1sDY4vIscLbzTpAucxRq3KH360JJQGnkfeBh/et/+vh/0oGAftM4
-         dLB2hWeRCeWypO68gycxZ/px4g900RqATftGg2ildohiFL5GQTzzBTi+dmYiM+A0vgNh
-         CLDg==
-X-Gm-Message-State: ABy/qLapRyi9d98Prg/J1mBIFpHyHsjnRoPy07emcLwmDqd5jso7R1OS
-	kw04lxOktthgWn7B1ErqZLm3NgnG9AStTRyvL47qzw==
-X-Google-Smtp-Source: APBJJlFZDCItl5hDLgfnUC1ivIdFhUnE+hmeA6m8uvOB1Bt4uFiHl8RkU1Q/h9IE9bLZROvZumnh7w==
-X-Received: by 2002:a05:6870:a706:b0:1b4:4a6c:ff56 with SMTP id g6-20020a056870a70600b001b44a6cff56mr1928584oam.14.1688705207656;
-        Thu, 06 Jul 2023 21:46:47 -0700 (PDT)
+        b=QzrwvmxwXi8qeERNPn6YNi45UPXRm/uKhn0GREqOAp8MPOHquWQxALtvulqJRIgpZb
+         V9+YQJxAXpS+PbiRwlFTv3YsEEYUoZ6wrSMKTvbTA70j7Z6MD+xSmPERqVEfw+JKXhLJ
+         5+OPXIxTK1Hs8umlsRodkrFEtLMYKK2yNBJ8995rpY1MhovpS3SKYl2yI4uDYuXkmFE7
+         FcrTxZxSnMSJwjHfnk2LUkGm4BwL76B3VDvAyn1vnCrCQhO4AXk5sbeVb46pSLMeygM+
+         CjuKVfpiB1JeoiJ43qN16u9pwGMsWSjpFaHopOFP3eKPLxFavIS5XQ1O9hxn62RA+NJU
+         xozQ==
+X-Gm-Message-State: ABy/qLag1sQhOXGt+fPMS8mM+kNkBOnEME/zx8392zGg2SSiJPTTyvey
+	1s46y/U2Ze1H+5g19WT+osJABkHiDLPllzwBHnHu6w==
+X-Google-Smtp-Source: APBJJlEtqyMabjz8ZJ3T3YwLo/0fqg2BXLhhMGacIEN8K8Y21KP0N8yJKMxKEpYAzM55NbHQyJU1dA==
+X-Received: by 2002:a05:6358:98a2:b0:134:de8b:17f0 with SMTP id q34-20020a05635898a200b00134de8b17f0mr5100643rwa.19.1688705462023;
+        Thu, 06 Jul 2023 21:51:02 -0700 (PDT)
 Received: from MVIN00024 ([150.129.170.194])
-        by smtp.gmail.com with ESMTPSA id d11-20020a65424b000000b00553d42a7cb5sm1797742pgq.68.2023.07.06.21.46.45
+        by smtp.gmail.com with ESMTPSA id e23-20020a633717000000b0055c0508780asm1073876pga.73.2023.07.06.21.50.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 21:46:47 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 07 Jul 2023 10:16:41 +0530
+        Thu, 06 Jul 2023 21:51:01 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 07 Jul 2023 10:20:56 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] grub2: Fix Multiple CVEs
-Date: Fri,  7 Jul 2023 10:16:39 +0530
-Message-Id: <20230707044639.8138-1-hprajapati@mvista.com>
+Subject: [dunfell][PATCHv2] grub2: Fix Multiple CVEs
+Date: Fri,  7 Jul 2023 10:20:55 +0530
+Message-Id: <20230707045055.8314-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 04:46:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183995
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 04:51:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183996
 
 Backport fixes for:
 * CVE-2020-27749 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=4ea7bae51f97e49c84dc67ea30b466ca8633b9f6
