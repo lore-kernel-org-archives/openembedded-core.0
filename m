@@ -1,829 +1,128 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3F3EB64D9
-	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 06:10:18 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.6733.1688710214517609897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A9DEB64D9
+	for <webhook@archiver.kernel.org>; Fri,  7 Jul 2023 06:17:38 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.6852.1688710652704567555
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jul 2023 23:10:16 -0700
+ Thu, 06 Jul 2023 23:17:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=MvlmT0ax;
- spf=pass (domain: mvista.com, ip: 209.85.215.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-55ba895d457so898199a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 23:10:14 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=N0OWMl76;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b89d47ffb6so8060405ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Jul 2023 23:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1688710213; x=1691302213;
+        d=mvista.com; s=google; t=1688710652; x=1691302652;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ew7CtN8OjqY6LzD6/JpbR5O2BHNeLhR94ioctWl3q+M=;
-        b=MvlmT0ax8BTF73ipQ/IiCrLiZLxMhonIJ/TsnGKi3LvgN7AAjLeWt8oezGOa0O2dgy
-         W6mWxAt9K2VhBKKQTUcw7h5mC7syNd92zzlywTYAU8SOtE7G5CT1TIhcKQ/VkatvvYtb
-         vRSWmw3/+rJDH1bsi8/TR9Dz3TXtkgoHAi0Hg=
+        bh=4UO0+byqh7T0V/OcHiewTMERLXVFZBFTy5dLO9/R5HM=;
+        b=N0OWMl76X17Qr2FiNQ3cGzu/xPWy70EIytMnNhQGmgWuTipGO1lt2YivtRZUHJtbv6
+         OA2gL91FzWbs6j9S9C0VIGGCgp3d/jM3yos7yp7yYy7ZTcmhq0jDAuz7KsQ4e0H6hLtS
+         rvXXgBTlcy+Kqon5kC99y25EM6zk0qnvbFU+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688710213; x=1691302213;
+        d=1e100.net; s=20221208; t=1688710652; x=1691302652;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ew7CtN8OjqY6LzD6/JpbR5O2BHNeLhR94ioctWl3q+M=;
-        b=BhMffq13fBZsDrD1S1OHcfvyc5UhzgyGDaXL+Px8FcbyInnvAoWd4BC62UrN9NwGhC
-         Qm/4n2PxToCpug5J8PCjqLQCrrM041dfHJzvzyGAZe2heernlH0dEWw2zSScCiBg5hl0
-         LgRWdN7Xg2aYCTIXXyC/SoRE3Y5seRZVth2zZaDKGM0/qAbUuJUrsZZRp6jwzuAWOmqu
-         1lnVdPGGr8u7Hs4VLy+/7vGJm0ooBwQh4Pyv+fzqsM0tncnhLWWvxDKeV0auTjHttuOc
-         UBKoT9sf4OIKRSc6QnjfXcfg+Z1dEq4NckU80P6VtpSkPxRpMtvmHfXNj0Ld1ft/infn
-         M2EA==
-X-Gm-Message-State: ABy/qLa2k8Y0Ly7OakEwAsW0c6yaEMahbowi5rwD5rKpCB+TSPnH2O7k
-	Xxf1aLUsYrRTcxn5V91rTO10rhnYX213F2zTeZGWAQ==
-X-Google-Smtp-Source: APBJJlGaqRcC5x53MEiHA+vNHiGjvLCGBjWMSonNVsDHjFaONZm24ecZDDWmkFgN/cRHioQk7JZlCw==
-X-Received: by 2002:a05:6a20:13c8:b0:11f:a611:324 with SMTP id ho8-20020a056a2013c800b0011fa6110324mr3084979pzc.10.1688710213022;
-        Thu, 06 Jul 2023 23:10:13 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.194])
-        by smtp.gmail.com with ESMTPSA id 6-20020a170902c10600b001a52c38350fsm2370352pli.169.2023.07.06.23.10.10
+        bh=4UO0+byqh7T0V/OcHiewTMERLXVFZBFTy5dLO9/R5HM=;
+        b=JLm3gbPcFcFqvU3WlJ6/73z5OcCa9bR9WCR7dJ1PjnEs6IN7kxxaxpf0TwuIrdyjzQ
+         QbeXhzYNRLiSkYlmSKY37WioomRosWcyMSfe/pIEPd0ARAYMQeujUB/rgyrK9iN/EL8j
+         f5jnCJfHNXaXmx3rH5VRxgOkGT7HX6I0xRaHr34CNAVRcw8mDAivBszQuXqW7BdYhKOg
+         4Q59cnG4i+sToktMmb7I+tY+8pCJc9VZUMerXhuZO6EfJQfAYI6u9y/fbHvmTymcpTW4
+         UQM9ZHuHuP7NCGfGzlctsJ4ZvZgSKmiZGInqvCYwPZ+0iR36ZXYlmTXX7rQUmNbNZoMs
+         3oug==
+X-Gm-Message-State: ABy/qLZfvDZnD6xBfCx1MhTxMTpJWRHuFcDkvzANt5KEsUpJttL1za2Y
+	BxUQwoRimHIA+bdtAqaPNfN06ujawoxIuWfQs6Y=
+X-Google-Smtp-Source: APBJJlHhAsiPjhebHw0OrAF1XNxJOMkZgpyYy06ncn0OwybnQ0JL06ytXdreM5IPZ7d67OIzLY79/g==
+X-Received: by 2002:a17:902:7447:b0:1b8:5aa1:f287 with SMTP id e7-20020a170902744700b001b85aa1f287mr3167093plt.57.1688710651636;
+        Thu, 06 Jul 2023 23:17:31 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([122.181.45.87])
+        by smtp.gmail.com with ESMTPSA id e16-20020a17090301d000b001a5fccab02dsm2382644plh.177.2023.07.06.23.17.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 23:10:12 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 07 Jul 2023 11:40:07 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Thu, 06 Jul 2023 23:17:31 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCHv3] grub2: Fix Multiple CVEs
-Date: Fri,  7 Jul 2023 11:40:05 +0530
-Message-Id: <20230707061005.77641-1-hprajapati@mvista.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] sqlite3: CVE-2023-36191 CLI fault on missing -nonce
+Date: Fri,  7 Jul 2023 11:45:11 +0530
+Message-Id: <20230707061511.1009700-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 06:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/183999
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jul 2023 06:17:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184000
 
-Backport fixes for:
-* CVE-2020-27749 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=c6c426e5ab6ea715153b72584de6bd8c82f698ec && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=b1c9e9e889e4273fb15712051c887e6078511448 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=3d157bbd06506b170fde5ec23980c4bf9f7660e2 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=8bc817014ce3d7a498db44eae33c8b90e2430926 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=030fb6c4fa354cdbd6a8d6903dfed5d36eaf3cb2 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=4ea7bae51f97e49c84dc67ea30b466ca8633b9f6
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-* CVE-2021-20225 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=2a330dba93ff11bc00eda76e9419bc52b0c7ead6
-* CVE-2021-20233 - Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=2f533a89a8dfcacbf2c9dbc77d910f111f24bf33
+Upstream-Status: Backport [https://sqlite.org/src/info/cd24178bbaad4a1d]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../grub/files/CVE-2020-27749.patch           | 609 ++++++++++++++++++
- .../grub/files/CVE-2021-20225.patch           |  58 ++
- .../grub/files/CVE-2021-20233.patch           |  50 ++
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- 4 files changed, 720 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27749.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-20225.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-20233.patch
+ .../sqlite/files/CVE-2023-36191.patch         | 37 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2023-36191.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27749.patch b/meta/recipes-bsp/grub/files/CVE-2020-27749.patch
+diff --git a/meta/recipes-support/sqlite/files/CVE-2023-36191.patch b/meta/recipes-support/sqlite/files/CVE-2023-36191.patch
 new file mode 100644
-index 0000000000..a2566b2ded
+index 0000000000..aca79c334a
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27749.patch
-@@ -0,0 +1,609 @@
-+From 4ea7bae51f97e49c84dc67ea30b466ca8633b9f6 Mon Sep 17 00:00:00 2001
-+From: Chris Coulson <chris.coulson@canonical.com>
-+Date: Thu, 7 Jan 2021 19:21:03 +0000
-+Subject: kern/parser: Fix a stack buffer overflow
++++ b/meta/recipes-support/sqlite/files/CVE-2023-36191.patch
+@@ -0,0 +1,37 @@
++From 4e8a0eb4e773b808d9e9697af94319599777169a Mon Sep 17 00:00:00 2001
++From: larrybr <larrybr@noemail.net>
++Date: Fri, 2 Jun 2023 12:56:32 +0000
++Subject: [PATCH] Fix CLI fault on missing -nonce reported by [forum:/info/f8c14a1134|forum post f8c14a1134].
 +
-+grub_parser_split_cmdline() expands variable names present in the supplied
-+command line in to their corresponding variable contents and uses a 1 kiB
-+stack buffer for temporary storage without sufficient bounds checking. If
-+the function is called with a command line that references a variable with
-+a sufficiently large payload, it is possible to overflow the stack
-+buffer via tab completion, corrupt the stack frame and potentially
-+control execution.
++FossilOrigin-Name: cd24178bbaad4a1dafc3848e7d74240f90030160b5c43c93e1e0e11b073c2df5
 +
-+Fixes: CVE-2020-27749
-+
-+Reported-by: Chris Coulson <chris.coulson@canonical.com>
-+Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
-+Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=c6c426e5ab6ea715153b72584de6bd8c82f698ec && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=b1c9e9e889e4273fb15712051c887e6078511448 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=3d157bbd06506b170fde5ec23980c4bf9f7660e2 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=8bc817014ce3d7a498db44eae33c8b90e2430926 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=030fb6c4fa354cdbd6a8d6903dfed5d36eaf3cb2 && https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=4ea7bae51f97e49c84dc67ea30b466ca8633b9f6]
-+CVE: CVE-2020-27749
-+
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://sqlite.org/src/info/cd24178bbaad4a1d
++Upstream commit https://github.com/sqlite/sqlite/commit/4e8a0eb4e773b808d9e9697af94319599777169a]
++CVE: CVE-2023-36191
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ grub-core/Makefile.core.def |   1 +
-+ grub-core/kern/buffer.c     | 117 +++++++++++++++++++++
-+ grub-core/kern/parser.c     | 204 +++++++++++++++++++++++-------------
-+ include/grub/buffer.h       | 144 +++++++++++++++++++++++++
-+ 4 files changed, 395 insertions(+), 71 deletions(-)
-+ create mode 100644 grub-core/kern/buffer.c
-+ create mode 100644 include/grub/buffer.h
++ shell.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-+index 651ea2a..823cd57 100644
-+--- a/grub-core/Makefile.core.def
-++++ b/grub-core/Makefile.core.def
-+@@ -123,6 +123,7 @@ kernel = {
-+   riscv32_efi_startup = kern/riscv/efi/startup.S;
-+   riscv64_efi_startup = kern/riscv/efi/startup.S;
-+ 
-++  common = kern/buffer.c;
-+   common = kern/command.c;
-+   common = kern/corecmd.c;
-+   common = kern/device.c;
-+diff --git a/grub-core/kern/buffer.c b/grub-core/kern/buffer.c
-+new file mode 100644
-+index 0000000..9f5f8b8
-+--- /dev/null
-++++ b/grub-core/kern/buffer.c
-+@@ -0,0 +1,117 @@
-++/*
-++ *  GRUB  --  GRand Unified Bootloader
-++ *  Copyright (C) 2021  Free Software Foundation, Inc.
-++ *
-++ *  GRUB is free software: you can redistribute it and/or modify
-++ *  it under the terms of the GNU General Public License as published by
-++ *  the Free Software Foundation, either version 3 of the License, or
-++ *  (at your option) any later version.
-++ *
-++ *  GRUB is distributed in the hope that it will be useful,
-++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ *  GNU General Public License for more details.
-++ *
-++ *  You should have received a copy of the GNU General Public License
-++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-++ */
-++
-++#include <grub/buffer.h>
-++#include <grub/err.h>
-++#include <grub/misc.h>
-++#include <grub/mm.h>
-++#include <grub/safemath.h>
-++#include <grub/types.h>
-++
-++grub_buffer_t
-++grub_buffer_new (grub_size_t sz)
-++{
-++  struct grub_buffer *ret;
-++
-++  ret = (struct grub_buffer *) grub_malloc (sizeof (*ret));
-++  if (ret == NULL)
-++    return NULL;
-++
-++  ret->data = (grub_uint8_t *) grub_malloc (sz);
-++  if (ret->data == NULL)
-++    {
-++      grub_free (ret);
-++      return NULL;
-++    }
-++
-++  ret->sz = sz;
-++  ret->pos = 0;
-++  ret->used = 0;
-++
-++  return ret;
-++}
-++
-++void
-++grub_buffer_free (grub_buffer_t buf)
-++{
-++  grub_free (buf->data);
-++  grub_free (buf);
-++}
-++
-++grub_err_t
-++grub_buffer_ensure_space (grub_buffer_t buf, grub_size_t req)
-++{
-++  grub_uint8_t *d;
-++  grub_size_t newsz = 1;
-++
-++  /* Is the current buffer size adequate? */
-++  if (buf->sz >= req)
-++    return GRUB_ERR_NONE;
-++
-++  /* Find the smallest power-of-2 size that satisfies the request. */
-++  while (newsz < req)
-++    {
-++      if (newsz == 0)
-++	return grub_error (GRUB_ERR_OUT_OF_RANGE,
-++			   N_("requested buffer size is too large"));
-++      newsz <<= 1;
-++    }
-++
-++  d = (grub_uint8_t *) grub_realloc (buf->data, newsz);
-++  if (d == NULL)
-++    return grub_errno;
-++
-++  buf->data = d;
-++  buf->sz = newsz;
-++
-++  return GRUB_ERR_NONE;
-++}
-++
-++void *
-++grub_buffer_take_data (grub_buffer_t buf)
-++{
-++  void *data = buf->data;
-++
-++  buf->data = NULL;
-++  buf->sz = buf->pos = buf->used = 0;
-++
-++  return data;
-++}
-++
-++void
-++grub_buffer_reset (grub_buffer_t buf)
-++{
-++  buf->pos = buf->used = 0;
-++}
-++
-++grub_err_t
-++grub_buffer_advance_read_pos (grub_buffer_t buf, grub_size_t n)
-++{
-++  grub_size_t newpos;
-++
-++  if (grub_add (buf->pos, n, &newpos))
-++    return grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
-++
-++  if (newpos > buf->used)
-++    return grub_error (GRUB_ERR_OUT_OF_RANGE,
-++		       N_("new read is position beyond the end of the written data"));
-++
-++  buf->pos = newpos;
-++
-++  return GRUB_ERR_NONE;
-++}
-+diff --git a/grub-core/kern/parser.c b/grub-core/kern/parser.c
-+index d1cf061..6ab7aa4 100644
-+--- a/grub-core/kern/parser.c
-++++ b/grub-core/kern/parser.c
-+@@ -1,7 +1,7 @@
-+ /* parser.c - the part of the parser that can return partial tokens */
-+ /*
-+  *  GRUB  --  GRand Unified Bootloader
-+- *  Copyright (C) 2005,2007,2009  Free Software Foundation, Inc.
-++ *  Copyright (C) 2005,2007,2009,2021  Free Software Foundation, Inc.
-+  *
-+  *  GRUB is free software: you can redistribute it and/or modify
-+  *  it under the terms of the GNU General Public License as published by
-+@@ -18,6 +18,7 @@
-+  */
-+ 
-+ #include <grub/parser.h>
-++#include <grub/buffer.h>
-+ #include <grub/env.h>
-+ #include <grub/misc.h>
-+ #include <grub/mm.h>
-+@@ -107,8 +108,8 @@ check_varstate (grub_parser_state_t s)
-+ }
-+ 
-+ 
-+-static void
-+-add_var (char *varname, char **bp, char **vp,
-++static grub_err_t
-++add_var (grub_buffer_t varname, grub_buffer_t buf,
-+ 	 grub_parser_state_t state, grub_parser_state_t newstate)
-+ {
-+   const char *val;
-+@@ -116,17 +117,74 @@ add_var (char *varname, char **bp, char **vp,
-+   /* Check if a variable was being read in and the end of the name
-+      was reached.  */
-+   if (!(check_varstate (state) && !check_varstate (newstate)))
-+-    return;
-++    return GRUB_ERR_NONE;
-++
-++  if (grub_buffer_append_char (varname, '\0') != GRUB_ERR_NONE)
-++    return grub_errno;
-+ 
-+-  *((*vp)++) = '\0';
-+-  val = grub_env_get (varname);
-+-  *vp = varname;
-++  val = grub_env_get ((const char *) grub_buffer_peek_data (varname));
-++  grub_buffer_reset (varname);
-+   if (!val)
-+-    return;
-++    return GRUB_ERR_NONE;
-+ 
-+   /* Insert the contents of the variable in the buffer.  */
-+-  for (; *val; val++)
-+-    *((*bp)++) = *val;
-++  return grub_buffer_append_data (buf, val, grub_strlen (val));
-++}
-++
-++static grub_err_t
-++terminate_arg (grub_buffer_t buffer, int *argc)
-++{
-++  grub_size_t unread = grub_buffer_get_unread_bytes (buffer);
-++
-++  if (unread == 0)
-++    return GRUB_ERR_NONE;
-++
-++  if (*(const char *) grub_buffer_peek_data_at (buffer, unread - 1) == '\0')
-++    return GRUB_ERR_NONE;
-++
-++  if (grub_buffer_append_char (buffer, '\0') != GRUB_ERR_NONE)
-++    return grub_errno;
-++
-++  (*argc)++;
-++
-++  return GRUB_ERR_NONE;
-++}
-++
-++static grub_err_t
-++process_char (char c, grub_buffer_t buffer, grub_buffer_t varname,
-++	      grub_parser_state_t state, int *argc,
-++	      grub_parser_state_t *newstate)
-++{
-++  char use;
-++
-++  *newstate = grub_parser_cmdline_state (state, c, &use);
-++
-++  /*
-++   * If a variable was being processed and this character does
-++   * not describe the variable anymore, write the variable to
-++   * the buffer.
-++   */
-++  if (add_var (varname, buffer, state, *newstate) != GRUB_ERR_NONE)
-++    return grub_errno;
-++
-++  if (check_varstate (*newstate))
-++    {
-++      if (use)
-++        return grub_buffer_append_char (varname, use);
-++    }
-++  else if (*newstate == GRUB_PARSER_STATE_TEXT &&
-++	   state != GRUB_PARSER_STATE_ESC && grub_isspace (use))
-++    {
-++      /*
-++       * Don't add more than one argument if multiple
-++       * spaces are used.
-++       */
-++      return terminate_arg (buffer, argc);
-++    }
-++  else if (use)
-++    return grub_buffer_append_char (buffer, use);
-++
-++  return GRUB_ERR_NONE;
-+ }
-+ 
-+ grub_err_t
-+@@ -135,24 +193,36 @@ grub_parser_split_cmdline (const char *cmdline,
-+ 			   int *argc, char ***argv)
-+ {
-+   grub_parser_state_t state = GRUB_PARSER_STATE_TEXT;
-+-  /* XXX: Fixed size buffer, perhaps this buffer should be dynamically
-+-     allocated.  */
-+-  char buffer[1024];
-+-  char *bp = buffer;
-++  grub_buffer_t buffer, varname;
-+   char *rd = (char *) cmdline;
-+-  char varname[200];
-+-  char *vp = varname;
-+-  char *args;
-++  char *rp = rd;
-+   int i;
-+ 
-+   *argc = 0;
-+   *argv = NULL;
-++
-++  buffer = grub_buffer_new (1024);
-++  if (buffer == NULL)
-++    return grub_errno;
-++
-++  varname = grub_buffer_new (200);
-++  if (varname == NULL)
-++    goto fail;
-++
-+   do
-+     {
-+-      if (!rd || !*rd)
-++      if (rp == NULL || *rp == '\0')
-+ 	{
-++	  if (rd != cmdline)
-++	    {
-++	      grub_free (rd);
-++	      rd = rp = NULL;
-++	    }
-+ 	  if (getline)
-+-	    getline (&rd, 1, getline_data);
-++	    {
-++	      getline (&rd, 1, getline_data);
-++	      rp = rd;
-++	    }
-+ 	  else
-+ 	    break;
-+ 	}
-+@@ -160,39 +230,14 @@ grub_parser_split_cmdline (const char *cmdline,
-+       if (!rd)
-+ 	break;
-+ 
-+-      for (; *rd; rd++)
-++      for (; *rp != '\0'; rp++)
-+ 	{
-+ 	  grub_parser_state_t newstate;
-+-	  char use;
-+ 
-+-	  newstate = grub_parser_cmdline_state (state, *rd, &use);
-++	  if (process_char (*rp, buffer, varname, state, argc,
-++			    &newstate) != GRUB_ERR_NONE)
-++	    goto fail;
-+ 
-+-	  /* If a variable was being processed and this character does
-+-	     not describe the variable anymore, write the variable to
-+-	     the buffer.  */
-+-	  add_var (varname, &bp, &vp, state, newstate);
-+-
-+-	  if (check_varstate (newstate))
-+-	    {
-+-	      if (use)
-+-		*(vp++) = use;
-+-	    }
-+-	  else
-+-	    {
-+-	      if (newstate == GRUB_PARSER_STATE_TEXT
-+-		  && state != GRUB_PARSER_STATE_ESC && grub_isspace (use))
-+-		{
-+-		  /* Don't add more than one argument if multiple
-+-		     spaces are used.  */
-+-		  if (bp != buffer && *(bp - 1))
-+-		    {
-+-		      *(bp++) = '\0';
-+-		      (*argc)++;
-+-		    }
-+-		}
-+-	      else if (use)
-+-		*(bp++) = use;
-+-	    }
-+ 	  state = newstate;
-+ 	}
++diff --git a/shell.c b/shell.c
++index 0200c0a..fa45d40 100644
++--- a/shell.c
+++++ b/shell.c
++@@ -23163,8 +23163,12 @@ int SQLITE_CDECL wmain(int argc, wchar_t **wargv){
++     }else if( strcmp(z,"-bail")==0 ){
++       bail_on_error = 1;
++     }else if( strcmp(z,"-nonce")==0 ){
++-      free(data.zNonce);
++-      data.zNonce = strdup(argv[++i]);
+++      if( data.zNonce ) free(data.zNonce);
+++      if( i+1 < argc ) data.zNonce = strdup(argv[++i]);
+++      else{
+++        data.zNonce = 0;
+++        break;
+++      }
++     }else if( strcmp(z,"-safe")==0 ){
++       /* no-op - catch this on the second pass */
 +     }
-+@@ -200,43 +245,60 @@ grub_parser_split_cmdline (const char *cmdline,
-+ 
-+   /* A special case for when the last character was part of a
-+      variable.  */
-+-  add_var (varname, &bp, &vp, state, GRUB_PARSER_STATE_TEXT);
-++  if (add_var (varname, buffer, state, GRUB_PARSER_STATE_TEXT) != GRUB_ERR_NONE)
-++    goto fail;
-+ 
-+-  if (bp != buffer && *(bp - 1))
-+-    {
-+-      *(bp++) = '\0';
-+-      (*argc)++;
-+-    }
-++  /* Ensure that the last argument is terminated. */
-++  if (terminate_arg (buffer, argc) != GRUB_ERR_NONE)
-++    goto fail;
-+ 
-+   /* If there are no args, then we're done. */
-+   if (!*argc)
-+-    return 0;
-+-
-+-  /* Reserve memory for the return values.  */
-+-  args = grub_malloc (bp - buffer);
-+-  if (!args)
-+-    return grub_errno;
-+-  grub_memcpy (args, buffer, bp - buffer);
-++    {
-++      grub_errno = GRUB_ERR_NONE;
-++      goto out;
-++    }
-+ 
-+   *argv = grub_calloc (*argc + 1, sizeof (char *));
-+   if (!*argv)
-+-    {
-+-      grub_free (args);
-+-      return grub_errno;
-+-    }
-++    goto fail;
-+ 
-+   /* The arguments are separated with 0's, setup argv so it points to
-+      the right values.  */
-+-  bp = args;
-+   for (i = 0; i < *argc; i++)
-+     {
-+-      (*argv)[i] = bp;
-+-      while (*bp)
-+-	bp++;
-+-      bp++;
-++      char *arg;
-++
-++      if (i > 0)
-++	{
-++	  if (grub_buffer_advance_read_pos (buffer, 1) != GRUB_ERR_NONE)
-++	    goto fail;
-++	}
-++
-++      arg = (char *) grub_buffer_peek_data (buffer);
-++      if (arg == NULL ||
-++	  grub_buffer_advance_read_pos (buffer, grub_strlen (arg)) != GRUB_ERR_NONE)
-++	goto fail;
-++
-++      (*argv)[i] = arg;
-+     }
-+ 
-+-  return 0;
-++  /* Keep memory for the return values. */
-++  grub_buffer_take_data (buffer);
-++
-++  grub_errno = GRUB_ERR_NONE;
-++
-++ out:
-++  if (rd != cmdline)
-++    grub_free (rd);
-++  grub_buffer_free (buffer);
-++  grub_buffer_free (varname);
-++
-++  return grub_errno;
-++
-++ fail:
-++  grub_free (*argv);
-++  goto out;
-+ }
-+ 
-+ /* Helper for grub_parser_execute.  */
-+diff --git a/include/grub/buffer.h b/include/grub/buffer.h
-+new file mode 100644
-+index 0000000..f4b10cf
-+--- /dev/null
-++++ b/include/grub/buffer.h
-+@@ -0,0 +1,144 @@
-++/*
-++ *  GRUB  --  GRand Unified Bootloader
-++ *  Copyright (C) 2021  Free Software Foundation, Inc.
-++ *
-++ *  GRUB is free software: you can redistribute it and/or modify
-++ *  it under the terms of the GNU General Public License as published by
-++ *  the Free Software Foundation, either version 3 of the License, or
-++ *  (at your option) any later version.
-++ *
-++ *  GRUB is distributed in the hope that it will be useful,
-++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ *  GNU General Public License for more details.
-++ *
-++ *  You should have received a copy of the GNU General Public License
-++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-++ */
-++
-++#ifndef GRUB_BUFFER_H
-++#define GRUB_BUFFER_H	1
-++
-++#include <grub/err.h>
-++#include <grub/misc.h>
-++#include <grub/mm.h>
-++#include <grub/safemath.h>
-++#include <grub/types.h>
-++
-++struct grub_buffer
-++{
-++  grub_uint8_t *data;
-++  grub_size_t sz;
-++  grub_size_t pos;
-++  grub_size_t used;
-++};
-++
-++/*
-++ * grub_buffer_t represents a simple variable sized byte buffer with
-++ * read and write cursors. It currently only implements
-++ * functionality required by the only user in GRUB (append byte[s],
-++ * peeking data at a specified position and updating the read cursor.
-++ * Some things that this doesn't do yet are:
-++ * - Reading a portion of the buffer by copying data from the current
-++ *   read position in to a caller supplied destination buffer and then
-++ *   automatically updating the read cursor.
-++ * - Dropping the read part at the start of the buffer when an append
-++ *   requires more space.
-++ */
-++typedef struct grub_buffer *grub_buffer_t;
-++
-++/* Allocate a new buffer with the specified initial size. */
-++extern grub_buffer_t grub_buffer_new (grub_size_t sz);
-++
-++/* Free the buffer and its resources. */
-++extern void grub_buffer_free (grub_buffer_t buf);
-++
-++/* Return the number of unread bytes in this buffer. */
-++static inline grub_size_t
-++grub_buffer_get_unread_bytes (grub_buffer_t buf)
-++{
-++  return buf->used - buf->pos;
-++}
-++
-++/*
-++ * Ensure that the buffer size is at least the requested
-++ * number of bytes.
-++ */
-++extern grub_err_t grub_buffer_ensure_space (grub_buffer_t buf, grub_size_t req);
-++
-++/*
-++ * Append the specified number of bytes from the supplied
-++ * data to the buffer.
-++ */
-++static inline grub_err_t
-++grub_buffer_append_data (grub_buffer_t buf, const void *data, grub_size_t len)
-++{
-++  grub_size_t req;
-++
-++  if (grub_add (buf->used, len, &req))
-++    return grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
-++
-++  if (grub_buffer_ensure_space (buf, req) != GRUB_ERR_NONE)
-++    return grub_errno;
-++
-++  grub_memcpy (&buf->data[buf->used], data, len);
-++  buf->used = req;
-++
-++  return GRUB_ERR_NONE;
-++}
-++
-++/* Append the supplied character to the buffer. */
-++static inline grub_err_t
-++grub_buffer_append_char (grub_buffer_t buf, char c)
-++{
-++  return grub_buffer_append_data (buf, &c, 1);
-++}
-++
-++/*
-++ * Forget and return the underlying data buffer. The caller
-++ * becomes the owner of this buffer, and must free it when it
-++ * is no longer required.
-++ */
-++extern void *grub_buffer_take_data (grub_buffer_t buf);
-++
-++/* Reset this buffer. Note that this does not deallocate any resources. */
-++void grub_buffer_reset (grub_buffer_t buf);
-++
-++/*
-++ * Return a pointer to the underlying data buffer at the specified
-++ * offset from the current read position. Note that this pointer may
-++ * become invalid if the buffer is mutated further.
-++ */
-++static inline void *
-++grub_buffer_peek_data_at (grub_buffer_t buf, grub_size_t off)
-++{
-++  if (grub_add (buf->pos, off, &off))
-++    {
-++      grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected."));
-++      return NULL;
-++    }
-++
-++  if (off >= buf->used)
-++    {
-++      grub_error (GRUB_ERR_OUT_OF_RANGE, N_("peek out of range"));
-++      return NULL;
-++    }
-++
-++  return &buf->data[off];
-++}
-++
-++/*
-++ * Return a pointer to the underlying data buffer at the current
-++ * read position. Note that this pointer may become invalid if the
-++ * buffer is mutated further.
-++ */
-++static inline void *
-++grub_buffer_peek_data (grub_buffer_t buf)
-++{
-++  return grub_buffer_peek_data_at (buf, 0);
-++}
-++
-++/* Advance the read position by the specified number of bytes. */
-++extern grub_err_t grub_buffer_advance_read_pos (grub_buffer_t buf, grub_size_t n);
-++
-++#endif /* GRUB_BUFFER_H */
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-bsp/grub/files/CVE-2021-20225.patch b/meta/recipes-bsp/grub/files/CVE-2021-20225.patch
-new file mode 100644
-index 0000000000..b864febe62
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2021-20225.patch
-@@ -0,0 +1,58 @@
-+From 2a330dba93ff11bc00eda76e9419bc52b0c7ead6 Mon Sep 17 00:00:00 2001
-+From: Daniel Axtens <dja@axtens.net>
-+Date: Fri, 22 Jan 2021 16:07:29 +1100
-+Subject: lib/arg: Block repeated short options that require an argument
-+
-+Fuzzing found the following crash:
-+
-+  search -hhhhhhhhhhhhhf
-+
-+We didn't allocate enough option space for 13 hints because the
-+allocation code counts the number of discrete arguments (i.e. argc).
-+However, the shortopt parsing code will happily keep processing
-+a combination of short options without checking if those short
-+options require an argument. This means you can easily end writing
-+past the allocated option space.
-+
-+This fixes a OOB write which can cause heap corruption.
-+
-+Fixes: CVE-2021-20225
-+
-+Reported-by: Daniel Axtens <dja@axtens.net>
-+Signed-off-by: Daniel Axtens <dja@axtens.net>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=2a330dba93ff11bc00eda76e9419bc52b0c7ead6]
-+CVE: CVE-2021-20225
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/lib/arg.c | 13 +++++++++++++
-+ 1 file changed, 13 insertions(+)
-+
-+diff --git a/grub-core/lib/arg.c b/grub-core/lib/arg.c
-+index 3288609..537c5e9 100644
-+--- a/grub-core/lib/arg.c
-++++ b/grub-core/lib/arg.c
-+@@ -299,6 +299,19 @@ grub_arg_parse (grub_extcmd_t cmd, int argc, char **argv,
-+ 		 it can have an argument value.  */
-+ 	      if (*curshort)
-+ 		{
-++		  /*
-++		   * Only permit further short opts if this one doesn't
-++		   * require a value.
-++		   */
-++		  if (opt->type != ARG_TYPE_NONE &&
-++		      !(opt->flags & GRUB_ARG_OPTION_OPTIONAL))
-++		    {
-++		      grub_error (GRUB_ERR_BAD_ARGUMENT,
-++				  N_("missing mandatory option for `%s'"),
-++				  opt->longarg);
-++		      goto fail;
-++		    }
-++
-+ 		  if (parse_option (cmd, opt, 0, usr) || grub_errno)
-+ 		    goto fail;
-+ 		}
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2021-20233.patch b/meta/recipes-bsp/grub/files/CVE-2021-20233.patch
-new file mode 100644
-index 0000000000..d2069afc18
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2021-20233.patch
-@@ -0,0 +1,50 @@
-+From 2f533a89a8dfcacbf2c9dbc77d910f111f24bf33 Mon Sep 17 00:00:00 2001
-+From: Daniel Axtens <dja@axtens.net>
-+Date: Fri, 22 Jan 2021 17:10:48 +1100
-+Subject: commands/menuentry: Fix quoting in setparams_prefix()
-+
-+Commit 9acdcbf32542 (use single quotes in menuentry setparams command)
-+says that expressing a quoted single quote will require 3 characters. It
-+actually requires (and always did require!) 4 characters:
-+
-+  str: a'b => a'\''b
-+  len:  3  => 6 (2 for the letters + 4 for the quote)
-+
-+This leads to not allocating enough memory and thus out of bounds writes
-+that have been observed to cause heap corruption.
-+
-+Allocate 4 bytes for each single quote.
-+
-+Commit 22e7dbb2bb81 (Fix quoting in legacy parser.) does the same
-+quoting, but it adds 3 as extra overhead on top of the single byte that
-+the quote already needs. So it's correct.
-+
-+Fixes: 9acdcbf32542 (use single quotes in menuentry setparams command)
-+Fixes: CVE-2021-20233
-+
-+Reported-by: Daniel Axtens <dja@axtens.net>
-+Signed-off-by: Daniel Axtens <dja@axtens.net>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?h=grub-2.06&id=2f533a89a8dfcacbf2c9dbc77d910f111f24bf33]
-+CVE: CVE-2021-20233
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/commands/menuentry.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/grub-core/commands/menuentry.c b/grub-core/commands/menuentry.c
-+index 9164df7..720e6d8 100644
-+--- a/grub-core/commands/menuentry.c
-++++ b/grub-core/commands/menuentry.c
-+@@ -230,7 +230,7 @@ setparams_prefix (int argc, char **args)
-+       len += 3; /* 3 = 1 space + 2 quotes */
-+       p = args[i];
-+       while (*p)
-+-	len += (*p++ == '\'' ? 3 : 1);
-++	len += (*p++ == '\'' ? 4 : 1);
-+     }
-+ 
-+   result = grub_malloc (len + 2);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index d09eecd8ac..5a6e213936 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -106,6 +106,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch \
-            file://CVE-2022-2601.patch \
-            file://CVE-2022-3775.patch \
-+           file://CVE-2020-27749.patch \
-+           file://CVE-2021-20225.patch \
-+           file://CVE-2021-20233.patch \
-            "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+index 313c15dff4..55cc514412 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
+ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch \
+            file://CVE-2022-46908.patch \
++           file://CVE-2023-36191.patch \
+ "
+ SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+ 
 -- 
 2.25.1
 
