@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5EFC0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E629C001DE
 	for <webhook@archiver.kernel.org>; Sat,  8 Jul 2023 15:56:27 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.348.1688831780823037548
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.350.1688831782798721095
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Jul 2023 08:56:20 -0700
+ Sat, 08 Jul 2023 08:56:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PngzVRLH;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b9d80e33fbso557235ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 08:56:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=S8npY0Na;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1b8ad8383faso21061175ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 08:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688831780; x=1691423780;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688831782; x=1691423782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ILUq9Z8iMABFgPQpfMaOvJze3gF95BMvINItie0FjnE=;
-        b=PngzVRLHtdI51S+e7pajIroHV2icQwy+9HFnhQca3Q8EZdl4h1IoAOvzkElhQiNfUE
-         2Vt6VqO9xQs8WuiK5ID5FeM1UvUhd3tovmlyvrjK/Aabiy3TKRzKHrrpOBmCxqM3rHWM
-         D+3Yb3JdRPOFmr4ZE6pnBkuR1qZnweNBFz2DMtEOH05zm7ckYoHMnmrf69cgKWLIs2/I
-         99u46tTIWg8g21bZpfHRRnxWCrQgzhPKx+e8VMjfTMIXQEkNEQozSV3yX9Vnh82YvDzP
-         8f6rXysnxTHui9vvCkvnUJh+lFuf3oi1yz7MIcAv8IAwTFsc78wkv9JzNhfuo9131I/2
-         cbTw==
+        bh=Qi+COrKqfHoSuH1v8vMmA9pmlOCQxb3n+Vtr9ASvE68=;
+        b=S8npY0NajecCc01QxJLjul8tUgsAtQdvxWWWZ2voFJHg+IHxnfoHobSoy/UJG3WuA6
+         k3E5X/ZYF4WWVlTD+pKMKhnivizOlm6O0kFvfccxvnSbHWjY+1DRL0ogCC70dN8KkJvA
+         X5bl6tPK+p9QnTfpH7Kv3bmoCGs+kabZMZO2VDuCwdvxLdmVkRvX/J/lykeR0TgbD7CP
+         y+6mqXIZ6rGiPGPhwEDQ2mU5fG9fh3XNkyLjVgW7z4GXmWtjGbkqQoEt4ge4rdJUu/M8
+         /0J5Yv39p643opNY1XpcX3Fmpn77xeMgg2FlPIQoEZUp2VVjMjwRxCXbUEB+SPoKFBLK
+         i9sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688831780; x=1691423780;
+        d=1e100.net; s=20221208; t=1688831782; x=1691423782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ILUq9Z8iMABFgPQpfMaOvJze3gF95BMvINItie0FjnE=;
-        b=L5ILP3DSvvEcPX9m/SiIQHZTryX+u6f7Eg8nBPwzVUVGKCipSkHiZhipa1TiCzhDHR
-         sM8FcL/y4sNPFO+K+IgEL750pCvGC71loyQN+sNfr8izZDXEkDnD4wYzOZqZPT6PzxuP
-         oD+S39OaOk3+dYZKNkj+WjH0T4B0ha/SSRSn/HY6L62OZ5xiD+oNuP79SOe0hwK+d1/x
-         B4t0b6EUN8+dwJdkFHjNjJa2GrWQWV1UAd1T249+83w3ghSYjny/9fKZ1nJXBHt6jRST
-         /JYuLfZBpzKIWPg9+M5zrRSvHaiErynuHFCwjBRUiVsCZ01mM4dYPcjbGur1Y9W+K1Jd
-         oayg==
-X-Gm-Message-State: ABy/qLZWQNe5E+5IA6qIXHNDvZy6KGb+VZwCZcY2S2KXubZAIn732//f
-	Fy8dFYRQuhJjLYiLEgyqfhUvgO4+shavyOmRhpo=
-X-Google-Smtp-Source: APBJJlF79SCHdvlM9oOdhs4Jw4okfU4z0IY6vTM1gaiPOY4UCFLj2WjSA+mPVnYVV790BfMO0AAkiA==
-X-Received: by 2002:a17:902:b117:b0:1b1:b2fa:1903 with SMTP id q23-20020a170902b11700b001b1b2fa1903mr4839907plr.41.1688831779934;
-        Sat, 08 Jul 2023 08:56:19 -0700 (PDT)
+        bh=Qi+COrKqfHoSuH1v8vMmA9pmlOCQxb3n+Vtr9ASvE68=;
+        b=hxsSWREg1Hj9SSzdkW5SchOwJF7ao7Euzd14iuKYuNIyhKxfwpwr+q/OOk6AjIg5uc
+         mt1rYTIaBg78t3ua6ZZ1nBQIUJf/EXDXlXJriL5EG18lwyg6zmIg3i2Sy9oJcjeGbrUi
+         5+ME2At1cMIzl3EjXVFWNMHnDGyKgru3HRHSpgcGWCQSjpP8VeZVFbB5iDpxsg0MZNJS
+         15W4eTYk34wCMo/hnK/d8kldsiAR8xNE66eCXXtLzz4ndJzBaPZ++fDSeP2YS6b2ILfs
+         dvD+gitIqBvVK3mrOEOhRMdIcrcw95glHWB3p2glbdMM7sgGeK0/wXJ870NCmyh0StYr
+         nr/A==
+X-Gm-Message-State: ABy/qLZujDlEOaNlG3Op8uAinswMFAQ6sTddx8eCqYMbqILo/FBeBPC2
+	+13D+dxg2P/aYF1XtOkA765aS2umwY0RVr+Nkx0=
+X-Google-Smtp-Source: APBJJlHr8uIE8dkn1ECNYwZM+e9EIzgM61DbBITKkhJECpUgj9o3plbvVKrIb1/mkvPZgnzGj4A4hg==
+X-Received: by 2002:a17:90b:4a92:b0:263:5d42:79f7 with SMTP id lp18-20020a17090b4a9200b002635d4279f7mr8801058pjb.23.1688831781778;
+        Sat, 08 Jul 2023 08:56:21 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b00263f6687690sm3257801pjf.18.2023.07.08.08.56.19
+        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b00263f6687690sm3257801pjf.18.2023.07.08.08.56.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jul 2023 08:56:19 -0700 (PDT)
+        Sat, 08 Jul 2023 08:56:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/17] kmod: remove unused ptest.patch
-Date: Sat,  8 Jul 2023 05:55:45 -1000
-Message-Id: <4342d2a60e2ba8a7aeb683b78f1eef94eb2c2edc.1688831566.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/17] pm-utils: fix multilib conflictions
+Date: Sat,  8 Jul 2023 05:55:46 -1000
+Message-Id: <292ff56250d2f916370c508fd7a94f3ab769a356.1688831566.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688831566.git.steve@sakoman.com>
 References: <cover.1688831566.git.steve@sakoman.com>
@@ -61,53 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 15:56:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184031
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184032
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-* it was removed from SRC_URI in 2015:
-  https://git.openembedded.org/openembedded-core/commit/?id=f80d136bdd578468035a88125fa1b84973fd912b
+It fails to instal pm-utils and lib32-pm-utils at same time:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Error: Transaction test error:
+  file /usr/bin/pm-is-supported conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-hibernate conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-powersave conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-suspend conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+  file /usr/sbin/pm-suspend-hybrid conflicts between attempted installs of lib32-pm-utils-1.4.1-r1.corei7_32 and pm-utils-1.4.1-r1.corei7_64
+
+All of the conflicted files either is script which source a file in
+${libdir}, or a link file to some file in ${libdir}. Compare the content
+of installed files in ${libdir} exclude binaries, only the paths of
+${libdir} diff. So re-define libdir with ${nonarch_libdir} to fix the
+conflicts.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cfc4586b4bf080a3a4aa419dffc76c5da2a95b74)
+(cherry picked from commit f836541bcfdbf033a37537530b4e3b87b0a7f003)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/kmod/kmod/ptest.patch | 25 -----------------------
- 1 file changed, 25 deletions(-)
- delete mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kernel/kmod/kmod/ptest.patch
-deleted file mode 100644
-index 831dbcb909..0000000000
---- a/meta/recipes-kernel/kmod/kmod/ptest.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--Add 'install-ptest' rule.
--
--Signed-off-by: Tudor Florea <tudor.florea@enea.com>
--Upstream-Status: Pending
--
--diff -ruN a/Makefile.am b/Makefile.am
----- a/Makefile.am	2013-07-12 17:11:05.278331557 +0200
--+++ b/Makefile.am	2013-07-12 17:14:27.033788016 +0200
--@@ -204,6 +204,16 @@
-- 
-- distclean-local: $(DISTCLEAN_LOCAL_HOOKS)
-- 
--+install-ptest:
--+	@$(MKDIR_P) $(DESTDIR)/testsuite
--+	@for file in $(TESTSUITE); do \
--+		install $$file $(DESTDIR)/testsuite; \
--+	done;
--+	@sed -e 's/^Makefile/_Makefile/' < Makefile > $(DESTDIR)/Makefile
--+	@$(MKDIR_P) $(DESTDIR)/tools
--+	@cp $(noinst_SCRIPTS) $(noinst_PROGRAMS) $(DESTDIR)/tools
--+	@cp -r testsuite/rootfs testsuite/.libs $(DESTDIR)/testsuite
--+
-- # ------------------------------------------------------------------------------
-- # custom release helpers
-- # ------------------------------------------------------------------------------
+diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+index cac09101c4..fa3b993788 100644
+--- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
++++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+@@ -19,9 +19,12 @@ PACKAGECONFIG[manpages] = "--enable-doc, --disable-doc, libxslt-native xmlto-nat
+ 
+ RDEPENDS_${PN} = "grep bash"
+ 
++EXTRA_OECONF = "--libdir=${nonarch_libdir}"
++
+ do_configure_prepend () {
+ 	( cd ${S}; autoreconf -f -i -s )
+ }
+ 
+-FILES_${PN} += "${libdir}/${BPN}/*"
++FILES_${PN} += "${nonarch_libdir}/${BPN}/*"
+ FILES_${PN}-dbg += "${datadir}/doc/pm-utils/README.debugging"
++FILES_${PN}-dev += "${nonarch_libdir}/pkgconfig/pm-utils.pc"
 -- 
 2.34.1
 
