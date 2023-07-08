@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B08EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E60C001E0
 	for <webhook@archiver.kernel.org>; Sat,  8 Jul 2023 15:56:17 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.338.1688831775608789876
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.337.1688831771665086338
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Jul 2023 08:56:15 -0700
+ Sat, 08 Jul 2023 08:56:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=5Sw+/ejP;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-262e839647eso2287261a91.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 08:56:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=OY228a3s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-262d9e75438so2136636a91.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 08:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688831774; x=1691423774;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688831771; x=1691423771;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZdFBJLxKAfV9Y7ZM7MHavdkTizvX4XDPfGpLHxe+uOc=;
-        b=5Sw+/ejPiCRDv+3uMr4VwmguoMBoc8qUNzUImMjwx9ZsRf6NcjVsqYZDZM0UJNGXz8
-         gF+A5tIz9XaB4a4vwNY22KH7qPPNWWBeMV84z+803O0JiLm5FUjvof86Iwa7/S8BcMSY
-         hy1hNTZel3BydvnpIodqH21YwhvCIQXUb0Jx7atCKgdqmkhMD/3b8yjjXkMaRkLazK+1
-         VLjQlpF3If0G0C5U+OXVHLcxy1Afy5BGdetvlpCAlegFIltP1m3BT6kHN7/7i3vKOsIN
-         Z5R2U9IVqKbuRouFtx4l1xBDmjmocJMDy7aliD2/unKa6Qh8cf8+7Y3YQcxX6NDXsCCF
-         gvaA==
+        bh=jW75ezQsxhrtvA1jS2bv79tNC48t6Dl8jIUQGgXvDR8=;
+        b=OY228a3s4A2Z9SNHxc3BR5Q/rcXajIfFXpHesF0Ot8hX4ZPgBXTOQKqeJw/eOKvQI9
+         HMstloKwm0hPrd482UdeelTNbr0fAeMmlI3usWCGTrv0cD8BEQrQauuvlHc2r0XRppBk
+         K3C0EfAwc7VCV1oMB9MVw+KYTuO4p8hw/u9tBfXFMJk9DILhU2moJumUQcqn4Ir439ez
+         rbnpAN2Vu7cZyV2hcdKvw4Vl9wnUDjW3kCN/Ze0nJvZLKzrAeWX8HEzEiu0+jBeZZVJi
+         E2jZmltUGOm4ipytcfNygSqPoHRYiIF+vkvKGrI7th/4OzZCwrEY0V3JGeJAQzNOeElZ
+         VGzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688831774; x=1691423774;
+        d=1e100.net; s=20221208; t=1688831771; x=1691423771;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZdFBJLxKAfV9Y7ZM7MHavdkTizvX4XDPfGpLHxe+uOc=;
-        b=N+WS4YHZlYd6FO/VNpcW3EBQL/0zUPjzwTpd/n1uPmiLcMQoJJ15cj7z6HcO3Of/ls
-         CJ2mHGdSDZzjdQpgJUoF3QOZHFrYdTTbGE4rvnaxFkPA+sDbIB1LLyV4i6MbrdlcUFaq
-         ueaLA5JeSKaakUE7xGi4Qfbjnt3jTzES70NQmVg9y/2+3++j1W5oPwj82xOXfyEr7M5J
-         1duXlMaGMJoeRbKpvHfrkBU5Jf7G5wo6UaMoMiCORafiW9IoeeMXYtW26KecyrkXIMvr
-         kqmsi+i6fEQ9uqvN2xwxYFh26lEORikCVDLjFtORVPyVk6SKv2atgJTNqP3LzbJvlk3O
-         PTeQ==
-X-Gm-Message-State: ABy/qLao+toEM3Tjn6xvBkISNPOiQryREAwhjxPuKXJGDBirrgFw5bfk
-	nFNkrjid5ClurlSJXiByXFmPc9IVvLIoCIC8Zd0=
-X-Google-Smtp-Source: APBJJlGHBWneD1yTVo7LQmsaWIoa/s4NpQnVZiOey3QoJLWmNCJa1nBgl/oc2QHzj3kQTtTt5l4ZFQ==
-X-Received: by 2002:a17:90b:390d:b0:262:f99b:a530 with SMTP id ob13-20020a17090b390d00b00262f99ba530mr8382725pjb.34.1688831774573;
-        Sat, 08 Jul 2023 08:56:14 -0700 (PDT)
+        bh=jW75ezQsxhrtvA1jS2bv79tNC48t6Dl8jIUQGgXvDR8=;
+        b=JV0BJ1frKdc0cqEMp6GbxSDgGkKgNkDJZr2tfn0Q24a4sLVfqheFzU9cD+o4bmnkdE
+         fNYD3jPpNDA9uqrHs1MHoI2HGQRBYt+AQ7YAV0cx17xsjSufcHS5ENFd+vkzea+D8ZGw
+         JvcPmevy8DBNIJHxLDGJ8QGWkegtcyIsfcGa3OKlC39iK4RBXOYJg748hmVsFCZjrYv8
+         ofVUn5Y+It+osw4iu690Hbi9fV3vmEDqZodhCsF01Ruhs0sU81dETtNyQ46JsXrBV9oD
+         Iaqrth7JHJVqshYLdStLfmpsSWqHlAvHaE8Bqo19WYKi+5ju7iurz9hsLTguXkebSJ/x
+         HTeQ==
+X-Gm-Message-State: ABy/qLafrf/rmTRRy25zAlXWItYK2gdUn2JefA3M0FQImTE7EKRcLpfW
+	jT9gdN6wm2w7oKiXkVNduV7dsJt7pDcbXg1ig7k=
+X-Google-Smtp-Source: APBJJlHp7Pkg2ZPCGEegx34yTOZyDE7XWAkGrKWoOsTgQzS9QpSKkbAOvu1aiwBdfmruQ/PwqgJ7kA==
+X-Received: by 2002:a17:90a:8804:b0:25b:be3a:e6ae with SMTP id s4-20020a17090a880400b0025bbe3ae6aemr7899174pjn.18.1688831770637;
+        Sat, 08 Jul 2023 08:56:10 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b00263f6687690sm3257801pjf.18.2023.07.08.08.56.13
+        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b00263f6687690sm3257801pjf.18.2023.07.08.08.56.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jul 2023 08:56:14 -0700 (PDT)
+        Sat, 08 Jul 2023 08:56:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/17] conf: add nice level to the hash config ignred variables
-Date: Sat,  8 Jul 2023 05:55:42 -1000
-Message-Id: <b77850f613bdc103e5d529b6c62ae90e134106ae.1688831566.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/17] oe-depends-dot: Handle new format for task-depends.dot
+Date: Sat,  8 Jul 2023 05:55:40 -1000
+Message-Id: <c49914bb3cb6116f2e1bed7de82a702c2e4f7b5d.1688831566.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688831566.git.steve@sakoman.com>
 References: <cover.1688831566.git.steve@sakoman.com>
@@ -61,34 +61,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 15:56:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184028
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184026
 
-From: Lorenzo Arena <arena.lor@gmail.com>
+From: Rusty Howell <rhowell@control4.com>
 
-This is needed as each user could be setting different nice levels
-while building, however this should not make the shared cache unusable.
+The .dot file created by `bitbake -g` changed formats a while ago, which
+broke oe-depends-dot.
 
-Signed-off-by: Lorenzo Arena <arena.lor@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 42784f9360345da1c01d988070253e7ffd5ac4ac)
+Also add some useful examples to the --help output.
+
+Signed-off-by: Rusty Howell <rustyhowell@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/oe-depends-dot | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 91f003d6dd..457b7790c2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -897,7 +897,7 @@ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
-     GIT_PROXY_COMMAND ALL_PROXY all_proxy NO_PROXY no_proxy FTP_PROXY ftp_proxy \
-     HTTP_PROXY http_proxy HTTPS_PROXY https_proxy SOCKS5_USER SOCKS5_PASSWD \
--    BB_SETSCENE_ENFORCE BB_CMDLINE BB_SERVER_TIMEOUT"
-+    BB_SETSCENE_ENFORCE BB_CMDLINE BB_SERVER_TIMEOUT BB_NICE_LEVEL"
- BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
-     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
-     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+index 5eb3e12769..1c2d51c6ec 100755
+--- a/scripts/oe-depends-dot
++++ b/scripts/oe-depends-dot
+@@ -15,7 +15,7 @@ class Dot(object):
+     def __init__(self):
+         parser = argparse.ArgumentParser(
+             description="Analyse recipe-depends.dot generated by bitbake -g",
+-            epilog="Use %(prog)s --help to get help")
++            formatter_class=argparse.RawDescriptionHelpFormatter)
+         parser.add_argument("dotfile",
+             help = "Specify the dotfile", nargs = 1, action='store', default='')
+         parser.add_argument("-k", "--key",
+@@ -32,6 +32,21 @@ class Dot(object):
+                     " For example, A->B, B->C, A->C, then A->C can be removed.",
+             action="store_true", default=False)
+ 
++        parser.epilog = """
++Examples:
++First generate the .dot file:
++    bitbake -g core-image-minimal
++
++To find out why a package is being built:
++    %(prog)s -k <package> -w ./task-depends.dot
++
++To find out what a package depends on:
++    %(prog)s -k <package> -d ./task-depends.dot
++
++Reduce the .dot file packages only, no tasks:
++    %(prog)s -r ./task-depends.dot
++"""
++
+         self.args = parser.parse_args()
+ 
+         if len(sys.argv) != 3 and len(sys.argv) < 5:
+@@ -99,6 +114,10 @@ class Dot(object):
+                 if key == "meta-world-pkgdata":
+                     continue
+                 dep = m.group(2)
++                key = key.split('.')[0]
++                dep = dep.split('.')[0]
++                if key == dep:
++                    continue
+                 if key in depends:
+                     if not key in depends[key]:
+                         depends[key].add(dep)
 -- 
 2.34.1
 
