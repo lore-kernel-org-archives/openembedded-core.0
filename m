@@ -1,114 +1,149 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D826EB64DA
-	for <webhook@archiver.kernel.org>; Sat,  8 Jul 2023 09:26:49 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.15073.1688808406385498050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8ACEB64DA
+	for <webhook@archiver.kernel.org>; Sat,  8 Jul 2023 15:56:07 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.330.1688831763960806822
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Jul 2023 02:26:46 -0700
+ Sat, 08 Jul 2023 08:56:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=DXdSapOT;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: ticotimo@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-783698a37beso109397339f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 02:26:46 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sh4ddVxy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-553ad54d3c6so2046927a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 08:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688808405; x=1691400405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aSiWyJVV1kVqHzNHEMFzbcj2ajxe3fzXFrDNdBvQ68k=;
-        b=DXdSapOTq9H0Hno/CnQQ130tHnNuqFrmni5KPsSbDlALHRMj2/WBqJs21D5LoDzY98
-         te/n8z3tLBwu67wz6wA6bWZLLXZhWip4e4YUYCmdSx/Xh9Qima8vIb5sL6bpuedTi5mY
-         LicbCpYK3qZxNmB86IR5go1o4efeAgIzJlP7+SRgRnLOemKB01AhGOq2cFblChjaYoPj
-         d8DMCBSyyRSD3HZXTWC2qosz/ypYJTu9RpdXmOa2zKZFZei5mq8jIRq3KzK+wI8pam7E
-         h99ycVOciXMw3mHQrk/qrP8kfKVW9/bwDOED/VRzGL+KjIycsetGFPf4hoCORjYb4eWp
-         RUaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688808405; x=1691400405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1688831763; x=1691423763;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aSiWyJVV1kVqHzNHEMFzbcj2ajxe3fzXFrDNdBvQ68k=;
-        b=RcQH3jLzlG1fsRDpqP8zFFZHxbTofSM3f/vDO4QpTQDmP9k2xiBDODaANNIkRhHSZE
-         4rmeb0F5SGWrLiiFZyyI0OYd23W9vfMIYLYhJZIGpfVTW1ibaL/kHJJNU85oI60h3iNi
-         yaSsBIfOJPpB84Bl/OReZF6plCOiO5uFNIrtm2qLQCxnMSTFzE6UNJRfh6GY0iTikfl0
-         G3msn5FFVXWtEVU86bK3VHM9CJOcQKySIXjTbT2S4ggwiT9t/J9iUwi+Kr9c88WNpSAe
-         qen+HbLkjsWwoj9mbf8s49xANcj9gamqU75mWwwA/kHF/GmBNvx5A1ZnVrNQBzmllBy9
-         pI3A==
-X-Gm-Message-State: ABy/qLZRCoG/PNjg73uuHS5X1YecCn3aHQvvTn6eoqWrA0ZJN2+RaFMh
-	ZlKSMCalI+xFZI0hTWHvxBvhP5ruUiAWYMj0zxw=
-X-Google-Smtp-Source: APBJJlF3jg4TSpLEjymdUM0EBqiuwlF9O95XfkrnKX8e5UY19XCpIUjoT9QUqnlNg5Iv84iggvYudQ==
-X-Received: by 2002:a5e:c002:0:b0:786:cd9b:1cd7 with SMTP id u2-20020a5ec002000000b00786cd9b1cd7mr11186337iol.9.1688808405141;
-        Sat, 08 Jul 2023 02:26:45 -0700 (PDT)
-Received: from lons-builder.int.hatle.net ([76.164.132.203])
-        by smtp.gmail.com with ESMTPSA id dj15-20020a0566384b8f00b0042b1d495aecsm1850976jab.123.2023.07.08.02.26.44
+        bh=NCZ72GolJw3Obw0hpj20chb0js/rd5DSnAZbKKVkd3Y=;
+        b=sh4ddVxybBRjEXOcLCZEXT3dS+eNWiJntZXhdbRZwfqPR1BJ5M6pfRIgP9koJwXlUy
+         +0ngYA1vfokjn9LWaeYlJosKZ3KiwaRQzI4qnqL5QiajJtNzbsAmr12G+YyarmsvEbpg
+         tFr5ugGOhYBHFColD391l3kiSYxoObWA6+Ft5+cLCEpWvoZYEl0dUGaW8jut833JNzEO
+         x3iEbAGckE1CdB2KdhKv6QOt1VLjxe7E97hoI8xALwVhs40XRfhCpYGbxPrQ6OgXfTBx
+         +kkYZa0R6+J8Y+Vt0KNglImq9KnD+y7Lz8GKAM7zSaukh8yR08nVWEZs2/qr5qMjB6qB
+         cf9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688831763; x=1691423763;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NCZ72GolJw3Obw0hpj20chb0js/rd5DSnAZbKKVkd3Y=;
+        b=gs/4BIFAKKrDMZwas4CV5VNgEszr1gVTh1Jt86SM5PrVFvN6a1INPbfPC+7rY8tgRn
+         RVmGNLJun4QZi4yHK6N3QSo5MEr+lSsE7ZP5JOXY5IpH7yDFa4LHlI/SGgKjrgZJJnlk
+         0sOG97AcDuG4run8iDhavH6qHo/CgjVZzY67wUZZkMEiTMzYAIhggECS+f1xnDHM4v+X
+         R0fr+5cBIomM8h/x2K0C2ohX6aC+lMVIsf9t7Tra5KJLuLo9XDo7pKDBntlXfvNtSEDZ
+         vbipXA33gfbHpPSi/4M1oo7WhNhHclBu9fwaw3/+fK1/cZHZTrQ/htpp/hr9QzOXAB/j
+         P71g==
+X-Gm-Message-State: ABy/qLZtRAU5FJ3EjlWEM2yx2rJgSKJ9nUdYlcToNEXdcc5vU/20tRQx
+	ArKmXB/n+48JyGL2eY2BBRYfo/ulEpKiE4fdanw=
+X-Google-Smtp-Source: APBJJlEE3FayM9DiCwk977hmvV3L7QfrSFH5NbtNzKm8N0GmTBTb4NUxv4P1et4H3MecFeBLigyK/g==
+X-Received: by 2002:a17:90a:5898:b0:262:f029:6946 with SMTP id j24-20020a17090a589800b00262f0296946mr5790654pji.9.1688831762836;
+        Sat, 08 Jul 2023 08:56:02 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b00263f6687690sm3257801pjf.18.2023.07.08.08.56.01
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jul 2023 02:26:44 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        Sat, 08 Jul 2023 08:56:02 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-importlib-metadata: upgrade 6.7.0 -> 6.8.0
-Date: Sat,  8 Jul 2023 04:26:36 -0500
-Message-Id: <20230708092636.96729-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [OE-core][dunfell 02/17] sysstat: fix CVE-2023-33204
+Date: Sat,  8 Jul 2023 05:55:36 -1000
+Message-Id: <c6bc5cfbed71b65753e50aee5a640934e754858a.1688831566.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1688831566.git.steve@sakoman.com>
+References: <cover.1688831566.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 09:26:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184019
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Jul 2023 15:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184022
 
-* Require Python 3.8 or later.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-34fd736 (HEAD, tag: v6.8.0) Finalize
-97084d8 Remove reliance on typing-extensions, only required for Python 3.7 compatibility.
-b74d2b2 Merge pull request #460 from Gryfenfer97/main
-ec7bca0 Disable tests on pypy due to #463
-ee4f84a Remove superfluous includes
-f862e3f Merge branch '2023-handoff' of https://github.com/jaraco/skeleton
-23ed6b1 Merge branch 'collapse' into 2023-handoff
-c29955f Collapse skeleton history. Workaround for jaraco/skeleton#87.
-cca49a4 Prefer 3.x for Python version (latest stable).
-74ba8ac Leverage pytest-enabler 2.2 for the default config.
-8e83c3f Expand 'finalize' to commit and tag the change.
-f5a5617 Merge https://github.com/jaraco/skeleton
-3b7d8a9 Require Python 3.8 or later.
-07a87ea Remove tox boilerplate, no longer necessary with later versions of tox.
-cd145f4 Replace workaround for actions/setup-python#508 with 'allow-prereleases'
-5ca761c Merge https://github.com/jaraco/skeleton
-45c03bd add typing for simple functions
-74b0d39 Adopt towncrier for managing changelog. Fixes jaraco/skeleton#83.
-2963377 Merge https://github.com/jaraco/skeleton
-241541c Remove inclusion of python version for docs
-e7cd730 Add badge for Ruff.
-6f75480 Update RTD boilerplate to new issue. Ref readthedocs/readthedocs.org#10401.
+import patch from debian to fix CVE-2023-33204
+http://security.debian.org/debian-security/pool/updates/main/s/sysstat/sysstat_12.0.3-2+deb10u2.debian.tar.xz
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+upstream patch:
+https://github.com/sysstat/sysstat/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ib-metadata_6.7.0.bb => python3-importlib-metadata_6.8.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_6.7.0.bb => python3-importlib-metadata_6.8.0.bb} (88%)
+ .../sysstat/sysstat/CVE-2023-33204.patch      | 46 +++++++++++++++++++
+ .../sysstat/sysstat_12.2.1.bb                 |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-index 5ad7ae81ad0..b8dd4bb7014 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-@@ -8,7 +8,7 @@ inherit pypi python_setuptools_build_meta
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+new file mode 100644
+index 0000000000..9a27945a8b
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+@@ -0,0 +1,46 @@
++Origin: https://github.com/opencontainers/runc/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0
++Reviewed-by: Sylvain Beucler <beuc@debian.org>
++Last-Update: 2023-02-18
++
++From 954ff2e2673cef48f0ed44668c466eab041db387 Mon Sep 17 00:00:00 2001
++From: Pavel Kopylov <pkopylov@cloudlinux.com>
++Date: Wed, 17 May 2023 11:33:45 +0200
++Subject: [PATCH] Fix an overflow which is still possible for some values.
++
++CVE: CVE-2023-33204
++Upstream-Status: Backport [ upstream: https://github.com/sysstat/sysstat/commit/6f8dc568e6ab072bb8205b732f04e685bf9237c0 
++debian: http://security.debian.org/debian-security/pool/updates/main/s/sysstat/sysstat_12.0.3-2+deb10u2.debian.tar.xz ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++---
++ common.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++Index: sysstat-12.0.3/common.c
++===================================================================
++--- sysstat-12.0.3.orig/common.c
+++++ sysstat-12.0.3/common.c
++@@ -1449,15 +1449,16 @@ int parse_values(char *strargv, unsigned
++  */
++ void check_overflow(size_t val1, size_t val2, size_t val3)
++ {
++-	if ((unsigned long long) val1 *
++-	    (unsigned long long) val2 *
++-	    (unsigned long long) val3 > UINT_MAX) {
+++	if ((val1 != 0) && (val2 != 0) && (val3 != 0) &&
+++	    (((unsigned long long) UINT_MAX / (unsigned long long) val1 <
+++	      (unsigned long long) val2) ||
+++	     ((unsigned long long) UINT_MAX / ((unsigned long long) val1 * (unsigned long long) val2) <
+++	      (unsigned long long) val3))) {
++ #ifdef DEBUG
++-		fprintf(stderr, "%s: Overflow detected (%llu). Aborting...\n",
++-			__FUNCTION__,
++-			(unsigned long long) val1 * (unsigned long long) val2 *	(unsigned long long) val3);
+++		fprintf(stderr, "%s: Overflow detected (%u,%u,%u). Aborting...\n",
+++			__FUNCTION__, val1, val2, val3);
++ #endif
++-	exit(4);
+++		exit(4);
++ 	}
++ }
++ 
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.1.bb b/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
+index 2c0d5c8136..ac7b898db9 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.2.1.bb
+@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
--SRC_URI[sha256sum] = "1aaf550d4f73e5d6783e7acb77aec43d49da8017410afae93822cc9cca98c4d4"
-+SRC_URI[sha256sum] = "dbace7892d8c0c4ac1ad096662232f831d4e64f4c4545bd53016a3e9d4654743"
+ SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
+             file://CVE-2022-39377.patch \
++            file://CVE-2023-33204.patch \
+            "
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
- 
+ SRC_URI[md5sum] = "9dfff5fac24e35bd92fb7896debf2ffb"
 -- 
-2.25.1
+2.34.1
 
 
