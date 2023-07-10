@@ -2,105 +2,94 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25028C0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F8A7C001DE
 	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 22:24:54 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web11.194.1689027887494242851
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web10.178.1689027888345257415
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 15:24:47 -0700
+ Mon, 10 Jul 2023 15:24:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AwkVifbC;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7835e5fa459so166118039f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 15:24:47 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MtHEdC1y;
+ spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-34574eb05f4so19137495ab.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 15:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689027886; x=1691619886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j0XLDu+wm4zE+O1xwL4CfYB1J8reseMe3yNkNxgNd7s=;
-        b=AwkVifbCl89IhOCDwrlGDdVG4wU0zd8wz3A3TqX69O9+NKMd1//J06FDGqNa493POm
-         rJ2KBhBb5IUgHYojykv7Z7OxqPAppdHjFcPswYuKwQaC6GfKo4KbfwiaOaaU/9q6qeBF
-         rdiUL9kXma8//6rbe7T8RUL29Nrb0REszAUXXNUXCcpDGjdTBKaptpeeD2anxIS8k6x5
-         Ek3GtRZYvCoMKkB5FDrpxyETY5fN+jW2MeSCcurpcDxz92VzGMylYvZc7X4NepwZrvLQ
-         Y4AZ4uyxC9rhiqvwoqF2Mab8fe9wmFY8jeMtaEzuj8t9Des6YJJ1YrGK0P3wB//ZYjCK
-         P4Zw==
+        d=gmail.com; s=20221208; t=1689027887; x=1691619887;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cCjv7P/0GdtnIngYpDEmoQL93MOmxIecaa/eVAYg6U8=;
+        b=MtHEdC1y4OZY8mxDRigMyTyAp+h+khO12+/3IPFoN1eYRmQ8sevk3qVKfgM8wmcVLr
+         iQ5HBx5lXDcO747omdHi1Nf7k5EgAABxqdv0PhdfyaoMZhYSlagim/8nphGnaPzSav52
+         1q5UkmxHE1pYaHql2knhvDFvsBe/uLvFH0cVZYWgg4kJhNeAsjfNiHc4djR4WuNbYaW1
+         aLbpwy7zf920PmHv0/LwSeEcj2LxepoHfkicfbfRLzYflJ1J5FLN2Aqsx3XpFrD7PyxT
+         M3e8R2c+Jaq5+2+SNygFQpV2Cx4hsr5LsDiCdaAYhD3N6vkOAaf98XKIb5m6pwJDOZA2
+         yMvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689027886; x=1691619886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j0XLDu+wm4zE+O1xwL4CfYB1J8reseMe3yNkNxgNd7s=;
-        b=ff+xKqZe72UowfI8G9hlA/R2a6g7JdJR8qWCe+APZ6jcI4KGBFWxBFAu8bh3gPn7BU
-         JOBJiZMTfN0EYH55Q5HXg7/guVllkNxfy0PKc372YqVNBoLfT2rlvIsdn3r1YejaOE6u
-         KjYv5C/IVqMddrCJeOmG9pbgwaDUHiMg5oeB177IHUNRWYh4LOubzrxaU09D5gePaAy4
-         T15Onr3lRM0d4OKaLvdXqNh8qMRn+NRUQAwNOzuWurAaRZW6px0e2rQ+EE3x8Ya+cUY0
-         qE13SjAr6qy0at5DvpjnQ+2NRaNpCoo9O7vsHjHryVDWt4VVUgOE/0wu4DG2GiBoScDi
-         7x0Q==
-X-Gm-Message-State: ABy/qLYInoqiAcBVNVgEyK9b76UC6JVFV7omkVHpJogXhXvoxkt53kki
-	iAgg6cKL63ZWAUtvzTu9jVHm8X/uNp6y6g==
-X-Google-Smtp-Source: APBJJlFVhF8Y4jvPZBK96uSTZjHmFESfJr3+N5OikX+DUM+LihlJQpI6B4ELUshJNNBPhBW95U6ltg==
-X-Received: by 2002:a5d:850e:0:b0:786:f4a0:d37e with SMTP id q14-20020a5d850e000000b00786f4a0d37emr7369912ion.4.1689027886327;
-        Mon, 10 Jul 2023 15:24:46 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689027887; x=1691619887;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cCjv7P/0GdtnIngYpDEmoQL93MOmxIecaa/eVAYg6U8=;
+        b=UCV3/oGjzlDC4qh1Vuqoo5tfn/lP4esjX54yzlLF5NP6OE5e36zfzr2vhkdDOgKqeo
+         rbrM1izmcYEnZs/+V/8PTrhTjZs9zySQzOQN/5G3UtyuKxvQ86vT2zMMs61r0PqFFO3B
+         4/0ZO09KLqPjmYNGHwyNyMcuNw6+NGvLNjb2+dCHxNezvJvKqyVxKA/rD+wZlk5KoQCb
+         O3Ql5ovy9qf7LSeqEZMUISsTrGFWT7YY6HdDVqzRTb7dVXU8B9Jw3WVVHLTH9ruJZsul
+         M49ChbQTkW2Wa9fBMJii1kvMhH9uC25M1o4wiiYyPFfKOPyTfjXioNB4GQIWuHUJc8QV
+         cuyQ==
+X-Gm-Message-State: ABy/qLb43meTevBgO7+kqo/DXc2L+LaYAX/H/TuR5a4rmxkdF6f1nvta
+	4tWhmC1DLs37V+VizwKp3liwnld8X7qPwg==
+X-Google-Smtp-Source: APBJJlGwf0wUGGwkzPyx4KZgE19vAFWkjjU3YfoZ+j6vdxBsoX6CI4DtnxITJVSGWowgQNsFc9SycQ==
+X-Received: by 2002:a92:ce12:0:b0:345:913a:41a3 with SMTP id b18-20020a92ce12000000b00345913a41a3mr12767988ilo.30.1689027887432;
+        Mon, 10 Jul 2023 15:24:47 -0700 (PDT)
 Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id l8-20020a02cd88000000b0042036f06b24sm127838jap.163.2023.07.10.15.24.45
+        by smtp.gmail.com with ESMTPSA id l8-20020a02cd88000000b0042036f06b24sm127838jap.163.2023.07.10.15.24.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 15:24:46 -0700 (PDT)
+        Mon, 10 Jul 2023 15:24:47 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH 1/4] pybootchartgui: calcule elapsed_time when starting the loop
-Date: Mon, 10 Jul 2023 22:24:17 +0000
-Message-Id: <20230710222420.2235277-1-jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH 2/4] pybootchartgui: concatenate the elapsed time with the process
+Date: Mon, 10 Jul 2023 22:24:18 +0000
+Message-Id: <20230710222420.2235277-2-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230710222420.2235277-1-jose.quaresma@foundries.io>
+References: <20230710222420.2235277-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 22:24:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184102
 
-Instaed of calculate the elapsed time over the loop when needed
-do it on the loop startup.
+The function draw_label_in_box have logic to chose the rigth side
+to call the draw_text, so use it instaed of forcing the cordinates
+of the right side.
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- scripts/pybootchartgui/pybootchartgui/draw.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/pybootchartgui/pybootchartgui/draw.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
-index e71fe09ea6..ddfa9a6192 100644
+index ddfa9a6192..10f6783d38 100644
 --- a/scripts/pybootchartgui/pybootchartgui/draw.py
 +++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-@@ -646,8 +646,9 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-     offset = trace.min or min(trace.start.keys())
-     for start in sorted(trace.start.keys()):
-         for process in sorted(trace.start[start]):
-+            elapsed_time = trace.processes[process][1] - start
-             if not options.app_options.show_all and \
--                    trace.processes[process][1] - start < options.app_options.mintime:
-+                    elapsed_time < options.app_options.mintime:
-                 continue
-             task = process.split(":")[1]
+@@ -682,10 +682,9 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+                 draw_fill_rect(ctx, col, (x, y, w, proc_h))
+             draw_rect(ctx, PROC_BORDER_COLOR, (x, y, w, proc_h))
  
-@@ -656,7 +657,7 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-             #print(s)
- 
-             x = chart_rect[0] + (start - offset) * sec_w
--            w = ((trace.processes[process][1] - start) * sec_w)
-+            w = elapsed_time * sec_w
- 
-             #print("proc at %s %s %s %s" % (x, y, w, proc_h))
-             col = None
-@@ -684,7 +685,6 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-             draw_label_in_box(ctx, PROC_TEXT_COLOR, process, x, y + proc_h - 4, w, proc_h)
- 
+-            draw_label_in_box(ctx, PROC_TEXT_COLOR, process, x, y + proc_h - 4, w, proc_h)
+-
              # Show elapsed time for each task
--            elapsed_time = f"{trace.processes[process][1] - start}s"
-             draw_text(ctx, elapsed_time, PROC_TEXT_COLOR, x + w + 4, y + proc_h - 4)
+-            draw_text(ctx, elapsed_time, PROC_TEXT_COLOR, x + w + 4, y + proc_h - 4)
++            process = "%ds %s" % (elapsed_time, process)
++            draw_label_in_box(ctx, PROC_TEXT_COLOR, process, x, y + proc_h - 4, w, proc_h)
  
              y = y + proc_h
+ 
 -- 
 2.34.1
 
