@@ -1,142 +1,274 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB6BEB64DA
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 19:12:42 +0000 (UTC)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
- by mx.groups.io with SMTP id smtpd.web11.48800.1689016354016166901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACCAEB64DA
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 19:16:12 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.48877.1689016568033061047
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 12:12:34 -0700
+ Mon, 10 Jul 2023 12:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=vmvq1UPl;
- spf=pass (domain: baylibre.com, ip: 209.85.222.41, mailfrom: tgamblin@baylibre.com)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-784f7f7deddso1477251241.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 12:12:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=fOiuF2Di;
+ spf=pass (domain: mvista.com, ip: 209.85.210.169, mailfrom: asharma@mvista.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-668709767b1so2708585b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 12:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689016352; x=1691608352;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fUKK+jNYK8KwRscJTYPwRDj7edlSPuZM5uOp36X61uA=;
-        b=vmvq1UPl579RcyMwLYmDwbb1mXzkZICvbkP/Z4MesK+tKeIo3vDwXa+KcCkuWRB+j4
-         F3DUBkbrK0U5UlhKJoOLDmckdt/tHG790HzuJQrb0l25V5cVb0JFr/Ef4n+WNTdVqL9P
-         6fW+y3PE7/8E1cd5MANN4hDe5IGGQ7Y22LYrfeIFCAc7IgDWDIwkgjzgVeTlAuixxDBv
-         3grmNThNNWq2KXul3n4hbBM7ycquYfP3EDdM+r+FjolgOLNd+zyqQNSU5vPf5OGEjYU+
-         fzO4tg4EyN9YIVgJzXvP63aoZk8OeTUx9ZCmZYc5CF7l/eVdsgAX3KVu6OPW3vz0X3w7
-         lc1Q==
+        d=mvista.com; s=google; t=1689016567; x=1691608567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDVwZ/w+3ougTYjcCkcB8GZGijcmd9JwqotmWcCiWuY=;
+        b=fOiuF2DiVfeXAUE2h+m+K6s4w/ux6uJxq+TAP3KzlH337uWSr5DdcTUBApdMA31HFO
+         caDNVRzY3VNZcj38Pc0Z0vggKPL8DCSuXRbtRkTuFI0nsmHmSUGIikLWc5GLtRSMzIFa
+         EabyWAkSV4CnxhuIJ5XGgATioGuWUvWlQqDNw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689016352; x=1691608352;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fUKK+jNYK8KwRscJTYPwRDj7edlSPuZM5uOp36X61uA=;
-        b=lqmoJL6ELgj/5sH8Y8VIhhgRwOrG2sM/pUpWherwxF4Pu6ZlA6QZmhQ3aiUHleVyQJ
-         +MhVyoIt1H9Ay9JlwouBqlb4NCK9RVj7vRWok+FC+XNU1cpmpUI07c9LhL5V+IiXrkzv
-         /qUZvaDftjJMnwl3OezFcREhyqRAfENEUOTu2Un2KsQElk9a7htfOnc6X62MG+vz5X/p
-         oe6fyeAKUX2XnvaMfLUlhpswceUp3Pjs7+CL+9fryZqA923ic4bGb1raodYGybIi8srE
-         m/HYE9tfZ8qHOnErJvL0JRSuoCbD/H+qrSiTbPycxEDTDm9g3kgzFK9AKWmlM1drUi1/
-         bUXg==
-X-Gm-Message-State: ABy/qLYJqfidiCln3EDuq3juJp3lTNwnwf6Xj5tbEMsvFUQcR029Wae/
-	yMX0B+H5T38/6dd3dREe7hdxARQV30jlW/Nckkw=
-X-Google-Smtp-Source: APBJJlFfSrmN/qiLmBOSPRBE1o9hNSmV/x8sAlrMOyI0efbb/Ik7WOjHJ4jvH8Z5xmIjrl6r8cD9Aw==
-X-Received: by 2002:a67:e290:0:b0:443:6e00:d32 with SMTP id g16-20020a67e290000000b004436e000d32mr6659361vsf.8.1689016352513;
-        Mon, 10 Jul 2023 12:12:32 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id f1-20020a0ccc81000000b0062df95d7ef6sm120441qvl.115.2023.07.10.12.12.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 12:12:32 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        d=1e100.net; s=20221208; t=1689016567; x=1691608567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WDVwZ/w+3ougTYjcCkcB8GZGijcmd9JwqotmWcCiWuY=;
+        b=H1jctWH8R4YE+o4+gS2GZEYkAzgR/ZAEISCE0Jv22+HjPfszezVXFVqaf43+Y8Tb9O
+         Yb4KR0j2XQEKJMnbJSpr7BdQL0oG8EgYqx6RqrTDOJXi6LDVUsCQ4YBJIZtESdTd/FRS
+         oCveq+Bjpbl8MrxHSegajh5bPiOtXaSgUTUkL8Q5bPa7DbPuc9G/sfoSQvkzCOjq59vd
+         Th45EGoOnJE/UbYq1yxjyn+bZr4CoXT8/zQ/8jvsQfr3FGzgGb4F5n15QUyvHHnXZmjS
+         16n7t/asEc4UeQyYbCP/t2EVKM/wSebsQGAueXoT4gc86HH1rzJF+ytjBYCxaamdednR
+         Z1DQ==
+X-Gm-Message-State: ABy/qLYJekBc1JSWWZupeYoduGagJO8gPue7axGiT+5CO0GBsP25vAqt
+	zbEOsYYbi+PWm5AJYl51eDEL3FmX+KiNaUpvPCg=
+X-Google-Smtp-Source: APBJJlFVx9MfoSMCWH6AczpSu0eG+mQ32KO4CpJyLlYlgjm3IseUqmc/2KPEXJbV91B7JCxli4C86Q==
+X-Received: by 2002:a05:6a21:6d87:b0:121:bda6:2f85 with SMTP id wl7-20020a056a216d8700b00121bda62f85mr14237771pzb.30.1689016567231;
+        Mon, 10 Jul 2023 12:16:07 -0700 (PDT)
+Received: from asharma-Latitude-3400 ([2401:4900:1c31:670c:c76:6583:fbee:148d])
+        by smtp.gmail.com with ESMTPSA id x25-20020aa793b9000000b00673e652985esm157108pff.44.2023.07.10.12.16.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 10 Jul 2023 12:16:06 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Tue, 11 Jul 2023 00:46:01 +0530
+From: Ashish Sharma <asharma@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-setuptools: upgrade 67.6.1 -> 68.0.0
-Date: Mon, 10 Jul 2023 15:12:31 -0400
-Message-ID: <20230710191231.170744-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][dunfell][PATCH] vim: Fix CVE-2023-2609 and CVE-2023-2610
+Date: Tue, 11 Jul 2023 00:45:45 +0530
+Message-Id: <20230710191545.28789-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 19:12:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184094
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 19:16:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184095
 
-AUH upgrade failed because the LICENSE checksum no longer matched. This
-is because the attribution in the file was removed upstream in v67.8.0.
-Patch fuzz also needed to be upgraded for
-0001-conditionally-do-not-fetch-code-by-easy_install.patch.
+import patches from ubuntu to fix
+ CVE-2023-2609
+ CVE-2023-2610
 
-Changelog: https://setuptools.pypa.io/en/stable/history.html
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338
+Upstream commit
+https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches/CVE-2023-2609.patch?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338
+&
+https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches/CVE-2023-2610.patch?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338]
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 ---
- ...itionally-do-not-fetch-code-by-easy_install.patch | 12 +++++++-----
- ...ptools_67.6.1.bb => python3-setuptools_68.0.0.bb} |  4 ++--
- 2 files changed, 9 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_67.6.1.bb => python3-setuptools_68.0.0.bb} (90%)
+ .../vim/files/CVE-2023-2609.patch             |  59 ++++++++++
+ .../vim/files/CVE-2023-2610.patch             | 106 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ 3 files changed, 167 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2023-2609.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2023-2610.patch
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 4d56dc89ba..1e5ab498a4 100644
---- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From 2b06ca797d3ccc5b195aaa04a085c44bf61d4de3 Mon Sep 17 00:00:00 2001
-+From 5e603da9c01ccb828a03ea3e82d15599971f794f Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-@@ -9,17 +9,16 @@ internet by easy_install.
- Upstream-Status: Inappropriate [oe specific]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  setuptools/command/easy_install.py | 5 +++++
-  1 file changed, 5 insertions(+)
- 
- diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
--index 444d3b3..61e445a 100644
-+index 0b8d1159..93308060 100644
- --- a/setuptools/command/easy_install.py
- +++ b/setuptools/command/easy_install.py
--@@ -648,6 +648,11 @@ class easy_install(Command):
--             os.path.exists(tmpdir) and rmtree(tmpdir)
-+@@ -644,6 +644,11 @@ class easy_install(Command):
-+             os.path.exists(tmpdir) and _rmtree(tmpdir)
-  
-      def easy_install(self, spec, deps=False):
- +        if os.environ.get('NO_FETCH_BUILD', None):
-@@ -30,3 +29,6 @@ index 444d3b3..61e445a 100644
-          with self._tmpdir() as tmpdir:
-              if not isinstance(spec, Requirement):
-                  if URL_SCHEME(spec):
-+-- 
-+2.41.0
+diff --git a/meta/recipes-support/vim/files/CVE-2023-2609.patch b/meta/recipes-support/vim/files/CVE-2023-2609.patch
+new file mode 100644
+index 0000000000..c60d5efa25
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2023-2609.patch
+@@ -0,0 +1,59 @@
++From d1ae8366aff286d41e7f5bc513cc0a1af5130aad Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Tue, 9 May 2023 17:09:30 +0100
++Subject: [PATCH] patch 9.0.1531: crash when register contents ends up being
++ invalid
 +
-diff --git a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
-index ad0d7cc527..4ac789d18c 100644
---- a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
- HOMEPAGE = "https://pypi.org/project/setuptools"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=7a7126e068206290f3fe9f8d6c713ea6"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
++Problem:    Crash when register contents ends up being invalid.
++Solution:   Check "y_array" is not NULL.
++
+++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338
+++Upstream commit https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches/CVE-2023-2609.patch?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338]
+++CVE: CVE-2023-2609
+++Signed-off-by:  Ashish Sharma <asharma@mvista.com>
++---
++ src/register.c                 |  2 +-
++ src/testdir/test_registers.vim | 17 +++++++++++++++++
++ 2 files changed, 20 insertions(+), 1 deletion(-)
++
++diff --git a/src/register.c b/src/register.c
++index f3df79cfd642..e481d843c249 100644
++--- a/src/register.c
+++++ b/src/register.c
++@@ -301,7 +301,7 @@ get_register(
++     if (copy)
++     {
++ 	// If we run out of memory some or all of the lines are empty.
++-	if (reg->y_size == 0)
+++	if (reg->y_size == 0 || y_current->y_array == NULL)
++ 	    reg->y_array = NULL;
++ 	else
++ 	    reg->y_array = ALLOC_MULT(char_u *, reg->y_size);
++diff --git a/src/testdir/test_registers.vim b/src/testdir/test_registers.vim
++index e966932478d8..33ea0f4bd3e6 100644
++--- a/src/testdir/test_registers.vim
+++++ b/src/testdir/test_registers.vim
++@@ -835,6 +835,23 @@ func Test_end_reg_executing()
++   bwipe!
++ endfunc
++ 
+++" This was causing a crash because y_append was ending up being NULL
+++func Test_zero_y_append()
+++  " Run in a separate Vim instance because changing 'encoding' may cause
+++  " trouble for later tests.
+++  let lines =<< trim END
+++      d
+++      silent ?n
+++      next <sfile>
+++      so
+++      sil! norm 0VPSP
+++      set enc=latin1
+++       
+++  END
+++  call writefile(lines, 'XTest_zero_y_append', 'D')
+++  call RunVim([], [], '-u NONE -i NONE -e -s -S XTest_zero_y_append -c qa\!')
+++endfunc
+++
++ " Make sure that y_append is correctly reset
++ " and the previous register is working as expected
++ func Test_register_y_append_reset()
+diff --git a/meta/recipes-support/vim/files/CVE-2023-2610.patch b/meta/recipes-support/vim/files/CVE-2023-2610.patch
+new file mode 100644
+index 0000000000..99fd58cd4f
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2023-2610.patch
+@@ -0,0 +1,106 @@
++From ab9a2d884b3a4abe319606ea95a5a6d6b01cd73a Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Tue, 9 May 2023 21:15:30 +0100
++Subject: [PATCH] patch 9.0.1532: crash when expanding "~" in substitute causes
++ very long text
++
++Problem:    Crash when expanding "~" in substitute causes very long text.
++Solution:   Limit the text length to MAXCOL.
++---
+++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338
+++Upstream commit https://git.launchpad.net/ubuntu/+source/vim/tree/debian/patches/CVE-2023-2610.patch?h=applied/ubuntu/devel&id=586a63887e677551384eea2ab03eb22bd1117338]
+++CVE: CVE-2023-2610
+++Signed-off-by:  Ashish Sharma <asharma@mvista.com>
++
++ src/regexp.c                    | 30 +++++++++++++++++++-----------
++ src/testdir/test_substitute.vim | 14 ++++++++++++++
++ 2 files changed, 35 insertions(+), 11 deletions(-)
++
++diff --git a/src/regexp.c b/src/regexp.c
++index 33b36d11a8be..0e6c746df819 100644
++--- a/src/regexp.c
+++++ b/src/regexp.c
++@@ -1767,10 +1767,7 @@ do_Lower(int *d, int c)
++ regtilde(char_u *source, int magic)
++ {
++     char_u	*newsub = source;
++-    char_u	*tmpsub;
++     char_u	*p;
++-    int		len;
++-    int		prevlen;
++ 
++     for (p = newsub; *p; ++p)
++     {
++@@ -1779,24 +1776,35 @@ regtilde(char_u *source, int magic)
++ 	    if (reg_prev_sub != NULL)
++ 	    {
++ 		// length = len(newsub) - 1 + len(prev_sub) + 1
++-		prevlen = (int)STRLEN(reg_prev_sub);
++-		tmpsub = alloc(STRLEN(newsub) + prevlen);
+++		// Avoid making the text longer than MAXCOL, it will cause
+++		// trouble at some point.
+++		size_t	prevsublen = STRLEN(reg_prev_sub);
+++		size_t  newsublen = STRLEN(newsub);
+++		if (prevsublen > MAXCOL || newsublen > MAXCOL
+++					    || newsublen + prevsublen > MAXCOL)
+++		{
+++		    emsg(_(e_resulting_text_too_long));
+++		    break;
+++		}
+++
+++		char_u *tmpsub = alloc(newsublen + prevsublen);
++ 		if (tmpsub != NULL)
++ 		{
++ 		    // copy prefix
++-		    len = (int)(p - newsub);	// not including ~
++-		    mch_memmove(tmpsub, newsub, (size_t)len);
+++		    size_t prefixlen = p - newsub;	// not including ~
+++		    mch_memmove(tmpsub, newsub, prefixlen);
++ 		    // interpret tilde
++-		    mch_memmove(tmpsub + len, reg_prev_sub, (size_t)prevlen);
+++		    mch_memmove(tmpsub + prefixlen, reg_prev_sub,
+++							       prevsublen);
++ 		    // copy postfix
++ 		    if (!magic)
++ 			++p;			// back off backslash
++-		    STRCPY(tmpsub + len + prevlen, p + 1);
+++		    STRCPY(tmpsub + prefixlen + prevsublen, p + 1);
++ 
++-		    if (newsub != source)	// already allocated newsub
+++		    if (newsub != source)	// allocated newsub before
++ 			vim_free(newsub);
++ 		    newsub = tmpsub;
++-		    p = newsub + len + prevlen;
+++		    p = newsub + prefixlen + prevsublen;
++ 		}
++ 	    }
++ 	    else if (magic)
++diff --git a/src/testdir/test_substitute.vim b/src/testdir/test_substitute.vim
++index 7491b6163dc8..32e2f2785479 100644
++--- a/src/testdir/test_substitute.vim
+++++ b/src/testdir/test_substitute.vim
++@@ -1414,6 +1414,24 @@ func Test_substitute_short_cmd()
++   bw!
++ endfunc
++ 
+++" Check handling expanding "~" resulting in extremely long text.
+++func Test_substitute_tilde_too_long()
+++  if v:sizeoflong < 8
+++    throw 'Skipped: only works with 64 bit long ints'
+++  endif
+++
+++  enew!
+++
+++  s/.*/ixxx
+++  s//~~~~~~~~~AAAAAAA@(
+++
+++  " Either fails with "out of memory" or "text too long".
+++  " This can take a long time.
+++  call assert_fails('sil! norm &&&&&&&&&', ['E1240:\|E342:'])
+++
+++  bwipe!
+++endfunc
+++
++ " This should be done last to reveal a memory leak when vim_regsub_both() is
++ " called to evaluate an expression but it is not used in a second call.
++ func Test_z_substitute_expr_leak()
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 309c91848d..59f3183f3e 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -18,6 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://vim-add-knob-whether-elf.h-are-checked.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
++	   file://CVE-2023-2609..patch \
++	   file://CVE-2023-2610..patch \
+            "
  
- inherit pypi python_setuptools_build_meta
- 
-@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- SRC_URI += " \
-             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
- 
--SRC_URI[sha256sum] = "257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"
-+SRC_URI[sha256sum] = "baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235"
- 
- DEPENDS += "${PYTHON_PN}"
- 
+ PV .= ".1527"
 -- 
-2.41.0
+2.17.1
 
 
