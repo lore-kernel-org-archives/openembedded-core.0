@@ -2,76 +2,75 @@ Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA859EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 11:15:59 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.37020.1688987752922552993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB134EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 11:18:49 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.36922.1688987926893073823
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 04:15:52 -0700
+ Mon, 10 Jul 2023 04:18:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=JmpiGMqT;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b8baa836a5so32775085ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 04:15:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=PmHrATBc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-66872d4a141so2674837b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 04:18:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688987752; x=1691579752;
+        d=gmail.com; s=20221208; t=1688987926; x=1691579926;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=piMsy7HzVaWzi0oMVKbaGmHdBV5Vf9ozR8BEKHsdS5M=;
-        b=JmpiGMqTA+d1z68yNnNgMOL5YbzjXqfVl4xEgfbR+SBiNSRiRJJ3SIe1ukvI2tsc7e
-         YpyO+hFwP5xIjyPXtnWhSyIAnr/gXPdQE4luzCagWurSWikvLIDoJYcPw7FMfoJ9rSsf
-         XuGNI7fhOgPdC0Sj2n+QQCo1Y+BAvl89hwydbWGg8teVj/m9RDABkNV7HsMGldAjF7TF
-         VP8uhrpXUyMdB/Kvq0kfj5D65DmEnbVkzczKrdUlL3ESvFaFBxrJMN1ZXmihK3Sf1OF1
-         H0e6Kmj/QW75o0ml/Qc5DvbNmbAed53c0chVrtyvFOFaEim38EhhWej6QkclI5QQn5jk
-         1zeQ==
+        bh=2Hw0FXW8GT8QlCnZTIpGXxFpgcz9OZr62EJGqpM+wbk=;
+        b=PmHrATBc3opG2ESbpl/ws0sHVQoB0p+FqGAnOm4vTp0lXxfKIjpOY+r4T8ctPxcb8M
+         n+Pysv4ixS5jDB9dOLzUVZ6HHKmBn8qxgxUKX9St4rnM40wqn0JoPGrk8gqiTar/TJp7
+         HANycFcGjqWFR8LbadPlIEBWoYeIuwY9tCEQK+DrK02nw8eqiJBdbbBZchgZYd7CxebR
+         QMY15P5/mOvKEeI7Mj/ul4Q+/Mwltli+nYmFi8JZVyiWFzsBQmiYByMGbs0UW/5NudCh
+         VDLQZEnNEqbtV/lCdd+3ZscVNdT/JGjbX5Zs1ZY7iZzVDXt9xYOvaeZOv+8qNIpyofsh
+         gU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688987752; x=1691579752;
+        d=1e100.net; s=20221208; t=1688987926; x=1691579926;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=piMsy7HzVaWzi0oMVKbaGmHdBV5Vf9ozR8BEKHsdS5M=;
-        b=S8jxR5vv7jgbqAnC9eLAJeGfn1SONK6iMxR+t44ah/irXWTEkcBHc4V/HpH5+IPlF1
-         8kLItdF8jRIu/IibRGQHpZjIsobGRVzbQxp9iaa3pFTNJN6FXhh+yJh9MexP4Q6eWjEf
-         kM/1VIY5raBFR2AwLOTXzBRTVLWwZtzCiJf7/fiBXtsqN1psrJkSM01dBFIdkZ939lcj
-         Qm7ke5F6/YUcOxl5tFUzGfTVaUUTPqjlBJwhPj6/vIhQdgwZLuck4MpcCD4WdCF4FKrd
-         4T3V8T36WivLCVK9Co1/x4wuZbDIX22dOxmKE1SRVzT/U28us0lSBcCOBlaqSFMkfchy
-         FQqg==
-X-Gm-Message-State: ABy/qLbNhjK6GJEcu2/7vTB0z3F8O5fl/wmcu5mKgWqfdDarcHj6HIGm
-	TDR3OyeQKDz8J06rHvra6NzFtvIiTp9s4qWb
-X-Google-Smtp-Source: APBJJlF90o0LKgJfcPq5C4vqMPYbThBUvwkJZAGeUeSS4KeQHa0v0LCdJDwnkPdODzPERB2KrhSyEw==
-X-Received: by 2002:a17:903:41c7:b0:1ac:aba5:7885 with SMTP id u7-20020a17090341c700b001acaba57885mr14467965ple.47.1688987751967;
-        Mon, 10 Jul 2023 04:15:51 -0700 (PDT)
+        bh=2Hw0FXW8GT8QlCnZTIpGXxFpgcz9OZr62EJGqpM+wbk=;
+        b=RXGru6pqoDhDyBzAq59qYI2e5hu9HT37q0C4i0+i0+rDWf15BcMwnuWrXqxohnGWFp
+         O4LVW8lnism7lNUAnsGqNfgzITGjQfM/8HtFtZF84xprPY71F+YM2L/9ibyIg8eG0Bj3
+         4WIwaK2aAkSA0D4UrEN1Ye+PVJ5kAiCjKmQkz67y1LhBk8O5EtviV+xs1O7bN31n4yu2
+         oWS4hzAHOlKnSykP0DqjVQd9ld3oFJgLdC2alu+uBqtNcx8UK/u+4Z9dYrO+Qpix3sbQ
+         PsWeGl2tOpeJIFHHRGmUDgc+IBcQOpgq2Y+w5mW/pGuAAIJHrOGRiYWi9TCMq6XkNXcf
+         AWYw==
+X-Gm-Message-State: ABy/qLYq0sMi62mf7m5rAcnBSZCe/O8ot4xbS/Jp3CZESpCDSLiOcDvi
+	GSk4/+qawt7/JLc7VaATMVjAyj10itaPvg==
+X-Google-Smtp-Source: APBJJlFXrHeWwZfSsZ4twq86l09Bfflx+IOi8XTQY0g2JmhVKTnSAQYql8zpnrSPOGl/Av/F8nHNTA==
+X-Received: by 2002:a05:6a20:8f11:b0:12e:7c29:a6dd with SMTP id b17-20020a056a208f1100b0012e7c29a6ddmr11042652pzk.43.1688987925817;
+        Mon, 10 Jul 2023 04:18:45 -0700 (PDT)
 Received: from localhost.localdomain ([43.231.237.241])
-        by smtp.gmail.com with ESMTPSA id o15-20020a170902d4cf00b001b03842ab78sm8025256plg.89.2023.07.10.04.15.49
+        by smtp.gmail.com with ESMTPSA id c1-20020a170902848100b001b9e9f191f2sm384009plo.15.2023.07.10.04.18.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 04:15:51 -0700 (PDT)
+        Mon, 10 Jul 2023 04:18:45 -0700 (PDT)
 From: Poonam Jadhav <ppjadhav456@gmail.com>
 To: openembedded-core@lists.openembedded.org,
-	ppjadhav456@gmail.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Poonam Jadhav <poonam.jadhav@kpit.com>
-Subject: [OE-core][kirkstone][PATCH] libx11: Fix CVE-2023-3138 for kirkstone branch
-Date: Mon, 10 Jul 2023 16:45:33 +0530
-Message-Id: <20230710111533.4188014-1-ppjadhav456@gmail.com>
+	poonam.jadhav@kpit.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][dunfell][PATCH] libx11: Fix CVE-2023-3138 for dunfell branch
+Date: Mon, 10 Jul 2023 16:48:37 +0530
+Message-Id: <20230710111837.25378-1-ppjadhav456@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 11:15:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184069
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 11:18:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184070
 
 From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
-Add patch to fix CVE-2023-3138 for kirkstone branch
+Add patch to fix CVE-2023-3138 for dunfell branch
 
 Link: https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c.patch
 
 Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 ---
  .../xorg-lib/libx11/CVE-2023-3138.patch       | 111 ++++++++++++++++++
- .../xorg-lib/libx11_1.7.3.1.bb                |   1 +
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |   1 +
  2 files changed, 112 insertions(+)
  create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
 
@@ -192,18 +191,18 @@ index 0000000000..c724cf8fdd
 + 	if (!dpy->error_vec) {
 +-- 
 +GitLab
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-index 3e6b50c0a3..19687d546b 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
- SRC_URI += "file://disable_tests.patch \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+index ad3fab1204..568162a911 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+@@ -18,6 +18,7 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
+             file://CVE-2021-31535.patch \
              file://CVE-2022-3554.patch \
              file://CVE-2022-3555.patch \
 +            file://CVE-2023-3138.patch \
-            "
- SRC_URI[sha256sum] = "2ffd417266fb875028fdc0ef349694f63dbcd76d0b0cfacfb52e6151f4b60989"
+ "
  
+ SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
 -- 
 2.25.1
 
