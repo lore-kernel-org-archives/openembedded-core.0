@@ -1,168 +1,142 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E38FAEB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 18:45:51 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.48117.1689014750044182744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB6BEB64DA
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 19:12:42 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web11.48800.1689016354016166901
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 11:45:50 -0700
+ Mon, 10 Jul 2023 12:12:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PSouGjtf;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: festevam@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1a2dd615ddcso1114765fac.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 11:45:49 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=vmvq1UPl;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.41, mailfrom: tgamblin@baylibre.com)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-784f7f7deddso1477251241.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 12:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689014749; x=1691606749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TM9CwkqSHIYeiAiw1NCwXskZp/o2BhEY8yIGxgl4QU4=;
-        b=PSouGjtfkFMALkq1xoRpcbqrWIxR23K59ydwi8aoKuKrDAP5hLIDvr7nfd+odbkFHO
-         r6fSPrEfd2k2pdWLgPIOZItAOfqnu+99GppB3nguggGkVHsml4BeW+6YzRa2tN0+Nka3
-         0oobCDRVYG60pFa+i05wWzs5XH051MwuYErx1qXIddiK53akTDSTFvHmAzeZFFxD5L9B
-         SLVudvASUsS6K8kQqK7VHgdwOhv7UpLg9Tw4V26SL+ofv+DXF1b/HThzkY8E6PR2B1/O
-         F2mjxkWLUFik1HomjI2cIK8Ard6yDxxImwGXotuYPTcWJ9knRJHNCOw/3Br7/LTQmR+9
-         jmMA==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689016352; x=1691608352;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUKK+jNYK8KwRscJTYPwRDj7edlSPuZM5uOp36X61uA=;
+        b=vmvq1UPl579RcyMwLYmDwbb1mXzkZICvbkP/Z4MesK+tKeIo3vDwXa+KcCkuWRB+j4
+         F3DUBkbrK0U5UlhKJoOLDmckdt/tHG790HzuJQrb0l25V5cVb0JFr/Ef4n+WNTdVqL9P
+         6fW+y3PE7/8E1cd5MANN4hDe5IGGQ7Y22LYrfeIFCAc7IgDWDIwkgjzgVeTlAuixxDBv
+         3grmNThNNWq2KXul3n4hbBM7ycquYfP3EDdM+r+FjolgOLNd+zyqQNSU5vPf5OGEjYU+
+         fzO4tg4EyN9YIVgJzXvP63aoZk8OeTUx9ZCmZYc5CF7l/eVdsgAX3KVu6OPW3vz0X3w7
+         lc1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689014749; x=1691606749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TM9CwkqSHIYeiAiw1NCwXskZp/o2BhEY8yIGxgl4QU4=;
-        b=hRq/p+lxdj3tb1343Yz6c884cxWomeQjfxQD1HtQO8aaBZWxWKfrEq/2hQc3BehIAk
-         guSaS0pElxWin9ojzH//MqmrzmMHgG39NbkocHkBlaupcuLk+McotfapueX1hUlMWEmy
-         ArAPA1uF21rEOpAH8wAGiCC63I4W3hOads4jjKPu38Pq+XWD3LGrq7oGtN09xbGb9iou
-         Hc3ipwWYG8CXFZdbAZWpWME6LgWuZNiaxXSTpi2rT1iP4Doeaw57co6bVbXURM4bS3ap
-         8Lw6aK7vpSCGJHMqw5KhXkUS38h0jHkv+LoUGzJTpmkQe+mzPQXaaUaXdpWIHF3PkCny
-         tneA==
-X-Gm-Message-State: ABy/qLaodszB35U/EFMRSmCtR1kt09juDHF2xZoOK98eqVblhe9ClIVI
-	TfEdktYp4efpilzRflzK3b10otpIPdxK8g==
-X-Google-Smtp-Source: APBJJlEE3vPvqth05+xMXxaOGXrfsa8ukRbdp3g+XZtyzsxfLKuLLDFu/ajfd3W975+SjDmBQiJwmw==
-X-Received: by 2002:a05:6870:428c:b0:192:7328:d with SMTP id y12-20020a056870428c00b001927328000dmr9366993oah.4.1689014748867;
-        Mon, 10 Jul 2023 11:45:48 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:9595:141a:b4c0:32cc])
-        by smtp.gmail.com with ESMTPSA id w4-20020a056871060400b001b04277bbb3sm219250oan.47.2023.07.10.11.45.47
+        d=1e100.net; s=20221208; t=1689016352; x=1691608352;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUKK+jNYK8KwRscJTYPwRDj7edlSPuZM5uOp36X61uA=;
+        b=lqmoJL6ELgj/5sH8Y8VIhhgRwOrG2sM/pUpWherwxF4Pu6ZlA6QZmhQ3aiUHleVyQJ
+         +MhVyoIt1H9Ay9JlwouBqlb4NCK9RVj7vRWok+FC+XNU1cpmpUI07c9LhL5V+IiXrkzv
+         /qUZvaDftjJMnwl3OezFcREhyqRAfENEUOTu2Un2KsQElk9a7htfOnc6X62MG+vz5X/p
+         oe6fyeAKUX2XnvaMfLUlhpswceUp3Pjs7+CL+9fryZqA923ic4bGb1raodYGybIi8srE
+         m/HYE9tfZ8qHOnErJvL0JRSuoCbD/H+qrSiTbPycxEDTDm9g3kgzFK9AKWmlM1drUi1/
+         bUXg==
+X-Gm-Message-State: ABy/qLYJqfidiCln3EDuq3juJp3lTNwnwf6Xj5tbEMsvFUQcR029Wae/
+	yMX0B+H5T38/6dd3dREe7hdxARQV30jlW/Nckkw=
+X-Google-Smtp-Source: APBJJlFfSrmN/qiLmBOSPRBE1o9hNSmV/x8sAlrMOyI0efbb/Ik7WOjHJ4jvH8Z5xmIjrl6r8cD9Aw==
+X-Received: by 2002:a67:e290:0:b0:443:6e00:d32 with SMTP id g16-20020a67e290000000b004436e000d32mr6659361vsf.8.1689016352513;
+        Mon, 10 Jul 2023 12:12:32 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id f1-20020a0ccc81000000b0062df95d7ef6sm120441qvl.115.2023.07.10.12.12.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 11:45:48 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
+        Mon, 10 Jul 2023 12:12:32 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] u-boot: Upgrade to 2023.07
-Date: Mon, 10 Jul 2023 15:45:41 -0300
-Message-Id: <20230710184541.278317-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH] python3-setuptools: upgrade 67.6.1 -> 68.0.0
+Date: Mon, 10 Jul 2023 15:12:31 -0400
+Message-ID: <20230710191231.170744-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 18:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184093
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 19:12:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184094
 
-From: Fabio Estevam <festevam@denx.de>
+AUH upgrade failed because the LICENSE checksum no longer matched. This
+is because the attribution in the file was removed upstream in v67.8.0.
+Patch fuzz also needed to be upgraded for
+0001-conditionally-do-not-fetch-code-by-easy_install.patch.
 
-Upgrade to U-Boot 2023.07.
+Changelog: https://setuptools.pypa.io/en/stable/history.html
 
-Remove the patch that is now upstream.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...mkimage-Use-PATH_MAX-for-path-length.patch | 40 -------------------
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  2 +-
- .../u-boot/u-boot-tools_2023.04.bb            |  6 ---
- .../u-boot/u-boot-tools_2023.07.bb            |  2 +
- .../{u-boot_2023.04.bb => u-boot_2023.07.bb}  |  0
- 5 files changed, 3 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/files/0001-mkimage-Use-PATH_MAX-for-path-length.patch
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb
- rename meta/recipes-bsp/u-boot/{u-boot_2023.04.bb => u-boot_2023.07.bb} (100%)
+ ...itionally-do-not-fetch-code-by-easy_install.patch | 12 +++++++-----
+ ...ptools_67.6.1.bb => python3-setuptools_68.0.0.bb} |  4 ++--
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_67.6.1.bb => python3-setuptools_68.0.0.bb} (90%)
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-mkimage-Use-PATH_MAX-for-path-length.patch b/meta/recipes-bsp/u-boot/files/0001-mkimage-Use-PATH_MAX-for-path-length.patch
-deleted file mode 100644
-index 9f38736bcd..0000000000
---- a/meta/recipes-bsp/u-boot/files/0001-mkimage-Use-PATH_MAX-for-path-length.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From dcd3d272975863128e25a4e25453cb6521cddc53 Mon Sep 17 00:00:00 2001
--From: Mingli Yu <mingli.yu@windriver.com>
--Date: Wed, 14 Jun 2023 16:09:59 +0800
--Subject: [PATCH] mkimage: Use PATH_MAX for path length
--
--Fixed when build xilinx_zynqmp in long directory ( >256):
--  |  /buildarea1/testtest/wr_build/wr1023test_secureboot/test1-what/test2-what/test3-what/test4-what/test5-what/test6-what/test7-what/test8-what/test9-what/test10-what/test11-what/test12-what/build/tmp-glibc/work/xilinx_zynqmp-wrs-linux/u-boot-xlnx/1_v2023.01-xilinx-v2023.1+gitAUTOINC+40a08d69e7-r0/build/fitImage-linux: Image file name (uboot-mkimage) too long, can't create tmpfile.
--  | Error: Bad parameters for FIT image type
--
--Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/99d430f344bfdb0641022fd3efa26c29c957df02]
--
--Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-----
-- tools/mkimage.h | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/tools/mkimage.h b/tools/mkimage.h
--index f5ca65e2ed..d92a3ff811 100644
----- a/tools/mkimage.h
--+++ b/tools/mkimage.h
--@@ -17,6 +17,7 @@
-- #include <sys/stat.h>
-- #include <time.h>
-- #include <unistd.h>
--+#include <limits.h>
-- #include <u-boot/sha1.h>
-- #include "fdt_host.h"
-- #include "imagetool.h"
--@@ -44,7 +45,7 @@ static inline ulong map_to_sysmem(void *ptr)
-- #define ALLOC_CACHE_ALIGN_BUFFER(type, name, size) type name[size]
-- 
-- #define MKIMAGE_TMPFILE_SUFFIX		".tmp"
---#define MKIMAGE_MAX_TMPFILE_LEN		256
--+#define MKIMAGE_MAX_TMPFILE_LEN		PATH_MAX
-- #define MKIMAGE_DEFAULT_DTC_OPTIONS	"-I dts -O dtb -p 500"
-- #define MKIMAGE_MAX_DTC_CMDLINE_LEN	2 * MKIMAGE_MAX_TMPFILE_LEN + 35
-- 
---- 
--2.25.1
--
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 8a2e9aef94..eefa6cd8f4 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 4d56dc89ba..1e5ab498a4 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 2b06ca797d3ccc5b195aaa04a085c44bf61d4de3 Mon Sep 17 00:00:00 2001
++From 5e603da9c01ccb828a03ea3e82d15599971f794f Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -9,17 +9,16 @@ internet by easy_install.
+ Upstream-Status: Inappropriate [oe specific]
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "fd4ed6b7e83ec3aea9a2ce21baea8ca9676f40dd"
-+SRCREV = "05aa6516c6bb419d01d69fac457c0de563bfd694"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
-deleted file mode 100644
-index b77a49af87..0000000000
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2023.04.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require u-boot-common.inc
--require u-boot-tools.inc
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 -
--SRC_URI += " \
--    file://0001-mkimage-Use-PATH_MAX-for-path-length.patch \
--"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb
-new file mode 100644
-index 0000000000..7eaf721ca8
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb
-@@ -0,0 +1,2 @@
-+require u-boot-common.inc
-+require u-boot-tools.inc
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2023.04.bb b/meta/recipes-bsp/u-boot/u-boot_2023.07.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2023.04.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2023.07.bb
+ ---
+  setuptools/command/easy_install.py | 5 +++++
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 444d3b3..61e445a 100644
++index 0b8d1159..93308060 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -648,6 +648,11 @@ class easy_install(Command):
+-             os.path.exists(tmpdir) and rmtree(tmpdir)
++@@ -644,6 +644,11 @@ class easy_install(Command):
++             os.path.exists(tmpdir) and _rmtree(tmpdir)
+  
+      def easy_install(self, spec, deps=False):
+ +        if os.environ.get('NO_FETCH_BUILD', None):
+@@ -30,3 +29,6 @@ index 444d3b3..61e445a 100644
+          with self._tmpdir() as tmpdir:
+              if not isinstance(spec, Requirement):
+                  if URL_SCHEME(spec):
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+index ad0d7cc527..4ac789d18c 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_67.6.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_68.0.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
+ HOMEPAGE = "https://pypi.org/project/setuptools"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=7a7126e068206290f3fe9f8d6c713ea6"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+ 
+-SRC_URI[sha256sum] = "257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"
++SRC_URI[sha256sum] = "baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
 -- 
-2.37.3
+2.41.0
 
 
