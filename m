@@ -1,111 +1,82 @@
-Return-Path: <alexander.sverdlin@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A032EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 17:15:21 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.45944.1689009319932565612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3B3C0015E
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 17:18:51 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.46024.1689009527306684926
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 10:15:20 -0700
+ Mon, 10 Jul 2023 10:18:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm1 header.b=hZKXBESN;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-456497-2023071017151647640fd8147f0f5e8a-aj5hat@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2023071017151647640fd8147f0f5e8a
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 10 Jul 2023 19:15:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=UjgE0vvwHwCWFs4lrv78n3LW6ow06v3C/dooKjxR84g=;
- b=hZKXBESNZQhmNe9efhn5GpV+CywDUTT9CcUpyXezHeI7Hv4UGxzd2e/DCf4mSpm9LLlrWH
- XYmZBmWS7GhSmbVWm1DNtQy3ajz+oWTxgnVio+yyLEEOVB2MFSHLtWrmmV2AMb8sSDrlGd6p
- 0eCZZ3FCmxIX1GM5C1uQffHdRoVeM=;
-From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=VY2cA9q7;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-668711086f4so3027523b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 10:18:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689009526; x=1691601526;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zqiwvjLECjGjVMV4SYLQXsZb1WUmf7km06Pclq0b9/A=;
+        b=VY2cA9q7oG/utArJG7BUtcvB4N8YyXQk2WWGM1S0OPwmD6LKTqDoq7A0YUHP8KbR3K
+         QtFFk9jtYWPYH9i2xjmWHwKi30ESGWtzQSrX0j4a5TijbWgMiH6mJbZln2/WGziFahpW
+         K5r0xjY7fvLLK/wy6V5CWVVzh8oe3rFNDNHjm2Rqgau987ZVQwaDrgj/3wp7uVamAMQb
+         BlhtuEGvv/PkWVC2jh6Z2+XgvS6E0iTyZ+o50g+S61A27b+yDq/F1ZK4hiJJ7Fg/XXdl
+         1mLyIpbZ1INZpugV68uzolyLllgUQS9PGgD6AfeCRDs5Xfhn1yas/wYdHGHvmljDRTMm
+         33QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689009526; x=1691601526;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zqiwvjLECjGjVMV4SYLQXsZb1WUmf7km06Pclq0b9/A=;
+        b=gPvga601Nee1p/kCEMgTzm4LdWjKZIvU9rx61lNRwyvQEnxEXkzuwNeMPlY8YE3BCI
+         6PUZcMxqmQaFbXsXlIft7A0HpW5f2pAkjPU0w6YvjpURtOgnImbnPU7ReKYpxGH1gr4g
+         sxCNnsLUjI3DJTs14VEfAhwtWtduCdX7L+em3ayfSjCPHexoZDw9HlMuyyE6z1Jz7TN3
+         PFRqrsMEr2vSXbe7qUssH2FipxtFRDBoXXUPl5ukBg1miHQRM4iaa4dqtE/rQ43Bn3z1
+         ViKHIIpnHxKpshIXjSFpbkIskoN2QTzF9JKDUTnxd1NZ1XiQ2P/14SLSmmZBY+/ziG1Z
+         pbyw==
+X-Gm-Message-State: ABy/qLYfLdNT4PMd80bzBzQFuXLO5f5MUeY295U8k5mtvGkZll1twiic
+	gzgZxcsT9dFzH0eGfaqUp8IZgOEizxY=
+X-Google-Smtp-Source: APBJJlG2Sd6qdhTOb97LIMuHcRdWc3uegOOCRAUZdrrRQRqE9zDw0cVEyqRmQ2ZVbMwFXQ+xSH6ukw==
+X-Received: by 2002:a05:6a20:8402:b0:12b:40d3:aeb1 with SMTP id c2-20020a056a20840200b0012b40d3aeb1mr20069347pzd.25.1689009526280;
+        Mon, 10 Jul 2023 10:18:46 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::8b4a])
+        by smtp.gmail.com with ESMTPSA id g7-20020aa78187000000b00659b8313d08sm54291pfi.78.2023.07.10.10.18.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 10:18:45 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-Subject: [kirkstone][PATCH v2] rust-llvm: backport a fix for build with gcc-13
-Date: Mon, 10 Jul 2023 19:15:01 +0200
-Message-ID: <20230710171504.867425-1-alexander.sverdlin@siemens.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] webkitgtk: Add missing SoB in patch
+Date: Mon, 10 Jul 2023 10:18:43 -0700
+Message-ID: <20230710171843.4073981-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-456497:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 17:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184090
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 17:18:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184091
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-
-* needed for rust-llvm-native on hosts with gcc-13
-
-Based on commit 3382759cb6c5 ("llvm: backport a fix for build with gcc-13")
-
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Changelog:
-v2: rebase onto 2022-04.11-kirkstone
+ .../webkit/webkitgtk/check-GST_GL_HAVE_PLATFORM_GLX.patch        | 1 +
+ 1 file changed, 1 insertion(+)
 
- meta/recipes-devtools/rust/rust-llvm.inc      |  4 ++-
- ...-missing-cstdint-header-to-Signals.h.patch | 32 +++++++++++++++++++
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-header-to-Signals.h.patch
-
-diff --git a/meta/recipes-devtools/rust/rust-llvm.inc b/meta/recipes-devtools/rust/rust-llvm.inc
-index 5c2ccdac9a..e645e7a7ac 100644
---- a/meta/recipes-devtools/rust/rust-llvm.inc
-+++ b/meta/recipes-devtools/rust/rust-llvm.inc
-@@ -3,7 +3,9 @@ LICENSE ?= "Apache-2.0-with-LLVM-exception"
- HOMEPAGE = "http://www.rust-lang.org"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/check-GST_GL_HAVE_PLATFORM_GLX.patch b/meta/recipes-sato/webkit/webkitgtk/check-GST_GL_HAVE_PLATFORM_GLX.patch
+index 245fccdefec..ae99810cedb 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/check-GST_GL_HAVE_PLATFORM_GLX.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/check-GST_GL_HAVE_PLATFORM_GLX.patch
+@@ -18,6 +18,7 @@ this patch wont be needed when upgrading to 2.42+
+ [1] https://github.com/WebKit/WebKit/commit/320560f9e53ddcd53954059bd005e0c75eb91abf
  
- SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
--            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2"
-+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-+            file://0003-Support-Add-missing-cstdint-header-to-Signals.h.patch;striplevel=2 \
-+"
+ Upstream-Status: Inappropriate [GLX support is gone in 2.41+]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
- S = "${RUSTSRC}/src/llvm-project/llvm"
- 
-diff --git a/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-header-to-Signals.h.patch b/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-header-to-Signals.h.patch
-new file mode 100644
-index 0000000000..6ed23aa9c5
---- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-header-to-Signals.h.patch
-@@ -0,0 +1,32 @@
-+From a94bf34221fc4519bd8ec72560c2d363ffe2de4c Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyich@gmail.com>
-+Date: Mon, 23 May 2022 08:03:23 +0100
-+Subject: [PATCH] [Support] Add missing <cstdint> header to Signals.h
-+
-+Without the change llvm build fails on this week's gcc-13 snapshot as:
-+
-+    [  0%] Building CXX object lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o
-+    In file included from llvm/lib/Support/Signals.cpp:14:
-+    llvm/include/llvm/Support/Signals.h:119:8: error: variable or field 'CleanupOnSignal' declared void
-+      119 |   void CleanupOnSignal(uintptr_t Context);
-+          |        ^~~~~~~~~~~~~~~
-+
-+Upstream-Status: Backport [llvmorg-15.0.0 ff1681ddb303223973653f7f5f3f3435b48a1983]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-+---
-+ llvm/include/llvm/Support/Signals.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/llvm/include/llvm/Support/Signals.h b/llvm/include/llvm/Support/Signals.h
-+index 44f5a750ff5c..937e0572d4a7 100644
-+--- a/llvm/include/llvm/Support/Signals.h
-++++ b/llvm/include/llvm/Support/Signals.h
-+@@ -14,6 +14,7 @@
-+ #ifndef LLVM_SUPPORT_SIGNALS_H
-+ #define LLVM_SUPPORT_SIGNALS_H
-+ 
-++#include <cstdint>
-+ #include <string>
-+ 
-+ namespace llvm {
+ --- a/Source/WebCore/platform/graphics/gstreamer/PlatformDisplayGStreamer.cpp	2023-02-20 01:22:18.917743700 -0800
+ +++ b/Source/WebCore/platform/graphics/gstreamer/PlatformDisplayGStreamer.cpp	2023-07-08 08:45:09.739177065 -0700
 -- 
 2.41.0
 
