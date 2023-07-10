@@ -2,145 +2,144 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70632C001DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8014CC001B0
 	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 03:20:37 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.32104.1688959229894610404
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web10.32109.1688959233570531241
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jul 2023 20:20:30 -0700
+ Sun, 09 Jul 2023 20:20:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dJK65aiM;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7659924cd9bso456828285a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 20:20:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=nI5W7p25;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-635e54e22d6so31901646d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 20:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688959229; x=1691551229;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9egHGe7BdQzn4ScUo/bmT0YB8XbMIAM5GwtzGT7wzno=;
-        b=dJK65aiMWkNxOcHqTqQGpjvx1N1TZTbMUwiPWxqoXFPj6Q7j/P29b8+UimW1mS6oin
-         EadbfcjQExbdbmu37ojx5PU3wlAQg96Km82ZwjPysHRVJA1LzZ3jpimg8/S6EzNl4XXT
-         1Fi9e4rpZi9U3loTZmU4oL4+mc9UiGzDeh52k3hZe8bvysngAD/pqAgILw0BwarxY6Zs
-         hk41AYxwgKvzR4uwWfx+FSUMsV+v21YDzDGm7RQZlmYRP2JY2jbwUlPPzRCvUfBkF2Zq
-         bA6PWmbJPr/BTQ7IzAln6LJdoTzZzX/gejL9j1zm9vZ5COLhBaDb/6VmTRoxGgYeNvLY
-         Sy1A==
+        d=gmail.com; s=20221208; t=1688959232; x=1691551232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nRl2sXhrUp/EeVC+uQpLbHbtdPoxqqjY2+wR8v7rauI=;
+        b=nI5W7p25OedaF/vphCtZNvcF/Dcbb+7zcFIePZ1kK4u4QfTJsutXQBB0RvaTxP6ac0
+         bdQdptOOvQAeeZ2jbvlik4ajtRVZfs05CfBo9Mc1o9kmn48WDVdXpLEqUSS9D/EsKROm
+         K6btIERHgAEUeI8dcRiEOU1Pn/xjsD5tZC3vkX17nfP6nwRiD67V856rBbhZrUFVZI5s
+         XiCZ/cWeBJq5EBeOew0u1XycUbTXwTbGdsr18KklweGoE8q47od2oMRE2uFvOPxteWKR
+         VBeCnkdRDckO/KTtDBpGf9q3ymrKnW6BgTTbCLnHQcISxgM1K//H5bV//+oSP3q2Namu
+         lCpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688959229; x=1691551229;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9egHGe7BdQzn4ScUo/bmT0YB8XbMIAM5GwtzGT7wzno=;
-        b=esVALsrrvZXyxVySa8MvsRZr4TNId7RZm4QZPJoWez2OEf32hcLShuuq0BwlBDH8xz
-         qy0g6xpArDRyLd4y4saOJWOy/xWX7zSu1jGlpyGZTny6WouD/IWqAnY1ch3P8LT2r669
-         JQWxu8TEUDaOWN7criEBp1CGhlADte4HOywEtm6SZSPrOZH1yueVh3u6Oy6+2yNZzmo2
-         nsjdxZVOt+5qUkG5lQX+6D6nkK8kovMniA32yUNY3/OVkw0/JBJ1NfXeiq3TS3J84sFP
-         ifn0apR1fnsNWThU6xoyU7/iE0sfzGIw92i8y+8y/1F393rwA9CRItb5Ja5aRBVSruAO
-         df0g==
-X-Gm-Message-State: ABy/qLZNZ1Jn64ky/v//Zsn9vBxi5Y7ddwFPjzjqQ0g2SwU7Dz+2r3BS
-	qK7JpjJBBC/AHCh3ynHMe99ZqpSnUGo=
-X-Google-Smtp-Source: APBJJlEBAkX9HKvUmdK0kZM4CREr5TkxNGhYwjtpNIgQKK+Wzs5w7Z1R4I3bCJWfyT130tx7iLKRLA==
-X-Received: by 2002:a05:620a:3195:b0:765:ac6f:df84 with SMTP id bi21-20020a05620a319500b00765ac6fdf84mr13022162qkb.4.1688959228742;
-        Sun, 09 Jul 2023 20:20:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688959232; x=1691551232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nRl2sXhrUp/EeVC+uQpLbHbtdPoxqqjY2+wR8v7rauI=;
+        b=HaHSF3ny9hf7AvZj9WW3Wwd74QfGYKP0uGL8kj5Yi3XZRmp9+UxSjdBSPTzNavBdR6
+         kwRDPohr5+J4Mpd4lxwHUubGisQ+dt1DJdzoc8glRY1sL5MrYP6kxCButo+fx+erjkpT
+         QHwsi8mQC+BljfpQbYg/v+an05nCMrndMDqtOJMGZKJ0kkxXauK4hxhbI7XGS6PtSW3J
+         oZvQ8en5GDXaQ8Z4+kFn+3F85rs0WVcbZswNmgi3jCKQ8HLkpIpv61jP9DpO/sMPX0jM
+         kPuj4NknuXnHF+aISg5J/Pia/xmqrVvrYgrGlYVdkkTk6v1ZJigC+Q1/ZHq9ifAuVxR2
+         j8Uw==
+X-Gm-Message-State: ABy/qLYkPWWUEG/WC568liJ7A9v7xRZTdG/Y27DusAi0V2YuE7I9nZbF
+	wZRV9vcniRsWScS0QPpSYmuNoM4aWlQ=
+X-Google-Smtp-Source: APBJJlHdJoQ5tyFlVeKpJmJc9I+THdfQEV23MYmc6CFfwRtO9e1wvfnaAHnV1NVwnoDyCpDMS68p0Q==
+X-Received: by 2002:a0c:b310:0:b0:637:ca3:67e8 with SMTP id s16-20020a0cb310000000b006370ca367e8mr10848320qve.39.1688959232597;
+        Sun, 09 Jul 2023 20:20:32 -0700 (PDT)
 Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id d15-20020a0cf0cf000000b00630228acc45sm5039863qvl.145.2023.07.09.20.20.28
+        by smtp.gmail.com with ESMTPSA id d15-20020a0cf0cf000000b00630228acc45sm5039863qvl.145.2023.07.09.20.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jul 2023 20:20:28 -0700 (PDT)
+        Sun, 09 Jul 2023 20:20:32 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/15] kernel: consolidated pull request
-Date: Sun,  9 Jul 2023 23:20:11 -0400
-Message-Id: <cover.1688958788.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 05/15] kernel: fix localversion in v6.3+
+Date: Sun,  9 Jul 2023 23:20:16 -0400
+Message-Id: <7aea9e4b1932c62c3cb08604ea1e81338f2f00f0.1688958789.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1688958788.git.bruce.ashfield@gmail.com>
+References: <cover.1688958788.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 03:20:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184042
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184047
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+During testing of the v6.4 reference kernel, it was noticed that
+on-target modules no longer matched the magic value of the running
+kernel.
 
-Here's the latest queued kernel changes. There are the expectd -stable updates
-6.1, but those of course aren't the most interesting part of this queue.
+This was due to a different localversion in the cross built kernel
+and the scripts / resources created on target.
 
-We have the 6.4 reference kernel initial integration.
+This was due to changes in the setlocalversion script introduced
+in the v6.3 series.
 
-I've tested this on all architectures, core-image-sato + core-image-kernel-dev
-as well as -rt, standard and -tiny kernels.
+The .scmversion file is no longer used (or packaged) to inhibit
+the addition of a "+" (through querying of the git status of the
+kernel) or the setting of a local version.
 
-We also have the matching libc-headers bumps. I've already send patches
-for some applications that had issues with the 6.4 headers, but the issues
-were relatively minimal.
+We recently introduced the KERNEL_LOCALVERSION variable to allow
+recipes to place a value in .scmversion, so we extend the use of
+that variable to kernel-arch.bbclass and use it to set the
+exported variable LOCALVERSION.
 
-I've included the poky and oe-core preferred version bumps in this
-series, just to make it a bit easier to test. They can be ignored if there
-are issues, and we can just make the 6.4 kernel available in tree, and
-fix the remaining issues before making it default.
+We must do it at the kernel-arch level, as the variable must be
+exported in any kernel build to ensure that setlocalversion always
+correctly sets the localversion.
 
-I ran into perf and localversion issues (which broke the on-target
-module builds). The patches to address them are in the series.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/classes-recipe/kernel-arch.bbclass | 7 +++++++
+ meta/classes-recipe/kernel.bbclass      | 6 ++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-qemumips64 is seting a smp preemptible trace on boot, and I haven't
-been able to track it down. If that is the only issue, it would be
-better to get this into the tree, and try and find a mips expert to
-help us out. I'll continue looking into it, but haven't had much luck
-yet.
-
-Bruce
-
-The following changes since commit d221e59a5067266c3f620259a1e56a56823df1fb:
-
-  bitbake: cooker: Log when parsing starts in server log (2023-06-30 18:05:30 +0100)
-
-are available in the Git repository at:
-
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (15):
-  linux-yocto/6.1: update to v6.1.36
-  linux-yocto/6.1: update to v6.1.37
-  linux-libc-headers: bump to 6.4
-  perf: fix buildpaths QA warning in 6.4+
-  kernel: fix localversion in v6.3+
-  linux-yocto: introduce 6.4 reference kernel recipes
-  linux-yocto/6.4: update to latest
-  linux-yocto/6.4: aufs6 integration
-  linux-yocto/6.4: refresh configuration
-  linux-yocto-rt/6.4: integrate -rt6
-  linux-yocto/6.4: update to v6.4.2
-  linux-yocto/6.1: update to v6.1.38
-  conf/machine: set preferred kernel to be 6.4
-  poky/poky-tiny: set preferred linux-yocto version to 6.4
-  linux-yocto-tiny/6.4: fix configuration warnings (HID)
-
- meta-poky/conf/distro/poky-tiny.conf          |  2 +-
- meta-poky/conf/distro/poky.conf               |  4 +-
- meta/classes-recipe/kernel-arch.bbclass       |  7 ++
- meta/classes-recipe/kernel.bbclass            |  6 +-
- meta/conf/distro/include/tcmode-default.inc   |  2 +-
- meta/conf/machine/include/x86/x86-base.inc    |  2 +-
- meta/conf/machine/qemuarmv5.conf              |  2 +-
- ...linux-stddef.h-in-swab.h-uapi-header.patch | 42 -----------
- ...aders_6.1.bb => linux-libc-headers_6.4.bb} |  3 +-
- .../linux/linux-yocto-rt_6.1.bb               |  6 +-
- .../linux/linux-yocto-rt_6.4.bb               | 48 +++++++++++++
- .../linux/linux-yocto-tiny_6.1.bb             |  6 +-
- .../linux/linux-yocto-tiny_6.4.bb             | 33 +++++++++
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 ++++----
- meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 71 +++++++++++++++++++
- meta/recipes-kernel/perf/perf.bb              |  2 +-
- 16 files changed, 191 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-include-linux-stddef.h-in-swab.h-uapi-header.patch
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_6.1.bb => linux-libc-headers_6.4.bb} (74%)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.4.bb
-
+diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+index 6e19dbbba8..df4884b6c4 100644
+--- a/meta/classes-recipe/kernel-arch.bbclass
++++ b/meta/classes-recipe/kernel-arch.bbclass
+@@ -80,3 +80,10 @@ KERNEL_OBJCOPY = "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+ KERNEL_STRIP = "${CCACHE}${HOST_PREFIX}strip ${HOST_STRIP_KERNEL_ARCH}"
+ TOOLCHAIN ?= "gcc"
+ 
++# 6.3+ requires the variable LOCALVERSION to be set to not get a "+" in
++# the local version. Having it empty means nothing will be added, and any
++# value will be appended to the local kernel version. This replaces the
++# use of .scmversion file for setting a localversion without using
++# the CONFIG_LOCALVERSION option.
++KERNEL_LOCALVERSION ??= ""
++export LOCALVERSION ?= "${KERNEL_LOCALVERSION}"
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 855c784149..2aedf3a31b 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -426,7 +426,7 @@ do_compile_kernelmodules() {
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+ 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules ${KERNEL_EXTRA_ARGS}
+ 
+-		# Module.symvers gets updated during the 
++		# Module.symvers gets updated during the
+ 		# building of the kernel modules. We need to
+ 		# update this in the shared workdir since some
+ 		# external kernel modules has a dependency on
+@@ -620,7 +620,6 @@ do_shared_workdir () {
+ # We don't need to stage anything, not the modules/firmware since those would clash with linux-firmware
+ SYSROOT_DIRS = ""
+ 
+-KERNEL_LOCALVERSION ??= ""
+ KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} O=${B} olddefconfig || oe_runmake -C ${S} O=${B} oldnoconfig"
+ 
+ python check_oldest_kernel() {
+@@ -642,6 +641,9 @@ kernel_do_configure() {
+ 	# $ scripts/setlocalversion . => +
+ 	# $ make kernelversion => 2.6.37
+ 	# $ make kernelrelease => 2.6.37+
++	# See kernel-arch.bbclass for post v6.3 removal of the extra
++	# + in localversion. .scmversion is no longer used, and the
++	# variable LOCALVERSION must be used
+ 	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]; then
+ 		echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
+ 		echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
 -- 
 2.34.1
 
