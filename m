@@ -1,94 +1,138 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C3BEEB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 21:09:38 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.411.1689023376752761216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEFEEB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 21:16:18 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.535.1689023774697110978
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 14:09:36 -0700
+ Mon, 10 Jul 2023 14:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=HdJ5iKOl;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65550850b4=joe.slater@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36AKr572027959
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 21:09:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=byBhb
-	AHmfs/40tUJK3pOEnazG3SP7e4yt1xyrAN1FXc=; b=HdJ5iKOlyiPmi6pz2cdjY
-	loJqGYbr4ysnoH2iMdcckeOBMtdPkiCbr6MGEfXyT40KyNkwRB/i3y1uI5/FmK7y
-	xXh2crrVfnZEDTCMsPd3wT82lJcBpBZia43PnfbG5TNI+dN6XaddCSTBXqaktlei
-	L0HvOn8jgTwUNfkMKZ2ES0kz/EcyN/pg04ffpHfjEzjgLjxo/72tcLY4WZCE7HAH
-	QHuwE4NUNFOOv50BN1fPyuThwxG6jSeJSzlRcXSEWf2MPiT1+SfyHFF3h3LYKtou
-	zwOtwlO402UjQFLN9uowIYS4WeXDHKUD6ebmb+oQBGflxW3C535OKg1j5v8VQSpK
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rpw0wj06p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 21:09:35 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 10 Jul 2023 14:09:34 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Mon, 10 Jul 2023 14:09:34 -0700
-From: <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] ghostscript: advance to version 10.01.2
-Date: Mon, 10 Jul 2023 14:09:34 -0700
-Message-ID: <20230710210934.606757-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=J4cMLmEE;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C0C411C0006;
+	Mon, 10 Jul 2023 21:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689023773;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wRnau7L8Rgy9Yx+fEXI7hS+aG2pJa6lK6fdNA7tW/bA=;
+	b=J4cMLmEEaK2HWRzNIwRaxaWFUmjQsCo9XheE/O8wCV3+E7iKdQkkVqdZvX0hznkc+eJkEr
+	nlDfJVsTvu4D1BDk6eTQT23spMdjd4mdYIO9S7gTDLEGp8kAkgbUq/B6uxkWTR3ogyBng9
+	yjFPEw5MDtfqCfbvxOejMtOJ7LlxRumGvBz/xbePfc/eNL2XZfNCVXIbewCJO4bvMKgKj1
+	3i4keiEiGkQ3Z8ksC9wKOv2nSHb5C5B7HvRXuqWmpqVHmNBIS3q6V7LEyyYWza2izspVxD
+	Erv3VRoBzYsGshHv6iyfNwWsclabzpFNNx9vFt+AFvHAl7yd9NqCHPOBMfPs/g==
+Date: Mon, 10 Jul 2023 23:16:12 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>,
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 00/15] kernel: consolidated pull request
+Message-ID: <20230710211612d33735aa@mail.local>
+References: <cover.1688958788.git.bruce.ashfield@gmail.com>
+ <CDACE6FE-F991-4E69-BC69-B1BEC6B6B761@arm.com>
+ <17709D3D34AB3A9D.28523@lists.openembedded.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 7huR6GzRw2O2lbgi4TDhQCT5inyAoxJQ
-X-Proofpoint-GUID: 7huR6GzRw2O2lbgi4TDhQCT5inyAoxJQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_16,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=602 suspectscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2307100192
+In-Reply-To: <17709D3D34AB3A9D.28523@lists.openembedded.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 21:09:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184099
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 21:16:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184100
 
-From: Joe Slater <joe.slater@windriver.com>
+On 10/07/2023 22:59:02+0200, Alexandre Belloni via lists.openembedded.org wrote:
+> Hello,
+> 
+> On 10/07/2023 14:54:50+0000, Ross Burton wrote:
+> > On 10 Jul 2023, at 04:20, Bruce Ashfield via lists.openembedded.org <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > > Here's the latest queued kernel changes. There are the expectd -stable updates
+> > > 6.1, but those of course aren't the most interesting part of this queue.
+> > 
+> > 
+> > I’ve not triaged them yet as it’s still building, but https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5577 is just this branch on top of master and has some new failures/warnings.
+> > 
+> 
+> It mostly worked on my branch, there is this new failure though:
 
-Fix CVE-2023-28879 and CVE-2023-36664.
+And I just realized I forgot to take the meta-poky patch which would
+explain the successes.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../{ghostscript_10.01.1.bb => ghostscript_10.01.2.bb}         | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_10.01.1.bb => ghostscript_10.01.2.bb} (93%)
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/7413/steps/12/logs/stdio
+> 
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>            ^^^^^^^^^^^^^^^^^^^^^
+>   File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/runtime/cases/parselogs.py", line 393, in test_parselogs
+>     self.assertEqual(errcount, 0, msg=self.msg)
+> AssertionError: 4 != 0 : No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> No ignore list found for this machine, using default
+> Log: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/qemuarm-oe-linux-gnueabi/core-image-sato/1.0-r0/target_logs/Xorg.0.log
+> -----------------------
+> Central error: [    17.416] (II) FBDEV(0): 	mode "640x480" test failed
+> ***********************
+> [    17.381] 	compiled for 1.21.1.8, module version = 0.0.2
+> [    17.381] 	ABI class: X.Org Video Driver, version 25.2
+> [    17.384] (II) FBDEV(0): using default device
+> [    17.389] (==) FBDEV(0): Depth 24, (==) framebuffer bpp 32
+> [    17.389] (==) FBDEV(0): RGB weight 888
+> [    17.389] (==) FBDEV(0): Default visual is TrueColor
+> [    17.403] (==) FBDEV(0): Using gamma correction (1.0, 1.0, 1.0)
+> [    17.406] (II) FBDEV(0): hardware: virtio_gpudrmfb (video memory: 4000kB)
+> [    17.407] (DB) xf86MergeOutputClassOptions unsupported bus type 0
+> [    17.411] (II) FBDEV(0): checking modes against framebuffer device...
+> [    17.416] (II) FBDEV(0): 	mode "640x480" test failed
+> [    17.417] (II) FBDEV(0): 	mode "640x480" test failed
+> [    17.418] (II) FBDEV(0): 	mode "640x480" test failed
+> [    17.419] (II) FBDEV(0): 	mode "640x480" test failed
+> [    17.441] (II) FBDEV(0): 	mode "640x480" not found
+> [    17.442] (II) FBDEV(0): checking modes against monitor...
+> [    17.444] (II) FBDEV(0): Virtual size is 1280x800 (pitch 1280)
+> [    17.445] (**) FBDEV(0):  Built-in mode "current"
+> [    17.446] (==) FBDEV(0): DPI set to (96, 96)
+> [    17.447] (II) Loading sub module "fb"
+> [    17.448] (II) LoadModule: "fb"
+> 
+> > Ross
+> 
+> > 
+> > 
+> > 
+> 
+> 
+> -- 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-similarity index 93%
-rename from meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-index 0d41242bc2..7461dbc7f7 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.01.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-@@ -27,7 +27,8 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://avoid-host-contamination.patch \
- "
- 
--SRC_URI[sha256sum] = "4df18a808cd4369f25e02dbcec2f133cb6d674627b2c6b1502020e58d43e32ce"
-+# SRC_URI[sha256sum] = "4df18a808cd4369f25e02dbcec2f133cb6d674627b2c6b1502020e58d43e32ce"
-+SRC_URI[sha256sum] = "a4cd61a07fec161bee35da0211a5e5cde8ff8a0aaf942fc0176715e499d21661"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184097): https://lists.openembedded.org/g/openembedded-core/message/184097
+> Mute This Topic: https://lists.openembedded.org/mt/100051814/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
