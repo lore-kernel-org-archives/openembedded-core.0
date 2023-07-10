@@ -1,144 +1,209 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D46EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 10:32:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.36282.1688985145561048122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA859EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 11:15:59 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.37020.1688987752922552993
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 03:32:25 -0700
+ Mon, 10 Jul 2023 04:15:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65553682c3=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36A9kFna015670;
-	Mon, 10 Jul 2023 10:32:21 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rpw0whf72-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 10 Jul 2023 10:32:21 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 10 Jul 2023 03:32:20 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Mon, 10 Jul 2023 03:32:19 -0700
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <Ross.Burton@arm.com>
-Subject: [PATCH v3] qemu: Add qemu-common package
-Date: Mon, 10 Jul 2023 18:32:18 +0800
-Message-ID: <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=JmpiGMqT;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b8baa836a5so32775085ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 04:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688987752; x=1691579752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=piMsy7HzVaWzi0oMVKbaGmHdBV5Vf9ozR8BEKHsdS5M=;
+        b=JmpiGMqTA+d1z68yNnNgMOL5YbzjXqfVl4xEgfbR+SBiNSRiRJJ3SIe1ukvI2tsc7e
+         YpyO+hFwP5xIjyPXtnWhSyIAnr/gXPdQE4luzCagWurSWikvLIDoJYcPw7FMfoJ9rSsf
+         XuGNI7fhOgPdC0Sj2n+QQCo1Y+BAvl89hwydbWGg8teVj/m9RDABkNV7HsMGldAjF7TF
+         VP8uhrpXUyMdB/Kvq0kfj5D65DmEnbVkzczKrdUlL3ESvFaFBxrJMN1ZXmihK3Sf1OF1
+         H0e6Kmj/QW75o0ml/Qc5DvbNmbAed53c0chVrtyvFOFaEim38EhhWej6QkclI5QQn5jk
+         1zeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688987752; x=1691579752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=piMsy7HzVaWzi0oMVKbaGmHdBV5Vf9ozR8BEKHsdS5M=;
+        b=S8jxR5vv7jgbqAnC9eLAJeGfn1SONK6iMxR+t44ah/irXWTEkcBHc4V/HpH5+IPlF1
+         8kLItdF8jRIu/IibRGQHpZjIsobGRVzbQxp9iaa3pFTNJN6FXhh+yJh9MexP4Q6eWjEf
+         kM/1VIY5raBFR2AwLOTXzBRTVLWwZtzCiJf7/fiBXtsqN1psrJkSM01dBFIdkZ939lcj
+         Qm7ke5F6/YUcOxl5tFUzGfTVaUUTPqjlBJwhPj6/vIhQdgwZLuck4MpcCD4WdCF4FKrd
+         4T3V8T36WivLCVK9Co1/x4wuZbDIX22dOxmKE1SRVzT/U28us0lSBcCOBlaqSFMkfchy
+         FQqg==
+X-Gm-Message-State: ABy/qLbNhjK6GJEcu2/7vTB0z3F8O5fl/wmcu5mKgWqfdDarcHj6HIGm
+	TDR3OyeQKDz8J06rHvra6NzFtvIiTp9s4qWb
+X-Google-Smtp-Source: APBJJlF90o0LKgJfcPq5C4vqMPYbThBUvwkJZAGeUeSS4KeQHa0v0LCdJDwnkPdODzPERB2KrhSyEw==
+X-Received: by 2002:a17:903:41c7:b0:1ac:aba5:7885 with SMTP id u7-20020a17090341c700b001acaba57885mr14467965ple.47.1688987751967;
+        Mon, 10 Jul 2023 04:15:51 -0700 (PDT)
+Received: from localhost.localdomain ([43.231.237.241])
+        by smtp.gmail.com with ESMTPSA id o15-20020a170902d4cf00b001b03842ab78sm8025256plg.89.2023.07.10.04.15.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 04:15:51 -0700 (PDT)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	ppjadhav456@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Poonam Jadhav <poonam.jadhav@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] libx11: Fix CVE-2023-3138 for kirkstone branch
+Date: Mon, 10 Jul 2023 16:45:33 +0530
+Message-Id: <20230710111533.4188014-1-ppjadhav456@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <E57733DA-39D3-494F-A91D-9AA8306DBDAB@arm.com>
-References: <E57733DA-39D3-494F-A91D-9AA8306DBDAB@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: vm8D4I0CTHUQCJrotjtt2o8Gng-KU5hE
-X-Proofpoint-GUID: vm8D4I0CTHUQCJrotjtt2o8Gng-KU5hE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_08,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=458 suspectscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2307100096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 10:32:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184068
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 11:15:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184069
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
-We split the qemu package [1] to add support to make user can install
-one qemu arch emulation rpm to ease the concerns who care much about
-the rpm size in embedded device.
+Add patch to fix CVE-2023-3138 for kirkstone branch
 
-But for the user who only install the qemu-*.rpm can't do anything
-except they install the qemu emulation rpm like qemu-system-x86-64-*.rpm
-explicitly.
+Link: https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c.patch
 
-So add qemu-common package to package all thing into qemu-common when
-not split the package, and package only the basic into qemu-common and
-other arch related to each qemu arch emulation rpm when split the package
-to fix the backward compatibility.
-
-qenu-*.rpm which is meta package rdepends on qemu-common and the available
-qemu arch emulation rpm like qemu-system-x86-64-*.rpm and etc.
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=893846ead7ee54d53e9076150cd655e0c8bca5db
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc      | 23 ++++++++++++-----------
- meta/recipes-devtools/qemu/qemu_8.0.0.bb |  3 ++-
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ .../xorg-lib/libx11/CVE-2023-3138.patch       | 111 ++++++++++++++++++
+ .../xorg-lib/libx11_1.7.3.1.bb                |   1 +
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a5bdeef66d..94624163d0 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -226,15 +226,18 @@ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
- PACKAGECONFIG[debuginfo] = "--enable-libdw,--disable-libdw,elfutils"
- 
--INSANE_SKIP:${PN} = "arch"
-+INSANE_SKIP:${PN}-common = "arch"
- 
- FILES:${PN} += "${datadir}/icons"
- 
- # For user who want to install all arch packages
--PACKAGES =+ "${PN}-system-all ${PN}-user-all"
-+PACKAGES =+ "${PN}-common"
-+RDEPENDS:${PN} += "${PN}-common"
- 
--ALLOW_EMPTY:${PN}-system-all = "1"
--ALLOW_EMPTY:${PN}-user-all = "1"
-+ALLOW_EMPTY:${PN} = "1"
-+FILES:${PN} = ""
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
+new file mode 100644
+index 0000000000..c724cf8fdd
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
+@@ -0,0 +1,111 @@
++From 304a654a0d57bf0f00d8998185f0360332cfa36c Mon Sep 17 00:00:00 2001
++From: Alan Coopersmith <alan.coopersmith@oracle.com>
++Date: Sat, 10 Jun 2023 16:30:07 -0700
++Subject: [PATCH] InitExt.c: Add bounds checks for extension request, event, &
++ error codes
 +
-+FILES:${PN}-common = "${bindir}/* ${includedir}/* ${libexecdir}/* ${datadir}/* ${localstatedir}"
++Fixes CVE-2023-3138: X servers could return values from XQueryExtension
++that would cause Xlib to write entries out-of-bounds of the arrays to
++store them, though this would only overwrite other parts of the Display
++struct, not outside the bounds allocated for that structure.
++
++Reported-by: Gregory James DUCK <gjduck@gmail.com>
++Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
++
++CVE: CVE-2023-3138
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c.patch]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ src/InitExt.c | 42 ++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 42 insertions(+)
++
++diff --git a/src/InitExt.c b/src/InitExt.c
++index 4de46f15..afc00a6b 100644
++--- a/src/InitExt.c
+++++ b/src/InitExt.c
++@@ -33,6 +33,18 @@ from The Open Group.
++ #include <X11/Xos.h>
++ #include <stdio.h>
++ 
+++/* The X11 protocol spec reserves events 64 through 127 for extensions */
+++#ifndef LastExtensionEvent
+++#define LastExtensionEvent 127
+++#endif
+++
+++/* The X11 protocol spec reserves requests 128 through 255 for extensions */
+++#ifndef LastExtensionRequest
+++#define FirstExtensionRequest 128
+++#define LastExtensionRequest 255
+++#endif
+++
+++
++ /*
++  * This routine is used to link a extension in so it will be called
++  * at appropriate times.
++@@ -242,6 +254,12 @@ WireToEventType XESetWireToEvent(
++ 	WireToEventType proc)	/* routine to call when converting event */
++ {
++ 	register WireToEventType oldproc;
+++	if (event_number < 0 ||
+++	    event_number > LastExtensionEvent) {
+++	    fprintf(stderr, "Xlib: ignoring invalid extension event %d\n",
+++		    event_number);
+++	    return (WireToEventType)_XUnknownWireEvent;
+++	}
++ 	if (proc == NULL) proc = (WireToEventType)_XUnknownWireEvent;
++ 	LockDisplay (dpy);
++ 	oldproc = dpy->event_vec[event_number];
++@@ -263,6 +281,12 @@ WireToEventCookieType XESetWireToEventCookie(
++     )
++ {
++ 	WireToEventCookieType oldproc;
+++	if (extension < FirstExtensionRequest ||
+++	    extension > LastExtensionRequest) {
+++	    fprintf(stderr, "Xlib: ignoring invalid extension opcode %d\n",
+++		    extension);
+++	    return (WireToEventCookieType)_XUnknownWireEventCookie;
+++	}
++ 	if (proc == NULL) proc = (WireToEventCookieType)_XUnknownWireEventCookie;
++ 	LockDisplay (dpy);
++ 	oldproc = dpy->generic_event_vec[extension & 0x7F];
++@@ -284,6 +308,12 @@ CopyEventCookieType XESetCopyEventCookie(
++     )
++ {
++ 	CopyEventCookieType oldproc;
+++	if (extension < FirstExtensionRequest ||
+++	    extension > LastExtensionRequest) {
+++	    fprintf(stderr, "Xlib: ignoring invalid extension opcode %d\n",
+++		    extension);
+++	    return (CopyEventCookieType)_XUnknownCopyEventCookie;
+++	}
++ 	if (proc == NULL) proc = (CopyEventCookieType)_XUnknownCopyEventCookie;
++ 	LockDisplay (dpy);
++ 	oldproc = dpy->generic_event_copy_vec[extension & 0x7F];
++@@ -305,6 +335,12 @@ EventToWireType XESetEventToWire(
++ 	EventToWireType proc)	/* routine to call when converting event */
++ {
++ 	register EventToWireType oldproc;
+++	if (event_number < 0 ||
+++	    event_number > LastExtensionEvent) {
+++	    fprintf(stderr, "Xlib: ignoring invalid extension event %d\n",
+++		    event_number);
+++	    return (EventToWireType)_XUnknownNativeEvent;
+++	}
++ 	if (proc == NULL) proc = (EventToWireType) _XUnknownNativeEvent;
++ 	LockDisplay (dpy);
++ 	oldproc = dpy->wire_vec[event_number];
++@@ -325,6 +361,12 @@ WireToErrorType XESetWireToError(
++ 	WireToErrorType proc)	/* routine to call when converting error */
++ {
++ 	register WireToErrorType oldproc = NULL;
+++	if (error_number < 0 ||
+++	    error_number > LastExtensionError) {
+++	   fprintf(stderr, "Xlib: ignoring invalid extension error %d\n",
+++		    error_number);
+++	   return (WireToErrorType)_XDefaultWireError;
+++	}
++ 	if (proc == NULL) proc = (WireToErrorType)_XDefaultWireError;
++ 	LockDisplay (dpy);
++ 	if (!dpy->error_vec) {
++-- 
++GitLab
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
+index 3e6b50c0a3..19687d546b 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+ SRC_URI += "file://disable_tests.patch \
+             file://CVE-2022-3554.patch \
+             file://CVE-2022-3555.patch \
++            file://CVE-2023-3138.patch \
+            "
+ SRC_URI[sha256sum] = "2ffd417266fb875028fdc0ef349694f63dbcd76d0b0cfacfb52e6151f4b60989"
  
- PACKAGES_DYNAMIC += "^${PN}-user-.*  ^${PN}-system-.*"
- 
-@@ -242,15 +245,13 @@ PACKAGESPLITFUNCS =+ "split_qemu_packages"
- 
- python split_qemu_packages () {
-     archdir = d.expand('${bindir}/')
--    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
--    if syspackages:
--        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
-+    subpackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
- 
--    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
--    if userpackages:
--        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
-+    subpackages += do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
-+    if subpackages:
-+        d.appendVar('RDEPENDS:' + d.getVar('PN'), ' ' + ' '.join(subpackages))
-     mipspackage = d.getVar('PN') + "-user-mips"
--    if mipspackage in ' '.join(userpackages):
-+    if mipspackage in ' '.join(subpackages):
-         d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
- }
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_8.0.0.bb b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-index 42e133967e..412c2bc7f0 100644
---- a/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-@@ -8,7 +8,8 @@ DEPENDS:append:libc-musl = " libucontext"
- 
- CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
- 
--RDEPENDS:${PN}:class-target += "bash"
-+RDEPENDS:${PN}-common:class-target += "bash"
-+RDEPENDS:${PN}-common:class-nativesdk += "bash"
- 
- EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
- EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
 -- 
 2.25.1
 
