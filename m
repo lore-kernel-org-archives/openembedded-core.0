@@ -1,138 +1,107 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEFEEB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 21:16:18 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.535.1689023774697110978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25028C0015E
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 22:24:54 +0000 (UTC)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web11.194.1689027887494242851
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 14:16:15 -0700
+ Mon, 10 Jul 2023 15:24:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=J4cMLmEE;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C0C411C0006;
-	Mon, 10 Jul 2023 21:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689023773;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wRnau7L8Rgy9Yx+fEXI7hS+aG2pJa6lK6fdNA7tW/bA=;
-	b=J4cMLmEEaK2HWRzNIwRaxaWFUmjQsCo9XheE/O8wCV3+E7iKdQkkVqdZvX0hznkc+eJkEr
-	nlDfJVsTvu4D1BDk6eTQT23spMdjd4mdYIO9S7gTDLEGp8kAkgbUq/B6uxkWTR3ogyBng9
-	yjFPEw5MDtfqCfbvxOejMtOJ7LlxRumGvBz/xbePfc/eNL2XZfNCVXIbewCJO4bvMKgKj1
-	3i4keiEiGkQ3Z8ksC9wKOv2nSHb5C5B7HvRXuqWmpqVHmNBIS3q6V7LEyyYWza2izspVxD
-	Erv3VRoBzYsGshHv6iyfNwWsclabzpFNNx9vFt+AFvHAl7yd9NqCHPOBMfPs/g==
-Date: Mon, 10 Jul 2023 23:16:12 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ross Burton <ross.burton@arm.com>,
-	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 00/15] kernel: consolidated pull request
-Message-ID: <20230710211612d33735aa@mail.local>
-References: <cover.1688958788.git.bruce.ashfield@gmail.com>
- <CDACE6FE-F991-4E69-BC69-B1BEC6B6B761@arm.com>
- <17709D3D34AB3A9D.28523@lists.openembedded.org>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=AwkVifbC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7835e5fa459so166118039f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 15:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689027886; x=1691619886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j0XLDu+wm4zE+O1xwL4CfYB1J8reseMe3yNkNxgNd7s=;
+        b=AwkVifbCl89IhOCDwrlGDdVG4wU0zd8wz3A3TqX69O9+NKMd1//J06FDGqNa493POm
+         rJ2KBhBb5IUgHYojykv7Z7OxqPAppdHjFcPswYuKwQaC6GfKo4KbfwiaOaaU/9q6qeBF
+         rdiUL9kXma8//6rbe7T8RUL29Nrb0REszAUXXNUXCcpDGjdTBKaptpeeD2anxIS8k6x5
+         Ek3GtRZYvCoMKkB5FDrpxyETY5fN+jW2MeSCcurpcDxz92VzGMylYvZc7X4NepwZrvLQ
+         Y4AZ4uyxC9rhiqvwoqF2Mab8fe9wmFY8jeMtaEzuj8t9Des6YJJ1YrGK0P3wB//ZYjCK
+         P4Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689027886; x=1691619886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j0XLDu+wm4zE+O1xwL4CfYB1J8reseMe3yNkNxgNd7s=;
+        b=ff+xKqZe72UowfI8G9hlA/R2a6g7JdJR8qWCe+APZ6jcI4KGBFWxBFAu8bh3gPn7BU
+         JOBJiZMTfN0EYH55Q5HXg7/guVllkNxfy0PKc372YqVNBoLfT2rlvIsdn3r1YejaOE6u
+         KjYv5C/IVqMddrCJeOmG9pbgwaDUHiMg5oeB177IHUNRWYh4LOubzrxaU09D5gePaAy4
+         T15Onr3lRM0d4OKaLvdXqNh8qMRn+NRUQAwNOzuWurAaRZW6px0e2rQ+EE3x8Ya+cUY0
+         qE13SjAr6qy0at5DvpjnQ+2NRaNpCoo9O7vsHjHryVDWt4VVUgOE/0wu4DG2GiBoScDi
+         7x0Q==
+X-Gm-Message-State: ABy/qLYInoqiAcBVNVgEyK9b76UC6JVFV7omkVHpJogXhXvoxkt53kki
+	iAgg6cKL63ZWAUtvzTu9jVHm8X/uNp6y6g==
+X-Google-Smtp-Source: APBJJlFVhF8Y4jvPZBK96uSTZjHmFESfJr3+N5OikX+DUM+LihlJQpI6B4ELUshJNNBPhBW95U6ltg==
+X-Received: by 2002:a5d:850e:0:b0:786:f4a0:d37e with SMTP id q14-20020a5d850e000000b00786f4a0d37emr7369912ion.4.1689027886327;
+        Mon, 10 Jul 2023 15:24:46 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id l8-20020a02cd88000000b0042036f06b24sm127838jap.163.2023.07.10.15.24.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 15:24:46 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH 1/4] pybootchartgui: calcule elapsed_time when starting the loop
+Date: Mon, 10 Jul 2023 22:24:17 +0000
+Message-Id: <20230710222420.2235277-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <17709D3D34AB3A9D.28523@lists.openembedded.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 21:16:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184100
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 22:24:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184101
 
-On 10/07/2023 22:59:02+0200, Alexandre Belloni via lists.openembedded.org wrote:
-> Hello,
-> 
-> On 10/07/2023 14:54:50+0000, Ross Burton wrote:
-> > On 10 Jul 2023, at 04:20, Bruce Ashfield via lists.openembedded.org <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > > Here's the latest queued kernel changes. There are the expectd -stable updates
-> > > 6.1, but those of course aren't the most interesting part of this queue.
-> > 
-> > 
-> > I’ve not triaged them yet as it’s still building, but https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5577 is just this branch on top of master and has some new failures/warnings.
-> > 
-> 
-> It mostly worked on my branch, there is this new failure though:
+Instaed of calculate the elapsed time over the loop when needed
+do it on the loop startup.
 
-And I just realized I forgot to take the meta-poky patch which would
-explain the successes.
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ scripts/pybootchartgui/pybootchartgui/draw.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/7413/steps/12/logs/stdio
-> 
-> Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
->     return func(*args, **kwargs)
->            ^^^^^^^^^^^^^^^^^^^^^
->   File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/runtime/cases/parselogs.py", line 393, in test_parselogs
->     self.assertEqual(errcount, 0, msg=self.msg)
-> AssertionError: 4 != 0 : No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> No ignore list found for this machine, using default
-> Log: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/qemuarm-oe-linux-gnueabi/core-image-sato/1.0-r0/target_logs/Xorg.0.log
-> -----------------------
-> Central error: [    17.416] (II) FBDEV(0): 	mode "640x480" test failed
-> ***********************
-> [    17.381] 	compiled for 1.21.1.8, module version = 0.0.2
-> [    17.381] 	ABI class: X.Org Video Driver, version 25.2
-> [    17.384] (II) FBDEV(0): using default device
-> [    17.389] (==) FBDEV(0): Depth 24, (==) framebuffer bpp 32
-> [    17.389] (==) FBDEV(0): RGB weight 888
-> [    17.389] (==) FBDEV(0): Default visual is TrueColor
-> [    17.403] (==) FBDEV(0): Using gamma correction (1.0, 1.0, 1.0)
-> [    17.406] (II) FBDEV(0): hardware: virtio_gpudrmfb (video memory: 4000kB)
-> [    17.407] (DB) xf86MergeOutputClassOptions unsupported bus type 0
-> [    17.411] (II) FBDEV(0): checking modes against framebuffer device...
-> [    17.416] (II) FBDEV(0): 	mode "640x480" test failed
-> [    17.417] (II) FBDEV(0): 	mode "640x480" test failed
-> [    17.418] (II) FBDEV(0): 	mode "640x480" test failed
-> [    17.419] (II) FBDEV(0): 	mode "640x480" test failed
-> [    17.441] (II) FBDEV(0): 	mode "640x480" not found
-> [    17.442] (II) FBDEV(0): checking modes against monitor...
-> [    17.444] (II) FBDEV(0): Virtual size is 1280x800 (pitch 1280)
-> [    17.445] (**) FBDEV(0):  Built-in mode "current"
-> [    17.446] (==) FBDEV(0): DPI set to (96, 96)
-> [    17.447] (II) Loading sub module "fb"
-> [    17.448] (II) LoadModule: "fb"
-> 
-> > Ross
-> 
-> > 
-> > 
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184097): https://lists.openembedded.org/g/openembedded-core/message/184097
-> Mute This Topic: https://lists.openembedded.org/mt/100051814/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
+index e71fe09ea6..ddfa9a6192 100644
+--- a/scripts/pybootchartgui/pybootchartgui/draw.py
++++ b/scripts/pybootchartgui/pybootchartgui/draw.py
+@@ -646,8 +646,9 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+     offset = trace.min or min(trace.start.keys())
+     for start in sorted(trace.start.keys()):
+         for process in sorted(trace.start[start]):
++            elapsed_time = trace.processes[process][1] - start
+             if not options.app_options.show_all and \
+-                    trace.processes[process][1] - start < options.app_options.mintime:
++                    elapsed_time < options.app_options.mintime:
+                 continue
+             task = process.split(":")[1]
+ 
+@@ -656,7 +657,7 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+             #print(s)
+ 
+             x = chart_rect[0] + (start - offset) * sec_w
+-            w = ((trace.processes[process][1] - start) * sec_w)
++            w = elapsed_time * sec_w
+ 
+             #print("proc at %s %s %s %s" % (x, y, w, proc_h))
+             col = None
+@@ -684,7 +685,6 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+             draw_label_in_box(ctx, PROC_TEXT_COLOR, process, x, y + proc_h - 4, w, proc_h)
+ 
+             # Show elapsed time for each task
+-            elapsed_time = f"{trace.processes[process][1] - start}s"
+             draw_text(ctx, elapsed_time, PROC_TEXT_COLOR, x + w + 4, y + proc_h - 4)
+ 
+             y = y + proc_h
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
 
