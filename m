@@ -2,154 +2,113 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A8BEB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 20:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F52EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 20:59:08 +0000 (UTC)
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.51043.1689022049509230529
+ by mx.groups.io with SMTP id smtpd.web10.173.1689022745574173510
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 13:47:30 -0700
+ Mon, 10 Jul 2023 13:59:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=h3wIQN4w;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bgfKE5Jf;
  spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 79A1A20003;
-	Mon, 10 Jul 2023 20:47:25 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0351220004;
+	Mon, 10 Jul 2023 20:59:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689022047;
+	t=1689022743;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=V+qu/GTG8prGJBnCYFYQHDQb9/7hanjHh1ySoaIBikI=;
-	b=h3wIQN4wlU2pzyJRmmKgWIvgoY6HORNB3L1A7SkgxZbnOXAcX570pqn+8Q3erKYoqPXAUf
-	GAjO3wCexAX7y3U0+ZetJegGdUD/CfdrOMhVVXdfKwCXuH9Z3DB/422Lv0jrp+soSHUG3h
-	htS7cFO4o2wdmzHvvCcqRkDtWToQx/016XqBIEAgwIaMtSikqUme+BH3Jyty/MNqxj/c0c
-	J7jTphKBcXOLqaPPe4GIHTlA3Wh/ue4MWhzZhwytLvkn4q/w7H7E7pj9nqvb5RGqNUXLvU
-	q2RmDvsTUf8oGQ1/fla8HF6UqnSRRVjG8gxBhBSNFNi2vfS6QeIK9rHacSafjw==
-Date: Mon, 10 Jul 2023 22:47:25 +0200
+	bh=o3iFHtDJxZH51yT1Evyy4CiwweAeQLVxeIWhrNtFa8g=;
+	b=bgfKE5Jfya4rY+fu3rdeDhDCSob83cVsaggstUQbPoHQvaZPfncSfxKCytGhIVvvoRflzm
+	G+pdkzSk6+k306BHKhjGkqWFQyM2wDTQ6QepCS1V1NDBH886TiQDPDPyhrBPqV4EaCNJKE
+	m8R9M1OBcca4DsZHeiPKvGI99cCHzKirtV0zEai0zacL2fgE6jEy17WCqszm6aqm4gU0P3
+	OIeQP6qcOCnXK9B0K4PH36VaPjL7RE6umobN6QfVYykn8bRAXWzvYisdgKrZwnbaBQmSAP
+	QdXDAfk7xMp/z3Q8zJ8/o+B6friiaOjghh2fwgzSVeFMQrFLYfepJekFEQHGUQ==
+Date: Mon, 10 Jul 2023 22:59:02 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
-Subject: Re: [OE-core] [PATCH v3] qemu: Add qemu-common package
-Message-ID: <20230710204725c6afc9b5@mail.local>
-References: <E57733DA-39D3-494F-A91D-9AA8306DBDAB@arm.com>
- <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 00/15] kernel: consolidated pull request
+Message-ID: <20230710205902398898f0@mail.local>
+References: <cover.1688958788.git.bruce.ashfield@gmail.com>
+ <CDACE6FE-F991-4E69-BC69-B1BEC6B6B761@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CDACE6FE-F991-4E69-BC69-B1BEC6B6B761@arm.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 20:47:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184096
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 20:59:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184097
 
 Hello,
 
-On 10/07/2023 18:32:18+0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On 10/07/2023 14:54:50+0000, Ross Burton wrote:
+> On 10 Jul 2023, at 04:20, Bruce Ashfield via lists.openembedded.org <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > Here's the latest queued kernel changes. There are the expectd -stable updates
+> > 6.1, but those of course aren't the most interesting part of this queue.
 > 
-> We split the qemu package [1] to add support to make user can install
-> one qemu arch emulation rpm to ease the concerns who care much about
-> the rpm size in embedded device.
 > 
-> But for the user who only install the qemu-*.rpm can't do anything
-> except they install the qemu emulation rpm like qemu-system-x86-64-*.rpm
-> explicitly.
+> I’ve not triaged them yet as it’s still building, but https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5577 is just this branch on top of master and has some new failures/warnings.
 > 
-> So add qemu-common package to package all thing into qemu-common when
-> not split the package, and package only the basic into qemu-common and
-> other arch related to each qemu arch emulation rpm when split the package
-> to fix the backward compatibility.
-> 
-> qenu-*.rpm which is meta package rdepends on qemu-common and the available
-> qemu arch emulation rpm like qemu-system-x86-64-*.rpm and etc.
-> 
-> [1] https://git.openembedded.org/openembedded-core/commit/?id=893846ead7ee54d53e9076150cd655e0c8bca5db
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
 
-Please insert a changelog between your patch versions here, especially
-since you are sending v3 while v2 is under tessting.
+It mostly worked on my branch, there is this new failure though:
 
-Also, don't put subsequent version in the same thread as v1, this may
-cause your patches to be ignored as they appear in an old thread.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/7413/steps/12/logs/stdio
 
->  meta/recipes-devtools/qemu/qemu.inc      | 23 ++++++++++++-----------
->  meta/recipes-devtools/qemu/qemu_8.0.0.bb |  3 ++-
->  2 files changed, 14 insertions(+), 12 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index a5bdeef66d..94624163d0 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -226,15 +226,18 @@ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
->  PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
->  PACKAGECONFIG[debuginfo] = "--enable-libdw,--disable-libdw,elfutils"
->  
-> -INSANE_SKIP:${PN} = "arch"
-> +INSANE_SKIP:${PN}-common = "arch"
->  
->  FILES:${PN} += "${datadir}/icons"
->  
->  # For user who want to install all arch packages
-> -PACKAGES =+ "${PN}-system-all ${PN}-user-all"
-> +PACKAGES =+ "${PN}-common"
-> +RDEPENDS:${PN} += "${PN}-common"
->  
-> -ALLOW_EMPTY:${PN}-system-all = "1"
-> -ALLOW_EMPTY:${PN}-user-all = "1"
-> +ALLOW_EMPTY:${PN} = "1"
-> +FILES:${PN} = ""
-> +
-> +FILES:${PN}-common = "${bindir}/* ${includedir}/* ${libexecdir}/* ${datadir}/* ${localstatedir}"
->  
->  PACKAGES_DYNAMIC += "^${PN}-user-.*  ^${PN}-system-.*"
->  
-> @@ -242,15 +245,13 @@ PACKAGESPLITFUNCS =+ "split_qemu_packages"
->  
->  python split_qemu_packages () {
->      archdir = d.expand('${bindir}/')
-> -    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
-> -    if syspackages:
-> -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
-> +    subpackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
->  
-> -    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
-> -    if userpackages:
-> -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
-> +    subpackages += do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
-> +    if subpackages:
-> +        d.appendVar('RDEPENDS:' + d.getVar('PN'), ' ' + ' '.join(subpackages))
->      mipspackage = d.getVar('PN') + "-user-mips"
-> -    if mipspackage in ' '.join(userpackages):
-> +    if mipspackage in ' '.join(subpackages):
->          d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
->  }
->  
-> diff --git a/meta/recipes-devtools/qemu/qemu_8.0.0.bb b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> index 42e133967e..412c2bc7f0 100644
-> --- a/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
-> @@ -8,7 +8,8 @@ DEPENDS:append:libc-musl = " libucontext"
->  
->  CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
->  
-> -RDEPENDS:${PN}:class-target += "bash"
-> +RDEPENDS:${PN}-common:class-target += "bash"
-> +RDEPENDS:${PN}-common:class-nativesdk += "bash"
->  
->  EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
->  EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
-> -- 
-> 2.25.1
-> 
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/lib/oeqa/runtime/cases/parselogs.py", line 393, in test_parselogs
+    self.assertEqual(errcount, 0, msg=self.msg)
+AssertionError: 4 != 0 : No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+No ignore list found for this machine, using default
+Log: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/qemuarm-oe-linux-gnueabi/core-image-sato/1.0-r0/target_logs/Xorg.0.log
+-----------------------
+Central error: [    17.416] (II) FBDEV(0): 	mode "640x480" test failed
+***********************
+[    17.381] 	compiled for 1.21.1.8, module version = 0.0.2
+[    17.381] 	ABI class: X.Org Video Driver, version 25.2
+[    17.384] (II) FBDEV(0): using default device
+[    17.389] (==) FBDEV(0): Depth 24, (==) framebuffer bpp 32
+[    17.389] (==) FBDEV(0): RGB weight 888
+[    17.389] (==) FBDEV(0): Default visual is TrueColor
+[    17.403] (==) FBDEV(0): Using gamma correction (1.0, 1.0, 1.0)
+[    17.406] (II) FBDEV(0): hardware: virtio_gpudrmfb (video memory: 4000kB)
+[    17.407] (DB) xf86MergeOutputClassOptions unsupported bus type 0
+[    17.411] (II) FBDEV(0): checking modes against framebuffer device...
+[    17.416] (II) FBDEV(0): 	mode "640x480" test failed
+[    17.417] (II) FBDEV(0): 	mode "640x480" test failed
+[    17.418] (II) FBDEV(0): 	mode "640x480" test failed
+[    17.419] (II) FBDEV(0): 	mode "640x480" test failed
+[    17.441] (II) FBDEV(0): 	mode "640x480" not found
+[    17.442] (II) FBDEV(0): checking modes against monitor...
+[    17.444] (II) FBDEV(0): Virtual size is 1280x800 (pitch 1280)
+[    17.445] (**) FBDEV(0):  Built-in mode "current"
+[    17.446] (==) FBDEV(0): DPI set to (96, 96)
+[    17.447] (II) Loading sub module "fb"
+[    17.448] (II) LoadModule: "fb"
+
+> Ross
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#184068): https://lists.openembedded.org/g/openembedded-core/message/184068
-> Mute This Topic: https://lists.openembedded.org/mt/100054994/3617179
+> View/Reply Online (#184081): https://lists.openembedded.org/g/openembedded-core/message/184081
+> Mute This Topic: https://lists.openembedded.org/mt/100051814/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
