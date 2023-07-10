@@ -1,120 +1,99 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C7A4EB64D9
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 13:07:00 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.39079.1688994414979133706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C42EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 14:28:30 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.41193.1688999307390903058
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 06:06:55 -0700
+ Mon, 10 Jul 2023 07:28:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B944E2B;
-	Mon, 10 Jul 2023 06:07:36 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D86153F67D;
-	Mon, 10 Jul 2023 06:06:53 -0700 (PDT)
-From: ross.burton@arm.com
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=yxl0v4Ue;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7656652da3cso379082785a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 07:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1688999306; x=1691591306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JIpgq7O6E5urFuQccMOJqT8XXQXyGHee9g06qt3aFqI=;
+        b=yxl0v4Ue1COtIKjFDnnRNwNixsEFmN2fmoc4SX4TWGGh+q0Y/PP+ZTtdCNnigMA6Kc
+         WkpsZ+Kzlrdc614hhVqh7hO1KErSOh/08eFrjy2Cm904oWmJh5ez3jvEQwcIzYRZcfNI
+         oKT9F+Yqx3q2LmNKcPepNFnJJHZM6ZiQ+gs9D/X/+p6tuJcRxpxXSO6nkKU/CFYG3nE8
+         sJO2siHphAgcEgxxykdrOi7NKYIPIGi5V3DFfxUsF2OlkxIhTVwBC2zdqQjHYIVgj/mc
+         B07bEuD51nRxSttHlZZmDKOykA4sc/gpr2kOJl89msfqxuPIsqCi6jRdsHxEdzUZaoB/
+         kylw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688999306; x=1691591306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JIpgq7O6E5urFuQccMOJqT8XXQXyGHee9g06qt3aFqI=;
+        b=E5bi7KzoPHCDJuh0nncwguxpPVEQRt1yzxIsALP351xTBLgdqaVIubJDU1Nn4efb5Y
+         hNfvw8eOJZD0++o/dhaxKHS8BaeieBvasXC8TMou/8yu44uQ0Hoyx9Luh1wJrOCMrZuD
+         hfeArQdz37ycvCdqOad0BZGC4u3ETBhNO1b5H+V+JGB0A6I8l5foKqI8sewVrHGy4DbD
+         tVYQW1e/sjyI49MZJF/3TD/vn+zZU+wLrCbt0ak7DT2R7vXS4grp4l24WHGSc7uHyfLa
+         AxL8DSHtLiVzhSE1CLbEJI0v6oJknYbXG/oSbTbmzzSmzLZt/iJKS5NMLFdyL8kmfdSV
+         nPMw==
+X-Gm-Message-State: ABy/qLYD2b5wtpq3cUGmbm8mSKSNTnkzmZFTb8quOv5/28owhaVjzGeF
+	SrMTWbI8oaZtic69jufrXraj2kbSc/VvK8AdilM=
+X-Google-Smtp-Source: APBJJlEL9axkJhKw9/3vAf7U1XHJnApeNIVLbHD9t8FKVg42HN5QcZ/XRvaQ+ydTTEAzXN7b1twGZA==
+X-Received: by 2002:a05:620a:4006:b0:767:1415:f9eb with SMTP id h6-20020a05620a400600b007671415f9ebmr14371595qko.29.1688999305899;
+        Mon, 10 Jul 2023 07:28:25 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id v14-20020ae9e30e000000b0076772ab6937sm4869362qkf.114.2023.07.10.07.28.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 07:28:25 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] libdmx: remove obsolete library
-Date: Mon, 10 Jul 2023 14:06:52 +0100
-Message-Id: <20230710130652.3413573-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH 1/2] diffoscope: upgrade 242 -> 243
+Date: Mon, 10 Jul 2023 10:28:23 -0400
+Message-ID: <20230710142824.1646924-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 13:07:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184076
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 14:28:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184077
 
-From: Ross Burton <ross.burton@arm.com>
+Changelog:
 
-The Xdmx server was removed from the xorg-server sources in xorg-server
-21 (released Oct. 2021), so this is only useful for communicating with
-Xdmx from the 1.20 and older releases.
+[ Chris Lamb ]
+* Drop Jenkins build reference in README.rst.
 
-Also remove the DEPENDS on libdmx in xdpyinfo for the same reason.
+[ Ed Maste ]
+* Update FreeBSD package names
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+[ Mattia Rizzolo ]
+* Improve the documentation on to produce that binary blob that in the arsc
+  comparator.
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/distro/include/maintainers.inc       |  1 -
- .../xorg-app/xdpyinfo_1.3.4.bb                 |  2 +-
- meta/recipes-graphics/xorg-lib/libdmx_1.1.5.bb | 18 ------------------
- 3 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libdmx_1.1.5.bb
+ .../diffoscope/{diffoscope_242.bb => diffoscope_243.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_242.bb => diffoscope_243.bb} (92%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index fafa8eeb2ca..6e82e943fa3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -321,7 +321,6 @@ RECIPE_MAINTAINER:pn-libconvert-asn1-perl =3D "Tim Or=
-ling <tim.orling@konsulko.com
- RECIPE_MAINTAINER:pn-libcroco =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-libdaemon =3D "Alexander Kanavin <alex.kanavin@gmai=
-l.com>"
- RECIPE_MAINTAINER:pn-libdazzle =3D "Alexander Kanavin <alex.kanavin@gmai=
-l.com>"
--RECIPE_MAINTAINER:pn-libdmx =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-libdnf =3D "Alexander Kanavin <alex.kanavin@gmail.c=
-om>"
- RECIPE_MAINTAINER:pn-libdrm =3D "Otavio Salvador <otavio.salvador@ossyst=
-ems.com.br>"
- RECIPE_MAINTAINER:pn-libedit =3D "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb b/meta/reci=
-pes-graphics/xorg-app/xdpyinfo_1.3.4.bb
-index aaa8aa8903a..3becd402810 100644
---- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
-+++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
-@@ -9,7 +9,7 @@ clients and the server, and the different types of screen=
-s and visuals \
- that are available."
-=20
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df3d09e6b9e203a1af489e16c708f4=
-fb3"
--DEPENDS +=3D "libxtst libxext libxxf86vm libxi libxrender libxinerama li=
-bdmx libxau libxcomposite"
-+DEPENDS +=3D "libxtst libxext libxxf86vm libxi libxrender libxinerama li=
-bxau libxcomposite"
- PE =3D "1"
-=20
- SRC_URI +=3D "file://disable-xkb.patch"
-diff --git a/meta/recipes-graphics/xorg-lib/libdmx_1.1.5.bb b/meta/recipe=
-s-graphics/xorg-lib/libdmx_1.1.5.bb
-deleted file mode 100644
-index 96015ad882c..00000000000
---- a/meta/recipes-graphics/xorg-lib/libdmx_1.1.5.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--require xorg-lib-common.inc
--
--SUMMARY =3D "DMX: Distributed Multihead X extension library"
--
--DESCRIPTION =3D "The DMX extension provides support for communication wi=
-th \
--and control of Xdmx(1) server. Attributes of the Xdmx(1) server and of \
--the back-end screens attached to the server can be queried and modified =
-\
--via this protocol."
--
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da3c3499231a8035efd0e004cfbd3b=
-72a \
--                    file://src/dmx.c;endline=3D33;md5=3Dc43f19af03c7c861=
-9cadc9724ed9afe1"
--
--DEPENDS +=3D "libxext xorgproto"
--
--PE =3D "1"
--
--SRC_URI[sha256sum] =3D "35a4e26a8b0b2b4fe36441dca463645c3fa52d282ac35205=
-01a38ea942cbf74f"
---=20
-2.34.1
+diff --git a/meta/recipes-support/diffoscope/diffoscope_242.bb b/meta/recipes-support/diffoscope/diffoscope_243.bb
+similarity index 92%
+rename from meta/recipes-support/diffoscope/diffoscope_242.bb
+rename to meta/recipes-support/diffoscope/diffoscope_243.bb
+index 4b0d518edc..a73ad6da9e 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_242.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_243.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "d858c591d2c8d42b2b29eb6d229408607b1cd8a4e7ade72d0cd002db6d1c2a6e"
++SRC_URI[sha256sum] = "3ce7ff00d72ffd9c904d1d93a4a147208878f56e8f0286073533615689d840b1"
+ 
+ RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ 
+-- 
+2.41.0
 
 
