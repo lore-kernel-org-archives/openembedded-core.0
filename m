@@ -1,227 +1,590 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A70F4C00528
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 03:20:47 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.32113.1688959239455684906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C172EB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 05:28:58 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.33362.1688966929480345911
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jul 2023 20:20:39 -0700
+ Sun, 09 Jul 2023 22:28:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dKF5oQdR;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-635e3ceb152so19603646d6.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 20:20:39 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=cYTPYPoa;
+ spf=pass (domain: mvista.com, ip: 209.85.210.173, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-666ed230c81so3570620b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 22:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688959238; x=1691551238;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=15cxdAYlXORaD16fK/paUQEcclMox+/RK4SlZH8cL/o=;
-        b=dKF5oQdRu1zQe/uIcdrHH2jtO5DoVbVvKM1s/6nhCqH+g4CtXi4AhSsJh8rphOwoY8
-         RDXHAb4RpTDZlgwJYfetiA27uTzyacdrF3Nc9XNbnD6Z6xAi76StBrzvnMJpBhXAAPG0
-         YCqf46kaEczo0YHcwmzfmLW6SCG9ZTudgt2bQ6LL6I8dKl7FZrl4Sc8y6GPylPxpk0gv
-         /dUjTt1Vg+uywp3D/TFOHk0aGtZ9evDY420JTwLou1sfXBUtLIZMCUrrH1fduSY+2kFo
-         jPVxcAxTfqUFsSdq/kFN/Zu0a6gwTGHohKZw/oxJl95aFhK+0LpAGsJsMl7NwCjiQJnI
-         cA+A==
+        d=mvista.com; s=google; t=1688966928; x=1691558928;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0QTNTcDaHZbWzPdCqxJcjBzqGyrMefkpmNYvSpIoJ0M=;
+        b=cYTPYPoaOETBy0rq1HNg7CPvd9S4n6sQWVZn6NeHOazdsQKQvzT2//NsUrk+wbJhtt
+         Cx+L4dkDyF8nqq4OjegDzNM9XD3kPhHpDtH0Gz9OsUrZ3DhQYSR3hcTYArU8Sr02Yi0I
+         pu+PnPOBALeUzsIpn+BDiCzEUQAbc812YA/RQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688959238; x=1691551238;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=15cxdAYlXORaD16fK/paUQEcclMox+/RK4SlZH8cL/o=;
-        b=Ik4qcAYC8TAWKYIVZl1Xu5Siv9WaprIDVm+COWsCCiM12hmulZBsflRhy9NDc6SkF+
-         HjYe/0ZPM/MsBatyEjxfnqgp4y0lmk72DgSytzTW3HEDVOSbuXqaptwGYOtQL5S4KjED
-         h8OKtdp6dYNNLoCafJs3Hix/dnWZRPwJKbY+tQYXlhciinY1ohCdn8UcKw01J3oJwoDy
-         63k7zqHYH1AzVgoaUADBy59C4TgA5GOBJIzmWlAYs16D5ASxN+O3cUq36F5uojsaiHDw
-         3K173AbzaIaHxzzBEsh+M18YkS9LFrqFC6RvkA5RqJqDLh4IPWAU0inzVu93pQG7Wr0U
-         tPyg==
-X-Gm-Message-State: ABy/qLZyvc1t/SXZdMGC0JIbBcWirk8tN+o8+HGe9bU0697l6kG9p9TN
-	IfkrKar5SFsHiHwn64cKlRJ19ss1B4I=
-X-Google-Smtp-Source: APBJJlF3ruEFnfpBtYp7OnYI3FnZjzc13tVe0QsZjOiJ2TCcwn8KprgDMDyBHnqLmmUjn0syAaOzLg==
-X-Received: by 2002:a0c:e042:0:b0:630:14e0:9827 with SMTP id y2-20020a0ce042000000b0063014e09827mr8699833qvk.28.1688959238330;
-        Sun, 09 Jul 2023 20:20:38 -0700 (PDT)
-Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id d15-20020a0cf0cf000000b00630228acc45sm5039863qvl.145.2023.07.09.20.20.37
+        d=1e100.net; s=20221208; t=1688966928; x=1691558928;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0QTNTcDaHZbWzPdCqxJcjBzqGyrMefkpmNYvSpIoJ0M=;
+        b=jkpBJtjKMYF+xaYt3sh4qByJTCZLnui2nj5XByZNx9hzp6U0R64vE+d7VmAYwC4XXm
+         fgqHCl0se1TnBZEbtvlZJ6cuQy1AQnEnaGwLpx5EgMykI4/GdfBmgS9JBLa2punrxDyY
+         Yx1F+L2+1cLS1fscMg4j22/NeDA+mkTu4Wh2bZ4zlIwIzlJUkPMf4cW+Jcy6jtgz9w+v
+         VTFjcF+T+yNtykig2xWPkyPbYa3WERNkeTMWHowm+dyFsQMhVOS+otwt8XPfhb0ojq4q
+         QY18o8KWkJocr1MxSfV4e/i5QeqvaxbJGO36RN1MlKwSXyHU8yr11NwsrHXFwSkm0WA5
+         gvgA==
+X-Gm-Message-State: ABy/qLbH4l0wRLCPoxEusM9eFdQAuTX/hO7Mf1GWGQ/GO9/6Y2hMQ2tq
+	Gmw4EdYJvhm9HYVmwSG+L8VeGC0XD4fNM9niJF4=
+X-Google-Smtp-Source: APBJJlEl15myWMNwWIE4v8p+AbSxmwTwUi45RoMzAYzCgIBwtD+j64aL9nah+A3Iei7lmI6fYypFRw==
+X-Received: by 2002:a05:6a20:5483:b0:127:3c6e:fc83 with SMTP id i3-20020a056a20548300b001273c6efc83mr15200941pzk.42.1688966927895;
+        Sun, 09 Jul 2023 22:28:47 -0700 (PDT)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.74.239.0])
+        by smtp.googlemail.com with ESMTPSA id v3-20020a170902b7c300b001b80d399730sm7213524plz.242.2023.07.09.22.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jul 2023 20:20:37 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/15] linux-yocto/6.4: update to v6.4.2
-Date: Sun,  9 Jul 2023 23:20:22 -0400
-Message-Id: <f323c65f341047bc8520c419de4e3aec1a64119f.1688958789.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1688958788.git.bruce.ashfield@gmail.com>
-References: <cover.1688958788.git.bruce.ashfield@gmail.com>
+        Sun, 09 Jul 2023 22:28:47 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] curl: fix CVE-2023-28320 siglongjmp race condition may lead to crash
+Date: Mon, 10 Jul 2023 10:58:32 +0530
+Message-Id: <20230710052832.185187-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 03:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184053
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 05:28:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184058
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Introduced by: https://github.com/curl/curl/commit/3c49b405de4fbf1fd7127f91908261268640e54f (curl-7_9_8)
+Fixed by: https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2 (curl-8_1_0)
+Follow-up: https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3 (curl-8_1_0)
+https://curl.se/docs/CVE-2023-28320.html
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
-
-    d7defc5b8d42 Linux 6.4.2
-    ba0f198721f4 arch/arm64/mm/fault: Fix undeclared variable error in do_page_fault()
-    57db8dc02888 drm/amdgpu: Validate VM ioctl flags.
-    cc39da6c58c4 dm ioctl: Avoid double-fetch of version
-    c27c99d4458f docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
-    16167ccafbb3 scripts/tags.sh: Resolve gtags empty index generation
-    b1c2d0ded4dc hugetlb: revert use of page_cache_next_miss()
-    a03f2f4bd490 nubus: Partially revert proc_create_single_data() conversion
-    1c70f4df65ac Revert "cxl/port: Enable the HDM decoder capability for switch ports"
-    5dda60d23104 nfs: don't report STATX_BTIME in ->getattr
-    926eae6ede9b execve: always mark stack as growing down during early stack setup
-    dfb27a766896 PCI/ACPI: Call _REG when transitioning D-states
-    f933605c1767 PCI/ACPI: Validate acpi_pci_set_power_state() parameter
-    f23cf6986b87 tools/nolibc: x86_64: disable stack protector for _start
-    8911865ae284 xtensa: fix lock_mm_and_find_vma in case VMA not found
-    593776794734 Linux 6.4.1
-    2aad4f30f4e4 xtensa: fix NOMMU build with lock_mm_and_find_vma() conversion
-    87d780e048bd csky: fix up lock_mm_and_find_vma() conversion
-    0d98e5325f1f parisc: fix expand_stack() conversion
-    23d1e960cd12 sparc32: fix lock_mm_and_find_vma() conversion
-    7a11f6e08edf Revert "thermal/drivers/mediatek: Use devm_of_iomap to avoid resource leak in mtk_thermal_probe"
-    e6d864166aaf HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for the T651.
-    05b47034e248 HID: hidraw: fix data race on device refcount
-    14fdcf965dc5 fbdev: fix potential OOB read in fast_imageblit()
-    00d5932e09d7 mm/khugepaged: fix regression in collapse_file()
-    f450d0307644 gup: add warning if some caller would seem to want stack expansion
-    d0198363f910 HID: wacom: Use ktime_t rather than int when dealing with timestamps
-    fb32951c8903 mm: always expand the stack with the mmap write lock held
-    af099fa739b8 execve: expand new process stack manually ahead of time
-    b2d6752dbfe7 mm: make find_extend_vma() fail if write lock not held
-    accf6d0c5832 powerpc/mm: convert coprocessor fault to lock_mm_and_find_vma()
-    203cfe05efc8 mm/fault: convert remaining simple cases to lock_mm_and_find_vma()
-    4e3fb74f6050 arm/mm: Convert to using lock_mm_and_find_vma()
-    7e99b9821acc riscv/mm: Convert to using lock_mm_and_find_vma()
-    929eb6b2a690 mips/mm: Convert to using lock_mm_and_find_vma()
-    b6f36565369c powerpc/mm: Convert to using lock_mm_and_find_vma()
-    7a1383601b7c arm64/mm: Convert to using lock_mm_and_find_vma()
-    d939d8c154f1 mm: make the page fault mmap locking killable
-    b11fa3d22ac0 mm: introduce new 'lock_mm_and_find_vma()' page fault helper
-    f5fcf6555a2a maple_tree: fix potential out-of-bounds access in mas_wr_end_piv()
-    b6e1ef3cd6d8 can: isotp: isotp_sendmsg(): fix return error fix on TX path
-    3f2719a1c382 cpufreq: amd-pstate: Make amd-pstate EPP driver name hyphenated
-    9e97e46e3210 x86/smp: Cure kexec() vs. mwait_play_dead() breakage
-    cc37b1184236 x86/smp: Use dedicated cache-line for mwait_play_dead()
-    4726d74f697f x86/smp: Remove pointless wmb()s from native_stop_other_cpus()
-    8b1b43c42100 x86/smp: Dont access non-existing CPUID leaf
-    f9abe01d5d68 x86/smp: Make stop_other_cpus() more robust
-    9a500542a1dc x86/microcode/AMD: Load late on both threads too
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ .../curl/curl/CVE-2023-28320-fol1.patch       | 197 ++++++++++++++++++
+ .../curl/curl/CVE-2023-28320-pre1.patch       | 197 ++++++++++++++++++
+ .../curl/curl/CVE-2023-28320.patch            |  86 ++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+ 4 files changed, 482 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-index d1316e23a1..bd340adc15 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+new file mode 100644
+index 0000000000..eaa6fdc327
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+@@ -0,0 +1,197 @@
++From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 16 May 2023 23:40:42 +0200
++Subject: [PATCH] hostip: include easy_lock.h before using
++ GLOBAL_INIT_IS_THREADSAFE
++
++Since that header file is the only place that define can be defined.
++
++Reported-by: Marc Deslauriers
++
++Follow-up to 13718030ad4b3209
++
++Closes #11121
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3]
++CVE: CVE-2023-28320
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
++ lib/hostip.c    |  10 ++---
++ lib/hostip.h    |   9 ----
++ 3 files changed, 113 insertions(+), 15 deletions(-)
++ create mode 100644 lib/easy_lock.h
++
++diff --git a/lib/easy_lock.h b/lib/easy_lock.h
++new file mode 100644
++index 0000000..6399a39
++--- /dev/null
+++++ b/lib/easy_lock.h
++@@ -0,0 +1,109 @@
+++#ifndef HEADER_CURL_EASY_LOCK_H
+++#define HEADER_CURL_EASY_LOCK_H
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++
+++#include "curl_setup.h"
+++
+++#define GLOBAL_INIT_IS_THREADSAFE
+++
+++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x600
+++
+++#ifdef __MINGW32__
+++#ifndef __MINGW64_VERSION_MAJOR
+++#if (__MINGW32_MAJOR_VERSION < 5) || \
+++    (__MINGW32_MAJOR_VERSION == 5 && __MINGW32_MINOR_VERSION == 0)
+++/* mingw >= 5.0.1 defines SRWLOCK, and slightly different from MS define */
+++typedef PVOID SRWLOCK, *PSRWLOCK;
+++#endif
+++#endif
+++#ifndef SRWLOCK_INIT
+++#define SRWLOCK_INIT NULL
+++#endif
+++#endif /* __MINGW32__ */
+++
+++#define curl_simple_lock SRWLOCK
+++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
+++
+++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
+++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
+++
+++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
+++#include <stdatomic.h>
+++#if defined(HAVE_SCHED_YIELD)
+++#include <sched.h>
+++#endif
+++
+++#define curl_simple_lock atomic_int
+++#define CURL_SIMPLE_LOCK_INIT 0
+++
+++/* a clang-thing */
+++#ifndef __has_builtin
+++#define __has_builtin(x) 0
+++#endif
+++
+++#ifndef __INTEL_COMPILER
+++/* The Intel compiler tries to look like GCC *and* clang *and* lies in its
+++   __has_builtin() function, so override it. */
+++
+++/* if GCC on i386/x86_64 or if the built-in is present */
+++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
+++      (defined(__i386__) || defined(__x86_64__))) ||    \
+++  __has_builtin(__builtin_ia32_pause)
+++#define HAVE_BUILTIN_IA32_PAUSE
+++#endif
+++
+++#endif
+++
+++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
+++{
+++  for(;;) {
+++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
+++      break;
+++    /* Reduce cache coherency traffic */
+++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
+++      /* Reduce load (not mandatory) */
+++#ifdef HAVE_BUILTIN_IA32_PAUSE
+++      __builtin_ia32_pause();
+++#elif defined(__aarch64__)
+++      __asm__ volatile("yield" ::: "memory");
+++#elif defined(HAVE_SCHED_YIELD)
+++      sched_yield();
+++#endif
+++    }
+++  }
+++}
+++
+++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
+++{
+++  atomic_store_explicit(lock, false, memory_order_release);
+++}
+++
+++#else
+++
+++#undef  GLOBAL_INIT_IS_THREADSAFE
+++
+++#endif
+++
+++#endif /* HEADER_CURL_EASY_LOCK_H */
++diff --git a/lib/hostip.c b/lib/hostip.c
++index 5231a74..d5bf881 100644
++--- a/lib/hostip.c
+++++ b/lib/hostip.c
++@@ -68,6 +68,8 @@
++ #include "curl_memory.h"
++ #include "memdebug.h"
++ 
+++#include "easy_lock.h"
+++
++ #if defined(CURLRES_SYNCH) &&                   \
++   defined(HAVE_ALARM) &&                        \
++   defined(SIGALRM) &&                           \
++@@ -77,10 +79,6 @@
++ #define USE_ALARM_TIMEOUT
++ #endif
++ 
++-#ifdef USE_ALARM_TIMEOUT
++-#include "easy_lock.h"
++-#endif
++-
++ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
++ 
++ /*
++@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
++ /* Beware this is a global and unique instance. This is used to store the
++    return address that we can jump back to from inside a signal handler. This
++    is not thread-safe stuff. */
++-sigjmp_buf curl_jmpenv;
++-curl_simple_lock curl_jmpenv_lock;
+++static sigjmp_buf curl_jmpenv;
+++static curl_simple_lock curl_jmpenv_lock;
++ #endif
++ 
++ /* lookup address, returns entry if found and not stale */
++diff --git a/lib/hostip.h b/lib/hostip.h
++index baf1e58..d7f73d9 100644
++--- a/lib/hostip.h
+++++ b/lib/hostip.h
++@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_addrinfo *addr,
++ #define CURL_INADDR_NONE INADDR_NONE
++ #endif
++ 
++-#ifdef HAVE_SIGSETJMP
++-/* Forward-declaration of variable defined in hostip.c. Beware this
++- * is a global and unique instance. This is used to store the return
++- * address that we can jump back to from inside a signal handler.
++- * This is not thread-safe stuff.
++- */
++-extern sigjmp_buf curl_jmpenv;
++-#endif
++-
++ /*
++  * Function provided by the resolver backend to set DNS servers to use.
++  */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch b/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch
+new file mode 100644
+index 0000000000..eaa6fdc327
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch
+@@ -0,0 +1,197 @@
++From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 16 May 2023 23:40:42 +0200
++Subject: [PATCH] hostip: include easy_lock.h before using
++ GLOBAL_INIT_IS_THREADSAFE
++
++Since that header file is the only place that define can be defined.
++
++Reported-by: Marc Deslauriers
++
++Follow-up to 13718030ad4b3209
++
++Closes #11121
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3]
++CVE: CVE-2023-28320
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
++ lib/hostip.c    |  10 ++---
++ lib/hostip.h    |   9 ----
++ 3 files changed, 113 insertions(+), 15 deletions(-)
++ create mode 100644 lib/easy_lock.h
++
++diff --git a/lib/easy_lock.h b/lib/easy_lock.h
++new file mode 100644
++index 0000000..6399a39
++--- /dev/null
+++++ b/lib/easy_lock.h
++@@ -0,0 +1,109 @@
+++#ifndef HEADER_CURL_EASY_LOCK_H
+++#define HEADER_CURL_EASY_LOCK_H
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++
+++#include "curl_setup.h"
+++
+++#define GLOBAL_INIT_IS_THREADSAFE
+++
+++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x600
+++
+++#ifdef __MINGW32__
+++#ifndef __MINGW64_VERSION_MAJOR
+++#if (__MINGW32_MAJOR_VERSION < 5) || \
+++    (__MINGW32_MAJOR_VERSION == 5 && __MINGW32_MINOR_VERSION == 0)
+++/* mingw >= 5.0.1 defines SRWLOCK, and slightly different from MS define */
+++typedef PVOID SRWLOCK, *PSRWLOCK;
+++#endif
+++#endif
+++#ifndef SRWLOCK_INIT
+++#define SRWLOCK_INIT NULL
+++#endif
+++#endif /* __MINGW32__ */
+++
+++#define curl_simple_lock SRWLOCK
+++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
+++
+++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
+++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
+++
+++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
+++#include <stdatomic.h>
+++#if defined(HAVE_SCHED_YIELD)
+++#include <sched.h>
+++#endif
+++
+++#define curl_simple_lock atomic_int
+++#define CURL_SIMPLE_LOCK_INIT 0
+++
+++/* a clang-thing */
+++#ifndef __has_builtin
+++#define __has_builtin(x) 0
+++#endif
+++
+++#ifndef __INTEL_COMPILER
+++/* The Intel compiler tries to look like GCC *and* clang *and* lies in its
+++   __has_builtin() function, so override it. */
+++
+++/* if GCC on i386/x86_64 or if the built-in is present */
+++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
+++      (defined(__i386__) || defined(__x86_64__))) ||    \
+++  __has_builtin(__builtin_ia32_pause)
+++#define HAVE_BUILTIN_IA32_PAUSE
+++#endif
+++
+++#endif
+++
+++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
+++{
+++  for(;;) {
+++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
+++      break;
+++    /* Reduce cache coherency traffic */
+++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
+++      /* Reduce load (not mandatory) */
+++#ifdef HAVE_BUILTIN_IA32_PAUSE
+++      __builtin_ia32_pause();
+++#elif defined(__aarch64__)
+++      __asm__ volatile("yield" ::: "memory");
+++#elif defined(HAVE_SCHED_YIELD)
+++      sched_yield();
+++#endif
+++    }
+++  }
+++}
+++
+++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
+++{
+++  atomic_store_explicit(lock, false, memory_order_release);
+++}
+++
+++#else
+++
+++#undef  GLOBAL_INIT_IS_THREADSAFE
+++
+++#endif
+++
+++#endif /* HEADER_CURL_EASY_LOCK_H */
++diff --git a/lib/hostip.c b/lib/hostip.c
++index 5231a74..d5bf881 100644
++--- a/lib/hostip.c
+++++ b/lib/hostip.c
++@@ -68,6 +68,8 @@
++ #include "curl_memory.h"
++ #include "memdebug.h"
++ 
+++#include "easy_lock.h"
+++
++ #if defined(CURLRES_SYNCH) &&                   \
++   defined(HAVE_ALARM) &&                        \
++   defined(SIGALRM) &&                           \
++@@ -77,10 +79,6 @@
++ #define USE_ALARM_TIMEOUT
++ #endif
++ 
++-#ifdef USE_ALARM_TIMEOUT
++-#include "easy_lock.h"
++-#endif
++-
++ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
++ 
++ /*
++@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
++ /* Beware this is a global and unique instance. This is used to store the
++    return address that we can jump back to from inside a signal handler. This
++    is not thread-safe stuff. */
++-sigjmp_buf curl_jmpenv;
++-curl_simple_lock curl_jmpenv_lock;
+++static sigjmp_buf curl_jmpenv;
+++static curl_simple_lock curl_jmpenv_lock;
++ #endif
++ 
++ /* lookup address, returns entry if found and not stale */
++diff --git a/lib/hostip.h b/lib/hostip.h
++index baf1e58..d7f73d9 100644
++--- a/lib/hostip.h
+++++ b/lib/hostip.h
++@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_addrinfo *addr,
++ #define CURL_INADDR_NONE INADDR_NONE
++ #endif
++ 
++-#ifdef HAVE_SIGSETJMP
++-/* Forward-declaration of variable defined in hostip.c. Beware this
++- * is a global and unique instance. This is used to store the return
++- * address that we can jump back to from inside a signal handler.
++- * This is not thread-safe stuff.
++- */
++-extern sigjmp_buf curl_jmpenv;
++-#endif
++-
++ /*
++  * Function provided by the resolver backend to set DNS servers to use.
++  */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320.patch b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
+new file mode 100644
+index 0000000000..0c9b67440a
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
+@@ -0,0 +1,86 @@
++From 13718030ad4b3209a7583b4f27f683cd3a6fa5f2 Mon Sep 17 00:00:00 2001
++From: Harry Sintonen <sintonen@iki.fi>
++Date: Tue, 25 Apr 2023 09:22:26 +0200
++Subject: [PATCH] hostip: add locks around use of global buffer for alarm()
++
++When building with the sync name resolver and timeout ability we now
++require thread-safety to be present to enable it.
++
++Closes #11030
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2]
++CVE: CVE-2023-28320
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ lib/hostip.c | 19 +++++++++++++++----
++ 1 file changed, 15 insertions(+), 4 deletions(-)
++
++diff --git a/lib/hostip.c b/lib/hostip.c
++index f5bb634..5231a74 100644
++--- a/lib/hostip.c
+++++ b/lib/hostip.c
++@@ -68,12 +68,19 @@
++ #include "curl_memory.h"
++ #include "memdebug.h"
++ 
++-#if defined(CURLRES_SYNCH) && \
++-    defined(HAVE_ALARM) && defined(SIGALRM) && defined(HAVE_SIGSETJMP)
+++#if defined(CURLRES_SYNCH) &&                   \
+++  defined(HAVE_ALARM) &&                        \
+++  defined(SIGALRM) &&                           \
+++  defined(HAVE_SIGSETJMP) &&                    \
+++  defined(GLOBAL_INIT_IS_THREADSAFE)
++ /* alarm-based timeouts can only be used with all the dependencies satisfied */
++ #define USE_ALARM_TIMEOUT
++ #endif
++ 
+++#ifdef USE_ALARM_TIMEOUT
+++#include "easy_lock.h"
+++#endif
+++
++ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
++ 
++ /*
++@@ -248,11 +255,12 @@ void Curl_hostcache_prune(struct Curl_easy *data)
++     Curl_share_unlock(data, CURL_LOCK_DATA_DNS);
++ }
++ 
++-#ifdef HAVE_SIGSETJMP
+++#ifdef USE_ALARM_TIMEOUT
++ /* Beware this is a global and unique instance. This is used to store the
++    return address that we can jump back to from inside a signal handler. This
++    is not thread-safe stuff. */
++ sigjmp_buf curl_jmpenv;
+++curl_simple_lock curl_jmpenv_lock;
++ #endif
++ 
++ /* lookup address, returns entry if found and not stale */
++@@ -614,7 +622,6 @@ enum resolve_t Curl_resolv(struct connectdata *conn,
++ static
++ RETSIGTYPE alarmfunc(int sig)
++ {
++-  /* this is for "-ansi -Wall -pedantic" to stop complaining!   (rabe) */
++   (void)sig;
++   siglongjmp(curl_jmpenv, 1);
++ }
++@@ -695,6 +702,8 @@ enum resolve_t Curl_resolv_timeout(struct connectdata *conn,
++      This should be the last thing we do before calling Curl_resolv(),
++      as otherwise we'd have to worry about variables that get modified
++      before we invoke Curl_resolv() (and thus use "volatile"). */
+++  curl_simple_lock_lock(&curl_jmpenv_lock);
+++
++   if(sigsetjmp(curl_jmpenv, 1)) {
++     /* this is coming from a siglongjmp() after an alarm signal */
++     failf(data, "name lookup timed out");
++@@ -763,6 +772,8 @@ clean_up:
++ #endif
++ #endif /* HAVE_SIGACTION */
++ 
+++  curl_simple_lock_unlock(&curl_jmpenv_lock);
+++
++   /* switch back the alarm() to either zero or to what it was before minus
++      the time we spent until now! */
++   if(prev_alarm) {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index 13ec117099..ce81df0f05 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -50,6 +50,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2023-27535-pre1.patch \
+            file://CVE-2023-27535.patch \
+            file://CVE-2023-27536.patch \
++           file://CVE-2023-28320.patch \
++           file://CVE-2023-28320-fol1.patch \
+ "
  
--SRCREV_machine ?= "369f3a1d2f3947bb0587f4ae8b15dd8803125de9"
--SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
-+SRCREV_machine ?= "0c7d2016a3a548fd8f7caf7b1f46abd71008cd5c"
-+SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.4"
-+LINUX_VERSION ?= "6.4.2"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-index 6ad96d215c..6490c69b93 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.4.inc
- 
--LINUX_VERSION ?= "6.4"
-+LINUX_VERSION ?= "6.4.2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
-+SRCREV_machine ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.4.bb b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-index 85fcb33b3e..e514251673 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.4/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.4/standard/base"
- KBRANCH:qemumips64 ?= "v6.4/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "7e1be3b6ae5d05b30112b68fb92cad00b8ffdf49"
--SRCREV_machine:qemuarm64 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemuloongarch64 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemumips ?= "de409c37f1d2c5eacea9c33dc42117cb107aa305"
--SRCREV_machine:qemuppc ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemuriscv64 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemuriscv32 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemux86 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemux86-64 ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_machine:qemumips64 ?= "b14484af5492f03c8afc25f3684c8ae86a78295f"
--SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
-+SRCREV_machine:qemuarm ?= "89ab6408aa244552f100996ac5a2b49379bf9a2b"
-+SRCREV_machine:qemuarm64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemuloongarch64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemumips ?= "7abe3962401b09a7768acc879070671308c04163"
-+SRCREV_machine:qemuppc ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemuriscv64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemuriscv32 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemux86 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemux86-64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_machine:qemumips64 ?= "4dddf5763b3a26b7892ed75d02bcb9c25a3fe703"
-+SRCREV_machine ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
-+SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "6995e2de6891c724bfeb2db33d7b87775f913ad1"
-+SRCREV_machine:class-devupstream ?= "d7defc5b8d422ba19ab762a96cf1b1eb158aa5a8"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.4/base"
- 
-@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.4"
-+LINUX_VERSION ?= "6.4.2"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
 -- 
-2.34.1
+2.25.1
 
 
