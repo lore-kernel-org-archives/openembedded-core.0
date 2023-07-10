@@ -1,695 +1,290 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B3EEB64DA
-	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 15:41:11 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.43284.1689003663129745189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5885AEB64D9
+	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 16:21:01 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.web11.44242.1689006059963322375
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 08:41:03 -0700
+ Mon, 10 Jul 2023 09:21:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=MhOYokTX;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.171, mailfrom: steve@sakoman.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b703d7ed3aso74950501fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 08:41:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=TG1CqS2D;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-564e4656fecso2874543eaf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 09:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689003661; x=1691595661;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tk3+y8+MtNabY7jLDoF1OQ0Xq1k6VISl/CyFBt5XGq0=;
-        b=MhOYokTXATzbAzdQoqQFhXnEm3UUrsq2BtaoR4ul3TWjWZSXchnJU2OmeS6NdWxP56
-         6ZHDdx00DR1U+UYDYLPjJOeT0wa9WeTMsVzXyrgPxlryabJ64twvY95ySLtovWekN0Qo
-         9rx5RjJPqicaslFVzF0ZHP9HBtt3v3LnxyXhYheZBuHbdyBC1CGAmIyrSst9Cm35c5UD
-         Tb33bcj/SYmbKBoxoC9hM4CIGdRpRSTtBveEv/yXjiCMb3wT10BPMwxgL9ORJK6OgvJa
-         kbsuM6bPCbdOHGIW1QwtahFTr/3ipn0Oxbmt2tJgViEOkbDcLZWFz64DHH49+JPShQbL
-         bAmA==
+        d=gmail.com; s=20221208; t=1689006059; x=1691598059;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7eBc5rfI2nXKPy5xCJ1eGMQpsMXeaz0SPO9lxfP9wlc=;
+        b=TG1CqS2DjAl8kJt8tNO5TIl5Scg+crGyPcicdoq81eXW/8oBRR3A8LlOsJagj9MU8N
+         Xym2U5fQxM0Qwq+ffb1TDZ+JaNjdw6QosACjck7XXEjO+YaaXrfdkTXeH+gEC8qEVskC
+         tcgPth2zFI6N+JuJypmN1vx6+qG3u6ApJnGVhts3Wmv2Y/PpXpqc71zL797jT28e08jy
+         61f8v26OfANRh976SxdJTM4XI93kaIVKY1/bsZWz3sa5gwUVc56I7lkREfz7Uiw1Zr6D
+         LPvN6KxbKSY5dGz7nFCfM79VS9l5YKocm4jIe4dQl10d9my37x4lNmxw8g92kCOfQ155
+         01iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689003661; x=1691595661;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tk3+y8+MtNabY7jLDoF1OQ0Xq1k6VISl/CyFBt5XGq0=;
-        b=YM/9aQDLvm0PSNggbjMThPAfrsLSNgw44/MhO6ODSMdI3lfGKLyVnb1YY7ouH9LBGX
-         s49R+j9UDxLJodLjVwibbfIaY3dzNDRnEitq608k5O9cMWcb8MfhhqgLXQQ2N16Rl5/d
-         zCdj0FrAzLLJjJU1ILuOT8Zf5sO8u8zZh3zv/J99v4WUTDtrJJxfL0hEOpMlk7s7Sv1t
-         NVVr9zVMQOMG7lAZ70Y9oo6wQQDwfhWK5ZrEfSXiK4jkUmgJ5oHBQoMisgS3oeN1gQA5
-         PUT8hsII/S0tkKtz8vsSKW2+IbmWb3bOSM6Y+3tiOsVLbM1XnSGsClm8ofPAbvbQ4jbb
-         00Fg==
-X-Gm-Message-State: ABy/qLYvBrjfty2rF+jIGq+Eyink6hO0DLy4pTV9W0qUAD2FxnCtvgS9
-	x/l/6zdoNuaMHkYF65TJgSNqkwIwdhOSkgblqpCdiA==
-X-Google-Smtp-Source: APBJJlE6Wjc6njn2UsHSr0s66ELN3qoE2eGflmguuJZ2TjsXBW3xh1eWWeUigFVIZ2vi4qE6zUt0MltA6a0RRdxMt94=
-X-Received: by 2002:a2e:9253:0:b0:2b6:da1e:d063 with SMTP id
- v19-20020a2e9253000000b002b6da1ed063mr9590883ljg.45.1689003660610; Mon, 10
- Jul 2023 08:41:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689006059; x=1691598059;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7eBc5rfI2nXKPy5xCJ1eGMQpsMXeaz0SPO9lxfP9wlc=;
+        b=dQG5cdAKpfuZOUPB8+HLWPhThs2AQhTAEjiart34rvcbiOIjJXGzwWWEBu/mKzAJC2
+         1OAzzxy/A0XnWBn1Rwu1A0kkjSt6IpLCDxgHPTmg6NR2l71jgDzLuKDNunOUea+qsOLb
+         3sF3QSP+4XcrQzUl1hlcUs+NXMIcSBik+auetlLppJ4C71UnbO0i+pgrj8j2+grU06FT
+         h2X9rwtjV7l+AtyL4pNdhxuuv8ouL5orhb9r5jcUkZVAF/8/rtK1Vl5MPnnb18BOoBY0
+         SGYF+EpMqt1G/JNbH40uZy7btAykwCYFiw7g79fBthzs4trs4E1d8P7Agvb2ivqV8SFY
+         7tZg==
+X-Gm-Message-State: ABy/qLaPnfKYHU5FcPLDZX+romFh6vzrB1LPqoEyj1RyiZWvkwBzs9Kp
+	M7B2ZOgqynSI0sPDyukZ07eb9wAjWhI=
+X-Google-Smtp-Source: APBJJlFilAuJXBGyGYmx8qrpzDOvuPSfUXtB7fcoODtZFY16ld2kkzYAfvMFfDOrZGMYNt5EWwi7YA==
+X-Received: by 2002:a05:6870:d781:b0:19a:733:53c3 with SMTP id bd1-20020a056870d78100b0019a073353c3mr12532711oab.35.1689006058653;
+        Mon, 10 Jul 2023 09:20:58 -0700 (PDT)
+Received: from skjolley ([2600:1011:a122:34d2:8cf3:3f5b:dc41:311e])
+        by smtp.gmail.com with ESMTPSA id js9-20020a17090b148900b00262e0c91d27sm130877pjb.48.2023.07.10.09.20.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Jul 2023 09:20:58 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 10 Jul 2023 09:20:57 -0700
+Message-ID: <0b9f01d9b34a$827a8680$876f9380$@gmail.com>
 MIME-Version: 1.0
-References: <20230710052832.185187-1-vkumbhar@mvista.com> <CAOSpxdb+wf9j7K4rmXSFHY_heS07-va5d2J_nACE3cAnHeEOBw@mail.gmail.com>
- <CAPun1rGQkUNZEvUucDSAaziTZOMwOW4BgSywcvR7OvJQA=32=Q@mail.gmail.com>
-In-Reply-To: <CAPun1rGQkUNZEvUucDSAaziTZOMwOW4BgSywcvR7OvJQA=32=Q@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 10 Jul 2023 05:40:49 -1000
-Message-ID: <CAOSpxdY-h4ynP-3EQN-y-Z9nkHUKU2Va=A00nSJ6Jd-qsDeaFQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] curl: fix CVE-2023-28320 siglongjmp
- race condition may lead to crash
-To: Vivek Kumbhar <vkumbhar@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0BA0_01D9B30F.D61E1F80"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIwbc13mnuX+agRugHNtaRioNdLeQ==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 15:41:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184083
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 16:21:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184084
 
-On Mon, Jul 10, 2023 at 5:03=E2=80=AFAM Vivek Kumbhar <vkumbhar@mvista.com>=
- wrote:
->
-> As it is a followup patch I have added it as fol1.
->
-> If you want this as pre1, I will send v2 again.
+This is a multipart message in MIME format.
 
-What is confusing me is that this patch adds three files
-(CVE-2023-28320-fol1.patch, CVE-2023-28320-pre1.patch,
-CVE-2023-28320.patch) but then only adds two of them to SRC_URI.
+------=_NextPart_000_0BA0_01D9B30F.D61E1F80
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-So you should either drop adding CVE-2023-28320-pre1.patch, or add it
-to SRC_URI.
+All,
 
-Make sense?
+ 
 
-Steve
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-> On Mon, Jul 10, 2023 at 8:01=E2=80=AFPM Steve Sakoman <steve@sakoman.com>=
- wrote:
->>
->> On Sun, Jul 9, 2023 at 7:28=E2=80=AFPM vkumbhar <vkumbhar@mvista.com> wr=
-ote:
->> >
->> > Introduced by: https://github.com/curl/curl/commit/3c49b405de4fbf1fd71=
-27f91908261268640e54f (curl-7_9_8)
->> > Fixed by: https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f=
-27f683cd3a6fa5f2 (curl-8_1_0)
->> > Follow-up: https://github.com/curl/curl/commit/f446258f0269a62289cca02=
-10157cb8558d0edc3 (curl-8_1_0)
->> > https://curl.se/docs/CVE-2023-28320.html
->> >
->> > Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
->> > ---
->> >  .../curl/curl/CVE-2023-28320-fol1.patch       | 197 +++++++++++++++++=
-+
->> >  .../curl/curl/CVE-2023-28320-pre1.patch       | 197 +++++++++++++++++=
-+
->> >  .../curl/curl/CVE-2023-28320.patch            |  86 ++++++++
->> >  meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
->> >  4 files changed, 482 insertions(+)
->> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-fol1=
-.patch
->> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-pre1=
-.patch
->> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320.patc=
-h
->> >
->> > diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch =
-b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
->> > new file mode 100644
->> > index 0000000000..eaa6fdc327
->> > --- /dev/null
->> > +++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
->> > @@ -0,0 +1,197 @@
->> > +From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 200=
-1
->> > +From: Daniel Stenberg <daniel@haxx.se>
->> > +Date: Tue, 16 May 2023 23:40:42 +0200
->> > +Subject: [PATCH] hostip: include easy_lock.h before using
->> > + GLOBAL_INIT_IS_THREADSAFE
->> > +
->> > +Since that header file is the only place that define can be defined.
->> > +
->> > +Reported-by: Marc Deslauriers
->> > +
->> > +Follow-up to 13718030ad4b3209
->> > +
->> > +Closes #11121
->> > +
->> > +Upstream-Status: Backport [https://github.com/curl/curl/commit/f44625=
-8f0269a62289cca0210157cb8558d0edc3]
->> > +CVE: CVE-2023-28320
->> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
->> > +---
->> > + lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++=
-++
->> > + lib/hostip.c    |  10 ++---
->> > + lib/hostip.h    |   9 ----
->> > + 3 files changed, 113 insertions(+), 15 deletions(-)
->> > + create mode 100644 lib/easy_lock.h
->> > +
->> > +diff --git a/lib/easy_lock.h b/lib/easy_lock.h
->> > +new file mode 100644
->> > +index 0000000..6399a39
->> > +--- /dev/null
->> > ++++ b/lib/easy_lock.h
->> > +@@ -0,0 +1,109 @@
->> > ++#ifndef HEADER_CURL_EASY_LOCK_H
->> > ++#define HEADER_CURL_EASY_LOCK_H
->> > ++/*******************************************************************=
-********
->> > ++ *                                  _   _ ____  _
->> > ++ *  Project                     ___| | | |  _ \| |
->> > ++ *                             / __| | | | |_) | |
->> > ++ *                            | (__| |_| |  _ <| |___
->> > ++ *                             \___|\___/|_| \_\_____|
->> > ++ *
->> > ++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
->> > ++ *
->> > ++ * This software is licensed as described in the file COPYING, which
->> > ++ * you should have received as part of this distribution. The terms
->> > ++ * are also available at https://curl.se/docs/copyright.html.
->> > ++ *
->> > ++ * You may opt to use, copy, modify, merge, publish, distribute and/=
-or sell
->> > ++ * copies of the Software, and permit persons to whom the Software i=
-s
->> > ++ * furnished to do so, under the terms of the COPYING file.
->> > ++ *
->> > ++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANT=
-Y OF ANY
->> > ++ * KIND, either express or implied.
->> > ++ *
->> > ++ * SPDX-License-Identifier: curl
->> > ++ *
->> > ++ *******************************************************************=
-********/
->> > ++
->> > ++#include "curl_setup.h"
->> > ++
->> > ++#define GLOBAL_INIT_IS_THREADSAFE
->> > ++
->> > ++#if defined(_WIN32_WINNT) && _WIN32_WINNT >=3D 0x600
->> > ++
->> > ++#ifdef __MINGW32__
->> > ++#ifndef __MINGW64_VERSION_MAJOR
->> > ++#if (__MINGW32_MAJOR_VERSION < 5) || \
->> > ++    (__MINGW32_MAJOR_VERSION =3D=3D 5 && __MINGW32_MINOR_VERSION =3D=
-=3D 0)
->> > ++/* mingw >=3D 5.0.1 defines SRWLOCK, and slightly different from MS =
-define */
->> > ++typedef PVOID SRWLOCK, *PSRWLOCK;
->> > ++#endif
->> > ++#endif
->> > ++#ifndef SRWLOCK_INIT
->> > ++#define SRWLOCK_INIT NULL
->> > ++#endif
->> > ++#endif /* __MINGW32__ */
->> > ++
->> > ++#define curl_simple_lock SRWLOCK
->> > ++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
->> > ++
->> > ++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
->> > ++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
->> > ++
->> > ++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
->> > ++#include <stdatomic.h>
->> > ++#if defined(HAVE_SCHED_YIELD)
->> > ++#include <sched.h>
->> > ++#endif
->> > ++
->> > ++#define curl_simple_lock atomic_int
->> > ++#define CURL_SIMPLE_LOCK_INIT 0
->> > ++
->> > ++/* a clang-thing */
->> > ++#ifndef __has_builtin
->> > ++#define __has_builtin(x) 0
->> > ++#endif
->> > ++
->> > ++#ifndef __INTEL_COMPILER
->> > ++/* The Intel compiler tries to look like GCC *and* clang *and* lies =
-in its
->> > ++   __has_builtin() function, so override it. */
->> > ++
->> > ++/* if GCC on i386/x86_64 or if the built-in is present */
->> > ++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
->> > ++      (defined(__i386__) || defined(__x86_64__))) ||    \
->> > ++  __has_builtin(__builtin_ia32_pause)
->> > ++#define HAVE_BUILTIN_IA32_PAUSE
->> > ++#endif
->> > ++
->> > ++#endif
->> > ++
->> > ++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
->> > ++{
->> > ++  for(;;) {
->> > ++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
->> > ++      break;
->> > ++    /* Reduce cache coherency traffic */
->> > ++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
->> > ++      /* Reduce load (not mandatory) */
->> > ++#ifdef HAVE_BUILTIN_IA32_PAUSE
->> > ++      __builtin_ia32_pause();
->> > ++#elif defined(__aarch64__)
->> > ++      __asm__ volatile("yield" ::: "memory");
->> > ++#elif defined(HAVE_SCHED_YIELD)
->> > ++      sched_yield();
->> > ++#endif
->> > ++    }
->> > ++  }
->> > ++}
->> > ++
->> > ++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
->> > ++{
->> > ++  atomic_store_explicit(lock, false, memory_order_release);
->> > ++}
->> > ++
->> > ++#else
->> > ++
->> > ++#undef  GLOBAL_INIT_IS_THREADSAFE
->> > ++
->> > ++#endif
->> > ++
->> > ++#endif /* HEADER_CURL_EASY_LOCK_H */
->> > +diff --git a/lib/hostip.c b/lib/hostip.c
->> > +index 5231a74..d5bf881 100644
->> > +--- a/lib/hostip.c
->> > ++++ b/lib/hostip.c
->> > +@@ -68,6 +68,8 @@
->> > + #include "curl_memory.h"
->> > + #include "memdebug.h"
->> > +
->> > ++#include "easy_lock.h"
->> > ++
->> > + #if defined(CURLRES_SYNCH) &&                   \
->> > +   defined(HAVE_ALARM) &&                        \
->> > +   defined(SIGALRM) &&                           \
->> > +@@ -77,10 +79,6 @@
->> > + #define USE_ALARM_TIMEOUT
->> > + #endif
->> > +
->> > +-#ifdef USE_ALARM_TIMEOUT
->> > +-#include "easy_lock.h"
->> > +-#endif
->> > +-
->> > + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port numbe=
-r + zero */
->> > +
->> > + /*
->> > +@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
->> > + /* Beware this is a global and unique instance. This is used to stor=
-e the
->> > +    return address that we can jump back to from inside a signal hand=
-ler. This
->> > +    is not thread-safe stuff. */
->> > +-sigjmp_buf curl_jmpenv;
->> > +-curl_simple_lock curl_jmpenv_lock;
->> > ++static sigjmp_buf curl_jmpenv;
->> > ++static curl_simple_lock curl_jmpenv_lock;
->> > + #endif
->> > +
->> > + /* lookup address, returns entry if found and not stale */
->> > +diff --git a/lib/hostip.h b/lib/hostip.h
->> > +index baf1e58..d7f73d9 100644
->> > +--- a/lib/hostip.h
->> > ++++ b/lib/hostip.h
->> > +@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_add=
-rinfo *addr,
->> > + #define CURL_INADDR_NONE INADDR_NONE
->> > + #endif
->> > +
->> > +-#ifdef HAVE_SIGSETJMP
->> > +-/* Forward-declaration of variable defined in hostip.c. Beware this
->> > +- * is a global and unique instance. This is used to store the return
->> > +- * address that we can jump back to from inside a signal handler.
->> > +- * This is not thread-safe stuff.
->> > +- */
->> > +-extern sigjmp_buf curl_jmpenv;
->> > +-#endif
->> > +-
->> > + /*
->> > +  * Function provided by the resolver backend to set DNS servers to u=
-se.
->> > +  */
->> > +--
->> > +2.25.1
->> > +
->> > diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch =
-b/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch
->> > new file mode 100644
->> > index 0000000000..eaa6fdc327
->> > --- /dev/null
->> > +++ b/meta/recipes-support/curl/curl/CVE-2023-28320-pre1.patch
->> > @@ -0,0 +1,197 @@
->> > +From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 200=
-1
->> > +From: Daniel Stenberg <daniel@haxx.se>
->> > +Date: Tue, 16 May 2023 23:40:42 +0200
->> > +Subject: [PATCH] hostip: include easy_lock.h before using
->> > + GLOBAL_INIT_IS_THREADSAFE
->> > +
->> > +Since that header file is the only place that define can be defined.
->> > +
->> > +Reported-by: Marc Deslauriers
->> > +
->> > +Follow-up to 13718030ad4b3209
->> > +
->> > +Closes #11121
->> > +
->> > +Upstream-Status: Backport [https://github.com/curl/curl/commit/f44625=
-8f0269a62289cca0210157cb8558d0edc3]
->> > +CVE: CVE-2023-28320
->> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
->> > +---
->> > + lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++=
-++
->> > + lib/hostip.c    |  10 ++---
->> > + lib/hostip.h    |   9 ----
->> > + 3 files changed, 113 insertions(+), 15 deletions(-)
->> > + create mode 100644 lib/easy_lock.h
->> > +
->> > +diff --git a/lib/easy_lock.h b/lib/easy_lock.h
->> > +new file mode 100644
->> > +index 0000000..6399a39
->> > +--- /dev/null
->> > ++++ b/lib/easy_lock.h
->> > +@@ -0,0 +1,109 @@
->> > ++#ifndef HEADER_CURL_EASY_LOCK_H
->> > ++#define HEADER_CURL_EASY_LOCK_H
->> > ++/*******************************************************************=
-********
->> > ++ *                                  _   _ ____  _
->> > ++ *  Project                     ___| | | |  _ \| |
->> > ++ *                             / __| | | | |_) | |
->> > ++ *                            | (__| |_| |  _ <| |___
->> > ++ *                             \___|\___/|_| \_\_____|
->> > ++ *
->> > ++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
->> > ++ *
->> > ++ * This software is licensed as described in the file COPYING, which
->> > ++ * you should have received as part of this distribution. The terms
->> > ++ * are also available at https://curl.se/docs/copyright.html.
->> > ++ *
->> > ++ * You may opt to use, copy, modify, merge, publish, distribute and/=
-or sell
->> > ++ * copies of the Software, and permit persons to whom the Software i=
-s
->> > ++ * furnished to do so, under the terms of the COPYING file.
->> > ++ *
->> > ++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANT=
-Y OF ANY
->> > ++ * KIND, either express or implied.
->> > ++ *
->> > ++ * SPDX-License-Identifier: curl
->> > ++ *
->> > ++ *******************************************************************=
-********/
->> > ++
->> > ++#include "curl_setup.h"
->> > ++
->> > ++#define GLOBAL_INIT_IS_THREADSAFE
->> > ++
->> > ++#if defined(_WIN32_WINNT) && _WIN32_WINNT >=3D 0x600
->> > ++
->> > ++#ifdef __MINGW32__
->> > ++#ifndef __MINGW64_VERSION_MAJOR
->> > ++#if (__MINGW32_MAJOR_VERSION < 5) || \
->> > ++    (__MINGW32_MAJOR_VERSION =3D=3D 5 && __MINGW32_MINOR_VERSION =3D=
-=3D 0)
->> > ++/* mingw >=3D 5.0.1 defines SRWLOCK, and slightly different from MS =
-define */
->> > ++typedef PVOID SRWLOCK, *PSRWLOCK;
->> > ++#endif
->> > ++#endif
->> > ++#ifndef SRWLOCK_INIT
->> > ++#define SRWLOCK_INIT NULL
->> > ++#endif
->> > ++#endif /* __MINGW32__ */
->> > ++
->> > ++#define curl_simple_lock SRWLOCK
->> > ++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
->> > ++
->> > ++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
->> > ++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
->> > ++
->> > ++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
->> > ++#include <stdatomic.h>
->> > ++#if defined(HAVE_SCHED_YIELD)
->> > ++#include <sched.h>
->> > ++#endif
->> > ++
->> > ++#define curl_simple_lock atomic_int
->> > ++#define CURL_SIMPLE_LOCK_INIT 0
->> > ++
->> > ++/* a clang-thing */
->> > ++#ifndef __has_builtin
->> > ++#define __has_builtin(x) 0
->> > ++#endif
->> > ++
->> > ++#ifndef __INTEL_COMPILER
->> > ++/* The Intel compiler tries to look like GCC *and* clang *and* lies =
-in its
->> > ++   __has_builtin() function, so override it. */
->> > ++
->> > ++/* if GCC on i386/x86_64 or if the built-in is present */
->> > ++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
->> > ++      (defined(__i386__) || defined(__x86_64__))) ||    \
->> > ++  __has_builtin(__builtin_ia32_pause)
->> > ++#define HAVE_BUILTIN_IA32_PAUSE
->> > ++#endif
->> > ++
->> > ++#endif
->> > ++
->> > ++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
->> > ++{
->> > ++  for(;;) {
->> > ++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
->> > ++      break;
->> > ++    /* Reduce cache coherency traffic */
->> > ++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
->> > ++      /* Reduce load (not mandatory) */
->> > ++#ifdef HAVE_BUILTIN_IA32_PAUSE
->> > ++      __builtin_ia32_pause();
->> > ++#elif defined(__aarch64__)
->> > ++      __asm__ volatile("yield" ::: "memory");
->> > ++#elif defined(HAVE_SCHED_YIELD)
->> > ++      sched_yield();
->> > ++#endif
->> > ++    }
->> > ++  }
->> > ++}
->> > ++
->> > ++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
->> > ++{
->> > ++  atomic_store_explicit(lock, false, memory_order_release);
->> > ++}
->> > ++
->> > ++#else
->> > ++
->> > ++#undef  GLOBAL_INIT_IS_THREADSAFE
->> > ++
->> > ++#endif
->> > ++
->> > ++#endif /* HEADER_CURL_EASY_LOCK_H */
->> > +diff --git a/lib/hostip.c b/lib/hostip.c
->> > +index 5231a74..d5bf881 100644
->> > +--- a/lib/hostip.c
->> > ++++ b/lib/hostip.c
->> > +@@ -68,6 +68,8 @@
->> > + #include "curl_memory.h"
->> > + #include "memdebug.h"
->> > +
->> > ++#include "easy_lock.h"
->> > ++
->> > + #if defined(CURLRES_SYNCH) &&                   \
->> > +   defined(HAVE_ALARM) &&                        \
->> > +   defined(SIGALRM) &&                           \
->> > +@@ -77,10 +79,6 @@
->> > + #define USE_ALARM_TIMEOUT
->> > + #endif
->> > +
->> > +-#ifdef USE_ALARM_TIMEOUT
->> > +-#include "easy_lock.h"
->> > +-#endif
->> > +-
->> > + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port numbe=
-r + zero */
->> > +
->> > + /*
->> > +@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
->> > + /* Beware this is a global and unique instance. This is used to stor=
-e the
->> > +    return address that we can jump back to from inside a signal hand=
-ler. This
->> > +    is not thread-safe stuff. */
->> > +-sigjmp_buf curl_jmpenv;
->> > +-curl_simple_lock curl_jmpenv_lock;
->> > ++static sigjmp_buf curl_jmpenv;
->> > ++static curl_simple_lock curl_jmpenv_lock;
->> > + #endif
->> > +
->> > + /* lookup address, returns entry if found and not stale */
->> > +diff --git a/lib/hostip.h b/lib/hostip.h
->> > +index baf1e58..d7f73d9 100644
->> > +--- a/lib/hostip.h
->> > ++++ b/lib/hostip.h
->> > +@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_add=
-rinfo *addr,
->> > + #define CURL_INADDR_NONE INADDR_NONE
->> > + #endif
->> > +
->> > +-#ifdef HAVE_SIGSETJMP
->> > +-/* Forward-declaration of variable defined in hostip.c. Beware this
->> > +- * is a global and unique instance. This is used to store the return
->> > +- * address that we can jump back to from inside a signal handler.
->> > +- * This is not thread-safe stuff.
->> > +- */
->> > +-extern sigjmp_buf curl_jmpenv;
->> > +-#endif
->> > +-
->> > + /*
->> > +  * Function provided by the resolver backend to set DNS servers to u=
-se.
->> > +  */
->> > +--
->> > +2.25.1
->> > +
->> > diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320.patch b/met=
-a/recipes-support/curl/curl/CVE-2023-28320.patch
->> > new file mode 100644
->> > index 0000000000..0c9b67440a
->> > --- /dev/null
->> > +++ b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
->> > @@ -0,0 +1,86 @@
->> > +From 13718030ad4b3209a7583b4f27f683cd3a6fa5f2 Mon Sep 17 00:00:00 200=
-1
->> > +From: Harry Sintonen <sintonen@iki.fi>
->> > +Date: Tue, 25 Apr 2023 09:22:26 +0200
->> > +Subject: [PATCH] hostip: add locks around use of global buffer for al=
-arm()
->> > +
->> > +When building with the sync name resolver and timeout ability we now
->> > +require thread-safety to be present to enable it.
->> > +
->> > +Closes #11030
->> > +
->> > +Upstream-Status: Backport [https://github.com/curl/curl/commit/137180=
-30ad4b3209a7583b4f27f683cd3a6fa5f2]
->> > +CVE: CVE-2023-28320
->> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
->> > +---
->> > + lib/hostip.c | 19 +++++++++++++++----
->> > + 1 file changed, 15 insertions(+), 4 deletions(-)
->> > +
->> > +diff --git a/lib/hostip.c b/lib/hostip.c
->> > +index f5bb634..5231a74 100644
->> > +--- a/lib/hostip.c
->> > ++++ b/lib/hostip.c
->> > +@@ -68,12 +68,19 @@
->> > + #include "curl_memory.h"
->> > + #include "memdebug.h"
->> > +
->> > +-#if defined(CURLRES_SYNCH) && \
->> > +-    defined(HAVE_ALARM) && defined(SIGALRM) && defined(HAVE_SIGSETJM=
-P)
->> > ++#if defined(CURLRES_SYNCH) &&                   \
->> > ++  defined(HAVE_ALARM) &&                        \
->> > ++  defined(SIGALRM) &&                           \
->> > ++  defined(HAVE_SIGSETJMP) &&                    \
->> > ++  defined(GLOBAL_INIT_IS_THREADSAFE)
->> > + /* alarm-based timeouts can only be used with all the dependencies s=
-atisfied */
->> > + #define USE_ALARM_TIMEOUT
->> > + #endif
->> > +
->> > ++#ifdef USE_ALARM_TIMEOUT
->> > ++#include "easy_lock.h"
->> > ++#endif
->> > ++
->> > + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port numbe=
-r + zero */
->> > +
->> > + /*
->> > +@@ -248,11 +255,12 @@ void Curl_hostcache_prune(struct Curl_easy *dat=
-a)
->> > +     Curl_share_unlock(data, CURL_LOCK_DATA_DNS);
->> > + }
->> > +
->> > +-#ifdef HAVE_SIGSETJMP
->> > ++#ifdef USE_ALARM_TIMEOUT
->> > + /* Beware this is a global and unique instance. This is used to stor=
-e the
->> > +    return address that we can jump back to from inside a signal hand=
-ler. This
->> > +    is not thread-safe stuff. */
->> > + sigjmp_buf curl_jmpenv;
->> > ++curl_simple_lock curl_jmpenv_lock;
->> > + #endif
->> > +
->> > + /* lookup address, returns entry if found and not stale */
->> > +@@ -614,7 +622,6 @@ enum resolve_t Curl_resolv(struct connectdata *co=
-nn,
->> > + static
->> > + RETSIGTYPE alarmfunc(int sig)
->> > + {
->> > +-  /* this is for "-ansi -Wall -pedantic" to stop complaining!   (rab=
-e) */
->> > +   (void)sig;
->> > +   siglongjmp(curl_jmpenv, 1);
->> > + }
->> > +@@ -695,6 +702,8 @@ enum resolve_t Curl_resolv_timeout(struct connect=
-data *conn,
->> > +      This should be the last thing we do before calling Curl_resolv(=
-),
->> > +      as otherwise we'd have to worry about variables that get modifi=
-ed
->> > +      before we invoke Curl_resolv() (and thus use "volatile"). */
->> > ++  curl_simple_lock_lock(&curl_jmpenv_lock);
->> > ++
->> > +   if(sigsetjmp(curl_jmpenv, 1)) {
->> > +     /* this is coming from a siglongjmp() after an alarm signal */
->> > +     failf(data, "name lookup timed out");
->> > +@@ -763,6 +772,8 @@ clean_up:
->> > + #endif
->> > + #endif /* HAVE_SIGACTION */
->> > +
->> > ++  curl_simple_lock_unlock(&curl_jmpenv_lock);
->> > ++
->> > +   /* switch back the alarm() to either zero or to what it was before=
- minus
->> > +      the time we spent until now! */
->> > +   if(prev_alarm) {
->> > +--
->> > +2.25.1
->> > +
->> > diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-s=
-upport/curl/curl_7.69.1.bb
->> > index 13ec117099..ce81df0f05 100644
->> > --- a/meta/recipes-support/curl/curl_7.69.1.bb
->> > +++ b/meta/recipes-support/curl/curl_7.69.1.bb
->> > @@ -50,6 +50,8 @@ SRC_URI =3D "https://curl.haxx.se/download/curl-${PV=
-}.tar.bz2 \
->> >             file://CVE-2023-27535-pre1.patch \
->> >             file://CVE-2023-27535.patch \
->> >             file://CVE-2023-27536.patch \
->>
->> Shouldn't you be adding CVE-2023-28320-pre1.patch here?
->>
->> Steve
->>
->> > +           file://CVE-2023-28320.patch \
->> > +           file://CVE-2023-28320-fol1.patch \
->> >  "
->> >
->> >  SRC_URI[md5sum] =3D "ec5fc263f898a3dfef08e805f1ecca42"
->> > --
->> > 2.25.1
->> >
->> >
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#184058): https://lists.openembedded.org/g/openembe=
-dded-core/message/184058
->> > Mute This Topic: https://lists.openembedded.org/mt/100053064/3620601
->> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[steve@sakoman.com]
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 433
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.3", "4.4", "4.99" and "Future", the more pressing/urgent
+issues being in "4.3" and then "4.4".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0BA0_01D9B30F.D61E1F80
+Content-Type: text/html;
+	boundary="----=_NextPart_000_07BE_01D9AD85.359CBBA0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 433 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.3&#8221;, =
+&#8220;4.4&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.3&quot; and then =
+&#8220;4.4&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0BA0_01D9B30F.D61E1F80--
+
 
