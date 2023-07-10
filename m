@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F71C001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A70F4C00528
 	for <webhook@archiver.kernel.org>; Mon, 10 Jul 2023 03:20:47 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.32112.1688959238572370371
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.32113.1688959239455684906
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jul 2023 20:20:38 -0700
+ Sun, 09 Jul 2023 20:20:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PCmCpHrm;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-635e5b06aaeso22227296d6.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 20:20:38 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dKF5oQdR;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-635e3ceb152so19603646d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Jul 2023 20:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688959237; x=1691551237;
+        d=gmail.com; s=20221208; t=1688959238; x=1691551238;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DtNxbbdrCGGSsqwbPmwrcPcb9x6bXmmvwYVztUt9kNo=;
-        b=PCmCpHrmbyZBMFw5zq1PuCGKHB+dKfQ2TLo3Ma8i5lVwpuZqdyhOFivfJ62O5TOIw8
-         Lla1U981ZGt5YYL41K0sS4ffTSNWpfPNBZ8O/p6xXz2eNoLvS2OynlbP8jeLlrmBn2jZ
-         iLXi4tUII+rWLbUPH+TUzkH/3tYzZuDZQChBHsIR2PaXZ7SPTaIWC4gjGn0vsqE6/01w
-         scJKS54AyVAjQ3ZItYrEEZJSf6uLJBGn6wrPXZhX23Z0Y6Mnl9DtFpdtboKrpd1V3Unm
-         1gLVREGXFHpBo9t8NnWMYVOikgJwPp0ORXj3G2EniXH9kj9wuagh6niiV3TQmg1EWg7l
-         GGww==
+        bh=15cxdAYlXORaD16fK/paUQEcclMox+/RK4SlZH8cL/o=;
+        b=dKF5oQdRu1zQe/uIcdrHH2jtO5DoVbVvKM1s/6nhCqH+g4CtXi4AhSsJh8rphOwoY8
+         RDXHAb4RpTDZlgwJYfetiA27uTzyacdrF3Nc9XNbnD6Z6xAi76StBrzvnMJpBhXAAPG0
+         YCqf46kaEczo0YHcwmzfmLW6SCG9ZTudgt2bQ6LL6I8dKl7FZrl4Sc8y6GPylPxpk0gv
+         /dUjTt1Vg+uywp3D/TFOHk0aGtZ9evDY420JTwLou1sfXBUtLIZMCUrrH1fduSY+2kFo
+         jPVxcAxTfqUFsSdq/kFN/Zu0a6gwTGHohKZw/oxJl95aFhK+0LpAGsJsMl7NwCjiQJnI
+         cA+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688959237; x=1691551237;
+        d=1e100.net; s=20221208; t=1688959238; x=1691551238;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DtNxbbdrCGGSsqwbPmwrcPcb9x6bXmmvwYVztUt9kNo=;
-        b=TS/9EWE7SWuoKBVOCIgpzyyg42lElpLRz0Du9/4bzsPgHZWW1D70cEPndyqKbwpHEz
-         8t+l1Qv9wDESmJIcVvrqKbeh/dI9GhO10YPM+R2MBRqEUK62QCRB51OtbSQToE5MYGAv
-         GWj0agPXBuIqUjzmAn+R5tltl4yyRJwBiZxt1U0uFi4yHu0qi6ddc7dpJdW6Rx5B4cQ0
-         WG+qZETNVw2Ltg1Gna9FT0c1QxCLhRtRF47eC0cb5e+Bfd8f/1DhYJ8R9LyQ2dMWCPWH
-         xTX1hZz7Z1Xo7WqcMLVbydBuVyTjEJxnVFrYSYu/hpwYubYh9WrepTyWnuOnyLq7UeTj
-         A/Mw==
-X-Gm-Message-State: ABy/qLaBC1b2zg3/ryCoUtIvvJUNhGlJSd8ORqPD++nbRuWuyoiaYLSq
-	YvsPzYfrXGbxQRMg0y8ZTOU5GHx9o+0=
-X-Google-Smtp-Source: APBJJlHWH7avddAf/iO+3+txYokQNfpn6K/A9ICseLZb5Vl60J/GAkC/KdIfQn/pl13KgGctMPn8QA==
-X-Received: by 2002:a0c:f484:0:b0:636:afa1:344e with SMTP id i4-20020a0cf484000000b00636afa1344emr10496550qvm.31.1688959237472;
-        Sun, 09 Jul 2023 20:20:37 -0700 (PDT)
+        bh=15cxdAYlXORaD16fK/paUQEcclMox+/RK4SlZH8cL/o=;
+        b=Ik4qcAYC8TAWKYIVZl1Xu5Siv9WaprIDVm+COWsCCiM12hmulZBsflRhy9NDc6SkF+
+         HjYe/0ZPM/MsBatyEjxfnqgp4y0lmk72DgSytzTW3HEDVOSbuXqaptwGYOtQL5S4KjED
+         h8OKtdp6dYNNLoCafJs3Hix/dnWZRPwJKbY+tQYXlhciinY1ohCdn8UcKw01J3oJwoDy
+         63k7zqHYH1AzVgoaUADBy59C4TgA5GOBJIzmWlAYs16D5ASxN+O3cUq36F5uojsaiHDw
+         3K173AbzaIaHxzzBEsh+M18YkS9LFrqFC6RvkA5RqJqDLh4IPWAU0inzVu93pQG7Wr0U
+         tPyg==
+X-Gm-Message-State: ABy/qLZyvc1t/SXZdMGC0JIbBcWirk8tN+o8+HGe9bU0697l6kG9p9TN
+	IfkrKar5SFsHiHwn64cKlRJ19ss1B4I=
+X-Google-Smtp-Source: APBJJlF3ruEFnfpBtYp7OnYI3FnZjzc13tVe0QsZjOiJ2TCcwn8KprgDMDyBHnqLmmUjn0syAaOzLg==
+X-Received: by 2002:a0c:e042:0:b0:630:14e0:9827 with SMTP id y2-20020a0ce042000000b0063014e09827mr8699833qvk.28.1688959238330;
+        Sun, 09 Jul 2023 20:20:38 -0700 (PDT)
 Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id d15-20020a0cf0cf000000b00630228acc45sm5039863qvl.145.2023.07.09.20.20.36
+        by smtp.gmail.com with ESMTPSA id d15-20020a0cf0cf000000b00630228acc45sm5039863qvl.145.2023.07.09.20.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jul 2023 20:20:36 -0700 (PDT)
+        Sun, 09 Jul 2023 20:20:37 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/15] linux-yocto-rt/6.4: integrate -rt6
-Date: Sun,  9 Jul 2023 23:20:21 -0400
-Message-Id: <c346a92ec40fb82b162e34222738caf2f5228396.1688958789.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 11/15] linux-yocto/6.4: update to v6.4.2
+Date: Sun,  9 Jul 2023 23:20:22 -0400
+Message-Id: <f323c65f341047bc8520c419de4e3aec1a64119f.1688958789.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1688958788.git.bruce.ashfield@gmail.com>
 References: <cover.1688958788.git.bruce.ashfield@gmail.com>
@@ -61,144 +61,166 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 03:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184052
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184053
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto-rt/6.4:
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-    369f3a1d2f39 Add localversion for -RT release
-    c26c6f8a7def sysfs: Add /sys/kernel/realtime entry
-    1026252efc14 POWERPC: Allow to enable RT
-    2be128571d55 powerpc/stackprotector: work around stack-guard init from atomic
-    55bea7bc53a3 powerpc/kvm: Disable in-kernel MPIC emulation for PREEMPT_RT
-    6d7729893293 powerpc/pseries: Select the generic memory allocator.
-    4f94b99ce5fa powerpc/imc-pmu: Use the correct spinlock initializer.
-    4842eac5df59 powerpc/pseries/iommu: Use a locallock instead local_irq_save()
-    20217d6be82e powerpc: traps: Use PREEMPT_RT
-    caa81a9e214f ARM64: Allow to enable RT
-    e6d8eecd9250 ARM: Allow to enable RT
-    ed8eef71c579 tty/serial/pl011: Make the locking work on RT
-    579a01d01422 tty/serial/omap: Make the locking RT aware
-    82c5c842e1a3 ARM: enable irq in translation/section permission fault handlers
-    40b10f168ff6 arm: Disable jump-label on PREEMPT_RT.
-    a7a1bfa3b88b arch/arm64: Add lazy preempt support
-    be59db8f177b powerpc: Add support for lazy preemption
-    0143f7261d2e arm: Add support for lazy preemption
-    27dd55360d61 entry: Fix the preempt lazy fallout
-    59012496af29 x86: Support for lazy preemption
-    d25ecd17ccbe x86/entry: Use should_resched() in idtentry_exit_cond_resched()
-    beb2483d6b9f sched: Add support for lazy preemption
-    c78e3d4fd185 Revert "drm/i915: Depend on !PREEMPT_RT."
-    bdac43aa952c drm/i915: Drop the irqs_disabled() check
-    954bab1b75e9 drm/i915/gt: Use spin_lock_irq() instead of local_irq_disable() + spin_lock()
-    afcb80571a37 drm/i915/gt: Queue and wait for the irq_work item.
-    5f8008dab040 drm/i915: skip DRM_I915_LOW_LEVEL_TRACEPOINTS with NOTRACE
-    da5622b92296 drm/i915: Disable tracing points on PREEMPT_RT
-    51532f62a857 drm/i915: Don't check for atomic context on PREEMPT_RT
-    4b1c4c7b4e6c drm/i915: Don't disable interrupts on PREEMPT_RT during atomic updates
-    459be7df2c2a drm/i915: Use preempt_disable/enable_rt() where recommended
-    628d1b08d421 printk: Check only for migration in printk_deferred_*().
-    dfd2770048a6 serial: 8250: implement non-BKL console
-    9fc96a5c3a19 printk: replace local_irq_save with local_lock for safe mode
-    061a418efaef printk: Add threaded printing support for BKL consoles.
-    36ac8599626a printk: only disable if actually unregistered
-    71669eb2c2da printk: Perform atomic flush in console_flush_on_panic()
-    b0634d6c06d9 rcu: Add atomic write enforcement for rcu stalls
-    95fdf7b134ab kernel/panic: Add atomic write enforcement to warn/panic
-    c39e30092722 proc: consoles: Add support for non-BKL consoles
-    70be25f26762 tty: tty_io: Show non-BKL consoles as active
-    c980fcfd9dcb printk: nobkl: Stop threads on shutdown/reboot
-    e372fdfa42c3 printk: nobkl: Provide functions for atomic write enforcement
-    7c779a16b20c printk: nobkl: Add write context storage for atomic writes
-    042485b8fa7a printk: nobkl: Add printer thread wakeups
-    a0d1569185ed printk: nobkl: Introduce printer threads
-    68aa6402e396 printk: nobkl: Add emit function and callback functions for atomic printing
-    ccf51a3743a4 printk: nobkl: Add print state functions
-    e33dfd268d79 printk: nobkl: Add sequence handling
-    2f0f99a7a004 printk: nobkl: Add buffer management
-    f6cd5cdad5cf printk: nobkl: Add acquire/release logic
-    6754f4c0d6ee printk: Add non-BKL console basic infrastructure
-    b4568c7fbbfc printk: Add per-console suspended state
-    1e952ed4d35b printk: Consolidate console deferred printing
-    b12fabcfa9be printk: Add NMI check to console_flush_on_panic() and console_unblank()
-    9c1bfc2a6f3c kdb: do not assume write() callback available
-    244f2785c026 preempt: Put preempt_enable() within an instrumentation*() section.
-    1b61e0ba79ae zram: Replace bit spinlocks with spinlock_t for PREEMPT_RT.
-    62bf62e9fd6c softirq: Wake ktimers thread also in softirq.
-    a546af0d74af tick: Fix timer storm since introduction of timersd
-    bfd12d9a9dfc rcutorture: Also force sched priority to timersd on boosting test.
-    8898939cf3b1 softirq: Use a dedicated thread for timer wakeups.
-    2c8cccade3f1 x86: Enable RT also on 32bit
-    75a40b356238 x86: Allow to enable RT
-    126193d32d0c net: Avoid the IPI to free the
-    931d538b5c85 mm/page_alloc: Use write_seqlock_irqsave() instead write_seqlock() + local_irq_save().
-    dd90b50f7be9 seqlock: Do the lockdep annotation before locking in do_write_seqcount_begin_nested()
-    0874a8832dc7 ARM: vfp: Use vfp_lock() in vfp_entry().
-    3c69696bd766 ARM: vfp: Use vfp_lock() in vfp_sync_hwstate().
-    0fcd7c2cc385 ARM: vfp: Provide vfp_lock() for VFP locking.
-    67cdd3607ac5 posix-timers: Ensure timer ID search-loop limit is valid
-    d18adb7ffef3 posix-timers: Prevent RT livelock in itimer_delete()
-    53c35a763a78 signal: Don't disable preemption in ptrace_stop() on PREEMPT_RT.
-    0acdc7e2e082 signal: Add proper comment about the preempt-disable in ptrace_stop().
-    ec0ce135acf0 locking/rtmutex: Add a lockdep assert to catch potential nested blocking
-    5898c4215b40 locking/rtmutex: Avoid pointless blk_flush_plug() invocations
-    8fbc724cb1c6 locking/rtmutex: Submit/resume work explicitly before/after blocking
-    3e1028d6c3cc sched/core: Provide sched_rtmutex() and expose sched work helpers
-    2c4691baa875 bpf: Remove in_atomic() from bpf_link_put().
-    eb0a0f759f25 revert: "softirq: Let ksoftirqd do its job"
-    3c160415c46a tracing/timer: Add missing hrtimer modes to decode_hrtimer_mode().
-    c4d99ee1238f sched: Consider task_struct::saved_state in wait_task_inactive()
-    587e9609ccd5 sched: Unconditionally use full-fat wait_task_inactive()
+    d7defc5b8d42 Linux 6.4.2
+    ba0f198721f4 arch/arm64/mm/fault: Fix undeclared variable error in do_page_fault()
+    57db8dc02888 drm/amdgpu: Validate VM ioctl flags.
+    cc39da6c58c4 dm ioctl: Avoid double-fetch of version
+    c27c99d4458f docs: Set minimal gtags / GNU GLOBAL version to 6.6.5
+    16167ccafbb3 scripts/tags.sh: Resolve gtags empty index generation
+    b1c2d0ded4dc hugetlb: revert use of page_cache_next_miss()
+    a03f2f4bd490 nubus: Partially revert proc_create_single_data() conversion
+    1c70f4df65ac Revert "cxl/port: Enable the HDM decoder capability for switch ports"
+    5dda60d23104 nfs: don't report STATX_BTIME in ->getattr
+    926eae6ede9b execve: always mark stack as growing down during early stack setup
+    dfb27a766896 PCI/ACPI: Call _REG when transitioning D-states
+    f933605c1767 PCI/ACPI: Validate acpi_pci_set_power_state() parameter
+    f23cf6986b87 tools/nolibc: x86_64: disable stack protector for _start
+    8911865ae284 xtensa: fix lock_mm_and_find_vma in case VMA not found
+    593776794734 Linux 6.4.1
+    2aad4f30f4e4 xtensa: fix NOMMU build with lock_mm_and_find_vma() conversion
+    87d780e048bd csky: fix up lock_mm_and_find_vma() conversion
+    0d98e5325f1f parisc: fix expand_stack() conversion
+    23d1e960cd12 sparc32: fix lock_mm_and_find_vma() conversion
+    7a11f6e08edf Revert "thermal/drivers/mediatek: Use devm_of_iomap to avoid resource leak in mtk_thermal_probe"
+    e6d864166aaf HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for the T651.
+    05b47034e248 HID: hidraw: fix data race on device refcount
+    14fdcf965dc5 fbdev: fix potential OOB read in fast_imageblit()
+    00d5932e09d7 mm/khugepaged: fix regression in collapse_file()
+    f450d0307644 gup: add warning if some caller would seem to want stack expansion
+    d0198363f910 HID: wacom: Use ktime_t rather than int when dealing with timestamps
+    fb32951c8903 mm: always expand the stack with the mmap write lock held
+    af099fa739b8 execve: expand new process stack manually ahead of time
+    b2d6752dbfe7 mm: make find_extend_vma() fail if write lock not held
+    accf6d0c5832 powerpc/mm: convert coprocessor fault to lock_mm_and_find_vma()
+    203cfe05efc8 mm/fault: convert remaining simple cases to lock_mm_and_find_vma()
+    4e3fb74f6050 arm/mm: Convert to using lock_mm_and_find_vma()
+    7e99b9821acc riscv/mm: Convert to using lock_mm_and_find_vma()
+    929eb6b2a690 mips/mm: Convert to using lock_mm_and_find_vma()
+    b6f36565369c powerpc/mm: Convert to using lock_mm_and_find_vma()
+    7a1383601b7c arm64/mm: Convert to using lock_mm_and_find_vma()
+    d939d8c154f1 mm: make the page fault mmap locking killable
+    b11fa3d22ac0 mm: introduce new 'lock_mm_and_find_vma()' page fault helper
+    f5fcf6555a2a maple_tree: fix potential out-of-bounds access in mas_wr_end_piv()
+    b6e1ef3cd6d8 can: isotp: isotp_sendmsg(): fix return error fix on TX path
+    3f2719a1c382 cpufreq: amd-pstate: Make amd-pstate EPP driver name hyphenated
+    9e97e46e3210 x86/smp: Cure kexec() vs. mwait_play_dead() breakage
+    cc37b1184236 x86/smp: Use dedicated cache-line for mwait_play_dead()
+    4726d74f697f x86/smp: Remove pointless wmb()s from native_stop_other_cpus()
+    8b1b43c42100 x86/smp: Dont access non-existing CPUID leaf
+    f9abe01d5d68 x86/smp: Make stop_other_cpus() more robust
+    9a500542a1dc x86/microcode/AMD: Load late on both threads too
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb   | 4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.4.bb      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-index 3e1331e52a..d1316e23a1 100644
+index d1316e23a1..bd340adc15 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-@@ -14,8 +14,8 @@ python () {
+@@ -14,13 +14,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_meta ?= "ebe5a59e59f8a82b7f7a641fece317a0a3ea05d2"
-+SRCREV_machine ?= "369f3a1d2f3947bb0587f4ae8b15dd8803125de9"
-+SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
+-SRCREV_machine ?= "369f3a1d2f3947bb0587f4ae8b15dd8803125de9"
+-SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
++SRCREV_machine ?= "0c7d2016a3a548fd8f7caf7b1f46abd71008cd5c"
++SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.4"
++LINUX_VERSION ?= "6.4.2"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-index db729a2e4d..6ad96d215c 100644
+index 6ad96d215c..6490c69b93 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.4.inc
+ 
+-LINUX_VERSION ?= "6.4"
++LINUX_VERSION ?= "6.4.2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
- SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_meta ?= "ebe5a59e59f8a82b7f7a641fece317a0a3ea05d2"
-+SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
+-SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
++SRCREV_machine ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_6.4.bb b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-index 029aaaa004..85fcb33b3e 100644
+index 85fcb33b3e..e514251673 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_6.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-@@ -28,7 +28,7 @@ SRCREV_machine:qemux86 ?= "40dfcb393658098382d48669718a1cb16674c833"
- SRCREV_machine:qemux86-64 ?= "40dfcb393658098382d48669718a1cb16674c833"
- SRCREV_machine:qemumips64 ?= "b14484af5492f03c8afc25f3684c8ae86a78295f"
- SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
--SRCREV_meta ?= "ebe5a59e59f8a82b7f7a641fece317a0a3ea05d2"
-+SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
+@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.4/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.4/standard/base"
+ KBRANCH:qemumips64 ?= "v6.4/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "7e1be3b6ae5d05b30112b68fb92cad00b8ffdf49"
+-SRCREV_machine:qemuarm64 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemuloongarch64 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemumips ?= "de409c37f1d2c5eacea9c33dc42117cb107aa305"
+-SRCREV_machine:qemuppc ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemuriscv64 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemuriscv32 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemux86 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemux86-64 ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_machine:qemumips64 ?= "b14484af5492f03c8afc25f3684c8ae86a78295f"
+-SRCREV_machine ?= "40dfcb393658098382d48669718a1cb16674c833"
+-SRCREV_meta ?= "0b4a5500b775a9429c933ebb6d54d018ca921106"
++SRCREV_machine:qemuarm ?= "89ab6408aa244552f100996ac5a2b49379bf9a2b"
++SRCREV_machine:qemuarm64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemuloongarch64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemumips ?= "7abe3962401b09a7768acc879070671308c04163"
++SRCREV_machine:qemuppc ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemuriscv64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemuriscv32 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemux86 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemux86-64 ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_machine:qemumips64 ?= "4dddf5763b3a26b7892ed75d02bcb9c25a3fe703"
++SRCREV_machine ?= "2bf4f46721ce8095f156566128a9feee2da09d20"
++SRCREV_meta ?= "8a09ea80e6905baf80940dc8c4fe9326bd8d19e2"
  
  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
  # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "6995e2de6891c724bfeb2db33d7b87775f913ad1"
++SRCREV_machine:class-devupstream ?= "d7defc5b8d422ba19ab762a96cf1b1eb158aa5a8"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.4/base"
+ 
+@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.4"
++LINUX_VERSION ?= "6.4.2"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.34.1
 
