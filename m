@@ -1,180 +1,193 @@
-Return-Path: <heiko.thole@entwicklung.eq-3.de>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E98E7EB64DC
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 11:14:08 +0000 (UTC)
-Received: from DEU01-BE0-obe.outbound.protection.outlook.com (DEU01-BE0-obe.outbound.protection.outlook.com [40.107.127.75])
- by mx.groups.io with SMTP id smtpd.web10.4931.1689073986748679964
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2A0EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 11:17:59 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.78])
+ by mx.groups.io with SMTP id smtpd.web11.5126.1689074276768980602
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 04:13:07 -0700
+ Tue, 11 Jul 2023 04:17:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: entwicklung.eq-3.de, ip: 40.107.127.75, mailfrom: heiko.thole@entwicklung.eq-3.de)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=eoe9GbU8;
+ spf=pass (domain: arm.com, ip: 40.107.20.78, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DcCyGdRTe4g5EbJ3pzofXGlmebPTk19RMXOOLOX81q8=;
+ b=eoe9GbU8oqDoHKwkXpozShk5fSHGQex8o1Y7qOa7v2YccyOwbgs8rvPk/MgJS+SDduReimNCL3Lnr55XEhud7ggYJhm+1nrykddUCFqRJxy8c2t2Hbz9S391WNPcKsvzi4G36T2eXCtLVRBFWd5dX/1FFtG7WdV6Qbv0wIME2Zo=
+Received: from DB8PR03CA0001.eurprd03.prod.outlook.com (2603:10a6:10:be::14)
+ by DB9PR08MB6620.eurprd08.prod.outlook.com (2603:10a6:10:256::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Tue, 11 Jul
+ 2023 11:17:47 +0000
+Received: from DBAEUR03FT062.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:be:cafe::d3) by DB8PR03CA0001.outlook.office365.com
+ (2603:10a6:10:be::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32 via Frontend
+ Transport; Tue, 11 Jul 2023 11:17:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT062.mail.protection.outlook.com (100.127.142.64) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.19 via Frontend Transport; Tue, 11 Jul 2023 11:17:47 +0000
+Received: ("Tessian outbound e1fdbe8a48d3:v145"); Tue, 11 Jul 2023 11:17:47 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 94aeba4f3e845c64
+X-CR-MTA-TID: 64aa7808
+Received: from 572ab02d22cb.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B33F3A64-59B6-439A-A02A-A891305F417B.1;
+	Tue, 11 Jul 2023 11:17:41 +0000
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 572ab02d22cb.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 11 Jul 2023 11:17:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZBguv3Y4OKnK5xFUL/NDCl9TdezMQPpyc6ai16XPFNXyvwMFaSdP7DkSBjDVsUWEDuSWmFixvdO7NnUTMMe05aaykTcQSSXydrnOTK0bA12aqQJNlYwfMl0hL2efwhwa34EBBmeYt41R6DsPnFMYtNAFQzVMyObPTQ2/qEGICmCUkaUXJKup3IhxyCFxv+Jo32LTVLlrHVp6zpeyjpqk+p55DhIAYp2b79WcAZEUC2/iVq3mN30J+9TWkyx1vZJK5mpwrPqUJ/hIxpNZEci5Ldi1dPjmUcJxWjqEwXkFVuRJHFXwtX/D0vydoZEulSQjYiC+20DBjgrabpGy91pFkQ==
+ b=m15ezDonq64q/ph06+R4nUAmRy/h3e+RaOeJhyWozS6nS2AXL7vS9ILfMvSI2X/YxJ7Raq1YFOW4P+udKBs3EWFrPA7xgKZRYLHQeeA9wFUQn4IKOchScYL4ObJbTS+LPdb6duVi7CcowTUA2rNULIQ95WEwm/Tca4EYO8mtZobO/ToFie6YWE/6YvcwAuE1P+fnDcRJ9jEpDGB9Hq/osoHB0Ohmlsuq9EF/jnhydkPtjxnEv8ClFvdKySvR/kIlxQvTEPIZbO+gPMBGEqXaFbAv52XZWuoN7+G8Qn+AvaHN4+voYyLVhx+sKtmPsB0dx/99pA1SWfYmS0FS94naUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DfmSFfRlRSGDnIR44+sZmaJsEn1XAjgBh8qzFEqGmew=;
- b=jVLnEpMJ1ek8ONQKGSf2uCMVrZzCHuPtLfsjlIMt6baLQt9rGVfi58d2wgdAAG/+j1mJhKGm/QjxBTMkdDy7KI/f49utF2xQUwVSTj21iWMtdQ0VHcj+aRNxw9M7DUMS8FCdXjN7bEtufRgI9sC+fVCDhfep3jQXbFBrhnQbxyar7Sjjkmvu06QdywW7rEwYCG8UDySDrPzRYy3qc28ubN6RAEq+br3oUFSkk8un6uOvI3HZMKv8evzTVOaCK4vSl1EQVEzdE+TbZiTmihYZOr06U9Ue6wQiat/gt0dtYkCwxb3XadVdkeO75Lf76Hkq1Ehwur9PgdeI6hPXuteUjw==
+ bh=DcCyGdRTe4g5EbJ3pzofXGlmebPTk19RMXOOLOX81q8=;
+ b=NiEOoxeXRakyPvIvz7J1eXkKHZiYLSk5fDQfeypCM+QnWtHzo0HXeVucHIrL9hBCKnbgA+N56wAjEIghPbNuYpysHxN6QeNCq48By58hRJg+8G4OLDYIhWge+EvZ8gNTcgNT3WT2H5/64tVivYvYXqMGmkExXCIXMkVqUy3dDmQvGFT6zzGC2vdLn9Qa+QhF6ivwQPtzbyGtMU/7F0LKZXLRrcF7OspfLNbQvuDnJrCSeKm3+sUMRqiYeXV4PgJRzDcOicLfSpdgZfRlglrRPrioFjl2wQGo3TYQFbVIeOve1DWLAF5OLGMRo+TTMe2fosChzk9X/bXZca8kswqLhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=entwicklung.eq-3.de; dmarc=pass action=none
- header.from=entwicklung.eq-3.de; dkim=pass header.d=entwicklung.eq-3.de;
- arc=none
-Received: from BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:11::14)
- by BE1P281MB2788.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:3c::10) with
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DcCyGdRTe4g5EbJ3pzofXGlmebPTk19RMXOOLOX81q8=;
+ b=eoe9GbU8oqDoHKwkXpozShk5fSHGQex8o1Y7qOa7v2YccyOwbgs8rvPk/MgJS+SDduReimNCL3Lnr55XEhud7ggYJhm+1nrykddUCFqRJxy8c2t2Hbz9S391WNPcKsvzi4G36T2eXCtLVRBFWd5dX/1FFtG7WdV6Qbv0wIME2Zo=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB4PR08MB9406.eurprd08.prod.outlook.com (2603:10a6:10:3f2::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Tue, 11 Jul
- 2023 11:13:02 +0000
-Received: from BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
- ([fe80::319:fb1e:c315:4cff]) by BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
- ([fe80::319:fb1e:c315:4cff%3]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 11:13:02 +0000
-From: "Heiko" <heiko.thole@entwicklung.eq-3.de>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Steve Sakoman <steve@sakoman.com>
-Subject: WIC: erofs-utils-native: Cherrypick commit from master to #kirkstone
-Thread-Topic: WIC: erofs-utils-native: Cherrypick commit from master to
- #kirkstone
-Thread-Index: Admz6JFIt82vV01qTLeW+nwPwWBXJQ==
-Date: Tue, 11 Jul 2023 04:14:07 -0700
-Message-ID: <BE0P281MB024249FEF2246FD96803CEE9BC31A@BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM>
-Accept-Language: de-DE, en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Tue, 11 Jul
+ 2023 11:17:39 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21%7]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
+ 11:17:39 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "peter.marko@siemens.com" <peter.marko@siemens.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][master][mickledore][kirkstone][dunfell][PATCH 2/2]
+ cve-update-nvd2-native: increase retry count
+Thread-Topic: [OE-core][master][mickledore][kirkstone][dunfell][PATCH 2/2]
+ cve-update-nvd2-native: increase retry count
+Thread-Index: AQHZs8JA+ICFvAOS8US69VuUaYqXqq+0awqA
+Date: Tue, 11 Jul 2023 11:17:39 +0000
+Message-ID: <A4D67F2A-877E-42E6-8843-4328749A6F9C@arm.com>
+References: <20230711063629.7627-1-peter.marko@siemens.com>
+ <20230711063629.7627-2-peter.marko@siemens.com>
+In-Reply-To: <20230711063629.7627-2-peter.marko@siemens.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=entwicklung.eq-3.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BE0P281MB0242:EE_|BE1P281MB2788:EE_
-x-ms-office365-filtering-correlation-id: 26850cd0-a7b4-4376-3341-08db81ffcac9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- UQKaOYGRdjRlR+nh9dgX6ctxIPGc0MZq88l2aodohW2Yhwulp8HkVrzGpK3+VeL+TwB/bkOERHe5437LhFvDovur6GM32po+DhNu9dDFBX8OlIidPJG2KrH/zf5B9tKEPNoofbkxY9Rm1IdcWcass0PlbZaddlF/cKxpMDz6nnD98XGzwh7nkjzRIAUrv/8elZFPi0NTroZgI1+plK3wxVE//Ym9B5uIokaKuLIkNRInJ0JQ+Oserdsp/HcsNIuf9pl4Vt2h9bos/oUEWl4lo/nkNy1Cz72SlWQpq/syLKjJPoX3jTTtIjU5WuZqAJI4bDM9T3Z598UWNh93ZQFVUpswsIlkA2VagEh7uXySTtq4Is9xirJ/BxjbgPXS1VXNjoaQgycniUYhQhslHpwGc7BtSWClQB+0vfFda4v3ghtl/gepyr92y+II/nnR+ZmK7q723kcwEQh5ZRDQ5g2jeyDHClFLZNDfeqm+lrgB93KFNqI68KT99OhLuufjMT9jnnG9c9HCliLjG3TxDFv6VIeRh62VOhvIgrEGF+ABkv4TgmklLgRXalEGzXIXhGJx7ETXaUfVCekJUTe3XScbOTj3TdQo/us9hFaSm55E+3j7j5HSDyLYh9Y/FXX62cr8jZLKRedQCV7te6jhuDpoRA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(376002)(39850400004)(346002)(451199021)(166002)(7696005)(71200400001)(478600001)(122000001)(52536014)(5660300002)(8676002)(8936002)(2906002)(4744005)(33656002)(86362001)(38070700005)(6916009)(4326008)(316002)(76116006)(55016003)(64756008)(66446008)(66476007)(38100700002)(66946007)(66556008)(41300700001)(26005)(6506007)(9686003)(186003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?fEGQaJp9jJ7OXiyxc8nMpAr0sTy5FqkpdZaVFHxsn53RwVeJJyL4seAtwCHO?=
- =?us-ascii?Q?FRpk2Y2yTAhojQoO+G7wvW6bgSiggJ2/Bc+ox7yNUwSK5R4LjDebY4w/TJvF?=
- =?us-ascii?Q?5KsBKzR1l3MGl1ITOnZL00R/4QxnAzkdjBYdEl0ioHB9NVFD/qPVCUn/LEbI?=
- =?us-ascii?Q?OTr4ve8atUwbD0Bvc26l3pSdDb4A+yfXaMH0uWM6DHTiC2QTWeKFtF+JFtjf?=
- =?us-ascii?Q?I9/VeDRJE1v3ipl6xABkM0ejzArM7FpVD77B7Yf+5yzbW3BHedVfbC9kcA5H?=
- =?us-ascii?Q?SfE524ZJ0nAMtunJCO55MKXUVJE356bWauwSxqp8sFEJICclbD2DYr8WCtA6?=
- =?us-ascii?Q?e/iJciuftL2+YOTrzjMK+/17U4X+vbt4A0blJG075r//qAnk2qUToAWu3LQa?=
- =?us-ascii?Q?IklkAZFIjMwM4mdSYc3z0vZ/Gv6JQ0RADk7mhX8oapoePMSJUZHktJzCayUG?=
- =?us-ascii?Q?73JimZMk0t+5EkfpcuKYZe5W3Q/r87QP8KY19a150S0NPPxlb22oHmnAOFYZ?=
- =?us-ascii?Q?3dYW3lPytvh9VLxacIG/7oSyFqLkoExW+dkloZ00MtbGdvlHUovERSIF5B0Z?=
- =?us-ascii?Q?0J/uGv7k5zLoD2ajkwLeZvQdo1co5nh3P7Yf1Q81CMIvxrzV4RWFV3wMWt7I?=
- =?us-ascii?Q?6KwDWKkj9swZHrWSQ2Ka34zWTFanTBZ9SJk6xHDGfpWA3j2ISPuL6+5eF0SN?=
- =?us-ascii?Q?t3edQWF8c/Ny/C7N+ynyZPp76RHj1Z+d+Di0m/KZ37B/Ob3eTfbDwcu8lBST?=
- =?us-ascii?Q?8rP6V0Kb5pejfMVUWqH0F6uYsHBn6eKe2v8kgUaqmk6gOCt9Pk9jvTSHsnuG?=
- =?us-ascii?Q?Ml9KrNavVBhHw8zeeIejJkyRbz79PN+94Y11RbeMAbVBs/VF/34iB1mmAoSf?=
- =?us-ascii?Q?yp4VTj2Gt2Aa7gmYJJSILUH9GlrsKGOuK0Ax/GkMzRlnKqB2LSHSTBcKywMC?=
- =?us-ascii?Q?C0Yqv7xDoFIZWQOFzPWJzps2yMEiFpfs9n6hZlTQ0krE7r+0/MwAFHJeY+My?=
- =?us-ascii?Q?+2GgCjiQftpjrZVOrXHVaRnAUXAX87afV9kLwyTG1k2hJk4i91PMIkF9UNcM?=
- =?us-ascii?Q?EFbc/umLAEbSJ+pBN5ccpTPqVUWMxcbcmCfRHrNw1rvOurn/EWfCd4NO582+?=
- =?us-ascii?Q?LgUmZvFWdwyo/bNjN8mgMzibQBvtNC/z9ulavPXsszQp+7X2AjJ8mY+YNoZ5?=
- =?us-ascii?Q?qDWjKzPiJk7QMf+RY5aMcTB63ukoPsyz6ARvz+Li6YqDuDDqm9cokbRS9d9p?=
- =?us-ascii?Q?HTzQvk03S8OTiuh7Vp2U07+wFFUOKeyafRe2ou+ldqCzZ5sqp+h1AcNgt8Vt?=
- =?us-ascii?Q?m8QMUrf6+1ZIxWkJ+NQert4/T8fcpRKvDgforHXwHfjZobvFlnW9fRpVAW+E?=
- =?us-ascii?Q?PKk/TVMqZnZXx/HuH01ToPQnfMUDxTsMdUMrlDHcvgBv8XDq96rReZVAQlQS?=
- =?us-ascii?Q?WBirezy5eNZuIhL71Up1FN3I9xVYf1OlCaX1M4HXPqlBVTKfYCWwtwKuVkqx?=
- =?us-ascii?Q?IQCPui0celg7VZ5AnSobb7nfm0TnBb72UC0MT4y0x0yC6F05B3+Rz5n/Y/kq?=
- =?us-ascii?Q?bPC2AcumOhzsigv3E5P9ccTsX338IQOYGTDBmyTQ?=
+x-mailer: Apple Mail (2.3731.600.7)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB4PR08MB9406:EE_|DBAEUR03FT062:EE_|DB9PR08MB6620:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08cc0229-b5bd-49f4-adbc-08db82007512
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ geAqBeSjl03NuHcLYFSlEs3rhe7y9zIsC7WnRqDr/B8jam4sUrSOSiLdLdGrB/711Ee33bZKDf79VgIAhpRGMZpQ2ouRiAj/z/I7Fmr3C2zi7SIEq/8wmPXBwI2JNtAAD5cfmvIUn9z03W+uYCJg/qOR5IInAB6DJe/bxZdYzk0DDbCCM6Mh61CooADkBC+x9kabHcUghfgceQ6u0MsAUQIMvewwNtPGO2M3X/4sixMpCx6JOPJOO3/I98jBpuOK7RHk4qFjjUobsqe7XCmT+2BpOJY0Aalk03RR3DFDY26ruxBqjs0D+oCoNIUZhrSGbnozo0jqaqmZl1kGnBancSnjpfaeTKEwUH4GaRKjMC7jE59C9/rAGuJPviryQzAEDl/CxjSiISuYuDIdQj8T/OTqEpmHrTxQ6qBxNjTLlUy4IEspGJRtXcYLNJY0bMHs1O5rCr05ErhYCB6iKNu8YE2O5YYroNdVkcqcsqHZnop6cTCNUoiFjfJLLR3lx7EcmtdANCXAA9CCmBKnL/hWrDlxmx739PmVIs2eeUFiy4qg/8kwSUXhHQHS4UNgPL5RJQuXaPZV32iY9xhtMpOvIvxNiBtMtfK5zRFoVD0O1SgzoSGI9Sk+w+21t00KiuBl7fky1viki1+R+L/gyGqxBEvioyxKIhWy47jCLbsZ0AI=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(451199021)(86362001)(38100700002)(38070700005)(66899021)(36756003)(71200400001)(33656002)(6486002)(76116006)(91956017)(122000001)(6506007)(26005)(186003)(53546011)(966005)(6512007)(2616005)(5660300002)(66556008)(2906002)(316002)(15650500001)(66946007)(8936002)(66476007)(8676002)(83380400001)(64756008)(66446008)(4326008)(6916009)(478600001)(41300700001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <53F7698C35F23C4797D3A90A2491A930@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: entwicklung.eq-3.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26850cd0-a7b4-4376-3341-08db81ffcac9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 11:13:02.1719
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9406
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4afd0f6d-7640-4223-011c-08db8200701f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	88HIpye7ouUo9m+UCjQEkPFlCyIH0TMRZbvIW0gAWWpa7REIVRsCfrwxYZLewNf+eAyzv5j0/23h+BjF7945riHhbpP3jwbY9VsBg/NFcRq0MQqJsJgMgvXD3C0zdfJXRCr3/Rj2/EMovXcXTYsmuPnWYxczNp+CSojePFuX4JKM3wwjd80vxmZjKXi/cJfjyFp90hdJfPyupVRbxG9NRdcvbWG6KFrZht+YHdaD+/XQmXaPghzxMu09SrS+/HsEnFvSW8ekypyR8KK+/OheYHUprYyjEUhLT2EXevRTZgpGzDaV2CiOWPbrEwZesk4pdip0lsewbAXcbvEdFKOQHTWvcrKCyFm+sH9LXXOuExINlLaaVlrTK5XT8FWOu6glI9hBdGs31IJ39gcSKQQIj7q0MqFaDJkc1DWwa09qD58hQwLs+rW8EGkW5zTLUTMMfymN9I1NX32KHf02J5ffrSDTTvrfkSglfHcxjN3LZTZUIoHZ5OEU/c+y1P3+YKZ60roXqOQoMfveJL8rmpVJC93i+mO+iW0pXkPV3TmmcJ4qCwWc0cHBbsjaJlUvYRPhCUR7wPcB1LJsTAwei8Al1Z62rULzepU0pq6R4axg8X8IIlzp16+K/m+Qdy32SQq2ZLlDYAjFESHmXyuXrsacZXxOaKMWQOEgvkoKwtpptfEcqMw8CVs/asftL1pW97j2drnJ3lqmGZsxE75hAz3xmxcoYPW/MLjD+j5N0uH9j9qb6eQaxboe5+4/0lxpfWtb
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(376002)(346002)(451199021)(40470700004)(46966006)(36840700001)(186003)(336012)(53546011)(6506007)(8936002)(8676002)(6862004)(66899021)(15650500001)(26005)(5660300002)(6486002)(40460700003)(41300700001)(86362001)(2616005)(40480700001)(81166007)(316002)(2906002)(82740400003)(4326008)(83380400001)(356005)(33656002)(6512007)(47076005)(70586007)(70206006)(36756003)(36860700001)(966005)(478600001)(82310400005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2023 11:17:47.8826
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6bb70bfd-56fb-4f95-99c8-16d0dd9d5592
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +LD90JsuyAaRIsR3iEm/Rjz8NURUEyke+6bseCSRq4sJFh6fzlcks5YzPig6GnmTkSXBLeGQ2qa2ItdV2Ec18g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE1P281MB2788
-X-Old-Date: Tue, 11 Jul 2023 11:13:02 +0000
-Content-Language: de-DE
-Content-Type: multipart/alternative;
-	boundary="_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_"
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08cc0229-b5bd-49f4-adbc-08db82007512
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6620
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 11:14:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184129
-Message-ID: <20230711111407.9xGKo8r3J2XMs-wxOBfm3eQ3pOfl-AQJSB78YVQnrRA@z>
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 11:17:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184130
 
---_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Horrible, but in my testing it works. Thanks Peter!
 
-Hello Steve,
+Ross
 
-we are using Yocto (Kirkstone) for a new device. We want to build an image =
-which contains an erofs partition.
+> On 11 Jul 2023, at 07:36, Peter Marko via lists.openembedded.org <peter.m=
+arko=3Dsiemens.com@lists.openembedded.org> wrote:
+>=20
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> Current 503 errors seem to last several seconds.
+> In most cases there are two errors and third request succeeds.
+> However sometimes the outage takes more than time needed
+> for two retries and third one also fails.
+>=20
+> Extend retry count from 3 to 5 to improve the probablity
+> that the fetcher succeeds.
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+> meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/reci=
+pes-core/meta/cve-update-nvd2-native.bb
+> index a7392405e0..b3d0038c2f 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -129,7 +129,7 @@ def nvd_request_next(url, api_key, args):
+>=20
+>     full_request =3D url + '?' + data
+>=20
+> -    for attempt in range(3):
+> +    for attempt in range(5):
+>         try:
+>             r =3D urllib.request.urlopen(full_request)
+>=20
+> --=20
+> 2.30.2
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184116): https://lists.openembedded.org/g/openembedde=
+d-core/message/184116
+> Mute This Topic: https://lists.openembedded.org/mt/100074007/6875888
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
+ss.burton@arm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-But bitbake shows the following error:
-
-=E2=80=9CWic failed to find a recipe to build native mkfs.erofs. Please fil=
-e a bug against wic.=E2=80=9D
-
-The problem is already solved in the master branch in commit 4e9102a ( http=
-s://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd2ac42c39f1d3153a1d394=
-5e4668d5 ( https://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd2ac42c=
-39f1d3153a1d3945e4668d5 ) ).
-
-Is it possible, that you cherrypick the commit to the kirkstone branch?
-
-Thanks and best regards,
-
-Heiko
-
---_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">Hello Steve,</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">&nbsp;</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">we are using Yocto (Kirkstone) for a new device. We want=
- to build an image which contains an erofs partition.</span><span lang=3D"E=
-N-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">But bitbake shows the following error:</span><span lang=
-=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">&ldquo;Wic failed to find a recipe to build native mkfs.=
-erofs. Please file a bug against wic.&rdquo;</span><span lang=3D"EN-US"></s=
-pan></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">&nbsp;</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">The problem is already solved in the master branch in co=
-mmit 4e9102a (</span><span style=3D"font-family: &amp;quot; color: #595959;=
-"><a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd2ac4=
-2c39f1d3153a1d3945e4668d5" target=3D"_blank" rel=3D"nofollow noopener"><spa=
-n lang=3D"EN-US">https://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd=
-2ac42c39f1d3153a1d3945e4668d5</span></a></span><span style=3D"font-family: =
-&amp;quot; color: #595959;"> <span lang=3D"EN-US">).</span></span><span lan=
-g=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">&nbsp;</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">Is it possible, that you cherrypick the commit to the ki=
-rkstone branch?</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">&nbsp;</span><span lang=3D"EN-US"></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">Thanks and best regards,</span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family: &amp;quot=
-; color: #595959;">Heiko</span></p>
-</div>
-
---_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_--
 
