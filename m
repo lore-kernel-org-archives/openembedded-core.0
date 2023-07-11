@@ -1,126 +1,218 @@
-Return-Path: <aplanas@suse.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B3F8EB64DC
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 12:25:59 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.83])
- by mx.groups.io with SMTP id smtpd.web11.6354.1689078349751460435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73807C0015E
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 12:45:59 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.6723.1689079551040119196
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 05:25:50 -0700
+ Tue, 11 Jul 2023 05:45:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@suse.com header.s=selector1 header.b=0i0rH8St;
- spf=none, err=SPF record not found (domain: suse.com, ip: 40.107.104.83, mailfrom: aplanas@suse.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X7S85gLmGpy36K5VTuWKbBEOOp4lmIOMR8sXjMTa6DiNzRDgV9jRTQmq9TtFcmRgOfvw4ZRiwsHUlEELXK0BCMQDJuhAjKVbMtoMFIV4sj+JmLUkhJefe+E59SsRHGomiEtlnDl8wQUbdYfQFxTdYtyJwsHTXhsUeq1LspP7wFcWF/PXxfuoXRe35ixHSUf5YxWlF5qupp0VsbrubdpBw7SO3zam/AzWzsjfFR5lK/4UWGz781aIHZg7CDRGa4W4lITXsTcpqbvCBEfsTaVZiFEYkLMD/9npvk9M4gDfOGjXwiB31d9lRB3FlZJCFhATsj/8soJDMvP8sJr2+g3UUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GyYP+bmxVTsJfWFpMSnCatpp4guXwTtqkEr+LgPj/w4=;
- b=ShFfF8mYtMkjpxRDJ6UykErexz6VMfTMxuSBV7I7Wu174C9PBoPLEsRDrqEc09hyDP5FWLE5KgY6JC/S2cXhbFrUGYUU/of2nuoDtrS9iyzXE5Oe9cMKUOEsPBv4Gp3bo0eXaTKt5/HSVjS3gGWvZZOb0XaKRVFkl5GN5adSGwbC/Xvh7faAgbjWtmrk9jtBQCCEfA9dJB8qva7kBp+FcF1BCDZCxppZ5FZAFO+cPnGJmuG5wmfdEPOKSsSy2HYws8WA3MUAtp1UoOQT5a0btGgMLDAwE4o5KJKWSS2hxlXLmxaWIFcrkjl+SlCIAkFGYbOjvuK6zEn2RMaZAsszQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GyYP+bmxVTsJfWFpMSnCatpp4guXwTtqkEr+LgPj/w4=;
- b=0i0rH8StaSmcKXpnWxeILz9WtDmjG0vKhsmiXuxHMTa48vjiPQ5N8cxdU6GVIdVM5VhKHRlxaEHJY3HdLiLGTVM9H6ALTVI9fOeLUEhE+v1ORGwMaIdnIvx666Q6pGkwSj20lEHCmTBQ561UfSJYbmOyxBVGjRvINHjbSgKQM2oSxKMOsZJEJ9Q1A7und7wyKEwJoDGe1glpXEaJwAF/z1ZthprgU5DKDyzcujIEQEZOvkkewG4Tkf0HpaTVAQclLpiE33Sl8bvJWQfStLPZQhsBw/7qhF2ek6u84yyWLY5L6P465l6Kw85dlglB1muKxgiZFWZAl4EKaDnKFDpyow==
-Received: from DB7PR04MB4666.eurprd04.prod.outlook.com (2603:10a6:5:2b::14) by
- PAXPR04MB8878.eurprd04.prod.outlook.com (2603:10a6:102:20d::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6544.24; Tue, 11 Jul 2023 12:25:46 +0000
-Received: from DB7PR04MB4666.eurprd04.prod.outlook.com
- ([fe80::e9f4:d451:24dd:e433]) by DB7PR04MB4666.eurprd04.prod.outlook.com
- ([fe80::e9f4:d451:24dd:e433%4]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 12:25:46 +0000
-From: Alberto Planas Dominguez <aplanas@suse.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Merge process?
-Thread-Topic: [OE-core] Merge process?
-Thread-Index: AQHZs+kuRtWu9E1UFUKY7mEPFkz33a+0fDyAgAABTSo=
-Date: Tue, 11 Jul 2023 12:25:46 +0000
-Message-ID: 
- <DB7PR04MB46661EA7BA222A26C2BAFBEDC531A@DB7PR04MB4666.eurprd04.prod.outlook.com>
-References: 
- <DB7PR04MB4666B31ACC5187EEB96B8940C531A@DB7PR04MB4666.eurprd04.prod.outlook.com>
- <2cf5874fbe01c796046db4698cab3ea823d39137.camel@linuxfoundation.org>
-In-Reply-To: 
- <2cf5874fbe01c796046db4698cab3ea823d39137.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB7PR04MB4666:EE_|PAXPR04MB8878:EE_
-x-ms-office365-filtering-correlation-id: 1df45a96-98dd-4772-077e-08db8209f3f0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 9SBIF7InoYLD95lqfmvvj4w4Sm1z7RF/63hXoEWpekrNwPXWHTUlhs4W9GolhStwUi0aOiZXTkBj+3w8z4fhKNCij4PROIqvtKCAiQfcZO0lLScmgbVZxAZqjb4kgk6Wn3yE8fQEt6hq1brJlbgOi3EInHPM5Wb2POK5rMHBzv4tVwLbYuZEX6n4R7PgLuJCxXhHG5Md2iZaS++626eVxniPzfORBAqQLai/8gimhN7yPtUr15bTXVYdUldgdaKGAcPDhslwf2SqYLS4yllko+0Q8TpCAaKTv8A2kXklKKz5R3Rv19dtWUyYhO43z165UVBFief7KJ22rAH0snx4UxYPFqqUv6TKv+OQaFsRpL771kAq+IgAXWvNcHlVthdiuUNwFNIq7opB3llfHij+lAtnUjAeLoiJ5TSALSkXLnd++lsHJXNbzkL0/LijjBbOsGtZXWQyxHTWMOq6EB5RSGtUGICuJaAC7NWINntR75ntjoZLEZq8CiE3Clr9RKkBnzH7Qi4oltU6vAo9cZLRpanhpN6kNm/wh93mqWYov7QaaKYFlMl3VoqybzjNoeFQ/NuZbY7EDp9EKyTXyYbTKhbo2MGJNbFQyVhZnYf52Bdvd+BXyrDFouxBdseGuLDU
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB4666.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(39860400002)(396003)(366004)(376002)(136003)(451199021)(26005)(9686003)(6506007)(71200400001)(186003)(478600001)(76116006)(66476007)(66556008)(66946007)(64756008)(316002)(110136005)(66446008)(38100700002)(91956017)(7696005)(86362001)(122000001)(8936002)(5660300002)(8676002)(52536014)(38070700005)(41300700001)(2906002)(55016003)(558084003)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?y8c4HxldePoyUluONlRdZgPgzD9N9H6L99NGPwRx+cTsa4LG5ekmhxm1Ee?=
- =?iso-8859-1?Q?emTMhJtxt5nyIN/L7u/v0BjZjwKLETj4o6kTmA77wBDZTgD11vFsq7B6ep?=
- =?iso-8859-1?Q?pL/hRXigoGMw1NKFGT55Q19CnwzEB3huLuPOin/MLrwEZb6pRx4Evzxy8P?=
- =?iso-8859-1?Q?Ix0TxZvCJ8lt1BUq4ebLOhDUfco4CovA/Mo9WPCQfg4j8OzdQE1y2bF9WH?=
- =?iso-8859-1?Q?IMp39lZBW/cU/68BMPgGyy/CAJbmg+eq7GkeLmgvrHARYKJXhAT8tetNLD?=
- =?iso-8859-1?Q?LSeTOr59+tOSKP6LqJCyzzw5hyr4ifQO+ksOlfuMfqQ4N3KMStBjR7yNK7?=
- =?iso-8859-1?Q?jLqJeiu+1ynAV8UbJa2T+VJuwJDUanaoNrB9XpA59djSsKF+QTWGnSA6F9?=
- =?iso-8859-1?Q?oNGiAfs/pG97R5czx9cAVH9vNK0+6MFiqHjNI3HFZaiVdp+QEIUJ6QaU2Q?=
- =?iso-8859-1?Q?/q/T6jgEm8yeiu2e3Kv63qbbeCT4QDrRu4z7tuw+YIEVcjaK/W3tZBShdb?=
- =?iso-8859-1?Q?w6C9Uyy0ny2Wt7dYmhbZ5q87mwVESoGJV4ZJ//BYl8ZP3DHZqi38iewE/7?=
- =?iso-8859-1?Q?sh+MylDKNYnZxqG517/60TIH6A1iUdkDBI1gcwRMsOF7UZDxXV2OoKtcOy?=
- =?iso-8859-1?Q?twdZZJX70qBFwrVe69Jk4X26KQsrQvxsByWvWEEpusMDwE9iWotyj9a/ls?=
- =?iso-8859-1?Q?xHiYRws803xrEIlZQGovdit4QUJX/CSCINu3mUtETi8qhnD4RnwWY+1So0?=
- =?iso-8859-1?Q?pH21bh2Xy48o8JZuX2CRgpxesK4R4j7Z9KO5ZkGdJhm3Qqb5M/5MGTwMJA?=
- =?iso-8859-1?Q?aGRMbBATHnrwT3ICijZxbu69hUM32R/JWqvqb5X0NafNP8zbzL2P4PRjm8?=
- =?iso-8859-1?Q?XMstwKJ5siEJckdIovf4RVFfjUoKinEtJQ3fbD39h8gtTQwArFXDz8SWTg?=
- =?iso-8859-1?Q?tZoQh/necasgY85JFgmj07fd1JFseZQGJlFcW0RuirmFqGntmjRmiF12Y+?=
- =?iso-8859-1?Q?fKThAmYF+SAr+V4JEvanZu2AxqgX/2dyTdv1Nbv9DvTn8Fnqixu3nkpwII?=
- =?iso-8859-1?Q?aNvDwyXmCOoOWR5dUN1mrZ+RhQiUtBxxwlXOdd4VoN/6DFcjV03V0R6vDj?=
- =?iso-8859-1?Q?LX8xmYyahRRtVlcT7/hp7mTN6IYMlMuk5T0JaKM94XvlbDg54oetgBT8rV?=
- =?iso-8859-1?Q?yfc0oWrh9WtqWlwqmHEPD6PRAWH8xnvMsRGgM4MpK76cHz6XoJu8UNNw51?=
- =?iso-8859-1?Q?6xiO+Q6Z405nLMi8NW0PnSTEVPnQIdppkvdnugEUuRtgUVPftrs4kai/vC?=
- =?iso-8859-1?Q?LGMLzxPpBHoo+fCoof88lysTcuWDMTY7T0XX6Y+rx4tH5GHuV0lFnq65Zc?=
- =?iso-8859-1?Q?mO9HY3cbh13mZDHfcN+cxQA65TrjHAWTm84gp0t1ofJAIXsrhIqYlDmsyV?=
- =?iso-8859-1?Q?VBsU4Om1+60P6bz7tkwex+2JVv0Z2W8f0fYPU1w7PiJC1anDS/PS2FuGZQ?=
- =?iso-8859-1?Q?+Z2vdwrKvER1tjapj/wr4061gJ3wNRo07t4oXMDu6n/pjO0IvCo+pUrcqH?=
- =?iso-8859-1?Q?IAdZR7YZjlR4vVSJs/1d+oceRInpfU96dEsXyoQRA+QGExqo/VnImQTn7Q?=
- =?iso-8859-1?Q?z418hq1aVNit8=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=lq/+45Eg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b6f943383eso89781071fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 05:45:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689079549; x=1691671549;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wwyTxpb+dW/S+GKvpO06SC0DXz4m3ZqJg1DQN/JLB8Y=;
+        b=lq/+45Eg7cVmp5mbwP1X5CAapUI0LcJmKS6zPKGy34bojCMAC1FsVy9YnL8gy3Q4Yq
+         JOk/IdJ/lcenUqg66SlfydWL1Jw2Yr5bR+wg8ZCl0Gb9KZCoiCf9kRifEmbuSk3SFT6a
+         QRD1h8bjmc11txS2Qyo7LwDT2yxEe71wW3p+ppLFV8/UN8ZYMW5scYMI9e2bBHAIL4W9
+         +p5d/vMheK28eED5n4wV9Z1GYtgOwA2Zzi5H5idDmXb5XUAN3veegusftRb3KndHqOL8
+         n6ip6VxcNg+S10iQyGi8C42xOPxb/DmWUpdC/bPXsf4BcCmtW7W9xNeJHShGtzPSOev+
+         5mKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689079549; x=1691671549;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wwyTxpb+dW/S+GKvpO06SC0DXz4m3ZqJg1DQN/JLB8Y=;
+        b=GTZogsjwxm5OcYmkV4sDy8rBfpwS/6L/BM1woVlWf+MP4Xmsir1DgmER3qhnurnefI
+         8zJntwcGpU9YVkDyMMdqVzDu7sWNo5f0wK0NmSjtNg7XQ8v0tOUDhNvn+EUIOES2ufQa
+         BEY7uKlEhDiJf4uOJIWaaEu7LYNiYtJH92Ew91nPYKXsDMNqW0zhCaL4KeX0mGQ5VyV+
+         xsFKS1Xuamby5kAgzUx1rGZ+qMl1a8cjaAs9PS3292c7vhR7jQ2wKtsJVOCnYmOl/vMm
+         dR2ipN4n5qe54XpFtSd+WHM8SPvANz/XhWU5y/H17GF59zFg8gfYFMI39Qt8M72Y1syu
+         dQdg==
+X-Gm-Message-State: ABy/qLZYTMbwE6J9bynRTWt3wWbKzlLP8Vds1cper5quxFrYQgGo19uK
+	QnNTy6Epu6nfNiD3teoQOo4fa/DH/5iKytjonTE=
+X-Google-Smtp-Source: APBJJlGLaou2HY9pERaeh0YzSC6bAlVD6vbs9IoXuhvJZTYj/7HM+CS0oz+cUn0L+MsKnIbv6gFEHJu/9VBCcDECnkM=
+X-Received: by 2002:a2e:80cd:0:b0:2b6:dfef:d523 with SMTP id
+ r13-20020a2e80cd000000b002b6dfefd523mr11700616ljg.50.1689079548800; Tue, 11
+ Jul 2023 05:45:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB4666.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df45a96-98dd-4772-077e-08db8209f3f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 12:25:46.1919
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: da9Br2vCi4capcbocbSwaMWsXAyJ9LNSwPeyx9hyqma4267fE7+q4DnmhmbmJ8Z+WfwyQomkl4ZX6tvxGkYdyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8878
+References: <20230711063629.7627-1-peter.marko@siemens.com>
+ <20230711063629.7627-2-peter.marko@siemens.com> <A4D67F2A-877E-42E6-8843-4328749A6F9C@arm.com>
+In-Reply-To: <A4D67F2A-877E-42E6-8843-4328749A6F9C@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 11 Jul 2023 14:45:36 +0200
+Message-ID: <CAApg2=RG3T_DkJi93jL0R-L28b9r4Yv7EHD5T25jkWCtAUCP2w@mail.gmail.com>
+Subject: Re: [OE-core][master][mickledore][kirkstone][dunfell][PATCH 2/2]
+ cve-update-nvd2-native: increase retry count
+To: Ross Burton <ross.burton@arm.com>
+Cc: "peter.marko@siemens.com" <peter.marko@siemens.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000080f4c60600357a32"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 12:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184133
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 12:45:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184134
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>=0A=
-=0A=
-> I thought the second patch was merged and in master:=0A=
-=0A=
-Ouch ... indeed. Seeing the first one in mickledore but not the second one =
-confused me.=0A=
-=0A=
-Thanks!=0A=
+--00000000000080f4c60600357a32
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Peter, what is the probability it passes (for the complete download) with
+those settings? Is it every time?
+
+Kind regards,
+Marta
+
+On Tue, Jul 11, 2023 at 1:17=E2=80=AFPM Ross Burton <ross.burton@arm.com> w=
+rote:
+
+> Horrible, but in my testing it works. Thanks Peter!
+>
+> Ross
+>
+> > On 11 Jul 2023, at 07:36, Peter Marko via lists.openembedded.org
+> <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> >
+> > From: Peter Marko <peter.marko@siemens.com>
+> >
+> > Current 503 errors seem to last several seconds.
+> > In most cases there are two errors and third request succeeds.
+> > However sometimes the outage takes more than time needed
+> > for two retries and third one also fails.
+> >
+> > Extend retry count from 3 to 5 to improve the probablity
+> > that the fetcher succeeds.
+> >
+> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > ---
+> > meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> > index a7392405e0..b3d0038c2f 100644
+> > --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> > +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> > @@ -129,7 +129,7 @@ def nvd_request_next(url, api_key, args):
+> >
+> >     full_request =3D url + '?' + data
+> >
+> > -    for attempt in range(3):
+> > +    for attempt in range(5):
+> >         try:
+> >             r =3D urllib.request.urlopen(full_request)
+> >
+> > --
+> > 2.30.2
+> >
+> >
+> >
+> >
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184130):
+> https://lists.openembedded.org/g/openembedded-core/message/184130
+> Mute This Topic: https://lists.openembedded.org/mt/100074007/5827677
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rybczynska@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000080f4c60600357a32
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Peter, what is the probability it passes (for the com=
+plete download) with those settings? Is it every time?<br></div><div><br></=
+div><div>Kind regards,</div><div>Marta<br></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 11, 2023 at 1:17=E2=
+=80=AFPM Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton=
+@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Horrible, but in my testing it works. Thanks Peter!<br>
+<br>
+Ross<br>
+<br>
+&gt; On 11 Jul 2023, at 07:36, Peter Marko via <a href=3D"http://lists.open=
+embedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</=
+a> &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists.openembedded.org" =
+target=3D"_blank">siemens.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" targe=
+t=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; <br>
+&gt; Current 503 errors seem to last several seconds.<br>
+&gt; In most cases there are two errors and third request succeeds.<br>
+&gt; However sometimes the outage takes more than time needed<br>
+&gt; for two retries and third one also fails.<br>
+&gt; <br>
+&gt; Extend retry count from 3 to 5 to improve the probablity<br>
+&gt; that the fetcher succeeds.<br>
+&gt; <br>
+&gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.c=
+om" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; ---<br>
+&gt; meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" re=
+l=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a> | 2 +-<br>
+&gt; 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-=
+native.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</=
+a> b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.bb" re=
+l=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
+&gt; index a7392405e0..b3d0038c2f 100644<br>
+&gt; --- a/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.=
+bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
+&gt; +++ b/meta/recipes-core/meta/<a href=3D"http://cve-update-nvd2-native.=
+bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a><br>
+&gt; @@ -129,7 +129,7 @@ def nvd_request_next(url, api_key, args):<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0full_request =3D url + &#39;?&#39; + data<br>
+&gt; <br>
+&gt; -=C2=A0 =C2=A0 for attempt in range(3):<br>
+&gt; +=C2=A0 =C2=A0 for attempt in range(5):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D urllib.request.ur=
+lopen(full_request)<br>
+&gt; <br>
+&gt; -- <br>
+&gt; 2.30.2<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#184130): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/184130" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/184130</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100074007/582=
+7677" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100074007/5827677</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmail.com" targ=
+et=3D"_blank">rybczynska@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000080f4c60600357a32--
 
