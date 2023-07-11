@@ -2,134 +2,134 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F318FC001DF
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 17:25:57 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web10.2155.1689096348438354849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2BFEB64DC
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 18:24:08 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.3653.1689099847245972292
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 10:25:48 -0700
+ Tue, 11 Jul 2023 11:24:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=dDtoaoRe;
- spf=pass (domain: baylibre.com, ip: 209.85.222.172, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-766b22593faso435744585a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 10:25:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=O3jlrHnT;
+ spf=pass (domain: baylibre.com, ip: 209.85.161.47, mailfrom: tgamblin@baylibre.com)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5636ab8240cso3243062eaf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 11:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689096347; x=1691688347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GPRTxXGhgbGjkoQfHRb5F7WpJw9JU2vEo8CTLiGaeII=;
-        b=dDtoaoReplSBT9JpudwxgiohiNmfj3EcqKNpqJhs4AEYTEoXWokEIgEdnOG0FeI/lb
-         DwkHUJElIj9os737+mJQa39eV1ZpRZsfanGbyW/TpTHVMbupcb+ae44dT6oU4nnOeHSN
-         Gr1MIuYbszFqif1Y3k0IlTteEczGtSpOiCzrjB2jwW9gdvLstLjS/WcIB0K/2eNleoWI
-         EZb0HoFUMFR24OgeRImmmku2IBzcJ+4i75p6J5TYex4sym48mks/93WU+1xTTSUZCIzL
-         yFwt9GpCyzPje69t0ovvRGcNnRq/GWB9bHyUUfZXygzp4jeMcgmboi0Baa3XYEyY63j7
-         UKaw==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689099846; x=1691691846;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BUWtGIaUHJf1qip1KhikaPncFTyVbRRhZPyPCy96bqY=;
+        b=O3jlrHnT0iUefTWKuH0wuuNQdK1nccNBpa5Kpc2E1Yqx4MaRVZ+XSzYz5y2hHSY0qT
+         eBoEefyQAxAUtQJHqT4rtCPEGDFm/y9QQw1bIfJr1uDa5l2/qe42ZUrSrZ2zXB4Ob6uV
+         eKGFhRGB/eIV2aDcmb+zFh9nLPeLrcCggJzLPsfusG+a00I9yypRyEoYgRGQtdCq0pPu
+         edz9f8C4WA+NtGtivUFUsLJa+Ay6c51CJCN7e4DL+EWDNJzTeeg1UZRLVoW5VWHbHUv/
+         8Z2J0CWvY5Eu81hPanqgocccA1uP3HVfpyuO1DfuWx33Lr9E5mX2rJY9MLaYNxKEbkny
+         ZZUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689096347; x=1691688347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GPRTxXGhgbGjkoQfHRb5F7WpJw9JU2vEo8CTLiGaeII=;
-        b=Oge2gU8eNn5G73ewPwXx7e3Y8Mzqx20k7hDqiLEPQYgc36wKd3xfOBjK8n3UGOTDRP
-         BZvpMXsiT0BQL+M8CrsUWC1/f0IuCX/9G4BPs7/QUf9wyCUBsrXHnojKGNzzNOL+oGeT
-         5W0bWpS6mtjHtGyzRqJORst8ZQpCRLSdCySqU4IdUXZdNYBqMmlWbbCYV3EywZmzbLzo
-         z6DCIXri5hRQVgg33OLcqR3wIUfLxWGokP/Ipa9eQthh4/GT5F37JDFSpIEAW+BeyZO4
-         6bU5NBNLdQGw5rBkj55J7altIpVxO5c7hiHxjlKjNxMFomGR7hHzzMHf0yTZWOXoQIAx
-         o80Q==
-X-Gm-Message-State: ABy/qLY/TAXhVo1hgDD/E8H2AGvk6SzWVWpy+YOmJkA/8xEt7vJVAG1Y
-	pr1339VT1w+TLua6+lU7GdJG4Nkq78+v9ksE2Lk=
-X-Google-Smtp-Source: APBJJlFM95lgI9J/1mbZNCNBrrdn6qgULn1nnVkC47wVXTKK2Ftc7edj5csROlyLvh3m6h8jCniUQQ==
-X-Received: by 2002:a05:620a:298c:b0:765:abeb:a148 with SMTP id r12-20020a05620a298c00b00765abeba148mr20974039qkp.37.1689096347057;
-        Tue, 11 Jul 2023 10:25:47 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id w25-20020ae9e519000000b007676f3859fasm1208919qkf.30.2023.07.11.10.25.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 10:25:46 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: parallelize ptests, add test_cppext dependencies
-Date: Tue, 11 Jul 2023 13:25:45 -0400
-Message-ID: <20230711172545.738677-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1689099846; x=1691691846;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BUWtGIaUHJf1qip1KhikaPncFTyVbRRhZPyPCy96bqY=;
+        b=hIEzUwVtUqne3II+N0wiWK/lasqaW/KZOtX6rvqu5fomO8ZRjnSehDBshqoUTN2vXj
+         jNWg7PxBIT796xsGpCAm9vq7Db3LojNch0YJvGgTUKNg5nFmFpoCDHerbloEAG1UL9+p
+         cVrtn/dsH+iHgtmjc7A196Osv6Od00F4OwU2yBrcp3yDacFWNBQBBW0uGNOffUHzgHMx
+         ZBejWEhLe8dmQ6ge4UM7hDrLC+YIRUIbFSGRIB75dG2kV9wSliq55lFM6pE8PT0RpjF+
+         2Ewy89WkP0assRDHbeBJjaXSXTfQ0zx0/Xxi1OLEDNEJWQdLWLGT4H82/SSk96jGqdkt
+         Cezw==
+X-Gm-Message-State: ABy/qLZrFrNnfZKQ/CyVbAJo5HrOvR8EPN3w53v4Wv6DZ+VGImp7ZWNA
+	KRvb8KXX3JYj3uu+wggS9C5lVoKPc6UQTdyIFFI=
+X-Google-Smtp-Source: APBJJlE+6CxPa0WWHRaotTsCBibRfiaj5TUcuSTVwaRokzrRJrr1QG2WGd9WdO+MaMI/Z8foo+mz8A==
+X-Received: by 2002:a05:6808:20aa:b0:3a3:766b:7c31 with SMTP id s42-20020a05680820aa00b003a3766b7c31mr15445896oiw.35.1689099846530;
+        Tue, 11 Jul 2023 11:24:06 -0700 (PDT)
+Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
+        by smtp.gmail.com with ESMTPSA id c20-20020a0cca14000000b00635e9db359bsm1350452qvk.82.2023.07.11.11.24.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 11:24:06 -0700 (PDT)
+Message-ID: <9b60f438-79e7-2b70-3c45-7b78530d284e@baylibre.com>
+Date: Tue, 11 Jul 2023 14:24:04 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [OE-core][PATCH 1/3] python3-pylibfdt: add recipe
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230711011104.2807078-1-tgamblin@baylibre.com>
+ <CADkTA4O0K8jxWJb-_7-ijdCzPVc7KcCw75xUYtUxa+4HGjZkMw@mail.gmail.com>
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CADkTA4O0K8jxWJb-_7-ijdCzPVc7KcCw75xUYtUxa+4HGjZkMw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 17:25:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184149
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 18:24:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184150
 
-This is based on a previous patch from Alex Kanavin (thanks Alex),
-but it retains our use of sed to parse the test output into a usable
-form. The intent was to use the test module's --junit-xml feature and
-parse the resulting log instead of using sed, but various errors were
-encountered when testing this method, so that will need further
-investigation before we can consider adopting it. Two missing ptest
-dependencies on python3-cgitb and python3-zipapp were already merged
-in a previous patch, so only gcc, g++, and binutils were left to add
-as ptest RDEPENDS.
 
-ptest output and runtime with this change:
+On 2023-07-10 21:26, Bruce Ashfield wrote:
+> On Mon, Jul 10, 2023 at 9:11 PM Trevor Gamblin <tgamblin@baylibre.com> wrote:
+>> This is required by python3-dtschema (already in oe-core) and
+>> likely some other modules, so add the recipe.
+> We are now on the 3rd (or 4th) iteration of attempts to add this.
+>
+> Rather than re-hashing the discussion, I suggest searching the mailing
+> list for libfdt.
+>
+> The summary is:  the pypi version is not up to date, and this python
+> library should be built out of the dtc repository and provided that
+> way.
 
-== Tests result: SUCCESS ==
+Thanks for the heads-up, I hadn't seen the others. I noticed that you 
+have python3-dtc in meta-virtualization and that seems to cover 
+python3-dtschema's needs. Will it be an issue for meta-virt if I move 
+that to oe-core?
 
-405 tests OK.
+Trevor
 
-29 tests skipped:
-    test_asdl_parser test_check_c_globals test_clinic test_curses
-    test_devpoll test_gdb test_idle test_ioctl test_kqueue
-    test_launcher test_msilib test_ossaudiodev test_readline
-    test_smtpnet test_socketserver test_startfile test_tcl test_tix
-    test_tk test_ttk_guionly test_ttk_textonly test_turtle
-    test_urllib2net test_urllibnet test_winconsoleio test_winreg
-    test_winsound test_xmlrpc_net test_zipfile64
-
-Total duration: 5 min 3 sec
-
-[YOCTO #13298]
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/recipes-core/images/core-image-ptest.bb   | 1 +
- meta/recipes-devtools/python/python3/run-ptest | 2 +-
- meta/recipes-devtools/python/python3_3.11.4.bb | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-index ddc56c8f9f..74cf933b72 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -26,6 +26,7 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools = "1524288"
- # ptests need more memory than standard to avoid the OOM killer
- QB_MEM = "-m 1024"
- QB_MEM:virtclass-mcextend-lttng-tools = "-m 4096"
-+QB_MEM:virtclass-mcextend-python3 = "-m 2048"
- QB_MEM:virtclass-mcextend-python3-cryptography = "-m 4096"
- 
- TEST_SUITES = "ping ssh parselogs ptest"
-diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipes-devtools/python/python3/run-ptest
-index 05396e91ab..ee1130284b 100644
---- a/meta/recipes-devtools/python/python3/run-ptest
-+++ b/meta/recipes-devtools/python/python3/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
- 
--SETUPTOOLS_USE_DISTUTILS=nonlocal python3 -m test -v | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-+SETUPTOOLS_USE_DISTUTILS=nonlocal python3 -m test -v -j 4 | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipes-devtools/python/python3_3.11.4.bb
-index 86ecc4e297..2d7b1bac2c 100644
---- a/meta/recipes-devtools/python/python3_3.11.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.4.bb
-@@ -426,7 +426,7 @@ FILES:${PN}-man = "${datadir}/man"
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
- RDEPENDS:libpython3:append:libc-glibc = " libgcc"
- RDEPENDS:${PN}-ctypes:append:libc-glibc = " ${MLPREFIX}ldconfig"
--RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgitb ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed"
-+RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgitb ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils"
- RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-fr-fr locale-base-en-us locale-base-tr-tr locale-base-de-de"
- RDEPENDS:${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
- RDEPENDS:${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter ${MLPREFIX}tcl', '', d)}"
--- 
-2.41.0
-
+>
+> Bruce
+>
+>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>> ---
+>>   .../python/python3-pylibfdt_1.6.1.bb             | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+>>
+>> diff --git a/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+>> new file mode 100644
+>> index 0000000000..9dd01a1449
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+>> @@ -0,0 +1,16 @@
+>> +SUMMARY = "Python binding for libfdt"
+>> +HOMEPAGE = "https://pypi.org/project/pylibfdt/"
+>> +LICENSE = "BSD-2-Clause & GPL-2.0-or-later"
+>> +LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>> +                    file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927"
+>> +
+>> +inherit pypi python_setuptools_build_meta
+>> +
+>> +PYPI_PACKAGE = "pylibfdt"
+>> +
+>> +SRC_URI[sha256sum] = "90c667c5adf44c6ab2f13bdc566598897784c7b781bed91064e7373bd270b778"
+>> +
+>> +BBCLASSEXTEND = "native nativesdk"
+>> +
+>> +DEPENDS += "python3-setuptools-scm-native swig-native"
+>> +
+>> --
+>> 2.41.0
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#184109): https://lists.openembedded.org/g/openembedded-core/message/184109
+>> Mute This Topic: https://lists.openembedded.org/mt/100070604/1050810
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>
 
