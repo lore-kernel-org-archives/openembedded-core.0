@@ -2,94 +2,111 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F93EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5598AC0015E
 	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 01:11:15 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.66.1689037869906850268
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web11.68.1689037871305594723
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 18:11:10 -0700
+ Mon, 10 Jul 2023 18:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=HKfkfO5u;
- spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-766fd5f9536so364930885a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 18:11:09 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=cVjvjtCd;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.52, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-635e0e6b829so39550346d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Jul 2023 18:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689037868; x=1691629868;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EasQTo+uwQ3baBwr6N9+zYlt59fY+ncJcleLHE488yM=;
-        b=HKfkfO5uwpaRcoxhx+ZaCuD6veTFuFpBRcIFh/2YNBPWUunFzySyyUeUIJbZFRRMQe
-         niCxe+eFUDSEdNWY9ZGjq1lKIJtq0SoFn6Damv+nAo74PJLgekHrviqP7Za1kYUGUySn
-         0pS8wO9U319P2j8tGUOuXmsiBR3HWtDN8v4ITKj85Pta0mfOnfUIuzUVQ4L/QHPmxTSX
-         8g7ieHXqvBRA7rMrpDj+8wJxKZbtCEMSQj4HI3rPUvkIsG7AxewBimeIHq28H+NszYPO
-         +m4ftHRJErvvFQZdHGFlVx6073u6xR0SROyuli/zzaOGD/+YOhnlsVw7X7QeLch9x2Xf
-         N2bA==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689037870; x=1691629870;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O3UY8+CKPFSyZIEwUp28Yj/Nn875TX+OOxQQ4p9YjsM=;
+        b=cVjvjtCdmjNXkOFhbf1K+q6lMKfYR8mT4sOqcsI+tUU/MJpB8pTxVzED8giTd1FqIU
+         vJFlC5XVFwhIjD2Fyc6BThNluY2hYp1BZT+W1XHJEjW6AuM86XLA4oFCL1rP8tcfm8Tx
+         VwF6KuG+L2Z+rISIS4ZDzRxQAGI4No02boqYeuIBlpADqm7P1VDs9WaHLnod4K6xsdiz
+         LZjxtuHKMdqvy5zPyPNPaqJKk4q80KMBIhlKMJRO7zlS00fJgmiuOr+A5GlYnfrFKCWN
+         Wcx/zxTNBU21Gim9TLcNLouU12Du4D5emqdDpv8fnT/ecWFO1/GWP0S9vN/529zHTlRr
+         6J2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689037868; x=1691629868;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EasQTo+uwQ3baBwr6N9+zYlt59fY+ncJcleLHE488yM=;
-        b=dEX0pjJqgux/jfeHCb3XCxUCDnNTjJEUU98RkrD+iLwQkGXeeUUU04TGbigsKm56+U
-         vD5bLMHj8zADgvxpaV0NlsLEIiDd1DwvRzANHyp/ISVfZrB/MHtd4hPNWrHcEPN0SKFb
-         5tDDPqiNmx5i2Kz7bFSUHxrE2J0JaOAMRdA9iMuB4iAnJ2cpbObmQDJUf89Unt0b5hXL
-         PanB59jUTXPSv6A5zeGQgQYPvFrIr/+o3d2sx0t61ByWlaYNUj12QRJq5Hhlr9qfxcQr
-         oRK6u4CYpBE9fHH+6KRdQymZ8mbaAf6+c3o4JQThqF/6U4lcEsnFmf7rAtY4MN56P9nV
-         skSA==
-X-Gm-Message-State: ABy/qLbw1t0Jb/bZOGvS3WJe+6FpyUpGMRMU09qpm58v1TOiswA2vyTQ
-	Y22Snhf6crmPRWmeeLmoZsZWy8iY458Gpds7N1c=
-X-Google-Smtp-Source: APBJJlH1XKyYZrOaYGmaZu6d+oLQ36cutUBd1mi6Motrc+rohKSKic1MWboaQ/MMakpZDOxNk47Tgg==
-X-Received: by 2002:a05:620a:40c5:b0:765:3ab9:df8d with SMTP id g5-20020a05620a40c500b007653ab9df8dmr15847160qko.32.1689037868423;
-        Mon, 10 Jul 2023 18:11:08 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689037870; x=1691629870;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O3UY8+CKPFSyZIEwUp28Yj/Nn875TX+OOxQQ4p9YjsM=;
+        b=Jk8qE+tPH2iB90gGx8PrJqLhv5cg+qsi68M6Z1UWebWtQlDRb7djaJfUJoau3aGWLF
+         Mvuz42UQ2q6s7YXS6HB5haOanq2FDvNk3pUef+lskgKoGENZYk11QLdPh6f0zBjTbx7h
+         gue8qY2gKipCHu1VPQ51y1TfJ2GX1V587PlYrOKyMWzOoMp57mZQe6ecMfTAKfmSr4m+
+         IYQpYNQoCX0aOhasXmiSt+jUQtW20wGmjHk+aLB1oacnkUYFsMLSdDsTBTuhPZLt8Woj
+         KdtyyvlTSB2JzXuvUzxZWAR/PD9tHy/bpxNokxWv8jkJEIFZgnsdmCEcD3nKQMCAJAjJ
+         zHpA==
+X-Gm-Message-State: ABy/qLYI6J7z4XPv9LS79wUvsr9kkhkqwzuqsZuUTBrx/LgNuvFnDWX4
+	QkuOxVC1s1BLj5AG1FWROODmxxjuTjYpchoCH5Q=
+X-Google-Smtp-Source: APBJJlHPLdB8mm16uJwVkBQ55MHw2IrHPYeh95izzUq9s5HwktzFlGMk6pf0CJWsAhuGcMq7IFuRRw==
+X-Received: by 2002:a0c:e14d:0:b0:62d:ef41:b847 with SMTP id c13-20020a0ce14d000000b0062def41b847mr12015345qvl.14.1689037869972;
+        Mon, 10 Jul 2023 18:11:09 -0700 (PDT)
 Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id h22-20020a05620a13f600b00767765561afsm427936qkl.106.2023.07.10.18.11.06
+        by smtp.gmail.com with ESMTPSA id h22-20020a05620a13f600b00767765561afsm427936qkl.106.2023.07.10.18.11.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 18:11:07 -0700 (PDT)
+        Mon, 10 Jul 2023 18:11:08 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/3] python3-pylibfdt: add recipe
-Date: Mon, 10 Jul 2023 21:11:02 -0400
-Message-ID: <20230711011104.2807078-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/3] python3-dtschema: upgrade 2023.4 -> 2023.6.1
+Date: Mon, 10 Jul 2023 21:11:03 -0400
+Message-ID: <20230711011104.2807078-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230711011104.2807078-1-tgamblin@baylibre.com>
+References: <20230711011104.2807078-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 01:11:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184109
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184110
 
-This is required by python3-dtschema (already in oe-core) and
-likely some other modules, so add the recipe.
+No changelog provided. Diff between versions:
+
+08ab41a (tag: v2023.06.1, origin/master) Fix undocumented compatible check
+90ce246 (tag: v2023.06) Revert "Partially Revert "dtschema: add nanoamp unit""
+a4fe59b schemas: Allow 'fail' value for 'status'
+1ea798a schemas: Allow 'status' for node names
+2945ab5 schemas: Allow node names starting with number
+33cbf96 schemas: Allow '/' in compatible strings
+470b522 fixups: Handle 'multipleOf' keyword in schemas
+6fc2e30 meta-schemas: Ensure "enum" contains only strings or integers
+bd525a4 meta-schemas: Disallow 'binding' or 'schema' in schema 'title'
+822ce6a schemas: cpu: Add some missing common properties
+e3dfc1e schemas: Use 'oneOf' rather than if/then for *-supply properties
+26b0e53 dtschema: Use format strings for printing
+bc164f9 Split DTValidator class into 2 classes
+4ddf315 meta-schemas: Ensure DT property names contain either an object or boolean
+3db9af1 meta-schemas: add $defs schema checking
+85e967f schemas: iio: add label
+31cc52a dtschema: Move fixups to separate file
+9e4dd3b dtschema: Drop unnecessary quote checking
+41e1192 dtb: Drop unused pprint import
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../python/python3-pylibfdt_1.6.1.bb             | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+ ...{python3-dtschema_2023.4.bb => python3-dtschema_2023.6.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dtschema_2023.4.bb => python3-dtschema_2023.6.1.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
-new file mode 100644
-index 0000000000..9dd01a1449
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "Python binding for libfdt"
-+HOMEPAGE = "https://pypi.org/project/pylibfdt/"
-+LICENSE = "BSD-2-Clause & GPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927"
-+
-+inherit pypi python_setuptools_build_meta
-+
-+PYPI_PACKAGE = "pylibfdt"
-+
-+SRC_URI[sha256sum] = "90c667c5adf44c6ab2f13bdc566598897784c7b781bed91064e7373bd270b778"
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+DEPENDS += "python3-setuptools-scm-native swig-native"
-+
+diff --git a/meta/recipes-devtools/python/python3-dtschema_2023.4.bb b/meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-dtschema_2023.4.bb
+rename to meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb
+index f87563facd..38ff2714f2 100644
+--- a/meta/recipes-devtools/python/python3-dtschema_2023.4.bb
++++ b/meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3
+ 
+ PYPI_PACKAGE = "dtschema"
+ 
+-SRC_URI[sha256sum] = "6daefb8f54403b4d82961b3346571200571747ab01950fd36c1f69950fa7a8cf"
++SRC_URI[sha256sum] = "d9dc11cea6a46ae2ee5ac4a5a1c7da7cb3704417cb390881820460f7c61eb784"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
 -- 
 2.41.0
 
