@@ -2,31 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FCEBEB64DC
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 06:37:37 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.1755.1689057454345880625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5240AEB64DC
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 06:37:47 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.1787.1689057457538882683
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jul 2023 23:37:35 -0700
+ Mon, 10 Jul 2023 23:37:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=AYO29AZ3;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20230711063730edffb6182a24485b00-ivzkrt@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20230711063730edffb6182a24485b00
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=KyDERuL/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20230711063734f3a44b417c67521dab-txa_3j@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20230711063734f3a44b417c67521dab
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Jul 2023 08:37:31 +0200
+        Tue, 11 Jul 2023 08:37:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=KKwzmrxzN+TcxPFpzgbn8wA62VGyMW0FS9rCjh8+PMw=;
- b=AYO29AZ3sSXb6EdOoZBJs+NKkCA8AzylcozqRyzPhRKFNA0q7/rOxb4OAwcBgKit6nx6PI
- oLEkKXuvAczzIwyvb/XeyTXIyoCL71Wqaue03NcQ6Dh9f21uGf82RBsWLg2HM61qdsQ3i2c5
- jtaJFAzdwdUMb5k849rOheAbJa3a8=;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=6NwHRoW8Vj+xFjkYewtwJzFyfak2K4WAGZfodfGwX48=;
+ b=KyDERuL/qplG81pEeO0yqkPby6C6QeJWWTDDgAr91N6XO8RZqnmuRkstYybzr7sibP1ILw
+ lkCwGu7mvgBCV+6sTfbvl6LmxE0iPNGu05aKhkdz4wrmhnbLhopcCqZDdgCdl3I/CFmqscXZ
+ Quz7nput7POtm5oPTZuqsUan+HWcc=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][master][mickledore][kirkstone][dunfell][PATCH 1/2]  cve-update-nvd2-native: retry all errors and sleep between retries
-Date: Tue, 11 Jul 2023 08:36:28 +0200
-Message-Id: <20230711063629.7627-1-peter.marko@siemens.com>
+Subject: [OE-core][master][mickledore][kirkstone][dunfell][PATCH 2/2]  cve-update-nvd2-native: increase retry count
+Date: Tue, 11 Jul 2023 08:36:29 +0200
+Message-Id: <20230711063629.7627-2-peter.marko@siemens.com>
+In-Reply-To: <20230711063629.7627-1-peter.marko@siemens.com>
+References: <20230711063629.7627-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -34,56 +36,37 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 06:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184115
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 06:37:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184116
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Last couple days it is not possible to update NVD DB as servers
-are returning lot of errors.
-Mostly "HTTP Error 503: Service Unavailable" is observed but
-sporadially also some others.
+Current 503 errors seem to last several seconds.
+In most cases there are two errors and third request succeeds.
+However sometimes the outage takes more than time needed
+for two retries and third one also fails.
 
-Retrying helps in most cases, so extend retries to all errors.
-
-Additionally add sleep which is recommended by NVD between requests.
-These retries are already implemented between successful requests,
-but giving servers time between failed ones is important, too.
+Extend retry count from 3 to 5 to improve the probablity
+that the fetcher succeeds.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 4585126f73..a7392405e0 100644
+index a7392405e0..b3d0038c2f 100644
 --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
 +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -119,6 +119,7 @@ def nvd_request_next(url, api_key, args):
-     import urllib.parse
-     import gzip
-     import http
-+    import time
+@@ -129,7 +129,7 @@ def nvd_request_next(url, api_key, args):
  
-     headers = {}
-     if api_key:
-@@ -140,13 +141,9 @@ def nvd_request_next(url, api_key, args):
+     full_request = url + '?' + data
  
-             r.close()
+-    for attempt in range(3):
++    for attempt in range(5):
+         try:
+             r = urllib.request.urlopen(full_request)
  
--        except UnicodeDecodeError:
--            # Received garbage, retry
--            bb.debug(2, "CVE database: received malformed data, retrying (request: %s)" %(full_request))
--            pass
--        except http.client.IncompleteRead:
--            # Read incomplete, let's try again
--            bb.debug(2, "CVE database: received incomplete data, retrying (request: %s)" %(full_request))
-+        except Exception as e:
-+            bb.debug(2, "CVE database: received error (%s), retrying (request: %s)" %(e, full_request))
-+            time.sleep(6)
-             pass
-         else:
-             return raw_data
 -- 
 2.30.2
 
