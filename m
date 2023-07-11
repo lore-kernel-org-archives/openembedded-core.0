@@ -1,357 +1,249 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <heiko.thole@entwicklung.eq-3.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED662C0015E
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 11:07:38 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.53])
- by mx.groups.io with SMTP id smtpd.web11.4972.1689073649021835974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EABBEB64DD
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 11:13:09 +0000 (UTC)
+Received: from DEU01-BE0-obe.outbound.protection.outlook.com (DEU01-BE0-obe.outbound.protection.outlook.com [40.107.127.75])
+ by mx.groups.io with SMTP id smtpd.web10.4931.1689073986748679964
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 04:07:29 -0700
+ Tue, 11 Jul 2023 04:13:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail, err=mail: missing word in phrase: charset not supported: "windows-1250";
- spf=pass (domain: welotec.com, ip: 40.107.20.53, mailfrom: p.lobacz@welotec.com)
+ dkim=missing; spf=pass (domain: entwicklung.eq-3.de, ip: 40.107.127.75, mailfrom: heiko.thole@entwicklung.eq-3.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UW5yiv+KrpeVqDOLoBoEwftCTf3r42342j4n+cYthOxz6RdmVUE5FKX5xx3fomooYrXhfOibkGW8cO39GHZF1/jrTSc8tvAS8WywoFbYtLCN2I5e9ueoXbToBv5GiPFYs2Q31Wu/8KcaNFf7Aaf/6GYx/z582BOF+pGhU+RG6QAZ5JSTJKgNFPoS+tV+u+tQWYaHuDRKBpouGonnQpZ9ltTmXbfcCNERNi0Rw86aUtF5jP9q9W8Wbe39iAWFNz0o13GWP1cloyMwt4ISxaOZ905fIFVNaI48RJ3rsaCaGiRhNNm3iwQDfiuq1k7pL89xJ+X6Ivk37f1kifk5hWulNA==
+ b=ZBguv3Y4OKnK5xFUL/NDCl9TdezMQPpyc6ai16XPFNXyvwMFaSdP7DkSBjDVsUWEDuSWmFixvdO7NnUTMMe05aaykTcQSSXydrnOTK0bA12aqQJNlYwfMl0hL2efwhwa34EBBmeYt41R6DsPnFMYtNAFQzVMyObPTQ2/qEGICmCUkaUXJKup3IhxyCFxv+Jo32LTVLlrHVp6zpeyjpqk+p55DhIAYp2b79WcAZEUC2/iVq3mN30J+9TWkyx1vZJK5mpwrPqUJ/hIxpNZEci5Ldi1dPjmUcJxWjqEwXkFVuRJHFXwtX/D0vydoZEulSQjYiC+20DBjgrabpGy91pFkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IIsDrpAx547DWfWfMbKTTMmlIfIuquawYXEEbxvqM3A=;
- b=ikwPS4wCv39gtpMyqOvQo7JEeHbyJxqoO+WsRY7k91QUFdh5ec/P/cOwIPMX+dxyYDb2w6ytV2popoJCtE3CndI5Puo9IQwXG0OBPLB2pkR5qhesNFMkQ1gdsgqa1tKVYEjNwBUB6AvR5+/FvSpRMtUu7h3Ufg5fxvYppHGPUVCOYpBDx1QHQ5ZhB3pofWgbdWLiPHZbCbX4sIHBPV3nov4+zoGGjmvYmRlmO5FPXtVRcYfYPkvWmz+eyB4tZOVoer4KZEjFuU0XjVLf8t6I72bZMTJbq+mgeK1QgJSom/C1TPljaeRwIdo9RtxCUPwtslmNFUK9xJ6Sk4bdpV9GsQ==
+ bh=DfmSFfRlRSGDnIR44+sZmaJsEn1XAjgBh8qzFEqGmew=;
+ b=jVLnEpMJ1ek8ONQKGSf2uCMVrZzCHuPtLfsjlIMt6baLQt9rGVfi58d2wgdAAG/+j1mJhKGm/QjxBTMkdDy7KI/f49utF2xQUwVSTj21iWMtdQ0VHcj+aRNxw9M7DUMS8FCdXjN7bEtufRgI9sC+fVCDhfep3jQXbFBrhnQbxyar7Sjjkmvu06QdywW7rEwYCG8UDySDrPzRYy3qc28ubN6RAEq+br3oUFSkk8un6uOvI3HZMKv8evzTVOaCK4vSl1EQVEzdE+TbZiTmihYZOr06U9Ue6wQiat/gt0dtYkCwxb3XadVdkeO75Lf76Hkq1Ehwur9PgdeI6hPXuteUjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IIsDrpAx547DWfWfMbKTTMmlIfIuquawYXEEbxvqM3A=;
- b=d4BuRvadnuS8B58vC1ML/DcD76M/aN11dYtCx/wWFMD92K/2LUjLEQrvSTZSaNVUTtgBgqlk1Tqo24zaXrsvtwYiaMNB5TGj2JjPJ277Fwij1MZHmqswbYLsUCUteamAFnM+3GY6QL6i9JKsQvBqYVLdoqNZZssy6K5miNsjADI=
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by PA4PR04MB7533.eurprd04.prod.outlook.com (2603:10a6:102:f1::19) with
+ smtp.mailfrom=entwicklung.eq-3.de; dmarc=pass action=none
+ header.from=entwicklung.eq-3.de; dkim=pass header.d=entwicklung.eq-3.de;
+ arc=none
+Received: from BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:11::14)
+ by BE1P281MB2788.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:3c::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Tue, 11 Jul
- 2023 11:07:25 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9b11:6096:b359:6fe4]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9b11:6096:b359:6fe4%6]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 11:07:23 +0000
-From: =?windows-1250?Q?Piotr_=A3obacz?= <p.lobacz@welotec.com>
-To: Ross Burton <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Tue, 11 Jul
+ 2023 11:13:02 +0000
+Received: from BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::319:fb1e:c315:4cff]) by BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::319:fb1e:c315:4cff%3]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
+ 11:13:02 +0000
+From: "Thole, Heiko" <Heiko.Thole@entwicklung.eq-3.de>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-Core][PATCH 1/3] bitbake.conf: add acl and xattr distro
- native features support
-Thread-Topic: [OE-Core][PATCH 1/3] bitbake.conf: add acl and xattr distro
- native features support
-Thread-Index: AQHZsxUxLTW0Sb4E3Uu/U3gcvSoAYK+y5quAgAGB4cY=
-Date: Tue, 11 Jul 2023 11:07:23 +0000
+CC: Steve Sakoman <steve@sakoman.com>
+Subject: WIC: erofs-utils-native: Cherrypick commit from master to #kirkstone
+Thread-Topic: WIC: erofs-utils-native: Cherrypick commit from master to
+ #kirkstone
+Thread-Index: Admz6JFIt82vV01qTLeW+nwPwWBXJQ==
+Date: Tue, 11 Jul 2023 11:13:02 +0000
 Message-ID: 
- <VI1PR04MB53739E01C427B6EE1D35961A9131A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-References: <20230710095800.2033309-1-p.lobacz@welotec.com>
- <7CE572D5-CA4B-4B29-B727-BB22D8E4D931@arm.com>
-In-Reply-To: <7CE572D5-CA4B-4B29-B727-BB22D8E4D931@arm.com>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: pl-PL
+ <BE0P281MB024249FEF2246FD96803CEE9BC31A@BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
+ header.d=none;dmarc=none action=none header.from=entwicklung.eq-3.de;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|PA4PR04MB7533:EE_
-x-ms-office365-filtering-correlation-id: 425b907a-a0b6-46fc-fe59-08db81ff00f8
+x-ms-traffictypediagnostic: BE0P281MB0242:EE_|BE1P281MB2788:EE_
+x-ms-office365-filtering-correlation-id: 26850cd0-a7b4-4376-3341-08db81ffcac9
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- IlKb/pk3e77ZB8fyooR+gvdh5TYfbsO2BL77VwYlEPVdCiDDPQ3vtZzwy3W74zdoyHkcpcXvDP6OssBvHZ6/gE+4AuKfFpkMHfN1up1VeK8SIjhnIZYF9llB6IaRYVirYZmWJzZbmMntY9mu8oC5YEiEGBWwMi03rS5xcLGbS162RTXs4I/TqGRvzQQ+uy6ToHSr5PWHOi6tRkHMlq1IVeG0g5rh+0fGSiLEizc9pDx/5FJxkblneC/zxCYYG4ayCZq8Ockw4r9D17pvJj+FeelAh26K0hMvmyOfA3iK/XoQiqi3ggt/lBw/0G8E8/mrpP7fYzuKSoxCI/rs2x8YW1LSK11oqiV40xNbfSu47drPKhTVFMDlLuSugBp2q53/Ccp5Dd22oD+HfTXdZm06tBD75kYj0T9njXroa/V4wV97rdOPfYJSWSx0+sKJ7a9sFlZ6pGrvH8BsFbf1J6req+H6a7dCZrjWFT4EKiBoSBRyEJFV9flXgo7HLnHB/CDPw8tLNzMDiZoZJ2dspcj2RI1kb0vyD1MXcd97Q+AIXrF2Xw9r2pg44Ump1IeOGsENzVthZ59t70Y49lbfhFBZD10vN4EpqZtNenfDOO1kxoc=
+ UQKaOYGRdjRlR+nh9dgX6ctxIPGc0MZq88l2aodohW2Yhwulp8HkVrzGpK3+VeL+TwB/bkOERHe5437LhFvDovur6GM32po+DhNu9dDFBX8OlIidPJG2KrH/zf5B9tKEPNoofbkxY9Rm1IdcWcass0PlbZaddlF/cKxpMDz6nnD98XGzwh7nkjzRIAUrv/8elZFPi0NTroZgI1+plK3wxVE//Ym9B5uIokaKuLIkNRInJ0JQ+Oserdsp/HcsNIuf9pl4Vt2h9bos/oUEWl4lo/nkNy1Cz72SlWQpq/syLKjJPoX3jTTtIjU5WuZqAJI4bDM9T3Z598UWNh93ZQFVUpswsIlkA2VagEh7uXySTtq4Is9xirJ/BxjbgPXS1VXNjoaQgycniUYhQhslHpwGc7BtSWClQB+0vfFda4v3ghtl/gepyr92y+II/nnR+ZmK7q723kcwEQh5ZRDQ5g2jeyDHClFLZNDfeqm+lrgB93KFNqI68KT99OhLuufjMT9jnnG9c9HCliLjG3TxDFv6VIeRh62VOhvIgrEGF+ABkv4TgmklLgRXalEGzXIXhGJx7ETXaUfVCekJUTe3XScbOTj3TdQo/us9hFaSm55E+3j7j5HSDyLYh9Y/FXX62cr8jZLKRedQCV7te6jhuDpoRA==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39840400004)(346002)(136003)(366004)(376002)(451199021)(86362001)(38100700002)(38070700005)(66899021)(52536014)(33656002)(71200400001)(7696005)(76116006)(91956017)(166002)(122000001)(55016003)(9686003)(186003)(6506007)(966005)(53546011)(5660300002)(66556008)(2906002)(316002)(66946007)(8936002)(45080400002)(66476007)(8676002)(66574015)(64756008)(66446008)(83380400001)(4326008)(6916009)(478600001)(41300700001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(376002)(39850400004)(346002)(451199021)(166002)(7696005)(71200400001)(478600001)(122000001)(52536014)(5660300002)(8676002)(8936002)(2906002)(4744005)(33656002)(86362001)(38070700005)(6916009)(4326008)(316002)(76116006)(55016003)(64756008)(66446008)(66476007)(38100700002)(66946007)(66556008)(41300700001)(26005)(6506007)(9686003)(186003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?windows-1250?Q?+RIW2L9tiUCpD47DHMM0WItOa8hszuAUDRRVe/CnKZrARhP6dyNgdHIn?=
- =?windows-1250?Q?vgtAtWKvNe9eTDXfwp7cuvwf6OOmdrrTB2pi5LrWP0Z7yo7I2D+sMnrJ?=
- =?windows-1250?Q?j7rwcT2SQxmNpsr4VB7Gfm6cVhIr0ziPxGbqyG/q9AK7WJ/aPlhJpzZy?=
- =?windows-1250?Q?PQA1WQNEHZBlqdbTks5uehhQRHD9ahE8LTyRxMEl65M93dA57HDnW0zb?=
- =?windows-1250?Q?3O63FlqXJY5ebfC5eTK0lZEz9sCWaVtArt87ikan4eRu2y7FUo4U8LDP?=
- =?windows-1250?Q?Dsgr45tjMpXSsMxPCn2Vax1y5HdyAR8ALU7vKXf427fnAIHA2R+OiHhm?=
- =?windows-1250?Q?t3SFVDfivSItGm5q8nmQ636600WJAwlB8NJXDhRp7TsasG/s2g5aHTtm?=
- =?windows-1250?Q?OpKX35EjNEdb43w5Hx9oAg2gzdBatbAB8f/7d+IPBAIPgcYFYdolultd?=
- =?windows-1250?Q?JIHEFPnviqYpH0WTedPPBBoG3ukLSUD2T93yZiO+JFC4D7m9t2It1EKV?=
- =?windows-1250?Q?lqdGNWk8rmakQLc7JVpsg/S9gjNcKJmaP8XiYlMRBZzoxPNDBl0pUQcd?=
- =?windows-1250?Q?AgkA5mZkN2YAiWPIupOH4bcve6fjCvwv7vKhbRcw8i/o+BdkP2bgmYw0?=
- =?windows-1250?Q?zLVBOIaNFg8NlHFib0O4Zes8lz5BM+re7piEXSJhlbsU7HWM8TxjoLGb?=
- =?windows-1250?Q?EzOi/HdmAjgci4KpBhf70ftgZwzLPJEqVo8nioYY5l6yYCEpTIZ1ZzGt?=
- =?windows-1250?Q?A1Z7LdAvYkU80gr1GsGMtCNNoCGjFDEvs1yEpzmM6zNrPsgRNEVubPjJ?=
- =?windows-1250?Q?H1ZlB0hY4RfFoZ0em72QiJ8pxYiW8tRvKaZdh+pC/pNqSVR8muJUGiVS?=
- =?windows-1250?Q?ZYGOaiWI33UYFNJj69azs1Iehh04DGVSOyXmJtYyies7t77nD1qFissf?=
- =?windows-1250?Q?la+CiQiGghsKKo1tMztcBk+n/vAslh96AkEtsplMTfczzVVNnbBLcrGb?=
- =?windows-1250?Q?pU/W9LalI0R1oOJ7Fyod2Mr5hsSvHcX4laxVamCS9OOFQ/aCXr/Oilfk?=
- =?windows-1250?Q?AhgK2obyYZOtwzsR0ELpHO9VLkYJcSC+7s0AciiNsYF63jqf8v2txmLq?=
- =?windows-1250?Q?ii0vLiNZyRE413Wz8GCBKoahY8esWjTqYIX+SUneZ5pytK0XRHKMiKst?=
- =?windows-1250?Q?DJGcyNnKDyCy+dpQTxrubEIDFtjYufolIO5/jSkuzQBLiyPvUoeGbG1E?=
- =?windows-1250?Q?g7mm/z+wKam3L/YRd7MhtQR/RRdwJqljrRbhH7BEjd9EJwisE7KSYDhy?=
- =?windows-1250?Q?dccjjxCqYEavjirlx60Li60XHatr6nEnamBIBCWljKtbjTowl9eGMbXZ?=
- =?windows-1250?Q?5W2M+7Kmp3DB3BSKbHf1xol6mObJnCeWGnqpLNrZgStolh3oFlGfqRFB?=
- =?windows-1250?Q?0k3wn15Bu/lgGdy1uVURq8kITGkRP5+E/bF+useX7M1sh7M9fFq4ftKM?=
- =?windows-1250?Q?9NdfQJRKPWsK1SFs36yj9aZOCDA8gDmK9aSC4cxSFqGBZlm4QxDgppNV?=
- =?windows-1250?Q?SLtv4Hw1rk83j8yjLthI7cpdINfoaZVDuuZnFHvUhIqTfZlIbh9QhlfB?=
- =?windows-1250?Q?naLttBuUpiSoKFvxF16eoFoUXuxFKJwAC0HdvvEHUF2cRJSHK9MsiFiZ?=
- =?windows-1250?Q?aeOt7pkOKzZkVohXtuwu7V5GIvw1cfcr9c4nNgwmZLWn7uAwYmiawd5s?=
- =?windows-1250?Q?Prjbf2srJAhnnU1Qie2oxYHS4JJmss9s2UIucqcJ5GtHYnhns6d228o6?=
- =?windows-1250?Q?MSKK1A=3D=3D?=
+ =?us-ascii?Q?fEGQaJp9jJ7OXiyxc8nMpAr0sTy5FqkpdZaVFHxsn53RwVeJJyL4seAtwCHO?=
+ =?us-ascii?Q?FRpk2Y2yTAhojQoO+G7wvW6bgSiggJ2/Bc+ox7yNUwSK5R4LjDebY4w/TJvF?=
+ =?us-ascii?Q?5KsBKzR1l3MGl1ITOnZL00R/4QxnAzkdjBYdEl0ioHB9NVFD/qPVCUn/LEbI?=
+ =?us-ascii?Q?OTr4ve8atUwbD0Bvc26l3pSdDb4A+yfXaMH0uWM6DHTiC2QTWeKFtF+JFtjf?=
+ =?us-ascii?Q?I9/VeDRJE1v3ipl6xABkM0ejzArM7FpVD77B7Yf+5yzbW3BHedVfbC9kcA5H?=
+ =?us-ascii?Q?SfE524ZJ0nAMtunJCO55MKXUVJE356bWauwSxqp8sFEJICclbD2DYr8WCtA6?=
+ =?us-ascii?Q?e/iJciuftL2+YOTrzjMK+/17U4X+vbt4A0blJG075r//qAnk2qUToAWu3LQa?=
+ =?us-ascii?Q?IklkAZFIjMwM4mdSYc3z0vZ/Gv6JQ0RADk7mhX8oapoePMSJUZHktJzCayUG?=
+ =?us-ascii?Q?73JimZMk0t+5EkfpcuKYZe5W3Q/r87QP8KY19a150S0NPPxlb22oHmnAOFYZ?=
+ =?us-ascii?Q?3dYW3lPytvh9VLxacIG/7oSyFqLkoExW+dkloZ00MtbGdvlHUovERSIF5B0Z?=
+ =?us-ascii?Q?0J/uGv7k5zLoD2ajkwLeZvQdo1co5nh3P7Yf1Q81CMIvxrzV4RWFV3wMWt7I?=
+ =?us-ascii?Q?6KwDWKkj9swZHrWSQ2Ka34zWTFanTBZ9SJk6xHDGfpWA3j2ISPuL6+5eF0SN?=
+ =?us-ascii?Q?t3edQWF8c/Ny/C7N+ynyZPp76RHj1Z+d+Di0m/KZ37B/Ob3eTfbDwcu8lBST?=
+ =?us-ascii?Q?8rP6V0Kb5pejfMVUWqH0F6uYsHBn6eKe2v8kgUaqmk6gOCt9Pk9jvTSHsnuG?=
+ =?us-ascii?Q?Ml9KrNavVBhHw8zeeIejJkyRbz79PN+94Y11RbeMAbVBs/VF/34iB1mmAoSf?=
+ =?us-ascii?Q?yp4VTj2Gt2Aa7gmYJJSILUH9GlrsKGOuK0Ax/GkMzRlnKqB2LSHSTBcKywMC?=
+ =?us-ascii?Q?C0Yqv7xDoFIZWQOFzPWJzps2yMEiFpfs9n6hZlTQ0krE7r+0/MwAFHJeY+My?=
+ =?us-ascii?Q?+2GgCjiQftpjrZVOrXHVaRnAUXAX87afV9kLwyTG1k2hJk4i91PMIkF9UNcM?=
+ =?us-ascii?Q?EFbc/umLAEbSJ+pBN5ccpTPqVUWMxcbcmCfRHrNw1rvOurn/EWfCd4NO582+?=
+ =?us-ascii?Q?LgUmZvFWdwyo/bNjN8mgMzibQBvtNC/z9ulavPXsszQp+7X2AjJ8mY+YNoZ5?=
+ =?us-ascii?Q?qDWjKzPiJk7QMf+RY5aMcTB63ukoPsyz6ARvz+Li6YqDuDDqm9cokbRS9d9p?=
+ =?us-ascii?Q?HTzQvk03S8OTiuh7Vp2U07+wFFUOKeyafRe2ou+ldqCzZ5sqp+h1AcNgt8Vt?=
+ =?us-ascii?Q?m8QMUrf6+1ZIxWkJ+NQert4/T8fcpRKvDgforHXwHfjZobvFlnW9fRpVAW+E?=
+ =?us-ascii?Q?PKk/TVMqZnZXx/HuH01ToPQnfMUDxTsMdUMrlDHcvgBv8XDq96rReZVAQlQS?=
+ =?us-ascii?Q?WBirezy5eNZuIhL71Up1FN3I9xVYf1OlCaX1M4HXPqlBVTKfYCWwtwKuVkqx?=
+ =?us-ascii?Q?IQCPui0celg7VZ5AnSobb7nfm0TnBb72UC0MT4y0x0yC6F05B3+Rz5n/Y/kq?=
+ =?us-ascii?Q?bPC2AcumOhzsigv3E5P9ccTsX338IQOYGTDBmyTQ?=
 Content-Type: multipart/alternative;
-	boundary="_000_VI1PR04MB53739E01C427B6EE1D35961A9131AVI1PR04MB5373eurp_"
+	boundary="_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_"
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
+X-OriginatorOrg: entwicklung.eq-3.de
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 425b907a-a0b6-46fc-fe59-08db81ff00f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 11:07:23.5775
+X-MS-Exchange-CrossTenant-AuthSource: BE0P281MB0242.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26850cd0-a7b4-4376-3341-08db81ffcac9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 11:13:02.1719
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-id: 6bb70bfd-56fb-4f95-99c8-16d0dd9d5592
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1n1SCpXvlTGGlNHKMiyndO8JnJF+Nta1HapbPieIA9RPWu4Lb1j39iYAVm0tULLZDIiAv5HVLqNcmJ//R5vLxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7533
+X-MS-Exchange-CrossTenant-userprincipalname: +LD90JsuyAaRIsR3iEm/Rjz8NURUEyke+6bseCSRq4sJFh6fzlcks5YzPig6GnmTkSXBLeGQ2qa2ItdV2Ec18g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE1P281MB2788
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 11:07:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184128
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 11:13:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184129
 
---_000_VI1PR04MB53739E01C427B6EE1D35961A9131AVI1PR04MB5373eurp_
-Content-Type: text/plain; charset="windows-1250"
+--_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ross,
-Alex has written that he will take care of it today, but ofcourse I can add=
-itionally apply paches in oe-core layer as well today evening.
+Hello Steve,
 
-Regarding additional tests we need to apply them ASAP.
+we are using Yocto (Kirkstone) for a new device. We want to build an image =
+which contains an erofs partition.
+But bitbake shows the following error:
+"Wic failed to find a recipe to build native mkfs.erofs. Please file a bug =
+against wic."
 
-BR
-Piotr
-________________________________
-Od: Ross Burton <Ross.Burton@arm.com>
-Wys=B3ane: Monday, July 10, 2023 2:02:37 PM
-Do: Piotr =A3obacz <p.lobacz@welotec.com>
-DW: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Temat: Re: [OE-Core][PATCH 1/3] bitbake.conf: add acl and xattr distro nati=
-ve features support
+The problem is already solved in the master branch in commit 4e9102a (https=
+://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd2ac42c39f1d3153a1d3945=
+e4668d5 ).
 
-Hi Piotr,
+Is it possible, that you cherrypick the commit to the kirkstone branch?
 
-This is a great patchset, thanks for chasing all the loose ends.
-
-Until the patches for opkg have landed we can apply them to our recipes, so=
- feel free to send a patch to the opkg/opkg-utils recipes to do that.
-
-Also some form of test would be essential.  Something along the lines of ad=
-ding to an image a test recipe which has both ACLs and arbitrary xattrs set=
-, and then boot the image and verify that the attrs actually exist.
-
-Although I guess you could just build an ext4 of the image and then use deb=
-ug2fs to probe it.  That would be a little more complex to write, but doesn=
-=92t mean booting the image.
-
-Ross
-
-> On 10 Jul 2023, at 10:57, Piotr =A3obacz via lists.openembedded.org <p.lo=
-bacz=3Dwelotec.com@lists.openembedded.org> wrote:
->
-> Include support for ACLs and extended file attributes for native
-> builds, depending on which distro target features has been turned
-> on.
->
-> Signed-off-by: Piotr =A3obacz <p.lobacz@welotec.com>
-> ---
-> meta/conf/bitbake.conf | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9625a6fef4..da01e9b66f 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -904,7 +904,7 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
->
-> # Native distro features (will always be used for -native, even if they
-> # are not enabled for target)
-> -DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
-> +DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 ${@bb.utils.filter('DISTRO_FEATURE=
-S', 'acl xattr', d)}"
-> DISTRO_FEATURES_NATIVESDK ?=3D "x11"
->
-> # Normally target distro features will not be applied to native builds:
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184063): https://eur04.safelinks.protection.outlook.c=
-om/?url=3Dhttps%3A%2F%2Flists.openembedded.org%2Fg%2Fopenembedded-core%2Fme=
-ssage%2F184063&data=3D05%7C01%7Cp.lobacz%40welotec.com%7Cac1be1ea95524118ab=
-5d08db813d9725%7C25111a7f1d5a4c51a4ca7f8e44011b39%7C0%7C0%7C638245873753484=
-720%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1=
-haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DjtcQryE1wD6%2BpF4edaxZEP3YOr%2F=
-LcaFuR4%2Bt9xvfMek%3D&reserved=3D0<https://lists.openembedded.org/g/openemb=
-edded-core/message/184063>
-> Mute This Topic: https://eur04.safelinks.protection.outlook.com/?url=3Dht=
-tps%3A%2F%2Flists.openembedded.org%2Fmt%2F100054733%2F6875888&data=3D05%7C0=
-1%7Cp.lobacz%40welotec.com%7Cac1be1ea95524118ab5d08db813d9725%7C25111a7f1d5=
-a4c51a4ca7f8e44011b39%7C0%7C0%7C638245873753484720%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7=
-C%7C%7C&sdata=3DHS5OslF4It9P5Uj04GLdM%2FvdVGxqCT96Hv0%2F9Mic4BI%3D&reserved=
-=3D0<https://lists.openembedded.org/mt/100054733/6875888>
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Flists.openembedded.org%2Fg%2Fopenembedded-core%2Funsub&data=3D05%7C=
-01%7Cp.lobacz%40welotec.com%7Cac1be1ea95524118ab5d08db813d9725%7C25111a7f1d=
-5a4c51a4ca7f8e44011b39%7C0%7C0%7C638245873753484720%7CUnknown%7CTWFpbGZsb3d=
-8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%=
-7C%7C%7C&sdata=3DsHpcO%2BPtu2dsAtPk9p0lQuU0PoIIG%2FW9bMbIMu9y%2Fw4%3D&reser=
-ved=3D0<https://lists.openembedded.org/g/openembedded-core/unsub> [ross.bur=
-ton@arm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Thanks and best regards,
+Heiko
 
 
---_000_VI1PR04MB53739E01C427B6EE1D35961A9131AVI1PR04MB5373eurp_
-Content-Type: text/html; charset="windows-1250"
+eQ-3 Entwicklung GmbH, Maiburger Str. 36, 26789 Leer
+Gesch?ftsf?hrer: Prof. Heinz-G. Redeker
+Registergericht: Amtsgericht Aurich, HRB 110388
+
+eQ-3 AG, Maiburger Str. 29, 26789 Leer
+Vorstand: Prof. Heinz-G. Redeker (Vorsitzender), Helga Redeker
+Vorsitzende des Aufsichtsrats: Irmgard Keplin
+Registergericht: Amtsgericht Aurich, HRB 200335
+
+--_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<html>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dwindows-1=
-250">
-</head>
-<body>
-<div dir=3D"ltr">
-<div></div>
-<div>
-<div>
-<div dir=3D"ltr">
-<div dir=3D"ltr">Hi Ross,</div>
-<div dir=3D"ltr">Alex has written that he will take care of it today, but o=
-fcourse I can additionally apply paches in oe-core layer as well today even=
-ing.</div>
-<div dir=3D"ltr"><br>
-</div>
-<div dir=3D"ltr">Regarding additional tests we need to apply them ASAP.</di=
-v>
-<div dir=3D"ltr"><br>
-</div>
-<div dir=3D"ltr">BR</div>
-<div dir=3D"ltr">Piotr</div>
-</div>
-</div>
-<div id=3D"ms-outlook-mobile-signature" dir=3D"ltr"></div>
-</div>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>Od:</b> Ross Burton &lt;Ross.Bu=
-rton@arm.com&gt;<br>
-<b>Wys=B3ane:</b> Monday, July 10, 2023 2:02:37 PM<br>
-<b>Do:</b> Piotr =A3obacz &lt;p.lobacz@welotec.com&gt;<br>
-<b>DW:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Temat:</b> Re: [OE-Core][PATCH 1/3] bitbake.conf: add acl and xattr dist=
-ro native features support</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Hi Piotr,<br>
-<br>
-This is a great patchset, thanks for chasing all the loose ends.<br>
-<br>
-Until the patches for opkg have landed we can apply them to our recipes, so=
- feel free to send a patch to the opkg/opkg-utils recipes to do that.<br>
-<br>
-Also some form of test would be essential.&nbsp; Something along the lines =
-of adding to an image a test recipe which has both ACLs and arbitrary xattr=
-s set, and then boot the image and verify that the attrs actually exist.<br=
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-<br>
-Although I guess you could just build an ext4 of the image and then use deb=
-ug2fs to probe it.&nbsp; That would be a little more complex to write, but =
-doesn=92t mean booting the image.<br>
-<br>
-Ross<br>
-<br>
-&gt; On 10 Jul 2023, at 10:57, Piotr =A3obacz via lists.openembedded.org &l=
-t;p.lobacz=3Dwelotec.com@lists.openembedded.org&gt; wrote:<br>
-&gt; <br>
-&gt; Include support for ACLs and extended file attributes for native<br>
-&gt; builds, depending on which distro target features has been turned<br>
-&gt; on.<br>
-&gt; <br>
-&gt; Signed-off-by: Piotr =A3obacz &lt;p.lobacz@welotec.com&gt;<br>
-&gt; ---<br>
-&gt; meta/conf/bitbake.conf | 2 +-<br>
-&gt; 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-&gt; index 9625a6fef4..da01e9b66f 100644<br>
-&gt; --- a/meta/conf/bitbake.conf<br>
-&gt; +++ b/meta/conf/bitbake.conf<br>
-&gt; @@ -904,7 +904,7 @@ IMAGE_FEATURES +=3D &quot;${EXTRA_IMAGE_FEATURES}&=
-quot;<br>
-&gt; <br>
-&gt; # Native distro features (will always be used for -native, even if the=
-y<br>
-&gt; # are not enabled for target)<br>
-&gt; -DISTRO_FEATURES_NATIVE ?=3D &quot;x11 ipv6 xattr&quot;<br>
-&gt; +DISTRO_FEATURES_NATIVE ?=3D &quot;x11 ipv6 ${@bb.utils.filter('DISTRO=
-_FEATURES', 'acl xattr', d)}&quot;<br>
-&gt; DISTRO_FEATURES_NATIVESDK ?=3D &quot;x11&quot;<br>
-&gt; <br>
-&gt; # Normally target distro features will not be applied to native builds=
-:<br>
-&gt; -- <br>
-&gt; 2.34.1<br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#184063): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/184063">
-https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
-penembedded.org%2Fg%2Fopenembedded-core%2Fmessage%2F184063&amp;data=3D05%7C=
-01%7Cp.lobacz%40welotec.com%7Cac1be1ea95524118ab5d08db813d9725%7C25111a7f1d=
-5a4c51a4ca7f8e44011b39%7C0%7C0%7C638245873753484720%7CUnknown%7CTWFpbGZsb3d=
-8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%=
-7C%7C%7C&amp;sdata=3DjtcQryE1wD6%2BpF4edaxZEP3YOr%2FLcaFuR4%2Bt9xvfMek%3D&a=
-mp;reserved=3D0</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10005473=
-3/6875888">
-https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
-penembedded.org%2Fmt%2F100054733%2F6875888&amp;data=3D05%7C01%7Cp.lobacz%40=
-welotec.com%7Cac1be1ea95524118ab5d08db813d9725%7C25111a7f1d5a4c51a4ca7f8e44=
-011b39%7C0%7C0%7C638245873753484720%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjA=
-wMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sda=
-ta=3DHS5OslF4It9P5Uj04GLdM%2FvdVGxqCT96Hv0%2F9Mic4BI%3D&amp;reserved=3D0</a=
-><br>
-&gt; Group Owner: openembedded-core+owner@lists.openembedded.org<br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub">
-https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.o=
-penembedded.org%2Fg%2Fopenembedded-core%2Funsub&amp;data=3D05%7C01%7Cp.loba=
-cz%40welotec.com%7Cac1be1ea95524118ab5d08db813d9725%7C25111a7f1d5a4c51a4ca7=
-f8e44011b39%7C0%7C0%7C638245873753484720%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC=
-4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&am=
-p;sdata=3DsHpcO%2BPtu2dsAtPk9p0lQuU0PoIIG%2FW9bMbIMu9y%2Fw4%3D&amp;reserved=
-=3D0</a>
- [ross.burton@arm.com]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 2.0cm 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"DE" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:bre=
+ak-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">Hello Steve,</span><span lang=3D"EN-US"><=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">&nbsp;</span><span lang=3D"EN-US"><o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">we are using Yocto (Kirkstone) for a new =
+device. We want to build an image which contains an erofs partition.</span>=
+<span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">But bitbake shows the following error:</s=
+pan><span lang=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">&#8220;Wic failed to find a recipe to bui=
+ld native mkfs.erofs. Please file a bug against wic.&#8221;</span><span lan=
+g=3D"EN-US"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">&nbsp;</span><span lang=3D"EN-US"><o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">The problem is already solved in the mast=
+er branch in commit 4e9102a (</span><span style=3D"font-family:&quot;Arial&=
+quot;,sans-serif;color:#595959"><a href=3D"https://git.yoctoproject.org/pok=
+y/commit/?id=3D4e9102a83cd2ac42c39f1d3153a1d3945e4668d5"><span lang=3D"EN-U=
+S">https://git.yoctoproject.org/poky/commit/?id=3D4e9102a83cd2ac42c39f1d315=
+3a1d3945e4668d5</span></a></span><span style=3D"font-family:&quot;Arial&quo=
+t;,sans-serif;color:#595959">
+<span lang=3D"EN-US">).</span></span><span lang=3D"EN-US"><o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">&nbsp;</span><span lang=3D"EN-US"><o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">Is it possible, that you cherrypick the c=
+ommit to the kirkstone branch?</span><span lang=3D"EN-US"><o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">&nbsp;</span><span lang=3D"EN-US"><o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">Thanks and best regards,</span><o:p></o:p=
+></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Aria=
+l&quot;,sans-serif;color:#595959">Heiko</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:#595959"><o:p>&nbsp;</o:p></span></p>
 </div>
-</span></font></div>
+<p style=3D"font-size:8px">eQ-3 Entwicklung GmbH, Maiburger Str. 36, 26789 =
+Leer<br>
+Gesch&auml;ftsf&uuml;hrer: Prof. Heinz-G. Redeker<br>
+Registergericht: Amtsgericht Aurich, HRB 110388</p>
+<p style=3D"font-size:8px">eQ-3 AG, Maiburger Str. 29, 26789 Leer<br>
+Vorstand: Prof. Heinz-G. Redeker (Vorsitzender), Helga Redeker<br>
+Vorsitzende des Aufsichtsrats: Irmgard Keplin<br>
+Registergericht: Amtsgericht Aurich, HRB 200335</p>
 </body>
 </html>
 
---_000_VI1PR04MB53739E01C427B6EE1D35961A9131AVI1PR04MB5373eurp_--
+--_000_BE0P281MB024249FEF2246FD96803CEE9BC31ABE0P281MB0242DEUP_--
 
