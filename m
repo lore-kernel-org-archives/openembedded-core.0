@@ -2,50 +2,48 @@ Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF307C0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE1ECEB64DD
 	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 23:20:08 +0000 (UTC)
 Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.71])
  by mx.groups.io with SMTP id smtpd.web10.1232.1689117602187039250
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 16:20:04 -0700
+ Tue, 11 Jul 2023 16:20:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=S749SeAj;
+ dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=UDtf4jo4;
  spf=pass (domain: welotec.com, ip: 40.107.7.71, mailfrom: p.lobacz@welotec.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S3r3yM4yTCUJ2czeJYtdKP2gi0S1dzyw9Y/pjZyIiJcdzykVrHhnJLyELK7jQu9NSZw3Hk3Wn20WO2IGCOsCxNtmtxLnXDT683xB9/AL97JE8lTOlLX15ufkk25jPT9OnzWIcAR/CS3O5lXGvmQaTMGdNcwWBoDZQGSC2s9GEVmQYMWCzZcExHRt+atJJwxLrVg/nSPTHh5N4yxIaA2yk9HoBHzoWDZtboJXdMLZ7e2V22Grqr2iOknhFpthdEdO4AdjWl2IdmSgh9L0UjRzZxYLeKsX7JduT5NMZVVWlYkTZNelzOwpwaf6kH2pPUEmtJr5mT6L1SPtT+Cw/a4hNQ==
+ b=lvP+p2wUo1luhVp0p8jHGVakg5J64phJuxM6/PXEgoeP4Y/Nsna3d4j584oedoBouSusVPd9i3PhxYy/jN2+U4mDH5WYe47jJ2EohVV4u1n8XPjDJo+eZtk2zOHLNxeqitvoSTd7xQzKabPVQwY0xdcJEuza89WRcqctBSgivmQJtZxvAevXxUJMTpK6sp7D4FYimXiw9WSa33kqAJ03uyPrYPXaB2pmM9xrXt/dB6ztsdvUBkLMszJmaaaoiSxFFs6PBzw/HDP7KBdE8TOWQiKwmQU4BVrE7oaDeS7KSWhGFBaXVseYRrYFPRgZ9PphO59Kdjf/E+QIZHrfeCZkZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CTC5d9cFZLco+vd0/AoIQn43FClyQ9XtBClvXJ8g+Bk=;
- b=XGbSeli8eA0Y3cjS+3cjrpDEy0zNzVZvjyJTiIfWSvJiZDVp0A2RJ3s5Xa7e5mK7RHsVAiJ4AZe5jo6oCIG0/jlvsA9BQoxvXyUmgjKzWTAs0f1VYJhBkEmWmv4AK6ll4Z7NvnouljwLZ2Uz1Q2e4UOdc7Pp+fs5ZF0TavhjzhIZERezXGeJh14e+IG7rf3S6n/u65+yX6FXyoZolVchzsgbL/txaeSNUtW4HFzZDJyLNeMOzrZthRjHitjk58kDMZetYyCv92RRQKsv38qBC2aXgbvgjnkZ4S6nSC2FJ7INTI04+sI9cQLebFa0sRGj+7vfnfjCSFrGhC7L0jspWw==
+ bh=mWza4x5sMKGr6WA3VgA4NcjzrhWX++jvVfN8ud+M9Wo=;
+ b=JYM6+Q8IHrd9wKVVrHAM+2HqV0dG5vXmYYxwNmVG9OiYMSTICwDqn5NDBL18PRN+kYvZ9GMM5ugqP3Sv9qnw8QZLTcoQezKWdyi0xFvxyU6C4mAmodjfHQy2ZpLnqNsicqUHpRzM2OC1/KuQ5gVQaS0ucuopTqNeBG3qOIAe5hL7tAiqQ2gTwZCbBRK3O3EdEVbmNXoBWSP1/TIBFfVKvAiRjsc3wpkY6QmA9yD2JWaNcZyVXhm3WcKGcmV2uX6cKpxKb9hKvluFjJpqOzFM8lmf3tH2ewpUNEy0p8J9vCFJ266aLRK0yoZHde5WRTN6iAbLe+/jV2Lm9AjeYifdvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
  dkim=pass header.d=welotec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CTC5d9cFZLco+vd0/AoIQn43FClyQ9XtBClvXJ8g+Bk=;
- b=S749SeAjltA0I58UcnarEd8gF56nmjghRAX7qNelTXuSCr0y5J6TH7QxKJpuS9WyIa9/O1D6A6RQaPoP/dLA6JeviQK2hbaw9a8z9GSfAuexu41AOWe2CvzzqSszHMrm+q84zPysq0LHEZOCabBw5XCLSXPZCkoGWNGTx+Z/STs=
+ bh=mWza4x5sMKGr6WA3VgA4NcjzrhWX++jvVfN8ud+M9Wo=;
+ b=UDtf4jo4xKJjvgauLe+rQxVjYNVZbdtsIXQl3b6qkyD8HC8DyAZubSyu2VkjIPfG8V6vpjLVMeFY9L6vNO2lhHCbGps7r9qR4YNRYhzeLp6woaQkNIPYN9MNnw5idsj0UwS4AW+Yr2/KIEBTyWVGqsGwpMOGUgbuKnj7iI7sNBM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=welotec.com;
 Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
  by PAXPR04MB8511.eurprd04.prod.outlook.com (2603:10a6:102:212::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 11 Jul
- 2023 23:20:01 +0000
+ 2023 23:19:57 +0000
 Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
  ([fe80::9b11:6096:b359:6fe4]) by VI1PR04MB5373.eurprd04.prod.outlook.com
  ([fe80::9b11:6096:b359:6fe4%6]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 23:20:00 +0000
+ 23:19:57 +0000
 From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
 To: openembedded-core@lists.openembedded.org
 CC: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
-Subject: [OE-Core][PATCH 2/2] opkg: add options to enable support for acl and xattr
-Date: Wed, 12 Jul 2023 01:18:47 +0200
-Message-ID: <20230711231847.2211186-2-p.lobacz@welotec.com>
+Subject: [OE-Core][PATCH 1/2] opkg-utils: add acl and xattr support
+Date: Wed, 12 Jul 2023 01:18:46 +0200
+Message-ID: <20230711231847.2211186-1-p.lobacz@welotec.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230711231847.2211186-1-p.lobacz@welotec.com>
-References: <20230711231847.2211186-1-p.lobacz@welotec.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-ClientProxiedBy: BE1P281CA0285.DEUP281.PROD.OUTLOOK.COM
@@ -54,185 +52,184 @@ X-ClientProxiedBy: BE1P281CA0285.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5373:EE_|PAXPR04MB8511:EE_
-X-MS-Office365-Filtering-Correlation-Id: cef2b6e3-3579-4864-24e2-08db8265597e
+X-MS-Office365-Filtering-Correlation-Id: e866b7ba-59e3-4738-3861-08db8265571e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	DBC2APuLpmhtdsC/KHCVSz2EBeEuQLlNGZpZ7I/KeGpOkbYfG6TQUt0eK5Oof8S3V8A2y6yonwMjoR1KO66BK3VkDMs/crvbFrwaDQJ4fgLnVDe0ybDnbrlmj75GHOPTKkFCvRCqt2VXxSZ6GW4Ujt8YknN9MMRGlzKN2YCgxi6Ffs+CdNTvWBlUZ/cx3sN1335WpT/q2v7gzVwzpPw4IkuQ2T8iaZPI9weAGYunXyfQWUKpTULi7IrpvlZG1Q1PtkybdFKpxKwlyl3zh5/OtKdMGlXOJtFkVaFeXht0IXCdqtpOSoTIr8olnmK8LUp9HdqKH6bs6dOoPurTYTaxBxRA3apiNxP4od1uDywo1UGVGxRY4neXRKovoRIH2uU+dxkDT+8DHPZ2YH5xIjoGnXtxvl4rGnMcc9Fa3cNPpO1K1F1j1P24QtLtjRn+7QNebyu/6XAGjPinftPt7yXTud1Voy+9Wcm0/72NHPhYWDG2Lrp3Du/1rbXW4ArCQfHkqlDBNs3ftomJDjpWFiKZYIWVRYMREbtBv8DQKWiiMgMfo/fKQmsn55fo/LXRDnSBl01xPaqkY3ZYt7+OBAadnxS64bLkhgQ0Y1/I0bTxylY=
+	GRQxNX33i86ZTHLm59HcP/Iy8dyHY8frV8/qIhfdHjSCVvpciuiB5Ii5A0rmTtymCrcMl/6MmYAfrSKSMBhXV53UdewUZkGvErcrkQpTU06ngmtaPkA+wc4cVXqVG5l/EE1V2F/nl2Ax4j+vLE8G1BYr7lR1VFfh2vVrbfiPWRogbW6pjlGTlBE9hzK7/V7Mb3DlMy2i3gGE7DIFIprmq0o4b4jIaQ55j9ztZmI0t/f7OPmpnWMWpRyahrjR5FP1Xc/AMJsy0a5161IE4JiVQFxZoUaqxVMg7Ypd60ppI/RK49Sb71Wl/02aixVV72laJepJbOHvjP0u2JlslP4ly7LUS0NcW4JIsAeUtDw8jiIPFbXbew84VNO/oLZly754xLy+sLCtF/3ooBy1aztWqf6HBFT6mIawVTRhkOBRO7NV4CzhrSsiEbJ7shj4K1subcJECngmRxLyhj3wPsQvRqxvyiByPyZ8OgimZbJ+d3fJ7hfgS6qndl1hKYywhaY4lvnfVTRGJnCg3CXJaG4p16paScbfcQopxFiS50dxcmIvc1dMNHe6f5bHC4bTDv3Qg35yow3iNmQpYfqJTbbeiFwqs2M5NbV2vLFbdiuNW40=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(346002)(39840400004)(136003)(451199021)(36756003)(2906002)(478600001)(6666004)(966005)(86362001)(6486002)(41300700001)(52116002)(26005)(5660300002)(8676002)(8936002)(66946007)(316002)(38100700002)(6506007)(4326008)(66556008)(38350700002)(66476007)(1076003)(6512007)(107886003)(83380400001)(186003)(66574015)(6916009)(2616005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(376002)(346002)(39840400004)(136003)(451199021)(36756003)(2906002)(478600001)(6666004)(86362001)(6486002)(41300700001)(52116002)(26005)(5660300002)(8676002)(8936002)(66946007)(316002)(38100700002)(6506007)(4326008)(66556008)(38350700002)(66476007)(1076003)(6512007)(107886003)(83380400001)(186003)(66574015)(6916009)(2616005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ADbCAsBFXjZoqDK+gfViSmcCxiatZswcXt2VXaqjFr4e4TsSmb18SKbCyl/V?=
- =?us-ascii?Q?t8IKWkn8I3rDIlYZylfYtdnqOjHVqOLf1xfPeL1xZLfFQ4An9QULC7AiZeZy?=
- =?us-ascii?Q?BIiKAuw/eDaRtpIgi101rB4dv2gZFkyXymf0WOtWd8AFeszvqNu3N7HMwdbM?=
- =?us-ascii?Q?/6otIPiUWIJW+vy08Fwxyq7vPrQwfvVHUcQoNUpOrtIAWXUInr2XbCpbu+aQ?=
- =?us-ascii?Q?unCCcQgNRKmWbnbq01se8gmnudRWcMnUVvexfF3hPGr819/gB02drKYOCvsW?=
- =?us-ascii?Q?zXTtjDrzVqtPZcqqZ9VFg2hxUBgPmKOvhPYFbwZ5Vzt5Ss8Y2d8fwo6lZ3Jk?=
- =?us-ascii?Q?OcJsiZVKYuw9cpf5JJWPtbOzMM/yKbmUvaXrkPfQvvjN+RstA9Q0rWDeAzYQ?=
- =?us-ascii?Q?3bbbhQv+Fd849DZ8bIFBEXHnNYT1OTXzHTDTPtXAIJeQxnOAsbRK7RMcfnL5?=
- =?us-ascii?Q?8Nt9/Cy08Pu3OA7L9uxwPoQIwUNkAm6xl+bvzbfUZ5dJAx9abadfq+eIqbC1?=
- =?us-ascii?Q?6Gpzh69PTRK/vXfAaVGFm9yrmJU1AlAKPDAW/XYGidHNiWXWbEmtcAr6yxIm?=
- =?us-ascii?Q?Qojep6gGPCPlDXtbNxTw3L/o0bv6XUDtlO23+8Y1HBubH7Y3z48kUi518p6D?=
- =?us-ascii?Q?RncZHX91v/w7eoTAQMnHlphBhhjH5tzTIyflQowLu/RMNCeICrbyD9N67xWv?=
- =?us-ascii?Q?h7ik5ENXehEygQ+wCnC1dElR8dK9Spa0hH9P7C1qolT/sHeDOkJKtvxiXl8P?=
- =?us-ascii?Q?J8w5spRT7EikGCxEPDMp5hE03dGwqKSrgDrcifXYA3gDfs9dN926toyhAJKu?=
- =?us-ascii?Q?jSWZEw2lzbNl8uknVW5vtkxYxnROnxoXtXbtEnjjTKPG727I5Tu0CcG8rYKc?=
- =?us-ascii?Q?9WUSsl8iB9epQYn5fWQsdPUcM87auzFdCCUUhjy2rVW8aROUVUrWUkxuiY0p?=
- =?us-ascii?Q?BeBFLGyYjK5fL+uwb7P8HLXp+r4jwCD37b36LVhR9klEspx8kJ/dhrrGiY/c?=
- =?us-ascii?Q?UyaMuorz2O5Ne4IS9gMhxvb4hF0+iUyk7jUOStKvn8VhWTbQU5N9hjwxZf4H?=
- =?us-ascii?Q?xLr668HseUIUtwRngWY6i0SWg/XL8dszRCIXeCqve79X1OxaHqtEUQr1+8Px?=
- =?us-ascii?Q?mZrVsnjKixegRImtOAjJMahX7K4kQD+V+PiRcBvqAETMCjzPSRXX/mve+6zO?=
- =?us-ascii?Q?qZ5mIiR68HFDLDy7o3gNtz/FV4xFgIRGReDPkUbgMEMOH62OfIuEEhxXrx8P?=
- =?us-ascii?Q?zd+4bB9Ie0VXciWPwKa1eoCGqfSzJUkg5NhC4qkur0azgnCqlzdAUBtqbFfj?=
- =?us-ascii?Q?5wTSsN3x2tjFL0DIy5PMk1qEkx/648GRzbv70M9Py7T3kAV7NgH954wOrbbK?=
- =?us-ascii?Q?D9Csz4Pp3qEEQiSi2i1oV8YaMrGQiNyTvM+lxlS1+wzASmkevCOkgsHsSbur?=
- =?us-ascii?Q?kvEQ+pwMaKISH2uwydT7xRSn+MXQmY5/882iP1QIxQx81SbbnCB2IZ/O81z/?=
- =?us-ascii?Q?SqLC4RBXRxJR4q0/ZmReap6PNR3paKL8S5JqVr9Gjnr527B7t0x2ob2bmV4l?=
- =?us-ascii?Q?7h7P8KLt4X+OOHloHnX6c4GiOzV54PqgjB9xiIq2?=
+	=?us-ascii?Q?aDlJNGyOd3IB4bWBZH2p+M13VniXMv0rnRHNWZRVfugEZb26FODv36jA0RrZ?=
+ =?us-ascii?Q?2wwYRitqenEMbCXrQwbQTRgp/8J4GSGy66s3Pgukqru9DDyP98A7HtVSJ0+j?=
+ =?us-ascii?Q?Dx0RGWabizxlO4Fdxo7amQOE1zYX2siDTHCUo8wX2KuAfxNA1+bcTtJfxB/7?=
+ =?us-ascii?Q?S5nhW63owRUKggdxpo+xHmEIgsVI2ix6K3StvXdK8iip4paYRWQCmxhgRGwC?=
+ =?us-ascii?Q?1vfgMDxKtK+7NmSV2CpovljmjYTDYS1jwnxmJSLmEUpkiYa2zO87Zw4eVqh2?=
+ =?us-ascii?Q?Y70wzHOCbfhmJAiJyMUEL2+4ywD9zqnpJrhW+Px5AnT8lQ/FDMcMa+TIhsLy?=
+ =?us-ascii?Q?3cEepJMQhNDHkKjkMrDZonILfWwWRzg4Z7j5KB8aIdcmEizDFC1pyoNgIAmd?=
+ =?us-ascii?Q?qiSCOaRYDmKs9I0rlrJTNd5EKCNwer6ddvjxHrHQcan3oZ6e1aAyzRrKD525?=
+ =?us-ascii?Q?5X17C5Pvp2fjPYxgp713a/uzVJSvSzezpjHsZl3zXPwjb+C7NM7e5mn18afQ?=
+ =?us-ascii?Q?aal9s8fW0thjRD9JwkRZmnpuaYTETBSlvLZsDoc1dxH1u6HGHNbM4aouLnps?=
+ =?us-ascii?Q?FRqYLYyXN/RNwxEaaFfROgGmgANoxJCHkZ3DOZbGL+OcF51ffgR/5FXIkwXO?=
+ =?us-ascii?Q?XWvVVonic/fw0rHzxmnhWQt6fwyFKAoF7SxFzNO1+afS4Xipn+xuI/kG6T9i?=
+ =?us-ascii?Q?VKvVsYMXALDNk6+2Gq23aYEpWKPnGrYQ0pXWsrjA8O8mxwBcxd4Rwim6hHvI?=
+ =?us-ascii?Q?gj1yinvTLfXHL7kr52lq1oV5AvGdB33mE3Cs8uwDeQN2+Uq1gg+lY2o2gMAx?=
+ =?us-ascii?Q?otow9E9PFuyzFC2E4T2jXVZBxAOSeXQ9XSkhrM9Jm5GOhJL+TS2cOnSLn6RO?=
+ =?us-ascii?Q?1AtBJqnBalfHdy0S6j7QuIn15c/YiYoQXfT3PdMJ9LyU2uG0Q7CdIDh4YqeS?=
+ =?us-ascii?Q?k8KRpLUSfi1oGHpcczAjepIRxJgyFG6TPZkqtxq9iu4OPrbjBuOp4brx4Wk0?=
+ =?us-ascii?Q?9BEsG7veSS3G0mJnmHu2ZdS7xkPG97xe7q47f41kUqUUvqJsq3DW0XBQnjY2?=
+ =?us-ascii?Q?fGOdYCjIhNCnTQjhOZ91u+CvxZkRaxXxjvrZ0V1u00H79/3LObrRzo7+pZHJ?=
+ =?us-ascii?Q?eine7Bm17rVfa+zqfl/I8vAu0/JQWfJDJE3HAoLFw3MU4fTWtgRyIrwocPm0?=
+ =?us-ascii?Q?wodTyH8GWjEleoczdUAxs1XxMaRxXoT7tSPrh9CUrApTamaZM6/79bFdkd/M?=
+ =?us-ascii?Q?VcoBAcSV8J5c63MhTH1BnY1Yn91a8nr0BQD411k36VIKLTRTRUoOGwF2v4de?=
+ =?us-ascii?Q?226B0c6x/qnCnGOM9ZfOxIhMYV1jGDo6o3xuEwQC9o6Mt0yMRLiBEFM/Amn3?=
+ =?us-ascii?Q?e/wbWQOgvPudoqSwvFhc4OMThxXLN3DuGeiochsWMYW+P+ynJUgcaVPbFxHX?=
+ =?us-ascii?Q?HBbfkENj/1Q2fsMYDG1P+7/w4EovtRARoL3gKwyAicakr3qKKtGMnC0dkMsU?=
+ =?us-ascii?Q?rBUZu5NKHdoyRL/ZgBZVpdFUwnX1bl05LY/yYgI4VV1SFlBSECL7EB/rP0fO?=
+ =?us-ascii?Q?cVrLzt0kZddE9y62lp5gJh9EgWOUkVPYTzT/EJU+?=
 X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cef2b6e3-3579-4864-24e2-08db8265597e
+X-MS-Exchange-CrossTenant-Network-Message-Id: e866b7ba-59e3-4738-3861-08db8265571e
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2023 23:20:00.9085
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2023 23:19:56.9498
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4zgI6rDGbCB4nBCFcnLJcTmhLtrSvDKDV4zhxJTH+97fd3obIqjp2ninOA/MXg2qiZted2lKgm4tggFgAuykCg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: GaV0yM/yr3bVaEV35bfx4tIbz5oImTnuxHnjZHMTQpg0spTb0S4ar7FzrzH1abyn/94UdybrviUvOXa+Iw0XBQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8511
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 23:20:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184157
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184156
 
-The libarchive library, which is being used by opkg, supports ACLs
-and xattr already.
+Add support for tar archives created with --acls and/or --xattrs options,
+PAX header format.
 
-More informations can be read at this link:
-https://github.com/libarchive/libarchive/pull/691
+GNU tar and libarchive already supports ACLs and extended attributes.
+We can now add this support as well to opkg-build script in order to use
+fsetattr or setcap inside do_install command and end up with a file in
+an image with the relevant ACLs and xattrs.
 
 Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
 ---
- ...-to-enable-support-for-acl-and-xattr.patch | 66 +++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.6.1.bb      |  5 +-
- 2 files changed, 70 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0002-Add-options-to-ena=
-ble-support-for-acl-and-xattr.patch
+ ...kg-build-Add-acls-and-xattrs-support.patch | 70 +++++++++++++++++++
+ .../opkg-utils/opkg-utils_0.5.0.bb            |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-b=
+uild-Add-acls-and-xattrs-support.patch
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0002-Add-options-to-enable-sup=
-port-for-acl-and-xattr.patch b/meta/recipes-devtools/opkg/opkg/0002-Add-opt=
-ions-to-enable-support-for-acl-and-xattr.patch
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Ad=
+d-acls-and-xattrs-support.patch b/meta/recipes-devtools/opkg-utils/opkg-uti=
+ls/0002-opkg-build-Add-acls-and-xattrs-support.patch
 new file mode 100644
-index 0000000000..30823798fb
+index 0000000000..08ecf969a8
 --- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0002-Add-options-to-enable-support-fo=
-r-acl-and-xattr.patch
-@@ -0,0 +1,66 @@
-+From 32a1926496a670513439cf22c248d18f6b7d087d Mon Sep 17 00:00:00 2001
-+From: Maciej Liszewski <m.liszewski@welotec.com>
-+Date: Tue, 4 Jul 2023 22:01:58 +0200
-+Subject: [PATCH] Add options to enable support for acl and xattr
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0002-opkg-build-Add-acls-=
+and-xattrs-support.patch
+@@ -0,0 +1,70 @@
++From f177abcba7d72fa1afd0bc23f38beb4fe88fc040 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Piotr=3D20=3DC5=3D81obacz?=3D <p.lobacz@welotec.com>
++Date: Wed, 5 Jul 2023 10:31:13 +0200
++Subject: [PATCH] opkg-build: add acl and xattr support
 +
-+The libarchive library, which is being used by opkg, supports ACLs
-+and xattr already.
++Add support for tar archives created with --acls and/or --xattrs options,
++PAX header format.
 +
-+More informations can be read at this link:
-+https://github.com/libarchive/libarchive/pull/691
-+
-+Signed-off-by: Maciej Liszewski <m.liszewski@welotec.com>
-+Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
++GNU tar and libarchive already supports ACLs and extended attributes.
++We can now add this support as well to opkg-build script in order to use
++fsetattr or setcap inside do_install command and end up with a file in
++an image with the relevant ACLs and xattrs.
 +---
-+ configure.ac           | 12 ++++++++++++
-+ libopkg/opkg_archive.c |  8 ++++++++
-+ 2 files changed, 20 insertions(+)
++ opkg-build | 15 ++++++++++-----
++ 1 file changed, 10 insertions(+), 5 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 389a818..46949cd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -158,6 +158,18 @@ return OPENSSL_VERSION_NUMBER; ],
-+   AC_SUBST(OPENSSL_LIBS)
++diff --git a/opkg-build b/opkg-build
++index a9e45d4..8d9bcfa 100755
++--- a/opkg-build
+++++ b/opkg-build
++@@ -145,6 +145,7 @@ You probably want to chown these to a system user: " >=
+&2
++ ###
++ # opkg-build "main"
++ ###
+++attributesargs=3D""
++ ogargs=3D""
++ outer=3Dar
++ noclean=3D0
++@@ -166,7 +167,7 @@ compressorargs=3D""
++ tarformat=3D""
++ if tar --help 2>&1 | grep -- "--format" > /dev/null;
++ then
++-    tarformat=3D"--format=3Dgnu"
+++    tarformat=3D"--format=3Dposix"
 + fi
 +=20
-++# check for ACL support
-++AC_ARG_WITH([acl], [AS_HELP_STRING([--with-acl], [Enable ACL support])])
-++if test "x$with_acl" =3D "xyes"; then
-++  AC_DEFINE([ENABLE_ACL], [1], [Enable ACL support])
-++fi
-++
-++# check for xattr support
-++AC_ARG_WITH([xattr], [AS_HELP_STRING([--with-xattr], [Enable xattr suppor=
-t])])
-++if test "x$with_xattr" =3D "xyes"; then
-++  AC_DEFINE([ENABLE_XATTR], [1], [Enable xattr support])
-++fi
-++
-+ # check for libsolv solver
-+ AC_ARG_WITH(libsolv, AC_HELP_STRING([--with-libsolv], [Use libsolv solver=
- support.
-+   ]), [], [with_libsolv=3D"no"])
-+diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
-+index 03a4afb..8dd902d 100644
-+--- a/libopkg/opkg_archive.c
-++++ b/libopkg/opkg_archive.c
-+@@ -912,6 +912,14 @@ struct opkg_ar *ar_open_pkg_data_archive(const char *=
-filename)
-+     ar->extract_flags =3D ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM |
-+         ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_UNLINK | ARCHIVE_EXTRACT_N=
-O_OVERWRITE;
++ compressor_ext() {
++@@ -197,13 +198,17 @@ compressor_ext() {
++ : <<=3Dcut
++ =3Dhead1 SYNOPSIS
 +=20
-++#ifdef ENABLE_ACL
-++    ar->extract_flags |=3D ARCHIVE_EXTRACT_ACL;
-++#endif
-++
-++#ifdef ENABLE_XATTR
-++    ar->extract_flags |=3D ARCHIVE_EXTRACT_FFLAGS | ARCHIVE_EXTRACT_XATTR=
-;
-++#endif
-++
-+     if (opkg_config->ignore_uid)
-+         ar->extract_flags &=3D ~ARCHIVE_EXTRACT_OWNER;
++-B<opkg-build> [B<-c>] [B<-C>] [B<-Z> I<compressor>] [B<-a>] [B<-O>] [B<-o=
+> I<owner>] [B<-g> I<group>] I<pkg_directory> [I<destination_directory>]
+++B<opkg-build> [B<-A>] [B<-X>] [B<-c>] [B<-C>] [B<-Z> I<compressor>] [B<-a=
+>] [B<-O>] [B<-o> I<owner>] [B<-g> I<group>] I<pkg_directory> [I<destinatio=
+n_directory>]
 +=20
++ =3Dcut
++=20
++-usage=3D"Usage: $0 [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-=
+o owner] [-g group] <pkg_directory> [<destination_directory>]"
++-while getopts "a:cCg:ho:vOZ:" opt; do
+++usage=3D"Usage: $0 [-A] [-X] [-c] [-C] [-Z compressor] [-a compressor_arg=
+s] [-O] [-o owner] [-g group] <pkg_directory> [<destination_directory>]"
+++while getopts "Aa:cCg:ho:vOXZ:" opt; do
++     case $opt in
+++        A ) attributesargs=3D"--acls"
+++            ;;
+++        X ) attributesargs=3D"$attributesargs --xattrs"
+++            ;;
++ 	o ) owner=3D$OPTARG
++ 	    ogargs=3D"--owner=3D$owner"
++ 	    ;;
++@@ -314,7 +319,7 @@ export LANG=3DC
++ export LC_ALL=3DC
++ ( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
++ ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | s=
+ort > $tmp_dir/file_list )
++-( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion $mtime_args -c $ta=
+rformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data=
+.tar.$cext )
+++( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --no-recursion $m=
+time_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs=
+ > $tmp_dir/data.tar.$cext )
++ ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion --mtime=
+=3D@$build_date -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $t=
+mp_dir/control.tar.gz )
++ rm $tmp_dir/file_list
++ rm $tmp_dir/control_list
 +--=20
 +2.34.1
 +
-diff --git a/meta/recipes-devtools/opkg/opkg_0.6.1.bb b/meta/recipes-devtoo=
-ls/opkg/opkg_0.6.1.bb
-index 4c25fe963a..2cac4af644 100644
---- a/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-@@ -17,6 +17,7 @@ SRC_URI =3D "http://downloads.yoctoproject.org/releases/$=
-{BPN}/${BPN}-${PV}.tar.gz
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-ru=
-n.patch \
-            file://0002-opkg-key-remove-no-options-flag-from-gpg-calls.patc=
-h \
-            file://0001-Define-alignof-using-_Alignof-when-using-C11-or-new=
-e.patch \
-+           file://0002-Add-options-to-enable-support-for-acl-and-xattr.pat=
-ch \
-            file://run-ptest \
- "
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb b/meta/re=
+cipes-devtools/opkg-utils/opkg-utils_0.5.0.bb
+index b27e3ded33..edf730711e 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb
+@@ -9,6 +9,7 @@ PROVIDES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'updat=
+e-alternatives', 'virtu
 =20
-@@ -32,8 +33,10 @@ inherit autotools pkgconfig ptest
- target_localstatedir :=3D "${localstatedir}"
- OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
+ SRC_URI =3D "git://git.yoctoproject.org/opkg-utils;protocol=3Dhttps;branch=
+=3Dmaster \
+            file://0001-update-alternatives-correctly-match-priority.patch =
+\
++           file://0002-opkg-build-Add-acls-and-xattrs-support.patch \
+            "
+ SRCREV =3D "9239541f14a2529b9d01c0a253ab11afa2822dab"
 =20
--PACKAGECONFIG ??=3D "libsolv"
-+PACKAGECONFIG ??=3D "libsolv ${@bb.utils.filter('DISTRO_FEATURES', 'acl xa=
-ttr', d)}"
-=20
-+PACKAGECONFIG[acl] =3D "--with-acl,--without-acl"
-+PACKAGECONFIG[xattr] =3D "--with-xattr,--without-xattr"
- PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,\
-     gnupg gpgme libgpg-error,\
-     ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}\
 --=20
 2.34.1
 
