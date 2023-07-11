@@ -1,322 +1,657 @@
-Return-Path: <alexander.sverdlin@siemens.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B988CEB64DC
-	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 07:05:27 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.54])
- by mx.groups.io with SMTP id smtpd.web11.2021.1689059117262744414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B45EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 11 Jul 2023 07:29:27 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.2308.1689060562289895698
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jul 2023 00:05:18 -0700
+ Tue, 11 Jul 2023 00:29:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=lFSm1d+P;
- spf=pass (domain: siemens.com, ip: 40.107.8.54, mailfrom: alexander.sverdlin@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OEz+WK79W+ILTmjiKVrxGLMHYwxX7N/aqBFha39kPppn4htuG2gSUmud8NAx9dCPUiyGo55X4PPioWr3/O4+hBE/0pd7lcxiZycyqZeyeInFpWJQHoYqGits61xMOxqPdD8KfMPFVO80465Rl2lYwsMtVcF6z5EoivNv8OpPKmIwSY2F+iIaL8/aiIFJYt39WsQvhidiVB30nxaLrLxhRXxEfBw7TBBLuLpctsOUCbnTmZm2JWDz0kV2wNZP6SddwBfVNC28FcMyia9t3FjgxvjsG03735DHHtdaj2x7OrdeOgY9snDkckNnCwJ7BgEmn1wFhwuBN5sispc8tDgsCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lqP4gA11Z60vxA+Gpq8LMCyaSh+90sZInz7qdCGFZYQ=;
- b=GBjZ2nO9oDDEgrhAQHkVX9gnWqz7Z9q/PIPStXsAxtQRnwaLZ6xnkU1xlAOScZ08i9tUQcCF+AD5JOvZwfXO370p47ANKTqHgqQeaJc0GIl8N3f11kei7Y8ktrApC1ttg8fwncRMZU3dIJQ6Md4LggSda9K2T5D0J/TWZY6jTZMcojewUajWBCg9EEkHA5uM17WsAaVWGhTiW/KH4UAWbbfL98jd7sOAv69b06lEaDxdXjaKukNbKLvXnRtvl4UlUcWwqkCROikQEttwtRpE1a87j+exzQAjP9pkZ6nL1Fro/EM0AsVgOF0dEo3vAs40zMHU+R3At2vcXdAmKGMFpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lqP4gA11Z60vxA+Gpq8LMCyaSh+90sZInz7qdCGFZYQ=;
- b=lFSm1d+PNVlGe5pMuFYivDh7n4HcD2i5///fE4/MoHtXDWOBPSKMtv5NeepmA6aV26OM4J4TGT8Ap6FpFnNo88OBOaXVHLNa0SJsH5Rbx8ncSWHz+xTIy0rQ+3O7eCAIUKdI0ErIwWvAguXAaH2pnnq31nuBJBNFf9i3cSRSfcb/dlR0ZodcSAwUBzquOVcsTtTjBZ5UvNFdHkGAJAqZ9fw3p7AxHxwwLbggSw5Lo4Bn3Dx4UAon3ScKpTAsMposY4ICwYGO21gL/+Yg22xjR77kTzE4xnms92hGEAFl1ij37tQBtR69GAwK/FXx5iNec+K94yD1RIewBcGmVPYE7Q==
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
- by DU0PR10MB6178.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3e9::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Tue, 11 Jul
- 2023 07:05:12 +0000
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c056:6a8e:6bed:d7e1]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c056:6a8e:6bed:d7e1%7]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 07:05:12 +0000
-From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-To: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=FYpC/ePV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-314417861b9so5412131f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 00:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689060561; x=1691652561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c4tbFHcqMBWU6/+uNgwqXtl12N3p4yxb6MmWGBYK7Gg=;
+        b=FYpC/ePVfvaCHUxh2cjIsdPJW1+nw3osUE/1hJmmiRvoXvdCekgGF9Xsjh60dSJUp1
+         IDUlpJa470n75zVLFr35NcZNtfjsoorcYJ6iFaCAEoa+S47PloqGkcsFYtzHeN84Ietp
+         +/VVCL5zgoNq/hLZm9RbrSa9xP2r0UVExFuiYSPPXBl+05fp/E3RQFb/WXOk5v3Xae16
+         ZSXlbuFWAK4U/S3RFhmhg5g31/gmEAriy3TB4qltfSf5uVbdwF6o2NfQ4+vzWExZckQh
+         43GzxY6V/UqRmNLSfur2olp4N4rH1EeW/L+x38BcLwsaHNi7PnYBCW71OmpywAe4tKc5
+         hKSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689060561; x=1691652561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c4tbFHcqMBWU6/+uNgwqXtl12N3p4yxb6MmWGBYK7Gg=;
+        b=Kay7VXzkrYjvM4xbL4ZmcTqzopA2vlHFjAnXhrLr3w3XZcfFBPkEaIpl2+ls+2YFp6
+         o8uMKr7YTJtM/2P0c0x9X0+GS1Zx3NETyQyoKzQRkWmtxCbDd1voa0aZGwKvRfrhjeOL
+         Cy04RYtqsQpmyt54dPwKBSawjK20lze7wzdQJg4Hr/UlQe/qUXNr99hd/I4ZykV76TWo
+         IeU98eawHuSvzRR5sQ6fSOdk9aPGcMV7lJtkF0pdOOxxMtbvc/IRogA6kXCReh2H7WBK
+         CwbHHHHjHCEm7ttXgHiwwhIvC6GxavZUP+QYjQyCvsRkZKR5zcRHWTIv525FPaT74yDC
+         Ks0Q==
+X-Gm-Message-State: ABy/qLZ+Gpo8NwVs9e05/ZJ9YVLQt88Hw3uuogOFZ73iavlV4of+EDNx
+	21Ah+ZgmwAxLudQZmF+vneVpZ8dREV1ONWOkiLs=
+X-Google-Smtp-Source: APBJJlHR2jrBBkzhZ2egO3X2Y7o6FFWwFhCfZzw4QoDlloj9r7gIzgROi1gmeDWwxHpx6eJAmFTgjoWBaTeIc7CQK1Y=
+X-Received: by 2002:adf:fe01:0:b0:314:23b:dc56 with SMTP id
+ n1-20020adffe01000000b00314023bdc56mr10691213wrr.71.1689060560339; Tue, 11
+ Jul 2023 00:29:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230710171504.867425-1-alexander.sverdlin@siemens.com>
+ <CANPvuRkp4vJhTDADs93mBQG+keCsKBfz+N5E0tYr+TDYHBjciA@mail.gmail.com> <dc8e26c1c115aca3fdc23158c36daa201498b988.camel@siemens.com>
+In-Reply-To: <dc8e26c1c115aca3fdc23158c36daa201498b988.camel@siemens.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 11 Jul 2023 09:29:09 +0200
+Message-ID: <CA+chaQcFSRD8jw8fcwECe=8jd8Jb-s37KXqBW3EbxdCohBP39w@mail.gmail.com>
 Subject: Re: [OE-core] [kirkstone][PATCH v2] rust-llvm: backport a fix for
  build with gcc-13
-Thread-Topic: [OE-core] [kirkstone][PATCH v2] rust-llvm: backport a fix for
- build with gcc-13
-Thread-Index: AQHZs1IY2sKEVu0Q9EiporLqstL8Fq+znYAAgACH7IA=
-Date: Tue, 11 Jul 2023 07:05:12 +0000
-Message-ID: <dc8e26c1c115aca3fdc23158c36daa201498b988.camel@siemens.com>
-References: <20230710171504.867425-1-alexander.sverdlin@siemens.com>
-	 <CANPvuRkp4vJhTDADs93mBQG+keCsKBfz+N5E0tYr+TDYHBjciA@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRkp4vJhTDADs93mBQG+keCsKBfz+N5E0tYr+TDYHBjciA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|DU0PR10MB6178:EE_
-x-ms-office365-filtering-correlation-id: 64f93b3f-e0e1-487c-6afe-08db81dd2bc5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- rHKWTlNQSrJHSnWTIxIH4yEGvvingUVgyH2lFFGSJrLkZGdXWAk+ZfQ8JVWxaxSSplRGCYNKxobJvhcTXrb2JjubDQ1X1T6k3Ph+gzpiPu/Z7bYOaA6n5LQReu2863VZurehHwIOrk7lv+XMg1+NSDLvsdCbDNTUPJP9C/CABBUq4VreMO8RJD1XtlpIC5rOo7XqRgCKwJZPYWm+BLTHSzmGiiUHobZ8eyBZbFv/E5HIeFWa5i13MWNWM3eHEnsRgrXnPDrAEnzhUHrFTmfQUVDoW6Z7SJLRXr9x0sPv48ZDMFftS46LCgrBLj2nKRL1Tc5TQ3u7DRYRPXF0SdA/iL/ws9C4K4s03VZftqEw9FFYaX7FI7kh8190Nss9vaWtDNHprNPdMsbE2kotYnK9VPl08IKr9fW3OOjbdQq/AspfSaiBZCEoGD1BheUH0raCb4GsDDFnFWcUNbYM4ktER1f/6rq49k2d/mGhwoujjkxSJDDNBcurs2GsAQliPJ0ODBpME/4CiBuatFkqWSrnqUelLRlG02HTX/Mmkgafd1BobQNcT5AJBCvTQgiwri5XScdnsde/LmQm8gg/aAb8iI3XiBNpWcGKfbrN1SDMM10hH6zyqKwO6soce0+HCXON
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(396003)(366004)(136003)(39860400002)(451199021)(6486002)(478600001)(76116006)(91956017)(19627235002)(71200400001)(6506007)(26005)(186003)(6512007)(966005)(66946007)(2906002)(30864003)(41300700001)(66476007)(4326008)(316002)(5660300002)(66446008)(8936002)(66556008)(6916009)(38100700002)(64756008)(122000001)(8676002)(82960400001)(36756003)(86362001)(15974865002)(38070700005)(83380400001)(2616005)(84970400001)(18886075002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?RGVzSFl0WVBvUWZqdUQ0ZjVDN0JxRFFsWW5QaDJQUWx1d1lOYmROU3pPVUpq?=
- =?utf-8?B?TzFDeWJSc3IvTjJ2alVteVloN1AvMU9TeTZsVlFodHNpVzY3Z2I0K05razdm?=
- =?utf-8?B?UHlhVktHQm9semtBREU5dzBFOXFMalFWdU14U0w4RVZDT3FVdm5FWUJSOTRt?=
- =?utf-8?B?eSsxMW5BWmtnNlRsZjl4bHhIQkFnQ1p3M0NMS0JjcmQrTzdNNFIrWUFDY2Vt?=
- =?utf-8?B?ajFhaFhNZ0RaVHYyeWphNVlWbzVEaWdPNlJZMTAwNXl0dFRYV3o4eDVVQkU2?=
- =?utf-8?B?MmNrcDUvakJSa243dFRVUVJqQ3pFRlRIa2paS2x0a2FBcms4QlNaZEl4dkdE?=
- =?utf-8?B?eTJiTng2eFRqakZPbTFJNHBWOURXZlZtaTF3NnFhc0M5STRTNzZIaWRPUlo2?=
- =?utf-8?B?VWswZE1TZDFyYmtlU3Q4U1dOWVJkSWZCS2phUEtraWRZaTQ0TEc5Y3pLVU9k?=
- =?utf-8?B?QlJ1bktuZHZHNEEyNENYNmhmRUxsWmoyLytqVjYyaS9QRmFldlIxQXdtdlQ5?=
- =?utf-8?B?eFRRK2VMa0JRdkY5VmJPYlNTU0tJeEFUYzNnSm1kbnh2Sm9xK3NzcTBWcmFu?=
- =?utf-8?B?OFd1MmdPQW1YTXdjNGozVHRIYTdqZTNIYnNDQnBnN0RaLzRwZ0tzOUFpbGx0?=
- =?utf-8?B?WTE5ZFIrRCt1ZitBSjZSMWUweU5MelNoS0x5R3g5Wlg1dGsyVE9sZk9BcDFs?=
- =?utf-8?B?S2hyTmhLN2lHaERsQ1pwdEtQUktIV0pvZlVPaVBucElyU1ljcjFlNHV5d0Y4?=
- =?utf-8?B?TXI1QmxBSlo1M0hyUDNEbFNMcTR2SDFWR2FCQjRzVVZlT1Rpb0RRS3F6Qjgv?=
- =?utf-8?B?TjczNHFVN25BZGxmQVJsNWFpSTBWVlk0NXhFNXU5MFdVMGtEUGZqcUhrd3Fu?=
- =?utf-8?B?OTAwV05zSTQxcEoydHZzektJRlZHWERNMUMvcmYxSFJPUnBxZnVjWDdtQTBX?=
- =?utf-8?B?Slp0blVOVFhZVVhBMHJEdE5KZDNScXJFcjRmWXZaQ0drRVpjUjRLay95T0hK?=
- =?utf-8?B?RUJvbGRGamtqUkUvcEtpRDdVaGFYbDJhdGV4aWxqVVRRWDlUSWpJaXBEUmdN?=
- =?utf-8?B?Z0p2RmJXUDA1eTlJYWxJZGJpeFV2dzJBVkI1RXZwZ1UzUnJka1pGN0daemlz?=
- =?utf-8?B?RlJUbDBIcmo3cWhIL2NndlBOM0NYK042eExvR3JiUGlqNFJNVHh0ZEQzU2E4?=
- =?utf-8?B?THVEcTN1VTg1YjNESlZoVW9EcGdHY3FCdkZuTytYRVl5UXh6eWZxZGtlc2Vr?=
- =?utf-8?B?N1BvZTFLYWRybGdCWGJ2M091SVEwdk14QUt6MWNibmtWVkZ6elpzVlcrTVg3?=
- =?utf-8?B?REhoVEdFdmZtK09aUG1oRFN6NGdFSlNtTTVYandXUDJWbVFJVGVZM2IrNVpL?=
- =?utf-8?B?RVRFMHpiSkFwRXBqTVNsVkc3ck9oTCt5djErZFlvVTVCQ0szd3RjeGxsVjlG?=
- =?utf-8?B?amF1c2FjQjBDUVNCTG5EVzlPbGxLdVN0azBVOS9LeUZlaWJ3UUZqRC9PajRF?=
- =?utf-8?B?cFI5UzdIbWVWMzJENDgwamZXb1BxdWJMR05ZeWhuQ1pKSFE0Q0llUS93UllB?=
- =?utf-8?B?UzZ5M2NQNG1BVGd2Tm5DN1Y2ZGYyTmJVelNJQ3lRYnVyeHFONU0rWHNyRnF2?=
- =?utf-8?B?TnNBMERiNDF4K0Z2U01DWmUwdnpZNzM3V2xFQlBCYjJJSmM0Y0dXNmZoUnB4?=
- =?utf-8?B?Q1B2VUkxd281VzhIR3c1bFVNVzFndlR5NDZnZ1M0MG9EZmVDdGNIUEFweStv?=
- =?utf-8?B?RWY3YUkzSGh0Z0JhRDdqWUdKQkpTcytkSVliaDQyb0FHc2NMbHJBMTEzeW4z?=
- =?utf-8?B?N3RKdEJLNVdRYVNpcGRYMXVaSXJjeDcrMGVoUmNHT0VPb1YvZjN2eThDbGNE?=
- =?utf-8?B?VUY1ZXJOTkcvVkZQaC9CZmNZWWsxL1psWW43NTZET3M2Z1YxN0xsWVBUejdQ?=
- =?utf-8?B?cEhoblpXUGNuUVIzcUtjMHpnQmdzQjdPZFFiajdVTVgwMnpPZkplMkNYZW12?=
- =?utf-8?B?eTFKMTdXU0dOaVc0Q09sbWh0WXJ3Y3NxaGN6TFlyY0lkYjNpaWJUemJhWnJJ?=
- =?utf-8?B?VitweEFrUWF6N3JmYnBhZzUwSEtwR1NyeEFMUXk0V1dOOTBjSDJ3eWNCVkZw?=
- =?utf-8?B?UkRhUzZOWUZ1d1Y0eU85UmhrUXBuYWhsWjA1TUJEMWxEbXArMW4zYVBPUW5n?=
- =?utf-8?Q?7T0ucosDkn7xVD5oUXgmLEY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <681A921A9623124A85273E4215DB77EF@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64f93b3f-e0e1-487c-6afe-08db81dd2bc5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 07:05:12.4912
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3TXZyOenwim3iiUYk9Zp6uHYnsruwIowjRxeaRQof6WeE4694D4wAGU/ALm8q014pcXI3bKfMY83wOTTc2+mWEK1csdSAQIsbXfklvMmjF8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6178
+To: alexander.sverdlin@siemens.com
+Cc: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b40a050600310e16"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 07:05:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184117
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jul 2023 07:29:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184118
 
-SGVsbG8gSm9zZSwNCg0KT24gTW9uLCAyMDIzLTA3LTEwIGF0IDIzOjU4ICswMTAwLCBKb3NlIFF1
-YXJlc21hIHdyb3RlOg0KPiBIaSBBbGV4YW5kZXIsDQo+IA0KPiBUaGUgdW5pbmF0aXZlIHJlbGVh
-c2Ugd2l0aCB0aGUgZ2NjIDEzwqB3YXMgcmVsZWFzZWQgYSBmZXcgd2Vla3MgYWdvLA0KPiB3aGF0
-IGlzIHRoZSByZWFzb24gZm9yIHRoaXMgaXNzdWUgbm90IGJlaW5nIGZvdW5kIG9uIHRoZSBhdXRv
-YnVpbGQgd2hlbiB1c2luZyB0aGUgdW5pbmF0aXZlPw0KDQpJJ20gbm90IHN1cmUgd2h5IGl0IHdh
-c24ndCBmb3VuZCBieSAoYW5kIHdoYXQgYWN0dWFsbHkgaXMgYmVpbmcgbWVhbnQgYXMpIGF1dG9i
-dWlsZCwgYnV0IHRoZSBpc3N1ZSBpcyByZWFsOg0KDQpERUJVRzogRXhlY3V0aW5nIHNoZWxsIGZ1
-bmN0aW9uIGRvX2NvbXBpbGUNCk5PVEU6IFZFUkJPU0U9MSBjbWFrZSAtLWJ1aWxkIC4uLi90bXAv
-d29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvYnVpbGQgLS10YXJn
-ZXQgYWxsIC0tDQpbMS8yMjgzXSAuLi4vdG1wL2hvc3R0b29scy9nKysgLURHVEVTVF9IQVNfUlRU
-ST0wIC1EX0dOVV9TT1VSQ0UgLURfX1NURENfQ09OU1RBTlRfTUFDUk9TIC1EX19TVERDX0ZPUk1B
-VF9NQUNST1MgLURfX1NURENfTElNSVRfTUFDUk9TIC1JLi4uL3RtcC93b3JrL3g4Nl82NC1saW51
-eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC0NCnIwL2J1aWxkL3V0aWxzL1RhYmxlR2VuIC1JLi4u
-L3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC9ydXN0Yy0x
-LjU5LjAtc3JjL3NyYy9sbHZtLXByb2plY3QvbGx2bS91dGlscy9UYWJsZUdlbiAtSS4uLi90bXAv
-d29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtDQpyMC9idWlsZC9pbmNs
-dWRlIC1JLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1y
-MC9ydXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLXByb2plY3QvbGx2bS9pbmNsdWRlIC1pc3lzdGVt
-Li4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC9yZWNp
-cGUtc3lzcm9vdC0NCm5hdGl2ZS91c3IvaW5jbHVkZSAtTzIgLXBpcGUgLWZQSUMgLWZuby1zZW1h
-bnRpYy1pbnRlcnBvc2l0aW9uIC1mdmlzaWJpbGl0eS1pbmxpbmVzLWhpZGRlbiAtV2Vycm9yPWRh
-dGUtdGltZSAtV2FsbCAtV2V4dHJhIC1Xbm8tdW51c2VkLXBhcmFtZXRlciAtV3dyaXRlLXN0cmlu
-Z3MgLVdjYXN0LXF1YWwgLVduby1taXNzaW5nLWZpZWxkLQ0KaW5pdGlhbGl6ZXJzIC1wZWRhbnRp
-YyAtV25vLWxvbmctbG9uZyAtV2ltcGxpY2l0LWZhbGx0aHJvdWdoIC1Xbm8tbWF5YmUtdW5pbml0
-aWFsaXplZCAtV25vLWNsYXNzLW1lbWFjY2VzcyAtV25vLXJlZHVuZGFudC1tb3ZlIC1Xbm8tcGVz
-c2ltaXppbmctbW92ZSAtV25vLW5vZXhjZXB0LXR5cGUgLVdkZWxldGUtbm9uLXZpcnR1YWwtZHRv
-ciAtDQpXc3VnZ2VzdC1vdmVycmlkZSAtV25vLWNvbW1lbnQgLVdtaXNsZWFkaW5nLWluZGVudGF0
-aW9uIC1mZGlhZ25vc3RpY3MtY29sb3IgLWZmdW5jdGlvbi1zZWN0aW9ucyAtZmRhdGEtc2VjdGlv
-bnMgLUROREVCVUcgIC1mbm8tZXhjZXB0aW9ucyAtZm5vLXJ0dGkgLXN0ZD1jKysxNCAtTUQgLU1U
-IHV0aWxzL1RhYmxlR2VuL0NNYWtlRmlsZXMvbGx2bS0NCnRibGdlbi5kaXIvQXR0cmlidXRlcy5j
-cHAubyAtTUYgdXRpbHMvVGFibGVHZW4vQ01ha2VGaWxlcy9sbHZtLXRibGdlbi5kaXIvQXR0cmli
-dXRlcy5jcHAuby5kIC1vIHV0aWxzL1RhYmxlR2VuL0NNYWtlRmlsZXMvbGx2bS10YmxnZW4uZGly
-L0F0dHJpYnV0ZXMuY3BwLm8gLWMgLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0t
-DQpuYXRpdmUvMS41OS4wLXIwL3J1c3RjLTEuNTkuMC1zcmMvc3JjL2xsdm0tcHJvamVjdC9sbHZt
-L3V0aWxzL1RhYmxlR2VuL0F0dHJpYnV0ZXMuY3BwDQpbMi8yMjgzXSAuLi4vdG1wL2hvc3R0b29s
-cy9nKysgLURHVEVTVF9IQVNfUlRUST0wIC1EX0dOVV9TT1VSQ0UgLURfX1NURENfQ09OU1RBTlRf
-TUFDUk9TIC1EX19TVERDX0ZPUk1BVF9NQUNST1MgLURfX1NURENfTElNSVRfTUFDUk9TIC1JLi4u
-L3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC0NCnIwL2J1aWxk
-L2xpYi9TdXBwb3J0IC1JLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZl
-LzEuNTkuMC1yMC9ydXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLXByb2plY3QvbGx2bS9saWIvU3Vw
-cG9ydCAtSS4uLi90bXAvd29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAt
-cjAvYnVpbGQvaW5jbHVkZSAtDQpJLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0t
-bmF0aXZlLzEuNTkuMC1yMC9ydXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLXByb2plY3QvbGx2bS9p
-bmNsdWRlIC1pc3lzdGVtLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZl
-LzEuNTkuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2luY2x1ZGUgLU8yDQotcGlwZSAt
-ZlBJQyAtZm5vLXNlbWFudGljLWludGVycG9zaXRpb24gLWZ2aXNpYmlsaXR5LWlubGluZXMtaGlk
-ZGVuIC1XZXJyb3I9ZGF0ZS10aW1lIC1XYWxsIC1XZXh0cmEgLVduby11bnVzZWQtcGFyYW1ldGVy
-IC1Xd3JpdGUtc3RyaW5ncyAtV2Nhc3QtcXVhbCAtV25vLW1pc3NpbmctZmllbGQtaW5pdGlhbGl6
-ZXJzIC1wZWRhbnRpYyAtV25vLQ0KbG9uZy1sb25nIC1XaW1wbGljaXQtZmFsbHRocm91Z2ggLVdu
-by1tYXliZS11bmluaXRpYWxpemVkIC1Xbm8tY2xhc3MtbWVtYWNjZXNzIC1Xbm8tcmVkdW5kYW50
-LW1vdmUgLVduby1wZXNzaW1pemluZy1tb3ZlIC1Xbm8tbm9leGNlcHQtdHlwZSAtV2RlbGV0ZS1u
-b24tdmlydHVhbC1kdG9yIC1Xc3VnZ2VzdC1vdmVycmlkZSAtV25vLWNvbW1lbnQgLQ0KV21pc2xl
-YWRpbmctaW5kZW50YXRpb24gLWZkaWFnbm9zdGljcy1jb2xvciAtZmZ1bmN0aW9uLXNlY3Rpb25z
-IC1mZGF0YS1zZWN0aW9ucyAtRE5ERUJVRyAtc3RkPWMrKzE0ICAtZm5vLWV4Y2VwdGlvbnMgLWZu
-by1ydHRpIC1NRCAtTVQgbGliL1N1cHBvcnQvQ01ha2VGaWxlcy9MTFZNU3VwcG9ydC5kaXIvU2ln
-bmFscy5jcHAubyAtTUYNCmxpYi9TdXBwb3J0L0NNYWtlRmlsZXMvTExWTVN1cHBvcnQuZGlyL1Np
-Z25hbHMuY3BwLm8uZCAtbyBsaWIvU3VwcG9ydC9DTWFrZUZpbGVzL0xMVk1TdXBwb3J0LmRpci9T
-aWduYWxzLmNwcC5vIC1jIC4uLi90bXAvd29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2
-ZS8xLjU5LjAtcjAvcnVzdGMtMS41OS4wLXNyYy9zcmMvbGx2bS0NCnByb2plY3QvbGx2bS9saWIv
-U3VwcG9ydC9TaWduYWxzLmNwcA0KRkFJTEVEOiBsaWIvU3VwcG9ydC9DTWFrZUZpbGVzL0xMVk1T
-dXBwb3J0LmRpci9TaWduYWxzLmNwcC5vIA0KLi4uL3RtcC9ob3N0dG9vbHMvZysrIC1ER1RFU1Rf
-SEFTX1JUVEk9MCAtRF9HTlVfU09VUkNFIC1EX19TVERDX0NPTlNUQU5UX01BQ1JPUyAtRF9fU1RE
-Q19GT1JNQVRfTUFDUk9TIC1EX19TVERDX0xJTUlUX01BQ1JPUyAtSS4uLi90bXAvd29yay94ODZf
-NjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvYnVpbGQvbGliL1N1cHBvcnQgLQ0K
-SS4uLi90bXAvd29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvcnVz
-dGMtMS41OS4wLXNyYy9zcmMvbGx2bS1wcm9qZWN0L2xsdm0vbGliL1N1cHBvcnQgLUkuLi4vdG1w
-L3dvcmsveDg2XzY0LWxpbnV4L3J1c3QtbGx2bS1uYXRpdmUvMS41OS4wLXIwL2J1aWxkL2luY2x1
-ZGUgLUkuLi4vdG1wL3dvcmsveDg2XzY0LQ0KbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAt
-cjAvcnVzdGMtMS41OS4wLXNyYy9zcmMvbGx2bS1wcm9qZWN0L2xsdm0vaW5jbHVkZSAtaXN5c3Rl
-bS4uLi90bXAvd29yay94ODZfNjQtbGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvcmVj
-aXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9pbmNsdWRlIC1PMiAtcGlwZSAtZlBJQyAtZm5vLQ0Kc2Vt
-YW50aWMtaW50ZXJwb3NpdGlvbiAtZnZpc2liaWxpdHktaW5saW5lcy1oaWRkZW4gLVdlcnJvcj1k
-YXRlLXRpbWUgLVdhbGwgLVdleHRyYSAtV25vLXVudXNlZC1wYXJhbWV0ZXIgLVd3cml0ZS1zdHJp
-bmdzIC1XY2FzdC1xdWFsIC1Xbm8tbWlzc2luZy1maWVsZC1pbml0aWFsaXplcnMgLXBlZGFudGlj
-IC1Xbm8tbG9uZy1sb25nIC0NCldpbXBsaWNpdC1mYWxsdGhyb3VnaCAtV25vLW1heWJlLXVuaW5p
-dGlhbGl6ZWQgLVduby1jbGFzcy1tZW1hY2Nlc3MgLVduby1yZWR1bmRhbnQtbW92ZSAtV25vLXBl
-c3NpbWl6aW5nLW1vdmUgLVduby1ub2V4Y2VwdC10eXBlIC1XZGVsZXRlLW5vbi12aXJ0dWFsLWR0
-b3IgLVdzdWdnZXN0LW92ZXJyaWRlIC1Xbm8tY29tbWVudCAtV21pc2xlYWRpbmctDQppbmRlbnRh
-dGlvbiAtZmRpYWdub3N0aWNzLWNvbG9yIC1mZnVuY3Rpb24tc2VjdGlvbnMgLWZkYXRhLXNlY3Rp
-b25zIC1ETkRFQlVHIC1zdGQ9YysrMTQgIC1mbm8tZXhjZXB0aW9ucyAtZm5vLXJ0dGkgLU1EIC1N
-VCBsaWIvU3VwcG9ydC9DTWFrZUZpbGVzL0xMVk1TdXBwb3J0LmRpci9TaWduYWxzLmNwcC5vIC1N
-Rg0KbGliL1N1cHBvcnQvQ01ha2VGaWxlcy9MTFZNU3VwcG9ydC5kaXIvU2lnbmFscy5jcHAuby5k
-IC1vIGxpYi9TdXBwb3J0L0NNYWtlRmlsZXMvTExWTVN1cHBvcnQuZGlyL1NpZ25hbHMuY3BwLm8g
-LWMgLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC9y
-dXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLQ0KcHJvamVjdC9sbHZtL2xpYi9TdXBwb3J0L1NpZ25h
-bHMuY3BwDQpJbiBmaWxlIGluY2x1ZGVkIGZyb20gLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9y
-dXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC9ydXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLXByb2pl
-Y3QvbGx2bS9saWIvU3VwcG9ydC9TaWduYWxzLmNwcDoxNDoNCi4uLi90bXAvd29yay94ODZfNjQt
-bGludXgvcnVzdC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvcnVzdGMtMS41OS4wLXNyYy9zcmMvbGx2
-bS1wcm9qZWN0L2xsdm0vaW5jbHVkZS9sbHZtL1N1cHBvcnQvU2lnbmFscy5oOjExOTo4OiBlcnJv
-cjogdmFyaWFibGUgb3IgZmllbGQg4oCYQ2xlYW51cE9uU2lnbmFs4oCZIGRlY2xhcmVkIHZvaWQN
-CiAgMTE5IHwgICB2b2lkIENsZWFudXBPblNpZ25hbCh1aW50cHRyX3QgQ29udGV4dCk7DQogICAg
-ICB8ICAgICAgICBefn5+fn5+fn5+fn5+fn4NCi4uLi90bXAvd29yay94ODZfNjQtbGludXgvcnVz
-dC1sbHZtLW5hdGl2ZS8xLjU5LjAtcjAvcnVzdGMtMS41OS4wLXNyYy9zcmMvbGx2bS1wcm9qZWN0
-L2xsdm0vaW5jbHVkZS9sbHZtL1N1cHBvcnQvU2lnbmFscy5oOjExOToyNDogZXJyb3I6IOKAmHVp
-bnRwdHJfdOKAmSB3YXMgbm90IGRlY2xhcmVkIGluIHRoaXMgc2NvcGUNCiAgMTE5IHwgICB2b2lk
-IENsZWFudXBPblNpZ25hbCh1aW50cHRyX3QgQ29udGV4dCk7DQogICAgICB8ICAgICAgICAgICAg
-ICAgICAgICAgICAgXn5+fn5+fn5+DQouLi4vdG1wL3dvcmsveDg2XzY0LWxpbnV4L3J1c3QtbGx2
-bS1uYXRpdmUvMS41OS4wLXIwL3J1c3RjLTEuNTkuMC1zcmMvc3JjL2xsdm0tcHJvamVjdC9sbHZt
-L2luY2x1ZGUvbGx2bS9TdXBwb3J0L1NpZ25hbHMuaDoxODoxOiBub3RlOiDigJh1aW50cHRyX3Ti
-gJkgaXMgZGVmaW5lZCBpbiBoZWFkZXIg4oCYPGNzdGRpbnQ+4oCZOyBkaWQgeW91IGZvcmdldCB0
-bw0K4oCYI2luY2x1ZGUgPGNzdGRpbnQ+4oCZPw0KICAgMTcgfCAjaW5jbHVkZSA8c3RyaW5nPg0K
-ICArKysgfCsjaW5jbHVkZSA8Y3N0ZGludD4NCiAgIDE4IHwgDQpJbiBmaWxlIGluY2x1ZGVkIGZy
-b20gLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC9y
-dXN0Yy0xLjU5LjAtc3JjL3NyYy9sbHZtLXByb2plY3QvbGx2bS9saWIvU3VwcG9ydC9TaWduYWxz
-LmNwcDoyNTE6DQouLi4vdG1wL3dvcmsveDg2XzY0LWxpbnV4L3J1c3QtbGx2bS1uYXRpdmUvMS41
-OS4wLXIwL3J1c3RjLTEuNTkuMC1zcmMvc3JjL2xsdm0tcHJvamVjdC9sbHZtL2xpYi9TdXBwb3J0
-L1VuaXgvU2lnbmFscy5pbmM6MzQ4OjQ0OiBlcnJvcjog4oCYdm9pZCBsbHZtOjpzeXM6OkNsZWFu
-dXBPblNpZ25hbCh1aW50cHRyX3Qp4oCZIHNob3VsZCBoYXZlIGJlZW4NCmRlY2xhcmVkIGluc2lk
-ZSDigJhsbHZtOjpzeXPigJkNCiAgMzQ4IHwgdm9pZCBzeXM6OkNsZWFudXBPblNpZ25hbCh1aW50
-cHRyX3QgQ29udGV4dCkgew0KICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXg0KDQouLi4NCg0KbmluamE6IGJ1aWxkIHN0b3BwZWQ6IHN1YmNvbW1hbmQg
-ZmFpbGVkLg0KV0FSTklORzogLi4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0
-aXZlLzEuNTkuMC1yMC90ZW1wL3J1bi5kb19jb21waWxlLjU1Njk0NToxNjIgZXhpdCAxIGZyb20g
-J2V2YWwgJHtERVNURElSOitERVNURElSPSR7REVTVERJUn0gfVZFUkJPU0U9MSBjbWFrZSAtLWJ1
-aWxkICcuLi4vdG1wL3dvcmsveDg2XzY0LWxpbnV4L3J1c3QtDQpsbHZtLW5hdGl2ZS8xLjU5LjAt
-cjAvYnVpbGQnICIkQCIgLS0gJHtFWFRSQV9PRUNNQUtFX0JVSUxEfScNCldBUk5JTkc6IEJhY2t0
-cmFjZSAoQkIgZ2VuZXJhdGVkIHNjcmlwdCk6IA0KCSMxOiBjbWFrZV9ydW5jbWFrZV9idWlsZCwg
-Li4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC90ZW1w
-L3J1bi5kb19jb21waWxlLjU1Njk0NSwgbGluZSAxNjINCgkjMjogY21ha2VfZG9fY29tcGlsZSwg
-Li4uL3RtcC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC90ZW1w
-L3J1bi5kb19jb21waWxlLjU1Njk0NSwgbGluZSAxNTYNCgkjMzogZG9fY29tcGlsZSwgLi4uL3Rt
-cC93b3JrL3g4Nl82NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC90ZW1wL3J1bi5k
-b19jb21waWxlLjU1Njk0NSwgbGluZSAxNTENCgkjNDogbWFpbiwgLi4uL3RtcC93b3JrL3g4Nl82
-NC1saW51eC9ydXN0LWxsdm0tbmF0aXZlLzEuNTkuMC1yMC90ZW1wL3J1bi5kb19jb21waWxlLjU1
-Njk0NSwgbGluZSAxNzUNCg0KDQo+IFdpdGggdGhlIGNsYW5nwqB0b29sY2hhaW4gdGhpcyBpc3N1
-ZSBbMV0gY29tZXMgcmlnaHTCoGFmdGVyIHRoZSB1bmluYXRpdmUgd2l0aCBnY2MtMTMgd2FzIHJl
-bGVhc2VkLg0KPiBbMV0gaHR0cHM6Ly9naXRodWIuY29tL2tyYWovbWV0YS1jbGFuZy9wdWxsLzgx
-Ng0KPiANCj4gSm9zZQ0KPiANCj4gQS4gU3ZlcmRsaW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgPGFsZXhhbmRlci5zdmVyZGxpbj1zaWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PiBlc2NyZXZldSBubyBkaWEgc2VndW5kYSwgMTAvMDcvMjAyMyDDoChzKSAxODoxNToNCj4gPiBG
-cm9tOiBBbGV4YW5kZXIgU3ZlcmRsaW4gPGFsZXhhbmRlci5zdmVyZGxpbkBzaWVtZW5zLmNvbT4N
-Cj4gPiANCj4gPiAqIG5lZWRlZCBmb3IgcnVzdC1sbHZtLW5hdGl2ZSBvbiBob3N0cyB3aXRoIGdj
-Yy0xMw0KPiA+IA0KPiA+IEJhc2VkIG9uIGNvbW1pdCAzMzgyNzU5Y2I2YzUgKCJsbHZtOiBiYWNr
-cG9ydCBhIGZpeCBmb3IgYnVpbGQgd2l0aCBnY2MtMTMiKQ0KPiA+IA0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IEFsZXhhbmRlciBTdmVyZGxpbiA8YWxleGFuZGVyLnN2ZXJkbGluQHNpZW1lbnMuY29tPg0K
-PiA+IC0tLQ0KPiA+IENoYW5nZWxvZzoNCj4gPiB2MjogcmViYXNlIG9udG8gMjAyMi0wNC4xMS1r
-aXJrc3RvbmUNCj4gPiANCj4gPiDCoG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3QtbGx2
-bS5pbmPCoCDCoCDCoCB8wqAgNCArKy0NCj4gPiDCoC4uLi1taXNzaW5nLWNzdGRpbnQtaGVhZGVy
-LXRvLVNpZ25hbHMuaC5wYXRjaCB8IDMyICsrKysrKysrKysrKysrKysrKysNCj4gPiDCoDIgZmls
-ZXMgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+IMKgY3JlYXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3QtbGx2bS8wMDAzLVN1
-cHBvcnQtQWRkLW1pc3NpbmctY3N0ZGludC1oZWFkZXItdG8tU2lnbmFscy5oLnBhdGNoDQo+ID4g
-DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3QtbGx2bS5p
-bmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVzdC9ydXN0LWxsdm0uaW5jDQo+ID4gaW5kZXgg
-NWMyY2NkYWM5YS4uZTY0NWU3YTdhYyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVzdC9ydXN0LWxsdm0uaW5jDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3J1c3QvcnVzdC1sbHZtLmluYw0KPiA+IEBAIC0zLDcgKzMsOSBAQCBMSUNFTlNFID89ICJBcGFj
-aGUtMi4wLXdpdGgtTExWTS1leGNlcHRpb24iDQo+ID4gwqBIT01FUEFHRSA9ICJodHRwOi8vd3d3
-LnJ1c3QtbGFuZy5vcmciDQo+ID4gDQo+ID4gwqBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMi1sbHZt
-LWFsbG93LWVudi1vdmVycmlkZS1vZi1leGUtcGF0aC5wYXRjaDtzdHJpcGxldmVsPTIgXA0KPiA+
-IC3CoCDCoCDCoCDCoCDCoCDCoCBmaWxlOi8vMDAwMS1Bc21NYXRjaGVyRW1pdHRlci1zb3J0LUNs
-YXNzSW5mby1saXN0cy1ieS1uYW1lLWFzLXdlLnBhdGNoO3N0cmlwbGV2ZWw9MiINCj4gPiArwqAg
-wqAgwqAgwqAgwqAgwqAgZmlsZTovLzAwMDEtQXNtTWF0Y2hlckVtaXR0ZXItc29ydC1DbGFzc0lu
-Zm8tbGlzdHMtYnktbmFtZS1hcy13ZS5wYXRjaDtzdHJpcGxldmVsPTIgIFwNCj4gPiArwqAgwqAg
-wqAgwqAgwqAgwqAgZmlsZTovLzAwMDMtU3VwcG9ydC1BZGQtbWlzc2luZy1jc3RkaW50LWhlYWRl
-ci10by1TaWduYWxzLmgucGF0Y2g7c3RyaXBsZXZlbD0yICBcDQo+ID4gKyINCj4gPiANCj4gPiDC
-oFMgPSAiJHtSVVNUU1JDfS9zcmMvbGx2bS1wcm9qZWN0L2xsdm0iDQo+ID4gDQo+ID4gZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydXN0L3J1c3QtbGx2bS8wMDAzLVN1cHBvcnQt
-QWRkLW1pc3NpbmctY3N0ZGludC1oZWFkZXItdG8tU2lnbmFscy5oLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1c3QvcnVzdC1sbHZtLzAwMDMtU3VwcG9ydC1BZGQtbWlzc2luZy1jc3Rk
-aW50LWhlYWRlci10by0NCj4gPiBTaWduYWxzLmgucGF0Y2gNCj4gPiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLjZlZDIzYWE5YzUNCj4gPiAtLS0gL2Rldi9udWxs
-DQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1c3QvcnVzdC1sbHZtLzAwMDMtU3Vw
-cG9ydC1BZGQtbWlzc2luZy1jc3RkaW50LWhlYWRlci10by1TaWduYWxzLmgucGF0Y2gNCj4gPiBA
-QCAtMCwwICsxLDMyIEBADQo+ID4gK0Zyb20gYTk0YmYzNDIyMWZjNDUxOWJkOGVjNzI1NjBjMmQz
-NjNmZmUyZGU0YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gPiArRnJvbTogU2VyZ2VpIFRy
-b2ZpbW92aWNoIDxzbHlpY2hAZ21haWwuY29tPg0KPiA+ICtEYXRlOiBNb24sIDIzIE1heSAyMDIy
-IDA4OjAzOjIzICswMTAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gW1N1cHBvcnRdIEFkZCBtaXNz
-aW5nIDxjc3RkaW50PiBoZWFkZXIgdG8gU2lnbmFscy5oDQo+ID4gKw0KPiA+ICtXaXRob3V0IHRo
-ZSBjaGFuZ2UgbGx2bSBidWlsZCBmYWlscyBvbiB0aGlzIHdlZWsncyBnY2MtMTMgc25hcHNob3Qg
-YXM6DQo+ID4gKw0KPiA+ICvCoCDCoCBbwqAgMCVdIEJ1aWxkaW5nIENYWCBvYmplY3QgbGliL1N1
-cHBvcnQvQ01ha2VGaWxlcy9MTFZNU3VwcG9ydC5kaXIvU2lnbmFscy5jcHAubw0KPiA+ICvCoCDC
-oCBJbiBmaWxlIGluY2x1ZGVkIGZyb20gbGx2bS9saWIvU3VwcG9ydC9TaWduYWxzLmNwcDoxNDoN
-Cj4gPiArwqAgwqAgbGx2bS9pbmNsdWRlL2xsdm0vU3VwcG9ydC9TaWduYWxzLmg6MTE5Ojg6IGVy
-cm9yOiB2YXJpYWJsZSBvciBmaWVsZCAnQ2xlYW51cE9uU2lnbmFsJyBkZWNsYXJlZCB2b2lkDQo+
-ID4gK8KgIMKgIMKgIDExOSB8wqAgwqB2b2lkIENsZWFudXBPblNpZ25hbCh1aW50cHRyX3QgQ29u
-dGV4dCk7DQo+ID4gK8KgIMKgIMKgIMKgIMKgIHzCoCDCoCDCoCDCoCBefn5+fn5+fn5+fn5+fn4N
-Cj4gPiArDQo+ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2xsdm1vcmctMTUuMC4wIGZm
-MTY4MWRkYjMwMzIyMzk3MzY1M2Y3ZjVmM2YzNDM1YjQ4YTE5ODNdDQo+ID4gK1NpZ25lZC1vZmYt
-Ynk6IE1hcnRpbiBKYW5zYSA8TWFydGluLkphbnNhQGdtYWlsLmNvbT4NCj4gPiArU2lnbmVkLW9m
-Zi1ieTogQWxleGFuZGVyIFN2ZXJkbGluIDxhbGV4YW5kZXIuc3ZlcmRsaW5Ac2llbWVucy5jb20+
-DQo+ID4gKy0tLQ0KPiA+ICsgbGx2bS9pbmNsdWRlL2xsdm0vU3VwcG9ydC9TaWduYWxzLmggfCAx
-ICsNCj4gPiArIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiA+ICsNCj4gPiArZGlm
-ZiAtLWdpdCBhL2xsdm0vaW5jbHVkZS9sbHZtL1N1cHBvcnQvU2lnbmFscy5oIGIvbGx2bS9pbmNs
-dWRlL2xsdm0vU3VwcG9ydC9TaWduYWxzLmgNCj4gPiAraW5kZXggNDRmNWE3NTBmZjVjLi45Mzdl
-MDU3MmQ0YTcgMTAwNjQ0DQo+ID4gKy0tLSBhL2xsdm0vaW5jbHVkZS9sbHZtL1N1cHBvcnQvU2ln
-bmFscy5oDQo+ID4gKysrKyBiL2xsdm0vaW5jbHVkZS9sbHZtL1N1cHBvcnQvU2lnbmFscy5oDQo+
-ID4gK0BAIC0xNCw2ICsxNCw3IEBADQo+ID4gKyAjaWZuZGVmIExMVk1fU1VQUE9SVF9TSUdOQUxT
-X0gNCj4gPiArICNkZWZpbmUgTExWTV9TVVBQT1JUX1NJR05BTFNfSA0KPiA+ICsgDQo+ID4gKysj
-aW5jbHVkZSA8Y3N0ZGludD4NCj4gPiArICNpbmNsdWRlIDxzdHJpbmc+DQo+ID4gKyANCj4gPiAr
-IG5hbWVzcGFjZSBsbHZtIHsNCg0KLS0gDQpBbGV4YW5kZXIgU3ZlcmRsaW4NClNpZW1lbnMgQUcN
-Cnd3dy5zaWVtZW5zLmNvbQ0K
+--000000000000b40a050600310e16
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+FWIW: the uninative with gcc-13 means only that it is compatible with
+gcc-13 on host, it doesn't include gcc-native (which doesn't exist).
+
+I'm using already newer rust with kirkstone, so I cannot confirm this issue
+with gcc-13 on host, but I'm not so surprised if it wasn't caught on AB yet=
+.
+
+Regards,
+
+On Tue, Jul 11, 2023 at 9:05=E2=80=AFAM A. Sverdlin via lists.openembedded.=
+org
+<alexander.sverdlin=3Dsiemens.com@lists.openembedded.org> wrote:
+
+> Hello Jose,
+>
+> On Mon, 2023-07-10 at 23:58 +0100, Jose Quaresma wrote:
+> > Hi Alexander,
+> >
+> > The uninative release with the gcc 13 was released a few weeks ago,
+> > what is the reason for this issue not being found on the autobuild when
+> using the uninative?
+>
+> I'm not sure why it wasn't found by (and what actually is being meant as)
+> autobuild, but the issue is real:
+>
+> DEBUG: Executing shell function do_compile
+> NOTE: VERBOSE=3D1 cmake --build
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/build --target all -=
+-
+> [1/2283] .../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE
+> -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-
+> r0/build/utils/TableGen
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/s=
+rc/llvm-project/llvm/utils/TableGen
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-
+> r0/build/include
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/s=
+rc/llvm-project/llvm/include
+> -isystem.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/recipe-sysro=
+ot-
+> native/usr/include -O2 -pipe -fPIC -fno-semantic-interposition
+> -fvisibility-inlines-hidden -Werror=3Ddate-time -Wall -Wextra
+> -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-
+> initializers -pedantic -Wno-long-long -Wimplicit-fallthrough
+> -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-redundant-move
+> -Wno-pessimizing-move -Wno-noexcept-type -Wdelete-non-virtual-dtor -
+> Wsuggest-override -Wno-comment -Wmisleading-indentation
+> -fdiagnostics-color -ffunction-sections -fdata-sections -DNDEBUG
+> -fno-exceptions -fno-rtti -std=3Dc++14 -MD -MT utils/TableGen/CMakeFiles/=
+llvm-
+> tblgen.dir/Attributes.cpp.o -MF
+> utils/TableGen/CMakeFiles/llvm-tblgen.dir/Attributes.cpp.o.d -o
+> utils/TableGen/CMakeFiles/llvm-tblgen.dir/Attributes.cpp.o -c
+> .../tmp/work/x86_64-linux/rust-llvm-
+>
+> native/1.59.0-r0/rustc-1.59.0-src/src/llvm-project/llvm/utils/TableGen/At=
+tributes.cpp
+> [2/2283] .../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE
+> -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-
+> r0/build/lib/Support
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/s=
+rc/llvm-project/llvm/lib/Support
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/build/include -
+> I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/sr=
+c/llvm-project/llvm/include
+> -isystem.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/recipe-sysro=
+ot-native/usr/include
+> -O2
+> -pipe -fPIC -fno-semantic-interposition -fvisibility-inlines-hidden
+> -Werror=3Ddate-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings
+> -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-
+> long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized
+> -Wno-class-memaccess -Wno-redundant-move -Wno-pessimizing-move
+> -Wno-noexcept-type -Wdelete-non-virtual-dtor -Wsuggest-override
+> -Wno-comment -
+> Wmisleading-indentation -fdiagnostics-color -ffunction-sections
+> -fdata-sections -DNDEBUG -std=3Dc++14  -fno-exceptions -fno-rtti -MD -MT
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o -MF
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o.d -o
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o -c
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-
+> project/llvm/lib/Support/Signals.cpp
+> FAILED: lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o
+> .../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE
+> -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/build/lib/Support =
+-
+> I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/sr=
+c/llvm-project/llvm/lib/Support
+> -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/build/include
+> -I.../tmp/work/x86_64-
+> linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/llvm-project/llvm/i=
+nclude
+> -isystem.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/recipe-sysro=
+ot-native/usr/include
+> -O2 -pipe -fPIC -fno-
+> semantic-interposition -fvisibility-inlines-hidden -Werror=3Ddate-time -W=
+all
+> -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual
+> -Wno-missing-field-initializers -pedantic -Wno-long-long -
+> Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-class-memaccess
+> -Wno-redundant-move -Wno-pessimizing-move -Wno-noexcept-type
+> -Wdelete-non-virtual-dtor -Wsuggest-override -Wno-comment -Wmisleading-
+> indentation -fdiagnostics-color -ffunction-sections -fdata-sections
+> -DNDEBUG -std=3Dc++14  -fno-exceptions -fno-rtti -MD -MT
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o -MF
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o.d -o
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o -c
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-
+> project/llvm/lib/Support/Signals.cpp
+> In file included from
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/lib/Support/Signals.cpp:14:
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/include/llvm/Support/Signals.h:119:8:
+> error: variable or field =E2=80=98CleanupOnSignal=E2=80=99 declared void
+>   119 |   void CleanupOnSignal(uintptr_t Context);
+>       |        ^~~~~~~~~~~~~~~
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/include/llvm/Support/Signals.h:119:24:
+> error: =E2=80=98uintptr_t=E2=80=99 was not declared in this scope
+>   119 |   void CleanupOnSignal(uintptr_t Context);
+>       |                        ^~~~~~~~~
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/include/llvm/Support/Signals.h:18:1:
+> note: =E2=80=98uintptr_t=E2=80=99 is defined in header =E2=80=98<cstdint>=
+=E2=80=99; did you forget to
+> =E2=80=98#include <cstdint>=E2=80=99?
+>    17 | #include <string>
+>   +++ |+#include <cstdint>
+>    18 |
+> In file included from
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/lib/Support/Signals.cpp:251:
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src=
+/llvm-project/llvm/lib/Support/Unix/Signals.inc:348:44:
+> error: =E2=80=98void llvm::sys::CleanupOnSignal(uintptr_t)=E2=80=99 shoul=
+d have been
+> declared inside =E2=80=98llvm::sys=E2=80=99
+>   348 | void sys::CleanupOnSignal(uintptr_t Context) {
+>       |                                            ^
+>
+> ...
+>
+> ninja: build stopped: subcommand failed.
+> WARNING:
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.=
+556945:162
+> exit 1 from 'eval ${DESTDIR:+DESTDIR=3D${DESTDIR} }VERBOSE=3D1 cmake --bu=
+ild
+> '.../tmp/work/x86_64-linux/rust-
+> llvm-native/1.59.0-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+> WARNING: Backtrace (BB generated script):
+>         #1: cmake_runcmake_build,
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.=
+556945,
+> line 162
+>         #2: cmake_do_compile,
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.=
+556945,
+> line 156
+>         #3: do_compile,
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.=
+556945,
+> line 151
+>         #4: main,
+> .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.=
+556945,
+> line 175
+>
+>
+> > With the clang toolchain this issue [1] comes right after the uninative
+> with gcc-13 was released.
+> > [1] https://github.com/kraj/meta-clang/pull/816
+> >
+> > Jose
+> >
+> > A. Sverdlin via lists.openembedded.org <alexander.sverdlin=3D
+> siemens.com@lists.openembedded.org> escreveu no dia segunda, 10/07/2023
+> =C3=A0(s) 18:15:
+> > > From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> > >
+> > > * needed for rust-llvm-native on hosts with gcc-13
+> > >
+> > > Based on commit 3382759cb6c5 ("llvm: backport a fix for build with
+> gcc-13")
+> > >
+> > > Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> > > ---
+> > > Changelog:
+> > > v2: rebase onto 2022-04.11-kirkstone
+> > >
+> > >  meta/recipes-devtools/rust/rust-llvm.inc      |  4 ++-
+> > >  ...-missing-cstdint-header-to-Signals.h.patch | 32 +++++++++++++++++=
+++
+> > >  2 files changed, 35 insertions(+), 1 deletion(-)
+> > >  create mode 100644
+> meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-hea=
+der-to-Signals.h.patch
+> > >
+> > > diff --git a/meta/recipes-devtools/rust/rust-llvm.inc
+> b/meta/recipes-devtools/rust/rust-llvm.inc
+> > > index 5c2ccdac9a..e645e7a7ac 100644
+> > > --- a/meta/recipes-devtools/rust/rust-llvm.inc
+> > > +++ b/meta/recipes-devtools/rust/rust-llvm.inc
+> > > @@ -3,7 +3,9 @@ LICENSE ?=3D "Apache-2.0-with-LLVM-exception"
+> > >  HOMEPAGE =3D "http://www.rust-lang.org"
+> > >
+> > >  SRC_URI +=3D
+> "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=3D2 \
+> > > -
+> file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;st=
+riplevel=3D2"
+> > > +
+> file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;st=
+riplevel=3D2
+> \
+> > > +
+> file://0003-Support-Add-missing-cstdint-header-to-Signals.h.patch;striple=
+vel=3D2
+> \
+> > > +"
+> > >
+> > >  S =3D "${RUSTSRC}/src/llvm-project/llvm"
+> > >
+> > > diff --git
+> a/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-h=
+eader-to-Signals.h.patch
+> b/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-h=
+eader-to-
+> > > Signals.h.patch
+> > > new file mode 100644
+> > > index 0000000000..6ed23aa9c5
+> > > --- /dev/null
+> > > +++
+> b/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missing-cstdint-h=
+eader-to-Signals.h.patch
+> > > @@ -0,0 +1,32 @@
+> > > +From a94bf34221fc4519bd8ec72560c2d363ffe2de4c Mon Sep 17 00:00:00 20=
+01
+> > > +From: Sergei Trofimovich <slyich@gmail.com>
+> > > +Date: Mon, 23 May 2022 08:03:23 +0100
+> > > +Subject: [PATCH] [Support] Add missing <cstdint> header to Signals.h
+> > > +
+> > > +Without the change llvm build fails on this week's gcc-13 snapshot a=
+s:
+> > > +
+> > > +    [  0%] Building CXX object
+> lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o
+> > > +    In file included from llvm/lib/Support/Signals.cpp:14:
+> > > +    llvm/include/llvm/Support/Signals.h:119:8: error: variable or
+> field 'CleanupOnSignal' declared void
+> > > +      119 |   void CleanupOnSignal(uintptr_t Context);
+> > > +          |        ^~~~~~~~~~~~~~~
+> > > +
+> > > +Upstream-Status: Backport [llvmorg-15.0.0
+> ff1681ddb303223973653f7f5f3f3435b48a1983]
+> > > +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > +Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> > > +---
+> > > + llvm/include/llvm/Support/Signals.h | 1 +
+> > > + 1 file changed, 1 insertion(+)
+> > > +
+> > > +diff --git a/llvm/include/llvm/Support/Signals.h
+> b/llvm/include/llvm/Support/Signals.h
+> > > +index 44f5a750ff5c..937e0572d4a7 100644
+> > > +--- a/llvm/include/llvm/Support/Signals.h
+> > > ++++ b/llvm/include/llvm/Support/Signals.h
+> > > +@@ -14,6 +14,7 @@
+> > > + #ifndef LLVM_SUPPORT_SIGNALS_H
+> > > + #define LLVM_SUPPORT_SIGNALS_H
+> > > +
+> > > ++#include <cstdint>
+> > > + #include <string>
+> > > +
+> > > + namespace llvm {
+>
+> --
+> Alexander Sverdlin
+> Siemens AG
+> www.siemens.com
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184117):
+> https://lists.openembedded.org/g/openembedded-core/message/184117
+> Mute This Topic: https://lists.openembedded.org/mt/100062248/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000b40a050600310e16
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">FWIW: the uninative with gcc-13 means only that it is comp=
+atible with gcc-13 on host, it doesn&#39;t include gcc-native (which doesn&=
+#39;t exist).<div><br></div><div>I&#39;m using already newer rust with kirk=
+stone, so I cannot confirm this issue with gcc-13 on host, but I&#39;m not =
+so surprised if it wasn&#39;t caught on AB yet.</div><div><br></div><div>Re=
+gards,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Tue, Jul 11, 2023 at 9:05=E2=80=AFAM A. Sverdlin via <a href=
+=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;alexander=
+.sverdlin=3D<a href=3D"mailto:siemens.com@lists.openembedded.org">siemens.c=
+om@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">Hello Jose,<br>
+<br>
+On Mon, 2023-07-10 at 23:58 +0100, Jose Quaresma wrote:<br>
+&gt; Hi Alexander,<br>
+&gt; <br>
+&gt; The uninative release with the gcc 13=C2=A0was released a few weeks ag=
+o,<br>
+&gt; what is the reason for this issue not being found on the autobuild whe=
+n using the uninative?<br>
+<br>
+I&#39;m not sure why it wasn&#39;t found by (and what actually is being mea=
+nt as) autobuild, but the issue is real:<br>
+<br>
+DEBUG: Executing shell function do_compile<br>
+NOTE: VERBOSE=3D1 cmake --build .../tmp/work/x86_64-linux/rust-llvm-native/=
+1.59.0-r0/build --target all --<br>
+[1/2283] .../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE -D__STDC_=
+CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -I.../tmp/work=
+/x86_64-linux/rust-llvm-native/1.59.0-<br>
+r0/build/utils/TableGen -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0=
+-r0/rustc-1.59.0-src/src/llvm-project/llvm/utils/TableGen -I.../tmp/work/x8=
+6_64-linux/rust-llvm-native/1.59.0-<br>
+r0/build/include -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rus=
+tc-1.59.0-src/src/llvm-project/llvm/include -isystem.../tmp/work/x86_64-lin=
+ux/rust-llvm-native/1.59.0-r0/recipe-sysroot-<br>
+native/usr/include -O2 -pipe -fPIC -fno-semantic-interposition -fvisibility=
+-inlines-hidden -Werror=3Ddate-time -Wall -Wextra -Wno-unused-parameter -Ww=
+rite-strings -Wcast-qual -Wno-missing-field-<br>
+initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uni=
+nitialized -Wno-class-memaccess -Wno-redundant-move -Wno-pessimizing-move -=
+Wno-noexcept-type -Wdelete-non-virtual-dtor -<br>
+Wsuggest-override -Wno-comment -Wmisleading-indentation -fdiagnostics-color=
+ -ffunction-sections -fdata-sections -DNDEBUG=C2=A0 -fno-exceptions -fno-rt=
+ti -std=3Dc++14 -MD -MT utils/TableGen/CMakeFiles/llvm-<br>
+tblgen.dir/Attributes.cpp.o -MF utils/TableGen/CMakeFiles/llvm-tblgen.dir/A=
+ttributes.cpp.o.d -o utils/TableGen/CMakeFiles/llvm-tblgen.dir/Attributes.c=
+pp.o -c .../tmp/work/x86_64-linux/rust-llvm-<br>
+native/1.59.0-r0/rustc-1.59.0-src/src/llvm-project/llvm/utils/TableGen/Attr=
+ibutes.cpp<br>
+[2/2283] .../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE -D__STDC_=
+CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -I.../tmp/work=
+/x86_64-linux/rust-llvm-native/1.59.0-<br>
+r0/build/lib/Support -I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0=
+/rustc-1.59.0-src/src/llvm-project/llvm/lib/Support -I.../tmp/work/x86_64-l=
+inux/rust-llvm-native/1.59.0-r0/build/include -<br>
+I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/=
+llvm-project/llvm/include -isystem.../tmp/work/x86_64-linux/rust-llvm-nativ=
+e/1.59.0-r0/recipe-sysroot-native/usr/include -O2<br>
+-pipe -fPIC -fno-semantic-interposition -fvisibility-inlines-hidden -Werror=
+=3Ddate-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qua=
+l -Wno-missing-field-initializers -pedantic -Wno-<br>
+long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-class-memacc=
+ess -Wno-redundant-move -Wno-pessimizing-move -Wno-noexcept-type -Wdelete-n=
+on-virtual-dtor -Wsuggest-override -Wno-comment -<br>
+Wmisleading-indentation -fdiagnostics-color -ffunction-sections -fdata-sect=
+ions -DNDEBUG -std=3Dc++14=C2=A0 -fno-exceptions -fno-rtti -MD -MT lib/Supp=
+ort/CMakeFiles/LLVMSupport.dir/Signals.cpp.o -MF<br>
+lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o.d -o lib/Support/CMake=
+Files/LLVMSupport.dir/Signals.cpp.o -c .../tmp/work/x86_64-linux/rust-llvm-=
+native/1.59.0-r0/rustc-1.59.0-src/src/llvm-<br>
+project/llvm/lib/Support/Signals.cpp<br>
+FAILED: lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o <br>
+.../tmp/hosttools/g++ -DGTEST_HAS_RTTI=3D0 -D_GNU_SOURCE -D__STDC_CONSTANT_=
+MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -I.../tmp/work/x86_64-l=
+inux/rust-llvm-native/1.59.0-r0/build/lib/Support -<br>
+I.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/=
+llvm-project/llvm/lib/Support -I.../tmp/work/x86_64-linux/rust-llvm-native/=
+1.59.0-r0/build/include -I.../tmp/work/x86_64-<br>
+linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/llvm-project/llvm/inc=
+lude -isystem.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/recipe-sy=
+sroot-native/usr/include -O2 -pipe -fPIC -fno-<br>
+semantic-interposition -fvisibility-inlines-hidden -Werror=3Ddate-time -Wal=
+l -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-fi=
+eld-initializers -pedantic -Wno-long-long -<br>
+Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-re=
+dundant-move -Wno-pessimizing-move -Wno-noexcept-type -Wdelete-non-virtual-=
+dtor -Wsuggest-override -Wno-comment -Wmisleading-<br>
+indentation -fdiagnostics-color -ffunction-sections -fdata-sections -DNDEBU=
+G -std=3Dc++14=C2=A0 -fno-exceptions -fno-rtti -MD -MT lib/Support/CMakeFil=
+es/LLVMSupport.dir/Signals.cpp.o -MF<br>
+lib/Support/CMakeFiles/LLVMSupport.dir/Signals.cpp.o.d -o lib/Support/CMake=
+Files/LLVMSupport.dir/Signals.cpp.o -c .../tmp/work/x86_64-linux/rust-llvm-=
+native/1.59.0-r0/rustc-1.59.0-src/src/llvm-<br>
+project/llvm/lib/Support/Signals.cpp<br>
+In file included from .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/=
+rustc-1.59.0-src/src/llvm-project/llvm/lib/Support/Signals.cpp:14:<br>
+.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/l=
+lvm-project/llvm/include/llvm/Support/Signals.h:119:8: error: variable or f=
+ield =E2=80=98CleanupOnSignal=E2=80=99 declared void<br>
+=C2=A0 119 |=C2=A0 =C2=A0void CleanupOnSignal(uintptr_t Context);<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~~~<br>
+.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/l=
+lvm-project/llvm/include/llvm/Support/Signals.h:119:24: error: =E2=80=98uin=
+tptr_t=E2=80=99 was not declared in this scope<br>
+=C2=A0 119 |=C2=A0 =C2=A0void CleanupOnSignal(uintptr_t Context);<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~<br>
+.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/l=
+lvm-project/llvm/include/llvm/Support/Signals.h:18:1: note: =E2=80=98uintpt=
+r_t=E2=80=99 is defined in header =E2=80=98&lt;cstdint&gt;=E2=80=99; did yo=
+u forget to<br>
+=E2=80=98#include &lt;cstdint&gt;=E2=80=99?<br>
+=C2=A0 =C2=A017 | #include &lt;string&gt;<br>
+=C2=A0 +++ |+#include &lt;cstdint&gt;<br>
+=C2=A0 =C2=A018 | <br>
+In file included from .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/=
+rustc-1.59.0-src/src/llvm-project/llvm/lib/Support/Signals.cpp:251:<br>
+.../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/rustc-1.59.0-src/src/l=
+lvm-project/llvm/lib/Support/Unix/Signals.inc:348:44: error: =E2=80=98void =
+llvm::sys::CleanupOnSignal(uintptr_t)=E2=80=99 should have been<br>
+declared inside =E2=80=98llvm::sys=E2=80=99<br>
+=C2=A0 348 | void sys::CleanupOnSignal(uintptr_t Context) {<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
+<br>
+...<br>
+<br>
+ninja: build stopped: subcommand failed.<br>
+WARNING: .../tmp/work/x86_64-linux/rust-llvm-native/1.59.0-r0/temp/run.do_c=
+ompile.556945:162 exit 1 from &#39;eval ${DESTDIR:+DESTDIR=3D${DESTDIR} }VE=
+RBOSE=3D1 cmake --build &#39;.../tmp/work/x86_64-linux/rust-<br>
+llvm-native/1.59.0-r0/build&#39; &quot;$@&quot; -- ${EXTRA_OECMAKE_BUILD}&#=
+39;<br>
+WARNING: Backtrace (BB generated script): <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #1: cmake_runcmake_build, .../tmp/work/x86_64-l=
+inux/rust-llvm-native/1.59.0-r0/temp/run.do_compile.556945, line 162<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #2: cmake_do_compile, .../tmp/work/x86_64-linux=
+/rust-llvm-native/1.59.0-r0/temp/run.do_compile.556945, line 156<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #3: do_compile, .../tmp/work/x86_64-linux/rust-=
+llvm-native/1.59.0-r0/temp/run.do_compile.556945, line 151<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #4: main, .../tmp/work/x86_64-linux/rust-llvm-n=
+ative/1.59.0-r0/temp/run.do_compile.556945, line 175<br>
+<br>
+<br>
+&gt; With the clang=C2=A0toolchain this issue [1] comes right=C2=A0after th=
+e uninative with gcc-13 was released.<br>
+&gt; [1] <a href=3D"https://github.com/kraj/meta-clang/pull/816" rel=3D"nor=
+eferrer" target=3D"_blank">https://github.com/kraj/meta-clang/pull/816</a><=
+br>
+&gt; <br>
+&gt; Jose<br>
+&gt; <br>
+&gt; A. Sverdlin via <a href=3D"http://lists.openembedded.org" rel=3D"noref=
+errer" target=3D"_blank">lists.openembedded.org</a> &lt;alexander.sverdlin=
+=3D<a href=3D"mailto:siemens.com@lists.openembedded.org" target=3D"_blank">=
+siemens.com@lists.openembedded.org</a>&gt; escreveu no dia segunda, 10/07/2=
+023 =C3=A0(s) 18:15:<br>
+&gt; &gt; From: Alexander Sverdlin &lt;<a href=3D"mailto:alexander.sverdlin=
+@siemens.com" target=3D"_blank">alexander.sverdlin@siemens.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; * needed for rust-llvm-native on hosts with gcc-13<br>
+&gt; &gt; <br>
+&gt; &gt; Based on commit 3382759cb6c5 (&quot;llvm: backport a fix for buil=
+d with gcc-13&quot;)<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Alexander Sverdlin &lt;<a href=3D"mailto:alexander=
+.sverdlin@siemens.com" target=3D"_blank">alexander.sverdlin@siemens.com</a>=
+&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; Changelog:<br>
+&gt; &gt; v2: rebase onto 2022-04.11-kirkstone<br>
+&gt; &gt; <br>
+&gt; &gt; =C2=A0meta/recipes-devtools/rust/rust-llvm.inc=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 4 ++-<br>
+&gt; &gt; =C2=A0...-missing-cstdint-header-to-Signals.h.patch | 32 ++++++++=
++++++++++++<br>
+&gt; &gt; =C2=A02 files changed, 35 insertions(+), 1 deletion(-)<br>
+&gt; &gt; =C2=A0create mode 100644 meta/recipes-devtools/rust/rust-llvm/000=
+3-Support-Add-missing-cstdint-header-to-Signals.h.patch<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta/recipes-devtools/rust/rust-llvm.inc b/meta/reci=
+pes-devtools/rust/rust-llvm.inc<br>
+&gt; &gt; index 5c2ccdac9a..e645e7a7ac 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/rust/rust-llvm.inc<br>
+&gt; &gt; +++ b/meta/recipes-devtools/rust/rust-llvm.inc<br>
+&gt; &gt; @@ -3,7 +3,9 @@ LICENSE ?=3D &quot;Apache-2.0-with-LLVM-exception=
+&quot;<br>
+&gt; &gt; =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.rust-lang.org" rel=
+=3D"noreferrer" target=3D"_blank">http://www.rust-lang.org</a>&quot;<br>
+&gt; &gt; <br>
+&gt; &gt; =C2=A0SRC_URI +=3D &quot;file://0002-llvm-allow-env-override-of-e=
+xe-path.patch;striplevel=3D2 \<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-AsmMatcher=
+Emitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=3D2&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-AsmMatcher=
+Emitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=3D2=C2=A0 \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-Support-Ad=
+d-missing-cstdint-header-to-Signals.h.patch;striplevel=3D2=C2=A0 \<br>
+&gt; &gt; +&quot;<br>
+&gt; &gt; <br>
+&gt; &gt; =C2=A0S =3D &quot;${RUSTSRC}/src/llvm-project/llvm&quot;<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta/recipes-devtools/rust/rust-llvm/0003-Support-Ad=
+d-missing-cstdint-header-to-Signals.h.patch b/meta/recipes-devtools/rust/ru=
+st-llvm/0003-Support-Add-missing-cstdint-header-to-<br>
+&gt; &gt; Signals.h.patch<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..6ed23aa9c5<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-devtools/rust/rust-llvm/0003-Support-Add-missi=
+ng-cstdint-header-to-Signals.h.patch<br>
+&gt; &gt; @@ -0,0 +1,32 @@<br>
+&gt; &gt; +From a94bf34221fc4519bd8ec72560c2d363ffe2de4c Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; +From: Sergei Trofimovich &lt;<a href=3D"mailto:slyich@gmail.com"=
+ target=3D"_blank">slyich@gmail.com</a>&gt;<br>
+&gt; &gt; +Date: Mon, 23 May 2022 08:03:23 +0100<br>
+&gt; &gt; +Subject: [PATCH] [Support] Add missing &lt;cstdint&gt; header to=
+ Signals.h<br>
+&gt; &gt; +<br>
+&gt; &gt; +Without the change llvm build fails on this week&#39;s gcc-13 sn=
+apshot as:<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0 =C2=A0 [=C2=A0 0%] Building CXX object lib/Support/CMakeF=
+iles/LLVMSupport.dir/Signals.cpp.o<br>
+&gt; &gt; +=C2=A0 =C2=A0 In file included from llvm/lib/Support/Signals.cpp=
+:14:<br>
+&gt; &gt; +=C2=A0 =C2=A0 llvm/include/llvm/Support/Signals.h:119:8: error: =
+variable or field &#39;CleanupOnSignal&#39; declared void<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 119 |=C2=A0 =C2=A0void CleanupOnSignal(uint=
+ptr_t Context);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+^~~~~~~~~~~~~~~<br>
+&gt; &gt; +<br>
+&gt; &gt; +Upstream-Status: Backport [llvmorg-15.0.0 ff1681ddb303223973653f=
+7f5f3f3435b48a1983]<br>
+&gt; &gt; +Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@g=
+mail.com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; &gt; +Signed-off-by: Alexander Sverdlin &lt;<a href=3D"mailto:alexande=
+r.sverdlin@siemens.com" target=3D"_blank">alexander.sverdlin@siemens.com</a=
+>&gt;<br>
+&gt; &gt; +---<br>
+&gt; &gt; + llvm/include/llvm/Support/Signals.h | 1 +<br>
+&gt; &gt; + 1 file changed, 1 insertion(+)<br>
+&gt; &gt; +<br>
+&gt; &gt; +diff --git a/llvm/include/llvm/Support/Signals.h b/llvm/include/=
+llvm/Support/Signals.h<br>
+&gt; &gt; +index 44f5a750ff5c..937e0572d4a7 100644<br>
+&gt; &gt; +--- a/llvm/include/llvm/Support/Signals.h<br>
+&gt; &gt; ++++ b/llvm/include/llvm/Support/Signals.h<br>
+&gt; &gt; +@@ -14,6 +14,7 @@<br>
+&gt; &gt; + #ifndef LLVM_SUPPORT_SIGNALS_H<br>
+&gt; &gt; + #define LLVM_SUPPORT_SIGNALS_H<br>
+&gt; &gt; + <br>
+&gt; &gt; ++#include &lt;cstdint&gt;<br>
+&gt; &gt; + #include &lt;string&gt;<br>
+&gt; &gt; + <br>
+&gt; &gt; + namespace llvm {<br>
+<br>
+-- <br>
+Alexander Sverdlin<br>
+Siemens AG<br>
+<a href=3D"http://www.siemens.com" rel=3D"noreferrer" target=3D"_blank">www=
+.siemens.com</a><br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#184117): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/184117" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/184117</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100062248/361=
+7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100062248/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b40a050600310e16--
 
