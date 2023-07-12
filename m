@@ -1,175 +1,110 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5A6EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 16:54:15 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.1110.1689180847981068978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 157E0EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 17:04:55 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.1394.1689181491296037902
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 09:54:08 -0700
+ Wed, 12 Jul 2023 10:04:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eQ5SP/4t;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 86ED240003;
-	Wed, 12 Jul 2023 16:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689180845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Z1qdECwZOn5om63OHM+h3bW94QYKs2VBA9A5GCR+o0=;
-	b=eQ5SP/4tY76FD/Kg5c8TRKJZAgcMI1+/XfSr883hiY1uh+g19qlOnCqzVlLcsJBiGB2jpL
-	N9xZTGZcY1ra5hyd+6fjKbCVIVPLOWRpV6XTQhoAIO+BQDmUH2Q908rrYesyZ8Fs+h5hFr
-	0fBTeGkjalqnlHYnJONE9Az09g6wEr4EEUDyBULxciJwAzV+vokrK+Xa3bq/XXKdUXmZY9
-	LAZSm9KmBC3vuXzE0tXpxs1pMi37h7rsIJL7FdDXK9K4y/zVt6Q72yNlRjaCk+twHQYes6
-	F9jsgB9ankXruv4xlgvbZE/XIS2MRheuFsrYXN4JLQkATfQaTYe6XnhUwmRAbw==
-Date: Wed, 12 Jul 2023 18:54:05 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Piotr =?utf-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-Core][PATCH v4 2/5] package_ipk.bbclass: add support for
- ACLs and xattr
-Message-ID: <202307121654058c48624b@mail.local>
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=U3Bvw+RE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbc63c2e84so77517605e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 10:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1689181489; x=1691773489;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UOcl6d16vPU1kNVdeoOx32RseiLEqd85COUwC+XDHEY=;
+        b=U3Bvw+REN2Ag/8umOlcEcynSUr5ZTLhkyASRkurWYFsM9GHmDWat57H6tpIxmfd1e7
+         DBafmem3kHmSROqdKPc0xd/sq835ZWXdHIxsYfTWX60Vg/X/R75icrcUNYOswuLZX4Z0
+         jMVRk6VzeezuQW9J/SL1HdKEY6zIGOeAdQOKM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689181489; x=1691773489;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UOcl6d16vPU1kNVdeoOx32RseiLEqd85COUwC+XDHEY=;
+        b=MKoOE1UvtUUz8MCB+1vCF8CPPi4x4R+DQTw9651XUCHsOXbzqna7yuWqeOpwehul5M
+         qowPirq8RLOsDMPSju7lP5YDwj1YBIroYoxHFH1Y2hnh5BWhnRTNt5fQlT47OEBHjMhK
+         gNHXFVQ8HJD4mia9HhsvJ32YUj3DmL/kZY/2mDTg0ONdrAFl9XNWGwYYGzlCcxS8fzz+
+         cYAa4l5QfuCFLvaPW+Pp4ko1OJmesmIw/W8cgJH4XfpKAIclDoUXJgnKBiyEbh4un7dr
+         7I+GGqvd4TxCdshu1ddD3soG+iXXhNrvqtVGe0zuHQyvsVpmAmobTBm5cgEEWAit3YiY
+         MjpA==
+X-Gm-Message-State: ABy/qLaiaqiSXCtqcBSVAn9ulihMmOo0fblXIvxegzUpjluui3qFg6MB
+	nkr1cObniKXsaUMRiHPFpDeTvA==
+X-Google-Smtp-Source: APBJJlFCQEViLBO9HP1MwH3Jm9BamFrfQdNFJfmuNAh4ajUnMy9i7pyoc3L3CrReSdJ+WFjzCn5T2Q==
+X-Received: by 2002:a1c:7712:0:b0:3fa:71db:56ff with SMTP id t18-20020a1c7712000000b003fa71db56ffmr19685884wmi.40.1689181489435;
+        Wed, 12 Jul 2023 10:04:49 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:339c:939c:6851:d3b0? ([2001:8b0:aba:5f3c:339c:939c:6851:d3b0])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b003fbfa6066acsm5579820wmi.40.2023.07.12.10.04.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jul 2023 10:04:40 -0700 (PDT)
+Message-ID: <2f5daca6267d0a7dd9655527ce862fd4ca1b265c.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr distro
+ native features support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Piotr =?UTF-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Jul 2023 18:04:39 +0100
+In-Reply-To: <20230712122558.711029-1-p.lobacz@welotec.com>
 References: <20230712122558.711029-1-p.lobacz@welotec.com>
- <20230712122558.711029-2-p.lobacz@welotec.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230712122558.711029-2-p.lobacz@welotec.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 16:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184207
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 17:04:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184208
 
-I tested a previous version and got:
-
-ERROR: run-postinsts-1.0-r10 do_package_write_ipk: Fatal errors occurred in=
- subprocesses:
-Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
-roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
-/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
-all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
-poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
-poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
-pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
-stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
-/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
--sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
-tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
-ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
-n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
-poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
-ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
-" run-postinsts /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work=
-/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zero ex=
-it status 1.
-Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
-/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
-n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
- [-g group] <pkg_directory> [<destination_directory>]
-Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
-roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
-/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
-all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
-poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
-poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
-pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
-stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
-/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
--sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
-tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
-ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
-n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
-poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
-ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
-" run-postinsts-dev /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/=
-work/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zer=
-o exit status 1.
-Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
-/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
-n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
- [-g group] <pkg_directory> [<destination_directory>]
-Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
-roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
-/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
-all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
-poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
-poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
-pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
-stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
-/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
--sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
-tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
-ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
-n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
-poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
-ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
-" run-postinsts-dbg /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/=
-work/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zer=
-o exit status 1.
-Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
-/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
-n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
- [-g group] <pkg_directory> [<destination_directory>]
-
-
-any chance this is solved in v4?
-
-On 12/07/2023 14:25:55+0200, Piotr =C5=81obacz wrote:
-> Extend OPKGBUILDCMD variable, with additional parameters, depending
-> on target distro features, in order to support ACLs and xattr.
->=20
-> With fix pushed to the opkg-devel:
-> https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
-> opkg-build is able to create tar archives with ACLs and xattr.
+On Wed, 2023-07-12 at 14:25 +0200, Piotr =C5=81obacz wrote:
+> Include support for ACLs and extended file attributes for native
+> builds, depending on which distro target features has been turned
+> on.
 >=20
 > Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
 > ---
->  meta/classes-global/package_ipk.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/conf/bitbake.conf | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-globa=
-l/package_ipk.bbclass
-> index b4b7bc9ac2..5e151be3cd 100644
-> --- a/meta/classes-global/package_ipk.bbclass
-> +++ b/meta/classes-global/package_ipk.bbclass
-> @@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET =3D "${WORKDIR}/opkg-sdk-target.con=
-f"
->  PKGWRITEDIRIPK =3D "${WORKDIR}/deploy-ipks"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 9625a6fef4..20684a5126 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -904,12 +904,12 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
 > =20
->  # Program to be used to build opkg packages
-> -OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
-> +OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}" "${@bb.utils.co=
-ntains('DISTRO_FEATURES', 'acl', '-A', '', d)}" "${@bb.utils.contains('DIST=
-RO_FEATURES', 'xattr', '-X', '', d)}"'
+>  # Native distro features (will always be used for -native, even if they
+>  # are not enabled for target)
+> -DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
+> +DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6"
+>  DISTRO_FEATURES_NATIVESDK ?=3D "x11"
 > =20
->  OPKG_ARGS +=3D "--force_postinstall --prefer-arch-to-version"
->  OPKG_ARGS +=3D "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMEN=
-DATIONS") =3D=3D "1"]}"
-> --=20
-> 2.34.1
->=20
+>  # Normally target distro features will not be applied to native builds:
+>  # Native distro features on this list will use the target feature value
+> -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod opengl =
+wayland"
+> +DISTRO_FEATURES_FILTER_NATIVE ?=3D "acl api-documentation debuginfod ope=
+ngl wayland xattr"
+>  DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod open=
+gl wayland"
+> =20
+>  DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspection-=
+data ldconfig"
 
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184190): https://lists.openembedded.org/g/openembedde=
-d-core/message/184190
-> Mute This Topic: https://lists.openembedded.org/mt/100098284/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Just to be clear, I know what Alex said but after further thought, acl
+needs to move into DISTRO_FEATURES_NATIVE in my opinion (and Ross'
+too).
 
+I suspect Alex will agree with that too after thinking about the
+arguments I put forward about simplifying sstate reuse.
 
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+
+Richard
 
