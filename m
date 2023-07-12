@@ -2,265 +2,172 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 950C1EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 18:20:55 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.3362.1689186048544763037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A99EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 18:27:45 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.3526.1689186461996354702
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 11:20:48 -0700
+ Wed, 12 Jul 2023 11:27:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MgqLNSFn;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4fb863edcb6so11799295e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:20:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QCu/6HWM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4f954d7309fso1419163e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689186047; x=1691778047;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+68P2TMzl2ayY7LBSr2AzGL7ifEcToEZwvJSj60HivA=;
-        b=MgqLNSFnnZEH5F+rnu+AMNBzGSYztYj2U288/+oFv1GkNmTqufFqDWW2G/ZKyvdD32
-         QojKjeTWvzY4APf6Gj9x0rD3qzGZLa6LyDKDSmFnMiCWAKPTyQu5eV+soCzf0qT4SIvR
-         whgAXFWdfEQHgPQlxDnXhvJJMxZeIXP63K0ZHfMOGf1S1Tl+7z+4aYkGnRQN3pwARVQ5
-         sXgfbgI6Gn9QN3TmVNmDsCMU23SwlnpZmnbiJWskEytzRIiJ+zLQbsgAEgdy72dgJYAf
-         MbAp7O47b8wKi5A4L2ybXC6p3mhsNfVAk5fn/jwyF67+8EQu9tORkAAIscLPdNQw5OYT
-         r+/Q==
+        d=gmail.com; s=20221208; t=1689186460; x=1691778460;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tTSEnNmJ/jUzEp8GzeekQpZ0G9xF6hRnhoB+iJB15WM=;
+        b=QCu/6HWM+GIp5t3q3/g9clWD5emi4umX+qQDS9d6g+GcHbv9IFfZFtQbRG32hs9+dY
+         tpqkDUhF9dCI22/jHpVvgAxgvE3WU6SMeaYBFDyXeDtvP5m9PwxM3MS8YgKU3sUXMTjL
+         mPTNW7O2g0ajHsejMXfrpOBTIqryaPUUJbVhLA4IRxmtfitGS0QJOIowkcBvcjx/RINK
+         oKDLlYA0uoeVAMHl4dtcX0q76XzlQtQEmevQS1LN8pGEmtVITuSHKoeXLeExIFiPfmNR
+         DAAq2jtdpeulLh2PWgTZKIYY65qIe4e991wx36C9VM1HDNDCKvQ3H13+WdGl84zcPIrd
+         BWrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689186047; x=1691778047;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+68P2TMzl2ayY7LBSr2AzGL7ifEcToEZwvJSj60HivA=;
-        b=Nvaztyb5m2LOBQqiA8EjcWoKcxNKXukVksonXzJMMYVYJNyrR4p3eo9izUa0LRjOjp
-         bMEi2KiPSy/aG9i9rhs0YA7smt7tXt5//dk6MjslVZc5vcKxywBYbxvzcOUeXeOV6OiU
-         MFslmJsl5mR0E3UUDPqCKhlg3YWtbiUprr1nNCsKcArdIOYITz/jV/zK0mnkAzz8FnPH
-         LGAsUhlNlvtamaHg9KbULSu89KNGt8MkQpgb8PUS2dpjKqvqHoa7IR1TsfDK4Ni0fgc7
-         L2gyFj2+jrkEIrQVvqoGfmJ6qJwwuD8dyKYDI42259qznZgbT5DdGeQ2wo1HMGJL2VQx
-         q29w==
-X-Gm-Message-State: ABy/qLZR76LXQVUdyeqQYIsHBHpG2xZvZHMnRgJw36VBEj8jtNfdIbZQ
-	FSAkxvRF6pW9fyCVxZH8cwYHyGcGjlS2Dg9ECGc=
-X-Google-Smtp-Source: APBJJlGTvCJwsKwk76gkMWlgc8XHdsUVoDyMfgSaoyhREeRw2cu22qkOp5q36FOdtMh+eQTazh3PXHCkczAqtENXbt8=
-X-Received: by 2002:a05:6512:60f:b0:4ed:cc6d:61fe with SMTP id
- b15-20020a056512060f00b004edcc6d61femr14968295lfe.24.1689186046550; Wed, 12
- Jul 2023 11:20:46 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689186460; x=1691778460;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tTSEnNmJ/jUzEp8GzeekQpZ0G9xF6hRnhoB+iJB15WM=;
+        b=MbK82709kiFYBSs6AZlml/h82wbE2lFNdqnXYx3wp7lK3sq86262TwxzT2zU4ORfwK
+         0g6T6S13NFLfVCIRkIVWE9qp6zKF6mwqqPeAH9ecfxX1xCzLGA1G1p6yRdxEIJEw0zNo
+         TaMsufwYu9zhvRTOoIyDKl40VlSofT1ioZLQ1nM7ju3ClJwnKQRQq3lUBj9PAfTm28wq
+         b8xf3UcaOyS1yKSw8g1AvaQ1KQviUoL0bV62izmiXCnc8TsOhorK64GNfqx79r3FQYe7
+         TW/VRhxw5XktFbhokQSfXnNyj3ti4/rRNQ3xT6hG5eG3fJkgxdgmtI0uPXS10xoJUHMS
+         XYkw==
+X-Gm-Message-State: ABy/qLYXJv0zwPMHOOujIO9phe7mSccEsVxm31OuDTT0MDPxHsIYvXpH
+	U7eRu5XBawl3ifXdqCr541vih/kkHv/zt/mmr8o=
+X-Google-Smtp-Source: APBJJlHokCWaGud0dQhREBPtmEsgcZh6SzUfFcULqUxOprqCSO+AOKd+9KC3n7g/XWPn82EkPhMWDsOU5CNy/cE9qsM=
+X-Received: by 2002:a05:6512:1093:b0:4f8:6ac4:1aa9 with SMTP id
+ j19-20020a056512109300b004f86ac41aa9mr1220149lfg.21.1689186459802; Wed, 12
+ Jul 2023 11:27:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAB=6tBRhQaqO8jkM7CCpRfNAyYiByB4V4dFbbbWhu7A6QN6KTQ@mail.gmail.com>
-In-Reply-To: <CAB=6tBRhQaqO8jkM7CCpRfNAyYiByB4V4dFbbbWhu7A6QN6KTQ@mail.gmail.com>
+References: <20230711172545.738677-1-tgamblin@baylibre.com>
+In-Reply-To: <20230711172545.738677-1-tgamblin@baylibre.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Jul 2023 20:20:35 +0200
-Message-ID: <CANNYZj8S6_P96ACXF8i=Pdw2ytAqq41ZF8WZOizsDrdZqmi7TA@mail.gmail.com>
-Subject: Re: [OE-Core][RFC] update-layers: Update layers managed by setup-layers
-To: Chuck Wolber <chuckwolber@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Jul 2023 20:27:28 +0200
+Message-ID: <CANNYZj-7ZzO65GN+_X+peMDFp31Q1M9Tx8OEfj0p0PS4VB5Ecg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] python3: parallelize ptests, add test_cppext dependencies
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 18:20:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184212
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 18:27:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184213
 
-Thanks, perhaps this functionality should simply be folded directly
-into bitbake-layers perhaps, as an extension of 'create-layers-setup'?
-Does it need to be in a separate script?
+I would suggest just one more tweak here: insert
+|| echo "FAIL: python3"
+after python3 but before sed. That way it'll catch failures that sed
+does not (that silent regressing did just happen with
+zipapp/cgitb/cppext).
 
 Alex
 
-On Wed, 12 Jul 2023 at 20:00, Chuck Wolber <chuckwolber@gmail.com> wrote:
+On Tue, 11 Jul 2023 at 19:25, Trevor Gamblin <tgamblin@baylibre.com> wrote:
 >
-> I wrote this tool to do automatic updating of layers managed by the setup-layers script. This
-> addresses some of the functionality I discussed in my OSSNA 2023 talk.
+> This is based on a previous patch from Alex Kanavin (thanks Alex),
+> but it retains our use of sed to parse the test output into a usable
+> form. The intent was to use the test module's --junit-xml feature and
+> parse the resulting log instead of using sed, but various errors were
+> encountered when testing this method, so that will need further
+> investigation before we can consider adopting it. Two missing ptest
+> dependencies on python3-cgitb and python3-zipapp were already merged
+> in a previous patch, so only gcc, g++, and binutils were left to add
+> as ptest RDEPENDS.
 >
-> A detailed explanation of what the following script does is found in the comments, but in
-> a nutshell:
+> ptest output and runtime with this change:
 >
-> * If the --sync-upstream argument is provided, any layers that have remotes called
->   "origin" and "upstream" have upstream changes on their configured branch applied
->   to the origin remote (and local clone).
-> * Updates rev and description for all layers managed by setup-layers after pulling
->   the latest changes on the configured branch.
-> * Leaves the setup-layers.json file in an updated state so git diff will show changes.
->   Changes can then be reviewed and managed based on local project policy.
+> =3D=3D Tests result: SUCCESS =3D=3D
 >
-> I am looking for comments and feedback before I send this as a proper patch.
+> 405 tests OK.
 >
-> In particular:
+> 29 tests skipped:
+>     test_asdl_parser test_check_c_globals test_clinic test_curses
+>     test_devpoll test_gdb test_idle test_ioctl test_kqueue
+>     test_launcher test_msilib test_ossaudiodev test_readline
+>     test_smtpnet test_socketserver test_startfile test_tcl test_tix
+>     test_tk test_ttk_guionly test_ttk_textonly test_turtle
+>     test_urllib2net test_urllibnet test_winconsoleio test_winreg
+>     test_winsound test_xmlrpc_net test_zipfile64
 >
-> * Are there any problems with this general approach?
-> * Should this be managed in OE-Core in the same way setup-layers is?
-> * I made some stylistic changes (e.g. main function, --dry-run, etc) that I plan to also patch into
->   setup-layers if this is accepted and there are no objections.
+> Total duration: 5 min 3 sec
 >
+> [YOCTO #13298]
 >
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 > ---
+>  meta/recipes-core/images/core-image-ptest.bb   | 1 +
+>  meta/recipes-devtools/python/python3/run-ptest | 2 +-
+>  meta/recipes-devtools/python/python3_3.11.4.bb | 2 +-
+>  3 files changed, 3 insertions(+), 2 deletions(-)
 >
-> #!/usr/bin/env python3
-> #
-> # Copyright OpenEmbedded Contributors
-> #
-> # SPDX-License-Identifier: MIT
-> #
+> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-=
+core/images/core-image-ptest.bb
+> index ddc56c8f9f..74cf933b72 100644
+> --- a/meta/recipes-core/images/core-image-ptest.bb
+> +++ b/meta/recipes-core/images/core-image-ptest.bb
+> @@ -26,6 +26,7 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools=
+ =3D "1524288"
+>  # ptests need more memory than standard to avoid the OOM killer
+>  QB_MEM =3D "-m 1024"
+>  QB_MEM:virtclass-mcextend-lttng-tools =3D "-m 4096"
+> +QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
+>  QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 4096"
 >
-> # This script is idempotent and assumes that the layers it is updating have
-> # been managed by setup-layers according to the JSON formatted layers data.
-> #
-> # For each layer repository in the JSON formatted layers data file:
-> #
-> # * If remotes named upstream and origin exist and the --sync-upstream argument
-> # has been provided, merge upstream changes on the configured branch to the
-> # origin remote.
-> # * Pull the latest changes on the configured branch from origin.
-> # * Update the JSON layers data to reflect the latest layer repo HEAD.
-> # * Leave layer repository in an updated state with the configured branch
-> # checked out.
-> #
-> # After reviewing the changes in the JSON layers data file, they can either be
-> # committed or reverted. If they are reverted, it will be necessary to re-run
-> # setup-layers to ensure your layer repositories reflect the intent captured in
-> # the configuration. For the sake of completeness, you may also wish to re-run
-> # setup-layers even if you commit the configuration changes, as this script
-> # leaves the local layer repo clones checked out to the configured branch rather
-> # than the configured rev. The HEAD of the configured branch and the configured
-> # rev are identical at the completion of this script, but the latter will be
-> # more consistent with expectations established by the setup-layers script.
-> #
-> # The term "setup-layers" refers to the script found at
-> # openembedded-core/scripts/oe-setup-layers. Pass the --help argument to this
-> # script for the most up to date usage guidance.
+>  TEST_SUITES =3D "ping ssh parselogs ptest"
+> diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipe=
+s-devtools/python/python3/run-ptest
+> index 05396e91ab..ee1130284b 100644
+> --- a/meta/recipes-devtools/python/python3/run-ptest
+> +++ b/meta/recipes-devtools/python/python3/run-ptest
+> @@ -1,3 +1,3 @@
+>  #!/bin/sh
 >
-> import argparse
-> import json
-> import os
-> import subprocess
->
-> def _do_git_command(repodir, command):
->     print("Running '{}' in {}".format(command, repodir))
->     if not args.dry_run:
->         subprocess.check_output(command, shell=True, cwd=repodir)
->
-> def _do_git_checkout_branch(repodir, remote, branch):
->     _do_git_command(repodir, 'git checkout -B {0} --track {1}/{0} --quiet'.format(branch, remote))
->
-> def _do_git_pull(repodir, remote, branch):
->     _do_git_fetch(repodir, remote)
->     _do_git_merge(repodir, remote, branch)
->
-> def _do_git_fetch(repodir, remote):
->     _do_git_command(repodir, 'git fetch {} --prune --prune-tags --quiet'.format(remote))
->
-> def _do_git_merge(repodir, remote, branch):
->     _do_git_command(repodir, 'git merge {}/{} --ff-only --quiet'.format(remote, branch))
->
-> def _do_git_force_push(repodir, remote, branch):
->     _do_git_command(repodir, 'git push {} heads/{} --force --quiet'.format(remote, branch))
->
-> def _get_git_rev(repodir):
->     rev = subprocess.check_output("git rev-parse HEAD", shell=True, cwd=repodir, stderr=subprocess.DEVNULL)
->     return rev.strip().decode("utf-8")
->
-> def _get_git_desc(repodir):
->     desc = subprocess.check_output("git describe HEAD --always", shell=True, cwd=repodir, stderr=subprocess.DEVNULL)
->     return desc.strip().decode("utf-8")
->
-> def _do_sync_upstream(repodir, repo_name, repo_data):
->     if not args.sync_upstream:
->         return
->
->     repo_remote = repo_data['git-remote']
->     branch = repo_remote['branch']
->     remotes = repo_remote['remotes']
->
->     print("Attempting to sync layer repo {} with upstream.".format(repo_name))
->
->     if 'origin' not in remotes or 'upstream' not in remotes:
->         print("Origin and/or upstream remotes not found on {}".format(repo_name))
->         return
->
->     _do_git_checkout_branch(repodir, 'origin', branch)
->     _do_git_pull(repodir, 'origin', branch)
->     _do_git_fetch(repodir, 'upstream')
->     _do_git_merge(repodir, 'upstream', branch)
->     _do_git_force_push(repodir, 'origin', branch)
->
-> def _do_update_layer_json(repodir, repo_name, layer_data):
->     print("Updating layer JSON for {} repo.".format(repo_name))
->     branch = layer_data['sources'][repo_name]['git-remote']['branch']
->
->     _do_git_checkout_branch(repodir, 'origin', branch)
->     _do_git_pull(repodir, 'origin', branch)
->
->     layer_data['sources'][repo_name]['git-remote']['rev'] = _get_git_rev(repodir)
->     layer_data['sources'][repo_name]['git-remote']['describe'] = _get_git_desc(repodir)
->
-> def _do_update_layers(layer_data):
->     print("Updating layers...")
->     repos = layer_data['sources']
->     for repo_name in repos:
->         repo_data = repos[repo_name]
->         repodir = os.path.abspath(os.path.join(args.destdir, repo_data['path']))
->
->         if 'contains_this_file' in repo_data.keys():
->             continue
->
->         _do_sync_upstream(repodir, repo_name, repo_data)
->         _do_update_layer_json(repodir, repo_name, layer_data)
->
-> def _do_save_layer_config(layer_data):
->     print("Saving updated layer config.")
->     if args.dry_run:
->         return
->
->     with open(args.jsondata, 'w') as f:
->         json.dump(layer_data, f, ensure_ascii=False, indent=4)
->
->     print("\nReview {} for layer changes.".format(args.jsondata))
->
-> def _parse_args():
->     global args
->
->     try:
->         defaultdest = os.path.dirname(subprocess.check_output('git rev-parse --show-toplevel', universal_newlines=True, shell=True, cwd=os.path.dirname(__file__)))
->     except subprocess.CalledProcessError as e:
->         defaultdest = os.path.abspath(".")
->
->     parser = argparse.ArgumentParser(description="Updates layer setup JSON in addition to layer repos with upstream remotes.")
->
->     parser.add_argument('--destdir', default=defaultdest, help='Where to find the layers (default is {defaultdest}).'.format(defaultdest=defaultdest))
->     parser.add_argument('--jsondata', default=__file__+".json", help='File containing the layer data in json format (default is {defaultjson}).'.format(defaultjson=__file__+".json"))
->     parser.add_argument('--sync-upstream', action='store_true', help="For repositories with origin and upstream remotes, merge any upstream changes to the configured branch.")
->     parser.add_argument('--dry-run', action='store_true', help="Performs a dry run, but does not make any actual changes.")
->
->     args = parser.parse_args()
->
-> def _parse_layer_config():
->     with open(args.jsondata) as f:
->         layer_data = json.load(f)
->
->     supported_versions = ["1.0"]
->     if layer_data["version"] not in supported_versions:
->         raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, layer_data["version"], supported_versions))
->
->     return layer_data
->
-> def main():
->     _parse_args()
->
->     layer_data = _parse_layer_config()
->     _do_update_layers(layer_data)
->     _do_save_layer_config(layer_data)
->
-> if __name__=="__main__":
->     main()
->
->
->
+> -SETUPTOOLS_USE_DISTUTILS=3Dnonlocal python3 -m test -v | sed -u -e '/\.\=
+.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\=
+. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's=
+/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
+> +SETUPTOOLS_USE_DISTUTILS=3Dnonlocal python3 -m test -v -j 4 | sed -u -e =
+'/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/=
+\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' =
+-e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
+> diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipe=
+s-devtools/python/python3_3.11.4.bb
+> index 86ecc4e297..2d7b1bac2c 100644
+> --- a/meta/recipes-devtools/python/python3_3.11.4.bb
+> +++ b/meta/recipes-devtools/python/python3_3.11.4.bb
+> @@ -426,7 +426,7 @@ FILES:${PN}-man =3D "${datadir}/man"
+>  # See https://bugs.python.org/issue18748 and https://bugs.python.org/iss=
+ue37395
+>  RDEPENDS:libpython3:append:libc-glibc =3D " libgcc"
+>  RDEPENDS:${PN}-ctypes:append:libc-glibc =3D " ${MLPREFIX}ldconfig"
+> -RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
+b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed"
+> +RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
+b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils"
+>  RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-fr-fr locale-ba=
+se-en-us locale-base-tr-tr locale-base-de-de"
+>  RDEPENDS:${PN}-tkinter +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk',=
+ '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
+>  RDEPENDS:${PN}-idle +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk', '$=
+{PN}-tkinter ${MLPREFIX}tcl', '', d)}"
 > --
-> "Perfection must be reached by degrees; she requires the slow hand of time." - Voltaire
+> 2.41.0
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#184211): https://lists.openembedded.org/g/openembedded-core/message/184211
-> Mute This Topic: https://lists.openembedded.org/mt/100104869/1686489
+> View/Reply Online (#184149): https://lists.openembedded.org/g/openembedde=
+d-core/message/184149
+> Mute This Topic: https://lists.openembedded.org/mt/100083497/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
