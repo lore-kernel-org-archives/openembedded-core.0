@@ -1,241 +1,151 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2AAEB64D9
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 11:27:02 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.65])
- by mx.groups.io with SMTP id smtpd.web10.4922.1689161212854395109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAACEB64DD
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 11:48:12 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.59])
+ by mx.groups.io with SMTP id smtpd.web11.5349.1689162488695791178
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 04:26:53 -0700
+ Wed, 12 Jul 2023 04:48:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail, err=mail: missing word in phrase: charset not supported: "windows-1250";
- spf=pass (domain: welotec.com, ip: 40.107.20.65, mailfrom: p.lobacz@welotec.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=6k7YB0Sb;
+ spf=pass (domain: arm.com, ip: 40.107.104.59, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oxgpaZXLrLG97jqRTnByFZhEuc2m5hrKoxL/PsQjcnU=;
+ b=6k7YB0SbXKxymp5bi9KepG2HyfGuFjgDTdB7pIFUIbHXYUXO8QYjerOupRgxawYsH5kxeMg9+av962ycdS1L5lqb3k4GGQno/N/cIPID59iqrdZZnNcGNSUcyDG9k6MCRqtTvlNNwDDjx3NbKaCIEL6XafCxdo/boEpkPceRGzw=
+Received: from AS9PR06CA0024.eurprd06.prod.outlook.com (2603:10a6:20b:462::32)
+ by GV2PR08MB8463.eurprd08.prod.outlook.com (2603:10a6:150:b4::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Wed, 12 Jul
+ 2023 11:47:57 +0000
+Received: from AM7EUR03FT050.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:462:cafe::cc) by AS9PR06CA0024.outlook.office365.com
+ (2603:10a6:20b:462::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20 via Frontend
+ Transport; Wed, 12 Jul 2023 11:47:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT050.mail.protection.outlook.com (100.127.141.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.22 via Frontend Transport; Wed, 12 Jul 2023 11:47:57 +0000
+Received: ("Tessian outbound 95df046a2e2c:v145"); Wed, 12 Jul 2023 11:47:56 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 4281c443dab4fedd
+X-CR-MTA-TID: 64aa7808
+Received: from 83147e11b267.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 0829F0F2-89BE-448F-B2CA-3AB921B00140.1;
+	Wed, 12 Jul 2023 11:47:50 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 83147e11b267.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 12 Jul 2023 11:47:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uby9JtRWsjbf2ZfUZohyl5i+9X0d5aB4tRTsmWrPc/BvXDBs4/leQiMzK9WnSjenYw7JUcuxPtvHYwJYWhSCfq3cFkAlmus8D72/qQXTzPovGr29vEcSWMF07Dof8Oet4YpHVKNyeP034e+w3yai3SzSdrIMiqm9Xa97uogLJmdy1xyu7RjIsjjR5NChzSmSSa3uH7BJRNWHeccjFZxc3G8Xf1VxM0qJxN2K7LW1Ui4s2dWTsqjKtJ8lstPRSgGKDylYlrY8/VSUnyqeaG1GyM2fMdDAy0tmqdSqOjTTYEBSypsmq8hY9RTfSmPp6J5hVu5G3AeYjxxqCT3Tq0kRcw==
+ b=lfcZN4/sMAUxv2C4/oNobJGAuEta6m3F++JfIW9pjjVd1R52H6YJ+bb3+asVNYDsZ9wQgBxAiZ/rZ8YH2KIvQG1KgQ7OJBP//ULq7x0ahnbmG6Ph/qFgdMElyJhTJMFtVhtTHqhNVxmW/tjZ3zadvY6bCVYGSa3mAUI0L9rx+3Xv3htGiDX4j1YLcjH2RWGBazuFyJueWauipU0Aa4JkfwmdIw8ZCmGLSfV/qtj6/JEg5ePDKQXBbuIpfTxyyC0aS8h+LdotPOccUXSjsyeFmb1j4zdsbE/H3nq41ter6IzxxkSbZHMa9KK/y3sCXJiflPKhvhh2xK9CaaeEa9mGyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o1YVlwuyy5+M+S3yBQRNv+wruuBXm4bQO/7zhoB7NUc=;
- b=KOEL5XdxdR5O75pOOiExB7VbkO+6ziFbjsfJotiMMCdzujJRUMGGAk5mVQLy4m7zwVWOEScUnC2d7x+CfWpXI+v2I6uPYM5hSeq/d6XOZk/hQcJ0cZfN3AZm/xnVVwhISxBttyhDI1OPvlVMzJrAsOT1FHUBeGq3RLUV3ypwKT5RlxjvQ7KBUlNBaT+5yVeN3Qjubb1PbRshW3DvW0U/h4/nxIsiYpUWCC2UjX6voMvumpyUacAue/MQ9lc3+OWrNaoBLQCfQkONP0/gsSg723yYk3J4iyphDxp/avdjf7VWyWJWKARbo07POQE7pNuD8GaPdZCKBs/ruHbBZPN8vg==
+ bh=oxgpaZXLrLG97jqRTnByFZhEuc2m5hrKoxL/PsQjcnU=;
+ b=CBawX8Dcfm9sEEjI5kO7tGnkf3UheNg0ASud4m8WEuyc+ecjcVjm8aQb4NaOYl0PPec39ClvLVIRd3//vsY/L1Z4nVLsgAMIZ66kMDmjOaW4msB//ppmK2cPThziDPmSFoqEBJBHYTu0Br67BsM3D1hmmS0kPivqElch89CiBbC+Yymy6EKYrCoe492WNWH71uwhtUkeSDaBNiV9H2J4ipItNOseUxwTc9+q96GRdgXsQxmFgmBUeT500tg9wUhIlqj/0zg8QJkskfy1Ii7kU6WpTsL2s6NpvGVRSyc/DS9oS6nRTM5kW/RiznuTyb/DyZ66fFlYMiubxdpq6kVVNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector2;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o1YVlwuyy5+M+S3yBQRNv+wruuBXm4bQO/7zhoB7NUc=;
- b=sFydqQ3R8RHjWu5GgBUF8yfYal2mcKr2bTUrgAxYW/OQ81aYJKwghRtEudkUckl8z9Twwy6Ew+stCCMjrXVNjoDcJqKXoZpSzla+Ps2pG58AMyTkS/OLngPYon8zrBm33yfOWYDqn0Ka0joLa6zCG1JRiTEd3FjMzqTnr8UDOZQ=
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by AM9PR04MB8827.eurprd04.prod.outlook.com (2603:10a6:20b:40a::7) with
+ bh=oxgpaZXLrLG97jqRTnByFZhEuc2m5hrKoxL/PsQjcnU=;
+ b=6k7YB0SbXKxymp5bi9KepG2HyfGuFjgDTdB7pIFUIbHXYUXO8QYjerOupRgxawYsH5kxeMg9+av962ycdS1L5lqb3k4GGQno/N/cIPID59iqrdZZnNcGNSUcyDG9k6MCRqtTvlNNwDDjx3NbKaCIEL6XafCxdo/boEpkPceRGzw=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB8288.eurprd08.prod.outlook.com (2603:10a6:20b:557::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 12 Jul
- 2023 11:26:49 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9b11:6096:b359:6fe4]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::9b11:6096:b359:6fe4%6]) with mapi id 15.20.6565.028; Wed, 12 Jul 2023
- 11:26:49 +0000
-From: =?windows-1250?Q?Piotr_=A3obacz?= <p.lobacz@welotec.com>
-To: Ross Burton <Ross.Burton@arm.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Wed, 12 Jul
+ 2023 11:47:49 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21%7]) with mapi id 15.20.6588.017; Wed, 12 Jul 2023
+ 11:47:49 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
 CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: ODP: [OE-Core][PATCH 3/3] package.bbclass: add support for ACLs and
- xattr
-Thread-Topic: [OE-Core][PATCH 3/3] package.bbclass: add support for ACLs and
- xattr
-Thread-Index: AQHZsxUzvLjGkkOezUObWDkpaBioe6+y4gsAgAMep+k=
-Date: Wed, 12 Jul 2023 11:26:49 +0000
-Message-ID: 
- <VI1PR04MB5373AA5BC86A0E2FF3D965DE9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-References: <20230710095800.2033309-1-p.lobacz@welotec.com>
- <20230710095800.2033309-3-p.lobacz@welotec.com>
- <2442D390-FAE0-45EE-8095-F5F5367121B4@arm.com>
-In-Reply-To: <2442D390-FAE0-45EE-8095-F5F5367121B4@arm.com>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: pl-PL
+Subject: Re: [OE-Core][PATCH 1/2] opkg-utils: add acl and xattr support
+Thread-Topic: [OE-Core][PATCH 1/2] opkg-utils: add acl and xattr support
+Thread-Index: AQHZtE5FXTtP9I9Dlku+DoptQ0D3Vq+17z+AgAAOooCAAAbSAA==
+Date: Wed, 12 Jul 2023 11:47:48 +0000
+Message-ID: <F63C4DC6-7608-4FC3-8F14-979B6BE2C82C@arm.com>
+References: <20230711231847.2211186-1-p.lobacz@welotec.com>
+ <384B4554-E449-490C-888D-FDC111366FF3@arm.com>
+ <VI1PR04MB5373335EEE7F848007D4D95B9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
+In-Reply-To: 
+ <VI1PR04MB5373335EEE7F848007D4D95B9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|AM9PR04MB8827:EE_
-x-ms-office365-filtering-correlation-id: 7ec7c9be-9dfd-44b2-1623-08db82cae24e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- yH5uP6rIeZUBYqeXlRLPHEf9Dsy+nZAzAG/a4LV8+m+NFrASo2SyNwLZu0xZBxoAfMCGDHoC62vpTnPLH71jvVlOPpw8v2+H/BqC2EGoFh6UeF4lNUniaGMyY6MIzBRrSu0/FyGxeVwTXM2NaCXjSkUET515jk7BJAzO+YEj/W5W9jOCtgzEj1RJT99ufcf0/L56KNKfoecoqw8DladFgNgFwfh7HqXbu9PE7kBWDbBqapPqytozUZEkRCQ8YK9l7puX8VGZ6d50IiW5jBvvhpDULh7jkWN13U/qksGZdbgHjzHq51KwlB1kbBbkbpVn2YbrCaUukxKVEZAzusj+3ZkVNOncjav5MTNeUcFW48aUMIhXGe1GVkgrRz5jB/KLqAVFtcyAocdQ1z90hx5lURBiFmFEt5Gx2jooFksUYBydycmmefd3ZN95U4BFvjzE0oe3Xy72uXou6AwECkB0dfz+17a+XoWT6YLsPreEGXuNZwEMbGOwwsQGJB8q1u+6zox0LftrUgfldIOCKgiRGXBiTxMFwAalh/NQehgjf2zukgaVHIkALUdl02pbkGZztffaF9VtD/R38VEuDsqerl2PSKlLpyEVl88JldAjjIYQsSAp5ycOZpzt3dKfLgvw
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(39840400004)(136003)(396003)(366004)(451199021)(19627405001)(5660300002)(8676002)(8936002)(52536014)(2906002)(316002)(41300700001)(38100700002)(122000001)(55016003)(6916009)(64756008)(76116006)(66946007)(91956017)(66446008)(66556008)(66476007)(86362001)(53546011)(26005)(4326008)(186003)(33656002)(478600001)(6506007)(9686003)(71200400001)(38070700005)(7696005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?windows-1250?Q?tU7Re5g2CZEWJt837q8mwn2GvJQGkqHwmk+c+f0sh3phy4QJ3tCkatvZ?=
- =?windows-1250?Q?8Sx2lYcm4t2al/D6RaVaSxtaKmaljPE32hduvSjhYQ3BC/eCWOo8idtZ?=
- =?windows-1250?Q?5tsnN6whIx1eHbEQ7X1fpKo9aQGkaMEpKcs86UXSYt4unNvYW9mDcWGc?=
- =?windows-1250?Q?D4kXeI8yTCam/oPLwSckOC5GfvUijH26zf7Zb8q1qyWBIbOxZjCN3hBn?=
- =?windows-1250?Q?dSabfhBdkb/YyORs9sfaKlnsZ3XufW66r2P8lFWWAzvTJw33oZfE3gmG?=
- =?windows-1250?Q?rLNuBlfU1vNYmQkBZabbXJSBZHC8VN5YkiNG3AZQflIc760Sc4SmBwrw?=
- =?windows-1250?Q?I5bKDFC9gE12Lfh6ygZCMVyC1BbAl/Y4hdHZ9aoh7ddcZPMRvR0jw1bq?=
- =?windows-1250?Q?VYZn5C3oJAss3yxSA2g1B+G2BJMVfVVoEd8ZQ/yOYrEiXF8U52EG/2gE?=
- =?windows-1250?Q?iCbZUhV4W096vtBp5B6cKvZR+zDRM0kmPA2RkuoaXfo/0F6WudZxWu/h?=
- =?windows-1250?Q?RAaK/IPYL7WweZwbJaq/HYDxstB0KcbIjdF/qepF3Dew3FqMMC6KDSj8?=
- =?windows-1250?Q?wfRzgm9n1tAh0pyiC9mznDZ+Et3QoYekrzV7tdUGGhFw8T0+Dr8Xunfe?=
- =?windows-1250?Q?zTHFVrtblAsNm/T/Ym5nzKYx4A7xTYE86DnKi8tMFGpqYol0nMH39E6R?=
- =?windows-1250?Q?l7gjh5O6idUvFQqTJ/yvbZTYOS0741ZnBqztzYMNpyxKaBDMJ1B1ZGQG?=
- =?windows-1250?Q?PbqrElqNf4nIvadvyAVjAKN9GTYhh1hu5UelPzfnlxC7yYYufpeVhots?=
- =?windows-1250?Q?7yslaRj5SbrKRN5EUOiNhSLBzJhrUZc/R+ZOJN66uY/SRGp75/3+lnbm?=
- =?windows-1250?Q?MmpRsiEw7n5TWzN/N1y8fPQijlYaKndHHTLHrDeaNcIHYmqlIeXBXbQf?=
- =?windows-1250?Q?RtummQ75Rl+4VjZ3lhE5gxPqzr4ehfrc2ZQlLbtAvkcrd2f+IqcOUtzs?=
- =?windows-1250?Q?Q8CMu3v+993kULsSfpetkbbqKTsDOjckZejc8EjqY3JBGHXBl2w+pWPJ?=
- =?windows-1250?Q?fwQ6Sqdl76yBafuH6P9HUOuoNdFjB0OPG66WQyuhDN3ZTAER2eBaX9DA?=
- =?windows-1250?Q?RYP87H73Nde9nXJEkfzB4Er03fPuBUPwoanwNWQJtySGSkjfVNAQxbTE?=
- =?windows-1250?Q?p2wrfCLNewyAZKIayGdzGJwa+98Xbn1KiaggOP34z8CnZ45doIhWmH7d?=
- =?windows-1250?Q?zGDKBl1Y7MLPF1P8qpGYRdNkPzv0nIsP92CkaokhdP2gFL1PgKiAT9XK?=
- =?windows-1250?Q?5jBJ0i+OQZ083Y7xjxVDsT6fHrp/0TvMyQwxwq5aIyDSJ5Xd4kQg80cp?=
- =?windows-1250?Q?lx7/MqCPkJCm/ZaRIvbMHkMR9U5NTm5QjcNLp9Y4zIyfy0XTCo0lqge1?=
- =?windows-1250?Q?UZl3rHYDeFQVG1Iccvb/LsZVdx9UjOufEHYat3ajsnapHvJw9LUlsslO?=
- =?windows-1250?Q?QE5mJ6NDf3yGyQ18Mh24iSuBAbuC85MGcYwPtUC4F2C8R09I8o31w9B/?=
- =?windows-1250?Q?j1QxfrQSolcsUa4mYVreTlVPuiiPPy1BE/B2BmDxpsRDs0MeAHx81UH8?=
- =?windows-1250?Q?4dadxPzgPq7oMVQAK/UgrM3P16T54dGPBGsILp2/OuXFcbgZjr1fDbLm?=
- =?windows-1250?Q?kdRFAw/EQTZtbHbTvZcqgpNX20/VY1wm?=
-Content-Type: multipart/alternative;
-	boundary="_000_VI1PR04MB5373AA5BC86A0E2FF3D965DE9136AVI1PR04MB5373eurp_"
+x-mailer: Apple Mail (2.3731.600.7)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB8288:EE_|AM7EUR03FT050:EE_|GV2PR08MB8463:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4cf6e736-d91f-4c94-7309-08db82cdd5ed
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ LMywVoVGm0ckBHhJlrwgDjk0nuqtwGm3zrAjEbBcYtaFKPDjNl03zh2O7ems1v+Qf8PuEP4ZE334KfnQ8S+XEqH72aI8ozRqlVi9GsHVFNQJOTfgXEesJlxW3KPzrItL7KM5DOc96D/1KKPaCf3WwVmAI4bNBCzSCG6GM7Olh2rAjUu7Wz79ZGifSmgrGeN/u9IVi1xNV1mu+IPqAXzlnBZak6IODYA+2/98wkM/wo3Y5d8QJfJUPhzSWL7P0ZqQ6vEgbZgtaYooKJef0N4H28qu/Ou6/oib2cvbunKBI8apHC21ZK/JSGKGfdv+2nWB2baXPFSSJnzCOhTsLtrEymFsdHolHsXp3R0zPY8eFgucLi07nQ+hLgE24EYyZn+mIyMv9a089Iw9Yyjaq1PASZwdohLsGkj6pBk0+LmszSIIwhIpip0x3Hj9+qCO8/i8kd7gAq/J9D4KGLihQJsJ6wZp1xxM/zQMRNc3uiHfPnnziD54cZO4M0iykt8NClqaEFjoaDgbmRcaLk1sYmfbM3MbAjbHtEWKbPgOqoiGeKDOV5EUhXJw55EX72DfgbbPNK4dFmZY0Rv3xgAzlDuF0XuEqHCHsarla37Ooh3EIZ/jvSVuBLmbZrtVVwzIzpLH9WhvQg14PHPVyShEjLaoxQ==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(451199021)(8936002)(8676002)(5660300002)(186003)(83380400001)(2616005)(26005)(33656002)(53546011)(6506007)(86362001)(41300700001)(6486002)(71200400001)(966005)(316002)(6512007)(66556008)(66476007)(64756008)(66446008)(36756003)(2906002)(6916009)(66946007)(4326008)(4744005)(122000001)(91956017)(478600001)(38070700005)(76116006)(38100700002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <15F07C1A3480124591B951B0D4716D90@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ec7c9be-9dfd-44b2-1623-08db82cae24e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2023 11:26:49.4414
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8288
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM7EUR03FT050.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	d0090bb7-1988-4029-ec59-08db82cdd108
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	xHvmTPJCk9k2bqa6yIP3wMOzay3va8Mhp6dov2oSFsXE0SAomDnXMnB7hdba8w+R9MjSYIJ98fwih9p2VQP2v2jZvqUMQGbxg7kGPxxJncmv+kk0vLD8+gKbmHC44CTLvTtSRDGlsJWJzSer5Bs6lVo7huTZdeQvovLfaQa+0+IuOyutQqivd+RjL6oiTDokV4Mte1Rr38A/h8uxdguN0NALCePEYG0tz/Ylm6yzhP3VtMPn/036nbSs9gcvTtxVU9jF0k7nuImR1I2QFPkKyNaYqhETJwXCw8bsN3rtQvQwgcVpm9fAIxEbr1I1EP+asgu+TK4BrO8zN7gTbx+7LoIjTXIeoERAPCeQZiik22nK0gRd0WLVbFuOUzS19cVGn7MXZYUfJw+mI4KlutToCMuvKArH89fuTyLr5q6Y5dmEW08XZOGjIxGWNghnDn9ilyjlqUJJlQNPxsK98RkPVmNehGUhNIj147LNeaDWF9dPk1OgCJH9qE/84vtGsrp/HJBIIIKJLXYy8BbWJVkOicDEiHQ1+3SYKUB5OpH5qz1X1QsP+6X6zBqubzfdSbEfkvAzwTsJVnfmWmn+NOJvoWHM9F3zn7JUOuhH7LarYw6fwO1Gnc9lqgTBJtceWXBBYY6IOIc0XsTnTmDe++V5K5CKAhjjuJMT4BM48QxCS+0rGE/QjbaOhninI+pzpRdBxlvJTzaqtrfi3G3D82W09+99+NIBPMWGMHkLRpA+dgg=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(39860400002)(136003)(451199021)(40470700004)(46966006)(36840700001)(8676002)(8936002)(41300700001)(6486002)(40480700001)(5660300002)(6862004)(2906002)(316002)(4744005)(4326008)(70586007)(70206006)(40460700003)(33656002)(478600001)(6512007)(966005)(36756003)(336012)(186003)(86362001)(82310400005)(356005)(81166007)(47076005)(82740400003)(83380400001)(53546011)(6506007)(2616005)(26005)(36860700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 11:47:57.1447
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zncvqBNSKNOuKnZKszDLzdRdooxiZdq2tsrOaq3lCSJdKzIyvDLXsEr9IWYQ0e4hrVd7U5gk+4iPWAUwNR0New==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8827
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cf6e736-d91f-4c94-7309-08db82cdd5ed
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM7EUR03FT050.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8463
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:27:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184183
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:48:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184184
 
---_000_VI1PR04MB5373AA5BC86A0E2FF3D965DE9136AVI1PR04MB5373eurp_
-Content-Type: text/plain; charset="windows-1250"
-Content-Transfer-Encoding: quoted-printable
-
-I have removed this check as you are absolutelly right. Besides in future I=
- suspect that we will have also support for ACLs and xattrs in both debs an=
-d rpms as well.
-
-Thx
-Piotr
-________________________________
-Od: Ross Burton <Ross.Burton@arm.com>
-Wys=B3ane: poniedzia=B3ek, 10 lipca 2023 13:46
-Do: Piotr =A3obacz <p.lobacz@welotec.com>
-DW: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Temat: Re: [OE-Core][PATCH 3/3] package.bbclass: add support for ACLs and x=
-attr
-
-On 10 Jul 2023, at 10:58, Piotr =A3obacz via lists.openembedded.org <p.loba=
-cz=3Dwelotec.com@lists.openembedded.org> wrote:
-> +    # Preserve sparse files, hard links, ACLs and extended attributes
-> +    acl =3D ''
-> +    xattr =3D ''
-> +    # TODO: for the moment only ipk packages are supporting ACLs and ext=
-ended attributes
-> +    if bb.utils.contains('PACKAGE_CLASSES', 'package_ipk', True, False, =
-d):
-> +        acl =3D bb.utils.contains('DISTRO_FEATURES', 'acl', '--acls', ''=
-, d)
-> +        xattr =3D bb.utils.contains('DISTRO_FEATURES', 'xattr', '--xattr=
-s', '', d)
-> +    cmd =3D f'tar {acl} {xattr} --numeric-owner --exclude=3D./sysroot-on=
-ly -cf - -C {dest} -p -S . | tar {acl} {xattr} -xf - -C {dvar}'
-
-Is there much of a hit if we always tell tar to always preserve the acl/xat=
-tr information, instead of changing behaviour based on whether ipkg is enab=
-led?  I don=92t like how enabling ipkgs changes the tar command that is als=
-o used to build the rpms.
-
-Ross
-
-
---_000_VI1PR04MB5373AA5BC86A0E2FF3D965DE9136AVI1PR04MB5373eurp_
-Content-Type: text/html; charset="windows-1250"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dwindows-1=
-250">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-I have removed this check as you are absolutelly right. Besides in future I=
- suspect that we will have also support for ACLs and xattrs in both debs an=
-d rpms as well.<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Thx</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Piotr<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>Od:</b> Ross Burton &lt;Ross.Bu=
-rton@arm.com&gt;<br>
-<b>Wys=B3ane:</b> poniedzia=B3ek, 10 lipca 2023 13:46<br>
-<b>Do:</b> Piotr =A3obacz &lt;p.lobacz@welotec.com&gt;<br>
-<b>DW:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Temat:</b> Re: [OE-Core][PATCH 3/3] package.bbclass: add support for ACL=
-s and xattr</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On 10 Jul 2023, at 10:58, Piotr =A3obacz via lists=
-.openembedded.org &lt;p.lobacz=3Dwelotec.com@lists.openembedded.org&gt; wro=
-te:<br>
-&gt; +&nbsp;&nbsp;&nbsp; # Preserve sparse files, hard links, ACLs and exte=
-nded attributes<br>
-&gt; +&nbsp;&nbsp;&nbsp; acl =3D ''<br>
-&gt; +&nbsp;&nbsp;&nbsp; xattr =3D ''<br>
-&gt; +&nbsp;&nbsp;&nbsp; # TODO: for the moment only ipk packages are suppo=
-rting ACLs and extended attributes<br>
-&gt; +&nbsp;&nbsp;&nbsp; if bb.utils.contains('PACKAGE_CLASSES', 'package_i=
-pk', True, False, d):<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acl =3D bb.utils.contains(=
-'DISTRO_FEATURES', 'acl', '--acls', '', d)<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xattr =3D bb.utils.contain=
-s('DISTRO_FEATURES', 'xattr', '--xattrs', '', d)<br>
-&gt; +&nbsp;&nbsp;&nbsp; cmd =3D f'tar {acl} {xattr} --numeric-owner --excl=
-ude=3D./sysroot-only -cf - -C {dest} -p -S . | tar {acl} {xattr} -xf - -C {=
-dvar}'<br>
-<br>
-Is there much of a hit if we always tell tar to always preserve the acl/xat=
-tr information, instead of changing behaviour based on whether ipkg is enab=
-led?&nbsp; I don=92t like how enabling ipkgs changes the tar command that i=
-s also used to build the rpms.<br>
-<br>
-Ross<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_VI1PR04MB5373AA5BC86A0E2FF3D965DE9136AVI1PR04MB5373eurp_--
+T24gMTIgSnVsIDIwMjMsIGF0IDEyOjIzLCBQaW90ciDFgW9iYWN6IDxwLmxvYmFjekB3ZWxvdGVj
+LmNvbT4gd3JvdGU6DQo+IA0KPiBJIGhhdmUgYWRkZWQgdjMgYW5kIG1lcmdlZCB0aGVtIGFzIG9u
+ZSBmZWF0dXJlL3BhdGNoIGNoYW5nZS4gQWRkaXRpb25hbHkgaG93IHRoaXMgVXBzdHJlYW0tU3Rh
+dHVzIHNob3VsZCBsb29rIGxpa2U/IENvdWxkIHlvdSBwbGVhc2UgZ2l2ZSBtZSBhbiBleGFtcGxl
+Pw0KDQpodHRwczovL3d3dy5vcGVuZW1iZWRkZWQub3JnL3dpa2kvQ29tbWl0X1BhdGNoX01lc3Nh
+Z2VfR3VpZGVsaW5lcyNQYXRjaF9IZWFkZXJfUmVjb21tZW5kYXRpb25zOl9VcHN0cmVhbS1TdGF0
+dXMNCg0KWW91IGNhbiBncmVwIG9lLWNvcmUgZm9yIFVwc3RyZWFtLVN0YXR1cyBhbmQgeW914oCZ
+bGwgZmluZCBodW5kcmVkcyBvZiBleGFtcGxlcy4NCg0KQ2hlZXJzLA0KUm9zcw==
 
