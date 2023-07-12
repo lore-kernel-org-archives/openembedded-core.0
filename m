@@ -1,168 +1,228 @@
-Return-Path: <alex.stewart@ni.com>
+Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB01EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 22:05:09 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.106])
- by mx.groups.io with SMTP id smtpd.web10.2886.1689199502771358140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B934C0015E
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 22:51:50 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.41])
+ by mx.groups.io with SMTP id smtpd.web11.677.1689202309969301271
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 15:05:03 -0700
+ Wed, 12 Jul 2023 15:51:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@ni.com header.s=selector1 header.b=NMQomVpl;
- spf=pass (domain: ni.com, ip: 40.107.244.106, mailfrom: alex.stewart@ni.com)
+ dkim=fail, err=mail: missing word in phrase: charset not supported: "windows-1250";
+ spf=pass (domain: welotec.com, ip: 40.107.8.41, mailfrom: p.lobacz@welotec.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TWYq5qDnNyD0jUs7DW7/spKsG0jyssg3EhKOmF0pfV7jTKMqU+IIYUIvYGyrxoGRIxxlqWG9Hhf2KIehgvXwpojPVhyTO/lrRRnUsGw6kXQtICvna/K+J5NFLz/V5YpUmX0vZieioUU6+/8ynDsoFubmS4NGdurhHD3/1vYYOwKc+WS3Bd8Po+EblXVGuVZnqfymXA4JfZKruhu+lqmHjH0F7h8Z66Grzeg9rzREA8TTCZCzTXN1tVYV58aJOMSbZ2eTrg0agIAyrZE70tFwFhPzHZPxAUpZSTh+bD5JhkvaB7bQSFlrUnwbXSXsfA6CrPOFi5OQZldBaF7bOcexKA==
+ b=jvSlNuok/IXIJquJ2fCWJ3UPvAl+JcZcX8UrsUlmGhGoV8W+hRAa4ErAvJaWiDgUecyw9f0bmlX4+kl4SkDZkK4gC1IR3E8uxoZPPx3nXW+MtUVLCMvcyBT+2q4DXlrnXLgq52Vr4fOXrKl26UUIF+PGE6mwytFaF6QGCGDFP4bwg2P9MvFDNDRwRgWcbYNbqBhXZmH9eQBpWzHWYcwxHcism2GURpnOmu2s7ednx4go3eFsrqyakIfkjH5IkDT4ie05eAsgmV69qnc+CM1ZPRo6xOFLucdg6muHC4qxfOuG5OdMbM2x4DYpiRDspOSvxOCV70ZOhPoX7t9FpNKfBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pNo0WGa+o9J3xQ2NV17iHCBRP0f3vfONFHg6iP9SCQs=;
- b=OCtbVJF0EzlyAiU14zp+WmiQI64ONeftu2VJCYEc8/MTZMSGt48ARRfb9iPAj5fbHOv1ew1o7FdiuzlV10FTy6jcvbw2QGKr0FA5ZJgivJccNqsKSrQLP80O7ToKrk186q2I/lATAH7EupNnI38xW8BNLfcestsRTaRVcZcHrM8UllJth9DwVqri5iu4S/OJcbTdqx3Dz6J0z4CDztTDtzJIocOipc/X1mSVP7zMnNtV/iETSD9QkI47B5/1qQtz/7GEMpv+e4WD/jufbRUwBxvY8bQ4YCTz/5XUSrPxNvJzzNbMHBSTaA64ydb/SUWhBsi+7xDdhPPb2GzVVqNz+Q==
+ bh=w260iwHiT0kWyiJrsSA/ieadh4Te5V6wjF2FzRAJLO0=;
+ b=Wl2RaH/O611tvliETRteWpktmRqMEblM+xmaWwMPSMadBssfIUYy8tcpM8T+kGQiZg4WTlcBHEmhEdcaQH6vZjZ4+C+/63m+HSxHzLU84M5Ylzurg1UCVinAHopPC0cG9LNXHDUaQeAeLtbwhUgzZhh4KcAm3FdeQadSHSdefOfYFNGBeWHs+uj/n+UASG1d0xS8c05K8vizhwf+acFD1sFH5Q8Wfmr9Btat0XbX3KKNqFZTr1ZKZS42rC0AmQ9G2poaSQMIdl507kIKNSuvmr4TqflorRtFo0YsVuzw09qb1QOl3ELaPwuHB9dqWGkPXA6lMGSFh+hnifJkKl+oeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
+ smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
+ dkim=pass header.d=welotec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pNo0WGa+o9J3xQ2NV17iHCBRP0f3vfONFHg6iP9SCQs=;
- b=NMQomVplW6lm9kqhMD+P0s6uqfijFVbFa801J0n9yuVQGkjLLuqTUXHrxesqdXamExGFwWHXh5O1Vtk3KuczKuk+guP8Zz7JFhy4KRU1hRKXcRIXHhLiEs6LzALBvhaxiA+sitlijjxAQCr+5+Y2RGA630Oj6X+7/wqGuLOaCf0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ni.com;
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
- by DM6PR04MB6908.namprd04.prod.outlook.com (2603:10b6:5:229::23) with
+ bh=w260iwHiT0kWyiJrsSA/ieadh4Te5V6wjF2FzRAJLO0=;
+ b=0di/w1BQnFq/7eTgPfJd+3oY8HhbI7hEux9ATswsZvohyLMO6qQpI98fBlhlzsIeFeOaBgZnF5rLwVEMgvHeFWsQBttaqko9Idy+MLETIrU5c+0hS1wW84b8sUy7wapEyjjavVLygiEYXsdESLJaJStkPvP1u2sTJD/EC7h4NuM=
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
+ by DB9PR04MB8409.eurprd04.prod.outlook.com (2603:10a6:10:244::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.22; Wed, 12 Jul
- 2023 22:05:00 +0000
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::fa97:81aa:8d0d:c43c]) by SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::fa97:81aa:8d0d:c43c%6]) with mapi id 15.20.6565.028; Wed, 12 Jul 2023
- 22:05:00 +0000
-Message-ID: <0cce368f-36b7-672e-df83-94b4914a1344@ni.com>
-Date: Wed, 12 Jul 2023 18:04:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [OE-Core][PATCH v5 1/5] bitbake.conf: add acl and xattr distro
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Wed, 12 Jul
+ 2023 22:51:45 +0000
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9b11:6096:b359:6fe4]) by VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9b11:6096:b359:6fe4%6]) with mapi id 15.20.6588.022; Wed, 12 Jul 2023
+ 22:51:45 +0000
+From: =?windows-1250?Q?Piotr_=A3obacz?= <p.lobacz@welotec.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr distro
  native features support
-Content-Language: en-US
-To: p.lobacz@welotec.com, openembedded-core@lists.openembedded.org
-References: <20230712190428.379909-1-p.lobacz@welotec.com>
-From: Alex Stewart <alex.stewart@ni.com>
-Organization: National Instruments Corp.
-In-Reply-To: <20230712190428.379909-1-p.lobacz@welotec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BN9PR03CA0943.namprd03.prod.outlook.com
- (2603:10b6:408:108::18) To SN6PR04MB5151.namprd04.prod.outlook.com
- (2603:10b6:805:90::25)
+Thread-Topic: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr distro
+ native features support
+Thread-Index: AQHZtQHzgf1cCG01pEmjH5DVhSvfAq+2mhf/gAAM7YCAABWS7Q==
+Date: Wed, 12 Jul 2023 22:51:44 +0000
+Message-ID: 
+ <VI1PR04MB5373AB2EB526F803105F52729136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
+References: <20230712122558.711029-1-p.lobacz@welotec.com>
+	 <2f5daca6267d0a7dd9655527ce862fd4ca1b265c.camel@linuxfoundation.org>
+	 <CANNYZj9LiFaL8syxNrv5Sc5OfP6xeZJfgRn_LH+ExjuK7XbLzQ@mail.gmail.com>
+	 <VI1PR04MB53731CE4B03808CBFFB5B33B9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
+	 <d2d9f29c1d04105c76b6791387fab33662da3cd5.camel@linuxfoundation.org>
+	 <177139B6ABA154C9.19802@lists.openembedded.org>
+	 <VI1PR04MB5373BCEB0EC347625C9A15E09136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
+ <5649fdf59ba0e5aaeb93552af7f3d8e0e86787a6.camel@linuxfoundation.org>
+In-Reply-To: 
+ <5649fdf59ba0e5aaeb93552af7f3d8e0e86787a6.camel@linuxfoundation.org>
+Accept-Language: pl-PL, en-GB, en-US
+Content-Language: pl-PL
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=welotec.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|DB9PR04MB8409:EE_
+x-ms-office365-filtering-correlation-id: a5e2a7a2-2649-459c-334e-08db832a9122
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ fW94pSja9SiRHqOGxI7ePxo/8PaGtvPgG5/X6r8AjdNUEoiYqn0d4q8ze1HcyAarhWi9BqHO8sxUqno4pfRYJiBtrkdUK0GPwY28mboZQbdrmGxCLJlxeK2od/OECdelA+Cem0/DDBleqnb9dbEcfntDOEgWmnzmX9JaRPHns4uyDVIZxWp17m8bi7PCFTDLTPTik2W4d4ti5j1n9QrxRYohMRt7R77CH1ZDxu3Wxwd1mKwiV4YAKEMtHpHzxiU5dbsXAA3zS2UNHKA6gozmOxL8lPYham4ZXg8LdggIJ11i1haEFreVIVEmSUsr5/OLacffld9IFDSbYKciBLo0PGDqBn+XMWktzQsV+MzVFYtiq6jDxBMWTZeBSglrh5s+BwSbTldRmNKegChNHfE1wUpoPigUHDqk+HtABrsALty124E09I4U4L59juHitktNoyUcJgB0VQPz1C9hlwE42dMGDygjG6TdoPF+pjKkwP4Ed+0UvNFvy5U8uJxua+yv66faEigsV0dp0A+aa7XwOpwnO8adRPAtrOOtS20q4SelQSGg0gsDJLR0VRWrVDG7ln1t9khyFlTrFFPBkoEP0FhdGEDrVId6vDlM+ucTWC8=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(346002)(136003)(376002)(366004)(396003)(451199021)(2906002)(55016003)(166002)(38100700002)(122000001)(186003)(26005)(6506007)(86362001)(52536014)(33656002)(5660300002)(9686003)(38070700005)(8676002)(8936002)(41300700001)(110136005)(4744005)(71200400001)(7696005)(45080400002)(478600001)(66556008)(66946007)(66446008)(66476007)(76116006)(91956017)(64756008)(316002)(4326008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?windows-1250?Q?rhacLUcAh5wOD5QhetR61/SdH/+EBnDk92X0saj59K31i7Ed5CK3N6HF?=
+ =?windows-1250?Q?Mw0lj0bpfyMObjIQme8YxjYZ9HOItl/Sq6/N3Q6SjfNYYfiQ1SrvMwSV?=
+ =?windows-1250?Q?ctTE84HUEhBdBAyXR0V3oHO7mjyq9oEYSAfO42lly+/SKrmvhpvHn22y?=
+ =?windows-1250?Q?/OpB4EYO6yleKGWJEwsTYvpaXeeWrxNAnmvZPIp54Ba8CRWX/HxXTq5n?=
+ =?windows-1250?Q?tzzqSkZTIzTL7XUdqyWCnbFtsfls9vtD7SuG+3TUYr0SV1eEF7SYNQHn?=
+ =?windows-1250?Q?DNOJ1jpjCxK5Pd2q1lzYZrVfb2kbXqSV5i1N2rGrWCPex69BPKg8Of+z?=
+ =?windows-1250?Q?MBrCJfPNl1sPzd22RZP77OrDHbZYtzcio0qSTTxN4mXonqWrhrIuMfIE?=
+ =?windows-1250?Q?gIKzme11zphh/2TDQrUkZm4W2iC4AAh/GIDX/l67uuUTSEvbPzFQKS9B?=
+ =?windows-1250?Q?bx7zyTqZdGTqd3TvxkbWKz5rNfhMlgph1WKiCUb7G3/WWXB/ui3VyAyj?=
+ =?windows-1250?Q?HVn5XOzEifrGuH4dOs3TZDICVDAMmaX0i0AQTKvMX9FYKC274XkPab+c?=
+ =?windows-1250?Q?A3ZKOtabYQUm/tsq1qLkK2E/DAliOLsKf/4Ncr8PtgiWG6usep4wt0/o?=
+ =?windows-1250?Q?GNVtYF3+d6LGy+a2Q/PCxgh/ikugJydFM8WwQxZuJFJOx44dUnW+wsC0?=
+ =?windows-1250?Q?UYf2b3Hic7s63H5ClQnC44e0nSzP/EsVLssQVOyleNyrR44SGMQ0enXq?=
+ =?windows-1250?Q?hTlrQG9OOWP+AdMZf8y2/hVqHR8CWq/CbhHwORm6cSHl2GKpwwQLfDaR?=
+ =?windows-1250?Q?E1TT3oM1fS0KgzRjGYIZzO9S8sBmR3xxUcqi8QHDR+cHhrXnSXZQY56F?=
+ =?windows-1250?Q?Gv1RhOCyEqpblZwad5mjW3nqTjPQw9TJlAB7et12rnEOcrEMnjxPATS+?=
+ =?windows-1250?Q?h0+2JxAueT5NaPv64J6yWEoXLpC4KYElqBsdJm+Cd15lfTu72iZZAvYW?=
+ =?windows-1250?Q?u8x86/5Or+1nYhV9nXRlGmtF902I1b3MO4+t4srLwWKeBFsKdwp5ymAx?=
+ =?windows-1250?Q?0lAJd0afeprw1W02g5s+exWENT3EVR1B30tVqdqXD6ioUSiZPtFxkfd3?=
+ =?windows-1250?Q?7TTnz7UkxaYq9smkypGZE9IaigO+kUSLpT82YRtT0WAEGlGdSYlPz5Pc?=
+ =?windows-1250?Q?TvFUcCaqgCJKvX7S5rbuhe3/+6dIrhbIZN+xcDKM6XjVVMzvgg/zNpqG?=
+ =?windows-1250?Q?owuKXsrjKgyOYqHStNyEZD47yPo/WUniHxO9b1vR4ElXXQzWDFwty1u5?=
+ =?windows-1250?Q?g47w5+LnvEBU63q2HA/hufFsh75wJfA3/wliZnp7VmOHKuJ26LOAcdnN?=
+ =?windows-1250?Q?dSmGziuFVgCPg+rMs9EWy5YeSYYuUBlTctIqAYO4H1mM7K4E6WX4Mr2g?=
+ =?windows-1250?Q?zQkWf+qyFuDWpnJNOBcvCaxcMIlgoIO+t54VOYG3urs5yfb3c23hwMi3?=
+ =?windows-1250?Q?SBicngukTKsbilKB7B/8LznWhvq+naQy3yR9S7GtBIcGEnXYzE23zcDr?=
+ =?windows-1250?Q?uVam+vS10M1OnRGu9pvNSkDvZDVcCNLaxNzQ249CIvLuFZKEws2ZKUo4?=
+ =?windows-1250?Q?6iF7EN+tUsDc1EfGuGRTQ2s0TIoSoS4dHzfYVVHvbbYztB45CbnBrBzm?=
+ =?windows-1250?Q?/i39541aOOqWXcWnNqBOES0VfKjI7COqlsRXAsLlCijcGkmFutIJfA?=
+ =?windows-1250?Q?=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_VI1PR04MB5373AB2EB526F803105F52729136AVI1PR04MB5373eurp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR04MB5151:EE_|DM6PR04MB6908:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c90962f-1a56-4b85-ca90-08db83240919
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	OjFdsovQ8FNdaneVN2jJ7Ep+KUeAsEYP8lntTbJ50KqJsvq8k6ZW2+B8pBQfasoWKQFcWV5NWskTeWcGYL4WAYbfdE396gkbeJPmGFJ3hhtUDlFLlwDbBNHrzoDdiJbj4GDZCqCs5dj7nHOPl8zoj8ZN+rDqYd93iXESP9VUqA64df+kydhS+8cONyrud6wqcLnDKVlDB1Gue+sjXAjTBJKmXcITrE16C1ael6RRzN2jf4bdqsNp8D8FNnMXLOtEjPRrZRDk0PHE7bqMFXbyQAbbrXQM3vPi3TUwf9py7/4dqnKzCPx9/rE/fgv4Y5sHuoCW0k7vOTkeZUaV0TnJOUB9JiQX7M9lrdLt2tHbPUCHDO4kWUnYTKv6S/LaljPBiZ4ahQrUMNmfxAAYEcHo++c8cPTmXAnmI740no/JaFyxoaIoUGDGC3aJ3VvrxVYQxO0MfIgV4WymXInt16sbqB90B5BGIUpunMZzi/B61HkCRNndm5ycMS9kyaUL8Tbyb5D1NEUO5oMHKfMHe00Lme3ScEJwvt9l2IQ0BzRWmE9/ESasrmVQ3lS8fM/YHG7mjyyWlsNwNfjyplWbsQSPLXpXfy7WKX5PcDy/OOM0pM7ccHXWPRUYz2qfcJ6o6g2V3F3kLkHcta7N4v4qA+pe2DRZjLP+TMFqNBgIs4uZjvvaci9nPV5XRVTy4H0aBLf7
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(451199021)(66574015)(2906002)(2616005)(36756003)(41300700001)(66899021)(83380400001)(53546011)(5660300002)(6506007)(186003)(44832011)(8936002)(8676002)(31696002)(6486002)(66476007)(66946007)(66556008)(36916002)(6666004)(86362001)(478600001)(38100700002)(31686004)(316002)(6512007)(966005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5+z6hp0bSxBN9yNNZdRwOmgEaiYyZGAFYsVQ15caehZ640yBHrs0pmJZ6HPM?=
- =?us-ascii?Q?E5CyCjVckzPIlMLBHbVopPDeheS/6nI2HVoe4OpHlFC4xXRgXqBEo5UjEqJe?=
- =?us-ascii?Q?s17w+mBprfjOagNzVyLVk5PcTejerWziYbOMYmyDN1efTfQ7vC8aTAYqydDL?=
- =?us-ascii?Q?HSvXj62Xeet2qKq7t3+0g9VXz0FGr+l++iG1yfmB/ijOr7m0AKFDgf4Qjshh?=
- =?us-ascii?Q?GmMuweS/oBofIt3f9EuesGY4nk39PoLcI51fc1QD895G2dZNpQC3b9f3o4nm?=
- =?us-ascii?Q?1eZrePNuAFNF+24CzcxnFZn2QB8fePHudXg37R4xo18sfE+K7mPkOuZAAyFB?=
- =?us-ascii?Q?C9SjmUE6W0bJvYWMPk0vZCqCtIDo6BW9/FxddoUZboEvZ7Me8BI9sLTQMvzs?=
- =?us-ascii?Q?u+3iQ5lC+MMVxvCcVzPkoQ3SHLVa9WSEiCC31UFE7x8zBwBh8heHVriFklEi?=
- =?us-ascii?Q?5h10ddN1CPuxtO5ym/RRgY+JJCfnZtjeg1/T7NPuPMZ0fGr0J9oMVRZNUeEb?=
- =?us-ascii?Q?ZTJ02Crkb+6bmoeXqUx9ro8u1mILAUKmOm+NFdngGTBW7Olrb8g1Ycb0c20a?=
- =?us-ascii?Q?gR/U65V37WxA+IaAb07LwPHF+vXaT2xnzWvDt7UNSIfXIvl4KvS4uOJIBz5q?=
- =?us-ascii?Q?Si6FH/8kz18W01vjj1DyZpnp85+xXmNiySvPdbclK6rWDhNAd6xPhWTHP88I?=
- =?us-ascii?Q?MVZeWTfHkcDrLyUZKbslHUhBPTjVeeLJkPhG5ErmdtwXW4r5FPs4ePJb1T3r?=
- =?us-ascii?Q?VoBZUdycHiwNdcOhcXweF0r3EAg47TnaYYi2++D4ODnshoTYangr4NwdfIzk?=
- =?us-ascii?Q?RFDdPZ3mN6Ix0ZPKrIXIvwlDjINqwk5mhuNZsafyEzNLQJ/EbWwYAf8IntuC?=
- =?us-ascii?Q?Q3YrjHtV9DlMxk/vBlC2AGTN7XpzUYkMam44uDQ9x6nEO7JnF5L5v2Ja/aR7?=
- =?us-ascii?Q?njleK8qON+6BtxfSdlP6uuERV/gLWfwq+rFaXsUr18mcF7H+BBjQmsCiet3s?=
- =?us-ascii?Q?mIxx90Fx8Xj7oiwoV5VZiu6734tMf4Ds7Owxet+pEudwBTPLJLEoim9JwfpQ?=
- =?us-ascii?Q?JAvmXq2oykIHGJTXjo+rMUUqt6FHRi44sCMQgBQDZumqEzgYIbMh+n1Dxhqh?=
- =?us-ascii?Q?uCPh54f9TaFwH9tksSsXxS++oq0XAwegFgcvA0hyslD9fnlXW0ibK2QFQxRq?=
- =?us-ascii?Q?S1Xl8THsnI3m306KcZ2XW1WKSCQINJzX5+7N3MG6rRTT59X/+RLs2azLMSnt?=
- =?us-ascii?Q?LyyVTxEAgEOG3jKBcmyZ7T1tMX19Hth0B7X4DJgeMgpiAJ9DZ9jqee8WN+2r?=
- =?us-ascii?Q?/auOoOQtUhdN3uqlzs3O3uDOwhYY8CLOVEktEDn9NRoA3HeJJ1NyjBzJkQxM?=
- =?us-ascii?Q?H8VY8BNbJzw8KprATUXEerr5N72Qs162cidNJG750Iou1reZokGcrJ1ss1cR?=
- =?us-ascii?Q?e0g8STNqB76oxd+LyOnATZUzVXPQVPt+1DzYH73jZxQ0GPmQQgaToZSnUsjL?=
- =?us-ascii?Q?3wl8JMtiU/5aLpA8gzzYsSi+njJpFLHiVLAuU9Vu7VJk3DP298mLXu31n16s?=
- =?us-ascii?Q?d2XMDp1gPGEgVyOcYFW/UXSuUlJr68gT8HvkjjTgmiLZjenbw0kj2c6vOY4x?=
- =?us-ascii?Q?YPYCQYb6IWP63JAFyP6nUeFX9e47AOSt329jxAINp9EB?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c90962f-1a56-4b85-ca90-08db83240919
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
+X-OriginatorOrg: welotec.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 22:04:59.9559
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5e2a7a2-2649-459c-334e-08db832a9122
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2023 22:51:44.9589
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ba6Kve+EhftD88GIyyo43f5U/1W9nbpn2xqM1P9RQobdeh/SKKuXlFSgWv0pB+M6K0rOn7mEVV7M4K+KQxng7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6908
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YMYwO9CUjBLCkEJwxDUBE9sI25OpdaCATS1ddxij215D2UAWk2+Q4Kkwqu7rHG7ltoMjeu1Uh7ErUPddh7079w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8409
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 22:05:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184228
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 22:51:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184229
 
-ACK this patchset, assuming the other maintainers are happy with how=20
-we're handling the DISTO_FEATURES.
+--_000_VI1PR04MB5373AB2EB526F803105F52729136AVI1PR04MB5373eurp_
+Content-Type: text/plain; charset="windows-1250"
+Content-Transfer-Encoding: quoted-printable
 
-I chose not to include Piotr's opkg and opkg-utils ACL/xattr changes=20
-into the 0.6.2 release, which I have just pushed. They've been merged=20
-afterward, and can still be applied atop 0.6.2, and they'll be merged=20
-into the December opkg release.
+But I have sent already v5 with this change=85
 
-I have a branch ready to upgrade the opkg and opkg-utils recipes, but=20
-I'd like to wait for this patchset to clear, because they will otherwise=20
-conflict.
+BR
+Piotr
 
-On 7/12/23 15:04, Piotr =C5=81obacz via lists.openembedded.org wrote:
-> Include support for ACLs and extended file attributes for native
-> builds, by default.
->
-> Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
-> ---
->   meta/conf/bitbake.conf | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9625a6fef4..8daaaad615 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -904,7 +904,7 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
->  =20
->   # Native distro features (will always be used for -native, even if they
->   # are not enabled for target)
-> -DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
-> +DISTRO_FEATURES_NATIVE ?=3D "acl x11 ipv6 xattr"
->   DISTRO_FEATURES_NATIVESDK ?=3D "x11"
->  =20
->   # Normally target distro features will not be applied to native builds:
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184214): https://lists.openembedded.org/g/openembedde=
-d-core/message/184214
-> Mute This Topic: https://lists.openembedded.org/mt/100106217/3616788
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.stewart@ni.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Wysy=B3ane z aplikacji Outlook dla systemu iOS<https://aka.ms/o0ukef>
+________________________________
+Od: Richard Purdie <richard.purdie@linuxfoundation.org>
+Wys=B3ane: Wednesday, July 12, 2023 11:33:37 PM
+Do: Piotr =A3obacz <p.lobacz@welotec.com>; Alexander Kanavin <alex.kanavin@=
+gmail.com>
+DW: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Temat: Re: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr distro n=
+ative features support
 
---=20
-Alex Stewart
-Software Engineer - NI Real-Time OS
-NI (National Instruments)
+On Wed, 2023-07-12 at 20:48 +0000, Piotr =A3obacz wrote:
+> Richard, but that is exactly, what I have written=85 wirhout any
+> checks.
 
-alex.stewart@ni.com
+No, I mean that the right patch should be:
 
+-DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
++DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr acl"
+
+i.e. add acl to DISTRO_FEATURES_NATIVE and leave xattr there.
+
+Cheers,
+
+Richard
+
+
+--_000_VI1PR04MB5373AB2EB526F803105F52729136AVI1PR04MB5373eurp_
+Content-Type: text/html; charset="windows-1250"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dwindows-1=
+250">
+</head>
+<body>
+<div>
+<div>
+<div dir=3D"ltr">
+<div dir=3D"ltr">But I have sent already v5 with this change=85</div>
+<div dir=3D"ltr"><br>
+</div>
+<div dir=3D"ltr">BR</div>
+<div dir=3D"ltr">Piotr</div>
+</div>
+</div>
+<div id=3D"ms-outlook-mobile-signature">
+<div><br>
+</div>
+Wysy=B3ane z aplikacji <a href=3D"https://aka.ms/o0ukef">Outlook dla system=
+u iOS</a></div>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>Od:</b> Richard Purdie &lt;rich=
+ard.purdie@linuxfoundation.org&gt;<br>
+<b>Wys=B3ane:</b> Wednesday, July 12, 2023 11:33:37 PM<br>
+<b>Do:</b> Piotr =A3obacz &lt;p.lobacz@welotec.com&gt;; Alexander Kanavin &=
+lt;alex.kanavin@gmail.com&gt;<br>
+<b>DW:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Temat:</b> Re: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr d=
+istro native features support</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Wed, 2023-07-12 at 20:48 +0000, Piotr =A3obacz =
+wrote:<br>
+&gt; Richard, but that is exactly, what I have written=85 wirhout any<br>
+&gt; checks.<br>
+<br>
+No, I mean that the right patch should be:<br>
+<br>
+-DISTRO_FEATURES_NATIVE ?=3D &quot;x11 ipv6 xattr&quot;<br>
++DISTRO_FEATURES_NATIVE ?=3D &quot;x11 ipv6 xattr acl&quot;<br>
+<br>
+i.e. add acl to DISTRO_FEATURES_NATIVE and leave xattr there.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_VI1PR04MB5373AB2EB526F803105F52729136AVI1PR04MB5373eurp_--
 
