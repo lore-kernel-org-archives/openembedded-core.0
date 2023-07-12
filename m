@@ -1,96 +1,97 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CAFEB64D9
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 13:04:02 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.6693.1689167039778243887
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12A6EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 13:57:22 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.7900.1689170234589321648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 06:04:00 -0700
+ Wed, 12 Jul 2023 06:57:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SVACw9Zw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbfcc6daa9so59799585e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 06:03:59 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=NpP5+W58;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.51, mailfrom: jstephan@baylibre.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-314172bb818so7558577f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 06:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1689167033; x=1691759033;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lBiLHPS5OTLvBH2CMuHJih/56ZrrHSY9foFPpCMvffY=;
-        b=SVACw9ZwRXAIkMJA6nzNq7zMV9rU/qhoMrHGx3EaEmpx2nLp9HbZNBdOeIQ+1jPlEO
-         NBxnC1Ez6Br3cBbbxEN32QdF+sSuKREoauMd5dpPF7zr9ulz/q23jS/i8dudFl+uW7b1
-         rfM1LrH54+pK0I5UMW867XcABA8UTv3+ktAkg=
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689170232; x=1691762232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LgtKvlw7Po6hxFm6qve5TFVRHEqGoPUOTrdI4vaJzpY=;
+        b=NpP5+W58kOEVoOvs2geKuBf6lTL0r1jNcJOVKhfyDQhd0r+T0GGMGuRVlFMuWu3H/J
+         a6GGC0JIq8lzmB7bidOt7EvhIjXZmI2GGD35YgqZf4yzMtVL424aHuNiCSkd528R2W+v
+         3BzKNokaI/w1bvhCEfmibJNC5nTT5LBlULYWdfIj7vszyOFaQLq2RiD+Ot3oTpL+TdA8
+         SGRVelo8OSVyArXiHJk+1uUP3GpXfbKbHGzEBH89YlUZ5Nh0HcBXHGdmHupS+i/yE1Eo
+         4GQxj+fELC3tKcNUmulSHOwP6LNJ7Evn2NIHOOoZRHF2NFIHeVPRMtelhPjVOzxrWFhI
+         UouA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689167033; x=1691759033;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lBiLHPS5OTLvBH2CMuHJih/56ZrrHSY9foFPpCMvffY=;
-        b=SNqWeN1aBq4w1UsK42dSqqQvV4jjpeje9Q8vNtmDd+6L9gLN/MLSADw98NDtFsyeLs
-         QcLzox2sMypWUgDzzMUyb+amVjVhfUdv8C0V9X8nzbHR+4eSp29GXq4mrwcP4klRCvm2
-         A5GCpTSxKyHJwLZkNoXy42xylZHatsHlS4GzoME0F/rTwuSmqgJvJxsBfhOTHxQUzvFA
-         SwunMbpePpxsGotw/Glk55skJiDSvEvIK6KIiVc5dgxv/vIcxjxoqxV2TaTb3R7rB3x4
-         JxZy8fOQLTV/KR1VdrM5wslfzwg7nFiZmhxCTdRsFCZNVhts1VJrxeuZfYZ+TvrQXX2d
-         AVug==
-X-Gm-Message-State: ABy/qLbHHgNRdi1oizN5PjyQEFz4u7FLspTy3WZJ9JDJwBPI5X0XQAoG
-	NFjyyLdHuzhsM4y5EFx/lWxGGQ==
-X-Google-Smtp-Source: APBJJlEGn7VzeZV5Bnn+UXuX2sonohmhlxHhg94xRJ+/c0My2sZj7Aa9WF0kAJZiMt0951hcv2NzQA==
-X-Received: by 2002:a7b:ce11:0:b0:3f4:a09f:1877 with SMTP id m17-20020a7bce11000000b003f4a09f1877mr15048393wmc.23.1689167032764;
-        Wed, 12 Jul 2023 06:03:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:339c:939c:6851:d3b0? ([2001:8b0:aba:5f3c:339c:939c:6851:d3b0])
-        by smtp.gmail.com with ESMTPSA id i17-20020adff311000000b003143853590csm5056408wro.104.2023.07.12.06.03.52
+        d=1e100.net; s=20221208; t=1689170232; x=1691762232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LgtKvlw7Po6hxFm6qve5TFVRHEqGoPUOTrdI4vaJzpY=;
+        b=NHxd6KipbIHCvfOYp9ykxJBuipZS4FTfvtpLlKMyuu+/bfPHNaeFG5+cRH2KnilUp5
+         vJkwbWRJ0uqongl4tmFdg7F20rA3badiMKS49SswWas96nHu9wqhCHowXmPFn8TDGUwh
+         Wq16wrqSAEW9mcFSflHBcpO5L1p8Tr/IvhpFmv26HeCLeQFmznCqQ+HVVq5vgAIO0PKY
+         GXO6iM1NW59a4pAtoJcwqi0UkkFa/4rGvs15KXrw934GPAcSxZYFxzlqStQO2IcOPKib
+         TOW4k9F8tb9nsDE6X5cs4JOrHA0VXr87fU0ElJHx6ftfDogpW9wC/apQ633C2iW7hI8m
+         YU6w==
+X-Gm-Message-State: ABy/qLYpdm9eF1B0vkchUY3GT4zw97m7xY1fKskMA1sr1vEhbP5HqXfU
+	B1h7IbKHAvOwj8fxV1JSyAEncXSH/Iw9ioIImQfIWQ==
+X-Google-Smtp-Source: APBJJlEP44ya302Fllj+qghBzeA+AySCjn75/lsusTqoutoW0AmChkc0XFo6xvhWRUzeKswvNggjIw==
+X-Received: by 2002:adf:f592:0:b0:313:f59c:95ec with SMTP id f18-20020adff592000000b00313f59c95ecmr18177239wro.28.1689170232645;
+        Wed, 12 Jul 2023 06:57:12 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
+        by smtp.gmail.com with ESMTPSA id i10-20020a5d558a000000b0030fb828511csm5143850wrv.100.2023.07.12.06.57.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 06:03:52 -0700 (PDT)
-Message-ID: <9403c0c588465045e0a06be0f9e3f4d4ddf5bc80.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH 1/3] bitbake.conf: add acl and xattr distro
- native features support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>, "p.lobacz@welotec.com"
-	 <p.lobacz@welotec.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Jul 2023 14:03:51 +0100
-In-Reply-To: <E786EFAE-239B-424A-A0A7-67385E4A076F@arm.com>
-References: <20230710095800.2033309-1-p.lobacz@welotec.com>
-	 <956c0e383088df5f8568961f57741452a2cb1920.camel@linuxfoundation.org>
-	 <VI1PR04MB53739BCEE43D11E08D0202E79136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <25f435cb5536206f10a339ed0a20cd9c990a1a9e.camel@linuxfoundation.org>
-	 <VI1PR04MB5373801F47C0AB61E6DC0EFB9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <57f1d335c7b34bfae272ce2bdd0d141c7e7d72b6.camel@linuxfoundation.org>
-	 <VI1PR04MB5373A55313F357CB40C72B0A9136A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <E786EFAE-239B-424A-A0A7-67385E4A076F@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Wed, 12 Jul 2023 06:57:12 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH] automake: fix buildtest patch
+Date: Wed, 12 Jul 2023 15:57:07 +0200
+Message-ID: <20230712135707.264998-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 13:04:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184200
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 13:57:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184201
 
-On Wed, 2023-07-12 at 12:50 +0000, Ross Burton wrote:
-> On 12 Jul 2023, at 13:38, Piotr =C5=81obacz via lists.openembedded.org
-> <p.lobacz=3Dwelotec.com@lists.openembedded.org> wrote:
-> >=20
-> > Guys, the decision is up to you. My first decision was to use it
-> > directly in DISTRO_FEATURES_FILTER with this, but also
-> > conditionally.
-> >=20
-> > Probably this is why Alex has written to move it to
-> > DISTRO_FEATURES_FILTER_NATIVE instead of using it with this
-> > bb.utils.contains
->=20
-> FWIW, I=E2=80=99m with RP: just enable for native.  The build dependencie=
-s
-> are trivial and it=E2=80=99s one less way things can change and cause
-> problems.
+Add check_PROGRAMS as a dependency of buildtest-TESTS target.
+This is required because according to the official automake
+documentation [1]:
+* TESTS: contains all the tests files
+* check_PROGRAMS: contains the programs used by the tests
+* check_PROGRAMS is not automatically added to TESTS
 
-It also may allow better native sstate reuse so lets do that.
+So, by using only TESTS as a dependency for buildtest-TESTS we may end
+up having runtime errors because of missing program required by the
+tests.
 
-Cheers,
+[1]: https://www.gnu.org/software/automake/manual/html_node/Scripts_002dbased-Testsuites.html
 
-Richard
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ meta/recipes-devtools/automake/automake/buildtest.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/automake/automake/buildtest.patch b/meta/recipes-devtools/automake/automake/buildtest.patch
+index b88b9e86938..c43a4ac8f37 100644
+--- a/meta/recipes-devtools/automake/automake/buildtest.patch
++++ b/meta/recipes-devtools/automake/automake/buildtest.patch
+@@ -36,7 +36,7 @@ index e0db651..de137fa 100644
+ -check-TESTS: $(TESTS)
+ +AM_RECURSIVE_TARGETS += buildtest runtest
+ +
+-+buildtest-TESTS: $(TESTS)
+++buildtest-TESTS: $(TESTS) $(check_PROGRAMS)
+ +
+ +check-TESTS: buildtest-TESTS
+ +	$(MAKE) $(AM_MAKEFLAGS) runtest-TESTS
+-- 
+2.41.0
+
 
