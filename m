@@ -1,110 +1,120 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 157E0EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 17:04:55 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.1394.1689181491296037902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2BBEB64DD
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 17:12:25 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.1550.1689181944203156493
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 10:04:51 -0700
+ Wed, 12 Jul 2023 10:12:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=U3Bvw+RE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbc63c2e84so77517605e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 10:04:51 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Q326HjFb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fb41682472so10877840e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 10:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1689181489; x=1691773489;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UOcl6d16vPU1kNVdeoOx32RseiLEqd85COUwC+XDHEY=;
-        b=U3Bvw+REN2Ag/8umOlcEcynSUr5ZTLhkyASRkurWYFsM9GHmDWat57H6tpIxmfd1e7
-         DBafmem3kHmSROqdKPc0xd/sq835ZWXdHIxsYfTWX60Vg/X/R75icrcUNYOswuLZX4Z0
-         jMVRk6VzeezuQW9J/SL1HdKEY6zIGOeAdQOKM=
+        d=gmail.com; s=20221208; t=1689181942; x=1691773942;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4A0VQ/X/G+DpQb+692d7XFTBQYYxh2x8NA1PspbS0vE=;
+        b=Q326HjFbBaaa6ectBoM6Ff2stsbaPMyez4xEov38q6qWkz1BVkrn59cwn8X5YiJBe5
+         NwUQcZaZXs/5eiyrToSBr5hcKtpZWuLOTVhc/JKnr4YnLDe/3DwZfJdQiE7ZqO4tv+hW
+         RGd361Qn0KmdfcTQl2mM5pQeMBZIMhZJu335oCYuHLLhpfp4Rhq4zZpHCH8M1/IDkSnb
+         /2CLqflE81b1odKa3wlpPg2Az3B1hsBs0j/y2MCIKKDYZghBltakeElyArniTjQ80ahn
+         F8uHa4bcE4/5mTDeZPAZpi/K5i9zITkGEuBSOIcS6FBIzqnC/oweFEoLCHv2xBvCeo6l
+         NBzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689181489; x=1691773489;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UOcl6d16vPU1kNVdeoOx32RseiLEqd85COUwC+XDHEY=;
-        b=MKoOE1UvtUUz8MCB+1vCF8CPPi4x4R+DQTw9651XUCHsOXbzqna7yuWqeOpwehul5M
-         qowPirq8RLOsDMPSju7lP5YDwj1YBIroYoxHFH1Y2hnh5BWhnRTNt5fQlT47OEBHjMhK
-         gNHXFVQ8HJD4mia9HhsvJ32YUj3DmL/kZY/2mDTg0ONdrAFl9XNWGwYYGzlCcxS8fzz+
-         cYAa4l5QfuCFLvaPW+Pp4ko1OJmesmIw/W8cgJH4XfpKAIclDoUXJgnKBiyEbh4un7dr
-         7I+GGqvd4TxCdshu1ddD3soG+iXXhNrvqtVGe0zuHQyvsVpmAmobTBm5cgEEWAit3YiY
-         MjpA==
-X-Gm-Message-State: ABy/qLaiaqiSXCtqcBSVAn9ulihMmOo0fblXIvxegzUpjluui3qFg6MB
-	nkr1cObniKXsaUMRiHPFpDeTvA==
-X-Google-Smtp-Source: APBJJlFCQEViLBO9HP1MwH3Jm9BamFrfQdNFJfmuNAh4ajUnMy9i7pyoc3L3CrReSdJ+WFjzCn5T2Q==
-X-Received: by 2002:a1c:7712:0:b0:3fa:71db:56ff with SMTP id t18-20020a1c7712000000b003fa71db56ffmr19685884wmi.40.1689181489435;
-        Wed, 12 Jul 2023 10:04:49 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:339c:939c:6851:d3b0? ([2001:8b0:aba:5f3c:339c:939c:6851:d3b0])
-        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b003fbfa6066acsm5579820wmi.40.2023.07.12.10.04.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 10:04:40 -0700 (PDT)
-Message-ID: <2f5daca6267d0a7dd9655527ce862fd4ca1b265c.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v4 1/5] bitbake.conf: add acl and xattr distro
- native features support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Piotr =?UTF-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Jul 2023 18:04:39 +0100
-In-Reply-To: <20230712122558.711029-1-p.lobacz@welotec.com>
-References: <20230712122558.711029-1-p.lobacz@welotec.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1689181942; x=1691773942;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4A0VQ/X/G+DpQb+692d7XFTBQYYxh2x8NA1PspbS0vE=;
+        b=lm7ogcRPHgRE9GVrfirzO4eHd4hGiyznOn8rZG1kiCrCkBrvn1NBHG4HrlPNeC97Hu
+         yCJv67HLHnKqJtaX+kjXsxR1LC1a4uTfYZCzz/PRhrGj1EhklzVB2wlFFjKT5oiSJ8dM
+         r03F6lAZhRg1pigBf8Al3i87r+e1lHcYqvu3wfsHcepY/Gg5D2SrvAR0c2fOsTQ+ehFo
+         1EW+mbDrRwtC3IrCTWxkc2zxb6rtCISLJ7DmRlpVkt3vFQiD9zmSLORzId98lZ8dFkug
+         9QrGk2hNYfVsQvGDdYmJJjfuFXaHqHDZl21wqhBesmwb/ur08WL/ZIec1JhMXWfyAeRa
+         lU9Q==
+X-Gm-Message-State: ABy/qLbIOSjV/2bEvXvNxNAxpmDISixrY6m+iBpFSxXlkXd27H9fvO5a
+	v88IeZaWYzwAW/Tyx4pRcRNJDNCK22HAx3Tt/gY=
+X-Google-Smtp-Source: APBJJlFp6aFJghxndOE7zME1HPdfaBo3ghTcmBrcYmIuEraVLRqo55nmPHU2jB/vQGrOALWbXTf0UX2gx4fILKYKMME=
+X-Received: by 2002:ac2:498e:0:b0:4fb:9884:43d8 with SMTP id
+ f14-20020ac2498e000000b004fb988443d8mr17347716lfl.43.1689181940451; Wed, 12
+ Jul 2023 10:12:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <ly5y6p1hbx.fsf@ensc-pc.intern.sigma-chemnitz.de>
+In-Reply-To: <ly5y6p1hbx.fsf@ensc-pc.intern.sigma-chemnitz.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 12 Jul 2023 19:12:09 +0200
+Message-ID: <CANNYZj8AyC22V5vmFLrDrXXhybg4i8tP=xaQgm5OcVq5+QZ22w@mail.gmail.com>
+Subject: Re: [OE-core] RFE: add 'LAYERDIR_<layer>' variable
+To: enrico.scholz@sigma-chemnitz.de
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 17:04:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184208
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 17:12:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184209
 
-On Wed, 2023-07-12 at 14:25 +0200, Piotr =C5=81obacz wrote:
-> Include support for ACLs and extended file attributes for native
-> builds, depending on which distro target features has been turned
-> on.
->=20
-> Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
-> ---
->  meta/conf/bitbake.conf | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9625a6fef4..20684a5126 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -904,12 +904,12 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
-> =20
->  # Native distro features (will always be used for -native, even if they
->  # are not enabled for target)
-> -DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
-> +DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6"
->  DISTRO_FEATURES_NATIVESDK ?=3D "x11"
-> =20
->  # Normally target distro features will not be applied to native builds:
->  # Native distro features on this list will use the target feature value
-> -DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod opengl =
-wayland"
-> +DISTRO_FEATURES_FILTER_NATIVE ?=3D "acl api-documentation debuginfod ope=
-ngl wayland xattr"
->  DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod open=
-gl wayland"
-> =20
->  DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspection-=
-data ldconfig"
+I would generally not want to encourage reuse of recipes this way. If
+I have something in my layer I want freedom to change it as I please,
+and I don't want to hear complaints that I 'broke' layers I have never
+heard about because those layers include bits and pieces of my
+recipes. If you want reuse, put the reusable bits into .bbclass.
 
-Just to be clear, I know what Alex said but after further thought, acl
-needs to move into DISTRO_FEATURES_NATIVE in my opinion (and Ross'
-too).
+Alex
 
-I suspect Alex will agree with that too after thinking about the
-arguments I put forward about simplifying sstate reuse.
-
-Cheers,
-
-Richard
+On Wed, 12 Jul 2023 at 13:48, Enrico Scholz via lists.openembedded.org
+<enrico.scholz=sigma-chemnitz.de@lists.openembedded.org> wrote:
+>
+> Hi,
+>
+> currently, it is difficult to reuse recipes from other layers because
+> their path is required but not known.  E.g. when one tries to add a
+> backported imx-gpu-viv recipe [1] to a local layer by
+>
+> | require recipes-graphics/imx-gpu-viv/imx-gpu-viv-6.inc
+>
+> do_fetch() will fail because some SRC_URI can not be resolved.  To
+> support this, FILESEXTRAPATHS must contain the path of the original
+> recipe.
+>
+> Determining this path is difficult at the moment, because it is unknown
+> and depends on the layout of BBLAYERS.
+>
+>
+> I suggest to add a new standard variable 'LAYERDIR_<layer>' which
+> points to '${LAYERDIR}' of the layer.  It is probably difficult to set
+> it automatically (value of <layer> is not known); instead of, it must
+> be defined manually in 'layer.conf' like related variables.
+>
+> E.g.
+>
+> | BBFILE_COLLECTIONS += "freescale-layer"
+> | BBFILE_PATTERN_freescale-layer := "^${LAYERDIR}/"
+> |
+> | LAYERDIR_freescale-layer := "${LAYERDIR}"    <<<<<<<<<<
+>
+> Diagnostic should be easy (iterate over BBFILE_COLLECTIONS and emit
+> warning when corresponding 'LAYERDIR_<layer>' is undefined).
+>
+>
+> What do you think?
+>
+>
+> Enrico
+>
+> Footnotes:
+> [1]  https://github.com/Freescale/meta-freescale/blob/master/recipes-graphics/imx-gpu-viv/imx-gpu-viv_6.4.11.p1.0-aarch64.bb
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184185): https://lists.openembedded.org/g/openembedded-core/message/184185
+> Mute This Topic: https://lists.openembedded.org/mt/100097753/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
