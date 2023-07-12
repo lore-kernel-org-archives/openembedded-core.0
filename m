@@ -1,79 +1,175 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 725BCEB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 16:13:23 +0000 (UTC)
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
- by mx.groups.io with SMTP id smtpd.web10.11616.1689178401593307406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5A6EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 16:54:15 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.1110.1689180847981068978
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 09:13:21 -0700
+ Wed, 12 Jul 2023 09:54:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=QJg4IkRt;
- spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-56344354e2cso4967205eaf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 09:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689178401; x=1691770401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zK/EzKz/3w7qvzHDmrQBSEmuLcZS5+wrDX/IPZiqkdA=;
-        b=QJg4IkRtazb5MFbSP0nnChZScgfPYy3zaRenR8sSRqeDDBfzGTGh2m/cuWVpvEriNw
-         mEa6idrnm1k7PHgELFWA4RfYIec41Q7Pt1R7JD4Ir6QHd0n5HfPW8wPHau3jsBAs7IpZ
-         CPWdwmm3k82iXoCOp4bc/VHQPRJzobaNu/GuoV5FL25NuBLz3sknxcsEelBomR70ntF0
-         Xm4dJVNi9Et4oIbxPcnIv+oZEgYwnwQY61F1FglMHJfwntE8Zm0drqz/C5Xn+34F/10c
-         EF7HTwmysU6v40plZQDvJkkLz9/NtD9tmUH/YyVSaSIbd+EEgM2c0LOVPuv7h4b+KQh8
-         pW9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689178401; x=1691770401;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zK/EzKz/3w7qvzHDmrQBSEmuLcZS5+wrDX/IPZiqkdA=;
-        b=JcGxtD7zm1dgUxFB6s5nQt9DE7a2SusuhRTG1h/VI9jk+MBbZTfHSXl2HKZ4/kzKnT
-         5QUD4Z4DSaWLw/KzBgMovQQqEVZtReq9qduWQvYO6WjDBAgac/zhts6aN3Qrn5t/pp1w
-         alL8CvZFe0fsrYuYk1b4PnUk57z1kINLo3EgnFlVzKHTpMymPdDBsPGKzH+8kIjr1T2k
-         bTYsXlfkqycB3HpM2t++OWaGg9VmTMfjttNnof+ZILNA4AUaVwLjMqWipnw8CKFjD3M9
-         kcPkvoZxNJ+Ev+OeCvVIrL2VTNgXETYKjFfJTvtvt7IHh1fwFOTzKIVawM8ajQDI2mjU
-         9A/A==
-X-Gm-Message-State: ABy/qLatDgwML9HEuXv6tswB05Rye84FwJBIf8lM9rxKCmx9qyqKRS5P
-	63FZDU5pD2MEUNE/ZnZOkuJfgeiwAOSPy1oTFbM=
-X-Google-Smtp-Source: APBJJlFj1ud//CXOWeDkj30jz3oKV9KcyWu6JcgBM9XHs6Yg56+WZf2VQuitcNxBFWOTmKNuxSTGpIzWePLU2+QfsnY=
-X-Received: by 2002:a4a:2a0e:0:b0:566:ec2f:36d0 with SMTP id
- k14-20020a4a2a0e000000b00566ec2f36d0mr1542322oof.2.1689178400548; Wed, 12 Jul
- 2023 09:13:20 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eQ5SP/4t;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 86ED240003;
+	Wed, 12 Jul 2023 16:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689180845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Z1qdECwZOn5om63OHM+h3bW94QYKs2VBA9A5GCR+o0=;
+	b=eQ5SP/4tY76FD/Kg5c8TRKJZAgcMI1+/XfSr883hiY1uh+g19qlOnCqzVlLcsJBiGB2jpL
+	N9xZTGZcY1ra5hyd+6fjKbCVIVPLOWRpV6XTQhoAIO+BQDmUH2Q908rrYesyZ8Fs+h5hFr
+	0fBTeGkjalqnlHYnJONE9Az09g6wEr4EEUDyBULxciJwAzV+vokrK+Xa3bq/XXKdUXmZY9
+	LAZSm9KmBC3vuXzE0tXpxs1pMi37h7rsIJL7FdDXK9K4y/zVt6Q72yNlRjaCk+twHQYes6
+	F9jsgB9ankXruv4xlgvbZE/XIS2MRheuFsrYXN4JLQkATfQaTYe6XnhUwmRAbw==
+Date: Wed, 12 Jul 2023 18:54:05 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Piotr =?utf-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-Core][PATCH v4 2/5] package_ipk.bbclass: add support for
+ ACLs and xattr
+Message-ID: <202307121654058c48624b@mail.local>
+References: <20230712122558.711029-1-p.lobacz@welotec.com>
+ <20230712122558.711029-2-p.lobacz@welotec.com>
 MIME-Version: 1.0
-References: <20230711201042.38285-1-raj.khem@gmail.com> <B1D99B0D-B820-43F0-A699-C7A121D74205@arm.com>
-In-Reply-To: <B1D99B0D-B820-43F0-A699-C7A121D74205@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Jul 2023 09:12:54 -0700
-Message-ID: <CAMKF1spwCD0=UumG2ffh+_1F8AVcsLxxs63+pDkbkvHAwYr7sA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] tunes: Add support for sve instructions on armv8/armv9
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230712122558.711029-2-p.lobacz@welotec.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 16:13:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184206
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 16:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184207
 
-On Wed, Jul 12, 2023 at 3:29=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
->
-> On 11 Jul 2023, at 21:10, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > This helps in defining correct compiler options and configure options
-> > for glibc and overall ABI for toolchain
->
-> Given this, shouldn=E2=80=99t the glibc patch respect the tune flags inst=
-ead of forcibly turning sve off?
+I tested a previous version and got:
 
-It will as a follow up.
+ERROR: run-postinsts-1.0-r10 do_package_write_ipk: Fatal errors occurred in=
+ subprocesses:
+Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
+roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
+/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
+all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
+poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
+poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
+pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
+stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
+/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
+-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
+tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
+ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
+n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
+poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
+ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
+" run-postinsts /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work=
+/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zero ex=
+it status 1.
+Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
+/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
+n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
+ [-g group] <pkg_directory> [<destination_directory>]
+Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
+roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
+/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
+all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
+poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
+poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
+pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
+stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
+/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
+-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
+tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
+ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
+n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
+poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
+ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
+" run-postinsts-dev /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/=
+work/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zer=
+o exit status 1.
+Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
+/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
+n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
+ [-g group] <pkg_directory> [<destination_directory>]
+Command 'PATH=3D"/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sys=
+roots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/poky-tiny=
+/build/scripts:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/=
+all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bin/allarch-=
+poky-linux:/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-=
+poky-linux/run-postinsts/1.0-r10/recipe-sysroot/usr/bin/crossscripts:/home/=
+pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/run-po=
+stinsts/1.0-r10/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker=
+/poky-tiny/build/build/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe=
+-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/poky-tiny/build/build/=
+tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/sbin:/h=
+ome/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/all-poky-linux/ru=
+n-postinsts/1.0-r10/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/=
+poky-tiny/build/bitbake/bin:/home/pokybuild/yocto-worker/poky-tiny/build/bu=
+ild/tmp/hosttools" opkg-build -Z xz -a "--memlimit=3D5% --threads=3D8" "" "=
+" run-postinsts-dbg /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/=
+work/all-poky-linux/run-postinsts/1.0-r10/deploy-ipks/all' returned non-zer=
+o exit status 1.
+Subprocess output:Usage: /home/pokybuild/yocto-worker/poky-tiny/build/build=
+/tmp/work/all-poky-linux/run-postinsts/1.0-r10/recipe-sysroot-native/usr/bi=
+n/opkg-build [-c] [-C] [-Z compressor] [-a compressor_args] [-O] [-o owner]=
+ [-g group] <pkg_directory> [<destination_directory>]
 
->
-> Ross
+
+any chance this is solved in v4?
+
+On 12/07/2023 14:25:55+0200, Piotr =C5=81obacz wrote:
+> Extend OPKGBUILDCMD variable, with additional parameters, depending
+> on target distro features, in order to support ACLs and xattr.
+>=20
+> With fix pushed to the opkg-devel:
+> https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
+> opkg-build is able to create tar archives with ACLs and xattr.
+>=20
+> Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
+> ---
+>  meta/classes-global/package_ipk.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-globa=
+l/package_ipk.bbclass
+> index b4b7bc9ac2..5e151be3cd 100644
+> --- a/meta/classes-global/package_ipk.bbclass
+> +++ b/meta/classes-global/package_ipk.bbclass
+> @@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET =3D "${WORKDIR}/opkg-sdk-target.con=
+f"
+>  PKGWRITEDIRIPK =3D "${WORKDIR}/deploy-ipks"
+> =20
+>  # Program to be used to build opkg packages
+> -OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
+> +OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}" "${@bb.utils.co=
+ntains('DISTRO_FEATURES', 'acl', '-A', '', d)}" "${@bb.utils.contains('DIST=
+RO_FEATURES', 'xattr', '-X', '', d)}"'
+> =20
+>  OPKG_ARGS +=3D "--force_postinstall --prefer-arch-to-version"
+>  OPKG_ARGS +=3D "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMEN=
+DATIONS") =3D=3D "1"]}"
+> --=20
+> 2.34.1
+>=20
+
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184190): https://lists.openembedded.org/g/openembedde=
+d-core/message/184190
+> Mute This Topic: https://lists.openembedded.org/mt/100098284/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
+
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
