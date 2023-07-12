@@ -1,173 +1,133 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A99EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 18:27:45 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.3526.1689186461996354702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C96F0EB64DA
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 19:04:45 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.76])
+ by mx.groups.io with SMTP id smtpd.web10.4463.1689188684363419691
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 11:27:42 -0700
+ Wed, 12 Jul 2023 12:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=QCu/6HWM;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4f954d7309fso1419163e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689186460; x=1691778460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tTSEnNmJ/jUzEp8GzeekQpZ0G9xF6hRnhoB+iJB15WM=;
-        b=QCu/6HWM+GIp5t3q3/g9clWD5emi4umX+qQDS9d6g+GcHbv9IFfZFtQbRG32hs9+dY
-         tpqkDUhF9dCI22/jHpVvgAxgvE3WU6SMeaYBFDyXeDtvP5m9PwxM3MS8YgKU3sUXMTjL
-         mPTNW7O2g0ajHsejMXfrpOBTIqryaPUUJbVhLA4IRxmtfitGS0QJOIowkcBvcjx/RINK
-         oKDLlYA0uoeVAMHl4dtcX0q76XzlQtQEmevQS1LN8pGEmtVITuSHKoeXLeExIFiPfmNR
-         DAAq2jtdpeulLh2PWgTZKIYY65qIe4e991wx36C9VM1HDNDCKvQ3H13+WdGl84zcPIrd
-         BWrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689186460; x=1691778460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tTSEnNmJ/jUzEp8GzeekQpZ0G9xF6hRnhoB+iJB15WM=;
-        b=MbK82709kiFYBSs6AZlml/h82wbE2lFNdqnXYx3wp7lK3sq86262TwxzT2zU4ORfwK
-         0g6T6S13NFLfVCIRkIVWE9qp6zKF6mwqqPeAH9ecfxX1xCzLGA1G1p6yRdxEIJEw0zNo
-         TaMsufwYu9zhvRTOoIyDKl40VlSofT1ioZLQ1nM7ju3ClJwnKQRQq3lUBj9PAfTm28wq
-         b8xf3UcaOyS1yKSw8g1AvaQ1KQviUoL0bV62izmiXCnc8TsOhorK64GNfqx79r3FQYe7
-         TW/VRhxw5XktFbhokQSfXnNyj3ti4/rRNQ3xT6hG5eG3fJkgxdgmtI0uPXS10xoJUHMS
-         XYkw==
-X-Gm-Message-State: ABy/qLYXJv0zwPMHOOujIO9phe7mSccEsVxm31OuDTT0MDPxHsIYvXpH
-	U7eRu5XBawl3ifXdqCr541vih/kkHv/zt/mmr8o=
-X-Google-Smtp-Source: APBJJlHokCWaGud0dQhREBPtmEsgcZh6SzUfFcULqUxOprqCSO+AOKd+9KC3n7g/XWPn82EkPhMWDsOU5CNy/cE9qsM=
-X-Received: by 2002:a05:6512:1093:b0:4f8:6ac4:1aa9 with SMTP id
- j19-20020a056512109300b004f86ac41aa9mr1220149lfg.21.1689186459802; Wed, 12
- Jul 2023 11:27:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230711172545.738677-1-tgamblin@baylibre.com>
-In-Reply-To: <20230711172545.738677-1-tgamblin@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Jul 2023 20:27:28 +0200
-Message-ID: <CANNYZj-7ZzO65GN+_X+peMDFp31Q1M9Tx8OEfj0p0PS4VB5Ecg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] python3: parallelize ptests, add test_cppext dependencies
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=O8o3q1op;
+ spf=pass (domain: welotec.com, ip: 40.107.21.76, mailfrom: p.lobacz@welotec.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=URDNGK1tL/aDjMIFoL/AoK+W7EETqDKIolfMTbKj7n3gMQ0Uqf3obzHHEa9suaAHahVigiJenfwR7bFzBl3V55YTX/domwH0/pE8tU7YIDBT89X43RGcC+ArVvBmmz4fzaGGBhkndiX4Lr0wvEtX5Knj7LMM20ymd0owCzld/kXMSzOTNYbKxsXWBplm7SSXJw+XEytxkCcKHW6QLe9xBEPQbqrOphLJrnn0dCJ6xZAWIj8X5gUpCTjShdFnRy0sXiDvBitleLFhh+JJixSjxRiyRKWpE2VUR5dsurDW8upr726CD8keHOooe19nfgYbHiMmNq6SCHCIes54utbSnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X2ZV6Y7oDIyu6JsDrEUq6/cNti1xzxCqlbDT3Z1eKls=;
+ b=QzNhNH1OYl/ymbQSPVA/msDSbDe/Xt4siZJJPyB9cie0DV43keX+B6M9bZdPwuDSKwA37OfzrPo4N87TYQ7AZ/HbmlRoaWC2BdIZSE5X5BA7DgaLWo1YZ6ZnhUDmofirSMrOuDs93KaXUDNKCOIBChUAtQ7eMQuHRWiq+F4pB1Y1wm4CWMrD1T0p9cscmSr8+MzjNBVvFoavyv8mUDQHFzBRTxITkGRM7IhP963dhyHEEK74JkCEb9UikJUKlSeUlZGO9BDwTf6dHfaaq13A2QgMLtHvr81LlABaALpFyNPuN8H6Jj1dvaltdVTbHmsHV5WHiJjJYaLtWvDbOPltsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
+ dkim=pass header.d=welotec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X2ZV6Y7oDIyu6JsDrEUq6/cNti1xzxCqlbDT3Z1eKls=;
+ b=O8o3q1opVjH1UJF2YF1ROCzqJccIK+H+l7N11mE1JbKXw9Nn9zANUYwB/ZSN0Ak6z/jih3p2cYWMQ8QJvFdJfxdug35JNm9IgEbfZVvrk4/FQfetWJwcfWsRifhs+P6qq6D5+RMFa/lKLwGXQbbBZdFJkafElDw23zDX53vUblM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=welotec.com;
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
+ by DB8PR04MB7051.eurprd04.prod.outlook.com (2603:10a6:10:fd::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Wed, 12 Jul
+ 2023 19:04:40 +0000
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9b11:6096:b359:6fe4]) by VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::9b11:6096:b359:6fe4%6]) with mapi id 15.20.6588.022; Wed, 12 Jul 2023
+ 19:04:39 +0000
+From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
+To: openembedded-core@lists.openembedded.org
+CC: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
+Subject: [OE-Core][PATCH v5 1/5] bitbake.conf: add acl and xattr distro native features support
+Date: Wed, 12 Jul 2023 21:04:24 +0200
+Message-ID: <20230712190428.379909-1-p.lobacz@welotec.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0200.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:89::16) To VI1PR04MB5373.eurprd04.prod.outlook.com
+ (2603:10a6:803:da::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5373:EE_|DB8PR04MB7051:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77b6a27a-a153-4ac3-41f0-08db830ad73c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	qE2bmEbnNWLhan0DG54ZmF0roNekiiCnYWk+UgCHQiy//+DEyL0L+jsGY4nhMAAHjwcvQa2p58AOUtLmLq4ac19hVxecqrdyCvBfRAZPTumxg28PS20uFpQJB17zipoBivLTb7cvKf2Dy80ok8lYdn8+xhEK8AGMRpxpA3qXO5AGRrBl94PFIbIHoSvJftG8LvSk13+rKEGtf7S1+76nJwNfRENuPe4x/6AKC7dcSN0ohvuRjFztP814J0nv7cWOkfJ+sWOzH+6XTn7L/LYXuTr5Y8jecu10zD5bH0oCq7nIf/RUPgQMn25DR9KcolpWf8eA8mSLvxARSWjqKnNOKek/5xIuAuW3UYphC1ATtSr76FTQQemOf3ZpAuWpTKThx5kUY8aHSsdu8nYuUO5W8p4vOM3GCodrebYFRHAmzk6N8RvjuZMEnKkNNNgtWXd4F785hJOLXtEKQxM82Q3+U1GXfZevP6OGB4E9V7yKtqnlDwMK9MNTIVMQwejrVEzWXOSg41Cnh9zNgEg79tPy2sQ6l4Tr0VURCCeMUjMB5N7S89WbwVxZybSCrVzraV63N3SKW3Yqs4xhJ9C2i62tHn+3NkyEAtfHfYY4FN7Iti+UEjkeSePBEQRq7/0uRnyq
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(366004)(136003)(346002)(39830400003)(451199021)(8936002)(8676002)(38100700002)(38350700002)(66574015)(2616005)(41300700001)(4744005)(2906002)(316002)(5660300002)(4326008)(66476007)(6916009)(66556008)(66946007)(6486002)(6666004)(6512007)(52116002)(83380400001)(36756003)(478600001)(6506007)(107886003)(1076003)(186003)(26005)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?1RKbvIaeCouvkEWU9oEyJ+H6c3lUV/xKjCJbaU9ufUxc8Pmgpd+nYcxAHCh0?=
+ =?us-ascii?Q?0BNP6500/4uctFZESmqysMge/1/eivay0+hfCexc2Fc3IDhGBOcgHtyZ7NaW?=
+ =?us-ascii?Q?gA/jglxriuh5RZ3Kgbblc/5xKm5iiL9Vr+3zQfUNjEOPegcD7XVhrghca2qo?=
+ =?us-ascii?Q?wo+0OKT1+69OC4ZUINjkm3icra79AS5rfM+ugXCGJ4PznP9jqjOW8cDVlx75?=
+ =?us-ascii?Q?jFCfPwQavSWwv3wVIPBMTujYUFRpoK97Rs5u830jbgQfchA1uACcAjNeQdF9?=
+ =?us-ascii?Q?YofNAGPfePxxSq5PUNNsYLlRaQPTXp9WFo+grmzrhWVPqkKSBuhcBb2SUr/Q?=
+ =?us-ascii?Q?ZfRSKNaPthGN+EkJu2HCKUrLLGSw3by3nBXxbyPPJ2MQwwEYl2sP6vEOQuma?=
+ =?us-ascii?Q?euIWjlznvoeiziL9MIPlgGrEgFU0xNva9dPdqtQd9C11/Xvy+kc61IlGA0Qe?=
+ =?us-ascii?Q?AyCghK8E4OsGs+VCSdvV1iQWvFu2kz5OICpBEqexgx/V+e5jbpyzrcA0JKFR?=
+ =?us-ascii?Q?A3y+9EHZ/xHFwUIFaAC11R05S8uHInOBvDT7L7zQsLoIlF98CmbMV1iAeOwt?=
+ =?us-ascii?Q?J6iy0e/SKm8MkRYiAdt7P7L2WHSyDSAsZfUqj4AM2yknsjarWgTZKBUaygsn?=
+ =?us-ascii?Q?wOvxyF89xdJd2TutkvCvNMePdUVyOu2mDIA8ITfXKZiWpqmO8JC1R12BFVBP?=
+ =?us-ascii?Q?UOtR9gkXKKEnMjBTataZRwmbQX5BCIp77ZvVgFKYE3FoS1Uat11WYwao5Uo7?=
+ =?us-ascii?Q?pKXjUJ2SWaDo3AM9/hUUQLLLoomYfOJOu2idj7sArgZQHTXHQHOhMcKiGpJv?=
+ =?us-ascii?Q?Ly3sjwu+MpzJQQojqM91oV0BANgjaO01vycNt3V1Bzb25DU5c8UhvFkGTNxJ?=
+ =?us-ascii?Q?nsUUnTN4el961o75iHZtYMP6hLNUOpkCAgPstSVWJwCGe9KT9MsR42wvfZOw?=
+ =?us-ascii?Q?4qzFh5H2x7S5RONHAs3MmjpeSp/PKJDGnkiE5EOVGSuQsyBQWV4eIOC9BxE4?=
+ =?us-ascii?Q?yHKtPvgmwxoWz4qBkeGFwAJ8TXvtp83MGAClsKVLlGirckZzYwfmUtKuw8JS?=
+ =?us-ascii?Q?Yiy0rLePdc9yPdbneN12QoNwQGrwZbzp2u5YZGRaxekmsDKCE5kBv0IpfUlA?=
+ =?us-ascii?Q?bvk1tPxLM90FnNT+fmVmR84b4t7Aukwdh7IPDImhUNE4+oE519zJmDMRHaAF?=
+ =?us-ascii?Q?JUxNuvvD17bqlZNx5+GkmxECb0/5EnU1VC4z5YYnHlyWSXcoqQOSv4PZi7E2?=
+ =?us-ascii?Q?0iy2pO8aMu3vxG5pny/HxS46ZcIkJtRuYLWMcR6k8oWbHoFunNJ2Knf9Cd/R?=
+ =?us-ascii?Q?s3MhnDcZD6EH0jsL6pWUN+aZ6mm9VXOhTjJKevp8uznodu5+kRKWKBjLK8PI?=
+ =?us-ascii?Q?fnrX80yra9OO9+FpI5FyjjuXVEKqExwXOfOg6I8u+mgNyEGeBUTl9w9nWayd?=
+ =?us-ascii?Q?/YnwGDndVSFFIHeLIuqfuBipd19xhPzp+1EQot7xG7CliNCuGvqruD9+BnN4?=
+ =?us-ascii?Q?c4QECAWUNyuYvOafHBQ7p2TQpLyl/4UPPsDf0Ym8YmrzedBPKaW6OHRSU+Og?=
+ =?us-ascii?Q?kPpSuXlgqUJBXORsmEN13+hdRo2mJIMjhhI2KeyQ?=
+X-OriginatorOrg: welotec.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77b6a27a-a153-4ac3-41f0-08db830ad73c
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 19:04:38.9444
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HEayZVlyaWIuygDq/myzdFtAED8xuUfuwq6hB4avu4aYcO9sr5w6dZx00bfUd8VaeslpYQUiulk7GKSNIsXyTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7051
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 18:27:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184213
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 19:04:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184214
 
-I would suggest just one more tweak here: insert
-|| echo "FAIL: python3"
-after python3 but before sed. That way it'll catch failures that sed
-does not (that silent regressing did just happen with
-zipapp/cgitb/cppext).
+Include support for ACLs and extended file attributes for native
+builds, by default.
 
-Alex
+Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, 11 Jul 2023 at 19:25, Trevor Gamblin <tgamblin@baylibre.com> wrote:
->
-> This is based on a previous patch from Alex Kanavin (thanks Alex),
-> but it retains our use of sed to parse the test output into a usable
-> form. The intent was to use the test module's --junit-xml feature and
-> parse the resulting log instead of using sed, but various errors were
-> encountered when testing this method, so that will need further
-> investigation before we can consider adopting it. Two missing ptest
-> dependencies on python3-cgitb and python3-zipapp were already merged
-> in a previous patch, so only gcc, g++, and binutils were left to add
-> as ptest RDEPENDS.
->
-> ptest output and runtime with this change:
->
-> =3D=3D Tests result: SUCCESS =3D=3D
->
-> 405 tests OK.
->
-> 29 tests skipped:
->     test_asdl_parser test_check_c_globals test_clinic test_curses
->     test_devpoll test_gdb test_idle test_ioctl test_kqueue
->     test_launcher test_msilib test_ossaudiodev test_readline
->     test_smtpnet test_socketserver test_startfile test_tcl test_tix
->     test_tk test_ttk_guionly test_ttk_textonly test_turtle
->     test_urllib2net test_urllibnet test_winconsoleio test_winreg
->     test_winsound test_xmlrpc_net test_zipfile64
->
-> Total duration: 5 min 3 sec
->
-> [YOCTO #13298]
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->  meta/recipes-core/images/core-image-ptest.bb   | 1 +
->  meta/recipes-devtools/python/python3/run-ptest | 2 +-
->  meta/recipes-devtools/python/python3_3.11.4.bb | 2 +-
->  3 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-=
-core/images/core-image-ptest.bb
-> index ddc56c8f9f..74cf933b72 100644
-> --- a/meta/recipes-core/images/core-image-ptest.bb
-> +++ b/meta/recipes-core/images/core-image-ptest.bb
-> @@ -26,6 +26,7 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools=
- =3D "1524288"
->  # ptests need more memory than standard to avoid the OOM killer
->  QB_MEM =3D "-m 1024"
->  QB_MEM:virtclass-mcextend-lttng-tools =3D "-m 4096"
-> +QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
->  QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 4096"
->
->  TEST_SUITES =3D "ping ssh parselogs ptest"
-> diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipe=
-s-devtools/python/python3/run-ptest
-> index 05396e91ab..ee1130284b 100644
-> --- a/meta/recipes-devtools/python/python3/run-ptest
-> +++ b/meta/recipes-devtools/python/python3/run-ptest
-> @@ -1,3 +1,3 @@
->  #!/bin/sh
->
-> -SETUPTOOLS_USE_DISTUTILS=3Dnonlocal python3 -m test -v | sed -u -e '/\.\=
-.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\=
-. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's=
-/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-> +SETUPTOOLS_USE_DISTUTILS=3Dnonlocal python3 -m test -v -j 4 | sed -u -e =
-'/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/=
-\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' =
--e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-> diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipe=
-s-devtools/python/python3_3.11.4.bb
-> index 86ecc4e297..2d7b1bac2c 100644
-> --- a/meta/recipes-devtools/python/python3_3.11.4.bb
-> +++ b/meta/recipes-devtools/python/python3_3.11.4.bb
-> @@ -426,7 +426,7 @@ FILES:${PN}-man =3D "${datadir}/man"
->  # See https://bugs.python.org/issue18748 and https://bugs.python.org/iss=
-ue37395
->  RDEPENDS:libpython3:append:libc-glibc =3D " libgcc"
->  RDEPENDS:${PN}-ctypes:append:libc-glibc =3D " ${MLPREFIX}ldconfig"
-> -RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
-b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed"
-> +RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
-b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils"
->  RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-fr-fr locale-ba=
-se-en-us locale-base-tr-tr locale-base-de-de"
->  RDEPENDS:${PN}-tkinter +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk',=
- '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
->  RDEPENDS:${PN}-idle +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk', '$=
-{PN}-tkinter ${MLPREFIX}tcl', '', d)}"
-> --
-> 2.41.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184149): https://lists.openembedded.org/g/openembedde=
-d-core/message/184149
-> Mute This Topic: https://lists.openembedded.org/mt/100083497/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9625a6fef4..8daaaad615 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -904,7 +904,7 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
+=20
+ # Native distro features (will always be used for -native, even if they
+ # are not enabled for target)
+-DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
++DISTRO_FEATURES_NATIVE ?=3D "acl x11 ipv6 xattr"
+ DISTRO_FEATURES_NATIVESDK ?=3D "x11"
+=20
+ # Normally target distro features will not be applied to native builds:
+--=20
+2.34.1
+
 
