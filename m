@@ -2,30 +2,30 @@ Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E51EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C56EB64DA
 	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 11:20:32 +0000 (UTC)
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.50])
  by mx.groups.io with SMTP id smtpd.web10.4837.1689160823457464085
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 04:20:25 -0700
+ Wed, 12 Jul 2023 04:20:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=EXo+o/Mt;
+ dkim=fail reason="no key for verify" header.i=@welotec.com header.s=selector2 header.b=icgRX19o;
  spf=pass (domain: welotec.com, ip: 40.107.6.50, mailfrom: p.lobacz@welotec.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hwRYhD1zT9wkVqo5G+yuBuDTGYrwB5YVU4sUPRNbO1ZuUqtH7JgJ3O2wkmol7CwsH0bratfnRW1ekdhhe6Y4psd9Q6Xl1MASmIxMrk4GUkRy9sE1EIdSh6AoNSymYTlW9KuGCbugIH+HDVOZlKoi1uYfMJYztHwJP62xvz/rhnT+9wiBE+RI+XtzjzOStTrlK1LNDxcHkiIKh1OcTCXJVobO4SuaZxBmP/oXNCG09qvqcW9EXlkbxvaCFDMoNwyMqA7fnLpPQK17xdxVHzELmf9xB67i9kXcQaONgkFOp1lBHD7fKhi2s/EjQ5BRU5tkSHJ8CMS3oGd7XFDkVgoixA==
+ b=FH54jFPc6VXRQJxAGt93Zb1sWuU7LI7gHEBQGglYd0m2W7qvav6BXVS4Rr+sSS+Zm0BJ3ux6Jdu2h1U+JJunmwk5d9tIDeXr2XrzJlgapWxyO298M5EMTph8iq+55vG6VTV01+4pidXu7WSdf4ExAP7l6DQGSXleB3yDMXc5Q2pzCMtwC++n/hAyzfTMbqij++6e8INM37EgwbQwMGEVn9PbNxv4DEvpyFIE8cbPMK1JLIsgkPF6ZyI4vvDM+5LdlDoNLtj95YpJhKdl8VEGo/jLlgj4eCde7UkNVy81nMkpCfOfh1PO4fvLaE3xLsASaeI+ADQ8eKijRid16cz5tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DXxu/2pjjRRNs521006T8xJQ4bJFYbgWLBuU2rs5ewg=;
- b=fUcYw8aLc0R465bdb9rkPWsP3nrhLAiUHNTX4H/w8ZNjOvEgVL3MKhKdamOc4e+n43t7T7FAYSMMr9DTxH147HRhTTXYnQimsw4xvYIe9IgB+Ltp4NuFFuad+/OItCuBui5BMDJ2e3R55lb7H4w9iJkyNdLcAptvTKiA5oHp0El5o1HOHokkmVruJ4d5078MQ5GJzw0J2IHCoMmWatId+OdQLRjqGuBwBnc55BF8ON//csFxara3fS3Xs+WFsCF3Y2fB1UxcPy/AfvQAyweVN2+0DszTcfBk0iGTYcyywtHLqawC2O8Ccoq49SH1rKakSkz7SJTBLSG7414eMhfR/w==
+ bh=FhSbpNtIu01gzcXqIIgE+KAoxaSghkHVnOFAdrtyjwI=;
+ b=jxAA+odFNKGpgxX4vrCQuyjCgFx8Roy5JBLm+6QqpTMtnjE0BN5JfzTFGaTReeaRpCXSqHPvGhI9FBnOYycn4k5dLzRH3Eo3EupTXxPznLJN+rm8XfT68Bk376mfKx7LkNKODZExeg3msBGtMkcKrmweIgPcqdLJQaV0pt+AkiBHteQAOXOMXz9ztGDZdc5Wm60h/20adpY2FbY+xugMONdmJe9cuNd7saCH1HIiTM5yVvbnesYS+sTJKHQpRuv6mF0woMctcbZaXdO4dJPXWv4faaALmLPK5aVUbH/U4bJc0pmulnuyRnW/um5JGnDIp+kFZ2PZ01vr3qr0VDw4mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
  dkim=pass header.d=welotec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DXxu/2pjjRRNs521006T8xJQ4bJFYbgWLBuU2rs5ewg=;
- b=EXo+o/Mt/2pTB05XhO5lCKRDvDr/aJCKKNSTgTzk2Ulmg1MkQCvzuftwK3dF6oc+a2UUjARW4zAoe0Dc7aphbHFtF68cxBF0b7XgfAa0T69BQcxkUCQej/1+Ca88JNRF8tTvW5XEN4YRHLZjPKOqiBXlVGm5HfCv4o07VOazdVs=
+ bh=FhSbpNtIu01gzcXqIIgE+KAoxaSghkHVnOFAdrtyjwI=;
+ b=icgRX19oKvAfoq1Clw1eHQRZlXpEdzj323xuvRWPCWFkdIPbFbBa74R1B3dJy8NligmotafbanhV1RDzcVlEfU8xq3sAYfha0rtkAGSSFxqxwMxDLhNgYr+iY759FNbJFDtgYrmy2AqxbaRxMbVIa1At2vpiDsDutga1oMmm3Tw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=welotec.com;
 Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
@@ -40,12 +40,10 @@ Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
 From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
 To: openembedded-core@lists.openembedded.org
 CC: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
-Subject: [OE-Core][PATCH v3 2/5] package_ipk.bbclass: add support for ACLs and xattr
-Date: Wed, 12 Jul 2023 13:20:04 +0200
-Message-ID: <20230712112007.705867-2-p.lobacz@welotec.com>
+Subject: [OE-Core][PATCH v3 1/5] bitbake.conf: add acl and xattr distro native features support
+Date: Wed, 12 Jul 2023 13:20:03 +0200
+Message-ID: <20230712112007.705867-1-p.lobacz@welotec.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230712112007.705867-1-p.lobacz@welotec.com>
-References: <20230712112007.705867-1-p.lobacz@welotec.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-ClientProxiedBy: BE1P281CA0111.DEUP281.PROD.OUTLOOK.COM
@@ -54,89 +52,92 @@ X-ClientProxiedBy: BE1P281CA0111.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5373:EE_|AS8PR04MB8866:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a4144cd-e588-4f4b-1b55-08db82c9f9f0
+X-MS-Office365-Filtering-Correlation-Id: 314b6073-2b47-4f8c-37cc-08db82c9f968
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	lo0NBTVRgBWOdu8C5NGlSRVYutCxlr6Lu4SG+QM9cpcaYJufq9zArnZYLXBzjnDuD5P0mUM+BlHBc8yB8haOYAOZOh1bjWdGbZvvaF0Jc3KTugbTlbPELZlfSAKgd6fsM7Vw1FPjXPcQTMS1lfY0DqnqdVxFEJWC2aaPKbhQabfsmCnTtVG9ECVwAonAtmfi3+a86mm5yZhxjjMGXmFPkQL+Zd57OGVL205AEvPXPNBIP5NottxG7vNOCAhKm3cjXUGSACa/KIC7YMINJcx+64t0iihd4/fQoBJDDczwV2t1rjpG0bf95jko9C6jjFeclVnuvRc2vXdrt27TBCGYti/hiLeW+EzROsfgeiLrgZv+vmUwiapjNzyxMIX4Z7Sfoh6gr45I1J3O6NN4rgq8kjLd5xcH1gnrkvyztruvKC9Ob0dTqOQSYLkVRjFRByeXGb6/djYnB1kmsKfuI6/t9W/rp16oqCTQR1ohQrhiw5drbt1+ESpZpcdVKHRaNxcyhCCeX9di0mOk8tcMq4pM/oNQLuFkF89g/YFTPefSGHORSfw1cmwPAqVyC6TKwqQs
+	VYtOJ+kMZjPIOm8z345U5EtW0Qz3xAmNQhaPp/W+IjmNlXIlb1XTVRiZoAkB05u3r8v38ZDDL7b52nzvC7jYy2sS3U6Ri+cJNyMBMpdrsLOkMmrEenLYfwx/xPs7wZfaQW7/HcUBXB37fmabnkqwvv8+c9w/S25bmo5eDdDNuk2qv1gWjltzXMuIhKzwjolRPozDF6FKuV+a8c9oILgmY2e+bLs6nlhKXPRWMGmGXbmkx+ZnN0SHPHH3IHD9tEpJ+qv/H70pRjHcu0WpdnEje/axULpF5APc5kVx/EJrzu1uQ4JDtdWX2FPPj3KExoI3elTrkM8PSQag2XU5FbxzwsWxiHajmbSG+pFjIPM3CUBUHk7o+0UuSDzbXXpxoY6BUXvmmWFrWrVQbkqQpe1lLVPRHurZnn94KM9n0u26jLVVitS/e0J6w2HZmCQjs1GExVR8v6m30M/0/p6O606UN5+ya0n1iXZoFxn5mUSA+Nvj/mOQEI87ndM1wuiCK+YI0fyu8xqf/PYgMOrA7v46DL90KXKDoI90z7dvv1nRwQXl0LnZekALc+ctoQA8WHuzIOIb63GZDL/C3rByQfyT6C1Wh5vRPytdTjP3VnXHom7IGG5EjJaOwgoskfp4sHw0
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(39840400004)(376002)(366004)(451199021)(107886003)(316002)(41300700001)(52116002)(6512007)(6486002)(966005)(83380400001)(66574015)(186003)(26005)(2616005)(6506007)(1076003)(38350700002)(478600001)(6666004)(6916009)(38100700002)(66556008)(4326008)(66476007)(66946007)(36756003)(8936002)(8676002)(5660300002)(86362001)(2906002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(39840400004)(376002)(366004)(451199021)(107886003)(316002)(41300700001)(52116002)(6512007)(6486002)(83380400001)(186003)(26005)(2616005)(6506007)(1076003)(38350700002)(478600001)(6666004)(6916009)(38100700002)(66556008)(4326008)(66476007)(66946007)(36756003)(8936002)(8676002)(5660300002)(86362001)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Lfa5xXFmAgytl2K+pFcoj4wfbiGCv4PBFMFeeSeOFw4ExX2RLIS1gH9QEwm6?=
- =?us-ascii?Q?R2tWHq9xaIfUCExyGiEvWL/jBZ9YTTCz8EZ281yXLoPdhyT6Ue/gHqi7dgpn?=
- =?us-ascii?Q?hXod5dBLlanb0w2BCLzmUqU9GFmDDXfULnA1MinsyGtn9wAb7+jYjaGrES90?=
- =?us-ascii?Q?x5RRzwem+VZL6G0gmtWk3veXKFhUogfVUEIuN2TG5QL4mr7UNHfFqjvIhZZM?=
- =?us-ascii?Q?97ZYoDjYbaEgVRWMsjcKxeebg1DfzAdWndJrkteGpetsw4B2lQxclznPUCiM?=
- =?us-ascii?Q?oFNxTtaEnzXcNjMhSr8YnVgZ4u/EgVMTsCGpABduKfV5Z3bvWIP6IkKG9juo?=
- =?us-ascii?Q?Dng//+TSbRVE8KUKmubrTNRRq3k7GwunwdMbHhULDMPhnByzbXlq47vnNd6R?=
- =?us-ascii?Q?nc6qt0Qak2E08EMEoav0KElh8r0jvQJ2Rad6gmPuc4SMVe70ycM6XOU4Kqj+?=
- =?us-ascii?Q?zpXZoSuZp85ICT7oKztGNWGAxfeaceHarpa4jIB4pwXwi9meQw1YoPo2WKCC?=
- =?us-ascii?Q?LWHHXIHPC7UoKIbcX2vgTGBnkz9V19b8zRpuY5YW9zHajex6rvo/Q+Rah4yH?=
- =?us-ascii?Q?mLB0iGsmSqMS5XkOtyPRLx9JMTBute0GUGLoso6pxRSkDBPEEfkYaUT++Hwr?=
- =?us-ascii?Q?ka82bkIyGyReACrxrsczGpnTLHPWLJnBsLLbKsnDVYqtSHOfAT7VZdm4W5wX?=
- =?us-ascii?Q?AE7ZiOZvZ5FN5SfGRkefUbNbEiyNaP7k7ut04F7SV56qLokZBdpmlb8muVSB?=
- =?us-ascii?Q?Bjxwfs3mwEWhI3uCawFAvRtjqCScweBXiCRa8BnwlmfNQwb3wbY6EZ9ZLrFE?=
- =?us-ascii?Q?d8yxTGrQlIfdm74PkZC2pnRCd7hTaCV6583pwnzPmn5O6XOIOV6TpKNR6TpF?=
- =?us-ascii?Q?PGZUYfJMsy9OaSQcEPBkAwCqwWfRHs3BsYS+pZz4YDGqdWGVbwNkTkX8yUNp?=
- =?us-ascii?Q?QfaA3ZOs51q3UaM3hrsP9iMLJUCyYZ4fgrC0htpEOak0Vl5N1Fd+gjKB1Mq9?=
- =?us-ascii?Q?iwqzE5wCki5Q+nzcKBFs9kEjW/R0fIjdqR3f2Xog/ouk1zmLxxTWpPpluJxG?=
- =?us-ascii?Q?Wlz1OccQKNEv0UdoCqcqveLqmLF75gItyVWGYIheAe/Zz4Y3eRiRZXJDE4fd?=
- =?us-ascii?Q?S6rEmp3VFZbCk2GxgFssVYV6gQ9RbQL2aM2T3etAxZCpjV4+9mzLzlYkcsLW?=
- =?us-ascii?Q?9VUirHBz4CiWvpAXteQSq21MNCt/t08SHrghsU3T7TkZ/8zIJTKHlBfu7pHw?=
- =?us-ascii?Q?ZsL4DSxahTS7ggH4XE+EcvhI7LAIXavYxomVzkEdkrD+dyQQAHdii63OAPwq?=
- =?us-ascii?Q?Opxc0hHD69rTiHztqi49Ibz76LAdlBYWZCQglaM6MdwjVxeiYIYSAaVr555g?=
- =?us-ascii?Q?yNLpIpmL+H4yJffv6kcnDA+wBgffjIlrp8ixaVGfSW5Q3eDAxOF/33fLSsUn?=
- =?us-ascii?Q?H3BGTCvS4Oi+TRS48lCJnFGvkew4trjIx+fEaJUkLCebd8bG5gLNNnnP464X?=
- =?us-ascii?Q?JU0YeobALnoYvkN2U01ikgTNT1KToYDqHE9nyKgpbRk5tpN61oKf3oAjwOCS?=
- =?us-ascii?Q?IhMFKDaPFMfWvABZsCY+HFU2Oo2Qe+RcEQe4dZsh?=
+	=?us-ascii?Q?IgdQKCtgMGNWh/oihviq2ca30OdPb89jtiXFBEBdN7HgLs518YCC8L2G+YEI?=
+ =?us-ascii?Q?akmd65rIRE7YDQAIkWta4vWmCJx+uXRfmnJUs2uhTL18dA0tZANrTmjGrECh?=
+ =?us-ascii?Q?siuia+f2i9ggT+6POrFpn3/TeXFDRWwgD6t2lFJWaxevkRhbgOuf2ajydNw8?=
+ =?us-ascii?Q?B2sP/SU6HL1bI1l8KkK6ohvD+7y6JpS7pPyl+yLzKOx9fnpLKiiaIuWimYl4?=
+ =?us-ascii?Q?CWxT9IcKlAfwLrMrklrtDdf2x1zQ94U9AC/XsqSC92FQRNBVmHzjSAZp7vDD?=
+ =?us-ascii?Q?bfC7wzzVMD3GxwDWF1MpEqxXEjZrEcJrjoSP9jY5D5FiyVeDSM/139M19ewe?=
+ =?us-ascii?Q?2A6TnlvNmWvvdLf2WBSAGXdKiHKu6o3m6nTqtvjKtRJdSBkrK4b0nxUMvPuK?=
+ =?us-ascii?Q?whxvXE9bFXgdOALzgRKjxsUVKjRXwokIgHIxQJeYz5RkneCN4FFgjHUMNc2r?=
+ =?us-ascii?Q?Ermi4qsGuM2bnqx3klgMXzVO+w7rB5Vdkxtoxhg45DzWvda5qeH10Xbi3QPx?=
+ =?us-ascii?Q?6JM6fwnyCRYeV+mJk3O0zuFWp8kynFqXyKKmulle6XuoG58BjMxROkpu6p5y?=
+ =?us-ascii?Q?lrqwbk6N+tVAv2rWDgDdIvBxr4GCCchMVafcU8Xp60R2+73GFnx7MpJdIV4y?=
+ =?us-ascii?Q?mrg3dTBuv6q/stU0lHhnioyqCL6kMlPli8orNwE5bhCCvotQ7hSPI/BtN/Ae?=
+ =?us-ascii?Q?HYW48zKHWCjsB3bU6omLXeB1QiipfSs/4HBmwNlqPMDLfL1p30laC/i/kFgp?=
+ =?us-ascii?Q?7/WsBSspcaTsclmf88hpYNBiW7mAoz93k/HusDnEWpS2ETAoL03XLFsqFhHT?=
+ =?us-ascii?Q?LbcCHytmpx7EhBymdsURSsMSTQCpHsppizshiCJ8KbbEw7Q8eXzSaj3pQzk5?=
+ =?us-ascii?Q?OX8wH4EERtxUAqtu8Wc92TR2V66o6qUKo0SFkGO3KJ480nDHQu62k6BLMiwC?=
+ =?us-ascii?Q?oVkBrraN2UudsPPYpDxS8icqKF5lSsX4zFc+JaE2OLc1/O0mCGL4OK+TQhUN?=
+ =?us-ascii?Q?YYHziHCTBPNoP77Rozm57xHx0GoG0AdbqpTghszB8XmgA9j67nxywNKm4FDD?=
+ =?us-ascii?Q?oJUXWb+Lp3nBcXU6pJ5cNcOKFTA0GsSIT8y3wuiTCPJl4P95pCBjr7lsgQ77?=
+ =?us-ascii?Q?4zeQztR1mNJqJDyozBUcF6/8yQ8M7YQUT3thT+2yug4Ek5uVGA3LDz4eXJH5?=
+ =?us-ascii?Q?yslZuxM4+Lp/7LZuGXw4fJUEkOuP+hPIvwaEh2bn/86L55VSHcIwet+8Ppv6?=
+ =?us-ascii?Q?ZCmsxxuv+CqDxoyLkxHPVp1SA1Y/GkTC8ApjYpDJO1/mIk+EWgmEkyw3SmMO?=
+ =?us-ascii?Q?6zzVZlj7pwmXmDEUAWSTm0i7QGy2Ugy6+KnVohuDwUf7S0Fo7nvgAbRae7gq?=
+ =?us-ascii?Q?6p6lo8cU0/Om0n5TjTD45RnQKZmUZ3uIT82EQ0o+UkQacQDnLaAvPo4K2uMW?=
+ =?us-ascii?Q?AkqldIZaXzWyBjZJoPnWuDzhm4ROU/4hxLqGXQiFr14mWcy7QeFjfn1OdbWA?=
+ =?us-ascii?Q?tKB1nRQ47pguSXH/T2LnUgmcyglSIUcmnRlUuS2N9Xs0HvdBrzZFMJ5xtoCD?=
+ =?us-ascii?Q?veUn6BqNMJDQI7AKEjUyAZJR+6F4SZYMBCv4vqEy?=
 X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a4144cd-e588-4f4b-1b55-08db82c9f9f0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 314b6073-2b47-4f8c-37cc-08db82c9f968
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 11:20:19.7971
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 11:20:18.9590
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: shysJXGcEy3Jha/9DKkTle4TQfGluLf0lXPvdJ0XnRf2U/vWXW6cf4NizhaoBhwbtYTZItiaZa6dzQd7HXrctQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: hQVcH1E1YhLAXHqelFInCPnXJT4HDdIZG5MUA0QdMb+lPJG9Rv+/38paioL3Yb1HQ1qn0ZjMP9hNCYWffiJZRA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8866
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 11:20:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184178
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184177
 
-Extend OPKGBUILDCMD variable, with additional parameters, depending
-on target distro features, in order to support ACLs and xattr.
-
-With fix pushed to the opkg-devel:
-https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
-opkg-build is able to create tar archives with ACLs and xattr.
+Include support for ACLs and extended file attributes for native
+builds, depending on which distro target features has been turned
+on.
 
 Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
 ---
- meta/classes-global/package_ipk.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/=
-package_ipk.bbclass
-index b4b7bc9ac2..5e151be3cd 100644
---- a/meta/classes-global/package_ipk.bbclass
-+++ b/meta/classes-global/package_ipk.bbclass
-@@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET =3D "${WORKDIR}/opkg-sdk-target.conf"
- PKGWRITEDIRIPK =3D "${WORKDIR}/deploy-ipks"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9625a6fef4..20684a5126 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -904,12 +904,12 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
 =20
- # Program to be used to build opkg packages
--OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
-+OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}" "${@bb.utils.cont=
-ains('DISTRO_FEATURES', 'acl', '-A', '', d)}" "${@bb.utils.contains('DISTRO=
-_FEATURES', 'xattr', '-X', '', d)}"'
+ # Native distro features (will always be used for -native, even if they
+ # are not enabled for target)
+-DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6 xattr"
++DISTRO_FEATURES_NATIVE ?=3D "x11 ipv6"
+ DISTRO_FEATURES_NATIVESDK ?=3D "x11"
 =20
- OPKG_ARGS +=3D "--force_postinstall --prefer-arch-to-version"
- OPKG_ARGS +=3D "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDA=
-TIONS") =3D=3D "1"]}"
+ # Normally target distro features will not be applied to native builds:
+ # Native distro features on this list will use the target feature value
+-DISTRO_FEATURES_FILTER_NATIVE ?=3D "api-documentation debuginfod opengl wa=
+yland"
++DISTRO_FEATURES_FILTER_NATIVE ?=3D "acl api-documentation debuginfod openg=
+l wayland xattr"
+ DISTRO_FEATURES_FILTER_NATIVESDK ?=3D "api-documentation debuginfod opengl=
+ wayland"
+=20
+ DISTRO_FEATURES_BACKFILL =3D "pulseaudio sysvinit gobject-introspection-da=
+ta ldconfig"
 --=20
 2.34.1
 
