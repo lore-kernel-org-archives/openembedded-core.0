@@ -1,385 +1,149 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FD0EB64D9
-	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 10:17:11 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web10.4017.1689157025707721219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B124EB64D9
+	for <webhook@archiver.kernel.org>; Wed, 12 Jul 2023 10:30:02 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.77])
+ by mx.groups.io with SMTP id smtpd.web11.4212.1689157797956290655
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 03:17:05 -0700
+ Wed, 12 Jul 2023 03:29:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=UlwUlMZq;
- spf=pass (domain: mvista.com, ip: 209.85.167.176, mailfrom: vkumbhar@mvista.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a425ef874dso365806b6e.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 03:17:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1689157024; x=1691749024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QnhCtFMXHMl4W3JsYNAPaFiUASjGc9OdpBKHSNTyVfE=;
-        b=UlwUlMZqGQJiPeLVhApM24ZyHeDH6w+nEuwYbezkHPi2Vu89yy5mKiNqtBXaZ3L79q
-         bFJ/mZSgH9Stg2WmGI3+5rMI2TR6WwIQFP2xIGXO8rR6vdDBHpH3442xWkwoNVpjupbt
-         MBEXTbQ1kDrCQY87tK9oPY4sDliQss5un7X8o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689157024; x=1691749024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QnhCtFMXHMl4W3JsYNAPaFiUASjGc9OdpBKHSNTyVfE=;
-        b=ImJWJYYfGirdLgXP8E5JV1ScDXRepbs6zKnSB1doAAqhWsoJSg0vAwxhrcyl+L8vwZ
-         j3NfEeNmrrStw9SGh18mF16RkNi5BGoQFOfc94dCMVUNzJ6RPF+uCwJ+aae7qBBk6HG4
-         SzcSnmTN8y9s0cTJyrPTDR3e+kLIrBEiHWfvQrIk1oqxuLW3rvWLNgfXRb5koBNsOQcp
-         3NPPfnK4/2x83M3QYD/PhxCXk8uq3kOaH5Quv7R8cPTbzKGQNAf3EihITyihtkoPoCFV
-         Owfu7k3l3GUqzjAqXkfMojYxK2mYtDuywoF1Gq9BzX54HT1cF6Mrk8ufwoz4m2YGre7s
-         4pTQ==
-X-Gm-Message-State: ABy/qLa7+m2DFTzIfaZDo1xKVKKM9oH3zkIaLyjrNeZiQsuFaJpO9A3G
-	TQDTns/eCIBmWKVL2rGOF9htCX3teiJtzi7XGMY=
-X-Google-Smtp-Source: APBJJlH8uXteRCQFSpVNZ7nFuKRmA7UQ+zptFUs9YSnPIlk9RvVHpscoh3wKuSvw0F94QXTT6d95ZA==
-X-Received: by 2002:a05:6358:998d:b0:134:c850:e8c5 with SMTP id j13-20020a056358998d00b00134c850e8c5mr13481395rwb.19.1689157024412;
-        Wed, 12 Jul 2023 03:17:04 -0700 (PDT)
-Received: from vkumbhar-Latitude-3400.mvista.com ([203.212.220.36])
-        by smtp.googlemail.com with ESMTPSA id s15-20020a63924f000000b0055c5c642c87sm3106966pgn.59.2023.07.12.03.17.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 03:17:03 -0700 (PDT)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH v2] curl: fix CVE-2023-28320 siglongjmp race condition may lead to crash
-Date: Wed, 12 Jul 2023 15:46:49 +0530
-Message-Id: <20230712101649.978494-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=46FJ3EoQ;
+ spf=pass (domain: arm.com, ip: 40.107.104.77, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rBbD/9/keC+AMK4SY6BiyYKQFA0XhIONoWe4QX9WqdM=;
+ b=46FJ3EoQ9ocUkh4tFCV3hsHCTU73Rl1z1QhUFrHgVjAmzKfP4DXQp+3FQIVDYbIEeQ/n1VC0l2QoMYteNJtxVgpmRWNsnCqABqIt76nw/6oSIuwO7f/cCmH4DQchWkNcLT+s4TTup7Uo+zzZTogJZlRhCLc+8AYSWIttkxihx9A=
+Received: from DU2PR04CA0306.eurprd04.prod.outlook.com (2603:10a6:10:2b5::11)
+ by AS8PR08MB9694.eurprd08.prod.outlook.com (2603:10a6:20b:616::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Wed, 12 Jul
+ 2023 10:29:54 +0000
+Received: from DBAEUR03FT058.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:2b5:cafe::53) by DU2PR04CA0306.outlook.office365.com
+ (2603:10a6:10:2b5::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32 via Frontend
+ Transport; Wed, 12 Jul 2023 10:29:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT058.mail.protection.outlook.com (100.127.142.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.22 via Frontend Transport; Wed, 12 Jul 2023 10:29:54 +0000
+Received: ("Tessian outbound e1fdbe8a48d3:v145"); Wed, 12 Jul 2023 10:29:54 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 0f814127077f630c
+X-CR-MTA-TID: 64aa7808
+Received: from 7e108b1559a2.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 807CD639-7346-45B9-BAD2-C611EED09439.1;
+	Wed, 12 Jul 2023 10:29:47 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7e108b1559a2.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 12 Jul 2023 10:29:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A+G2OKslCGGzWb7oPw/Zh+fRw3Q5D36u/9FFS3CxJeD0z5XkelcLJQ1FDKxO1ryTsMOd4/bxw76y9Lhh84KF3Q21i48SW+sDDfZavujdewdNdhRogUC3bB+1CSpv2lm809w0ER4KV01ieNL2yica4xSALHnJz0+tmPDVk8NC2YFvMfqTxlXu2WsWuJ/1eXP3ictJ6eWPRlzk0rQ1FUwJpaVYxs24FCBVfGQew4l2DBlZRfT9MGtA1g0b8+u7qFFXgqMS8AefPSTJW1xr7+jXZuRz3w43btT+FaWwfq6auPPcV+/35FvxE8YVgvUDZEfoJatTaIiY2RdZhXaEdfz7og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rBbD/9/keC+AMK4SY6BiyYKQFA0XhIONoWe4QX9WqdM=;
+ b=FzPbhafsbYKM0MWRruGD/26Gcl6S9RaBF0gU2EvyN6NzJSzAR3A6CHk2as/acV7FaI3mgJW+yE4D/djQjPHuDffHrW3bIGO5DnOGRAQ1naqjqHlSziPAtvqRbURWn22z2DBY+VpA8h+ZxUP0aQqNW1vOlsp4ZxGSxIp8DKnpGyUaya0kN7EvBFM62Ev/c1Pv1EY7mIsQEMCHjmp3TrvIf3LOZjohKETH5uCqE3mzvgnllmE35lweSEsHbjMo/GDjEPWdMW1GQaCTo/raA/Hxeaeuf7l6g6LmXKJ2Z3cjy9hQf9//O+rZjGwNb0bUTN1jTNc7WB6mBurbmeDAEp69YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rBbD/9/keC+AMK4SY6BiyYKQFA0XhIONoWe4QX9WqdM=;
+ b=46FJ3EoQ9ocUkh4tFCV3hsHCTU73Rl1z1QhUFrHgVjAmzKfP4DXQp+3FQIVDYbIEeQ/n1VC0l2QoMYteNJtxVgpmRWNsnCqABqIt76nw/6oSIuwO7f/cCmH4DQchWkNcLT+s4TTup7Uo+zzZTogJZlRhCLc+8AYSWIttkxihx9A=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by GV1PR08MB7362.eurprd08.prod.outlook.com (2603:10a6:150:21::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Wed, 12 Jul
+ 2023 10:29:45 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::30b4:3110:b02d:7f21%7]) with mapi id 15.20.6588.017; Wed, 12 Jul 2023
+ 10:29:45 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] tunes: Add support for sve instructions on
+ armv8/armv9
+Thread-Topic: [OE-core] [PATCH 1/2] tunes: Add support for sve instructions on
+ armv8/armv9
+Thread-Index: AQHZtDPPFI4kPZ/L90uttsauNaB2PK+17xgA
+Date: Wed, 12 Jul 2023 10:29:45 +0000
+Message-ID: <B1D99B0D-B820-43F0-A699-C7A121D74205@arm.com>
+References: <20230711201042.38285-1-raj.khem@gmail.com>
+In-Reply-To: <20230711201042.38285-1-raj.khem@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.600.7)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|GV1PR08MB7362:EE_|DBAEUR03FT058:EE_|AS8PR08MB9694:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3ef741d-1ce8-4d19-22cd-08db82c2eeed
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ KVcRXR3jLya2g4mE01DAzIRwFXelc7r9vJ7h1EQp2KPDQfIV97iO+mXco5pwN7wegxTXx6qGlV7GULYA6AHJaNbTTzBhKBOrpT4vXsEGpahxIbhKpU4YgRIVXEatvBE6O4GYlpWUBjqTJhKDnJQ9cj+CWv1uuBHxOfy7XZN8tc7VzAW1u7rbDyIPMYA3EG/rn+piWK1wU69NP7yDbpspW/C0dZrUZmHquBbceON5nVRE9JIQI9F7zUpZQpL9xKFxCl5Kd7iIx52EnI4GWllz9XdzOTC3vFwHBpOCcys1LT71CqDftTtoaDBaPgqFvnWUBCBqBF03GR6ko+9AlDA0yFXyAcgaO9VM+SMd6He5Tld8P8/VZCRGUCgR2hDGtG2V3tH5hsBggPJ59GBU8aDVfb3ytwgDLmDR/Cex8WIOmaGEkH5uPFIH2LDPIv0IaVsXXPc9JfFwavNuxLHEeu4oqmCMUhDCQdmdY8+OJTHbXqdd5OFNqAkg8rv2EVf2p041amEsEV2O0NklvduUoo1YwvCsGw2AyVtP1s+M4XTKK86fsliv7zHKkgc1Dl6Vh5Bwu+4xsoKyradYyaszrT3nVzgfrQoC96IwBGSfipwv8B0gcFJipz5ZJCfOkmEfj0CWA1shzoatTCA01v1HRpY7og==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(376002)(366004)(136003)(39860400002)(451199021)(478600001)(186003)(6506007)(86362001)(26005)(5660300002)(8936002)(8676002)(53546011)(41300700001)(122000001)(71200400001)(6486002)(38100700002)(91956017)(66556008)(66476007)(4326008)(66446008)(76116006)(6916009)(66946007)(2906002)(64756008)(36756003)(2616005)(38070700005)(316002)(6512007)(33656002)(558084003)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DCA10DF3D71DED4C98273EEB7B171FB4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7362
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT058.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	3fbaef74-b2bc-45fe-8136-08db82c2e95e
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	U/7KvgUQ+lzf//183grdJ7p+m3GdixORz9jRlA3aCeZYlT2iIJGUUv9rUERYxZp4yFWxbMyloOxZ2fy1slS99DbSVEJsmOPwUpUl267EKe3QtEYKWwJu2yL7LSbumtQPsS8eJcJIrz3eMlULYh5EHFbTtn5HDZEtzXGG1khBjrwSFVJi+LTYx3jRYqRS3uymKiHQzoKPuHJwjJVN5SVSEJyW91+c1ov24Tt+2mungpj6suByLtqBcemY6TobsAIaS6Ycowv/g+6Pof/g2IQWTV3FdAs9HKO2CwfU6Jn6AfyQssrHACgHz1cdfQRPwZXfaWaQI8+tsjNLbFxixnUeaCaSi6U+/Al6Ymc8l2DlW2dykL+H4rn+veL+L7rN9vM8qSNTbRSDJ9NahXtqKIZiO3MUvjO2hDmrwP/AYUSx2wEmVSCjjdr182+PuqLzHF67Dg1tB4D6t+hMrLf1ithnPOR4wMieTOWvD5EzzI2mODj7cAz/M+qRXVl5I28uLxvQgA7lAoYKQBAwOdwSkcJzw8Th87fZcOHLItuxe1TsrFP+QZymyL6xndfUlcpdKNsJV0mRTwT8tb0IhO20ujhiCEnGv0dtwtlM2W5vmlm57mOZJvbM3UrpDo2xjgVeuvdx4GKqnfw87uVbqLtpkaLgqiE6QCt3PJFpHrqnl36MSWFh4H2tmGSzX5CEHEkhhsRgNAYjOnH5ecPQ+qyl4WicVJqQlTlgCeAFdXoOsjjDlXfyrrwwdlMxo5wrpGL1u/kw
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199021)(46966006)(40470700004)(36840700001)(40460700003)(336012)(186003)(53546011)(6512007)(36860700001)(2616005)(6506007)(26005)(478600001)(4326008)(4744005)(41300700001)(316002)(5660300002)(2906002)(6862004)(47076005)(8936002)(8676002)(70206006)(70586007)(6486002)(36756003)(40480700001)(356005)(33656002)(81166007)(82740400003)(82310400005)(86362001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 10:29:54.6685
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3ef741d-1ce8-4d19-22cd-08db82c2eeed
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT058.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9694
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 10:17:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184171
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 10:30:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184172
 
-Introduced by: https://github.com/curl/curl/commit/3c49b405de4fbf1fd7127f91908261268640e54f (curl-7_9_8)
-Fixed by: https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2 (curl-8_1_0)
-Follow-up: https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3 (curl-8_1_0)
-https://curl.se/docs/CVE-2023-28320.html
-
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- .../curl/curl/CVE-2023-28320-fol1.patch       | 197 ++++++++++++++++++
- .../curl/curl/CVE-2023-28320.patch            |  86 ++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
- 3 files changed, 285 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320.patch
-
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-new file mode 100644
-index 0000000000..eaa6fdc327
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-@@ -0,0 +1,197 @@
-+From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 16 May 2023 23:40:42 +0200
-+Subject: [PATCH] hostip: include easy_lock.h before using
-+ GLOBAL_INIT_IS_THREADSAFE
-+
-+Since that header file is the only place that define can be defined.
-+
-+Reported-by: Marc Deslauriers
-+
-+Follow-up to 13718030ad4b3209
-+
-+Closes #11121
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3]
-+CVE: CVE-2023-28320
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
-+ lib/hostip.c    |  10 ++---
-+ lib/hostip.h    |   9 ----
-+ 3 files changed, 113 insertions(+), 15 deletions(-)
-+ create mode 100644 lib/easy_lock.h
-+
-+diff --git a/lib/easy_lock.h b/lib/easy_lock.h
-+new file mode 100644
-+index 0000000..6399a39
-+--- /dev/null
-++++ b/lib/easy_lock.h
-+@@ -0,0 +1,109 @@
-++#ifndef HEADER_CURL_EASY_LOCK_H
-++#define HEADER_CURL_EASY_LOCK_H
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++
-++#include "curl_setup.h"
-++
-++#define GLOBAL_INIT_IS_THREADSAFE
-++
-++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x600
-++
-++#ifdef __MINGW32__
-++#ifndef __MINGW64_VERSION_MAJOR
-++#if (__MINGW32_MAJOR_VERSION < 5) || \
-++    (__MINGW32_MAJOR_VERSION == 5 && __MINGW32_MINOR_VERSION == 0)
-++/* mingw >= 5.0.1 defines SRWLOCK, and slightly different from MS define */
-++typedef PVOID SRWLOCK, *PSRWLOCK;
-++#endif
-++#endif
-++#ifndef SRWLOCK_INIT
-++#define SRWLOCK_INIT NULL
-++#endif
-++#endif /* __MINGW32__ */
-++
-++#define curl_simple_lock SRWLOCK
-++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
-++
-++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
-++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
-++
-++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
-++#include <stdatomic.h>
-++#if defined(HAVE_SCHED_YIELD)
-++#include <sched.h>
-++#endif
-++
-++#define curl_simple_lock atomic_int
-++#define CURL_SIMPLE_LOCK_INIT 0
-++
-++/* a clang-thing */
-++#ifndef __has_builtin
-++#define __has_builtin(x) 0
-++#endif
-++
-++#ifndef __INTEL_COMPILER
-++/* The Intel compiler tries to look like GCC *and* clang *and* lies in its
-++   __has_builtin() function, so override it. */
-++
-++/* if GCC on i386/x86_64 or if the built-in is present */
-++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
-++      (defined(__i386__) || defined(__x86_64__))) ||    \
-++  __has_builtin(__builtin_ia32_pause)
-++#define HAVE_BUILTIN_IA32_PAUSE
-++#endif
-++
-++#endif
-++
-++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
-++{
-++  for(;;) {
-++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
-++      break;
-++    /* Reduce cache coherency traffic */
-++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
-++      /* Reduce load (not mandatory) */
-++#ifdef HAVE_BUILTIN_IA32_PAUSE
-++      __builtin_ia32_pause();
-++#elif defined(__aarch64__)
-++      __asm__ volatile("yield" ::: "memory");
-++#elif defined(HAVE_SCHED_YIELD)
-++      sched_yield();
-++#endif
-++    }
-++  }
-++}
-++
-++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
-++{
-++  atomic_store_explicit(lock, false, memory_order_release);
-++}
-++
-++#else
-++
-++#undef  GLOBAL_INIT_IS_THREADSAFE
-++
-++#endif
-++
-++#endif /* HEADER_CURL_EASY_LOCK_H */
-+diff --git a/lib/hostip.c b/lib/hostip.c
-+index 5231a74..d5bf881 100644
-+--- a/lib/hostip.c
-++++ b/lib/hostip.c
-+@@ -68,6 +68,8 @@
-+ #include "curl_memory.h"
-+ #include "memdebug.h"
-+ 
-++#include "easy_lock.h"
-++
-+ #if defined(CURLRES_SYNCH) &&                   \
-+   defined(HAVE_ALARM) &&                        \
-+   defined(SIGALRM) &&                           \
-+@@ -77,10 +79,6 @@
-+ #define USE_ALARM_TIMEOUT
-+ #endif
-+ 
-+-#ifdef USE_ALARM_TIMEOUT
-+-#include "easy_lock.h"
-+-#endif
-+-
-+ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
-+ 
-+ /*
-+@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
-+ /* Beware this is a global and unique instance. This is used to store the
-+    return address that we can jump back to from inside a signal handler. This
-+    is not thread-safe stuff. */
-+-sigjmp_buf curl_jmpenv;
-+-curl_simple_lock curl_jmpenv_lock;
-++static sigjmp_buf curl_jmpenv;
-++static curl_simple_lock curl_jmpenv_lock;
-+ #endif
-+ 
-+ /* lookup address, returns entry if found and not stale */
-+diff --git a/lib/hostip.h b/lib/hostip.h
-+index baf1e58..d7f73d9 100644
-+--- a/lib/hostip.h
-++++ b/lib/hostip.h
-+@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_addrinfo *addr,
-+ #define CURL_INADDR_NONE INADDR_NONE
-+ #endif
-+ 
-+-#ifdef HAVE_SIGSETJMP
-+-/* Forward-declaration of variable defined in hostip.c. Beware this
-+- * is a global and unique instance. This is used to store the return
-+- * address that we can jump back to from inside a signal handler.
-+- * This is not thread-safe stuff.
-+- */
-+-extern sigjmp_buf curl_jmpenv;
-+-#endif
-+-
-+ /*
-+  * Function provided by the resolver backend to set DNS servers to use.
-+  */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320.patch b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
-new file mode 100644
-index 0000000000..0c9b67440a
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
-@@ -0,0 +1,86 @@
-+From 13718030ad4b3209a7583b4f27f683cd3a6fa5f2 Mon Sep 17 00:00:00 2001
-+From: Harry Sintonen <sintonen@iki.fi>
-+Date: Tue, 25 Apr 2023 09:22:26 +0200
-+Subject: [PATCH] hostip: add locks around use of global buffer for alarm()
-+
-+When building with the sync name resolver and timeout ability we now
-+require thread-safety to be present to enable it.
-+
-+Closes #11030
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2]
-+CVE: CVE-2023-28320
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ lib/hostip.c | 19 +++++++++++++++----
-+ 1 file changed, 15 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/hostip.c b/lib/hostip.c
-+index f5bb634..5231a74 100644
-+--- a/lib/hostip.c
-++++ b/lib/hostip.c
-+@@ -68,12 +68,19 @@
-+ #include "curl_memory.h"
-+ #include "memdebug.h"
-+ 
-+-#if defined(CURLRES_SYNCH) && \
-+-    defined(HAVE_ALARM) && defined(SIGALRM) && defined(HAVE_SIGSETJMP)
-++#if defined(CURLRES_SYNCH) &&                   \
-++  defined(HAVE_ALARM) &&                        \
-++  defined(SIGALRM) &&                           \
-++  defined(HAVE_SIGSETJMP) &&                    \
-++  defined(GLOBAL_INIT_IS_THREADSAFE)
-+ /* alarm-based timeouts can only be used with all the dependencies satisfied */
-+ #define USE_ALARM_TIMEOUT
-+ #endif
-+ 
-++#ifdef USE_ALARM_TIMEOUT
-++#include "easy_lock.h"
-++#endif
-++
-+ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
-+ 
-+ /*
-+@@ -248,11 +255,12 @@ void Curl_hostcache_prune(struct Curl_easy *data)
-+     Curl_share_unlock(data, CURL_LOCK_DATA_DNS);
-+ }
-+ 
-+-#ifdef HAVE_SIGSETJMP
-++#ifdef USE_ALARM_TIMEOUT
-+ /* Beware this is a global and unique instance. This is used to store the
-+    return address that we can jump back to from inside a signal handler. This
-+    is not thread-safe stuff. */
-+ sigjmp_buf curl_jmpenv;
-++curl_simple_lock curl_jmpenv_lock;
-+ #endif
-+ 
-+ /* lookup address, returns entry if found and not stale */
-+@@ -614,7 +622,6 @@ enum resolve_t Curl_resolv(struct connectdata *conn,
-+ static
-+ RETSIGTYPE alarmfunc(int sig)
-+ {
-+-  /* this is for "-ansi -Wall -pedantic" to stop complaining!   (rabe) */
-+   (void)sig;
-+   siglongjmp(curl_jmpenv, 1);
-+ }
-+@@ -695,6 +702,8 @@ enum resolve_t Curl_resolv_timeout(struct connectdata *conn,
-+      This should be the last thing we do before calling Curl_resolv(),
-+      as otherwise we'd have to worry about variables that get modified
-+      before we invoke Curl_resolv() (and thus use "volatile"). */
-++  curl_simple_lock_lock(&curl_jmpenv_lock);
-++
-+   if(sigsetjmp(curl_jmpenv, 1)) {
-+     /* this is coming from a siglongjmp() after an alarm signal */
-+     failf(data, "name lookup timed out");
-+@@ -763,6 +772,8 @@ clean_up:
-+ #endif
-+ #endif /* HAVE_SIGACTION */
-+ 
-++  curl_simple_lock_unlock(&curl_jmpenv_lock);
-++
-+   /* switch back the alarm() to either zero or to what it was before minus
-+      the time we spent until now! */
-+   if(prev_alarm) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 13ec117099..ce81df0f05 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -50,6 +50,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2023-27535-pre1.patch \
-            file://CVE-2023-27535.patch \
-            file://CVE-2023-27536.patch \
-+           file://CVE-2023-28320.patch \
-+           file://CVE-2023-28320-fol1.patch \
- "
- 
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
--- 
-2.25.1
-
+T24gMTEgSnVsIDIwMjMsIGF0IDIxOjEwLCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
+PiANCj4gVGhpcyBoZWxwcyBpbiBkZWZpbmluZyBjb3JyZWN0IGNvbXBpbGVyIG9wdGlvbnMgYW5k
+IGNvbmZpZ3VyZSBvcHRpb25zDQo+IGZvciBnbGliYyBhbmQgb3ZlcmFsbCBBQkkgZm9yIHRvb2xj
+aGFpbg0KDQpHaXZlbiB0aGlzLCBzaG91bGRu4oCZdCB0aGUgZ2xpYmMgcGF0Y2ggcmVzcGVjdCB0
+aGUgdHVuZSBmbGFncyBpbnN0ZWFkIG9mIGZvcmNpYmx5IHR1cm5pbmcgc3ZlIG9mZj8NCg0KUm9z
+cw==
 
