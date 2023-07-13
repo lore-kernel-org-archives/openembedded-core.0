@@ -1,208 +1,289 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12DF2EB64DD
-	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 11:31:33 +0000 (UTC)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web11.6005.1689247885250814565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E8AC001B0
+	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 13:56:54 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.9119.1689256609181005905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jul 2023 04:31:25 -0700
+ Thu, 13 Jul 2023 06:56:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=hJHSF+Qk;
- spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-794b8fe8cc4so1275355241.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 04:31:25 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=VNskNZks;
+ spf=pass (domain: mvista.com, ip: 209.85.216.51, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-262ef07be72so326852a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 06:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689247884; x=1691839884;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ux/gRIYgVRrlv9COS50x2oQMHgQtOJo7bUmp9BLe+K0=;
-        b=hJHSF+Qklr5zM42L9xD4YJG2+0KP6CYmxnJ6fEEx4aBw1PPBHaUFJfMXXoR4/05EkS
-         wNlvabZj1Slzct72JvYFyQj3jl8ail0ayJQl/KB5a2F/ptqTlgm2fGnbS2ByI3t1PC5E
-         1dg6fSmLCHiG3qlK1IVYD2bf92+Myv8SuDvTTM5M6M960coHdxTBVQ5ftbbZauCbTs0T
-         gGFLJUiGXQ1EANZ+IFhzH4Pcigro8gMaP+SqLWkOzsQSkQAXvan2U7KzPqeIZT7ckKDz
-         82LH8vF+tbYjirdsh3oiVN4hsF3f9/98mWA+foqsyKJJ1TViojgi6VvRN226SRvx9LCD
-         CQjg==
+        d=mvista.com; s=google; t=1689256608; x=1691848608;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wb22qf0c11C3Lh1844ydNl+ZhCRhEUJEfyCVecnuOFI=;
+        b=VNskNZks/tD731phIu1me9GnvQeTFhgfjZtBKmt0CBXyAo/l0b++jSw/G2fXAzcyyH
+         unsM24l8TENgR4Ijz/dDgotLUtUwCcyb3BSXmuj3aS9duthov53vgtK1fvrskrO/WCgQ
+         Hs8LN0bncPJRhUko/z6l0mSnCrGlDJyr+LDOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689247884; x=1691839884;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1689256608; x=1691848608;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ux/gRIYgVRrlv9COS50x2oQMHgQtOJo7bUmp9BLe+K0=;
-        b=OVzO7E2OqdsCN/fexbwcSKUhmo2H1ZuCEXvllMXYpqIAjRhuHlUSFJ2wmiUsEn2f9P
-         CgUkGuVN9NlNnunlg9d59D0hce/y5mLI0u7qwK9ljLiUJz+9uoEzRXRmWyuhJ+8e2Vc5
-         WXgFw7Me1ZvCYEEWh+g6TGQKZ/yMI/INJ0gn1pa9fo1v+iDh8CBSp0lMerwpLCQMDSbA
-         ksY/8a7THpgxtY3ScG+WRLagHunuM6FR1vy8KRtLvuoZdJ6PV/2J3ABFUirmT4EO75M3
-         bQxZ+SbnuNjV0TnskHQgsYbWIO9n9zTMpQZGETCZsUkMTwx2Wuk9tj/cngNn537LzgOC
-         I0eQ==
-X-Gm-Message-State: ABy/qLZ7fmK9ug59uv72gGjtPHJ5iugQZFkimPW3a7d0tIB1C7MxSBlg
-	oG+Y6JAY9tG/LXdwu6Tv4mwdDBMkmL4Efa2JS3Y=
-X-Google-Smtp-Source: APBJJlH4TCA9TvjqcLfAAUTpRz5JuGgwlkPikQdGWCWPCkqfcbHDYT0jV/xGAWfoU0CZlWbUyVZA6HsRcawLT1rMA/0=
-X-Received: by 2002:a05:6102:292c:b0:443:8053:f969 with SMTP id
- cz44-20020a056102292c00b004438053f969mr1496271vsb.17.1689247884038; Thu, 13
- Jul 2023 04:31:24 -0700 (PDT)
+        bh=Wb22qf0c11C3Lh1844ydNl+ZhCRhEUJEfyCVecnuOFI=;
+        b=RERwX8A7HfLn6uVEsWQf+9fh3540COF9cMVwUua5JlLN7BjCX8cpKKH+DrqJwr2a64
+         SISzAkJyvyGKIhMEbrdMPCNFD/oGuHNF+3HjgYcozlyI6o5XSSVHn6xk0lwH61pSapX5
+         V6wd+uSQ/R87QXEjVLHXCFeLw0X+iUF0y2E3XXCw986rC6qDDp8zPn1q9VkPnjINRbIv
+         1Q/oW38hUP0bE8uGa1AqvSgIQ1gNi9Tu/Ph3kG8NzrERnlA24UIDQSFAOHz6oYojuCS5
+         w4apmgf86Gt7hY73UB4t/FJV9h+wqVqzu/GgT4DStRJb3gJa1hsruCvSVKYKyEZY227E
+         HFOQ==
+X-Gm-Message-State: ABy/qLYzqlOEawS0nRf9JWrtMlN+TBbSSG+8l587I75t1OWvOJ6vBAFv
+	AsU9vG6NpWbSHdR4UzST6jmQsN1x6tfZrhwTCG0=
+X-Google-Smtp-Source: APBJJlEZJHFQEsNv2a4IMIBme767SlbbGj9mVYLhES8asznsfaHRhTnx/ok4Q7S1tfcbgC4naE3dXw==
+X-Received: by 2002:a17:90b:187:b0:263:f73a:b412 with SMTP id t7-20020a17090b018700b00263f73ab412mr703135pjs.49.1689256608007;
+        Thu, 13 Jul 2023 06:56:48 -0700 (PDT)
+Received: from localhost.localdomain ([116.74.188.14])
+        by smtp.googlemail.com with ESMTPSA id e8-20020a17090a684800b00264044cca0fsm4792521pjm.1.2023.07.13.06.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jul 2023 06:56:47 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [meta-oe][kirkstone][PATCH v3] curl: Added CVE-2023-28320 Follow-up patch
+Date: Thu, 13 Jul 2023 19:26:38 +0530
+Message-Id: <20230713135638.1111071-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230713110244.3169513-1-jose.quaresma@foundries.io>
- <20230713110244.3169513-2-jose.quaresma@foundries.io> <3f44bb222d7ad35fb14e8bee4832311915b1ff10.camel@linuxfoundation.org>
-In-Reply-To: <3f44bb222d7ad35fb14e8bee4832311915b1ff10.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 13 Jul 2023 12:31:13 +0100
-Message-ID: <CANPvuRkGTf6GipNuRqHbnuNhQQe34pTb19_P1UG1wGLPffCZ5w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/2] sstatesig: do_image_complete needs to run
- with pseudo disbale
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, ricardo@foundries.io, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="00000000000010d90406005cacfe"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 11:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184243
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 13:56:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184244
 
---00000000000010d90406005cacfe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Introduced by: https://github.com/curl/curl/commit/3c49b405de4fbf1fd7127f91908261268640e54f (curl-7_9_8)
+Fixed by: https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2 (curl-8_1_0)
+Follow-up: https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3 (curl-8_1_0)
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-13/07/2023 =C3=A0(s) 12:11:
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ .../curl/curl/CVE-2023-28320-fol1.patch       | 197 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
 
-> On Thu, 2023-07-13 at 11:02 +0000, Jose Quaresma wrote:
-> > sstate_report_unihash function from sstate.bbclass needs to
-> > run with pseudo disbaled when running do_image_complete task.
-> > This is because it have the deploy content with uid and gid
-> > of the user that run bitbake on the build machine.
-> >
-> > By default the creation of sstate is skiped in the task do_image_comple=
-te
-> > in the image.bbclass using SSTATE_SKIP_CREATION:task-image-complete=3D1
-> > so the issue is not triggered.
-> >
-> > There are some situation when is useful to store the image artifacts on
-> the
-> > sstate cache for future reuse and speedup the build without need to
-> pruduce
-> > the same image again. These cases are especially useful in the case of
-> the
-> > initramfs images used by the kernel.
-> >
-> > The issue can be reproduced in oe-core with:
-> >  echo "SSTATE_SKIP_CREATION:task-image-complete =3D '0'" >>
-> meta/recipes-core/images/core-image-minimal-initramfs.bb
-> >  bitbake core-image-minimal-initramfs -C do_image_complete
->
-> I can see why you've done this but I have a lot of worries about adding
-> code for use cases we don't support.
->
-> If we do this in too many places the code just becomes unmaintainable
-> as we have no idea how it is being used. I'll merge patches which break
-> things, then we'll get patches to fix that and break something else
-> someone relies upon and things will turn into a mess.
->
-> I really don't know what to do with such patches :(
->
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+new file mode 100644
+index 0000000000..2ba74aaaa9
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+@@ -0,0 +1,197 @@
++From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 16 May 2023 23:40:42 +0200
++Subject: [PATCH] hostip: include easy_lock.h before using
++ GLOBAL_INIT_IS_THREADSAFE
++
++Since that header file is the only place that define can be defined.
++
++Reported-by: Marc Deslauriers
++
++Follow-up to 13718030ad4b3209
++
++Closes #11121
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3]
++CVE: CVE-2023-28320
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
++ lib/hostip.c    |  10 ++---
++ lib/hostip.h    |   9 ----
++ 3 files changed, 113 insertions(+), 15 deletions(-)
++ create mode 100644 lib/easy_lock.h
++
++diff --git a/lib/easy_lock.h b/lib/easy_lock.h
++new file mode 100644
++index 0000000..6399a39
++--- /dev/null
+++++ b/lib/easy_lock.h
++@@ -0,0 +1,109 @@
+++#ifndef HEADER_CURL_EASY_LOCK_H
+++#define HEADER_CURL_EASY_LOCK_H
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++
+++#include "curl_setup.h"
+++
+++#define GLOBAL_INIT_IS_THREADSAFE
+++
+++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x600
+++
+++#ifdef __MINGW32__
+++#ifndef __MINGW64_VERSION_MAJOR
+++#if (__MINGW32_MAJOR_VERSION < 5) || \
+++    (__MINGW32_MAJOR_VERSION == 5 && __MINGW32_MINOR_VERSION == 0)
+++/* mingw >= 5.0.1 defines SRWLOCK, and slightly different from MS define */
+++typedef PVOID SRWLOCK, *PSRWLOCK;
+++#endif
+++#endif
+++#ifndef SRWLOCK_INIT
+++#define SRWLOCK_INIT NULL
+++#endif
+++#endif /* __MINGW32__ */
+++
+++#define curl_simple_lock SRWLOCK
+++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
+++
+++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
+++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
+++
+++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
+++#include <stdatomic.h>
+++#if defined(HAVE_SCHED_YIELD)
+++#include <sched.h>
+++#endif
+++
+++#define curl_simple_lock atomic_int
+++#define CURL_SIMPLE_LOCK_INIT 0
+++
+++/* a clang-thing */
+++#ifndef __has_builtin
+++#define __has_builtin(x) 0
+++#endif
+++
+++#ifndef __INTEL_COMPILER
+++/* The Intel compiler tries to look like GCC *and* clang *and* lies in its
+++   __has_builtin() function, so override it. */
+++
+++/* if GCC on i386/x86_64 or if the built-in is present */
+++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
+++      (defined(__i386__) || defined(__x86_64__))) ||    \
+++  __has_builtin(__builtin_ia32_pause)
+++#define HAVE_BUILTIN_IA32_PAUSE
+++#endif
+++
+++#endif
+++
+++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
+++{
+++  for(;;) {
+++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
+++      break;
+++    /* Reduce cache coherency traffic */
+++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
+++      /* Reduce load (not mandatory) */
+++#ifdef HAVE_BUILTIN_IA32_PAUSE
+++      __builtin_ia32_pause();
+++#elif defined(__aarch64__)
+++      __asm__ volatile("yield" ::: "memory");
+++#elif defined(HAVE_SCHED_YIELD)
+++      sched_yield();
+++#endif
+++    }
+++  }
+++}
+++
+++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
+++{
+++  atomic_store_explicit(lock, false, memory_order_release);
+++}
+++
+++#else
+++
+++#undef  GLOBAL_INIT_IS_THREADSAFE
+++
+++#endif
+++
+++#endif /* HEADER_CURL_EASY_LOCK_H */
++diff --git a/lib/hostip.c b/lib/hostip.c
++index e15c17a..c2e0962 100644
++--- a/lib/hostip.c
+++++ b/lib/hostip.c
++@@ -72,6 +72,8 @@
++ #include <SystemConfiguration/SCDynamicStoreCopySpecific.h>
++ #endif
++
+++#include "easy_lock.h"
+++
++ #if defined(CURLRES_SYNCH) &&                   \
++   defined(HAVE_ALARM) &&                        \
++   defined(SIGALRM) &&                           \
++@@ -81,10 +83,6 @@
++ #define USE_ALARM_TIMEOUT
++ #endif
++
++-#ifdef USE_ALARM_TIMEOUT
++-#include "easy_lock.h"
++-#endif
++-
++ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
++
++ /*
++@@ -260,8 +258,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
++ /* Beware this is a global and unique instance. This is used to store the
++    return address that we can jump back to from inside a signal handler. This
++    is not thread-safe stuff. */
++-sigjmp_buf curl_jmpenv;
++-curl_simple_lock curl_jmpenv_lock;
+++static sigjmp_buf curl_jmpenv;
+++static curl_simple_lock curl_jmpenv_lock;
++ #endif
++
++ /* lookup address, returns entry if found and not stale */
++diff --git a/lib/hostip.h b/lib/hostip.h
++index 1db5981..a46bdc6 100644
++--- a/lib/hostip.h
+++++ b/lib/hostip.h
++@@ -189,15 +189,6 @@ Curl_cache_addr(struct Curl_easy *data, struct Curl_addrinfo *addr,
++ #define CURL_INADDR_NONE INADDR_NONE
++ #endif
++
++-#ifdef HAVE_SIGSETJMP
++-/* Forward-declaration of variable defined in hostip.c. Beware this
++- * is a global and unique instance. This is used to store the return
++- * address that we can jump back to from inside a signal handler.
++- * This is not thread-safe stuff.
++- */
++-extern sigjmp_buf curl_jmpenv;
++-#endif
++-
++ /*
++  * Function provided by the resolver backend to set DNS servers to use.
++  */
++--
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index 96280b31b2..550192d329 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -50,6 +50,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-28321.patch \
+            file://CVE-2023-28322-1.patch \
+            file://CVE-2023-28322-2.patch \
++           file://CVE-2023-28320-fol1.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ 
+-- 
+2.25.1
 
-I can try another approaches to not change the default behavior:
-
-Inside the python sstate_report_unihash of the sstate bbclass
-I can get the SSTATE_SKIP_CREATION and if it is not set (disabled) and the
-task is
-do_image_complete we explicitly set the PSEUDO_DISABLED to run
-the report_unihash.
-
-Is something like that more acceptable? or is better to keep things like
-that in distro layers.
-
-Thanks for your time.
-
-Jose
-
-
-> Cheers,
->
-> Richard
->
->
->
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000010d90406005cacfe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 13/07/2023 =C3=A0(s) 12:11:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2023-07-13 at 11:02 +0000, =
-Jose Quaresma wrote:<br>
-&gt; sstate_report_unihash function from sstate.bbclass needs to<br>
-&gt; run with pseudo disbaled when running do_image_complete task.<br>
-&gt; This is because it have the deploy content with uid and gid<br>
-&gt; of the user that run bitbake on the build machine.<br>
-&gt; <br>
-&gt; By default the creation of sstate is skiped in the task do_image_compl=
-ete<br>
-&gt; in the image.bbclass using SSTATE_SKIP_CREATION:task-image-complete=3D=
-1<br>
-&gt; so the issue is not triggered.<br>
-&gt; <br>
-&gt; There are some situation when is useful to store the image artifacts o=
-n the<br>
-&gt; sstate cache for future reuse and speedup the build without need to pr=
-uduce<br>
-&gt; the same image again. These cases are especially useful in the case of=
- the<br>
-&gt; initramfs images used by the kernel.<br>
-&gt; <br>
-&gt; The issue can be reproduced in oe-core with:<br>
-&gt;=C2=A0 echo &quot;SSTATE_SKIP_CREATION:task-image-complete =3D &#39;0&#=
-39;&quot; &gt;&gt; meta/recipes-core/images/<a href=3D"http://core-image-mi=
-nimal-initramfs.bb" rel=3D"noreferrer" target=3D"_blank">core-image-minimal=
--initramfs.bb</a><br>
-&gt;=C2=A0 bitbake core-image-minimal-initramfs -C do_image_complete<br>
-<br>
-I can see why you&#39;ve done this but I have a lot of worries about adding=
-<br>
-code for use cases we don&#39;t support.=C2=A0<br>
-<br>
-If we do this in too many places the code just becomes unmaintainable<br>
-as we have no idea how it is being used. I&#39;ll merge patches which break=
-<br>
-things, then we&#39;ll get patches to fix that and break something else<br>
-someone relies upon and things will turn into a mess.<br>
-<br>
-I really don&#39;t know what to do with such patches :(<br></blockquote><di=
-v><br>I can try another approaches to not=C2=A0change=C2=A0the default beha=
-vior:<br><br></div><div>Inside the python sstate_report_unihash of the ssta=
-te bbclass</div><div>I can get the SSTATE_SKIP_CREATION and if it is not se=
-t (disabled) and the task is</div><div>do_image_complete we explicitly set =
-the=C2=A0PSEUDO_DISABLED to run</div><div>the=C2=A0report_unihash.<br><br><=
-/div><div>Is something like that more acceptable? or is better to keep thin=
-gs=C2=A0like that in distro layers.<br><br>Thanks=C2=A0for your time.</div>=
-<div><br>Jose<br><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---00000000000010d90406005cacfe--
 
