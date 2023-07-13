@@ -1,216 +1,169 @@
-Return-Path: <yang.xu@mediatek.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC9DC001DD
-	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 02:17:31 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web10.4246.1689214641202583080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77761EB64DD
+	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 06:14:51 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web11.2535.1689228882918107043
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jul 2023 19:17:21 -0700
+ Wed, 12 Jul 2023 23:14:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=cZ5UsHMN;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: yang.xu@mediatek.com)
-X-UUID: 61db6358212311eeb20a276fd37b9834-20230713
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=5jeVbASFlpI77EKSuT2UlEO9ltJnhDhhWc2B6SxbStU=;
-	b=cZ5UsHMNfP1OCM+bXHIOxzn3fZ8Zdq0e9idEeu271/Anx1MMfXR04U0l82IhI6B0DPBQLPGTvQnnmrS7/NphZ2aLDqeqCAcG8O9u7Ia9GKGPJUp5H7IkVeIy8X3ZL9MMbw/kSP2f33N2o/7YGs9P8Psr498a4UxQCXJPeKJzW8w=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:798471bc-2df6-4ba8-aabe-9e8c9958bd1a,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:176cd25,CLOUDID:b53f2c0e-c22b-45ab-8a43-3004e9216b56,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 61db6358212311eeb20a276fd37b9834-20230713
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-	(envelope-from <yang.xu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 298106729; Thu, 13 Jul 2023 10:17:14 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 13 Jul 2023 10:17:13 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 13 Jul 2023 10:17:13 +0800
-From: <yang.xu@mediatek.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alexandre.belloni@bootlin.com>, <Ross.Burton@arm.com>, Yang Xu
-	<yang.xu@mediatek.com>
-Subject: [PATCH v4] sstatesig: Fix pn and taskname derivation in find_siginfo
-Date: Thu, 13 Jul 2023 02:16:59 +0000
-Message-ID: <20230713021659.23130-1-yang.xu@mediatek.com>
+ dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=RAReGJwK;
+ spf=pass (domain: mvista.com, ip: 209.85.167.178, mailfrom: vkumbhar@mvista.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-38e04d1b2b4so337021b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Jul 2023 23:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1689228882; x=1691820882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJAhuESKw5ewQ/Ue4nlC/JpCthXwFgR0jCjZyurmILQ=;
+        b=RAReGJwKB9319ILAEho8SQEEYmm9KrDnE1vcFWxfpCEqpYuRzqqbBI0P8/CS5lORqf
+         4wNeoUau1vvIymAFdxOyGdDXBb+cWnfcqwlUnTqGL0q+6cq5f29AYoSL8xLuaGcYX/4n
+         FTcUoCGVpo21lax29CuEkLyBqfVOy8IbpQjEY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689228882; x=1691820882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJAhuESKw5ewQ/Ue4nlC/JpCthXwFgR0jCjZyurmILQ=;
+        b=bsXF1l8Ffyu7wbbGDoo7FAyzfb5SidcqQbW7miFOM4lKitdTuVuWQMS2X7Unpme9Kp
+         z9o9F5FCZEsh9GYqgZ5DTDKb87FgFDWz2SfHeTplk5HMF2mtzWWvCElwD/GIBNbQvCWp
+         eU/baKyvh3E7pvUH2bUCzfpyvbbc80oL6CsqtFKYnmN0tJbUVOoY7YK7a0sRj+AStgAp
+         qdkSB9/DQLJ3n0MjwIDhSzQjKpRs+WE7oTNgLYqSCiS79poM7BB21q/uD0zPmoIuh/fL
+         ts2zk53LINtN6CQ7qFFhc4pLNhT2E1LRBesnMQToQFe8YTnWPvMjlKWrE+FnHq4OkCSv
+         cT8Q==
+X-Gm-Message-State: ABy/qLYwC3aLYox4aFCNjVNRdDBpff0FHu12tMZdKY4vFSDhX2GNXsOn
+	LxgxxWz/Mu203s5kUB/PclU2TGsCTuhayhXLvk8=
+X-Google-Smtp-Source: APBJJlF5vYlGi9eQmuM+NuFTsM3mHd9026JG7GXiepi2j7O9avTUJvQ415Nvp1Jf1iPZYx6WTS343g==
+X-Received: by 2002:a05:6358:7189:b0:135:73b0:cc6c with SMTP id t9-20020a056358718900b0013573b0cc6cmr1158870rwt.28.1689228881633;
+        Wed, 12 Jul 2023 23:14:41 -0700 (PDT)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.74.188.14])
+        by smtp.googlemail.com with ESMTPSA id t12-20020a63b24c000000b0055bf13811f5sm1141694pgo.15.2023.07.12.23.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jul 2023 23:14:41 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] python3: fix CVE-2023-24329 urllib.parse url blocklisting bypass
+Date: Thu, 13 Jul 2023 11:44:25 +0530
+Message-Id: <20230713061425.122500-1-vkumbhar@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 02:17:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184230
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 06:14:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184231
 
-From: Yang Xu <yang.xu@mediatek.com>
-
-The `bb.siggen.compare_sigfiles` method transforms the key format from
-`[mc:<mc_name>:][virtual:][native:]<recipe path>:<taskname>` to
-`<recipe dir>/<recipe name>:<taskname>[:virtual][:native][:mc:<mc_name>]`
-by `clean_basepaths`. However, `find_siginfo` uses the original format
-to get the package name (pn) and task name.
-
-This commit corrects the method for deriving the pn and task name in
-`find_siginfo` and adds handling for multilib name.
-And add test for compare_sigfiles and find_siginfo working together.
-
-Signed-off-by: Yang Xu <yang.xu@mediatek.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
+ .../python/python3/CVE-2023-24329.patch       | 80 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.8.17.bb |  1 +
+ 2 files changed, 81 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2023-24329.patch
 
-Notes:
-    v1: correct handling for pn and taskname for native target in find_siginfo
-    v2: add handling for multilib target in find_siginfo
-    v3: add testcase for compare_sigfiles and find_siginfo work together.
-    v4: optimize testcase to avoid non-deterministic fail
-
- .../recipes-test/binutils/binutils_%.bbappend |  2 +
- meta/lib/oe/sstatesig.py                      | 17 ++--
- meta/lib/oeqa/selftest/cases/sstatetests.py   | 83 +++++++++++++++++++
- 3 files changed, 97 insertions(+), 5 deletions(-)
- create mode 100644 meta-selftest/recipes-test/binutils/binutils_%.bbappend
-
-diff --git a/meta-selftest/recipes-test/binutils/binutils_%.bbappend b/meta-selftest/recipes-test/binutils/binutils_%.bbappend
+diff --git a/meta/recipes-devtools/python/python3/CVE-2023-24329.patch b/meta/recipes-devtools/python/python3/CVE-2023-24329.patch
 new file mode 100644
-index 0000000000..205720982c
+index 0000000000..23dec65602
 --- /dev/null
-+++ b/meta-selftest/recipes-test/binutils/binutils_%.bbappend
-@@ -0,0 +1,2 @@
-+# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
-+include test_recipe.inc
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index f943df181e..f041a0c430 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -321,11 +321,18 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-     if not taskname:
-         # We have to derive pn and taskname
-         key = pn
--        splitit = key.split('.bb:')
--        taskname = splitit[1]
--        pn = os.path.basename(splitit[0]).split('_')[0]
--        if key.startswith('virtual:native:'):
--            pn = pn + '-native'
-+        if key.count(':') >= 2:
-+            splitit, taskname, affix = key.split(':', 2)
-+        else:
-+            splitit, taskname = key.split(':', 1)
-+            affix = ''
-+        pn = os.path.splitext(os.path.basename(splitit))[0].split('_')[0]
-+        affixitems = affix.split(':')
-+        if affixitems[0] == 'virtual':
-+            if affixitems[1] == 'native':
-+                pn = pn + '-native'
-+            if affixitems[1] == 'multilib':
-+                pn = affixitems[2] + '-' + pn
++++ b/meta/recipes-devtools/python/python3/CVE-2023-24329.patch
+@@ -0,0 +1,80 @@
++From 72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Sun, 13 Nov 2022 11:00:25 -0800
++Subject: [PATCH] gh-99418: Make urllib.parse.urlparse enforce that a scheme
++ must begin with an alphabetical ASCII character. (GH-99421)
++
++Prevent urllib.parse.urlparse from accepting schemes that don't begin with an alphabetical ASCII character.
++
++RFC 3986 defines a scheme like this: `scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )`
++RFC 2234 defines an ALPHA like this: `ALPHA = %x41-5A / %x61-7A`
++
++The WHATWG URL spec defines a scheme like this:
++`"A URL-scheme string must be one ASCII alpha, followed by zero or more of ASCII alphanumeric, U+002B (+), U+002D (-), and U+002E (.)."`
++(cherry picked from commit 439b9cfaf43080e91c4ad69f312f21fa098befc7)
++
++Co-authored-by: Ben Kallus <49924171+kenballus@users.noreply.github.com>
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9]
++CVE: CVE-2023-24329
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ Lib/test/test_urlparse.py                      | 18 ++++++++++++++++++
++ Lib/urllib/parse.py                            |  2 +-
++ ...22-11-12-15-45-51.gh-issue-99418.FxfAXS.rst |  2 ++
++ 3 files changed, 21 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Library/2022-11-12-15-45-51.gh-issue-99418.FxfAXS.rst
++
++diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
++index 0ad3bf1..e1aa913 100644
++--- a/Lib/test/test_urlparse.py
+++++ b/Lib/test/test_urlparse.py
++@@ -735,6 +735,24 @@ class UrlParseTestCase(unittest.TestCase):
++                         with self.assertRaises(ValueError):
++                             p.port
++
+++    def test_attributes_bad_scheme(self):
+++        """Check handling of invalid schemes."""
+++        for bytes in (False, True):
+++            for parse in (urllib.parse.urlsplit, urllib.parse.urlparse):
+++                for scheme in (".", "+", "-", "0", "http&", "६http"):
+++                    with self.subTest(bytes=bytes, parse=parse, scheme=scheme):
+++                        url = scheme + "://www.example.net"
+++                        if bytes:
+++                            if url.isascii():
+++                                url = url.encode("ascii")
+++                            else:
+++                                continue
+++                        p = parse(url)
+++                        if bytes:
+++                            self.assertEqual(p.scheme, b"")
+++                        else:
+++                            self.assertEqual(p.scheme, "")
+++
++     def test_attributes_without_netloc(self):
++         # This example is straight from RFC 3261.  It looks like it
++         # should allow the username, hostname, and port to be filled
++diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
++index 979e6d2..2e7a3e2 100644
++--- a/Lib/urllib/parse.py
+++++ b/Lib/urllib/parse.py
++@@ -452,7 +452,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
++         clear_cache()
++     netloc = query = fragment = ''
++     i = url.find(':')
++-    if i > 0:
+++    if i > 0 and url[0].isascii() and url[0].isalpha():
++         if url[:i] == 'http': # optimize the common case
++             url = url[i+1:]
++             if url[:2] == '//':
++diff --git a/Misc/NEWS.d/next/Library/2022-11-12-15-45-51.gh-issue-99418.FxfAXS.rst b/Misc/NEWS.d/next/Library/2022-11-12-15-45-51.gh-issue-99418.FxfAXS.rst
++new file mode 100644
++index 0000000..0a06e7c
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2022-11-12-15-45-51.gh-issue-99418.FxfAXS.rst
++@@ -0,0 +1,2 @@
+++Fix bug in :func:`urllib.parse.urlparse` that causes URL schemes that begin
+++with a digit, a plus sign, or a minus sign to be parsed incorrectly.
++--
++2.25.1
+diff --git a/meta/recipes-devtools/python/python3_3.8.17.bb b/meta/recipes-devtools/python/python3_3.8.17.bb
+index ba5f564d8e..8c00d65794 100644
+--- a/meta/recipes-devtools/python/python3_3.8.17.bb
++++ b/meta/recipes-devtools/python/python3_3.8.17.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://makerace.patch \
++           file://CVE-2023-24329.patch \
+            "
  
-     hashfiles = {}
-     filedates = {}
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index febafdb2f7..3fa3038218 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -691,3 +691,86 @@ TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
-         self.maxDiff = None
-         self.assertCountEqual(files1, files2)
- 
-+class SStateFindSiginfo(SStateBase):
-+    def test_sstate_compare_sigfiles_and_find_siginfo(self):
-+        """
-+        Test the functionality of the find_siginfo: basic function and callback in compare_sigfiles
-+        """
-+        self.write_config("""
-+TMPDIR = \"${TOPDIR}/tmp-sstates-findsiginfo\"
-+TCLIBCAPPEND = \"\"
-+MACHINE = \"qemux86-64\"
-+require conf/multilib.conf
-+MULTILIBS = "multilib:lib32"
-+DEFAULTTUNE:virtclass-multilib-lib32 = "x86"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
-+""")
-+        self.track_for_cleanup(self.topdir + "/tmp-sstates-findsiginfo")
-+
-+        pns = ["binutils", "binutils-native", "lib32-binutils"]
-+        target_configs = [
-+"""
-+TMPVAL1 = "tmpval1"
-+TMPVAL2 = "tmpval2"
-+do_tmptask1() {
-+    echo ${TMPVAL1}
-+}
-+do_tmptask2() {
-+    echo ${TMPVAL2}
-+}
-+addtask do_tmptask1
-+addtask tmptask2 before do_tmptask1
-+""",
-+"""
-+TMPVAL3 = "tmpval3"
-+TMPVAL4 = "tmpval4"
-+do_tmptask1() {
-+    echo ${TMPVAL3}
-+}
-+do_tmptask2() {
-+    echo ${TMPVAL4}
-+}
-+addtask do_tmptask1
-+addtask tmptask2 before do_tmptask1
-+"""
-+        ]
-+
-+        for target_config in target_configs:
-+            self.write_recipeinc("binutils", target_config)
-+            for pn in pns:
-+                bitbake("%s -c do_tmptask1 -S none" % pn)
-+            self.delete_recipeinc("binutils")
-+
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=True)
-+
-+            def find_siginfo(pn, taskname, sigs=None):
-+                result = None
-+                tinfoil.set_event_mask(["bb.event.FindSigInfoResult",
-+                                "bb.command.CommandCompleted"])
-+                ret = tinfoil.run_command("findSigInfo", pn, taskname, sigs)
-+                if ret:
-+                    while True:
-+                        event = tinfoil.wait_event(1)
-+                        if event:
-+                            if isinstance(event, bb.command.CommandCompleted):
-+                                break
-+                            elif isinstance(event, bb.event.FindSigInfoResult):
-+                                result = event.result
-+                return result
-+
-+            def recursecb(key, hash1, hash2):
-+                nonlocal recursecb_count
-+                recursecb_count += 1
-+                hashes = [hash1, hash2]
-+                hashfiles = find_siginfo(key, None, hashes)
-+                self.assertCountEqual(hashes, hashfiles)
-+                bb.siggen.compare_sigfiles(hashfiles[hash1], hashfiles[hash2], recursecb)
-+
-+            for pn in pns:
-+                recursecb_count = 0
-+                filedates = find_siginfo(pn, "do_tmptask1")
-+                self.assertGreaterEqual(len(filedates), 2)
-+                latestfiles = sorted(filedates.keys(), key=lambda f: filedates[f])[-2:]
-+                bb.siggen.compare_sigfiles(latestfiles[-2], latestfiles[-1], recursecb)
-+                self.assertEqual(recursecb_count,1)
+ SRC_URI_append_class-native = " \
 -- 
-2.18.0
+2.25.1
 
 
