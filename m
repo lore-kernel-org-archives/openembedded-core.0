@@ -1,154 +1,275 @@
-Return-Path: <Deepthi.Hemraj@windriver.com>
+Return-Path: <Wolfgang.Brehm@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66944EB64DD
-	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 09:27:52 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.4549.1689240462434248495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77BAEC001B0
+	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 09:29:32 +0000 (UTC)
+Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
+ by mx.groups.io with SMTP id smtpd.web11.4564.1689240566796348899
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jul 2023 02:27:42 -0700
+ Thu, 13 Jul 2023 02:29:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=n0QUB4NY;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=655843bffa=deepthi.hemraj@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36D8IGY1032334
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 02:27:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=h3IDm33inWjc3hYSjE
-	xjoW2VMydxjIxwhaJdKzAQL4k=; b=n0QUB4NYiiBLeGuKO5vLmyXXzpajiHWk0L
-	IlP7GZBPBqg6vujSCJDXxAD7dhKkCWAAfxQxjOdI4+knYNl3hgbBzQq44xofs3wf
-	XDftyztILHnU7nAG5n6QByxQqF7KYFOhMkrSRO+XPOlnk6m5PvhgmAuAMpaYa+I8
-	RT9VOA94xzZRKMW8r2aNXjFMK1qpeVxUij0DoTcaKf4pZxJMGLj75urvqtstJbtZ
-	9OC7c1B5suze0gRwZI3Mhezw+6DZwrUnyD1t0ZyavlWG3lloKqyNw8BGIB3vqEqP
-	S4n5G7ZPmI75OQcqGxOJ7KoMxUbH2ZpLoGtwnUrMHOPQYm/H2Yow==
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2046.outbound.protection.outlook.com [104.47.51.46])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rq32ymayj-1
+ dkim=pass header.i=@karlstorz.com header.s=s-dkim-20210427 header.b=lrY2sGoc;
+ spf=pass (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: wolfgang.brehm@karlstorz.com)
+Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36D2ipRE027588
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 09:29:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com; h=from : to :
+ subject : date : message-id : content-type : mime-version;
+ s=S-DKIM-20210427; bh=naPBx/Un1u08HXMv5dV12o/Du2Di6rEbQ7OoteioVVk=;
+ b=lrY2sGocVBeBDchktY1HfZkhUNWq93cfkytsCmZ9w8hxsogOu1oFjf9QpCKdh0wMS9/O
+ xRgUHaAYBzi7zz2Ma8REBBtTqsQJ1FVZFbzhMTffWgOIvePC2aN+XecI2wp+Fq8s8JrM
+ QvJCiWAymB6X6TpZDduHfLS43/fXrF+EK5zFz+HXI6IMqIpv9HWgAh6+jy5Ns6N9ThZF
+ 6t9MOH7KS49tI2CCPgWttPji0BUIA5Klx5DZ/8PVjDDPfIR6qt4jSNELS+OYnCl4Fj16
+ A6Bj6jMTbfQo/PA6XYpFkyLRPS8iT+ZTPCvYqNv8vPcR+QniLmc83Ofv5Yj+fYEIdWEE Tg== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2049.outbound.protection.outlook.com [104.47.73.49])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 3rt6bx96yb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 02:27:41 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 09:29:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nFmWbNorUB7SGo4tyaON2IqT9e0rVVUupfGLxu8OxVfmYRfWnJ0qfTycroDk0LEueTA4cLB6x6272QcnSEGuMA+t0XSo93xYo+CYyNNf6vLjQ3i3AsgCwAwjfjf6BmblDYkjr4lbPRGhphIKhuOn2BZOKqCqdEpvW5wvsPZYZPHge6qss1cGP4OGZRCWV02hM03XiNdnzBufDMVcKF1fsEMPGgc9qbbaWnSnhqTpoPvb/UZTaMdU1pvOJ9o9vS9eBoWD1Gp7NvfWK+6OQmv3SEJ/6WSoqh0M/PIftCC9s13o7PLerG0lskvYRBFjGF55fARc/srPoXkxEhAJVI3twg==
+ b=QJuR9ecJCdmpcjB/8DRmOWh2neQb542j+6gV+QqFpKagadvwC3MRAis0yfQN2cM4GwD+tZMgKvUAugJIgpfcClTacF/0olmb9ldgWUTn37O2y551EKRK9uIAbNsIsVpakygWbhnm9lYHeXa8/xGO8tHuvJXL5m6P7/khdQj12jkpuei6idD20sC+vZIAR26DwJhLAl83q90xvyrlkIc9Gew9qC6kBa2Pe/wupu++xM6ZKNoUpp473C5WPMVMWdO/HVdGJXGNtfH9cWaJJNyIq2X5NsQr5B1NWdxb3z4GYiQlO9pFgmVmXKg1VGcb5VvKORf9rVHNbZiBjSJ0zBHBzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h3IDm33inWjc3hYSjExjoW2VMydxjIxwhaJdKzAQL4k=;
- b=Q6iRcZYLTT4pBzoHUQUhk103YJ3Q8jhG4XqG+KC+xMZmvw/AFY2ZnIOkHhCmnuGEVfaW1ix0PW7vR/N0j0yncC0qLy1i5P52A5uvgCtJaC+8lA6mWu3CQmQUYjueFqD68u9LnZ8ScOwjo0XqWOFAcaXWv0u6hOY/xVo6iVdaPUAb73GRXNeB8ew+GYwVrH51pqcjSnKVvXl7Qg+KqPWTVDjrJIB1+pl+DIPCWBReGuNKkWpZCUaxIW2jOKm/vsKEpiM4bV6D4SqKm5rmB1ob2PYC7hN/BstgKpUBQLvLGzE0mQCzX0i85Eep0S6VM6vAIV9bW/djIuXjGRcU8ZqZxg==
+ bh=naPBx/Un1u08HXMv5dV12o/Du2Di6rEbQ7OoteioVVk=;
+ b=kXcW0CAFtfadXVcZm96eG7OK1dn+9amOGbjIgBPB/FHs42/I6qaWKkhwekF6xkuljcYfrwu3bVChktCxDpHcIIj3Rkp7k2ufgUWYCm24zOKxib/UEXl7tzwIaeYgA8RQwctOAgE6nGnt+hxQpWyReRe3SbSNmm5Baix5PS65hgJwXFPAi9FwlDjnUxstP0ZKJtUK3weU25pd43jd9EWGJ/hTX1wjVJ+wiHBdEf8dxVR7sM68VZbtaTxNWXmmTyyt9PqY7jZvyvDhgqezbbJHDcx4AnvjGG7LSe32+FwZda4PFFiH98Hh2KgJDzM+W9ei05+NleaNZ4dmMuJnCtvSIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17)
- by MW3PR11MB4523.namprd11.prod.outlook.com (2603:10b6:303:5b::16) with
+ smtp.mailfrom=karlstorz.com; dmarc=pass action=none
+ header.from=karlstorz.com; dkim=pass header.d=karlstorz.com; arc=none
+Received: from SN7PR19MB7573.namprd19.prod.outlook.com (2603:10b6:806:34e::15)
+ by SJ0PR19MB8160.namprd19.prod.outlook.com (2603:10b6:a03:485::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.24; Thu, 13 Jul
- 2023 09:27:37 +0000
-Received: from PH7PR11MB6449.namprd11.prod.outlook.com
- ([fe80::f883:84a2:d864:b645]) by PH7PR11MB6449.namprd11.prod.outlook.com
- ([fe80::f883:84a2:d864:b645%5]) with mapi id 15.20.6565.028; Thu, 13 Jul 2023
- 09:27:37 +0000
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Umesh.Kalappa@windriver.com,
-        Naveen.Gowda@windriver.com, Shivaprasad.Moodalappa@windriver.com,
-        Sundeep.Kokkonda@windriver.com
-Subject: [dunfell][PATCH] glibc: stable 2.31 branch updates.
-Date: Thu, 13 Jul 2023 02:27:17 -0700
-Message-Id: <20230713092717.3241412-1-Deepthi.Hemraj@windriver.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR03CA0003.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::16) To PH7PR11MB6449.namprd11.prod.outlook.com
- (2603:10b6:510:1f7::17)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Thu, 13 Jul
+ 2023 09:29:19 +0000
+Received: from SN7PR19MB7573.namprd19.prod.outlook.com
+ ([fe80::363d:2141:a4e1:6bb9]) by SN7PR19MB7573.namprd19.prod.outlook.com
+ ([fe80::363d:2141:a4e1:6bb9%5]) with mapi id 15.20.6565.034; Thu, 13 Jul 2023
+ 09:29:19 +0000
+From: "Brehm, Wolfgang" <Wolfgang.Brehm@karlstorz.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: extractedText for every License in SPDX
+Thread-Topic: extractedText for every License in SPDX
+Thread-Index: AQHZtWxjZo9z0ErBekC6rUua5Zu7dw==
+Date: Thu, 13 Jul 2023 09:29:18 +0000
+Message-ID: 
+ <SN7PR19MB757312F779E1255862F293EE8237A@SN7PR19MB7573.namprd19.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR19MB7573:EE_|SJ0PR19MB8160:EE_
+x-ms-office365-filtering-correlation-id: 555b8aa4-f50a-467b-e1ea-08db8383a22e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ TEZ1kl1KRmomZziKQF+JOXFkwPTbJ84OaEWUZ7zeLEALQ5dLBlhdOLC8I1N8S/Ps17PvFIrWthAbTooF+C4BJnmpDm27lwC8NvfGuHth9rF8RvFAlWJNR/P8ZRGAcDozhIcYvxN2eAin9bOK1eOpzqCEazu5yBeW9BonnaFeIbA8VebWxc18xev14wR4fqQrltSK3wrwqW6U6yaTs2p+4VJvYhplC8YqlMTxBDaFuuXDHZb6PX7BZzfofi63fnPgWcO3z7jVaitbabypv6mBXdshL7iEA2MVXmwjfEefB0gXeJZPRxPmSe/RptYs17vZKqNYxgFDZ5Wl5v1FnTed2avTFvavUo5esXMIE437m657orwAF6PnYGA39KkhPazchiPoQHLyMVdvslGvIMqjJQvx2PFD8MoVeNFhLA1QLr5sD3+WRTEEe+GEw0wf7F7PGQu20WkrfZcmoo4sn00hrs0My4FEVFYC3ymVz68VLeOFd79SXIP2c+4yWGmWFNZUZEufsiuy3tFDxU8454DCIwqOJLXRq/sfbWb0yI7C1sZVAc43YLBOHGC5f6QXobEXmMPc0eNSaMivnvTUdvAOE5Uu4x1+JDU62MpV8Q4GyJE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR19MB7573.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(376002)(346002)(39860400002)(136003)(451199021)(19627405001)(41300700001)(66574015)(83380400001)(2906002)(186003)(5660300002)(33656002)(122000001)(52536014)(6916009)(55016003)(66446008)(8676002)(8936002)(6506007)(66556008)(66476007)(38100700002)(64756008)(316002)(966005)(66946007)(38070700005)(71200400001)(86362001)(91956017)(76116006)(478600001)(7696005)(9686003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?qZDM5jxTxMYSURrNhPVf3yKo0AR7xgCs/YD2A7Y+59roPUb143d14J9ZVE?=
+ =?iso-8859-1?Q?18BiQKtxFNX6J+awP6HPNbYgPRov+KA01tHcptUDqmmk3jSPMWRgrhWkDJ?=
+ =?iso-8859-1?Q?/ced9g0hHPid4nIoIotacry4IhMBzptArGG+WnveXQPF0yvafHDu2bEBCz?=
+ =?iso-8859-1?Q?3ZAC3UGNluOasAK2Dq3pE/j6mkcn+mKQlk2C9wv5tw9+97M6qDY7PhjgnO?=
+ =?iso-8859-1?Q?fNVNuDMPy9Koib7RChZjhIllvZgLypWGnA0d53KXEBYxR300I1FNcu/NTU?=
+ =?iso-8859-1?Q?N/n23sDuZUko2Zk7lJz+mGVEAS/Erq0ajqSx9qpl9EA7V+9sipXFW5h2ZB?=
+ =?iso-8859-1?Q?Zri1Sg8nLKM4xZl9WFL0dDrXYuwOM7/8pl0oGSnhl8NrFRA2BPdHHbtTFd?=
+ =?iso-8859-1?Q?LdBMXiSNoz7F+lw1XTwbBpPserxPMGbCzq//UqLJWBYgZSypf5wz5pF7Xx?=
+ =?iso-8859-1?Q?f4WcfCG62/wxc1QjbEuOHMilMn6/zDycbaVVVb3HJV0mreNcrG+VvDLfIh?=
+ =?iso-8859-1?Q?VK3p97f2XgleJ1JxQjlU92EkVcwlLTslXDF+hx1MZPQD8/MeVnecN0P4PU?=
+ =?iso-8859-1?Q?im5fR4J4HqwV95AX0y17/OaI0BuWCgCKqyc2CnKNQF1yipdIFL3EQ81Wr4?=
+ =?iso-8859-1?Q?3MFy8jA1IuYI2RH7NO/RP4ZIrSSlwhpdCX1ef+e+fWPhPtm/M7b9QF404j?=
+ =?iso-8859-1?Q?dH7Yk0AVASZ/g4tkBLjDAbnEW91Zr93jElg8c2xLydNwvPadoyyJ2ZFXrD?=
+ =?iso-8859-1?Q?7ZXjyYX+nf7tYcOwwdGYDwtJ+C23fFwzU/SY2DpQwht5Cdv5cKbypxnX9H?=
+ =?iso-8859-1?Q?rI0Usw6CU4/ufjmoZicdLPTSc58mAguRYUkEWCbgydkmHI5B/5EfSwROUm?=
+ =?iso-8859-1?Q?3fduzlid++dB9b2c0eCJaa54qy/AKBWKZcKzgKQN694+cuihvE6gPeG7JY?=
+ =?iso-8859-1?Q?daCF84zzzp5iICTBtH2TZx8zHiyMm59chy9+rBIlc93slWBez7A4cOqbBc?=
+ =?iso-8859-1?Q?Q4Y6mhNeNH6TrW/1cXp2eH5j91BVetoXS3bacwgRw23EObfg36qCjW05nE?=
+ =?iso-8859-1?Q?Q5lUmwguFhtjTlHjZYrHOFv2Lq+MHJaY73HxmLTm8Wtlfy++puhzgwMAfx?=
+ =?iso-8859-1?Q?v99yT9OtOkgRBwWe6yoDixuUaOepFQukSIE5kTlYtd8G3EZ75aUM8yB0Oj?=
+ =?iso-8859-1?Q?qoUsQmwpswLf1yTpPaWEVSHnDrmzs9dJRy5NWI+vHbaM4EKKdiWYNPuWsW?=
+ =?iso-8859-1?Q?SA7B/lk0PHkHVkSUgJhnvl5VJ2X+9m7r0JKbefZORtPhUWdnCk7vOhIFYG?=
+ =?iso-8859-1?Q?hGvJfHqjSm0p/8mmQqXzYOkUWxaKOghVOp9PQQOx57+G3rKODOUzKsWvk8?=
+ =?iso-8859-1?Q?Y6NwRq72JVo7Tm3isfKEOsBOxF50QELNpNeLvUZ1VmfC/seHhJoNC1VPR9?=
+ =?iso-8859-1?Q?rwuN8r/267GxWdmhELuMfQf479qvVkaltIuwA3yqSDo6g/AnRPUBxafwk2?=
+ =?iso-8859-1?Q?aDePaowwUl6Wnfw2emVI1cd/SfV95dxihftCy/QydFXPftL6x0snavEgi3?=
+ =?iso-8859-1?Q?muEAOEvLMKFYIl2QhG54KKG65FtZwLSLyBhK526smkgywvP61WShJxNLp6?=
+ =?iso-8859-1?Q?ctHJhElUkr1Ipue6ox5mo5ueYldtBjf037cS1qKbv9/3c3IEzoeemjOn/2?=
+ =?iso-8859-1?Q?xM2Q7X56ROtDEEftDanAnwA9V8PwnlIXtiAaJLS1?=
+Content-Type: multipart/alternative;
+	boundary="_000_SN7PR19MB757312F779E1255862F293EE8237ASN7PR19MB7573namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6449:EE_|MW3PR11MB4523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56219305-55ce-4cc7-5dd2-08db83836542
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	p2u9vvToaTzQoFzL7OKX/To0/xrvfzLnVS7xLWNg1N851kV9Roi5kSQrpXP4xyTijfBa6JaAHJYbOrpm6jdus+ViPjSDjtJpH2efH0yLNIo0c7nTSu4tiiaOGEiirCcf0A+c1CTv+ucVKfY8X75UpVbRnpDX8kbRQuuXL+kk7HSDub82F1SNfTlt4IgrJqZVUHUuOH97C1CSfWwJTxg45LWc09LNMLxkXMgMHlnJmA2ZZkYxQbFAYdoFTC4Lj53h4LkIPdMiKe+iqx1nl0xrBUoANe9hbcE+ie+yX5s5h3+AkW7V3Ruglrg4sJtw6bE2R+Wap6ZVcYmvP1iFfcqe8/eKOjJdPO8Awx6m36WpsX6n19mqJJ6QF9LKUA+SeDdsdR6xcruLqXOND8x4QbEEttwa9Iz1TF1oev8EBwfXqIWMSjBLSQM5W2OmoJ01DJZWnhr+p0j5vjUXTiHrWqMasMnq5ZIZK7OFXal1JIzavQh5j9BSTrqro3w7OFuE8N2sWqWEEB06+4ToR7XUz10djEMe+9yAYis0d3DirGWjw//0Ieo119Z22VCUgoqLTJGOxR3q80enuQRp1psRS7yBEa9P27w/5x1o2yzUz1BYSd7dersPIszpNxDpq1RcX+47
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6449.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(39850400004)(346002)(396003)(366004)(451199021)(52116002)(6486002)(107886003)(38350700002)(6506007)(1076003)(2906002)(6666004)(38100700002)(186003)(6512007)(26005)(41300700001)(478600001)(36756003)(316002)(4744005)(2616005)(15650500001)(86362001)(66556008)(66946007)(66476007)(5660300002)(4326008)(6916009)(8936002)(83380400001)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QzExh/TQM6NF/jaE+rtE+IR3gS3WZiTljltPE9+omnQ7t6FwMoUn9oDEuqfs?=
- =?us-ascii?Q?3OQqubjFSUjP9GnLc4w8IoLLOs1xVMon6jZxLZbTZfH6+uI9ZPS1iy7A2JeY?=
- =?us-ascii?Q?5k0SNpY9RZsoOlBrvbj4Qm8yrV170HCn4fXMLOYfry3Y1OtJk1Z+Vq+0w/b1?=
- =?us-ascii?Q?dyHbGink1HH3Dp8o3/hAApSvFff+hS6LpJt3mGMBPz59ZJsV/UwMd1DGyz/o?=
- =?us-ascii?Q?sfRq9zykB8G+GzmmWw3iGFEmKt3wVQSfFS9qwzt0y0crSQJft2S0JEHuIH8t?=
- =?us-ascii?Q?fGXPEuQUW9usr+vKk1T3WwVOECzh5ZNvthP1dBrOAk6RbfAj6LS+kAUE/rD1?=
- =?us-ascii?Q?H8hIJeQ8CjL9l1xrlhFAum7wspZ2ymH56ALvyin3JgecXH77waOargDh8zL+?=
- =?us-ascii?Q?RJfw2jHpSlnCk99TtLmEwl8b0+0pf8510/EnzFUupK647jqF5wYlwFaR4xg4?=
- =?us-ascii?Q?L1Ymlmz44WyHTflfYM4nT/rqCNjnrH8nEgbFO7D/A+kEikAuTzv0Xooe5jCt?=
- =?us-ascii?Q?qg2+9lw/vwmXEiL4h4nzFCBvUQfrgylS+23endcqRRa6HyeeD/8QHqXoXG80?=
- =?us-ascii?Q?koBsIK4RnZJ93ls2IG9ZqJAT2DLc/LaIT73d5wiGV3kAiO3DKDn5xA9XmO4T?=
- =?us-ascii?Q?jF9aO/NU1XDLO9StzHCPwPChK4lVIPFWnziy5oxKjRTBQXjEkPfSMBF+x3HL?=
- =?us-ascii?Q?yGf1b3D0sHlIpPoAU2yh4XTWavn3W6UYTarSMVe6Mu5RSdRyGAq5Id5bCjTP?=
- =?us-ascii?Q?sCrSMTV5IYwlJ9bgzYo9eftt888xoSEjfdXDJG98P0InYtgUEfaP2/qSIN30?=
- =?us-ascii?Q?ykEhw7yWxqRfHpfGB4NMzKpEfDXy9tbGcEdwj5bm5QKH5C6CbrfGMG+0HrGP?=
- =?us-ascii?Q?xn83z7savdkPD7ESvGaAyzhL5t3exNidkHaFjbidFaaPTrMoOkwYqhaT3NEn?=
- =?us-ascii?Q?uUSF6gPhDYbevxrFB6ef+k1jzsUkT4jnQzTdUgN7Ql7+rPEZ2I0iH5xab4Bv?=
- =?us-ascii?Q?TSQWJzOiu416Ak/jrUxg/wDtjupXe7OnjS7YcsTFBW8TUXBijv5wGzQUbpT+?=
- =?us-ascii?Q?sBfjLRUUb5zdDndW9pht+EdHA9JFE3tj1qT6ywgkBubJn9hyTgj4BDbiygDj?=
- =?us-ascii?Q?Ne4vHYIHoJsnag2vB1/eQZnIr7U/Y299KjgN7zt4TYWWLFiuDWiw0UjFZiaS?=
- =?us-ascii?Q?79AnetmB6VR4jeAG26Wr98d9iEePnlwXn9tUUblTFePZeiLXopo3NIGmyOJg?=
- =?us-ascii?Q?Ows+VLtHPHH3JC/nPplqb8DH3U/J7i8cq3pbxRzlfPGrGgUmyu7A2Vie/6hw?=
- =?us-ascii?Q?LFdf5dIL5my6D+TqYkrdiYCieTi3AhPoaAjw0eGULR556oyx09NFmSndGQ7S?=
- =?us-ascii?Q?ExG8DuKEOsRFHbaaVLyh0TDzsF/S7qM4gyGC37zafszNS8elfzjXBNjhI4Dh?=
- =?us-ascii?Q?5cOUvdSvzcipHqh8UvbynnHtugqj/8TQBFku70VNbpDvnQC9PvSfBK6STIFQ?=
- =?us-ascii?Q?8DTQnXk1AhLm8F1ml7SeUHmqbf0Vuv8IwPK0gOa2B7kfdVthjDDLMmAWwFrJ?=
- =?us-ascii?Q?JsDK9DNSb2RtFK8vV2EXijh409e6gRlocd5EnY/Jl5Ethg2VfTEwRjmTl+4S?=
- =?us-ascii?Q?GA=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56219305-55ce-4cc7-5dd2-08db83836542
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6449.namprd11.prod.outlook.com
+X-OriginatorOrg: karlstorz.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2023 09:27:36.8027
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR19MB7573.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 555b8aa4-f50a-467b-e1ea-08db8383a22e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2023 09:29:18.7589
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rCOVYHonwRhm9BVEWGQEnOuu54g7fvewU4DF8vA0NihTin3Nl//TKmIH/aWReN6Blw2scXYn3PVkAFY57EE4Lt5p7lBZzI56XaYFZYyk0hY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4523
-X-Proofpoint-GUID: PzdGEGjScuflReaNJSfq1tFOosEUYa0R
-X-Proofpoint-ORIG-GUID: PzdGEGjScuflReaNJSfq1tFOosEUYa0R
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4a0b6f21-e6e1-4ed6-9dcf-e60e7190f648
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +7lEwAxWBuR+oRy4GRzB10hVw39DAfy5EAZfKpGUkJD4+HObkOoqAIRC450Cx+IKa5fJYHVLI+5gX4WDzcJ0LrVpjdq5bbwESDQxlI1A5Nw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB8160
+X-Proofpoint-ORIG-GUID: 6dEFD5e2eNfrYbE_ORW3BkCxfaw-3d_m
+X-Proofpoint-GUID: 6dEFD5e2eNfrYbE_ORW3BkCxfaw-3d_m
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-13_04,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- impostorscore=0 mlxlogscore=677 priorityscore=1501 mlxscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2305260000 definitions=main-2307130082
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 09:27:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184234
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 09:29:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184235
 
-Below commits on glibc-2.31 stable branch are updated.
-2d4f26e5cf x86: Fix wcsnlen-avx2 page cross length comparison
+--_000_SN7PR19MB757312F779E1255862F293EE8237ASN7PR19MB7573namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Dear openembedded developers,
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 5414297ba1..95e2bba301 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.31/master"
- PV = "2.31+git${SRCPV}"
--SRCREV_glibc ?= "d4b75594574ab8a9c2c41209cd8c62aac76b5a04"
-+SRCREV_glibc ?= "2d4f26e5cfda682f9ce61444b81533b83f6381af"
- SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
--- 
-2.39.0
+We at Karl Storz need to provide the literal license text for each software=
+ component we use, for legal reasons. There is a property "extractedText" i=
+n the SPDX documents, but it is only meant to be populated when the license=
+ is not a standard license. However even for non-standard licenses like MIT=
+, the license text can differ from project to project.
+I'm about to modify create-spdx-2.2.bbclass so that it would always extract=
+ the license no matter what, similar to what they did in Mend (formerly Whi=
+teSource):
+https://github.com/whitesource-ps/ws-sbom-generator/issues/96
+Would you be open for a patch and what do I need to do to improve the chanc=
+es of a patch being accepted, other than sticking to the style obviously?
 
+With the best regards,
+
+STORZ Endoskop Produktions GmbH
+
+i. A. Wolfgang Brehm
+Softwareentwickler
+Software Components & Multimedia
+_____________________________________
+Tel.:     +41 (0)52 640 35 67
+Mobil:  +41 (0)76 361 57 07
+E-Mail: wolfgang.brehm@karlstorz.com
+www.karlstorz.com
+
+Hausadresse:
+STORZ Endoskop Produktions GmbH
+Tuttlingen (D)
+Zweigniederlassung Schaffhausen
+Schneckenackerstrasse 1
+CH- 8200 Schaffhausen
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+STORZ Endoskop Produktions GmbH
+Dr.-Karl-Storz-Strasse 34
+D-78532 Tuttlingen/Germany
+Sitz der Gesellschaft/ Place of Business: Tuttlingen
+Handelsregister/ Commercial Register: Stuttgart HRB 451 142
+USt.-ID-Nr./ VAT-ID-No.: DE 142931059
+WEEE-Reg.-Nr./ WEEE Reg.-No.: DE 74465858
+
+Gesch=E4ftsf=FChrer / Managing Director:
+Karl-Christian Storz
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Datenschutzmitteilung f=FCr Gesch=E4ftspartner / Business Partner Data Prot=
+ection Notice
+
+--_000_SN7PR19MB757312F779E1255862F293EE8237ASN7PR19MB7573namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+Dear openembedded developers,
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">We at Karl Storz need to provide the literal =
+license text for each software component we use, for legal reasons. There i=
+s a property &quot;extractedText&quot; in the SPDX documents, but it is onl=
+y meant to be populated when the license is
+ not a standard license. However even for non-standard licenses like MIT, t=
+he license text can differ from project to project.</div>
+<div class=3D"ContentPasted0">I'm about to modify create-spdx-2.2.bbclass s=
+o that it would always extract the license no matter what, similar to what =
+they did in Mend (formerly WhiteSource):</div>
+<div class=3D"ContentPasted0">https://github.com/whitesource-ps/ws-sbom-gen=
+erator/issues/96</div>
+<div class=3D"ContentPasted0">Would you be open for a patch and what do I n=
+eed to do to improve the chances of a patch being accepted, other than stic=
+king to the style obviously?</div>
+<div class=3D"ContentPasted0"><br>
+</div>
+<div class=3D"ContentPasted0">With the best regards, </div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">STORZ Endoskop Produktions GmbH &nbsp;</div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">i. A. Wolfgang Brehm &nbsp;</div>
+<div class=3D"ContentPasted0">Softwareentwickler</div>
+<div class=3D"ContentPasted0">Software Components &amp; Multimedia </div>
+<div class=3D"ContentPasted0">_____________________________________ &nbsp;<=
+/div>
+<div class=3D"ContentPasted0">Tel.: &nbsp; &nbsp; +41 (0)52 640 35 67</div>
+<div class=3D"ContentPasted0">Mobil: &nbsp;+41 (0)76 361 57 07</div>
+<div class=3D"ContentPasted0">E-Mail: wolfgang.brehm@karlstorz.com </div>
+<div class=3D"ContentPasted0">www.karlstorz.com </div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">Hausadresse: </div>
+<div class=3D"ContentPasted0">STORZ Endoskop Produktions GmbH </div>
+<div class=3D"ContentPasted0">Tuttlingen (D) </div>
+<div class=3D"ContentPasted0">Zweigniederlassung Schaffhausen </div>
+<div class=3D"ContentPasted0">Schneckenackerstrasse 1 </div>
+<div class=3D"ContentPasted0">CH- 8200 Schaffhausen &nbsp;</div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+</div>
+<div class=3D"ContentPasted0">STORZ Endoskop Produktions GmbH </div>
+<div class=3D"ContentPasted0">Dr.-Karl-Storz-Strasse 34 </div>
+<div class=3D"ContentPasted0">D-78532 Tuttlingen/Germany </div>
+<div class=3D"ContentPasted0">Sitz der Gesellschaft/ Place of Business: Tut=
+tlingen </div>
+<div class=3D"ContentPasted0">Handelsregister/ Commercial Register: Stuttga=
+rt HRB 451 142
+</div>
+<div class=3D"ContentPasted0">USt.-ID-Nr./ VAT-ID-No.: DE 142931059 </div>
+<div class=3D"ContentPasted0">WEEE-Reg.-Nr./ WEEE Reg.-No.: DE 74465858 </d=
+iv>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">Gesch=E4ftsf=FChrer / Managing Director: </di=
+v>
+<div class=3D"ContentPasted0">Karl-Christian Storz </div>
+<div class=3D"ContentPasted0">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+</div>
+Datenschutzmitteilung f=FCr Gesch=E4ftspartner / Business Partner Data Prot=
+ection Notice
+<br>
+</div>
+</body>
+</html>
+
+--_000_SN7PR19MB757312F779E1255862F293EE8237ASN7PR19MB7573namp_--
 
