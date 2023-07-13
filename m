@@ -1,964 +1,366 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <Wolfgang.Brehm@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 373ACC001B0
-	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 13:58:34 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.8913.1689256713051620333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B51BC0015E
+	for <webhook@archiver.kernel.org>; Thu, 13 Jul 2023 14:26:24 +0000 (UTC)
+Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
+ by mx.groups.io with SMTP id smtpd.web10.9688.1689258373258215118
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jul 2023 06:58:33 -0700
+ Thu, 13 Jul 2023 07:26:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=CXNu2rQv;
- spf=pass (domain: mvista.com, ip: 209.85.208.179, mailfrom: vkumbhar@mvista.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b6fbf0c0e2so10919811fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 06:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1689256711; x=1691848711;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXIbkest5vXVEMWWM1E/bGfXUhYzF894K03o82PsvGE=;
-        b=CXNu2rQvvcHD5VcE2y5YF2epPX8Wy2UM39jw22mFyGzTs0Qkv4/NQFYwiatDTGykxU
-         W+m71iDIe6NWotdgjLwvbVeUpM0BoItnPOHaC5WsPCYNyib6UymIo8Bumgk6IKIawJCW
-         0opoeCIrxGxABB7QvgyY3nGFFyyOYQP6kWnMM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689256711; x=1691848711;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eXIbkest5vXVEMWWM1E/bGfXUhYzF894K03o82PsvGE=;
-        b=Z7jUZJ2cv+NMqATCIoFnxY6KE4tiNPQsTC5e0qF62zLVjRS+R2WmZebp+trwYBOE/x
-         IE6gGhzDMLJSEoviTbaiA2LfvxraXwM4jeH3dOw86js4rsudz8rrQiyTF1ovXeyiBheE
-         zs7lHxE5dohxJ7fcGrHKhYmjoLhMHSTOOkLf6Rke4LBlMFSQ4/n0UiO53npHekAvPYIQ
-         Uu3xSTMBAAokhM/n39fUeayOAZGLxZHnxWeFX1OCzJcrEHFcXLtNqB4mNnysEQdib4t+
-         E8+eHbMO0lX4ray+IdD0eKJIormQGN4UfaovP0WmGGVrTTwR3tNMTpSp6oyWz1h7YEkq
-         YOzQ==
-X-Gm-Message-State: ABy/qLYyvekY0CE+fi3Cqn2SR7O5GjYzzts92hG/NImcjCV2CsKhQEPj
-	8NS3wwwmlsLw9xxiRfwTHH4I55R42WsMUAmvbcEYCw==
-X-Google-Smtp-Source: APBJJlFbttnFvA6Weal8ZKxAG5AkCcCNUFaEFszkxayaEHcNwKpQ0CdpOF7pJxGy9zeiLMbt5ICHspwrKBrrXYnyO74=
-X-Received: by 2002:a2e:9b15:0:b0:2b6:ec2b:659 with SMTP id
- u21-20020a2e9b15000000b002b6ec2b0659mr1512937lji.17.1689256710706; Thu, 13
- Jul 2023 06:58:30 -0700 (PDT)
+ dkim=pass header.i=@karlstorz.com header.s=s-dkim-20210427 header.b=F1kZuLT7;
+ spf=pass (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: wolfgang.brehm@karlstorz.com)
+Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36DDkQe1001481;
+	Thu, 13 Jul 2023 14:26:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com; h=from : to : cc :
+ date : message-id : references : in-reply-to : content-type : mime-version
+ : subject; s=S-DKIM-20210427;
+ bh=TikltWxFdrldrGaF3a4YNiwNV31yPDOLtw1jyormIs8=;
+ b=F1kZuLT7wM1/WlwgMTfKCTQ/sIXKa3KjhJx0rlebbbml4QUBNRQCYnHTBDtsAk6zVI8Q
+ AiWqbfhf9ptoTw2qfbGLl0U39LN+KPZ1vapJpfTCHxovzfGBHHkerQUnsBvFrd4gSWJn
+ MLnRg27ZuCAvrgE6CL896b4wXhe/yLE7hJaW7CAwPJsPAfw31q2r3XJr/alAN/26Z7N0
+ l8epNVxFyL8qZgn/EW4krp+eoP/37b9c6y1LUQctEJG7y++d897sy2yMKatIHLxxxcy2
+ CcdVDpBRADenxvel2wP1p+6WylGBABymZGs2vbJeHKwTT8oBsSTH2Q3xKpgt2JxrhTlI nQ== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2043.outbound.protection.outlook.com [104.47.73.43])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 3rt6bxa4r1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 13 Jul 2023 14:26:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IcNFjK33m3IWpv6X/jJAjX7LE5tSbpDy5+F/ehSXhXJJ1O03MOCg0KOkj/UP//t/5iz15NbvYHruxfXI8WsdEp7p4IixTyJY6H2bup5y2FsTjPpbWCCSWj7GCuike6UqeWSvCjNjPeUbFiJX+iUCI9H9JOqVeYEYVNtMtdJwplcI/hGF3yDaTkI3kNZ2V2JAYclmoY/X45W/DGTR9XTRVJE9a7vAX9WhT9m6gjagi5KFshD5FjIfhM+v2eX+AsZP1k+TJGdAjS8Zk5g6HDoP/m41QPWNXysQ6FmwVbu2ibCd8F92uIwIC1bfLZ+Atmuedquv6XV36cF+2XoqxdOwoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TikltWxFdrldrGaF3a4YNiwNV31yPDOLtw1jyormIs8=;
+ b=Z6Rr1nlALjC8hn+oC9T/IH2jBJJRt86JuPogD3QokEPt+M2HeAu4czKmOD17ndX5KyGLubLTSwQb5XTrjCk2uNBrV4uw3NvVQftUs1JoJiUW+WJ0FeTfSFC4VE/njZ62UHoABhic8vTuHw8jHdq6tljBwI0GjJsShZ2GGZGGBATIUtP4RIrRuVzPubzXY7eFigdCOn2QgU6kX/keXMA44wzFhh6qqdIR0VCFTubaFoeXd15wBcuhfXJT5uTIwGYNqDQ6Tj1p0ua7KxfgqNsuWU04aLwxHj+Qf10Kti2okEN4LwvopVXvCbgYhl9yNaIivi+IJrbiy/z8eggVkaUQ1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=karlstorz.com; dmarc=pass action=none
+ header.from=karlstorz.com; dkim=pass header.d=karlstorz.com; arc=none
+Received: from SN7PR19MB7573.namprd19.prod.outlook.com (2603:10b6:806:34e::15)
+ by PH0PR19MB4908.namprd19.prod.outlook.com (2603:10b6:510:92::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.24; Thu, 13 Jul
+ 2023 14:25:53 +0000
+Received: from SN7PR19MB7573.namprd19.prod.outlook.com
+ ([fe80::363d:2141:a4e1:6bb9]) by SN7PR19MB7573.namprd19.prod.outlook.com
+ ([fe80::363d:2141:a4e1:6bb9%5]) with mapi id 15.20.6565.034; Thu, 13 Jul 2023
+ 14:25:53 +0000
+From: "Brehm, Wolfgang" <Wolfgang.Brehm@karlstorz.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Joshua Watt <JPEWhacker@gmail.com>
+Thread-Topic: [Ext] Re: [OE-core] extractedText for every License in SPDX
+Thread-Index: AQHZtWxjZo9z0ErBekC6rUua5Zu7d6+3iA4AgAAUiXw=
+Date: Thu, 13 Jul 2023 14:25:53 +0000
+Message-ID: 
+ <SN7PR19MB7573B5E21F72B13803E161728237A@SN7PR19MB7573.namprd19.prod.outlook.com>
+References: 
+ <SN7PR19MB757312F779E1255862F293EE8237A@SN7PR19MB7573.namprd19.prod.outlook.com>
+ <ab9c16fb53d525f3f0e3afaaaa30dc9e78c403d0.camel@linuxfoundation.org>
+In-Reply-To: 
+ <ab9c16fb53d525f3f0e3afaaaa30dc9e78c403d0.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR19MB7573:EE_|PH0PR19MB4908:EE_
+x-ms-office365-filtering-correlation-id: 06d03d0a-66cd-4222-3858-08db83ad10a4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 5THd02xl3nBEOCnEaN+JHiNgQGjbNTIVHKxrKRwKADpYh1KCWS0ZGm2ZcjZjHiPkLl0OmJwvKtPgmVz13Qc8hAD5HJ0JjCeG0FEp2r4zqRzGmlRwC1DtefZdHaSLr54WfD2fLYqzgbsntIeykhD7YPsdizfROT2G40NojuU+Ajglb5X3IQAM8A3ggFLNsElU75KEEvbpUKoWL1syYkJjJfkKTbj1mX+0J41X1jDApe8t1I8QjVsCUmmdkCwksaeUxIO9ARHL1qq3SbWNEpXX1lKxO7D+/FIEzRx/coL17+N2v7vKQbVq7vkgw5cbZ8yDIwk/FhTpBX9CzRaoBTl/bR6IYxAWFkhdCvM2PqaH0DRIZqV+E43ZnKyDLuO+wapb39tIQ7R0j3Cj1trmlEbMGG0Wr9oyIy/64zqIG3nLjUuoccapLwvCIG+v+njDmwezE9smeH4we73P7wE/DESVbvR4LPLIIunUqqpADGz8v5AganL+yx+W7wAExawVyrJjtcmaggkl9mepe3lc/mCMkKcP3SZx54reFWBUDHhrhpg7TF2AVys4+94ssdOVElOW7se/5merUcRkVjQBQOc1Lrk4ydnq2Op1s1GayJhkWQY=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR19MB7573.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(39850400004)(366004)(136003)(396003)(451199021)(52536014)(5660300002)(66556008)(66446008)(64756008)(8676002)(4326008)(19627405001)(8936002)(41300700001)(316002)(66476007)(2906002)(76116006)(66946007)(91956017)(110136005)(71200400001)(7696005)(966005)(9686003)(6506007)(186003)(53546011)(83380400001)(33656002)(86362001)(38100700002)(38070700005)(55016003)(478600001)(166002)(122000001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?toc99mhFkQNwcVQkDw5dcEzNVGy55I7S7Emk2dJtbZYAeFzDROPPSBZ9blED?=
+ =?us-ascii?Q?RSGQa29YwfGSxSfj2RrKduLY5xZTXKqKjxPQ6XEhWfv1LmsaDyc2oCZyhRQM?=
+ =?us-ascii?Q?glNbHhOIlMJuFmJiiBfPMlZfrZ5xmwNwIVM08XepdvjzjofsEJMwLm2gKLWc?=
+ =?us-ascii?Q?AeVJbbqCPrGHyxLWxXil0r77MH64oJICIB7G41GNDDMvRSEEyOLvCpbFJdg1?=
+ =?us-ascii?Q?4nGPDzT1Sk2QloZc2WkBLNeH/hMM8rqBCat+iybz4/OWcKmI8WFVkQzvtRJT?=
+ =?us-ascii?Q?ZvGQ9kPOqlJ+9b7uUt0mSEVBMdA73Z0ZleodgXABnFNiZxkOVizr5acmo530?=
+ =?us-ascii?Q?IEhpxy1pOMPDOWvHl5+nAQo/MP8GB+PURKP+HOG9eE70049o8oWeKtdSHvrz?=
+ =?us-ascii?Q?94NxiYTs8slccvhooxkStDJHIVL5KO8HQPnCw3ZPIv/EOYvju4kdmgZGElQU?=
+ =?us-ascii?Q?caWCKRAS+2pS+isO9/f+dcg645hEYrXOGOIJT/fNZnPPGt8lwvEq/0HT/0Hc?=
+ =?us-ascii?Q?1A0dtGgIq5EWpdpq1hxspSWwk00nsKiq+Mlwta1pgaZon7ScHB7/M6UMyGGj?=
+ =?us-ascii?Q?FHvR/4gwgQY6nb3o2+jlpTCOzG/TRI5ks9p2CbivV/FPfMGVTNpDO9MLyl5G?=
+ =?us-ascii?Q?Ymt5nlynTIePz9UrUjdMGnmNnkOLn4i6AcnZoejkp9qhQDz46rPRJL8Sbbfk?=
+ =?us-ascii?Q?WV3z5/Jhy5OBe4NS9ksZnJaTBCTgxs334pr1HpLhg3p8aExcgwtVtbA3uLgj?=
+ =?us-ascii?Q?jdyi83RuLV+eSHxi0x4mhTRel/1tnAweWE0EZBDE3WMpYELBwGL1RV/ANAcr?=
+ =?us-ascii?Q?Pqlox+0URFqzKh3jzQggGJ2QEgVSKejLedpGt3etrJoNs7wEzBuxzye6mMbY?=
+ =?us-ascii?Q?kJWwxttyHlvX8jZV5dGiIIH72u2kltIt+qLYVVm23kqtT+1zRN1MY3U9sD+C?=
+ =?us-ascii?Q?1fM6Q2QQl4GXUxlQ8R2mucCnome3u67uBNJId9BvbLL6Vvhbc/kzsFoUXDe0?=
+ =?us-ascii?Q?IClLNykcmI8gTU+QrstcnMGq586jDb++95ri6iDjl/OYWtOlXSavzLo8QWY6?=
+ =?us-ascii?Q?IKODuUgrh3s1Wmw8hyvRDQE1K+n9xE6XfOrSHCUuQJGxx0R5zg5t4p6qXW49?=
+ =?us-ascii?Q?27LPzR9Uih4nGuCCVujgmo327M0BeJpHd3nY+PDgqHiylQWUcmdJXNIkAZp3?=
+ =?us-ascii?Q?tJt4eb37scAzs+Ahn7WPO5Pl1JB32NEOpbwF5Lw4wyORHgsKELX7JxOUCzpv?=
+ =?us-ascii?Q?ZrVBW6bxdh6Ms7pSEvb/tJxnKzCi/xaXCDo59GzlrXwkdeX42vguZjIhnMnS?=
+ =?us-ascii?Q?QC5w9Cx7lywZMOEgIac/H2sA1uLsQ60RBphgVHIkcp4i2onT9v4XusPtrqTW?=
+ =?us-ascii?Q?5WJKmJXSERVkDYB1j8lsne49z3WyYtWVzTNIBc7BTGdUTFliVEHodnJNQldw?=
+ =?us-ascii?Q?gXtg4Tybg/XqmULAzNCY16faYrgfQfixixADbfsX57uRK7kFwnDT1hiKGkEQ?=
+ =?us-ascii?Q?zwU8MGFgHbUD4qkseohxtQOF9eY0lDhPJLbRNivCZ8SSKI7GGLWYqsB3eD1q?=
+ =?us-ascii?Q?UslZk/oCsvsKCEKQjCHE7z6wzDzVDwYXI5o7jMC2SvYuJMFBvejfXKmZKxpF?=
+ =?us-ascii?Q?zaL2hxTSheOgtMX7TEGkWr+ZMs68cXX5fTKh09h4w60z?=
+Content-Type: multipart/alternative;
+	boundary="_000_SN7PR19MB7573B5E21F72B13803E161728237ASN7PR19MB7573namp_"
 MIME-Version: 1.0
-References: <20230712101649.978494-1-vkumbhar@mvista.com> <CAOSpxdZCQOAwX6-Bb5B9KrZQdvjWjaxkE6vtamTPKRFT0=wyVw@mail.gmail.com>
-In-Reply-To: <CAOSpxdZCQOAwX6-Bb5B9KrZQdvjWjaxkE6vtamTPKRFT0=wyVw@mail.gmail.com>
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-Date: Thu, 13 Jul 2023 19:28:18 +0530
-Message-ID: <CAPun1rFZyQdWNuuuPuYQoyD9awdkv0Xjq6X3C8P0wcAjdj0AVA@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH v2] curl: fix CVE-2023-28320 siglongjmp
- race condition may lead to crash
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002d2fc206005eba73"
+X-OriginatorOrg: karlstorz.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR19MB7573.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06d03d0a-66cd-4222-3858-08db83ad10a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2023 14:25:53.4394
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4a0b6f21-e6e1-4ed6-9dcf-e60e7190f648
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nRRaWzHjEURTSHQVELeLCWJNPqWZ7AWqtOE+6pVrpGOrVhJP+kHkOgoV3Dm/SMdFhZAML8iZoJF1hTON1SjNNzbrkASxaNgOnm3GaUDNSuE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR19MB4908
+X-Proofpoint-ORIG-GUID: dXBNfpJtfxlGrdrdA9KlFfQq9EmAL6ZG
+X-Proofpoint-GUID: dXBNfpJtfxlGrdrdA9KlFfQq9EmAL6ZG
+Subject: Re:  Re: [OE-core] extractedText for every License in SPDX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_05,2023-07-13_01,2023-05-22_02
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 13:58:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184245
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jul 2023 14:26:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184246
 
---0000000000002d2fc206005eba73
-Content-Type: text/plain; charset="UTF-8"
+--_000_SN7PR19MB7573B5E21F72B13803E161728237ASN7PR19MB7573namp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-As per suggestion, v3 (missing follow-up) patch has been sent for review.
+Dear Richard,
 
-Kind regards,
-Vivek
+Thank you for your reply and for including Joshua.
 
-On Wed, Jul 12, 2023 at 9:12=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
-rote:
+For us at Karl Storz it would be most convenient to have the extratedText a=
+lways populated, but in my opinion this can't be the default behaviour beca=
+use it would go against the SPDX standard, or at least its intent. The extr=
+actedText is part of section 10 - Other licensing information, where it say=
+s:
+...to refer to licenses that are not found on the SPDX License List.
+What I was proposing is to add as switch like SPDX_ALWAYS_EXTRACT_LICENSE ?=
+?=3D "0", that, if enabled, would override the standard behaviour and sligh=
+tly abuse said property by always including the extracted license, even if =
+the license has been identified as one of the known licenses.
 
-> Hi Vivek,
->
-> Sorry I didn't notice this earlier, but we already have a fix for this
-> CVE in kirkstone:
->
->
-> https://git.openembedded.org/openembedded-core/commit/?h=3Dkirkstone&id=
-=3Dc761d822be5ffc4a88600fbd7282c469b1e9902a
->
-> However it seems from your work that a follow on patch is also
-> necessary to fix this issue completely.
->
-> Could you submit a v3 that takes into account the above commit?
->
-> Thanks,
->
-> Steve
->
-> On Wed, Jul 12, 2023 at 12:17=E2=80=AFAM vkumbhar <vkumbhar@mvista.com> w=
-rote:
-> >
-> > Introduced by:
-> https://github.com/curl/curl/commit/3c49b405de4fbf1fd7127f91908261268640e=
-54f
-> (curl-7_9_8)
-> > Fixed by:
-> https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa=
-5f2
-> (curl-8_1_0)
-> > Follow-up:
-> https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0e=
-dc3
-> (curl-8_1_0)
-> > https://curl.se/docs/CVE-2023-28320.html
-> >
-> > Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> > ---
-> >  .../curl/curl/CVE-2023-28320-fol1.patch       | 197 ++++++++++++++++++
-> >  .../curl/curl/CVE-2023-28320.patch            |  86 ++++++++
-> >  meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
-> >  3 files changed, 285 insertions(+)
-> >  create mode 100644
-> meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320.patch
-> >
-> > diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-> b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-> > new file mode 100644
-> > index 0000000000..eaa6fdc327
-> > --- /dev/null
-> > +++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-> > @@ -0,0 +1,197 @@
-> > +From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 2001
-> > +From: Daniel Stenberg <daniel@haxx.se>
-> > +Date: Tue, 16 May 2023 23:40:42 +0200
-> > +Subject: [PATCH] hostip: include easy_lock.h before using
-> > + GLOBAL_INIT_IS_THREADSAFE
-> > +
-> > +Since that header file is the only place that define can be defined.
-> > +
-> > +Reported-by: Marc Deslauriers
-> > +
-> > +Follow-up to 13718030ad4b3209
-> > +
-> > +Closes #11121
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0e=
-dc3
-> ]
-> > +CVE: CVE-2023-28320
-> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> > +---
-> > + lib/easy_lock.h | 109 +++++++++++++++++++++++++++++++++++++++++++++++=
-+
-> > + lib/hostip.c    |  10 ++---
-> > + lib/hostip.h    |   9 ----
-> > + 3 files changed, 113 insertions(+), 15 deletions(-)
-> > + create mode 100644 lib/easy_lock.h
-> > +
-> > +diff --git a/lib/easy_lock.h b/lib/easy_lock.h
-> > +new file mode 100644
-> > +index 0000000..6399a39
-> > +--- /dev/null
-> > ++++ b/lib/easy_lock.h
-> > +@@ -0,0 +1,109 @@
-> > ++#ifndef HEADER_CURL_EASY_LOCK_H
-> > ++#define HEADER_CURL_EASY_LOCK_H
-> >
-> ++/**********************************************************************=
-*****
-> > ++ *                                  _   _ ____  _
-> > ++ *  Project                     ___| | | |  _ \| |
-> > ++ *                             / __| | | | |_) | |
-> > ++ *                            | (__| |_| |  _ <| |___
-> > ++ *                             \___|\___/|_| \_\_____|
-> > ++ *
-> > ++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-> > ++ *
-> > ++ * This software is licensed as described in the file COPYING, which
-> > ++ * you should have received as part of this distribution. The terms
-> > ++ * are also available at https://curl.se/docs/copyright.html.
-> > ++ *
-> > ++ * You may opt to use, copy, modify, merge, publish, distribute and/o=
-r
-> sell
-> > ++ * copies of the Software, and permit persons to whom the Software is
-> > ++ * furnished to do so, under the terms of the COPYING file.
-> > ++ *
-> > ++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY
-> OF ANY
-> > ++ * KIND, either express or implied.
-> > ++ *
-> > ++ * SPDX-License-Identifier: curl
-> > ++ *
-> > ++
-> *************************************************************************=
-**/
-> > ++
-> > ++#include "curl_setup.h"
-> > ++
-> > ++#define GLOBAL_INIT_IS_THREADSAFE
-> > ++
-> > ++#if defined(_WIN32_WINNT) && _WIN32_WINNT >=3D 0x600
-> > ++
-> > ++#ifdef __MINGW32__
-> > ++#ifndef __MINGW64_VERSION_MAJOR
-> > ++#if (__MINGW32_MAJOR_VERSION < 5) || \
-> > ++    (__MINGW32_MAJOR_VERSION =3D=3D 5 && __MINGW32_MINOR_VERSION =3D=
-=3D 0)
-> > ++/* mingw >=3D 5.0.1 defines SRWLOCK, and slightly different from MS
-> define */
-> > ++typedef PVOID SRWLOCK, *PSRWLOCK;
-> > ++#endif
-> > ++#endif
-> > ++#ifndef SRWLOCK_INIT
-> > ++#define SRWLOCK_INIT NULL
-> > ++#endif
-> > ++#endif /* __MINGW32__ */
-> > ++
-> > ++#define curl_simple_lock SRWLOCK
-> > ++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT
-> > ++
-> > ++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)
-> > ++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)
-> > ++
-> > ++#elif defined(HAVE_ATOMIC) && defined(HAVE_STDATOMIC_H)
-> > ++#include <stdatomic.h>
-> > ++#if defined(HAVE_SCHED_YIELD)
-> > ++#include <sched.h>
-> > ++#endif
-> > ++
-> > ++#define curl_simple_lock atomic_int
-> > ++#define CURL_SIMPLE_LOCK_INIT 0
-> > ++
-> > ++/* a clang-thing */
-> > ++#ifndef __has_builtin
-> > ++#define __has_builtin(x) 0
-> > ++#endif
-> > ++
-> > ++#ifndef __INTEL_COMPILER
-> > ++/* The Intel compiler tries to look like GCC *and* clang *and* lies i=
-n
-> its
-> > ++   __has_builtin() function, so override it. */
-> > ++
-> > ++/* if GCC on i386/x86_64 or if the built-in is present */
-> > ++#if ( (defined(__GNUC__) && !defined(__clang__)) &&     \
-> > ++      (defined(__i386__) || defined(__x86_64__))) ||    \
-> > ++  __has_builtin(__builtin_ia32_pause)
-> > ++#define HAVE_BUILTIN_IA32_PAUSE
-> > ++#endif
-> > ++
-> > ++#endif
-> > ++
-> > ++static inline void curl_simple_lock_lock(curl_simple_lock *lock)
-> > ++{
-> > ++  for(;;) {
-> > ++    if(!atomic_exchange_explicit(lock, true, memory_order_acquire))
-> > ++      break;
-> > ++    /* Reduce cache coherency traffic */
-> > ++    while(atomic_load_explicit(lock, memory_order_relaxed)) {
-> > ++      /* Reduce load (not mandatory) */
-> > ++#ifdef HAVE_BUILTIN_IA32_PAUSE
-> > ++      __builtin_ia32_pause();
-> > ++#elif defined(__aarch64__)
-> > ++      __asm__ volatile("yield" ::: "memory");
-> > ++#elif defined(HAVE_SCHED_YIELD)
-> > ++      sched_yield();
-> > ++#endif
-> > ++    }
-> > ++  }
-> > ++}
-> > ++
-> > ++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)
-> > ++{
-> > ++  atomic_store_explicit(lock, false, memory_order_release);
-> > ++}
-> > ++
-> > ++#else
-> > ++
-> > ++#undef  GLOBAL_INIT_IS_THREADSAFE
-> > ++
-> > ++#endif
-> > ++
-> > ++#endif /* HEADER_CURL_EASY_LOCK_H */
-> > +diff --git a/lib/hostip.c b/lib/hostip.c
-> > +index 5231a74..d5bf881 100644
-> > +--- a/lib/hostip.c
-> > ++++ b/lib/hostip.c
-> > +@@ -68,6 +68,8 @@
-> > + #include "curl_memory.h"
-> > + #include "memdebug.h"
-> > +
-> > ++#include "easy_lock.h"
-> > ++
-> > + #if defined(CURLRES_SYNCH) &&                   \
-> > +   defined(HAVE_ALARM) &&                        \
-> > +   defined(SIGALRM) &&                           \
-> > +@@ -77,10 +79,6 @@
-> > + #define USE_ALARM_TIMEOUT
-> > + #endif
-> > +
-> > +-#ifdef USE_ALARM_TIMEOUT
-> > +-#include "easy_lock.h"
-> > +-#endif
-> > +-
-> > + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number
-> + zero */
-> > +
-> > + /*
-> > +@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
-> > + /* Beware this is a global and unique instance. This is used to store
-> the
-> > +    return address that we can jump back to from inside a signal
-> handler. This
-> > +    is not thread-safe stuff. */
-> > +-sigjmp_buf curl_jmpenv;
-> > +-curl_simple_lock curl_jmpenv_lock;
-> > ++static sigjmp_buf curl_jmpenv;
-> > ++static curl_simple_lock curl_jmpenv_lock;
-> > + #endif
-> > +
-> > + /* lookup address, returns entry if found and not stale */
-> > +diff --git a/lib/hostip.h b/lib/hostip.h
-> > +index baf1e58..d7f73d9 100644
-> > +--- a/lib/hostip.h
-> > ++++ b/lib/hostip.h
-> > +@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data,
-> Curl_addrinfo *addr,
-> > + #define CURL_INADDR_NONE INADDR_NONE
-> > + #endif
-> > +
-> > +-#ifdef HAVE_SIGSETJMP
-> > +-/* Forward-declaration of variable defined in hostip.c. Beware this
-> > +- * is a global and unique instance. This is used to store the return
-> > +- * address that we can jump back to from inside a signal handler.
-> > +- * This is not thread-safe stuff.
-> > +- */
-> > +-extern sigjmp_buf curl_jmpenv;
-> > +-#endif
-> > +-
-> > + /*
-> > +  * Function provided by the resolver backend to set DNS servers to us=
-e.
-> > +  */
-> > +--
-> > +2.25.1
-> > +
-> > diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320.patch
-> b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
-> > new file mode 100644
-> > index 0000000000..0c9b67440a
-> > --- /dev/null
-> > +++ b/meta/recipes-support/curl/curl/CVE-2023-28320.patch
-> > @@ -0,0 +1,86 @@
-> > +From 13718030ad4b3209a7583b4f27f683cd3a6fa5f2 Mon Sep 17 00:00:00 2001
-> > +From: Harry Sintonen <sintonen@iki.fi>
-> > +Date: Tue, 25 Apr 2023 09:22:26 +0200
-> > +Subject: [PATCH] hostip: add locks around use of global buffer for
-> alarm()
-> > +
-> > +When building with the sync name resolver and timeout ability we now
-> > +require thread-safety to be present to enable it.
-> > +
-> > +Closes #11030
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa=
-5f2
-> ]
-> > +CVE: CVE-2023-28320
-> > +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> > +---
-> > + lib/hostip.c | 19 +++++++++++++++----
-> > + 1 file changed, 15 insertions(+), 4 deletions(-)
-> > +
-> > +diff --git a/lib/hostip.c b/lib/hostip.c
-> > +index f5bb634..5231a74 100644
-> > +--- a/lib/hostip.c
-> > ++++ b/lib/hostip.c
-> > +@@ -68,12 +68,19 @@
-> > + #include "curl_memory.h"
-> > + #include "memdebug.h"
-> > +
-> > +-#if defined(CURLRES_SYNCH) && \
-> > +-    defined(HAVE_ALARM) && defined(SIGALRM) && defined(HAVE_SIGSETJMP=
-)
-> > ++#if defined(CURLRES_SYNCH) &&                   \
-> > ++  defined(HAVE_ALARM) &&                        \
-> > ++  defined(SIGALRM) &&                           \
-> > ++  defined(HAVE_SIGSETJMP) &&                    \
-> > ++  defined(GLOBAL_INIT_IS_THREADSAFE)
-> > + /* alarm-based timeouts can only be used with all the dependencies
-> satisfied */
-> > + #define USE_ALARM_TIMEOUT
-> > + #endif
-> > +
-> > ++#ifdef USE_ALARM_TIMEOUT
-> > ++#include "easy_lock.h"
-> > ++#endif
-> > ++
-> > + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number
-> + zero */
-> > +
-> > + /*
-> > +@@ -248,11 +255,12 @@ void Curl_hostcache_prune(struct Curl_easy *data=
-)
-> > +     Curl_share_unlock(data, CURL_LOCK_DATA_DNS);
-> > + }
-> > +
-> > +-#ifdef HAVE_SIGSETJMP
-> > ++#ifdef USE_ALARM_TIMEOUT
-> > + /* Beware this is a global and unique instance. This is used to store
-> the
-> > +    return address that we can jump back to from inside a signal
-> handler. This
-> > +    is not thread-safe stuff. */
-> > + sigjmp_buf curl_jmpenv;
-> > ++curl_simple_lock curl_jmpenv_lock;
-> > + #endif
-> > +
-> > + /* lookup address, returns entry if found and not stale */
-> > +@@ -614,7 +622,6 @@ enum resolve_t Curl_resolv(struct connectdata *con=
-n,
-> > + static
-> > + RETSIGTYPE alarmfunc(int sig)
-> > + {
-> > +-  /* this is for "-ansi -Wall -pedantic" to stop complaining!   (rabe=
-)
-> */
-> > +   (void)sig;
-> > +   siglongjmp(curl_jmpenv, 1);
-> > + }
-> > +@@ -695,6 +702,8 @@ enum resolve_t Curl_resolv_timeout(struct
-> connectdata *conn,
-> > +      This should be the last thing we do before calling Curl_resolv()=
-,
-> > +      as otherwise we'd have to worry about variables that get modifie=
-d
-> > +      before we invoke Curl_resolv() (and thus use "volatile"). */
-> > ++  curl_simple_lock_lock(&curl_jmpenv_lock);
-> > ++
-> > +   if(sigsetjmp(curl_jmpenv, 1)) {
-> > +     /* this is coming from a siglongjmp() after an alarm signal */
-> > +     failf(data, "name lookup timed out");
-> > +@@ -763,6 +772,8 @@ clean_up:
-> > + #endif
-> > + #endif /* HAVE_SIGACTION */
-> > +
-> > ++  curl_simple_lock_unlock(&curl_jmpenv_lock);
-> > ++
-> > +   /* switch back the alarm() to either zero or to what it was before
-> minus
-> > +      the time we spent until now! */
-> > +   if(prev_alarm) {
-> > +--
-> > +2.25.1
-> > +
-> > diff --git a/meta/recipes-support/curl/curl_7.69.1.bb
-> b/meta/recipes-support/curl/curl_7.69.1.bb
-> > index 13ec117099..ce81df0f05 100644
-> > --- a/meta/recipes-support/curl/curl_7.69.1.bb
-> > +++ b/meta/recipes-support/curl/curl_7.69.1.bb
-> > @@ -50,6 +50,8 @@ SRC_URI =3D "
-> https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-> >             file://CVE-2023-27535-pre1.patch \
-> >             file://CVE-2023-27535.patch \
-> >             file://CVE-2023-27536.patch \
-> > +           file://CVE-2023-28320.patch \
-> > +           file://CVE-2023-28320-fol1.patch \
-> >  "
-> >
-> >  SRC_URI[md5sum] =3D "ec5fc263f898a3dfef08e805f1ecca42"
-> > --
-> > 2.25.1
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#184171):
-> https://lists.openembedded.org/g/openembedded-core/message/184171
-> > Mute This Topic: https://lists.openembedded.org/mt/100096862/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+Then, how strict the license matching should be, can be another discussion.=
+ On the other hand, if it were at least as strict as the regulatory bodies,=
+ we could reconstruct the license text close enough, and that would be a so=
+lution too.
 
---0000000000002d2fc206005eba73
-Content-Type: text/html; charset="UTF-8"
+Best Regards,
+Wolfgang Brehm
+________________________________
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: 13 July 2023 13:02
+To: Brehm, Wolfgang <Wolfgang.Brehm@karlstorz.com>; openembedded-core@lists=
+.openembedded.org <openembedded-core@lists.openembedded.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [Ext] Re: [OE-core] extractedText for every License in SPDX
+
+Hi,
+
+I've copied Joshua on this so he sees it since he's done a lot of work
+on that class.
+
+On Thu, 2023-07-13 at 09:29 +0000, Brehm, Wolfgang wrote:
+> We at Karl Storz need to provide the literal license text for each
+> software component we use, for legal reasons. There is a property
+> "extractedText" in the SPDX documents, but it is only meant to be
+> populated when the license is not a standard license. However even
+> for non-standard licenses like MIT, the license text can differ from
+> project to project.
+> I'm about to modify create-spdx-2.2.bbclass so that it would always
+> extract the license no matter what, similar to what they did in Mend
+> (formerly WhiteSource):
+> https://urldefense.com/v3/__https://github.com/whitesource-ps/ws-sbom-gen=
+erator/issues/96__;!!Lw1uGqvHvtJ_psGG2Et-1voSwbo!c72CXUOogiQCPQrUf2WMXpPxSY=
+vvWpPhGXfxRbBUipMXsJAgTUwZ0W0gK4b3F54M7jiL0bX5fKkST6flNevCrfnxW7KjAWdjYe1gv=
+xl1nA$
+> Would you be open for a patch and what do I need to do to improve the
+> chances of a patch being accepted, other than sticking to the style
+> obviously?
+
+I think the challenge will be knowing if the text differs from the
+standard license. Is this a word for word comparison or a byte for
+byte, i.e. does whitespace matter? What about things like copyright
+dates?
+
+The net end result will likely be that the that the comparison will be
+pessimistic and end up including it most of the time. That will then
+mean larger SPDX files and more data for people to process.
+
+I'm not necessarily against that but I do worry that if we dump all
+this information at the end users, it is going to make it hard to them
+to work out the things they really need to pay attention to.
+
+I appreciate there are regulatory requirements and legal departments
+which will require the exact text but we also need to consider the
+actions people take based upon this. The likely action is to map it
+back to some known "good" list :/. The end next result is a lot more
+data passing around which nobody will actually need to use in reality.
+
+So I'm not against patches being proposed or merged but I worry about
+the overall effect on the ecosystem.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+--_000_SN7PR19MB7573B5E21F72B13803E161728237ASN7PR19MB7573namp_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">As per suggestion, v3 (missing follow-up) patch has been s=
-ent for review.<div><br></div><div>Kind regards,</div><div>Vivek</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On We=
-d, Jul 12, 2023 at 9:12=E2=80=AFPM Steve Sakoman &lt;<a href=3D"mailto:stev=
-e@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Hi Vivek,<br>
-<br>
-Sorry I didn&#39;t notice this earlier, but we already have a fix for this<=
-br>
-CVE in kirkstone:<br>
-<br>
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?h=3Dkirks=
-tone&amp;id=3Dc761d822be5ffc4a88600fbd7282c469b1e9902a" rel=3D"noreferrer" =
-target=3D"_blank">https://git.openembedded.org/openembedded-core/commit/?h=
-=3Dkirkstone&amp;id=3Dc761d822be5ffc4a88600fbd7282c469b1e9902a</a><br>
-<br>
-However it seems from your work that a follow on patch is also<br>
-necessary to fix this issue completely.<br>
-<br>
-Could you submit a v3 that takes into account the above commit?<br>
-<br>
-Thanks,<br>
-<br>
-Steve<br>
-<br>
-On Wed, Jul 12, 2023 at 12:17=E2=80=AFAM vkumbhar &lt;<a href=3D"mailto:vku=
-mbhar@mvista.com" target=3D"_blank">vkumbhar@mvista.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Introduced by: <a href=3D"https://github.com/curl/curl/commit/3c49b405=
-de4fbf1fd7127f91908261268640e54f" rel=3D"noreferrer" target=3D"_blank">http=
-s://github.com/curl/curl/commit/3c49b405de4fbf1fd7127f91908261268640e54f</a=
-> (curl-7_9_8)<br>
-&gt; Fixed by: <a href=3D"https://github.com/curl/curl/commit/13718030ad4b3=
-209a7583b4f27f683cd3a6fa5f2" rel=3D"noreferrer" target=3D"_blank">https://g=
-ithub.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2</a> (cu=
-rl-8_1_0)<br>
-&gt; Follow-up: <a href=3D"https://github.com/curl/curl/commit/f446258f0269=
-a62289cca0210157cb8558d0edc3" rel=3D"noreferrer" target=3D"_blank">https://=
-github.com/curl/curl/commit/f446258f0269a62289cca0210157cb8558d0edc3</a> (c=
-url-8_1_0)<br>
-&gt; <a href=3D"https://curl.se/docs/CVE-2023-28320.html" rel=3D"noreferrer=
-" target=3D"_blank">https://curl.se/docs/CVE-2023-28320.html</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vivek Kumbhar &lt;<a href=3D"mailto:vkumbhar@mvista.com=
-" target=3D"_blank">vkumbhar@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../curl/curl/CVE-2023-28320-fol1.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 197 ++++++++++++++++++<br>
-&gt;=C2=A0 .../curl/curl/CVE-2023-28320.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 86 ++++++++<br>
-&gt;=C2=A0 meta/recipes-support/curl/<a href=3D"http://curl_7.69.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.69.1.bb</a>=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 3 files changed, 285 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320=
--fol1.patch<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320=
-.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch =
-b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..eaa6fdc327<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch<br>
-&gt; @@ -0,0 +1,197 @@<br>
-&gt; +From f446258f0269a62289cca0210157cb8558d0edc3 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se" target=3D=
-"_blank">daniel@haxx.se</a>&gt;<br>
-&gt; +Date: Tue, 16 May 2023 23:40:42 +0200<br>
-&gt; +Subject: [PATCH] hostip: include easy_lock.h before using<br>
-&gt; + GLOBAL_INIT_IS_THREADSAFE<br>
-&gt; +<br>
-&gt; +Since that header file is the only place that define can be defined.<=
-br>
-&gt; +<br>
-&gt; +Reported-by: Marc Deslauriers<br>
-&gt; +<br>
-&gt; +Follow-up to 13718030ad4b3209<br>
-&gt; +<br>
-&gt; +Closes #11121<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/co=
-mmit/f446258f0269a62289cca0210157cb8558d0edc3" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/curl/curl/commit/f446258f0269a62289cca0210157cb=
-8558d0edc3</a>]<br>
-&gt; +CVE: CVE-2023-28320<br>
-&gt; +Signed-off-by: Vivek Kumbhar &lt;<a href=3D"mailto:vkumbhar@mvista.co=
-m" target=3D"_blank">vkumbhar@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + lib/easy_lock.h | 109 ++++++++++++++++++++++++++++++++++++++++++++++=
-++<br>
-&gt; + lib/hostip.c=C2=A0 =C2=A0 |=C2=A0 10 ++---<br>
-&gt; + lib/hostip.h=C2=A0 =C2=A0 |=C2=A0 =C2=A09 ----<br>
-&gt; + 3 files changed, 113 insertions(+), 15 deletions(-)<br>
-&gt; + create mode 100644 lib/easy_lock.h<br>
-&gt; +<br>
-&gt; +diff --git a/lib/easy_lock.h b/lib/easy_lock.h<br>
-&gt; +new file mode 100644<br>
-&gt; +index 0000000..6399a39<br>
-&gt; +--- /dev/null<br>
-&gt; ++++ b/lib/easy_lock.h<br>
-&gt; +@@ -0,0 +1,109 @@<br>
-&gt; ++#ifndef HEADER_CURL_EASY_LOCK_H<br>
-&gt; ++#define HEADER_CURL_EASY_LOCK_H<br>
-&gt; ++/*******************************************************************=
-********<br>
-&gt; ++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _=C2=A0 =C2=A0_ ____=
-=C2=A0 _<br>
-&gt; ++ *=C2=A0 Project=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0___| | | |=C2=A0 _ \| |<br>
-&gt; ++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/ __| | | | |_) | |<br>
-&gt; ++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | (__| |_| |=C2=A0 _ &lt;| |___<br>
-&gt; ++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\___|\___/|_| \_\_____|<br>
-&gt; ++ *<br>
-&gt; ++ * Copyright (C) Daniel Stenberg, &lt;<a href=3D"mailto:daniel@haxx.=
-se" target=3D"_blank">daniel@haxx.se</a>&gt;, et al.<br>
-&gt; ++ *<br>
-&gt; ++ * This software is licensed as described in the file COPYING, which=
-<br>
-&gt; ++ * you should have received as part of this distribution. The terms<=
-br>
-&gt; ++ * are also available at <a href=3D"https://curl.se/docs/copyright.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://curl.se/docs/copyright.ht=
-ml</a>.<br>
-&gt; ++ *<br>
-&gt; ++ * You may opt to use, copy, modify, merge, publish, distribute and/=
-or sell<br>
-&gt; ++ * copies of the Software, and permit persons to whom the Software i=
-s<br>
-&gt; ++ * furnished to do so, under the terms of the COPYING file.<br>
-&gt; ++ *<br>
-&gt; ++ * This software is distributed on an &quot;AS IS&quot; basis, WITHO=
-UT WARRANTY OF ANY<br>
-&gt; ++ * KIND, either express or implied.<br>
-&gt; ++ *<br>
-&gt; ++ * SPDX-License-Identifier: curl<br>
-&gt; ++ *<br>
-&gt; ++ *******************************************************************=
-********/<br>
-&gt; ++<br>
-&gt; ++#include &quot;curl_setup.h&quot;<br>
-&gt; ++<br>
-&gt; ++#define GLOBAL_INIT_IS_THREADSAFE<br>
-&gt; ++<br>
-&gt; ++#if defined(_WIN32_WINNT) &amp;&amp; _WIN32_WINNT &gt;=3D 0x600<br>
-&gt; ++<br>
-&gt; ++#ifdef __MINGW32__<br>
-&gt; ++#ifndef __MINGW64_VERSION_MAJOR<br>
-&gt; ++#if (__MINGW32_MAJOR_VERSION &lt; 5) || \<br>
-&gt; ++=C2=A0 =C2=A0 (__MINGW32_MAJOR_VERSION =3D=3D 5 &amp;&amp; __MINGW32=
-_MINOR_VERSION =3D=3D 0)<br>
-&gt; ++/* mingw &gt;=3D 5.0.1 defines SRWLOCK, and slightly different from =
-MS define */<br>
-&gt; ++typedef PVOID SRWLOCK, *PSRWLOCK;<br>
-&gt; ++#endif<br>
-&gt; ++#endif<br>
-&gt; ++#ifndef SRWLOCK_INIT<br>
-&gt; ++#define SRWLOCK_INIT NULL<br>
-&gt; ++#endif<br>
-&gt; ++#endif /* __MINGW32__ */<br>
-&gt; ++<br>
-&gt; ++#define curl_simple_lock SRWLOCK<br>
-&gt; ++#define CURL_SIMPLE_LOCK_INIT SRWLOCK_INIT<br>
-&gt; ++<br>
-&gt; ++#define curl_simple_lock_lock(m) AcquireSRWLockExclusive(m)<br>
-&gt; ++#define curl_simple_lock_unlock(m) ReleaseSRWLockExclusive(m)<br>
-&gt; ++<br>
-&gt; ++#elif defined(HAVE_ATOMIC) &amp;&amp; defined(HAVE_STDATOMIC_H)<br>
-&gt; ++#include &lt;stdatomic.h&gt;<br>
-&gt; ++#if defined(HAVE_SCHED_YIELD)<br>
-&gt; ++#include &lt;sched.h&gt;<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; ++#define curl_simple_lock atomic_int<br>
-&gt; ++#define CURL_SIMPLE_LOCK_INIT 0<br>
-&gt; ++<br>
-&gt; ++/* a clang-thing */<br>
-&gt; ++#ifndef __has_builtin<br>
-&gt; ++#define __has_builtin(x) 0<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; ++#ifndef __INTEL_COMPILER<br>
-&gt; ++/* The Intel compiler tries to look like GCC *and* clang *and* lies =
-in its<br>
-&gt; ++=C2=A0 =C2=A0__has_builtin() function, so override it. */<br>
-&gt; ++<br>
-&gt; ++/* if GCC on i386/x86_64 or if the built-in is present */<br>
-&gt; ++#if ( (defined(__GNUC__) &amp;&amp; !defined(__clang__)) &amp;&amp;=
-=C2=A0 =C2=A0 =C2=A0\<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 (defined(__i386__) || defined(__x86_64__))) ||=
-=C2=A0 =C2=A0 \<br>
-&gt; ++=C2=A0 __has_builtin(__builtin_ia32_pause)<br>
-&gt; ++#define HAVE_BUILTIN_IA32_PAUSE<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; ++static inline void curl_simple_lock_lock(curl_simple_lock *lock)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 for(;;) {<br>
-&gt; ++=C2=A0 =C2=A0 if(!atomic_exchange_explicit(lock, true, memory_order_=
-acquire))<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; ++=C2=A0 =C2=A0 /* Reduce cache coherency traffic */<br>
-&gt; ++=C2=A0 =C2=A0 while(atomic_load_explicit(lock, memory_order_relaxed)=
-) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 /* Reduce load (not mandatory) */<br>
-&gt; ++#ifdef HAVE_BUILTIN_IA32_PAUSE<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 __builtin_ia32_pause();<br>
-&gt; ++#elif defined(__aarch64__)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 __asm__ volatile(&quot;yield&quot; ::: &quot;me=
-mory&quot;);<br>
-&gt; ++#elif defined(HAVE_SCHED_YIELD)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 sched_yield();<br>
-&gt; ++#endif<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 }<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; ++static inline void curl_simple_lock_unlock(curl_simple_lock *lock)<b=
-r>
-&gt; ++{<br>
-&gt; ++=C2=A0 atomic_store_explicit(lock, false, memory_order_release);<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; ++#else<br>
-&gt; ++<br>
-&gt; ++#undef=C2=A0 GLOBAL_INIT_IS_THREADSAFE<br>
-&gt; ++<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; ++#endif /* HEADER_CURL_EASY_LOCK_H */<br>
-&gt; +diff --git a/lib/hostip.c b/lib/hostip.c<br>
-&gt; +index 5231a74..d5bf881 100644<br>
-&gt; +--- a/lib/hostip.c<br>
-&gt; ++++ b/lib/hostip.c<br>
-&gt; +@@ -68,6 +68,8 @@<br>
-&gt; + #include &quot;curl_memory.h&quot;<br>
-&gt; + #include &quot;memdebug.h&quot;<br>
-&gt; +<br>
-&gt; ++#include &quot;easy_lock.h&quot;<br>
-&gt; ++<br>
-&gt; + #if defined(CURLRES_SYNCH) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt; +=C2=A0 =C2=A0defined(HAVE_ALARM) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt; +=C2=A0 =C2=A0defined(SIGALRM) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt; +@@ -77,10 +79,6 @@<br>
-&gt; + #define USE_ALARM_TIMEOUT<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; +-#ifdef USE_ALARM_TIMEOUT<br>
-&gt; +-#include &quot;easy_lock.h&quot;<br>
-&gt; +-#endif<br>
-&gt; +-<br>
-&gt; + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port numbe=
-r + zero */<br>
-&gt; +<br>
-&gt; + /*<br>
-&gt; +@@ -259,8 +257,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)=
-<br>
-&gt; + /* Beware this is a global and unique instance. This is used to stor=
-e the<br>
-&gt; +=C2=A0 =C2=A0 return address that we can jump back to from inside a s=
-ignal handler. This<br>
-&gt; +=C2=A0 =C2=A0 is not thread-safe stuff. */<br>
-&gt; +-sigjmp_buf curl_jmpenv;<br>
-&gt; +-curl_simple_lock curl_jmpenv_lock;<br>
-&gt; ++static sigjmp_buf curl_jmpenv;<br>
-&gt; ++static curl_simple_lock curl_jmpenv_lock;<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; + /* lookup address, returns entry if found and not stale */<br>
-&gt; +diff --git a/lib/hostip.h b/lib/hostip.h<br>
-&gt; +index baf1e58..d7f73d9 100644<br>
-&gt; +--- a/lib/hostip.h<br>
-&gt; ++++ b/lib/hostip.h<br>
-&gt; +@@ -196,15 +196,6 @@ Curl_cache_addr(struct Curl_easy *data, Curl_add=
-rinfo *addr,<br>
-&gt; + #define CURL_INADDR_NONE INADDR_NONE<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; +-#ifdef HAVE_SIGSETJMP<br>
-&gt; +-/* Forward-declaration of variable defined in hostip.c. Beware this<=
-br>
-&gt; +- * is a global and unique instance. This is used to store the return=
-<br>
-&gt; +- * address that we can jump back to from inside a signal handler.<br=
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-&gt; +- * This is not thread-safe stuff.<br>
-&gt; +- */<br>
-&gt; +-extern sigjmp_buf curl_jmpenv;<br>
-&gt; +-#endif<br>
-&gt; +-<br>
-&gt; + /*<br>
-&gt; +=C2=A0 * Function provided by the resolver backend to set DNS servers=
- to use.<br>
-&gt; +=C2=A0 */<br>
-&gt; +--<br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320.patch b/met=
-a/recipes-support/curl/curl/CVE-2023-28320.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..0c9b67440a<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/curl/curl/CVE-2023-28320.patch<br>
-&gt; @@ -0,0 +1,86 @@<br>
-&gt; +From 13718030ad4b3209a7583b4f27f683cd3a6fa5f2 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Harry Sintonen &lt;<a href=3D"mailto:sintonen@iki.fi" target=3D=
-"_blank">sintonen@iki.fi</a>&gt;<br>
-&gt; +Date: Tue, 25 Apr 2023 09:22:26 +0200<br>
-&gt; +Subject: [PATCH] hostip: add locks around use of global buffer for al=
-arm()<br>
-&gt; +<br>
-&gt; +When building with the sync name resolver and timeout ability we now<=
-br>
-&gt; +require thread-safety to be present to enable it.<br>
-&gt; +<br>
-&gt; +Closes #11030<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/co=
-mmit/13718030ad4b3209a7583b4f27f683cd3a6fa5f2" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/curl/curl/commit/13718030ad4b3209a7583b4f27f683=
-cd3a6fa5f2</a>]<br>
-&gt; +CVE: CVE-2023-28320<br>
-&gt; +Signed-off-by: Vivek Kumbhar &lt;<a href=3D"mailto:vkumbhar@mvista.co=
-m" target=3D"_blank">vkumbhar@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + lib/hostip.c | 19 +++++++++++++++----<br>
-&gt; + 1 file changed, 15 insertions(+), 4 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/lib/hostip.c b/lib/hostip.c<br>
-&gt; +index f5bb634..5231a74 100644<br>
-&gt; +--- a/lib/hostip.c<br>
-&gt; ++++ b/lib/hostip.c<br>
-&gt; +@@ -68,12 +68,19 @@<br>
-&gt; + #include &quot;curl_memory.h&quot;<br>
-&gt; + #include &quot;memdebug.h&quot;<br>
-&gt; +<br>
-&gt; +-#if defined(CURLRES_SYNCH) &amp;&amp; \<br>
-&gt; +-=C2=A0 =C2=A0 defined(HAVE_ALARM) &amp;&amp; defined(SIGALRM) &amp;&=
-amp; defined(HAVE_SIGSETJMP)<br>
-&gt; ++#if defined(CURLRES_SYNCH) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt; ++=C2=A0 defined(HAVE_ALARM) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt; ++=C2=A0 defined(SIGALRM) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt; ++=C2=A0 defined(HAVE_SIGSETJMP) &amp;&amp;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt; ++=C2=A0 defined(GLOBAL_INIT_IS_THREADSAFE)<br>
-&gt; + /* alarm-based timeouts can only be used with all the dependencies s=
-atisfied */<br>
-&gt; + #define USE_ALARM_TIMEOUT<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; ++#ifdef USE_ALARM_TIMEOUT<br>
-&gt; ++#include &quot;easy_lock.h&quot;<br>
-&gt; ++#endif<br>
-&gt; ++<br>
-&gt; + #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port numbe=
-r + zero */<br>
-&gt; +<br>
-&gt; + /*<br>
-&gt; +@@ -248,11 +255,12 @@ void Curl_hostcache_prune(struct Curl_easy *dat=
-a)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0Curl_share_unlock(data, CURL_LOCK_DATA_DNS);<br>
-&gt; + }<br>
-&gt; +<br>
-&gt; +-#ifdef HAVE_SIGSETJMP<br>
-&gt; ++#ifdef USE_ALARM_TIMEOUT<br>
-&gt; + /* Beware this is a global and unique instance. This is used to stor=
-e the<br>
-&gt; +=C2=A0 =C2=A0 return address that we can jump back to from inside a s=
-ignal handler. This<br>
-&gt; +=C2=A0 =C2=A0 is not thread-safe stuff. */<br>
-&gt; + sigjmp_buf curl_jmpenv;<br>
-&gt; ++curl_simple_lock curl_jmpenv_lock;<br>
-&gt; + #endif<br>
-&gt; +<br>
-&gt; + /* lookup address, returns entry if found and not stale */<br>
-&gt; +@@ -614,7 +622,6 @@ enum resolve_t Curl_resolv(struct connectdata *co=
-nn,<br>
-&gt; + static<br>
-&gt; + RETSIGTYPE alarmfunc(int sig)<br>
-&gt; + {<br>
-&gt; +-=C2=A0 /* this is for &quot;-ansi -Wall -pedantic&quot; to stop comp=
-laining!=C2=A0 =C2=A0(rabe) */<br>
-&gt; +=C2=A0 =C2=A0(void)sig;<br>
-&gt; +=C2=A0 =C2=A0siglongjmp(curl_jmpenv, 1);<br>
-&gt; + }<br>
-&gt; +@@ -695,6 +702,8 @@ enum resolve_t Curl_resolv_timeout(struct connect=
-data *conn,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 This should be the last thing we do before calli=
-ng Curl_resolv(),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 as otherwise we&#39;d have to worry about variab=
-les that get modified<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 before we invoke Curl_resolv() (and thus use &qu=
-ot;volatile&quot;). */<br>
-&gt; ++=C2=A0 curl_simple_lock_lock(&amp;curl_jmpenv_lock);<br>
-&gt; ++<br>
-&gt; +=C2=A0 =C2=A0if(sigsetjmp(curl_jmpenv, 1)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* this is coming from a siglongjmp() after an al=
-arm signal */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0failf(data, &quot;name lookup timed out&quot;);<b=
-r>
-&gt; +@@ -763,6 +772,8 @@ clean_up:<br>
-&gt; + #endif<br>
-&gt; + #endif /* HAVE_SIGACTION */<br>
-&gt; +<br>
-&gt; ++=C2=A0 curl_simple_lock_unlock(&amp;curl_jmpenv_lock);<br>
-&gt; ++<br>
-&gt; +=C2=A0 =C2=A0/* switch back the alarm() to either zero or to what it =
-was before minus<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 the time we spent until now! */<br>
-&gt; +=C2=A0 =C2=A0if(prev_alarm) {<br>
-&gt; +--<br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_7.69.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">curl_7.69.1.bb</a> b/meta/recipes-s=
-upport/curl/<a href=3D"http://curl_7.69.1.bb" rel=3D"noreferrer" target=3D"=
-_blank">curl_7.69.1.bb</a><br>
-&gt; index 13ec117099..ce81df0f05 100644<br>
-&gt; --- a/meta/recipes-support/curl/<a href=3D"http://curl_7.69.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.69.1.bb</a><br>
-&gt; +++ b/meta/recipes-support/curl/<a href=3D"http://curl_7.69.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.69.1.bb</a><br>
-&gt; @@ -50,6 +50,8 @@ SRC_URI =3D &quot;<a href=3D"https://curl.haxx.se/do=
-wnload/curl-$%7BPV%7D.tar.bz2" rel=3D"noreferrer" target=3D"_blank">https:/=
-/curl.haxx.se/download/curl-${PV}.tar.bz2</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-27535-p=
-re1.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-27535.p=
-atch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-27536.p=
-atch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-28320.patch =
-\<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-28320-fol1.p=
-atch \<br>
-&gt;=C2=A0 &quot;<br>
-&gt;<br>
-&gt;=C2=A0 SRC_URI[md5sum] =3D &quot;ec5fc263f898a3dfef08e805f1ecca42&quot;=
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+Dear Richard,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
+tPasted1">
 <br>
-&gt; --<br>
-&gt; 2.25.1<br>
+Thank you for your reply and for including Joshua.<br>
+<br>
+For us at Karl Storz it would be most convenient to have the extratedText a=
+lways populated, but in my opinion this can't be the default behaviour beca=
+use it would go against the SPDX standard, or at least its intent. The extr=
+actedText is part of section&nbsp;10
+ - Other licensing information, where it says:<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
+tPasted1">
+<div>
+<blockquote itemscope=3D"" itemtype=3D"https://schemas.microsoft.com/Quoted=
+Text" style=3D"border-left: 3px solid rgb(200, 200, 200); border-top-color:=
+ rgb(200, 200, 200); border-right-color: rgb(200, 200, 200); border-bottom-=
+color: rgb(200, 200, 200); padding-left: 1ex; margin-left: 0.8ex;">
+<div>
+<div><span>...to refer to licenses that are not found on the SPDX License L=
+ist.</span></div>
+</div>
+</blockquote>
+</div>
+<div class=3D"ContentPasted2">What I was proposing is to add as switch like=
+ <span style=3D"font-family: Consolas, Courier, monospace;">
+SPDX_ALWAYS_EXTRACT_LICENSE ??=3D &quot;0&quot;,</span>&nbsp;that, if enabl=
+ed, would override the standard behaviour and slightly abuse said property =
+by always including the extracted license, even if the license has been ide=
+ntified as one of the known licenses.<br>
+<br>
+Then, how strict the license matching should be, can be another discussion.=
+ On the other hand, if it were at least as strict as the regulatory bodies,=
+ we could reconstruct the license text close enough, and that would be a so=
+lution too.<br>
+<br>
+Best Regards,</div>
+<div class=3D"ContentPasted2">Wolfgang Brehm</div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Richard Purdie &lt;ri=
+chard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> 13 July 2023 13:02<br>
+<b>To:</b> Brehm, Wolfgang &lt;Wolfgang.Brehm@karlstorz.com&gt;; openembedd=
+ed-core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org=
 &gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#184171): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/184171" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/184171</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10009686=
-2/3620601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/100096862/3620601</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" ta=
-rget=3D"_blank">steve@sakoman.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div>
+<b>Cc:</b> Joshua Watt &lt;JPEWhacker@gmail.com&gt;<br>
+<b>Subject:</b> [Ext] Re: [OE-core] extractedText for every License in SPDX=
+</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Hi,<br>
+<br>
+I've copied Joshua on this so he sees it since he's done a lot of work<br>
+on that class.<br>
+<br>
+On Thu, 2023-07-13 at 09:29 +0000, Brehm, Wolfgang wrote:<br>
+&gt; We at Karl Storz need to provide the literal license text for each<br>
+&gt; software component we use, for legal reasons. There is a property<br>
+&gt; &quot;extractedText&quot; in the SPDX documents, but it is only meant =
+to be<br>
+&gt; populated when the license is not a standard license. However even<br>
+&gt; for non-standard licenses like MIT, the license text can differ from<b=
+r>
+&gt; project to project.<br>
+&gt; I'm about to modify create-spdx-2.2.bbclass so that it would always<br=
+>
+&gt; extract the license no matter what, similar to what they did in Mend<b=
+r>
+&gt; (formerly WhiteSource):<br>
+&gt; <a href=3D"https://urldefense.com/v3/__https://github.com/whitesource-=
+ps/ws-sbom-generator/issues/96__;!!Lw1uGqvHvtJ_psGG2Et-1voSwbo!c72CXUOogiQC=
+PQrUf2WMXpPxSYvvWpPhGXfxRbBUipMXsJAgTUwZ0W0gK4b3F54M7jiL0bX5fKkST6flNevCrfn=
+xW7KjAWdjYe1gvxl1nA$">
+https://urldefense.com/v3/__https://github.com/whitesource-ps/ws-sbom-gener=
+ator/issues/96__;!!Lw1uGqvHvtJ_psGG2Et-1voSwbo!c72CXUOogiQCPQrUf2WMXpPxSYvv=
+WpPhGXfxRbBUipMXsJAgTUwZ0W0gK4b3F54M7jiL0bX5fKkST6flNevCrfnxW7KjAWdjYe1gvxl=
+1nA$</a>
+<br>
+&gt; Would you be open for a patch and what do I need to do to improve the<=
+br>
+&gt; chances of a patch being accepted, other than sticking to the style<br=
+>
+&gt; obviously?<br>
+<br>
+I think the challenge will be knowing if the text differs from the<br>
+standard license. Is this a word for word comparison or a byte for<br>
+byte, i.e. does whitespace matter? What about things like copyright<br>
+dates?<br>
+<br>
+The net end result will likely be that the that the comparison will be<br>
+pessimistic and end up including it most of the time. That will then<br>
+mean larger SPDX files and more data for people to process.<br>
+<br>
+I'm not necessarily against that but I do worry that if we dump all<br>
+this information at the end users, it is going to make it hard to them<br>
+to work out the things they really need to pay attention to.<br>
+<br>
+I appreciate there are regulatory requirements and legal departments<br>
+which will require the exact text but we also need to consider the<br>
+actions people take based upon this. The likely action is to map it<br>
+back to some known &quot;good&quot; list :/. The end next result is a lot m=
+ore<br>
+data passing around which nobody will actually need to use in reality.<br>
+<br>
+So I'm not against patches being proposed or merged but I worry about<br>
+the overall effect on the ecosystem.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
---0000000000002d2fc206005eba73--
+--_000_SN7PR19MB7573B5E21F72B13803E161728237ASN7PR19MB7573namp_--
 
