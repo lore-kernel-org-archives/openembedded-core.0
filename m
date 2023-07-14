@@ -1,148 +1,82 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0227FEB64DC
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 16:30:05 +0000 (UTC)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
- by mx.groups.io with SMTP id smtpd.web11.3610.1689352202355587586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B24EB64DC
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 16:32:25 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.3678.1689352342995969445
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 09:30:02 -0700
+ Fri, 14 Jul 2023 09:32:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=DtzC+i9/;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.180, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-bd61dd9a346so1976399276.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 09:30:02 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=NiG4WrJg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fc03aa6e04so19851095e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 09:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689352201; x=1691944201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Es/JSccVOvo4mosrtCLgrTcnR8n/ROJrkPJMFooco1w=;
-        b=DtzC+i9/sGU3T+L/+cc45vMjELf0NXO60GUjuZ8EXDdFwaqzmHdTnjd/soqVY7oBAn
-         H9V6jxZHT345GGje9APZg4X2OgtyMOejy3MeHZW4WFl1TSlpUOsLmMRarVSDr3qOHe/C
-         b8bf0utlQIStcNw7JAucSNg0eT2oulZpFR6y6hMHXLXOqwVi800+OC0vbzZhIVdI1GGB
-         DvIxPYbwWGW2IXwL+4fHEbndV5RRbqZ9EC8II84fJzZ/kyK4ZWQhS+IBW/f+64oQ2BuB
-         aX30O2YPZIPCceqqjP1ZNdItrw99KyjGGfz+IUoA1TAQks1He+ssnixa76CDk+0gsQP+
-         1dsw==
+        d=linuxfoundation.org; s=google; t=1689352341; x=1691944341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nPLF5kqiyj1MDMZAfvqCaSgC+55jSrwdV7wbeHSdJ0Y=;
+        b=NiG4WrJgt6rpHsABmwfS6jHozMtGMhg0aQ9Umqk6QUXHj/vsk71aP5AtT/lR+vr4Tp
+         Em56guIBhJ2lUWl7AApF2sU/OorT60g7FW1nhh8xltWGqQRYYyn46WyU+blET8JZnHyq
+         MmUcLX+tGEaewlJfpcb1FU97s7l9XhJ7FkmdY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689352201; x=1691944201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Es/JSccVOvo4mosrtCLgrTcnR8n/ROJrkPJMFooco1w=;
-        b=TnXuBPgYhDCNiLp5ozh75HDtmrsu+3L/9NPi6nT2JUYcnUjoBNMDwHgnKfbXzDWrTG
-         D875qOuL5HIl73AHGzt1IzD9Jz8C+ZapP/fsZ8jJQPA/6pRbjUPCcTG+vpy7bezpKchX
-         GAq2Y68iGfnqotpk9J77BoL3r3fFBVUQTCju5+Wm/RsQ2Slr3+gnQfmaKZztZyC02u5f
-         6NiSGi2kh5tZ7GDQYjfHRtWZpPmx6DwyCRdyEb/d9nFZw8fvYZ83fJDs7b+g+LKZqCzI
-         a2dMVAuJD++NkUxP1zdhgClNtTbQkwArbVlmTyL/V5LKidWkKzPn/ZUfErS8bMYJrMAj
-         dUkA==
-X-Gm-Message-State: ABy/qLY3tZkfOy9qX20O8VG8KW9hfude8PgUwptTn2czDMSz9jRS1U8v
-	4+XtKVOIJsJf7LI/V61QXPA2N1BYJZG9BRheEnMIvQ==
-X-Google-Smtp-Source: APBJJlFHfzVylItz84kBx5xyBxCCExsrFCs0h66IqJ30oskFljREUqfJGcmHrgfktaCxSQSmpcKCdx/rH+j5lNWlLh4=
-X-Received: by 2002:a25:b9cf:0:b0:c8e:2fc8:5dee with SMTP id
- y15-20020a25b9cf000000b00c8e2fc85deemr3929068ybj.54.1689352201472; Fri, 14
- Jul 2023 09:30:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689352341; x=1691944341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nPLF5kqiyj1MDMZAfvqCaSgC+55jSrwdV7wbeHSdJ0Y=;
+        b=VnaCdK4g9MkxJBFsC+KW0WH5HUQpdP7yWzHpM9tDqdb+7CLGJfCq3Z6lVsRAhmJ3X7
+         fZcA7rHfyt36tIbvwvQa3WEA9WOjkpm8ZxewsP9FUUdggR2RYLLbZFtBNMazybhAyJaa
+         r3+jTuot/+y8T7p9B//yVsJy1XtTsia9AdkR3tA14ZrWHnX7jE090vyD3TjYeNLo1cgz
+         d9+FJqJiIJb8P1u2bZr7JF6wz77TdktJVfx4BZo/fcyon0CAvLpX/SZ1e2HKwP9LkqFD
+         5Xi4x3RlvbrF9OuBuXoFLjdQGvOg0BJE87zIpi3O9Vnj8usqT+PplHnfCiHq52lVQkGu
+         HotQ==
+X-Gm-Message-State: ABy/qLZc70LwgAVV9hW2LgD5bf/ZinEZVGJJFQTX9MVhudHwW+IrvQbb
+	rsxnr1e4bnE2M+ICiJlUTRoG2zX762+CQRsneeM=
+X-Google-Smtp-Source: APBJJlEageXH30gXJMQg/ogMwjsROFUshPoGZc6kmjUoER4JMIu7JBiGnrCrAu87z4reez7WzrO1aQ==
+X-Received: by 2002:adf:e6c8:0:b0:30f:ca58:a00d with SMTP id y8-20020adfe6c8000000b0030fca58a00dmr4437771wrm.45.1689352341086;
+        Fri, 14 Jul 2023 09:32:21 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9829:fee0:9660:b19c])
+        by smtp.gmail.com with ESMTPSA id w8-20020adfd4c8000000b003141e629cb6sm11194433wrk.101.2023.07.14.09.32.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 09:32:20 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] ptest-runner: Pull in parallel test fix
+Date: Fri, 14 Jul 2023 17:32:19 +0100
+Message-Id: <20230714163219.86453-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <jSoT.1689308930141918532.7s80@lists.openembedded.org>
-In-Reply-To: <jSoT.1689308930141918532.7s80@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 14 Jul 2023 06:29:50 -1000
-Message-ID: <CAOSpxdbCqM0RzQ-8D5E+X07yaCGJbLzgZ8XC4TmFtA-212mZrQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] wic: Add dependencies for erofs-utils
-To: Heiko <heiko.thole@entwicklung.eq-3.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 16:30:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184275
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 16:32:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184276
 
-I am not able to apply this patch, something is broken in the formatting.
+Pull in the commit "runner: Correctly handle running parallel tests".
 
-Please see below link for info on creating and submitting a patch:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+index 6f3104499f2..77e2b94f376 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "8259375d306a8129f6c5d8528314496fc6ae1ca3"
++SRCREV = "07d8a676aa962ecc5ec264ec33b0074adf2a8733"
+ PV .= "+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
+-- 
+2.39.2
 
-Steve
-
-On Thu, Jul 13, 2023 at 6:28=E2=80=AFPM Heiko <heiko.thole@entwicklung.eq-3=
-.de> wrote:
->
-> From 2d8164ac97277c344bc7c9e11f0ed78235726bda Mon Sep 17 00:00:00 2001
-> From: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-> Date: Wed, 12 Jul 2023 07:41:59 +0200
-> Subject: [kirkstone][PATCH] wic: Add dependencies for erofs-utils
->
-> In order to build erofs filesystems, wic must have the erofs-utils packag=
-e installed into its sysroot.
->
-> Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-> ---
->  meta/classes/image_types_wic.bbclass | 2 +-
->  meta/recipes-core/meta/wic-tools.bb  | 2 +-
->  scripts/lib/wic/misc.py              | 1 +
->  3 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_ty=
-pes_wic.bbclass
-> index 6453dd1b74..8497916d48 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -83,7 +83,7 @@ do_image_wic[recrdeptask] +=3D "do_deploy"
->  do_image_wic[deptask] +=3D "do_image_complete"
->
->  WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_ARCH", [ '=
-x86_64', 'i686' ], "syslinux-native", "",d)}'
-> -WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrfs-t=
-ools-native squashfs-tools-native e2fsprogs-native"
-> +WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrfs-t=
-ools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
->  # Unified kernel images need objcopy
->  WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}binuti=
-ls"
->  WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
-> diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta=
-/wic-tools.bb
-> index daaf3ea576..9282d36a4d 100644
-> --- a/meta/recipes-core/meta/wic-tools.bb
-> +++ b/meta/recipes-core/meta/wic-tools.bb
-> @@ -6,7 +6,7 @@ DEPENDS =3D "\
->             parted-native gptfdisk-native dosfstools-native \
->             mtools-native bmap-tools-native grub-native cdrtools-native \
->             btrfs-tools-native squashfs-tools-native pseudo-native \
-> -           e2fsprogs-native util-linux-native tar-native \
-> +           e2fsprogs-native util-linux-native tar-native erofs-utils-nat=
-ive \
->             virtual/${TARGET_PREFIX}binutils \
->             "
->  DEPENDS:append:x86 =3D " syslinux-native syslinux grub-efi systemd-boot"
-> diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-> index a8aab6c524..2b90821b30 100644
-> --- a/scripts/lib/wic/misc.py
-> +++ b/scripts/lib/wic/misc.py
-> @@ -36,6 +36,7 @@ NATIVE_RECIPES =3D {"bmaptool": "bmap-tools",
->                    "mkdosfs": "dosfstools",
->                    "mkisofs": "cdrtools",
->                    "mkfs.btrfs": "btrfs-tools",
-> +                  "mkfs.erofs": "erofs-utils",
->                    "mkfs.ext2": "e2fsprogs",
->                    "mkfs.ext3": "e2fsprogs",
->                    "mkfs.ext4": "e2fsprogs",
-> --
-> 2.41.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184251): https://lists.openembedded.org/g/openembedde=
-d-core/message/184251
-> Mute This Topic: https://lists.openembedded.org/mt/100135410/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
