@@ -2,66 +2,66 @@ Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6697EB64DA
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 03:24:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D983EEB64DC
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 03:25:20 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.10748.1689305056421623935
+ by mx.groups.io with SMTP id smtpd.web11.10761.1689305118253021958
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jul 2023 20:24:16 -0700
+ Thu, 13 Jul 2023 20:25:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=NL6Iq8b/;
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=C5l7zGyc;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6559a1e11a=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36E32W3M029621;
-	Fri, 14 Jul 2023 03:24:15 GMT
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36E3OIRa020141;
+	Fri, 14 Jul 2023 03:25:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=5HY5dJ65u24V+SXjao
-	7KzgoglwlBgGE1rioXBdersa0=; b=NL6Iq8b/jJB5HC1IZpAEVQ0rmpbnvmJK56
-	3bNNkurNoL5Zv4YPxf+1EBZ7gsbIINQ0gXAcyqnkKL8fO2qeGej4yGkHCiJht/rI
-	ckAZCu4Ir3JLODTYb1if16gy/26y5xyOPwOYha++J15mw1WKitma4PYoFGuKFOOy
-	GKyDvOekUAYuo+hNz3gmFN69Z+GgtMuMyPimn1YpomqvD6BThnuuOefQ5WkakYmu
-	iDbbYKHBSZe7UGhb6RNDmWvN5Kd60trpJu23yX6+3riuvmjPazoeh+uMk9YcDyBK
-	pC3GoyJrnrTrYGUv1NBusLQTPLY68SnilUIGoy+rzVp6pfIx3mvw==
+	:content-transfer-encoding; s=PPS06212021; bh=176O93EKZ6f6hTpAZp
+	bLXQdK7liLQOPl687fkYwoZMA=; b=C5l7zGyc5bnNldV/h4qW1l/RSnPvPn6Yxj
+	pIvD/LBOLzCmD4swHC3H2Q+ECw3ZJko6nu3lDlm1XMAsr03ugVkbfnywCDaduyPZ
+	UArwXKDQtPeT808zlPoh80adej+T9WLHlxnZvbHIFpgGQg7lIuNa/ytgyCCHGmS1
+	MCMcvCl0Rmb0CBXt+zUZoPHbx4GMeRgi+YHKGQK0IqENbovBwXFOmRinyz9INnTe
+	7KsPLGXaHyXXZVAq2oUNQyJQueAT6ZZ/aAOl1aZ6zej3fcXRTNFFzsT5YkpxiIrS
+	1HqJ7OBOowPnP2r/nYTftek2EDvKUO3KywFSxxUZjPp0A3vtst3Q==
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rtpun8c8e-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rtpujrc6x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 14 Jul 2023 03:24:15 +0000 (GMT)
+	Fri, 14 Jul 2023 03:25:17 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 13 Jul 2023 20:24:13 -0700
+ 15.1.2507.27; Thu, 13 Jul 2023 20:25:15 -0700
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Thu, 13 Jul 2023 20:24:12 -0700
+ 15.1.2507.27 via Frontend Transport; Thu, 13 Jul 2023 20:25:14 -0700
 From: Soumya <soumya.sambu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>, <Hari.GPillai@windriver.com>,
         Soumya
 	<soumya.sambu@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] perl: Fix CVE-2023-31486
-Date: Fri, 14 Jul 2023 03:21:39 +0000
-Message-ID: <20230714032139.1143418-1-soumya.sambu@windriver.com>
+Subject: [oe-core][PATCH 1/1] perl: Fix CVE-2023-31486
+Date: Fri, 14 Jul 2023 03:25:10 +0000
+Message-ID: <20230714032510.1727852-1-soumya.sambu@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="y"
-X-Proofpoint-ORIG-GUID: HJ94WvEIecxWf7eLZFu5PalS2cO4y9T4
-X-Proofpoint-GUID: HJ94WvEIecxWf7eLZFu5PalS2cO4y9T4
+X-Proofpoint-GUID: ZaUg4FCo_RVQctqM6fMRiiHimADMSzSw
+X-Proofpoint-ORIG-GUID: ZaUg4FCo_RVQctqM6fMRiiHimADMSzSw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-13_12,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
- malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 phishscore=0 priorityscore=1501 clxscore=1011 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
- definitions=main-2307140029
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 malwarescore=0 clxscore=1015 phishscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307140029
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36E32W3M029621
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36E3OIRa020141
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 03:24:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184249
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 03:25:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184250
 
 HTTP::Tiny before 0.083, a Perl core module since 5.13.9 and available
 standalone on CPAN, has an insecure default TLS configuration where
@@ -78,10 +78,10 @@ https://github.com/chansen/p5-http-tiny/commit/a22785783b17cbaa28afaee4a0=
 
 Signed-off-by: Soumya <soumya.sambu@windriver.com>
 ---
- .../perl/files/CVE-2023-31486-0001.patch      | 215 ++++++++++++++++++
+ .../perl/files/CVE-2023-31486-0001.patch      | 217 ++++++++++++++++++
  .../perl/files/CVE-2023-31486-0002.patch      |  36 +++
- meta/recipes-devtools/perl/perl_5.34.1.bb     |   2 +
- 3 files changed, 253 insertions(+)
+ meta/recipes-devtools/perl/perl_5.36.1.bb     |   2 +
+ 3 files changed, 255 insertions(+)
  create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0001.=
 patch
  create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0002.=
@@ -90,16 +90,17 @@ patch
 diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch b=
 /meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
 new file mode 100644
-index 0000000000..59caf1a129
+index 0000000000..1074e0848d
 --- /dev/null
 +++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
-@@ -0,0 +1,215 @@
+@@ -0,0 +1,217 @@
 +From 77f557ef84698efeb6eed04e4a9704eaf85b741d
 +From: Stig Palmquist <git@stig.io>
 +Date: Mon Jun 5 16:46:22 2023 +0200
 +Subject: [PATCH] Change verify_SSL default to 1, add ENV var to enable
-+ insecure default - Changes the `verify_SSL` default parameter from `0` =
-to `1`
++ insecure default
++
++- Changes the `verify_SSL` default parameter from `0` to `1`
 +
 +  Based on patch by Dominic Hargreaves:
 +  https://salsa.debian.org/perl-team/interpreter/perl/-/commit/1490431e4=
@@ -136,15 +137,15 @@ t/77f557ef84698efeb6eed04e4a9704eaf85b741d]
 +
 +diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/T=
 iny.pm
-+index 5803e45..1808c41 100644
++index 83ca06d..ebc34a1 100644
 +--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
 ++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-+@@ -39,10 +39,14 @@ sub _croak { require Carp; Carp::croak(@_) }
-+ #pod   C<$ENV{no_proxy}> =E2=80=94)
++@@ -40,10 +40,14 @@ sub _croak { require Carp; Carp::croak(@_) }
 + #pod * C<timeout> =E2=80=94 Request timeout in seconds (default is 60) =
 If a socket open,
-+ #pod   read or write takes longer than the timeout, an exception is thr=
-own.
++ #pod   read or write takes longer than the timeout, the request respons=
+e status code
++ #pod   will be 599.
 +-#pod * C<verify_SSL> =E2=80=94 A boolean that indicates whether to vali=
 date the SSL
 +-#pod   certificate of an C<https> =E2=80=94 connection (default is fals=
@@ -164,10 +165,9 @@ f set to 1.
 ++#pod   Only effective if C<verify_SSL> is not set. Added in version 0.0=
 83.
 + #pod
-+ #pod Passing an explicit C<undef> for C<proxy>, C<http_proxy> or C<http=
-s_proxy> will
-+ #pod prevent getting the corresponding proxies from the environment.
-+@@ -108,11 +112,17 @@ sub timeout {
++ #pod An accessor/mutator method exists for each attribute.
++ #pod
++@@ -111,11 +115,17 @@ sub timeout {
 + sub new {
 +     my($class, %args) =3D @_;
 +
@@ -189,7 +189,7 @@ s_proxy> will
 +         no_proxy     =3D> $ENV{no_proxy},
 +     };
 +
-+@@ -131,6 +141,13 @@ sub new {
++@@ -134,6 +144,13 @@ sub new {
 +     return $self;
 + }
 +
@@ -206,7 +206,7 @@ AULT=3D1
 + sub _set_proxies {
 +     my ($self) =3D @_;
 +
-+@@ -1038,7 +1055,7 @@ sub new {
++@@ -1055,7 +1072,7 @@ sub new {
 +         timeout          =3D> 60,
 +         max_line_size    =3D> 16384,
 +         max_header_lines =3D> 64,
@@ -215,7 +215,7 @@ AULT=3D1
 +         SSL_options      =3D> {},
 +         %args
 +     }, $class;
-+@@ -2009,11 +2026,11 @@ proxy
++@@ -2043,11 +2060,11 @@ proxy
 + timeout
 + verify_SSL
 +
@@ -224,17 +224,15 @@ AULT=3D1
 +
 + Direct C<https> connections are supported only if L<IO::Socket::SSL> 1.=
 56 or
-+ greater and L<Net::SSLeay> 1.49 or greater are installed. An exception =
-will be
-+-thrown if new enough versions of these modules are not installed or if =
-the SSL
-++thrown if new enough versions of these modules are not installed or if =
-the TLS
++ greater and L<Net::SSLeay> 1.49 or greater are installed. An error will=
+ occur
++-if new enough versions of these modules are not installed or if the SSL
+++if new enough versions of these modules are not installed or if the TLS
 + encryption fails. You can also use C<HTTP::Tiny::can_ssl()> utility fun=
 ction
 + that returns boolean to see if the required modules are installed.
 +
-+@@ -2021,7 +2038,7 @@ An C<https> connection may be made via an C<http> =
++@@ -2055,7 +2072,7 @@ An C<https> connection may be made via an C<http> =
 proxy that supports the CONNEC
 + command (i.e. RFC 2817).  You may not proxy C<https> via a proxy that i=
 tself
@@ -245,7 +243,7 @@ tself
 +
 + =3Dover 4
 +
-+@@ -2035,24 +2052,17 @@ Verification of server identity
++@@ -2069,24 +2086,17 @@ Verification of server identity
 +
 + =3Dback
 +
@@ -296,7 +294,7 @@ will
 + Certificate verification requires a file containing trusted CA certific=
 ates.
 +
-+@@ -2060,9 +2070,7 @@ If the environment variable C<SSL_CERT_FILE> is pr=
++@@ -2094,9 +2104,7 @@ If the environment variable C<SSL_CERT_FILE> is pr=
 esent, HTTP::Tiny
 + will try to find a CA certificate file in that location.
 +
@@ -312,7 +310,7 @@ he
 +
 + If that module is not available, then HTTP::Tiny will search several
 + system-specific default locations for a CA certificate file:
-+@@ -2081,13 +2089,33 @@ system-specific default locations for a CA certi=
++@@ -2115,13 +2123,33 @@ system-specific default locations for a CA certi=
 ficate file:
 +
 + /etc/ssl/ca-bundle.pem
@@ -339,8 +337,8 @@ ficate file:
 ++
 + =3Dback
 +
-+ An exception will be raised if C<verify_SSL> is true and no CA certific=
-ate file
++ An error will be occur if C<verify_SSL> is true and no CA certificate f=
+ile
 + is available.
 +
 +-If you desire complete control over SSL connections, the C<SSL_options>=
@@ -354,7 +352,7 @@ ons>
 ny. For
 + example, to provide your own trusted CA file:
 +
-+@@ -2097,7 +2125,7 @@ example, to provide your own trusted CA file:
++@@ -2131,7 +2159,7 @@ example, to provide your own trusted CA file:
 +
 + The C<SSL_options> attribute could also be used for such things as prov=
 iding a
@@ -418,16 +416,16 @@ AULT=3D1
 + sub _set_proxies {
 +--
 +2.40.0
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-dev=
-tools/perl/perl_5.34.1.bb
-index e0ee006e50..db306d0be3 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
-@@ -19,6 +19,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.ta=
+diff --git a/meta/recipes-devtools/perl/perl_5.36.1.bb b/meta/recipes-dev=
+tools/perl/perl_5.36.1.bb
+index 3db1d9c6ae..87768cc7f7 100644
+--- a/meta/recipes-devtools/perl/perl_5.36.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.36.1.bb
+@@ -18,6 +18,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.ta=
 r.gz;name=3Dperl \
+            file://determinism.patch \
             file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-det=
 erm.patch \
-            file://0001-Fix-build-with-gcc-12.patch \
             file://CVE-2023-31484.patch \
 +           file://CVE-2023-31486-0001.patch \
 +           file://CVE-2023-31486-0002.patch \
