@@ -1,109 +1,89 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <mhalstead@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CBABEB64DC
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 17:05:36 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.739.1689354330953966389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A99C00528
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 17:47:26 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.1700.1689356843476493472
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 10:05:31 -0700
+ Fri, 14 Jul 2023 10:47:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=NRpPm5rZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b700e85950so32400061fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 10:05:30 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=Yo5BAL0t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.214.174, mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1b9cdef8619so14158125ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 10:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689354329; x=1691946329;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YQ3fe/p4z/8x6cGsAPIxhedhEoa8RfQ83FZBGpeXA7Q=;
-        b=NRpPm5rZM1B7BEKbPhceO4edbWHflFF/UapCberdWLVfGFcJpa8KHEqCGs1CGHcaPF
-         2lZ8R6YHRiYPb1jUvIsLvvQqDlaCxwmAzN1o3u1Hic3CnlbI5RBDWeaBoWlBG7bQUdrk
-         YwJIF6/ocyODD92+FS0oI4+hd9LObIzF6Oy066Z9fmjrvWLp+0smCU9BKSXRs7mzH5tp
-         O8bemn22KSxubNTvO6JJ6iBsHrt5kGL5zzNqzldZ8ll84YCe6v8GY3mV8bEJ24CQSApR
-         RFXsepWJtfHkud/g4783zlzI2VNjbcXGZrusQ8lpE0Yfqxkk18ZqQlXmvSlnhZKdYZ5n
-         zikg==
+        d=linuxfoundation.org; s=google; t=1689356842; x=1691948842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eRrHSIjeM/JHAzvXDVJGv28h0pfHdF/Z+Hz8Wqz+00U=;
+        b=Yo5BAL0tODu1q+gytSuKincyvmjsZFCddfMihZPbCLjJhTw3DzLgYgU1ydiheihZOc
+         Ky6ZDOq1oy3rI/65YX6mLhUbY+e2/fZUh0Kbc+MyUU4lc8aGOVdV4Lf+FEl1iVPi5HAA
+         4v1hXehJ7cmQ4fqC74BZ4zb/rS8UpQ8Af55vU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689354329; x=1691946329;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YQ3fe/p4z/8x6cGsAPIxhedhEoa8RfQ83FZBGpeXA7Q=;
-        b=gyvkMP175GQ/g1dQ+6lmPN3GnXGkW2iPCDR0WvSUCY01wKiMNLVRFHZ347LKXrPT2g
-         p5wGklbZXfRYipsmGR2EqgY/znz0ViQAmUOKIfgtm9oSCJ8uVIaofSwL2t2W3zr22iJS
-         wur4Qc+90DXiUM5AGFVnZ4Dm833j1LcEjogFx4T7h5SambSaOLguYBz4m4H7cnJJ/mE+
-         lr07DHKR6jBzN4SRM19jDRpSIfJetStlgYZveL9XuwluBGvEJZ+Vz9ovlOBOGKltZvhN
-         Dk5fqBpZ9w5VhBGH4NV1gz/hvX2Du0TU95iez9ZCEWZq9lNIKCBcNHwVBGyHcWV3bznA
-         u+4Q==
-X-Gm-Message-State: ABy/qLYM7xB2R9VkbYwo+GF7LS36QbwtDZGj6xijtB2FwQUZXFCRMiIA
-	3eiwOPE4dmuD8fBLUOftxQ1NE7MGMqo604RYF/M=
-X-Google-Smtp-Source: APBJJlG/oJGNfD42UrZ0q7al0dzeqbI7yps/E+eiGB2y7UqFu0on+NakB52KUeuDqh2zrrIOPqsQP4/UXkSisD4eDs4=
-X-Received: by 2002:a2e:3815:0:b0:2b7:1b76:2c98 with SMTP id
- f21-20020a2e3815000000b002b71b762c98mr4183638lja.10.1689354328876; Fri, 14
- Jul 2023 10:05:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689356842; x=1691948842;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eRrHSIjeM/JHAzvXDVJGv28h0pfHdF/Z+Hz8Wqz+00U=;
+        b=dVKvfAzAE/A8ynVH8j2b4eiQDJZ0o48cljL7xG0TktTWCVKdP7IhaiiWc2aYTamC6S
+         BOS/s/9G2Ue2WBiIZ+rU8ZSDwomPTx92jpWRAWIV9luchxGaS2saNoLFp7qf/r6Gj5Lk
+         yZ0rnnSqk95m2ToQa5QWgtAB+wAX91gtXpEEKLX1MD98ywz+g/SxD1ehaCEuuVF+WoxF
+         3tymvkbwJ2rVMjCsIAIdsHdHrs0wWt3CO+1J+eXb/KXOW4LQ+CW5pY9YubTN2OCK7/hu
+         D/qaB+HLPqtBR6yH9pVDG60T3Ly6UEj09KuHhGy8YRMgcZ1tXfF6M4lFgtVyDb+TuhDe
+         P9tw==
+X-Gm-Message-State: ABy/qLaVrSve14sIwCJhgNwfsWyyAu25fDYIYPRTcJnF1N5g0AJJEe9w
+	/c0aUia/oVujmvm6fv/uLBtNbtG0WLBqr3Kbsja6eQ==
+X-Google-Smtp-Source: APBJJlEpH6UFSzwF8Cpewf8a30CNNwRmpHk6mXXRXj/R6zmda4z+VZVO6MUCMcocvL2QFWEiNYD0tA==
+X-Received: by 2002:a17:902:b906:b0:1b8:936f:c34d with SMTP id bf6-20020a170902b90600b001b8936fc34dmr3674637plb.27.1689356842080;
+        Fri, 14 Jul 2023 10:47:22 -0700 (PDT)
+Received: from hd-yct-laptop.taild15c8.ts.net ([67.23.203.37])
+        by smtp.gmail.com with ESMTPSA id jk5-20020a170903330500b001b8b2fb52d4sm8062678plb.203.2023.07.14.10.47.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 10:47:21 -0700 (PDT)
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Subject: [OE-core][PATCH] resulttool/resultutils: allow index generaiton despite corrupt json
+Date: Fri, 14 Jul 2023 10:46:13 -0700
+Message-ID: <20230714174612.28140-2-mhalstead@linuxfoundation.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230714163219.86453-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20230714163219.86453-1-richard.purdie@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 14 Jul 2023 11:05:16 -0600
-Message-ID: <CAJdd5GYeuZGPnkLNMDVu1t3yD3VExptHmAr3Gno7wqYqTd4ikQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ptest-runner: Pull in parallel test fix
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 17:05:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184277
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 17:47:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184278
 
-May as well hold off on this. The current version of ptest-runner is
-completely incompatible with how oe-selftest parses ptest output, and
-it appears it has been that way for some time (at least since the
-change was made to stop buffering the output in the pipe).
+non-release indexes will continue to generate when test output is
+corrupted.
 
-On Fri, Jul 14, 2023 at 10:32=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Pull in the commit "runner: Correctly handle running parallel tests".
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/me=
-ta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> index 6f3104499f2..77e2b94f376 100644
-> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> @@ -7,7 +7,7 @@ HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.cgi/p=
-test-runner2/about/"
->  LICENSE =3D "GPL-2.0-or-later"
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D751419260aa954499f7abaabaa882=
-bbe"
->
-> -SRCREV =3D "8259375d306a8129f6c5d8528314496fc6ae1ca3"
-> +SRCREV =3D "07d8a676aa962ecc5ec264ec33b0074adf2a8733"
->  PV .=3D "+git${SRCPV}"
->
->  SRC_URI =3D "git://git.yoctoproject.org/ptest-runner2;branch=3Dmaster;pr=
-otocol=3Dhttps \
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184276): https://lists.openembedded.org/g/openembedde=
-d-core/message/184276
-> Mute This Topic: https://lists.openembedded.org/mt/100144853/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
-EWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+---
+ scripts/lib/resulttool/resultutils.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index 7666331ba2..c5521d81bd 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -58,7 +58,11 @@ def append_resultsdata(results, f, configmap=store_map, configvars=extra_configv
+             testseries = posixpath.basename(posixpath.dirname(url.path))
+         else:
+             with open(f, "r") as filedata:
+-                data = json.load(filedata)
++                try:
++                    data = json.load(filedata)
++                except json.decoder.JSONDecodeError:
++                    print("Cannot decode {}. Possible corruption. Skipping.".format(f))
++                    data = ""
+             testseries = os.path.basename(os.path.dirname(f))
+     else:
+         data = f
+-- 
+2.41.0
+
 
