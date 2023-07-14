@@ -1,111 +1,109 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <trini@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADFB8EB64DC
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 18:05:26 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.2122.1689357922622497682
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF21C0015E
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 21:37:32 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web11.375.1689370643752286515
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 11:05:22 -0700
+ Fri, 14 Jul 2023 14:37:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MZSZO13C;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: festevam@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1b06d1f3868so435699fac.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 11:05:22 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=E6RlHq7C;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.169, mailfrom: trini@konsulko.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579ed2829a8so24191527b3.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 14:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689357921; x=1691949921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZwcHJlWBinTPOSDc8cjuw4IOcjSvjrshnFnYDooqG0s=;
-        b=MZSZO13Cf5DcuutmdhNyWLFyNIICKgTnW/Cp6RJCyp9hcaga79V2RVANzIlNjrhDVF
-         kx7ULz+wCeGMXtqUwSqrospHays66T4nyZprNI5nih78YvHRGGcJNjnZMH6LD8z9SlCv
-         grhqL9UOkliuTSZ8FObABKmTmauFQdCYoiY4Wf/4KoS82Ib2oQe5lIodkfN6gt1FunKq
-         t5iOminamtqkCVpuhbI1VEBJtYDyYUj19X5sTzorozoY4+AwZpwQG/0GhLvoxOJp8bfc
-         Zl2JHPVkYlQUAyuFdueWXTA+L9HRTMMNWCJtO/LOegVRwwANmbaIgqWqzNnUG517nMso
-         xCLg==
+        d=konsulko.com; s=google; t=1689370643; x=1691962643;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zihUJ6UAUGw6j/ftWF4ju8GIx6zx7n4X000qUrEoB/4=;
+        b=E6RlHq7CobQQ55xeUQEsQJlURf/maSWtSroYs1uEgipdAByeUR+BhkrWNjEph58Qet
+         Xe5wCRupu0nFCeswm5gd4j6rFs7K5SYsJZ5k/PefMLkyahBoXK882ic35RpC6kC/OCoM
+         8xmIVQqZF+ZMnPoD8NBRdXaGr4mOkOurAJRE4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689357921; x=1691949921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZwcHJlWBinTPOSDc8cjuw4IOcjSvjrshnFnYDooqG0s=;
-        b=KbKYG2TCRL9ZbhcMZ7o28cTD11+2cVlXraDPPtc47NANyeOJeVn9q5yvnOrUujR3c0
-         t352jfrp8GiX5oQh8TVPlby5V64ujYC0GjAbxdLstqGMmzfLwvZrVJY1sUDLIvki4AnR
-         R8Hw6t0O5opDmL0frNgxG2g8ysxfurZWVr0gv8zTa9Pbb1q+GbSn1YGeyQxA7HK7FWyj
-         9mMw4VCwEW/XX+0yyDoHA5SyrnM2YpdloLIZAFn2Djm9peEPTHOPeBrXIvBGqvg4wAhP
-         XhboOM7Fms67+ZIEffx+qLK8xCyte1GfRyLDcGXPC3UXtTgmRVHufPcstZbThOytSmj9
-         N1gw==
-X-Gm-Message-State: ABy/qLasf9c8PSdSivlZ4Q2qb5Vtz8vgYEkMiHC3m50F6SEqVq+YkqGC
-	81+NnhZ+SUxSWjO5jaGANRhRW9xhcxZ8FQ==
-X-Google-Smtp-Source: APBJJlGTJr6ay4+zJH1CjruJLKbqD5KStQi73/lytlZG34jeF9eoONzboFlYXN0RTccO/+NhAhQeRA==
-X-Received: by 2002:a05:6870:c1d4:b0:1b3:935b:165e with SMTP id i20-20020a056870c1d400b001b3935b165emr5573235oad.4.1689357921544;
-        Fri, 14 Jul 2023 11:05:21 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:313d:de97:6253:5730])
-        by smtp.gmail.com with ESMTPSA id k5-20020a056870350500b001acfd23ca84sm4239951oah.6.2023.07.14.11.05.19
+        d=1e100.net; s=20221208; t=1689370643; x=1691962643;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zihUJ6UAUGw6j/ftWF4ju8GIx6zx7n4X000qUrEoB/4=;
+        b=PUVivEj3yQbSv+SllxbJjqFtyOp77rAcz8jRqZbVPUOeJO9vddzx/ewAFpYFNz1+gw
+         57ukuQjrYSMlVp5mRBB2lW029MPkryjrUo/rUqpY0loKKWRCMGVaXm60Oe9AWPRf5f1P
+         WNTBeggWItEy9FAN96e9ySPp3LmtTW1xp1xOyPJlWr/QNJC/pCfBJk6vs5rUli7SCLUt
+         aPm2C0QN6Pd1IGUXtKbokAYQesE02V7AFJoFgnjTHNpcIUUh7fYy1o0v5cL0LiVFwSXU
+         XkhMh0LOExOVDhG6QRcroHghwBsD3Z5bEjVJ0lj1tdkby8SQUWZNtuDKhh2x7FUReu+k
+         rIKw==
+X-Gm-Message-State: ABy/qLYHJfCdmQWO2q8ndpr8dF864NeAuluePqvUBb+WsIFNxBNFnLsM
+	NTMmHN2TlahD/bz6ctfzIgPbVg==
+X-Google-Smtp-Source: APBJJlF9Q/nDsOLZdsgH3A+v9QpBQuhDyj4U/85+tFbKov4cU7GTWrmQiOJ+8Gq5iekdJns0M8kmbA==
+X-Received: by 2002:a0d:e292:0:b0:570:81f1:7b49 with SMTP id l140-20020a0de292000000b0057081f17b49mr6080071ywe.6.1689370642951;
+        Fri, 14 Jul 2023 14:37:22 -0700 (PDT)
+Received: from bill-the-cat (2603-6081-7b00-6400-24ee-6309-f4be-c2ad.res6.spectrum.com. [2603:6081:7b00:6400:24ee:6309:f4be:c2ad])
+        by smtp.gmail.com with ESMTPSA id y80-20020a0dd653000000b0055a21492192sm2525283ywd.115.2023.07.14.14.37.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 11:05:20 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: marex@denx.de,
-	alex.kanavin@gmail.com,
+        Fri, 14 Jul 2023 14:37:22 -0700 (PDT)
+Date: Fri, 14 Jul 2023 17:37:19 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>,
+	openembedded-core@lists.openembedded.org, marex@denx.de,
 	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2] u-boot: Upgrade to 2023.07.02
-Date: Fri, 14 Jul 2023 15:05:14 -0300
-Message-Id: <20230714180514.36423-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [OE-core] [PATCH 1/2] u-boot: Switch to nobranch=1
+Message-ID: <20230714213719.GX2066889@bill-the-cat>
+References: <20230714161823.20685-1-festevam@gmail.com>
+ <CANNYZj-8RV6tz_7kEH6uz=yZeyd=bPts6AoBqTd5DL3rGGu+yg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SJB3M9UEVKdg++zf"
+Content-Disposition: inline
+In-Reply-To: <CANNYZj-8RV6tz_7kEH6uz=yZeyd=bPts6AoBqTd5DL3rGGu+yg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 18:05:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184280
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 21:37:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184281
 
-From: Fabio Estevam <festevam@denx.de>
 
-Upgrade to U-Boot 2023.07.02.
+--SJB3M9UEVKdg++zf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The U-Boot 2023.07.02 tag is not in the master branch, so switch the branch
-from master to u-boot-2023.07.y.
+On Fri, Jul 14, 2023 at 07:53:03PM +0200, Alexander Kanavin wrote:
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v1:
-- Do not use nobranch and squash the two changes (Alexander).
+> It's not in master branch, but it is in a branch, so please do not use
+> nobranch, and just adjust the branch parameter together with the
+> version update:
+> https://source.denx.de/u-boot/u-boot/-/commit/83cdab8b2c6ea0fc0860f8444d0=
+83353b47f1d5c
 
- meta/recipes-bsp/u-boot/u-boot-common.inc                     | 4 ++--
- .../{u-boot-tools_2023.07.bb => u-boot-tools_2023.07.02.bb}   | 0
- .../u-boot/{u-boot_2023.07.bb => u-boot_2023.07.02.bb}        | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2023.07.bb => u-boot-tools_2023.07.02.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2023.07.bb => u-boot_2023.07.02.bb} (100%)
+Won't this just make more churn later? The v2023.10 tag will be back on
+master (and we'll assume I don't goof it up), but if any of the "maybe
+we do an LTS? Hmm?" work comes through, then we start having to change
+things there, and then maybe can't as easily share inc files between
+something that tracks LTS and something that doesn't.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 56f9be0107..111914827d 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,9 +12,9 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "05aa6516c6bb419d01d69fac457c0de563bfd694"
-+SRCREV = "83cdab8b2c6ea0fc0860f8444d083353b47f1d5c"
- 
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=u-boot-2023.07.y"
- 
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.02.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2023.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2023.07.02.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2023.07.bb b/meta/recipes-bsp/u-boot/u-boot_2023.07.02.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2023.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2023.07.02.bb
--- 
-2.37.3
+--=20
+Tom
 
+--SJB3M9UEVKdg++zf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmSxwAkACgkQFHw5/5Y0
+tyz8bgv/QCQbyEgFhmrFGryogh9IpyuIPQLYKJplU4d52UQFBdv0778dudLDidvY
+lB5rqbSOhrd3ja6+mw7B9mHZJzZmsqhPvgfq7nt7fFJ4hPcMSnJZSVz/NGMnVY+2
+H80wwZXW34C+it6soeZ/h9s7AIfhBvmd88jLrWhoW5eZG1c9sLJnmju+4jpaJ4TF
+nDCVDeWTcfZJG8HzOrtV5a/dXfpjchFowjbuZZd0dMECDTqWCMhdwxWZQP6KFDam
+Fh6CJ6IXyaziH/yIKx80XfMIX7F8ZMMJp63o6715NcJTg3sgB9ElbzRKpVKFgb1H
+c1Az+4NJh30jy+RPEorZ76aFseDaMQNcnayJl9QUQJQZQ0d0mMBJ5b0b3+dzg0+B
+R8KIq2W0Kc7m68TCLVvpHiMysHgdHR5OY8A5IHIYopLReSILUQ/owncTCYYrlR9i
+flx2eK3t9JWa/Okxup5dqsWVOJAyGntRIw4Bbb5MQZpdW47zgQu5w7DjQHULkYnt
+IeiBhCGo
+=0lBB
+-----END PGP SIGNATURE-----
+
+--SJB3M9UEVKdg++zf--
 
