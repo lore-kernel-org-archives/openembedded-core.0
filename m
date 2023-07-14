@@ -1,152 +1,175 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC7CEB64DA
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 13:24:13 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.41])
- by mx.groups.io with SMTP id smtpd.web10.19090.1689341048738471740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C51F4EB64DA
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 13:34:23 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.19391.1689341657918992824
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 06:24:09 -0700
+ Fri, 14 Jul 2023 06:34:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=gbLmUujp;
- spf=pass (domain: arm.com, ip: 40.107.7.41, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vNpZ82E2W+fX8KUitVhOaapqkXATe/2W76yldeQR8zc=;
- b=gbLmUujp/9bWqVo+e78e/8xAdE3+fX5eOa2FAbdZd5dWwTFAKaEcL58Gu/KMfN4TP6OS/7UfZobceoocalX42BOcMCwSRWOB1tv+UfQKjJjN5OtBX2oHPGiOsEK2zEc0qODWDyMELA+cByYIybk3jEMTEwbElQUp0s0iRh/RnUo=
-Received: from AS4PR09CA0019.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::10)
- by AS8PR08MB6085.eurprd08.prod.outlook.com (2603:10a6:20b:294::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 13:24:05 +0000
-Received: from AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:5d4:cafe::5e) by AS4PR09CA0019.outlook.office365.com
- (2603:10a6:20b:5d4::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.26 via Frontend
- Transport; Fri, 14 Jul 2023 13:24:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT016.mail.protection.outlook.com (100.127.140.106) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6588.24 via Frontend Transport; Fri, 14 Jul 2023 13:24:04 +0000
-Received: ("Tessian outbound ba2f3d95109c:v145"); Fri, 14 Jul 2023 13:24:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 481228da29a628f6
-X-CR-MTA-TID: 64aa7808
-Received: from 1b68cec1acfc.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 89CC651D-278D-4CD4-A3B3-CF15F4B28A07.1;
-	Fri, 14 Jul 2023 13:23:57 +0000
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1b68cec1acfc.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 14 Jul 2023 13:23:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nVuPZQbP33PEK4BbwDdoqI/P0aBTDuqU6t1JDePWQzYV0cFFq3McTCAHOwYJ38kOHvzOEF4X1FQEGjyJuLi/DXCysJLW5QiquBRgPpmI7sJTsExmK+aXzqU2ixo4AfE3zEsv7HWm5sCTSepfQZoTv55GV5LlOnU7fRqssZrpuq1WCYrBUtjtSa6mXt+pAzZVXeOXcMWc6XCcXchEx8VvXbuxjWFIHBK3kzYcHxN/P23amTomSy2rstQekPaCg4C9w8BUTOeGeYhn02xfYKoLK1d6CsTwsgtOJHczk7+MBdwNJaNr2PF5ELNYaxu+6F/LOPhgqYe95wbKV+mfBkiaTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vNpZ82E2W+fX8KUitVhOaapqkXATe/2W76yldeQR8zc=;
- b=hq/68mEzCHLQrSzoK+bEjmauVBEvMa+SJoRyN3xG8M5gpXymfh7oT2WE5Y0Mxwvv+nismgoIKEzQq6pkSixXP7iX7CfSK5VnurhcylLsZ/AfwWbYgo74K4s6mi/CwM9jcsm+yeyZfxO0L00DISqrU7eUA0UkXznn5wXPQhEMSGmWRyodej3AZlvwFOridAimmmKeuXC6HIzTnpv2aHq6t5Lpqboubooqc5xAaPKZj1vnQPxgNsxxv3kFPLUoFRJRvqAU4ImKYsb2+pwtzeolJm9j6eg1c8COJX8JQo65MY+Gmf1RYi0TiY1AyjH/ua7g92aQ84sZSETHHZLc0fUf5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vNpZ82E2W+fX8KUitVhOaapqkXATe/2W76yldeQR8zc=;
- b=gbLmUujp/9bWqVo+e78e/8xAdE3+fX5eOa2FAbdZd5dWwTFAKaEcL58Gu/KMfN4TP6OS/7UfZobceoocalX42BOcMCwSRWOB1tv+UfQKjJjN5OtBX2oHPGiOsEK2zEc0qODWDyMELA+cByYIybk3jEMTEwbElQUp0s0iRh/RnUo=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PA4PR08MB6032.eurprd08.prod.outlook.com (2603:10a6:102:e4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 13:23:56 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::30b4:3110:b02d:7f21]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::30b4:3110:b02d:7f21%7]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 13:23:56 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: =?utf-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-CC: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] rpmbuild doesn't work on the target system out of the
- box with standard macros in the specfile
-Thread-Topic: [OE-core] rpmbuild doesn't work on the target system out of the
- box with standard macros in the specfile
-Thread-Index: AQHZtlJJ9ixOyvzoqk+IVOFL1szdAK+5QDEA
-Date: Fri, 14 Jul 2023 13:23:56 +0000
-Message-ID: <98E1AB5A-E531-457D-97B5-CFFD1C4A1103@arm.com>
-References: <d8337e11-0727-a5cb-d3db-1cd6b5ad9190@gmail.com>
-In-Reply-To: <d8337e11-0727-a5cb-d3db-1cd6b5ad9190@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.600.7)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PA4PR08MB6032:EE_|AM7EUR03FT016:EE_|AS8PR08MB6085:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b3da3f0-b5c3-4c3c-2f34-08db846d9844
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- VBlTF09C8HxSZdLDKJuq9xg4pHJBHRL3nWCOScukeXJvft4ZBarGXjwclJxy7YjzEDrrWTR3rfj8i2M9PG7B5awiIoygHpJnS7fUe9VP39qmLfAUj0w7ccVax+nDYgU5+eswRCn5Y0euqg8DDYLUTQwWAA3VtL9UFIxq5KV1dHMcxcLZZ71JOJoDkcFcIcEmJCc71wyL/l0LEIxNKCF5OTxIZXQ3S/8FrWtqQ6VG3dohjbAU6EkAGZ2LXcrW3nB79vET2/1xeClfLShFBrKg+KjD2YnZu1/11e1szD/RLr+e8IDbyqN5eM5/D9qRpI/EpRp5LaJnep34DSzptty43qMO394AsRtw0E9SN3psuRghJXNOOIgDljdoCMaQcOk2PwwAgs0a2Sg4ClSQpMKowgAw2x5GpC+22+lKi1IRFWrq/lVlPlEopiA+ORaRv8tX6Jj48+1IuvFNHCyYeBKcPR+BBIGPnzsH2WB+ED97jM+28EbCk7GeipaVytx3SLwtHYSQU/hI1YL43zmnWTjpPOHaII4YiFFte83gaV0M7AcCj3+jWGrfwWMhiiTideYxiPyu9U7WDoTggEGGl9cIxgWOUWu8EyiudTad4DGDxlyxyhm+Ws6tlj3Y2yfYwt6HxaoCClfq8BKcpqZA8C3lLA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199021)(6512007)(6486002)(71200400001)(33656002)(186003)(2616005)(36756003)(122000001)(38100700002)(38070700005)(86362001)(53546011)(26005)(6506007)(66946007)(66446008)(64756008)(66476007)(76116006)(66556008)(6916009)(4326008)(91956017)(41300700001)(5660300002)(8936002)(316002)(8676002)(2906002)(478600001)(4744005)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E1834753FD564D48900D14B1CE016EAC@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OeByWpjc;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-785cbc5bfd2so75396739f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 06:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689341657; x=1691933657;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zyMAV70cX4PS4zRIE67PGESKdl711UpfQa5YyCW8wc4=;
+        b=OeByWpjcztJryc46mB+rg9YtmMn0y4BQWNkCpmHcJYP6kJYGZPnxbITAvIetVmP8+v
+         rO1p8NFCF1D9pW9oC+rvE/vU0HFmw8ar6+q4LBU70tbOX+3kYLBIY3CVtkEymrkSL3LT
+         MAQ1unh7+ZG3k4wXNK9y2axOUad1OvdlRy9huaKp/8CWFMoakUAxWFv/O958oTk8Tx8d
+         0/qApTRojgfDcioz5OPWleBNNjyM7tyPJNsokafBG9tBO7EC++dnZvBmOckpHRBI9+Dv
+         jfDkkJfq10rEPu9NTbLCSMzT5B13SHzNAJawx5/QLHs7W8XJbJLTvWr6tLThfdEF5yP5
+         PmGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689341657; x=1691933657;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zyMAV70cX4PS4zRIE67PGESKdl711UpfQa5YyCW8wc4=;
+        b=abqCVPUmePOifG60lxPiOCUv7xJf8c0LWqNhQdhPWHBDnSfC7VMrB44RRD2WsfbQ1X
+         IQgVsKorPteC/xyVjIBipMBKLZSgu1iErVnN/B/QXBbFZzqcKu4iZX8oQcLmPAD6ACiZ
+         SiKC2GjvvumpceKN72EFfDtKtoH8ASNM508iWkwTv37FIyZNlJ5p7yp/17ws1koj6Hq+
+         1PgXHWZcR8ijX2DMGi2InHwLZGHw7MdlfiLwow9ipgaMLSRZU4y1ZcHDHnP/f4oYbll8
+         EhKWjJUgCGXnubEkavo1t4B1lAz7M2X6y6wZbnXrxZvA28mZ28B1rDApfQzhkkvx778u
+         H/tA==
+X-Gm-Message-State: ABy/qLYuQ98HDkpLySkA8Glt7HL711odF2StZte72LppfUfPPIC81Tpg
+	qzXAwj7FDrfvP7qDLzNgIm5Lkl/XdUw=
+X-Google-Smtp-Source: APBJJlHDG4uW6gZNc2sTahBMmvK5C5L8n4cUBuQ9BRGf/qbCoqsqS+WNxPkyQwAVECNTVi9XVEGL8g==
+X-Received: by 2002:a6b:e70c:0:b0:780:c787:637d with SMTP id b12-20020a6be70c000000b00780c787637dmr4682529ioh.17.1689341656891;
+        Fri, 14 Jul 2023 06:34:16 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id ed5-20020a056638290500b0042b27413760sm2528944jab.142.2023.07.14.06.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 06:34:16 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] go: update 1.20.5 -> 1.20.6
+Date: Fri, 14 Jul 2023 13:34:00 +0000
+Message-Id: <20230714133400.3463291-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6032
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	3930b4b5-218b-4c61-2d0c-08db846d938b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	OD5TZOxUwLA6aQaTnInuk7SMf9Q0adv8INem9ywtXAnnkRosnhxXBHkrq4l3N3QnVaVWW+oUPXewaPn6ZHXkNs3GNjfKGHYHc9xxN+6UJb6BL3w8Uh2NB1JFA8dPan/gQV8j8gom0vU6SGWpJGVeEcvclL8Zb2M2QvdZwlHA9I7+GqENza4WQ1diKkRNZcKC4ZHg/BHnHxY75bplbxMg3YU4u+ES7fo82XEh5IlmHUdNtbn7P6MLvn9rxq0KWtWXt3w6lTNfypbZgncACCPYiP6WRfk5464+D7nd6gVnpsUbU4V21fRyjHL0Fy/J9nfBhtsv4/AtbBV2/UsLWz7j2wYoqh6X40qoke4ij+OZyPLiF2u3ZOd+d6gTd/3OUqVhqv1oAE1Y5VnSYlwOEeGDvxylhFo/FNfYqYO1hPNMIoW9JCwBujDjcCFbEo7Y0ZVxOw371dzYsLYytcaVN2zJHM5eZbg6cV+uPrbMlrebR/HoJx2SuI3dTzTd++Vxqru0GqkPDHvy7Ii2dFBf97Wm17DLp4xqyEhIQKXZwm2nR1qJg6ckCuAAv60Fn473RBKJsvCr5hKi4vbewEW6J9AhOOZ7bxcF1UW21Ivh+P8HuS/op5aP77PPWVmPwnrCI8Z9fc+CVsmeG1ykOS3ZwJIsTFRs57FbbZ1yunb+U1pXQlbml6T8yQ/6fhpScvh5N//DVTB0MtfwVPdwXHX05o5zemRzS6bpaDxvKlulphZUf48=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(39860400002)(136003)(451199021)(46966006)(40470700004)(36840700001)(86362001)(4744005)(33656002)(82310400005)(36756003)(2906002)(40460700003)(40480700001)(47076005)(6512007)(36860700001)(186003)(6506007)(336012)(26005)(53546011)(82740400003)(356005)(6486002)(81166007)(70586007)(70206006)(4326008)(316002)(2616005)(6862004)(41300700001)(8676002)(478600001)(5660300002)(8936002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 13:24:04.3339
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b3da3f0-b5c3-4c3c-2f34-08db846d9844
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6085
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 13:24:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184262
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 13:34:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184263
 
-T24gMTQgSnVsIDIwMjMsIGF0IDEzOjUzLCBab2x0YW4gQm9zem9ybWVueWkgdmlhIGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcgPHpib3N6b3I9Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
-IHdyb3RlOg0KPiBJdCB3b3VsZCBiZSBuaWNlIGlmIFlvY3RvJ3MgcnBtIHJlY2lwZSBhZGRlZCB0
-aGUgcG9zc2libGUNCj4gYnVpbGRhcmNodHJhbnNsYXRlIGxpbmVzIGZvciBCU1AgdGFyZ2V0IGFy
-Y2hzIGF1dG9tYXRpY2FsbHkuDQoNCkFzIHlvdeKAmXJlIGluIHRoZSBwZXJmZWN0IHBvc2l0aW9u
-IHRvIHRlc3QgdGhpcywgd291bGQgeW91IGJlIHdpbGxpbmcgdG8gY29tZSB1cCB3aXRoIGEgcGF0
-Y2g/DQoNCkl0IG1pZ2h0IGJlIGFzIHNpbXBsZSBhcyBvbmx5IGNoYW5naW5nIHRoZSBtYWNybyBm
-aWxlcyBpbiBuYXRpdmUgYnVpbGRzLCBzbyB0aGUgdGFyZ2V0IHJwbSBoYXMgY29udmVudGlvbmFs
-IG1hY3Jvcy4gIFRoZW4gYWdhaW4gSSBkb27igJl0IGtub3cgbXVjaCBhYm91dCBSUE0gc28gbWF5
-IGJlIHdyb25nIQ0KDQpBIHRlc3QgY2FzZSB0aGF0IGRvZXMgYSBzaW1wbGUgYnVpbGQgdXNpbmcg
-cnBtIHdvdWxkIGJlIGEgZ29vZCBzdGVwIHRvby4NCg0KQ2hlZXJzLA0KUm9zcw==
+Upgrade to latest 1.20.x release [1]:
+
+$ git log --oneline go1.20.5..go1.20.6 origin/release-branch.go1.20
+2c358ffe97 (tag: go1.20.6, origin/release-branch.go1.20) [release-branch.go1.20] go1.20.6
+312920c00a [release-branch.go1.20] net/http: validate Host header before sending
+4db13d762b [release-branch.go1.20] runtime: set raceignore to zero when starting a new goroutine
+08a58dd8b6 [release-branch.go1.20] runtime: allow for 5 more threads in TestWindowsStackMemory*
+65092835c5 [release-branch.go1.20] cmd/go: skip TestScript/gccgo_link_ldflags on aix/ppc64
+bca817594c [release-branch.go1.20] crypto/x509: tolerate multiple matching chains in testVerify
+b8e67d1ddd [release-branch.go1.20] cmd/go/internal/test: don't wait for previous test actions when interrupted
+3db4f8146c [release-branch.go1.20] runtime: resolve checkdead panic by refining `startm` lock handling in caller context
+6b45fb7b73 [release-branch.go1.20] runtime: fallback to TEB arbitrary pointer when TLS slots are full
+be30960e58 [release-branch.go1.20] runtime: use 1-byte load for address checking in racecallatomic
+b59efe6c34 [release-branch.go1.20] net/mail: permit more characters in mail headers
+c32f1afb41 [release-branch.go1.20] all: make safe for new vet analyzer
+c7b145655b [release-branch.go1.20] cmd/go: fix tests for new builder environment
+03063101a2 [release-branch.go1.20] text/template: set variables correctly in range assignment
+d51e322a3f [release-branch.go1.20] go/printer: error out of Fprint when it would write a '//line' directive with a multiline file path
+49594244d3 [release-branch.go1.20] cmd/cover: error out if a requested source file contains a newline
+4719048211 [release-branch.go1.20] cmd/cgo: error out if the source path used in line directives would contain a newline
+6c606fc191 [release-branch.go1.20] cmd/go: fix TestScript/build_cwd_newline with CGO_ENABLED=0
+63ad2b5811 [release-branch.go1.20] cmd/compile: do not report division by error during typecheck
+95f377daad [release-branch.go1.20] cmd/go: retain extra roots to disambiguate imports in 'go mod tidy'
+a7a48fad7e [release-branch.go1.20] crypto/ecdsa: properly truncate P-521 hashes
+f5172dcd38 [release-branch.go1.20] go/build: check for invalid import paths again
+8b3acefcbe [release-branch.go1.20] cmd/go: omit checksums for go.mod files needed for go version lines more often in pre-1.21 modules
+1008486a9f [release-branch.go1.20] cmd/cgo: correct _cgo_flags output
+
+[1] https://github.com/golang/go/compare/go1.20.5...go1.20.6
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc}   | 2 +-
+ ...o-binary-native_1.20.5.bb => go-binary-native_1.20.6.bb} | 6 +++---
+ ...cross-canadian_1.20.5.bb => go-cross-canadian_1.20.6.bb} | 0
+ .../go/{go-cross_1.20.5.bb => go-cross_1.20.6.bb}           | 0
+ .../go/{go-crosssdk_1.20.5.bb => go-crosssdk_1.20.6.bb}     | 0
+ .../go/{go-native_1.20.5.bb => go-native_1.20.6.bb}         | 0
+ .../go/{go-runtime_1.20.5.bb => go-runtime_1.20.6.bb}       | 0
+ meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb}     | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.5.bb => go-binary-native_1.20.6.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.5.bb => go-cross-canadian_1.20.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.5.bb => go-cross_1.20.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.5.bb => go-crosssdk_1.20.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.5.bb => go-native_1.20.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.5.bb => go-runtime_1.20.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.20.5.inc b/meta/recipes-devtools/go/go-1.20.6.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.20.5.inc
+rename to meta/recipes-devtools/go/go-1.20.6.inc
+index 4e4e57d5cb..551171b255 100644
+--- a/meta/recipes-devtools/go/go-1.20.5.inc
++++ b/meta/recipes-devtools/go/go-1.20.6.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+-SRC_URI[main.sha256sum] = "9a15c133ba2cfafe79652f4815b62e7cfc267f68df1b9454c6ab2a3ca8b96a88"
++SRC_URI[main.sha256sum] = "62ee5bc6fb55b8bae8f705e0cb8df86d6453626b4ecf93279e2867092e0b7f70"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.5.bb b/meta/recipes-devtools/go/go-binary-native_1.20.6.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.20.5.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.20.6.bb
+index a98be4af1b..5b2f8f4352 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.5.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.6.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612"
+-SRC_URI[go_linux_arm64.sha256sum] = "aa2fab0a7da20213ff975fa7876a66d47b48351558d98851b87d1cfef4360d09"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "049b8ab07d34077b90c0642138e10207f6db14bdd1743ea994a21e228f8ca53d"
++SRC_URI[go_linux_amd64.sha256sum] = "b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1eb"
++SRC_URI[go_linux_arm64.sha256sum] = "4e15ab37556e979181a1a1cc60f6d796932223a0f5351d7c83768b356f84429b"
++SRC_URI[go_linux_ppc64le.sha256sum] = "a1b91a42a40bba54bfd5c96c23d72250e0c424038d0d2b5c7950b828b4905822"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.20.5.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.20.5.bb b/meta/recipes-devtools/go/go-cross_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.20.5.bb
+rename to meta/recipes-devtools/go/go-cross_1.20.6.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.20.5.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.20.6.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.20.5.bb b/meta/recipes-devtools/go/go-native_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.20.5.bb
+rename to meta/recipes-devtools/go/go-native_1.20.6.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.20.5.bb b/meta/recipes-devtools/go/go-runtime_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.20.5.bb
+rename to meta/recipes-devtools/go/go-runtime_1.20.6.bb
+diff --git a/meta/recipes-devtools/go/go_1.20.5.bb b/meta/recipes-devtools/go/go_1.20.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.20.5.bb
+rename to meta/recipes-devtools/go/go_1.20.6.bb
+-- 
+2.34.1
+
 
