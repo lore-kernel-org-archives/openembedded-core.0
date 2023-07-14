@@ -1,174 +1,99 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF48EB64DA
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 13:56:23 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.19836.1689342977408414662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA7BEB64DC
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 14:10:03 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.20270.1689343801981070889
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 06:56:19 -0700
+ Fri, 14 Jul 2023 07:10:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@mvista.com header.s=google header.b=a8r8CS2E;
- spf=pass (domain: mvista.com, ip: 209.85.215.181, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-54290603887so1116089a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 06:56:17 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=BJ6uCtHx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3141fa31c2bso1971547f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 07:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1689342976; x=1691934976;
+        d=gmail.com; s=20221208; t=1689343800; x=1691935800;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJ1PZNEMCATAt6dcL/EtPkqMLq1Z1nQO7Qm6QfhI0gU=;
-        b=a8r8CS2EfSREZ5GIFmOtw3oh6k9WgcpvUMwPYF6RCVqBkBONE/hJjifid+Og2Tb/3F
-         pMdzKDc88eSATyLWmrD+n4B1Z6SOA4L7O1lj/SIBaBYUO6q9APRfj+B42PMtmDq/7Rn9
-         h+IclEDFn/gQH+JCn7rnp/Bwi367rRt/P8Fxg=
+        bh=AH2aQu16C/6N57otlliaRtPGOY13+1ztuGdXc/4mykk=;
+        b=BJ6uCtHxAv/+Pl9ignzOpJ+i41GkNnEikyDmb+VUVJ81VRFz8rDmuSlmMcKx+P7w3b
+         +J3p9fN0dyUN/Jr7ZEbwyOe66ZEmC24N2tL5ZkKuWqum91zvNUnhm5gFWV8iNKedlOy4
+         zoo1OhttAeoYZO0xmhhXoqPjMmXsl4hHJKlNgo+USaUUZeaY1NkBH+kfsjHEC8gBj6DP
+         TOsa7i0PFtKlW/sBZR5Y60NRC3whqJhQc7DURwAOxn9UhYWBozmELz0iBHwMY1ryK8U3
+         82rHWh/um9xmTBbHggdTU2IlV3GDqBhdrvemU96AeAR7vfqaKzrsMXTBST9j5PujIZyi
+         1QNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689342976; x=1691934976;
+        d=1e100.net; s=20221208; t=1689343800; x=1691935800;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZJ1PZNEMCATAt6dcL/EtPkqMLq1Z1nQO7Qm6QfhI0gU=;
-        b=MPCTOvO2CBmBKgYjHzcunvRMohq/1xVda+yN0na6voLU4ZLfcnmqgVyN2jva7Lkk1O
-         MYit3dN7F1WwbBKCUMRZXoyxSxRV5WAkZmcVSGfb6ek2keXwTkFbLeBi83jD/3XVDfI4
-         fIy6aSiFGW9MDO8lO/4qRs2fl+ybCQbmtP7QqPjnfxRgnnMDZbwDrWckrNflQqlNzQKD
-         VUEO9fJAIGdjZ3wxehjnFYLrSTxPi6ZMH1s1p6wZbiLbyXqsVlnetN3sbAtjvCp3uOve
-         4hE0J+H/mcDlkNLqhs/Sz6KTqZkuvT0WYuuBXtmNB8UiylLfrirvB5TLbIah0OIhkqoM
-         48Qg==
-X-Gm-Message-State: ABy/qLbVIZiGF5zYf704O/idMiwRczFrY5c5cEXBjUtWo8wpKCmKzyTS
-	RRgpQOUo9N9HBWXmlGvMdEi4Qj8w9sIidLy0en8=
-X-Google-Smtp-Source: APBJJlEnFEzad7/8ATX/Va6EuPel5T1XRd3WO1PNCdvWTv8SycOlwL08UV2nB9UxIvZbRoDHMUCu1w==
-X-Received: by 2002:a17:90a:8407:b0:263:ebab:a152 with SMTP id j7-20020a17090a840700b00263ebaba152mr3193516pjn.19.1689342975397;
-        Fri, 14 Jul 2023 06:56:15 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([106.201.2.185])
-        by smtp.gmail.com with ESMTPSA id 20-20020a17090a199400b00263ba6a248bsm1250540pji.1.2023.07.14.06.56.12
+        bh=AH2aQu16C/6N57otlliaRtPGOY13+1ztuGdXc/4mykk=;
+        b=JTKlqkwNeJJGxW/tGbpVTJJuoC/lcqLsCP8WqunrvwMCBf6+AkvXUK2QvsdYuGnpZ1
+         XCyE9jQ9xkM/bos9juW4n2ltfbMfodDZD36faXqlsacwb5GJ5IfJq/1IphoxxnZzESOK
+         fNs5Dmo86gv1t2AOA570X8rZ5N68UckbXlgIPkla4hU//8wRntlqUKkT/8zX+A/JgNmP
+         4uZ6OjPHfwRjr3nnM9vCZ7qW1HJm6TZVssbiN8Hx19S0JpkJU4FBjZGNseSGJbUAY5hf
+         s4udJC9IgaDRYdCxz3MKALoxdcnIiqmeZ+QJmtwyocB2SMYeg/iI1bCb6CDNEJK5Hd35
+         SNNA==
+X-Gm-Message-State: ABy/qLbVoxYvcO4AU6ftud/K8E0JMwOlC/GB+kRpSq6wYKT9e92NVePg
+	j68QbeMh9ReEsBrsLSS68Af8tApCLP4=
+X-Google-Smtp-Source: APBJJlE+IQHNLb3lK0J01g7AYjXr0gBMdlhaxlO/gfTvcTBGshIv4itKREGM22dOTCBjF6eyxQ/0ng==
+X-Received: by 2002:a5d:4711:0:b0:314:1f6:2c24 with SMTP id y17-20020a5d4711000000b0031401f62c24mr4429821wrq.36.1689343799958;
+        Fri, 14 Jul 2023 07:09:59 -0700 (PDT)
+Received: from localhost.localdomain (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id t14-20020a5d690e000000b003112f836d4esm10933870wru.85.2023.07.14.07.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 06:56:14 -0700 (PDT)
-From: vanusuri@mvista.com
+        Fri, 14 Jul 2023 07:09:59 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] qemu: backport Debian patch to fix CVE-2023-0330
-Date: Fri, 14 Jul 2023 19:24:02 +0530
-Message-Id: <20230714135402.1664938-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH] eudev: Add group sgx to eudev package
+Date: Fri, 14 Jul 2023 15:09:55 +0100
+Message-Id: <20230714140955.28052-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 13:56:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184266
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 14:10:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184267
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Fix startup warning:
 
-import patch from ubuntu to fix
- CVE-2023-0330
+  udevd[171]: specified group 'sgx' unknown
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches?h=ubuntu/focal-security
-Upstream commit
-https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
+This mirrors the change in bab455cd9b1b ("systemd: add group sgx to udev
+package") for systemd-udev.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2023-0330.patch             | 77 +++++++++++++++++++
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8d6c4050f7..352277573b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -137,6 +137,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3409-4.patch \
-            file://CVE-2021-3409-5.patch \
-            file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
-+           file://CVE-2023-0330.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ meta/recipes-core/udev/eudev_3.2.12.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/udev/eudev_3.2.12.bb b/meta/recipes-core/udev/eudev_3.2.12.bb
+index 572ccecafd0c..4268bcc2c5de 100644
+--- a/meta/recipes-core/udev/eudev_3.2.12.bb
++++ b/meta/recipes-core/udev/eudev_3.2.12.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "ccdd64ec3c381d3c3ed0e99d2e70d1f62988c7763de89ca7bdffafa5ea
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
-new file mode 100644
-index 0000000000..26e22b4c31
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
-@@ -0,0 +1,77 @@
-+[Ubuntu note: remove fuzz-lsi53c895a-test.c changes since the file does not
-+ exist for this release]
-+From b987718bbb1d0eabf95499b976212dd5f0120d75 Mon Sep 17 00:00:00 2001
-+From: Thomas Huth <thuth@redhat.com>
-+Date: Mon, 22 May 2023 11:10:11 +0200
-+Subject: [PATCH] hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI
-+ controller (CVE-2023-0330)
+ GITHUB_BASE_URI = "https://github.com/eudev-project/eudev/releases"
+ 
+-inherit autotools update-rc.d qemu pkgconfig features_check manpages github-releases
++inherit autotools update-rc.d qemu pkgconfig features_check manpages github-releases useradd
+ 
+ CONFLICT_DISTRO_FEATURES = "systemd"
+ 
+@@ -85,3 +85,6 @@ pkg_postinst:${PN}-hwdb () {
+ pkg_prerm:${PN}-hwdb () {
+ 	rm -f $D${sysconfdir}/udev/hwdb.bin
+ }
 +
-+We cannot use the generic reentrancy guard in the LSI code, so
-+we have to manually prevent endless reentrancy here. The problematic
-+lsi_execute_script() function has already a way to detect whether
-+too many instructions have been executed - we just have to slightly
-+change the logic here that it also takes into account if the function
-+has been called too often in a reentrant way.
-+
-+The code in fuzz-lsi53c895a-test.c has been taken from an earlier
-+patch by Mauro Matteo Cascella.
-+
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1563
-+Message-Id: <20230522091011.1082574-1-thuth@redhat.com>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Thomas Huth <thuth@redhat.com>
-+
-+Reference: https://launchpad.net/ubuntu/+source/qemu/1:4.2-3ubuntu6.27
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2023-0330.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
-+CVE: CVE-2023-0330
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ hw/scsi/lsi53c895a.c               | 23 +++++++++++++++------
-+ tests/qtest/fuzz-lsi53c895a-test.c | 33 ++++++++++++++++++++++++++++++
-+ 2 files changed, 50 insertions(+), 6 deletions(-)
-+
-+--- qemu-4.2.orig/hw/scsi/lsi53c895a.c
-++++ qemu-4.2/hw/scsi/lsi53c895a.c
-+@@ -1135,15 +1135,24 @@ static void lsi_execute_script(LSIState
-+     uint32_t addr, addr_high;
-+     int opcode;
-+     int insn_processed = 0;
-++    static int reentrancy_level;
-++
-++    reentrancy_level++;
-+ 
-+     s->istat1 |= LSI_ISTAT1_SRUN;
-+ again:
-+-    if (++insn_processed > LSI_MAX_INSN) {
-+-        /* Some windows drivers make the device spin waiting for a memory
-+-           location to change.  If we have been executed a lot of code then
-+-           assume this is the case and force an unexpected device disconnect.
-+-           This is apparently sufficient to beat the drivers into submission.
-+-         */
-++    /*
-++     * Some windows drivers make the device spin waiting for a memory location
-++     * to change. If we have executed more than LSI_MAX_INSN instructions then
-++     * assume this is the case and force an unexpected device disconnect. This
-++     * is apparently sufficient to beat the drivers into submission.
-++     *
-++     * Another issue (CVE-2023-0330) can occur if the script is programmed to
-++     * trigger itself again and again. Avoid this problem by stopping after
-++     * being called multiple times in a reentrant way (8 is an arbitrary value
-++     * which should be enough for all valid use cases).
-++     */
-++    if (++insn_processed > LSI_MAX_INSN || reentrancy_level > 8) {
-+         if (!(s->sien0 & LSI_SIST0_UDC)) {
-+             qemu_log_mask(LOG_GUEST_ERROR,
-+                           "lsi_scsi: inf. loop with UDC masked");
-+@@ -1597,6 +1606,8 @@ again:
-+         }
-+     }
-+     trace_lsi_execute_script_stop();
-++
-++    reentrancy_level--;
-+ }
-+ 
-+ static uint8_t lsi_reg_readb(LSIState *s, int offset)
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM:${PN} = "-r sgx"
 -- 
-2.25.1
+2.39.0
 
 
