@@ -1,105 +1,114 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B20CEB64DA
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 10:49:13 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web11.16080.1689331749852622898
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97C4EB64DA
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 12:54:03 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.18195.1689339240574953626
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 03:49:12 -0700
+ Fri, 14 Jul 2023 05:54:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=Fnp2/bTQ;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-3.intern.sigma-chemnitz.de (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
-	by mail-out-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 36EAn6Ck369100
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 12:49:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1689331746;
-	bh=NMdll+G6PWQ2OZ+86SDpB8cw3qYxdiRsAtlDgN64obU=; l=1822;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Fnp2/bTQ8Aon3iJqtsk1kt3d13JitYbCeoGusYzg3D4CVzSBy+Ye3cjMBHa/3nLKv
-	 i3+VKkq6ppdeNwa02A+PH7JH6UGZ77vJ95SFISPGFJGRnMKhuzm3kZSRCCxoN/GR55
-	 zfFl9/tNcbOroa+C7biww22fDzn3Om1xDGx18z9wIboAkGxEv8vAtfI5xCCPaFyp2s
-	 tcJTyfN4rk9jPNhKpdpuJtExc5cPD30CzDR+rXpE1QgsIPUXjMshbCVEotxt7mZkm6
-	 NN28y/v2xsub99bZT3q0778+j2mcmdTR9oBehf0Rj7U55Qfs4DWpjsie0cC/PkMh/c
-	 4eCw3jcdJb8iQ==
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 36EAn3X1853398
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Fri, 14 Jul 2023 12:49:04 +0200
-Received: from mail-msa-3.intern.sigma-chemnitz.de ([192.168.12.73])
-	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id VICI4TKTER; Fri, 14 Jul 2023 12:49:03 +0200
-Received: from ensc-pc.intern.sigma-chemnitz.de ([192.168.3.24])
-	by mail-msa-3.intern.sigma-chemnitz.de (8.15.2/8.15.2) with ESMTPS id 36EAn3ut362037
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 14 Jul 2023 12:49:03 +0200
-Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.96)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1qKGMB-00FAe6-0o;
-	Fri, 14 Jul 2023 12:49:03 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH v2] shadow-sysroot: add license information
-Date: Fri, 14 Jul 2023 12:49:02 +0200
-Message-ID: <20230714104902.3615826-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230714104148.3608888-1-enrico.scholz@sigma-chemnitz.de>
-References: <20230714104148.3608888-1-enrico.scholz@sigma-chemnitz.de>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=SXlTJWSt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-98e39784a85so654267466b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 05:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689339239; x=1691931239;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=afHjzeQ9rqIijA0qhvN/2q39Tn9KbVgGRaj6dPzTIbo=;
+        b=SXlTJWStYmOdL8JH7OPSJfme8nQi+RyjbjwlAwey8JUri4mIo9Q1RuVvpKax9HHEP9
+         aJX8zWmf1TXYkEKDw2XKcn2MQMigYohwJbxFRUoAsiYQxnt9twpYQG2LC86V1yol6pt3
+         erM563MkQsYeAzuU52wKK+saxrxeNc9oK9TqzvAg6Vg2jZ2QOhDqa1YUGj3U9kQD4AsK
+         GWDDa7I6Dd2HR8n1IJC/gA3R5YQb3oyE/cCitecmzwKyKrvAFuEC1+K/xyMRJSZ28WlA
+         mem9jbgeBTSczeM/43KIOjAmuLlBPZ/hmqR3qdAZ8c7+vHKyMbKbCX0heEL6dlQHFHue
+         h3DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689339239; x=1691931239;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=afHjzeQ9rqIijA0qhvN/2q39Tn9KbVgGRaj6dPzTIbo=;
+        b=D/X/VOwLynzitncrCY56H0MaHlnS+Lrkl+WvCgXMzjpJtHnFPSDzZWcajeFRkITsbA
+         A6cEKZFEiuBdokjQ5uKCJdq+8UPmHSRgnYbVLWVWBAoU0gN93XBUxmUFHT9VIfye0ORp
+         On/LS/TuthCAElVrW7K5oDod3El3d/8eiIgI973XBNAvDQjgJSTF8Sh5QsJou/Zvz1j9
+         bJHelnMbOudicgYrrr7kkU5SG7OOzkXKCSMT6AUr+Kl6moOaEAYFALt42j4dSso+Jtk6
+         vhR9Sa72OF/Ko52hEu/I03o+oiR1Tv2LSFxqFZSWmRH8S5XxPAqOWOnpgJ6Qx2Vz5tbQ
+         q+rA==
+X-Gm-Message-State: ABy/qLa1WBvkpEw0o463Y8uCBeCOYral4gP41zimTDDtH422IP7pXOcG
+	Oc5wtHNfysslktN0SOiIAlp/cEpjGMY=
+X-Google-Smtp-Source: APBJJlHW6F3eP00So7SL0fVugZJqGZHgV0bFDWYnMBkoN0U690mymA9dvsBHEvKCdhRyqla8XSMzDA==
+X-Received: by 2002:a17:906:3f13:b0:993:f276:9696 with SMTP id c19-20020a1709063f1300b00993f2769696mr3025691ejj.35.1689339238397;
+        Fri, 14 Jul 2023 05:53:58 -0700 (PDT)
+Received: from [192.168.2.51] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id i22-20020a1709063c5600b009875a6d28b0sm5439824ejg.51.2023.07.14.05.53.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 05:53:58 -0700 (PDT)
+Message-ID: <d8337e11-0727-a5cb-d3db-1cd6b5ad9190@gmail.com>
+Date: Fri, 14 Jul 2023 14:53:57 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Subject: rpmbuild doesn't work on the target system out of the box with
+ standard macros in the specfile
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 64b1281f301ed1a4310892fe
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 10:49:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184258
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 12:54:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184259
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Hi,
 
-Recipe references 'login.defs' in LIC_FILES_CHKSUM.  This causes some
-problems:
+I have to create a Yocto based system with a lot of developer
+tools and SDK including rpmbuild. This is because a third party
+developer is comfortable with building stuff on hardware but
+not with cross-compiling and creating Bitbake recipes.
 
-- file does not contain a single word which is related with its license
+Anyway, with the image created and installed, I tried to build
+an RPM from an autotools based project on the target system
+The specfile used the standard %configure macro.
 
-- changing this file (here: increasing SYS_UID_MIN) invalidates
-  LIC_FILES_CHKSUM
+./configure stopped with an error saying the compiler doesn't
+produce working binaries.
 
-Add 'SPDX-License-Identifier' to the file and limit the checksum to
-this part.
+It turned out that %optflags was not defined correctly and
+in this case rpm --eval "%optflags" returns the passed-in
+string as is.
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/recipes-extended/shadow/files/login.defs_shadow-sysroot | 1 +
- meta/recipes-extended/shadow/shadow-sysroot_4.6.bb           | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+The OS was built using MACHINE=genericx86-64 and
+I had to make this change manually in rpmrc to make it work:
 
-diff --git a/meta/recipes-extended/shadow/files/login.defs_shadow-sysroot b/meta/recipes-extended/shadow/files/login.defs_shadow-sysroot
-index 8a68dd341a61..09df77d2e751 100644
---- a/meta/recipes-extended/shadow/files/login.defs_shadow-sysroot
-+++ b/meta/recipes-extended/shadow/files/login.defs_shadow-sysroot
-@@ -1,3 +1,4 @@
-+# SPDX-License-Identifier: BSD-3-Clause OR Artistic-1.0
- #
- # /etc/login.defs - Configuration control definitions for the shadow package.
- #
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-index e05fa237a240..6580bd916644 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://github.com/shadow-maint/shadow"
- BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
- SECTION = "base utils"
- LICENSE = "BSD-3-Clause | Artistic-1.0"
--LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;md5=25e2f2de4dfc8f966ac5cdfce45cd7d5"
-+LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;endline=1;md5=ceddfb61608e4db87012499555184aed"
- 
- DEPENDS = "base-passwd"
- 
--- 
-2.41.0
+--------------------------------------------------------------------
+# diff -u /usr/lib/rpm/rpmrc.old /usr/lib/rpm/rpmrc
+--- /usr/lib/rpm/rpmrc.old    2023-05-18 12:28:44.000000000 +0000
++++ /usr/lib/rpm/rpmrc    2023-07-14 12:34:59.840691763 +0000
+@@ -380,6 +380,8 @@
+  buildarchtranslate: x86_64: x86_64
+  buildarchtranslate: amd64: x86_64
+  buildarchtranslate: ia32e: x86_64
++buildarchtranslate: genericx86_64: x86_64
++buildarchtranslate: core2_64: x86_64
+
+  buildarchtranslate: sh3: sh3
+  buildarchtranslate: sh4: sh4
+--------------------------------------------------------------------
+
+I think a lot of other BSPs would have the same issue.
+For one, meta-intel defines BSPs that produce builds for newer
+archs than genericx86-64. They probably wouldn't work either.
+
+It would be nice if Yocto's rpm recipe added the possible
+buildarchtranslate lines for BSP target archs automatically.
+
+Best regards,
+Zoltán Böszörményi
 
 
