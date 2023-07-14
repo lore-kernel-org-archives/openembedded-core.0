@@ -2,157 +2,226 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A22C001B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4BCDC001DF
 	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 22:33:18 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.792.1689373991980176755
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.811.1689373989945705593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 15:33:12 -0700
+ Fri, 14 Jul 2023 15:33:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Tpt4z7MV;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-55af0a816e4so1435486a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 15:33:11 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=X9F9XkAF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b8a8154f9cso15598645ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 15:33:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689373991; x=1691965991;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uoz9cfj/8YyWFsY52/0Je16U3ZOZUUZqQB654urGkT8=;
-        b=Tpt4z7MVEb+2xvACNVfrU0zAvcqLXyGSWToLZd0HYEcXBqLdqZa5MhQ8kHZqIsDAqz
-         PRYDm4FMUQHfmCkyBI73g6CFCrpUDv8OVt7gs7fD1Ndcv4LE0qjnQXFw38cxvIUf7wA8
-         EoKexpjTc/XBf3xAX7KptqfwwUTN796rAP8DoUWwVA+/5mV5F+eFhE+re0vuXyzAMgQG
-         oGS33q6HHe46e3vTdfx/yr71rB7l0qrQyML5NNZFCE+X9kQEFWIK5CerJmYZ+FqWs9vM
-         Bgno3IxXjOA17j6h/elXGMhfprVz1y8KuEHylf9b9NjUG+RPRdYptjKcqvdaJ49CzxNT
-         qWyQ==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689373989; x=1691965989;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MzossHIYtR66ADqS4kq/pCGBzqbPEjpDJX7qSCrTVa8=;
+        b=X9F9XkAFcisBFbKwgnEELxVViZilEVX7LHzLv1XNNit/M/Eug5tBLswKHBGktKz9As
+         w7B1iCV5PjDnVZLqdeuYapYO5zJ+XHyEtZF5f6WuKEjXs+ku8x63xlNrI6CJS5B/XRzF
+         vXb9eElr61aGwIXNKjH7ZU3DaQ7or4PpVK4FpX55+iwg5Xqix3ii8mrW2z9X6pknCGa0
+         rv7HcyvCgLYYWUlWacOgRliS5p3C9C0FTqvGasnjtPJ1VDIu3dn504KyGl7Lr4J1JKMh
+         4PHwICHfTYqtmgYaAnHvFSm2JtfnKeoNwE1gCSJYkdpkiJRywZWhVWCBDfryKuX1rOfl
+         JD4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689373991; x=1691965991;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uoz9cfj/8YyWFsY52/0Je16U3ZOZUUZqQB654urGkT8=;
-        b=S2ndRzsOo57/kTZydjagxT3psJjJN3c02ZTu+sSdcnTCl7JjlpSVTAC+rziJ4CnDhG
-         H8aCHmR89RogxSruHXw44g4OyDzk01udRw9g2OD4QBVGCZffRjsPpHPVabWflR+k37m1
-         GDxzd0eVlmbSCXNdcnhyXaTPok+hD3YFTnnFlrqMRbZcm9rEQ1xS7EIAIQE6CQKWjcRp
-         ZjL9WGnAyy0l8pW1yNweJaTcMRWOuVZyDDdAR9KtW60vshfZYwW3XWnbqkHCOQvo3Dz0
-         Dn7EvDx2NzEvFssY4/uBYvemX0eAMknXI4FyRH31snNCSmyxUKO/gSdQDn78p1+1mv0W
-         KMoQ==
-X-Gm-Message-State: ABy/qLa8WQghuV/YtYaVUcawTvN1p1nQ2EOxzUzcZO/VGj5St9ps6z5u
-	JK9IuuyxWPezhJkt6ChYRroBdMKvDeKgij4EOek=
-X-Google-Smtp-Source: APBJJlG0Tcg9rpDxr6MY154zzFIyU4ak8qACNclJQxstjiF1whWAM32blCOOh21n+5Uel8VDjCXGpw==
-X-Received: by 2002:a17:902:da92:b0:1b8:525a:f685 with SMTP id j18-20020a170902da9200b001b8525af685mr5202956plx.37.1689373990755;
-        Fri, 14 Jul 2023 15:33:10 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689373989; x=1691965989;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MzossHIYtR66ADqS4kq/pCGBzqbPEjpDJX7qSCrTVa8=;
+        b=SfTE6a1FgWPZaqmw1+epIsFqd+5kXhhw0z9yAhn+SOFB9X1dqZH26P0LmpZ5PRVx36
+         VNk9PXkzi6N8X85v4F4piv8Twn8/LUX4MAFB2wtP4OzRy3KuORSyUxgrX63DmEKubvD6
+         V0u2q9ARAJMz+YNn3GHXbJQFMXGn49z0Ixj2ve4I7z2dAhp9rcQjJbE9dVt2c8L3Gx4R
+         mQSo667ISVUX9Iyn4abfBuB4oNhNzqqqSvYdfySYFTmo59FrG0CPt9KqSp+zpA+wIKLi
+         AvITGJ/Y0gn2j5JSY+VMPDsBodv2NLWHnJLm/8JThsUdAICI/t77MNkYRsJT0VTVxVb9
+         1KlQ==
+X-Gm-Message-State: ABy/qLau5OHrZmSIC/W7JTXLiy9724saCqNuap8sjsD+eICfiLct/ch7
+	p8IJV1utSRzTXldImwGeFrb9+Zh2VuUD9xsMnlk=
+X-Google-Smtp-Source: APBJJlGCylznIIuet3gMD/Tr1rEFdaseUh2LK2PKItSf8o/ajNjE1no5F1xD7I4/Q8+J3B4A5slLfA==
+X-Received: by 2002:a17:903:41d1:b0:1b8:9846:a3b2 with SMTP id u17-20020a17090341d100b001b89846a3b2mr5245383ple.14.1689373988466;
+        Fri, 14 Jul 2023 15:33:08 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q1-20020a170902788100b001b80760fd04sm8236782pll.112.2023.07.14.15.33.09
+        by smtp.gmail.com with ESMTPSA id q1-20020a170902788100b001b80760fd04sm8236782pll.112.2023.07.14.15.33.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 15:33:10 -0700 (PDT)
+        Fri, 14 Jul 2023 15:33:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 01/26] python3-requests: fix CVE-2023-32681
-Date: Fri, 14 Jul 2023 12:32:35 -1000
-Message-Id: <11b6e64c07df043441824511c931fb0bc9673adc.1689373876.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 00/26] Patch review
+Date: Fri, 14 Jul 2023 12:32:34 -1000
+Message-Id: <cover.1689373875.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1689373875.git.steve@sakoman.com>
-References: <cover.1689373875.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 22:33:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184283
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184282
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Please review this set of changes for mickledore and have comments back by
+end of day Tuesday.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../python3-requests/CVE-2023-32681.patch     | 61 +++++++++++++++++++
- .../python/python3-requests_2.28.2.bb         |  2 +
- 2 files changed, 63 insertions(+)
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5600
+
+The following changes since commit 64784e90c5ff559f4da6faadb970cc7aff549592:
+
+  cve-update-nvd2-native: actually use API keys (2023-07-13 06:35:20 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+
+Alejandro Hernandez Samaniego (1):
+  baremetal-helloworld: Fix race condition
+
+Alexander Kanavin (4):
+  diffutils: update 3.9 -> 3.10
+  libproxy: fetch from git
+  cargo.bbclass: set up cargo environment in common do_compile
+  rust-common.bbclass: move musl-specific linking fix from
+    rust-source.inc
+
+Changqing Li (1):
+  erofs-utils: fix CVE-2023-33551/CVE-2023-33552
+
+Chee Yang Lee (1):
+  python3-requests: fix CVE-2023-32681
+
+Etienne Cordonnier (1):
+  libxcrypt: fix hard-coded ".so" extension
+
+Joe Slater (1):
+  ghostscript: fix CVE-2023-36664
+
+Jose Quaresma (4):
+  kernel: config modules directories are handled by kernel-module-split
+  kernel-module-split: install config modules directories only when they
+    are needed
+  kernel-module-split: use context manager to open files
+  kernel-module-split: make autoload and probeconf distribution specific
+
+Martin Jansa (2):
+  selftest: multiconfig-image-packager: try to respect IMAGE_LINK_NAME
+  image-artifact-names: include ${IMAGE_NAME_SUFFIX} directly in both
+    ${IMAGE_NAME} and ${IMAGE_LINK_NAME}
+
+Thomas Roos (1):
+  testimage/oeqa: Drop testimage_dump_host functionality
+
+Tom Hochstein (1):
+  weston: Cleanup and fix x11 and xwayland dependencies
+
+Wang Mingyu (6):
+  freetype: upgrade 2.13.0 -> 2.13.1
+  gstreamer1.0: upgrade 1.22.3 -> 1.22.4
+  libassuan: upgrade 2.5.5 -> 2.5.6
+  libksba: upgrade 1.6.3 -> 1.6.4
+  libx11: upgrade 1.8.5 -> 1.8.6
+  lttng-ust: upgrade 2.13.5 -> 2.13.6
+
+Yi Zhao (1):
+  ifupdown: install missing directories
+
+Yoann Congal (1):
+  recipetool: Fix inherit in created -native* recipes
+
+Yogita Urade (1):
+  dmidecode: fix CVE-2023-30630
+
+ .../multiconfig-image-packager_0.1.bb         |  18 +-
+ meta/classes-recipe/cargo.bbclass             |   1 -
+ meta/classes-recipe/cargo_common.bbclass      |   4 +
+ .../image-artifact-names.bbclass              |   3 +-
+ meta/classes-recipe/image-live.bbclass        |   1 -
+ meta/classes-recipe/image.bbclass             |   7 +-
+ meta/classes-recipe/image_types.bbclass       | 108 ++++----
+ meta/classes-recipe/image_types_wic.bbclass   |   2 +-
+ .../kernel-module-split.bbclass               |  65 +++--
+ meta/classes-recipe/kernel.bbclass            |   2 -
+ .../rootfs-postcommands.bbclass               |   2 +-
+ meta/classes-recipe/rust-common.bbclass       |   4 +
+ meta/classes-recipe/testexport.bbclass        |   6 +-
+ meta/classes-recipe/testimage.bbclass         |  20 +-
+ meta/classes/cve-check.bbclass                |   4 +-
+ meta/lib/oeqa/core/target/qemu.py             |   5 +-
+ meta/lib/oeqa/runtime/context.py              |  11 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |   2 +
+ meta/lib/oeqa/targetcontrol.py                |   2 -
+ meta/lib/oeqa/utils/dump.py                   |  20 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  18 +-
+ meta/recipes-core/ifupdown/ifupdown_0.8.41.bb |   5 +
+ .../images/build-appliance-image_15.0.0.bb    |   6 +-
+ meta/recipes-core/libxcrypt/libxcrypt.inc     |   6 -
+ .../dmidecode/CVE-2023-30630_1.patch          | 237 ++++++++++++++++++
+ .../dmidecode/CVE-2023-30630_2.patch          |  81 ++++++
+ .../dmidecode/CVE-2023-30630_3.patch          |  69 +++++
+ .../dmidecode/CVE-2023-30630_4.patch          | 137 ++++++++++
+ .../dmidecode/dmidecode_3.4.bb                |   4 +
+ .../erofs-utils/CVE-2023-33551.patch          |  80 ++++++
+ .../erofs-utils/CVE-2023-33552-1.patch        | 221 ++++++++++++++++
+ .../erofs-utils/CVE-2023-33552-2.patch        |  97 +++++++
+ .../erofs-utils/CVE-2023-33552-3.patch        | 127 ++++++++++
+ .../erofs-utils/erofs-utils_1.5.bb            |   4 +
+ .../python3-requests/CVE-2023-32681.patch     |  61 +++++
+ .../python/python3-requests_2.28.2.bb         |   2 +
+ meta/recipes-devtools/rust/rust-source.inc    |   5 -
+ .../baremetal-helloworld_git.bb               |   2 +-
+ ...001-Skip-strip-trailing-cr-test-case.patch |  19 +-
+ .../{diffutils_3.9.bb => diffutils_3.10.bb}   |   2 +-
+ .../ghostscript/cve-2023-36664.patch          | 165 ++++++++++++
+ .../ghostscript/ghostscript_10.0.0.bb         |   1 +
+ ...{freetype_2.13.0.bb => freetype_2.13.1.bb} |   2 +-
+ .../recipes-graphics/wayland/weston_11.0.1.bb |   4 +-
+ .../{libx11_1.8.5.bb => libx11_1.8.6.bb}      |   2 +-
+ ...ttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb} |   2 +-
+ ...tools_1.22.3.bb => gst-devtools_1.22.4.bb} |   2 +-
+ ...1.22.3.bb => gstreamer1.0-libav_1.22.4.bb} |   2 +-
+ ...x_1.22.3.bb => gstreamer1.0-omx_1.22.4.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.22.4.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.22.4.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-good_1.22.4.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.22.4.bb} |   2 +-
+ ....22.3.bb => gstreamer1.0-python_1.22.4.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.22.4.bb} |   2 +-
+ ...1.22.3.bb => gstreamer1.0-vaapi_1.22.4.bb} |   2 +-
+ ...er1.0_1.22.3.bb => gstreamer1.0_1.22.4.bb} |   2 +-
+ ...{libassuan_2.5.5.bb => libassuan_2.5.6.bb} |   2 +-
+ .../{libksba_1.6.3.bb => libksba_1.6.4.bb}    |   2 +-
+ .../libproxy/libproxy_0.4.18.bb               |   7 +-
+ scripts/lib/recipetool/create.py              |   4 +
+ 61 files changed, 1455 insertions(+), 228 deletions(-)
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/CVE-2023-33551.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/CVE-2023-33552-1.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/CVE-2023-33552-2.patch
+ create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/CVE-2023-33552-3.patch
  create mode 100644 meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
+ rename meta/recipes-extended/diffutils/{diffutils_3.9.bb => diffutils_3.10.bb} (93%)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/cve-2023-36664.patch
+ rename meta/recipes-graphics/freetype/{freetype_2.13.0.bb => freetype_2.13.1.bb} (95%)
+ rename meta/recipes-graphics/xorg-lib/{libx11_1.8.5.bb => libx11_1.8.6.bb} (92%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.3.bb => gst-devtools_1.22.4.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.3.bb => gstreamer1.0-libav_1.22.4.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.3.bb => gstreamer1.0-omx_1.22.4.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.3.bb => gstreamer1.0-plugins-bad_1.22.4.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.3.bb => gstreamer1.0-plugins-base_1.22.4.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.3.bb => gstreamer1.0-plugins-good_1.22.4.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.3.bb => gstreamer1.0-plugins-ugly_1.22.4.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.3.bb => gstreamer1.0-python_1.22.4.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.3.bb => gstreamer1.0-rtsp-server_1.22.4.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.3.bb => gstreamer1.0-vaapi_1.22.4.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.3.bb => gstreamer1.0_1.22.4.bb} (97%)
+ rename meta/recipes-support/libassuan/{libassuan_2.5.5.bb => libassuan_2.5.6.bb} (93%)
+ rename meta/recipes-support/libksba/{libksba_1.6.3.bb => libksba_1.6.4.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
-new file mode 100644
-index 0000000000..0110615572
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-requests/CVE-2023-32681.patch
-@@ -0,0 +1,61 @@
-+From 74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5 Mon Sep 17 00:00:00 2001
-+From: Nate Prewitt <nate.prewitt@gmail.com>
-+Date: Mon, 22 May 2023 08:08:57 -0700
-+Subject: [PATCH] Merge pull request from GHSA-j8r2-6x86-q33q
-+
-+CVE: CVE-2023-32681
-+Upstream-Status: Backport
-+[https://github.com/psf/requests/commit/74ea7cf7a6a27a4eeb2ae24e162bcc942a6706d5]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+---
-+ requests/sessions.py   |  4 +++-
-+ tests/test_requests.py | 20 ++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+
-+diff --git a/requests/sessions.py b/requests/sessions.py
-+index 6cb3b4dae3..dbcf2a7b0e 100644
-+--- a/requests/sessions.py
-++++ b/requests/sessions.py
-+@@ -324,7 +324,9 @@ def rebuild_proxies(self, prepared_request, proxies):
-+         except KeyError:
-+             username, password = None, None
-+ 
-+-        if username and password:
-++        # urllib3 handles proxy authorization for us in the standard adapter.
-++        # Avoid appending this to TLS tunneled requests where it may be leaked.
-++        if not scheme.startswith('https') and username and password:
-+             headers["Proxy-Authorization"] = _basic_auth_str(username, password)
-+ 
-+         return new_proxies
-+diff --git a/tests/test_requests.py b/tests/test_requests.py
-+index b1c8dd4534..b420c44d73 100644
-+--- a/tests/test_requests.py
-++++ b/tests/test_requests.py
-+@@ -647,6 +647,26 @@ def test_proxy_authorization_preserved_on_request(self, httpbin):
-+ 
-+         assert sent_headers.get("Proxy-Authorization") == proxy_auth_value
-+ 
-++
-++    @pytest.mark.parametrize(
-++        "url,has_proxy_auth",
-++        (
-++            ('http://example.com', True),
-++            ('https://example.com', False),
-++        ),
-++    )
-++    def test_proxy_authorization_not_appended_to_https_request(self, url, has_proxy_auth):
-++        session = requests.Session()
-++        proxies = {
-++            'http': 'http://test:pass@localhost:8080',
-++            'https': 'http://test:pass@localhost:8090',
-++        }
-++        req = requests.Request('GET', url)
-++        prep = req.prepare()
-++        session.rebuild_proxies(prep, proxies)
-++
-++        assert ('Proxy-Authorization' in prep.headers) is has_proxy_auth
-++
-+     def test_basicauth_with_netrc(self, httpbin):
-+         auth = ("user", "pass")
-+         wrong_auth = ("wronguser", "wrongpass")
-diff --git a/meta/recipes-devtools/python/python3-requests_2.28.2.bb b/meta/recipes-devtools/python/python3-requests_2.28.2.bb
-index 2f397ddaad..b57f71673c 100644
---- a/meta/recipes-devtools/python/python3-requests_2.28.2.bb
-+++ b/meta/recipes-devtools/python/python3-requests_2.28.2.bb
-@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
- 
- SRC_URI[sha256sum] = "98b1b2782e3c6c4904938b84c0eb932721069dfdb9134313beff7c83c2df24bf"
- 
-+SRC_URI += " file://CVE-2023-32681.patch"
-+
- inherit pypi setuptools3
- 
- RDEPENDS:${PN} += " \
 -- 
 2.34.1
 
