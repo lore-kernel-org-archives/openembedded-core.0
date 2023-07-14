@@ -1,438 +1,179 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <heiko.thole@entwicklung.eq-3.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D983EEB64DC
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 03:25:20 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.10761.1689305118253021958
- for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jul 2023 20:25:18 -0700
-Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=C5l7zGyc;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6559a1e11a=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36E3OIRa020141;
-	Fri, 14 Jul 2023 03:25:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=176O93EKZ6f6hTpAZp
-	bLXQdK7liLQOPl687fkYwoZMA=; b=C5l7zGyc5bnNldV/h4qW1l/RSnPvPn6Yxj
-	pIvD/LBOLzCmD4swHC3H2Q+ECw3ZJko6nu3lDlm1XMAsr03ugVkbfnywCDaduyPZ
-	UArwXKDQtPeT808zlPoh80adej+T9WLHlxnZvbHIFpgGQg7lIuNa/ytgyCCHGmS1
-	MCMcvCl0Rmb0CBXt+zUZoPHbx4GMeRgi+YHKGQK0IqENbovBwXFOmRinyz9INnTe
-	7KsPLGXaHyXXZVAq2oUNQyJQueAT6ZZ/aAOl1aZ6zej3fcXRTNFFzsT5YkpxiIrS
-	1HqJ7OBOowPnP2r/nYTftek2EDvKUO3KywFSxxUZjPp0A3vtst3Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rtpujrc6x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 14 Jul 2023 03:25:17 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 13 Jul 2023 20:25:15 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Thu, 13 Jul 2023 20:25:14 -0700
-From: Soumya <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>, <Hari.GPillai@windriver.com>,
-        Soumya
-	<soumya.sambu@windriver.com>
-Subject: [oe-core][PATCH 1/1] perl: Fix CVE-2023-31486
-Date: Fri, 14 Jul 2023 03:25:10 +0000
-Message-ID: <20230714032510.1727852-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 443A3EB64DA
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 04:28:51 +0000 (UTC)
+Subject: [kirkstone][PATCH] wic: Add dependencies for erofs-utils
+To: openembedded-core@lists.openembedded.org
+From: "Heiko" <heiko.thole@entwicklung.eq-3.de>
+X-Originating-Location: Papenburg, Lower Saxony, DE (84.140.29.160)
+X-Originating-Platform: Windows Chrome 114
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
-X-Proofpoint-GUID: ZaUg4FCo_RVQctqM6fMRiiHimADMSzSw
-X-Proofpoint-ORIG-GUID: ZaUg4FCo_RVQctqM6fMRiiHimADMSzSw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-13_12,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 malwarescore=0 clxscore=1015 phishscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307140029
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36E3OIRa020141
+Date: Thu, 13 Jul 2023 21:28:50 -0700
+Message-ID: <jSoT.1689308930141918532.7s80@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="x6F7iEj9S4XrLHan5nwO"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 03:25:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184250
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 04:28:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184251
 
-HTTP::Tiny before 0.083, a Perl core module since 5.13.9 and available
-standalone on CPAN, has an insecure default TLS configuration where
-users must opt in to verify certificates.
+--x6F7iEj9S4XrLHan5nwO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-31486
+From 2d8164ac97277c344bc7c9e11f0ed78235726bda Mon Sep 17 00:00:00 2001
+From: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
+Date: Wed, 12 Jul 2023 07:41:59 +0200
+Subject: [kirkstone][PATCH] wic: Add dependencies for erofs-utils
 
-Upstream patches:
-https://github.com/chansen/p5-http-tiny/commit/77f557ef84698efeb6eed04e4a=
-9704eaf85b741d
-https://github.com/chansen/p5-http-tiny/commit/a22785783b17cbaa28afaee4a0=
-24d81a1903701d
+In order to build erofs filesystems, wic must have the erofs-utils package =
+installed into its sysroot.
 
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
+Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
 ---
- .../perl/files/CVE-2023-31486-0001.patch      | 217 ++++++++++++++++++
- .../perl/files/CVE-2023-31486-0002.patch      |  36 +++
- meta/recipes-devtools/perl/perl_5.36.1.bb     |   2 +
- 3 files changed, 255 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0001.=
-patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0002.=
-patch
+meta/classes/image_types_wic.bbclass | 2 +-
+meta/recipes-core/meta/wic-tools.bb=C2=A0 | 2 +-
+scripts/lib/wic/misc.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1=
+ +
+3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch b=
-/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
-new file mode 100644
-index 0000000000..1074e0848d
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
-@@ -0,0 +1,217 @@
-+From 77f557ef84698efeb6eed04e4a9704eaf85b741d
-+From: Stig Palmquist <git@stig.io>
-+Date: Mon Jun 5 16:46:22 2023 +0200
-+Subject: [PATCH] Change verify_SSL default to 1, add ENV var to enable
-+ insecure default
-+
-+- Changes the `verify_SSL` default parameter from `0` to `1`
-+
-+  Based on patch by Dominic Hargreaves:
-+  https://salsa.debian.org/perl-team/interpreter/perl/-/commit/1490431e4=
-0e22052f75a0b3449f1f53cbd27ba92
-+
-+  CVE: CVE-2023-31486
-+
-+- Add check for `$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}` that
-+  enables the previous insecure default behaviour if set to `1`.
-+
-+  This provides a workaround for users who encounter problems with the
-+  new `verify_SSL` default.
-+
-+  Example to disable certificate checks:
-+  ```
-+    $ PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT=3D1 ./script.pl
-+  ```
-+
-+- Updates to documentation:
-+  - Describe changing the verify_SSL value
-+  - Describe the escape-hatch environment variable
-+  - Remove rationale for not enabling verify_SSL
-+  - Add missing certificate search paths
-+  - Replace "SSL" with "TLS/SSL" where appropriate
-+  - Use "machine-in-the-middle" instead of "man-in-the-middle"
-+
-+Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commi=
-t/77f557ef84698efeb6eed04e4a9704eaf85b741d]
-+
-+Signed-off-by: Soumya <soumya.sambu@windriver.com>
-+---
-+ cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 86 ++++++++++++++++++++++-----------
-+ 1 file changed, 57 insertions(+), 29 deletions(-)
-+
-+diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/T=
-iny.pm
-+index 83ca06d..ebc34a1 100644
-+--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-+@@ -40,10 +40,14 @@ sub _croak { require Carp; Carp::croak(@_) }
-+ #pod * C<timeout> =E2=80=94 Request timeout in seconds (default is 60) =
-If a socket open,
-+ #pod   read or write takes longer than the timeout, the request respons=
-e status code
-+ #pod   will be 599.
-+-#pod * C<verify_SSL> =E2=80=94 A boolean that indicates whether to vali=
-date the SSL
-+-#pod   certificate of an C<https> =E2=80=94 connection (default is fals=
-e)
-++#pod * C<verify_SSL> =E2=80=94 A boolean that indicates whether to vali=
-date the TLS/SSL
-++#pod   certificate of an C<https> =E2=80=94 connection (default is true=
-). Changed from false
-++#pod   to true in version 0.083.
-+ #pod * C<SSL_options> =E2=80=94 A hashref of C<SSL_*> =E2=80=94 options=
- to pass through to
-+ #pod   L<IO::Socket::SSL>
-++#pod * C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}> - Changes the de=
-fault
-++#pod   certificate verification behavior to not check server identity i=
-f set to 1.
-++#pod   Only effective if C<verify_SSL> is not set. Added in version 0.0=
-83.
-+ #pod
-+ #pod An accessor/mutator method exists for each attribute.
-+ #pod
-+@@ -111,11 +115,17 @@ sub timeout {
-+ sub new {
-+     my($class, %args) =3D @_;
-+
-++    # Support lower case verify_ssl argument, but only if verify_SSL is=
- not
-++    # true.
-++    if ( exists $args{verify_ssl} ) {
-++        $args{verify_SSL}  ||=3D $args{verify_ssl};
-++    }
-++
-+     my $self =3D {
-+         max_redirect =3D> 5,
-+         timeout      =3D> defined $args{timeout} ? $args{timeout} : 60,
-+         keep_alive   =3D> 1,
-+-        verify_SSL   =3D> $args{verify_SSL} || $args{verify_ssl} || 0, =
-# no verification by default
-++        verify_SSL   =3D> defined $args{verify_SSL} ? $args{verify_SSL}=
- : _verify_SSL_default(),
-+         no_proxy     =3D> $ENV{no_proxy},
-+     };
-+
-+@@ -134,6 +144,13 @@ sub new {
-+     return $self;
-+ }
-+
-++sub _verify_SSL_default {
-++    my ($self) =3D @_;
-++    # Check if insecure default certificate verification behaviour has =
-been
-++    # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEF=
-AULT=3D1
-++    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? =
-0 : 1;
-++}
-++
-+ sub _set_proxies {
-+     my ($self) =3D @_;
-+
-+@@ -1055,7 +1072,7 @@ sub new {
-+         timeout          =3D> 60,
-+         max_line_size    =3D> 16384,
-+         max_header_lines =3D> 64,
-+-        verify_SSL       =3D> 0,
-++        verify_SSL       =3D> HTTP::Tiny::_verify_SSL_default(),
-+         SSL_options      =3D> {},
-+         %args
-+     }, $class;
-+@@ -2043,11 +2060,11 @@ proxy
-+ timeout
-+ verify_SSL
-+
-+-=3Dhead1 SSL SUPPORT
-++=3Dhead1 TLS/SSL SUPPORT
-+
-+ Direct C<https> connections are supported only if L<IO::Socket::SSL> 1.=
-56 or
-+ greater and L<Net::SSLeay> 1.49 or greater are installed. An error will=
- occur
-+-if new enough versions of these modules are not installed or if the SSL
-++if new enough versions of these modules are not installed or if the TLS
-+ encryption fails. You can also use C<HTTP::Tiny::can_ssl()> utility fun=
-ction
-+ that returns boolean to see if the required modules are installed.
-+
-+@@ -2055,7 +2072,7 @@ An C<https> connection may be made via an C<http> =
-proxy that supports the CONNEC
-+ command (i.e. RFC 2817).  You may not proxy C<https> via a proxy that i=
-tself
-+ requires C<https> to communicate.
-+
-+-SSL provides two distinct capabilities:
-++TLS/SSL provides two distinct capabilities:
-+
-+ =3Dover 4
-+
-+@@ -2069,24 +2086,17 @@ Verification of server identity
-+
-+ =3Dback
-+
-+-B<By default, HTTP::Tiny does not verify server identity>.
-+-
-+-Server identity verification is controversial and potentially tricky be=
-cause it
-+-depends on a (usually paid) third-party Certificate Authority (CA) trus=
-t model
-+-to validate a certificate as legitimate.  This discriminates against se=
-rvers
-+-with self-signed certificates or certificates signed by free, community=
--driven
-+-CA's such as L<CAcert.org|http://cacert.org>.
-++B<By default, HTTP::Tiny verifies server identity>.
-+
-+-By default, HTTP::Tiny does not make any assumptions about your trust m=
-odel,
-+-threat level or risk tolerance.  It just aims to give you an encrypted =
-channel
-+-when you need one.
-++This was changed in version 0.083 due to security concerns. The previou=
-s default
-++behavior can be enabled by setting C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_B=
-Y_DEFAULT}>
-++to 1.
-+
-+-Setting the C<verify_SSL> attribute to a true value will make HTTP::Tin=
-y verify
-+-that an SSL connection has a valid SSL certificate corresponding to the=
- host
-+-name of the connection and that the SSL certificate has been verified b=
-y a CA.
-+-Assuming you trust the CA, this will protect against a L<man-in-the-mid=
-dle
-+-attack|http://en.wikipedia.org/wiki/Man-in-the-middle_attack>.  If you =
-are
-+-concerned about security, you should enable this option.
-++Verification is done by checking that that the TLS/SSL connection has a=
- valid
-++certificate corresponding to the host name of the connection and that t=
-he
-++certificate has been verified by a CA. Assuming you trust the CA, this =
-will
-++protect against L<machine-in-the-middle
-++attacks|http://en.wikipedia.org/wiki/Machine-in-the-middle_attack>.
-+
-+ Certificate verification requires a file containing trusted CA certific=
-ates.
-+
-+@@ -2094,9 +2104,7 @@ If the environment variable C<SSL_CERT_FILE> is pr=
-esent, HTTP::Tiny
-+ will try to find a CA certificate file in that location.
-+
-+ If the L<Mozilla::CA> module is installed, HTTP::Tiny will use the CA f=
-ile
-+-included with it as a source of trusted CA's.  (This means you trust Mo=
-zilla,
-+-the author of Mozilla::CA, the CPAN mirror where you got Mozilla::CA, t=
-he
-+-toolchain used to install it, and your operating system security, right=
-?)
-++included with it as a source of trusted CA's.
-+
-+ If that module is not available, then HTTP::Tiny will search several
-+ system-specific default locations for a CA certificate file:
-+@@ -2115,13 +2123,33 @@ system-specific default locations for a CA certi=
-ficate file:
-+
-+ /etc/ssl/ca-bundle.pem
-+
-++=3Ditem *
-++
-++/etc/openssl/certs/ca-certificates.crt
-++
-++=3Ditem *
-++
-++/etc/ssl/cert.pem
-++
-++=3Ditem *
-++
-++/usr/local/share/certs/ca-root-nss.crt
-++
-++=3Ditem *
-++
-++/etc/pki/tls/cacert.pem
-++
-++=3Ditem *
-++
-++/etc/certs/ca-certificates.crt
-++
-+ =3Dback
-+
-+ An error will be occur if C<verify_SSL> is true and no CA certificate f=
-ile
-+ is available.
-+
-+-If you desire complete control over SSL connections, the C<SSL_options>=
- attribute
-+-lets you provide a hash reference that will be passed through to
-++If you desire complete control over TLS/SSL connections, the C<SSL_opti=
-ons>
-++attribute lets you provide a hash reference that will be passed through=
- to
-+ C<IO::Socket::SSL::start_SSL()>, overriding any options set by HTTP::Ti=
-ny. For
-+ example, to provide your own trusted CA file:
-+
-+@@ -2131,7 +2159,7 @@ example, to provide your own trusted CA file:
-+
-+ The C<SSL_options> attribute could also be used for such things as prov=
-iding a
-+ client certificate for authentication to a server or controlling the ch=
-oice of
-+-cipher used for the SSL connection. See L<IO::Socket::SSL> documentatio=
-n for
-++cipher used for the TLS/SSL connection. See L<IO::Socket::SSL> document=
-ation for
-+ details.
-+
-+ =3Dhead1 PROXY SUPPORT
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch b=
-/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
-new file mode 100644
-index 0000000000..45452be389
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
-@@ -0,0 +1,36 @@
-+From a22785783b17cbaa28afaee4a024d81a1903701d
-+From: Stig Palmquist <git@stig.io>
-+Date: Sun Jun 18 11:36:05 2023 +0200
-+Subject: [PATCH] Fix incorrect env var name for verify_SSL default
-+
-+The variable to override the verify_SSL default differed slightly in the
-+documentation from what was checked for in the code.
-+
-+This commit makes the code use `PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT`
-+as documented, instead of `PERL_HTTP_TINY_INSECURE_BY_DEFAULT` which was
-+missing `SSL_`
-+
-+CVE: CVE-2023-31486
-+
-+Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commi=
-t/a22785783b17cbaa28afaee4a024d81a1903701d]
-+
-+Signed-off-by: Soumya <soumya.sambu@windriver.com>
-+---
-+ cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/T=
-iny.pm
-+index ebc34a1..65ac8ff 100644
-+--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-+@@ -148,7 +148,7 @@ sub _verify_SSL_default {
-+     my ($self) =3D @_;
-+     # Check if insecure default certificate verification behaviour has =
-been
-+     # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEF=
-AULT=3D1
-+-    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? =
-0 : 1;
-++    return (($ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT} || '') eq '1'=
-) ? 0 : 1;
-+ }
-+
-+ sub _set_proxies {
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/perl/perl_5.36.1.bb b/meta/recipes-dev=
-tools/perl/perl_5.36.1.bb
-index 3db1d9c6ae..87768cc7f7 100644
---- a/meta/recipes-devtools/perl/perl_5.36.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.36.1.bb
-@@ -18,6 +18,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.ta=
-r.gz;name=3Dperl \
-            file://determinism.patch \
-            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-det=
-erm.patch \
-            file://CVE-2023-31484.patch \
-+           file://CVE-2023-31486-0001.patch \
-+           file://CVE-2023-31486-0002.patch \
-            "
- SRC_URI:append:class-native =3D " \
-            file://perl-configpm-switch.patch \
---=20
-2.40.0
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_type=
+s_wic.bbclass
+index 6453dd1b74..8497916d48 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -83,7 +83,7 @@ do_image_wic[recrdeptask] +=3D "do_deploy"
+do_image_wic[deptask] +=3D "do_image_complete"
 
+WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86=
+_64', 'i686' ], "syslinux-native", "",d)}'
+-WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrfs-too=
+ls-native squashfs-tools-native e2fsprogs-native"
++WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrfs-too=
+ls-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+# Unified kernel images need objcopy
+WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
+WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/w=
+ic-tools.bb
+index daaf3ea576..9282d36a4d 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -6,7 +6,7 @@ DEPENDS =3D "\
+parted-native gptfdisk-native dosfstools-native \
+mtools-native bmap-tools-native grub-native cdrtools-native \
+btrfs-tools-native squashfs-tools-native pseudo-native \
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e2fsprogs-native util-linux-nativ=
+e tar-native \
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e2fsprogs-native util-linux-nativ=
+e tar-native erofs-utils-native \
+virtual/${TARGET_PREFIX}binutils \
+"
+DEPENDS:append:x86 =3D " syslinux-native syslinux grub-efi systemd-boot"
+diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+index a8aab6c524..2b90821b30 100644
+--- a/scripts/lib/wic/misc.py
++++ b/scripts/lib/wic/misc.py
+@@ -36,6 +36,7 @@ NATIVE_RECIPES =3D {"bmaptool": "bmap-tools",
+"mkdosfs": "dosfstools",
+"mkisofs": "cdrtools",
+"mkfs.btrfs": "btrfs-tools",
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "mkfs.erofs=
+": "erofs-utils",
+"mkfs.ext2": "e2fsprogs",
+"mkfs.ext3": "e2fsprogs",
+"mkfs.ext4": "e2fsprogs",
+--
+2.41.0
+
+--x6F7iEj9S4XrLHan5nwO
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>From 2d8164ac97277c344bc7c9e11f0ed78235726bda Mon Sep 17 00:00:00 2001=
+</div>
+<div>From: Heiko Thole &lt;heiko.thole@entwicklung.eq-3.de&gt;</div>
+<div>Date: Wed, 12 Jul 2023 07:41:59 +0200</div>
+<div>Subject: [kirkstone][PATCH] wic: Add dependencies for erofs-utils</div=
+>
+<div>&nbsp;</div>
+<div>In order to build erofs filesystems, wic must have the erofs-utils pac=
+kage installed into its sysroot.</div>
+<div>&nbsp;</div>
+<div>Signed-off-by: Heiko Thole &lt;heiko.thole@entwicklung.eq-3.de&gt;</di=
+v>
+<div>---</div>
+<div>&nbsp;meta/classes/image_types_wic.bbclass | 2 +-</div>
+<div>&nbsp;meta/recipes-core/meta/wic-tools.bb&nbsp; | 2 +-</div>
+<div>&nbsp;scripts/lib/wic/misc.py&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; | 1 +</div>
+<div>&nbsp;3 files changed, 3 insertions(+), 2 deletions(-)</div>
+<div>&nbsp;</div>
+<div>diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image=
+_types_wic.bbclass</div>
+<div>index 6453dd1b74..8497916d48 100644</div>
+<div>--- a/meta/classes/image_types_wic.bbclass</div>
+<div>+++ b/meta/classes/image_types_wic.bbclass</div>
+<div>@@ -83,7 +83,7 @@ do_image_wic[recrdeptask] +=3D "do_deploy"</div>
+<div>&nbsp;do_image_wic[deptask] +=3D "do_image_complete"</div>
+<div>&nbsp;</div>
+<div>&nbsp;WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_AR=
+CH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'</div>
+<div>-WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrf=
+s-tools-native squashfs-tools-native e2fsprogs-native"</div>
+<div>+WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrf=
+s-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"</=
+div>
+<div>&nbsp;# Unified kernel images need objcopy</div>
+<div>&nbsp;WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/${MLPREFIX}${TARGET_PREFI=
+X}binutils"</div>
+<div>&nbsp;WKS_FILE_DEPENDS_BOOTLOADERS =3D ""</div>
+<div>diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/m=
+eta/wic-tools.bb</div>
+<div>index daaf3ea576..9282d36a4d 100644</div>
+<div>--- a/meta/recipes-core/meta/wic-tools.bb</div>
+<div>+++ b/meta/recipes-core/meta/wic-tools.bb</div>
+<div>@@ -6,7 +6,7 @@ DEPENDS =3D "\</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parted-native gptfdisk-nativ=
+e dosfstools-native \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mtools-native bmap-tools-nat=
+ive grub-native cdrtools-native \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; btrfs-tools-native squashfs-=
+tools-native pseudo-native \</div>
+<div>-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;e2fsprogs-native util-linux-=
+native tar-native \</div>
+<div>+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;e2fsprogs-native util-linux-=
+native tar-native erofs-utils-native \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; virtual/${TARGET_PREFIX}binu=
+tils \</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "</div>
+<div>&nbsp;DEPENDS:append:x86 =3D " syslinux-native syslinux grub-efi syste=
+md-boot"</div>
+<div>diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py</div>
+<div>index a8aab6c524..2b90821b30 100644</div>
+<div>--- a/scripts/lib/wic/misc.py</div>
+<div>+++ b/scripts/lib/wic/misc.py</div>
+<div>@@ -36,6 +36,7 @@ NATIVE_RECIPES =3D {"bmaptool": "bmap-tools",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkdosfs": "dosfstools",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkisofs": "cdrtools",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkfs.btrfs": "btrfs-tools",</div>
+<div>+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "mkfs.=
+erofs": "erofs-utils",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkfs.ext2": "e2fsprogs",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkfs.ext3": "e2fsprogs",</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"=
+mkfs.ext4": "e2fsprogs",</div>
+<div>--&nbsp;</div>
+<div>2.41.0</div>
+<div>&nbsp;</div>
+
+--x6F7iEj9S4XrLHan5nwO--
 
