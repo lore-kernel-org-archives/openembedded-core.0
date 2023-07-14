@@ -1,175 +1,274 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <dvorkin@tibbo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C51F4EB64DA
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 13:34:23 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web11.19391.1689341657918992824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1216EB64DA
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 13:42:33 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.19484.1689342147212362549
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 06:34:18 -0700
+ Fri, 14 Jul 2023 06:42:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=OeByWpjc;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-785cbc5bfd2so75396739f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 06:34:17 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@tibbo.com header.s=google header.b=K7R/KHPK;
+ spf=pass (domain: tibbo.com, ip: 209.85.167.42, mailfrom: dvorkin@tibbo.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fbf09a9139so3193601e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 06:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689341657; x=1691933657;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zyMAV70cX4PS4zRIE67PGESKdl711UpfQa5YyCW8wc4=;
-        b=OeByWpjcztJryc46mB+rg9YtmMn0y4BQWNkCpmHcJYP6kJYGZPnxbITAvIetVmP8+v
-         rO1p8NFCF1D9pW9oC+rvE/vU0HFmw8ar6+q4LBU70tbOX+3kYLBIY3CVtkEymrkSL3LT
-         MAQ1unh7+ZG3k4wXNK9y2axOUad1OvdlRy9huaKp/8CWFMoakUAxWFv/O958oTk8Tx8d
-         0/qApTRojgfDcioz5OPWleBNNjyM7tyPJNsokafBG9tBO7EC++dnZvBmOckpHRBI9+Dv
-         jfDkkJfq10rEPu9NTbLCSMzT5B13SHzNAJawx5/QLHs7W8XJbJLTvWr6tLThfdEF5yP5
-         PmGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689341657; x=1691933657;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=tibbo.com; s=google; t=1689342145; x=1691934145;
+        h=organization:subject:from:to:content-language:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zyMAV70cX4PS4zRIE67PGESKdl711UpfQa5YyCW8wc4=;
-        b=abqCVPUmePOifG60lxPiOCUv7xJf8c0LWqNhQdhPWHBDnSfC7VMrB44RRD2WsfbQ1X
-         IQgVsKorPteC/xyVjIBipMBKLZSgu1iErVnN/B/QXBbFZzqcKu4iZX8oQcLmPAD6ACiZ
-         SiKC2GjvvumpceKN72EFfDtKtoH8ASNM508iWkwTv37FIyZNlJ5p7yp/17ws1koj6Hq+
-         1PgXHWZcR8ijX2DMGi2InHwLZGHw7MdlfiLwow9ipgaMLSRZU4y1ZcHDHnP/f4oYbll8
-         EhKWjJUgCGXnubEkavo1t4B1lAz7M2X6y6wZbnXrxZvA28mZ28B1rDApfQzhkkvx778u
-         H/tA==
-X-Gm-Message-State: ABy/qLYuQ98HDkpLySkA8Glt7HL711odF2StZte72LppfUfPPIC81Tpg
-	qzXAwj7FDrfvP7qDLzNgIm5Lkl/XdUw=
-X-Google-Smtp-Source: APBJJlHDG4uW6gZNc2sTahBMmvK5C5L8n4cUBuQ9BRGf/qbCoqsqS+WNxPkyQwAVECNTVi9XVEGL8g==
-X-Received: by 2002:a6b:e70c:0:b0:780:c787:637d with SMTP id b12-20020a6be70c000000b00780c787637dmr4682529ioh.17.1689341656891;
-        Fri, 14 Jul 2023 06:34:16 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id ed5-20020a056638290500b0042b27413760sm2528944jab.142.2023.07.14.06.34.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 06:34:16 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] go: update 1.20.5 -> 1.20.6
-Date: Fri, 14 Jul 2023 13:34:00 +0000
-Message-Id: <20230714133400.3463291-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        bh=0QC1YUy1YluIJBgvSgzoLb77SYTgLVB/dCr0IRFqNL4=;
+        b=K7R/KHPKJ6Il9Fbilt/EYt1elQHy1AJyg7YaghB3b5FI+dn/6zrWWQOuYB92zyVK8i
+         1AM2xGvPNK81fsRkVZcurGN/yF2MjhbDqIsaaGGflbMHZLf9kAlS+VXbfR3Dq+JIP8ty
+         H6BJbO/VEyXmlZpGvqjmXItcE7vHd3mncABHlPWiDzSgCMWXIDhZ3SmcpxiOnuYtjHiC
+         rlJHId7Cx/ropaXjkzqVvYHAQl69D5PZN6oQTzTalp06Wy7MA2zsaNy7NdjbX9ALLuLd
+         L3Rfc9gvoJO9LgWx1mWHRTujcm893xKWdq8GFchwmKXVAN5k1pSyr3ZbJ1pwX9C9y9P8
+         0kXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689342145; x=1691934145;
+        h=organization:subject:from:to:content-language:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0QC1YUy1YluIJBgvSgzoLb77SYTgLVB/dCr0IRFqNL4=;
+        b=fG393EZDXQ6mkdmxDqgjYpuyDxftzD+Oe+tK3Epb2MZQNQzbi9qyYP6gS3P+698Rm5
+         RHZxkOjhL2k63DtwhrOSAm0Lo6MNFHGrfKUXqRJ9K8QV0ls3t4GUmIPXEQt5kakEBCxP
+         pVcTYL+AgbwsT1MdLB2SFEypPmlbuvJPxg32ePcNFGKgc4i0oB36sM9WQqcR6KJEB17D
+         PnUquVQelNR/EBapWd95biTcX0SlRxQfNHB18qUwnc5YNWsVNyQYpFWDdNXtdKVOnndg
+         6kmbFB2rekMcDD52s6oNhqfLOdHzn2/KJV6qjgLyiraj7gEfenDa7/R+SCg3uWse8bUD
+         UXvw==
+X-Gm-Message-State: ABy/qLYLdNabzuJrw7+b/xj9N3spM6ueC0Ub2DG1nrnHnxIo/6F4D1CC
+	uk4Phf/ToJPKD2xpkfnVvg5bykxu9wZpFtOQKw8=
+X-Google-Smtp-Source: APBJJlHGNJSN2c83Ap3KEjeeyOTVS76dDHbsO0kLFDG1MRhM2ARZ/FZblj3q4KTc5EjUnjcX9cJ4aA==
+X-Received: by 2002:a19:8c04:0:b0:4f8:6a29:b59b with SMTP id o4-20020a198c04000000b004f86a29b59bmr3272989lfd.64.1689342144787;
+        Fri, 14 Jul 2023 06:42:24 -0700 (PDT)
+Received: from [10.1.1.10] ([5.167.98.73])
+        by smtp.gmail.com with ESMTPSA id f15-20020ac2532f000000b004fb745fd232sm1493105lfh.30.2023.07.14.06.42.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 06:42:24 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------VvdoaC1SvE6YwaZhggJDdsfI"
+Message-ID: <3d682b83-f0e8-7add-3dcd-3e850e30f7c6@tibbo.com>
+Date: Fri, 14 Jul 2023 16:42:23 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+From: Dvorkin Dmitry <dvorkin@tibbo.com>
+Subject: [OE-core] systemd service@ bug
+Organization: Tibbo Technology Inc.
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 13:34:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184263
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 13:42:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184264
 
-Upgrade to latest 1.20.x release [1]:
+This is a multi-part message in MIME format.
+--------------VvdoaC1SvE6YwaZhggJDdsfI
+Content-Type: multipart/alternative;
+ boundary="------------bgKGhTdmfGbUtJ0aJaCcVCTc"
 
-$ git log --oneline go1.20.5..go1.20.6 origin/release-branch.go1.20
-2c358ffe97 (tag: go1.20.6, origin/release-branch.go1.20) [release-branch.go1.20] go1.20.6
-312920c00a [release-branch.go1.20] net/http: validate Host header before sending
-4db13d762b [release-branch.go1.20] runtime: set raceignore to zero when starting a new goroutine
-08a58dd8b6 [release-branch.go1.20] runtime: allow for 5 more threads in TestWindowsStackMemory*
-65092835c5 [release-branch.go1.20] cmd/go: skip TestScript/gccgo_link_ldflags on aix/ppc64
-bca817594c [release-branch.go1.20] crypto/x509: tolerate multiple matching chains in testVerify
-b8e67d1ddd [release-branch.go1.20] cmd/go/internal/test: don't wait for previous test actions when interrupted
-3db4f8146c [release-branch.go1.20] runtime: resolve checkdead panic by refining `startm` lock handling in caller context
-6b45fb7b73 [release-branch.go1.20] runtime: fallback to TEB arbitrary pointer when TLS slots are full
-be30960e58 [release-branch.go1.20] runtime: use 1-byte load for address checking in racecallatomic
-b59efe6c34 [release-branch.go1.20] net/mail: permit more characters in mail headers
-c32f1afb41 [release-branch.go1.20] all: make safe for new vet analyzer
-c7b145655b [release-branch.go1.20] cmd/go: fix tests for new builder environment
-03063101a2 [release-branch.go1.20] text/template: set variables correctly in range assignment
-d51e322a3f [release-branch.go1.20] go/printer: error out of Fprint when it would write a '//line' directive with a multiline file path
-49594244d3 [release-branch.go1.20] cmd/cover: error out if a requested source file contains a newline
-4719048211 [release-branch.go1.20] cmd/cgo: error out if the source path used in line directives would contain a newline
-6c606fc191 [release-branch.go1.20] cmd/go: fix TestScript/build_cwd_newline with CGO_ENABLED=0
-63ad2b5811 [release-branch.go1.20] cmd/compile: do not report division by error during typecheck
-95f377daad [release-branch.go1.20] cmd/go: retain extra roots to disambiguate imports in 'go mod tidy'
-a7a48fad7e [release-branch.go1.20] crypto/ecdsa: properly truncate P-521 hashes
-f5172dcd38 [release-branch.go1.20] go/build: check for invalid import paths again
-8b3acefcbe [release-branch.go1.20] cmd/go: omit checksums for go.mod files needed for go version lines more often in pre-1.21 modules
-1008486a9f [release-branch.go1.20] cmd/cgo: correct _cgo_flags output
+--------------bgKGhTdmfGbUtJ0aJaCcVCTc
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-[1] https://github.com/golang/go/compare/go1.20.5...go1.20.6
+Hello!
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc}   | 2 +-
- ...o-binary-native_1.20.5.bb => go-binary-native_1.20.6.bb} | 6 +++---
- ...cross-canadian_1.20.5.bb => go-cross-canadian_1.20.6.bb} | 0
- .../go/{go-cross_1.20.5.bb => go-cross_1.20.6.bb}           | 0
- .../go/{go-crosssdk_1.20.5.bb => go-crosssdk_1.20.6.bb}     | 0
- .../go/{go-native_1.20.5.bb => go-native_1.20.6.bb}         | 0
- .../go/{go-runtime_1.20.5.bb => go-runtime_1.20.6.bb}       | 0
- meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb}     | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.20.5.bb => go-binary-native_1.20.6.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.20.5.bb => go-cross-canadian_1.20.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.20.5.bb => go-cross_1.20.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.20.5.bb => go-crosssdk_1.20.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.20.5.bb => go-native_1.20.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.20.5.bb => go-runtime_1.20.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb} (100%)
+(sorry, previously posted as the reply to wrong message)
 
-diff --git a/meta/recipes-devtools/go/go-1.20.5.inc b/meta/recipes-devtools/go/go-1.20.6.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.20.5.inc
-rename to meta/recipes-devtools/go/go-1.20.6.inc
-index 4e4e57d5cb..551171b255 100644
---- a/meta/recipes-devtools/go/go-1.20.5.inc
-+++ b/meta/recipes-devtools/go/go-1.20.6.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "9a15c133ba2cfafe79652f4815b62e7cfc267f68df1b9454c6ab2a3ca8b96a88"
-+SRC_URI[main.sha256sum] = "62ee5bc6fb55b8bae8f705e0cb8df86d6453626b4ecf93279e2867092e0b7f70"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.5.bb b/meta/recipes-devtools/go/go-binary-native_1.20.6.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.20.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.20.6.bb
-index a98be4af1b..5b2f8f4352 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.20.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.20.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612"
--SRC_URI[go_linux_arm64.sha256sum] = "aa2fab0a7da20213ff975fa7876a66d47b48351558d98851b87d1cfef4360d09"
--SRC_URI[go_linux_ppc64le.sha256sum] = "049b8ab07d34077b90c0642138e10207f6db14bdd1743ea994a21e228f8ca53d"
-+SRC_URI[go_linux_amd64.sha256sum] = "b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1eb"
-+SRC_URI[go_linux_arm64.sha256sum] = "4e15ab37556e979181a1a1cc60f6d796932223a0f5351d7c83768b356f84429b"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "a1b91a42a40bba54bfd5c96c23d72250e0c424038d0d2b5c7950b828b4905822"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.20.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.20.5.bb b/meta/recipes-devtools/go/go-cross_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.20.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.20.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.20.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.20.6.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.20.5.bb b/meta/recipes-devtools/go/go-native_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.20.5.bb
-rename to meta/recipes-devtools/go/go-native_1.20.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.20.5.bb b/meta/recipes-devtools/go/go-runtime_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.20.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.20.6.bb
-diff --git a/meta/recipes-devtools/go/go_1.20.5.bb b/meta/recipes-devtools/go/go_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.20.5.bb
-rename to meta/recipes-devtools/go/go_1.20.6.bb
--- 
-2.34.1
+starting from 2aa82324d43467e7c8bfbbb59570ee3306264b75 commit (dunfell 
+and probably other branches)
 
+https://git.openembedded.org/openembedded-core/commit/?h=dunfell&id=2aa82324d43467e7c8bfbbb59570ee3306264b75
+
+the
+
+SYSTEMD_SERVICE:${PN} = "php-fpm@9000.service"
+
+syntax in the recipe brings OE to error at do_rootfs step:
+
+https://pastebin.com/WbDCPy4V
+
+
++ for service in php-fpm@9000.service
++ systemctl 
+--root=/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac
+-anpr/1.0-r0/rootfs enable php-fpm@9000.service
+Traceback (most recent call last):
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/bin/systemctl", line 331, in <module>
+main()
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/bin/systemctl", line 319, in main
+SystemdUnit(root, service).enable()
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/bin/systemctl", line 232, in enable
+self._process_deps(config, service, path, 'WantedBy', 'wants', instance)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/bin/systemctl", line 192, in _process_deps
+dependent = re.sub("([^%](%%)*)%i", "\\1{}".format(instance), dependent)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 210, in sub
+return _compile(pattern, flags).sub(repl, string, count)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 327, in _subx
+template = _compile_repl(template, pattern)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 318, in 
+_compile_repl
+return sre_parse.parse_template(repl, pattern)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py", line 1036, in 
+parse_tem
+plate
+addgroup(int(this[1:]), len(this) - 1)
+File 
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
+0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py", line 980, in 
+addgroup
+raise s.error("invalid group reference %d" % index, pos)
+re.error: invalid group reference 19 at position 1
+%post(oac-php-1.0-r0.noarch): waitpid(3549888) rc 3549888 status 100
+warning: %post(oac-php-1.0-r0.noarch) scriptlet failed, exit status 1
+Error in POSTIN scriptlet in rpm package oac-php
+Installing : curl-7.69.1-r0.cortexa9hf_neon 849/863
+
+--------------bgKGhTdmfGbUtJ0aJaCcVCTc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;">Hello!</span></span></p>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;">(sorry,
+          previously posted as the reply to wrong message)<br>
+        </span></span></p>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;">starting from
+          2aa82324d43467e7c8bfbbb59570ee3306264b75 commit (dunfell and
+          probably other branches)</span></span></p>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;"><a
+            class="moz-txt-link-freetext"
+href="https://git.openembedded.org/openembedded-core/commit/?h=dunfell&amp;id=2aa82324d43467e7c8bfbbb59570ee3306264b75">https://git.openembedded.org/openembedded-core/commit/?h=dunfell&amp;id=2aa82324d43467e7c8bfbbb59570ee3306264b75</a><br>
+        </span></span></p>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;">the <br>
+        </span></span></p>
+    <p><span style="font-family:monospace"><span
+          style="color:#000000;background-color:#ffffff;">SYSTEMD_SERVICE:${PN}
+          = <a class="moz-txt-link-rfc2396E"
+            href="mailto:php-fpm@9000.service">"php-fpm@9000.service"</a></span></span></p>
+    <p><span style="font-family:monospace"></span></p>
+    <p><span style="font-family:monospace"> syntax in the recipe brings
+        OE to error at do_rootfs step:</span></p>
+    <p><span style="font-family:monospace"><a
+          class="moz-txt-link-freetext"
+          href="https://pastebin.com/WbDCPy4V">https://pastebin.com/WbDCPy4V</a></span></p>
+    <br>
+    <div class="de1">+ for service in <a
+        class="moz-txt-link-abbreviated moz-txt-link-freetext"
+        href="mailto:php-fpm@9000.service">php-fpm@9000.service</a> </div>
+    <div class="de1">+ systemctl
+      --root=/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac
+    </div>
+    <div class="de1">-anpr/1.0-r0/rootfs enable <a
+        class="moz-txt-link-abbreviated moz-txt-link-freetext"
+        href="mailto:php-fpm@9000.service">php-fpm@9000.service</a> </div>
+    <div class="de1">Traceback (most recent call last): </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/bin/systemctl", line
+      331, in &lt;module&gt; </div>
+    <div class="de1"> main() </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/bin/systemctl", line
+      319, in main </div>
+    <div class="de1"> SystemdUnit(root, service).enable() </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/bin/systemctl", line
+      232, in enable </div>
+    <div class="de1"> self._process_deps(config, service, path,
+      'WantedBy', 'wants', instance) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/bin/systemctl", line
+      192, in _process_deps </div>
+    <div class="de1"> dependent = re.sub("([^%](%%)*)%i",
+      "\\1{}".format(instance), dependent) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/lib/python3.8/re.py",
+      line 210, in sub </div>
+    <div class="de1"> return _compile(pattern, flags).sub(repl, string,
+      count) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/lib/python3.8/re.py",
+      line 327, in _subx </div>
+    <div class="de1"> template = _compile_repl(template, pattern) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/lib/python3.8/re.py",
+      line 318, in _compile_repl </div>
+    <div class="de1"> return sre_parse.parse_template(repl, pattern) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py",
+      line 1036, in parse_tem </div>
+    <div class="de1">plate </div>
+    <div class="de1"> addgroup(int(this[1:]), len(this) - 1) </div>
+    <div class="de1"> File
+"/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r</div>
+    <div class="de1">0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py",
+      line 980, in addgroup </div>
+    <div class="de1"> raise s.error("invalid group reference %d" %
+      index, pos) </div>
+    <div class="de1">re.error: invalid group reference 19 at position 1
+    </div>
+    <div class="de1">%post(oac-php-1.0-r0.noarch): waitpid(3549888) rc
+      3549888 status 100 </div>
+    <div class="de1">warning: %post(oac-php-1.0-r0.noarch) scriptlet
+      failed, exit status 1 </div>
+    <div class="de1"> </div>
+    <div class="de1">Error in POSTIN scriptlet in rpm package oac-php </div>
+    Installing : curl-7.69.1-r0.cortexa9hf_neon 849/863
+    <p></p>
+  </body>
+</html>
+
+--------------bgKGhTdmfGbUtJ0aJaCcVCTc--
+
+--------------VvdoaC1SvE6YwaZhggJDdsfI
+Content-Type: text/vcard; charset=UTF-8; name="dvorkin.vcf"
+Content-Disposition: attachment; filename="dvorkin.vcf"
+Content-Transfer-Encoding: base64
+
+QkVHSU46VkNBUkQNClZFUlNJT046NC4wDQpFTUFJTDtQUkVGPTE6ZHZvcmtpbkB0aWJiby5j
+b20NCkVNQUlMOmR2b3JraW5kbWl0cnlAZ21haWwuY29tDQpGTjpEbWl0cnkgRHZvcmtpbg0K
+TklDS05BTUU6ZHYNCk9SRzpUaWJibyBUZWNobm9sb2d5IEluYy47DQpUSVRMRTpFbWJlZGRl
+ZCBMaW51eCBBcmNoaXRlY3QNCk46RHZvcmtpbjtEbWl0cnk7OzsNCkFEUjo7OzlGLTNcLCBO
+by4zMSwgTGFuZSAxNjksIEthbmctTmluZyBTdC4sIEhzaS1DaGloO05ldyBUYWlwZWkgQ2l0
+eTs7MjIxOA0KIDA7VGFpd2FuDQpURUw7VkFMVUU9VEVYVDorNzkxOTA1NDYzODgNClVSTDtW
+QUxVRT1VUkw6aHR0cHM6Ly90aWJiby5jb20vDQpVSUQ6MWM1ODIxMGYtYWM4Yy00MzM3LWIz
+OTEtMGJkZTE0NmQyZDgzDQpFTkQ6VkNBUkQNCg==
+
+--------------VvdoaC1SvE6YwaZhggJDdsfI--
 
