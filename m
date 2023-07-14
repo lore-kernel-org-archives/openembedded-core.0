@@ -1,109 +1,266 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF21C0015E
-	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 21:37:32 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web11.375.1689370643752286515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E8AEB64DC
+	for <webhook@archiver.kernel.org>; Fri, 14 Jul 2023 22:33:18 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.813.1689373996630708531
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jul 2023 14:37:24 -0700
+ Fri, 14 Jul 2023 15:33:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=E6RlHq7C;
- spf=pass (domain: konsulko.com, ip: 209.85.128.169, mailfrom: trini@konsulko.com)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-579ed2829a8so24191527b3.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 14:37:23 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=2/3aYPIk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b89e10d356so15645765ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 15:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1689370643; x=1691962643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zihUJ6UAUGw6j/ftWF4ju8GIx6zx7n4X000qUrEoB/4=;
-        b=E6RlHq7CobQQ55xeUQEsQJlURf/maSWtSroYs1uEgipdAByeUR+BhkrWNjEph58Qet
-         Xe5wCRupu0nFCeswm5gd4j6rFs7K5SYsJZ5k/PefMLkyahBoXK882ic35RpC6kC/OCoM
-         8xmIVQqZF+ZMnPoD8NBRdXaGr4mOkOurAJRE4=
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689373995; x=1691965995;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4qeJsUU/8Gm4ACBufKEKZgt/sj3+kxZ7gIfd7BB4yvE=;
+        b=2/3aYPIkBXrLlcp0wHOFFx28e9+TDSMYlk3VyXN3GaTcAatbcBEFCSHl20MOqadVpR
+         0OkbUl6xwyGzbG1NpT+xCDNyOrLcC1HS4Bdixij62ac04S8IEFQIpEmoZGxAXyBLIGqA
+         g314gPAUa/llZrvt9mah3pfPjjpdDgvcV8tnor3GiS5eaQmvhFRnABZyD6Gr0n6O4MrO
+         /HJCqB7mq4LTvok8iFYPgnraiS1OmYyJLADyTvfSD4h/7EuRo0RIyMt7Ngq38i2nsTjl
+         kov/4F7Z9z1gdQBz5YO/AGdl3Z3fwofP/FG90BZsy6NzCbopqxN8yCg06LGaHR+i3AG+
+         Gzgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689370643; x=1691962643;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zihUJ6UAUGw6j/ftWF4ju8GIx6zx7n4X000qUrEoB/4=;
-        b=PUVivEj3yQbSv+SllxbJjqFtyOp77rAcz8jRqZbVPUOeJO9vddzx/ewAFpYFNz1+gw
-         57ukuQjrYSMlVp5mRBB2lW029MPkryjrUo/rUqpY0loKKWRCMGVaXm60Oe9AWPRf5f1P
-         WNTBeggWItEy9FAN96e9ySPp3LmtTW1xp1xOyPJlWr/QNJC/pCfBJk6vs5rUli7SCLUt
-         aPm2C0QN6Pd1IGUXtKbokAYQesE02V7AFJoFgnjTHNpcIUUh7fYy1o0v5cL0LiVFwSXU
-         XkhMh0LOExOVDhG6QRcroHghwBsD3Z5bEjVJ0lj1tdkby8SQUWZNtuDKhh2x7FUReu+k
-         rIKw==
-X-Gm-Message-State: ABy/qLYHJfCdmQWO2q8ndpr8dF864NeAuluePqvUBb+WsIFNxBNFnLsM
-	NTMmHN2TlahD/bz6ctfzIgPbVg==
-X-Google-Smtp-Source: APBJJlF9Q/nDsOLZdsgH3A+v9QpBQuhDyj4U/85+tFbKov4cU7GTWrmQiOJ+8Gq5iekdJns0M8kmbA==
-X-Received: by 2002:a0d:e292:0:b0:570:81f1:7b49 with SMTP id l140-20020a0de292000000b0057081f17b49mr6080071ywe.6.1689370642951;
-        Fri, 14 Jul 2023 14:37:22 -0700 (PDT)
-Received: from bill-the-cat (2603-6081-7b00-6400-24ee-6309-f4be-c2ad.res6.spectrum.com. [2603:6081:7b00:6400:24ee:6309:f4be:c2ad])
-        by smtp.gmail.com with ESMTPSA id y80-20020a0dd653000000b0055a21492192sm2525283ywd.115.2023.07.14.14.37.22
+        d=1e100.net; s=20221208; t=1689373995; x=1691965995;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4qeJsUU/8Gm4ACBufKEKZgt/sj3+kxZ7gIfd7BB4yvE=;
+        b=HDCdfj8mloxZNEyWpgMLvEwvEd8GRQ68O7/GLBgj8S8/Q9cZH4wKo6Q1ulSGstsgG3
+         LYOoI9TVLK6gEkEeraxhj81mrE9r05awXLM4OYexb6FsopppCqMJybTarJgoFwl666pK
+         fxMu4oiCc3u7+KsxCzq4vnqfQtoDnUx04MOiCje454RgE5KF3eN6UsKyoOjaJD6BNhK4
+         KviwVmAyXvujXBZOaA/CgiSBmxE9+JiyitqwpOgLaDIdxqC3HdGGnKDPrvXFb1V8BfUa
+         R+K3KEdSeS1jI5aS6Pvw2nfo0Mcvf/1nPc98GDn2fYEoKl55WVXG5/1HoUvJXYPjjmUS
+         gc4A==
+X-Gm-Message-State: ABy/qLb/DL6pCrAXl8JR0x5fkMI/rg4Sr2PgoPhrs4GQMObVJt+R0Sqw
+	XaFngG7nUlOnxD5EmfCp7Fyi0QF1l4n1ZYn1ruo=
+X-Google-Smtp-Source: APBJJlHuv9DFkXDIDAxvkIyFifvOYw+Pu+1g/C0+zpbm6eHhc2K6Jq+2H0hMHf9QM8cYEt5jSbndwg==
+X-Received: by 2002:a17:902:e744:b0:1b8:7483:d488 with SMTP id p4-20020a170902e74400b001b87483d488mr5130952plf.57.1689373995457;
+        Fri, 14 Jul 2023 15:33:15 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id q1-20020a170902788100b001b80760fd04sm8236782pll.112.2023.07.14.15.33.14
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 14:37:22 -0700 (PDT)
-Date: Fri, 14 Jul 2023 17:37:19 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>,
-	openembedded-core@lists.openembedded.org, marex@denx.de,
-	Fabio Estevam <festevam@denx.de>
-Subject: Re: [OE-core] [PATCH 1/2] u-boot: Switch to nobranch=1
-Message-ID: <20230714213719.GX2066889@bill-the-cat>
-References: <20230714161823.20685-1-festevam@gmail.com>
- <CANNYZj-8RV6tz_7kEH6uz=yZeyd=bPts6AoBqTd5DL3rGGu+yg@mail.gmail.com>
+        Fri, 14 Jul 2023 15:33:14 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 03/26] ghostscript: fix CVE-2023-36664
+Date: Fri, 14 Jul 2023 12:32:37 -1000
+Message-Id: <8173939cfa4d0be8c0ffaa45e371945b1f7a16ae.1689373876.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1689373875.git.steve@sakoman.com>
+References: <cover.1689373875.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SJB3M9UEVKdg++zf"
-Content-Disposition: inline
-In-Reply-To: <CANNYZj-8RV6tz_7kEH6uz=yZeyd=bPts6AoBqTd5DL3rGGu+yg@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 21:37:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184281
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jul 2023 22:33:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184285
 
+From: Joe Slater <joe.slater@windriver.com>
 
---SJB3M9UEVKdg++zf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Combine two commits from git.ghostscript.com/ghostpdl.
+The first incompletely addresses the CVE.  The second
+addresses defects in the first.
 
-On Fri, Jul 14, 2023 at 07:53:03PM +0200, Alexander Kanavin wrote:
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../ghostscript/cve-2023-36664.patch          | 165 ++++++++++++++++++
+ .../ghostscript/ghostscript_10.0.0.bb         |   1 +
+ 2 files changed, 166 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/cve-2023-36664.patch
 
-> It's not in master branch, but it is in a branch, so please do not use
-> nobranch, and just adjust the branch parameter together with the
-> version update:
-> https://source.denx.de/u-boot/u-boot/-/commit/83cdab8b2c6ea0fc0860f8444d0=
-83353b47f1d5c
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/cve-2023-36664.patch b/meta/recipes-extended/ghostscript/ghostscript/cve-2023-36664.patch
+new file mode 100644
+index 0000000000..fea0665523
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/cve-2023-36664.patch
+@@ -0,0 +1,165 @@
++From 6f244ecef4a740b3b2dde15303b13a93a83706c1 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Wed, 7 Jun 2023 10:23:06 +0100
++Subject: [PATCH] Bug 706761: Don't "reduce" %pipe% file names for permission
++ validation
++
++For regular file names, we try to simplfy relative paths before we use them.
++
++Because the %pipe% device can, effectively, accept command line calls, we
++shouldn't be simplifying that string, because the command line syntax can end
++up confusing the path simplifying code. That can result in permitting a pipe
++command which does not match what was originally permitted.
++
++Special case "%pipe" in the validation code so we always deal with the entire
++string.
++
++Bug 706778: 706761 revisit
++
++Two problems with the original commit. The first a silly typo inverting the
++logic of a test.
++
++The second was forgetting that we actually actually validate two candidate
++strings for pipe devices. One with the expected "%pipe%" prefix, the other
++using the pipe character prefix: "|".
++
++This addresses both those.
++---
++CVE: CVE-2023-36664
++
++Upstream-Status: Backport [see text]
++
++From git://git.ghostscript.com/ghostpdl
++  commit 5e65eeae225c7d02d447de5abaf4a8e6d234fcea
++  commit fb342fdb60391073a69147cb71af1ac416a81099
++  
++The second commit fixes errors in the first one, so we combine them.
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++---
++ base/gpmisc.c   | 31 +++++++++++++++++++--------
++ base/gslibctx.c | 56 ++++++++++++++++++++++++++++++++++++-------------
++ 2 files changed, 64 insertions(+), 23 deletions(-)
++
++diff --git a/base/gpmisc.c b/base/gpmisc.c
++index 3d878ac..f9a9230 100644
++--- a/base/gpmisc.c
+++++ b/base/gpmisc.c
++@@ -1076,16 +1076,29 @@ gp_validate_path_len(const gs_memory_t *mem,
++              && !memcmp(path + cdirstrl, dirsepstr, dirsepstrl)) {
++           prefix_len = 0;
++     }
++-    rlen = len+1;
++-    bufferfull = (char *)gs_alloc_bytes(mem->thread_safe_memory, rlen + prefix_len, "gp_validate_path");
++-    if (bufferfull == NULL)
++-        return gs_error_VMerror;
++-
++-    buffer = bufferfull + prefix_len;
++-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
++-        return gs_error_invalidfileaccess;
++-    buffer[rlen] = 0;
++ 
+++    /* "%pipe%" do not follow the normal rules for path definitions, so we
+++       don't "reduce" them to avoid unexpected results
+++     */
+++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
+++        bufferfull = buffer = (char *)gs_alloc_bytes(mem->thread_safe_memory, len + 1, "gp_validate_path");
+++        if (buffer == NULL)
+++            return gs_error_VMerror;
+++        memcpy(buffer, path, len);
+++        buffer[len] = 0;
+++        rlen = len;
+++    }
+++    else {
+++        rlen = len+1;
+++        bufferfull = (char *)gs_alloc_bytes(mem->thread_safe_memory, rlen + prefix_len, "gp_validate_path");
+++        if (bufferfull == NULL)
+++            return gs_error_VMerror;
+++
+++        buffer = bufferfull + prefix_len;
+++        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
+++            return gs_error_invalidfileaccess;
+++        buffer[rlen] = 0;
+++    }
++     while (1) {
++         switch (mode[0])
++         {
++diff --git a/base/gslibctx.c b/base/gslibctx.c
++index 1862482..8bfe4bb 100644
++--- a/base/gslibctx.c
+++++ b/base/gslibctx.c
++@@ -740,14 +740,28 @@ gs_add_control_path_len_flags(const gs_memory_t *mem, gs_path_control_t type, co
++             return gs_error_rangecheck;
++     }
++ 
++-    rlen = len+1;
++-    buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gp_validate_path");
++-    if (buffer == NULL)
++-        return gs_error_VMerror;
+++    /* "%pipe%" do not follow the normal rules for path definitions, so we
+++       don't "reduce" them to avoid unexpected results
+++     */
+++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
+++        buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_add_control_path_len");
+++        if (buffer == NULL)
+++            return gs_error_VMerror;
+++        memcpy(buffer, path, len);
+++        buffer[len] = 0;
+++        rlen = len;
+++    }
+++    else {
+++        rlen = len + 1;
++ 
++-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
++-        return gs_error_invalidfileaccess;
++-    buffer[rlen] = 0;
+++        buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gs_add_control_path_len");
+++        if (buffer == NULL)
+++            return gs_error_VMerror;
+++
+++        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
+++            return gs_error_invalidfileaccess;
+++        buffer[rlen] = 0;
+++    }
++ 
++     n = control->num;
++     for (i = 0; i < n; i++)
++@@ -833,14 +847,28 @@ gs_remove_control_path_len_flags(const gs_memory_t *mem, gs_path_control_t type,
++             return gs_error_rangecheck;
++     }
++ 
++-    rlen = len+1;
++-    buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gp_validate_path");
++-    if (buffer == NULL)
++-        return gs_error_VMerror;
+++    /* "%pipe%" do not follow the normal rules for path definitions, so we
+++       don't "reduce" them to avoid unexpected results
+++     */
+++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
+++        buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_remove_control_path_len");
+++        if (buffer == NULL)
+++            return gs_error_VMerror;
+++        memcpy(buffer, path, len);
+++        buffer[len] = 0;
+++        rlen = len;
+++    }
+++    else {
+++        rlen = len+1;
++ 
++-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
++-        return gs_error_invalidfileaccess;
++-    buffer[rlen] = 0;
+++        buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gs_remove_control_path_len");
+++        if (buffer == NULL)
+++            return gs_error_VMerror;
+++
+++        if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
+++            return gs_error_invalidfileaccess;
+++        buffer[rlen] = 0;
+++    }
++ 
++     n = control->num;
++     for (i = 0; i < n; i++) {
++-- 
++2.35.5
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+index 86ecdbe24a..9a900ee04f 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+@@ -35,6 +35,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://mkdir-p.patch \
+                 file://cross-compile.patch \
+                 file://cve-2023-28879.patch \
++                file://cve-2023-36664.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.34.1
 
-Won't this just make more churn later? The v2023.10 tag will be back on
-master (and we'll assume I don't goof it up), but if any of the "maybe
-we do an LTS? Hmm?" work comes through, then we start having to change
-things there, and then maybe can't as easily share inc files between
-something that tracks LTS and something that doesn't.
-
---=20
-Tom
-
---SJB3M9UEVKdg++zf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmSxwAkACgkQFHw5/5Y0
-tyz8bgv/QCQbyEgFhmrFGryogh9IpyuIPQLYKJplU4d52UQFBdv0778dudLDidvY
-lB5rqbSOhrd3ja6+mw7B9mHZJzZmsqhPvgfq7nt7fFJ4hPcMSnJZSVz/NGMnVY+2
-H80wwZXW34C+it6soeZ/h9s7AIfhBvmd88jLrWhoW5eZG1c9sLJnmju+4jpaJ4TF
-nDCVDeWTcfZJG8HzOrtV5a/dXfpjchFowjbuZZd0dMECDTqWCMhdwxWZQP6KFDam
-Fh6CJ6IXyaziH/yIKx80XfMIX7F8ZMMJp63o6715NcJTg3sgB9ElbzRKpVKFgb1H
-c1Az+4NJh30jy+RPEorZ76aFseDaMQNcnayJl9QUQJQZQ0d0mMBJ5b0b3+dzg0+B
-R8KIq2W0Kc7m68TCLVvpHiMysHgdHR5OY8A5IHIYopLReSILUQ/owncTCYYrlR9i
-flx2eK3t9JWa/Okxup5dqsWVOJAyGntRIw4Bbb5MQZpdW47zgQu5w7DjQHULkYnt
-IeiBhCGo
-=0lBB
------END PGP SIGNATURE-----
-
---SJB3M9UEVKdg++zf--
 
