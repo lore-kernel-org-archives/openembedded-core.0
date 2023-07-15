@@ -2,655 +2,213 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEFEC27C7A
-	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:39 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.6035.1689456455316427164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08190C2FC05
+	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:40 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.5938.1689456454145348965
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Jul 2023 14:27:35 -0700
+ Sat, 15 Jul 2023 14:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DTZmwRAC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101895b73ab50-f15be0b0-e838-422e-9eb6-a00f261bc848-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IEJYjlC/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101895b73ab1d-0c013ca7-fd74-4bda-8da4-4c35bdbebfa2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ys1tFpofZHe9KNupggYrUSdhwdWDj4xdCqQsD3FMC6w=;
-	b=DTZmwRACrsfzeAywySt66XJaGa/egu7yPiilTFSm+ajbDDGnRz13Uq4f2/cMAw07
-	crFFotzQdeUSc/BXkwlfUXldAYKew9bektu1sBtO8Su/GuKjLJqLdAmQ7oJpps58lZ5
-	JfAiJjcTWZfEHF9mG7KXLcCE7ku+8V2gYrAiLNHU=
+	bh=Kg360xY3UOJrUn1Yh7wW3mnt8mSGH2t95/vfFS7qr5I=;
+	b=IEJYjlC/TOwalQFTB0Dn+/nboVsmdBsSXF/8j2G172S+oPWSrmVV/W5MS9VqQoIG
+	oeLX6zMDfQ+eixWyPLksAnjO5/5nYIU8LCb0gkXHblx/2tx+cWEsISUYUbt9OJ18NFq
+	/g6N6iiHZuIsiRKGXn5J/Qbm5Pg1Bmlyv8QztqQw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ys1tFpofZHe9KNupggYrUSdhwdWDj4xdCqQsD3FMC6w=;
-	b=US15JJMxHNfbg6PbuOrGde7sHvGKYmsoYsWyIMcQM7SUmyJr3j4lCDF1WAOqFsFJ
-	SioRfkDCOWlGxuu/hbgYyMX4i116Ovh8O28V1j3QC5U+IL/OA5xDTUk6ndFC1hmwjwv
-	HoIgR5KPPqHLuspBalFRVT0pHAXuQVaNXkEvsB7A=
-Content-Type: multipart/mixed; boundary="===============1419403338934395865=="
+	bh=Kg360xY3UOJrUn1Yh7wW3mnt8mSGH2t95/vfFS7qr5I=;
+	b=mZbE60FwY1RfqTV6jHnCcEiRV4Vug2rbDuF+zJUADSzz/Qh8Q+u50gZf+A95n8iv
+	0CPdnFJH03EKzCzk1BY+0dnWW0kQUYeuSNhpYZjDPAL2K/wvz3fW9cGxdKKYgOGluNq
+	xun2YqFut9Ztv14nkDJLH8czMe8FKrHNG6yxlt5I=
+Content-Type: multipart/mixed; boundary="===============1391085783976311716=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] qemu: upgrading to 8.0.3 FAILED
-Message-ID: <010101895b73ab50-f15be0b0-e838-422e-9eb6-a00f261bc848-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-zipp: upgrading to 3.16.2 SUCCEEDED
+Message-ID: <010101895b73ab1d-0c013ca7-fd74-4bda-8da4-4c35bdbebfa2-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Jul 2023 21:27:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.23
+X-SES-Outgoing: 2023.07.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184347
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184340
 
---===============1419403338934395865==
-Content-Type: text/plain; charset="utf-8"
+--===============1391085783976311716==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICpxZW11KiB0byAqOC4wLjMqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxlZCBlcnJv
-ciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAgICAtIGFw
-cGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtcWVtdS11cGdyYWRlLTguMC4wLTguMC4zLnBhdGNo
-CiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMgYW5kIHN1bW1hcml6
-ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBhbiBpbWFnZSB0aGF0
-IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNpYyBzYW5pdHkgdGVz
-dHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0IGNvbW1pdCAtcyAt
-LXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFwcHJvcHJpYXRlIG1h
-aWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhlIHJlY2lwZSBzaG91
-bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxsIFJFQ0lQRV9OT19V
-UERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhhdAphdXRvbWF0aWMg
-dXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFzZSByZXZpZXcgdGhl
-IGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBidWlsZC91cGRhdGUg
-ZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0dHBzOi8vYnVnemls
-bGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0b21hdGVkJTIwVXBk
-YXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgotLSA+OCAtLQpGcm9t
-IDQxNGEzYzZkYzMzMmU0NWQ1YTdjNTQ4MDM5MDY5NGRmZDNjMWU2MzEgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9qZWN0Lm9yZz4KRGF0
-ZTogU2F0LCAxNSBKdWwgMjAyMyAxMzozODoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHFlbXU6
-IHVwZ3JhZGUgOC4wLjAgLT4gOC4wLjMKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUv
-cWVtdS5pbmMgICAgICAgICAgIHwgICA0ICstCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9x
-ZW11L3BwYy5wYXRjaCAgICAgfCAxNDggLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vcWVtdS97cWVt
-dV84LjAuMC5iYiA9PiBxZW11XzguMC4zLmJifSAgICAgfCAgIDAKIDMgZmlsZXMgY2hhbmdlZCwg
-MiBpbnNlcnRpb25zKCspLCAxNTAgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS9wcGMucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcWVtdS97cWVtdV84LjAuMC5iYiA9PiBxZW11XzguMC4zLmJifSAoMTAwJSkK
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCmluZGV4IGE1YmRlZWY2NmQuLjk3ZTExNTBi
-NjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCisrKyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCkBAIC0zMCwxMSArMzAsMTEgQEAg
-U1JDX1VSSSA9ICJodHRwczovL2Rvd25sb2FkLnFlbXUub3JnLyR7QlBOfS0ke1BWfS50YXIueHog
-XAogICAgICAgICAgICBmaWxlOi8vMDAwMS10cmFjZXRvb2wtdXNlLXJlbGF0aXZlLXBhdGhzLWZv
-ci1saW5lLXByZXByb2Nlc3Nvci1kLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3FlbXUtZ3Vl
-c3QtYWdlbnQuaW5pdCBcCiAgICAgICAgICAgIGZpbGU6Ly9xZW11LWd1ZXN0LWFnZW50LnVkZXYg
-XAotICAgICAgICAgICBmaWxlOi8vcHBjLnBhdGNoIFwKKyAgICAgICAgICAgZmlsZTovL2Nyb3Nz
-LnBhdGNoIFwKICAgICAgICAgICAgIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicWVtdS0oP1A8
-cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJiNjBmMDM0
-MTUzMTE4MWQ2Y2MzOTY5ZGQxOWEwMTNkMDQyN2E4N2Y5MTgxOTM5NzBkOWFkYjkxMTMxZTU2ZDAi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWNmNGQzMmNiZWY5ZDM5N2JmYzhjYzUwZTRkMWU5MmEx
-YjMwMjUzYmYzMmU4ZWU3M2M3YThkY2Y5YTIzMmIwOSIKIAogU1JDX1VSSTphcHBlbmQ6Y2xhc3Mt
-dGFyZ2V0ID0gIiBmaWxlOi8vY3Jvc3MucGF0Y2giCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRp
-dmVzZGsgPSAiIGZpbGU6Ly9jcm9zcy5wYXRjaCIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9xZW11L3FlbXUvcHBjLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUv
-cWVtdS9wcGMucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGUxNGM0OGNmODUu
-LjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS9wcGMucGF0
-Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwxNDggKzAsMCBAQAotRnJvbSAzMWYwMjAyMWFjMTc0NDJj
-NTE0NTkzZjdiOWVkNzUwZWE4N2MyMWIxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTog
-UmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+Ci1EYXRl
-OiBTYXQsIDYgTWF5IDIwMjMgMDc6NDI6MzUgKzAxMDAKLUNjOiBWw61jdG9yIENvbG9tYm8gPHZp
-Y3Rvci5jb2xvbWJvQGVsZG9yYWRvLm9yZy5icj4KLUNjOiBNYXRoZXVzIEZlcnN0IDxtYXRoZXVz
-LmZlcnN0QGVsZG9yYWRvLm9yZy5icj4KLUNjOiBEYW5pZWwgSGVucmlxdWUgQmFyYm96YSA8ZGFu
-aWVsaGI0MTNAZ21haWwuY29tPgotQ2M6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRl
-cnNvbkBsaW5hcm8ub3JnPgotQ2M6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAbGlu
-YXJvLm9yZz4KLVN1YmplY3Q6IFtQQVRDSCB2M10gdGFyZ2V0L3BwYzogRml4IGZhbGxiYWNrIHRv
-IE1GU1MgZm9yIE1GRlMqIGluc3RydWN0aW9ucyBvbgotIHByZSAzLjAgSVNBcwotCi1UaGUgZm9s
-bG93aW5nIGNvbW1pdHMgY2hhbmdlZCB0aGUgY29kZSBzdWNoIHRoYXQgdGhlIGZhbGxiYWNrIHRv
-IE1GU1MgZm9yIE1GRlNDUk4sCi1NRkZTQ1JOSSwgTUZGU0NFIGFuZCBNRkZTTCBvbiBwcmUgMy4w
-IElTQXMgd2FzIHJlbW92ZWQgYW5kIGJlY2FtZSBhbiBpbGxlZ2FsIGluc3RydWN0aW9uOgotCi0g
-IGJmOGFkZmQ4OGI1NDc2ODBhYTg1N2M0NjA5OGYzYTFlOTQzNzMxNjAgLSB0YXJnZXQvcHBjOiBN
-b3ZlIG1mZnNjcm5baV0gdG8gZGVjb2RldHJlZQotICAzOTRjMmUyZmRhNzBkYTcyMmYyMGZiNjA0
-MTJkNmMwY2E0YmZhYTAzIC0gdGFyZ2V0L3BwYzogTW92ZSBtZmZzY2UgdG8gZGVjb2RldHJlZQot
-ICAzZTViY2U3MGVmZTZiZDFmNjg0ZWZiYjIxZmQyYTMxNmNiZjA2NTdlIC0gdGFyZ2V0L3BwYzog
-TW92ZSBtZmZzbCB0byBkZWNvZGV0cmVlCi0KLVRoZSBoYXJkd2FyZSB3aWxsIGhhbmRsZSB0aGVt
-IGFzIGEgTUZGUyBpbnN0cnVjdGlvbiBhcyB0aGUgY29kZSBkaWQgcHJldmlvdXNseS4KLVRoaXMg
-bWVhbnMgYXBwbGljYXRpb25zIHRoYXQgd2VyZSBzZWdmYXVsdGluZyB1bmRlciBxZW11IHdoZW4g
-ZW5jb3VudGVyaW5nIHRoZXNlCi1pbnN0cnVjdGlvbnMgd2hpY2ggaXMgdXNlZCBpbiBnbGliYyBs
-aWJtIGZ1bmN0aW9ucyBmb3IgZXhhbXBsZS4KLQotVGhlIGZhbGxiYWNrIGZvciBNRkZTQ0RSTiBh
-bmQgTUZGU0NEUk5JIGFkZGVkIGluIGEgbGF0ZXIgcGF0Y2ggd2FzIGFsc28gbWlzc2luZy4KLQot
-VGhpcyBwYXRjaCByZXN0b3JlcyB0aGUgZmFsbGJhY2sgdG8gTUZTUyBmb3IgdGhlc2UgaW5zdHJ1
-Y3Rpb25zIG9uIHByZSAzLjBzIElTQXMKLWFzIHRoZSBoYXJkd2FyZSBkZWNvZGVyIHdvdWxkLCBm
-aXhpbmcgdGhlIHNlZ2ZhdWx0aW5nIGxpYm0gY29kZS4gSXQgZG9lc24ndCBoYXZlCi10aGUgZmFs
-bGJhY2sgZm9yIDMuMCBvbndhcmRzIHRvIG1hdGNoIGhhcmR3YXJlIGJlaGF2aW91ci4KLQotU2ln
-bmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
-bi5vcmc+Ci0tLS0KLSB0YXJnZXQvcHBjL2luc24zMi5kZWNvZGUgICAgICAgICAgIHwgMjAgKysr
-KysrKysrKysrKy0tLS0tLS0KLSB0YXJnZXQvcHBjL3RyYW5zbGF0ZS9mcC1pbXBsLmMuaW5jIHwg
-MjIgKysrKysrKysrKysrKysrKy0tLS0tLQotIDIgZmlsZXMgY2hhbmdlZCwgMjkgaW5zZXJ0aW9u
-cygrKSwgMTMgZGVsZXRpb25zKC0pCi0KLXYzIC0gZHJvcCBmYWxsYmFjayB0byBNRkZTIGZvciAz
-LjAgSVNBIHRvIG1hdGNoIGhhcmR3YXJlCi12MiAtIHN3aXRjaCB0byB1c2UgZGVjb2RldHJlZSBw
-YXR0ZXJuIGdyb3VwcyBwZXIgZmVlZGJhY2sKLQotVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQg
-W2h0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3FlbXUtZGV2ZWwvMjAyMzA1MDYwNjUyNDAuMzE3Nzc5
-OC0xLXJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmcvXQotCi1kaWZmIC0tZ2l0IGEv
-dGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlIGIvdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlCi1pbmRl
-eCBmOGY1ODllOWZkLi40ZmNmM2FmOGQwIDEwMDY0NAotLS0tIGEvdGFyZ2V0L3BwYy9pbnNuMzIu
-ZGVjb2RlCi0rKysgYi90YXJnZXQvcHBjL2luc24zMi5kZWNvZGUKLUBAIC0zOTAsMTMgKzM5MCwx
-OSBAQCBTRVROQkNSICAgICAgICAgMDExMTExIC4uLi4uIC4uLi4uIC0tLS0tIDAxMTExMDAwMDAg
-LSAgIEBYX2JpCi0gCi0gIyMjIE1vdmUgVG8vRnJvbSBGUFNDUgotIAotLU1GRlMgICAgICAgICAg
-ICAxMTExMTEgLi4uLi4gMDAwMDAgLS0tLS0gMTAwMTAwMDExMSAuICAgQFhfdF9yYwotLU1GRlND
-RSAgICAgICAgICAxMTExMTEgLi4uLi4gMDAwMDEgLS0tLS0gMTAwMTAwMDExMSAtICAgQFhfdAot
-LU1GRlNDUk4gICAgICAgICAxMTExMTEgLi4uLi4gMTAxMTAgLi4uLi4gMTAwMTAwMDExMSAtICAg
-QFhfdGIKLS1NRkZTQ0RSTiAgICAgICAgMTExMTExIC4uLi4uIDEwMTAwIC4uLi4uIDEwMDEwMDAx
-MTEgLSAgIEBYX3RiCi0tTUZGU0NSTkkgICAgICAgIDExMTExMSAuLi4uLiAxMDExMSAtLS0uLiAx
-MDAxMDAwMTExIC0gICBAWF9pbW0yCi0tTUZGU0NEUk5JICAgICAgIDExMTExMSAuLi4uLiAxMDEw
-MSAtLS4uLiAxMDAxMDAwMTExIC0gICBAWF9pbW0zCi0tTUZGU0wgICAgICAgICAgIDExMTExMSAu
-Li4uLiAxMTAwMCAtLS0tLSAxMDAxMDAwMTExIC0gICBAWF90Ci0rewotKyAgIyBCZWZvcmUgUG93
-ZXIgSVNBIHYzLjAsIE1GRlMgYml0cyAxMX4xNSB3ZXJlIHJlc2VydmVkIGFuZCBzaG91bGQgYmUg
-aWdub3JlZAotKyAgTUZGU19JU0EyMDcgICAgIDExMTExMSAuLi4uLiAtLS0tLSAtLS0tLSAxMDAx
-MDAwMTExIC4gICBAWF90X3JjCi0rICBbCi0rICAgIE1GRlMgICAgICAgICAgICAxMTExMTEgLi4u
-Li4gMDAwMDAgLS0tLS0gMTAwMTAwMDExMSAuICAgQFhfdF9yYwotKyAgICBNRkZTQ0UgICAgICAg
-ICAgMTExMTExIC4uLi4uIDAwMDAxIC0tLS0tIDEwMDEwMDAxMTEgLSAgIEBYX3QKLSsgICAgTUZG
-U0NSTiAgICAgICAgIDExMTExMSAuLi4uLiAxMDExMCAuLi4uLiAxMDAxMDAwMTExIC0gICBAWF90
-YgotKyAgICBNRkZTQ0RSTiAgICAgICAgMTExMTExIC4uLi4uIDEwMTAwIC4uLi4uIDEwMDEwMDAx
-MTEgLSAgIEBYX3RiCi0rICAgIE1GRlNDUk5JICAgICAgICAxMTExMTEgLi4uLi4gMTAxMTEgLS0t
-Li4gMTAwMTAwMDExMSAtICAgQFhfaW1tMgotKyAgICBNRkZTQ0RSTkkgICAgICAgMTExMTExIC4u
-Li4uIDEwMTAxIC0tLi4uIDEwMDEwMDAxMTEgLSAgIEBYX2ltbTMKLSsgICAgTUZGU0wgICAgICAg
-ICAgIDExMTExMSAuLi4uLiAxMTAwMCAtLS0tLSAxMDAxMDAwMTExIC0gICBAWF90Ci0rICBdCi0r
-fQotIAotICMjIyBEZWNpbWFsIEZsb2F0aW5nLVBvaW50IEFyaXRobWV0aWMgSW5zdHJ1Y3Rpb25z
-Ci0gCi1kaWZmIC0tZ2l0IGEvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZnAtaW1wbC5jLmluYyBiL3Rh
-cmdldC9wcGMvdHJhbnNsYXRlL2ZwLWltcGwuYy5pbmMKLWluZGV4IDU3ZDg0Mzc4NTEuLjg3NDc3
-NGVhZGUgMTAwNjQ0Ci0tLS0gYS90YXJnZXQvcHBjL3RyYW5zbGF0ZS9mcC1pbXBsLmMuaW5jCi0r
-KysgYi90YXJnZXQvcHBjL3RyYW5zbGF0ZS9mcC1pbXBsLmMuaW5jCi1AQCAtNTY4LDYgKzU2OCwy
-MiBAQCBzdGF0aWMgdm9pZCBzdG9yZV9mcHNjcl9tYXNrZWQoVENHdl9pNjQgZnBzY3IsIHVpbnQ2
-NF90IGNsZWFyX21hc2ssCi0gICAgIGdlbl9oZWxwZXJfc3RvcmVfZnBzY3IoY3B1X2VudiwgZnBz
-Y3JfbWFza2VkLCBzdF9tYXNrKTsKLSB9Ci0gCi0rc3RhdGljIGJvb2wgdHJhbnNfTUZGU19JU0Ey
-MDcoRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX3RfcmMgKmEpCi0rewotKyAgICBpZiAoIShjdHgt
-Pmluc25zX2ZsYWdzMiAmIFBQQzJfSVNBMzAwKSkgewotKyAgICAgICAgLyoKLSsgICAgICAgICAq
-IEJlZm9yZSBQb3dlciBJU0EgdjMuMCwgTUZGUyBiaXRzIDExfjE1IHdlcmUgcmVzZXJ2ZWQsIGFu
-eSBpbnN0cnVjdGlvbgotKyAgICAgICAgICogd2l0aCBPUENEPTYzIGFuZCBYTz01ODMgc2hvdWxk
-IGJlIGRlY29kZWQgYXMgTUZGUy4KLSsgICAgICAgICAqLwotKyAgICAgICAgcmV0dXJuIHRyYW5z
-X01GRlMoY3R4LCBhKTsKLSsgICAgfQotKyAgICAvKgotKyAgICAgKiBGb3IgUG93ZXIgSVNBIHYz
-LjArLCByZXR1cm4gZmFsc2UgYW5kIGxldCB0aGUgcGF0dGVybiBncm91cAotKyAgICAgKiBzZWxl
-Y3QgdGhlIGNvcnJlY3QgaW5zdHJ1Y3Rpb24uCi0rICAgICAqLwotKyAgICByZXR1cm4gZmFsc2U7
-Ci0rfQotKwotIHN0YXRpYyBib29sIHRyYW5zX01GRlMoRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19Y
-X3RfcmMgKmEpCi0gewotICAgICBSRVFVSVJFX0ZQVShjdHgpOwotQEAgLTU4NCw3ICs2MDAsNiBA
-QCBzdGF0aWMgYm9vbCB0cmFuc19NRkZTQ0UoRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX3QgKmEp
-Ci0gewotICAgICBUQ0d2X2k2NCBmcHNjcjsKLSAKLS0gICAgUkVRVUlSRV9JTlNOU19GTEFHUzIo
-Y3R4LCBJU0EzMDApOwotICAgICBSRVFVSVJFX0ZQVShjdHgpOwotIAotICAgICBnZW5fcmVzZXRf
-ZnBzdGF0dXMoKTsKLUBAIC01OTcsNyArNjEyLDYgQEAgc3RhdGljIGJvb2wgdHJhbnNfTUZGU0NS
-TihEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hfdGIgKmEpCi0gewotICAgICBUQ0d2X2k2NCB0MSwg
-ZnBzY3I7Ci0gCi0tICAgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0eCwgSVNBMzAwKTsKLSAgICAg
-UkVRVUlSRV9GUFUoY3R4KTsKLSAKLSAgICAgdDEgPSB0Y2dfdGVtcF9uZXdfaTY0KCk7Ci1AQCAt
-NjE0LDcgKzYyOCw2IEBAIHN0YXRpYyBib29sIHRyYW5zX01GRlNDRFJOKERpc2FzQ29udGV4dCAq
-Y3R4LCBhcmdfWF90YiAqYSkKLSB7Ci0gICAgIFRDR3ZfaTY0IHQxLCBmcHNjcjsKLSAKLS0gICAg
-UkVRVUlSRV9JTlNOU19GTEFHUzIoY3R4LCBJU0EzMDApOwotICAgICBSRVFVSVJFX0ZQVShjdHgp
-OwotIAotICAgICB0MSA9IHRjZ190ZW1wX25ld19pNjQoKTsKLUBAIC02MzEsNyArNjQ0LDYgQEAg
-c3RhdGljIGJvb2wgdHJhbnNfTUZGU0NSTkkoRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX2ltbTIg
-KmEpCi0gewotICAgICBUQ0d2X2k2NCB0MSwgZnBzY3I7Ci0gCi0tICAgIFJFUVVJUkVfSU5TTlNf
-RkxBR1MyKGN0eCwgSVNBMzAwKTsKLSAgICAgUkVRVUlSRV9GUFUoY3R4KTsKLSAKLSAgICAgdDEg
-PSB0Y2dfdGVtcF9uZXdfaTY0KCk7Ci1AQCAtNjQ3LDcgKzY1OSw2IEBAIHN0YXRpYyBib29sIHRy
-YW5zX01GRlNDRFJOSShEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hfaW1tMyAqYSkKLSB7Ci0gICAg
-IFRDR3ZfaTY0IHQxLCBmcHNjcjsKLSAKLS0gICAgUkVRVUlSRV9JTlNOU19GTEFHUzIoY3R4LCBJ
-U0EzMDApOwotICAgICBSRVFVSVJFX0ZQVShjdHgpOwotIAotICAgICB0MSA9IHRjZ190ZW1wX25l
-d19pNjQoKTsKLUBAIC02NjEsNyArNjcyLDYgQEAgc3RhdGljIGJvb2wgdHJhbnNfTUZGU0NEUk5J
-KERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9pbW0zICphKQotIAotIHN0YXRpYyBib29sIHRyYW5z
-X01GRlNMKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF90ICphKQotIHsKLS0gICAgUkVRVUlSRV9J
-TlNOU19GTEFHUzIoY3R4LCBJU0EzMDApOwotICAgICBSRVFVSVJFX0ZQVShjdHgpOwotIAotICAg
-ICBnZW5fcmVzZXRfZnBzdGF0dXMoKTsKLS0tIAotMi4zOS4yCi0KZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXVfOC4wLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcWVtdS9xZW11XzguMC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzguMC4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzguMC4zLmJiCi0tIAoyLjM5LjIKCg==
+Hello,
 
---===============1419403338934395865==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *python3-zipp* to *3.16.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.15.0-3.16.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From eaa47ae31486fea10f9e8f565c7f39797e6899b6 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 15 Jul 2023 13:27:24 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.15.0 -> 3.16.2
+
+---
+ ...-zipp_3.15.0.bb => python3-zipp_3.16.2.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-zipp_3.15.0.bb => python3-zipp_3.16.2.bb} (34%)
+
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.15.0.bb b/meta/recipes-devtools/python/python3-zipp_3.16.2.bb
+similarity index 34%
+rename from meta/recipes-devtools/python/python3-zipp_3.15.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.16.2.bb
+index 45654ff6f1..d3a39b6b70 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.15.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.16.2.bb
+@@ -1,9 +1,28 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,5 +1,3 @@
++# -Copyright Jason R. Coombs
++# -
++#  Permission is hereby granted, free of charge, to any person obtaining a copy
++#  of this software and associated documentation files (the "Software"), to
++#  deal in the Software without restriction, including without limitation the
++# 
++#
++
+ SUMMARY = "Backport of pathlib-compatible object wrapper for zip files"
+ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
+ 
+-SRC_URI[sha256sum] = "112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b"
++SRC_URI[sha256sum] = "ebc15946aa78bd63458992fc81ec3b6f7b1e92d51c35e6de1c3804e73b799147"
+ 
+ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+ 
+-- 
+2.39.2
+
+
+--===============1391085783976311716==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-qemu-upgrade-8.0.0-8.0.3.patch"
+ filename="0001-python3-zipp-upgrade-3.15.0-3.16.2.patch"
 
-RnJvbSA0MTRhM2M2ZGMzMzJlNDVkNWE3YzU0ODAzOTA2OTRkZmQzYzFlNjMxIE1vbiBTZXAgMTcg
+RnJvbSBlYWE0N2FlMzE0ODZmZWExMGY5ZThmNTY1YzdmMzk3OTdlNjg5OWI2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTM6Mzg6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBx
-ZW11OiB1cGdyYWRlIDguMC4wIC0+IDguMC4zCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9x
-ZW11L3FlbXUuaW5jICAgICAgICAgICB8ICAgNCArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Fl
-bXUvcWVtdS9wcGMucGF0Y2ggICAgIHwgMTQ4IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL3FlbXUv
-e3FlbXVfOC4wLjAuYmIgPT4gcWVtdV84LjAuMy5iYn0gICAgIHwgICAwCiAzIGZpbGVzIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTUwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUvcHBjLnBhdGNoCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3FlbXUve3FlbXVfOC4wLjAuYmIgPT4gcWVtdV84LjAuMy5iYn0gKDEw
-MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYwppbmRleCBhNWJkZWVmNjZkLi45N2Ux
-MTUwYjY2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYwor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYwpAQCAtMzAsMTEgKzMwLDEx
-IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9kb3dubG9hZC5xZW11Lm9yZy8ke0JQTn0tJHtQVn0udGFy
-Lnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtdHJhY2V0b29sLXVzZS1yZWxhdGl2ZS1wYXRo
-cy1mb3ItbGluZS1wcmVwcm9jZXNzb3ItZC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9xZW11
-LWd1ZXN0LWFnZW50LmluaXQgXAogICAgICAgICAgICBmaWxlOi8vcWVtdS1ndWVzdC1hZ2VudC51
-ZGV2IFwKLSAgICAgICAgICAgZmlsZTovL3BwYy5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly9j
-cm9zcy5wYXRjaCBcCiAgICAgICAgICAgICIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInFlbXUt
-KD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiYjYw
-ZjAzNDE1MzExODFkNmNjMzk2OWRkMTlhMDEzZDA0MjdhODdmOTE4MTkzOTcwZDlhZGI5MTEzMWU1
-NmQwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImVjZjRkMzJjYmVmOWQzOTdiZmM4Y2M1MGU0ZDFl
-OTJhMWIzMDI1M2JmMzJlOGVlNzNjN2E4ZGNmOWEyMzJiMDkiCiAKIFNSQ19VUkk6YXBwZW5kOmNs
-YXNzLXRhcmdldCA9ICIgZmlsZTovL2Nyb3NzLnBhdGNoIgogU1JDX1VSSTphcHBlbmQ6Y2xhc3Mt
-bmF0aXZlc2RrID0gIiBmaWxlOi8vY3Jvc3MucGF0Y2giCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcWVtdS9xZW11L3BwYy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9x
-ZW11L3FlbXUvcHBjLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBlMTRjNDhj
-Zjg1Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUvcHBj
-LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMTQ4ICswLDAgQEAKLUZyb20gMzFmMDIwMjFhYzE3
-NDQyYzUxNDU5M2Y3YjllZDc1MGVhODdjMjFiMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZy
-b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgot
-RGF0ZTogU2F0LCA2IE1heSAyMDIzIDA3OjQyOjM1ICswMTAwCi1DYzogVsOtY3RvciBDb2xvbWJv
-IDx2aWN0b3IuY29sb21ib0BlbGRvcmFkby5vcmcuYnI+Ci1DYzogTWF0aGV1cyBGZXJzdCA8bWF0
-aGV1cy5mZXJzdEBlbGRvcmFkby5vcmcuYnI+Ci1DYzogRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEg
-PGRhbmllbGhiNDEzQGdtYWlsLmNvbT4KLUNjOiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFyZC5o
-ZW5kZXJzb25AbGluYXJvLm9yZz4KLUNjOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1k
-QGxpbmFyby5vcmc+Ci1TdWJqZWN0OiBbUEFUQ0ggdjNdIHRhcmdldC9wcGM6IEZpeCBmYWxsYmFj
-ayB0byBNRlNTIGZvciBNRkZTKiBpbnN0cnVjdGlvbnMgb24KLSBwcmUgMy4wIElTQXMKLQotVGhl
-IGZvbGxvd2luZyBjb21taXRzIGNoYW5nZWQgdGhlIGNvZGUgc3VjaCB0aGF0IHRoZSBmYWxsYmFj
-ayB0byBNRlNTIGZvciBNRkZTQ1JOLAotTUZGU0NSTkksIE1GRlNDRSBhbmQgTUZGU0wgb24gcHJl
-IDMuMCBJU0FzIHdhcyByZW1vdmVkIGFuZCBiZWNhbWUgYW4gaWxsZWdhbCBpbnN0cnVjdGlvbjoK
-LQotICBiZjhhZGZkODhiNTQ3NjgwYWE4NTdjNDYwOThmM2ExZTk0MzczMTYwIC0gdGFyZ2V0L3Bw
-YzogTW92ZSBtZmZzY3JuW2ldIHRvIGRlY29kZXRyZWUKLSAgMzk0YzJlMmZkYTcwZGE3MjJmMjBm
-YjYwNDEyZDZjMGNhNGJmYWEwMyAtIHRhcmdldC9wcGM6IE1vdmUgbWZmc2NlIHRvIGRlY29kZXRy
-ZWUKLSAgM2U1YmNlNzBlZmU2YmQxZjY4NGVmYmIyMWZkMmEzMTZjYmYwNjU3ZSAtIHRhcmdldC9w
-cGM6IE1vdmUgbWZmc2wgdG8gZGVjb2RldHJlZQotCi1UaGUgaGFyZHdhcmUgd2lsbCBoYW5kbGUg
-dGhlbSBhcyBhIE1GRlMgaW5zdHJ1Y3Rpb24gYXMgdGhlIGNvZGUgZGlkIHByZXZpb3VzbHkuCi1U
-aGlzIG1lYW5zIGFwcGxpY2F0aW9ucyB0aGF0IHdlcmUgc2VnZmF1bHRpbmcgdW5kZXIgcWVtdSB3
-aGVuIGVuY291bnRlcmluZyB0aGVzZQotaW5zdHJ1Y3Rpb25zIHdoaWNoIGlzIHVzZWQgaW4gZ2xp
-YmMgbGlibSBmdW5jdGlvbnMgZm9yIGV4YW1wbGUuCi0KLVRoZSBmYWxsYmFjayBmb3IgTUZGU0NE
-Uk4gYW5kIE1GRlNDRFJOSSBhZGRlZCBpbiBhIGxhdGVyIHBhdGNoIHdhcyBhbHNvIG1pc3Npbmcu
-Ci0KLVRoaXMgcGF0Y2ggcmVzdG9yZXMgdGhlIGZhbGxiYWNrIHRvIE1GU1MgZm9yIHRoZXNlIGlu
-c3RydWN0aW9ucyBvbiBwcmUgMy4wcyBJU0FzCi1hcyB0aGUgaGFyZHdhcmUgZGVjb2RlciB3b3Vs
-ZCwgZml4aW5nIHRoZSBzZWdmYXVsdGluZyBsaWJtIGNvZGUuIEl0IGRvZXNuJ3QgaGF2ZQotdGhl
-IGZhbGxiYWNrIGZvciAzLjAgb253YXJkcyB0byBtYXRjaCBoYXJkd2FyZSBiZWhhdmlvdXIuCi0K
-LVNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
-YXRpb24ub3JnPgotLS0tCi0gdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlICAgICAgICAgICB8IDIw
-ICsrKysrKysrKysrKystLS0tLS0tCi0gdGFyZ2V0L3BwYy90cmFuc2xhdGUvZnAtaW1wbC5jLmlu
-YyB8IDIyICsrKysrKysrKysrKysrKystLS0tLS0KLSAyIGZpbGVzIGNoYW5nZWQsIDI5IGluc2Vy
-dGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQotCi12MyAtIGRyb3AgZmFsbGJhY2sgdG8gTUZGUyBm
-b3IgMy4wIElTQSB0byBtYXRjaCBoYXJkd2FyZQotdjIgLSBzd2l0Y2ggdG8gdXNlIGRlY29kZXRy
-ZWUgcGF0dGVybiBncm91cHMgcGVyIGZlZWRiYWNrCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0
-dGVkIFtodHRwczovL2xvcmUua2VybmVsLm9yZy9xZW11LWRldmVsLzIwMjMwNTA2MDY1MjQwLjMx
-Nzc3OTgtMS1yaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnL10KLQotZGlmZiAtLWdp
-dCBhL3RhcmdldC9wcGMvaW5zbjMyLmRlY29kZSBiL3RhcmdldC9wcGMvaW5zbjMyLmRlY29kZQot
-aW5kZXggZjhmNTg5ZTlmZC4uNGZjZjNhZjhkMCAxMDA2NDQKLS0tLSBhL3RhcmdldC9wcGMvaW5z
-bjMyLmRlY29kZQotKysrIGIvdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlCi1AQCAtMzkwLDEzICsz
-OTAsMTkgQEAgU0VUTkJDUiAgICAgICAgIDAxMTExMSAuLi4uLiAuLi4uLiAtLS0tLSAwMTExMTAw
-MDAwIC0gICBAWF9iaQotIAotICMjIyBNb3ZlIFRvL0Zyb20gRlBTQ1IKLSAKLS1NRkZTICAgICAg
-ICAgICAgMTExMTExIC4uLi4uIDAwMDAwIC0tLS0tIDEwMDEwMDAxMTEgLiAgIEBYX3RfcmMKLS1N
-RkZTQ0UgICAgICAgICAgMTExMTExIC4uLi4uIDAwMDAxIC0tLS0tIDEwMDEwMDAxMTEgLSAgIEBY
-X3QKLS1NRkZTQ1JOICAgICAgICAgMTExMTExIC4uLi4uIDEwMTEwIC4uLi4uIDEwMDEwMDAxMTEg
-LSAgIEBYX3RiCi0tTUZGU0NEUk4gICAgICAgIDExMTExMSAuLi4uLiAxMDEwMCAuLi4uLiAxMDAx
-MDAwMTExIC0gICBAWF90YgotLU1GRlNDUk5JICAgICAgICAxMTExMTEgLi4uLi4gMTAxMTEgLS0t
-Li4gMTAwMTAwMDExMSAtICAgQFhfaW1tMgotLU1GRlNDRFJOSSAgICAgICAxMTExMTEgLi4uLi4g
-MTAxMDEgLS0uLi4gMTAwMTAwMDExMSAtICAgQFhfaW1tMwotLU1GRlNMICAgICAgICAgICAxMTEx
-MTEgLi4uLi4gMTEwMDAgLS0tLS0gMTAwMTAwMDExMSAtICAgQFhfdAotK3sKLSsgICMgQmVmb3Jl
-IFBvd2VyIElTQSB2My4wLCBNRkZTIGJpdHMgMTF+MTUgd2VyZSByZXNlcnZlZCBhbmQgc2hvdWxk
-IGJlIGlnbm9yZWQKLSsgIE1GRlNfSVNBMjA3ICAgICAxMTExMTEgLi4uLi4gLS0tLS0gLS0tLS0g
-MTAwMTAwMDExMSAuICAgQFhfdF9yYwotKyAgWwotKyAgICBNRkZTICAgICAgICAgICAgMTExMTEx
-IC4uLi4uIDAwMDAwIC0tLS0tIDEwMDEwMDAxMTEgLiAgIEBYX3RfcmMKLSsgICAgTUZGU0NFICAg
-ICAgICAgIDExMTExMSAuLi4uLiAwMDAwMSAtLS0tLSAxMDAxMDAwMTExIC0gICBAWF90Ci0rICAg
-IE1GRlNDUk4gICAgICAgICAxMTExMTEgLi4uLi4gMTAxMTAgLi4uLi4gMTAwMTAwMDExMSAtICAg
-QFhfdGIKLSsgICAgTUZGU0NEUk4gICAgICAgIDExMTExMSAuLi4uLiAxMDEwMCAuLi4uLiAxMDAx
-MDAwMTExIC0gICBAWF90YgotKyAgICBNRkZTQ1JOSSAgICAgICAgMTExMTExIC4uLi4uIDEwMTEx
-IC0tLS4uIDEwMDEwMDAxMTEgLSAgIEBYX2ltbTIKLSsgICAgTUZGU0NEUk5JICAgICAgIDExMTEx
-MSAuLi4uLiAxMDEwMSAtLS4uLiAxMDAxMDAwMTExIC0gICBAWF9pbW0zCi0rICAgIE1GRlNMICAg
-ICAgICAgICAxMTExMTEgLi4uLi4gMTEwMDAgLS0tLS0gMTAwMTAwMDExMSAtICAgQFhfdAotKyAg
-XQotK30KLSAKLSAjIyMgRGVjaW1hbCBGbG9hdGluZy1Qb2ludCBBcml0aG1ldGljIEluc3RydWN0
-aW9ucwotIAotZGlmZiAtLWdpdCBhL3RhcmdldC9wcGMvdHJhbnNsYXRlL2ZwLWltcGwuYy5pbmMg
-Yi90YXJnZXQvcHBjL3RyYW5zbGF0ZS9mcC1pbXBsLmMuaW5jCi1pbmRleCA1N2Q4NDM3ODUxLi44
-NzQ3NzRlYWRlIDEwMDY0NAotLS0tIGEvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZnAtaW1wbC5jLmlu
-YwotKysrIGIvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZnAtaW1wbC5jLmluYwotQEAgLTU2OCw2ICs1
-NjgsMjIgQEAgc3RhdGljIHZvaWQgc3RvcmVfZnBzY3JfbWFza2VkKFRDR3ZfaTY0IGZwc2NyLCB1
-aW50NjRfdCBjbGVhcl9tYXNrLAotICAgICBnZW5faGVscGVyX3N0b3JlX2Zwc2NyKGNwdV9lbnYs
-IGZwc2NyX21hc2tlZCwgc3RfbWFzayk7Ci0gfQotIAotK3N0YXRpYyBib29sIHRyYW5zX01GRlNf
-SVNBMjA3KERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF90X3JjICphKQotK3sKLSsgICAgaWYgKCEo
-Y3R4LT5pbnNuc19mbGFnczIgJiBQUEMyX0lTQTMwMCkpIHsKLSsgICAgICAgIC8qCi0rICAgICAg
-ICAgKiBCZWZvcmUgUG93ZXIgSVNBIHYzLjAsIE1GRlMgYml0cyAxMX4xNSB3ZXJlIHJlc2VydmVk
-LCBhbnkgaW5zdHJ1Y3Rpb24KLSsgICAgICAgICAqIHdpdGggT1BDRD02MyBhbmQgWE89NTgzIHNo
-b3VsZCBiZSBkZWNvZGVkIGFzIE1GRlMuCi0rICAgICAgICAgKi8KLSsgICAgICAgIHJldHVybiB0
-cmFuc19NRkZTKGN0eCwgYSk7Ci0rICAgIH0KLSsgICAgLyoKLSsgICAgICogRm9yIFBvd2VyIElT
-QSB2My4wKywgcmV0dXJuIGZhbHNlIGFuZCBsZXQgdGhlIHBhdHRlcm4gZ3JvdXAKLSsgICAgICog
-c2VsZWN0IHRoZSBjb3JyZWN0IGluc3RydWN0aW9uLgotKyAgICAgKi8KLSsgICAgcmV0dXJuIGZh
-bHNlOwotK30KLSsKLSBzdGF0aWMgYm9vbCB0cmFuc19NRkZTKERpc2FzQ29udGV4dCAqY3R4LCBh
-cmdfWF90X3JjICphKQotIHsKLSAgICAgUkVRVUlSRV9GUFUoY3R4KTsKLUBAIC01ODQsNyArNjAw
-LDYgQEAgc3RhdGljIGJvb2wgdHJhbnNfTUZGU0NFKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF90
-ICphKQotIHsKLSAgICAgVENHdl9pNjQgZnBzY3I7Ci0gCi0tICAgIFJFUVVJUkVfSU5TTlNfRkxB
-R1MyKGN0eCwgSVNBMzAwKTsKLSAgICAgUkVRVUlSRV9GUFUoY3R4KTsKLSAKLSAgICAgZ2VuX3Jl
-c2V0X2Zwc3RhdHVzKCk7Ci1AQCAtNTk3LDcgKzYxMiw2IEBAIHN0YXRpYyBib29sIHRyYW5zX01G
-RlNDUk4oRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX3RiICphKQotIHsKLSAgICAgVENHdl9pNjQg
-dDEsIGZwc2NyOwotIAotLSAgICBSRVFVSVJFX0lOU05TX0ZMQUdTMihjdHgsIElTQTMwMCk7Ci0g
-ICAgIFJFUVVJUkVfRlBVKGN0eCk7Ci0gCi0gICAgIHQxID0gdGNnX3RlbXBfbmV3X2k2NCgpOwot
-QEAgLTYxNCw3ICs2MjgsNiBAQCBzdGF0aWMgYm9vbCB0cmFuc19NRkZTQ0RSTihEaXNhc0NvbnRl
-eHQgKmN0eCwgYXJnX1hfdGIgKmEpCi0gewotICAgICBUQ0d2X2k2NCB0MSwgZnBzY3I7Ci0gCi0t
-ICAgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0eCwgSVNBMzAwKTsKLSAgICAgUkVRVUlSRV9GUFUo
-Y3R4KTsKLSAKLSAgICAgdDEgPSB0Y2dfdGVtcF9uZXdfaTY0KCk7Ci1AQCAtNjMxLDcgKzY0NCw2
-IEBAIHN0YXRpYyBib29sIHRyYW5zX01GRlNDUk5JKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9p
-bW0yICphKQotIHsKLSAgICAgVENHdl9pNjQgdDEsIGZwc2NyOwotIAotLSAgICBSRVFVSVJFX0lO
-U05TX0ZMQUdTMihjdHgsIElTQTMwMCk7Ci0gICAgIFJFUVVJUkVfRlBVKGN0eCk7Ci0gCi0gICAg
-IHQxID0gdGNnX3RlbXBfbmV3X2k2NCgpOwotQEAgLTY0Nyw3ICs2NTksNiBAQCBzdGF0aWMgYm9v
-bCB0cmFuc19NRkZTQ0RSTkkoRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX2ltbTMgKmEpCi0gewot
-ICAgICBUQ0d2X2k2NCB0MSwgZnBzY3I7Ci0gCi0tICAgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0
-eCwgSVNBMzAwKTsKLSAgICAgUkVRVUlSRV9GUFUoY3R4KTsKLSAKLSAgICAgdDEgPSB0Y2dfdGVt
-cF9uZXdfaTY0KCk7Ci1AQCAtNjYxLDcgKzY3Miw2IEBAIHN0YXRpYyBib29sIHRyYW5zX01GRlND
-RFJOSShEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hfaW1tMyAqYSkKLSAKLSBzdGF0aWMgYm9vbCB0
-cmFuc19NRkZTTChEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hfdCAqYSkKLSB7Ci0tICAgIFJFUVVJ
-UkVfSU5TTlNfRkxBR1MyKGN0eCwgSVNBMzAwKTsKLSAgICAgUkVRVUlSRV9GUFUoY3R4KTsKLSAK
-LSAgICAgZ2VuX3Jlc2V0X2Zwc3RhdHVzKCk7Ci0tLSAKLTIuMzkuMgotCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzguMC4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3FlbXUvcWVtdV84LjAuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdV84LjAuMC5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdV84LjAuMy5iYgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTM6Mjc6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXppcHA6IHVwZ3JhZGUgMy4xNS4wIC0+IDMuMTYuMgoKLS0tCiAuLi4temlwcF8zLjE1
+LjAuYmIgPT4gcHl0aG9uMy16aXBwXzMuMTYuMi5iYn0gfCAyMyArKysrKysrKysrKysrKysrKy0t
+CiAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXppcHBfMy4xNS4wLmJiID0+
+IHB5dGhvbjMtemlwcF8zLjE2LjIuYmJ9ICgzNCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xNS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xNi4yLmJiCnNpbWlsYXJpdHkgaW5kZXggMzQl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMu
+MTUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXpp
+cHBfMy4xNi4yLmJiCmluZGV4IDQ1NjU0ZmY2ZjEuLmQzYTM5YjZiNzAgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTUuMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjE2LjIuYmIKQEAgLTEs
+OSArMSwyOCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVl
+biB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBk
+aWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBs
+ZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRo
+ZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicg
+dGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRl
+ZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UK
+KyMgQEAgLTEsNSArMSwzIEBACisjIC1Db3B5cmlnaHQgSmFzb24gUi4gQ29vbWJzCisjIC0KKyMg
+IFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVy
+c29uIG9idGFpbmluZyBhIGNvcHkKKyMgIG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQg
+ZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0bworIyAgZGVhbCBpbiB0aGUg
+U29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlv
+biB0aGUKKyMgCisjCisKIFNVTU1BUlkgPSAiQmFja3BvcnQgb2YgcGF0aGxpYi1jb21wYXRpYmxl
+IG9iamVjdCB3cmFwcGVyIGZvciB6aXAgZmlsZXMiCiBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1
+Yi5jb20vamFyYWNvL3ppcHAiCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0xJQ0VOU0U7bWQ1PTdhNzEyNmUwNjgyMDYyOTBmM2ZlOWY4ZDZjNzEzZWE2IgorTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTQxNjQzZTExYzQ4ODk4MTUwZGFh
+ODM4MDJkYmM2NWYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxMTI5MjlhZDY0OWRhOTQxYzIz
+ZGU1MGYzNTZhMmI1NTcwYzk1NGI2NTE1MDY0MmJjY2RkNjZiZjE5NGQyMjRiIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImViYzE1OTQ2YWE3OGJkNjM0NTg5OTJmYzgxZWMzYjZmN2IxZTkyZDUxYzM1
+ZTZkZTFjMzgwNGU3M2I3OTkxNDciCiAKIERFUEVORFMgKz0gIiR7UFlUSE9OX1BOfS1zZXR1cHRv
+b2xzLXNjbS1uYXRpdmUiCiAKLS0gCjIuMzkuMgoK
 
---===============1419403338934395865==
+--===============1391085783976311716==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1803 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (896 cached, 3 parsed). 1803 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/python3-zipp: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.15.0.tar.gz;downloadfilename=zipp-3.15.0.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.16.2.tar.gz;downloadfilename=zipp-3.16.2.tar.gz"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.11/site-packages/zipp-3.15.0.dist-info -> /usr/lib/python3.11/site-packages/zipp-3.16.2.dist-info, added "/usr/lib/python3.11/site-packages/zipp/glob.py /usr/lib/python3.11/site-packages/zipp/__pycache__/glob.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PV changed from "3.15.0" to "3.16.2"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 37602 to 39157 (+4%)
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.15.0 [default] to 3.16.2 [default]
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.15.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.16.2.dist-info
+  /usr/lib/python3.11/site-packages/zipp/glob.py was added
+  /usr/lib/python3.11/site-packages/zipp/__pycache__/glob.cpython-311.pyc was added
 
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7ae63b49adc1374adf746efe74cd6ae0f6455341"
-workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+--===============1391085783976311716==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 350 Local 174 Mirrors 0 Missed 176 Current 479 (49% match, 78% complete)
-Removing 103 stale sstate objects for arch core2-32...done.
-Removing 2 stale sstate objects for arch allarch...done.
-Removing 3 stale sstate objects for arch x86_64...done.
-Removing 41 stale sstate objects for arch qemux86...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 624 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 639 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 640 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 642 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 691 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 694 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 696 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 699 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 700 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 704 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 705 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 711 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 714 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 715 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 717 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 719 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 721 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 722 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 741 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 753 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 756 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 759 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 760 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 761 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 780 of 829 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 781 of 829 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 784 of 829 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe kmod-30-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bluez5-5.68-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe systemd-1_253.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-jinja2-native-3.1.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-jinja2-native-3.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zstd-1.5.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bluez5-5.68-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe kmod-30-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libical-native-3.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-jinja2-native-3.1.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 817 of 829 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_create_spdx_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-jinja2-native-3.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libical-native-3.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 821 of 829 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 968 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_fetch)
-NOTE: recipe vala-native-0.56.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1045 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_fetch)
-NOTE: Running task 1047 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_fetch)
-NOTE: Running task 1054 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_fetch)
-NOTE: Running task 1107 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_write_config)
-NOTE: Running task 1117 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_write_config)
-NOTE: Running task 1132 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_write_config)
-NOTE: Running task 1134 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_fetch)
-NOTE: Running task 1135 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_fetch)
-NOTE: Running task 1144 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_fetch)
-NOTE: recipe qemu-native-8.0.0-r0: task do_fetch: Started
-NOTE: Running task 1201 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_fetch)
-WARNING: qemu-native-8.0.0-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz
-Cleaning and trying again.
-WARNING: qemu-native-8.0.0-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz_bad-checksum_bb60f0341531181d6cc3969dd19a013d0427a87f918193970d9adb91131e56d0
-NOTE: Running task 1240 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_fetch)
-NOTE: Running task 1242 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_fetch)
-NOTE: Running task 1248 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_fetch)
-NOTE: Running task 1261 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_fetch)
-NOTE: Running task 1262 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_fetch)
-NOTE: Running task 1263 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_fetch)
-NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Started
-NOTE: recipe wayland-1.22.0-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1336 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_unpack)
-NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Started
-NOTE: recipe wayland-1.22.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Started
-NOTE: Running task 1361 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_write_config)
-NOTE: Running task 1367 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_write_config)
-NOTE: Running task 1368 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_unpack)
-NOTE: recipe wayland-1.22.0-r0: task do_write_config: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_write_config: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1396 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_unpack)
-NOTE: Running task 1404 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_unpack)
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Succeeded
-NOTE: Running task 1405 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_unpack)
-NOTE: Running task 1407 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_warn_musl)
-NOTE: Running task 1408 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_write_config)
-NOTE: Running task 1417 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_unpack)
-NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1458 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
-NOTE: Running task 1465 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_unpack)
-NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_fetch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Started
-NOTE: recipe vala-native-0.56.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1471 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_patch)
-NOTE: recipe xkeyboard-config-2.39-r0: task do_fetch: Started
-NOTE: Setscene tasks completed
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_write_config: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_write_config: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_fetch: Started
-NOTE: Running task 1484 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
-NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1490 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_patch)
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Started
-NOTE: Running task 1501 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_unpack)
-NOTE: recipe xkeyboard-config-2.39-r0: task do_fetch: Succeeded
-NOTE: Running task 1509 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_unpack)
-NOTE: Running task 1518 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_unpack)
-NOTE: recipe systemd-1_253.3-r0: task do_fetch: Started
-NOTE: Running task 1533 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_write_config)
-NOTE: recipe dbus-1.14.8-r0: task do_fetch: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Started
-NOTE: Running task 1560 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_unpack)
-NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_write_config: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_write_config: Started
-NOTE: Running task 1592 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_unpack)
-NOTE: recipe wayland-1.22.0-r0: task do_unpack: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Started
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Started
-NOTE: recipe libical-3.0.16-r0: task do_patch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_unpack: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_write_config: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_write_config: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_warn_musl: Started
-NOTE: recipe vala-0.56.8-r0: task do_patch: Started
-NOTE: recipe systemd-1_253.3-r0: task do_warn_musl: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Started
-NOTE: Running task 1815 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu_8.0.3.bb:do_fetch)
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_unpack: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_unpack: Started
-NOTE: recipe bluez5-5.68-r0: task do_patch: Started
-NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_unpack: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Started
-NOTE: recipe systemd-1_253.3-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Started
-NOTE: Running task 1987 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_unpack)
-NOTE: recipe systemd-1_253.3-r0: task do_write_config: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
-NOTE: Running task 2036 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
-NOTE: Running task 2048 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_patch)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2062 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_patch)
-NOTE: Running task 2078 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_patch)
-NOTE: recipe wayland-1.22.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2106 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_patch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Succeeded
-NOTE: Running task 2175 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_write_config: Succeeded
-NOTE: recipe qemu-8.0.3-r0: task do_fetch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2176 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_patch)
-NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_unpack: Succeeded
-NOTE: recipe qemu-8.0.3-r0: task do_fetch: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
-NOTE: Running task 2177 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_patch)
-NOTE: Running task 2178 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu_8.0.3.bb:do_unpack)
-NOTE: Running task 2179 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_patch)
-NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_unpack: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_unpack: Started
-NOTE: recipe wayland-1.22.0-r0: task do_patch: Started
-NOTE: Running task 2180 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_patch)
-NOTE: recipe xorgproto-2023.2-r0: task do_patch: Started
-NOTE: recipe libxcb-1.15-r0: task do_patch: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Succeeded
-NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_patch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2184 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_patch)
-NOTE: recipe libice-1_1.1.1-r0: task do_patch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_unpack: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Succeeded
-NOTE: recipe bluez5-5.68-r0: task do_patch: Succeeded
-NOTE: Running task 2185 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_patch)
-NOTE: recipe qemu-8.0.3-r0: task do_unpack: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_patch: Started
-NOTE: recipe wayland-1.22.0-r0: task do_patch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_patch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_patch: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_patch: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_patch: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_patch: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_patch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.8-r0: task do_patch: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2195 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_patch)
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_patch: Succeeded
-NOTE: recipe systemd-1_253.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2197 of 2608 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_253.3.bb:do_patch)
-NOTE: recipe systemd-1_253.3-r0: task do_patch: Started
-NOTE: recipe systemd-1_253.3-r0: task do_patch: Succeeded
-WARNING: qemu-native-8.0.0-r0 do_fetch: Checksum failure encountered with download of https://download.qemu.org/qemu-8.0.0.tar.xz - will attempt other sources if available
-WARNING: qemu-native-8.0.0-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz
-Cleaning and trying again.
-WARNING: qemu-native-8.0.0-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz_bad-checksum_bb60f0341531181d6cc3969dd19a013d0427a87f918193970d9adb91131e56d0
-NOTE: recipe qemu-native-8.0.0-r0: task do_fetch: Failed
-NOTE: recipe qemu-8.0.3-r0: task do_unpack: Succeeded
-NOTE: Tasks Summary: Attempted 2198 tasks of which 2143 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.11/site-packages/zipp-3.15.0.dist-info -> /usr/lib/python3.11/site-packages/zipp-3.16.2.dist-info, added "/usr/lib/python3.11/site-packages/zipp/__pycache__/glob.cpython-311.pyc /usr/lib/python3.11/site-packages/zipp/glob.py"
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.15.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.16.2.dist-info
+  /usr/lib/python3.11/site-packages/zipp/glob.py was added
+  /usr/lib/python3.11/site-packages/zipp/__pycache__/glob.cpython-311.pyc was added
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_fetch
-Summary: There were 6 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: qemu-native-8.0.0-r0 do_fetch: Checksum failure fetching https://download.qemu.org/qemu-8.0.0.tar.xz
-ERROR: qemu-native-8.0.0-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/qemu-8.0.0.tar.xz\' has sha256 checksum \'bb60f0341531181d6cc3969dd19a013d0427a87f918193970d9adb91131e56d0\' when \'ecf4d32cbef9d397bfc8cc50e4d1e92a1b30253bf32e8ee73c7a8dcf9a232b09\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "bb60f0341531181d6cc3969dd19a013d0427a87f918193970d9adb91131e56d0"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://download.qemu.org/qemu-8.0.0.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/qemu-native/8.0.0-r0/temp/log.do_fetch.2137395
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_8.0.0.bb:do_fetch) failed with exit code '1'
-
---===============1419403338934395865==--
+--===============1391085783976311716==--
 
