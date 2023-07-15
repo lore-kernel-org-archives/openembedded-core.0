@@ -2,191 +2,77 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C23FC04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5784BC04FDF
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:38 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.6043.1689456457059129843
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.6014.1689456453642951403
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Jul 2023 14:27:37 -0700
+ Sat, 15 Jul 2023 14:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OKONzXXY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101895b73b2c7-f9e013cd-77a4-44f4-920a-510f02b4c430-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FxHoJKnV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101895b73b308-f0ce6cb2-f3b9-418f-8af3-7a9fc4ec40d9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3vZMjF6u5NQ/VHhgD8H/c2qSuaR87+L88hJdxVHG3BM=;
-	b=OKONzXXY/D/09UeSbaBZl1guNzEZbwuAOZynF8HbMZtjh1Ums6XG9sPVoVECfszQ
-	YeGwYdjAipB9DfuiNZagiGl0WbgFSwXNtRGuf4IHgnK1+QDcue2qgdY2Ae3lWlEVgt/
-	SdKJa8L2XwgFCXvy5RASNixmzkxa7xWm2xMa4jrE=
+	bh=IMVmFLULEzUotGneTa8xdbmY5Fshbm6pCIiN0KtkhJI=;
+	b=FxHoJKnVa8Vm2FMStrJ/Q2i9fZeHII+z/tG03RkHVMfL2+DNb4RI24e1uD0W1M1i
+	S/u0We0OkJ7DRpP5Ndgm95HJKEsWLMy/y1kx8aZZ4SDLrqYngZqGBQoCdirlN4s4nzo
+	+R7gaZ1NTnV/PITErnFdnpGEOrjC4KwWYokG1RnI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3vZMjF6u5NQ/VHhgD8H/c2qSuaR87+L88hJdxVHG3BM=;
-	b=CSdBR6rcOFVvIG8tJa74jvJohgQ//K/5hAuhgxA00NOWfjEdZFPJ7Zb2ppV9g00+
-	Er2ov5uudxBhDkPFui5m2M68ZIcobMRirOtmyP4pgldeCVIHDjHryhJzscni35brDLU
-	jVfqTAENe7H93R+oD/WjOSb13UY0DZzmy39/tE8w=
-Content-Type: multipart/mixed; boundary="===============7997609251000242805=="
+	bh=IMVmFLULEzUotGneTa8xdbmY5Fshbm6pCIiN0KtkhJI=;
+	b=h4/JznRejTs8qcGEwsq+tADWMSJ04igw303oXL6+jXJZGmBiFFP8KzUwYP1yyZpv
+	ijpizkEiIJb9fF32kHGnitiQVFOsWyb9jnHisuZs/N1hgiFJTQqIToMis5lkaQIVFYo
+	9QLDIF19SrJkD0BzQM/TNSGtT1RNtu/kAc7UA54I=
+Content-Type: multipart/mixed; boundary="===============8809061997590919300=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] icu: upgrading to 73-2 FAILED
-Message-ID: <010101895b73b2c7-f9e013cd-77a4-44f4-920a-510f02b4c430-000000@us-west-2.amazonses.com>
+Subject: [AUH] gpgme: upgrading to 1.21.0 FAILED
+Message-ID: <010101895b73b308-f0ce6cb2-f3b9-418f-8af3-7a9fc4ec40d9-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Jul 2023 21:27:36 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.30
+X-SES-Outgoing: 2023.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184404
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184401
 
---===============7997609251000242805==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICppY3UqIHRvICo3My0yKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJyb3Ig
-aW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBhcHBs
-eSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTcyLTEtNzMtMi5wYXRjaAogICAg
-LSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUgdGhl
-bSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBjb250
-YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3RzCiAg
-ICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1yZXNl
-dC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWlsaW5n
-IGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxkIG5v
-dCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBEQVRF
-X1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVwZ3Jh
-ZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBhdHRh
-Y2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZhaWx1
-cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxhLnlv
-Y3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0ZSUy
-MEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSAwNTM0
-ZDU3MjUzZmUxNDgyNTc1NWUwODQ5YTRmNGIwZTE1MDE5YjA3IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6IFNh
-dCwgMTUgSnVsIDIwMjMgMjA6NTc6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBpY3U6IHVwZ3Jh
-ZGUgNzItMSAtPiA3My0yCgotLS0KIC4uLi9pY3Uve2ljdV83Mi0xLmJiID0+IGljdV83My0yLmJi
-fSAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyNCBp
-bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L2ljdS97aWN1XzcyLTEuYmIgPT4gaWN1XzczLTIuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Mi0xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-aWN1L2ljdV83My0yLmJiCnNpbWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2ljdS9pY3VfNzItMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvaWN1L2ljdV83My0yLmJiCmluZGV4IGMyZWFlNTI5OGYuLjA4ZmZjOGRjZjcgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzItMS5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBGSVhNRTogdGhl
-IExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVw
-Z3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9s
-ZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0Ug
-dmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21t
-aXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vu
-c2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoK
-KyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UKKyMgQEAgLTEzLDcgKzEzLDcg
-QEAKKyMgIAorIyAgQ09QWVJJR0hUIEFORCBQRVJNSVNTSU9OIE5PVElDRQorIyAgCisjIC1Db3B5
-cmlnaHQgwqkgMTk5MS0yMDIyIFVuaWNvZGUsIEluYy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMg
-K0NvcHlyaWdodCDCqSAxOTkxLTIwMjMgVW5pY29kZSwgSW5jLiBBbGwgcmlnaHRzIHJlc2VydmVk
-LgorIyAgRGlzdHJpYnV0ZWQgdW5kZXIgdGhlIFRlcm1zIG9mIFVzZSBpbiBodHRwczovL3d3dy51
-bmljb2RlLm9yZy9jb3B5cmlnaHQuaHRtbC4KKyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkg
-Z3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nCisjIAorIwor
-CiBTVU1NQVJZID0gIkludGVybmF0aW9uYWwgQ29tcG9uZW50IGZvciBVbmljb2RlIGxpYnJhcmll
-cyIKIERFU0NSSVBUSU9OID0gIlRoZSBJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5pY29k
-ZSAoSUNVKSBpcyBhIG1hdHVyZSwgXAogcG9ydGFibGUgc2V0IG9mIEMvQysrIGFuZCBKYXZhIGxp
-YnJhcmllcyBmb3IgVW5pY29kZSBzdXBwb3J0LCBzb2Z0d2FyZSBcCkBAIC03OCw3ICsxMDAsNyBA
-QCBGSUxFUzpsaWJpY3VpbyA9ICIke2xpYmRpcn0vbGliaWN1aW8uc28uKiIKIAogQkJDTEFTU0VY
-VEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8u
-Li9MSUNFTlNFO21kNT1hODlkMDMwNjBmZjljNDY1NTI0MzRkYmQxZmUzZWQxZiIKK0xJQ19GSUxF
-U19DSEtTVU0gPSAiZmlsZTovLy4uL0xJQ0VOU0U7bWQ1PTgwYzJjZjM5YWQ4YWUxMmI5Yjk0ODJh
-MTczN2M2NjUwIgogCiBkZWYgaWN1X2Rvd25sb2FkX3ZlcnNpb24oZCk6CiAgICAgcHZzcGxpdCA9
-IGQuZ2V0VmFyKCdQVicpLnNwbGl0KCctJykKQEAgLTExMSw3ICsxMzMsNyBAQCBTUkNfVVJJID0g
-IiR7QkFTRV9TUkNfVVJJfTtuYW1lPWNvZGUgXAogU1JDX1VSSTphcHBlbmQ6Y2xhc3MtdGFyZ2V0
-ID0gIlwKICAgICAgICAgICAgZmlsZTovLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxp
-bnV4LnBhdGNoIFwKICAgICAgICAgICAiCi1TUkNfVVJJW2NvZGUuc2hhMjU2c3VtXSA9ICJhMmQy
-ZDM4MjE3MDkyYTdlZDU2NjM1ZTM0NDY3ZjkyZjk3NmIzNzBlMjAxODJhZDMyNWVkZWE2NjgxYTcx
-ZDY4IgorU1JDX1VSSVtjb2RlLnNoYTI1NnN1bV0gPSAiODE4YTgwNzEyZWQzY2FhY2Q5YjY1MjMw
-NWUwMWFmYzdmYTE2N2U2ZjJlOTQ5OTZkYTQ0YjkwYzJhYjYwNGNlMSIKIFNSQ19VUklbZGF0YS5z
-aGEyNTZzdW1dID0gImVlMTlmODc2NTA3ZDZjMjNkOWUwYTJiNjMxMDk2ZjZiMGVhYTZmYTYxNzI4
-YzMzYTg5ZWZkYjU1ZTMzODVkZWEiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2Vz
-L3RhZy9yZWxlYXNlLSg/UDxwdmVyPig/IS4rcmMpLispIgotLSAKMi4zOS4yCgo=
-
---===============7997609251000242805==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-icu-upgrade-72-1-73-2.patch"
-
-RnJvbSAwNTM0ZDU3MjUzZmUxNDgyNTc1NWUwODQ5YTRmNGIwZTE1MDE5YjA3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMjA6NTc6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
-Y3U6IHVwZ3JhZGUgNzItMSAtPiA3My0yCgotLS0KIC4uLi9pY3Uve2ljdV83Mi0xLmJiID0+IGlj
-dV83My0yLmJifSAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDEgZmlsZSBjaGFu
-Z2VkLCAyNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L2ljdS97aWN1XzcyLTEuYmIgPT4gaWN1XzczLTIuYmJ9ICg4NSUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Mi0xLmJiIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvaWN1L2ljdV83My0yLmJiCnNpbWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzItMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdV83My0yLmJiCmluZGV4IGMyZWFlNTI5OGYuLjA4ZmZjOGRjZjcg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzItMS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBG
-SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
-ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
-ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
-IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
-IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
-ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
-Y2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UKKyMgQEAgLTEz
-LDcgKzEzLDcgQEAKKyMgIAorIyAgQ09QWVJJR0hUIEFORCBQRVJNSVNTSU9OIE5PVElDRQorIyAg
-CisjIC1Db3B5cmlnaHQgwqkgMTk5MS0yMDIyIFVuaWNvZGUsIEluYy4gQWxsIHJpZ2h0cyByZXNl
-cnZlZC4KKyMgK0NvcHlyaWdodCDCqSAxOTkxLTIwMjMgVW5pY29kZSwgSW5jLiBBbGwgcmlnaHRz
-IHJlc2VydmVkLgorIyAgRGlzdHJpYnV0ZWQgdW5kZXIgdGhlIFRlcm1zIG9mIFVzZSBpbiBodHRw
-czovL3d3dy51bmljb2RlLm9yZy9jb3B5cmlnaHQuaHRtbC4KKyMgIAorIyAgUGVybWlzc2lvbiBp
-cyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5n
-CisjIAorIworCiBTVU1NQVJZID0gIkludGVybmF0aW9uYWwgQ29tcG9uZW50IGZvciBVbmljb2Rl
-IGxpYnJhcmllcyIKIERFU0NSSVBUSU9OID0gIlRoZSBJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBm
-b3IgVW5pY29kZSAoSUNVKSBpcyBhIG1hdHVyZSwgXAogcG9ydGFibGUgc2V0IG9mIEMvQysrIGFu
-ZCBKYXZhIGxpYnJhcmllcyBmb3IgVW5pY29kZSBzdXBwb3J0LCBzb2Z0d2FyZSBcCkBAIC03OCw3
-ICsxMDAsNyBAQCBGSUxFUzpsaWJpY3VpbyA9ICIke2xpYmRpcn0vbGliaWN1aW8uc28uKiIKIAog
-QkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi1MSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1hODlkMDMwNjBmZjljNDY1NTI0MzRkYmQxZmUzZWQxZiIK
-K0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovLy4uL0xJQ0VOU0U7bWQ1PTgwYzJjZjM5YWQ4YWUx
-MmI5Yjk0ODJhMTczN2M2NjUwIgogCiBkZWYgaWN1X2Rvd25sb2FkX3ZlcnNpb24oZCk6CiAgICAg
-cHZzcGxpdCA9IGQuZ2V0VmFyKCdQVicpLnNwbGl0KCctJykKQEAgLTExMSw3ICsxMzMsNyBAQCBT
-UkNfVVJJID0gIiR7QkFTRV9TUkNfVVJJfTtuYW1lPWNvZGUgXAogU1JDX1VSSTphcHBlbmQ6Y2xh
-c3MtdGFyZ2V0ID0gIlwKICAgICAgICAgICAgZmlsZTovLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
-RFQtZm9yLUxpbnV4LnBhdGNoIFwKICAgICAgICAgICAiCi1TUkNfVVJJW2NvZGUuc2hhMjU2c3Vt
-XSA9ICJhMmQyZDM4MjE3MDkyYTdlZDU2NjM1ZTM0NDY3ZjkyZjk3NmIzNzBlMjAxODJhZDMyNWVk
-ZWE2NjgxYTcxZDY4IgorU1JDX1VSSVtjb2RlLnNoYTI1NnN1bV0gPSAiODE4YTgwNzEyZWQzY2Fh
-Y2Q5YjY1MjMwNWUwMWFmYzdmYTE2N2U2ZjJlOTQ5OTZkYTQ0YjkwYzJhYjYwNGNlMSIKIFNSQ19V
-UklbZGF0YS5zaGEyNTZzdW1dID0gImVlMTlmODc2NTA3ZDZjMjNkOWUwYTJiNjMxMDk2ZjZiMGVh
-YTZmYTYxNzI4YzMzYTg5ZWZkYjU1ZTMzODVkZWEiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0g
-InJlbGVhc2VzL3RhZy9yZWxlYXNlLSg/UDxwdmVyPig/IS4rcmMpLispIgotLSAKMi4zOS4yCgo=
-
---===============7997609251000242805==
+--===============8809061997590919300==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *gpgme* to *1.21.0* has Failed (devtool error).
+
+Detailed error information:
+
+Running 'devtool upgrade' for recipe gpgme failed.
+NOTE: Starting bitbake server...
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1803 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (898 cached, 1 parsed). 1803 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Loaded 1804 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
@@ -194,40 +80,65 @@ meta-yocto-bsp       = "tmp-auh-upgrades:fc64fb35c43fb5cfe3553f1b5025f843912229e
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 36 Local 24 Mirrors 0 Missed 12 Current 170 (66% match, 94% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 691 of 789 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch)
-NOTE: Running task 715 of 789 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch)
-NOTE: recipe icu-73-2-r0: task do_fetch: Started
-NOTE: recipe icu-native-73-2-r0: task do_fetch: Started
-WARNING: icu-73-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data - will attempt other sources if available
-WARNING: icu-73-2-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip
-Cleaning and trying again.
-WARNING: icu-73-2-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip_bad-checksum_ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701
-NOTE: recipe icu-73-2-r0: task do_fetch: Failed
-WARNING: icu-native-73-2-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data - will attempt other sources if available
-WARNING: icu-native-73-2-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip
-Cleaning and trying again.
-WARNING: icu-native-73-2-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip_bad-checksum_ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701
-NOTE: recipe icu-native-73-2-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 760 tasks of which 758 didn't need to be rerun and 2 failed.
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1804 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (898 cached, 2 parsed). 1805 targets, 37 skipped, 0 masked, 0 errors.
 
-Summary: 2 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch
-Summary: There were 7 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: icu-73-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data
-ERROR: icu-73-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip\' has sha256 checksum \'ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701\' when \'ee19f876507d6c23d9e0a2b631096f6b0eaa6fa61728c33a89efdb55e3385dea\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/icu/73-2-r0/temp/log.do_fetch.264659
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch) failed with exit code '1'
-ERROR: icu-native-73-2-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data
-ERROR: icu-native-73-2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/icu4c-73_2-data.zip\' has sha256 checksum \'ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701\' when \'ee19f876507d6c23d9e0a2b631096f6b0eaa6fa61728c33a89efdb55e3385dea\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-data.zip;name=data')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/icu-native/73-2-r0/temp/log.do_fetch.264658
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_fetch) failed with exit code '1'
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
 
---===============7997609251000242805==--
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:fc64fb35c43fb5cfe3553f1b5025f843912229e1"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.21.0.tar.bz2...
+INFO: Rebasing devtool onto d9c9c3c88e41ad90398bcd6a2a3a7cc945617639
+WARNING: Command 'git rebase d9c9c3c88e41ad90398bcd6a2a3a7cc945617639' failed:
+Auto-merging configure.ac
+Auto-merging lang/python/Makefile.am
+CONFLICT (content): Merge conflict in lang/python/Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gpgme
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gpgme/gpgme_1.21.0.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============8809061997590919300==--
 
