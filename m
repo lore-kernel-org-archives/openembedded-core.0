@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DFEC001DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6280DC04FE1
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:38 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.5963.1689456457109538255
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.6042.1689456456712325058
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Jul 2023 14:27:37 -0700
+ Sat, 15 Jul 2023 14:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FVg8rrp+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101895b73b397-ea12f646-41c6-451a-8128-29e8ccdbfc60-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bSjLuljy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101895b73b0ca-1906d33b-00d3-4aee-874f-9d7eff4da86c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FswzisOsEhrAjxtwnu+Ire3JrRH1hclEXthSJkYKeV8=;
-	b=FVg8rrp+/fThe0qwcVXJk3/XFY/QPFzBjCgiNtC943gpcfhjvelUMhyD0dFfJ4Ax
-	ZOlCnOhqORkljfNUYABHoV01xMmiLnUJ0TMiUyoEEYDXRKMDZ7QwiqpAKJPKTwzsCgk
-	d9h12pJr1o/VTOCm4dw0LBKTrS9D+2KhHLYscw2w=
+	bh=BNHxBkX7KxCSIQDhfpsVclPJbrztU1Zoip84jcwogC8=;
+	b=bSjLuljyDkg/VIZ4sDChiyh4DDZ2z9ycz5/SBprPojmfg2VntgHdyPYvyvoLfei/
+	4WKglpig4O2zSNVHA+2AzhxIRUgaOE4aSFQXacLz2aXnQxn5EvaS5jyaSLajAUiFF4Z
+	939T105jwq2F6TWI4Zl5ppCchtMUrqIcfEd6P4jM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FswzisOsEhrAjxtwnu+Ire3JrRH1hclEXthSJkYKeV8=;
-	b=f8izc/ONJgf6wA+Ho7901i1G/cbJDWJG4xsOhQWSIQfqyBzFU843WpPlMrYx6x91
-	+sofeDanV7dJCt2Zps45PL+FY0W8PgktHXrGjU/QW0kSXFnSJF/osC/jciyZozWWTI1
-	a/7znXEQhLUA7BzIsUxItZlwCKENwtJ+w0cMuZWw=
-Content-Type: multipart/mixed; boundary="===============5774473637432424443=="
+	bh=BNHxBkX7KxCSIQDhfpsVclPJbrztU1Zoip84jcwogC8=;
+	b=gIZyqmn0Cg2MAFXlVHyB9NDDtt5zPnDNitYBa7XjMvwzEwDcWHch0n0oG+l5JoqX
+	Uh/pH5WUW+oCwxTR7x1Z/SPPiE4Yki/7r1Kwg9A4JwVJJy7icBamDfgfFnJ3xNv7HqR
+	kBFPN4R9criwkhqj4HP/3oFBz/taVqtMPA2ycYMM=
+Content-Type: multipart/mixed; boundary="===============7935520924925035332=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] taglib: upgrading to 1.13.1 SUCCEEDED
-Message-ID: <010101895b73b397-ea12f646-41c6-451a-8128-29e8ccdbfc60-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:36 +0000
+Subject: [AUH] vulkan-samples: upgrading to
+ d58655628018f6ea301fd0c6085631b6d17153ea FAILED
+Message-ID: <010101895b73b0ca-1906d33b-00d3-4aee-874f-9d7eff4da86c-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.193
+X-SES-Outgoing: 2023.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184406
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184400
 
---===============5774473637432424443==
+--===============7935520924925035332==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,129 +51,102 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *taglib* to *1.13.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *d58655628018f6ea301fd0c6085631b6d17153ea* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-taglib-upgrade-1.13-1.13.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade vulkan-samples -S d58655628018f6ea301fd0c6085631b6d17153ea
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (18:45:47.868380)
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1804 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+ERROR: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-bcufm60h/workdir/git/third_party/spdlog/.git/hooks'
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-bcufm60h/temp/log.do_patch.2813833
+ERROR: Extracting source for vulkan-samples failed
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From ff1cabbddd0b0f14da3a47e662c247eb8b8a0ef4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jul 2023 21:22:53 +0000
-Subject: [PATCH] taglib: upgrade 1.13 -> 1.13.1
-
----
- .../recipes-support/taglib/{taglib_1.13.bb => taglib_1.13.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/taglib/{taglib_1.13.bb => taglib_1.13.1.bb} (95%)
-
-diff --git a/meta/recipes-support/taglib/taglib_1.13.bb b/meta/recipes-support/taglib/taglib_1.13.1.bb
-similarity index 95%
-rename from meta/recipes-support/taglib/taglib_1.13.bb
-rename to meta/recipes-support/taglib/taglib_1.13.1.bb
-index 6560bc3660..3f0a759f95 100644
---- a/meta/recipes-support/taglib/taglib_1.13.bb
-+++ b/meta/recipes-support/taglib/taglib_1.13.1.bb
-@@ -11,7 +11,7 @@ DEPENDS = "zlib"
- 
- SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
- 
--SRC_URI[sha256sum] = "58f08b4db3dc31ed152c04896ee9172d22052bc7ef12888028c01d8b1d60ade0"
-+SRC_URI[sha256sum] = "c8da2b10f1bfec2cd7dbfcd33f4a2338db0765d851a50583d410bacf055cfd0b"
- 
- UPSTREAM_CHECK_URI = "https://taglib.org/"
- 
--- 
-2.39.2
-
-
---===============5774473637432424443==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/taglib: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib: SRC_URI changed from "http://taglib.github.io/releases/taglib-1.13.tar.gz" to "http://taglib.github.io/releases/taglib-1.13.1.tar.gz"
-packages/core2-32-poky-linux/taglib: PKGV changed from 1.13 [default] to 1.13.1 [default]
-Changes to packages/core2-32-poky-linux/taglib (sysroot):
-  /usr/lib/libtag.so.1 changed symlink target from libtag.so.1.19.0 to libtag.so.1.19.1
-  /usr/lib/libtag.so.1.19.0 moved to /usr/lib/libtag.so.1.19.1
-packages/core2-32-poky-linux/taglib/taglib-c: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-c: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-dbg: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-dbg: FILELIST: removed "/usr/lib/.debug/libtag.so.1.19.0", added "/usr/lib/.debug/libtag.so.1.19.1"
-packages/core2-32-poky-linux/taglib/taglib-dbg: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-dbg: PKGSIZE changed from 5977992 to 5979472 (+0%)
-packages/core2-32-poky-linux/taglib/taglib-dev: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-dev: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-dev: PKGSIZE changed from 660052 to 663820 (+1%)
-packages/core2-32-poky-linux/taglib/taglib-doc: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-doc: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-locale: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-locale: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-src: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-src: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib-src: PKGSIZE changed from 1510558 to 1515885 (+0%)
-packages/core2-32-poky-linux/taglib/taglib-staticdev: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib-staticdev: PKGV changed from 1.13 [default] to 1.13.1 [default]
-packages/core2-32-poky-linux/taglib/taglib: PV changed from "1.13" to "1.13.1"
-packages/core2-32-poky-linux/taglib/taglib: FILELIST: removed "/usr/lib/libtag.so.1.19.0", added "/usr/lib/libtag.so.1.19.1"
-packages/core2-32-poky-linux/taglib/taglib: PKGV changed from 1.13 [default] to 1.13.1 [default]
-
---===============5774473637432424443==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/taglib (sysroot):
-  /usr/lib/libtag.so.1 changed symlink target from libtag.so.1.19.0 to libtag.so.1.19.1
-  /usr/lib/libtag.so.1.19.0 moved to /usr/lib/libtag.so.1.19.1
-packages/core2-32-poky-linux/taglib/taglib: FILELIST: removed "/usr/lib/libtag.so.1.19.0", added "/usr/lib/libtag.so.1.19.1"
-
---===============5774473637432424443==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-taglib-upgrade-1.13-1.13.1.patch"
-
-RnJvbSBmZjFjYWJiZGRkMGIwZjE0ZGEzYTQ3ZTY2MmMyNDdlYjhiOGEwZWY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMjE6MjI6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-YWdsaWI6IHVwZ3JhZGUgMS4xMyAtPiAxLjEzLjEKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC90
-YWdsaWIve3RhZ2xpYl8xLjEzLmJiID0+IHRhZ2xpYl8xLjEzLjEuYmJ9IHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvdGFnbGliL3t0YWdsaWJfMS4xMy5iYiA9PiB0YWdsaWJfMS4xMy4xLmJifSAo
-OTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3RhZ2xpYi90YWdsaWJfMS4x
-My5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3RhZ2xpYi90YWdsaWJfMS4xMy4xLmJiCnNpbWls
-YXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3RhZ2xpYi90
-YWdsaWJfMS4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvdGFnbGliL3RhZ2xp
-Yl8xLjEzLjEuYmIKaW5kZXggNjU2MGJjMzY2MC4uM2YwYTc1OWY5NSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvdGFnbGliL3RhZ2xpYl8xLjEzLmJiCisrKyBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L3RhZ2xpYi90YWdsaWJfMS4xMy4xLmJiCkBAIC0xMSw3ICsxMSw3IEBAIERFUEVO
-RFMgPSAiemxpYiIKIAogU1JDX1VSSSA9ICJodHRwOi8vdGFnbGliLmdpdGh1Yi5pby9yZWxlYXNl
-cy8ke0JQfS50YXIuZ3oiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1OGYwOGI0ZGIzZGMzMWVk
-MTUyYzA0ODk2ZWU5MTcyZDIyMDUyYmM3ZWYxMjg4ODAyOGMwMWQ4YjFkNjBhZGUwIgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gImM4ZGEyYjEwZjFiZmVjMmNkN2RiZmNkMzNmNGEyMzM4ZGIwNzY1ZDg1
-MWE1MDU4M2Q0MTBiYWNmMDU1Y2ZkMGIiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczov
-L3RhZ2xpYi5vcmcvIgogCi0tIAoyLjM5LjIKCg==
-
---===============5774473637432424443==--
+--===============7935520924925035332==--
 
