@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC93C25B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDEBC25B7A
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:39 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.5942.1689456454751240927
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.6039.1689456455862312928
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jul 2023 14:27:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KkWbc/ee;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101895b73ade9-d3e4a3be-8ab0-47cd-ba19-df38514fd056-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cR3wtuL+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101895b73ad00-a156cf73-2aa8-4d84-a3fc-7d442811b247-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1689456455;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=SQUecjf5miVxuMWQ5LhahCXghCOW4aZ7x4dBr76ZNVQ=;
-	b=KkWbc/eeQvBy9t7pc9Q/29sltxHGSY+F/AK/ht/wo0bkuRh1u2501VRQi+3O07+f
-	NN84a26hM8XwXTR6/6jVqOe5khWJaXca+bWoya8+pXcbKyAWP9/csYuX65/PFzf5DaT
-	LSXzS/0nVAo1zdySAdRhei1Z35F8mRINxqSh7tkM=
+	bh=9lLb0rYb9JOH+Q/+3fVJ6E0w0Hopt1XLrFOJmVGWiyw=;
+	b=cR3wtuL+EbsPm5VGKiWPVIkjTB3ayu8vnmDyGUl6uVdQsYgT7MordEi0Sw5nVdx7
+	5oAoNbofCX2jFqDzKCQSnOjyN0AzKKAIb3fcOaLqdMhuUI/Hf1EeIV2VOav14uwPtUP
+	NLTsDACDu8+3g7vTsKuIRugFdLvN/4BQ3ik3z3hc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456455;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=SQUecjf5miVxuMWQ5LhahCXghCOW4aZ7x4dBr76ZNVQ=;
-	b=P1aZX5+Xs8QDivx6BUWJ79JC0Nsq5P5+RBF6kl+8FKbABRzldtyv8dw/49I6Z3eH
-	9OgGACe7dI65LhwEYtm2VB3q7aar+YzMgYYl4b/VXW+4NDW0pMA7ZzCABoUovI8u2uJ
-	2NsDy9x5+SA11UpdPUygu5PInWFGDX1w5ZBfLZmA=
-Content-Type: multipart/mixed; boundary="===============0664932642876038212=="
+	bh=9lLb0rYb9JOH+Q/+3fVJ6E0w0Hopt1XLrFOJmVGWiyw=;
+	b=BpQpdTj3Iot6Jgf/nSGNwaJJ+z1kohm5qJoYcwsKuYi4cUwHfx0b3HjNMY790bfg
+	iAHV+T4uelHAXnjNHIQCPzHutrCv1JZkNiz6TalhZyvtC+yxq3ZYxbVmWli/4VQFfmJ
+	/702Pm2PFHSy7HeSeUR6vyXSd2X0jUqHnOdNiqdQ=
+Content-Type: multipart/mixed; boundary="===============5753588394011860564=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sudo: upgrading to 1.9.14p1 FAILED
-Message-ID: <010101895b73ade9-d3e4a3be-8ab0-47cd-ba19-df38514fd056-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:35 +0000
+Subject: [AUH] ethtool: upgrading to 6.4 SUCCEEDED
+Message-ID: <010101895b73ad00-a156cf73-2aa8-4d84-a3fc-7d442811b247-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.30
+X-SES-Outgoing: 2023.07.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184375
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184374
 
---===============0664932642876038212==
+--===============5753588394011860564==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,106 +50,167 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sudo* to *1.9.14p1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *ethtool* to *6.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-ethtool-upgrade-6.3-6.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade sudo -V 1.9.14p1
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (15:36:28.173670)
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bc86d2f467b5a035dce4575c5a7f7db4508cfa8"
-workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1805 targets, 37 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bc86d2f467b5a035dce4575c5a7f7db4508cfa8"
-workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  37% |#############                       | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.sudo.ws/dist/sudo-1.9.14p1.tar.gz...
-INFO: Rebasing devtool onto de70b19142abf9439142afa25b6432a5aeb26310
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 336, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 565, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/sudo/lib/util/getcwd.c'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0664932642876038212==--
+
+-- >8 --
+From 1a9ff20b324fc21c543bc840a42f9834d17865cc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 15 Jul 2023 14:55:49 +0000
+Subject: [PATCH] ethtool: upgrade 6.3 -> 6.4
+
+---
+ .../ethtool/ethtool/avoid_parallel_tests.patch            | 8 ++++----
+ .../ethtool/{ethtool_6.3.bb => ethtool_6.4.bb}            | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_6.3.bb => ethtool_6.4.bb} (93%)
+
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 5e9024834c..8f674b9f12 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From 08f887f4bc65684397bf8ec30cc61d91d894deac Mon Sep 17 00:00:00 2001
++From 41a00c496e306a3568573fd4880992872ebd37ff Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,12 +15,12 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index c1e0012..c460398 100644
++index 292eae3..dcfc106 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 6.3, netdev@vger.kernel.org)
++@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.4, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
++ AC_CONFIG_MACRO_DIR([m4])
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+ +AM_INIT_AUTOMAKE([gnu subdir-objects serial-tests])
+diff --git a/meta/recipes-extended/ethtool/ethtool_6.3.bb b/meta/recipes-extended/ethtool/ethtool_6.4.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_6.3.bb
+rename to meta/recipes-extended/ethtool/ethtool_6.4.bb
+index 504e645966..fe3012088c 100644
+--- a/meta/recipes-extended/ethtool/ethtool_6.3.bb
++++ b/meta/recipes-extended/ethtool/ethtool_6.4.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "342d37d3fe19da79d0276c4c69c34c61f1ad8f87b06514d664bf1eeb29bfd525"
++SRC_URI[sha256sum] = "fb8265c3ebbfd6929ea1dd38a9e2e5fd4416c7443d6a0f9d474d9fde89014588"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ 
+-- 
+2.39.2
+
+
+--===============5753588394011860564==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3765440 to 3774328 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 47818 to 47987 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1594874 to 1598981 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1362532 to 1366298 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.3.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.4.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool: PV changed from "6.3" to "6.4"
+
+--===============5753588394011860564==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.3-6.4.patch"
+
+RnJvbSAxYTlmZjIwYjMyNGZjMjFjNTQzYmM4NDBhNDJmOTgzNGQxNzg2NWNjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTQ6NTU6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+dGh0b29sOiB1cGdyYWRlIDYuMyAtPiA2LjQKCi0tLQogLi4uL2V0aHRvb2wvZXRodG9vbC9hdm9p
+ZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCAgICAgICAgICAgIHwgOCArKysrLS0tLQogLi4uL2V0aHRv
+b2wve2V0aHRvb2xfNi4zLmJiID0+IGV0aHRvb2xfNi40LmJifSAgICAgICAgICAgIHwgMiArLQog
+MiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wve2V0aHRvb2xfNi4zLmJiID0+IGV0aHRvb2xf
+Ni40LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29s
+L2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCmluZGV4IDVlOTAy
+NDgzNGMuLjhmNjc0YjlmMTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0
+b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaApAQCAt
+MSw0ICsxLDQgQEAKLUZyb20gMDhmODg3ZjRiYzY1Njg0Mzk3YmY4ZWMzMGNjNjFkOTFkODk0ZGVh
+YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDFhMDBjNDk2ZTMwNmEzNTY4NTczZmQ0
+ODgwOTkyODcyZWJkMzdmZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFR1ZG9yIEZs
+b3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogRGF0ZTogV2VkLCAyOCBNYXkgMjAxNCAxODo1
+OTo1NCArMDIwMAogU3ViamVjdDogW1BBVENIXSBldGh0b29sOiB1c2Ugc2VyaWFsLXRlc3RzIGNv
+bmZpZyBuZWVkZWQgYnkgcHRlc3QuCkBAIC0xNSwxMiArMTUsMTIgQEAgVXBzdHJlYW0tU3RhdHVz
+OiBJbmFwcHJvcHJpYXRlCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4
+IGMxZTAwMTIuLmM0NjAzOTggMTAwNjQ0CitpbmRleCAyOTJlYWUzLi5kY2ZjMTA2IDEwMDY0NAog
+LS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC0yLDcgKzIsNyBAQCBk
+bmwgUHJvY2VzcyB0aGlzIGZpbGUgd2l0aCBhdXRvY29uZiB0byBwcm9kdWNlIGEgY29uZmlndXJl
+IHNjcmlwdC4KLSBBQ19JTklUKGV0aHRvb2wsIDYuMywgbmV0ZGV2QHZnZXIua2VybmVsLm9yZykK
+K0BAIC0zLDcgKzMsNyBAQCBBQ19JTklUKGV0aHRvb2wsIDYuNCwgbmV0ZGV2QHZnZXIua2VybmVs
+Lm9yZykKICBBQ19QUkVSRVEoMi41MikKKyBBQ19DT05GSUdfTUFDUk9fRElSKFttNF0pCiAgQUNf
+Q09ORklHX1NSQ0RJUihbZXRodG9vbC5jXSkKIC1BTV9JTklUX0FVVE9NQUtFKFtnbnUgc3ViZGly
+LW9iamVjdHNdKQogK0FNX0lOSVRfQVVUT01BS0UoW2dudSBzdWJkaXItb2JqZWN0cyBzZXJpYWwt
+dGVzdHNdKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9v
+bF82LjMuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuNC5iYgpz
+aW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRo
+dG9vbC9ldGh0b29sXzYuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRv
+b2wvZXRodG9vbF82LjQuYmIKaW5kZXggNTA0ZTY0NTk2Ni4uZmUzMDEyMDg4YyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjMuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjQuYmIKQEAgLTExLDcgKzExLDcg
+QEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L3NvZnR3YXJlL25ldHdvcmsvZXRodG9v
+bC9ldGh0b29sLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9hdm9pZF9wYXJhbGxl
+bF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM0
+MmQzN2QzZmUxOWRhNzlkMDI3NmM0YzY5YzM0YzYxZjFhZDhmODdiMDY1MTRkNjY0YmYxZWViMjli
+ZmQ1MjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmI4MjY1YzNlYmJmZDY5MjllYTFkZDM4YTll
+MmU1ZmQ0NDE2Yzc0NDNkNmEwZjlkNDc0ZDlmZGU4OTAxNDU4OCIKIAogVVBTVFJFQU1fQ0hFQ0tf
+VVJJID0gImh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3NvZnR3YXJlL25ldHdvcmsvZXRodG9v
+bC8iCiAKLS0gCjIuMzkuMgoK
+
+--===============5753588394011860564==--
 
