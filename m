@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D186C2FC0F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8EDC2FC0E
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:40 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.5941.1689456454459825569
+ by mx.groups.io with SMTP id smtpd.web10.5942.1689456454751240927
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jul 2023 14:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CNEp/plp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101895b73a7f6-162d2319-9125-4cad-8028-e8bdac0cf243-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N8N8Q80R;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101895b73a999-072c004d-6964-46eb-acde-b975b8bce92f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1689456453;
+	t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LSCQs6tGb7/iGRxiTCMVyZh5g3h1L4NSkM9gc82f4mU=;
-	b=CNEp/plpd9G7D1sZMliI/nm725ZOAqyfpa/U1nSGjgxA8IfJe8SFBZ6R5UPEVP8p
-	/7T5dnmFylQwZjWwdySpBaP2fiNAsRGTXuZurIbPOicBcllNPhMTgg5euXX0jJEXD7q
-	CVQ8qNaEZ3/TXHZOZ2OcAk/CHIvEMmjo/e5E9A0E=
+	bh=9kYEuk8lW0qGCq0X5wOcVWFA+/pCszpIKgHVrJfti80=;
+	b=N8N8Q80Rz36N2W0MPrb+DyrQv54ZgL+UDiRYKmdk6QFwfs6XQRi7DphHVvoBvNBZ
+	9g0e5BDr2i7Bw1ikGR9nUFo5pSHEpEPr0cU8Z2hue6VGmibG60HpHXUMWE9qyfnAV3S
+	OORY2OY5oizcus1oTcb6ThJrvc5zRC0WxOVdpEJs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456453;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LSCQs6tGb7/iGRxiTCMVyZh5g3h1L4NSkM9gc82f4mU=;
-	b=NWRRY02fii5t+e9eNJM8IbgmbETFOtFf1gn/iTxuruH8jkDowPSwnmBpS+a+ZJsl
-	WocLYbj9ORbXNxLK6+z8hDAnOevnXvO+tQBUnvqr5RWMPsvpiYJaB4A7b3KObn6IRx6
-	5XzvKoV7c14DXtMg61tgwXbdrEnhAfMagXKcYRVI=
-Content-Type: multipart/mixed; boundary="===============6370341318962983992=="
+	bh=9kYEuk8lW0qGCq0X5wOcVWFA+/pCszpIKgHVrJfti80=;
+	b=IctvaFCVmG0yf3LU9g6DNP5827xZqny7R8javCSUIwiGhpu0SmSPYzbr1V9sVlHB
+	wxJfr48X2fPunvRJo0IELx7b32LKtscEdXQNXzKUg39nXJCw8o++76/d6AlsVOFCp8c
+	zANviRRLMYQdfbvmaIPyRrVTmfR+nW5rHRqRro6o=
+Content-Type: multipart/mixed; boundary="===============8572080265604308086=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.20.6 FAILED
-Message-ID: <010101895b73a7f6-162d2319-9125-4cad-8028-e8bdac0cf243-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:33 +0000
+Subject: [AUH] python3-editables: upgrading to 0.4 SUCCEEDED
+Message-ID: <010101895b73a999-072c004d-6964-46eb-acde-b975b8bce92f-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184336
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184338
 
---===============6370341318962983992==
+--===============8572080265604308086==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.20.6* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *python3-editables* to *0.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-upgrade-1.20.5-1.20.6.patch
+    - apply the patch: git am 0001-python3-editables-upgrade-0.3-0.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,87 +71,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0420aefb4752d687ddbe4b4a53522bf329e3dec8 Mon Sep 17 00:00:00 2001
+From f70d7b997a6c2952b7d5a41199ede86a6dd1d7a6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jul 2023 10:54:59 +0000
-Subject: [PATCH] go: upgrade 1.20.5 -> 1.20.6
+Date: Sat, 15 Jul 2023 12:04:09 +0000
+Subject: [PATCH] python3-editables: upgrade 0.3 -> 0.4
 
 ---
- meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc} | 2 +-
- meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb}   | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/go/{go-1.20.5.inc => go-1.20.6.inc} (89%)
- rename meta/recipes-devtools/go/{go_1.20.5.bb => go_1.20.6.bb} (100%)
+ .../{python3-editables_0.3.bb => python3-editables_0.4.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-editables_0.3.bb => python3-editables_0.4.bb} (77%)
 
-diff --git a/meta/recipes-devtools/go/go-1.20.5.inc b/meta/recipes-devtools/go/go-1.20.6.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.20.5.inc
-rename to meta/recipes-devtools/go/go-1.20.6.inc
-index 4e4e57d5cb..551171b255 100644
---- a/meta/recipes-devtools/go/go-1.20.5.inc
-+++ b/meta/recipes-devtools/go/go-1.20.6.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "9a15c133ba2cfafe79652f4815b62e7cfc267f68df1b9454c6ab2a3ca8b96a88"
-+SRC_URI[main.sha256sum] = "62ee5bc6fb55b8bae8f705e0cb8df86d6453626b4ecf93279e2867092e0b7f70"
-diff --git a/meta/recipes-devtools/go/go_1.20.5.bb b/meta/recipes-devtools/go/go_1.20.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.20.5.bb
-rename to meta/recipes-devtools/go/go_1.20.6.bb
+diff --git a/meta/recipes-devtools/python/python3-editables_0.3.bb b/meta/recipes-devtools/python/python3-editables_0.4.bb
+similarity index 77%
+rename from meta/recipes-devtools/python/python3-editables_0.3.bb
+rename to meta/recipes-devtools/python/python3-editables_0.4.bb
+index b42ff06872..4987b02f0b 100644
+--- a/meta/recipes-devtools/python/python3-editables_0.3.bb
++++ b/meta/recipes-devtools/python/python3-editables_0.4.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=41bc1be47b7bb8240db3ef928c7cb0bf"
+ 
+-SRC_URI[sha256sum] = "167524e377358ed1f1374e61c268f0d7a4bf7dbd046c656f7b410cde16161b1a"
++SRC_URI[sha256sum] = "dc322c42e7ccaf19600874035a4573898d88aadd07e177c239298135b75da772"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
 -- 
 2.39.2
 
 
---===============6370341318962983992==
+--===============8572080265604308086==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-editables: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables: SRC_URI changed from "https://files.pythonhosted.org/packages/source/e/editables/editables-0.3.tar.gz;downloadfilename=editables-0.3.tar.gz" to "https://files.pythonhosted.org/packages/source/e/editables/editables-0.4.tar.gz;downloadfilename=editables-0.4.tar.gz"
+packages/core2-32-poky-linux/python3-editables/python3-editables-dbg: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-dbg: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables-dev: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-dev: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables-doc: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-doc: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables-locale: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-locale: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables-src: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-src: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables-staticdev: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables-staticdev: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables: PKGV changed from 0.3 [default] to 0.4 [default]
+packages/core2-32-poky-linux/python3-editables/python3-editables: PV changed from "0.3" to "0.4"
+packages/core2-32-poky-linux/python3-editables/python3-editables: FILELIST: removed "/usr/lib/python3.11/site-packages/editables-0.3.dist-info/METADATA /usr/lib/python3.11/site-packages/editables-0.3.dist-info/RECORD /usr/lib/python3.11/site-packages/editables-0.3.dist-info/top_level.txt /usr/lib/python3.11/site-packages/editables-0.3.dist-info/WHEEL /usr/lib/python3.11/site-packages/editables-0.3.dist-info/LICENSE.txt", added "/usr/lib/python3.11/site-packages/editables-0.4.dist-info/WHEEL /usr/lib/python3.11/site-packages/editables-0.4.dist-info/LICENSE.txt /usr/lib/python3.11/site-packages/editables-0.4.dist-info/RECORD /usr/lib/python3.11/site-packages/editables-0.4.dist-info/METADATA"
+packages/core2-32-poky-linux/python3-editables/python3-editables: PKGSIZE changed from 14946 to 18586 (+24%)
+Changes to packages/core2-32-poky-linux/python3-editables (sysroot):
+  /usr/lib/python3.11/site-packages/editables-0.3.dist-info moved to /usr/lib/python3.11/site-packages/editables-0.4.dist-info
+  /usr/lib/python3.11/site-packages/editables-0.3.dist-info/top_level.txt was removed
+
+--===============8572080265604308086==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-editables/python3-editables: FILELIST: removed "/usr/lib/python3.11/site-packages/editables-0.3.dist-info/WHEEL /usr/lib/python3.11/site-packages/editables-0.3.dist-info/top_level.txt /usr/lib/python3.11/site-packages/editables-0.3.dist-info/LICENSE.txt /usr/lib/python3.11/site-packages/editables-0.3.dist-info/RECORD /usr/lib/python3.11/site-packages/editables-0.3.dist-info/METADATA", added "/usr/lib/python3.11/site-packages/editables-0.4.dist-info/METADATA /usr/lib/python3.11/site-packages/editables-0.4.dist-info/WHEEL /usr/lib/python3.11/site-packages/editables-0.4.dist-info/LICENSE.txt /usr/lib/python3.11/site-packages/editables-0.4.dist-info/RECORD"
+packages/core2-32-poky-linux/python3-editables/python3-editables: PKGSIZE changed from 14946 to 18586 (+24%)
+Changes to packages/core2-32-poky-linux/python3-editables (sysroot):
+  /usr/lib/python3.11/site-packages/editables-0.3.dist-info moved to /usr/lib/python3.11/site-packages/editables-0.4.dist-info
+  /usr/lib/python3.11/site-packages/editables-0.3.dist-info/top_level.txt was removed
+
+--===============8572080265604308086==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-go-upgrade-1.20.5-1.20.6.patch"
+ filename="0001-python3-editables-upgrade-0.3-0.4.patch"
 
-RnJvbSAwNDIwYWVmYjQ3NTJkNjg3ZGRiZTRiNGE1MzUyMmJmMzI5ZTNkZWM4IE1vbiBTZXAgMTcg
+RnJvbSBmNzBkN2I5OTdhNmMyOTUyYjdkNWE0MTE5OWVkZTg2YTZkZDFkN2E2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTA6NTQ6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bzogdXBncmFkZSAxLjIwLjUgLT4gMS4yMC42CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9n
-by97Z28tMS4yMC41LmluYyA9PiBnby0xLjIwLjYuaW5jfSB8IDIgKy0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9nby97Z29fMS4yMC41LmJiID0+IGdvXzEuMjAuNi5iYn0gICB8IDAKIDIgZmlsZXMg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ28ve2dvLTEuMjAuNS5pbmMgPT4gZ28tMS4yMC42LmluY30gKDg5JSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28ve2dvXzEuMjAuNS5iYiA9PiBnb18xLjIwLjYu
-YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIw
-LjUuaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMjAuNi5pbmMKc2ltaWxhcml0
-eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMjAu
-NS5pbmMKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjIwLjYuaW5jCmlu
-ZGV4IDRlNGU1N2Q1Y2IuLjU1MTE3MWIyNTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9nby9nby0xLjIwLjUuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0x
-LjIwLjYuaW5jCkBAIC0xNSw0ICsxNSw0IEBAIFNSQ19VUkkgKz0gIlwKICAgICBmaWxlOi8vMDAw
-OC1zcmMtY21kLWRpc3QtYnVpbGRnby5nby1kby1ub3QtaGFyZGNvZGUtaG9zdC1jb21waWxlLnBh
-dGNoIFwKICAgICBmaWxlOi8vMDAwOS1nby1GaWx0ZXItYnVpbGQtcGF0aHMtb24tc3RhdGljbHkt
-bGlua2VkLWFyY2hlcy5wYXRjaCBcCiAiCi1TUkNfVVJJW21haW4uc2hhMjU2c3VtXSA9ICI5YTE1
-YzEzM2JhMmNmYWZlNzk2NTJmNDgxNWI2MmU3Y2ZjMjY3ZjY4ZGYxYjk0NTRjNmFiMmEzY2E4Yjk2
-YTg4IgorU1JDX1VSSVttYWluLnNoYTI1NnN1bV0gPSAiNjJlZTViYzZmYjU1YjhiYWU4ZjcwNWUw
-Y2I4ZGY4NmQ2NDUzNjI2YjRlY2Y5MzI3OWUyODY3MDkyZTBiN2Y3MCIKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjIwLjUuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZ28vZ29fMS4yMC42LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZ28vZ29fMS4yMC41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZ28vZ29fMS4yMC42LmJiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTI6MDQ6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWVkaXRhYmxlczogdXBncmFkZSAwLjMgLT4gMC40CgotLS0KIC4uLi97cHl0aG9uMy1l
+ZGl0YWJsZXNfMC4zLmJiID0+IHB5dGhvbjMtZWRpdGFibGVzXzAuNC5iYn0gICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtZWRpdGFibGVzXzAuMy5iYiA9PiBw
+eXRob24zLWVkaXRhYmxlc18wLjQuYmJ9ICg3NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWVkaXRhYmxlc18wLjMuYmIgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZWRpdGFibGVzXzAuNC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDc3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZWRp
+dGFibGVzXzAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLWVkaXRhYmxlc18wLjQuYmIKaW5kZXggYjQyZmYwNjg3Mi4uNDk4N2IwMmYwYiAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWVkaXRhYmxlc18wLjMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWVkaXRhYmxlc18w
+LjQuYmIKQEAgLTQsNyArNCw3IEBAIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9
+ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9NDFiYzFi
+ZTQ3YjdiYjgyNDBkYjNlZjkyOGM3Y2IwYmYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxNjc1
+MjRlMzc3MzU4ZWQxZjEzNzRlNjFjMjY4ZjBkN2E0YmY3ZGJkMDQ2YzY1NmY3YjQxMGNkZTE2MTYx
+YjFhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImRjMzIyYzQyZTdjY2FmMTk2MDA4NzQwMzVhNDU3
+Mzg5OGQ4OGFhZGQwN2UxNzdjMjM5Mjk4MTM1Yjc1ZGE3NzIiCiAKIGluaGVyaXQgcHlwaSBweXRo
+b25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKLS0gCjIuMzkuMgoK
 
---===============6370341318962983992==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1803 entries from dependency cache.
-Parsing recipes...
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.20.5.bb:4: Could not include required file go-1.20.5.inc
-ERROR: Parsing halted due to errors, see error messages above
-
---===============6370341318962983992==--
+--===============8572080265604308086==--
 
