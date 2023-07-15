@@ -1,46 +1,46 @@
 Return-Path: <auh@yoctoproject.org>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6921AC04FE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A11C04FE2
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:38 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.5936.1689456453635722274
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.6035.1689456455316427164
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jul 2023 14:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N3/xkVV7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101895b73b263-dbe3e268-c639-4d84-bb44-e2ecedf2b8f5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aDkGwZeu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101895b73af2d-1f7e25e5-406b-425e-92d0-3aae72e1d1b0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=841em6FUl6zZAPxkuNkU8TuEwh0pgzdSukSBuxznjPI=;
-	b=N3/xkVV7lJgZXgFkCDSWBlYxwcKL0+X45rmdIV03Uvku4cWL9jnIX5FgdzNyeZD6
-	XbmkAYpK84XGrJGLwEx1o1efUD63SSu6CoJL5aSjPqJPRML4krEpgNVW/457oqwmmzV
-	bY1+1fYdvz5ZBmLDLwJw9Yqkmy0mH/Uoz3jv9Dac=
+	bh=Ndqd5iksCT4VNn8cQB6DF6IcuRD7gzCtZrt2M/YfclY=;
+	b=aDkGwZeuk41GLjbAFLvfSi4fbT7EeJ786ijR31Q1sYBPlIzWR9UbbpS+kJqTmgKr
+	Ko89S1KBQJSJeA5ok4ieNvUt/s6w55Jdg7QGe0dxlmXy2qu9lyg5vgFXsFe3OMsfi6R
+	e8ZLxahnKl/Wcd8yEW2y4B7CIXPkqhAMw14X/+5U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456456;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=841em6FUl6zZAPxkuNkU8TuEwh0pgzdSukSBuxznjPI=;
-	b=gmN/RIw0ppCfdc5wYYFs/vmb5950YQO8TF67kR0mWOTxlpKEp97IsLxA63VBURLk
-	IPQKHtzlOBb5cH2JykwGFzyQ9+6gsMyy0ODMJh0Y5pn2TdG6vK7qFm6hOAhVZabSG65
-	IjDSDqU+hnW2WGTMAuBYcB2VAP91ZYWcKE1kcJ4U=
-Content-Type: multipart/mixed; boundary="===============1634117661453294482=="
+	bh=Ndqd5iksCT4VNn8cQB6DF6IcuRD7gzCtZrt2M/YfclY=;
+	b=nSfs6t8au2uIJDtvc/XlJbG1UvY0tp4HGI9IVTTfRW/3jOg6LWbJNL6ESlNWKV98
+	v4JnW1vyIQ44v028G6GSR8bqJCqOFw1JMCqyKnxYCGV3Xfnqt0VDBuyR99atd+szrRa
+	vJGIf4Q7bHNH7xnO5hb1uZl22rBPdaQbOLsqnpSk=
+Content-Type: multipart/mixed; boundary="===============4746124654497971507=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] webkitgtk: upgrading to 2.40.3 SUCCEEDED
-Message-ID: <010101895b73b263-dbe3e268-c639-4d84-bb44-e2ecedf2b8f5-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:36 +0000
+Subject: [AUH] libsdl2: upgrading to 2.28.1 SUCCEEDED
+Message-ID: <010101895b73af2d-1f7e25e5-406b-425e-92d0-3aae72e1d1b0-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.192
+X-SES-Outgoing: 2023.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184402
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184398
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -48,10 +48,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *webkitgtk* to *2.40.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsdl2* to *2.28.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-webkitgtk-upgrade-2.40.2-2.40.3.patch
+    - apply the patch: git am 0001-libsdl2-upgrade-2.28.0-2.28.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,221 +69,98 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 783ee0fd9b12404f370fc9568af30af8a1c48ccd Mon Sep 17 00:00:00 2001
+From ab58e3aed5dd2e13d6709cf5ba6265f0bb9a5491 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jul 2023 20:34:37 +0000
-Subject: [PATCH] webkitgtk: upgrade 2.40.2 -> 2.40.3
+Date: Sat, 15 Jul 2023 17:13:18 +0000
+Subject: [PATCH] libsdl2: upgrade 2.28.0 -> 2.28.1
 
 ---
- ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 -------------------
- ...ebkitgtk_2.40.2.bb => webkitgtk_2.40.3.bb} |  3 +-
- 2 files changed, 1 insertion(+), 43 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.40.2.bb => webkitgtk_2.40.3.bb} (97%)
+ .../libsdl2/{libsdl2_2.28.0.bb => libsdl2_2.28.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.28.0.bb => libsdl2_2.28.1.bb} (97%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
-deleted file mode 100644
-index 79da855ff4..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 4977290ab4ab35258a6da9b13795c9b0f7894bf4 Mon Sep 17 00:00:00 2001
--From: Diego Pino Garcia <dpino@igalia.com>
--Date: Mon, 22 May 2023 19:58:50 -0700
--Subject: [PATCH] [GLIB] Fix build error after 264196@main
-- https://bugs.webkit.org/show_bug.cgi?id=256917
--
--Reviewed by Michael Catanzaro.
--
--Variable BWRAP_EXECUTABLE is only defined when BUBBLEWRAP_SANDBOX is
--enabled.
--
--* Source/WTF/wtf/glib/Sandbox.cpp:
--(WTF::isInsideUnsupportedContainer):
--
--Canonical link: https://commits.webkit.org/264395@main
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/4977290ab4ab35258a6da9b13795c9b0f7894bf4]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- Source/WTF/wtf/glib/Sandbox.cpp | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/Source/WTF/wtf/glib/Sandbox.cpp b/Source/WTF/wtf/glib/Sandbox.cpp
--index 7d84e830ab33e..9b07bb8cb5a9b 100644
----- a/Source/WTF/wtf/glib/Sandbox.cpp
--+++ b/Source/WTF/wtf/glib/Sandbox.cpp
--@@ -36,6 +36,7 @@ bool isInsideFlatpak()
--     return returnValue;
-- }
-- 
--+#if ENABLE(BUBBLEWRAP_SANDBOX)
-- bool isInsideUnsupportedContainer()
-- {
--     static bool inContainer = g_file_test("/run/.containerenv", G_FILE_TEST_EXISTS);
--@@ -64,6 +65,7 @@ bool isInsideUnsupportedContainer()
-- 
--     return inContainer && !supportedContainer;
-- }
--+#endif
-- 
-- bool isInsideSnap()
-- {
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb
 similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.40.3.bb
-index b0dd95b78f..8af865dad1 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb
-@@ -13,10 +13,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
--           file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch \
-            file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch \
-            "
--SRC_URI[sha256sum] = "96898870d994da406ee7a632816dcde9a3bb395ee5f344fcb3f3b8cc8a77e000"
-+SRC_URI[sha256sum] = "cc0aa83f40dbc64c1c6ae42ec6b85af4be2a9dbf524cfcb95f89a367fb5098dd"
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb
+index 1228217e8c..6277d252ec 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+-SRC_URI[sha256sum] = "d215ae4541e69d628953711496cd7b0e8b8d5c8d811d5b0f98fdc7fd1422998a"
++SRC_URI[sha256sum] = "4977ceba5c0054dbe6c2f114641aced43ce3bf2b41ea64b6a372d6ba129cb15d"
+ 
+ inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
  
 -- 
 2.39.2
 
 
---===============1634117661453294482==
+--===============4746124654497971507==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libsdl2-upgrade-2.28.0-2.28.1.patch"
+
+RnJvbSBhYjU4ZTNhZWQ1ZGQyZTEzZDY3MDljZjViYTYyNjVmMGJiOWE1NDkxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTc6MTM6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzZGwyOiB1cGdyYWRlIDIuMjguMCAtPiAyLjI4LjEKCi0tLQogLi4uL2xpYnNkbDIve2xpYnNk
+bDJfMi4yOC4wLmJiID0+IGxpYnNkbDJfMi4yOC4xLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIve2xpYnNkbDJfMi4yOC4wLmJiID0+IGxpYnNkbDJfMi4y
+OC4xLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwy
+L2xpYnNkbDJfMi4yOC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
+Ml8yLjI4LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjI4LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJfMi4yOC4xLmJiCmluZGV4IDEyMjgyMTdlOGMuLjYy
+NzdkMjUyZWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNk
+bDJfMi4yOC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJf
+Mi4yOC4xLmJiCkBAIC0yNSw3ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5saWJzZGwu
+b3JnL3JlbGVhc2UvU0RMMi0ke1BWfS50YXIuZ3oiCiAKIFMgPSAiJHtXT1JLRElSfS9TREwyLSR7
+UFZ9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDIxNWFlNDU0MWU2OWQ2Mjg5NTM3MTE0OTZj
+ZDdiMGU4YjhkNWM4ZDgxMWQ1YjBmOThmZGM3ZmQxNDIyOTk4YSIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI0OTc3Y2ViYTVjMDA1NGRiZTZjMmYxMTQ2NDFhY2VkNDNjZTNiZjJiNDFlYTY0YjZhMzcy
+ZDZiYTEyOWNiMTVkIgogCiBpbmhlcml0IGNtYWtlIGxpYl9wYWNrYWdlIGJpbmNvbmZpZy1kaXNh
+YmxlZCBwa2djb25maWcgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuCiAKLS0gCjIuMzkuMgoK
+
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/webkitgtk: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk: SRC_URI changed from "https://www.webkitgtk.org/releases/webkitgtk-2.40.2.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0d3344e17d258106617b0e6d783d073b188a2548.patch file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch" to "https://www.webkitgtk.org/releases/webkitgtk-2.40.3.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0d3344e17d258106617b0e6d783d073b188a2548.patch file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch"
-Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-4.1.so.0 changed symlink target from libjavascriptcoregtk-4.1.so.0.3.11 to libjavascriptcoregtk-4.1.so.0.3.12
-  /usr/lib/libwebkit2gtk-4.1.so.0 changed symlink target from libwebkit2gtk-4.1.so.0.8.3 to libwebkit2gtk-4.1.so.0.8.4
-  /usr/lib/libjavascriptcoregtk-4.1.so.0.3.11 moved to /usr/lib/libjavascriptcoregtk-4.1.so.0.3.12
-  /usr/lib/libwebkit2gtk-4.1.so.0.8.3 moved to /usr/lib/libwebkit2gtk-4.1.so.0.8.4
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGSIZE changed from 3681563040 to 3681569828 (+0%)
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: FILELIST: removed "/usr/lib/.debug/libwebkit2gtk-4.1.so.0.8.3 /usr/lib/.debug/libjavascriptcoregtk-4.1.so.0.3.11", added "/usr/lib/.debug/libjavascriptcoregtk-4.1.so.0.3.12 /usr/lib/.debug/libwebkit2gtk-4.1.so.0.8.4"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hr: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hr: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ka: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ka: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGSIZE changed from 189242256 to 189243953 (+0%)
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGSIZE changed from 99102408 to 99110600 (+0%)
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libjavascriptcoregtk-4.1.so.0.3.11 /usr/lib/libwebkit2gtk-4.1.so.0.8.3", added "/usr/lib/libwebkit2gtk-4.1.so.0.8.4 /usr/lib/libjavascriptcoregtk-4.1.so.0.3.12"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: PV changed from "2.40.2" to "2.40.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGV changed from 2.40.2 [default] to 2.40.3 [default]
+packages/core2-32-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.28.0.tar.gz" to "http://www.libsdl.org/release/SDL2-2.28.1.tar.gz"
+packages/core2-32-poky-linux/libsdl2: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 6299784 to 6300248 (+0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.2800.0", added "/usr/lib/.debug/libSDL2-2.0.so.0.2800.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10166286 to 10168707 (+0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-src: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 9212290 to 9214568 (+0%)
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.28.0" to "2.28.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2: PKGV changed from 2.28.0 [default] to 2.28.1 [default]
+packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2800.0", added "/usr/lib/libSDL2-2.0.so.0.2800.1"
+packages/core2-32-poky-linux/libsdl2/libsdl2: PV changed from "2.28.0" to "2.28.1"
+Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2800.0 to libSDL2-2.0.so.0.2800.1
+  /usr/lib/libSDL2-2.0.so.0.2800.0 moved to /usr/lib/libSDL2-2.0.so.0.2800.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1666,18 +1543,16 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-4.1.so.0 changed symlink target from libjavascriptcoregtk-4.1.so.0.3.11 to libjavascriptcoregtk-4.1.so.0.3.12
-  /usr/lib/libwebkit2gtk-4.1.so.0 changed symlink target from libwebkit2gtk-4.1.so.0.8.3 to libwebkit2gtk-4.1.so.0.8.4
-  /usr/lib/libjavascriptcoregtk-4.1.so.0.3.11 moved to /usr/lib/libjavascriptcoregtk-4.1.so.0.3.12
-  /usr/lib/libwebkit2gtk-4.1.so.0.8.3 moved to /usr/lib/libwebkit2gtk-4.1.so.0.8.4
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libjavascriptcoregtk-4.1.so.0.3.11 /usr/lib/libwebkit2gtk-4.1.so.0.8.3", added "/usr/lib/libjavascriptcoregtk-4.1.so.0.3.12 /usr/lib/libwebkit2gtk-4.1.so.0.8.4"
+packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2800.0", added "/usr/lib/libSDL2-2.0.so.0.2800.1"
+Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
+  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2800.0 to libSDL2-2.0.so.0.2800.1
+  /usr/lib/libSDL2-2.0.so.0.2800.0 moved to /usr/lib/libSDL2-2.0.so.0.2800.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3060,7 +2935,7 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.1.1/plugin/include/xcoff.h was removed
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3071,8 +2946,6 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 70 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -3087,723 +2960,511 @@ TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2025f72c4f9782278a93a157ae15f414340ceea9"
+meta-yocto-bsp       = "tmp-auh-upgrades:c252c51a2b5d0ff6ba4650e0b62c6914372efdd3"
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 126 Local 35 Mirrors 0 Missed 91 Current 799 (27% match, 90% complete)
-Removing 1 stale sstate objects for arch ppc7400...done.
+Sstate summary: Wanted 119 Local 31 Mirrors 0 Missed 88 Current 644 (26% match, 88% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 834 of 925 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 894 of 925 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_packagedata_setscene)
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 750 of 763 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1861 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_fetch)
-NOTE: Running task 2048 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_write_config)
-NOTE: Running task 2105 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_fetch)
-NOTE: Running task 2129 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_fetch)
-NOTE: Running task 2184 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 2185 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_fetch)
-NOTE: Running task 2186 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_fetch)
-NOTE: Running task 2188 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2191 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2260 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_fetch)
-NOTE: Running task 2261 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_fetch)
-NOTE: Running task 2262 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_fetch)
-NOTE: Running task 2263 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_fetch)
-NOTE: Running task 2265 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_fetch)
-NOTE: Running task 2268 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_fetch)
-NOTE: Running task 2269 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_fetch)
-NOTE: Running task 2270 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2309 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_unpack)
-NOTE: Running task 2310 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Started
-NOTE: Running task 2335 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_fetch)
-NOTE: Running task 2343 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_write_config)
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Started
-NOTE: Running task 2405 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_unpack)
-NOTE: Running task 2406 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Started
-NOTE: Running task 2407 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_unpack)
-NOTE: Running task 2408 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Succeeded
-NOTE: Running task 2409 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 2410 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_unpack)
-NOTE: Running task 2411 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Started
-NOTE: Running task 2412 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_unpack)
-NOTE: Running task 2413 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2414 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_unpack)
-NOTE: Running task 2415 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2416 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2417 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_unpack)
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2418 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2419 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_unpack)
-NOTE: Running task 2420 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_unpack)
-NOTE: Running task 2421 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_unpack)
-NOTE: Running task 2422 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_unpack)
-NOTE: Running task 2423 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_unpack)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Started
-NOTE: Running task 2424 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_unpack)
-NOTE: Running task 2425 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_unpack)
-NOTE: Running task 2426 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2443 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_unpack)
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2490 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_write_config)
-NOTE: Running task 2491 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_write_config)
-NOTE: Running task 2492 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: Running task 2493 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_write_config)
-NOTE: Running task 2501 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_write_config)
-NOTE: Running task 2502 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2503 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_write_config)
-NOTE: Running task 2504 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Started
-NOTE: Running task 2505 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2592 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_patch)
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Started
-NOTE: Running task 2649 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_collect_spdx_deps)
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Started
-NOTE: Running task 2650 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_patch)
-NOTE: Running task 2651 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_patch)
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Started
-NOTE: Running task 2669 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_patch)
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2670 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2671 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_patch)
-NOTE: Running task 2680 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_collect_spdx_deps)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2681 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_patch)
-NOTE: Running task 2682 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_patch)
-NOTE: Running task 2683 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_collect_spdx_deps)
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2684 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_patch)
-NOTE: Running task 2685 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_collect_spdx_deps)
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Succeeded
-NOTE: Running task 2686 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_patch)
-NOTE: Running task 2692 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_patch)
-NOTE: Running task 2699 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_create_spdx)
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Started
-NOTE: Running task 2700 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_patch)
-NOTE: Running task 2701 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_collect_spdx_deps)
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Started
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_patch: Started
-NOTE: Running task 2702 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Started
-NOTE: Running task 2703 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: Running task 2704 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_collect_spdx_deps)
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2705 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_patch)
-NOTE: Running task 2706 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Started
-NOTE: Running task 2711 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Started
-NOTE: Running task 2712 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Started
-NOTE: Running task 2713 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2727 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: Running task 2728 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2729 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_deploy_source_date_epoch)
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2730 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_patch)
-NOTE: Running task 2731 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2732 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Succeeded
-NOTE: Running task 2733 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2734 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Succeeded
-NOTE: Running task 2735 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Succeeded
-NOTE: Running task 2736 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2737 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2738 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_generate_toolchain_file)
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2739 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe orc-0.4.34-r0: task do_patch: Succeeded
-NOTE: Running task 2740 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2741 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2742 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running task 2743 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2744 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2745 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: Running task 2746 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2747 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2748 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_configure)
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2749 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2750 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2751 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_configure)
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2752 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_configure)
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2753 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2754 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_configure)
-NOTE: Running task 2755 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure)
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2756 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_configure)
-NOTE: Running task 2757 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_configure)
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Started
-NOTE: Running task 2758 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_configure)
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Started
-NOTE: Running task 2759 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Started
-NOTE: Running task 2760 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_collect_spdx_deps)
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.34-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Succeeded
-NOTE: Running task 2761 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Succeeded
-NOTE: Running task 2762 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2763 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_patch)
-NOTE: recipe orc-0.4.34-r0: task do_configure: Succeeded
-NOTE: Running task 2764 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_compile)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Succeeded
-NOTE: Running task 2765 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_populate_sysroot)
-NOTE: Running task 2766 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_package)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 2767 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2768 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_generate_toolchain_file)
-NOTE: Running task 2769 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic)
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Started
-NOTE: Running task 2770 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_compile)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic unihash changed to 53d7336e33b6897d19bf1a2d79ee6a2fd45c03608f1ccc1cd3ce7601d8a7e09e
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Succeeded
-NOTE: Running task 2771 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2772 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2773 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Succeeded
-NOTE: Running task 2774 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2775 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_create_spdx)
-NOTE: recipe orc-0.4.34-r0: task do_compile: Succeeded
-NOTE: Running task 2776 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Started
-NOTE: recipe orc-0.4.34-r0: task do_install: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2777 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe orc-0.4.34-r0: task do_install: Succeeded
-NOTE: Running task 2778 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_populate_sysroot)
-NOTE: Running task 2779 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Succeeded
-NOTE: Running task 2780 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_compile)
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Succeeded
-NOTE: Running task 2781 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure_ptest_base)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2782 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Succeeded
-NOTE: Running task 2783 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 2784 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Succeeded
-NOTE: Running task 2785 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_package: Succeeded
-NOTE: Running task 2786 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_packagedata)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Started
-NOTE: Running task 2787 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_package)
-NOTE: Running task 2788 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_populate_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Succeeded
-NOTE: Running task 2789 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_package)
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Succeeded
-NOTE: Running task 2790 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_populate_sysroot)
-NOTE: Running task 2791 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_create_spdx)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Succeeded
-NOTE: Running task 2792 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 2793 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 2794 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 2795 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_package)
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Succeeded
-NOTE: Running task 2796 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_install)
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Succeeded
-NOTE: Running task 2797 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Succeeded
-NOTE: Running task 2798 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Started
-NOTE: Running task 2799 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_package)
-NOTE: Running task 2800 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2801 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Succeeded
-NOTE: Running task 2802 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Started
-NOTE: recipe libxv-1.0.12-r0: task do_install: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 2803 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Succeeded
-NOTE: Running task 2804 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2805 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_compile)
-NOTE: Running task 2806 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_packagedata)
-NOTE: Running task 2807 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2808 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_install: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2809 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot)
-NOTE: Running task 2810 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_package)
-NOTE: Running task 2811 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: Running task 2812 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_create_spdx)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2813 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 2814 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2815 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_compile)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Succeeded
-NOTE: Running task 2816 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 2817 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Succeeded
-NOTE: Running task 2818 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2819 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: Running task 2820 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Succeeded
-NOTE: Running task 2821 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 2822 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2823 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_package)
-NOTE: Running task 2824 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Succeeded
-NOTE: Running task 2825 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2826 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe aspell-0.60.8-r0: task do_install: Succeeded
-NOTE: Running task 2827 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot)
-NOTE: Running task 2828 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2829 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2830 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2831 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_packagedata)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2832 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2833 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_install)
-NOTE: Running task 2834 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2835 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_create_spdx)
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2836 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_configure)
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2837 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_configure)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: Running task 2838 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Succeeded
-NOTE: Running task 2839 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2840 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2841 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_create_spdx)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Started
-NOTE: Running task 2842 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_package)
-NOTE: Running task 2843 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2844 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Succeeded
-NOTE: Running task 2845 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2846 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_populate_sysroot)
-NOTE: Running task 2847 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_package)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2848 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Succeeded
-NOTE: Running task 2849 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Succeeded
-NOTE: Running task 2850 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_compile)
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2851 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Failed
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2851 tasks of which 2647 didn't need to be rerun and 1 failed.
+NOTE: Running task 1563 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running task 1620 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
+NOTE: Running task 1706 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_fetch)
+NOTE: Running task 1730 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: Running task 1731 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_fetch)
+NOTE: Running task 1753 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_fetch)
+NOTE: Running task 1785 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_fetch)
+NOTE: Running task 1788 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
+NOTE: Running task 1829 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: Running task 1830 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_fetch)
+NOTE: Running task 1831 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
+NOTE: Running task 1832 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_fetch)
+NOTE: Running task 1834 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
+NOTE: Running task 1895 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
+NOTE: Running task 1969 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2009 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: Running task 2010 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Started
+NOTE: Running task 2011 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
+NOTE: Running task 2012 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_fetch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2029 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_unpack)
+NOTE: Running task 2030 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2031 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: Running task 2032 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_unpack)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
+NOTE: recipe sbc-2.0-r0: task do_fetch: Started
+NOTE: Running task 2052 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_unpack)
+NOTE: recipe ell-0.57-r0: task do_fetch: Succeeded
+NOTE: Running task 2075 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_unpack)
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
+NOTE: Running task 2076 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2077 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_unpack)
+NOTE: Running task 2078 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
+NOTE: Running task 2079 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_unpack)
+NOTE: Running task 2080 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: Running task 2081 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Started
+NOTE: Running task 2082 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2084 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
+NOTE: Running task 2085 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
+NOTE: Running task 2086 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2087 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
+NOTE: Running task 2088 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: Running task 2089 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_unpack)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Started
+NOTE: Running task 2105 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Started
+NOTE: Running task 2183 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Started
+NOTE: recipe sbc-2.0-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
+NOTE: Running task 2212 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_patch)
+NOTE: Running task 2213 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_collect_spdx_deps)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2214 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
+NOTE: Running task 2215 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_collect_spdx_deps)
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Started
+NOTE: Running task 2216 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
+NOTE: Running task 2217 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_collect_spdx_deps)
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.57-r0: task do_unpack: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2218 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Started
+NOTE: Running task 2219 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_patch)
+NOTE: Running task 2220 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_patch)
+NOTE: Running task 2221 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_collect_spdx_deps)
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2222 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2223 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_patch)
+NOTE: Running task 2224 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_patch)
+NOTE: Running task 2225 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_collect_spdx_deps)
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2226 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2227 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
+NOTE: Running task 2228 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_collect_spdx_deps)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2229 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_patch: Started
+NOTE: recipe flac-1.4.3-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Started
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2230 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe sbc-2.0-r0: task do_patch: Succeeded
+NOTE: Running task 2231 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe flac-1.4.3-r0: task do_patch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
+NOTE: Running task 2232 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2233 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 2234 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
+NOTE: Running task 2235 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2236 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: Running task 2237 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2238 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: Running task 2239 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2240 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2241 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
+NOTE: Running task 2242 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2243 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: Running task 2245 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_configure)
+NOTE: Running task 2246 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_patch)
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2247 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Succeeded
+NOTE: Running task 2248 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_configure)
+NOTE: Running task 2249 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_configure)
+NOTE: Running task 2250 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2251 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2252 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_patch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2253 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_deploy_source_date_epoch)
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
+NOTE: Running task 2254 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2255 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2256 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2257 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic)
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2258 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
+NOTE: Running task 2259 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic unihash changed to 526ad441128868e133d038daf7984a4970f610afbe7eafd9a47d5f9bbc39e0f3
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2260 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_configure)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Started
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
+NOTE: Running task 2261 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2262 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Succeeded
+NOTE: Running task 2263 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Succeeded
+NOTE: Running task 2264 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_install)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Succeeded
+NOTE: Running task 2265 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot)
+NOTE: Running task 2266 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Succeeded
+NOTE: Running task 2267 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Succeeded
+NOTE: Running task 2268 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2269 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Succeeded
+NOTE: Running task 2270 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2271 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2272 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot)
+NOTE: Running task 2273 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Succeeded
+NOTE: Running task 2274 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_compile)
+NOTE: recipe vala-0.56.8-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_compile: Succeeded
+NOTE: Running task 2275 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Succeeded
+NOTE: Running task 2276 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
+NOTE: Running task 2277 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2278 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 2279 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_install: Succeeded
+NOTE: Running task 2280 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_populate_sysroot)
+NOTE: Running task 2281 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.57-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2282 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2283 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
+NOTE: Running task 2284 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2285 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
+NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
+NOTE: Running task 2286 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
+NOTE: Running task 2287 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2288 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2289 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2290 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2291 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2292 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_configure)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2293 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe ell-0.57-r0: task do_package: Succeeded
+NOTE: Running task 2294 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
+NOTE: Running task 2295 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Succeeded
+NOTE: Running task 2296 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2297 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2298 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2299 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2300 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_collect_spdx_deps)
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2301 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx)
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 2302 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
+NOTE: recipe libtool-2.4.7-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
+NOTE: Running task 2303 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
+NOTE: Running task 2304 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
+NOTE: Running task 2305 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2306 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Running task 2307 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Succeeded
+NOTE: Running task 2308 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2309 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot)
+NOTE: Running task 2310 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_package)
+NOTE: Running task 2311 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2312 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
+NOTE: Running task 2313 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Succeeded
+NOTE: Running task 2314 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Running task 2315 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 2316 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2317 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Succeeded
+NOTE: Running task 2318 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_compile)
+NOTE: recipe flac-1.4.3-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_compile: Succeeded
+NOTE: Running task 2319 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_install)
+NOTE: recipe vala-0.56.8-r0: task do_install: Started
+NOTE: recipe flac-1.4.3-r0: task do_compile: Succeeded
+NOTE: Running task 2320 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_install)
+NOTE: recipe flac-1.4.3-r0: task do_install: Started
+NOTE: recipe vala-0.56.8-r0: task do_install: Succeeded
+NOTE: Running task 2321 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot)
+NOTE: Running task 2322 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package)
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2323 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2324 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot)
+NOTE: Running task 2325 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2326 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2327 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2328 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_configure)
+NOTE: recipe libical-3.0.16-r0: task do_configure: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_package: Succeeded
+NOTE: Running task 2329 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_packagedata)
+NOTE: Running task 2330 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata)
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Started
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Failed
+NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2330 tasks of which 2172 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-src went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dbg went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-gif2webp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-staticdev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-doc went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-locale went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-bin went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libwebp/1.3.0-r0/temp/log.do_packagedata.2149231
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-src went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dbg went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-staticdev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-doc went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-locale went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/vala/0.56.8-r0/temp/log.do_packagedata.1946983
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata) failed with exit code '1'
 
---===============1634117661453294482==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-webkitgtk-upgrade-2.40.2-2.40.3.patch"
-
-RnJvbSA3ODNlZTBmZDliMTI0MDRmMzcwZmM5NTY4YWYzMGFmOGExYzQ4Y2NkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMjA6MzQ6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-ZWJraXRndGs6IHVwZ3JhZGUgMi40MC4yIC0+IDIuNDAuMwoKLS0tCiAuLi4yOTBhYjRhYjM1MjU4
-YTZkYTliMTM3OTVjOWIwZjc4OTRiZjQucGF0Y2ggfCA0MSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAu
-Li5lYmtpdGd0a18yLjQwLjIuYmIgPT4gd2Via2l0Z3RrXzIuNDAuMy5iYn0gfCAgMyArLQogMiBm
-aWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNDMgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9k
-ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay80OTc3MjkwYWI0YWIz
-NTI1OGE2ZGE5YjEzNzk1YzliMGY3ODk0YmY0LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLXNh
-dG8vd2Via2l0L3t3ZWJraXRndGtfMi40MC4yLmJiID0+IHdlYmtpdGd0a18yLjQwLjMuYmJ9ICg5
-NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0ay80OTc3
-MjkwYWI0YWIzNTI1OGE2ZGE5YjEzNzk1YzliMGY3ODk0YmY0LnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LXNhdG8vd2Via2l0L3dlYmtpdGd0ay80OTc3MjkwYWI0YWIzNTI1OGE2ZGE5YjEzNzk1YzliMGY3
-ODk0YmY0LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA3OWRhODU1ZmY0Li4w
-MDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGsvNDk3NzI5
-MGFiNGFiMzUyNThhNmRhOWIxMzc5NWM5YjBmNzg5NGJmNC5wYXRjaAorKysgL2Rldi9udWxsCkBA
-IC0xLDQxICswLDAgQEAKLUZyb20gNDk3NzI5MGFiNGFiMzUyNThhNmRhOWIxMzc5NWM5YjBmNzg5
-NGJmNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IERpZWdvIFBpbm8gR2FyY2lhIDxk
-cGlub0BpZ2FsaWEuY29tPgotRGF0ZTogTW9uLCAyMiBNYXkgMjAyMyAxOTo1ODo1MCAtMDcwMAot
-U3ViamVjdDogW1BBVENIXSBbR0xJQl0gRml4IGJ1aWxkIGVycm9yIGFmdGVyIDI2NDE5NkBtYWlu
-Ci0gaHR0cHM6Ly9idWdzLndlYmtpdC5vcmcvc2hvd19idWcuY2dpP2lkPTI1NjkxNwotCi1SZXZp
-ZXdlZCBieSBNaWNoYWVsIENhdGFuemFyby4KLQotVmFyaWFibGUgQldSQVBfRVhFQ1VUQUJMRSBp
-cyBvbmx5IGRlZmluZWQgd2hlbiBCVUJCTEVXUkFQX1NBTkRCT1ggaXMKLWVuYWJsZWQuCi0KLSog
-U291cmNlL1dURi93dGYvZ2xpYi9TYW5kYm94LmNwcDoKLShXVEY6OmlzSW5zaWRlVW5zdXBwb3J0
-ZWRDb250YWluZXIpOgotCi1DYW5vbmljYWwgbGluazogaHR0cHM6Ly9jb21taXRzLndlYmtpdC5v
-cmcvMjY0Mzk1QG1haW4KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHVi
-LmNvbS9XZWJLaXQvV2ViS2l0L2NvbW1pdC80OTc3MjkwYWI0YWIzNTI1OGE2ZGE5YjEzNzk1Yzli
-MGY3ODk0YmY0XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRy
-b25peC5kZT4KLS0tLQotIFNvdXJjZS9XVEYvd3RmL2dsaWIvU2FuZGJveC5jcHAgfCAyICsrCi0g
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvU291cmNlL1dU
-Ri93dGYvZ2xpYi9TYW5kYm94LmNwcCBiL1NvdXJjZS9XVEYvd3RmL2dsaWIvU2FuZGJveC5jcHAK
-LWluZGV4IDdkODRlODMwYWIzM2UuLjliMDdiYjhjYjVhOWIgMTAwNjQ0Ci0tLS0gYS9Tb3VyY2Uv
-V1RGL3d0Zi9nbGliL1NhbmRib3guY3BwCi0rKysgYi9Tb3VyY2UvV1RGL3d0Zi9nbGliL1NhbmRi
-b3guY3BwCi1AQCAtMzYsNiArMzYsNyBAQCBib29sIGlzSW5zaWRlRmxhdHBhaygpCi0gICAgIHJl
-dHVybiByZXR1cm5WYWx1ZTsKLSB9Ci0gCi0rI2lmIEVOQUJMRShCVUJCTEVXUkFQX1NBTkRCT1gp
-Ci0gYm9vbCBpc0luc2lkZVVuc3VwcG9ydGVkQ29udGFpbmVyKCkKLSB7Ci0gICAgIHN0YXRpYyBi
-b29sIGluQ29udGFpbmVyID0gZ19maWxlX3Rlc3QoIi9ydW4vLmNvbnRhaW5lcmVudiIsIEdfRklM
-RV9URVNUX0VYSVNUUyk7Ci1AQCAtNjQsNiArNjUsNyBAQCBib29sIGlzSW5zaWRlVW5zdXBwb3J0
-ZWRDb250YWluZXIoKQotIAotICAgICByZXR1cm4gaW5Db250YWluZXIgJiYgIXN1cHBvcnRlZENv
-bnRhaW5lcjsKLSB9Ci0rI2VuZGlmCi0gCi0gYm9vbCBpc0luc2lkZVNuYXAoKQotIHsKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi40MC4yLmJiIGIvbWV0
-YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQwLjMuYmIKc2ltaWxhcml0eSBpbmRl
-eCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjQw
-LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi40MC4z
-LmJiCmluZGV4IGIwZGQ5NWI3OGYuLjhhZjg2NWRhZDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi40MC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRv
-L3dlYmtpdC93ZWJraXRndGtfMi40MC4zLmJiCkBAIC0xMywxMCArMTMsOSBAQCBTUkNfVVJJID0g
-Imh0dHBzOi8vd3d3LndlYmtpdGd0ay5vcmcvcmVsZWFzZXMvJHtCUE59LSR7UFZ9LnRhci54eiBc
-CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUZpbmRHT2JqZWN0SW50cm9zcGVjdGlvbi5jbWFrZS1w
-cmVmaXgtdmFyaWFibGVzLW9idGEucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vcmVwcm9kdWNp
-YmlsaXR5LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzBkMzM0NGUxN2QyNTgxMDY2MTdiMGU2
-ZDc4M2QwNzNiMTg4YTI1NDgucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vNDk3NzI5MGFiNGFi
-MzUyNThhNmRhOWIxMzc5NWM5YjBmNzg5NGJmNC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8w
-MDAxLVNvdXJjZS1KYXZhU2NyaXB0Q29yZS1DTWFrZUxpc3RzLnR4dC1lbnN1cmUtcmVwcm9kdWMu
-cGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTY4OTg4NzBkOTk0
-ZGE0MDZlZTdhNjMyODE2ZGNkZTlhM2JiMzk1ZWU1ZjM0NGZjYjNmM2I4Y2M4YTc3ZTAwMCIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICJjYzBhYTgzZjQwZGJjNjRjMWM2YWU0MmVjNmI4NWFmNGJlMmE5
-ZGJmNTI0Y2ZjYjk1Zjg5YTM2N2ZiNTA5OGRkIgogCiBpbmhlcml0IGNtYWtlIHBrZ2NvbmZpZyBn
-b2JqZWN0LWludHJvc3BlY3Rpb24gcGVybG5hdGl2ZSBmZWF0dXJlc19jaGVjayB1cHN0cmVhbS12
-ZXJzaW9uLWlzLWV2ZW4gZ2ktZG9jZ2VuCiAKLS0gCjIuMzkuMgoK
-
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3814,8 +3475,6 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 54 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -3830,661 +3489,507 @@ TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2025f72c4f9782278a93a157ae15f414340ceea9"
+meta-yocto-bsp       = "tmp-auh-upgrades:c252c51a2b5d0ff6ba4650e0b62c6914372efdd3"
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 126 Local 35 Mirrors 0 Missed 91 Current 799 (27% match, 90% complete)
-Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
+Sstate summary: Wanted 119 Local 31 Mirrors 0 Missed 88 Current 644 (26% match, 88% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 834 of 925 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 894 of 925 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_packagedata_setscene)
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1861 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_fetch)
-NOTE: Running task 2048 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_write_config)
-NOTE: Running task 2105 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_fetch)
-NOTE: Running task 2129 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_fetch)
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 750 of 763 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2184 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_fetch)
-NOTE: Running task 2186 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 2189 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_fetch)
-NOTE: Running task 2190 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2191 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2260 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_fetch)
-NOTE: Running task 2261 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_fetch)
-NOTE: Running task 2262 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_fetch)
-NOTE: Running task 2263 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_fetch)
-NOTE: Running task 2266 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_fetch)
-NOTE: Running task 2268 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_fetch)
-NOTE: Running task 2269 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_fetch)
-NOTE: Running task 2270 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2323 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_unpack)
-NOTE: Running task 2324 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2335 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_fetch)
-NOTE: Running task 2349 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_write_config)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2452 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_unpack)
-NOTE: Running task 2453 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Started
-NOTE: Running task 2454 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_unpack)
-NOTE: Running task 2455 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Started
-NOTE: Running task 2466 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_unpack)
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Succeeded
-NOTE: Running task 2467 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 2468 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Started
-NOTE: Running task 2469 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_unpack)
-NOTE: Running task 2470 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2471 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_unpack)
-NOTE: Running task 2472 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Started
-NOTE: Running task 2473 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_unpack)
-NOTE: Running task 2474 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_unpack)
-NOTE: Running task 2475 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_unpack)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2476 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Started
-NOTE: Running task 2477 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_unpack)
-NOTE: Running task 2478 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Started
-NOTE: Running task 2479 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_unpack)
-NOTE: Running task 2480 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_unpack)
-NOTE: Running task 2481 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_unpack)
-NOTE: Running task 2482 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_unpack)
-NOTE: Running task 2483 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2489 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2490 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Started
-NOTE: Running task 2491 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_unpack)
-NOTE: Running task 2492 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_write_config)
-NOTE: Running task 2498 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_write_config)
-NOTE: Running task 2499 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Started
-NOTE: Running task 2502 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_write_config)
-NOTE: Running task 2503 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Started
-NOTE: Running task 2504 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_write_config)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: Running task 2505 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_write_config)
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2560 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_patch)
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Started
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2612 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Succeeded
-NOTE: Running task 2652 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_collect_spdx_deps)
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Started
-NOTE: Running task 2653 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_patch)
-NOTE: Running task 2654 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_patch)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2655 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_patch)
-NOTE: Running task 2656 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_patch)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2669 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_patch)
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Started
-NOTE: Running task 2675 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2676 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_patch)
-NOTE: Running task 2677 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_patch)
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Succeeded
-NOTE: Running task 2678 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_patch)
-NOTE: Running task 2679 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_patch)
-NOTE: Running task 2680 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_collect_spdx_deps)
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Succeeded
-NOTE: Running task 2681 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_patch)
-NOTE: Running task 2686 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_collect_spdx_deps)
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Started
-NOTE: Running task 2689 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_collect_spdx_deps)
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Started
-NOTE: Running task 2690 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_collect_spdx_deps)
-NOTE: Running task 2691 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: Running task 2692 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_patch: Started
-NOTE: Running task 2693 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_patch)
-NOTE: Running task 2697 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_create_spdx)
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2706 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2707 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Started
-NOTE: Running task 2710 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_collect_spdx_deps)
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2711 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2726 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2727 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: Running task 2728 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2729 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2730 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2731 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_patch)
-NOTE: Running task 2732 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2733 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe orc-0.4.34-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2734 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2735 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2736 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2737 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2738 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_generate_toolchain_file)
-NOTE: Running task 2739 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2740 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Succeeded
-NOTE: Running task 2741 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2742 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2743 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2744 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2746 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2747 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2748 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running task 2749 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: Running task 2750 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_configure)
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2751 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2752 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_configure)
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2753 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure)
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2754 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_configure)
-NOTE: Running task 2755 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_configure)
-NOTE: Running task 2756 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_configure)
-NOTE: Running task 2757 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_configure)
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Started
-NOTE: Running task 2758 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.34-r0: task do_configure: Started
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2759 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Started
-NOTE: Running task 2760 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Succeeded
-NOTE: Running task 2761 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2762 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_patch)
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Succeeded
-NOTE: Running task 2763 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_install)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_configure: Succeeded
-NOTE: Running task 2764 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_compile: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 2765 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2766 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_generate_toolchain_file)
-NOTE: Running task 2767 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Succeeded
-NOTE: Running task 2768 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_populate_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 2769 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_package)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic unihash changed to 53d7336e33b6897d19bf1a2d79ee6a2fd45c03608f1ccc1cd3ce7601d8a7e09e
-NOTE: Running task 2770 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_compile)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2771 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Succeeded
-NOTE: Running task 2772 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2773 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Succeeded
-NOTE: Running task 2774 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2775 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_create_spdx)
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_compile: Succeeded
-NOTE: Running task 2776 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Started
-NOTE: recipe orc-0.4.34-r0: task do_install: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2777 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Succeeded
-NOTE: Running task 2778 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_compile)
-NOTE: recipe orc-0.4.34-r0: task do_install: Succeeded
-NOTE: Running task 2779 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_populate_sysroot)
-NOTE: Running task 2780 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Succeeded
-NOTE: Running task 2781 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2782 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Succeeded
-NOTE: Running task 2783 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Succeeded
-NOTE: Running task 2784 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 2785 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 2786 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_package: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Succeeded
-NOTE: Running task 2787 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_packagedata)
-NOTE: Running task 2788 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_package)
-NOTE: Running task 2789 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_populate_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Succeeded
-NOTE: Running task 2790 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_package)
-NOTE: Running task 2791 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Started
-NOTE: Running task 2792 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Succeeded
-NOTE: Running task 2793 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_create_spdx)
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 2794 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 2795 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Started
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Succeeded
-NOTE: Running task 2796 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 2797 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Succeeded
-NOTE: Running task 2798 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Succeeded
-NOTE: Running task 2799 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Succeeded
-NOTE: Running task 2800 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 2801 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 2802 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 2803 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_install: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Succeeded
-NOTE: Running task 2804 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_packagedata)
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Succeeded
-NOTE: Running task 2805 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_create_spdx)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2806 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_package)
-NOTE: Running task 2807 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Started
-NOTE: Running task 2808 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_create_spdx)
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2809 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Started
-NOTE: recipe libxv-1.0.12-r0: task do_install: Succeeded
-NOTE: Running task 2810 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot)
-NOTE: Running task 2811 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_package)
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Started
-NOTE: Running task 2812 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_compile)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Started
-NOTE: Running task 2813 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_create_spdx)
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2814 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2815 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_compile)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 2816 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: Running task 2817 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx)
-NOTE: Running task 2818 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Succeeded
-NOTE: Running task 2819 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2820 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_install)
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Succeeded
-NOTE: Running task 2821 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2822 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_package)
-NOTE: Running task 2823 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 2824 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_create_spdx)
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2825 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Succeeded
-NOTE: Running task 2826 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe aspell-0.60.8-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2827 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2828 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2829 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_packagedata)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2830 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2831 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_create_spdx)
-NOTE: recipe aspell-0.60.8-r0: task do_install: Succeeded
-NOTE: Running task 2832 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot)
-NOTE: Running task 2833 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_package)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Started
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2834 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_configure)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: Running task 2835 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2836 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: Running task 2837 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_install)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2838 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile_ptest_base)
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2839 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install)
-NOTE: Running task 2840 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_create_spdx)
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Started
-NOTE: Running task 2841 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2842 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2843 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_package)
-NOTE: Running task 2844 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Succeeded
-NOTE: Running task 2845 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install_ptest_base)
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2846 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_populate_sysroot)
-NOTE: Running task 2847 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_package)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2848 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Succeeded
-NOTE: Running task 2849 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Succeeded
-NOTE: Running task 2850 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2851 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_configure)
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2852 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata)
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Started
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2853 of 2888 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_create_spdx)
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Failed
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Started
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2853 tasks of which 2647 didn't need to be rerun and 1 failed.
+NOTE: Running task 1563 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running task 1620 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
+NOTE: Running task 1706 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_fetch)
+NOTE: Running task 1730 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: Running task 1731 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_fetch)
+NOTE: Running task 1753 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_fetch)
+NOTE: Running task 1785 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_fetch)
+NOTE: Running task 1788 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
+NOTE: Running task 1828 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
+NOTE: Running task 1830 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
+NOTE: Running task 1831 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: Running task 1832 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_fetch)
+NOTE: Running task 1833 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_fetch)
+NOTE: Running task 1895 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
+NOTE: Running task 1969 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
+NOTE: Running task 2082 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2111 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: Running task 2112 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Started
+NOTE: Running task 2113 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
+NOTE: Running task 2114 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2165 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
+NOTE: recipe sbc-2.0-r0: task do_fetch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: Running task 2166 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_unpack)
+NOTE: Running task 2167 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: Running task 2168 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_unpack)
+NOTE: Running task 2169 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_unpack)
+NOTE: Running task 2170 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ell-0.57-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2178 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_unpack)
+NOTE: Running task 2179 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2180 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
+NOTE: Running task 2181 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_unpack)
+NOTE: Running task 2182 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_unpack)
+NOTE: Running task 2183 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
+NOTE: Running task 2184 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: Running task 2185 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2186 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
+NOTE: Running task 2187 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
+NOTE: Running task 2188 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2189 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
+NOTE: Running task 2190 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: Running task 2191 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_unpack)
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
+NOTE: recipe sbc-2.0-r0: task do_unpack: Started
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2212 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
+NOTE: Running task 2213 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
+NOTE: Running task 2214 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_collect_spdx_deps)
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2215 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_patch)
+NOTE: Running task 2216 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_collect_spdx_deps)
+NOTE: Running task 2217 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
+NOTE: Running task 2218 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_unpack: Succeeded
+NOTE: Running task 2219 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_patch)
+NOTE: Running task 2220 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_collect_spdx_deps)
+NOTE: recipe sbc-2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2221 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_patch)
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2222 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2223 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2224 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2225 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_patch)
+NOTE: Running task 2226 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_patch)
+NOTE: Running task 2227 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
+NOTE: Running task 2228 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: Running task 2229 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_collect_spdx_deps)
+NOTE: Running task 2230 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_collect_spdx_deps)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2231 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 2232 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2233 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: Running task 2234 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2235 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
+NOTE: recipe sbc-2.0-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Started
+NOTE: recipe flac-1.4.3-r0: task do_patch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe sbc-2.0-r0: task do_patch: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2236 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Succeeded
+NOTE: Running task 2237 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
+NOTE: Running task 2238 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
+NOTE: Running task 2239 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe flac-1.4.3-r0: task do_patch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
+NOTE: Running task 2240 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2241 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_patch)
+NOTE: Running task 2242 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: Running task 2243 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2245 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_configure)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2246 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Succeeded
+NOTE: Running task 2247 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2248 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2249 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2250 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2251 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2252 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_configure)
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Started
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Succeeded
+NOTE: Running task 2253 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_deploy_source_date_epoch)
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Succeeded
+NOTE: Running task 2254 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2255 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2256 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic)
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2257 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2258 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 2259 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2260 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_configure)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_configure: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
+NOTE: Running task 2261 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2262 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Succeeded
+NOTE: Running task 2263 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Succeeded
+NOTE: Running task 2264 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_install)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Succeeded
+NOTE: Running task 2265 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot)
+NOTE: Running task 2266 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Succeeded
+NOTE: Running task 2267 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Succeeded
+NOTE: Running task 2268 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2269 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Succeeded
+NOTE: Running task 2270 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2271 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2272 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot)
+NOTE: Running task 2273 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Succeeded
+NOTE: Running task 2274 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_compile)
+NOTE: recipe vala-0.56.8-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_compile: Succeeded
+NOTE: Running task 2275 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_install)
+NOTE: recipe ell-0.57-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
+NOTE: Running task 2276 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
+NOTE: Running task 2277 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_compile)
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2278 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_install: Succeeded
+NOTE: Running task 2279 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_populate_sysroot)
+NOTE: Running task 2280 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 2281 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.57-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2282 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2283 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx)
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
+NOTE: Running task 2284 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2285 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
+NOTE: Running task 2286 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
+NOTE: Running task 2287 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2288 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2289 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2290 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2291 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2292 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2293 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe ell-0.57-r0: task do_package: Succeeded
+NOTE: Running task 2294 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
+NOTE: Running task 2295 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Succeeded
+NOTE: Running task 2296 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2297 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2298 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2299 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
+NOTE: Running task 2300 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2301 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx)
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 2302 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
+NOTE: recipe libtool-2.4.7-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
+NOTE: Running task 2303 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
+NOTE: Running task 2304 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
+NOTE: Running task 2305 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2306 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Running task 2307 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Succeeded
+NOTE: Running task 2308 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Succeeded
+NOTE: Running task 2309 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot)
+NOTE: Running task 2310 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2311 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2312 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
+NOTE: Running task 2313 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Succeeded
+NOTE: Running task 2314 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Running task 2315 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 2316 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2317 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_configure: Succeeded
+NOTE: Running task 2318 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_compile)
+NOTE: recipe flac-1.4.3-r0: task do_compile: Started
+NOTE: recipe vala-0.56.8-r0: task do_compile: Succeeded
+NOTE: Running task 2319 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_install)
+NOTE: recipe vala-0.56.8-r0: task do_install: Started
+NOTE: recipe vala-0.56.8-r0: task do_install: Succeeded
+NOTE: Running task 2320 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot)
+NOTE: Running task 2321 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_compile: Succeeded
+NOTE: Running task 2322 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_install)
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Started
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2323 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2324 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
+NOTE: recipe libical-3.0.16-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Succeeded
+NOTE: Running task 2325 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot)
+NOTE: Running task 2326 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2327 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2328 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_configure)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Succeeded
+NOTE: Running task 2329 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata)
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Failed
+NOTE: recipe flac-1.4.3-r0: task do_package: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2329 tasks of which 2172 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-src went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dbg went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-gif2webp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-staticdev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-doc went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-locale went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-bin went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libwebp/1.3.0-r0/temp/log.do_packagedata.1967262
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-src went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dbg went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-staticdev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-doc went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-locale went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/vala/0.56.8-r0/temp/log.do_packagedata.1774233
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata) failed with exit code '1'
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -4495,8 +4000,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 48 skipped, 0 masked, 0 errors.
-Removing 114 recipes from the core2-32 sysroot...done.
-Removing 114 recipes from the qemux86 sysroot...done.
+Removing 91 recipes from the core2-32 sysroot...done.
+Removing 91 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -4511,1369 +4016,1040 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2025f72c4f9782278a93a157ae15f414340ceea9"
+meta-yocto-bsp       = "tmp-auh-upgrades:c252c51a2b5d0ff6ba4650e0b62c6914372efdd3"
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 588 Local 497 Mirrors 0 Missed 91 Current 307 (84% match, 89% complete)
+Sstate summary: Wanted 481 Local 400 Mirrors 0 Missed 81 Current 262 (83% match, 89% complete)
 Removing 3 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 308 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 311 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 315 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 322 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 324 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 327 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 337 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 354 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 358 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 365 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 368 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 374 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 398 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 399 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 400 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 401 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 412 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.38.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 413 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.38.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 263 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 266 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 276 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 277 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 279 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 280 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 282 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 287 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 288 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 290 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 299 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 302 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_create_spdx_setscene)
 NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
 NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxslt-1.1.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcrypt-1.10.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.10.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxslt-1.1.38-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 432 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 433 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 434 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 435 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 436 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
-NOTE: recipe libgcrypt-1.10.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxslt-1.1.38-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 438 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 440 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.38.bb:do_packagedata_setscene)
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 441 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package_setscene)
-NOTE: recipe gtk+3-3.24.38-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgcrypt-1.10.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxslt-1.1.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxslt-1.1.38-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gtk+3-3.24.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 443 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_create_spdx_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxslt-1.1.38-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcrypt-1.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 444 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_packagedata_setscene)
-NOTE: Running setscene task 445 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 448 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 449 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 451 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 455 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 456 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 458 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.48.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 462 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
-NOTE: Running setscene task 463 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 465 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.50.14-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgpg-error-1.47-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 986 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_fetch)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1044 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_write_config)
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1049 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_fetch)
-NOTE: Running task 1051 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_fetch)
-NOTE: Running task 1060 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_fetch)
-NOTE: recipe pango-1.50.14-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 470 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.3.0.bb:do_create_spdx_setscene)
-NOTE: Running task 1061 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 1063 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_fetch)
-NOTE: Running task 1065 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 1066 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_fetch)
-NOTE: Running task 1080 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_fetch)
-NOTE: Running task 1081 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_fetch)
-NOTE: Running task 1082 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_fetch)
-NOTE: Running task 1084 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_fetch)
-NOTE: Running task 1085 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_fetch)
-NOTE: Running task 1086 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_fetch)
-NOTE: Running task 1087 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_fetch)
-NOTE: Running task 1088 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_fetch)
-NOTE: Running task 1115 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_fetch)
-NOTE: Running task 1119 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_write_config)
-NOTE: Running task 1165 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_write_config)
-NOTE: Running task 1167 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_write_config)
-NOTE: Running task 1168 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_write_config)
-NOTE: Running task 1169 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_write_config)
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1170 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_write_config)
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 484 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 487 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Started
-NOTE: recipe libgpg-error-1.47-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-7.3.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: Running task 1263 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_unpack)
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: Running task 1264 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_unpack)
-NOTE: Running task 1265 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Started
-NOTE: Running task 1266 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_unpack)
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Succeeded
-NOTE: Running task 1267 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_unpack)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Started
-NOTE: Running task 1268 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_unpack)
-NOTE: Running task 1269 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_unpack)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Started
-NOTE: Running task 1270 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_unpack)
-NOTE: Running task 1271 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 1272 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_unpack)
-NOTE: Running task 1273 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_unpack)
-NOTE: Running task 1274 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_unpack)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1275 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_unpack)
-NOTE: Running task 1276 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_unpack)
-NOTE: Running task 1277 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1278 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_unpack)
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Started
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-7.3.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Started
-NOTE: Running setscene task 488 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 489 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 490 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_create_spdx_setscene)
-NOTE: Running task 1279 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_unpack)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Started
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1284 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_patch)
-NOTE: recipe shared-mime-info-2.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_package_setscene: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1285 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_patch)
-NOTE: Running task 1286 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_patch)
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Succeeded
-NOTE: Running task 1287 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_patch)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Succeeded
-NOTE: recipe icu-72-1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1288 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_patch)
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1289 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_patch)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1290 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_patch)
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Started
-NOTE: Running task 1291 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_patch)
-NOTE: Running task 1292 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_patch)
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Started
-NOTE: Running task 1293 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_patch)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: Running task 1294 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1295 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_generate_toolchain_file)
-NOTE: Running task 1296 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_patch)
-NOTE: Running task 1297 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe cairo-1.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_patch: Started
-NOTE: Running setscene task 493 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 496 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 497 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 499 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_create_spdx_setscene)
-NOTE: recipe icu-72-1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1298 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_patch)
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_patch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Started
-NOTE: Running task 1299 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1300 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_patch)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1301 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Succeeded
-NOTE: Running task 1302 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_deploy_source_date_epoch)
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Succeeded
-NOTE: Running task 1303 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: Running task 1304 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1305 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1306 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpng-1.6.40-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe mesa-2_23.1.3-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1307 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Succeeded
-NOTE: Running task 1308 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_patch)
-NOTE: Running task 1309 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1310 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Succeeded
-NOTE: Running task 1311 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_generate_toolchain_file)
-NOTE: Running task 1312 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1313 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_23.1.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 501 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 504 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 506 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 508 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 511 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_create_spdx_setscene)
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 512 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_create_spdx_setscene)
-NOTE: Running task 1314 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1315 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libdrm-2.4.115-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vala-0.56.8-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1316 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libdrm-2.4.115-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running setscene task 516 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running setscene task 518 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_create_spdx_setscene)
-NOTE: Running task 1317 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running task 1318 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe util-linux-2.38.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1319 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
-NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxml2-2.11.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 524 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 525 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 527 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 528 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 529 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 530 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 531 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 532 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 533 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 534 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 535 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 536 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 537 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.48.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 538 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.48.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 539 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_create_spdx_setscene)
-NOTE: recipe libxml2-2.11.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 545 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 552 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 555 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_create_spdx_setscene)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx_setscene: Started
 NOTE: recipe libxkbcommon-1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 561 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 563 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 567 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 571 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 572 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_7.3.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 574 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 575 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 576 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 577 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_packagedata_setscene: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-7.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-7.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 578 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 579 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
-NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe harfbuzz-7.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe harfbuzz-7.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 585 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 586 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 588 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 589 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 590 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 591 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 594 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 595 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 596 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 597 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 598 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 599 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.39-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 605 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_23.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe eudev-3.2.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe avahi-0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_23.1.3-r0: task do_create_spdx_setscene: Started
 NOTE: recipe mesa-2_23.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 609 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 614 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 615 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe eudev-3.2.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 315 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb:do_packagedata_setscene)
+NOTE: recipe icu-72-1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_23.1.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 320 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 323 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 328 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: recipe avahi-0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 333 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 339 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 342 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 343 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 346 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 347 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 349 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 352 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 358 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 359 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 362 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 392 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 393 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 394 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 400 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 403 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 404 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 405 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 887 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
+NOTE: Running task 910 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_fetch)
+NOTE: Running task 919 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_fetch)
+NOTE: Running task 920 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: Running task 927 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_fetch)
+NOTE: Running task 933 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_fetch)
+NOTE: Running task 934 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
+NOTE: Running task 937 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
+NOTE: Running task 938 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_fetch)
+NOTE: Running task 939 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: Running task 940 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
+NOTE: Running task 959 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
+NOTE: Running task 986 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_fetch)
+NOTE: Running task 1028 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe eudev-3.2.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_23.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bluez5-5.68-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_create_spdx_setscene: Started
 NOTE: recipe mesa-2_23.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe freetype-2.13.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe avahi-0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe avahi-0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ell-0.57-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Started
+NOTE: Running setscene task 406 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 407 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
+NOTE: recipe ell-0.57-r0: task do_fetch: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 1057 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_unpack)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
+NOTE: Running setscene task 408 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_create_spdx_setscene)
+NOTE: Running task 1058 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_fetch)
+NOTE: Running task 1059 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_unpack)
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Succeeded
+NOTE: recipe dbus-1.14.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bluez5-5.68-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Started
+NOTE: recipe libxkbcommon-1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
+NOTE: Running setscene task 410 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 411 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 413 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
+NOTE: Running task 1060 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running setscene task 416 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_packagedata_setscene)
+NOTE: Running setscene task 417 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1061 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_fetch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1062 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_unpack)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Started
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 418 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_create_spdx_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Started
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1068 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1069 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: recipe eudev-3.2.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
+NOTE: Running setscene task 423 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_packagedata_setscene)
+NOTE: Running task 1070 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_unpack)
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1071 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_unpack)
+NOTE: Running task 1072 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: recipe libxext-1_1.3.5-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1073 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
+NOTE: Running task 1074 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_unpack)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1075 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
+NOTE: Running task 1076 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
+NOTE: Running task 1077 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 425 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Started
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Started
+NOTE: recipe eudev-3.2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_fetch: Started
+NOTE: recipe initscripts-1.0-r155: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 431 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_30.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
+NOTE: recipe libical-3.0.16-r0: task do_fetch: Succeeded
+NOTE: recipe bluez5-5.68-r0: task do_fetch: Started
+NOTE: recipe sbc-2.0-r0: task do_unpack: Started
+NOTE: Running task 1094 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.39-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Started
 NOTE: recipe mesa-2_23.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 619 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
-NOTE: Running setscene task 620 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 622 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 623 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 624 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 625 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 626 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 627 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 628 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 629 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 630 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 631 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe at-spi2-core-2.48.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 635 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 636 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 638 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe avahi-0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 433 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_packagedata_setscene)
+NOTE: Running setscene task 434 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.115.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 436 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 437 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 438 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 439 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 440 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 441 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 442 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 443 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 444 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 445 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 446 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1095 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: recipe bluez5-5.68-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Started
+NOTE: Running task 1113 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_unpack)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Started
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 456 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_create_spdx_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 459 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_create_spdx_setscene)
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
+NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1122 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
+NOTE: recipe ell-0.57-r0: task do_unpack: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1123 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_patch)
+NOTE: recipe libical-3.0.16-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1124 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_patch)
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_create_spdx_setscene: Succeeded
 NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 468 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 474 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_create_spdx_setscene)
+NOTE: Running task 1125 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
+NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Started
 NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
 NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
 NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 649 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 650 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 655 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 656 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 658 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 659 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 660 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 661 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.14.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.14.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 663 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 664 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 665 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 667 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 668 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 669 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 670 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 671 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 672 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 675 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 676 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 679 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 680 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 681 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 682 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 683 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_packagedata_setscene)
-NOTE: Running setscene task 684 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 685 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 686 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.40-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.40-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe kmod-30-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1126 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_patch)
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Succeeded
+NOTE: Running task 1127 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_patch)
+NOTE: recipe xkeyboard-config-2.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1128 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_patch)
+NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: recipe avahi-0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 478 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 479 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 480 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 481 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 482 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 483 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 484 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 485 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1129 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: recipe libical-3.0.16-r0: task do_unpack: Succeeded
+NOTE: recipe bluez5-5.68-r0: task do_unpack: Started
+NOTE: Running task 1134 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_patch)
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
+NOTE: recipe sbc-2.0-r0: task do_patch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 486 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_create_spdx_setscene)
+NOTE: recipe ell-0.57-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
 NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 689 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 690 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1138 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_patch: Succeeded
+NOTE: recipe kmod-30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
+NOTE: Running setscene task 489 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 490 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
+NOTE: Running task 1140 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
+NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 492 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Started
+NOTE: Running task 1145 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Started
+NOTE: Running task 1146 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1147 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 497 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_patch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dbus-1.14.8-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 500 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
+NOTE: Running task 1148 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1152 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.115-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libical-3.0.16-r0: task do_patch: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 504 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: Running setscene task 506 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: recipe dbus-1.14.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1165 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 508 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 510 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 511 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.39-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Succeeded
+NOTE: Running task 1182 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
+NOTE: Running task 1183 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1184 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: recipe dbus-1.14.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 517 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 518 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 519 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 520 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 521 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 522 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
+NOTE: Running task 1185 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 529 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running task 1186 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_patch)
+NOTE: recipe libical-3.0.16-r0: task do_patch: Succeeded
+NOTE: Running task 1187 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_generate_toolchain_file)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 535 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_packagedata_setscene)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Started
+NOTE: recipe bluez5-5.68-r0: task do_unpack: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
+NOTE: Running task 1200 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb:do_patch)
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: Running setscene task 538 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 540 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 541 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 542 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 543 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 545 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 546 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: Running task 1207 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 550 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 552 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1220 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1226 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe libical-3.0.16-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 554 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1232 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1233 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1234 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
+NOTE: Running task 1235 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 559 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-1_2.76.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bluez5-5.68-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 560 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Started
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 564 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_packagedata_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 694 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 695 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 696 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 697 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 704 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 705 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.76.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1523 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_patch)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 568 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 724 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 725 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 571 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Succeeded
 NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 731 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 732 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 735 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 736 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 737 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 738 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 1544 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1545 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_generate_toolchain_file)
-NOTE: Running task 1546 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic)
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 740 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_setscene)
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic unihash changed to 53d7336e33b6897d19bf1a2d79ee6a2fd45c03608f1ccc1cd3ce7601d8a7e09e
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_setscene: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 745 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 746 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 747 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 748 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 750 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 751 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 752 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 753 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 760 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 761 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 762 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 763 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 770 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 771 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.76.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 772 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 773 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 774 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe shared-mime-info-2.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.76.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 777 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 778 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 575 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 576 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic unihash changed to 526ad441128868e133d038daf7984a4970f610afbe7eafd9a47d5f9bbc39e0f3
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 577 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe glib-2.0-1_2.76.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 580 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 780 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 781 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 782 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 783 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 784 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 785 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 787 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 788 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 789 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 790 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 791 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 792 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 793 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 794 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 582 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bluez5-5.68-r0: task do_patch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 585 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 586 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 591 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 593 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 594 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
 NOTE: recipe glib-2.0-1_2.76.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 797 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 798 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 799 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 800 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 801 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 802 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 599 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 600 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 601 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 602 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
 NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
 NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 809 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 810 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 607 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 608 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 609 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 610 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 611 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 612 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 613 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 614 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_packagedata_setscene)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 616 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 617 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 618 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 619 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 621 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 622 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 624 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 625 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1311 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
 NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 816 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 817 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 627 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 629 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 630 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 631 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 633 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 634 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 635 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 636 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 637 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 638 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 644 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 652 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 653 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 655 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 656 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 662 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 830 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 831 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 832 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 833 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 835 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 836 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 837 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 838 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 839 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 840 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 678 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 679 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 680 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 681 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 683 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 685 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 686 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 687 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 688 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
 NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
 NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 849 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 850 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 697 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
 NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 698 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 854 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 855 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 702 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 703 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
 NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 858 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 859 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 860 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 706 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 707 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 708 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 863 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 866 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 711 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 714 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 868 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 870 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 716 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
 NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 718 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 872 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 873 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 720 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 721 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
 NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 876 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 877 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 878 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 724 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 725 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 726 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Started
 NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 879 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 880 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 727 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 728 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 889 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 737 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 892 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 740 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_populate_sysroot_setscene)
 NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 893 of 895 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 741 of 743 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2278 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2435 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2460 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2461 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2463 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2467 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2468 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2469 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2536 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2539 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2540 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2541 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2621 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_collect_spdx_deps)
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2622 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_collect_spdx_deps)
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2630 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_collect_spdx_deps)
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2631 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_collect_spdx_deps)
-NOTE: Running task 2633 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2636 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
-NOTE: Running task 2638 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2639 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_collect_spdx_deps)
-NOTE: Running task 2640 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_collect_spdx_deps)
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2646 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Started
-NOTE: Running task 2649 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2650 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_collect_spdx_deps)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1827 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1854 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1896 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1969 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1972 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2003 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2007 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2127 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_collect_spdx_deps)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2142 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_collect_spdx_deps)
+NOTE: Running task 2151 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2161 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_collect_spdx_deps)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2164 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
+NOTE: Running task 2168 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2172 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_collect_spdx_deps)
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Started
 NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2651 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2656 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2657 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_configure)
-NOTE: Running task 2658 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_configure)
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2659 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2661 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2194 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2195 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_configure)
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2196 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2197 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2198 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_configure)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2199 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2200 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_configure)
 NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2662 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_configure)
-NOTE: Running task 2663 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2664 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_configure)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2665 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Started
-NOTE: Running task 2666 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2667 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure)
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Started
-NOTE: recipe orc-0.4.34-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2668 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_configure)
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2669 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_configure)
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Started
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2670 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_collect_spdx_deps)
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Succeeded
-NOTE: Running task 2671 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Succeeded
-NOTE: Running task 2672 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_install)
-NOTE: recipe orc-0.4.34-r0: task do_configure: Succeeded
-NOTE: Running task 2673 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Succeeded
-NOTE: Running task 2674 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_populate_sysroot)
-NOTE: Running task 2675 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_package)
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 2676 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2677 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Succeeded
-NOTE: Running task 2678 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2679 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Succeeded
-NOTE: Running task 2680 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe orc-0.4.34-r0: task do_compile: Succeeded
-NOTE: Running task 2681 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2682 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_create_spdx)
-NOTE: recipe orc-0.4.34-r0: task do_install: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2683 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_collect_spdx_deps)
-NOTE: recipe orc-0.4.34-r0: task do_install: Succeeded
-NOTE: Running task 2684 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_populate_sysroot)
-NOTE: Running task 2685 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Succeeded
-NOTE: Running task 2686 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure_ptest_base)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Succeeded
-NOTE: Running task 2687 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_compile)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Succeeded
-NOTE: Running task 2688 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2689 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Succeeded
-NOTE: Running task 2690 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_package: Succeeded
-NOTE: Running task 2691 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 2692 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_packagedata)
-NOTE: Running task 2693 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Succeeded
-NOTE: Running task 2694 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_package)
-NOTE: Running task 2695 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_populate_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 2696 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 2697 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 2698 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: Running task 2699 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_create_spdx)
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Succeeded
-NOTE: Running task 2700 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_package)
-NOTE: Running task 2701 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Started
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Succeeded
-NOTE: Running task 2702 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 2703 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_packagedata)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Succeeded
-NOTE: Running task 2704 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2705 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_install: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Started
-NOTE: Running task 2706 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 2707 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2708 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_packagedata)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_install: Succeeded
-NOTE: Running task 2709 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_install)
-NOTE: Running task 2710 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot)
-NOTE: Running task 2711 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_package)
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_package: Started
-NOTE: Running task 2712 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_compile)
-NOTE: Running task 2713 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2714 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 2715 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 2716 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: Running task 2717 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2718 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2719 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_create_spdx)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Succeeded
-NOTE: Running task 2720 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_package)
-NOTE: Running task 2721 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_package: Succeeded
-NOTE: Running task 2722 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Started
-NOTE: Running task 2723 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Succeeded
-NOTE: Running task 2724 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: Running task 2725 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2726 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2727 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_package)
-NOTE: Running task 2728 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Succeeded
-NOTE: Running task 2729 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Started
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Succeeded
-NOTE: Running task 2730 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_install: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 2731 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2732 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_install: Succeeded
-NOTE: Running task 2733 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2734 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot)
-NOTE: Running task 2735 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: Running task 2736 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_package)
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2737 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_packagedata)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2738 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2739 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2740 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_create_spdx)
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2741 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_configure)
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2742 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_configure)
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2743 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2744 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2745 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_create_spdx)
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2746 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Succeeded
-NOTE: Running task 2747 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile_ptest_base)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2748 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install)
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2749 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_package)
-NOTE: Running task 2750 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Succeeded
-NOTE: Running task 2751 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2752 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_populate_sysroot)
-NOTE: Running task 2753 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_package)
-NOTE: recipe aspell-0.60.8-r0: task do_package: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Started
-NOTE: Running task 2754 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata)
-NOTE: Running task 2755 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Started
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Started
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2756 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_create_spdx)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Started
-NOTE: Running task 2757 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2758 of 2794 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata)
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Failed
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2758 tasks of which 2550 didn't need to be rerun and 1 failed.
+NOTE: recipe ell-0.57-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Succeeded
+NOTE: Running task 2201 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Succeeded
+NOTE: Running task 2202 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_install)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Succeeded
+NOTE: Running task 2203 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot)
+NOTE: Running task 2204 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Succeeded
+NOTE: Running task 2205 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Succeeded
+NOTE: Running task 2206 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Succeeded
+NOTE: recipe ell-0.57-r0: task do_configure: Succeeded
+NOTE: Running task 2207 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_compile: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
+NOTE: Running task 2208 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 2209 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2210 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_compile: Succeeded
+NOTE: Running task 2211 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Succeeded
+NOTE: Running task 2212 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Started
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
+NOTE: Running task 2213 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
+NOTE: recipe libogg-1.3.5-r0: task do_install: Started
+NOTE: recipe ell-0.57-r0: task do_install: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Succeeded
+NOTE: Running task 2214 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_populate_sysroot)
+NOTE: Running task 2215 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_compile)
+NOTE: Running task 2216 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_package)
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_package: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
+NOTE: Running task 2217 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
+NOTE: Running task 2218 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2219 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Started
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2220 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2221 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2222 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2223 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Started
+NOTE: Running task 2224 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2225 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
+NOTE: Running task 2226 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2227 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_package: Succeeded
+NOTE: Running task 2228 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_packagedata)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2229 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2230 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx)
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.57-r0: task do_packagedata: Succeeded
+NOTE: Running task 2231 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2232 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_collect_spdx_deps)
+NOTE: Running task 2233 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 2234 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_install: Started
+NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
+NOTE: Running task 2235 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
+NOTE: Running task 2236 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
+NOTE: Running task 2237 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2238 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Running task 2239 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2240 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Succeeded
+NOTE: Running task 2241 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_install)
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2242 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
+NOTE: Running task 2243 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Succeeded
+NOTE: Running task 2244 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot)
+NOTE: Running task 2245 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_package)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_configure: Succeeded
+NOTE: Running task 2246 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_compile)
+NOTE: recipe flac-1.4.3-r0: task do_compile: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Running task 2247 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2248 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Succeeded
+NOTE: Running task 2249 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 2250 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_compile: Succeeded
+NOTE: Running task 2251 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_install)
+NOTE: recipe flac-1.4.3-r0: task do_install: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Succeeded
+NOTE: Running task 2252 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot)
+NOTE: Running task 2253 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2254 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2255 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_configure)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_compile: Succeeded
+NOTE: Running task 2256 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_install)
+NOTE: recipe vala-0.56.8-r0: task do_install: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Succeeded
+NOTE: Running task 2257 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_packagedata)
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Started
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2258 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_create_spdx)
+NOTE: recipe flac-1.4.3-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2259 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_collect_spdx_deps)
+NOTE: recipe vala-0.56.8-r0: task do_install: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2260 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot)
+NOTE: Running task 2261 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Started
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2262 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2263 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
+NOTE: recipe libical-3.0.16-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Succeeded
+NOTE: Running task 2264 of 2330 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata)
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Failed
+NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2264 tasks of which 2114 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
+NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-src went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dbg went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-gif2webp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-staticdev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-doc went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-locale went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-bin went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libwebp/1.3.0-r0/temp/log.do_packagedata.2285350
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-src went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dbg went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-staticdev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-doc went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-locale went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/vala/0.56.8-r0/temp/log.do_packagedata.2042707
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata) failed with exit code '1'
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -5881,7 +5057,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1804 entries from dependency cache.
+Loaded 1806 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (898 cached, 1 parsed). 1804 targets, 37 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -5898,664 +5074,508 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2025f72c4f9782278a93a157ae15f414340ceea9"
+meta-yocto-bsp       = "tmp-auh-upgrades:c252c51a2b5d0ff6ba4650e0b62c6914372efdd3"
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 127 Local 36 Mirrors 0 Missed 91 Current 801 (28% match, 90% complete)
-Removing 1 stale sstate objects for arch core2-64...done.
+Sstate summary: Wanted 119 Local 31 Mirrors 0 Missed 88 Current 644 (26% match, 88% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 836 of 928 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 896 of 928 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_create_spdx_setscene)
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 928 of 928 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_packagedata_setscene)
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1867 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_fetch)
-NOTE: Running task 2066 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_write_config)
-NOTE: Running task 2123 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_fetch)
-NOTE: Running task 2147 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2199 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2201 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_fetch)
-NOTE: Running task 2202 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_fetch)
-NOTE: Running task 2206 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 2209 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2239 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_unpack)
-NOTE: Running task 2240 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2281 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_fetch)
-NOTE: Running task 2282 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_fetch)
-NOTE: Running task 2283 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_fetch)
-NOTE: Running task 2284 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_fetch)
-NOTE: Running task 2285 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_fetch)
-NOTE: Running task 2286 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_fetch)
-NOTE: Running task 2287 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_fetch)
-NOTE: Running task 2289 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 2350 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_fetch)
-NOTE: Running task 2354 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_write_config)
+NOTE: Running setscene task 750 of 763 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2360 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_unpack)
-NOTE: Running task 2361 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Started
-NOTE: Running task 2362 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_unpack)
-NOTE: Running task 2363 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Succeeded
-NOTE: Running task 2374 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_unpack)
-NOTE: Running task 2375 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_unpack)
-NOTE: Running task 2376 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 2377 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Started
-NOTE: Running task 2378 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_unpack)
-NOTE: Running task 2379 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2380 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Started
-NOTE: Running task 2381 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2382 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Started
-NOTE: Running task 2383 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2384 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_unpack)
-NOTE: Running task 2390 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_unpack)
-NOTE: Running task 2391 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_unpack)
-NOTE: Running task 2392 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_unpack)
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2394 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Started
-NOTE: Running task 2417 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_unpack)
-NOTE: Running task 2418 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_unpack)
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Started
-NOTE: Running task 2419 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_unpack)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Started
-NOTE: Running task 2461 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_unpack)
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: Running task 2503 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_write_config)
-NOTE: Running task 2504 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_write_config)
-NOTE: Running task 2505 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_write_config)
-NOTE: Running task 2506 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Started
-NOTE: Running task 2507 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_write_config)
-NOTE: Running task 2508 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: Running task 2509 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_write_config)
-NOTE: Running task 2510 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe orc-0.4.34-r0: task do_write_config: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Started
-NOTE: Running task 2514 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Started
-NOTE: Running task 2515 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_patch)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Started
-NOTE: Running task 2634 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_patch)
-NOTE: recipe orc-0.4.34-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2664 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_collect_spdx_deps)
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2665 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_patch)
-NOTE: Running task 2666 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_patch)
-NOTE: Running task 2667 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_patch)
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Succeeded
-NOTE: Running task 2683 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2684 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_patch)
-NOTE: Running task 2685 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2686 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_patch)
-NOTE: Running task 2687 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_patch)
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2688 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_patch)
-NOTE: Running task 2689 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_patch)
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Started
-NOTE: Running task 2690 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_patch)
-NOTE: Running task 2691 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_collect_spdx_deps)
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2700 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe orc-0.4.34-r0: task do_patch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Started
-NOTE: Running task 2701 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_patch)
-NOTE: Running task 2702 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_collect_spdx_deps)
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Started
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2711 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_create_spdx)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2712 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: Running task 2713 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2714 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_patch)
-NOTE: Running task 2715 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Started
-NOTE: Running task 2721 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2722 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2723 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_collect_spdx_deps)
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2724 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: Running task 2725 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_patch)
-NOTE: Running task 2726 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2727 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Started
-NOTE: Running task 2729 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_collect_spdx_deps)
-NOTE: Running task 2742 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Succeeded
-NOTE: Running task 2744 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_generate_toolchain_file)
-NOTE: recipe orc-0.4.34-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_patch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: Running task 2745 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: Running task 2746 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2747 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_generate_toolchain_file)
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running task 2748 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2749 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2750 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2751 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2752 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2753 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_configure)
-NOTE: Running task 2754 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2755 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2756 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2757 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2758 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2759 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2760 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2761 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2762 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure)
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2763 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_configure)
-NOTE: Running task 2764 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_configure)
-NOTE: Running task 2765 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2766 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_configure)
-NOTE: Running task 2767 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_configure)
-NOTE: Running task 2768 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_configure)
-NOTE: Running task 2769 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_configure)
-NOTE: Running task 2770 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_configure)
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Started
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_configure: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Started
-NOTE: Running task 2771 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Succeeded
-NOTE: Running task 2772 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2773 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_patch)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Succeeded
-NOTE: Running task 2774 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 2775 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2776 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_generate_toolchain_file)
-NOTE: Running task 2777 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic)
-NOTE: recipe orc-0.4.34-r0: task do_configure: Succeeded
-NOTE: Running task 2778 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_compile)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Started
-NOTE: recipe orc-0.4.34-r0: task do_compile: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic unihash changed to 53d7336e33b6897d19bf1a2d79ee6a2fd45c03608f1ccc1cd3ce7601d8a7e09e
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Succeeded
-NOTE: Running task 2779 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_populate_sysroot)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2780 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_package)
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 2781 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2782 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Succeeded
-NOTE: Running task 2783 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2784 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Succeeded
-NOTE: Running task 2785 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2786 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_create_spdx)
-NOTE: recipe orc-0.4.34-r0: task do_compile: Succeeded
-NOTE: Running task 2787 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_install)
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Started
-NOTE: recipe orc-0.4.34-r0: task do_install: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2788 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe orc-0.4.34-r0: task do_install: Succeeded
-NOTE: Running task 2789 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_populate_sysroot)
-NOTE: Running task 2790 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Succeeded
-NOTE: Running task 2791 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_compile)
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Succeeded
-NOTE: Running task 2792 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure_ptest_base)
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2793 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Succeeded
-NOTE: Running task 2794 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 2795 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Succeeded
-NOTE: Running task 2796 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 2797 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe orc-0.4.34-r0: task do_package: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Started
-NOTE: Running task 2798 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_packagedata: Succeeded
-NOTE: Running task 2799 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_create_spdx)
-NOTE: Running task 2800 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_package)
-NOTE: Running task 2801 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_populate_sysroot)
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Succeeded
-NOTE: Running task 2802 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_package)
-NOTE: Running task 2803 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_populate_sysroot)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Started
-NOTE: Running task 2804 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Started
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Succeeded
-NOTE: Running task 2805 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_install)
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 2806 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 2807 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_package)
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Started
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Succeeded
-NOTE: Running task 2808 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 2809 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Succeeded
-NOTE: Running task 2810 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_package)
-NOTE: Running task 2811 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Started
-NOTE: Running task 2812 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Succeeded
-NOTE: Running task 2813 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Started
-NOTE: Running task 2814 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 2815 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libxv-1.0.12-r0: task do_install: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: Running task 2816 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2817 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_create_spdx)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 2818 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Succeeded
-NOTE: Running task 2819 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Succeeded
-NOTE: Running task 2820 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_install: Succeeded
-NOTE: Running task 2821 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot)
-NOTE: Running task 2822 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_package)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2823 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_create_spdx)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_package: Started
-NOTE: Running task 2824 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2825 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_create_spdx)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2826 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_compile)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 2827 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: Running task 2828 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx)
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Succeeded
-NOTE: Running task 2829 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Succeeded
-NOTE: Running task 2830 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2831 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_install)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Succeeded
-NOTE: Running task 2832 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2833 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_package)
-NOTE: Running task 2834 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 2835 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Succeeded
-NOTE: Running task 2836 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2837 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: Running task 2838 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2839 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2840 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_packagedata)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe aspell-0.60.8-r0: task do_install: Succeeded
-NOTE: Running task 2841 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot)
-NOTE: Running task 2842 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_package)
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Started
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2843 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_create_spdx)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2844 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2845 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2846 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_install)
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2847 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: Running task 2848 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2849 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Succeeded
-NOTE: Running task 2850 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile_ptest_base)
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2851 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2852 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_create_spdx)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2853 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2854 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_package)
-NOTE: Running task 2855 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Succeeded
-NOTE: Running task 2856 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2857 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_populate_sysroot)
-NOTE: Running task 2858 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_package)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2859 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Succeeded
-NOTE: Running task 2860 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_compile)
-NOTE: recipe aspell-0.60.8-r0: task do_package: Succeeded
-NOTE: Running task 2861 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Started
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2862 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_configure)
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Started
-NOTE: Running task 2863 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_create_spdx)
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Started
-NOTE: Running task 2864 of 2899 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata)
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Failed
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2864 tasks of which 2658 didn't need to be rerun and 1 failed.
+NOTE: Running task 1563 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running task 1620 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
+NOTE: Running task 1706 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_fetch)
+NOTE: Running task 1730 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_fetch)
+NOTE: Running task 1731 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: Running task 1753 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_fetch)
+NOTE: Running task 1786 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_fetch)
+NOTE: Running task 1788 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
+NOTE: Running task 1833 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
+NOTE: Running task 1835 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_fetch)
+NOTE: Running task 1836 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
+NOTE: Running task 1837 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: Running task 1838 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_fetch)
+NOTE: Running task 1896 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
+NOTE: Running task 1969 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2029 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2030 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Started
+NOTE: Running task 2031 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
+NOTE: Running task 2032 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Started
+NOTE: recipe ell-0.57-r0: task do_fetch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2087 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_unpack)
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: Running task 2088 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Started
+NOTE: Running task 2089 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_unpack)
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Started
+NOTE: recipe ell-0.57-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: Running task 2090 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: Running task 2091 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_unpack)
+NOTE: Running task 2092 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_unpack)
+NOTE: recipe sbc-2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2093 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_prepare_recipe_sysroot)
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2094 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_unpack)
+NOTE: Running task 2095 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
+NOTE: Running task 2096 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_unpack)
+NOTE: Running task 2097 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Started
+NOTE: Running task 2098 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
+NOTE: Running task 2099 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2100 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
+NOTE: Running task 2101 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
+NOTE: Running task 2102 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2103 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
+NOTE: Running task 2104 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2105 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_unpack)
+NOTE: Running task 2108 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Started
+NOTE: Running task 2185 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe sbc-2.0-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Started
+NOTE: Running task 2212 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
+NOTE: Running task 2213 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_collect_spdx_deps)
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2214 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
+NOTE: Running task 2215 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_collect_spdx_deps)
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
+NOTE: Running task 2216 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_patch)
+NOTE: Running task 2217 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_collect_spdx_deps)
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Succeeded
+NOTE: Running task 2218 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_patch)
+NOTE: recipe sbc-2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2219 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_collect_spdx_deps)
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2220 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_patch)
+NOTE: Running task 2221 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_patch)
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
+NOTE: Running task 2222 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: Running task 2223 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_patch)
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2224 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_collect_spdx_deps)
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2225 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_patch)
+NOTE: Running task 2226 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2227 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2228 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
+NOTE: Running task 2229 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2230 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2231 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_collect_spdx_deps)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 2232 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2233 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Succeeded
+NOTE: Running task 2234 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2235 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Started
+NOTE: recipe sbc-2.0-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe flac-1.4.3-r0: task do_patch: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2236 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: Running task 2237 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
+NOTE: recipe sbc-2.0-r0: task do_patch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2238 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2239 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe flac-1.4.3-r0: task do_patch: Succeeded
+NOTE: Running task 2240 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2241 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_patch)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: Running task 2242 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2243 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: Running task 2245 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_configure)
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Succeeded
+NOTE: Running task 2246 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2247 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2248 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2249 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
+NOTE: Running task 2250 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_configure)
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Succeeded
+NOTE: Running task 2251 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2252 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2253 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic)
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
+NOTE: Running task 2254 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vala-0.56.8-r0: task do_configure: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2255 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_configure)
+NOTE: Running task 2256 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe ell-0.57-r0: task do_patch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2257 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_deploy_source_date_epoch)
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2258 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic unihash changed to 526ad441128868e133d038daf7984a4970f610afbe7eafd9a47d5f9bbc39e0f3
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Started
+NOTE: Running task 2259 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2260 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_configure)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Started
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
+NOTE: Running task 2261 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2262 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Succeeded
+NOTE: Running task 2263 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Succeeded
+NOTE: Running task 2264 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_install)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Succeeded
+NOTE: Running task 2265 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot)
+NOTE: Running task 2266 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Succeeded
+NOTE: Running task 2267 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Succeeded
+NOTE: Running task 2268 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2269 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Succeeded
+NOTE: Running task 2270 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2271 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_install)
+NOTE: recipe ell-0.57-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2272 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot)
+NOTE: Running task 2273 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Succeeded
+NOTE: Running task 2274 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_compile)
+NOTE: recipe vala-0.56.8-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_compile: Succeeded
+NOTE: Running task 2275 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_install)
+NOTE: recipe ell-0.57-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Succeeded
+NOTE: Running task 2276 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
+NOTE: Running task 2277 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_compile)
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
+NOTE: Running task 2278 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Started
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_install: Succeeded
+NOTE: Running task 2279 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_populate_sysroot)
+NOTE: Running task 2280 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_package)
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 2281 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2282 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2283 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx)
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
+NOTE: Running task 2284 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2285 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
+NOTE: Running task 2286 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
+NOTE: Running task 2287 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2288 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2289 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2290 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2291 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2292 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: Running task 2293 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_configure)
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe ell-0.57-r0: task do_package: Succeeded
+NOTE: Running task 2294 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_packagedata: Started
+NOTE: recipe ell-0.57-r0: task do_packagedata: Succeeded
+NOTE: Running task 2295 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_create_spdx)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
+NOTE: Running task 2296 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2297 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx)
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2298 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2299 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_collect_spdx_deps)
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2300 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2301 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 2302 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
+NOTE: recipe libtool-2.4.7-r0: task do_install: Started
+NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
+NOTE: Running task 2303 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
+NOTE: Running task 2304 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
+NOTE: Running task 2305 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2306 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Succeeded
+NOTE: Running task 2307 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Running task 2308 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Succeeded
+NOTE: Running task 2309 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot)
+NOTE: Running task 2310 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_package)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2311 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2312 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
+NOTE: Running task 2313 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Succeeded
+NOTE: Running task 2314 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 2315 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Running task 2316 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2317 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_configure: Succeeded
+NOTE: Running task 2318 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_compile)
+NOTE: recipe flac-1.4.3-r0: task do_compile: Started
+NOTE: recipe vala-0.56.8-r0: task do_compile: Succeeded
+NOTE: Running task 2319 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_install)
+NOTE: recipe vala-0.56.8-r0: task do_install: Started
+NOTE: recipe vala-0.56.8-r0: task do_install: Succeeded
+NOTE: Running task 2320 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot)
+NOTE: Running task 2321 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package)
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Started
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2322 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_compile: Succeeded
+NOTE: Running task 2323 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_install)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2324 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
+NOTE: recipe flac-1.4.3-r0: task do_install: Started
+NOTE: recipe libical-3.0.16-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Succeeded
+NOTE: Running task 2325 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot)
+NOTE: Running task 2326 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2327 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2328 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_configure)
+NOTE: recipe vala-0.56.8-r0: task do_package: Succeeded
+NOTE: Running task 2329 of 2398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Failed
+NOTE: recipe flac-1.4.3-r0: task do_package: Succeeded
+NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2329 tasks of which 2172 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-src went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dbg went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-gif2webp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-staticdev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-doc went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-locale went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-bin went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libwebp/1.3.0-r0/temp/log.do_packagedata.1875518
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-src went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dbg went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-staticdev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-doc went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-locale went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vala/0.56.8-r0/temp/log.do_packagedata.1688373
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata) failed with exit code '1'
 
---===============1634117661453294482==
+--===============4746124654497971507==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -6566,8 +5586,6 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 64 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -6582,617 +5600,515 @@ TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2025f72c4f9782278a93a157ae15f414340ceea9"
+meta-yocto-bsp       = "tmp-auh-upgrades:c252c51a2b5d0ff6ba4650e0b62c6914372efdd3"
 workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
 
 Initialising tasks...done.
-Sstate summary: Wanted 121 Local 35 Mirrors 0 Missed 86 Current 791 (28% match, 90% complete)
-Removing 1 stale sstate objects for arch mips32r2...done.
+Sstate summary: Wanted 119 Local 31 Mirrors 0 Missed 88 Current 639 (26% match, 88% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 825 of 912 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 881 of 912 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_packagedata_setscene)
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1851 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_fetch)
-NOTE: Running task 2036 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_write_config)
-NOTE: Running task 2093 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_fetch)
-NOTE: Running task 2117 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Started
-NOTE: Running task 2171 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_fetch)
-NOTE: Running task 2172 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 2176 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 2178 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_fetch)
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 745 of 758 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vala-0.56.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2234 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_unpack)
-NOTE: Running task 2235 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2248 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_fetch)
-NOTE: Running task 2250 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_fetch)
-NOTE: Running task 2251 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_fetch)
-NOTE: Running task 2252 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_fetch)
-NOTE: Running task 2253 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_fetch)
-NOTE: Running task 2254 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_fetch)
-NOTE: Running task 2255 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_fetch)
-NOTE: Running task 2256 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_fetch)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Started
-NOTE: Running task 2317 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_fetch)
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2391 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_unpack)
-NOTE: Running task 2392 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: Running task 2393 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_unpack)
-NOTE: Running task 2394 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_fetch: Succeeded
-NOTE: Running task 2406 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 2407 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_unpack)
-NOTE: Running task 2408 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_write_config: Succeeded
-NOTE: Running task 2409 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_unpack)
-NOTE: Running task 2410 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2411 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 2412 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2413 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2458 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_write_config)
-NOTE: Running task 2459 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_write_config)
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Started
-NOTE: Running task 2460 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_write_config)
-NOTE: Running task 2461 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_write_config)
-NOTE: Running task 2462 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_write_config)
-NOTE: recipe libxt-1_1.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_fetch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2498 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_unpack)
-NOTE: recipe libsoup-3.4.2-r0: task do_fetch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2499 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_fetch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_fetch: Succeeded
-NOTE: Running task 2500 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_unpack)
-NOTE: Running task 2501 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_unpack)
-NOTE: Running task 2502 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_unpack)
-NOTE: Running task 2503 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_unpack)
-NOTE: Running task 2504 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_unpack)
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Started
-NOTE: Running task 2505 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_unpack)
-NOTE: Running task 2506 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2507 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_unpack)
-NOTE: Running task 2508 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: Running task 2509 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2510 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Started
-NOTE: Running task 2512 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_patch)
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Started
-NOTE: Running task 2606 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_write_config: Succeeded
-NOTE: Running task 2620 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_collect_spdx_deps)
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_unpack: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_write_config: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2621 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_patch)
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2639 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_patch)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_unpack: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Started
-NOTE: Running task 2640 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_patch)
-NOTE: Running task 2641 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_patch)
-NOTE: Running task 2643 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_collect_spdx_deps)
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_write_config: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_unpack: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2644 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_patch)
-NOTE: Running task 2645 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_patch)
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Started
-NOTE: Running task 2646 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_patch)
-NOTE: Running task 2647 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_collect_spdx_deps)
-NOTE: Running task 2654 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_collect_spdx_deps)
-NOTE: recipe libxt-1_1.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_unpack: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2655 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_patch)
-NOTE: Running task 2656 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: recipe libxv-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2657 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_patch)
-NOTE: Running task 2658 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_patch)
-NOTE: Running task 2659 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_collect_spdx_deps)
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Started
-NOTE: recipe aspell-0.60.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2660 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_collect_spdx_deps)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_patch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Started
-NOTE: Running task 2661 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2670 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_create_spdx)
-NOTE: Running task 2671 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2676 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2677 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: Running task 2678 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe enchant2-2.5.0-r0: task do_patch: Succeeded
-NOTE: Running task 2679 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2681 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_collect_spdx_deps)
-NOTE: recipe aspell-0.60.8-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2682 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2683 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_collect_spdx_deps)
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2697 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_unpack: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_patch: Succeeded
-NOTE: Running task 2698 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_patch)
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_patch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2699 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe nghttp2-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2700 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_patch: Succeeded
-NOTE: Running task 2701 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_generate_toolchain_file)
-NOTE: recipe libxt-1_1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_patch: Succeeded
-NOTE: Running task 2702 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_generate_toolchain_file)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_patch: Succeeded
-NOTE: Running task 2703 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libnotify-0.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_patch: Succeeded
-NOTE: Running task 2704 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2705 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2706 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2707 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_configure)
-NOTE: Running task 2708 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_configure)
-NOTE: Running task 2709 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2710 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2711 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2712 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2714 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2715 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_patch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwebp-1.3.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2716 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure)
-NOTE: recipe libsecret-0.20.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2717 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_configure)
-NOTE: Running task 2718 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_configure)
-NOTE: Running task 2719 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: Running task 2720 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2721 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_configure)
-NOTE: Running task 2722 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_configure)
-NOTE: Running task 2723 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Started
-NOTE: recipe vala-0.56.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Started
-NOTE: Running task 2724 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_configure: Succeeded
-NOTE: Running task 2725 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_compile)
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2726 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_patch)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_compile: Succeeded
-NOTE: Running task 2727 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_install)
-NOTE: recipe webkitgtk-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 2728 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2729 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_generate_toolchain_file)
-NOTE: Running task 2730 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic)
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Started
-NOTE: recipe webkitgtk-2.40.3-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe webkitgtk-2.40.3-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.40.3.bb:do_populate_lic unihash changed to 53d7336e33b6897d19bf1a2d79ee6a2fd45c03608f1ccc1cd3ce7601d8a7e09e
-NOTE: recipe webkitgtk-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_install: Succeeded
-NOTE: Running task 2731 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_populate_sysroot)
-NOTE: Running task 2732 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_package)
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_configure: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Started
-NOTE: Running task 2733 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2734 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_configure: Succeeded
-NOTE: Running task 2735 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_compile)
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2736 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_package: Succeeded
-NOTE: Running task 2737 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_packagedata)
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2738 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.14.1.bb:do_create_spdx)
-NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Started
-NOTE: recipe libwpe-1.14.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2739 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_collect_spdx_deps)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_configure: Succeeded
-NOTE: Running task 2740 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_compile)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure: Succeeded
-NOTE: Running task 2741 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2742 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_configure: Succeeded
-NOTE: Running task 2743 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_compile)
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_compile: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 2744 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_install)
-NOTE: Running task 2745 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_install)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 2746 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_install: Succeeded
-NOTE: Running task 2747 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_package)
-NOTE: Running task 2748 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_populate_sysroot)
-NOTE: recipe libnotify-0.8.2-r0: task do_install: Succeeded
-NOTE: Running task 2749 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_package)
-NOTE: Running task 2750 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_populate_sysroot)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_compile: Succeeded
-NOTE: Running task 2751 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_install)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 2752 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 2753 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_package)
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_compile: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Started
-NOTE: recipe libxv-1.0.12-r0: task do_configure: Succeeded
-NOTE: Running task 2754 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_install)
-NOTE: Running task 2755 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 2756 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_configure: Succeeded
-NOTE: recipe libnotify-0.8.2-r0: task do_package: Succeeded
-NOTE: Running task 2757 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_compile)
-NOTE: Running task 2758 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_compile: Succeeded
-NOTE: Running task 2759 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_install)
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Started
-NOTE: recipe aspell-0.60.8-r0: task do_configure: Succeeded
-NOTE: Running task 2760 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_compile)
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_install: Succeeded
-NOTE: Running task 2761 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_package)
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_package: Succeeded
-NOTE: Running task 2762 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot)
-NOTE: recipe libxv-1.0.12-r0: task do_install: Started
-NOTE: Running task 2763 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_packagedata)
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 2764 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 2765 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libnotify-0.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2766 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb:do_create_spdx)
-NOTE: recipe nghttp2-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 2767 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_packagedata)
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2768 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.14.2.bb:do_create_spdx)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_install: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: Running task 2769 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot)
-NOTE: Running task 2770 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_package)
-NOTE: recipe nghttp2-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2771 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.54.0.bb:do_create_spdx)
-NOTE: recipe libnotify-0.8.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 2772 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Started
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe wpebackend-fdo-1.14.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe nghttp2-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxt-1_1.3.0-r0: task do_configure: Succeeded
-NOTE: Running task 2773 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_compile)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 2774 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: Running task 2775 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx)
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Started
-NOTE: recipe libxv-1.0.12-r0: task do_package: Succeeded
-NOTE: Running task 2776 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata)
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_create_spdx: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata: Succeeded
-NOTE: Running task 2777 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx)
-NOTE: recipe libxt-1_1.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 2778 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_install)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_package: Succeeded
-NOTE: Running task 2779 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata)
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2780 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_package)
-NOTE: Running task 2781 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Started
-NOTE: recipe libsecret-0.20.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 2782 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_create_spdx)
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsecret-0.20.5-r0: task do_create_spdx: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_compile: Succeeded
-NOTE: Running task 2783 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_install)
-NOTE: recipe aspell-0.60.8-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Running task 2784 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_install)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Started
-NOTE: recipe aspell-0.60.8-r0: task do_install: Succeeded
-NOTE: Running task 2785 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot)
-NOTE: Running task 2786 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_install: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Started
-NOTE: Running task 2787 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_populate_sysroot)
-NOTE: Running task 2788 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_package)
-NOTE: recipe libxt-1_1.3.0-r0: task do_package: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_package: Started
-NOTE: Running task 2789 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_packagedata)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.3.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2790 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.3.0.bb:do_create_spdx)
-NOTE: recipe libpsl-0.21.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2791 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2792 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_compile: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2793 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_install)
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile: Succeeded
-NOTE: Running task 2794 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_compile_ptest_base)
-NOTE: recipe libxt-1_1.3.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2795 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.5.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Started
-NOTE: recipe libsoup-3.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2796 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2797 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_package: Succeeded
-NOTE: Running task 2798 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2799 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_create_spdx)
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_install: Succeeded
-NOTE: Running task 2800 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_package)
-NOTE: Running task 2801 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_populate_sysroot)
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2802 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install: Succeeded
-NOTE: Running task 2803 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2804 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_populate_sysroot)
-NOTE: Running task 2805 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.4.bb:do_package)
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2806 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe aspell-0.60.8-r0: task do_package: Succeeded
-NOTE: Running task 2807 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata)
-NOTE: recipe libsoup-3.4.2-r0: task do_configure: Succeeded
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Started
-NOTE: Running task 2808 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.2.bb:do_compile)
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2809 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.4.bb:do_configure)
-NOTE: recipe libwebp-1.3.0-r0: task do_package: Succeeded
-NOTE: Running task 2810 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Started
-NOTE: recipe aspell-0.60.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2811 of 2846 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_create_spdx)
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Started
-NOTE: recipe libwebp-1.3.0-r0: task do_packagedata: Failed
-NOTE: recipe aspell-0.60.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libsoup-3.4.2-r0: task do_compile: Succeeded
-NOTE: recipe gstreamer1.0-1.22.4-r0: task do_package: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.4-r0: task do_configure: Succeeded
-NOTE: recipe enchant2-2.5.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2811 tasks of which 2619 didn't need to be rerun and 1 failed.
+NOTE: Running task 1551 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_fetch)
+NOTE: Running task 1608 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
+NOTE: Running task 1694 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_fetch)
+NOTE: Running task 1718 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: Running task 1719 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_fetch)
+NOTE: Running task 1741 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_fetch)
+NOTE: Running task 1770 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_fetch)
+NOTE: Running task 1774 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_fetch)
+NOTE: Running task 1814 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_fetch)
+NOTE: Running task 1815 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: Running task 1816 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_fetch)
+NOTE: Running task 1819 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_fetch)
+NOTE: Running task 1820 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_fetch)
+NOTE: Running task 1881 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_fetch)
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Started
+NOTE: Running task 1955 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_fetch)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
+NOTE: recipe vala-0.56.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2035 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_unpack)
+NOTE: Running task 2036 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Started
+NOTE: Running task 2037 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
+NOTE: Running task 2038 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Started
+NOTE: recipe ell-0.57-r0: task do_fetch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_fetch: Succeeded
+NOTE: Running task 2072 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_write_config)
+NOTE: recipe flac-1.4.3-r0: task do_fetch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: Running task 2091 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_unpack)
+NOTE: Running task 2092 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2093 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_unpack)
+NOTE: Running task 2102 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Started
+NOTE: recipe ell-0.57-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Started
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Started
+NOTE: Running task 2130 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_unpack)
+NOTE: Running task 2143 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_unpack)
+NOTE: Running task 2144 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2155 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2156 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: Running task 2157 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_unpack)
+NOTE: Running task 2158 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_unpack)
+NOTE: Running task 2159 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_unpack)
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Started
+NOTE: Running task 2160 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_fetch: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_fetch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2161 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_unpack)
+NOTE: Running task 2162 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_unpack)
+NOTE: Running task 2163 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pulseaudio-16.1-r0: task do_fetch: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Started
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2164 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_unpack)
+NOTE: Running task 2165 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2166 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2167 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_unpack)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Started
+NOTE: recipe ell-0.57-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Started
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Started
+NOTE: recipe sbc-2.0-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_write_config: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Started
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Started
+NOTE: Running task 2196 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
+NOTE: Running task 2197 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_patch)
+NOTE: Running task 2198 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_collect_spdx_deps)
+NOTE: Running task 2199 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_patch)
+NOTE: Running task 2200 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_collect_spdx_deps)
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2201 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_collect_spdx_deps)
+NOTE: recipe ell-0.57-r0: task do_unpack: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2202 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_patch)
+NOTE: Running task 2203 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_unpack: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2204 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: Running task 2205 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_patch)
+NOTE: Running task 2206 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_patch)
+NOTE: Running task 2207 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_patch)
+NOTE: Running task 2208 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_collect_spdx_deps)
+NOTE: recipe flac-1.4.3-r0: task do_unpack: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2209 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_patch)
+NOTE: Running task 2210 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_unpack: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2211 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_patch)
+NOTE: Running task 2212 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_collect_spdx_deps)
+NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_patch: Started
+NOTE: Running task 2213 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2214 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: recipe libogg-1.3.5-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Started
+NOTE: recipe sbc-2.0-r0: task do_patch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_patch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Started
+NOTE: recipe flac-1.4.3-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
+NOTE: Running task 2215 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_patch)
+NOTE: recipe vala-0.56.8-r0: task do_unpack: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_patch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_patch: Succeeded
+NOTE: Running task 2216 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_patch)
+NOTE: Running task 2217 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2218 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2219 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_collect_spdx_deps)
+NOTE: recipe libtool-2.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_patch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_unpack: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2220 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2221 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_patch)
+NOTE: Running task 2222 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2223 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2224 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 2225 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2226 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vala-0.56.8-r0: task do_patch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_unpack: Succeeded
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Started
+NOTE: Running task 2227 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_patch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Started
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_patch: Succeeded
+NOTE: Running task 2229 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_configure)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_patch: Succeeded
+NOTE: Running task 2230 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe vala-0.56.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2231 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ell-0.57-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2232 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Started
+NOTE: recipe ell-0.57-r0: task do_patch: Succeeded
+NOTE: Running task 2233 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_patch: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2234 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2235 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2236 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe pulseaudio-16.1-r0: task do_patch: Succeeded
+NOTE: Running task 2237 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_configure)
+NOTE: Running task 2238 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_configure)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe sbc-2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2239 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2240 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic)
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2241 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_configure)
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Started
+NOTE: recipe libsdl2-2.28.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 2242 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_configure)
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2243 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libsdl2/libsdl2_2.28.1.bb:do_populate_lic unihash changed to 526ad441128868e133d038daf7984a4970f610afbe7eafd9a47d5f9bbc39e0f3
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Started
+NOTE: recipe ell-0.57-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsdl2-2.28.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2244 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_configure)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe pulseaudio-16.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ell-0.57-r0: task do_configure: Started
+NOTE: recipe libtool-2.4.7-r0: task do_patch: Succeeded
+NOTE: Running task 2245 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtool-2.4.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2246 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_configure)
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_configure: Succeeded
+NOTE: Running task 2247 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_compile)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_compile: Succeeded
+NOTE: Running task 2248 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_install)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_install: Succeeded
+NOTE: Running task 2249 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot)
+NOTE: Running task 2250 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_package)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_package: Succeeded
+NOTE: Running task 2251 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_packagedata: Succeeded
+NOTE: Running task 2252 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx)
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx: Succeeded
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2253 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_compile)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_configure: Succeeded
+NOTE: Running task 2254 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2255 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_install)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2256 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_populate_sysroot)
+NOTE: Running task 2257 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_configure: Succeeded
+NOTE: Running task 2258 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_compile)
+NOTE: recipe vala-0.56.8-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_configure: Succeeded
+NOTE: Running task 2259 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_compile: Succeeded
+NOTE: Running task 2260 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_install: Started
+NOTE: recipe libtool-2.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 2261 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_compile)
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Started
+NOTE: recipe ell-0.57-r0: task do_install: Succeeded
+NOTE: Running task 2262 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_populate_sysroot)
+NOTE: Running task 2263 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_package)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2264 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_packagedata)
+NOTE: recipe speexdsp-1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2265 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_compile)
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Started
+NOTE: recipe ell-0.57-r0: task do_package: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2266 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.0.bb:do_create_spdx)
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.57-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
+NOTE: Running task 2267 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
+NOTE: recipe libatomic-ops-7.8.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2268 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_install)
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Started
+NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
+NOTE: Running task 2269 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
+NOTE: recipe libogg-1.3.5-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2270 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2271 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_package)
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Started
+NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
+NOTE: Running task 2272 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
+NOTE: Running task 2273 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2274 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2275 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ell-0.57-r0: task do_package: Succeeded
+NOTE: Running task 2276 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_packagedata)
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ell-0.57-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2277 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: recipe flac-1.4.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2278 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_configure)
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe flac-1.4.3-r0: task do_configure: Started
+NOTE: recipe ell-0.57-r0: task do_packagedata: Succeeded
+NOTE: Running task 2279 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ell/ell_0.57.bb:do_create_spdx)
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Started
+NOTE: recipe ell-0.57-r0: task do_create_spdx: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2280 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata)
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
+NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2281 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx)
+NOTE: Running task 2282 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 2283 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_install)
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2284 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_install: Started
+NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Started
+NOTE: recipe libogg-1.3.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2285 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2286 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_collect_spdx_deps)
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_install: Succeeded
+NOTE: Running task 2287 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_populate_sysroot)
+NOTE: Running task 2288 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_package)
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libtool-2.4.7-r0: task do_package: Started
+NOTE: recipe libtool-2.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtool-2.4.7-r0: task do_package: Succeeded
+NOTE: Running task 2289 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_packagedata)
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Started
+NOTE: recipe libtool-2.4.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2290 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool_2.4.7.bb:do_create_spdx)
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Started
+NOTE: recipe libtool-2.4.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_compile: Succeeded
+NOTE: Running task 2291 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Running task 2292 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_install: Succeeded
+NOTE: Running task 2293 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_populate_sysroot)
+NOTE: Running task 2294 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_package)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2295 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2296 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
+NOTE: Running task 2297 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.9-r0: task do_package: Succeeded
+NOTE: Running task 2298 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Started
+NOTE: recipe alsa-lib-1.2.9-r0: task do_packagedata: Succeeded
+NOTE: Running task 2299 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb:do_create_spdx)
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Running task 2300 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2301 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx)
+NOTE: recipe alsa-lib-1.2.9-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_configure: Succeeded
+NOTE: Running task 2302 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_compile: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe flac-1.4.3-r0: task do_compile: Succeeded
+NOTE: Running task 2303 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_install)
+NOTE: recipe flac-1.4.3-r0: task do_install: Started
+NOTE: recipe flac-1.4.3-r0: task do_install: Succeeded
+NOTE: Running task 2304 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot)
+NOTE: Running task 2305 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_package)
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2306 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_compile: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2307 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_configure)
+NOTE: Running task 2308 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_install)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Started
+NOTE: recipe vala-0.56.8-r0: task do_install: Started
+NOTE: recipe vala-0.56.8-r0: task do_install: Succeeded
+NOTE: Running task 2309 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_populate_sysroot)
+NOTE: Running task 2310 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_package)
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Started
+NOTE: recipe vala-0.56.8-r0: task do_package: Started
+NOTE: recipe flac-1.4.3-r0: task do_package: Succeeded
+NOTE: Running task 2311 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_packagedata)
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2312 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe flac-1.4.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2313 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_create_spdx)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.4.3-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.4.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2314 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.0.bb:do_collect_spdx_deps)
+NOTE: recipe libical-3.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2315 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libical/libical_3.0.16.bb:do_configure)
+NOTE: recipe libsndfile1-1.2.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libical-3.0.16-r0: task do_configure: Started
+NOTE: recipe libsndfile1-1.2.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vala-0.56.8-r0: task do_package: Succeeded
+NOTE: Running task 2316 of 2382 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata)
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Started
+NOTE: recipe vala-0.56.8-r0: task do_packagedata: Failed
+NOTE: recipe libical-3.0.16-r0: task do_configure: Succeeded
+NOTE: recipe libsndfile1-1.2.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2316 tasks of which 2156 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata
 Summary: There was 1 WARNING message.
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-src went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dbg went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-gif2webp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-staticdev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-dev went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-doc went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-locale went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp-bin went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: QA Issue: Package version for package libwebp went backwards which would break package feeds (from 0:1.3.1-r0 to 0:1.3.0-r0) [version-going-backwards]
-ERROR: libwebp-1.3.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libwebp/1.3.0-r0/temp/log.do_packagedata.2055876
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.3.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-src went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dbg went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-staticdev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-dev went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-doc went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala-locale went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: QA Issue: Package version for package vala went backwards which would break package feeds (from 0:0.56.9-r0 to 0:0.56.8-r0) [version-going-backwards]
+ERROR: vala-0.56.8-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/vala/0.56.8-r0/temp/log.do_packagedata.1861714
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.8.bb:do_packagedata) failed with exit code '1'
 
---===============1634117661453294482==--
+--===============4746124654497971507==--
 
