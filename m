@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CE2C3DA40
-	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:39 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.5932.1689456452991123417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6398C10F00
+	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:38 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.6027.1689456454811309445
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jul 2023 14:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gFIPCnUq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101895b73b137-bc0a5e51-a432-4bff-a3d8-533b4c5e1b22-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YwBbC6tp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101895b73b09f-5dd983d3-72e2-4b22-85be-67e54c3726ba-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1689456456;
+	t=1689456455;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AGLN1GH4h1ptQhZ/y/9NdIxzjEs0KIIsHd0d264Z3hw=;
-	b=gFIPCnUq+eCAMn1FehWfSKpYtd+0Zrsxv9N/QMtRBA+UK9D8op1X+NC3VaMgEbZo
-	+ggNIGi4rOsiYYiYTqSgd7wlNyidtxEh9tz7/8+tYlWCsZx9FVQK4aL/vgSEgfvpFGE
-	aG2mh8lQQGY2cEUlWCITXmMNDYEVulEB1X3bDRXk=
+	bh=u/X18X5KBFlEqgw8cSIrw+fs5upULfSL34d1vpVx0a4=;
+	b=YwBbC6tpkC+VGT8K6OOizYKF1fkKvEYJDrafWVMD/gHXiPVVk6+TYk7zlYCjwF3j
+	A1QRbnduU/p6ksUvxHAXtjGiUJLV9IEjxwEXDhvcokI/iYFZct4RH61UOC7VS3XfryR
+	uzd0tL1fWGIqHsEPfNWVUtYi9DDt9ohEAtrsgQ4I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456456;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456455;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AGLN1GH4h1ptQhZ/y/9NdIxzjEs0KIIsHd0d264Z3hw=;
-	b=nZkiYTgBLIc5WwNkrEELrx00os+9BCkG6RslnNvJhLidbgyiQIDU4ROPpXCP53Il
-	tzxLhHQq5qt7UvW8ozhHOCk4455olQlQc0uG8KopfFYywn1Nyhl5HyEDwIg45JRJi85
-	INVctmFmdV/BFZgmqdwbx/kpAwpgl62pFzDMmRiM=
-Content-Type: multipart/mixed; boundary="===============1741625141300451869=="
+	bh=u/X18X5KBFlEqgw8cSIrw+fs5upULfSL34d1vpVx0a4=;
+	b=gNR1s1B0hrnUeRKbf8rjp/Bq87cjIdLy0PwegGggQN7b/2MHt8ECXt0AVIuOTVdB
+	hJ/tTR3WraEJBbSKSupwQuy5ZvMezuzVaqAIMuBu4vWRB1RAIsRXlOYclAhEc96OkgG
+	LttQTmCZ7Z4izt43FFz1433d97Bpbk72AMhU4ct0=
+Content-Type: multipart/mixed; boundary="===============8912667769823414030=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland-utils: upgrading to 1.2.0 SUCCEEDED
-Message-ID: <010101895b73b137-bc0a5e51-a432-4bff-a3d8-533b4c5e1b22-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:36 +0000
+Subject: [AUH] vulkan-tools: upgrading to 1.3.250.1 SUCCEEDED
+Message-ID: <010101895b73b09f-5dd983d3-72e2-4b22-85be-67e54c3726ba-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:35 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.31
+X-SES-Outgoing: 2023.07.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184373
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184391
 
---===============1741625141300451869==
+--===============8912667769823414030==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wayland-utils* to *1.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-tools* to *1.3.250.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wayland-utils-upgrade-1.1.0-1.2.0.patch
+    - apply the patch: git am 0001-vulkan-tools-upgrade-1.3.250.0-1.3.250.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,201 +71,917 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e74339a036771ad72d242203ee6693252dcff844 Mon Sep 17 00:00:00 2001
+From 1c03d5817641d948feb1b6c8779c681540af9341 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Jul 2023 19:24:30 +0000
-Subject: [PATCH] wayland-utils: upgrade 1.1.0 -> 1.2.0
+Date: Sat, 15 Jul 2023 18:52:11 +0000
+Subject: [PATCH] vulkan-tools: upgrade 1.3.250.0 -> 1.3.250.1
 
 ---
- ...ayland-info-Fix-build-without-libdrm.patch | 42 -------------------
- ...-utils_1.1.0.bb => wayland-utils_1.2.0.bb} |  6 +--
- 2 files changed, 2 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
- rename meta/recipes-graphics/wayland/{wayland-utils_1.1.0.bb => wayland-utils_1.2.0.bb} (75%)
+ .../{vulkan-tools_1.3.250.0.bb => vulkan-tools_1.3.250.1.bb}      | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-tools_1.3.250.0.bb => vulkan-tools_1.3.250.1.bb} (100%)
 
-diff --git a/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch b/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
-deleted file mode 100644
-index 86c44d4480..0000000000
---- a/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From c79a3fb51718c4286b74edf0f758df9219994844 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 14 Sep 2022 09:07:10 +0200
--Subject: [PATCH] wayland-info: Fix build without libdrm
--
--wayland-info can optionally use libdrm to provide a description of the
--dmabuf format modifiers.
--
--When not using libdrm however, the build fails because "dev_t" is not
--defined.
--
--The definition of "dev_t" comes from <sys/types.h> which is included
--from <libdrm.h>, which is not included without libdrm support, hence the
--build failure.
--
--Simply include <sys/types.h> unconditionally to make sure "dev_t" is
--defined regardless of libdrm support, to fix the build failure.
--
--Closes: https://gitlab.freedesktop.org/wayland/wayland-utils/-/issues/6
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--Fixes: 240cb739 - "Add support for linux_dmabuf version 4"
--Reviewed-by: Simon Ser <contact@emersion.fr>
--Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/wayland/wayland-utils/-/commit/baa65ba9f62e6a05c32b9202b524158a21f24245]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- wayland-info/wayland-info.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/wayland-info/wayland-info.c b/wayland-info/wayland-info.c
--index 53cd04b..98ff205 100644
----- a/wayland-info/wayland-info.c
--+++ b/wayland-info/wayland-info.c
--@@ -34,6 +34,7 @@
-- #include <ctype.h>
-- #include <unistd.h>
-- #include <sys/mman.h>
--+#include <sys/types.h>
-- 
-- #include <wayland-client.h>
-- #if HAVE_HUMAN_FORMAT_MODIFIER
-diff --git a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-similarity index 75%
-rename from meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
-rename to meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-index dcee87e2cd..5335c59d8d 100644
---- a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-@@ -9,10 +9,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=548a66038a77415e1df51118625e832f \
-                    "
- 
--SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
--           file://0001-wayland-info-Fix-build-without-libdrm.patch \
--           "
--SRC_URI[sha256sum] = "9e685863025b4feade36d53bbc8e31b43e26498be743dea84c7a84912959410a"
-+SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz"
-+SRC_URI[sha256sum] = "d9278c22554586881802540751bcc42569262bf80cd9ac9b0fd12ff4bd09a9e4"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
+diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.0.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb
 -- 
 2.39.2
 
 
---===============1741625141300451869==
+--===============8912667769823414030==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/wayland-utils: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.1.0/downloads/wayland-utils-1.1.0.tar.xz file://0001-wayland-info-Fix-build-without-libdrm.patch" to "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.2.0/downloads/wayland-utils-1.2.0.tar.xz"
-packages/core2-32-poky-linux/wayland-utils: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 102816 to 114092 (+11%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGSIZE changed from 1190 to 1418 (+19%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-locale: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-locale: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 229578 to 268038 (+17%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: FILELIST: removed "/usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/presentation-time-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/linux-dmabuf-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/tablet-unstable-v2-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/tablet-unstable-v2-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/linux-dmabuf-unstable-v1-protocol.c", added "/usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/presentation-time-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/linux-dmabuf-unst
- able-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/tablet-unstable-v2-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/tablet-unstable-v2-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/drm-lease-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/linux-dmabuf-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/drm-lease-v1-client-protocol.h"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-staticdev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-staticdev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/vulkan-tools: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-dbg: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-dbg: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-dev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-dev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-doc: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-doc: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-locale: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-locale: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-src: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-src: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-staticdev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools-staticdev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-tools/vulkan-tools: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
 
---===============1741625141300451869==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 102816 to 114092 (+11%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGSIZE changed from 1190 to 1418 (+19%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 229578 to 268038 (+17%)
-
---===============1741625141300451869==
+--===============8912667769823414030==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wayland-utils-upgrade-1.1.0-1.2.0.patch"
+ filename="0001-vulkan-tools-upgrade-1.3.250.0-1.3.250.1.patch"
 
-RnJvbSBlNzQzMzlhMDM2NzcxYWQ3MmQyNDIyMDNlZTY2OTMyNTJkY2ZmODQ0IE1vbiBTZXAgMTcg
+RnJvbSAxYzAzZDU4MTc2NDFkOTQ4ZmViMWI2Yzg3NzljNjgxNTQwYWY5MzQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTk6MjQ6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-YXlsYW5kLXV0aWxzOiB1cGdyYWRlIDEuMS4wIC0+IDEuMi4wCgotLS0KIC4uLmF5bGFuZC1pbmZv
-LUZpeC1idWlsZC13aXRob3V0LWxpYmRybS5wYXRjaCB8IDQyIC0tLS0tLS0tLS0tLS0tLS0tLS0K
-IC4uLi11dGlsc18xLjEuMC5iYiA9PiB3YXlsYW5kLXV0aWxzXzEuMi4wLmJifSB8ICA2ICstLQog
-MiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQogZGVsZXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2ZpbGVzLzAwMDEtd2F5
-bGFuZC1pbmZvLUZpeC1idWlsZC13aXRob3V0LWxpYmRybS5wYXRjaAogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy93YXlsYW5kL3t3YXlsYW5kLXV0aWxzXzEuMS4wLmJiID0+IHdheWxhbmQt
-dXRpbHNfMS4yLjAuYmJ9ICg3NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3dheWxhbmQvZmlsZXMvMDAwMS13YXlsYW5kLWluZm8tRml4LWJ1aWxkLXdpdGhvdXQtbGliZHJt
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvZmlsZXMvMDAwMS13YXlsYW5k
-LWluZm8tRml4LWJ1aWxkLXdpdGhvdXQtbGliZHJtLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEw
-MDY0NAppbmRleCA4NmM0NGQ0NDgwLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL2ZpbGVzLzAwMDEtd2F5bGFuZC1pbmZvLUZpeC1idWlsZC13aXRob3V0LWxp
-YmRybS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDQyICswLDAgQEAKLUZyb20gYzc5YTNmYjUx
-NzE4YzQyODZiNzRlZGYwZjc1OGRmOTIxOTk5NDg0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-LUZyb206IE9saXZpZXIgRm91cmRhbiA8b2ZvdXJkYW5AcmVkaGF0LmNvbT4KLURhdGU6IFdlZCwg
-MTQgU2VwIDIwMjIgMDk6MDc6MTAgKzAyMDAKLVN1YmplY3Q6IFtQQVRDSF0gd2F5bGFuZC1pbmZv
-OiBGaXggYnVpbGQgd2l0aG91dCBsaWJkcm0KLQotd2F5bGFuZC1pbmZvIGNhbiBvcHRpb25hbGx5
-IHVzZSBsaWJkcm0gdG8gcHJvdmlkZSBhIGRlc2NyaXB0aW9uIG9mIHRoZQotZG1hYnVmIGZvcm1h
-dCBtb2RpZmllcnMuCi0KLVdoZW4gbm90IHVzaW5nIGxpYmRybSBob3dldmVyLCB0aGUgYnVpbGQg
-ZmFpbHMgYmVjYXVzZSAiZGV2X3QiIGlzIG5vdAotZGVmaW5lZC4KLQotVGhlIGRlZmluaXRpb24g
-b2YgImRldl90IiBjb21lcyBmcm9tIDxzeXMvdHlwZXMuaD4gd2hpY2ggaXMgaW5jbHVkZWQKLWZy
-b20gPGxpYmRybS5oPiwgd2hpY2ggaXMgbm90IGluY2x1ZGVkIHdpdGhvdXQgbGliZHJtIHN1cHBv
-cnQsIGhlbmNlIHRoZQotYnVpbGQgZmFpbHVyZS4KLQotU2ltcGx5IGluY2x1ZGUgPHN5cy90eXBl
-cy5oPiB1bmNvbmRpdGlvbmFsbHkgdG8gbWFrZSBzdXJlICJkZXZfdCIgaXMKLWRlZmluZWQgcmVn
-YXJkbGVzcyBvZiBsaWJkcm0gc3VwcG9ydCwgdG8gZml4IHRoZSBidWlsZCBmYWlsdXJlLgotCi1D
-bG9zZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtdXRp
-bHMvLS9pc3N1ZXMvNgotU2lnbmVkLW9mZi1ieTogT2xpdmllciBGb3VyZGFuIDxvZm91cmRhbkBy
-ZWRoYXQuY29tPgotRml4ZXM6IDI0MGNiNzM5IC0gIkFkZCBzdXBwb3J0IGZvciBsaW51eF9kbWFi
-dWYgdmVyc2lvbiA0IgotUmV2aWV3ZWQtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5m
-cj4KLVJldmlld2VkLWJ5OiBQZWtrYSBQYWFsYW5lbiA8cGVra2EucGFhbGFuZW5AY29sbGFib3Jh
-LmNvbT4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRsYWIuZnJlZWRl
-c2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC11dGlscy8tL2NvbW1pdC9iYWE2NWJhOWY2MmU2YTA1
-YzMyYjkyMDJiNTI0MTU4YTIxZjI0MjQ1XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIHdheWxhbmQtaW5mby93YXlsYW5kLWluZm8u
-YyB8IDEgKwotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQotCi1kaWZmIC0tZ2l0IGEv
-d2F5bGFuZC1pbmZvL3dheWxhbmQtaW5mby5jIGIvd2F5bGFuZC1pbmZvL3dheWxhbmQtaW5mby5j
-Ci1pbmRleCA1M2NkMDRiLi45OGZmMjA1IDEwMDY0NAotLS0tIGEvd2F5bGFuZC1pbmZvL3dheWxh
-bmQtaW5mby5jCi0rKysgYi93YXlsYW5kLWluZm8vd2F5bGFuZC1pbmZvLmMKLUBAIC0zNCw2ICsz
-NCw3IEBACi0gI2luY2x1ZGUgPGN0eXBlLmg+Ci0gI2luY2x1ZGUgPHVuaXN0ZC5oPgotICNpbmNs
-dWRlIDxzeXMvbW1hbi5oPgotKyNpbmNsdWRlIDxzeXMvdHlwZXMuaD4KLSAKLSAjaW5jbHVkZSA8
-d2F5bGFuZC1jbGllbnQuaD4KLSAjaWYgSEFWRV9IVU1BTl9GT1JNQVRfTU9ESUZJRVIKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4xLjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXV0aWxzXzEuMi4wLmJi
-CnNpbWlsYXJpdHkgaW5kZXggNzUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
-YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4yLjAuYmIKaW5kZXggZGNlZTg3ZTJjZC4uNTMz
-NWM1OWQ4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFu
-ZC11dGlsc18xLjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
-YW5kLXV0aWxzXzEuMi4wLmJiCkBAIC05LDEwICs5LDggQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT01NDhhNjYwMzhhNzc0MTVlMWRmNTEx
-MTg2MjVlODMyZiBcCiAgICAgICAgICAgICAgICAgICAgIgogCi1TUkNfVVJJID0gImh0dHBzOi8v
-Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtdXRpbHMvLS9yZWxlYXNlcy8k
-e1BWfS9kb3dubG9hZHMvJHtCUE59LSR7UFZ9LnRhci54eiBcCi0gICAgICAgICAgIGZpbGU6Ly8w
-MDAxLXdheWxhbmQtaW5mby1GaXgtYnVpbGQtd2l0aG91dC1saWJkcm0ucGF0Y2ggXAotICAgICAg
-ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWU2ODU4NjMwMjViNGZlYWRlMzZkNTNiYmM4
-ZTMxYjQzZTI2NDk4YmU3NDNkZWE4NGM3YTg0OTEyOTU5NDEwYSIKK1NSQ19VUkkgPSAiaHR0cHM6
-Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC11dGlscy8tL3JlbGVhc2Vz
-LyR7UFZ9L2Rvd25sb2Fkcy8ke0JQTn0tJHtQVn0udGFyLnh6IgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImQ5Mjc4YzIyNTU0NTg2ODgxODAyNTQwNzUxYmNjNDI1NjkyNjJiZjgwY2Q5YWM5YjBmZDEy
-ZmY0YmQwOWE5ZTQiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL3dheWxhbmQuZnJl
-ZWRlc2t0b3Aub3JnL3JlbGVhc2VzLmh0bWwiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFNhdCwgMTUgSnVsIDIwMjMgMTg6NTI6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdG9vbHM6IHVwZ3JhZGUgMS4zLjI1MC4wIC0+IDEuMy4yNTAuMQoKLS0tCiAuLi4ve3Z1
+bGthbi10b29sc18xLjMuMjUwLjAuYmIgPT4gdnVsa2FuLXRvb2xzXzEuMy4yNTAuMS5iYn0gICAg
+ICB8IDAKIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLXRvb2xzXzEuMy4yNTAu
+MC5iYiA9PiB2dWxrYW4tdG9vbHNfMS4zLjI1MC4xLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjUwLjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi10b29sc18xLjMuMjUwLjEuYmIKc2lt
+aWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxr
+YW4vdnVsa2FuLXRvb2xzXzEuMy4yNTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3Z1bGthbi92dWxrYW4tdG9vbHNfMS4zLjI1MC4xLmJiCi0tIAoyLjM5LjIKCg==
 
---===============1741625141300451869==--
+--===============8912667769823414030==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 33 Local 24 Mirrors 0 Missed 9 Current 395 (72% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 405 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 426 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1308 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_fetch)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/vulkan-headers/1.3.250.0-r0/temp/log.do_packagedata_setscene.2832695
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 427 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_package_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1385 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_unpack)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Started
+NOTE: Running task 1386 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_patch)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Succeeded
+NOTE: Running task 1398 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata)
+NOTE: Running task 1403 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1405 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1406 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1408 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic unihash changed to d734560fc781825199b0de43bc4153f4a36c4e4e25955f62d60a9f42813e0022
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1414 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1415 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Succeeded
+NOTE: Running task 1417 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_install)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Succeeded
+NOTE: Running task 1418 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package)
+NOTE: Running task 1419 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Succeeded
+NOTE: Running task 1420 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_packagedata)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1421 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_spdx)
+NOTE: Running task 1422 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_write_rpm)
+NOTE: Running task 1423 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_qa)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1424 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1425 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1425 tasks of which 1405 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8912667769823414030==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 54 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 33 Local 24 Mirrors 0 Missed 9 Current 395 (72% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 405 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 426 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: Running task 1308 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_fetch)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/vulkan-headers/1.3.250.0-r0/temp/log.do_packagedata_setscene.2825983
+NOTE: Running task 1385 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_unpack)
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 427 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_package_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1386 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_patch)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Started
+NOTE: Running task 1387 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1388 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1389 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic unihash changed to d734560fc781825199b0de43bc4153f4a36c4e4e25955f62d60a9f42813e0022
+NOTE: Setscene tasks completed
+NOTE: Running task 1401 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata)
+NOTE: Running task 1407 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1414 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1415 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Succeeded
+NOTE: Running task 1417 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_install)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Succeeded
+NOTE: Running task 1418 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package)
+NOTE: Running task 1419 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Succeeded
+NOTE: Running task 1420 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_packagedata)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1421 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_spdx)
+NOTE: Running task 1422 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_write_rpm)
+NOTE: Running task 1423 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_qa)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1424 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1425 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1425 tasks of which 1405 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8912667769823414030==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 48 skipped, 0 masked, 0 errors.
+Removing 39 recipes from the core2-32 sysroot...done.
+Removing 46 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 218 Local 209 Mirrors 0 Missed 9 Current 210 (95% match, 97% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 214 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 221 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: Running task 844 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_fetch)
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Started
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 233 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 234 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 235 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 236 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Succeeded
+NOTE: Running task 851 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 239 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_create_spdx_setscene)
+NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.3.250.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 257 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 258 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 260 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 261 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 262 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 263 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 264 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_create_spdx_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/vulkan-headers/1.3.250.0-r0/temp/log.do_packagedata_setscene.2836432
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 266 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_package_setscene)
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 268 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 269 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 275 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 276 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 278 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 279 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 284 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_create_spdx_setscene)
+NOTE: Running task 866 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_patch)
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 286 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 289 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 291 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_populate_sysroot_setscene)
+NOTE: Running task 875 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxml2-2.11.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 876 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_generate_toolchain_file)
+NOTE: Running task 877 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic)
+NOTE: Running setscene task 294 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.11.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 296 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 300 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 302 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 303 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic unihash changed to d734560fc781825199b0de43bc4153f4a36c4e4e25955f62d60a9f42813e0022
+NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Started
+NOTE: Running setscene task 305 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 306 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 312 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 313 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 314 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 315 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 317 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 318 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 319 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 320 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 323 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 324 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 325 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 326 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 327 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 328 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 329 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 330 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 331 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 332 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 333 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 334 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 335 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 336 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 337 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 338 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 340 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 341 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 342 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 343 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 344 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 345 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 349 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 350 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 354 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 362 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 363 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 367 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 371 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 372 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 394 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 395 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 397 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 398 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 401 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 403 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 405 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 406 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 410 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 411 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+718f363bc2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 412 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 413 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 421 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 425 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 426 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1346 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata)
+NOTE: Running task 1368 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1413 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1414 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Succeeded
+NOTE: Running task 1415 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Succeeded
+NOTE: Running task 1416 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_install)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Succeeded
+NOTE: Running task 1417 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package)
+NOTE: Running task 1418 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Succeeded
+NOTE: Running task 1419 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_packagedata)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1420 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_spdx)
+NOTE: Running task 1421 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_write_rpm)
+NOTE: Running task 1422 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_qa)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1423 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1424 of 1424 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1424 tasks of which 1404 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8912667769823414030==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1804 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (898 cached, 1 parsed). 1804 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 33 Local 24 Mirrors 0 Missed 9 Current 395 (72% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 405 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 426 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1308 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_fetch)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-headers/1.3.250.0-r0/temp/log.do_packagedata_setscene.2822601
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 427 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_package_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1385 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_unpack)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Started
+NOTE: Running task 1386 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_patch)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Succeeded
+NOTE: Running task 1398 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata)
+NOTE: Running task 1403 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1405 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1406 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1408 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic unihash changed to d734560fc781825199b0de43bc4153f4a36c4e4e25955f62d60a9f42813e0022
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1414 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1415 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Succeeded
+NOTE: Running task 1417 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_install)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Succeeded
+NOTE: Running task 1418 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package)
+NOTE: Running task 1419 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Succeeded
+NOTE: Running task 1420 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_packagedata)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1421 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_spdx)
+NOTE: Running task 1422 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_write_rpm)
+NOTE: Running task 1423 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_qa)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1424 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1425 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1425 tasks of which 1405 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8912667769823414030==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (0 cached, 899 parsed). 1804 targets, 64 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:6ef631659db57265422d750a3c5ad98cc78208b5"
+workspace            = "master:e6d4b610fc24ae009bf6d0710fc429a61a38aa34"
+
+Initialising tasks...done.
+Sstate summary: Wanted 33 Local 24 Mirrors 0 Missed 9 Current 395 (72% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 405 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 412 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 426 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1308 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_fetch)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/vulkan-headers/1.3.250.0-r0/temp/log.do_packagedata_setscene.2829315
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 427 of 428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_package_setscene)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1385 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_unpack)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1386 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_patch)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_patch: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1398 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb:do_packagedata)
+NOTE: Running task 1403 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1405 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1406 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1408 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic)
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_lic unihash changed to d734560fc781825199b0de43bc4153f4a36c4e4e25955f62d60a9f42813e0022
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.250.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1414 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1415 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_configure)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_configure: Succeeded
+NOTE: Running task 1416 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_compile)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_compile: Succeeded
+NOTE: Running task 1417 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_install)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_install: Succeeded
+NOTE: Running task 1418 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package)
+NOTE: Running task 1419 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_populate_sysroot)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package: Succeeded
+NOTE: Running task 1420 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_packagedata)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1421 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_spdx)
+NOTE: Running task 1422 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_write_rpm)
+NOTE: Running task 1423 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_package_qa)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1424 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_create_runtime_spdx)
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_qa: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Started
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe vulkan-tools-1.3.250.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1425 of 1425 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-tools_1.3.250.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 1425 tasks of which 1405 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.250.1-r0 to 0:1.3.250.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.3.250.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8912667769823414030==--
 
