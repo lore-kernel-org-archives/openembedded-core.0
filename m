@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFD8C27C42
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F038C27C44
 	for <webhook@archiver.kernel.org>; Sat, 15 Jul 2023 21:27:39 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.5939.1689456454169559596
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.5950.1689456455435076102
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Jul 2023 14:27:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eky1f7Ws;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101895b73ad64-88edd906-0709-454a-8130-05f712bac031-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FcgvZmiv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101895b73abd5-ae89c4dd-551c-4984-a75c-15ec39598bd6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1689456455;
+	t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ot8e9OHoIbZDfUtk0s7XAR0a//iljqkdjHDmX33fCEI=;
-	b=eky1f7Wso492TLFcvnZhtXCr6RbHy9MqqZHaWCL8bSsgV3EoAtoKyZJUCOq2ANPn
-	MGjAWXOMZiaghgc5CCIOA2088DOJYeXTvu44RtmM5BJ7Udl5kJUjjoyFeVhktIvoofK
-	D5ewLYDMQqgjrUuvbDvsJXm/7jRXPZGxMgFxvieY=
+	bh=e9MfEV3SnB3Q7TJpEl7O28wEs5eW9FUSoQ8j3YzqSWM=;
+	b=FcgvZmivKxjFd2RhkNIMr5AdFHsJ9veTgSwWQ8xpgpzvj8yTiaihxwJ2heE5E6F9
+	DOw2Htdk6Z9wDTuHoC3fGKIJtEVVzSgUTZxOFkO2rBzt/uC+gJ8hIZNub6uhcE07kML
+	mCnIVVt3UkLMww3+46ofUiU+RoYj9RrTytIy2DyQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456455;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1689456454;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ot8e9OHoIbZDfUtk0s7XAR0a//iljqkdjHDmX33fCEI=;
-	b=mKMZq1qdN8WaQyQ6lTDfGb/Tu3pc3gljMJ7j6RoMSwEhnxUFD2wdrfDRtJ/RSz/V
-	1ccramATJTwPJPZFpU3TK2Az1Aisb25hR28CxmUjr1U7qz0IESmYQ0mwppH3RxiCHOq
-	GrSyJYLkA0JrMUhyH60hFNkGdNL2Q/K0Ytah80Ls=
-Content-Type: multipart/mixed; boundary="===============7549696926910043186=="
+	bh=e9MfEV3SnB3Q7TJpEl7O28wEs5eW9FUSoQ8j3YzqSWM=;
+	b=IyaVybqQ27o2eGw6XkawBsaVHyEuqyzKH1EwH1zbgWOSIqq3Dv9tumwWLvoNaUMq
+	89xTjOXMlX69can7fFDekVSzOOe5zYdYMX8fB3cjfLShWAvE7eBWDwbGIhGttKbqOfr
+	RamSBrv/ECQHF4w8QJqDNXq2P2lg7Gx0GAcN7FJc=
+Content-Type: multipart/mixed; boundary="===============8216383935831260715=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.71.0 FAILED
-Message-ID: <010101895b73ad64-88edd906-0709-454a-8130-05f712bac031-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Jul 2023 21:27:35 +0000
+Subject: [AUH] libstd-rs: upgrading to 1.71.0 FAILED
+Message-ID: <010101895b73abd5-ae89c4dd-551c-4984-a75c-15ec39598bd6-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Jul 2023 21:27:34 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.07.15-54.240.27.29
+X-SES-Outgoing: 2023.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Jul 2023 21:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184364
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184363
 
---===============7549696926910043186==
+--===============8216383935831260715==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,21 +50,20 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.71.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libstd-rs* to *1.71.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe cargo failed.
+Running 'devtool upgrade' for recipe libstd-rs failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (13:44:38.862586)
+NOTE: Retrying server connection (#1)... (13:51:36.454797)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1804 entries from dependency cache.
 
 Summary: There was 1 WARNING message.
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -121,7 +120,7 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:02:26
+Adding changed files:   0% |                                    | ETA:  0:02:27
 Adding changed files:   0% |                                    | ETA:  0:01:47
 Adding changed files:   1% |                                    | ETA:  0:01:35
 Adding changed files:   1% |                                    | ETA:  0:01:28
@@ -133,12 +132,12 @@ Adding changed files:   3% |#                                   | ETA:  0:01:17
 Adding changed files:   4% |#                                   | ETA:  0:01:17
 Adding changed files:   4% |#                                   | ETA:  0:01:16
 Adding changed files:   5% |#                                   | ETA:  0:01:15
-Adding changed files:   5% |##                                  | ETA:  0:01:15
-Adding changed files:   6% |##                                  | ETA:  0:01:14
+Adding changed files:   5% |##                                  | ETA:  0:01:14
 Adding changed files:   6% |##                                  | ETA:  0:01:14
 Adding changed files:   6% |##                                  | ETA:  0:01:13
+Adding changed files:   6% |##                                  | ETA:  0:01:13
 Adding changed files:   7% |##                                  | ETA:  0:01:13
-Adding changed files:   7% |##                                  | ETA:  0:01:12
+Adding changed files:   7% |##                                  | ETA:  0:01:13
 Adding changed files:   8% |##                                  | ETA:  0:01:12
 Adding changed files:   8% |###                                 | ETA:  0:01:11
 Adding changed files:   9% |###                                 | ETA:  0:01:10
@@ -149,7 +148,7 @@ Adding changed files:  10% |###                                 | ETA:  0:01:10
 Adding changed files:  11% |####                                | ETA:  0:01:10
 Adding changed files:  11% |####                                | ETA:  0:01:09
 Adding changed files:  12% |####                                | ETA:  0:01:09
-Adding changed files:  12% |####                                | ETA:  0:01:09
+Adding changed files:  12% |####                                | ETA:  0:01:08
 Adding changed files:  13% |####                                | ETA:  0:01:08
 Adding changed files:  13% |####                                | ETA:  0:01:08
 Adding changed files:  13% |####                                | ETA:  0:01:08
@@ -157,7 +156,7 @@ Adding changed files:  14% |#####                               | ETA:  0:01:07
 Adding changed files:  14% |#####                               | ETA:  0:01:07
 Adding changed files:  15% |#####                               | ETA:  0:01:06
 Adding changed files:  15% |#####                               | ETA:  0:01:06
-Adding changed files:  16% |#####                               | ETA:  0:01:05
+Adding changed files:  16% |#####                               | ETA:  0:01:06
 Adding changed files:  16% |#####                               | ETA:  0:01:05
 Adding changed files:  16% |######                              | ETA:  0:01:05
 Adding changed files:  17% |######                              | ETA:  0:01:05
@@ -175,15 +174,15 @@ Adding changed files:  22% |#######                             | ETA:  0:01:01
 Adding changed files:  22% |########                            | ETA:  0:01:00
 Adding changed files:  22% |########                            | ETA:  0:01:00
 Adding changed files:  23% |########                            | ETA:  0:01:00
-Adding changed files:  23% |########                            | ETA:  0:01:00
+Adding changed files:  23% |########                            | ETA:  0:00:59
 Adding changed files:  24% |########                            | ETA:  0:00:59
 Adding changed files:  24% |########                            | ETA:  0:00:59
-Adding changed files:  25% |#########                           | ETA:  0:00:59
+Adding changed files:  25% |#########                           | ETA:  0:00:58
 Adding changed files:  25% |#########                           | ETA:  0:00:58
 Adding changed files:  26% |#########                           | ETA:  0:00:58
 Adding changed files:  26% |#########                           | ETA:  0:00:57
 Adding changed files:  26% |#########                           | ETA:  0:00:57
-Adding changed files:  27% |#########                           | ETA:  0:00:57
+Adding changed files:  27% |#########                           | ETA:  0:00:56
 Adding changed files:  27% |#########                           | ETA:  0:00:56
 Adding changed files:  28% |##########                          | ETA:  0:00:56
 Adding changed files:  28% |##########                          | ETA:  0:00:56
@@ -197,9 +196,9 @@ Adding changed files:  31% |###########                         | ETA:  0:00:53
 Adding changed files:  32% |###########                         | ETA:  0:00:53
 Adding changed files:  32% |###########                         | ETA:  0:00:52
 Adding changed files:  32% |###########                         | ETA:  0:00:52
-Adding changed files:  33% |############                        | ETA:  0:00:52
 Adding changed files:  33% |############                        | ETA:  0:00:51
-Adding changed files:  34% |############                        | ETA:  0:00:51
+Adding changed files:  33% |############                        | ETA:  0:00:51
+Adding changed files:  34% |############                        | ETA:  0:00:50
 Adding changed files:  34% |############                        | ETA:  0:00:50
 Adding changed files:  35% |############                        | ETA:  0:00:50
 Adding changed files:  35% |############                        | ETA:  0:00:49
@@ -239,7 +238,7 @@ Adding changed files:  49% |#################                   | ETA:  0:00:38
 Adding changed files:  50% |##################                  | ETA:  0:00:38
 Adding changed files:  50% |##################                  | ETA:  0:00:38
 Adding changed files:  51% |##################                  | ETA:  0:00:38
-Adding changed files:  51% |##################                  | ETA:  0:00:38
+Adding changed files:  51% |##################                  | ETA:  0:00:37
 Adding changed files:  52% |##################                  | ETA:  0:00:37
 Adding changed files:  52% |##################                  | ETA:  0:00:37
 Adding changed files:  52% |###################                 | ETA:  0:00:37
@@ -251,14 +250,14 @@ Adding changed files:  55% |###################                 | ETA:  0:00:36
 Adding changed files:  55% |###################                 | ETA:  0:00:35
 Adding changed files:  55% |####################                | ETA:  0:00:35
 Adding changed files:  56% |####################                | ETA:  0:00:35
-Adding changed files:  56% |####################                | ETA:  0:00:35
+Adding changed files:  56% |####################                | ETA:  0:00:34
 Adding changed files:  57% |####################                | ETA:  0:00:34
 Adding changed files:  57% |####################                | ETA:  0:00:34
 Adding changed files:  58% |####################                | ETA:  0:00:34
 Adding changed files:  58% |#####################               | ETA:  0:00:33
 Adding changed files:  58% |#####################               | ETA:  0:00:33
 Adding changed files:  59% |#####################               | ETA:  0:00:33
-Adding changed files:  59% |#####################               | ETA:  0:00:33
+Adding changed files:  59% |#####################               | ETA:  0:00:32
 Adding changed files:  60% |#####################               | ETA:  0:00:32
 Adding changed files:  60% |#####################               | ETA:  0:00:32
 Adding changed files:  61% |######################              | ETA:  0:00:32
@@ -351,19 +350,19 @@ Adding changed files:  98% |################################### | ETA:  0:00:01
 Adding changed files:  98% |################################### | ETA:  0:00:01
 Adding changed files:  99% |################################### | ETA:  0:00:00
 Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:01:31
+Adding changed files: 100% |####################################| Time: 0:01:30
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
 INFO: Fetching https://static.rust-lang.org/dist/rustc-1.71.0-src.tar.xz;name=rust...
-INFO: Rebasing devtool onto c4c12458d4dd2c7801cf420fb543e43712a8df1d
-WARNING: Command 'git rebase c4c12458d4dd2c7801cf420fb543e43712a8df1d' failed:
+INFO: Rebasing devtool onto d45e3a390c3721380d355d878f7a3319d184e393
+WARNING: Command 'git rebase d45e3a390c3721380d355d878f7a3319d184e393' failed:
 Auto-merging vendor/getrandom/.cargo-checksum.json
 CONFLICT (content): Merge conflict in vendor/getrandom/.cargo-checksum.json
 Auto-merging vendor/getrandom/src/util_libc.rs
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/cargo
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/cargo/cargo_1.71.0.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libstd-rs
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libstd-rs/libstd-rs_1.71.0.bb
 WARNING: Version is pinned to 1.70% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
 
 
@@ -373,5 +372,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7549696926910043186==--
+--===============8216383935831260715==--
 
