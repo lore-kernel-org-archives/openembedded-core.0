@@ -1,208 +1,88 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD43C001B0
-	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 19:36:05 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.4633.1689536159679667142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA17CEB64DD
+	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 19:55:35 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.5040.1689537328553205280
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Jul 2023 12:36:00 -0700
+ Sun, 16 Jul 2023 12:55:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=eWvCIMnl;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991ef0b464cso1058585066b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 12:35:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Z1kfxQpy;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1b9e9765f2cso22138715ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 12:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689536158; x=1692128158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fmnxJP5YnPteIGqO1eZFbqxX9oZXGgwXoFG2cY+9+Xo=;
-        b=eWvCIMnl8/ESeZBuNKa1aVjbIU3/l96Nkwks+Av6aPyl10kOeAteqIurwwKdRLIq9W
-         QnX8Bedd/kL1wGyYpEql1XujX+VMsoakP4ekFogeTvzxMTzLabFaJjVT/SklHM4JFy8g
-         qhdlIiBeaKD8LjHDCbZcrjOPIqxps83o16WZ8NL/VFoarEqGqWEui8EvcVTiDpPHer4w
-         zRI8BY7qzU7YYwN4mQHu07/gDMT4Enig+wcli4B0TwKK4V27Xa0TrQJt3b/Hbpj6CTQC
-         hD2dgtxGqqo5ZE63UPXvfu062oaly977eBEN21xTxqc0WwVJ3vfm0xLx9Ywps6xcUSHo
-         WW3w==
+        d=gmail.com; s=20221208; t=1689537328; x=1692129328;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PyZUe2KzTxymdJW4nzih27/qrFMupte/59mOZP6yQ/0=;
+        b=Z1kfxQpyTZ1OiY4G/Y/E4MeYhS6Haq1/RmGspdNdmEPPXmmiAP9o38dS2vZAqLyJ5T
+         eUEL+9cUbATE23+Ir3C753kWu4H5jQ+WwwTxtgo3y3PWgiBHfwmBBNnp1CszsZH9QgyH
+         M+YsLSAyYtNOb5K3plNhg7XfbIB1N8MiQaL51KnZSJmEZgf44rbORPomsPjmSvyYGWFk
+         bXEM6IdyplU48WUITIqvYO82o3Vdanbegxfl6X6bcIslpT7o9NRFVX8vqrXWfx1aJy0q
+         BRILx9i6iAft9V64DjdcHn/XQtcwB1VI30dqPbr65c4tLVMvJ8VrvF8LhY7IfjUWucs9
+         Wp2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689536158; x=1692128158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fmnxJP5YnPteIGqO1eZFbqxX9oZXGgwXoFG2cY+9+Xo=;
-        b=Jw5ZYz7KxjLme9688wCqRILTB+YqUY1OQ/lilhNXeBZMrc6Moo5ekzHY7o3lV+AWQz
-         TL8UBgehIT9wFAWxiEJ0YFgprpPQooKA763F2cOgWmpfad+O0tTm6bv0bMDTNKhUe6Ap
-         h/D+U1/MkkEEdJIf3kEJsWSNmOHVLyshiFHQsabsbSvN1n5v+gBMh0Oz6INEOBcT1DY0
-         vj7Nl+qI5FUz/9N4qOJhQ1399ZIlTiAv072FIoOAe7bBLO/24Rd5cYgLQk999StBLnPP
-         t2/w3viNJ0uNXVOidnJHA2Pz4KrkKh1GFTNn8t3wxh7ERMYaeTU9r7Wz+14XfSCHGgtO
-         VJag==
-X-Gm-Message-State: ABy/qLYwblIs+1J4Q1anc/8tG4mm0BTaO8PfO+xGVWe6V7eh7KE1Xx2H
-	hYuVwnMm24u+qqfdKu9VWCgt8AfmguC/ClQcMImsdg==
-X-Google-Smtp-Source: APBJJlFI5Ehv0LD/FkEWP3p6IGsfiYNzmIE4UFd+9GvfxzsRTM7pGZSTmLlwE68YWR95xLaXploEFGdVHwdUx0G76Ag=
-X-Received: by 2002:a17:906:109e:b0:98e:1a0c:12c0 with SMTP id
- u30-20020a170906109e00b0098e1a0c12c0mr9179309eju.7.1689536157847; Sun, 16 Jul
- 2023 12:35:57 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689537328; x=1692129328;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PyZUe2KzTxymdJW4nzih27/qrFMupte/59mOZP6yQ/0=;
+        b=jjLEo0B81t6EZHEevwIGala813yjnmrIC4CMrHKOYQMS8LjoeSdVNw0KeD2Y2MeC6S
+         XRFeT5iK4SBpaVqzKosuDpe7YwyLdwvms4UHUXe584p8ho1v/FRyzvnksTHbVjjW8tIG
+         ML3G3NH5LRHwZDU8ccWzrYVUCEK9as6ksu1DfjyxRQ5i38rK4IKUkoTlKPVLVeUP/BJa
+         kNqaLIeYHC+uxJOSpq1ImGkh2Bput7VbddX1jUnKz3w5f/mvrpW2mrHBfRKQwx7tpDDn
+         p6JEV+tIxRA4o91WTomMy0ttc2kWVkYaVuf9yda7aOqYsw8+dn5Rrf6c+3t2Kc9Vgxzq
+         xXQw==
+X-Gm-Message-State: ABy/qLbfodnFSPKF4t1HkoBOkINgKG61sbDWLq+OaRaXtDmqjVdRghlX
+	9VhZdHW1tiWlxJjE4LCrF7f9ysafxak=
+X-Google-Smtp-Source: APBJJlGeRtps8WfnHNGTJUcuvi8912UTI5+Pluucb3BwC3v6QVWSLOt3/oZPumtqyK1tvFKeFIoKCw==
+X-Received: by 2002:a17:902:db10:b0:1b8:5bf5:543a with SMTP id m16-20020a170902db1000b001b85bf5543amr11158212plx.49.1689537327538;
+        Sun, 16 Jul 2023 12:55:27 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:d380::42f0])
+        by smtp.gmail.com with ESMTPSA id s5-20020a170902988500b001a5fccab02dsm11299129plp.177.2023.07.16.12.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jul 2023 12:55:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-lxml: upgrade 4.9.2 -> 4.9.3
+Date: Sun, 16 Jul 2023 12:55:24 -0700
+Message-ID: <20230716195524.346465-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230615031608.29371-1-bruce.ashfield@gmail.com>
-In-Reply-To: <20230615031608.29371-1-bruce.ashfield@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sun, 16 Jul 2023 09:35:47 -1000
-Message-ID: <CAOSpxdYsbGaLo8Hy1=HXDw1GjJe_Gzb8GUSBumKxqeuxYg1MQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto/6.1: fix intermittent x86 boot hangs
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 19:36:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184420
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 19:55:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184421
 
-On Wed, Jun 14, 2023 at 5:16=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
-l.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> The commit in question appeared as -stable backport in 6.1.28, which is
-> where we started to see intermittent boot hangs on x86.
->
-> Richard noted that others are seeing this is well, as can be seen in
-> this thread:
->
->     https://lkml.org/lkml/2023/6/13/1460
->
-> We bump our SRCREVs to pick up the revert:
->
->     947f660bde07 Revert "tick/common: Align tick period with the HZ tick.=
-"
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../python/{python3-lxml_4.9.2.bb => python3-lxml_4.9.3.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-lxml_4.9.2.bb => python3-lxml_4.9.3.bb} (95%)
 
-Unfortunately I am seeing something quite similar on Kirkstone with 5.15.11=
-8:
+diff --git a/meta/recipes-devtools/python/python3-lxml_4.9.2.bb b/meta/recipes-devtools/python/python3-lxml_4.9.3.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-lxml_4.9.2.bb
+rename to meta/recipes-devtools/python/python3-lxml_4.9.3.bb
+index c7f1e1fc3cb..b911f7b2ad1 100644
+--- a/meta/recipes-devtools/python/python3-lxml_4.9.2.bb
++++ b/meta/recipes-devtools/python/python3-lxml_4.9.3.bb
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+ 
+ DEPENDS += "libxml2 libxslt"
+ 
+-SRC_URI[sha256sum] = "2455cfaeb7ac70338b3257f41e21f0724f4b5b0c0e7702da67ee6c3640835b67"
++SRC_URI[sha256sum] = "48628bd53a426c9eb9bc066a923acaa0878d1e86129fd5359aee99285f4eed9c"
+ 
+ SRC_URI += "${PYPI_SRC_URI}"
+ inherit pkgconfig pypi setuptools3
+-- 
+2.41.0
 
-[    0.222916] Freeing SMP alternatives memory: 48K
-[274824.332965] smpboot: CPU0: Intel Xeon E3-12xx v2 (Ivy Bridge)
-(family: 0x6, model: 0x3a, stepping: 0x9)
-
-Full log:
-
-https://errors.yoctoproject.org/Errors/Details/716736/
-
-So I suspect we will need the same fix there too :-(
-
-Steve
-
->
-> As requested here is the revert of the x86 clock fix that is suspect.
->
-> You'll need to restore the other dropped linux-yocto version bumps
-> to apply this patch.
->
-> Bruce
->
->  .../linux/linux-yocto-rt_6.1.bb               |  4 ++--
->  .../linux/linux-yocto-tiny_6.1.bb             |  4 ++--
->  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 24 +++++++++----------
->  3 files changed, 16 insertions(+), 16 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recip=
-es-kernel/linux/linux-yocto-rt_6.1.bb
-> index 4a2a3ca4ab..1033d307f4 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-> @@ -14,8 +14,8 @@ python () {
->          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel=
- to linux-yocto-rt to enable it")
->  }
->
-> -SRCREV_machine ?=3D "6871194107bd40397162bfca0a9ef06661057c50"
-> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
-> +SRCREV_machine ?=3D "2993cbe41f0f859331c81d6ec8001b094f53cb9e"
-> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
->
->  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;branch=3D${KBRAN=
-CH};name=3Dmachine;protocol=3Dhttps \
->             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
-me=3Dmeta;branch=3Dyocto-6.1;destsuffix=3D${KMETA};protocol=3Dhttps"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/rec=
-ipes-kernel/linux/linux-yocto-tiny_6.1.bb
-> index bfc1c7652c..2be9eb9c36 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-> @@ -17,8 +17,8 @@ DEPENDS +=3D "openssl-native util-linux-native"
->  KMETA =3D "kernel-meta"
->  KCONF_BSP_AUDIT_LEVEL =3D "2"
->
-> -SRCREV_machine ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
-> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
-> +SRCREV_machine ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
-> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
->
->  PV =3D "${LINUX_VERSION}+git${SRCPV}"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-=
-kernel/linux/linux-yocto_6.1.bb
-> index 53a583e0a3..f5554e26db 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-> @@ -20,18 +20,18 @@ KBRANCH:qemux86-64 ?=3D "v6.1/standard/base"
->  KBRANCH:qemuloongarch64  ?=3D "v6.1/standard/base"
->  KBRANCH:qemumips64 ?=3D "v6.1/standard/mti-malta64"
->
-> -SRCREV_machine:qemuarm ?=3D "cff918ff5ee0001dec6493620535d8804f02cd8b"
-> -SRCREV_machine:qemuarm64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
-> -SRCREV_machine:qemuloongarch64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6=
-b4f16"
-> -SRCREV_machine:qemumips ?=3D "7a59adc4cd39bea852101be2873855cfc835ef45"
-> -SRCREV_machine:qemuppc ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
-> -SRCREV_machine:qemuriscv64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f1=
-6"
-> -SRCREV_machine:qemuriscv32 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f1=
-6"
-> -SRCREV_machine:qemux86 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
-> -SRCREV_machine:qemux86-64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16=
-"
-> -SRCREV_machine:qemumips64 ?=3D "273e099163a72247262a495cb73889d2e0ed6d2c=
-"
-> -SRCREV_machine ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
-> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
-> +SRCREV_machine:qemuarm ?=3D "93797f49c15b6ce9656a607626437e76a3b6c6da"
-> +SRCREV_machine:qemuarm64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
-> +SRCREV_machine:qemuloongarch64 ?=3D "947f660bde07ee4111bc96d08b142a6ce37=
-53d38"
-> +SRCREV_machine:qemumips ?=3D "1279631d08d52a5b20044404da4b01205ba4b725"
-> +SRCREV_machine:qemuppc ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
-> +SRCREV_machine:qemuriscv64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d3=
-8"
-> +SRCREV_machine:qemuriscv32 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d3=
-8"
-> +SRCREV_machine:qemux86 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
-> +SRCREV_machine:qemux86-64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38=
-"
-> +SRCREV_machine:qemumips64 ?=3D "3b25f845f704021fbe223ef48ab22ff5fa3886b9=
-"
-> +SRCREV_machine ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
-> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
->
->  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', =
-and you'll
->  # get the <version>/base branch, which is pure upstream -stable, and the=
- same
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#182828): https://lists.openembedded.org/g/openembedde=
-d-core/message/182828
-> Mute This Topic: https://lists.openembedded.org/mt/99542122/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
