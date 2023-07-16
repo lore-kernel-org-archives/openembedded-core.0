@@ -1,103 +1,162 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C391EB64DA
-	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 11:02:54 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web10.14437.1689505373549943143
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5301EB64DA
+	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 11:47:54 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.14944.1689508065193142546
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Jul 2023 04:02:54 -0700
+ Sun, 16 Jul 2023 04:47:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=yicoJ1AI;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.169, mailfrom: steve@sakoman.com)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-403c0f12e77so22533331cf.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 04:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689505372; x=1692097372;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xrup+h8xIih2+KPUnutHlSfqVdvq6ViHMuoxGNpMkdQ=;
-        b=yicoJ1AIOAFeGRmjc6dZBmbb35wa3ljL72vN6zB3D+FfvAX+Ienn8l2TyBiJ7vMAoE
-         yh7cFxNTrOUQh6IKz/zzXt/Cr80rjcVOqRzah1bDrcwoe0RVGsJkdjB41QaNhb90VsyP
-         ffKvSE+cCd85T7HzoLr2ANlCV7pz9PuHJsDTTwLWCqb/K7gZIG6VnX9HlKDm7godfa0r
-         Fw6sThR7He40XkiraEGe3p91DpKurD18wouiIxPI25hyMZcF0YYr65+hTaNzzpmCcWKG
-         33Od47UxPi3M+sTmv7qMgjpMPNk03xrIhzFKPtU1MGo8ONYCeNwDoYgNhkwHJHlMfC4Z
-         8Evw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689505372; x=1692097372;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xrup+h8xIih2+KPUnutHlSfqVdvq6ViHMuoxGNpMkdQ=;
-        b=jPHMMxbSGw340MPq5FX9/a/BIbw6pktgNKpkyH/m+8qNbZ97cm91AgF9BY+ci+rZbR
-         KzgeBkG7G6AqJ5VZIa8mWu3jVsoRksyrEwaVXklUDCUgm4RN7h8ZrAI555fLa7qFTUau
-         5vyeFLTBdEuDregLCW8C+sj2W6/UOl8pHXbdhhXi/4Fs2TPXJo/FgwB49PlLYqbKUTHj
-         EjGG8njKRXpIsyC/pDBi8fBiZfH7kxgiNlvu4cY4Gwy17tS5GznAVvz7QORpFzANTGZD
-         gD5qx88CoinQpUn+BmAFtWFg9vCxESGUVMsYnvhXXbpmVd5tqXTvC72hnQZKFzw/U0fq
-         WX8g==
-X-Gm-Message-State: ABy/qLYQAgd93ly1fBHp9DLF6f5yP703FXLs5RbI1UulPldtWW87/MOq
-	zJGskyK4aChjQPd+7+OjoaNpPge/DDXji5wydhBYYA==
-X-Google-Smtp-Source: APBJJlF8lvJdU7EK33blqU03eQzqH2DfnIN3NIb6Pfr2f2+iwh7jkr61zoGYSUQCrFGKvDF+qk+r9A==
-X-Received: by 2002:ac8:58d6:0:b0:400:aaa0:a4f9 with SMTP id u22-20020ac858d6000000b00400aaa0a4f9mr13531051qta.17.1689505372098;
-        Sun, 16 Jul 2023 04:02:52 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d14-20020ac800ce000000b0040327381dbcsm5526916qtg.19.2023.07.16.04.02.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jul 2023 04:02:26 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id C7D7A104E06; Sun, 16 Jul 2023 01:02:21 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 16 Jul 2023 01:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 16 Jul 2023 01:02:21 -1000
-Message-Id: <20230716110221.C7D7A104E06@builder.sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QPujSSv2;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5C02040004;
+	Sun, 16 Jul 2023 11:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689508063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ir6b6ITFMeYvmRBmkLNBRbz4lM44OYh5Du1sIK8d/+o=;
+	b=QPujSSv28g3ZT7a/Q8k6HIZ9/gFbbrE755u3aWzoGerh2jQXOYi1+1+b6ywrCRm7sVSviz
+	V+Dcik1T8S3wj+UaaYOHXYM7OGjed28qezpr1qmOyDAVSxbSwE2iMMP0bTlFEhY3QZ9U2i
+	tnbIIbCSXtBD/rNxY7dbidlsWYybho6+MVqDk4LY4BOBTx3KhbC9x/RCTKsfTuM68on7Cr
+	ZiaRuPZh91J+zpZv41JxblKkqtWQL8qGXJQXUWxnclp/T5u9qqr/XMYroM6Ns4vu9SyGEO
+	zex8Mzqy9Avd8yU3HjHRw4OLXOVMrl1tyxlcpIBglC+B043OsnkkCO5JvoDRuA==
+Date: Sun, 16 Jul 2023 13:47:41 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
+Subject: Re: [OE-core] [PATCH v3] qemu: Add qemu-common package
+Message-ID: <2023071611474165f97b23@mail.local>
+References: <E57733DA-39D3-494F-A91D-9AA8306DBDAB@arm.com>
+ <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 11:02:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184412
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 11:47:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184413
 
-Branch: master
+Hello,
 
-New this week: 2 CVEs
-CVE-2023-37453 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37453 *
-CVE-2023-37454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37454 *
+This causes the following meta-mingw error on the AB:
 
-Removed this week: 0 CVEs
+https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/7501/steps/12/logs/stdio
 
-Full list:  Found 31 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
-CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
-CVE-2023-0330 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0330 *
-CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
-CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
-CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
-CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
-CVE-2023-3090 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3090 *
-CVE-2023-3117 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3117 *
-CVE-2023-3316 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3316 *
-CVE-2023-3317 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3317 *
-CVE-2023-3358 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3358 *
-CVE-2023-3359 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3359 *
-CVE-2023-3389 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3389 *
-CVE-2023-3390 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3390 *
-CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
-CVE-2023-36632 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36632 *
-CVE-2023-36664 (CVSS3: 7.8 HIGH): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36664 *
-CVE-2023-37453 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37453 *
-CVE-2023-37454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37454 *
+This is due to the added native-sdk dependency.
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+On 10/07/2023 18:32:18+0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> We split the qemu package [1] to add support to make user can install
+> one qemu arch emulation rpm to ease the concerns who care much about
+> the rpm size in embedded device.
+> 
+> But for the user who only install the qemu-*.rpm can't do anything
+> except they install the qemu emulation rpm like qemu-system-x86-64-*.rpm
+> explicitly.
+> 
+> So add qemu-common package to package all thing into qemu-common when
+> not split the package, and package only the basic into qemu-common and
+> other arch related to each qemu arch emulation rpm when split the package
+> to fix the backward compatibility.
+> 
+> qenu-*.rpm which is meta package rdepends on qemu-common and the available
+> qemu arch emulation rpm like qemu-system-x86-64-*.rpm and etc.
+> 
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=893846ead7ee54d53e9076150cd655e0c8bca5db
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc      | 23 ++++++++++++-----------
+>  meta/recipes-devtools/qemu/qemu_8.0.0.bb |  3 ++-
+>  2 files changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index a5bdeef66d..94624163d0 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -226,15 +226,18 @@ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
+>  PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
+>  PACKAGECONFIG[debuginfo] = "--enable-libdw,--disable-libdw,elfutils"
+>  
+> -INSANE_SKIP:${PN} = "arch"
+> +INSANE_SKIP:${PN}-common = "arch"
+>  
+>  FILES:${PN} += "${datadir}/icons"
+>  
+>  # For user who want to install all arch packages
+> -PACKAGES =+ "${PN}-system-all ${PN}-user-all"
+> +PACKAGES =+ "${PN}-common"
+> +RDEPENDS:${PN} += "${PN}-common"
+>  
+> -ALLOW_EMPTY:${PN}-system-all = "1"
+> -ALLOW_EMPTY:${PN}-user-all = "1"
+> +ALLOW_EMPTY:${PN} = "1"
+> +FILES:${PN} = ""
+> +
+> +FILES:${PN}-common = "${bindir}/* ${includedir}/* ${libexecdir}/* ${datadir}/* ${localstatedir}"
+>  
+>  PACKAGES_DYNAMIC += "^${PN}-user-.*  ^${PN}-system-.*"
+>  
+> @@ -242,15 +245,13 @@ PACKAGESPLITFUNCS =+ "split_qemu_packages"
+>  
+>  python split_qemu_packages () {
+>      archdir = d.expand('${bindir}/')
+> -    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
+> -    if syspackages:
+> -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
+> +    subpackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
+>  
+> -    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
+> -    if userpackages:
+> -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
+> +    subpackages += do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
+> +    if subpackages:
+> +        d.appendVar('RDEPENDS:' + d.getVar('PN'), ' ' + ' '.join(subpackages))
+>      mipspackage = d.getVar('PN') + "-user-mips"
+> -    if mipspackage in ' '.join(userpackages):
+> +    if mipspackage in ' '.join(subpackages):
+>          d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
+>  }
+>  
+> diff --git a/meta/recipes-devtools/qemu/qemu_8.0.0.bb b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> index 42e133967e..412c2bc7f0 100644
+> --- a/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> @@ -8,7 +8,8 @@ DEPENDS:append:libc-musl = " libucontext"
+>  
+>  CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
+>  
+> -RDEPENDS:${PN}:class-target += "bash"
+> +RDEPENDS:${PN}-common:class-target += "bash"
+> +RDEPENDS:${PN}-common:class-nativesdk += "bash"
+>  
+>  EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
+>  EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184068): https://lists.openembedded.org/g/openembedded-core/message/184068
+> Mute This Topic: https://lists.openembedded.org/mt/100054994/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
