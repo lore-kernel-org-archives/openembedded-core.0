@@ -1,118 +1,208 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 193C2EB64DD
-	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 17:21:05 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web10.1865.1689528055924123544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD43C001B0
+	for <webhook@archiver.kernel.org>; Sun, 16 Jul 2023 19:36:05 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.4633.1689536159679667142
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Jul 2023 10:20:56 -0700
+ Sun, 16 Jul 2023 12:36:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@konsulko.com header.s=google header.b=cIEqXmho;
- spf=pass (domain: konsulko.com, ip: 209.85.219.173, mailfrom: trini@konsulko.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-cc7863e7b82so1740126276.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 10:20:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=eWvCIMnl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991ef0b464cso1058585066b.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 12:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1689528055; x=1692120055;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kDFgjJSJlFhPndFxKzCv6hhomOhu0dknYs1xRqmnRqQ=;
-        b=cIEqXmhoUNDaIuru1T6ozGcyLxCBsNAjda+d4aJULt0n0ZKpTlhdtb5IbQ8CZVO6B9
-         Vv6sAufs3O9rVjTb+99vQBQi3DxfcbZICZ6shjqExeoO5+SftrhOvQU1eGRefMayE5KV
-         hNybMxIhv5JaCvRGrUGg+o57HMkndCXeSXj9I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689528055; x=1692120055;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689536158; x=1692128158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kDFgjJSJlFhPndFxKzCv6hhomOhu0dknYs1xRqmnRqQ=;
-        b=XLniJ+jU4V+4cqpYVT2HH7Y4U9y135yXQSwBcPvQigNR8HLSeS19k81tLCbB8bsKAi
-         xzlNcsKIaN1w10dasThRBKB5WP6/H4HjX7Hf9QcZWGn7ZH6LaasIWcSlgYDtR16OUG8S
-         6XuYpe3xXSzZqIB8b22t9RrD55WRV4DXDNtL309B6lS+bpkFMmwJHkVgYV29UIJCGzgE
-         sIDUAUkRDrLqbHpOae+HS7Bcr0IOhe47PvwMB0OiGu6xH+OlauvmIut1wf72arIeNIRC
-         XrDuAKpmmaXT9/sp+YATFytCs8ZAH3MNJhmiUc6ufhNXtIpIHsDlADVkgjxvjTaDezJv
-         8Eig==
-X-Gm-Message-State: ABy/qLbMoZOlx03vYc5N7jXv+WSLdTul0uQlDa8GQksNehIEPmhKqHv3
-	PhP7WZMosbU+Xo1g4dFsEuNfNw==
-X-Google-Smtp-Source: APBJJlF0RJpoP0n3uk0R9sJIJJhQJLw7/gTZIYrkI5L93f0TPRDfVqm9GP1ebGjaJ4kNe4GED6Grgg==
-X-Received: by 2002:a5b:a4b:0:b0:c5e:fa62:ed3a with SMTP id z11-20020a5b0a4b000000b00c5efa62ed3amr10045633ybq.40.1689528055055;
-        Sun, 16 Jul 2023 10:20:55 -0700 (PDT)
-Received: from bill-the-cat (2603-6081-7b00-6400-5e84-cf0c-0c9a-a3e2.res6.spectrum.com. [2603:6081:7b00:6400:5e84:cf0c:c9a:a3e2])
-        by smtp.gmail.com with ESMTPSA id s13-20020a25770d000000b00cac77619455sm1779493ybc.61.2023.07.16.10.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jul 2023 10:20:54 -0700 (PDT)
-Date: Sun, 16 Jul 2023 13:20:52 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Marek Vasut <marex@denx.de>, Fabio Estevam <festevam@gmail.com>,
-	Fabio Estevam <festevam@denx.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/2] u-boot: Switch to nobranch=1
-Message-ID: <20230716172052.GS2066889@bill-the-cat>
-References: <20230714161823.20685-1-festevam@gmail.com>
- <CANNYZj-8RV6tz_7kEH6uz=yZeyd=bPts6AoBqTd5DL3rGGu+yg@mail.gmail.com>
- <20230714213719.GX2066889@bill-the-cat>
- <CANNYZj8-vQbGEO3yMgRbk2j2L-XOc2EeG6=2w2GhFwUuZqD=mw@mail.gmail.com>
- <c851b7c8-892a-f592-56f1-a69bfa06c193@denx.de>
- <CANNYZj9o5B7y2yFYtHfwhv=KYk74+ZWqC-kuysP2qRY6ifhMeQ@mail.gmail.com>
- <a8148cd0-46f0-2f52-10cd-d90747179a33@denx.de>
- <CANNYZj-QcKyeLhxo_U0Wi88SFm4DjcfzxoqGjj3rzanrPo0tgA@mail.gmail.com>
- <20230716150337.GQ2066889@bill-the-cat>
- <CANNYZj_KchfdPdgPMKqEzOfVhWhLRGbSonaewfOYeX8XJb-HHg@mail.gmail.com>
+        bh=fmnxJP5YnPteIGqO1eZFbqxX9oZXGgwXoFG2cY+9+Xo=;
+        b=eWvCIMnl8/ESeZBuNKa1aVjbIU3/l96Nkwks+Av6aPyl10kOeAteqIurwwKdRLIq9W
+         QnX8Bedd/kL1wGyYpEql1XujX+VMsoakP4ekFogeTvzxMTzLabFaJjVT/SklHM4JFy8g
+         qhdlIiBeaKD8LjHDCbZcrjOPIqxps83o16WZ8NL/VFoarEqGqWEui8EvcVTiDpPHer4w
+         zRI8BY7qzU7YYwN4mQHu07/gDMT4Enig+wcli4B0TwKK4V27Xa0TrQJt3b/Hbpj6CTQC
+         hD2dgtxGqqo5ZE63UPXvfu062oaly977eBEN21xTxqc0WwVJ3vfm0xLx9Ywps6xcUSHo
+         WW3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689536158; x=1692128158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fmnxJP5YnPteIGqO1eZFbqxX9oZXGgwXoFG2cY+9+Xo=;
+        b=Jw5ZYz7KxjLme9688wCqRILTB+YqUY1OQ/lilhNXeBZMrc6Moo5ekzHY7o3lV+AWQz
+         TL8UBgehIT9wFAWxiEJ0YFgprpPQooKA763F2cOgWmpfad+O0tTm6bv0bMDTNKhUe6Ap
+         h/D+U1/MkkEEdJIf3kEJsWSNmOHVLyshiFHQsabsbSvN1n5v+gBMh0Oz6INEOBcT1DY0
+         vj7Nl+qI5FUz/9N4qOJhQ1399ZIlTiAv072FIoOAe7bBLO/24Rd5cYgLQk999StBLnPP
+         t2/w3viNJ0uNXVOidnJHA2Pz4KrkKh1GFTNn8t3wxh7ERMYaeTU9r7Wz+14XfSCHGgtO
+         VJag==
+X-Gm-Message-State: ABy/qLYwblIs+1J4Q1anc/8tG4mm0BTaO8PfO+xGVWe6V7eh7KE1Xx2H
+	hYuVwnMm24u+qqfdKu9VWCgt8AfmguC/ClQcMImsdg==
+X-Google-Smtp-Source: APBJJlFI5Ehv0LD/FkEWP3p6IGsfiYNzmIE4UFd+9GvfxzsRTM7pGZSTmLlwE68YWR95xLaXploEFGdVHwdUx0G76Ag=
+X-Received: by 2002:a17:906:109e:b0:98e:1a0c:12c0 with SMTP id
+ u30-20020a170906109e00b0098e1a0c12c0mr9179309eju.7.1689536157847; Sun, 16 Jul
+ 2023 12:35:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uq2JQn8gPfc0gEM2"
-Content-Disposition: inline
-In-Reply-To: <CANNYZj_KchfdPdgPMKqEzOfVhWhLRGbSonaewfOYeX8XJb-HHg@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+References: <20230615031608.29371-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20230615031608.29371-1-bruce.ashfield@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 16 Jul 2023 09:35:47 -1000
+Message-ID: <CAOSpxdYsbGaLo8Hy1=HXDw1GjJe_Gzb8GUSBumKxqeuxYg1MQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto/6.1: fix intermittent x86 boot hangs
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 17:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184419
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Jul 2023 19:36:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184420
 
+On Wed, Jun 14, 2023 at 5:16=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
+l.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> The commit in question appeared as -stable backport in 6.1.28, which is
+> where we started to see intermittent boot hangs on x86.
+>
+> Richard noted that others are seeing this is well, as can be seen in
+> this thread:
+>
+>     https://lkml.org/lkml/2023/6/13/1460
+>
+> We bump our SRCREVs to pick up the revert:
+>
+>     947f660bde07 Revert "tick/common: Align tick period with the HZ tick.=
+"
+>
 
---uq2JQn8gPfc0gEM2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Unfortunately I am seeing something quite similar on Kirkstone with 5.15.11=
+8:
 
-On Sun, Jul 16, 2023 at 07:19:56PM +0200, Alexander Kanavin wrote:
-> On Sun, 16 Jul 2023 at 17:03, Tom Rini <trini@konsulko.com> wrote:
-> > Does bitbake have any infrastructure atm for dealing with signed tags?
-> > I'm fine with (for now, as LTS is a hope not a feature) keeping the
-> > branch portion.  But if it was possible to say it must be a tag signed
-> > by X key, that would help a little with the concern about moving to some
-> > more arbitrary commit.
->=20
-> As far as I know, git fetcher doesn't verify tags. They don't even
-> have to be signed, checking that a tag specified in a recipe matches a
-> commit id specified in a recipe would also guard against unwanted
-> commits, but the fetcher doesn't do that check either.
+[    0.222916] Freeing SMP alternatives memory: 48K
+[274824.332965] smpboot: CPU0: Intel Xeon E3-12xx v2 (Ivy Bridge)
+(family: 0x6, model: 0x3a, stepping: 0x9)
 
-That's what I figured, thanks.
+Full log:
 
---=20
-Tom
+https://errors.yoctoproject.org/Errors/Details/716736/
 
---uq2JQn8gPfc0gEM2
-Content-Type: application/pgp-signature; name="signature.asc"
+So I suspect we will need the same fix there too :-(
 
------BEGIN PGP SIGNATURE-----
+Steve
 
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmS0Ju4ACgkQFHw5/5Y0
-tyz5XAwArFZCZCT1M9D1bOtTK/SGZ8PBWl6UEd4snEGn9Rq035oYRo3o33ujxFeH
-10xfAgd/HZ6VjPYZDViq98w+GtKY2eJZ2BP1wec/j0yvyj4RUV1gVjnwnnn+fEr3
-ZymDFDuMJAajp6ktSFmQpsiIwquC732xndzxlz/bdKdnMXYwUcc/f97fE3cV7V+6
-jjqupEKqR9rErRlVcR3uddiQlwEM0cvmypmUBeYY56p8a6FMOGyLLJwzDC2e9E8+
-RANU8tt6LySakpUiyh+vOj7fbVyf6qLhHWW9Z80+89KmKGBZts62tHiTBeUu7m/j
-F3mgmG0QEKrFHIflqQ/qDUmIsoMnzQ4HNWHVDxR1upPhPBsV7P1IxRyF17EgMM01
-oYu15OyBhp8Ka+ce+K5EtufmHinoR8gbA2e00ahkI3yHUsV8ZGKwMaEbYN+O9JjF
-wd+tUtPdz3Xl94OLTova5S9Rqrj9r3q/dlPXul63yFiPN344h6uZuC+Dfgvjg+As
-5vnQhU2G
-=0Y1V
------END PGP SIGNATURE-----
-
---uq2JQn8gPfc0gEM2--
+>
+> As requested here is the revert of the x86 clock fix that is suspect.
+>
+> You'll need to restore the other dropped linux-yocto version bumps
+> to apply this patch.
+>
+> Bruce
+>
+>  .../linux/linux-yocto-rt_6.1.bb               |  4 ++--
+>  .../linux/linux-yocto-tiny_6.1.bb             |  4 ++--
+>  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 24 +++++++++----------
+>  3 files changed, 16 insertions(+), 16 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recip=
+es-kernel/linux/linux-yocto-rt_6.1.bb
+> index 4a2a3ca4ab..1033d307f4 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+> @@ -14,8 +14,8 @@ python () {
+>          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel=
+ to linux-yocto-rt to enable it")
+>  }
+>
+> -SRCREV_machine ?=3D "6871194107bd40397162bfca0a9ef06661057c50"
+> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
+> +SRCREV_machine ?=3D "2993cbe41f0f859331c81d6ec8001b094f53cb9e"
+> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
+>
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;branch=3D${KBRAN=
+CH};name=3Dmachine;protocol=3Dhttps \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-6.1;destsuffix=3D${KMETA};protocol=3Dhttps"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/rec=
+ipes-kernel/linux/linux-yocto-tiny_6.1.bb
+> index bfc1c7652c..2be9eb9c36 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+> @@ -17,8 +17,8 @@ DEPENDS +=3D "openssl-native util-linux-native"
+>  KMETA =3D "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL =3D "2"
+>
+> -SRCREV_machine ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
+> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
+> +SRCREV_machine ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
+> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
+>
+>  PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-=
+kernel/linux/linux-yocto_6.1.bb
+> index 53a583e0a3..f5554e26db 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+> @@ -20,18 +20,18 @@ KBRANCH:qemux86-64 ?=3D "v6.1/standard/base"
+>  KBRANCH:qemuloongarch64  ?=3D "v6.1/standard/base"
+>  KBRANCH:qemumips64 ?=3D "v6.1/standard/mti-malta64"
+>
+> -SRCREV_machine:qemuarm ?=3D "cff918ff5ee0001dec6493620535d8804f02cd8b"
+> -SRCREV_machine:qemuarm64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
+> -SRCREV_machine:qemuloongarch64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6=
+b4f16"
+> -SRCREV_machine:qemumips ?=3D "7a59adc4cd39bea852101be2873855cfc835ef45"
+> -SRCREV_machine:qemuppc ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
+> -SRCREV_machine:qemuriscv64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f1=
+6"
+> -SRCREV_machine:qemuriscv32 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f1=
+6"
+> -SRCREV_machine:qemux86 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
+> -SRCREV_machine:qemux86-64 ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16=
+"
+> -SRCREV_machine:qemumips64 ?=3D "273e099163a72247262a495cb73889d2e0ed6d2c=
+"
+> -SRCREV_machine ?=3D "6034b10d39687bbd6769e4adb2a792524e6b4f16"
+> -SRCREV_meta ?=3D "1dd270d3231f82d94d2123b95e4eb576019440a3"
+> +SRCREV_machine:qemuarm ?=3D "93797f49c15b6ce9656a607626437e76a3b6c6da"
+> +SRCREV_machine:qemuarm64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
+> +SRCREV_machine:qemuloongarch64 ?=3D "947f660bde07ee4111bc96d08b142a6ce37=
+53d38"
+> +SRCREV_machine:qemumips ?=3D "1279631d08d52a5b20044404da4b01205ba4b725"
+> +SRCREV_machine:qemuppc ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
+> +SRCREV_machine:qemuriscv64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d3=
+8"
+> +SRCREV_machine:qemuriscv32 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d3=
+8"
+> +SRCREV_machine:qemux86 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
+> +SRCREV_machine:qemux86-64 ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38=
+"
+> +SRCREV_machine:qemumips64 ?=3D "3b25f845f704021fbe223ef48ab22ff5fa3886b9=
+"
+> +SRCREV_machine ?=3D "947f660bde07ee4111bc96d08b142a6ce3753d38"
+> +SRCREV_meta ?=3D "db25e51e2006721528f5e7bcd8f4501592bd74fe"
+>
+>  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', =
+and you'll
+>  # get the <version>/base branch, which is pure upstream -stable, and the=
+ same
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#182828): https://lists.openembedded.org/g/openembedde=
+d-core/message/182828
+> Mute This Topic: https://lists.openembedded.org/mt/99542122/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
