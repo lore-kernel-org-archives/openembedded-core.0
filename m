@@ -2,363 +2,115 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7F5EB64DC
-	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 13:45:07 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.8546.1689601498600012681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C52EB64DC
+	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 13:49:47 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.8612.1689601785085595257
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 06:44:59 -0700
+ Mon, 17 Jul 2023 06:49:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=avUv1X01;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 878A41C0013;
-	Mon, 17 Jul 2023 13:44:55 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eXQeh6pU;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B4885C0002;
+	Mon, 17 Jul 2023 13:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689601496;
+	t=1689601783;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eEksmaHQHZIfRjTMcq8FB0+khWSghoMp8e2geUZEd/w=;
-	b=avUv1X01jTNhHwut8h3zXmiBmy+M9lBxz5mYIhU5XgXHpsk4z63ZLKAv+d2cMgBNv9i28r
-	2QfuPfcX/iqhqnfyJMCbxlBD6gBUa3vYXpQYg0BUHQyAAo5W6mPUllyNJxrdNSJs6t9ak8
-	wg+OLNrAc/1b/Bc46c4R8qmDdv/Wm53UnNBCDQLC5/V6yKXfY5PeyanI1JNCe01v9zjncG
-	bQLSpTf+IxWPkuxlVBM0YRmTm9IX821iuavIJlrYwjDzy+4l4lFi2YPm9tw6jXR48NrxSX
-	HMCOuqg76o+9I/PP8OGRrE/A/XkeAp3IXtvTE3Ohj4VCNtMNlYXq/EFTK+dxaA==
-Date: Mon, 17 Jul 2023 15:44:55 +0200
+	bh=wVfL62P/k4qp/Ap5NQDipJ3k2VuRYIwP95ZZzp6TUSE=;
+	b=eXQeh6pUTsNd/BeJ22WFNd+j/EQbqYhsMrdfbqdwjI0gQSF75NFZyaOur/DpbVQOS9Aqrs
+	c+XHSkpqHUlLnpAusyfSYVPJJNfK7YK/BYEvcyb5kFNHWhRjUDHKNRoUw6DzcbgUypiL7h
+	YJxbC02VPcScxqgvHmU6aSuEuqtDp0wBxG/JrDpk4JzNgBujzOY+AgC0zim9Dqb8Rj8XoI
+	IMSkGbVapOpOBsuFVaaAkogpWF6r/N7/1Mu47UmAukf9x23dLZ5csKxy9aAeZX/T63xtSE
+	N6djfcqdipOVWR9iCVP1pcSrKEhQPmrsX5SpQJ1IA+AEFOxtGlQRtZNfd3ms8A==
+Date: Mon, 17 Jul 2023 15:49:42 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: soumya.sambu@windriver.com
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com,
-	Hari.GPillai@windriver.com
-Subject: Re: [oe-core][PATCH 1/1] perl: Fix CVE-2023-31486
-Message-ID: <202307171344550a4050ec@mail.local>
-References: <20230714032510.1727852-1-soumya.sambu@windriver.com>
+To: Heiko <heiko.thole@entwicklung.eq-3.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] wic: Add dependencies for erofs-utils
+Message-ID: <202307171349425149c051@mail.local>
+References: <20230717044449.11556-1-heiko.thole@entwicklung.eq-3.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230714032510.1727852-1-soumya.sambu@windriver.com>
+In-Reply-To: <20230717044449.11556-1-heiko.thole@entwicklung.eq-3.de>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 13:45:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184466
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 13:49:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184467
 
 Hello,
 
-you pressed y instead of enter when git asked you what wharset to use,
-so the patch doesn't apply. Can you resend?
+Commit 68e364340c43 ("wic: Add dependencies for erofs-utils") has
+already done so for a while, maybe you want a backport instead?
 
-
-On 14/07/2023 03:25:10+0000, Soumya via lists.openembedded.org wrote:
-> HTTP::Tiny before 0.083, a Perl core module since 5.13.9 and available
-> standalone on CPAN, has an insecure default TLS configuration where
-> users must opt in to verify certificates.
+On 17/07/2023 06:44:49+0200, Heiko wrote:
+> In order to build erofs filesystems, wic must have the erofs-utils package installed into its sysroot.
 > 
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-31486
-> 
-> Upstream patches:
-> https://github.com/chansen/p5-http-tiny/commit/77f557ef84698efeb6eed04e4a9704eaf85b741d
-> https://github.com/chansen/p5-http-tiny/commit/a22785783b17cbaa28afaee4a024d81a1903701d
-> 
-> Signed-off-by: Soumya <soumya.sambu@windriver.com>
+> Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
 > ---
->  .../perl/files/CVE-2023-31486-0001.patch      | 217 ++++++++++++++++++
->  .../perl/files/CVE-2023-31486-0002.patch      |  36 +++
->  meta/recipes-devtools/perl/perl_5.36.1.bb     |   2 +
->  3 files changed, 255 insertions(+)
->  create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
->  create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
+>  meta/classes/image_types_wic.bbclass | 2 +-
+>  meta/recipes-core/meta/wic-tools.bb  | 2 +-
+>  scripts/lib/wic/misc.py              | 1 +
+>  3 files changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch b/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
-> new file mode 100644
-> index 0000000000..1074e0848d
-> --- /dev/null
-> +++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
-> @@ -0,0 +1,217 @@
-> +From 77f557ef84698efeb6eed04e4a9704eaf85b741d
-> +From: Stig Palmquist <git@stig.io>
-> +Date: Mon Jun 5 16:46:22 2023 +0200
-> +Subject: [PATCH] Change verify_SSL default to 1, add ENV var to enable
-> + insecure default
-> +
-> +- Changes the `verify_SSL` default parameter from `0` to `1`
-> +
-> +  Based on patch by Dominic Hargreaves:
-> +  https://salsa.debian.org/perl-team/interpreter/perl/-/commit/1490431e40e22052f75a0b3449f1f53cbd27ba92
-> +
-> +  CVE: CVE-2023-31486
-> +
-> +- Add check for `$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}` that
-> +  enables the previous insecure default behaviour if set to `1`.
-> +
-> +  This provides a workaround for users who encounter problems with the
-> +  new `verify_SSL` default.
-> +
-> +  Example to disable certificate checks:
-> +  ```
-> +    $ PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT=1 ./script.pl
-> +  ```
-> +
-> +- Updates to documentation:
-> +  - Describe changing the verify_SSL value
-> +  - Describe the escape-hatch environment variable
-> +  - Remove rationale for not enabling verify_SSL
-> +  - Add missing certificate search paths
-> +  - Replace "SSL" with "TLS/SSL" where appropriate
-> +  - Use "machine-in-the-middle" instead of "man-in-the-middle"
-> +
-> +Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commit/77f557ef84698efeb6eed04e4a9704eaf85b741d]
-> +
-> +Signed-off-by: Soumya <soumya.sambu@windriver.com>
-> +---
-> + cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 86 ++++++++++++++++++++++-----------
-> + 1 file changed, 57 insertions(+), 29 deletions(-)
-> +
-> +diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> +index 83ca06d..ebc34a1 100644
-> +--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> ++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> +@@ -40,10 +40,14 @@ sub _croak { require Carp; Carp::croak(@_) }
-> + #pod * C<timeout> — Request timeout in seconds (default is 60) If a socket open,
-> + #pod   read or write takes longer than the timeout, the request response status code
-> + #pod   will be 599.
-> +-#pod * C<verify_SSL> — A boolean that indicates whether to validate the SSL
-> +-#pod   certificate of an C<https> — connection (default is false)
-> ++#pod * C<verify_SSL> — A boolean that indicates whether to validate the TLS/SSL
-> ++#pod   certificate of an C<https> — connection (default is true). Changed from false
-> ++#pod   to true in version 0.083.
-> + #pod * C<SSL_options> — A hashref of C<SSL_*> — options to pass through to
-> + #pod   L<IO::Socket::SSL>
-> ++#pod * C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}> - Changes the default
-> ++#pod   certificate verification behavior to not check server identity if set to 1.
-> ++#pod   Only effective if C<verify_SSL> is not set. Added in version 0.083.
-> + #pod
-> + #pod An accessor/mutator method exists for each attribute.
-> + #pod
-> +@@ -111,11 +115,17 @@ sub timeout {
-> + sub new {
-> +     my($class, %args) = @_;
-> +
-> ++    # Support lower case verify_ssl argument, but only if verify_SSL is not
-> ++    # true.
-> ++    if ( exists $args{verify_ssl} ) {
-> ++        $args{verify_SSL}  ||= $args{verify_ssl};
-> ++    }
-> ++
-> +     my $self = {
-> +         max_redirect => 5,
-> +         timeout      => defined $args{timeout} ? $args{timeout} : 60,
-> +         keep_alive   => 1,
-> +-        verify_SSL   => $args{verify_SSL} || $args{verify_ssl} || 0, # no verification by default
-> ++        verify_SSL   => defined $args{verify_SSL} ? $args{verify_SSL} : _verify_SSL_default(),
-> +         no_proxy     => $ENV{no_proxy},
-> +     };
-> +
-> +@@ -134,6 +144,13 @@ sub new {
-> +     return $self;
-> + }
-> +
-> ++sub _verify_SSL_default {
-> ++    my ($self) = @_;
-> ++    # Check if insecure default certificate verification behaviour has been
-> ++    # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT=1
-> ++    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? 0 : 1;
-> ++}
-> ++
-> + sub _set_proxies {
-> +     my ($self) = @_;
-> +
-> +@@ -1055,7 +1072,7 @@ sub new {
-> +         timeout          => 60,
-> +         max_line_size    => 16384,
-> +         max_header_lines => 64,
-> +-        verify_SSL       => 0,
-> ++        verify_SSL       => HTTP::Tiny::_verify_SSL_default(),
-> +         SSL_options      => {},
-> +         %args
-> +     }, $class;
-> +@@ -2043,11 +2060,11 @@ proxy
-> + timeout
-> + verify_SSL
-> +
-> +-=head1 SSL SUPPORT
-> ++=head1 TLS/SSL SUPPORT
-> +
-> + Direct C<https> connections are supported only if L<IO::Socket::SSL> 1.56 or
-> + greater and L<Net::SSLeay> 1.49 or greater are installed. An error will occur
-> +-if new enough versions of these modules are not installed or if the SSL
-> ++if new enough versions of these modules are not installed or if the TLS
-> + encryption fails. You can also use C<HTTP::Tiny::can_ssl()> utility function
-> + that returns boolean to see if the required modules are installed.
-> +
-> +@@ -2055,7 +2072,7 @@ An C<https> connection may be made via an C<http> proxy that supports the CONNEC
-> + command (i.e. RFC 2817).  You may not proxy C<https> via a proxy that itself
-> + requires C<https> to communicate.
-> +
-> +-SSL provides two distinct capabilities:
-> ++TLS/SSL provides two distinct capabilities:
-> +
-> + =over 4
-> +
-> +@@ -2069,24 +2086,17 @@ Verification of server identity
-> +
-> + =back
-> +
-> +-B<By default, HTTP::Tiny does not verify server identity>.
-> +-
-> +-Server identity verification is controversial and potentially tricky because it
-> +-depends on a (usually paid) third-party Certificate Authority (CA) trust model
-> +-to validate a certificate as legitimate.  This discriminates against servers
-> +-with self-signed certificates or certificates signed by free, community-driven
-> +-CA's such as L<CAcert.org|http://cacert.org>.
-> ++B<By default, HTTP::Tiny verifies server identity>.
-> +
-> +-By default, HTTP::Tiny does not make any assumptions about your trust model,
-> +-threat level or risk tolerance.  It just aims to give you an encrypted channel
-> +-when you need one.
-> ++This was changed in version 0.083 due to security concerns. The previous default
-> ++behavior can be enabled by setting C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}>
-> ++to 1.
-> +
-> +-Setting the C<verify_SSL> attribute to a true value will make HTTP::Tiny verify
-> +-that an SSL connection has a valid SSL certificate corresponding to the host
-> +-name of the connection and that the SSL certificate has been verified by a CA.
-> +-Assuming you trust the CA, this will protect against a L<man-in-the-middle
-> +-attack|http://en.wikipedia.org/wiki/Man-in-the-middle_attack>.  If you are
-> +-concerned about security, you should enable this option.
-> ++Verification is done by checking that that the TLS/SSL connection has a valid
-> ++certificate corresponding to the host name of the connection and that the
-> ++certificate has been verified by a CA. Assuming you trust the CA, this will
-> ++protect against L<machine-in-the-middle
-> ++attacks|http://en.wikipedia.org/wiki/Machine-in-the-middle_attack>.
-> +
-> + Certificate verification requires a file containing trusted CA certificates.
-> +
-> +@@ -2094,9 +2104,7 @@ If the environment variable C<SSL_CERT_FILE> is present, HTTP::Tiny
-> + will try to find a CA certificate file in that location.
-> +
-> + If the L<Mozilla::CA> module is installed, HTTP::Tiny will use the CA file
-> +-included with it as a source of trusted CA's.  (This means you trust Mozilla,
-> +-the author of Mozilla::CA, the CPAN mirror where you got Mozilla::CA, the
-> +-toolchain used to install it, and your operating system security, right?)
-> ++included with it as a source of trusted CA's.
-> +
-> + If that module is not available, then HTTP::Tiny will search several
-> + system-specific default locations for a CA certificate file:
-> +@@ -2115,13 +2123,33 @@ system-specific default locations for a CA certificate file:
-> +
-> + /etc/ssl/ca-bundle.pem
-> +
-> ++=item *
-> ++
-> ++/etc/openssl/certs/ca-certificates.crt
-> ++
-> ++=item *
-> ++
-> ++/etc/ssl/cert.pem
-> ++
-> ++=item *
-> ++
-> ++/usr/local/share/certs/ca-root-nss.crt
-> ++
-> ++=item *
-> ++
-> ++/etc/pki/tls/cacert.pem
-> ++
-> ++=item *
-> ++
-> ++/etc/certs/ca-certificates.crt
-> ++
-> + =back
-> +
-> + An error will be occur if C<verify_SSL> is true and no CA certificate file
-> + is available.
-> +
-> +-If you desire complete control over SSL connections, the C<SSL_options> attribute
-> +-lets you provide a hash reference that will be passed through to
-> ++If you desire complete control over TLS/SSL connections, the C<SSL_options>
-> ++attribute lets you provide a hash reference that will be passed through to
-> + C<IO::Socket::SSL::start_SSL()>, overriding any options set by HTTP::Tiny. For
-> + example, to provide your own trusted CA file:
-> +
-> +@@ -2131,7 +2159,7 @@ example, to provide your own trusted CA file:
-> +
-> + The C<SSL_options> attribute could also be used for such things as providing a
-> + client certificate for authentication to a server or controlling the choice of
-> +-cipher used for the SSL connection. See L<IO::Socket::SSL> documentation for
-> ++cipher used for the TLS/SSL connection. See L<IO::Socket::SSL> documentation for
-> + details.
-> +
-> + =head1 PROXY SUPPORT
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch b/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
-> new file mode 100644
-> index 0000000000..45452be389
-> --- /dev/null
-> +++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
-> @@ -0,0 +1,36 @@
-> +From a22785783b17cbaa28afaee4a024d81a1903701d
-> +From: Stig Palmquist <git@stig.io>
-> +Date: Sun Jun 18 11:36:05 2023 +0200
-> +Subject: [PATCH] Fix incorrect env var name for verify_SSL default
-> +
-> +The variable to override the verify_SSL default differed slightly in the
-> +documentation from what was checked for in the code.
-> +
-> +This commit makes the code use `PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT`
-> +as documented, instead of `PERL_HTTP_TINY_INSECURE_BY_DEFAULT` which was
-> +missing `SSL_`
-> +
-> +CVE: CVE-2023-31486
-> +
-> +Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commit/a22785783b17cbaa28afaee4a024d81a1903701d]
-> +
-> +Signed-off-by: Soumya <soumya.sambu@windriver.com>
-> +---
-> + cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> +index ebc34a1..65ac8ff 100644
-> +--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> ++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-> +@@ -148,7 +148,7 @@ sub _verify_SSL_default {
-> +     my ($self) = @_;
-> +     # Check if insecure default certificate verification behaviour has been
-> +     # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT=1
-> +-    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? 0 : 1;
-> ++    return (($ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT} || '') eq '1') ? 0 : 1;
-> + }
-> +
-> + sub _set_proxies {
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/perl/perl_5.36.1.bb b/meta/recipes-devtools/perl/perl_5.36.1.bb
-> index 3db1d9c6ae..87768cc7f7 100644
-> --- a/meta/recipes-devtools/perl/perl_5.36.1.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.36.1.bb
-> @@ -18,6 +18,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
->             file://determinism.patch \
->             file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
->             file://CVE-2023-31484.patch \
-> +           file://CVE-2023-31486-0001.patch \
-> +           file://CVE-2023-31486-0002.patch \
+> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+> index 6453dd1b74..8497916d48 100644
+> --- a/meta/classes/image_types_wic.bbclass
+> +++ b/meta/classes/image_types_wic.bbclass
+> @@ -83,7 +83,7 @@ do_image_wic[recrdeptask] += "do_deploy"
+>  do_image_wic[deptask] += "do_image_complete"
+> 
+>  WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+> -WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
+> +WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+>  # Unified kernel images need objcopy
+>  WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
+>  WKS_FILE_DEPENDS_BOOTLOADERS = ""
+> diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+> index daaf3ea576..9282d36a4d 100644
+> --- a/meta/recipes-core/meta/wic-tools.bb
+> +++ b/meta/recipes-core/meta/wic-tools.bb
+> @@ -6,7 +6,7 @@ DEPENDS = "\
+>             parted-native gptfdisk-native dosfstools-native \
+>             mtools-native bmap-tools-native grub-native cdrtools-native \
+>             btrfs-tools-native squashfs-tools-native pseudo-native \
+> -           e2fsprogs-native util-linux-native tar-native \
+> +           e2fsprogs-native util-linux-native tar-native erofs-utils-native \
+>             virtual/${TARGET_PREFIX}binutils \
 >             "
->  SRC_URI:append:class-native = " \
->             file://perl-configpm-switch.patch \
-> -- 
-> 2.40.0
+>  DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
+> diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+> index a8aab6c524..2b90821b30 100644
+> --- a/scripts/lib/wic/misc.py
+> +++ b/scripts/lib/wic/misc.py
+> @@ -36,6 +36,7 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
+>                    "mkdosfs": "dosfstools",
+>                    "mkisofs": "cdrtools",
+>                    "mkfs.btrfs": "btrfs-tools",
+> +                  "mkfs.erofs": "erofs-utils",
+>                    "mkfs.ext2": "e2fsprogs",
+>                    "mkfs.ext3": "e2fsprogs",
+>                    "mkfs.ext4": "e2fsprogs",
+> --
+> 2.41.0
 > 
+> eQ-3 Entwicklung GmbH, Maiburger Str. 36, 26789 Leer
+> Gesch?ftsf?hrer: Prof. Heinz-G. Redeker
+> Registergericht: Amtsgericht Aurich, HRB 110388
+> eQ-3 AG, Maiburger Str. 29, 26789 Leer
+> Vorstand: Prof. Heinz-G. Redeker (Vorsitzender), Helga Redeker
+> Vorsitzende des Aufsichtsrats: Irmgard Keplin
+> Registergericht: Amtsgericht Aurich, HRB 200335
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#184250): https://lists.openembedded.org/g/openembedded-core/message/184250
-> Mute This Topic: https://lists.openembedded.org/mt/100134685/3617179
+> View/Reply Online (#184427): https://lists.openembedded.org/g/openembedded-core/message/184427
+> Mute This Topic: https://lists.openembedded.org/mt/100189195/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
