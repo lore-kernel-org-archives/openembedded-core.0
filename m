@@ -1,99 +1,192 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E65D0EB64DC
-	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 12:39:36 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7135.1689597571506434024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08651EB64DC
+	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 12:46:27 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.7142.1689597984914098070
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 05:39:31 -0700
+ Mon, 17 Jul 2023 05:46:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=RgACH2rH;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6562d3e638=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36H9pOe1028539
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 12:39:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=rmkFE
-	Zcus+4ctomGjJnazApBRuG4N2+IKrNOMtfSloA=; b=RgACH2rHT2LOYZc2VhOP/
-	ZHa6lGXkRY64XKjlf/7Ttbb4RAiZNwFWSdDd1lPwTHHq3SNsxDSc6Ey8HTZhppBr
-	YJU+qYgIspyWJXnDrfcSB0PpS0e7JhJQDn9oobGy9DzWgmM2vtTadXxONJhZULJU
-	39W5ZvxiRQBZE2/hN2hNjJwQ1UGu7r13jee1Jz4eyhJk8So2joEjTbHcWDEm2xw/
-	ShuHFW5sVkQiOXICcktY4XjX9uOhjl4XZQ8rn78NC/yFxOCw4WFd/wgLay7Gm6eP
-	PMeXQYEgZfULZYlmsvi8LgMLhPL8QrZXxj/6ez31+HTodjXgxoSZmNhVcjmaPMTf
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run8a9hn3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 12:39:30 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 17 Jul 2023 05:39:27 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] vim: upgrade 9.0.1527 -> 9.0.1592
-Date: Mon, 17 Jul 2023 12:39:14 +0000
-Message-ID: <20230717123914.3298416-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=F/1e/syR;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6B6E7FF803;
+	Mon, 17 Jul 2023 12:46:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689597983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rmYlxMq3ISCk1YR+qbT0PrPxyu9PLLf8vFPPlmuyTc8=;
+	b=F/1e/syRF9W0NoIAKW/rnVurP68xcSUnacMtPWHvRt5x7a4R4VYMazXHg49M/TCjfOpF8G
+	yPjXO9fO3YEpPrPlhm/V9N0/H0Rv14RhH9Cmxy1xaZxBDnUlA6wmVDfg+yklNIsw/k9gx9
+	VAO85XKU18W6fTsasgzC+/FeFyNTZ53ZwYNLKMlsD4Mc3u2qQa7RjMLH6SvEYXLj3OkMrl
+	CWwM4RXVxAvyvnd7eTHcZ24RqjSNM80CYW+BxGNlnWzoKpMO6fP2w+SaLURA9LD3G+j5Yw
+	j/OVpvjnLRbf9Q/oT2aaMbCNLksH7tJNWtIU66VYB9Yc6d4Wx0OnMwxYQXwphQ==
+Date: Mon, 17 Jul 2023 14:46:21 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
+Subject: Re: [OE-core] [PATCH v3] qemu: Add qemu-common package
+Message-ID: <202307171246212fd06366@mail.local>
+References: <E57733DA-39D3-494F-A91D-9AA8306DBDAB@arm.com>
+ <20230710103218.3834001-1-mingli.yu@eng.windriver.com>
+ <2023071611474165f97b23@mail.local>
+ <919cae59-a542-5a51-e70e-164b5306eb41@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: 9TUqoa4HNmcb8BJanrqvWx00nqdu12n3
-X-Proofpoint-ORIG-GUID: 9TUqoa4HNmcb8BJanrqvWx00nqdu12n3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_10,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=552 clxscore=1015 adultscore=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307170114
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <919cae59-a542-5a51-e70e-164b5306eb41@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 12:39:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184462
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 12:46:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184463
 
-From: Trevor Gamblin <tgamblin@baylibre.com>
+On 17/07/2023 15:10:35+0800, Yu, Mingli wrote:
+> Hi Alex,
+> 
+> On 7/16/23 19:47, Alexandre Belloni wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> > 
+> > Hello,
+> > 
+> > This causes the following meta-mingw error on the AB:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/7501/steps/12/logs/stdio
+> 
+> I didn't find the core-image-mingw-sdktest recipe which I noticed in the
+> above log, so I cannot reproduce the issue as you mentioned.
 
-Fixes:
+As stated above, this is part of meta-mingw:
 
-https://nvd.nist.gov/vuln/detail/CVE-2023-2609
-d1ae836 patch 9.0.1531: crash when register contents ends up being invalid
-https://nvd.nist.gov/vuln/detail/CVE-2023-2610
-ab9a2d8 patch 9.0.1532: crash when expanding "~" in substitute causes very long text
+https://git.yoctoproject.org/meta-mingw/tree/recipes-core/images?h=master-next
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Thanks,
+> 
+> > 
+> > This is due to the added native-sdk dependency.
+> > 
+> > On 10/07/2023 18:32:18+0800, Yu, Mingli wrote:
+> > > From: Mingli Yu <mingli.yu@windriver.com>
+> > > 
+> > > We split the qemu package [1] to add support to make user can install
+> > > one qemu arch emulation rpm to ease the concerns who care much about
+> > > the rpm size in embedded device.
+> > > 
+> > > But for the user who only install the qemu-*.rpm can't do anything
+> > > except they install the qemu emulation rpm like qemu-system-x86-64-*.rpm
+> > > explicitly.
+> > > 
+> > > So add qemu-common package to package all thing into qemu-common when
+> > > not split the package, and package only the basic into qemu-common and
+> > > other arch related to each qemu arch emulation rpm when split the package
+> > > to fix the backward compatibility.
+> > > 
+> > > qenu-*.rpm which is meta package rdepends on qemu-common and the available
+> > > qemu arch emulation rpm like qemu-system-x86-64-*.rpm and etc.
+> > > 
+> > > [1] https://git.openembedded.org/openembedded-core/commit/?id=893846ead7ee54d53e9076150cd655e0c8bca5db
+> > > 
+> > > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> > > ---
+> > >   meta/recipes-devtools/qemu/qemu.inc      | 23 ++++++++++++-----------
+> > >   meta/recipes-devtools/qemu/qemu_8.0.0.bb |  3 ++-
+> > >   2 files changed, 14 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> > > index a5bdeef66d..94624163d0 100644
+> > > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > > @@ -226,15 +226,18 @@ PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
+> > >   PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
+> > >   PACKAGECONFIG[debuginfo] = "--enable-libdw,--disable-libdw,elfutils"
+> > > 
+> > > -INSANE_SKIP:${PN} = "arch"
+> > > +INSANE_SKIP:${PN}-common = "arch"
+> > > 
+> > >   FILES:${PN} += "${datadir}/icons"
+> > > 
+> > >   # For user who want to install all arch packages
+> > > -PACKAGES =+ "${PN}-system-all ${PN}-user-all"
+> > > +PACKAGES =+ "${PN}-common"
+> > > +RDEPENDS:${PN} += "${PN}-common"
+> > > 
+> > > -ALLOW_EMPTY:${PN}-system-all = "1"
+> > > -ALLOW_EMPTY:${PN}-user-all = "1"
+> > > +ALLOW_EMPTY:${PN} = "1"
+> > > +FILES:${PN} = ""
+> > > +
+> > > +FILES:${PN}-common = "${bindir}/* ${includedir}/* ${libexecdir}/* ${datadir}/* ${localstatedir}"
+> > > 
+> > >   PACKAGES_DYNAMIC += "^${PN}-user-.*  ^${PN}-system-.*"
+> > > 
+> > > @@ -242,15 +245,13 @@ PACKAGESPLITFUNCS =+ "split_qemu_packages"
+> > > 
+> > >   python split_qemu_packages () {
+> > >       archdir = d.expand('${bindir}/')
+> > > -    syspackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True)
+> > > -    if syspackages:
+> > > -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.join(syspackages))
+> > > +    subpackages = do_split_packages(d, archdir, r'^qemu-system-(.*)$', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
+> > > 
+> > > -    userpackages = do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True)
+> > > -    if userpackages:
+> > > -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(userpackages))
+> > > +    subpackages += do_split_packages(d, archdir, r'^qemu-((?!system|edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU full user emulation binaries(%s)' , prepend=True, extra_depends='${PN}-common')
+> > > +    if subpackages:
+> > > +        d.appendVar('RDEPENDS:' + d.getVar('PN'), ' ' + ' '.join(subpackages))
+> > >       mipspackage = d.getVar('PN') + "-user-mips"
+> > > -    if mipspackage in ' '.join(userpackages):
+> > > +    if mipspackage in ' '.join(subpackages):
+> > >           d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREFIX") + 'bash')
+> > >   }
+> > > 
+> > > diff --git a/meta/recipes-devtools/qemu/qemu_8.0.0.bb b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> > > index 42e133967e..412c2bc7f0 100644
+> > > --- a/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> > > +++ b/meta/recipes-devtools/qemu/qemu_8.0.0.bb
+> > > @@ -8,7 +8,8 @@ DEPENDS:append:libc-musl = " libucontext"
+> > > 
+> > >   CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
+> > > 
+> > > -RDEPENDS:${PN}:class-target += "bash"
+> > > +RDEPENDS:${PN}-common:class-target += "bash"
+> > > +RDEPENDS:${PN}-common:class-nativesdk += "bash"
+> > > 
+> > >   EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
+> > >   EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
+> > > --
+> > > 2.25.1
+> > > 
+> > 
+> > > 
+> > > 
+> > > 
+> > 
+> > 
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index e1d2563316..33ae0d8079 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1527"
--SRCREV = "c28e7a2b2f23dbd246a1ad7ad7aaa6f7ab2e5887"
-+PV .= ".1592"
-+SRCREV = "29b4c513b11deb37f0e0538df53d195f602fa42c"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184431): https://lists.openembedded.org/g/openembedded-core/message/184431
+> Mute This Topic: https://lists.openembedded.org/mt/100054994/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.40.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
