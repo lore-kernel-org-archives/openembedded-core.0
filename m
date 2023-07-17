@@ -1,606 +1,449 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BEAEB64DC
-	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 21:45:47 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.438.1689630345081797005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 570F7EB64DC
+	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 23:21:04 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.586.1689636057260963537
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 14:45:45 -0700
+ Mon, 17 Jul 2023 16:20:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=BseQPVka;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b9c368f4b5so39075075ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 14:45:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689630344; x=1692222344;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KGicoQCwaRKdgkqAWB34uqi9iZmUUc+mkTglKtAsV/w=;
-        b=BseQPVkacaLxyixlTyUVMQEODIRptE7v5JydaM30QvGYuoosmKc2wTyxdcUm/2hSMx
-         xBR3WRLiiWNEbNNU5O85Nl7UVJ++GcnZHIdaPqhXdoYc8m5Qcyu1HGFPWu7GFtA9J6GI
-         97VNjlf6zPbtNIfLLzGKVHf7DIbydpR25ZSYSWUJ/7Vrd8QXZhJCY+G31iA8OxyPtWkD
-         XLYAihD4oqdYbiSL5rD2dUmTu14YXJY4hh2QBhgbSbEco0b19nqTkVLGwoPsQ95OZk3u
-         pbEQV05YmFWFfPf7VHB8E+E4P2LzNv6b0P3/ogAxw6rnFzwAXfQ9LF3R01Vk1jdbcbhP
-         ddAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689630344; x=1692222344;
-        h=content-language:thread-index:mime-version:message-id:date:subject
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KGicoQCwaRKdgkqAWB34uqi9iZmUUc+mkTglKtAsV/w=;
-        b=PSp13N5Wr08HrTQLXv2BzTBQNaQSbUe4aYn5kDxCcFwhE+e6uWNgwQkDc375SOO8Cw
-         BNX/FXIUBSxcxmQjGnv5f7D9zRVYVhCpQLQ7uIjODLzaDDOqed8nPoWQ2xHPhAlcqQ6G
-         q4CZcTF5RbyXbP/lSIZ0YEsA48lfv6fTlFmt2d00fC6tmz4dni2aj+EFlj6qgJiNa0VO
-         Dj+SApH8XF7qfl2Z2T2MP5EGvZylwgHHBwRensEfQ/5xQsRMwcGlnsvJUAwN0u86b5wr
-         NZX+NBsw+Ogs8mT2Ni+hGEpKUQh4a6ZmNsE+udRW4+1VOOqva71DOMmFrrjgoht1O7mG
-         4zow==
-X-Gm-Message-State: ABy/qLbbksgM2IKsL7IxMdS4zGjPHPxOLL7TtZCgj2hBkNWr3J/4AsN4
-	3+gObJnsr18kf7cmjHQ7lsFW/B3nviA=
-X-Google-Smtp-Source: APBJJlHxZJUFZrErBNmXuT/37q9oDAx+GaYNEnS6Zf/16FBGCf0661Rj8q28uSYOkwb03370f91R1Q==
-X-Received: by 2002:a17:902:ab5e:b0:1b8:7613:594d with SMTP id ij30-20020a170902ab5e00b001b87613594dmr12060302plb.24.1689630344064;
-        Mon, 17 Jul 2023 14:45:44 -0700 (PDT)
-Received: from skjolley ([2600:1011:a122:34d2:28e7:9ea4:5bbb:7068])
-        by smtp.gmail.com with ESMTPSA id e11-20020a170902b78b00b001b8a844b023sm300942pls.272.2023.07.17.14.45.42
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jul 2023 14:45:43 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Current high bug count owners for Yocto Project 4.3
-Date: Mon, 17 Jul 2023 14:45:42 -0700
-Message-ID: <0b2701d9b8f8$094ef530$1becdf90$@gmail.com>
-MIME-Version: 1.0
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=m6c+ORaP;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6562a20ac9=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36HMNRi8004234
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 23:20:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-type:message-id:date:subject:to:cc:references:from
+	:in-reply-to:mime-version; s=PPS06212021; bh=w2/knY4hvNiO2bRJAjd
+	JGUnSPStKbJ47YEVJinn7zlk=; b=m6c+ORaP7uJl7m78V8q+ROKLjq84fMyrtCa
+	4TCM8vdL2YeEMVtsXU/88hs14Pk3pjStlGjf75PKLgTOLdL33JupM848qHTw0UiD
+	QWh8k5tooQQYQK+d1IFncRIR02khuPU0Q1pB8n0T50bxFr27qzkF2FYCmtEaH9Be
+	alPqMZkDSJPhK+Ria68CWZdCBWokl1khWxzxTslxAHkcI9hbVj68PuBRG+cqgeGI
+	gMaG9MiYIhAz5oUcm9P9BaolGiLsIT1WNhPaORJ4GTsk6hi4wvWpqNqPlIO9l03w
+	M4TMqvOibNAIxgcvAvuWtUzcB+DnATVxVhD757Az1nvgOd01S8A==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run8aa1g0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 23:20:56 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 36HNKtAg016639;
+	Mon, 17 Jul 2023 23:20:55 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run8aa1fu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Jul 2023 23:20:55 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bzYybJGyl+LppJciGe78/jUeQcAhJiQxWpQcltLAXSIeFDFpCqp+dNdYNwpSAHngdi2bEGKDoIPdxn9S8YbDxcyOlmBOfSA5M0PLLLCPpyNOglbq+PMee/kriJlmzavnwL01UQu//tYoaMfd4LpHnhHOMXq/B83s7sCilZVxnNCqjfVNxNuVWjSkgoS45/W4XfhmK00Lm2F05eULcnA0uknNrv5LGR3RKR0bjfiRgiz5GHmsnbYJ4oJtg3FIXSR3QY+qy79d8LSX4LJroBiWu+NoECjpct3KP0anWB42Sa2pQQ1ddUTzFqgYD2Jk+RLG+4/2jJcQx8m9KUdr3h/ddA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w2/knY4hvNiO2bRJAjdJGUnSPStKbJ47YEVJinn7zlk=;
+ b=KC9Cu3el8+NsZcglTRm8l/sGnfAEa3aXs3suIBwoPTm1GUdg3u3IWFWEeXrnKQuzBrsAuSJJx09tM1uYSto1SbW7cL5Jb7sBfUcDl3kflACtOay4QrF7c6olZu7eDcjsUPrSkO9zNcYYRWPtkJGeNvDo9JlRAjER3hxp8HXusgSMwT+T1CZnIB5673nlT5aiYQ7dnJb9tvcHiw7jtpUtkSFixqkHwSfTBlJXGv5XA34yhDZccUocsdua+eldiBnC3dONExfV/VHVwoT3xTFJt7D+fUO8GiS1iKLt/eg80NlEw0NR/25eGoY/oRwKG3u0ksqv2FyMg21dIz033f9g5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by CH3PR11MB7844.namprd11.prod.outlook.com (2603:10b6:610:12a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Mon, 17 Jul
+ 2023 23:20:39 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::144:140c:a640:f799]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::144:140c:a640:f799%7]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
+ 23:20:38 +0000
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0B28_01D9B8BD.5CF01D30"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQEajW5PKuYEeW+bKgsAW9ucO5/AKA==
-Content-Language: en-us
+ boundary="------------N3J5NKBRrhQoqn4d1RRFvFaj"
+Message-ID: <b4037c59-84ce-b1c0-c2dc-bd93b43889c4@windriver.com>
+Date: Mon, 17 Jul 2023 19:20:34 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [OE-core] [mickledore][PATCH 0/1] Cherry pick commit from master
+ to update webkitgtk to 2.40.2
+Content-Language: en-CA
+To: steve@sakoman.com, Kai <kai.kang@windriver.com>
+Cc: Kai Kang <kai.kang@eng.windriver.com>,
+        openembedded-core@lists.openembedded.org
+References: <1771AA996BA380BB.28005@lists.openembedded.org>
+ <6dc56bfa-5736-74b5-b13b-ef014a24ce9d@windriver.com>
+ <CAOSpxdZ1Z3=o=TZDubjm00V69H9cibJKuipdSkf513vBbdENJw@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <CAOSpxdZ1Z3=o=TZDubjm00V69H9cibJKuipdSkf513vBbdENJw@mail.gmail.com>
+X-ClientProxiedBy: PH7PR10CA0008.namprd10.prod.outlook.com
+ (2603:10b6:510:23d::14) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|CH3PR11MB7844:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82747721-924e-45bd-19e6-08db871c6e54
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	+0ZsxWIT7z2IulUw76MbErame887wXoqbqqdm2qOY0dhtmBoha2WEAwg0I4mu/fCw4A3eqOYJLXfU21Mx15/j0o24pm5mQsn8GLl15OGxpJ+TFDDdJNud0SMhYyKY7fbQ6KtZfx9UrtzwuDoNGuT5TP8Y1BvxCwFPY0nmq5HAesmxi8xdG8YGKju4d/Uwvi/TCnslAIeT4v6Q8Hy/KI8+1eAuxeaxEpCfFcbyunIT6NnSF/j83osBbNoSou17wxcMaRphGslexv4xb/ECtvImYdsnHUt2TuM7vjif5lwpambzXnJD8Fy0S5pHEv+Qn9XysVKtUENIH40PHD69myU7xmKEo0yuKa7C5yi6zVBcHHpsJi1DafeOnnjW25+sXDOo1jr0pjvEgoRZDHdWshIL+n/Iw5MHETRTcL68iHmhsyfLvcVOQfPHc3vGSMVmuuhaN5d3tT4ZEVNe1V+Cv6WpIdU6vOo+LqsLZVH9SltzE4zILHNa7AaBoeK1aZNixnPzzCyCwvJDVI6jm6MpnFwmNnho9YmcASXjKsVeTp/baOFdx+LRqxQ4tTaGxKaVX/aFON6IYedtO/GDqapyplt8ZVmb56ln0jRNJP/MAEm+22/l1oeao0umKjq5imnt1uR/hmwwHFDl3+G/wtUYjBf+A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(366004)(136003)(396003)(376002)(346002)(451199021)(33964004)(966005)(66899021)(6506007)(53546011)(26005)(38100700002)(66946007)(36756003)(66476007)(66556008)(37006003)(21615005)(5660300002)(31696002)(2906002)(316002)(6636002)(41300700001)(6862004)(4326008)(8676002)(8936002)(86362001)(6486002)(166002)(6512007)(6666004)(478600001)(15650500001)(2616005)(31686004)(83380400001)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZERWeWkzUHhlRGlMVnFucVIzQWEzZXV3Nml0SWYyVTNxZ0cvR2JieitQQ0Fm?=
+ =?utf-8?B?YUcwcmVaeVR1MEVYdGtzbDBTNGVHUm1aR0duS0hyNnd6SDV5ZnV6eEU5cE8z?=
+ =?utf-8?B?ckpMODhzcVJ5NVNqRE4yM0lrNEg1SHN2VXZrNjRxbGhMclJSTkkrd3dEVWlD?=
+ =?utf-8?B?dHBxU292Y1pSbmp1MHlLT05vNEx4ZVV2endIdDZnejYyY1RLWHlINXBhQXN2?=
+ =?utf-8?B?WkZocVZUcG9sS1JNbEdCN3VZbnFRV2ZFQlJXUWFsOHREdFo5Y1F5Q0w5eUMr?=
+ =?utf-8?B?WlN3cGwzS0o4b1JrZDhFTDd1d2tYZDVJN042bCtxdm82R2F4SlowZmdranEw?=
+ =?utf-8?B?eDcrQ2VrYWtNUDhBUXBVZnB0cTRleUlKUVNMVjd4SlplRHc3VEdxOS9FYTVn?=
+ =?utf-8?B?VWRTNjZaZkYvWGlqWkFtY3hzaFI4eU1CSnBZbDZQL3loaXR5S2tvc0VOWFFM?=
+ =?utf-8?B?U21QdjROcDFKamNoNWNJV3habzFmNkljcWRkZy9rb2VMOC9JS20zWGwzaEQ5?=
+ =?utf-8?B?R1ZDYVJpMzduR3dIaXFWSVVQbDZWWUV0Wm5EeTBaem5DYlF4M2dnNElDRU5H?=
+ =?utf-8?B?ZldET2MwSE5zQ2pZLy9YM1haeG8rZ1lYK0w0eDlCVVVvKzRtWlIwS3M1elQw?=
+ =?utf-8?B?OU5COGQ0OWIrc2E5ZjFNeU9ranBwei9nR3ZCOTEydkFmaFNieHZIaVROcTFU?=
+ =?utf-8?B?QXVtWmw0UVprWVAyM0xCbzVJNjd4WndXOElnbkxXNUVsc2xldGtSaWR3bDRv?=
+ =?utf-8?B?MWRBWEdnQkRoSHJSbnZpWnBMeTFLQlBpWURmRm0yWkVGcS9HM0drM09GU3NY?=
+ =?utf-8?B?UXZXVnZhTGRwSGtPcWFPZEJyOW92bDdkeFcweHY0TTVyc2hsMzBrbkpid2Ey?=
+ =?utf-8?B?OHNiaFdWd3piaUNCSUxuMFV2eXVoY252SmcvWlpjMUlFditsT2Y0WGxSODJ4?=
+ =?utf-8?B?V1UvSzBnTE9EN3Y5KzNZVktHeG90bjRITnJoQ2xnSWlXcHVuN01uSXFCcG9w?=
+ =?utf-8?B?SkYva3pSdFlDNitGSkhmUFpqSW9JZTd5dUY5djFRT3BHS3NlRG1ZUlJRTHRu?=
+ =?utf-8?B?QVRPeFR2YklHeUhzdlllbnh4eVRZNTJaYW56TmlYMWQ0ZjhEMU54TWgyd0dZ?=
+ =?utf-8?B?V3Qrb2VBTGV4Z2hnZHEranFDTXk0eDVQVmduN1pobTFEU2JzdmlFYTBEemVZ?=
+ =?utf-8?B?NHNORzZzQlQraThYRmJBQTYzMTVGYUFJeC95SE5UakpQbVpZK21IbkIxVFB5?=
+ =?utf-8?B?T1BXWENkVHZraVo4M28zNmQraWVCWDRWWEpXUEVVUmVsYjhjbDNVbHZ3TzZN?=
+ =?utf-8?B?SFhQUmVWU00vZzhCSm5EU29GR1ZmOFhBdkNQY1JvNFZidC9ZUHk2RW0rN0xv?=
+ =?utf-8?B?RjUxTDdIQVZPU2NYR2RhdjlKVytOZzBmenpXYytxY00wV1U1QlAvbnRUeFpt?=
+ =?utf-8?B?eEZMVGlGTTNOK0wvVEtRaUphT3NMYnZHaFN5eDZzcVhCcjdYelh6K1VkeDhO?=
+ =?utf-8?B?UDYxMzZyNHB5WThFTDUrUUJKcUtTT2Rybm9wLzJrWjJ3ODJGNlYybk03UkpJ?=
+ =?utf-8?B?V1pmYjJCOEh3N1pDQ0p2bUludS8waEJnZmczNEU1S0xud1hFTmYxRXg2R2RF?=
+ =?utf-8?B?YktVSDdHSm50Vjl0SFlReEtLVm9wK2x2ZGJYV2pCUmJIVzUvNUY1RUg3MUtE?=
+ =?utf-8?B?WlF3WkpaT3lsekJBTVhBSkNMQXVzQSswQzRhalNZRzBhbTdFR2g1ODhDbmIz?=
+ =?utf-8?B?bVFmZG9VL0JMRWJMUkViQlVIS1pIc3l0N0lYNFJ6cVdKak4rSnlPeXpTYk10?=
+ =?utf-8?B?WFgxazJaeDlkYXp6NmhQcXhHdWZoVVozWGtpNWZFb2ZQdXBGUFpmWG42NkZL?=
+ =?utf-8?B?b1hCcXBzYjc3RlpmeGVrVG9OU1Y2ajV2Y1Zvdy8wQ0tLdEN6Yno4enpxU1RV?=
+ =?utf-8?B?YWp2bHdQMjlaOU5PKzA1elBER3BsRUxBald6dFpKSWo5cHJVb1Zhbk5ZaTA4?=
+ =?utf-8?B?clJkcHpTUGVwTmQvcWVxeGhxZjhMdWNtZ2FtcHlJdlBxVHJSQmgySjdGMXV0?=
+ =?utf-8?B?c3pFNVplYjBJdkFVL3prazZvb003ZHlRR0JkNFViTER0VldIWVVFQ1I5T0hZ?=
+ =?utf-8?B?VVIwNEJTUWM3UUNuSE9MN1l3cFN0Q1doNHhTTzI0ZTRHTjRuOUtCb08zd0l1?=
+ =?utf-8?B?RWc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82747721-924e-45bd-19e6-08db871c6e54
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 23:20:38.4580
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PiuITc5p460WQzSEM7ifkZmsP7C1OgNUaDImh1HvZYYpvPHKmVhEbErJW2EViULYt7Afm8us1DLnjHJYm3Lsvx4M4YLreypGwrSU4k+uyU0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7844
+X-Proofpoint-GUID: 80pJi9UcpG4JoZlJFOPdIDxza24c8QBN
+X-Proofpoint-ORIG-GUID: 9k8gJ4gx42rn97mB0pmBzSqt9abi0Ri_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=938 clxscore=1011 adultscore=0 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307170212
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 21:45:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184482
-
-This is a multipart message in MIME format.
-
-------=_NextPart_000_0B28_01D9B8BD.5CF01D30
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
-Below is the list as of top 29 bug owners as of the end of WW28 of who have
-open medium or higher bugs and enhancements against YP 4.3. There are 72
-possible work days left until the final release candidates for YP 4.3 needs
-to be released.
-
-
-Who
-
-Count
-
-
-michael.opdenacker@bootlin.com
-
-32
-
-
-ross.burton@arm.com
-
-30
-
-
-david.reyna@windriver.com
-
-25
-
-
-richard.purdie@linuxfoundation.org
-
-24
-
-
-bruce.ashfield@gmail.com
-
-23
-
-
-randy.macleod@windriver.com
-
-20
-
-
-JPEWhacker@gmail.com
-
-11
-
-
-pavel@zhukoff.net
-
-7
-
-
-sakib.sajal@windriver.com
-
-5
-
-
-sundeep.kokkonda@windriver.com
-
-4
-
-
-pidge@pidge.org
-
-4
-
-
-Yash.Shinde@windriver.com
-
-3
-
-
-tim.orling@konsulko.com
-
-3
-
-
-alexis.lothore@bootlin.com
-
-3
-
-
-jon.mason@arm.com
-
-2
-
-
-tvgamblin@gmail.com
-
-1
-
-
-throos@amazon.de
-
-1
-
-
-thomas.perrot@bootlin.com
-
-1
-
-
-steve@sakoman.com
-
-1
-
-
-pokylinux@reliableembeddedsystems.com
-
-1
-
-
-p.lobacz@welotec.com
-
-1
-
-
-Martin.Jansa@gmail.com
-
-1
-
-
-mark.hatle@kernel.crashing.org
-
-1
-
-
-mark.asselstine@windriver.com
-
-1
-
-
-louis.rannou@syslinbit.com
-
-1
-
-
-jens.georg@desy.de
-
-1
-
-
-fathi.boudra@linaro.org
-
-1
-
-
-alexandre.belloni@bootlin.com
-
-1
-
-
-alejandro@enedino.org
-
-1
-
-
-Grand Total
-
-210
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0B28_01D9B8BD.5CF01D30
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0BA5_01D9B30F.F7A27200";
-	charset="us-ascii"
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 23:21:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184483
+
+--------------N3J5NKBRrhQoqn4d1RRFvFaj
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36HMNRi8004234
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal>All,<br><br>Below is the list =
-as of top 29 bug owners as of the end of WW28 of who have open medium or =
-higher bugs and enhancements against YP 4.3. There are 72 possible work =
-days left until the final release candidates for YP 4.3 needs to be =
-released.<o:p></o:p></p><table class=3DMsoNormalTable border=3D0 =
-cellspacing=3D0 cellpadding=3D0 width=3D0 =
-style=3D'border-collapse:collapse'><tr style=3D'height:15.0pt'><td =
-valign=3Dbottom style=3D'border:solid black =
-1.0pt;background:#DBE5F1;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal><b><span =
-style=3D'color:black'>Who</span></b><b><o:p></o:p></b></p></td><td =
-valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-left:none;background:#DBE5F1;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal><b><span =
-style=3D'color:black'>Count</span></b><b><o:p></o:p></b></p></td></tr><tr=
- style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>michael.opdenacker@bootlin.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>32<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>ross.burton@arm.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>30<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>david.reyna@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>25<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>richard.purdie@linuxfoundation.org<o:p></o:p></p></td><=
-td valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>24<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>bruce.ashfield@gmail.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>23<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>randy.macleod@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>20<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>JPEWhacker@gmail.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>11<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>pavel@zhukoff.net<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>7<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>sakib.sajal@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>5<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>sundeep.kokkonda@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>4<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>pidge@pidge.org<o:p></o:p></p></td><td valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>4<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>Yash.Shinde@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>3<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>tim.orling@konsulko.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>3<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>alexis.lothore@bootlin.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>3<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.0pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.0pt'><p =
-class=3DMsoNormal>jon.mason@arm.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.0pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>2<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>tvgamblin@gmail.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>throos@amazon.de<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>thomas.perrot@bootlin.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>steve@sakoman.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>pokylinux@reliableembeddedsystems.com<o:p></o:p></p></t=
-d><td valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>p.lobacz@welotec.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>Martin.Jansa@gmail.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>mark.hatle@kernel.crashing.org<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>mark.asselstine@windriver.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>louis.rannou@syslinbit.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>jens.georg@desy.de<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>fathi.boudra@linaro.org<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>alexandre.belloni@bootlin.com<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;padding:0in 2.25pt 0in 2.25pt;height:15.75pt'><p =
-class=3DMsoNormal>alejandro@enedino.org<o:p></o:p></p></td><td =
-valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'>1<o:p></o:p></p></td></tr><tr =
-style=3D'height:15.75pt'><td valign=3Dbottom style=3D'border:solid black =
-1.0pt;border-top:none;background:#DBE5F1;padding:0in 2.25pt 0in =
-2.25pt;height:15.75pt'><p class=3DMsoNormal><b><span =
-style=3D'color:black'>Grand =
-Total</span></b><b><o:p></o:p></b></p></td><td valign=3Dbottom =
-style=3D'border-top:none;border-left:none;border-bottom:solid black =
-1.0pt;border-right:solid black 1.0pt;background:#DBE5F1;padding:0in =
-2.25pt 0in 2.25pt;height:15.75pt'><p class=3DMsoNormal align=3Dright =
-style=3D'text-align:right'><b><span =
-style=3D'color:black'>210</span></b><b><o:p></o:p></b></p></td></tr></tab=
-le><p class=3DMsoNormal><span =
-style=3D'color:black'>Thanks,</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0B28_01D9B8BD.5CF01D30--
+On 2023-07-17 12:09, Steve Sakoman via lists.openembedded.org wrote:
+> On Sun, Jul 16, 2023 at 3:34=E2=80=AFPM Kai<kai.kang@windriver.com>  wr=
+ote:
+>> On 7/14/23 15:15, Kai Kang wrote:
+>>> From: Kai Kang<kai.kang@windriver.com>
+>>>
+>>> Hi,
+>>>
+>>> I've discussed with webkitgtk maintainers about api compatable issues=
+ on
+>>>
+>>> https://lists.webkit.org/pipermail/webkit-gtk/2023-March/003887.html
+>>>
+>>>> WebKitGTK 2.38.x is backwards compatible with 2.36.x, you can safely=
+ update
+>>> without needing to change applications. In general, we always keep th=
+e API and
+>>> ABI backwards compatible.
+>>>
+>>> Note that the current stable releases (2.40.x) introduce a new API le=
+vel
+>>> when using GTK4, but I suppose this is not a problem because most lik=
+ely you
+>>> are still using GTK3
+>>>
+>>>
+>>> I suggest we apply the update in mickledore too which solves lots of
+>>> CVEs.
+>> Hi Steve,
+>>
+>> I have no idea why the cover-letter is not in the same thread with the
+>> patch.
+>>
+>> So according to the reply from webkitgtk maintainer, would you like to
+>> re-consider
+>> to cherry-pick the commit to mickledore, please?
+> Sorry, still not possible, this is a major release bump that adds
+> features and APIs.  Please see:
+>
+> https://wpewebkit.org/release/wpewebkit-2.40.0.html
 
+We do need to be careful but upstream is saying that:
+
+ =C2=A0 "WebKitGTK 2.40.x is backwards-compatible as well and that will=20
+remain true indefinitely,
+ =C2=A0=C2=A0 as long as you continue to build the same API version [2]. =
+"
+
+I'd like a simple way to measure if that's true but I'm not sure one exis=
+ts.
+
+Kai,
+
+Have you looked at the source diff to understand how upstream is able to=20
+introduce
+a new API yet enable building the old one?
+
+
+Kai, Steve,
+
+Should we investigate using the flags suggested:
+ =C2=A0=C2=A0 "is still possible to build the old 1.0 API using |-USE_SOU=
+P2=3DON|,=20
+or the 1.1 API using |-DENABLE_WPE_1_1_API=3DON|. "
+ =C2=A0 -- https://wpewebkit.org/release/wpewebkit-2.40.0.html
+
+or do we really have to backport patches to 2.38.x ?
+
+../Randy
+
+
+>
+>
+>>> Alexander Kanavin (1):
+>>>     webkitgtk: update 2.38.5 -> 2.40.2
+>>>
+>>>    meta/recipes-gnome/epiphany/epiphany_43.1.bb  |  3 ++
+>>>    ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 +++++++++++++
+>>>    ...44e17d258106617b0e6d783d073b188a2548.patch | 42 ++++++++++++---=
+----
+>>>    ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 +++++++++++++++=
++++
+>>>    ...bb461f040b90453bc4e100dcf967243ecd98.patch | 30 -------------
+>>>    ...ebkitgtk_2.38.5.bb =3D> webkitgtk_2.40.2.bb} | 15 +++++--
+>>>    6 files changed, 111 insertions(+), 48 deletions(-)
+>>>    create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-=
+JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
+>>>    create mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab=
+35258a6da9b13795c9b0f7894bf4.patch
+>>>    delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f04=
+0b90453bc4e100dcf967243ecd98.patch
+>>>    rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb =3D> webkitgt=
+k_2.40.2.bb} (90%)
+>>>
+>>>
+>>>
+>>>
+>> --
+>> Kai Kang
+>> Wind River Linux
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#184474):https://lists.openembedded.org/g/openembed=
+ded-core/message/184474
+>> Mute This Topic:https://lists.openembedded.org/mt/100136728/3616765
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
+[randy.macleod@windriver.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------N3J5NKBRrhQoqn4d1RRFvFaj
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36HMNRi8004234
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2023-07-17 12:09, Steve Sakoman via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:CAOSpxdZ1Z3=3Do=3DTZDubjm00V69H=
+9cibJKuipdSkf513vBbdENJw@mail.gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">On Sun, Jul 16, 2023 at 3:34=
+=E2=80=AFPM Kai <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:kai.kan=
+g@windriver.com">&lt;kai.kang@windriver.com&gt;</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">On 7/14/23 15:15, Kai Kang=
+ wrote:
+</pre>
+        <blockquote type=3D"cite">
+          <pre class=3D"moz-quote-pre" wrap=3D"">From: Kai Kang <a class=3D=
+"moz-txt-link-rfc2396E" href=3D"mailto:kai.kang@windriver.com">&lt;kai.ka=
+ng@windriver.com&gt;</a>
+
+Hi,
+
+I've discussed with webkitgtk maintainers about api compatable issues on
+
+<a class=3D"moz-txt-link-freetext" href=3D"https://lists.webkit.org/piper=
+mail/webkit-gtk/2023-March/003887.html">https://lists.webkit.org/pipermai=
+l/webkit-gtk/2023-March/003887.html</a>
+
+</pre>
+          <blockquote type=3D"cite">
+            <pre class=3D"moz-quote-pre" wrap=3D"">WebKitGTK 2.38.x is ba=
+ckwards compatible with 2.36.x, you can safely update
+</pre>
+          </blockquote>
+          <pre class=3D"moz-quote-pre" wrap=3D"">without needing to chang=
+e applications. In general, we always keep the API and
+ABI backwards compatible.
+
+Note that the current stable releases (2.40.x) introduce a new API level
+when using GTK4, but I suppose this is not a problem because most likely =
+you
+are still using GTK3
+
+
+I suggest we apply the update in mickledore too which solves lots of
+CVEs.
+</pre>
+        </blockquote>
+        <pre class=3D"moz-quote-pre" wrap=3D"">Hi Steve,
+
+I have no idea why the cover-letter is not in the same thread with the
+patch.
+
+So according to the reply from webkitgtk maintainer, would you like to
+re-consider
+to cherry-pick the commit to mickledore, please?
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">Sorry, still not possible, t=
+his is a major release bump that adds
+features and APIs.  Please see:
+
+<a class=3D"moz-txt-link-freetext" href=3D"https://wpewebkit.org/release/=
+wpewebkit-2.40.0.html">https://wpewebkit.org/release/wpewebkit-2.40.0.htm=
+l</a></pre>
+    </blockquote>
+    <p>We do need to be careful but upstream is saying that:</p>
+    <p>&nbsp; &quot;WebKitGTK 2.40.x is backwards-compatible as well and =
+that will
+      remain true indefinitely, <br>
+      &nbsp;&nbsp; as long as you continue to build the same API version =
+[2]. &quot;<br>
+      <br>
+      I'd like a simple way to measure if that's true but I'm not sure
+      one exists.</p>
+    <p>Kai, <br>
+      <br>
+      Have you looked at the source diff to understand how upstream is
+      able to introduce<br>
+      a new API yet enable building the old one?</p>
+    <p><br>
+    </p>
+    <p>Kai, Steve, <br>
+      <br>
+      Should we investigate using the flags suggested:<br>
+      &nbsp;&nbsp; &quot;is still possible to build the
+      old 1.0 API using <code>-USE_SOUP2=3DON</code>, or the 1.1 API
+      using
+      <code>-DENABLE_WPE_1_1_API=3DON</code>. &quot;<br>
+      &nbsp; -- <a class=3D"moz-txt-link-freetext" href=3D"https://wpeweb=
+kit.org/release/wpewebkit-2.40.0.html">https://wpewebkit.org/release/wpew=
+ebkit-2.40.0.html</a><br>
+    </p>
+    <p>or do we really have to backport patches to 2.38.x ?</p>
+    <p>../Randy<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:CAOSpxdZ1Z3=3Do=3DTZDubjm00V69H=
+9cibJKuipdSkf513vBbdENJw@mail.gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+
+
+</pre>
+      <blockquote type=3D"cite">
+        <blockquote type=3D"cite">
+          <pre class=3D"moz-quote-pre" wrap=3D"">Alexander Kanavin (1):
+   webkitgtk: update 2.38.5 -&gt; 2.40.2
+
+  meta/recipes-gnome/epiphany/epiphany_43.1.bb  |  3 ++
+  ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 +++++++++++++
+  ...44e17d258106617b0e6d783d073b188a2548.patch | 42 ++++++++++++-------
+  ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 ++++++++++++++++++
+  ...bb461f040b90453bc4e100dcf967243ecd98.patch | 30 -------------
+  ...ebkitgtk_2.38.5.bb =3D&gt; webkitgtk_2.40.2.bb} | 15 +++++--
+  6 files changed, 111 insertions(+), 48 deletions(-)
+  create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaS=
+criptCore-CMakeLists.txt-ensure-reproduc.patch
+  create mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258=
+a6da9b13795c9b0f7894bf4.patch
+  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b904=
+53bc4e100dcf967243ecd98.patch
+  rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb =3D&gt; webkitgtk_=
+2.40.2.bb} (90%)
+
+
+
+
+</pre>
+        </blockquote>
+        <pre class=3D"moz-quote-pre" wrap=3D"">--
+Kai Kang
+Wind River Linux
+
+</pre>
+        <br>
+        <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+        <pre class=3D"moz-quote-pre" wrap=3D"">-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#184474): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/184474">https:/=
+/lists.openembedded.org/g/openembedded-core/message/184474</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/100136728/3616765">https://lists.openembedded.org/mt=
+/100136728/3616765</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+      </blockquote>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------N3J5NKBRrhQoqn4d1RRFvFaj--
 
