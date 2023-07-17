@@ -1,91 +1,94 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89531C0015E
-	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 08:40:45 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.3910.1689583239229478894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB3C7C3DA40
+	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 09:10:45 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web11.4234.1689585044349536043
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 01:40:39 -0700
+ Mon, 17 Jul 2023 02:10:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=PpPkqCAW;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-666eef03ebdso2673057b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 01:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689583238; x=1692175238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7TS7N/QCw5nqvpx/xuoq7SMYhwTdFGSG8n/X/NPh66Y=;
-        b=PpPkqCAWxoG2or1s+QcCX+/klA70WrE5IrnpKP1Ze2de13D3gjjjEtqymQj6UGum24
-         Ew7gISFZ2bekJm3NY71L0VPzzb+282lExA2HkjzffSknrA+EEixs+E9UwtlIgmwAxc8l
-         f49k30RUFlKHW08GxrlzHotBNVZN8R4jj+THwb7vzLy6vcgW7DxEtH2RXFXasoqe1vps
-         SjwIaoEkESu0yKwFLvx7NEvE4NYsLspbpvW6DSbh4emOakbqwukZqorZvvV+32asK44u
-         K+Y6CI3Coe9tCXvB49RzZljiEMYPxdvn+JW4rJrazxMVMNN4lXYE7AZfGOi+ZP0NgSMs
-         piZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689583238; x=1692175238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7TS7N/QCw5nqvpx/xuoq7SMYhwTdFGSG8n/X/NPh66Y=;
-        b=bfsNIASD8CBUW9p4m7fePtfaP109CLk8rgrR+hMPZzmvzaygWcOnETYxZzHT7rHZkm
-         56Bpui4WCvzTjFbVWlAjtt2S/UboG0Bde6jPtFCJgQQlii7jpNdXeRYigtnWi0AkCVzQ
-         UwKLkhA6HcwT/PWyTgjINMuJ/KR4MUBwWUdfQx6PXrLjFPqV9QcclG7Hv1fAdoOn0Cy3
-         ccmyHTOm5b5l6JW/ne46nUrLPpAupRJQplGdojItKVCPotlTa6E8KXO1/K4RZbm+pk5q
-         OAlJQz0HsE6MyF2vi+Df7nX/y9eypza4yZuA5syOO3HXdsLqhpUFiK2Q6KrIlpvtDZuw
-         NgnQ==
-X-Gm-Message-State: ABy/qLbFODRmX0in3LospY+f4b+SMqYb92epSMfFSHZrq7nBGmaB0nUE
-	2+j4dKAB32AiW2h/sdu7jgL75GwSrR1O8hYT
-X-Google-Smtp-Source: APBJJlG/u5C9wxb7aYshjSwC2kOlUJfZjUp7ZFPxiOmatciMETGGH4qivkham92fh+MRw5+ew8Hrcg==
-X-Received: by 2002:a05:6a20:9146:b0:134:1b21:b2e9 with SMTP id x6-20020a056a20914600b001341b21b2e9mr7418630pzc.21.1689583238160;
-        Mon, 17 Jul 2023 01:40:38 -0700 (PDT)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:148a:d9eb:c4a2:7201])
-        by smtp.gmail.com with ESMTPSA id j25-20020aa783d9000000b00678cb336f3csm11836295pfn.142.2023.07.17.01.40.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 01:40:37 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="104198172"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684767600"; 
+   d="scan'208";a="104198172"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 18:10:41 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id EDD84CA1EB
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:39 +0900 (JST)
+Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 2CC21BF4A5
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:39 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.167.225.33])
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id 2522C2FC8579;
+	Mon, 17 Jul 2023 18:10:38 +0900 (JST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-hypothesis: upgrade 6.80.0 -> 6.81.2
-Date: Mon, 17 Jul 2023 01:40:26 -0700
-Message-Id: <20230717084026.1087836-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] debianutils: upgrade 5.7 -> 5.8
+Date: Mon, 17 Jul 2023 17:10:11 +0800
+Message-Id: <1689585025-23731-5-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1689585025-23731-1-git-send-email-wangmy@fujitsu.com>
+References: <1689585025-23731-1-git-send-email-wangmy@fujitsu.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27756.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27756.006
+X-TMASE-Result: 10-0.552300-10.000000
+X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yZTp3iXK6AMUVxDt4UkDQ+waHE9HUMbAkP44
+	pYPD16CL4CtjYmQpb2kF1Ec/oUIRlVpCIuRr0RxKTuctSpiuWyUUi4Ehat054xHfiujuTbedvO0
+	j+WZ6WbQWm/gAtjCd7OtG0IdqQbIYe4OGWN8bTes7Cl8sx4HBGw1Uei1O+6/rAhn751acftuem2
+	vw+cenKeLzNWBegCW2wgn7iDBesS0nRE+fI6etknWEx0BXcgjwZBQhVhEpeen63ojyN7muvWE+C
+	n3HO5D5F6aIXTrWSrF1iAyCqHaoIBEdD3rGWnr4w2jlACbCMnijkmvtFwHudEu/kTKv9giuqwOH
+	O1Fdn0Kb4tj0DvxRUIs9ro6z1cfchCFNTbTJJtE=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 08:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184436
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 09:10:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184441
 
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-81-2
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-81-1
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+License-Update: Convert to machine-readable format
+
+Changelog:
+=============
+  * Remove constraints unnecessary since buster (oldstable)
+  * Salvage package (Closes: #1038553)
+  * Apply quilt patches from NMUs
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ython3-hypothesis_6.80.0.bb => python3-hypothesis_6.81.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.80.0.bb => python3-hypothesis_6.81.2.bb} (91%)
+ .../debianutils/{debianutils_5.7.bb => debianutils_5.8.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/debianutils/{debianutils_5.7.bb => debianutils_5.8.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.81.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.81.2.bb
-index 82f855d4b7..93bf638759 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.80.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.81.2.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-support/debianutils/debianutils_5.7.bb b/meta/recipes-support/debianutils/debianutils_5.8.bb
+similarity index 93%
+rename from meta/recipes-support/debianutils/debianutils_5.7.bb
+rename to meta/recipes-support/debianutils/debianutils_5.8.bb
+index 7d705c6ff4..fb17d2d24f 100644
+--- a/meta/recipes-support/debianutils/debianutils_5.7.bb
++++ b/meta/recipes-support/debianutils/debianutils_5.8.bb
+@@ -6,12 +6,12 @@ HOMEPAGE = "https://packages.debian.org/sid/debianutils"
+ BUGTRACKER = "https://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=debianutils;dist=unstable"
+ SECTION = "base"
+ LICENSE = "GPL-2.0-only & SMAIL_GPL"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=74765f57ae5dd2b10ffbc39528d98753"
  
--SRC_URI[sha256sum] = "75d74da36fd3837b5b3fe15211dabc7389e78d882bf2c91bab2184ccf91fe64c"
-+SRC_URI[sha256sum] = "e35165a73064370d30d476d7218f600d2bf861ff218192c9e994cb36aa190ae7"
+ SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
+            "
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRCREV = "de14223e5bffe15e374a441302c528ffc1cbed57"
++SRCREV = "69116b856177ceb270908103b5776f897d2863c3"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
 2.34.1
 
