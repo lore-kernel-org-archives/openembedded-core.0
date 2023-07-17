@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC01DC04A94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D62C04E69
 	for <webhook@archiver.kernel.org>; Mon, 17 Jul 2023 09:10:55 +0000 (UTC)
 Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
  by mx.groups.io with SMTP id smtpd.web10.4248.1689585042654153737
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 02:10:51 -0700
+ Mon, 17 Jul 2023 02:10:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="113014155"
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="113014152"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684767600"; 
-   d="scan'208";a="113014155"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 18:10:50 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 800D7DE623
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:48 +0900 (JST)
+   d="scan'208";a="113014152"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 18:10:47 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2F926E4289
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:45 +0900 (JST)
 Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 66D59D5D44
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:47 +0900 (JST)
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 7D94AD20AF
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 18:10:44 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id 882802FC8579;
-	Mon, 17 Jul 2023 18:10:46 +0900 (JST)
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id B239D2FC8579;
+	Mon, 17 Jul 2023 18:10:43 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-importlib-metadata: upgrade 6.7.0 -> 6.8.0
-Date: Mon, 17 Jul 2023 17:10:21 +0800
-Message-Id: <1689585025-23731-15-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-editables: upgrade 0.3 -> 0.4
+Date: Mon, 17 Jul 2023 17:10:18 +0800
+Message-Id: <1689585025-23731-12-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1689585025-23731-1-git-send-email-wangmy@fujitsu.com>
 References: <1689585025-23731-1-git-send-email-wangmy@fujitsu.com>
@@ -37,46 +37,51 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27756.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27756.006
-X-TMASE-Result: 10--0.235500-10.000000
-X-TMASE-MatchedRID: 7cZymtcOvx2jz0nOeth/yQPZZctd3P4BC5HdxA3MwScH8UzOewTxw+79
-	DJRUi35pTQ0JkPG287/mn3xyPJAJogMWCgdCzp+adXu122+iJtpV4BnlVId1nZsoi2XrUn/J8m+
-	hzBStantdY+ZoWiLImydET58jp62S78eWWsCAG6TdhDmB77XadCzH2vlNMR7HUvsGIb2FzOWzxU
-	3DFrx/xxlM8bNinySVcKzn5RaSzMRaOP39r2F7N3YBduKH/QsES7+RMq/2CK6rA4c7UV2fQpvi2
-	PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
+X-TMASE-Result: 10-1.016400-10.000000
+X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/yUIIxwDaU5mrF4r8H5YrEqxYC5LPd7BvbRTV
+	Hawf9wLzwulnsMSzBfgNyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl0fyM5VfgjG2h+t
+	oLLKXwRGBkESMI05d4iiOf1NDnCI+rWL/xQJnm46eAiCmPx4NwGmRqNBHmBveVDC1CbuJXmMqtq
+	5d3cxkNaQDiwjPc96MOu80/sBhTIUwVf8eToLIt9MTN2LZ5aqyfUbzhyz/gvqS6ZUWHSRQSO+/i
+	gkyKwDTrmlefEiErhk1gVRoKj78AAQ5WMx/hWiMU8mdcvbI1h2S6jzjuXTm0MTMzICazP4UehYt
+	aVdyxm8=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 17 Jul 2023 09:10:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184451
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184447
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Features
-==========
-    Require Python 3.8 or later.
+Changelog:
+===========
+ Add a new add_to_subpackage method.
+ Add type annotations.
+ Internal admin: Switch to nox for automation
+ Internal admin: Switch to ruff for linting
+ Internal admin: Switch from setuptools to flit_core
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ib-metadata_6.7.0.bb => python3-importlib-metadata_6.8.0.bb} | 2 +-
+ .../{python3-editables_0.3.bb => python3-editables_0.4.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_6.7.0.bb => python3-importlib-metadata_6.8.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-editables_0.3.bb => python3-editables_0.4.bb} (77%)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-index 5ad7ae81ad..b8dd4bb701 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_6.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb
-@@ -8,7 +8,7 @@ inherit pypi python_setuptools_build_meta
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-devtools/python/python3-editables_0.3.bb b/meta/recipes-devtools/python/python3-editables_0.4.bb
+similarity index 77%
+rename from meta/recipes-devtools/python/python3-editables_0.3.bb
+rename to meta/recipes-devtools/python/python3-editables_0.4.bb
+index b42ff06872..4987b02f0b 100644
+--- a/meta/recipes-devtools/python/python3-editables_0.3.bb
++++ b/meta/recipes-devtools/python/python3-editables_0.4.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=41bc1be47b7bb8240db3ef928c7cb0bf"
  
--SRC_URI[sha256sum] = "1aaf550d4f73e5d6783e7acb77aec43d49da8017410afae93822cc9cca98c4d4"
-+SRC_URI[sha256sum] = "dbace7892d8c0c4ac1ad096662232f831d4e64f4c4545bd53016a3e9d4654743"
+-SRC_URI[sha256sum] = "167524e377358ed1f1374e61c268f0d7a4bf7dbd046c656f7b410cde16161b1a"
++SRC_URI[sha256sum] = "dc322c42e7ccaf19600874035a4573898d88aadd07e177c239298135b75da772"
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.34.1
