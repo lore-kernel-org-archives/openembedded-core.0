@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EBEEB64DC
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 16:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB79C0015E
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 16:01:30 +0000 (UTC)
 Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.11596.1689696079980337254
+ by mx.groups.io with SMTP id smtpd.web11.11603.1689696087558712986
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 09:01:20 -0700
+ Tue, 18 Jul 2023 09:01:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ON4J6/e5;
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ly38kCZ6;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-66c729f5618so5920703b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:01:19 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so3876880b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689696079; x=1692288079;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689696086; x=1692288086;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8R/WRKZG51pueBDh+3F5JQS7ywwe/Hc2MCYLI7m4r2g=;
-        b=ON4J6/e5Lr56XtJCj12oX0TleXxPEsYoqFOHMGTpmHu8ulU+FT5h5ZjCcExHsJ15J2
-         63M3SWLK43qKmIQb93RNenae2f39YqRS3KZWwblwNd6yRk9ok/YEV5w4bQpgYEr/QowR
-         fpYFA9H0tqTIbgbVZiNcHMJmy36ZwaAPmDVpapXktCZUf/hJgDWrWv6Z5C1sM7rDu88P
-         wbfRt2CVC17UobdSoP/Y+jMexWZe+6ovoHVoDJO3aChXBU8R/tX4Q3UATSO69Xd2RnKM
-         d3+kTEmuVQIkv1bKTAlP49f9WGiR7fFVd5LJdIxcI9mvhjK0V5DchmnW3SpyhcDjrqIi
-         htHw==
+        bh=3WlHpxdVi93Uvy53gvhv9CgoAYooIq/b5Mj1caXVW/Y=;
+        b=Ly38kCZ6EqfsklU6OJkjf6nCoUwwzQQgG2+5JLq84THsSkauCUId7k9rwR+qwC4rCn
+         +L8IUp7dBe2q/Fx0hF3gyOJyUvVKdFjjqp3LW/1hLrDCo8/YtWz8gA05l+qYBdHarPt5
+         yvg3wMDae0W0uGJeC2/Q3CCHQ7r33AVQzda1VwoM2zHF3yIKAkAOfXFZN08TEK087SXU
+         Pj/w6Gz1fhBAPnmfxKYmunAYRrhHWnFKEMI05f5CbQ6yyBGzVtH2TykPWMI1bcDbl3ua
+         U92W/ZvSByQvB8UwVIsVy8NNp66cujjdOd+n/1Ttj6mYGcfQ4RTnAUX99eBHqSRXnsX5
+         nRMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689696079; x=1692288079;
+        d=1e100.net; s=20221208; t=1689696086; x=1692288086;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8R/WRKZG51pueBDh+3F5JQS7ywwe/Hc2MCYLI7m4r2g=;
-        b=f5vYokbe2wkRtM5KvNdn1Fwsdb4CU7Ky+SadLek3m+EyHmP/koS34Z/v5bmtwUxJqP
-         vKr23YvHb4ive//tC58a0J6IAucbaikUnL6jItn3Dm2jbuclNOHycF0Jn05dpJmsoToG
-         UHCjHYnHTKrbbqFGQkB2IUnF5bjc4oByM3HHkAMkT25MON1UtC5qcVStHj3eg+6auJU5
-         ahBoeXs2VpGA6XfwDn/0YFoxa/pgBRXPmk9ZVRjC4yeolZCiSRGhLbGCul1Qdn881Huw
-         xMlgkmULiYi2r3QjlMmetysyKyU6BUbtt6yE4WTHWIbJmV+TC4io4csN9NAjGC3Xl8eU
-         7/kA==
-X-Gm-Message-State: ABy/qLZjfKx5luYJBbVTB7vz+QixS3zRjyTTn5PuULprCzpk7yi8j6zR
-	oY3Na0yIuIBk7WnZAJ28M9usVf/rq401tkwxli4=
-X-Google-Smtp-Source: APBJJlFfsdo/t7IA4unrOfq1EQY6R5tPljcuAN+N1Xn/fyayONfjVTcKBv4b/TZOb6Esn2XUfdOVaQ==
-X-Received: by 2002:a05:6a21:3297:b0:134:ecc3:8d04 with SMTP id yt23-20020a056a21329700b00134ecc38d04mr7589875pzb.9.1689696078812;
-        Tue, 18 Jul 2023 09:01:18 -0700 (PDT)
+        bh=3WlHpxdVi93Uvy53gvhv9CgoAYooIq/b5Mj1caXVW/Y=;
+        b=UTLH7dOktMvWs+2Pf8jSRbrYquFUGv8Q28vNvnJK29I0GGWmsEYlDCizNv9IJMOWaC
+         W0U1PV3bS84xqPl64vME09hs78NcKNCM+aXG+IK2qx8Gb0bEw1DWZSO4BLqQrDYtOhWt
+         myCPCwdSgXEsrV82hOfzgMSCpzZUI0r9fHejHkBmKiByz4M1vbZZC18UB57bm4rSYjUd
+         g78uvHLHOfGXVzqm/kTiqWsuP18B9eKeLjHWtbnsJEOG4M5LRnJy7bBIVRskrpxuOaBv
+         t1lNKYUSjXiDOwlBr8gaR+7tXLiAg7S1I3PFxfg2TrD+9Km/6A/hX9MxGnyDlc5EPWfg
+         3mIg==
+X-Gm-Message-State: ABy/qLYgccxcEP2y/3rj7Dfoo4BRtsI6aHZnBgxpSqD9VjBio6Foal5K
+	KGAwOoVvsOnTRFfHDYdBRzpUqb8yG/EGyytM7gk=
+X-Google-Smtp-Source: APBJJlECZqhoDWW6Z3Cq3AD8aMl9g+KrHnH6KGmr/AIXaghXVXQ6s0HVKHACs9qBjCMs1qxsfivgSg==
+X-Received: by 2002:a05:6a00:cd4:b0:668:9bf9:fa70 with SMTP id b20-20020a056a000cd400b006689bf9fa70mr17191179pfv.34.1689696086592;
+        Tue, 18 Jul 2023 09:01:26 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0064928cb5f03sm1710089pfh.69.2023.07.18.09.01.17
+        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0064928cb5f03sm1710089pfh.69.2023.07.18.09.01.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 09:01:18 -0700 (PDT)
+        Tue, 18 Jul 2023 09:01:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/13] go: Fix CVE-2023-29400
-Date: Tue, 18 Jul 2023 06:00:53 -1000
-Message-Id: <02a0e76e04ddbbbb381202d61cbb084333336f38.1689690585.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/13] qemu: backport Debian patch to fix CVE-2023-0330
+Date: Tue, 18 Jul 2023 06:00:56 -1000
+Message-Id: <559327579bcee685c6dc22b7ad5595960aa896c0.1689690585.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689690585.git.steve@sakoman.com>
 References: <cover.1689690585.git.steve@sakoman.com>
@@ -60,134 +60,121 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 16:01:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184539
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 16:01:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184542
 
-From: Ashish Sharma <asharma@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-emit filterFailsafe for empty unquoted attr
-value
+import patch from ubuntu to fix
+ CVE-2023-0330
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches?h=ubuntu/focal-security
+Upstream commit
+https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2023-29400.patch           | 94 +++++++++++++++++++
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-0330.patch             | 77 +++++++++++++++++++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index ea7b9ea80f..33b53b1a34 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -67,6 +67,7 @@ SRC_URI += "\
-     file://CVE-2023-29405-2.patch \
-     file://CVE-2023-29402.patch \
-     file://CVE-2023-29404.patch \
-+    file://CVE-2023-29400.patch \
- "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 8d6c4050f7..352277573b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -137,6 +137,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3409-4.patch \
+            file://CVE-2021-3409-5.patch \
+            file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
++           file://CVE-2023-0330.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
 new file mode 100644
-index 0000000000..092c7aa0ff
+index 0000000000..26e22b4c31
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
-@@ -0,0 +1,94 @@
-+From 0d347544cbca0f42b160424f6bc2458ebcc7b3fc Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Thu, 13 Apr 2023 14:01:50 -0700
-+Subject: [PATCH] html/template: emit filterFailsafe for empty unquoted attr
-+ value
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+@@ -0,0 +1,77 @@
++[Ubuntu note: remove fuzz-lsi53c895a-test.c changes since the file does not
++ exist for this release]
++From b987718bbb1d0eabf95499b976212dd5f0120d75 Mon Sep 17 00:00:00 2001
++From: Thomas Huth <thuth@redhat.com>
++Date: Mon, 22 May 2023 11:10:11 +0200
++Subject: [PATCH] hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI
++ controller (CVE-2023-0330)
 +
-+An unquoted action used as an attribute value can result in unsafe
-+behavior if it is empty, as HTML normalization will result in unexpected
-+attributes, and may allow attribute injection. If executing a template
-+results in a empty unquoted attribute value, emit filterFailsafe
-+instead.
++We cannot use the generic reentrancy guard in the LSI code, so
++we have to manually prevent endless reentrancy here. The problematic
++lsi_execute_script() function has already a way to detect whether
++too many instructions have been executed - we just have to slightly
++change the logic here that it also takes into account if the function
++has been called too often in a reentrant way.
 +
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
++The code in fuzz-lsi53c895a-test.c has been taken from an earlier
++patch by Mauro Matteo Cascella.
 +
-+Fixes #59722
-+Fixes CVE-2023-29400
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1563
++Message-Id: <20230522091011.1082574-1-thuth@redhat.com>
++Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
++Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Thomas Huth <thuth@redhat.com>
 +
-+Change-Id: Ia38d1b536ae2b4af5323a6c6d861e3c057c2570a
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1826631
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/491617
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
++Reference: https://launchpad.net/ubuntu/+source/qemu/1:4.2-3ubuntu6.27
 +
-+Upstream-Status: Backport from [https://github.com/golang/go/commit/0d347544cbca0f42b160424f6bc2458ebcc7b3fc]
-+CVE: CVE-2023-29400
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2023-0330.patch?h=ubuntu/focal-security
++Upstream commit https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
++CVE: CVE-2023-0330
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/html/template/escape.go      |  5 ++---
-+ src/html/template/escape_test.go | 15 +++++++++++++++
-+ src/html/template/html.go        |  3 +++
-+ 3 files changed, 20 insertions(+), 3 deletions(-)
++ hw/scsi/lsi53c895a.c               | 23 +++++++++++++++------
++ tests/qtest/fuzz-lsi53c895a-test.c | 33 ++++++++++++++++++++++++++++++
++ 2 files changed, 50 insertions(+), 6 deletions(-)
 +
-+diff --git a/src/html/template/escape.go b/src/html/template/escape.go
-+index 4ba1d6b31897e..a62ef159f0dcd 100644
-+--- a/src/html/template/escape.go
-++++ b/src/html/template/escape.go
-+@@ -382,9 +382,8 @@ func normalizeEscFn(e string) string {
-+ // for all x.
-+ var redundantFuncs = map[string]map[string]bool{
-+ 	"_html_template_commentescaper": {
-+-		"_html_template_attrescaper":    true,
-+-		"_html_template_nospaceescaper": true,
-+-		"_html_template_htmlescaper":    true,
-++		"_html_template_attrescaper": true,
-++		"_html_template_htmlescaper": true,
-+ 	},
-+ 	"_html_template_cssescaper": {
-+ 		"_html_template_attrescaper": true,
-+diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
-+index 3dd212bac9406..f8b2b448f2dfa 100644
-+--- a/src/html/template/escape_test.go
-++++ b/src/html/template/escape_test.go
-+@@ -678,6 +678,21 @@ func TestEscape(t *testing.T) {
-+ 			`<img srcset={{",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"}}>`,
-+ 			`<img srcset=,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,>`,
-+ 		},
-++		{
-++			"unquoted empty attribute value (plaintext)",
-++			"<p name={{.U}}>",
-++			"<p name=ZgotmplZ>",
-++		},
-++		{
-++			"unquoted empty attribute value (url)",
-++			"<p href={{.U}}>",
-++			"<p href=ZgotmplZ>",
-++		},
-++		{
-++			"quoted empty attribute value",
-++			"<p name=\"{{.U}}\">",
-++			"<p name=\"\">",
-++		},
-+ 	}
++--- qemu-4.2.orig/hw/scsi/lsi53c895a.c
+++++ qemu-4.2/hw/scsi/lsi53c895a.c
++@@ -1135,15 +1135,24 @@ static void lsi_execute_script(LSIState
++     uint32_t addr, addr_high;
++     int opcode;
++     int insn_processed = 0;
+++    static int reentrancy_level;
+++
+++    reentrancy_level++;
 + 
-+ 	for _, test := range tests {
-+diff --git a/src/html/template/html.go b/src/html/template/html.go
-+index bcca0b51a0ef9..a181699a5bda8 100644
-+--- a/src/html/template/html.go
-++++ b/src/html/template/html.go
-+@@ -14,6 +14,9 @@ import (
-+ // htmlNospaceEscaper escapes for inclusion in unquoted attribute values.
-+ func htmlNospaceEscaper(args ...interface{}) string {
-+ 	s, t := stringify(args...)
-++	if s == "" {
-++		return filterFailsafe
-++	}
-+ 	if t == contentTypeHTML {
-+ 		return htmlReplacer(stripTags(s), htmlNospaceNormReplacementTable, false)
-+ 	}
-+
++     s->istat1 |= LSI_ISTAT1_SRUN;
++ again:
++-    if (++insn_processed > LSI_MAX_INSN) {
++-        /* Some windows drivers make the device spin waiting for a memory
++-           location to change.  If we have been executed a lot of code then
++-           assume this is the case and force an unexpected device disconnect.
++-           This is apparently sufficient to beat the drivers into submission.
++-         */
+++    /*
+++     * Some windows drivers make the device spin waiting for a memory location
+++     * to change. If we have executed more than LSI_MAX_INSN instructions then
+++     * assume this is the case and force an unexpected device disconnect. This
+++     * is apparently sufficient to beat the drivers into submission.
+++     *
+++     * Another issue (CVE-2023-0330) can occur if the script is programmed to
+++     * trigger itself again and again. Avoid this problem by stopping after
+++     * being called multiple times in a reentrant way (8 is an arbitrary value
+++     * which should be enough for all valid use cases).
+++     */
+++    if (++insn_processed > LSI_MAX_INSN || reentrancy_level > 8) {
++         if (!(s->sien0 & LSI_SIST0_UDC)) {
++             qemu_log_mask(LOG_GUEST_ERROR,
++                           "lsi_scsi: inf. loop with UDC masked");
++@@ -1597,6 +1606,8 @@ again:
++         }
++     }
++     trace_lsi_execute_script_stop();
+++
+++    reentrancy_level--;
++ }
++ 
++ static uint8_t lsi_reg_readb(LSIState *s, int offset)
 -- 
 2.34.1
 
