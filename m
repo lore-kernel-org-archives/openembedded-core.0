@@ -2,82 +2,89 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F38EB64DA
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 12:42:29 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web10.6521.1689684146482204448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78014EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 12:43:19 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web11.6498.1689684192521907390
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 05:42:26 -0700
+ Tue, 18 Jul 2023 05:43:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=ITUN+kOw;
- spf=pass (domain: baylibre.com, ip: 209.85.160.169, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-403af7dfa3aso46263741cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 05:42:26 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=V1YRYaee;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.46, mailfrom: tgamblin@baylibre.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1bac0e25891so191710fac.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 05:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689684145; x=1690288945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GoeEsAlcUCMbseZFDS7iqfZppJqx0gvoTithYLMWHm0=;
-        b=ITUN+kOwGCV2Pwq7ycHCBAr50deaxdvEF4UQoQ9xkTE5Kd6UvRCoY8b2F8rNrBLrhk
-         6PQwcmUEkC5rYdBo7K19jq9a1fRw2Gb6+3v4ML2UFo8zoBhWE0eoHghUn1KfW7KgCygW
-         YgUeyAQfF6fVTWFt+/2PtnHNkVE0OA+lNqQK5g63uDTIEwXDbglNNBK90iJUnaIW6or2
-         5ynavu4NdDADmDCI2s8NyS14uXN1en2533CPOQGmDkXJLiPFFTunk4uqTuz1BifcZH0i
-         CN5BgkTYzACokuB9BUDzXdS6077ncbFOaVleOpCt143WcWdWCTHZEjYAy8VK35s23nXC
-         LdXg==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689684191; x=1690288991;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fPtN1LnCbLvgyBWofdkWQ5Sfuzqm3XhYSMuHz20af44=;
+        b=V1YRYaeeUjQA6WTzqkgSL2BXAEnK3iJqv++0ewNtlsRpu5yV1A0zkmX1jkkCdI6+Xi
+         QTjBUnSpa6QD60r5ixG+KkzpvDdYs8+LPE5/N6qw2rDuwzHIYlXbI5CPEsHGooqfhT5n
+         DHDnCsKnGhwrqkKxD95WA/JvLQHGappfu+3A8W70XOVRjgRRHl/OmiZEfhC0XGOvaZK0
+         RVaPc0xQ1vFLlwubwZ+T6vqK68x70tKdP2LeifY2qBbzOJSUSM7Fgqo4o2DaaYbdCy1E
+         +xwBn/D4I03tYZsRFty/ZH1vWCdIN5SJ67NhV8FvTpo/ibSiF9f5bK5IgoALszhjg2Qd
+         NI8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689684145; x=1690288945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GoeEsAlcUCMbseZFDS7iqfZppJqx0gvoTithYLMWHm0=;
-        b=elNnAmEmhhJCg32GZhP4iF35m92TsV5U2pjIqwB+gMWncES+G+KQ+hkr616W80a6D4
-         w5PzZoAO0pHv7DfvmYg7pC159ucYy6FON0VgpiIF4JaC8rsh4/ZJBLPd8dfja3xqsUhb
-         p7BLZNddOW2rWOv+4EnLItQsBRZliuHHHvGYpK7E5vcQvoFeWgpiF/+vX4EYXqOwDS6H
-         5uK9NXEr/mvh6Tlucj1nJKdQJ/B9/mXXiw8eurRqH+ToXPuYzjWCx8R6/e250nUluWF+
-         dMR/V7lqpqLudr3YRLulqMxioHRgy5B6dedKNfSrXaHGrsOBtW3yMAo/gw3ZfxAr03sS
-         Mc8Q==
-X-Gm-Message-State: ABy/qLaFVHA+Mwc14ZrPN7A+2w+Z1q4P660zqsfLskq3FYero05YhrWk
-	L8wAPqdo253zxaCxRbvNwITpQ19CpxkozJNXkIQ=
-X-Google-Smtp-Source: APBJJlFtPDqFkuj9BYUWPuRgkFFWkOM4Q5z+BCzdbNg9YRsDhRvOFDXmhOVkcD5QoVTN6nWW1XvktA==
-X-Received: by 2002:ac8:5a49:0:b0:403:b395:b450 with SMTP id o9-20020ac85a49000000b00403b395b450mr19295230qta.2.1689684145093;
-        Tue, 18 Jul 2023 05:42:25 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id s13-20020ae9f70d000000b00767e20c4267sm555366qkg.61.2023.07.18.05.42.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 05:42:24 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: ensure ptest regression capture
-Date: Tue, 18 Jul 2023 08:42:23 -0400
-Message-ID: <20230718124223.2040772-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1689684191; x=1690288991;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fPtN1LnCbLvgyBWofdkWQ5Sfuzqm3XhYSMuHz20af44=;
+        b=GPD2fjtHjE/fNW2qiQOUwBCyPwbEXw3LRn2IAP13MnKqxQDzGUYW1tvos48DlSbB4a
+         VFMHG3kvgpaFS58jOY/qIpKwg20Ozy+75rOthfzLceXU/0lF6Et9GY46XgU4Q5f2fmG7
+         FY5EYVjIDt0qDJaGHLjWbqSooZA/4dJBPXNBTK4W+O1NIrWooyCIPjYqJIwZrLnpGlWQ
+         /H6Iv4y4s0EuwjgpGUmjJG9OuSNLjXlL3eKRwW1xt3/8kqeuBTwAyLGsTuEJrdIwinXN
+         Vzvr8xQjkWKOoGc5NaW1juyU/OyN2cgGKrtFrOIYC4prusx1PfLL/OXodRCA6P0xplRZ
+         nEqQ==
+X-Gm-Message-State: ABy/qLYXUpC8XlRIWnmbVu1zYv5JI9DiHSXcuBdRSBrZZtL+4zAQSrJ1
+	TmQQ4V3daoVJ8IH5djsVzSxa4g==
+X-Google-Smtp-Source: APBJJlFSWEg7nlM+3VJZQ5Y+XNAfml2C2LaQmQ365vr4O8G4gXkSWI59DOiUIJ1Pny9TElgKToWCtw==
+X-Received: by 2002:a05:6870:d207:b0:1b0:2f70:15a5 with SMTP id g7-20020a056870d20700b001b02f7015a5mr15296833oac.52.1689684191275;
+        Tue, 18 Jul 2023 05:43:11 -0700 (PDT)
+Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
+        by smtp.gmail.com with ESMTPSA id os28-20020a05620a811c00b00767765561absm547513qkn.100.2023.07.18.05.43.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jul 2023 05:43:11 -0700 (PDT)
+Message-ID: <fa6ba812-a8a7-d812-1819-5910aee4d2e7@baylibre.com>
+Date: Tue, 18 Jul 2023 08:43:09 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [OE-core][PATCH] python3: parallelize ptests, add test_cppext
+ dependencies
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230711172545.738677-1-tgamblin@baylibre.com>
+ <CANNYZj-7ZzO65GN+_X+peMDFp31Q1M9Tx8OEfj0p0PS4VB5Ecg@mail.gmail.com>
+ <c42e28fd-7c9f-ed6c-d2f7-8b0930233808@baylibre.com>
+ <CANNYZj_hZVaTs1JR9FabZW2cbVQfW6hSqwfHcTE8z2X_ONddJw@mail.gmail.com>
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CANNYZj_hZVaTs1JR9FabZW2cbVQfW6hSqwfHcTE8z2X_ONddJw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 12:42:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184501
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 12:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184502
 
-Add a conditional echo statement to make sure that there is a
-FAIL emitted when python3 ptests regress in a way sed doesn't
-catch.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/recipes-devtools/python/python3/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipes-devtools/python/python3/run-ptest
-index ee1130284b..efa84555a5 100644
---- a/meta/recipes-devtools/python/python3/run-ptest
-+++ b/meta/recipes-devtools/python/python3/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
- 
--SETUPTOOLS_USE_DISTUTILS=nonlocal python3 -m test -v -j 4 | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-+{ SETUPTOOLS_USE_DISTUTILS=nonlocal python3 -m test -v -j 4 || echo "FAIL: python3" ; } | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
--- 
-2.41.0
-
+On 2023-07-17 16:16, Alexander Kanavin wrote:
+> On Mon, 17 Jul 2023 at 15:06, Trevor Gamblin <tgamblin@baylibre.com> wrote:
+>> AssertionError:
+>> ptests which had no test results:
+>> ['python3']
+> This happens when the test prints no PASS: and no FAIL:, this is used
+> to catch regressed ptests that don't test anything but don't return an
+> error either.
+>
+> Can you run run-ptest manually and check what it prints? There should
+> be at least one PASS:
+Fixed it. Needed to have curly brackets around the OR statement for it 
+to print. Since the patch is already merged, I've sent a new one to add 
+this in.
+>
+> Alex
 
