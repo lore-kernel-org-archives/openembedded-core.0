@@ -2,118 +2,193 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A6EEB64DC
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 14:27:29 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.9138.1689690441553090104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEAAEB64DA
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 14:37:50 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.9428.1689691066948079954
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 07:27:21 -0700
+ Tue, 18 Jul 2023 07:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ee4nqCJN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6682909acadso3832653b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 07:27:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=kACs5Udl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991fe70f21bso778808666b.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 07:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689690441; x=1692282441;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ejovmf9k5ZUr6DBCalS1XZu2z2gHRlMjyOBmjrC/ZX8=;
-        b=Ee4nqCJN9pxddHrGzs53/7H2kDg2r1lxm6flZRztdokOjLYvEREAC8u0n4b/SFF3w5
-         JYTE8Z/5TuR7jFJi5jyuCOhmPktww8VVcWtQRz5TwFtaSz3tESc+hYm6ZixkiR7hHhH7
-         RR9kgZOd75etx0zQ3UoXrHOI4dlJEfzqsR5gA/BM4IBDrQ45XqZ5AAUbgaT/pWcCEtl2
-         NrF56rG4mNYQWnpw9zxGfde4S9hZ6HCbpjNAd+9bGWjm+8Lj28U6tZxdoM8ykCALGW+n
-         WFGAhoR9TkIaLvr+tFfOpWU+Lb7ZlBPX4SYP04cTF6ip7DSC/NFSmibw+Qr5BQcxH03B
-         0F2w==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689691065; x=1692283065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=msCKv1VsmbSexbouidCVWOcgpl0aAzI1Z0Y5IzZdelU=;
+        b=kACs5UdllDiLMyOhKfYAmeLvQGsb7srHhbTOyO3Y/Dehl8t1YTED19jUNELxXdF4VL
+         DmhXGVss/TTlh35hzG+KB07FL4UvUPWkesxahAlzq0TMoOw0cmOsNnsp5YYWDOgtJ6c6
+         PgIa51iUjzcJABAImALomixjiRNDdevht17xGSgoKfa/VrND083rfV7qfw94P2gC3SYH
+         rfc7DnQ6dfaXrUKWs5nFWlLj2fKtFqKQHGiMdnYs1t3jYLBCUWOHBMGtZRRJSQxPzRNH
+         dlClTB7P/uto/xTPO855/8hH21ojVigWEjf8Xac2SJCph7oy16geeto5a+4DRO5YdM3X
+         Ln5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689690441; x=1692282441;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689691065; x=1692283065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ejovmf9k5ZUr6DBCalS1XZu2z2gHRlMjyOBmjrC/ZX8=;
-        b=KStejENxRet5+bDddn2uPQsAwrbwiV0VC2/REXMzP8eIg8X+/swfGapyFCcdTZOL+v
-         a4/IWXd6JjDAsQMZpSkHR2BRiuHt9U8676S88+ADMmjVXI2meDSTDMTqmaNYjk323+/W
-         +FWoqmLtXxYQkwIXSfNmCpmtkReurBK38SmyELb9GzmtSfefxKYmClh5WiU4uW7iKQUR
-         1KtAt10Q/Uw2ieGqpG2CzFno5eNP9ET7LxeBs3ir9uqwVsMoeF8Ju1FC/UyiKtlCmcH6
-         pd0OnISQP2HOkuvdiClWiKBB8HLWIy4eMAA/0YWwnW3shl4DJKUOsjOycXSswK06NNKn
-         YX+w==
-X-Gm-Message-State: ABy/qLb1oUEGCJOYoSgxeCDlP+JGWENiaQunX02O46mOz9X9eHo/RmzK
-	0Aw6sbg1Ikml89mTMlNzURQuUV3uYLVTCPhyarA=
-X-Google-Smtp-Source: APBJJlEB1+Lp8BmeJSL+Ue+he3PgjFYdRFNWGgU581ZP0KTMxDNmMN8kLpI9avokZxkM7I2xs6m9Fg==
-X-Received: by 2002:a05:6a20:13da:b0:132:c07c:f042 with SMTP id ho26-20020a056a2013da00b00132c07cf042mr13174333pzc.15.1689690440662;
-        Tue, 18 Jul 2023 07:27:20 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020aa78d18000000b006732786b5f1sm1581732pfe.213.2023.07.18.07.27.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 07:27:19 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 26/27] wic: Add dependencies for erofs-utils
-Date: Tue, 18 Jul 2023 04:26:00 -1000
-Message-Id: <c349c7fcb299b123824da9a13ee58222a6cbf9ec.1689689618.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1689689618.git.steve@sakoman.com>
-References: <cover.1689689618.git.steve@sakoman.com>
+        bh=msCKv1VsmbSexbouidCVWOcgpl0aAzI1Z0Y5IzZdelU=;
+        b=H8hZNmnD6SgOLhvzxRSjOSYPQWeXpdtZuSbWDjgOndcCwgwMLSm0vnpEFwXfLwsm9z
+         xEXsFfIiYjRKJyVmb8/tvf8+3wDB1xE9kF4pjMPI1Kj/nahGEYZ9d5/USEn3UQ4HETwu
+         c0KPg9uOVS3mF5lAX3wUkbzH3xCjj2ekOg6AuMdoWJZZMp7D7IwqQmcG0RH2zIwyksHr
+         C2I5y3wqz7gHmi4nqSFvdvwVM8jBcW+blvMc2v6/W/P6qt2YEToh57218JAczTkirO3K
+         4XyIRw7MWco5B9R42lAiDAUL7BQ52MAq08y/lwDnwIgxme4AzTnbJe1AWdb7H3zPF1TD
+         jSFg==
+X-Gm-Message-State: ABy/qLZIP3CXZc3eDhsCYF9X7NHoMu6cxpKRegxwg72mrdC1yzUEzyKm
+	pKW0m+R6kisGaLyuIhsKHxnYUqFyH3MiEHrZIkvGpRns/N2luQS0
+X-Google-Smtp-Source: APBJJlG8U+gxsxuinDcI9ot0nLKsIDGaXk0peELMTlsoPSlzyg6ixhist4MtZiNtXymkBcI+naVFo0fPlvoa53zm0s4=
+X-Received: by 2002:a17:907:75e3:b0:973:d076:67ab with SMTP id
+ jz3-20020a17090775e300b00973d07667abmr70063ejc.42.1689691065062; Tue, 18 Jul
+ 2023 07:37:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1771AA996BA380BB.28005@lists.openembedded.org>
+ <6dc56bfa-5736-74b5-b13b-ef014a24ce9d@windriver.com> <CAOSpxdZ1Z3=o=TZDubjm00V69H9cibJKuipdSkf513vBbdENJw@mail.gmail.com>
+ <b4037c59-84ce-b1c0-c2dc-bd93b43889c4@windriver.com>
+In-Reply-To: <b4037c59-84ce-b1c0-c2dc-bd93b43889c4@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 18 Jul 2023 04:37:34 -1000
+Message-ID: <CAOSpxdZsy2wD3tr7SKBOxzCVBNH7nXOB=hJVjrByANaA0mQP+Q@mail.gmail.com>
+Subject: Re: [OE-core] [mickledore][PATCH 0/1] Cherry pick commit from master
+ to update webkitgtk to 2.40.2
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Kai <kai.kang@windriver.com>, Kai Kang <kai.kang@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 14:27:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184530
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 14:37:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184532
 
-From: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
+On Mon, Jul 17, 2023 at 1:20=E2=80=AFPM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> On 2023-07-17 12:09, Steve Sakoman via lists.openembedded.org wrote:
+>
+> On Sun, Jul 16, 2023 at 3:34=E2=80=AFPM Kai <kai.kang@windriver.com> wrot=
+e:
+>
+> On 7/14/23 15:15, Kai Kang wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Hi,
+>
+> I've discussed with webkitgtk maintainers about api compatable issues on
+>
+> https://lists.webkit.org/pipermail/webkit-gtk/2023-March/003887.html
+>
+> WebKitGTK 2.38.x is backwards compatible with 2.36.x, you can safely upda=
+te
+>
+> without needing to change applications. In general, we always keep the AP=
+I and
+> ABI backwards compatible.
+>
+> Note that the current stable releases (2.40.x) introduce a new API level
+> when using GTK4, but I suppose this is not a problem because most likely =
+you
+> are still using GTK3
+>
+>
+> I suggest we apply the update in mickledore too which solves lots of
+> CVEs.
+>
+> Hi Steve,
+>
+> I have no idea why the cover-letter is not in the same thread with the
+> patch.
+>
+> So according to the reply from webkitgtk maintainer, would you like to
+> re-consider
+> to cherry-pick the commit to mickledore, please?
+>
+> Sorry, still not possible, this is a major release bump that adds
+> features and APIs.  Please see:
+>
+> https://wpewebkit.org/release/wpewebkit-2.40.0.html
+>
+> We do need to be careful but upstream is saying that:
+>
+>   "WebKitGTK 2.40.x is backwards-compatible as well and that will remain =
+true indefinitely,
+>    as long as you continue to build the same API version [2]. "
+>
+> I'd like a simple way to measure if that's true but I'm not sure one exis=
+ts.
+>
+> Kai,
+>
+> Have you looked at the source diff to understand how upstream is able to =
+introduce
+> a new API yet enable building the old one?
+>
+>
+> Kai, Steve,
+>
+> Should we investigate using the flags suggested:
+>    "is still possible to build the old 1.0 API using -USE_SOUP2=3DON, or =
+the 1.1 API using -DENABLE_WPE_1_1_API=3DON. "
+>   -- https://wpewebkit.org/release/wpewebkit-2.40.0.html
 
-In order to build erofs filesystems, wic must have the erofs-utils package installed into its sysroot.
+I'm wrangling patches for the three stable branches with releases
+every 1-2 weeks, so I really don't have the cycles to investigate
+this.
 
-Signed-off-by: Heiko Thole <heiko.thole@entwicklung.eq-3.de>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/image_types_wic.bbclass | 2 +-
- meta/recipes-core/meta/wic-tools.bb  | 2 +-
- scripts/lib/wic/misc.py              | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+> or do we really have to backport patches to 2.38.x ?
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 6453dd1b74..8497916d48 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -83,7 +83,7 @@ do_image_wic[recrdeptask] += "do_deploy"
- do_image_wic[deptask] += "do_image_complete"
- 
- WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
--WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
-+WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
- # Unified kernel images need objcopy
- WKS_FILE_DEPENDS_DEFAULT += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils"
- WKS_FILE_DEPENDS_BOOTLOADERS = ""
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index daaf3ea576..9282d36a4d 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -6,7 +6,7 @@ DEPENDS = "\
-            parted-native gptfdisk-native dosfstools-native \
-            mtools-native bmap-tools-native grub-native cdrtools-native \
-            btrfs-tools-native squashfs-tools-native pseudo-native \
--           e2fsprogs-native util-linux-native tar-native \
-+           e2fsprogs-native util-linux-native tar-native erofs-utils-native \
-            virtual/${TARGET_PREFIX}binutils \
-            "
- DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index a8aab6c524..2b90821b30 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -36,6 +36,7 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-                   "mkdosfs": "dosfstools",
-                   "mkisofs": "cdrtools",
-                   "mkfs.btrfs": "btrfs-tools",
-+                  "mkfs.erofs": "erofs-utils",
-                   "mkfs.ext2": "e2fsprogs",
-                   "mkfs.ext3": "e2fsprogs",
-                   "mkfs.ext4": "e2fsprogs",
--- 
-2.34.1
+A version bump of this type (with the addition of features and APIs)
+is outside the scope of allowed updates for stable branches.  As such,
+it would require TSC approval.
 
+So the two options are to either backport CVE fixes or take the issue
+to the TSC.
+
+Steve
+
+> Alexander Kanavin (1):
+>    webkitgtk: update 2.38.5 -> 2.40.2
+>
+>   meta/recipes-gnome/epiphany/epiphany_43.1.bb  |  3 ++
+>   ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 +++++++++++++
+>   ...44e17d258106617b0e6d783d073b188a2548.patch | 42 ++++++++++++-------
+>   ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 ++++++++++++++++++
+>   ...bb461f040b90453bc4e100dcf967243ecd98.patch | 30 -------------
+>   ...ebkitgtk_2.38.5.bb =3D> webkitgtk_2.40.2.bb} | 15 +++++--
+>   6 files changed, 111 insertions(+), 48 deletions(-)
+>   create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaS=
+criptCore-CMakeLists.txt-ensure-reproduc.patch
+>   create mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258=
+a6da9b13795c9b0f7894bf4.patch
+>   delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b904=
+53bc4e100dcf967243ecd98.patch
+>   rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb =3D> webkitgtk_2.4=
+0.2.bb} (90%)
+>
+>
+>
+>
+> --
+> Kai Kang
+> Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184474): https://lists.openembedded.org/g/openembedde=
+d-core/message/184474
+> Mute This Topic: https://lists.openembedded.org/mt/100136728/3616765
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+ndy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
 
