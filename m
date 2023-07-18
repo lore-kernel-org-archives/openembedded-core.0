@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84156EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EBEEB64DC
 	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 16:01:20 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.11595.1689696077251409141
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.11596.1689696079980337254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 09:01:17 -0700
+ Tue, 18 Jul 2023 09:01:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=igHzJs4I;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso3741328b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:01:17 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ON4J6/e5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-66c729f5618so5920703b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689696076; x=1692288076;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689696079; x=1692288079;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Cg9A+b8gyjN0xuWM5fadZbmouT/jBuhjvLUrZZV/mFk=;
-        b=igHzJs4I73UJY0XJKoDnprYJAKtmz0ZLqV+azhd+mK9Are5b85aZz+6/vnigM2DzuF
-         nE2M5958CpL+wEvRmbgMC7rpHBpiwR72NpK2s5ytP3pIE/hKOIHyfELj+2IdzV8+2Euy
-         QtR1rgCXYmgR7i7R0BYTDvqB7uqidY+CPZjB+ewCVV1gq7uJobMn2LbOZixGxWrisyzz
-         3Rfbyks48zAyd53IpcKiUCR78gOmREVo3Xpor11C+Ao83TifLXU3AVgW6jRGv51PJos4
-         O4qSjeT+XzaD8tb0o+Gy808N6f91YCgY+2Pi+0j7QIBJHubU1byRV1EpcngTKIqWcWN/
-         Nrxw==
+        bh=8R/WRKZG51pueBDh+3F5JQS7ywwe/Hc2MCYLI7m4r2g=;
+        b=ON4J6/e5Lr56XtJCj12oX0TleXxPEsYoqFOHMGTpmHu8ulU+FT5h5ZjCcExHsJ15J2
+         63M3SWLK43qKmIQb93RNenae2f39YqRS3KZWwblwNd6yRk9ok/YEV5w4bQpgYEr/QowR
+         fpYFA9H0tqTIbgbVZiNcHMJmy36ZwaAPmDVpapXktCZUf/hJgDWrWv6Z5C1sM7rDu88P
+         wbfRt2CVC17UobdSoP/Y+jMexWZe+6ovoHVoDJO3aChXBU8R/tX4Q3UATSO69Xd2RnKM
+         d3+kTEmuVQIkv1bKTAlP49f9WGiR7fFVd5LJdIxcI9mvhjK0V5DchmnW3SpyhcDjrqIi
+         htHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689696076; x=1692288076;
+        d=1e100.net; s=20221208; t=1689696079; x=1692288079;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cg9A+b8gyjN0xuWM5fadZbmouT/jBuhjvLUrZZV/mFk=;
-        b=B980T6tuiDClKisFUxWihcaB9Mgxp5pNByhw5xk0KtgIzXPnscR5r6R/VydERUfVhE
-         emR52JRjvG9YIGwDBPY6nrgg60mwPpz3YWBeqCpYNrVXf51Z7GJv66VnJqdLFsv8pwc4
-         hzp5fGijCj1i689um0iwKp9KR4K5stAJCghHpbgA/opdFnPQ7sDqFNN7G9L3yuugWtHe
-         GDJrIiu7TB92eAF6lEk7SDvoA5+WwC6C6JCSXlcICCMEpsKWiydLTcAoqB3KQVIWKux2
-         TXDQcq1Y78XerXJwEGa5yuTPp3HFMRQdw70ZLsTEvUSXOw9ylMlY3G/jfXK+KtiBbqMf
-         curg==
-X-Gm-Message-State: ABy/qLZfdF5lqd8aYeFslE33PQTROm+ZSnZ5kzWgMORDZD7XIDMnLDWM
-	P2uiXCtyRg+BelpwWDrWUH1WFN1f3y9QQ0L8JV4=
-X-Google-Smtp-Source: APBJJlEpa0ubYkGBI6pmBS2HSll9VXBeiyZtWUzgDJOP2QvUiM/bU/olFk60vmqRRG3O+YKsZVflgQ==
-X-Received: by 2002:a05:6a20:1612:b0:12f:1d09:f1c3 with SMTP id l18-20020a056a20161200b0012f1d09f1c3mr15433708pzj.54.1689696076189;
-        Tue, 18 Jul 2023 09:01:16 -0700 (PDT)
+        bh=8R/WRKZG51pueBDh+3F5JQS7ywwe/Hc2MCYLI7m4r2g=;
+        b=f5vYokbe2wkRtM5KvNdn1Fwsdb4CU7Ky+SadLek3m+EyHmP/koS34Z/v5bmtwUxJqP
+         vKr23YvHb4ive//tC58a0J6IAucbaikUnL6jItn3Dm2jbuclNOHycF0Jn05dpJmsoToG
+         UHCjHYnHTKrbbqFGQkB2IUnF5bjc4oByM3HHkAMkT25MON1UtC5qcVStHj3eg+6auJU5
+         ahBoeXs2VpGA6XfwDn/0YFoxa/pgBRXPmk9ZVRjC4yeolZCiSRGhLbGCul1Qdn881Huw
+         xMlgkmULiYi2r3QjlMmetysyKyU6BUbtt6yE4WTHWIbJmV+TC4io4csN9NAjGC3Xl8eU
+         7/kA==
+X-Gm-Message-State: ABy/qLZjfKx5luYJBbVTB7vz+QixS3zRjyTTn5PuULprCzpk7yi8j6zR
+	oY3Na0yIuIBk7WnZAJ28M9usVf/rq401tkwxli4=
+X-Google-Smtp-Source: APBJJlFfsdo/t7IA4unrOfq1EQY6R5tPljcuAN+N1Xn/fyayONfjVTcKBv4b/TZOb6Esn2XUfdOVaQ==
+X-Received: by 2002:a05:6a21:3297:b0:134:ecc3:8d04 with SMTP id yt23-20020a056a21329700b00134ecc38d04mr7589875pzb.9.1689696078812;
+        Tue, 18 Jul 2023 09:01:18 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0064928cb5f03sm1710089pfh.69.2023.07.18.09.01.15
+        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0064928cb5f03sm1710089pfh.69.2023.07.18.09.01.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 09:01:15 -0700 (PDT)
+        Tue, 18 Jul 2023 09:01:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/13] libx11: Fix CVE-2023-3138 for dunfell branch
-Date: Tue, 18 Jul 2023 06:00:52 -1000
-Message-Id: <aed61452f5c9fc377ce3336b765eb1cb195482a8.1689690585.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/13] go: Fix CVE-2023-29400
+Date: Tue, 18 Jul 2023 06:00:53 -1000
+Message-Id: <02a0e76e04ddbbbb381202d61cbb084333336f38.1689690585.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689690585.git.steve@sakoman.com>
 References: <cover.1689690585.git.steve@sakoman.com>
@@ -61,151 +61,133 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 16:01:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184538
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184539
 
-From: Poonam Jadhav <poonam.jadhav@kpit.com>
+From: Ashish Sharma <asharma@mvista.com>
 
-Add patch to fix CVE-2023-3138 for dunfell branch
+emit filterFailsafe for empty unquoted attr
+value
 
-Link: https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c.patch
-
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xorg-lib/libx11/CVE-2023-3138.patch       | 111 ++++++++++++++++++
- .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
+ meta/recipes-devtools/go/go-1.14.inc          |  1 +
+ .../go/go-1.14/CVE-2023-29400.patch           | 94 +++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
-new file mode 100644
-index 0000000000..c724cf8fdd
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-3138.patch
-@@ -0,0 +1,111 @@
-+From 304a654a0d57bf0f00d8998185f0360332cfa36c Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Sat, 10 Jun 2023 16:30:07 -0700
-+Subject: [PATCH] InitExt.c: Add bounds checks for extension request, event, &
-+ error codes
-+
-+Fixes CVE-2023-3138: X servers could return values from XQueryExtension
-+that would cause Xlib to write entries out-of-bounds of the arrays to
-+store them, though this would only overwrite other parts of the Display
-+struct, not outside the bounds allocated for that structure.
-+
-+Reported-by: Gregory James DUCK <gjduck@gmail.com>
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+CVE: CVE-2023-3138
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c.patch]
-+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-+---
-+ src/InitExt.c | 42 ++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 42 insertions(+)
-+
-+diff --git a/src/InitExt.c b/src/InitExt.c
-+index 4de46f15..afc00a6b 100644
-+--- a/src/InitExt.c
-++++ b/src/InitExt.c
-+@@ -33,6 +33,18 @@ from The Open Group.
-+ #include <X11/Xos.h>
-+ #include <stdio.h>
-+ 
-++/* The X11 protocol spec reserves events 64 through 127 for extensions */
-++#ifndef LastExtensionEvent
-++#define LastExtensionEvent 127
-++#endif
-++
-++/* The X11 protocol spec reserves requests 128 through 255 for extensions */
-++#ifndef LastExtensionRequest
-++#define FirstExtensionRequest 128
-++#define LastExtensionRequest 255
-++#endif
-++
-++
-+ /*
-+  * This routine is used to link a extension in so it will be called
-+  * at appropriate times.
-+@@ -242,6 +254,12 @@ WireToEventType XESetWireToEvent(
-+ 	WireToEventType proc)	/* routine to call when converting event */
-+ {
-+ 	register WireToEventType oldproc;
-++	if (event_number < 0 ||
-++	    event_number > LastExtensionEvent) {
-++	    fprintf(stderr, "Xlib: ignoring invalid extension event %d\n",
-++		    event_number);
-++	    return (WireToEventType)_XUnknownWireEvent;
-++	}
-+ 	if (proc == NULL) proc = (WireToEventType)_XUnknownWireEvent;
-+ 	LockDisplay (dpy);
-+ 	oldproc = dpy->event_vec[event_number];
-+@@ -263,6 +281,12 @@ WireToEventCookieType XESetWireToEventCookie(
-+     )
-+ {
-+ 	WireToEventCookieType oldproc;
-++	if (extension < FirstExtensionRequest ||
-++	    extension > LastExtensionRequest) {
-++	    fprintf(stderr, "Xlib: ignoring invalid extension opcode %d\n",
-++		    extension);
-++	    return (WireToEventCookieType)_XUnknownWireEventCookie;
-++	}
-+ 	if (proc == NULL) proc = (WireToEventCookieType)_XUnknownWireEventCookie;
-+ 	LockDisplay (dpy);
-+ 	oldproc = dpy->generic_event_vec[extension & 0x7F];
-+@@ -284,6 +308,12 @@ CopyEventCookieType XESetCopyEventCookie(
-+     )
-+ {
-+ 	CopyEventCookieType oldproc;
-++	if (extension < FirstExtensionRequest ||
-++	    extension > LastExtensionRequest) {
-++	    fprintf(stderr, "Xlib: ignoring invalid extension opcode %d\n",
-++		    extension);
-++	    return (CopyEventCookieType)_XUnknownCopyEventCookie;
-++	}
-+ 	if (proc == NULL) proc = (CopyEventCookieType)_XUnknownCopyEventCookie;
-+ 	LockDisplay (dpy);
-+ 	oldproc = dpy->generic_event_copy_vec[extension & 0x7F];
-+@@ -305,6 +335,12 @@ EventToWireType XESetEventToWire(
-+ 	EventToWireType proc)	/* routine to call when converting event */
-+ {
-+ 	register EventToWireType oldproc;
-++	if (event_number < 0 ||
-++	    event_number > LastExtensionEvent) {
-++	    fprintf(stderr, "Xlib: ignoring invalid extension event %d\n",
-++		    event_number);
-++	    return (EventToWireType)_XUnknownNativeEvent;
-++	}
-+ 	if (proc == NULL) proc = (EventToWireType) _XUnknownNativeEvent;
-+ 	LockDisplay (dpy);
-+ 	oldproc = dpy->wire_vec[event_number];
-+@@ -325,6 +361,12 @@ WireToErrorType XESetWireToError(
-+ 	WireToErrorType proc)	/* routine to call when converting error */
-+ {
-+ 	register WireToErrorType oldproc = NULL;
-++	if (error_number < 0 ||
-++	    error_number > LastExtensionError) {
-++	   fprintf(stderr, "Xlib: ignoring invalid extension error %d\n",
-++		    error_number);
-++	   return (WireToErrorType)_XDefaultWireError;
-++	}
-+ 	if (proc == NULL) proc = (WireToErrorType)_XDefaultWireError;
-+ 	LockDisplay (dpy);
-+ 	if (!dpy->error_vec) {
-+-- 
-+GitLab
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-index ad3fab1204..568162a911 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-@@ -18,6 +18,7 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
-             file://CVE-2021-31535.patch \
-             file://CVE-2022-3554.patch \
-             file://CVE-2022-3555.patch \
-+            file://CVE-2023-3138.patch \
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index ea7b9ea80f..33b53b1a34 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -67,6 +67,7 @@ SRC_URI += "\
+     file://CVE-2023-29405-2.patch \
+     file://CVE-2023-29402.patch \
+     file://CVE-2023-29404.patch \
++    file://CVE-2023-29400.patch \
  "
  
- SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
+new file mode 100644
+index 0000000000..092c7aa0ff
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29400.patch
+@@ -0,0 +1,94 @@
++From 0d347544cbca0f42b160424f6bc2458ebcc7b3fc Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Thu, 13 Apr 2023 14:01:50 -0700
++Subject: [PATCH] html/template: emit filterFailsafe for empty unquoted attr
++ value
++
++An unquoted action used as an attribute value can result in unsafe
++behavior if it is empty, as HTML normalization will result in unexpected
++attributes, and may allow attribute injection. If executing a template
++results in a empty unquoted attribute value, emit filterFailsafe
++instead.
++
++Thanks to Juho Nurminen of Mattermost for reporting this issue.
++
++Fixes #59722
++Fixes CVE-2023-29400
++
++Change-Id: Ia38d1b536ae2b4af5323a6c6d861e3c057c2570a
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1826631
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/491617
++Run-TryBot: Carlos Amedee <carlos@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++
++Upstream-Status: Backport from [https://github.com/golang/go/commit/0d347544cbca0f42b160424f6bc2458ebcc7b3fc]
++CVE: CVE-2023-29400
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++---
++ src/html/template/escape.go      |  5 ++---
++ src/html/template/escape_test.go | 15 +++++++++++++++
++ src/html/template/html.go        |  3 +++
++ 3 files changed, 20 insertions(+), 3 deletions(-)
++
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index 4ba1d6b31897e..a62ef159f0dcd 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -382,9 +382,8 @@ func normalizeEscFn(e string) string {
++ // for all x.
++ var redundantFuncs = map[string]map[string]bool{
++ 	"_html_template_commentescaper": {
++-		"_html_template_attrescaper":    true,
++-		"_html_template_nospaceescaper": true,
++-		"_html_template_htmlescaper":    true,
+++		"_html_template_attrescaper": true,
+++		"_html_template_htmlescaper": true,
++ 	},
++ 	"_html_template_cssescaper": {
++ 		"_html_template_attrescaper": true,
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index 3dd212bac9406..f8b2b448f2dfa 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -678,6 +678,21 @@ func TestEscape(t *testing.T) {
++ 			`<img srcset={{",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"}}>`,
++ 			`<img srcset=,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,>`,
++ 		},
+++		{
+++			"unquoted empty attribute value (plaintext)",
+++			"<p name={{.U}}>",
+++			"<p name=ZgotmplZ>",
+++		},
+++		{
+++			"unquoted empty attribute value (url)",
+++			"<p href={{.U}}>",
+++			"<p href=ZgotmplZ>",
+++		},
+++		{
+++			"quoted empty attribute value",
+++			"<p name=\"{{.U}}\">",
+++			"<p name=\"\">",
+++		},
++ 	}
++ 
++ 	for _, test := range tests {
++diff --git a/src/html/template/html.go b/src/html/template/html.go
++index bcca0b51a0ef9..a181699a5bda8 100644
++--- a/src/html/template/html.go
+++++ b/src/html/template/html.go
++@@ -14,6 +14,9 @@ import (
++ // htmlNospaceEscaper escapes for inclusion in unquoted attribute values.
++ func htmlNospaceEscaper(args ...interface{}) string {
++ 	s, t := stringify(args...)
+++	if s == "" {
+++		return filterFailsafe
+++	}
++ 	if t == contentTypeHTML {
++ 		return htmlReplacer(stripTags(s), htmlNospaceNormReplacementTable, false)
++ 	}
++
 -- 
 2.34.1
 
