@@ -1,102 +1,207 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BEBEB64DC
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 16:02:00 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.11622.1689696112283895298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21441EB64DC
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 16:45:45 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.881.1689698738693611789
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 09:01:52 -0700
+ Tue, 18 Jul 2023 09:45:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=a/dbNM2E;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso3741815b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:01:52 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=KJa9K5ZQ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4f954d7309fso7418935e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 09:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689696111; x=1692288111;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=314ImVU9k+jrR92nnteJoOdUaBMMvKDv/K4P+Aepsn4=;
-        b=a/dbNM2E9EEo5zqiZwdWyg91xQL6OBH2Je0PxS1am9O9rB0Z0JQB4bFlxdkzAkoYze
-         I9CtESjfmZ5Pg5oJki4nz+UTQRLD4wgZHycfzLATisyZwHBnMtAPTpJSXv+jwGcpqnT5
-         JnGXWfommCo4S7FcmhphrUE4LCwYPjiXHONMgCngIp/bA7oL2A07Xn+mev/4LDPtK/mZ
-         yTM8YLysBISoV9whQ0r2b6ZY7Vq2ZgEKGdEFKHb4G/Lkd/PIewDJfuEd8FdOjNQ+tODN
-         9hmyMRu3d76vt714p6ZAlF+k9E8J0Wy09liJmYRCqzZhjDzGsDBrTa32euPvWFkCq+Wy
-         +k6Q==
+        d=gmail.com; s=20221208; t=1689698737; x=1692290737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wXuWIsncRQ5LBbPKvooMpDOEHJKRVQ0U1NFObGSqhqA=;
+        b=KJa9K5ZQrbULCdy+XXCHxvkrMp0PrNQ3pJkXQmwpHLjrTDdzK6WYS8CbQVK500hoBO
+         WSKsQtntuELQROJXislD/puYlfPYYTf8LFak0am9oOFJDczmzkLPCoprUaxpY5a+oj0O
+         r5RRez19TZ0rE/xrQOY+/6sYzJSX55CGGB+EM+mgUVbLkU57g9OvnqUSxlPfQRhMOqaP
+         Iu3ZDBBGkDVRY+BjVkezVlxUuYf0UQEPaQmYrxYMWaFN3bQXrr6vJCJkCBfdwrEYyNmz
+         hV7orJG40cYuNQj24co67ptK/6qrigwg9F+EtP9VY7oPY2tg6XKi/eSwIVWXdHtFmKuh
+         gLuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689696111; x=1692288111;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689698737; x=1692290737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=314ImVU9k+jrR92nnteJoOdUaBMMvKDv/K4P+Aepsn4=;
-        b=PWJWIYQ3ie0x+jNlirjHh5GAL0kJa/bieduYnpDm2jQNDZjKmGkKqNDFFxhDIVNPKf
-         k4DytHAHESAaxy4icieycPm11Pfj9Zrf99BFig3WQjXYiX83JyTlKQVQNif7kq78+bTN
-         GkY4GG9EKv6ofB2Bbj75/8mXLYUZdrWluV3BCuIXRJSB1f9dMtqT3PgHDFJKdlifGW92
-         H05scwzyUFk4hnQ6aDJIztr2y68Bt4DGZ6OlGsRnT2ry3CTrnKuw/jYhPAuazFFXS9xR
-         oZtB8jiQU0Ob0OvqzeOyA+gGXQtuWQb2BX2Yf/FEnX85+N9N6wMYPZ6qDxViFOyIJHrc
-         SiUw==
-X-Gm-Message-State: ABy/qLZvjqp8duwkmX5vqwiXB5jKF0cDPkh8nw56OZIKmu7wGzYkElNZ
-	nn0t5Dlp3stdElgSQNYzKkaqPUs7fHOSJwj41sc=
-X-Google-Smtp-Source: APBJJlEbK4nld5LektVk6V/kCFuCTplkIGo4dMO6vmc4e4TiLCKlxJW1KGHmGferNHAvvWmayxBEQQ==
-X-Received: by 2002:a05:6a00:1914:b0:66a:365c:a0e6 with SMTP id y20-20020a056a00191400b0066a365ca0e6mr15964387pfi.13.1689696111362;
-        Tue, 18 Jul 2023 09:01:51 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0064928cb5f03sm1710089pfh.69.2023.07.18.09.01.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 09:01:50 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/13] cmake: Fix CMAKE_SYSTEM_PROCESSOR setting for SDK
-Date: Tue, 18 Jul 2023 06:01:04 -1000
-Message-Id: <7a7ef9d73affc23fa14712d56f1a40d0c46569cb.1689690585.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1689690585.git.steve@sakoman.com>
-References: <cover.1689690585.git.steve@sakoman.com>
+        bh=wXuWIsncRQ5LBbPKvooMpDOEHJKRVQ0U1NFObGSqhqA=;
+        b=N8UAg8NcrPNM3V4m4T356YUCMpfuSjMeQodILr+E0aMXj5Sh7JIvIlygYFj5svnT1D
+         +e2DQ9GDOgZQgZc/LZh0NQ1XwryRUJIjJhPSyBI3cxBxaV0U/6kGnVQHCLbtWg0IF+2k
+         /kSXhwookaKYql7RmqGYzEj1wFT6NiIqnAoPw6uzeL5j7WKSrC0aWirEVldPeRYuT5x9
+         x/Nm+egvr2ecPeTIav07WsVCcEzrF84NrOd0kZW/oUwQsc2hHnmDBAhpSvE+cYf3JfX7
+         fklCtYVRDUzfkqeMWsecsPg3iTXQTxOcsNeMPFV9xSK6fj9oKBFoSpsMZM7CakICcLM0
+         z8KA==
+X-Gm-Message-State: ABy/qLZkAFo3OIeqYiEyBfNCiG6riL6DdMpJHLK3tJDOQSEqH+Q0Goo1
+	SjEE2G4YsMoxohafK5wGAY+Nbz2Xk8Q1f7SBOaE=
+X-Google-Smtp-Source: APBJJlE0Nv6Zl2J91PP8Vto8qc+gEibmhWTz/J7hh1TYo/S01BMgXE7xM323GDyr9p6yY2CgmhARQaXEVBIDY7EeljM=
+X-Received: by 2002:a05:6512:3b13:b0:4fa:d522:a38f with SMTP id
+ f19-20020a0565123b1300b004fad522a38fmr5885919lfv.26.1689698736446; Tue, 18
+ Jul 2023 09:45:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1771AA996BA380BB.28005@lists.openembedded.org>
+ <6dc56bfa-5736-74b5-b13b-ef014a24ce9d@windriver.com> <CAOSpxdZ1Z3=o=TZDubjm00V69H9cibJKuipdSkf513vBbdENJw@mail.gmail.com>
+ <b4037c59-84ce-b1c0-c2dc-bd93b43889c4@windriver.com> <CAOSpxdZsy2wD3tr7SKBOxzCVBNH7nXOB=hJVjrByANaA0mQP+Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdZsy2wD3tr7SKBOxzCVBNH7nXOB=hJVjrByANaA0mQP+Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 18 Jul 2023 18:45:25 +0200
+Message-ID: <CANNYZj_03UAcURGzqgVYwY7=Qx17L+TM7DNOp3ngDidJ3=MB8A@mail.gmail.com>
+Subject: Re: [OE-core] [mickledore][PATCH 0/1] Cherry pick commit from master
+ to update webkitgtk to 2.40.2
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Randy MacLeod <randy.macleod@windriver.com>, Kai <kai.kang@windriver.com>, 
+	Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 16:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184550
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 16:45:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184551
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+This type of update is perhaps best suited for an lts mixin branch in
+meta-lts-mixins, even if mickledore isn't LTS.
 
-When building using an SDK, cmake complains that the target
-architecture 'cortexa53-crypto' is unknown. The same build in bitbake
-uses the target architecture 'aarch64'.
+Alex
 
-Set CMAKE_SYSTEM_PROCESSOR the same as for bitbake.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d32a6225eefce2073a1cd401034b5b4c68351bfe)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-index f8af79ddd5..a7020da9c7 100644
---- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-+++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-@@ -12,10 +12,7 @@ set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
- 
- set(CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX "$ENV{OE_CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX}")
- 
--# Set CMAKE_SYSTEM_PROCESSOR from the sysroot name (assuming processor-distro-os).
--if ($ENV{SDKTARGETSYSROOT} MATCHES "/sysroots/([a-zA-Z0-9_-]+)-.+-.+")
--  set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_MATCH_1})
--endif()
-+set( CMAKE_SYSTEM_PROCESSOR $ENV{OECORE_TARGET_ARCH} )
- 
- # Include the toolchain configuration subscripts
- file( GLOB toolchain_config_files "${CMAKE_TOOLCHAIN_FILE}.d/*.cmake" )
--- 
-2.34.1
-
+On Tue, 18 Jul 2023 at 16:37, Steve Sakoman <steve@sakoman.com> wrote:
+>
+> On Mon, Jul 17, 2023 at 1:20=E2=80=AFPM Randy MacLeod
+> <randy.macleod@windriver.com> wrote:
+> >
+> > On 2023-07-17 12:09, Steve Sakoman via lists.openembedded.org wrote:
+> >
+> > On Sun, Jul 16, 2023 at 3:34=E2=80=AFPM Kai <kai.kang@windriver.com> wr=
+ote:
+> >
+> > On 7/14/23 15:15, Kai Kang wrote:
+> >
+> > From: Kai Kang <kai.kang@windriver.com>
+> >
+> > Hi,
+> >
+> > I've discussed with webkitgtk maintainers about api compatable issues o=
+n
+> >
+> > https://lists.webkit.org/pipermail/webkit-gtk/2023-March/003887.html
+> >
+> > WebKitGTK 2.38.x is backwards compatible with 2.36.x, you can safely up=
+date
+> >
+> > without needing to change applications. In general, we always keep the =
+API and
+> > ABI backwards compatible.
+> >
+> > Note that the current stable releases (2.40.x) introduce a new API leve=
+l
+> > when using GTK4, but I suppose this is not a problem because most likel=
+y you
+> > are still using GTK3
+> >
+> >
+> > I suggest we apply the update in mickledore too which solves lots of
+> > CVEs.
+> >
+> > Hi Steve,
+> >
+> > I have no idea why the cover-letter is not in the same thread with the
+> > patch.
+> >
+> > So according to the reply from webkitgtk maintainer, would you like to
+> > re-consider
+> > to cherry-pick the commit to mickledore, please?
+> >
+> > Sorry, still not possible, this is a major release bump that adds
+> > features and APIs.  Please see:
+> >
+> > https://wpewebkit.org/release/wpewebkit-2.40.0.html
+> >
+> > We do need to be careful but upstream is saying that:
+> >
+> >   "WebKitGTK 2.40.x is backwards-compatible as well and that will remai=
+n true indefinitely,
+> >    as long as you continue to build the same API version [2]. "
+> >
+> > I'd like a simple way to measure if that's true but I'm not sure one ex=
+ists.
+> >
+> > Kai,
+> >
+> > Have you looked at the source diff to understand how upstream is able t=
+o introduce
+> > a new API yet enable building the old one?
+> >
+> >
+> > Kai, Steve,
+> >
+> > Should we investigate using the flags suggested:
+> >    "is still possible to build the old 1.0 API using -USE_SOUP2=3DON, o=
+r the 1.1 API using -DENABLE_WPE_1_1_API=3DON. "
+> >   -- https://wpewebkit.org/release/wpewebkit-2.40.0.html
+>
+> I'm wrangling patches for the three stable branches with releases
+> every 1-2 weeks, so I really don't have the cycles to investigate
+> this.
+>
+> > or do we really have to backport patches to 2.38.x ?
+>
+> A version bump of this type (with the addition of features and APIs)
+> is outside the scope of allowed updates for stable branches.  As such,
+> it would require TSC approval.
+>
+> So the two options are to either backport CVE fixes or take the issue
+> to the TSC.
+>
+> Steve
+>
+> > Alexander Kanavin (1):
+> >    webkitgtk: update 2.38.5 -> 2.40.2
+> >
+> >   meta/recipes-gnome/epiphany/epiphany_43.1.bb  |  3 ++
+> >   ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 +++++++++++++
+> >   ...44e17d258106617b0e6d783d073b188a2548.patch | 42 ++++++++++++------=
+-
+> >   ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 ++++++++++++++++++
+> >   ...bb461f040b90453bc4e100dcf967243ecd98.patch | 30 -------------
+> >   ...ebkitgtk_2.38.5.bb =3D> webkitgtk_2.40.2.bb} | 15 +++++--
+> >   6 files changed, 111 insertions(+), 48 deletions(-)
+> >   create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-Jav=
+aScriptCore-CMakeLists.txt-ensure-reproduc.patch
+> >   create mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab352=
+58a6da9b13795c9b0f7894bf4.patch
+> >   delete mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b9=
+0453bc4e100dcf967243ecd98.patch
+> >   rename meta/recipes-sato/webkit/{webkitgtk_2.38.5.bb =3D> webkitgtk_2=
+.40.2.bb} (90%)
+> >
+> >
+> >
+> >
+> > --
+> > Kai Kang
+> > Wind River Linux
+> >
+> >
+> >
+> >
+> >
+> > --
+> > # Randy MacLeod
+> > # Wind River Linux
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184532): https://lists.openembedded.org/g/openembedde=
+d-core/message/184532
+> Mute This Topic: https://lists.openembedded.org/mt/100136728/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
