@@ -1,177 +1,137 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A0DEB64DA
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 15:35:40 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.11032.1689694535708090541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E22EB64DA
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 15:42:50 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.11076.1689694962763231559
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 08:35:36 -0700
+ Tue, 18 Jul 2023 08:42:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=n6SNTV05;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=65634f9655=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36IDlTMr018167
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 15:35:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=H0rFI
-	JMOPn1BM9SuVf8XNI3h2F1rF1ogRge94Dqmvvo=; b=n6SNTV0550anRia2BPG8O
-	SbhHknOr6XviiLvqcjWeQ1G2XiKR7zPHpNdCNSCp4sspFTQn4eYBP2FPU5xYmPBr
-	k16fBxdOdMZuL127kyZ+RIms4EKuO7XLXeq9qeMw6Q50e/CpteFqKMikpng99tJ+
-	fwOjzgziwUiZnBxD1bZfZv0C61hhu2+sOWuYnfVMMvFA2vZu27NaKNbok8019Bu/
-	GpYZNqB5rYzVVLwnpB2jCmcWbTAX6SCLQFWMw7X+AWROHn1l/mA9h+VfhvG7VqDo
-	GnqdGLlliow/vBWNfdD10ICJtlXXSSPSj5f5aOEnq1/a5XwdBeAG43H96sC15a1l
-	Q==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run9jtrpq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 15:35:34 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 18 Jul 2023 08:35:32 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][mickledore][PATCH 1/1] qemu: fix CVE-2023-0330
-Date: Tue, 18 Jul 2023 15:35:14 +0000
-Message-ID: <20230718153514.536611-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=uBAvYHH7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.53, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-99364ae9596so826774266b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 08:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689694961; x=1692286961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UlvgHEAPTqiClztOtlb8dCbeZ32N5JpPlblC88Y+zqI=;
+        b=uBAvYHH7JpfrIyYSvw0w7eEL+DpGtOFnP57+Ux7yKm3P703jR4vfXk6pstiR8smBN/
+         WEMZ29Ltw42jlArJDr59sT2G5pnYKZDT0FJAQ6xkPQ/9Z4I/ZNxehsqmUBEIgmTm3nve
+         51XdKPRd47aHdocgHWava5E2u0cS7Rf0E0SJ9e8n76hXeriIJy19hEISaLmF85qKV6bh
+         AaiC8GjRO93BTvEq+AcuBdnGp5N4BiZKD9EbWHSVmYQ4DkMbOF1Ibj440j63WZv9axKF
+         jybOrDR2OQ7ZfsKZR+PY6reHw29KI4wAerFpzbhc6UJmQoG4BgcnbtVGrC363tq0UymW
+         XLOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689694961; x=1692286961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UlvgHEAPTqiClztOtlb8dCbeZ32N5JpPlblC88Y+zqI=;
+        b=C0dzQpve5+smFMV8w2qQH7lDjjQRUG4gXSPOkLnOBoYFU9hDrByfNMXQiXVk/MxGMe
+         bMLIltPaCIDvDzVas632CB+9moEaDlUKEtUROwcTI7kGdxHU8HeupaDglqTTs2Tyro0d
+         2EGELRn39BwHE0EPc2sk/7Ghqj3FI+mHEmIxHxMfKE0oRuC32RV5DpCSmdIaseWlt0A5
+         gUCoeTnz9jddZgnBfj5Vx49O9Aks69NqF7Uyv34yxWZiPFDWKRjL02BuoQadvVyIkiL9
+         C66+KDTCe81IuMEEeKVfuJTZV1bmXWTKn8OU/6/I2+KoEqQIwwcYQHXtlhI+Pzyg4U9J
+         oukA==
+X-Gm-Message-State: ABy/qLZRT1emXAUlln3+WJOt0+XZxIYSJp85rZnDYTNYKUF1IRM421nC
+	3JP3rNJupKZfJAcj0Yv9ynqtcXxumBwgT1F274guIQ==
+X-Google-Smtp-Source: APBJJlFP6Psqj6prp8GWNrcv6JZxsx0QDbRgVlBVmaLslrEz4uNDn5KR4pfooHm6jebVxpq3LZ3embKYI3U3FBfOMJ8=
+X-Received: by 2002:a17:906:40cc:b0:98d:f953:f473 with SMTP id
+ a12-20020a17090640cc00b0098df953f473mr113316ejk.50.1689694960839; Tue, 18 Jul
+ 2023 08:42:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: M6skH7z2JY0rfSwRn3t1TZOHGgomRDNs
-X-Proofpoint-ORIG-GUID: M6skH7z2JY0rfSwRn3t1TZOHGgomRDNs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-18_11,2023-07-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307180143
+References: <b491d83d02d9665a397dafcd6842f1c959fefad0.camel@linuxfoundation.org>
+In-Reply-To: <b491d83d02d9665a397dafcd6842f1c959fefad0.camel@linuxfoundation.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 18 Jul 2023 05:42:29 -1000
+Message-ID: <CAOSpxdYkbL3EAcEubEkvK5GDS_44ivTuNVTc1J7mQcNi9fkjsg@mail.gmail.com>
+Subject: Re: Toolchain test results
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Ross Burton <ross.burton@arm.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	Randy MacLeod <randy.macleod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 15:35:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184534
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 15:42:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184535
 
-A vulnerability in the lsi53c895a device affects the latest version
-of qemu. A DMA-MMIO reentrancy problem may lead to memory corruption
-bugs like stack overflow or use-after-free.
+On Mon, Jul 17, 2023 at 11:14=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> [Anuj/Steve/Ross - questions below!]
+>
+> I thought I'd share a summary of the recent toolchain test
+> changes/work. We can see the "baseline" from the 4.2 test report:
+>
+> https://downloads.yoctoproject.org/releases/yocto/milestones/yocto-4.2_M3=
+/testresults/testresult-report.txt
+>
+> showing that we run 2.9 million tests (2946881) with 174470 failures.
+>
+> Once we noticed qemuarm64 toolchain test results were showing ~125,000
+> failures and had done since the 3.4 release, Ross was able to find and
+> fix it:
+>
+> https://git.yoctoproject.org/poky/commit/?id=3Db0f1ab9810d87960d2753b0fe7=
+8039b874fd15fd
+> https://git.yoctoproject.org/poky/commit/?id=3Daf39b83e58ec159a9a13d85067=
+c2595535442566
+>
+> Thanks Ross (even if you did break it too! :)
+>
+> I've also merged:
+>
+> https://git.yoctoproject.org/poky/commit/?id=3Dc94fd2737e7e341188c8c41d91=
+1f1c60240088a2
+>
+> which takes care of many of the qemuppc failures.
+>
+> This brings the report down to:
+>
+> https://autobuilder.yocto.io/pub/non-release/20230717-18/testresults/test=
+result-report.txt
+>
+> so 3229355 tests and 15496 failures.
+>
+> qemuarm has ~350 failures
+> qemuarm64 has ~350 failures
+> qemux86-64 has ~4000 (3900 in glibc)
+> qemux86 has ~4000 (3500 in glibc)
+> qemuppc has ~600 failures
+> qemumips64 has ~5000 failures (all over)
+> qemumips has ~1600 failures
+>
+> We could also do with understanding the qemuarm64 ltp syscall failures.
+> The other ltp failures look the same for x86 and arm.
+>
+> Anuj: Can Intel look into the glibc test failures on x86?
+> Steve: Can we backport those patches to kirkstone/mickledore?
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-0330
+Yes, I've got them in my test queue for both kirkstone/mickledore.
 
-Upstream patches:
-https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75
+Steve
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2023-0330.patch             | 75 +++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 4c9be91cb0..15eba6163f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -36,6 +36,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-            file://ppc.patch \
-+	   file://CVE-2023-0330.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
-new file mode 100644
-index 0000000000..f609ea29b4
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
-@@ -0,0 +1,75 @@
-+From b987718bbb1d0eabf95499b976212dd5f0120d75 Mon Sep 17 00:00:00 2001
-+From: Thomas Huth <thuth@redhat.com>
-+Date: Mon, 22 May 2023 11:10:11 +0200
-+Subject: [PATCH] hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI
-+ controller (CVE-2023-0330)
-+
-+We cannot use the generic reentrancy guard in the LSI code, so
-+we have to manually prevent endless reentrancy here. The problematic
-+lsi_execute_script() function has already a way to detect whether
-+too many instructions have been executed - we just have to slightly
-+change the logic here that it also takes into account if the function
-+has been called too often in a reentrant way.
-+
-+The code in fuzz-lsi53c895a-test.c has been taken from an earlier
-+patch by Mauro Matteo Cascella.
-+
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1563
-+Message-Id: <20230522091011.1082574-1-thuth@redhat.com>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Thomas Huth <thuth@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
-+CVE: CVE-2023-0330
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ hw/scsi/lsi53c895a.c               | 23 +++++++++++++++------
-+ tests/qtest/fuzz-lsi53c895a-test.c | 33 ++++++++++++++++++++++++++++++
-+ 2 files changed, 50 insertions(+), 6 deletions(-)
-+
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index 048436352b7a..f7d45b0b20fb 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -1134,15 +1134,24 @@ static void lsi_execute_script(LSIState *s)
-+     uint32_t addr, addr_high;
-+     int opcode;
-+     int insn_processed = 0;
-++    static int reentrancy_level;
-++
-++    reentrancy_level++;
-+
-+     s->istat1 |= LSI_ISTAT1_SRUN;
-+ again:
-+-    if (++insn_processed > LSI_MAX_INSN) {
-+-        /* Some windows drivers make the device spin waiting for a memory
-+-           location to change.  If we have been executed a lot of code then
-+-           assume this is the case and force an unexpected device disconnect.
-+-           This is apparently sufficient to beat the drivers into submission.
-+-         */
-++    /*
-++     * Some windows drivers make the device spin waiting for a memory location
-++     * to change. If we have executed more than LSI_MAX_INSN instructions then
-++     * assume this is the case and force an unexpected device disconnect. This
-++     * is apparently sufficient to beat the drivers into submission.
-++     *
-++     * Another issue (CVE-2023-0330) can occur if the script is programmed to
-++     * trigger itself again and again. Avoid this problem by stopping after
-++     * being called multiple times in a reentrant way (8 is an arbitrary value
-++     * which should be enough for all valid use cases).
-++     */
-++    if (++insn_processed > LSI_MAX_INSN || reentrancy_level > 8) {
-+         if (!(s->sien0 & LSI_SIST0_UDC)) {
-+             qemu_log_mask(LOG_GUEST_ERROR,
-+                           "lsi_scsi: inf. loop with UDC masked");
-+@@ -1596,6 +1605,8 @@ static void lsi_execute_script(LSIState *s)
-+         }
-+     }
-+     trace_lsi_execute_script_stop();
-++
-++    reentrancy_level--;
-+ }
-+
-+ static uint8_t lsi_reg_readb(LSIState *s, int offset)
--- 
-2.40.0
-
+> Ross: Can ARM look into the ltp syscall issue?
+>
+> Is anyone else interested/able to help in cleaning up these results a
+> bit further? Once have a good baseline, it will make it much easier to
+> look for and spot regressions.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+>
 
