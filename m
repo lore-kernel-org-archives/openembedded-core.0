@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 110A0EB64DD
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 14:26:40 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.9102.1689690393467748559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F05C3DA41
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 14:26:49 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.9115.1689690405416531227
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 07:26:33 -0700
+ Tue, 18 Jul 2023 07:26:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Av1F8svI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-666e3b15370so4192313b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 07:26:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=OcktTLBv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-668711086f4so3573174b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 07:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689690392; x=1692282392;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689690404; x=1692282404;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9V9t49kFK3EdrLcwG+P562ZS41hbFeUPviasuScz7s0=;
-        b=Av1F8svIdrHA1KirPNkptPMSLVLUwHUk6UeToNT0YXjkjh8RDAFBG58hSv+/NM1W7g
-         UbiPUBj1pbXS+k+ySACIYYK7k+hkBPF1ds/rYx5ccyzWVs9HA67wrS9BpwNJbQtZIKFQ
-         NGFSE7KyJrM01oIucHeHSZnloEPVgoW6P/yVh7gQ2tImxK9BSYNzKPxujRYoBZngmX2v
-         H6hyvx363k1XazqGSaOOQWJwSMeraZxEQCIuUAdrmpD23t8gzWWR2D4hqb6iOzOv54aM
-         i3yMRm3C+mjFFiyUlhLVCBBpWSNo+/r85Z7SYt9G5p/zpx2HYHlVG0jsbPboAk3Rbuea
-         JvdQ==
+        bh=s0hFXY7Q/PRQUXNK8QHa3v5nxDHxWGmeS0QiFQ1zDzI=;
+        b=OcktTLBvt/RteorDWZnL2/zqxWBfuZMS24Z/pHrWmLpaXRJH4DDTURy/8KfNGVfmFv
+         KEYrSGdBSO6JVJKSULYj//MBiEqFe/qbtYkkwpaZ/E8cD8ytYUO/+5MYSy9j97qsE29T
+         aVux8IX4G6EyGhFnQbPKNxUoLnUR9lhCInD4hZgXRdurqzBFyZE/evUR+AzKnRu3bywR
+         wy74B7d0PnRjGbYwVBrRlcjDur6XDw6yADAW8betAlfqolfZzl2rOw0EZ1YEA4JtZzEe
+         /IDjWAq2dyWqF9OYVEzN7IyuZeBWeyZfmqeu5FjERgYLXl6ZQWn9AUp6FJyqS5LggBNv
+         fA9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689690392; x=1692282392;
+        d=1e100.net; s=20221208; t=1689690404; x=1692282404;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9V9t49kFK3EdrLcwG+P562ZS41hbFeUPviasuScz7s0=;
-        b=anOns0mWwMF5EypYOP3l6EA95pYWVofhIxcJAKqtdScmOtW7n4NAnjJXhNPL7G/dIf
-         /lZkFE1kCA/DJ/9sRN/5OwTYEhVuk39LIMFTtwfB9tq0ko/M/nGnvqoWj0zB8RewdTpI
-         2BcvccqDWYadToQ8IE8V5K6AgnbXM0iNNmkTHaKM+JZDZ/1mQ+N2e+H8EvwiuqBcp/CD
-         0zdZ/fhwPV69b2N5awO5Binz4tOkW44eN2db0KrdKF146RHefQS18GQOY2TJsj7JYPsM
-         gURufR97t1LXGm+tkEfNOwbVN9uCrqlHEBlraVl+XnMKsjKwi5mYhdlk6NP/2d0YwV8t
-         tdSA==
-X-Gm-Message-State: ABy/qLaA0y6abqcHMS96zHOb9GFoGo3igaFb3PAHFcDFNf/fjvFjlloB
-	Ws/boQAla47Nxh5QYPSR6zkwWRGXOKeceSCkLwg=
-X-Google-Smtp-Source: APBJJlGmQTvQIb8J/FaTTT5PQ+udFe5EZ+6+eo9DK0R+brZvdS+DJQY88EKS/RG+JqP3QRPRZDiSNw==
-X-Received: by 2002:a05:6a00:ad1:b0:67d:22a6:2f54 with SMTP id c17-20020a056a000ad100b0067d22a62f54mr3164683pfl.31.1689690392516;
-        Tue, 18 Jul 2023 07:26:32 -0700 (PDT)
+        bh=s0hFXY7Q/PRQUXNK8QHa3v5nxDHxWGmeS0QiFQ1zDzI=;
+        b=JvIQXtGe32wBFCcKOnTjvHdkjPkRuVAYh5deLRWrImKRCgu9bke+w0rt6e3Na1fo7i
+         d9ku2R2dEnmNCV38X6n48w4kneH+HnH3MjJx8apO5kocpdUhDQo/pjt7JFX2xypg+JqD
+         fELXzNuu97z6AuawL87NX2fxjDfPDaJcDt29zEhWIy0MoEJFY/lG6DjIv8VSBv76PuBT
+         UfoymcmG/Eq9deerQKUatxqO1zh0hXqDmNtdC61rOklTmb2kC0epc+1RLp8rug3EBDYj
+         FhMVEHESETOP4RFH7BM3QJkEfhZDEeaex4x1TpB8zYRsWWjExXChocgNcTq/kdHZ9Iqs
+         1Ksg==
+X-Gm-Message-State: ABy/qLb+JKZ8KTg2T6YhvFGCAOiflEmsvyNV9YThN/ROnqjSTdRiYA/y
+	1D4vKR/Bq/zfcEd3XIaVpYQTLG4d2Qxng8xpH7U=
+X-Google-Smtp-Source: APBJJlEAlCoJm1NOKIZ0YgphFKiF8QCgmp0qoIiE4UO3/YGohtGyLdCaKngNczXxcqsqsjkyp+ddOg==
+X-Received: by 2002:a05:6a00:2da1:b0:682:93ce:4825 with SMTP id fb33-20020a056a002da100b0068293ce4825mr18040522pfb.3.1689690404507;
+        Tue, 18 Jul 2023 07:26:44 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j24-20020aa78d18000000b006732786b5f1sm1581732pfe.213.2023.07.18.07.26.31
+        by smtp.gmail.com with ESMTPSA id j24-20020aa78d18000000b006732786b5f1sm1581732pfe.213.2023.07.18.07.26.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 07:26:31 -0700 (PDT)
+        Tue, 18 Jul 2023 07:26:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/27] wget: upgrade 1.21.3 -> 1.21.4
-Date: Tue, 18 Jul 2023 04:25:43 -1000
-Message-Id: <024feac4827dc847ba83a64de82cef524156a9ea.1689689618.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/27] selftest reproducible.py: support different build targets
+Date: Tue, 18 Jul 2023 04:25:47 -1000
+Message-Id: <3b82a7d74995c0670a6914c58b3d7c42327b8ee9.1689689618.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689689618.git.steve@sakoman.com>
 References: <cover.1689689618.git.steve@sakoman.com>
@@ -60,68 +60,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 14:26:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184513
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 14:26:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184517
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Stable version release
+Allow users to set different build reproducibility targets than
+the defaults using OEQA_REPRODUCIBLE_TEST_TARGET and
+OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS variables in local.conf.
 
-Noteworthy changes in release 1.21.4 (2023-05-11)
+Fixing all issues from "world" builds is not possible in some
+complex build environments with lots of layers. Limiting the focus to
+a smaller subset allows using this test to detect and fix build
+reproduction issues incrementally.
 
-** Document --retry-on-host-error in help text
-
-** Increase read buffer size to 64k. This should speed up downloads on gigabit
-and faster connections
-
-** Update deprecated option '--html-extension' to '--adjust-extension' in
-documentation
-
-** Update gnulib compatibility layer.
-   Fixes HSTS test failures on i686. (Thanks to Andreas Enge for ponting it out)
-
-License-Update: copyright years
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 67ec2d5bab891cb92af9ca32304a4927daf51ed0)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 4e7ec4bef86c79b4221a800ace700c58ce033de1)
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit c66bebbce5995e386a1a4d055a914a39b6ee518d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/wget/wget.inc                           | 2 +-
- meta/recipes-extended/wget/{wget_1.21.3.bb => wget_1.21.4.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/wget/{wget_1.21.3.bb => wget_1.21.4.bb} (60%)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 58cb5ca73d..30abaff7b7 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -7,7 +7,7 @@ FTP sites"
- HOMEPAGE = "https://www.gnu.org/software/wget/"
- SECTION = "console/network"
- LICENSE = "GPL-3.0-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6f65012d1daf98cb09b386cfb68df26b"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 2c9bc0bf90..98259ae515 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -132,9 +132,13 @@ class ReproducibleTests(OESelftestTestCase):
+     max_report_size = 250 * 1024 * 1024
  
- inherit autotools gettext texinfo update-alternatives pkgconfig
- 
-diff --git a/meta/recipes-extended/wget/wget_1.21.3.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
-similarity index 60%
-rename from meta/recipes-extended/wget/wget_1.21.3.bb
-rename to meta/recipes-extended/wget/wget_1.21.4.bb
-index f176a1546c..1d31b0116d 100644
---- a/meta/recipes-extended/wget/wget_1.21.3.bb
-+++ b/meta/recipes-extended/wget/wget_1.21.4.bb
-@@ -2,6 +2,6 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0002-improve-reproducibility.patch \
-           "
- 
--SRC_URI[sha256sum] = "5726bb8bc5ca0f6dc7110f6416e4bb7019e2d2ff5bf93d1ca2ffcc6656f220e5"
-+SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
- 
- require wget.inc
+     # targets are the things we want to test the reproducibility of
+-    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
++    targets = get_bb_var("OEQA_REPRODUCIBLE_TEST_TARGET")
++    if targets:
++        targets = targets.split()
++    else:
++        targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
+     # sstate targets are things to pull from sstate to potentially cut build/debugging time
+-    sstate_targets = []
++    sstate_targets = (get_bb_var("OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS") or "").split()
+     save_results = False
+     if 'OEQA_DEBUGGING_SAVED_OUTPUT' in os.environ:
+         save_results = os.environ['OEQA_DEBUGGING_SAVED_OUTPUT']
 -- 
 2.34.1
 
