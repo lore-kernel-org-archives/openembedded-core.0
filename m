@@ -1,273 +1,436 @@
-Return-Path: <yang.xu@mediatek.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0D8EB64DC
-	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 01:30:24 +0000 (UTC)
-Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
- by mx.groups.io with SMTP id smtpd.web10.2012.1689643817123766250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE4DEB64DC
+	for <webhook@archiver.kernel.org>; Tue, 18 Jul 2023 03:06:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.3549.1689649613477155942
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jul 2023 18:30:18 -0700
+ Mon, 17 Jul 2023 20:06:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=ikGTP9K7;
- spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: yang.xu@mediatek.com)
-X-UUID: a3747378250a11ee9cb5633481061a41-20230718
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=o92jPx6eA1WEci+4XvSOnXZh6x7SM85shEtUjPPIw/A=;
-	b=ikGTP9K7B2LOslNJuDra8iFQ1NMmmmnWZuwkG6jkeMfB++sVkY9nCXJ8bvjvPqi8bNAvuUh7D4DybLeZskiL6XdTE48oE9EFvTve3SB2CMF4UlUp3zs/ZPrdeI+6yxXfooqGA30AsGX/b14eip8SjeoUcoRHt7DWwYio79lCrsk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:ab27b7ee-f7b7-4da5-88c6-507391a169be,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:46
-X-CID-INFO: VERSION:1.1.28,REQID:ab27b7ee-f7b7-4da5-88c6-507391a169be,IP:0,URL
-	:0,TC:0,Content:-5,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:46
-X-CID-META: VersionHash:176cd25,CLOUDID:19bdba87-44fb-401c-8de7-6a5572f1f5d5,B
-	ulkID:230718093012CN60VWV2,BulkQuantity:0,Recheck:0,SF:29|28|17|19|48|102,
-	TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,C
-	OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:PA,DKP:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,
-	TF_CID_SPAM_ULN
-X-UUID: a3747378250a11ee9cb5633481061a41-20230718
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-	(envelope-from <yang.xu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 746526644; Tue, 18 Jul 2023 09:30:11 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 18 Jul 2023 09:30:10 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 18 Jul 2023 09:30:10 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IMX1nbMtcxrxWIWXeJi3pWJEUBuHGG6oTWFfrENK/mt4Ozi512B1bExbNU4ihGpqp5Dv33+A62I02wJocs31XRPdo0/xCfaW9cqEhyUseEoEMfpiPuAvKsT9yTALl5bH3ndrbIOxAP706ITJ1JQysvgnoLoeqlnE+TMm9q9KaZInNY5+xhdGvhLxIwUdW87Blm5tZtyqCyROTRFDb9UkSWi5pwDJqipntBo2FTGd/xKwJHiuPZeHWDrLJVRoutbrMNYaBEjxcAQxpnf7c9pJSnoc0bZBveLG1NW85qAo0W8AJq8z9xJlsXYAdpC8jxVrA+epOyEKhPBbS+fn8ZsWvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o92jPx6eA1WEci+4XvSOnXZh6x7SM85shEtUjPPIw/A=;
- b=j4zn9yY/ojTVz8BsX0V0aUA1CiUGInThYZ6DFrPEabHiHnA7IyaqieMW31oe6G3+Jr3FMxYus7jSS+CWhPxU25w0ar47sDAto9oMd+d5OOfZoKwQ/7fxmaIZ9tFeJL1qlr0gO4IY0ShiPNyHSlHeB7X7n7kNWZiOjtXEf3kdy0wmothP6vr5BbibR9zdWf+KJ2piisa1rwTAPSYGqArCTtNe/5C9Px8+ifWWTtTgCah5uNlEX88UJEtMoPMBee/Dnp71Y1G/7dQpW2hs98Q5GtMfhNBK5QLdg05034BKcCdhMe52jHsCZq5Ntdv0q6Dvqr4LCQe/SvebnKWo3S87MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o92jPx6eA1WEci+4XvSOnXZh6x7SM85shEtUjPPIw/A=;
- b=BlTVbPJ4DZ3GEtReluEUoGOXN7nqZINl2GYz4N3Az+P0GsbYOexUeMVLa1g7uCWQn9nCiklr1agoX205dreXgH6R8oTgP7UL5iJnVvN1oVgI9Ple9g1LQC+7jJKsaMPw504dx+toW+XjCs/ziNao9hzY0Dgf7XJ+9FXCpBKsDQA=
-Received: from TYZPR03MB6717.apcprd03.prod.outlook.com (2603:1096:400:1f2::7)
- by KL1PR03MB5835.apcprd03.prod.outlook.com (2603:1096:820:80::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Tue, 18 Jul
- 2023 01:30:08 +0000
-Received: from TYZPR03MB6717.apcprd03.prod.outlook.com
- ([fe80::ec88:5bfa:2202:328e]) by TYZPR03MB6717.apcprd03.prod.outlook.com
- ([fe80::ec88:5bfa:2202:328e%7]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
- 01:30:08 +0000
-From: =?utf-8?B?WWFuZyBYdSAo5b6Q5omsKQ==?= <Yang.Xu@mediatek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Ross.Burton@arm.com" <Ross.Burton@arm.com>,
-	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH v4] sstatesig: Fix pn and taskname derivation in
- find_siginfo
-Thread-Topic: [PATCH v4] sstatesig: Fix pn and taskname derivation in
- find_siginfo
-Thread-Index: AQHZtTAnUDM+s4kBtkm5lINhnsZf0q++xGSA
-Date: Tue, 18 Jul 2023 01:30:07 +0000
-Message-ID: <bf77e6169f541972f68df38cd476b6038737598b.camel@mediatek.com>
-References: <20230713021659.23130-1-yang.xu@mediatek.com>
-In-Reply-To: <20230713021659.23130-1-yang.xu@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6717:EE_|KL1PR03MB5835:EE_
-x-ms-office365-filtering-correlation-id: 4b6d9465-6293-4b59-8d93-08db872e8572
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7PdNOL9GrAZort57NlCo5359sdBqg4p1eSRvWr85SFYwP7EuNy5PEIXrX0/XStvU9cgYI5wrnzCjWufC/irMO2d5oxSurjXG2OgXR7ga6ZT55l9FW+W1ual2eNauXDexJq0v+OkqBASyPD4fHJdKtG42/p6fR+r286w5yT8Yov83gp4pM8qBwV9siTX90nvPwpTG3kYZagf6mKV+b906gsAKr8UZr20So8+6fWv3ccUW7ZCa2BbIhdx03BX0YsgLrxQy44OPsG+l1styFDB7drmqV15dHWaYGY6L3MJqtH98Xwx7MSCkVCFOu+GJFePfNFkUImWuAycSc2Kr+Optac0krrlwo493kEb/3PTzcpPJjcps7LEHQarLri/eplL/r8JUfVcj6kqMbI1GrSIvWzCUPL9H9s0XDam8UYrHRI/Sjb3tPWMEhFFMwDN1uSLD5szJxgANKwgyiMkMUJTuSGfOmHcLA6rAXpk6qzCIi02qBXksToetGWXCDZWSagyIdFgouAmPfYksxzVLIVudJzLM7FA3QKvSDrN6AKlV7TAwyKhE0n9lNluhdyjximAKkFityscQ19XkynNG/j9681lPGlaBV3BsxZxgNevvtLVFhyhy4OoBizbkMZzN18spQIo61GthuaZu2FLbAGMHNHd+rTvA41v04R8JiKJEDCo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6717.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(136003)(39860400002)(346002)(366004)(451199021)(54906003)(71200400001)(122000001)(6486002)(38100700002)(41300700001)(8676002)(8936002)(5660300002)(6916009)(76116006)(478600001)(66946007)(66556008)(66476007)(66446008)(316002)(64756008)(4326008)(91956017)(186003)(83380400001)(6512007)(2616005)(26005)(6506007)(86362001)(36756003)(85182001)(38070700005)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dUxwNXY4MzhUT3d3ZVFRZ0Y4cFdUeU5GRytlQnorY3NIcXl0eDJYaEVnZVo0?=
- =?utf-8?B?em5maUs5Q1FGUFdoZjE0eFVod1lhTkpValQ1bWNSK1hEYTBpTk14cUFmRlg2?=
- =?utf-8?B?TlcrQWRXRHhsNnltVlM0R2FUWjZnb2NpcTlFb0p1T1VidUN2Z3BQUkRjQXlP?=
- =?utf-8?B?b29xbWxoNjRxby9JTlhZWmhMOFJWOGF2YjNXZGNwTlZlUW9hZ3d0T3pDU20z?=
- =?utf-8?B?WDlSY3pGK0Y2WmlmRW80elFDdjRZV2diQnlEKy9XM0R3Rnk1ZFBHblN4SDJ6?=
- =?utf-8?B?Zm5rTUR4eW8yV25LOThyTHpwVkNGUmZJaEF5UGtsRUNHQ0paL1FEbzVsQmFC?=
- =?utf-8?B?c1FSUktpVFYrNVdYWjNMSHg3YUd4cWJsZFQyL0xNRXc2bUJacER4RjhiUU54?=
- =?utf-8?B?L1BVMWZaaWVGR1FxYnpjUW9XU0h2d20vNTBWZytLTlhxNkdVTGpYUWlaOVk1?=
- =?utf-8?B?cHBJUjFmVWUxc2FSYjJuSnBSTHhVZkRBSkRkdDh6bHgrdDhnVmFlcWlKTnlH?=
- =?utf-8?B?OTlxdTlSeUp4dG5GTVFhMkp5UzRKUmp6NnZraktoUGU3QW9Fc1VNQzB4blh3?=
- =?utf-8?B?Z0dhd2N3aHgvU2dIWDhvSXVwMUc0OFVFdVBFc29BUlR6RG5DN0lRME5rbDI2?=
- =?utf-8?B?MlBSaE55ajF1OXhyTW9JMzE3eGlHdktIa0lJR0N1OGFmRi9ZeHFzeXNSZGZv?=
- =?utf-8?B?RzAyNGFoaHpqcS9WcmdUZld5Vm9DcndUSTIrdHVvbjZYbDluczVSaXFoNENZ?=
- =?utf-8?B?cUJ2cFEzWlV2MkgzdmpGcHZrZTdxanAxZElDQVd1eEl5dmZxWllycFc4Zytq?=
- =?utf-8?B?b1BBeTR5MzZzbmt2R3UxRHhUYk9SQUJhTHV1Z21ML1JXWkZmcUtrTTFPTGhB?=
- =?utf-8?B?V3NFRzR1U2tYUGZMeGFMVXhkRHpaeTFRUjA3b2FuZTVvckdwTFI5MFU3OTJH?=
- =?utf-8?B?VnFreitOZkRYZGF5YW9FSURvTUcwRXlud1pJQWIvZ2gyRjNReS82LzNQZHdP?=
- =?utf-8?B?dVBITXlmYnpoeXVVaGJ6L3hiY1htVG1ScUVqd253T2pXVCtnOGZidlNSaUw0?=
- =?utf-8?B?ZllvSXU0UmloWmh3NUQwd2dhMnhBUVVrMVI3OTJSUlpiV3ArY0N1LytLQ0F2?=
- =?utf-8?B?cVd5em9CTDBUdmpqZzBrRExNZTQ3WHlNTTlIRzQ2UXhBTGdFQ0VaMVc3ajdP?=
- =?utf-8?B?VUdTbmZ6bldjSkt1QkhSTTNjZ25CMFozbGVNclN3Zk9kc2F1Vkd3N05xWW5G?=
- =?utf-8?B?SnE4Y2pRRVhyYUpEaEgvV3IyZ1hjb2N1OURDaHVlNkpTeHoxL2RMQkZKbVNj?=
- =?utf-8?B?a0dKZGU0aExxbVplbkVOYVVGSXZLVER0SE9BN0k0bk4yZXFLZDhNWElmQXVB?=
- =?utf-8?B?dEZTVldraVA2YWlUd1k0a05XNVJhdi9qTlU4RFZhcWFJSEVNL1FDMWdpSTgw?=
- =?utf-8?B?WWRHVVVBcjc3eFdTTXppbmhuNDMxdzNVZWpkS2ZPZDVDeWgwZnJqQ3Evb1JC?=
- =?utf-8?B?azJHQWdNTkxOeWh5NUlCLzZoN1FTZzIvWVE2SHpZVlc3UDlsbHFjNDVHS0Iv?=
- =?utf-8?B?K3Zoc3B0VTcxREV5UjFrd2RyTlN0VHd2RFdjM3g1cGRaZjlyRmdRZEp0TjRE?=
- =?utf-8?B?ajM1VWIrT3BPZkR0aTgyWFBnd0NzY3dKa1RGT1pNTUNlcW11U2hZNEFhcDlX?=
- =?utf-8?B?dG9kVXZLeElzVXd2QTNSNUhjeXV2VlI5YmFVNzZPVjllNjh5ZVVQSXdZcTB3?=
- =?utf-8?B?Y2tXUFhWdm1zMXR4UVRYRWFsdzNXQkZQS09GWVc0eFBhYlZtSmphcnZWNS9H?=
- =?utf-8?B?NzM5d2w5OEZmZldMVEdOSk9aR2F5Q1llVkdmK0ZjWUNQckpvODl2d0ZMVGdG?=
- =?utf-8?B?VUNNYVJmdXJib2lNc2I2R3I2ajJIaE45ZUlVa0dBRU5jWUxteUJ5ZHg0OC9F?=
- =?utf-8?B?dEM0U0tnOURjcTluR1A0MVZsdkorUmZ4YlVodDFDTCtYaGptLzF3Zllqbk84?=
- =?utf-8?B?ckdHYmU2V2tVcld2VTF4aEFPL09BUk0xbUFPQUxaZERHKzc2WjRvNDRWTkx4?=
- =?utf-8?B?SDZtR3B0a1NoN3RTK3czeFdnbzViZHhLc0dTVy9KOWNSUm1aUkYrRmxJTXpU?=
- =?utf-8?B?bDZkY3QvWWlhU0hrT3dIOWY1OStMenk4VW9rWTVtcGJjQzVoTkpsZU1LT3Ir?=
- =?utf-8?B?OFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0C73FD7048FB5A4482E4109C1E8A66BC@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=jixww4PW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6563f9619b=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36I2U6Vb011532
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 03:06:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=PPS06212021; bh=176O93EKZ6f6hTpAZp
+	bLXQdK7liLQOPl687fkYwoZMA=; b=jixww4PWClhAoDsbuB8+qAQAEWlNJhktwl
+	PQlSx9hRLkDCqHJGizSBKzmiGI9Kw4i1MyuB5/49hMh//Oh4Qu4KlcY9nv2obNgm
+	g38A/Ojn4YE3BzotJ+x2S6HMczp5jStuzDuhCC7lJOSf3b+Z/T53yDlwrGiJE6sF
+	xNxkF/ZGf7DCVnociilmRzZfzA9Hwi+Ce6352yMp6momuG92gYDFYC2HHCyjlf3P
+	maUBwbvWutruBBY3+6THYP8lliyYOTJyQorYAj7MjXSXB3JB++52R9v+VwD2KMIp
+	LcbZuycA2B8ooHukALPbJxl2pcFbAqEt6tAG+bp3KZ8CRf76TkCg==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run9jt5mk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 03:06:52 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 17 Jul 2023 20:06:50 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Mon, 17 Jul 2023 20:06:49 -0700
+From: Soumya <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>, Soumya <soumya.sambu@windriver.com>
+Subject: [oe-core][PATCH v2 1/1] perl: Fix CVE-2023-31486
+Date: Tue, 18 Jul 2023 03:06:36 +0000
+Message-ID: <20230718030636.1418247-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6717.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b6d9465-6293-4b59-8d93-08db872e8572
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 01:30:08.0087
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uAhx0yd0G/XeEVqyKw1n99w4mkSjUa1jPaDgsUKBqw9CETYZy25Zupg+eze3zS1zlWOrCUIEGJOFQZtUVjBrMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB5835
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: PFNYB0t0S7ej40XrejVj_jD92GsjT6rC
+X-Proofpoint-ORIG-GUID: PFNYB0t0S7ej40XrejVj_jD92GsjT6rC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307180028
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36I2U6Vb011532
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 01:30:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184484
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 03:06:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184485
 
-RGVhciBTaXJzLA0KDQpTb3JyeSwgY291bGQgeW91IHBsZWFzZSBoZWxwIHRvIHJldmlldyBwYXRj
-aCB2ND8NCkluIHBhdGNoIHY0LCBJIG9wdGltaXplIHRoZSB0ZXN0Y2FzZSB0byBhdm9pZCBub24t
-ZGV0ZXJtaW5pc3RpYyBmYWlsLg0KDQpUaGFuayB5b3UNCg0KT24gVGh1LCAyMDIzLTA3LTEzIGF0
-IDAyOjE2ICswMDAwLCB5YW5nLnh1QG1lZGlhdGVrLmNvbSB3cm90ZToNCj4gRnJvbTogWWFuZyBY
-dSA8eWFuZy54dUBtZWRpYXRlay5jb20+DQo+IA0KPiBUaGUgYGJiLnNpZ2dlbi5jb21wYXJlX3Np
-Z2ZpbGVzYCBtZXRob2QgdHJhbnNmb3JtcyB0aGUga2V5IGZvcm1hdA0KPiBmcm9tDQo+IGBbbWM6
-PG1jX25hbWU+Ol1bdmlydHVhbDpdW25hdGl2ZTpdPHJlY2lwZSBwYXRoPjo8dGFza25hbWU+YCB0
-bw0KPiBgPHJlY2lwZSBkaXI+LzxyZWNpcGUNCj4gbmFtZT46PHRhc2tuYW1lPls6dmlydHVhbF1b
-Om5hdGl2ZV1bOm1jOjxtY19uYW1lPl1gDQo+IGJ5IGBjbGVhbl9iYXNlcGF0aHNgLiBIb3dldmVy
-LCBgZmluZF9zaWdpbmZvYCB1c2VzIHRoZSBvcmlnaW5hbA0KPiBmb3JtYXQNCj4gdG8gZ2V0IHRo
-ZSBwYWNrYWdlIG5hbWUgKHBuKSBhbmQgdGFzayBuYW1lLg0KPiANCj4gVGhpcyBjb21taXQgY29y
-cmVjdHMgdGhlIG1ldGhvZCBmb3IgZGVyaXZpbmcgdGhlIHBuIGFuZCB0YXNrIG5hbWUgaW4NCj4g
-YGZpbmRfc2lnaW5mb2AgYW5kIGFkZHMgaGFuZGxpbmcgZm9yIG11bHRpbGliIG5hbWUuDQo+IEFu
-ZCBhZGQgdGVzdCBmb3IgY29tcGFyZV9zaWdmaWxlcyBhbmQgZmluZF9zaWdpbmZvIHdvcmtpbmcg
-dG9nZXRoZXIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZYW5nIFh1IDx5YW5nLnh1QG1lZGlhdGVr
-LmNvbT4NCj4gLS0tDQo+IA0KPiBOb3RlczoNCj4gICAgIHYxOiBjb3JyZWN0IGhhbmRsaW5nIGZv
-ciBwbiBhbmQgdGFza25hbWUgZm9yIG5hdGl2ZSB0YXJnZXQgaW4NCj4gZmluZF9zaWdpbmZvDQo+
-ICAgICB2MjogYWRkIGhhbmRsaW5nIGZvciBtdWx0aWxpYiB0YXJnZXQgaW4gZmluZF9zaWdpbmZv
-DQo+ICAgICB2MzogYWRkIHRlc3RjYXNlIGZvciBjb21wYXJlX3NpZ2ZpbGVzIGFuZCBmaW5kX3Np
-Z2luZm8gd29yaw0KPiB0b2dldGhlci4NCj4gICAgIHY0OiBvcHRpbWl6ZSB0ZXN0Y2FzZSB0byBh
-dm9pZCBub24tZGV0ZXJtaW5pc3RpYyBmYWlsDQo+IA0KPiAgLi4uL3JlY2lwZXMtdGVzdC9iaW51
-dGlscy9iaW51dGlsc18lLmJiYXBwZW5kIHwgIDIgKw0KPiAgbWV0YS9saWIvb2Uvc3N0YXRlc2ln
-LnB5ICAgICAgICAgICAgICAgICAgICAgIHwgMTcgKystLQ0KPiAgbWV0YS9saWIvb2VxYS9zZWxm
-dGVzdC9jYXNlcy9zc3RhdGV0ZXN0cy5weSAgIHwgODMNCj4gKysrKysrKysrKysrKysrKysrKw0K
-PiAgMyBmaWxlcyBjaGFuZ2VkLCA5NyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiAg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEtc2VsZnRlc3QvcmVjaXBlcy0NCj4gdGVzdC9iaW51dGls
-cy9iaW51dGlsc18lLmJiYXBwZW5kDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS1zZWxmdGVzdC9y
-ZWNpcGVzLXRlc3QvYmludXRpbHMvYmludXRpbHNfJS5iYmFwcGVuZA0KPiBiL21ldGEtc2VsZnRl
-c3QvcmVjaXBlcy10ZXN0L2JpbnV0aWxzL2JpbnV0aWxzXyUuYmJhcHBlbmQNCj4gbmV3IGZpbGUg
-bW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uMjA1NzIwOTgyYw0KPiAtLS0gL2Rldi9u
-dWxsDQo+ICsrKyBiL21ldGEtc2VsZnRlc3QvcmVjaXBlcy10ZXN0L2JpbnV0aWxzL2JpbnV0aWxz
-XyUuYmJhcHBlbmQNCj4gQEAgLTAsMCArMSwyIEBADQo+ICsjIFRoaXMgYmJhcHBlbmQgaXMgdXNl
-ZCB0byBhbHRlciB0aGUgcmVjaXBlIHVzaW5nIHRoZQ0KPiB0ZXN0X3JlY2lwZS5pbmMgZmlsZSBj
-cmVhdGVkIGJ5IHRlc3RzLg0KPiAraW5jbHVkZSB0ZXN0X3JlY2lwZS5pbmMNCj4gZGlmZiAtLWdp
-dCBhL21ldGEvbGliL29lL3NzdGF0ZXNpZy5weSBiL21ldGEvbGliL29lL3NzdGF0ZXNpZy5weQ0K
-PiBpbmRleCBmOTQzZGYxODFlLi5mMDQxYTBjNDMwIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2xpYi9v
-ZS9zc3RhdGVzaWcucHkNCj4gKysrIGIvbWV0YS9saWIvb2Uvc3N0YXRlc2lnLnB5DQo+IEBAIC0z
-MjEsMTEgKzMyMSwxOCBAQCBkZWYgZmluZF9zaWdpbmZvKHBuLCB0YXNrbmFtZSwgdGFza2hhc2hs
-aXN0LA0KPiBkKToNCj4gICAgICBpZiBub3QgdGFza25hbWU6DQo+ICAgICAgICAgICMgV2UgaGF2
-ZSB0byBkZXJpdmUgcG4gYW5kIHRhc2tuYW1lDQo+ICAgICAgICAgIGtleSA9IHBuDQo+IC0gICAg
-ICAgIHNwbGl0aXQgPSBrZXkuc3BsaXQoJy5iYjonKQ0KPiAtICAgICAgICB0YXNrbmFtZSA9IHNw
-bGl0aXRbMV0NCj4gLSAgICAgICAgcG4gPSBvcy5wYXRoLmJhc2VuYW1lKHNwbGl0aXRbMF0pLnNw
-bGl0KCdfJylbMF0NCj4gLSAgICAgICAgaWYga2V5LnN0YXJ0c3dpdGgoJ3ZpcnR1YWw6bmF0aXZl
-OicpOg0KPiAtICAgICAgICAgICAgcG4gPSBwbiArICctbmF0aXZlJw0KPiArICAgICAgICBpZiBr
-ZXkuY291bnQoJzonKSA+PSAyOg0KPiArICAgICAgICAgICAgc3BsaXRpdCwgdGFza25hbWUsIGFm
-Zml4ID0ga2V5LnNwbGl0KCc6JywgMikNCj4gKyAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAg
-IHNwbGl0aXQsIHRhc2tuYW1lID0ga2V5LnNwbGl0KCc6JywgMSkNCj4gKyAgICAgICAgICAgIGFm
-Zml4ID0gJycNCj4gKyAgICAgICAgcG4gPQ0KPiBvcy5wYXRoLnNwbGl0ZXh0KG9zLnBhdGguYmFz
-ZW5hbWUoc3BsaXRpdCkpWzBdLnNwbGl0KCdfJylbMF0NCj4gKyAgICAgICAgYWZmaXhpdGVtcyA9
-IGFmZml4LnNwbGl0KCc6JykNCj4gKyAgICAgICAgaWYgYWZmaXhpdGVtc1swXSA9PSAndmlydHVh
-bCc6DQo+ICsgICAgICAgICAgICBpZiBhZmZpeGl0ZW1zWzFdID09ICduYXRpdmUnOg0KPiArICAg
-ICAgICAgICAgICAgIHBuID0gcG4gKyAnLW5hdGl2ZScNCj4gKyAgICAgICAgICAgIGlmIGFmZml4
-aXRlbXNbMV0gPT0gJ211bHRpbGliJzoNCj4gKyAgICAgICAgICAgICAgICBwbiA9IGFmZml4aXRl
-bXNbMl0gKyAnLScgKyBwbg0KPiAgDQo+ICAgICAgaGFzaGZpbGVzID0ge30NCj4gICAgICBmaWxl
-ZGF0ZXMgPSB7fQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9z
-c3RhdGV0ZXN0cy5weQ0KPiBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvc3N0YXRldGVz
-dHMucHkNCj4gaW5kZXggZmViYWZkYjJmNy4uM2ZhMzAzODIxOCAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9zc3RhdGV0ZXN0cy5weQ0KPiArKysgYi9tZXRhL2xp
-Yi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3NzdGF0ZXRlc3RzLnB5DQo+IEBAIC02OTEsMyArNjkxLDg2
-IEBAIFRNUERJUiA9ICIke1RPUERJUn0vdG1wLXNzdGF0ZXNhbWVoYXNoMiINCj4gICAgICAgICAg
-c2VsZi5tYXhEaWZmID0gTm9uZQ0KPiAgICAgICAgICBzZWxmLmFzc2VydENvdW50RXF1YWwoZmls
-ZXMxLCBmaWxlczIpDQo+ICANCj4gK2NsYXNzIFNTdGF0ZUZpbmRTaWdpbmZvKFNTdGF0ZUJhc2Up
-Og0KPiArICAgIGRlZiB0ZXN0X3NzdGF0ZV9jb21wYXJlX3NpZ2ZpbGVzX2FuZF9maW5kX3NpZ2lu
-Zm8oc2VsZik6DQo+ICsgICAgICAgICIiIg0KPiArICAgICAgICBUZXN0IHRoZSBmdW5jdGlvbmFs
-aXR5IG9mIHRoZSBmaW5kX3NpZ2luZm86IGJhc2ljIGZ1bmN0aW9uDQo+IGFuZCBjYWxsYmFjayBp
-biBjb21wYXJlX3NpZ2ZpbGVzDQo+ICsgICAgICAgICIiIg0KPiArICAgICAgICBzZWxmLndyaXRl
-X2NvbmZpZygiIiINCj4gK1RNUERJUiA9IFwiJHtUT1BESVJ9L3RtcC1zc3RhdGVzLWZpbmRzaWdp
-bmZvXCINCj4gK1RDTElCQ0FQUEVORCA9IFwiXCINCj4gK01BQ0hJTkUgPSBcInFlbXV4ODYtNjRc
-Ig0KPiArcmVxdWlyZSBjb25mL211bHRpbGliLmNvbmYNCj4gK01VTFRJTElCUyA9ICJtdWx0aWxp
-YjpsaWIzMiINCj4gK0RFRkFVTFRUVU5FOnZpcnRjbGFzcy1tdWx0aWxpYi1saWIzMiA9ICJ4ODYi
-DQo+ICtCQl9TSUdOQVRVUkVfSEFORExFUiA9ICJPRUJhc2ljSGFzaCINCj4gKyIiIikNCj4gKyAg
-ICAgICAgc2VsZi50cmFja19mb3JfY2xlYW51cChzZWxmLnRvcGRpciArICIvdG1wLXNzdGF0ZXMt
-DQo+IGZpbmRzaWdpbmZvIikNCj4gKw0KPiArICAgICAgICBwbnMgPSBbImJpbnV0aWxzIiwgImJp
-bnV0aWxzLW5hdGl2ZSIsICJsaWIzMi1iaW51dGlscyJdDQo+ICsgICAgICAgIHRhcmdldF9jb25m
-aWdzID0gWw0KPiArIiIiDQo+ICtUTVBWQUwxID0gInRtcHZhbDEiDQo+ICtUTVBWQUwyID0gInRt
-cHZhbDIiDQo+ICtkb190bXB0YXNrMSgpIHsNCj4gKyAgICBlY2hvICR7VE1QVkFMMX0NCj4gK30N
-Cj4gK2RvX3RtcHRhc2syKCkgew0KPiArICAgIGVjaG8gJHtUTVBWQUwyfQ0KPiArfQ0KPiArYWRk
-dGFzayBkb190bXB0YXNrMQ0KPiArYWRkdGFzayB0bXB0YXNrMiBiZWZvcmUgZG9fdG1wdGFzazEN
-Cj4gKyIiIiwNCj4gKyIiIg0KPiArVE1QVkFMMyA9ICJ0bXB2YWwzIg0KPiArVE1QVkFMNCA9ICJ0
-bXB2YWw0Ig0KPiArZG9fdG1wdGFzazEoKSB7DQo+ICsgICAgZWNobyAke1RNUFZBTDN9DQo+ICt9
-DQo+ICtkb190bXB0YXNrMigpIHsNCj4gKyAgICBlY2hvICR7VE1QVkFMNH0NCj4gK30NCj4gK2Fk
-ZHRhc2sgZG9fdG1wdGFzazENCj4gK2FkZHRhc2sgdG1wdGFzazIgYmVmb3JlIGRvX3RtcHRhc2sx
-DQo+ICsiIiINCj4gKyAgICAgICAgXQ0KPiArDQo+ICsgICAgICAgIGZvciB0YXJnZXRfY29uZmln
-IGluIHRhcmdldF9jb25maWdzOg0KPiArICAgICAgICAgICAgc2VsZi53cml0ZV9yZWNpcGVpbmMo
-ImJpbnV0aWxzIiwgdGFyZ2V0X2NvbmZpZykNCj4gKyAgICAgICAgICAgIGZvciBwbiBpbiBwbnM6
-DQo+ICsgICAgICAgICAgICAgICAgYml0YmFrZSgiJXMgLWMgZG9fdG1wdGFzazEgLVMgbm9uZSIg
-JSBwbikNCj4gKyAgICAgICAgICAgIHNlbGYuZGVsZXRlX3JlY2lwZWluYygiYmludXRpbHMiKQ0K
-PiArDQo+ICsgICAgICAgIHdpdGggYmIudGluZm9pbC5UaW5mb2lsKCkgYXMgdGluZm9pbDoNCj4g
-KyAgICAgICAgICAgIHRpbmZvaWwucHJlcGFyZShjb25maWdfb25seT1UcnVlKQ0KPiArDQo+ICsg
-ICAgICAgICAgICBkZWYgZmluZF9zaWdpbmZvKHBuLCB0YXNrbmFtZSwgc2lncz1Ob25lKToNCj4g
-KyAgICAgICAgICAgICAgICByZXN1bHQgPSBOb25lDQo+ICsgICAgICAgICAgICAgICAgdGluZm9p
-bC5zZXRfZXZlbnRfbWFzayhbImJiLmV2ZW50LkZpbmRTaWdJbmZvUmVzdWx0Ig0KPiAsDQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJiYi5jb21tYW5kLkNvbW1hbmRDb21wbGV0
-ZWQiXSkNCj4gKyAgICAgICAgICAgICAgICByZXQgPSB0aW5mb2lsLnJ1bl9jb21tYW5kKCJmaW5k
-U2lnSW5mbyIsIHBuLA0KPiB0YXNrbmFtZSwgc2lncykNCj4gKyAgICAgICAgICAgICAgICBpZiBy
-ZXQ6DQo+ICsgICAgICAgICAgICAgICAgICAgIHdoaWxlIFRydWU6DQo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICBldmVudCA9IHRpbmZvaWwud2FpdF9ldmVudCgxKQ0KPiArICAgICAgICAgICAg
-ICAgICAgICAgICAgaWYgZXZlbnQ6DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYg
-aXNpbnN0YW5jZShldmVudCwNCj4gYmIuY29tbWFuZC5Db21tYW5kQ29tcGxldGVkKToNCj4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWsNCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBlbGlmIGlzaW5zdGFuY2UoZXZlbnQsDQo+IGJiLmV2ZW50LkZpbmRTaWdJbmZv
-UmVzdWx0KToNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVzdWx0ID0gZXZl
-bnQucmVzdWx0DQo+ICsgICAgICAgICAgICAgICAgcmV0dXJuIHJlc3VsdA0KPiArDQo+ICsgICAg
-ICAgICAgICBkZWYgcmVjdXJzZWNiKGtleSwgaGFzaDEsIGhhc2gyKToNCj4gKyAgICAgICAgICAg
-ICAgICBub25sb2NhbCByZWN1cnNlY2JfY291bnQNCj4gKyAgICAgICAgICAgICAgICByZWN1cnNl
-Y2JfY291bnQgKz0gMQ0KPiArICAgICAgICAgICAgICAgIGhhc2hlcyA9IFtoYXNoMSwgaGFzaDJd
-DQo+ICsgICAgICAgICAgICAgICAgaGFzaGZpbGVzID0gZmluZF9zaWdpbmZvKGtleSwgTm9uZSwg
-aGFzaGVzKQ0KPiArICAgICAgICAgICAgICAgIHNlbGYuYXNzZXJ0Q291bnRFcXVhbChoYXNoZXMs
-IGhhc2hmaWxlcykNCj4gKyAgICAgICAgICAgICAgICBiYi5zaWdnZW4uY29tcGFyZV9zaWdmaWxl
-cyhoYXNoZmlsZXNbaGFzaDFdLA0KPiBoYXNoZmlsZXNbaGFzaDJdLCByZWN1cnNlY2IpDQo+ICsN
-Cj4gKyAgICAgICAgICAgIGZvciBwbiBpbiBwbnM6DQo+ICsgICAgICAgICAgICAgICAgcmVjdXJz
-ZWNiX2NvdW50ID0gMA0KPiArICAgICAgICAgICAgICAgIGZpbGVkYXRlcyA9IGZpbmRfc2lnaW5m
-byhwbiwgImRvX3RtcHRhc2sxIikNCj4gKyAgICAgICAgICAgICAgICBzZWxmLmFzc2VydEdyZWF0
-ZXJFcXVhbChsZW4oZmlsZWRhdGVzKSwgMikNCj4gKyAgICAgICAgICAgICAgICBsYXRlc3RmaWxl
-cyA9IHNvcnRlZChmaWxlZGF0ZXMua2V5cygpLCBrZXk9bGFtYmRhIGY6DQo+IGZpbGVkYXRlc1tm
-XSlbLTI6XQ0KPiArICAgICAgICAgICAgICAgIGJiLnNpZ2dlbi5jb21wYXJlX3NpZ2ZpbGVzKGxh
-dGVzdGZpbGVzWy0yXSwNCj4gbGF0ZXN0ZmlsZXNbLTFdLCByZWN1cnNlY2IpDQo+ICsgICAgICAg
-ICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWN1cnNlY2JfY291bnQsMSkNCg==
+HTTP::Tiny before 0.083, a Perl core module since 5.13.9 and available
+standalone on CPAN, has an insecure default TLS configuration where
+users must opt in to verify certificates.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-31486
+
+Upstream patches:
+https://github.com/chansen/p5-http-tiny/commit/77f557ef84698efeb6eed04e4a=
+9704eaf85b741d
+https://github.com/chansen/p5-http-tiny/commit/a22785783b17cbaa28afaee4a0=
+24d81a1903701d
+
+Signed-off-by: Soumya <soumya.sambu@windriver.com>
+---
+ .../perl/files/CVE-2023-31486-0001.patch      | 217 ++++++++++++++++++
+ .../perl/files/CVE-2023-31486-0002.patch      |  36 +++
+ meta/recipes-devtools/perl/perl_5.36.1.bb     |   2 +
+ 3 files changed, 255 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0001.=
+patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31486-0002.=
+patch
+
+diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch b=
+/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
+new file mode 100644
+index 0000000000..1074e0848d
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0001.patch
+@@ -0,0 +1,217 @@
++From 77f557ef84698efeb6eed04e4a9704eaf85b741d
++From: Stig Palmquist <git@stig.io>
++Date: Mon Jun 5 16:46:22 2023 +0200
++Subject: [PATCH] Change verify_SSL default to 1, add ENV var to enable
++ insecure default
++
++- Changes the `verify_SSL` default parameter from `0` to `1`
++
++  Based on patch by Dominic Hargreaves:
++  https://salsa.debian.org/perl-team/interpreter/perl/-/commit/1490431e4=
+0e22052f75a0b3449f1f53cbd27ba92
++
++  CVE: CVE-2023-31486
++
++- Add check for `$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}` that
++  enables the previous insecure default behaviour if set to `1`.
++
++  This provides a workaround for users who encounter problems with the
++  new `verify_SSL` default.
++
++  Example to disable certificate checks:
++  ```
++    $ PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT=3D1 ./script.pl
++  ```
++
++- Updates to documentation:
++  - Describe changing the verify_SSL value
++  - Describe the escape-hatch environment variable
++  - Remove rationale for not enabling verify_SSL
++  - Add missing certificate search paths
++  - Replace "SSL" with "TLS/SSL" where appropriate
++  - Use "machine-in-the-middle" instead of "man-in-the-middle"
++
++Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commi=
+t/77f557ef84698efeb6eed04e4a9704eaf85b741d]
++
++Signed-off-by: Soumya <soumya.sambu@windriver.com>
++---
++ cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 86 ++++++++++++++++++++++-----------
++ 1 file changed, 57 insertions(+), 29 deletions(-)
++
++diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/T=
+iny.pm
++index 83ca06d..ebc34a1 100644
++--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
+++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
++@@ -40,10 +40,14 @@ sub _croak { require Carp; Carp::croak(@_) }
++ #pod * C<timeout> =E2=80=94 Request timeout in seconds (default is 60) =
+If a socket open,
++ #pod   read or write takes longer than the timeout, the request respons=
+e status code
++ #pod   will be 599.
++-#pod * C<verify_SSL> =E2=80=94 A boolean that indicates whether to vali=
+date the SSL
++-#pod   certificate of an C<https> =E2=80=94 connection (default is fals=
+e)
+++#pod * C<verify_SSL> =E2=80=94 A boolean that indicates whether to vali=
+date the TLS/SSL
+++#pod   certificate of an C<https> =E2=80=94 connection (default is true=
+). Changed from false
+++#pod   to true in version 0.083.
++ #pod * C<SSL_options> =E2=80=94 A hashref of C<SSL_*> =E2=80=94 options=
+ to pass through to
++ #pod   L<IO::Socket::SSL>
+++#pod * C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT}> - Changes the de=
+fault
+++#pod   certificate verification behavior to not check server identity i=
+f set to 1.
+++#pod   Only effective if C<verify_SSL> is not set. Added in version 0.0=
+83.
++ #pod
++ #pod An accessor/mutator method exists for each attribute.
++ #pod
++@@ -111,11 +115,17 @@ sub timeout {
++ sub new {
++     my($class, %args) =3D @_;
++
+++    # Support lower case verify_ssl argument, but only if verify_SSL is=
+ not
+++    # true.
+++    if ( exists $args{verify_ssl} ) {
+++        $args{verify_SSL}  ||=3D $args{verify_ssl};
+++    }
+++
++     my $self =3D {
++         max_redirect =3D> 5,
++         timeout      =3D> defined $args{timeout} ? $args{timeout} : 60,
++         keep_alive   =3D> 1,
++-        verify_SSL   =3D> $args{verify_SSL} || $args{verify_ssl} || 0, =
+# no verification by default
+++        verify_SSL   =3D> defined $args{verify_SSL} ? $args{verify_SSL}=
+ : _verify_SSL_default(),
++         no_proxy     =3D> $ENV{no_proxy},
++     };
++
++@@ -134,6 +144,13 @@ sub new {
++     return $self;
++ }
++
+++sub _verify_SSL_default {
+++    my ($self) =3D @_;
+++    # Check if insecure default certificate verification behaviour has =
+been
+++    # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEF=
+AULT=3D1
+++    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? =
+0 : 1;
+++}
+++
++ sub _set_proxies {
++     my ($self) =3D @_;
++
++@@ -1055,7 +1072,7 @@ sub new {
++         timeout          =3D> 60,
++         max_line_size    =3D> 16384,
++         max_header_lines =3D> 64,
++-        verify_SSL       =3D> 0,
+++        verify_SSL       =3D> HTTP::Tiny::_verify_SSL_default(),
++         SSL_options      =3D> {},
++         %args
++     }, $class;
++@@ -2043,11 +2060,11 @@ proxy
++ timeout
++ verify_SSL
++
++-=3Dhead1 SSL SUPPORT
+++=3Dhead1 TLS/SSL SUPPORT
++
++ Direct C<https> connections are supported only if L<IO::Socket::SSL> 1.=
+56 or
++ greater and L<Net::SSLeay> 1.49 or greater are installed. An error will=
+ occur
++-if new enough versions of these modules are not installed or if the SSL
+++if new enough versions of these modules are not installed or if the TLS
++ encryption fails. You can also use C<HTTP::Tiny::can_ssl()> utility fun=
+ction
++ that returns boolean to see if the required modules are installed.
++
++@@ -2055,7 +2072,7 @@ An C<https> connection may be made via an C<http> =
+proxy that supports the CONNEC
++ command (i.e. RFC 2817).  You may not proxy C<https> via a proxy that i=
+tself
++ requires C<https> to communicate.
++
++-SSL provides two distinct capabilities:
+++TLS/SSL provides two distinct capabilities:
++
++ =3Dover 4
++
++@@ -2069,24 +2086,17 @@ Verification of server identity
++
++ =3Dback
++
++-B<By default, HTTP::Tiny does not verify server identity>.
++-
++-Server identity verification is controversial and potentially tricky be=
+cause it
++-depends on a (usually paid) third-party Certificate Authority (CA) trus=
+t model
++-to validate a certificate as legitimate.  This discriminates against se=
+rvers
++-with self-signed certificates or certificates signed by free, community=
+-driven
++-CA's such as L<CAcert.org|http://cacert.org>.
+++B<By default, HTTP::Tiny verifies server identity>.
++
++-By default, HTTP::Tiny does not make any assumptions about your trust m=
+odel,
++-threat level or risk tolerance.  It just aims to give you an encrypted =
+channel
++-when you need one.
+++This was changed in version 0.083 due to security concerns. The previou=
+s default
+++behavior can be enabled by setting C<$ENV{PERL_HTTP_TINY_SSL_INSECURE_B=
+Y_DEFAULT}>
+++to 1.
++
++-Setting the C<verify_SSL> attribute to a true value will make HTTP::Tin=
+y verify
++-that an SSL connection has a valid SSL certificate corresponding to the=
+ host
++-name of the connection and that the SSL certificate has been verified b=
+y a CA.
++-Assuming you trust the CA, this will protect against a L<man-in-the-mid=
+dle
++-attack|http://en.wikipedia.org/wiki/Man-in-the-middle_attack>.  If you =
+are
++-concerned about security, you should enable this option.
+++Verification is done by checking that that the TLS/SSL connection has a=
+ valid
+++certificate corresponding to the host name of the connection and that t=
+he
+++certificate has been verified by a CA. Assuming you trust the CA, this =
+will
+++protect against L<machine-in-the-middle
+++attacks|http://en.wikipedia.org/wiki/Machine-in-the-middle_attack>.
++
++ Certificate verification requires a file containing trusted CA certific=
+ates.
++
++@@ -2094,9 +2104,7 @@ If the environment variable C<SSL_CERT_FILE> is pr=
+esent, HTTP::Tiny
++ will try to find a CA certificate file in that location.
++
++ If the L<Mozilla::CA> module is installed, HTTP::Tiny will use the CA f=
+ile
++-included with it as a source of trusted CA's.  (This means you trust Mo=
+zilla,
++-the author of Mozilla::CA, the CPAN mirror where you got Mozilla::CA, t=
+he
++-toolchain used to install it, and your operating system security, right=
+?)
+++included with it as a source of trusted CA's.
++
++ If that module is not available, then HTTP::Tiny will search several
++ system-specific default locations for a CA certificate file:
++@@ -2115,13 +2123,33 @@ system-specific default locations for a CA certi=
+ficate file:
++
++ /etc/ssl/ca-bundle.pem
++
+++=3Ditem *
+++
+++/etc/openssl/certs/ca-certificates.crt
+++
+++=3Ditem *
+++
+++/etc/ssl/cert.pem
+++
+++=3Ditem *
+++
+++/usr/local/share/certs/ca-root-nss.crt
+++
+++=3Ditem *
+++
+++/etc/pki/tls/cacert.pem
+++
+++=3Ditem *
+++
+++/etc/certs/ca-certificates.crt
+++
++ =3Dback
++
++ An error will be occur if C<verify_SSL> is true and no CA certificate f=
+ile
++ is available.
++
++-If you desire complete control over SSL connections, the C<SSL_options>=
+ attribute
++-lets you provide a hash reference that will be passed through to
+++If you desire complete control over TLS/SSL connections, the C<SSL_opti=
+ons>
+++attribute lets you provide a hash reference that will be passed through=
+ to
++ C<IO::Socket::SSL::start_SSL()>, overriding any options set by HTTP::Ti=
+ny. For
++ example, to provide your own trusted CA file:
++
++@@ -2131,7 +2159,7 @@ example, to provide your own trusted CA file:
++
++ The C<SSL_options> attribute could also be used for such things as prov=
+iding a
++ client certificate for authentication to a server or controlling the ch=
+oice of
++-cipher used for the SSL connection. See L<IO::Socket::SSL> documentatio=
+n for
+++cipher used for the TLS/SSL connection. See L<IO::Socket::SSL> document=
+ation for
++ details.
++
++ =3Dhead1 PROXY SUPPORT
++--
++2.40.0
+diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch b=
+/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
+new file mode 100644
+index 0000000000..45452be389
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2023-31486-0002.patch
+@@ -0,0 +1,36 @@
++From a22785783b17cbaa28afaee4a024d81a1903701d
++From: Stig Palmquist <git@stig.io>
++Date: Sun Jun 18 11:36:05 2023 +0200
++Subject: [PATCH] Fix incorrect env var name for verify_SSL default
++
++The variable to override the verify_SSL default differed slightly in the
++documentation from what was checked for in the code.
++
++This commit makes the code use `PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT`
++as documented, instead of `PERL_HTTP_TINY_INSECURE_BY_DEFAULT` which was
++missing `SSL_`
++
++CVE: CVE-2023-31486
++
++Upstream-Status: Backport [https://github.com/chansen/p5-http-tiny/commi=
+t/a22785783b17cbaa28afaee4a024d81a1903701d]
++
++Signed-off-by: Soumya <soumya.sambu@windriver.com>
++---
++ cpan/HTTP-Tiny/lib/HTTP/Tiny.pm | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm b/cpan/HTTP-Tiny/lib/HTTP/T=
+iny.pm
++index ebc34a1..65ac8ff 100644
++--- a/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
+++++ b/cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
++@@ -148,7 +148,7 @@ sub _verify_SSL_default {
++     my ($self) =3D @_;
++     # Check if insecure default certificate verification behaviour has =
+been
++     # changed by the user by setting PERL_HTTP_TINY_SSL_INSECURE_BY_DEF=
+AULT=3D1
++-    return (($ENV{PERL_HTTP_TINY_INSECURE_BY_DEFAULT} || '') eq '1') ? =
+0 : 1;
+++    return (($ENV{PERL_HTTP_TINY_SSL_INSECURE_BY_DEFAULT} || '') eq '1'=
+) ? 0 : 1;
++ }
++
++ sub _set_proxies {
++--
++2.40.0
+diff --git a/meta/recipes-devtools/perl/perl_5.36.1.bb b/meta/recipes-dev=
+tools/perl/perl_5.36.1.bb
+index 3db1d9c6ae..87768cc7f7 100644
+--- a/meta/recipes-devtools/perl/perl_5.36.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.36.1.bb
+@@ -18,6 +18,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.ta=
+r.gz;name=3Dperl \
+            file://determinism.patch \
+            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-det=
+erm.patch \
+            file://CVE-2023-31484.patch \
++           file://CVE-2023-31486-0001.patch \
++           file://CVE-2023-31486-0002.patch \
+            "
+ SRC_URI:append:class-native =3D " \
+            file://perl-configpm-switch.patch \
+--=20
+2.40.0
+
 
