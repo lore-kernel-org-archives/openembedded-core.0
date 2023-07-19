@@ -2,132 +2,92 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4823DC001B0
-	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 20:35:44 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.779.1689798934673039623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE84C001DC
+	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 20:39:24 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.765.1689799159308463260
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jul 2023 13:35:35 -0700
+ Wed, 19 Jul 2023 13:39:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=dxAinAOR;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b93fba1f62so492161fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 13:35:34 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=TmXNlcB3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fba8f2197bso33077e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 13:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689798933; x=1692390933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NH4gPJSLlGazTheuHpCzmIEe36a1eym5vcAHZPBhzMg=;
-        b=dxAinAORJFGSp1VQpsVxjj0nLpPtszjWdkUWAKAx//j8K0joa4aEW8SN+Z82FGWRTE
-         deC0qCtS/cPifdqdNa5XiV/+Iz8fYmTFKPH6DSiLTbCpodA4//5ZAdaV17I9vCzXAYDC
-         Q7fqn9L6WQkuy2mERKfJug+AOhqJpmqJsgUAVGYxBBqfogIk1CJROo3lFtivM7EVX/FL
-         jv7F91qndThuI986bqGApgGOwMaRrK0mq6hXoOsia5Csp8GjIIelA4AtO8UHLgA2RyPY
-         iHrQuoWiRN9IPu5yKTWwYhaH7d0Y4GYwCmiyY1sqT+4LmapSCmgJ2zycoLEW6hIircOQ
-         jQXA==
+        d=gmail.com; s=20221208; t=1689799157; x=1692391157;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qdt5ZJp2uNbbL8AVjbMBO23W+LwB/hS6OOPkN2RFitE=;
+        b=TmXNlcB331PxbEfGCYUWjSuYKwCMkD28KCuS7SDgD7p56rjEXB1qTiZYuSkZCpppZ9
+         LYODDnQD0cxT2rkIt74w2tpsY1NNKU8cimpIKMPx/cGV0PKuiIO39/r6RpsDGRcMrUNS
+         gSvufJogsV1F7xmHsZaNjf51GLDsx5S8lzEfBI1d+gBRwXMtrDBQHCQ+4RN5y+Vb0Rgk
+         FgMizKU/Ycle3cmnjVewosHaZqVm2newPo773dlWGaDGYGYs55ZH8C+h1Kv6dlqgoq7Z
+         sz01l7QjuwAporReiyZKwGi0Y6inRDXfxxxGvToAHJ6I2lYRjQSaqviRyOIgR2UpsGUa
+         pZ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689798933; x=1692390933;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NH4gPJSLlGazTheuHpCzmIEe36a1eym5vcAHZPBhzMg=;
-        b=Cv8NKZVJ39jqFqy38Yzj/U84INhoDyucwrEw4EXApXl/rtGSHfXRQk+/veKizqsnXh
-         mivwwPCyDXdnuLeSxEQHnhZrVyoRk7EnFT5eAufEpIY5TJFzEloqJKruNcjadXxk8QFe
-         4WRmV48BhTPA8dYCglo6dKvFBVvz8AKN8IiE860da6HAn+RInZZdKcZLerEJDHAWE/z4
-         7QrDgptVgmrE16TEl3eVKDykeusOPZRFYWvdc2rhngw8g1rj3prcDHyk9tpVnEHx5jRi
-         44W2WV1wxOT+GupK62vnv7ILMAIe4Ti9/EtBjxB5AkR17JjmjWz8K6dpZ5Jwz5fh2o2U
-         jpUQ==
-X-Gm-Message-State: ABy/qLaCJ34sGGAqsVxI96lIwdYW/7MvRWR8D/jNDIBmM/tu1kHBr1L9
-	GLw0zPfRsVPOwQECPg4od3z1bHN4+CyzHz+JNWg=
-X-Google-Smtp-Source: APBJJlFU7+CBoolRFIssaNsNQiEUnW/fFG2OVGe0m4tWbHAze1ETOt2+Z3ifOo4l8f9p0tBZ3sea6HNb09cBrNdnJ04=
-X-Received: by 2002:a2e:96d3:0:b0:2b7:a64:6c3e with SMTP id
- d19-20020a2e96d3000000b002b70a646c3emr729618ljj.26.1689798932547; Wed, 19 Jul
- 2023 13:35:32 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689799157; x=1692391157;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qdt5ZJp2uNbbL8AVjbMBO23W+LwB/hS6OOPkN2RFitE=;
+        b=im14dJSs7/oYbC6hl5k9kG7goBta1ylAyh/sx7YOPh+7RwVutoxpuIz+5qLnIrBarm
+         z8znKQJErKDIG1ZYwp2t6srdIu3yy+/Qo5tpGC8/PKN4N7mwx5kLk1565Eglcnp/mhis
+         X/90u/MyEdPdQvhFfO4QKqgR8xGg53X0K88r7StaqL5J2f2CsEqo1Fkt52jlF291JS9O
+         P+VXzIS5RfAf9ktn/oyLwoVDrA9rUN7cOEYn709N582qARoGk7KJ55kft3yUiX19i1cz
+         MEK//SRMgDS+RjeN/oo4Y48LJCwCT973QXcBSmvqOZTkAZZD5hHOKe5dcFLSRE/8vZNh
+         k8+w==
+X-Gm-Message-State: ABy/qLYuOiEs1iE3OHHCwCAseX78qJBsQBwuA9RdJx8yVwJNkE4PcSgX
+	OCNHDMx9Um8Tn8noSx6nj0jc8Mn+O7qktAi6QV0=
+X-Google-Smtp-Source: APBJJlHh8/OqGAI1YO9AHlGIB/zNuVv4wCbRgo3KkXuZXAlYSpxUau4pm/nMVxPmU/cFfc63vy/ms4Ly7JOoBfhRGI0=
+X-Received: by 2002:a19:501a:0:b0:4f6:3677:553 with SMTP id
+ e26-20020a19501a000000b004f636770553mr97528lfb.38.1689799157248; Wed, 19 Jul
+ 2023 13:39:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230717143624.437293-1-richard.purdie@linuxfoundation.org>
- <CANNYZj-9u4gDwvjL8+9F8+GSJUqes45w-DMn-v2xvg3qaXRH5w@mail.gmail.com> <CAJdd5GakykM-7tv0FppDg7iSa3rwzCPbhhh1jR3zdYm1hm9QWA@mail.gmail.com>
-In-Reply-To: <CAJdd5GakykM-7tv0FppDg7iSa3rwzCPbhhh1jR3zdYm1hm9QWA@mail.gmail.com>
+References: <20230719200252.1203047-1-charlie.johnston@ni.com>
+In-Reply-To: <20230719200252.1203047-1-charlie.johnston@ni.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Jul 2023 22:35:24 +0200
-Message-ID: <CANNYZj9fvRJWAB_jSpnqzx_wgzapANNdPMNCosqO3P6S-W+gpQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ptest-runner: Pull in parallel test fixes
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jul 2023 22:39:09 +0200
+Message-ID: <CANNYZj_-Nfmcon6GqYGqtrK+nkmx3goRqrJN4g6dxnvVx801iw@mail.gmail.com>
+Subject: Re: [oe-core][RFC PATCH 0/3] Add packagefeed recipe class
+To: Charlie Johnston <charlie.johnston@ni.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 20:35:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184610
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 20:39:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184611
 
-Which newer commit, in which repo? I believe the latest SRCREV update
-in oe-core master that landed 12 hours ago or so is what broke things.
+You need to start by describing the use case. What problem does the
+code solve that existing packagefeed code does not? Can we rather
+extend the already existing code, its tests, and its documentation, to
+support that use case?
 
 Alex
 
-On Wed, 19 Jul 2023 at 22:32, Joshua Watt <jpewhacker@gmail.com> wrote:
+
+On Wed, 19 Jul 2023 at 22:03, Charlie Johnston <charlie.johnston@ni.com> wrote:
 >
-> There is a newer commit that was merged to master just today; please
-> see if that fixes it.
+> Hello,
 >
-> On Wed, Jul 19, 2023 at 2:26=E2=80=AFPM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Unfortunately this seems to once again have regressed glib/codegen
-> > ptest (the test writes large amounts to stdout):
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15154
-> >
-> > I'll send a revert.
-> >
-> > Alex
-> >
-> > On Mon, 17 Jul 2023 at 16:36, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > Pull in the commits:
-> > >
-> > >     Change test timeout to be total elapsed time
-> > >     Report if child dies from a signal
-> > >     Recreate pipe for each test
-> > >     Revert "runner: Correctly handle running parallel tests"
-> > >     runner: Correctly handle running parallel tests
-> > >
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > >  meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb =
-b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> > > index 6f3104499f2..77e2b94f376 100644
-> > > --- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> > > +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-> > > @@ -7,7 +7,7 @@ HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.c=
-gi/ptest-runner2/about/"
-> > >  LICENSE =3D "GPL-2.0-or-later"
-> > >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D751419260aa954499f7abaaba=
-a882bbe"
-> > >
-> > > -SRCREV =3D "8259375d306a8129f6c5d8528314496fc6ae1ca3"
-> > > +SRCREV =3D "07d8a676aa962ecc5ec264ec33b0074adf2a8733"
-> > >  PV .=3D "+git${SRCPV}"
-> > >
-> > >  SRC_URI =3D "git://git.yoctoproject.org/ptest-runner2;branch=3Dmaste=
-r;protocol=3Dhttps \
-> > > --
-> > > 2.39.2
-> > >
-> > >
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#184473): https://lists.openembedded.org/g/openemb=
-edded-core/message/184473
-> > > Mute This Topic: https://lists.openembedded.org/mt/100195650/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [alex.kanavin@gmail.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >
+> I've been working on a packagefeed.bbclass to allow recipes that define a feed. I have a working prototype which has been tested against poky using all 3 package types.
+> This is my first time submitting this type of change, so I'm looking for some feedback to cover the gaps in my knowledge.
+> Are there tests that need to be added for this type of change?
+> Should this type of recipe class be SSTATE cache enabled?
+> What documentation changes are necessary for this type of change?
+>
+> Thanks,
+> Charlie Johnston
+> charlie.johnston@ni.com
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184601): https://lists.openembedded.org/g/openembedded-core/message/184601
+> Mute This Topic: https://lists.openembedded.org/mt/100243054/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
