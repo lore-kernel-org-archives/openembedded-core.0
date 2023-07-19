@@ -1,186 +1,144 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B05EB64DA
-	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 11:58:56 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web11.11917.1689767934637364286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BFAEB64DA
+	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 12:03:16 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.48])
+ by mx.groups.io with SMTP id smtpd.web10.11961.1689768193532048004
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jul 2023 04:58:54 -0700
+ Wed, 19 Jul 2023 05:03:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=UiZxR4A8;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-34637e55d8dso30001995ab.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 04:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689767934; x=1692359934;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dCCR/CEOZqux0PL4K403Y/tIN9c8FOkaWJvJXmIyRNE=;
-        b=UiZxR4A8p4u8LTx6Dcknw19reXSDhYZEhmFRxD6F5hh/U8172hUNfl3azD/6gpkUMV
-         6iAvY3dIqaJkmiEDs3DzgsUTJp/kLtqAc7VtYWdyR5ElOxlMYroTtUcY9IEMo+Q5PRP0
-         CodDo0aj4WUnDUAv9mDk0MoXTGY8VuSAPg14t34CSc35wMBHxSuHSxy5mpfKhKCnDqgE
-         gizGrcGeuSi01UgnMRFctutQSN54Xdy+63TvvDTutfy63N+wQVwYhFnH0d9qE9vQJ1e7
-         ONfUz/IhG1WXVxTfh6Y7NEJedxscE/pfQxFmSnsBFBAMHAYR1coz6mZGjihFJOUo4t41
-         iztA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689767934; x=1692359934;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dCCR/CEOZqux0PL4K403Y/tIN9c8FOkaWJvJXmIyRNE=;
-        b=FQTctRRYZ2wB+LPYlHwzdmvfRYJIyKmrxyNkr+R1enqoz/6v6qVcL2cLc0hturscfV
-         46pbJsIRo85QgYQHqIfjr3CAZJz5xY5pPCyKqUuAMd+iS9wPuwDOILA65wZTO7B+z4In
-         bH6769T67RnxrSFbv2op8qWwZ++/fmgcB3eRacmx4piY0aMgcb8XuMW0eGIll2mRJwXJ
-         aYoaxx2Srova0stRAgi23jrTnuxLT+dmY63ENg8SHaZXsQJzi11NrEf986V572AYBbI8
-         Kh4vVX2OS/1yFdlMI6w3iZZHQ5z8uIqIviIH60CRK1GDDz/dyYsEyZLCjMhbIc5I6KrI
-         +dMA==
-X-Gm-Message-State: ABy/qLaSGj7Y2QQfJ9GzbrGfLIknyMdjgewMJKLeNKSAX2FjJPHX4uRN
-	vS0agP0KvOXsrL7zqPQ4gpmAbjH5z0/uvg1oYsw=
-X-Google-Smtp-Source: APBJJlETqqBy72ybXM9mtnXiA/Ft8N30v5bmfWLdnznjoBz6kgM5uzXoT5Ow7M4g43/C9gCIWoD0tKrx8w3jXmULlxM=
-X-Received: by 2002:a05:6e02:174e:b0:348:814b:e4b6 with SMTP id
- y14-20020a056e02174e00b00348814be4b6mr2619293ill.16.1689767933611; Wed, 19
- Jul 2023 04:58:53 -0700 (PDT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=K+U0wZHC;
+ spf=pass (domain: siemens.com, ip: 40.107.22.48, mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hhpGT4FGQGJCLKmPVyVGvhaqpsfpbC1fJFfcH2vqTLNYd7vBS69SU0t/tqHwBRi/vtq5lbCR+aNxTfOqtLWJwA4kO4KJ13iIKqTWsWotvNmze6CWWN7nZmo2VOyDlvhfAJjdfWM9cblpIbkoQCEeNgwOr/3wndlPUY+3zt2ZgcrJGZLNoVTbFIwbJnI43AkrA8l0Rg5we+FFc8wKzkr1iRCB6FbZ2iw5tjAk2pm5AyCUVp3NFgr6lNjLbDgAmPDnq6mwy/He5tJOkK/hQSYGxG9HxdgKqWimo0ATnNJVI5pHTX+isN4EhhX3NmIKHW2+kXtVNon/azE4kkwrO2gm0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4ZeZ4ClhXMj7bIZBQ9xCbKPHLnHMI0AeGemGhz7ovGo=;
+ b=jr1ckqzWvPaqZBGSXaBmMFXJ4uB+Naata8TcPvKLTd/Q8Fnw9OyZpeikegBRRtxX7AGma7y4CGks0oqw8Xru45AH14scSKDj/C6Nbm+WIxeNny9dWakIJDq31xsUu2xDSM6kfuvWGD6KrqD4WR7ScsbtyNVf028gq6LkWG0LISeBQl/xU5hPSBU9Ws1E03/Vt8Zo3oui1GYb5gbBMApOLenziaIu8wymBx9T98zYVkuytD9dvlilq0cZ/97oVKP3aV7gJpZGXqYc7Cyz5HVDQLicW1ZMvjbc0QgV3Zn5HsYwtZF07Y0TQlm1Vh/GGKiADv4eNq6woqtlnoHlv+nHDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4ZeZ4ClhXMj7bIZBQ9xCbKPHLnHMI0AeGemGhz7ovGo=;
+ b=K+U0wZHCZrUB4i2KTpZDYS89sNju+btFEy7z5z61o0F5wDTTI80ntW1YNPmFRidGxSyU2PQnNsE5g+i2PHdBJnP7cqzFrU+heBiGX1LVWYkIOwP57YpHcyWAU6DQv/XALCYu24zO2yqkowle5WlHEOhkC6tdLNjRVifl7EPEUfhNL41T1o2wJmH8wOhjaZdcVkwihB+jHaepCG+P7rU6s5LM8n7YUC5V2rU1dyVNZR9IojCACeC8fvsNUYnHN/ExRN3Ss0pLm2nLYAgbNMKc5BX64B5Ombhm3Y1KU3tk3sHZDNNAyMbgHhgQ2vXnIGRvnlBzZLJb2+faB+MB5xcT5g==
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by VI1PR10MB7715.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1cf::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Wed, 19 Jul
+ 2023 12:03:10 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::aca4:33f1:8cc0:ba0e]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::aca4:33f1:8cc0:ba0e%3]) with mapi id 15.20.6588.031; Wed, 19 Jul 2023
+ 12:03:10 +0000
+From: "Valek, Andrej" <andrej.valek@siemens.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"Ross.Burton@arm.com" <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v9 0/3] CVE-check handling
+Thread-Topic: [OE-core][PATCH v9 0/3] CVE-check handling
+Thread-Index: AQHZpcQdgpu78byhg0qChnnStUlCU6/BC4YAgAAH3YCAAAXiAIAADSqA
+Date: Wed, 19 Jul 2023 12:03:10 +0000
+Message-ID: <af1666bc975eeb52cfe4058b40e331c73c87421b.camel@siemens.com>
+References: <20230519081850.82586-1-andrej.valek@siemens.com>
+	 <20230623111459.97933-2-andrej.valek@siemens.com>
+	 <38950e1b3bd475c131e7e4b5db03d9d170c8d690.camel@siemens.com>
+	 <ca87e264250af926f1cf3a2463e3213436c515bd.camel@linuxfoundation.org>
+	 <1B3C5AD0-9492-4319-9409-DFB59F587E9F@arm.com>
+In-Reply-To: <1B3C5AD0-9492-4319-9409-DFB59F587E9F@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR10MB3977:EE_|VI1PR10MB7715:EE_
+x-ms-office365-filtering-correlation-id: 81c92f69-0922-4ef7-1d27-08db88501ef3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ FjmXduftLaDx1uAjxPrnwfL4jIMOVsZp1mTWxIzeE4P8cuyGwQUyLPkbgjSw7zlwaCj7KcGFX4SxLnDozk2Eex2LYRAFBJZnOzquJCQfqvSNSx93QIjpBSL4h59wab8NHw4N4U1T0ilzd77tksHOlOL9puv1425ggGoOf8pmFu5EXM+0tGsR2iYZIFkQ4V9IKP7FLvXjPZEcXm2rgd2H+IM0DC34XVsuduQ18KguCVZMVzQxJGl4Vcpu5/mt4sc3fKEKZYaS+WfFt1lwI0dPK9vkvtyr27ZC1UVO7qEYwhMETk6BCg2708agKflji60YVvu3sbQwMYGFncdk2DSkO1GGsvfQNZX7qsIM6a8Sdj2AVjQ02b0YssdoTdAThHr5hNGz6fnSZTK6L9Xjw9dQWNL7ItS6Toq8SoGWZcl1it74JxD3anwUXMQutIpCWJW82/7hpfNtNGl2qPLQFQVp4Kw2XZfI0RiV+n/TLa7OsnwBcRL7OwGVlqxTrTLzLGtmtH0RInZ+Pb/A6RbAwxgxdEWnh2pAJW6jKCmt8SeUaI5hol8bN2uZtLWCinuR/HrHhCHqxhIqNLxKDATOvB+NpUIz+jtbrEHQeHKjwKcR2rzSlwMR1I4bh1lbtCGNn8YU
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(376002)(366004)(396003)(136003)(451199021)(4326008)(6486002)(91956017)(71200400001)(478600001)(110136005)(2616005)(38070700005)(86362001)(4744005)(2906002)(76116006)(6506007)(186003)(6512007)(53546011)(26005)(316002)(38100700002)(122000001)(82960400001)(66476007)(64756008)(41300700001)(66556008)(66946007)(66446008)(36756003)(8676002)(5660300002)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?R045cElDbVBOTW1RU0FWQzZudlFrTGtvbEpsY2YrTmFuQkROOStpbS94OU8r?=
+ =?utf-8?B?MEl5TzZXQ21RY1p2QnZnRVdiUlhnTXFPc0h2TkRKYnFsRXRNZlhPSHB3bHlG?=
+ =?utf-8?B?L0RjTVhNbkx6YThHdndTdk05NGdJYUlqczhDYThNNThTY2N0NlhObjcwRVRS?=
+ =?utf-8?B?cGhBRHIrcFFVbUo5QURadW85VXlGMFd1MExMaVlxa2F6b1VZMTdDTXBZU21u?=
+ =?utf-8?B?TlgrUTNXL0FQNzhnWFY3ZVQ1NVRPOTIrdFpsd3Z0SUNHeTNIei9raTJTTUk3?=
+ =?utf-8?B?Z2ZOZlVkck1MUTRIOUZFNGJVM3FkRVhPaTZPcFVKZTdrY044QnVZOWxzWHEr?=
+ =?utf-8?B?Q2FZYVcxcFdIRXU2K0ExQ2NZOFB0S1QvRXhiVmQvbXQ3Ni9aU3A4bXpiWlpn?=
+ =?utf-8?B?dGtkaDRkM2h3TFFyWTVsL2l4ZnF4eE91TmdpTmxuT3ozVzhlak5qZ3h6MnIy?=
+ =?utf-8?B?My9aWk9jcjhnT3RJdnBxOHZhd2xqWWRxdmwwRm8yUnVzVWZnVkk5Ykx6RFQ5?=
+ =?utf-8?B?eGRrdGVQajA3dVdGNWwvUHgvWHNXMWRya2prRXU2MWxXazhnWm9sdUZCUmFk?=
+ =?utf-8?B?cXJvVUU5dlBueGp3S29nRXN2SzZGYncrRk02QlJhQkg5WnBMUlhrZWhCbUti?=
+ =?utf-8?B?SjdubGVoNmh4bXcvbkc5T2c4Y29HTi9mdG0zMjQ1emh3T3BVeHJwa3RTWWRD?=
+ =?utf-8?B?UzhzaEJoK1cvQ0Q4MnFBMWFKWXRFWUFuNEFqVHM0a2lMbWUvZUU2VG1UVkps?=
+ =?utf-8?B?cDVrMWxiYkNuSVpjRXIxbFlBSE12b1R5cjR3cWxhSGExRnVlSHE1eVI4OVlP?=
+ =?utf-8?B?Nks5NFc0ZW5WanpjYWZiYVMwOXVRemxvaXhHb3VlS1ZnZ2hDOU8rMUJFRHky?=
+ =?utf-8?B?M1NWUVVDL2tqME05QkpLZE9SaCtiWDZ2TkJvY3JzejBYNldLZGVQNkRGbXRi?=
+ =?utf-8?B?azJTY1lUR1VXKy9DSmJEaHBRTHl0MjBDejVwbFBOODh0RzJFR1pRazJrRno2?=
+ =?utf-8?B?T1R6NURoWkJKUy9uRlV0RGZKcFA3ajdnTnE4U2VSV0NXQlVIREtXVjd1U3Uz?=
+ =?utf-8?B?MkZRVHZodkRCRVJmZVo1UTUvZXdNUzNKV2ZYTjg4dTdFRGhVWVZXUkZKdzQ0?=
+ =?utf-8?B?Wng0WENoU2M2RVRoNkpJQUY4OHFKanJ0Z2pNdUVFZVVjNmpRRDc3MnpqQXdQ?=
+ =?utf-8?B?TGdNUFl3V1RhVmMvNGExY0EvWkh2R0ZPL041emV3TEtCVjcwVFFHVHllaWZp?=
+ =?utf-8?B?V0RodXpMRGlwOXdCQTJwNVdkVEhPUEp6SEhxdlZKWEZXYVY3eFBDQnh4L2hO?=
+ =?utf-8?B?Wmw2eVVidFVTSEVxYWo4UjhnTTZQSHYzK3hZWjltQjhjdWphcEJqS2duRHhv?=
+ =?utf-8?B?dHA3ejNXVG1yVnJ6UzVZSTFIUnU3Q1VHVXRQWmRhb214aE1odTNReC9xM08v?=
+ =?utf-8?B?MTU1aSs3Y3dlc0pFd0RxMlJRL0x4T2g3cXgwazFGWDB1a0hySkVTOVlpY25M?=
+ =?utf-8?B?QUNwODlRWGN2Q3Ywdk0rUkh0WW1lSWoyRHVmbzRReERnN016ai9YL21DKzli?=
+ =?utf-8?B?MW4rdWsxNkJ3aXh3YUI0K3o3TkxEeDhYeHNWd3RLLyt1bUtEcWtzVFVOaEUx?=
+ =?utf-8?B?TjNPeDZ6akRac3d3MjhocW1ZTDlRbmtxckRSVHBkV3pEU0tSQ0duQ0xOZUkr?=
+ =?utf-8?B?bUdBQmRYNWJpRzNUaUJSbHlkZjBnQnpLLzdhOTY3MnR0T1dwdGRBeTNRalUx?=
+ =?utf-8?B?bzU5bWh6UEtyeTNTalRPd0FDQUNYazhHWDZCKzNsQ3RHbVpJbGVFOWlSNVl1?=
+ =?utf-8?B?dlRxYXlNV21FN1ZyVjRSdzk1UVg2MTk5Ri9QMEJwK1k2cEQ5QmlqK1RncUpx?=
+ =?utf-8?B?TnMwM2tHckl0d0duM3kya2YxWnZTZFBtYy9NVU0xZlgrdUxRU1pPYm1zS255?=
+ =?utf-8?B?Y0JkSEpYdHVOeDdLQWdnb3hwYmdzVUNYdnFJcUFNWmwrcUZacmg3bnJSTmFZ?=
+ =?utf-8?B?WEE3MlhaQ3k0YkFDa0JqWXZ6N1pUN1BhZzVZOHllYWdxUHF0c0piclY0TjVp?=
+ =?utf-8?B?T3liaWhPU0xMVURDMW9xUGdXdTRxZWduWnh3b2NLeVo2NElTMmpZMHdRYXgw?=
+ =?utf-8?B?VWh3cHZaeWtwenRFVXROVVcyMlJjVzJDcjlCelcwUzBIaVJ4S2todGNOcVFM?=
+ =?utf-8?B?TGc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8F7B710AF5B1AF4D9A3A611B586E0D35@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <efa2be27-b66e-3ec5-dc5c-872e4480055a@windriver.com>
- <CH2PR11MB44707BB142B48AA62AB5FF5A89499@CH2PR11MB4470.namprd11.prod.outlook.com>
- <SJ1PR11MB6129C95690F5CECB834AF2EBEB5BA@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <2023061619564473739a2d@mail.local> <2023061809292129ae9b9e@mail.local>
- <SJ1PR11MB6129BF560606CCE63FF83457EB23A@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <365cabd0-72a1-6ec8-d7be-fff24311934c@windriver.com> <d6c84ad89f53c685be3defa3f8ac9fa6a19c889c.camel@linuxfoundation.org>
- <20230630131626130a658b@mail.local> <SJ1PR11MB6129783A802FD0B5B8713D64EB36A@SJ1PR11MB6129.namprd11.prod.outlook.com>
- <20230717143459f37f8da6@mail.local> <8d7b610d82cb606aebba1bc582176b072375f3ed.camel@linuxfoundation.org>
- <910f3165b7ba14fdd89e1ce89e3a70b9b5cbc014.camel@linuxfoundation.org>
-In-Reply-To: <910f3165b7ba14fdd89e1ce89e3a70b9b5cbc014.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 19 Jul 2023 12:58:42 +0100
-Message-ID: <CAO5Uq5RCBj7YC1iML5ZRuOxBvfgNMGmtvHbanOnasCYgL0JaSw@mail.gmail.com>
-Subject: Re: [OE-core] Rust Oe-Selftest implementation V15 Testing
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	"Shinde, Yash" <Yash.Shinde@windriver.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
-	"Gowda, Naveen" <Naveen.Gowda@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81c92f69-0922-4ef7-1d27-08db88501ef3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 12:03:10.0707
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: C1vcqub5E5BDd2gq1X7uXJVSDJmL0v25TgXsckMObMX7g1LG6W1rHP0IWG3XbuO97DhiVTGmM6dKaedEwh4B6K48EBXIJAdTyChYPtY9NPo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB7715
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 11:58:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184579
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 12:03:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184580
 
-On Wed, Jul 19, 2023 at 11:49=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2023-07-17 at 16:08 +0100, Richard Purdie wrote:
-> > On Mon, 2023-07-17 at 16:34 +0200, Alexandre Belloni wrote:
-> > > Hello,
-> > >
-> > > I got some feedback from RP:
-> > >
-> > > http://autobuilder.yocto.io/pub/non-release/20230716-18/testresults/t=
-estresult-report.txt
-> > >
-> > > This shows warnings for duplicate tests and he also asks being where =
-the
-> > > qemuarm64 went, both issues being probably related.
-> >
-> > I had a look and you probably need to add a:
-> >
-> > @OETestTag("toolchain-user")
-> > @OETestTag("runqemu")
-> > class RustSelfTestBase(RustSelfTestSystemEmulated):
-> >     def test_check(self):
-> >         self.test_rust()
-> >
-> > section to the tests to allow the tests to run for the non-IA
-> > architectures that use usermode emulation for the other tests which
-> > rust can't.
-> >
-> > That then just brings the question of why there are duplicate tests
-> > results being reported. This is where the result for an ID is being
-> > reported more than once. I haven't looked into why that might be
-> > happening.
->
-> I really do want to get this rust test suite issue resolved so I went
-> digging into the code to find out what is really going on.
->
-> Firstly, the duplicate test results. The issue is that you defined the
-> core class like this:
->
->  class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCa=
-se):
->      def test_rust
->
-> and python unittest has a convention where anything starting "test_" is
-> a test.
->
-> This meant that the rust test ran unguarded in all the oe-selftest
-> targets on the autobuilder and not just in the toolchain-system
-> filtered section.
->
-> The easiest fix is to drop the RustSelfTestBase class and move the
-> toolchain-system decorator to RustSelfTestSystemEmulated. That will
-> resolve the duplicate test warnings and ensure things run where they
-> should. You could have worked out this issue by finding that there were
-> rust test results in oe-selftest-* testresults.json files, e.g. here:
->
-> http://autobuilder.yocto.io/pub/non-release/20230716-18/testresults/oe-se=
-lftest-centos/oeqa/testresults.json
->
-> Moving on, the test result names really don't look good with the
-> "[ui]  " and similar prefixes in the results file. I've patched a tweak
-> in to drop that.
->
-> I also noticed that there were no skipped tests being reported in the
-> results. This was due to "SKIP" being used instead of "SKIPPED" which
-> resulttool looks for.
->
-> We need to also add the toolchain-user decorator to make sure that the
-> tests run for the "user" architectures since we don't have any user
-> mode rust test equivalent.
->
-> I've rolled all these changes into a patch on master-next:
->
-> https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D46ab84785d=
-a15ac156ee0b4a693ce8bb5ccf8c22
->
-> which I'll put into testing.
->
-> Looking to the future, I have concerns about the ease of maintenance of
-> this huge patch to rust to disable failing tests. I'd propose we change
-> this to a hardcoded list of tests to ignore in the result parsing code
-> which will be easier to maintain in the future.
->
-
-That feels far more maintainable - the scale of the  patch really
-concerned me. Also I guess if it's just a list, then running with
-everything enabled on upgrade to see what passes/fails would be a
-relatively easy option.
-
-
-> We may want to take that as a subsequent follow up patch.
->
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184576): https://lists.openembedded.org/g/openembedde=
-d-core/message/184576
-> Mute This Topic: https://lists.openembedded.org/mt/100232853/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-Alex Kiernan
+RXZlbiBiZXR0ZXIsDQoNClNvIEkgd2lsbCBtYWtlIG9uZSBtb3JlIHJlYmFzZSwganVzdCBmb3Ig
+IltPRS1jb3JlXVtQQVRDSCB2OSAzLzNdIGN2ZV9jaGVjazoNCmNvbnZlcnQgQ1ZFX0NIRUNLX0lH
+Tk9SRSB0byBDVkVfU1RBVFVTIg0KDQpSZWdhcmRzLA0KQW5kcmVqDQoNCk9uIFdlZCwgMjAyMy0w
+Ny0xOSBhdCAxMToxNiArMDAwMCwgUm9zcyBCdXJ0b24gd3JvdGU6DQo+IE9uIDE5IEp1bCAyMDIz
+LCBhdCAxMTo1NCwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
+bi5vcmc+DQo+IHdyb3RlOg0KPiA+IA0KPiA+IE9uIFdlZCwgMjAyMy0wNy0xOSBhdCAxMDoyNiAr
+MDAwMCwgVmFsZWssIEFuZHJlaiB3cm90ZToNCj4gPiA+IEhlbGxvLA0KPiA+ID4gDQo+ID4gPiBJ
+IHdvdWxkIGxpa2UgdG8gYXNrLCB3aGF0J3MgdGhlIHN0YXR1cyBoZXJlPw0KPiA+IA0KPiA+IEkn
+dmUgYXNrZWQgZm9yIHNvbWUgcGVvcGxlIHRvIGhlbHAgcmV2aWV3IGl0IGFuZCBJJ20gd2FpdGlu
+ZyBvbiB0aGVpcg0KPiA+IGZlZWRiYWNrLiBGV0lXIHRoZXkgZGlkIHByb21pc2UgInRoaXMgbW9y
+bmluZyIgeWVzdGVyZGF5IHNvIHRoZXkgaGF2ZQ0KPiA+IGFyb3VuZCA2IG1pbnV0ZXMhDQo+IA0K
+PiBJIHN1c3BlY3QgSSB3YXMgdGhhdCBwZXJzb24gOikuIEkgaGF2ZSBubyBtYWpvciBvYmplY3Rp
+b25zIHRvIHRoZSBwYXRjaCBub3cuDQo+IA0KPiBDaGVlcnMsDQo+IFJvc3MNCg0K
 
