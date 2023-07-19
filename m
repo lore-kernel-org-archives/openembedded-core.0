@@ -1,122 +1,115 @@
-Return-Path: <hayama@lineo.co.jp>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E31AEB64DC
-	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 01:48:43 +0000 (UTC)
-Received: from mail.lineo.co.jp (mail.lineo.co.jp [203.141.200.203])
- by mx.groups.io with SMTP id smtpd.web11.4698.1689731322164610021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8D9EB64DC
+	for <webhook@archiver.kernel.org>; Wed, 19 Jul 2023 02:58:13 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.5819.1689735487026235243
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jul 2023 18:48:42 -0700
+ Tue, 18 Jul 2023 19:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: lineo.co.jp, ip: 203.141.200.203, mailfrom: hayama@lineo.co.jp)
-Received: from [172.31.7.30] (vpn1.lineo.co.jp [203.141.200.204])
-	by mail.lineo.co.jp (Postfix) with ESMTPSA id 8D81580F7D402;
-	Wed, 19 Jul 2023 10:48:39 +0900 (JST)
-Message-ID: <80e8328b-6820-28aa-c2fe-6a73ddad3d01@lineo.co.jp>
-Date: Wed, 19 Jul 2023 10:48:40 +0900
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6564ce24fe=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J0ZaWF003703
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 19:58:06 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rupqyb9p9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 Jul 2023 19:58:06 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 18 Jul 2023 19:58:05 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Tue, 18 Jul 2023 19:58:05 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [mickledore][PATCH] acpica: Update SRC_URI
+Date: Wed, 19 Jul 2023 10:58:03 +0800
+Message-ID: <20230719025803.1281145-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.35.5
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [OE-core] systemd service@ bug
-Content-Language: en-US
-To: Dvorkin Dmitry <dvorkin@tibbo.com>,
- openembedded-core@lists.openembedded.org
-References: <3d682b83-f0e8-7add-3dcd-3e850e30f7c6@tibbo.com>
-From: Yuta Hayama <hayama@lineo.co.jp>
-In-Reply-To: <3d682b83-f0e8-7add-3dcd-3e850e30f7c6@tibbo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: z3pUAQP-ncvaL9iEwjT01PA82-cqr07w
+X-Proofpoint-ORIG-GUID: z3pUAQP-ncvaL9iEwjT01PA82-cqr07w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-18_19,2023-07-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ clxscore=1015 mlxscore=0 impostorscore=0 bulkscore=0 mlxlogscore=687
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307190027
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36J0ZaWF003703
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 01:48:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184564
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jul 2023 02:58:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184565
 
-Hi,
+From: Mingli Yu <mingli.yu@windriver.com>
 
-This issue has been fixed in master.
-https://git.openembedded.org/openembedded-core/commit/?id=d18b939fb08b37380ce95934da38e6522392621c
+Update the SRC_URI to fix the do_fetch warning.
+ $ wget https://acpica.org/sites/acpica/files/acpica-unix-20220331.tar.gz
+--2023-07-19 02:45:33--  https://acpica.org/sites/acpica/files/acpica-uni=
+x-20220331.tar.gz
+Resolving acpica.org... 20.29.206.128
+Connecting to acpica.org|20.29.206.128|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.intel.com/content/www/us/en/developer/topic-technol=
+ogy/open/acpica/overview.html [following]
+--2023-07-19 02:45:33--  https://www.intel.com/content/www/us/en/develope=
+r/topic-technology/open/acpica/overview.html
+Resolving www.intel.com... 23.72.14.54
+Connecting to www.intel.com|23.72.14.54|:443... connected.
+HTTP request sent, awaiting response... 403 Forbidden
+2023-07-19 02:45:34 ERROR 403: Forbidden.
 
-But, yes. This patch has not yet been backported to the any stable branch.
+ $ wget https://downloadmirror.intel.com/774879/acpica-unix-20220331.tar.=
+gz
+--2023-07-19 02:46:04--  https://downloadmirror.intel.com/774879/acpica-u=
+nix-20220331.tar.gz
+Resolving downloadmirror.intel.com... 18.164.154.85, 18.164.154.5, 18.164=
+.154.74, ...
+Connecting to downloadmirror.intel.com|18.164.154.85|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1911044 (1.8M) [application/gzip]
+Saving to: =E2=80=98acpica-unix-20220331.tar.gz=E2=80=99
 
+acpica-unix-20220331.tar.gz           100%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>]   1.82M  1.61MB/s    in 1.1s
 
-I don't know about the maintenance process for the stable branch, but I
-expect that patch will probably be queued and backported to dunfell in
-a month or so.
+2023-07-19 02:46:06 (1.61 MB/s) - =E2=80=98acpica-unix-20220331.tar.gz=E2=
+=80=99 saved [1911044/1911044]
 
-Please let me know if anyone knows anything about this. Should we simply
-wait? Or do I have to submit a backport request?
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-extended/acpica/acpica_20220331.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/acpica/acpica_20220331.bb b/meta/recip=
+es-extended/acpica/acpica_20220331.bb
+index 2c554f863a..73b9154ee7 100644
+--- a/meta/recipes-extended/acpica/acpica_20220331.bb
++++ b/meta/recipes-extended/acpica/acpica_20220331.bb
+@@ -16,7 +16,7 @@ COMPATIBLE_HOST =3D "(i.86|x86_64|arm|aarch64).*-linux"
+=20
+ DEPENDS =3D "m4-native flex-native bison-native"
+=20
+-SRC_URI =3D "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar=
+.gz"
++SRC_URI =3D "https://downloadmirror.intel.com/774879/acpica-unix-${PV}.t=
+ar.gz"
+ SRC_URI[sha256sum] =3D "acaff68b14f1e0804ebbfc4b97268a4ccbefcfa053b02ed9=
+924f2b14d8a98e21"
+=20
+ UPSTREAM_CHECK_URI =3D "https://acpica.org/downloads"
+--=20
+2.35.5
 
-Regards,
-
-Yuta Hayama
-
-On 2023/07/14 22:42, Dvorkin Dmitry wrote:
-> Hello!
-> 
-> (sorry, previously posted as the reply to wrong message)
-> 
-> starting from 2aa82324d43467e7c8bfbbb59570ee3306264b75 commit (dunfell and probably other branches)
-> 
-> https://git.openembedded.org/openembedded-core/commit/?h=dunfell&id=2aa82324d43467e7c8bfbbb59570ee3306264b75
-> 
-> the
-> 
-> SYSTEMD_SERVICE:${PN} = "php-fpm@9000.service"
-> 
-> syntax in the recipe brings OE to error at do_rootfs step:
-> 
-> https://pastebin.com/WbDCPy4V
-> 
-> 
-> + for service in php-fpm@9000.service
-> + systemctl --root=/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac
-> -anpr/1.0-r0/rootfs enable php-fpm@9000.service
-> Traceback (most recent call last):
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/bin/systemctl", line 331, in <module>
-> main()
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/bin/systemctl", line 319, in main
-> SystemdUnit(root, service).enable()
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/bin/systemctl", line 232, in enable
-> self._process_deps(config, service, path, 'WantedBy', 'wants', instance)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/bin/systemctl", line 192, in _process_deps
-> dependent = re.sub("([^%](%%)*)%i", "\\1{}".format(instance), dependent)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 210, in sub
-> return _compile(pattern, flags).sub(repl, string, count)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 327, in _subx
-> template = _compile_repl(template, pattern)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/lib/python3.8/re.py", line 318, in _compile_repl
-> return sre_parse.parse_template(repl, pattern)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py", line 1036, in parse_tem
-> plate
-> addgroup(int(this[1:]), len(this) - 1)
-> File "/workdir/build.tppg2/tmp/work/tppg2-tps-linux-gnueabi/img-oac-anpr/1.0-r
-> 0/recipe-sysroot-native/usr/lib/python3.8/sre_parse.py", line 980, in addgroup
-> raise s.error("invalid group reference %d" % index, pos)
-> re.error: invalid group reference 19 at position 1
-> %post(oac-php-1.0-r0.noarch): waitpid(3549888) rc 3549888 status 100
-> warning: %post(oac-php-1.0-r0.noarch) scriptlet failed, exit status 1
-> Error in POSTIN scriptlet in rpm package oac-php
-> Installing : curl-7.69.1-r0.cortexa9hf_neon 849/863
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184264): https://lists.openembedded.org/g/openembedded-core/message/184264
-> Mute This Topic: https://lists.openembedded.org/mt/100140897/7729851
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hayama@lineo.co.jp]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
