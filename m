@@ -1,83 +1,85 @@
-Return-Path: <staffan.ryden@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73066EB64DC
-	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 11:03:35 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.10285.1689851010944878205
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92BCFEB64DA
+	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 11:24:55 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.10527.1689852292254969507
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 04:03:31 -0700
+ Thu, 20 Jul 2023 04:24:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=otbv0JeH;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: staffan.ryden@axis.com)
+ dkim=fail reason="signature has expired" header.i=@linuxfoundation.org header.s=google header.b=eJDy1qyq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fd190065a7so4991865e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 04:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1689851011;
-  x=1721387011;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WerbdudgyCQUs4p4cjZJ4MkLMcAjKN+LSbHNwB0yqP0=;
-  b=otbv0JeHyvwR4iGOExB32p84s8IXsUHtUxvry2UsiDJb3Z065ZFlaZpt
-   SZIdOb3n0KC9yTollivvTpIktfxdSgMnjxJVSFUv69//2iWSWEp+gQ6/q
-   SuJmE7vpEOtU3YR8Yv4uQIYWvzHLID3KlVePb43EKQJDYfzccLp7CYc/G
-   ShitcJQSWJCJBboUGDJ9gwayi7zcTLPj6uXR8UTVZrXb5EIKHHoRNvbh1
-   Mb/9fhuRbokhIRIZIcoTzJnrWtDtDJERy0c2BtC++Od5nmFhDc33r7gdd
-   LKTZ/4cBEDGPYe1ouVr1SsjHfgFGgcJmZp+C+HSUZPdd16IDoiJF6lrrL
-   Q==;
-From: =?UTF-8?q?Staffan=20Ryd=C3=A9n?= <staffan.ryden@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] kernel: Fix path comparison in kernel staging dir symlinking
-Date: Thu, 20 Jul 2023 13:02:56 +0200
-Message-ID: <20230720110256.166442-1-staffan.ryden@axis.com>
-X-Mailer: git-send-email 2.30.2
+        d=linuxfoundation.org; s=google; t=1689852290; x=1690457090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNBBxyhty/kJCEmyYZZH6SYwPivt0tVEBIAjBGtX1mY=;
+        b=eJDy1qyqYTtnj975bVqz2Sl82LJlhGCSd6ViD54obxTE7Cpt8WG+C1x3oIz9Dh9AJn
+         HAT24VFrSUGXXAMIodsUMoVvasUNLftiLUTEvBlzpYs/YC5POXR7WZDjG4ZTyF8/8DqM
+         NdCwqnzNu6qcrlYlrQQRiSZnH+MSdtv0OMc2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689852290; x=1690457090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNBBxyhty/kJCEmyYZZH6SYwPivt0tVEBIAjBGtX1mY=;
+        b=gCoXOfy+47WeV8KdgBIY+3okHE0yjv0FHKQ753vw/tUguLI1Zgn73bTBjgM/LiY6XN
+         ICjJKnckWjRslgrWn7/+S/jjxwxdA786PMhQlP8nrC6oX68RtxbEBFlcFeFtyLrvhlFT
+         MEH1GSIZJ6wRLN23dj62l+98+zvyMmEhMmS2bgIqkSYy8urDcHcFMJuCwoNGXkpvfzP3
+         fV7T+qxs6z8V343sY6k96WpvskPdNyRgbiWZskYHbGkMWFIcYOH3ysdW+hNndRGPKsSW
+         1aIRXiTL1N0getVY3f2J09gvfc3MM0wHBfCouGnqTi6KzRc0eb3oD2KXgRXfw6JuRJJS
+         nlnQ==
+X-Gm-Message-State: ABy/qLbcFFRBoOBbl4FZp7kv9WatMyDtHSVXMpzALvy06AJEUYlaOQVg
+	Vx0hrl+IgmU7XQjJJfN3LvjHCyZrvFs2Qtza0J0=
+X-Google-Smtp-Source: APBJJlE3iHNbm+Of1rvb+x6G849Ykgy/gGExW02qLcErvcFmGgIRijVD77/e3/R2T2jhS1bk4HFpEg==
+X-Received: by 2002:a5d:5092:0:b0:313:ebf3:850e with SMTP id a18-20020a5d5092000000b00313ebf3850emr2385306wrt.37.1689852290147;
+        Thu, 20 Jul 2023 04:24:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ba5b:ff9f:e968:6d69])
+        by smtp.gmail.com with ESMTPSA id a23-20020a5d4577000000b00314315071bbsm1085605wrc.38.2023.07.20.04.24.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 04:24:49 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glibc-testsuite: Fix network restrictions causing test failures
+Date: Thu, 20 Jul 2023 12:24:49 +0100
+Message-Id: <20230720112449.854654-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 11:03:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184632
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 11:24:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184633
 
-Due to an oversight in the do_symlink_kernsrc function, the path
-comparison between "S" and "STAGING_KERNEL_DIR" is broken. The code
-obtains both variables, but modifies the local copy of "S" before
-comparing them, causing the comparison to always return false.
+The check target for the glibc testsuite uses networking to access
+a QEMU in system mode. This was resulting in large numbers of test
+failures for the x86 targets that use it.
 
-This can cause the build to fail when the EXTERNALSRC flag is enabled,
-since the code will try to create a symlink even if one already exists.
+Enable network access to resolve this.
 
-This patch resolves the issue by comparing the variables before they are
-modified.
-
-Signed-off-by: Staffan Rydén <staffan.ryden@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/kernel.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-core/glibc/glibc-testsuite_2.37.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 2aedf3a31b..ea0ab491f0 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -181,13 +181,14 @@ do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILD
- do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
- python do_symlink_kernsrc () {
-     s = d.getVar("S")
--    if s[-1] == '/':
--        # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
--        s=s[:-1]
-     kernsrc = d.getVar("STAGING_KERNEL_DIR")
-     if s != kernsrc:
-         bb.utils.mkdirhier(kernsrc)
-         bb.utils.remove(kernsrc, recurse=True)
-+        if s[-1] == '/':
-+            # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as
-+            # directory name and fail
-+            s = s[:-1]
-         if d.getVar("EXTERNALSRC"):
-             # With EXTERNALSRC S will not be wiped so we can symlink to it
-             os.symlink(s, kernsrc)
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
+index e8ad2a938b1..2e076f4b0f4 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
+@@ -16,6 +16,7 @@ TOOLCHAIN_TEST_HOST_USER ??= "root"
+ TOOLCHAIN_TEST_HOST_PORT ??= "2222"
+ 
+ do_check[nostamp] = "1"
++do_check[network] = "1"
+ do_check:append () {
+     chmod 0755 ${WORKDIR}/check-test-wrapper
+ 
 -- 
-2.30.2
+2.39.2
 
 
