@@ -2,56 +2,56 @@ Return-Path: <peron.clem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A33C2EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D3BEB64DC
 	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 16:25:49 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.1515.1689870341870707639
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.1514.1689870341250721824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 09:25:42 -0700
+ Thu, 20 Jul 2023 09:25:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=gzR57ygb;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: peron.clem@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-31590e4e27aso759579f8f.1
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=MODICunW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: peron.clem@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-316feb137a7so877847f8f.1
         for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689870340; x=1690475140;
+        d=gmail.com; s=20221208; t=1689870339; x=1690475139;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YKLgJAKDavp01/EGcwjIKaIxgxUDCEbNA0No+K7ncG0=;
-        b=gzR57ygb2mnnf8gmhQDDKjgT0dtRdv2Gb6SHj3cPKkN0KpgYCRuneC+QBMBv9gO5S4
-         etRRaL4Jh9hGfsudCZPOF8tfnLFiaCzgDVZm8pdlUmDY5u9+0FQ/0M8b7HM2oaM6jJIy
-         sjqg/b1osJQuLwBJvGnpxdYtyn//8kSZIOKllifw5Av/3jtd/OzNwh3QpLWY0+t50WlI
-         0rlqwLoJhmW2AqLmga79G42qbrdgIrXLsSp1OV9AjVfzG0jQDoGkKxbx/rF/o4G3uugZ
-         BYgoKn9TQznesL1T6Cc7PMdxLIkN3QRHu6EVhE86tYa8yQklC8+/7mSgmS/kJ7NMJF5F
-         g8zg==
+        bh=IW+LkjXH4D5/OtP7CaDmJ3EXP7sx47TyR1oBL4kKtnA=;
+        b=MODICunWNwOgaKIfMwIKoks6bljzFkGPRDXA9Kz63gJ+qGN5rYG9ftPvbg05ABueXE
+         mt5Om92Agh1ERVnHmX3S6Y+dHBE2MFHN7q/xGy25mqbobtg0wOAcxt5AkWy7Dt6wiOyv
+         fqKS8VZ2wTFO+KVTdbVLrk6XnpqQhZgwrBwHgwJRCSgydjuCdN1PfjHtZ6d+jErIH9YU
+         BEYLmscjc1L/xwpnQH+/HADOpowwvYbmGqGDQuNAd9o4NIDOFAFzuB+Ki2ZwbmHipGx3
+         YrYXhG2KR4jSSu7lSCme4euDnwsdpZvT3rtk9OfcVDzBGVcKHE2Y3m5gzzhkIKpcFaZW
+         M1cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689870340; x=1690475140;
+        d=1e100.net; s=20221208; t=1689870339; x=1690475139;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YKLgJAKDavp01/EGcwjIKaIxgxUDCEbNA0No+K7ncG0=;
-        b=DWtXc5dO1nA1ykpGupPDVVl2ZOmYxFLPyK29rryXiz1HMHwLf2TMO0dobGTlzkMhQj
-         Jq2M2zBc+PX+zjebrjeIiOV4vNu4VxH8mLnvcZ/tORSsvqtiQnnEFvfDhRHTp9K0o5qD
-         +t5wC+knxXkNASIwzAD0mqOS5wmJI5JmVrneTwqifuhIOTivEi4QjRz9+DxqE8m/YyzL
-         OrNq/GZHfqNeSfCt2HnJjawTVYzKyRw9UaDd0Aqslj+alAeU6rfv7xqEzZmj7stFxdPm
-         yYbf2/AJtHPg4Te1mayhrZqApxb9ahWPV3Vv9AeRlHrQEHH+4ExJmAgv8w2xojcnz0BP
-         ScuA==
-X-Gm-Message-State: ABy/qLajsTL838OkVNoLyfrVceDpnnrKAFrWs60wEMqBd5U5y9AwDBoA
-	GoRkUudJTy+MvxmLKrM5MqW558f89g6QwQ==
-X-Google-Smtp-Source: APBJJlF4LnEuXF3P0QRm/ri7njeJ7+Lozduqewd+hGkhTJ7ml+33+MjWgwfKm5S16SEiofyPlFo0Xg==
-X-Received: by 2002:a5d:4b85:0:b0:316:cbb4:4e49 with SMTP id b5-20020a5d4b85000000b00316cbb44e49mr3069085wrt.1.1689870339806;
+        bh=IW+LkjXH4D5/OtP7CaDmJ3EXP7sx47TyR1oBL4kKtnA=;
+        b=jhKR0Uz/3oxEWTwaxHS1EvfvfLdMimud4w10IhLbuh6FvG6wHAapdufzd5f/a6wUCu
+         uL89ExTew4q7GowJPaMw/6cDBdT9ndgRaC9xrnDD/qgGtECge20QFvArL9LXf/z5bIrS
+         FxNkpL7mk1cf/tF6PdzrpLNHus4KRGSQ3iSPmOe/XkM3IyRyR6nR6wYF5DR/FusRoP03
+         q/i4yfcJFNwNKShYhgHccXa0htuWtS0zu4pfUQDvwDHp5gc4lzqiI9kUyuk5SbFNBivx
+         PLdz8Gufs1ezSK9UZ3V2Ukd/y55cYSQzkpaozPX0mSLi1VlwnT+9nHXxl2Kvwqx9YT5H
+         PtiA==
+X-Gm-Message-State: ABy/qLY2SW4TihBWJE5LtD2mO+7dJWu2vY9XCMgTaCTQpgVQWxPXUVy1
+	YPkKQMIBiA3KagEjLwiTGUsLZAz07CJoNA==
+X-Google-Smtp-Source: APBJJlHBDjRPYUcr2GDreBh/9xJlJmZlZbqhEgbcVaISb6OKA3qtjqTw7EtIktL4JFlEWXNwOWsq7A==
+X-Received: by 2002:a05:6000:104a:b0:313:f353:d5d9 with SMTP id c10-20020a056000104a00b00313f353d5d9mr2680333wrx.50.1689870339272;
         Thu, 20 Jul 2023 09:25:39 -0700 (PDT)
 Received: from Clement-Blade14.outsight.local (lputeaux-656-1-11-33.w82-127.abo.wanadoo.fr. [82.127.142.33])
-        by smtp.gmail.com with ESMTPSA id z8-20020adff748000000b00314374145e0sm1749076wrp.67.2023.07.20.09.25.39
+        by smtp.gmail.com with ESMTPSA id z8-20020adff748000000b00314374145e0sm1749076wrp.67.2023.07.20.09.25.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 09:25:39 -0700 (PDT)
+        Thu, 20 Jul 2023 09:25:38 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [RFC PATCH 4/4] devtools: grpc: bump to 1.56.2
-Date: Thu, 20 Jul 2023 18:23:02 +0200
-Message-ID: <20230720162535.116519-5-peron.clem@gmail.com>
+Subject: [RFC PATCH 3/4] protobuf: bump to 3.23.4
+Date: Thu, 20 Jul 2023 18:23:01 +0200
+Message-ID: <20230720162535.116519-4-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230720162535.116519-1-peron.clem@gmail.com>
 References: <20230720162535.116519-1-peron.clem@gmail.com>
@@ -62,210 +62,150 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 16:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184648
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184647
 
-Remove merged patch that export plugin to a separate targets
+Bump to protobuf 3.23.4 with the following diff
 
-Remove no more applicatable patch
+- Add new abseil-cpp jsoncpp dependencies
+- Linking with gold patch has been fixed see
+  commit 462964ed322503af52638d54c00a0a67d7133349
+- Refresh the patch that fix examples LDFLAGS
 
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- ...RPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch | 62 -------------
- ...d-separate-export-for-plugin-targets.patch | 93 -------------------
- .../grpc/{grpc_1.50.1.bb => grpc_1.56.2.bb}   |  6 +-
- 3 files changed, 2 insertions(+), 159 deletions(-)
- delete mode 100644 meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Changed-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch
- delete mode 100644 meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-separate-export-for-plugin-targets.patch
- rename meta-oe/recipes-devtools/grpc/{grpc_1.50.1.bb => grpc_1.56.2.bb} (92%)
+ .../0001-Fix-linking-error-with-ld-gold.patch | 69 -------------------
+ ...e-respect-CXX-LDFLAGS-variables-fix-.patch |  4 +-
+ ...protobuf_3.21.12.bb => protobuf_3.23.4.bb} |  8 ++-
+ 3 files changed, 7 insertions(+), 74 deletions(-)
+ delete mode 100644 meta-oe/recipes-devtools/protobuf/protobuf/0001-Fix-linking-error-with-ld-gold.patch
+ rename meta-oe/recipes-devtools/protobuf/{protobuf_3.21.12.bb => protobuf_3.23.4.bb} (95%)
 
-diff --git a/meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Changed-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch b/meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Changed-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch
+diff --git a/meta-oe/recipes-devtools/protobuf/protobuf/0001-Fix-linking-error-with-ld-gold.patch b/meta-oe/recipes-devtools/protobuf/protobuf/0001-Fix-linking-error-with-ld-gold.patch
 deleted file mode 100644
-index b245ad865..000000000
---- a/meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Changed-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch
+index 2bc44c898..000000000
+--- a/meta-oe/recipes-devtools/protobuf/protobuf/0001-Fix-linking-error-with-ld-gold.patch
 +++ /dev/null
-@@ -1,62 +0,0 @@
--From dc593958e556dd496b774f35c5992285510d6859 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Tue, 19 Oct 2021 17:09:55 +0200
--Subject: [PATCH] Revert "Changed GRPCPP_ABSEIL_SYNC to GPR_ABSEIL_SYNC
-- (#25681)"
+@@ -1,69 +0,0 @@
+-From a91130bb95528743a3f7253f8fe945b7505047d5 Mon Sep 17 00:00:00 2001
+-From: Kyungjik Min <dp.min@lge.com>
+-Date: Mon, 28 Dec 2020 15:56:09 +0900
+-Subject: [PATCH] Fix linking error with ld-gold
 -
--This reverts commit 931f91b745cd5b2864a0d1787815871d0bd844ae.
+-:Release Notes:
 -
--Fixes sysdig from meta-oe and other recipes (like com.webos.service.tts
--libgoogleassistant from meta-webosose) failing with:
+-:Detailed Notes:
+-https://github.com/protocolbuffers/protobuf/issues/6113
+-There's a bug in the CMake build leading it to not use the version
+-scripts, which hides the problem (because all symbols are now public)
+-but doesn't solve it properly.
 -
--| FAILED: userspace/sysdig/sysdig
--| : && /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-sec
--urity  --sysroot=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -f
--debug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot=                      -fdebug-prefix-map=/OE/bu
--ild/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/OE/build
--/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot -Wall -ggdb   -std=c++0x -O3 -fno-strict-aliasing -DNDEBUG  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
----sysroot=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-p
--refix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot=                      -fdebug-prefix-map=/OE/build/oe-
--core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/OE/build/oe-cor
--e/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/oe-cor
--e/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot=                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-
--64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/
--oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0=/usr/src/debug/sysdig/0.27.1-r0                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot=                      -fdebug-prefix-map=/OE/build/oe-core/tmp-glibc/work/
--core2-64-oe-linux/sysdig/0.27.1-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now   -rdynamic userspace/sysdig/CMakeFiles/sysdig.dir/fields_info.cpp.o userspace/sysdig/CMakeFiles/sysdig.dir/sysdig.cpp.o -o userspace/sysdig/sysdig  userspace/libsinsp/libsinsp.a  userspace/libscap/libscap.a
-- -lelf  -lz  -lcurl  -ljsoncpp  -ltbb  -lcares  -lgrpc++_unsecure  -lgrpc_unsecure  -lprotobuf  -lcares  -lgrpc++_unsecure  -lgrpc_unsecure  -lprotobuf  -ljq  -lb64  -lrt  -lanl  -lssl  -lcrypto  -lluajit-5.1  -ldl  -lpthread && :
--| /usr/include/grpcpp/impl/codegen/completion_queue.h:121: error: undefined reference to 'absl::lts_20210324::Mutex::~Mutex()'
--| /usr/include/grpcpp/impl/codegen/completion_queue.h:121: error: undefined reference to 'absl::lts_20210324::Mutex::~Mutex()'
--| /usr/include/grpcpp/impl/codegen/completion_queue.h:121: error: undefined reference to 'absl::lts_20210324::Mutex::~Mutex()'
--| /usr/include/grpcpp/impl/codegen/completion_queue.h:259: error: undefined reference to 'absl::lts_20210324::Mutex::~Mutex()'
--| collect2: error: ld returned 1 exit status
+-:Testing Performed:
 -
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-:QA Notes:
+-N/A
+-
+-:Issues Addressed:
+-[PLAT-130467] Fix build error for libgoogleassistant with latest
+-              protobuf-3.11.4
 -
 ----
 -Upstream-Status: Pending
 -
-- include/grpcpp/impl/codegen/sync.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- src/libprotobuf-lite.map | 2 ++
+- src/libprotobuf.map      | 2 ++
+- src/libprotoc.map        | 2 ++
+- 3 files changed, 6 insertions(+)
 -
--diff --git a/include/grpcpp/impl/codegen/sync.h b/include/grpcpp/impl/codegen/sync.h
--index 4cb8133c7c..3d10d9a3a0 100644
----- a/include/grpcpp/impl/codegen/sync.h
--+++ b/include/grpcpp/impl/codegen/sync.h
--@@ -47,7 +47,7 @@
-- namespace grpc {
-- namespace internal {
+-diff --git a/src/libprotobuf-lite.map b/src/libprotobuf-lite.map
+-index 391554669..a1853ca6c 100644
+---- a/src/libprotobuf-lite.map
+-+++ b/src/libprotobuf-lite.map
+-@@ -3,6 +3,8 @@
+-     extern "C++" {
+-       *google*;
+-     };
+-+    scc_info_*;
+-+    descriptor_table_*;
 - 
---#ifdef GPR_ABSEIL_SYNC
--+#ifdef GRPCPP_ABSEIL_SYNC
+-   local:
+-     *;
+-diff --git a/src/libprotobuf.map b/src/libprotobuf.map
+-index 391554669..a1853ca6c 100644
+---- a/src/libprotobuf.map
+-+++ b/src/libprotobuf.map
+-@@ -3,6 +3,8 @@
+-     extern "C++" {
+-       *google*;
+-     };
+-+    scc_info_*;
+-+    descriptor_table_*;
 - 
-- using Mutex = absl::Mutex;
-- using MutexLock = absl::MutexLock;
--@@ -142,7 +142,7 @@ class CondVar {
--   gpr_cv cv_;
-- };
+-   local:
+-     *;
+-diff --git a/src/libprotoc.map b/src/libprotoc.map
+-index 391554669..a1853ca6c 100644
+---- a/src/libprotoc.map
+-+++ b/src/libprotoc.map
+-@@ -3,6 +3,8 @@
+-     extern "C++" {
+-       *google*;
+-     };
+-+    scc_info_*;
+-+    descriptor_table_*;
 - 
---#endif  // GPR_ABSEIL_SYNC
--+#endif  // GRPCPP_ABSEIL_SYNC
-- 
-- template <typename Predicate>
-- GRPC_DEPRECATED("incompatible with thread safety analysis")
-diff --git a/meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-separate-export-for-plugin-targets.patch b/meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-separate-export-for-plugin-targets.patch
-deleted file mode 100644
-index 679bd3882..000000000
---- a/meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-separate-export-for-plugin-targets.patch
-+++ /dev/null
-@@ -1,93 +0,0 @@
--From 3150cb043363e05588062dd392b940be25594713 Mon Sep 17 00:00:00 2001
--From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
--Date: Tue, 18 Feb 2020 14:17:07 +0100
--Subject: [PATCH] cmake: add separate export for plugin targets
--
--Upstream-Status: Submitted [https://github.com/grpc/grpc/pull/29328]
--
--
-----
-- CMakeLists.txt | 18 +++++++++++-------
-- 1 file changed, 11 insertions(+), 7 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index efdaf8936d..6608b1b00c 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -10935,7 +10935,7 @@ target_link_libraries(grpc_cpp_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_cpp_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_cpp_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -10975,7 +10975,7 @@ target_link_libraries(grpc_csharp_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_csharp_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_csharp_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -11015,7 +11015,7 @@ target_link_libraries(grpc_node_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_node_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_node_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -11055,7 +11055,7 @@ target_link_libraries(grpc_objective_c_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_objective_c_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_objective_c_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -11095,7 +11095,7 @@ target_link_libraries(grpc_php_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_php_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_php_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -11135,7 +11135,7 @@ target_link_libraries(grpc_python_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_python_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_python_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -11175,7 +11175,7 @@ target_link_libraries(grpc_ruby_plugin
-- 
-- 
-- if(gRPC_INSTALL)
---  install(TARGETS grpc_ruby_plugin EXPORT gRPCTargets
--+  install(TARGETS grpc_ruby_plugin EXPORT gRPCPluginTargets
--     RUNTIME DESTINATION ${gRPC_INSTALL_BINDIR}
--     BUNDLE DESTINATION  ${gRPC_INSTALL_BINDIR}
--     LIBRARY DESTINATION ${gRPC_INSTALL_LIBDIR}
--@@ -17349,6 +17349,10 @@ if(gRPC_INSTALL)
--     DESTINATION ${gRPC_INSTALL_CMAKEDIR}
--     NAMESPACE gRPC::
--   )
--+  install(EXPORT gRPCPluginTargets
--+    DESTINATION ${gRPC_INSTALL_CMAKEDIR}
--+    NAMESPACE gRPC::
--+  )
-- endif()
-- 
-- include(CMakePackageConfigHelpers)
---- 
--2.30.2
--
-diff --git a/meta-oe/recipes-devtools/grpc/grpc_1.50.1.bb b/meta-oe/recipes-devtools/grpc/grpc_1.56.2.bb
-similarity index 92%
-rename from meta-oe/recipes-devtools/grpc/grpc_1.50.1.bb
-rename to meta-oe/recipes-devtools/grpc/grpc_1.56.2.bb
-index 958992e1e..c4dd6b985 100644
---- a/meta-oe/recipes-devtools/grpc/grpc_1.50.1.bb
-+++ b/meta-oe/recipes-devtools/grpc/grpc_1.56.2.bb
-@@ -20,11 +20,9 @@ RDEPENDS:${PN}-dev:append:class-native = " ${PN}-compiler"
- # RDEPENDS:${PN}-dev += "${PN}-compiler"
+-   local:
+-     *;
+diff --git a/meta-oe/recipes-devtools/protobuf/protobuf/0001-examples-Makefile-respect-CXX-LDFLAGS-variables-fix-.patch b/meta-oe/recipes-devtools/protobuf/protobuf/0001-examples-Makefile-respect-CXX-LDFLAGS-variables-fix-.patch
+index 36c3c597a..f3eead39b 100644
+--- a/meta-oe/recipes-devtools/protobuf/protobuf/0001-examples-Makefile-respect-CXX-LDFLAGS-variables-fix-.patch
++++ b/meta-oe/recipes-devtools/protobuf/protobuf/0001-examples-Makefile-respect-CXX-LDFLAGS-variables-fix-.patch
+@@ -46,12 +46,12 @@ index 1c7ec8d63..85f591231 100644
+  
+  add_person_cpp: add_person.cc protoc_middleman
+  	pkg-config --cflags protobuf  # fails if protobuf is not installed
+--	c++ -std=c++11 add_person.cc addressbook.pb.cc -o add_person_cpp `pkg-config --cflags --libs protobuf`
++-	c++ -std=c++14 add_person.cc addressbook.pb.cc -o add_person_cpp `pkg-config --cflags --libs protobuf`
+ +	$(CXX) $(CXXFLAGS) $(LDFLAGS) ../src/google/protobuf/.libs/timestamp.pb.o $(PROTOBUF) add_person.cc addressbook.pb.cc -o add_person_cpp
+  
+  list_people_cpp: list_people.cc protoc_middleman
+  	pkg-config --cflags protobuf  # fails if protobuf is not installed
+--	c++ -std=c++11 list_people.cc addressbook.pb.cc -o list_people_cpp `pkg-config --cflags --libs protobuf`
++-	c++ -std=c++14 list_people.cc addressbook.pb.cc -o list_people_cpp `pkg-config --cflags --libs protobuf`
+ +	$(CXX) $(CXXFLAGS) $(LDFLAGS) ../src/google/protobuf/.libs/timestamp.pb.o $(PROTOBUF) list_people.cc addressbook.pb.cc -o list_people_cpp
+  
+  add_person_dart: add_person.dart protoc_middleman_dart
+diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.21.12.bb b/meta-oe/recipes-devtools/protobuf/protobuf_3.23.4.bb
+similarity index 95%
+rename from meta-oe/recipes-devtools/protobuf/protobuf_3.21.12.bb
+rename to meta-oe/recipes-devtools/protobuf/protobuf_3.23.4.bb
+index 343933033..a053afa78 100644
+--- a/meta-oe/recipes-devtools/protobuf/protobuf_3.21.12.bb
++++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.23.4.bb
+@@ -7,12 +7,12 @@ SECTION = "console/tools"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=37b5762e07f0af8c74ce80a8bda4266b"
  
- S = "${WORKDIR}/git"
--SRCREV_grpc = "90ccf24d22b6fc909a1021ebd89fd8c838467d26"
--BRANCH = "v1.50.x"
-+SRCREV_grpc = "c0d1c393d9365664d47df41746e992ae97b651ef"
-+BRANCH = "v1.56.x"
- SRC_URI = "gitsm://github.com/grpc/grpc.git;protocol=https;name=grpc;branch=${BRANCH} \
--           file://0001-Revert-Changed-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch \
--           file://0001-cmake-add-separate-export-for-plugin-targets.patch \
-            file://0001-cmake-Link-with-libatomic-on-rv32-rv64.patch \
-            "
- # Fixes build with older compilers 4.8 especially on ubuntu 14.04
+-DEPENDS = "zlib"
++DEPENDS = "abseil-cpp jsoncpp zlib"
+ DEPENDS:append:class-target = " protobuf-native"
+ 
+-SRCREV = "f0dc78d7e6e331b8c6bb2d5283e06aa26883ca7c"
++SRCREV = "2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a"
+ 
+-SRC_URI = "git://github.com/protocolbuffers/protobuf.git;branch=21.x;protocol=https \
++SRC_URI = "git://github.com/protocolbuffers/protobuf.git;branch=23.x;protocol=https \
+            file://run-ptest \
+            file://0001-examples-Makefile-respect-CXX-LDFLAGS-variables-fix-.patch \
+            file://0001-Fix-linking-error-with-ld-gold.patch \
+@@ -35,6 +35,8 @@ EXTRA_OECMAKE += "\
+     -Dprotobuf_BUILD_LIBPROTOC=ON \
+     -Dprotobuf_BUILD_TESTS=OFF \
+     -Dprotobuf_BUILD_EXAMPLES=OFF \
++    -Dprotobuf_ABSL_PROVIDER=package \
++    -Dprotobuf_JSONCPP_PROVIDER=package \
+ "
+ 
+ TEST_SRC_DIR = "examples"
 -- 
 2.41.0
 
