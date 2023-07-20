@@ -1,101 +1,119 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <r.czerwinski@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F22C8EB64DA
-	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 13:19:35 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web10.12743.1689859170552735474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34973EB64DC
+	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 13:37:36 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.13172.1689860246395586359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 06:19:30 -0700
+ Thu, 20 Jul 2023 06:37:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=nZaGeuq2;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-783546553ddso33783739f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 06:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689859170; x=1690463970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QIjLIAg+lRKYivvCcJDhJ6fhlfUjXue8fly+eOkylck=;
-        b=nZaGeuq2Ew6wSaoNFa55yyjyD2Aqr9pDfAH5d3qGTE1Cz7xkBt9K9L/vounblJ7epx
-         i6kYcpO+Oj4x8CnNBZyA4OR/FqpZPHLaTkNIiAn7HpD5OBoHB1t4XZcWvNZs8C4FIy4F
-         5JRoVWnD530rwr7j9v8IhPwW6V5DBcAmwbErmKE2QXjXzwiqNhLGd2CN1sh3c2mHVq1s
-         gpsrzMpRxFvr6qm01MI9N1U1Ca6I+7mPis5lTztNVVoU9adTSkRqCnEjfRHnrqVDS9wA
-         cwTkmWh97PJFxDXjVpJAC05RDOHke3ztxvMTjKsqfIt2THMMunhlt/HqHjhgdjh+K9sy
-         ZNbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689859170; x=1690463970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QIjLIAg+lRKYivvCcJDhJ6fhlfUjXue8fly+eOkylck=;
-        b=bsDzR0SkOp3ZKjz2ET7PCuPhWKKWnepmiMMBpy2cy77505r/Nz2or9jcmTEoQ6yCVG
-         Vryx5T7mYe8H2AYHVLye0RdOcgAipd3fSfLCxdHdZY33EbQKZmvgf5uNxxgn9VqNK8x7
-         +3Ol6zbrqyYnv5XDtmfU0Xl+Qw9zfP8GqtNaZQeevWexaal3X52ZMEPlQyhShw/mU7B7
-         dfFU9YtSZDV56heupYRbHQrQ1Kwt4D66Urft+Dn5DGtcJWP54ADU8y8NuH4w/mcgamz+
-         fclmFzv6hA4rxYQXBseWSvEMXEatxV7WbdTe22qrSTXIxp9lRaLcniLdsbHZ+sEx78G9
-         dU9g==
-X-Gm-Message-State: ABy/qLb/CazeaS/DAmrWeMyqrFGWTTqZBVjGhCQ++H3wAY+UAN2UebD7
-	/PuHWE13GbH+UvM+j10U9tpeMpnQxRcRClvaig8A9ibwYzY=
-X-Google-Smtp-Source: APBJJlFeVhAgm5OjR24fiBKMlloauqLxCVv3BTykIpdsWCcOCiTnOh/3hyu2SYTEuJez3KGIjc97NjjdvCDURF5ENoo=
-X-Received: by 2002:a6b:5b04:0:b0:783:6ff9:a6c7 with SMTP id
- v4-20020a6b5b04000000b007836ff9a6c7mr8763246ioh.6.1689859169767; Thu, 20 Jul
- 2023 06:19:29 -0700 (PDT)
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: rcz@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <rcz@pengutronix.de>)
+	id 1qMTqO-0001AC-01; Thu, 20 Jul 2023 15:37:24 +0200
+Received: from [2a0a:edc0:0:1101:1d::54] (helo=dude05.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <rcz@pengutronix.de>)
+	id 1qMTqM-000qff-NZ; Thu, 20 Jul 2023 15:37:22 +0200
+Received: from rcz by dude05.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <rcz@pengutronix.de>)
+	id 1qMTqM-005JQ4-1F;
+	Thu, 20 Jul 2023 15:37:22 +0200
+From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de,
+	Rouven Czerwinski <rcz@pengutronix.de>
+Subject: [meta][kirkstone][PATCH] json-c: disable -Werror for x86-64
+Date: Thu, 20 Jul 2023 15:36:56 +0200
+Message-Id: <20230720133655.1266273-1-r.czerwinski@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <TY2PR02MB367800CEED14B7DA7EE92C5F8139A@TY2PR02MB3678.apcprd02.prod.outlook.com>
- <CADkTA4O92vHqJbTEqUDPktnuaCp-vzskCZeb_5iqr5NmfGNONg@mail.gmail.com>
- <TY2PR02MB3678ED281AB36D9AB6CBA9C68139A@TY2PR02MB3678.apcprd02.prod.outlook.com>
- <CADkTA4OBjLFxO8x3X1tBvzwU9P=nFU4iVx-qgAphbrboqxu1nw@mail.gmail.com>
- <TY2PR02MB367838917BD294BF286FE226813EA@TY2PR02MB3678.apcprd02.prod.outlook.com>
- <CADkTA4P6NXH-7am1emePfWaZN43e58FsWe9_Rdj2_PdXD6b9RA@mail.gmail.com> <TY2PR02MB3678FC5D7379332D46E8A7EB813EA@TY2PR02MB3678.apcprd02.prod.outlook.com>
-In-Reply-To: <TY2PR02MB3678FC5D7379332D46E8A7EB813EA@TY2PR02MB3678.apcprd02.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 20 Jul 2023 09:19:21 -0400
-Message-ID: <CADkTA4Nc2d0buGL28_uiRJWnCxqfE6S83dmcBPo410J0voRbpQ@mail.gmail.com>
-Subject: Re: [OE-core] make-mod-scripts doesn't know KERNEL_LOCALVERSION
-To: Petr Gotthard <petr.gotthard@advantech.cz>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: rcz@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 13:19:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184638
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 13:37:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184639
 
-On Thu, Jul 20, 2023 at 9:16=E2=80=AFAM Petr Gotthard
-<petr.gotthard@advantech.cz> wrote:
->
-> > My question was about CONFIG_LOCALVERSION_AUTO being something that you
-> > changed after the first issue popped up (I understood what it was chang=
-ing from
-> > your first description) I can't clearly see if you turned it on in resp=
-onse to the
-> > breakage, but I'm assuming that the answer is yes.
->
-> Oh, sorry for the consuion. Yes, I changed the CONFIG_LOCALVERSION_AUTO o=
-nly to reduce the number of suffixes.
+From: Rouven Czerwinski <rcz@pengutronix.de>
 
-Ack'd. Thanks for confirming.
+Disable -Werror using OECMAKE_C_FLAGS on x86-64. This ensures that json-c can
+build on newer distributions where the host compiler is new enough to treat
+implicit fallthrough warnings as errors:
+  | NOTE: VERBOSE=1 cmake --build /…/work/x86_64-linux/json-c-native/0.15-r0/build --target all --
+  | [1/34] /…/work/x86_64-linux/json-c-native/0.15-r0/recipe-sysroot-native/usr/bin/ice/gcc -D_GNU_SOURCE -Djson_c_EXPORTS -I/…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15 -I/…/work/x86_64-linux/json-c-native/0.15-r0/build -isystem/…/work/x86_64-linux/j
+  son-c-native/0.15-r0/recipe-sysroot-native/usr/include -O2 -pipe -ffunction-sections -fdata-sections -Werror -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -Wstrict-prototypes -g -fPIC -D_REENTRANT -MD -MT CMakeFiles/json-c.dir/linkhash.c.o -MF CMakeFiles/json-c.dir/linkhash.c.o.d -o CMakeFiles/json-c.dir/linkhash.c.o -c /…/work/x86_64-linux/json-c-native/0.15-r0/json-c
+  -0.15/linkhash.c
+  | FAILED: CMakeFiles/json-c.dir/linkhash.c.o
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/recipe-sysroot-native/usr/bin/ice/gcc -D_GNU_SOURCE -Djson_c_EXPORTS -I/…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15 -I/…/work/x86_64-linux/json-c-native/0.15-r0/build -isystem/…/work/x86_64-linux/json-c-n
+  ative/0.15-r0/recipe-sysroot-native/usr/include -O2 -pipe -ffunction-sections -fdata-sections -Werror -Wall -Wcast-qual -Wno-error=deprecated-declarations -Wextra -Wwrite-strings -Wno-unused-parameter -Wstrict-prototypes -g -fPIC -D_REENTRANT -MD -MT CMakeFiles/json-c.dir/linkhash.c.o -MF CMakeFiles/json-c.dir/linkhash.c.o.d -o CMakeFiles/json-c.dir/linkhash.c.o -c /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/l
+  inkhash.c
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c: In function 'hashlittle':
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:367:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:368:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:372:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:373:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:376:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:377:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:380:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:381:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:383:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:384:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:420:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:421:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:421:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:422:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:422:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:423:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:423:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:424:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:424:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:425:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:425:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:426:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:426:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:427:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:427:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:428:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:428:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:429:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:429:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:430:3: note: here
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:430:13: error: this statement may fall through [-Werror=implicit-fallthrough=]
+  | /…/work/x86_64-linux/json-c-native/0.15-r0/json-c-0.15/linkhash.c:431:3: note: here
+  | cc1: all warnings being treated as errors
 
-I'm coming up with something that will keep 6.3+ working, and not
-break older/existing recipes.
+Passing -Wno-error x86-64 is the minimal invasive fix for older kirkstone
+releases.
 
-Cheers,
+Signed-off-by: Rouven Czerwinski <rcz@pengutronix.de>
+---
+ meta/recipes-devtools/json-c/json-c_0.15.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Bruce
+diff --git a/meta/recipes-devtools/json-c/json-c_0.15.bb b/meta/recipes-devtools/json-c/json-c_0.15.bb
+index 7cbed55b3b..749eb078f8 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.15.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.15.bb
+@@ -18,6 +18,8 @@ RPROVIDES:${PN} = "libjson"
+ 
+ inherit cmake ptest
+ 
++OECMAKE_C_FLAGS:append:x86-64 = " -Wno-error"
++
+ do_install_ptest() {
+     install -d ${D}/${PTEST_PATH}/tests
+     install ${B}/tests/test* ${D}/${PTEST_PATH}/tests
+-- 
+2.39.2
 
->
->
-> Cheers,
-> Petr
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
