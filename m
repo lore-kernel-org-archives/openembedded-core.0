@@ -1,275 +1,113 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA5BEB64DA
-	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 16:38:49 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.1968.1689871128682441185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7CE1EB64DA
+	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 16:42:19 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.2070.1689871333410871964
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 09:38:49 -0700
+ Thu, 20 Jul 2023 09:42:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=Nki6yzi0;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso6972615e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:38:48 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gmail.com header.s=20221208 header.b=ZEHNvW9U;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b700e85950so14550041fa.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689871127; x=1690475927;
+        d=gmail.com; s=20221208; t=1689871331; x=1690476131;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ylLCBtpyRumXiRICzv41le/igaCv4xlLkmrBFSrCBxQ=;
-        b=Nki6yzi0dO+9DKqgeKBeYzPB+IqgpqPg26tAluMYFBpmu7TARzZpPV67rBwuzaV7ka
-         Juyb4oAaF+Xn6rofYl/d0qmepUgMg6BCVjwlPZLy/2i8ZCjcLscqCpqz7jxcBbtmcAna
-         /4RbJ+cmhhh0zsFnkXofGDsnbkwe/HAfnaVrGqEI5P/QNarLzzjiuqwKGynhtopPKvXV
-         t/7VSJZHqKtuX8vEeGGrQJT7jh0wdZOIBCTw+rT+WRzdehDlYf5KIyjeh8I4Qs6NhJwd
-         CtiQYHI93hcfVkqSgUrEToPpjUfen0blFTBrKEzYwM3mQMxTDMiViPOJty/N0GnQDiO3
-         lfeg==
+        bh=AM7vo87ypnz97du0Skw0cPfMWqBwOj+W7PH9ygX2xXI=;
+        b=ZEHNvW9U8T6HOvJ8pVZLIL6nwk/a5Lt6JCfeSfF9IlZfX//pjXtn42C4GA3iQZqG8D
+         x53WF2V3ZkSMLfU3mVLDg6Xjbvh6B9yTiMc851Tcxa69l1tw+jVOiZyNqNggqTO1iA1r
+         tKH/QSrlP5goeUBIVxLbUnLBnKjY17HRB6DX8ecMNnRtF4yRNrWXLi/F/w4F1Tc1KSz6
+         Di/l4v2D7Oe3Jzi8qEYFkarqGjrk61icYwhadafLKA8oUu52dYzO+EJECtw5SfSpRyJt
+         vvbO5h3XB4WnafU7NILtjNjB6yHd3AiRCUlT38ZmMi339zlaqNV3w24DOqCroEUdwfWR
+         N3HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689871127; x=1690475927;
+        d=1e100.net; s=20221208; t=1689871331; x=1690476131;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ylLCBtpyRumXiRICzv41le/igaCv4xlLkmrBFSrCBxQ=;
-        b=IFTIl2ToYNIwbLMDTBU8X6MLLtaWQmW6KKBkfbDVIQNo/5AN7KBxWXuyR05AiBkXRG
-         dWmQ0/52rkIvnWmkebU8Jgv+wFMWiprvJQ+nkwDmb2emGahtgEIOmmFUOzVrYhlAD+9x
-         qHblmyY76kVk4a1+EGCVhwugZ1wZUYqnGlr14HNujnUlBO7EViN5Qh5GWoorCwBxvHkY
-         y6P5EYPehkkI1Fn0T/k8pNtVJ8GL3MP5vXVAL8YoxjGefYmkTtOwshL1mOSHn3PlzN8E
-         5J8onFc7BRPX7H4riVIj91fGejueUGCZ9pqWOg1iafacat7jAVrMrockk6WVrnS6Dttw
-         WMCg==
-X-Gm-Message-State: ABy/qLbZV03pKwPHjEkJZcpt3ALIwXq7p+3Z/CmfMouwyhFu5d70diCY
-	hR97X0G4xMgrTp6Fkg3rzibc9Z/JaqSxoeYhu24=
-X-Google-Smtp-Source: APBJJlH42WAjqqxfLpsi/BxdOBz+35klAGyrpU0ZhHxv4MA2mHSlAG/VJgAipNfMm5JTBI3d10JT9bsrt7k8Ms9PTVQ=
-X-Received: by 2002:a1c:7413:0:b0:3fb:b18a:f32d with SMTP id
- p19-20020a1c7413000000b003fbb18af32dmr5303272wmc.17.1689871126704; Thu, 20
- Jul 2023 09:38:46 -0700 (PDT)
+        bh=AM7vo87ypnz97du0Skw0cPfMWqBwOj+W7PH9ygX2xXI=;
+        b=gDqqHHZRDCqezbn3DHMD1xZgHQ8XKOhAPSuqNt8CMM/ZbigtO1yxkzTsg5jeHjXune
+         SK4qHviW+KiqOO6XMeSMOsMoXy3+2E541CAefbk/P0wjS7/Ro2TYN8qak4PlnE0oEX/6
+         V5KeMsx6nvbCzV9x9c+hAY1mALsyeRCT04KHCwC4Vwra7ybRL84LSvrLskMw5/jHoJ8b
+         YnVvOEHTCl0BbBSvk89fS/7ZjHR1vyaln9WIM5WBVXxkVEI+Yy93rTVDHABg/0YlFUxG
+         GKWC3QXfULqqdCuQaQVW6LeZDd+r3mzeJ0EcnIyzPH3qBBsR8RetUgbsZoRIg65G1pyZ
+         34fw==
+X-Gm-Message-State: ABy/qLZpZoeR77DOJOG9+5AlbBOaoLmMoSCDEvA4FVNHiX/nfhXr5JvA
+	ySKGFSePGAP7MognOdrpcfjvo7fUhXohKvnlFCI=
+X-Google-Smtp-Source: APBJJlEksARB1BO0hRbwn1eANRZY4ft8qEK7BSSnSjnNClJS+1fuISdlgWhOMxBaXcXfpF6qoHnxqM8+RZwGaenw+FA=
+X-Received: by 2002:a2e:9e96:0:b0:2b6:cb55:72bc with SMTP id
+ f22-20020a2e9e96000000b002b6cb5572bcmr2848064ljk.1.1689871331370; Thu, 20 Jul
+ 2023 09:42:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230720162535.116519-1-peron.clem@gmail.com>
-In-Reply-To: <20230720162535.116519-1-peron.clem@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 20 Jul 2023 18:38:35 +0200
-Message-ID: <CA+chaQe+eoUuus_huavoJ6mAuRx_8Fp49gbuKO+38dZHSh=nvw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 0/4] Bump Protobuf/gRPC
-To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003937ac0600edc81f"
+References: <20230519081850.82586-1-andrej.valek@siemens.com>
+ <20230623111459.97933-2-andrej.valek@siemens.com> <38950e1b3bd475c131e7e4b5db03d9d170c8d690.camel@siemens.com>
+ <ca87e264250af926f1cf3a2463e3213436c515bd.camel@linuxfoundation.org>
+ <1B3C5AD0-9492-4319-9409-DFB59F587E9F@arm.com> <af1666bc975eeb52cfe4058b40e331c73c87421b.camel@siemens.com>
+In-Reply-To: <af1666bc975eeb52cfe4058b40e331c73c87421b.camel@siemens.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 20 Jul 2023 18:41:59 +0200
+Message-ID: <CAApg2=S3xTa7cmwJmHNRY_dcy_CaU80a_npeWzCLgY=yMWhR_Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v9 0/3] CVE-check handling
+To: andrej.valek@siemens.com
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"Ross.Burton@arm.com" <Ross.Burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006c2ceb0600edd44d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 16:38:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184649
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 16:42:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184650
 
---0000000000003937ac0600edc81f
+--0000000000006c2ceb0600edd44d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-These patches should be sent to openembedded-devel not openembedded-core.
+On Wed, Jul 19, 2023 at 2:03=E2=80=AFPM Andrej Valek via lists.openembedded=
+.org
+<andrej.valek=3Dsiemens.com@lists.openembedded.org> wrote:
 
-> ERROR: abseil-cpp-20230125.3-r0 do_package: Variable Requires:
-absl_config =3D 20230125, absl_core_headers =3D 20230125,
-absl_log_internal_append_truncated =3D 20230125, absl_log_internal_config =
-=3D
-20230125, absl_log_internal_globals =3D 20230125, absl_log_severity =3D
-20230125, absl_strings =3D 20230125, absl_str_format =3D 20230125, absl_tim=
-e =3D
-20230125, absl_span  contains an operation using the old override syntax.
-Please convert this layer/metadata before attempting to use with a newer
-bitbake.
+> Even better,
+>
+> So I will make one more rebase, just for "[OE-core][PATCH v9 3/3]
+> cve_check:
+> convert CVE_CHECK_IGNORE to CVE_STATUS"
+>
+>
+This version looks best from all I've seen. Let's get it in in this
+version. I'll have a pachset to fix a few issues after we get multiple
+fetchers in. I *think* I will be able to use it with multi-fetchers.
 
-Do you have this change in your build?
-https://lists.openembedded.org/g/openembedded-core/message/179019
+Kind regards,
+Marta
 
-On Thu, Jul 20, 2023 at 6:25=E2=80=AFPM Cl=C3=A9ment P=C3=A9ron <peron.clem=
-@gmail.com> wrote:
-
-> Hi,
->
-> I'm trying to bump gRPC to a more recent version,
-> but it requires a bump of protobuf.
->
-> I'm strugling with the following issue when compiling:
->
-> ERROR: abseil-cpp-20230125.3-r0 do_package: Variable Requires: absl_confi=
-g
-> =3D 20230125, absl_core_headers =3D 20230125,
-> absl_log_internal_append_truncated =3D 20230125, absl_log_internal_config=
- =3D
-> 20230125, absl_log_internal_globals =3D 20230125, absl_log_severity =3D
-> 20230125, absl_strings =3D 20230125, absl_str_format =3D 20230125, absl_t=
-ime =3D
-> 20230125, absl_span  contains an operation using the old override syntax.
-> Please convert this layer/metadata before attempting to use with a newer
-> bitbake.
-> ERROR: Logfile of failure stored in:
-> /build/tmp/work/armv8a-poky-linux/abseil-cpp/20230125.3-r0/temp/log.do_pa=
-ckage.2192204
-> ERROR: Task
-> (/build/../meta-outsight/recipes-devtools/abseil-cpp/abseil-cpp_git.bb:do=
-_package)
-> failed with exit code '1'
->
-> Do you have an idea of what is happening?
->
-> Thanks for your help
->
-> Cl=C3=A9ment P=C3=A9ron (4):
->   jsoncpp: extend with nativesdk
->   devtools: protobuf: add utf8-range recipe
->   protobuf: bump to 3.23.4
->   devtools: grpc: bump to 1.56.2
->
->  ...RPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch | 62 -------------
->  ...d-separate-export-for-plugin-targets.patch | 93 -------------------
->  .../grpc/{grpc_1.50.1.bb =3D> grpc_1.56.2.bb}   |  6 +-
->  .../recipes-devtools/jsoncpp/jsoncpp_1.9.5.bb |  2 +-
->  .../0001-Fix-linking-error-with-ld-gold.patch | 69 --------------
->  ...e-respect-CXX-LDFLAGS-variables-fix-.patch |  4 +-
->  ...protobuf_3.21.12.bb =3D> protobuf_3.23.4.bb} |  8 +-
->  .../protobuf/utf8-range_git.bb                | 22 +++++
->  8 files changed, 32 insertions(+), 234 deletions(-)
->  delete mode 100644
-> meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Changed-GRPCPP_ABSEIL_SYNC=
--to-GPR_ABSEIL_SYNC.patch
->  delete mode 100644
-> meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-separate-export-for-plu=
-gin-targets.patch
->  rename meta-oe/recipes-devtools/grpc/{grpc_1.50.1.bb =3D> grpc_1.56.2.bb=
-}
-> (92%)
->  delete mode 100644
-> meta-oe/recipes-devtools/protobuf/protobuf/0001-Fix-linking-error-with-ld=
--gold.patch
->  rename meta-oe/recipes-devtools/protobuf/{protobuf_3.21.12.bb =3D>
-> protobuf_3.23.4.bb} (95%)
->  create mode 100644 meta-oe/recipes-devtools/protobuf/utf8-range_git.bb
->
-> --
-> 2.41.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184644):
-> https://lists.openembedded.org/g/openembedded-core/message/184644
-> Mute This Topic: https://lists.openembedded.org/mt/100259348/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---0000000000003937ac0600edc81f
+--0000000000006c2ceb0600edd44d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">These patches should be sent to openembedded-devel not ope=
-nembedded-core.<div><br></div><div>&gt; ERROR: abseil-cpp-20230125.3-r0 do_=
-package: Variable Requires: absl_config =3D 20230125, absl_core_headers =3D=
- 20230125, absl_log_internal_append_truncated =3D 20230125, absl_log_intern=
-al_config =3D 20230125, absl_log_internal_globals =3D 20230125, absl_log_se=
-verity =3D 20230125, absl_strings =3D 20230125, absl_str_format =3D 2023012=
-5, absl_time =3D 20230125, absl_span=C2=A0=C2=A0<span class=3D"gmail-il">co=
-ntains</span>=C2=A0<span class=3D"gmail-il">an</span>=C2=A0<span class=3D"g=
-mail-il">operation</span>=C2=A0<span class=3D"gmail-il">using</span>=C2=A0<=
-span class=3D"gmail-il">the</span>=C2=A0<span class=3D"gmail-il">old</span>=
-=C2=A0<span class=3D"gmail-il">override</span>=C2=A0<span class=3D"gmail-il=
-">syntax</span>. Please convert this layer/metadata before attempting to us=
-e with a newer bitbake.</div><div><br></div><div>Do you have this change in=
- your build?</div><div><a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/message/179019">https://lists.openembedded.org/g/openembedded-cor=
-e/message/179019</a><br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, Jul 20, 2023 at 6:25=E2=80=AFPM Cl=C3=
-=A9ment P=C3=A9ron &lt;<a href=3D"mailto:peron.clem@gmail.com">peron.clem@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">Hi,<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 19, 2023 at 2:03=E2=80=AF=
+PM Andrej Valek via <a href=3D"http://lists.openembedded.org">lists.openemb=
+edded.org</a> &lt;andrej.valek=3D<a href=3D"mailto:siemens.com@lists.openem=
+bedded.org">siemens.com@lists.openembedded.org</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">Even better,<br>
 <br>
-I&#39;m trying to bump gRPC to a more recent version,<br>
-but it requires a bump of protobuf.<br>
-<br>
-I&#39;m strugling with the following issue when compiling:<br>
-<br>
-ERROR: abseil-cpp-20230125.3-r0 do_package: Variable Requires: absl_config =
-=3D 20230125, absl_core_headers =3D 20230125, absl_log_internal_append_trun=
-cated =3D 20230125, absl_log_internal_config =3D 20230125, absl_log_interna=
-l_globals =3D 20230125, absl_log_severity =3D 20230125, absl_strings =3D 20=
-230125, absl_str_format =3D 20230125, absl_time =3D 20230125, absl_span=C2=
-=A0 contains an operation using the old override syntax. Please convert thi=
-s layer/metadata before attempting to use with a newer bitbake.<br>
-ERROR: Logfile of failure stored in: /build/tmp/work/armv8a-poky-linux/abse=
-il-cpp/20230125.3-r0/temp/log.do_package.2192204<br>
-ERROR: Task (/build/../meta-outsight/recipes-devtools/abseil-cpp/abseil-cpp=
-_git.bb:do_package) failed with exit code &#39;1&#39;<br>
-<br>
-Do you have an idea of what is happening?<br>
-<br>
-Thanks for your help<br>
-<br>
-Cl=C3=A9ment P=C3=A9ron (4):<br>
-=C2=A0 jsoncpp: extend with nativesdk<br>
-=C2=A0 devtools: protobuf: add utf8-range recipe<br>
-=C2=A0 protobuf: bump to 3.23.4<br>
-=C2=A0 devtools: grpc: bump to 1.56.2<br>
-<br>
-=C2=A0...RPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch | 62 -------------<br>
-=C2=A0...d-separate-export-for-plugin-targets.patch | 93 ------------------=
--<br>
-=C2=A0.../grpc/{<a href=3D"http://grpc_1.50.1.bb" rel=3D"noreferrer" target=
-=3D"_blank">grpc_1.50.1.bb</a> =3D&gt; <a href=3D"http://grpc_1.56.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">grpc_1.56.2.bb</a>}=C2=A0 =C2=A0|=C2=A0 =
-6 +-<br>
-=C2=A0.../recipes-devtools/jsoncpp/<a href=3D"http://jsoncpp_1.9.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">jsoncpp_1.9.5.bb</a> |=C2=A0 2 +-<br>
-=C2=A0.../0001-Fix-linking-error-with-ld-gold.patch | 69 --------------<br>
-=C2=A0...e-respect-CXX-LDFLAGS-variables-fix-.patch |=C2=A0 4 +-<br>
-=C2=A0...<a href=3D"http://protobuf_3.21.12.bb" rel=3D"noreferrer" target=
-=3D"_blank">protobuf_3.21.12.bb</a> =3D&gt; <a href=3D"http://protobuf_3.23=
-.4.bb" rel=3D"noreferrer" target=3D"_blank">protobuf_3.23.4.bb</a>} |=C2=A0=
- 8 +-<br>
-=C2=A0.../protobuf/<a href=3D"http://utf8-range_git.bb" rel=3D"noreferrer" =
-target=3D"_blank">utf8-range_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 22 +++++<br>
-=C2=A08 files changed, 32 insertions(+), 234 deletions(-)<br>
-=C2=A0delete mode 100644 meta-oe/recipes-devtools/grpc/grpc/0001-Revert-Cha=
-nged-GRPCPP_ABSEIL_SYNC-to-GPR_ABSEIL_SYNC.patch<br>
-=C2=A0delete mode 100644 meta-oe/recipes-devtools/grpc/grpc/0001-cmake-add-=
-separate-export-for-plugin-targets.patch<br>
-=C2=A0rename meta-oe/recipes-devtools/grpc/{<a href=3D"http://grpc_1.50.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">grpc_1.50.1.bb</a> =3D&gt; <a href=
-=3D"http://grpc_1.56.2.bb" rel=3D"noreferrer" target=3D"_blank">grpc_1.56.2=
-.bb</a>} (92%)<br>
-=C2=A0delete mode 100644 meta-oe/recipes-devtools/protobuf/protobuf/0001-Fi=
-x-linking-error-with-ld-gold.patch<br>
-=C2=A0rename meta-oe/recipes-devtools/protobuf/{<a href=3D"http://protobuf_=
-3.21.12.bb" rel=3D"noreferrer" target=3D"_blank">protobuf_3.21.12.bb</a> =
-=3D&gt; <a href=3D"http://protobuf_3.23.4.bb" rel=3D"noreferrer" target=3D"=
-_blank">protobuf_3.23.4.bb</a>} (95%)<br>
-=C2=A0create mode 100644 meta-oe/recipes-devtools/protobuf/<a href=3D"http:=
-//utf8-range_git.bb" rel=3D"noreferrer" target=3D"_blank">utf8-range_git.bb=
-</a><br>
-<br>
--- <br>
-2.41.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#184644): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/184644" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/184644</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100259348/361=
-7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/100259348/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+So I will make one more rebase, just for &quot;[OE-core][PATCH v9 3/3] cve_=
+check:<br>
+convert CVE_CHECK_IGNORE to CVE_STATUS&quot;<br>
+<br></blockquote><div><br></div><div>This version looks best from all I&#39=
+;ve seen. Let&#39;s get <span class=3D"ng" style=3D"background:rgba(0,0,0,0=
+) none repeat scroll 0% 0%!important">it in in</span> this version. I&#39;l=
+l have a <span class=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat s=
+croll 0% 0%!important">pachset</span> to fix a few issues after we get mult=
+iple fetchers in. I *think* I will be able to use it with multi-fetchers.<b=
+r></div><div><br></div><div>Kind regards,</div><div>Marta <br></div></div><=
+/div>
 
---0000000000003937ac0600edc81f--
+--0000000000006c2ceb0600edd44d--
 
