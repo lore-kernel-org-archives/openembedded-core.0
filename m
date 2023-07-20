@@ -1,89 +1,99 @@
-Return-Path: <philmd@linaro.org>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9554AEB64DA
-	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 08:17:54 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.8281.1689841064933900182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11BBBEB64DA
+	for <webhook@archiver.kernel.org>; Thu, 20 Jul 2023 09:19:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.8833.1689844746533216003
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 01:17:45 -0700
+ Thu, 20 Jul 2023 02:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@linaro.org header.s=google header.b=aJuZk9fS;
- spf=pass (domain: linaro.org, ip: 209.85.221.53, mailfrom: philmd@linaro.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3144bf65ce9so395571f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 01:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689841063; x=1690445863;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JW/zEmAa7g/sym9QgMTeGBIHAgdrGjzqTti1iQI8H0A=;
-        b=aJuZk9fSBgzhM3VsawNnyktBLaSYvfqOlrccFM4WOf+5OoHnr0F+ws8N/9uXEm+dei
-         4p3fC+COCJd1Q5wpP7/ypRv7KIzSxQrQKUnJQ0lJiBrXfNRWBLTgo3rVtXYr6CfSI0vi
-         anA8sZp9yeiBThMGCwynzlJok+s/GKLAFvcGuxFofxo5NC3nvQKN+UjuuiMR/nhpwptl
-         680B9RvbPaHE3KGzL+CTwB+jMJznLyM9DB5B2zQQwLpKCocJ/cQbDtPRK7c9d8C/lMpF
-         hVQbh3fiM10bbqSAaP9hTFHdmMy/YEatSn0Mh/v9pyEKAgUAZDGoOCB0UatZM77JAhdE
-         CVTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689841063; x=1690445863;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JW/zEmAa7g/sym9QgMTeGBIHAgdrGjzqTti1iQI8H0A=;
-        b=H/8Rglwhd7yv3y8Rqe0mlhJwxiCa+a9344oliceGm/KWndV6pG+oqRvFFmgw18QlDK
-         Lvi8pZztKMgStJxPb/Xwxc/SrbnLXIau4sBCbZdbtFylz6grlir97mwRi0fEO+esVcJ6
-         Co9dR568U4WagEkUTxe+ZIXb+2smF6KJc/lzPAvYSxo5soiY62rZOYgop0WyZ8tfMuEo
-         GWVVkWXMyHR8dmbtWi9t8KqUB57wsOirV+XOX7kgqEiROpkedZs9RMNgGQyPx5vkMF1o
-         OX5OsC5JByxkb/fGDy+0wwx90EnB5ELoy5GUYR47KMz0VUypWqbdWyBw16v/qbbHdGaB
-         Sd5g==
-X-Gm-Message-State: ABy/qLb/3A/VOTptrlowIYzRb8d3aVVs++zjaSrNoRlWFGhpofPPaHM+
-	3OaMV89IhDqBo5sBmmRzVJDvKw==
-X-Google-Smtp-Source: APBJJlEJOlCa4++bxae6B9yTmeR6EYq+9xkulQpcnr08uB7dgTbsLSoWJATQMdj9Ah13wCCRSuiQjQ==
-X-Received: by 2002:a5d:4387:0:b0:314:544d:199b with SMTP id i7-20020a5d4387000000b00314544d199bmr1533742wrq.6.1689841063329;
-        Thu, 20 Jul 2023 01:17:43 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.214.178])
-        by smtp.gmail.com with ESMTPSA id i7-20020a05600011c700b00313fd294d6csm591836wrx.7.2023.07.20.01.17.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jul 2023 01:17:42 -0700 (PDT)
-Message-ID: <aee2f929-501b-769f-7af3-09880ca24a19@linaro.org>
-Date: Thu, 20 Jul 2023 10:17:41 +0200
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=iuPm7T8s;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6565af9f31=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36K5UVbH019763
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:19:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=rmkFE
+	Zcus+4ctomGjJnazApBRuG4N2+IKrNOMtfSloA=; b=iuPm7T8skRD5uU9gVMsCd
+	jp3sBAWmcekVbKWKBo/rafiKcBBF5ueY/A+RnDTV4/RWgF+74c/cC3awaeqpJS+0
+	ujMlQYUxgvHE3NDdq/4cXwkriHeawpiwYSHQzeugssjGzYXzlRUUNZtj2f7Unpgy
+	wVCiWOewVUjbJRE8IiwcC1J0ufTkvXQYQOD+CuY28visy22iIKEb/fwOXKuZs3n2
+	EWQ1LxLIU21mEB+eIUTlJgm4wOVkNXDjaTO7itTfedRFxSBSk6v/nCTDYhTJ7OyD
+	dNmiyPDzIhbUawG0FiI2bO+nhLtpgmrU/iVHfqpvpzsLwpoeWciugh+kCvjKkO4z
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run9jvg3q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:19:05 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 20 Jul 2023 02:19:03 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][mickledore][PATCH 1/1] vim: upgrade 9.0.1527 -> 9.0.1592
+Date: Thu, 20 Jul 2023 09:18:49 +0000
+Message-ID: <20230720091849.814948-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [OE-core][dunfell][PATCH] qemu: backport Debian patch to fix
- CVE-2023-0330
-Content-Language: en-US
-To: Vijay Anusuri <vanusuri@mvista.com>,
- openembedded-core@lists.openembedded.org
-References: <20230714135402.1664938-1-vanusuri@mvista.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230714135402.1664938-1-vanusuri@mvista.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 9ZqfDqjUGrDwnW8ZLJW8qlciQcMvxTwW
+X-Proofpoint-ORIG-GUID: 9ZqfDqjUGrDwnW8ZLJW8qlciQcMvxTwW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-20_03,2023-07-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ mlxlogscore=551 phishscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307200076
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 08:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184625
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jul 2023 09:19:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184626
 
-On 14/7/23 15:54, Vijay Anusuri wrote:
-> From: Vijay Anusuri <vanusuri@mvista.com>
-> 
-> import patch from ubuntu to fix
->   CVE-2023-0330
-> 
-> Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches?h=ubuntu/focal-security
-> Upstream commit
-> https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
-> 
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->   meta/recipes-devtools/qemu/qemu.inc           |  1 +
->   .../qemu/qemu/CVE-2023-0330.patch             | 77 +++++++++++++++++++
->   2 files changed, 78 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes:
+
+https://nvd.nist.gov/vuln/detail/CVE-2023-2609
+d1ae836 patch 9.0.1531: crash when register contents ends up being invalid
+https://nvd.nist.gov/vuln/detail/CVE-2023-2610
+ab9a2d8 patch 9.0.1532: crash when expanding "~" in substitute causes very long text
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index e1d2563316..33ae0d8079 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".1527"
+-SRCREV = "c28e7a2b2f23dbd246a1ad7ad7aaa6f7ab2e5887"
++PV .= ".1592"
++SRCREV = "29b4c513b11deb37f0e0538df53d195f602fa42c"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
+-- 
+2.40.0
 
 
