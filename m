@@ -1,155 +1,99 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07E0FEB64DD
-	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 16:03:21 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.10899.1689955396707359194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2423DEB64DD
+	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 16:07:51 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web10.11014.1689955664205729566
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jul 2023 09:03:17 -0700
+ Fri, 21 Jul 2023 09:07:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=qYuKjFmM;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2b701e41cd3so30541681fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 09:03:16 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=D4PhB+BU;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.47, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-635decc135eso16007636d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 09:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689955394; x=1690560194;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oH54k6rWmL4apijk3rtdjxl9cFZSolWwOyj4PNXF/l4=;
-        b=qYuKjFmMdKA3AQNFAOUF0ecsCdnfSGKJCmLXtken5Xoo63i+mGRLVsv4SHCSPJUKn3
-         mgh9q+/jANug56pJoD1ZDIBPO9jlUeRSuzJgHDZZfnrkZBbyZojzV/nLHTPngMZ0h+Aq
-         rWglk7s27J0yeZop1Cbs2FPNxwpb4W20qB7IHXPyQmQWRwAhS2LE7Q9Gs5mSl1kZVhNN
-         b9aTzSaOC+FfKJL0TMdEGxV8oRAl+Mrww7OZDGJaHpff7pBkhlMYIhVzW9l81M8Hd6ok
-         YbneMzZBjdkrvlW/d9QKihOyqozQC2GZLXZb5ljQdNgbjD1APeSm47VWRxnytaHuitb5
-         qgXg==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689955663; x=1690560463;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zlRXrF/iovlRwnDMWk4SNxIWkckdNk2kSX4oe02oumA=;
+        b=D4PhB+BUMgnDjDu09QLHbHgyADwCel0kWVRatiMYTTH3Bt3ewR+WA9CI98BZSEpZP/
+         FishrZjNxb01Bg7BBlmdUYBY1jvIagvMIuhaIYMvXx/nK4iIrBwIuUOjDg/65+KJUq1X
+         gg1NqDWqx1g4mvF9/A5mIAWpY5/gQVFQ+NwQ5W6G65/e/kEh+sL6mdfS1TCIGGvEPODD
+         8f37WIDxYHT+oHL2XjLK+hmzfCvE8ETNDeb1aplxD1KGGpuM5TIxJgiwWg92KeQDtzzk
+         O9Jg8kLGcAD1ihCyLTS+Awa8kvrZTl7RWrsg77ZMmg4v0O+xhmuzLwP0dzzALVuwBmet
+         vhhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689955394; x=1690560194;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oH54k6rWmL4apijk3rtdjxl9cFZSolWwOyj4PNXF/l4=;
-        b=V3rRNWfoibvFkRJEuaMZ39n4DoXM8BbCfIiyi8EyPHbLg7PHmTyXOTa+SowTlOy8RP
-         SumGVpW4TJYoV4xDiEsf0Hr1XUHTXibC6OkmkXyB2MKWyLkZx0qNPIzCRGdJQPVSS1Rh
-         KjgSrM2Jof3v8k6wEykjl0m9prpN0GBRsJ9Z17lho/6TgFJ24wOyI36Kj5QhGqj5tXZo
-         cA0bP4zw+ui/CO/E/fkdnioOlsUY0XVE4gKbNEkAsl3SEsEHpli14rwBvdqs1D7CNVc2
-         /cEeN9jsMxgvKon0AmOsZJZsKIhRjomFkJ/LPGBK95PQZTQzkx9L1YLdxZrTAl+rq4bi
-         bfdA==
-X-Gm-Message-State: ABy/qLZLmYxBaAkcwx17gx1170HNKh/L/phJ+Xg0UpT2Pl16FJAocAfw
-	tcd+RaaVFGQ8B3OmKPiThTvynlyWt+uJoAQYd7BJG4rU
-X-Google-Smtp-Source: APBJJlGlGo4Vzds1Ipn2zcFdbob+rAZ7l92M6gYU0WJXEP7x/1sYTI5pqkdDfKPSKIwDzbVewq5vZDv3QWOlI09ae8Q=
-X-Received: by 2002:a2e:8884:0:b0:2b9:2e85:2f9b with SMTP id
- k4-20020a2e8884000000b002b92e852f9bmr2051101lji.2.1689955393784; Fri, 21 Jul
- 2023 09:03:13 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689955663; x=1690560463;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zlRXrF/iovlRwnDMWk4SNxIWkckdNk2kSX4oe02oumA=;
+        b=g0cQ/yd9gdhvH5GtsacLoolykqqyi38lL4GSSlX8TSWQn3CZ4LqWwJe4FQZRE1X2vZ
+         QdIfOIipkxCeWmec6MqD6eNgg+JjOt8c0sybeGuzJJkB/seT50GOLLh+hzdhza5kUecb
+         xFI+xseHRTUqrdrBdzjb9VPoPFvTXet+WkPdNHcvFwzks2BqFKplzyFRY7yaB7sEa24E
+         L3zzDdAqWZK/IGRG21dtg+4tov9pj8LocdN5al/NJty1r+TnfYcpayaCFXv92+7qkZ+I
+         MMEOuoPxgJWhys/xfQV+uXObhVuXLgcxmBi8qca1D6eDFVGDyX2jfdm99RFL/PdLz2gg
+         tkzw==
+X-Gm-Message-State: ABy/qLbuPvmWgJrhxOljRA8fgpt1w9vvkQvtte1R5q/I0qn6TIs8KHNY
+	6nFZhNmQ4T+QHbkohQmgUVEya8GS3/qwVXgG7yg=
+X-Google-Smtp-Source: APBJJlEDiN86jSURoXsVFaTDrdIIAMJlMuxriM+4EbjhZWTfTmeJcU0aFKbvly8SN55nhsjqzJgVJg==
+X-Received: by 2002:a0c:f513:0:b0:635:e286:d4b with SMTP id j19-20020a0cf513000000b00635e2860d4bmr456739qvm.18.1689955662935;
+        Fri, 21 Jul 2023 09:07:42 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id c1-20020a0ca9c1000000b006301d31e315sm1391956qvb.10.2023.07.21.09.07.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jul 2023 09:07:42 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] git: upgrade 2.39.3 -> 2.41.0
+Date: Fri, 21 Jul 2023 12:07:41 -0400
+Message-ID: <20230721160741.1374573-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <888cf277-5987-4800-83e3-081527d5b59dn@list.nist.gov>
-In-Reply-To: <888cf277-5987-4800-83e3-081527d5b59dn@list.nist.gov>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 21 Jul 2023 18:03:01 +0200
-Message-ID: <CAApg2=Tp7NhuGvBQNLP0R3AwoVjurO0v-57NKMUirkn_QyJ7Zg@mail.gmail.com>
-Subject: Fwd: [nvd-news] Keyword and Keyword Exact Match Searches Temporarily Disabled
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="000000000000eed41f0601016651"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 16:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184704
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 16:07:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184705
 
---000000000000eed41f0601016651
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changelog for 2.41.0: https://github.com/git/git/blob/master/Documentation/RelNotes/2.41.0.txt
+Changelog for 2.40.0: https://github.com/git/git/blob/master/Documentation/RelNotes/2.40.0.txt
 
-We might see some difficulties in the next days.
+git-add--interactive was removed in 2.40.0 in favor of git add -i, which
+caused the AUH upgrade failure as that PERLTOOLS entry was no longer
+relevant.
 
-Marta
-
----------- Forwarded message ---------
-From: nvd-news <nvd-news@list.nist.gov>
-Date: Fri, Jul 21, 2023 at 5:57=E2=80=AFPM
-Subject: [nvd-news] Keyword and Keyword Exact Match Searches Temporarily
-Disabled
-To: nvd-news <nvd-news@list.nist.gov>
-
-
-*Keyword and Keyword Exact Match Searches Temporarily Disabled*
-
-The NVD has been experiencing issues with website and API availability. We
-have identified the root cause, however, due to the particular complexities
-and other operational needs, a larger scale solution must be put into
-place. This will take time to implement and resolve. In the interim, to
-ensure continuity of services that are not impacted, we will be disabling
-both the keyword and keyword exact match capabilities of the vulnerability
-search page and APIs. We are aware that this will impact the daily efforts
-of many that make use of our data and request understanding and patience
-while we move towards a viable solution.
-
-For questions and concerns you can contact nvd@nist.gov . Please refrain
-from requesting timelines on resolution, we will notify all users through
-the various channels available when we have information to share on the
-topic.
-
-V/r,
-The National Vulnerability Database Team
-
---=20
-To unsubscribe from this group, send email to
-nvd-news+unsubscribe@list.nist.gov
-View this group at https://list.nist.gov/nvd-news
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
-To unsubscribe from this group and stop receiving emails from it, send an
-email to nvd-news+unsubscribe@list.nist.gov.
+ meta/recipes-devtools/git/{git_2.39.3.bb => git_2.41.0.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.39.3.bb => git_2.41.0.bb} (97%)
 
---000000000000eed41f0601016651
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/git/git_2.39.3.bb b/meta/recipes-devtools/git/git_2.41.0.bb
+similarity index 97%
+rename from meta/recipes-devtools/git/git_2.39.3.bb
+rename to meta/recipes-devtools/git/git_2.41.0.bb
+index 3393550c85..b84be24b94 100644
+--- a/meta/recipes-devtools/git/git_2.39.3.bb
++++ b/meta/recipes-devtools/git/git_2.41.0.bb
+@@ -117,7 +117,6 @@ FILES:${PN} += "${datadir}/git-core ${libexecdir}/git-core/"
+ 
+ PERLTOOLS = " \
+     ${bindir}/git-cvsserver \
+-    ${libexecdir}/git-core/git-add--interactive \
+     ${libexecdir}/git-core/git-archimport \
+     ${libexecdir}/git-core/git-cvsexportcommit \
+     ${libexecdir}/git-core/git-cvsimport \
+@@ -161,4 +160,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
+ 
+-SRC_URI[tarball.sha256sum] = "2f9aa93c548941cc5aff641cedc24add15b912ad8c9b36ff5a41b1a9dcad783e"
++SRC_URI[tarball.sha256sum] = "c4a6a3dd1827895a80cbd824e14d94811796ae54037549e0da93f7b84cb45b9f"
+-- 
+2.41.0
 
-<div dir=3D"ltr"><div>We might see some difficulties in the <span class=3D"=
-ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0% 0%!important">n=
-ext days</span>.</div><div><br></div><div>Marta<br></div><div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarde=
-d message ---------<br>From: <b class=3D"gmail_sendername" dir=3D"auto">nvd=
--news</b> <span dir=3D"auto">&lt;<a href=3D"mailto:nvd-news@list.nist.gov">=
-nvd-news@list.nist.gov</a>&gt;</span><br>Date: Fri, Jul 21, 2023 at 5:57=E2=
-=80=AFPM<br>Subject: [nvd-news] Keyword and Keyword Exact Match Searches Te=
-mporarily Disabled<br>To: nvd-news &lt;<a href=3D"mailto:nvd-news@list.nist=
-.gov">nvd-news@list.nist.gov</a>&gt;<br></div><br><br>
-<div><b><u><font size=3D"4">Keyword and Keyword Exact Match Searches Tempor=
-arily Disabled</font></u></b></div><div><b><u><font size=3D"4"><br></font><=
-/u></b></div><div>The NVD has been experiencing issues with website and API=
-=20
-availability. We have identified the root cause, however,=20
-				due to the particular complexities and other operational needs, a=20
-larger scale solution must be put into place. This will=20
-				take time to implement and resolve. In the interim, to ensure=20
-continuity of services that are not impacted, we will be disabling=20
-				both the keyword and keyword exact match capabilities of the=20
-vulnerability search page and APIs. We are aware that this will impact=20
-				the daily efforts of many that make use of our data and request=20
-understanding and patience while we move towards a viable solution.</div><d=
-iv><br></div><div>For questions and concerns you can contact <a href=3D"mai=
-lto:nvd@nist.gov" target=3D"_blank"> nvd@nist.gov </a>
- . Please refrain from requesting timelines=20
-				on resolution, we will notify all users through the various channels
- available when we have information to share on the topic. <br></div><div><=
-br></div>
-V/r, <br>The National Vulnerability Database Team
-=20
-
-<p></p>
-
--- <br>
-To unsubscribe from this group, send email to <a href=3D"mailto:nvd-news%2B=
-unsubscribe@list.nist.gov" target=3D"_blank">nvd-news+unsubscribe@list.nist=
-.gov</a><br>
-View this group at <a href=3D"https://list.nist.gov/nvd-news" target=3D"_bl=
-ank">https://list.nist.gov/nvd-news</a><br>
---- <br>
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:nvd-news+unsubscribe@list.nist.gov" target=3D"_bl=
-ank">nvd-news+unsubscribe@list.nist.gov</a>.<br>
-</div></div></div>
-
---000000000000eed41f0601016651--
 
