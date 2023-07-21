@@ -1,122 +1,75 @@
-Return-Path: <throos@amazon.de>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3064EB64DD
-	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 04:49:37 +0000 (UTC)
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
- by mx.groups.io with SMTP id smtpd.web11.725.1689914973077870214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1155BEB64DC
+	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 05:30:38 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web10.1087.1689917433932798524
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jul 2023 21:49:33 -0700
+ Thu, 20 Jul 2023 22:30:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=Mj5PqHMg;
- spf=pass (domain: amazon.de, ip: 207.171.188.204, mailfrom: prvs=559d59100=throos@amazon.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1689914973; x=1721450973;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=oS8z4NUh8DX08G/DlWqKa49GMKIt4PLUx0im6n8Nrb8=;
-  b=Mj5PqHMg6X+YqRlMjBlp5AUcQB6Ewe42CKgzHta8Ro6lQObRjGyEsXYy
-   r8uVSfOcIZNRHNODrnHIF4R9xaAaLdTTswSgKABlrxlepLkA10CcOa74o
-   JUcompYRRKzKWCHOaKIwmpfwcd8WH8Txg+dsatI4LpWajNQ3FaAoUluIE
-   Y=;
-X-IronPort-AV: E=Sophos;i="6.01,220,1684800000"; 
-   d="scan'208,217";a="661859043"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-9694bb9e.us-east-1.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 04:49:27 +0000
-Received: from EX19D016EUC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-	by email-inbound-relay-iad-1e-m6i4x-9694bb9e.us-east-1.amazon.com (Postfix) with ESMTPS id 03EEE807E6
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 04:49:25 +0000 (UTC)
-Received: from EX19D016EUC001.ant.amazon.com (10.252.51.169) by
- EX19D016EUC002.ant.amazon.com (10.252.51.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Fri, 21 Jul 2023 04:49:24 +0000
-Received: from EX19D016EUC001.ant.amazon.com ([fe80::ffab:9491:d0b8:dbb6]) by
- EX19D016EUC001.ant.amazon.com ([fe80::ffab:9491:d0b8:dbb6%3]) with mapi id
- 15.02.1118.030; Fri, 21 Jul 2023 04:49:24 +0000
-From: "Roos, Thomas" <throos@amazon.de>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: kirkstone boost upgrade?
-Thread-Topic: kirkstone boost upgrade?
-Thread-Index: AQHZu464cBJ3VPLf9UmQh2Hc/UVYdg==
-Date: Fri, 21 Jul 2023 04:49:24 +0000
-Message-ID: <ef85e3d213644b25adceed1a851ac01b@amazon.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.252.51.69]
-Content-Type: multipart/alternative;
-	boundary="_000_ef85e3d213644b25adceed1a851ac01bamazonde_"
+ dkim=pass header.i=@intel.com header.s=Intel header.b=RlDFQjiQ;
+ spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689917433; x=1721453433;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OhXSaKTyisTUqw9GPU32POaNgssNnBbPXACKUnmg8rI=;
+  b=RlDFQjiQYTZswZhGUpccHc2c60coiBLQPl8B+/GtANkjWmpBNXlGIwSr
+   tV+o+ZjDO+cWzFpRyBJpYD5LNSgMgl0lCKxv4/f3Te6hds+KUx6PWvB9J
+   qlOKZ+Fn9CNd8nHT2y008XgwX/sriC+CrEel5AaDfzUU8ZCv4b9iFCu9w
+   KBmdZTcfraa7z7mpIEnjiBW5HBkm6EGuI/4QeTJVrwaWz8e7shqFIxaCs
+   iKkXaVkWsbCLhI6AQKXjOZa4drvWRIPyT+lKKA6JCOZWCJHyrM8OmhtPq
+   eI+5D0nsfcKAgLEPQVNOiwb/tjPkvkgJWaRND6q2hPcmFobMna09oVMdF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="365835027"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="365835027"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 22:30:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="814817501"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="814817501"
+Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.213.36.233])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 22:30:17 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] selftest/cases/glibc.py: fix the override syntax
+Date: Fri, 21 Jul 2023 13:30:13 +0800
+Message-ID: <20230721053013.40823-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 04:49:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184666
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 05:30:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184667
 
---_000_ef85e3d213644b25adceed1a851ac01bamazonde_
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Fix the override so we actually pass the correct value to glibc.
 
-Hi,
-we are hitting an issue with boost version 1.78 and like to ask if and how =
-there is a boost upgrade on kirkstone branch?
-Cheers, Thomas
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/glibc.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-
-Amazon Web Services EMEA SARL
-38 avenue John F. Kennedy, L-1855 Luxembourg
-Sitz der Gesellschaft: L-1855 Luxemburg
-eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
-
-Amazon Web Services EMEA SARL, Niederlassung Deutschland
-Marcel-Breuer-Str. 12, D-80807 Muenchen
-Sitz der Zweigniederlassung: Muenchen
-eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, =
-USt-ID DE317013094
-
-
-
-
---_000_ef85e3d213644b25adceed1a851ac01bamazonde_
-Content-Type: text/html; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
-n-bottom:0;} --></style>
-</head>
-<body dir=3D"ltr">
-<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
--family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
-<p>Hi, <br>
-we are hitting an issue with boost version 1.78 and like to ask if and how =
-there is a boost upgrade on kirkstone branch?<br>
-Cheers, Thomas<br>
-</p>
-</div>
-<br><br><br>Amazon Web Services EMEA SARL
-<br>38 avenue John F. Kennedy, L-1855 Luxembourg
-<br>Sitz der Gesellschaft: L-1855 Luxemburg
-<br>eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
-<br>
-<br>Amazon Web Services EMEA SARL, Niederlassung Deutschland
-<br>Marcel-Breuer-Str. 12, D-80807 Muenchen
-<br>Sitz der Zweigniederlassung: Muenchen
-<br>eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 2422=
-40, USt-ID DE317013094
-<br><br><br>
-</body>
-</html>
-
---_000_ef85e3d213644b25adceed1a851ac01bamazonde_--
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index a446543a17..4ec4b85d67 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -28,7 +28,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             features.append('TOOLCHAIN_TEST_HOST_USER = "root"')
+             features.append('TOOLCHAIN_TEST_HOST_PORT = "22"')
+             # force single threaded test execution
+-            features.append('EGLIBCPARALLELISM_task-check:pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
++            features.append('EGLIBCPARALLELISM:task-check:pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
+         self.write_config("\n".join(features))
+ 
+         bitbake("glibc-testsuite -c check")
+-- 
+2.41.0
 
 
