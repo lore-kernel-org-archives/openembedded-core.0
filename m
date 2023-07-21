@@ -1,252 +1,203 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A032C04FE1
-	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 14:16:00 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.8235.1689948957929163264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958EBEB64DC
+	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 14:22:10 +0000 (UTC)
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+ by mx.groups.io with SMTP id smtpd.web11.8387.1689949321673821172
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jul 2023 07:15:58 -0700
+ Fri, 21 Jul 2023 07:22:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PHydwNq6;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9520124000A;
-	Fri, 21 Jul 2023 14:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689948956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4ucPZQ0ydJ1zHrLwA5FhR7RXvjrgavniWRWKfQNcIV4=;
-	b=PHydwNq63J63P8lf0c1D+SZ42sUStnYNzaPpYZlJXxicosFlYBB74wqVzRCQ/7pG5Iu2kY
-	GF5R7Q/RHF0uZjoCL/6LlBQAqO/scUr45XNQBcuvfrtKjz8JZvuFtSId+aquOzKhdQX/0b
-	LXsbsFEkVVYFcF64ayggEvZu//Qp0j4Ne0c0lMNBoS9UDylBwbYt0urTLTftS1diI6/HkR
-	ooFnDJTM32yXInGdjQ4VDKAmBbeQCkgke6DLA+Vo60tLyeumM3YPLSXBpKRGd8SgrXPTMB
-	gVC09+zcA9U81ZLY4KWZjnqnqg7nG1+1nJj6BlkkuyWe6WyMnzebRcxunYHehw==
-Date: Fri, 21 Jul 2023 16:15:55 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH 2/3] python3-dtc: add from meta-virtualization
-Message-ID: <202307211415555bb24012@mail.local>
-References: <20230717164124.1026028-1-tgamblin@baylibre.com>
- <20230717164124.1026028-2-tgamblin@baylibre.com>
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=BNYmQ6b7;
+ spf=pass (domain: amazon.de, ip: 99.78.197.220, mailfrom: prvs=559d59100=throos@amazon.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1689949321; x=1721485321;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   mime-version:subject;
+  bh=wnidc8CofeFSQ8O7bwyMR+uiuUEf7pykyBLakH2vT1E=;
+  b=BNYmQ6b7kopyxD0G8lEF2ZS0jjpUvLH5FNy+9u+iiVPiurcf5rVqo+jv
+   Gv6A8orhfSe/tKDUQE2MfNcGsmWc8TQxU6g58eavYhB+HUebgi1BA78Ks
+   ULG61TUPOtW/0CplAFkV9QlumWqf9QEBHhwf/YwXoTHPzaP3GstrqwdX9
+   M=;
+X-IronPort-AV: E=Sophos;i="6.01,220,1684800000"; 
+   d="scan'208,217";a="17741589"
+Subject: AW: [OE-core] kirkstone boost upgrade?
+Thread-Topic: [OE-core] kirkstone boost upgrade?
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-245b69b1.us-east-1.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 14:21:58 +0000
+Received: from EX19D016EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1e-m6i4x-245b69b1.us-east-1.amazon.com (Postfix) with ESMTPS id 4B147340072;
+	Fri, 21 Jul 2023 14:21:56 +0000 (UTC)
+Received: from EX19D016EUC001.ant.amazon.com (10.252.51.169) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Fri, 21 Jul 2023 14:21:55 +0000
+Received: from EX19D016EUC001.ant.amazon.com ([fe80::ffab:9491:d0b8:dbb6]) by
+ EX19D016EUC001.ant.amazon.com ([fe80::ffab:9491:d0b8:dbb6%3]) with mapi id
+ 15.02.1118.030; Fri, 21 Jul 2023 14:21:55 +0000
+From: "Roos, Thomas" <throos@amazon.de>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Index: AQHZu464cBJ3VPLf9UmQh2Hc/UVYdq/DvCgAgAAlz6WAADeaAIAALJuE
+Date: Fri, 21 Jul 2023 14:21:55 +0000
+Message-ID: <aec5abd544f84568b61ccd9ed7415bcb@amazon.de>
+References: <ef85e3d213644b25adceed1a851ac01b@amazon.de>
+ <f8527dac-70d8-488f-dbcb-78d29acd8e01@gmail.com>
+ <11b360cb14ab463b88b5cec298e0b2c6@amazon.de>,<76EB3148-B3B7-4D74-8F4B-5343A63C71F1@arm.com>
+In-Reply-To: <76EB3148-B3B7-4D74-8F4B-5343A63C71F1@arm.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.252.51.153]
+Content-Type: multipart/alternative;
+	boundary="_000_aec5abd544f84568b61ccd9ed7415bcbamazonde_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230717164124.1026028-2-tgamblin@baylibre.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 14:16:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184695
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 14:22:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184696
 
-The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-python3-dtc (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-devtools/python/python3-dtc_1.6.1.bb)
+--_000_aec5abd544f84568b61ccd9ed7415bcbamazonde_
+MIME-Version: 1.0
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-;)
+thank you, Ross - will try.
+Cheers, Thomas
 
-On 17/07/2023 12:41:23-0400, Trevor Gamblin wrote:
-> This provides pylibfdt, which is a runtime dependency for the dtschema
-> module that we already carry in oe-core.
-> 
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->  ...erlay-make-overlay_get_target-public.patch | 132 ++++++++++++++++++
->  .../python/python3-dtc_1.6.1.bb               |  26 ++++
->  2 files changed, 158 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
->  create mode 100644 meta/recipes-devtools/python/python3-dtc_1.6.1.bb
-> 
-> diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-> new file mode 100644
-> index 0000000000..a2df482e3a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-> @@ -0,0 +1,132 @@
-> +From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
-> +From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> +Date: Wed, 19 Jan 2022 12:46:42 -0500
-> +Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
-> +
-> +This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +---
-> + libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
-> + libfdt/libfdt.h      | 18 ------------------
-> + libfdt/version.lds   |  1 -
-> + 3 files changed, 22 insertions(+), 26 deletions(-)
-> +
-> +diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
-> +index 5c0c398..d217e79 100644
-> +--- a/libfdt/fdt_overlay.c
-> ++++ b/libfdt/fdt_overlay.c
-> +@@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
-> + 	return fdt32_to_cpu(*val);
-> + }
-> + 
-> +-int fdt_overlay_target_offset(const void *fdt, const void *fdto,
-> +-			      int fragment_offset, char const **pathp)
-> ++/**
-> ++ * overlay_get_target - retrieves the offset of a fragment's target
-> ++ * @fdt: Base device tree blob
-> ++ * @fdto: Device tree overlay blob
-> ++ * @fragment: node offset of the fragment in the overlay
-> ++ * @pathp: pointer which receives the path of the target (or NULL)
-> ++ *
-> ++ * overlay_get_target() retrieves the target offset in the base
-> ++ * device tree of a fragment, no matter how the actual targeting is
-> ++ * done (through a phandle or a path)
-> ++ *
-> ++ * returns:
-> ++ *      the targeted node offset in the base device tree
-> ++ *      Negative error code on error
-> ++ */
-> ++static int overlay_get_target(const void *fdt, const void *fdto,
-> ++			      int fragment, char const **pathp)
-> + {
-> + 	uint32_t phandle;
-> + 	const char *path = NULL;
-> + 	int path_len = 0, ret;
-> + 
-> + 	/* Try first to do a phandle based lookup */
-> +-	phandle = overlay_get_target_phandle(fdto, fragment_offset);
-> ++	phandle = overlay_get_target_phandle(fdto, fragment);
-> + 	if (phandle == (uint32_t)-1)
-> + 		return -FDT_ERR_BADPHANDLE;
-> + 
-> + 	/* no phandle, try path */
-> + 	if (!phandle) {
-> + 		/* And then a path based lookup */
-> +-		path = fdt_getprop(fdto, fragment_offset, "target-path", &path_len);
-> ++		path = fdt_getprop(fdto, fragment, "target-path", &path_len);
-> + 		if (path)
-> + 			ret = fdt_path_offset(fdt, path);
-> + 		else
-> +@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
-> + 		if (overlay < 0)
-> + 			return overlay;
-> + 
-> +-		target = fdt_overlay_target_offset(fdt, fdto, fragment, NULL);
-> ++		target = overlay_get_target(fdt, fdto, fragment, NULL);
-> + 		if (target < 0)
-> + 			return target;
-> + 
-> +@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-> + 			return -FDT_ERR_BADOVERLAY;
-> + 
-> + 		/* get the target of the fragment */
-> +-		ret = fdt_overlay_target_offset(fdt, fdto, fragment, &target_path);
-> ++		ret = overlay_get_target(fdt, fdto, fragment, &target_path);
-> + 		if (ret < 0)
-> + 			return ret;
-> + 		target = ret;
-> +@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-> + 
-> + 		if (!target_path) {
-> + 			/* again in case setprop_placeholder changed it */
-> +-			ret = fdt_overlay_target_offset(fdt, fdto, fragment, &target_path);
-> ++			ret = overlay_get_target(fdt, fdto, fragment, &target_path);
-> + 			if (ret < 0)
-> + 				return ret;
-> + 			target = ret;
-> +diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
-> +index a7f432c..7f117e8 100644
-> +--- a/libfdt/libfdt.h
-> ++++ b/libfdt/libfdt.h
-> +@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
-> +  */
-> + int fdt_overlay_apply(void *fdt, void *fdto);
-> + 
-> +-/**
-> +- * fdt_overlay_target_offset - retrieves the offset of a fragment's target
-> +- * @fdt: Base device tree blob
-> +- * @fdto: Device tree overlay blob
-> +- * @fragment_offset: node offset of the fragment in the overlay
-> +- * @pathp: pointer which receives the path of the target (or NULL)
-> +- *
-> +- * fdt_overlay_target_offset() retrieves the target offset in the base
-> +- * device tree of a fragment, no matter how the actual targeting is
-> +- * done (through a phandle or a path)
-> +- *
-> +- * returns:
-> +- *      the targeted node offset in the base device tree
-> +- *      Negative error code on error
-> +- */
-> +-int fdt_overlay_target_offset(const void *fdt, const void *fdto,
-> +-			      int fragment_offset, char const **pathp);
-> +-
-> + /**********************************************************************/
-> + /* Debugging / informational functions                                */
-> + /**********************************************************************/
-> +diff --git a/libfdt/version.lds b/libfdt/version.lds
-> +index cbce5d4..7ab85f1 100644
-> +--- a/libfdt/version.lds
-> ++++ b/libfdt/version.lds
-> +@@ -77,7 +77,6 @@ LIBFDT_1.2 {
-> + 		fdt_appendprop_addrrange;
-> + 		fdt_setprop_inplace_namelen_partial;
-> + 		fdt_create_with_flags;
-> +-		fdt_overlay_target_offset;
-> + 	local:
-> + 		*;
-> + };
-> +-- 
-> +2.19.1
-> +
-> diff --git a/meta/recipes-devtools/python/python3-dtc_1.6.1.bb b/meta/recipes-devtools/python/python3-dtc_1.6.1.bb
-> new file mode 100644
-> index 0000000000..a868bd0109
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-dtc_1.6.1.bb
-> @@ -0,0 +1,26 @@
-> +SUMMARY = "Python Library for the Device Tree Compiler"
-> +HOMEPAGE = "https://devicetree.org/"
-> +DESCRIPTION = "A python library for the Device Tree Compiler, a tool used to manipulate Device Tree files which contain a data structure for describing hardware."
-> +SECTION = "bootloader"
-> +LICENSE = "GPL-2.0-only | BSD-2-Clause"
-> +
-> +DEPENDS = "flex-native bison-native swig-native python3-setuptools-scm-native libyaml dtc"
-> +
-> +SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=master \
-> +           file://0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch \
-> +          "
-> +
-> +UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
-> +
-> +LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
-> +
-> +SRCREV = "c001fc01a43e7a06447c06ea3d50bd60641322b8"
-> +
-> +PV = "1.6.1+git${SRCPV}"
-> +S = "${WORKDIR}/git"
-> +
-> +PYPA_WHEEL = "${S}/dist/libfdt-1.6.2*.whl"
-> +
-> +inherit setuptools3 pkgconfig
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> -- 
-> 2.41.0
-> 
+________________________________
+Von: Ross Burton <Ross.Burton@arm.com>
+Gesendet: Freitag, 21. Juli 2023 13:42:02
+An: Roos, Thomas
+Cc: Vyacheslav Yurkov; openembedded-core@lists.openembedded.org
+Betreff: RE: [EXTERNAL][OE-core] kirkstone boost upgrade?
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184477): https://lists.openembedded.org/g/openembedded-core/message/184477
-> Mute This Topic: https://lists.openembedded.org/mt/100198619/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+CAUTION: This email originated from outside of the organization. Do not cli=
+ck links or open attachments unless you can confirm the sender and know the=
+ content is safe.
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+On 21 Jul 2023, at 09:25, Thomas Roos via lists.openembedded.org <throos=3D=
+amazon.de@lists.openembedded.org> wrote:
+>
+> Hi Vyacheslav,
+> I think it's this error: boost beast "Fixed WebSocket handshake response =
+on failure."
+> Fixed in 1.79.
+> My question was what is the policy of upgrading boost in an LTS branch? I=
+ guess there is no change?
+> I totally agree that there are breaking changes - I had experienced a lot=
+ in the past...
+
+If you can isolate the fix to a small patch that doesn=92t break anything e=
+lse, then you can submit that as a patch.  If it needs to be an invasive up=
+grade, that=92s less likely to happen.
+
+Ross
+
+
+
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, =
+USt-ID DE317013094
+
+
+
+
+--_000_aec5abd544f84568b61ccd9ed7415bcbamazonde_
+MIME-Version: 1.0
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<meta content=3D"text/html; charset=3DUTF-8">
+<style type=3D"text/css" style=3D"">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
+or:#000000; font-family:Calibri,Helvetica,sans-serif">
+<p>thank you, Ross - will try.<br>
+Cheers, Thomas<br>
+</p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>Von:</b> Ross Burton &lt;Ross=
+.Burton@arm.com&gt;<br>
+<b>Gesendet:</b> Freitag, 21. Juli 2023 13:42:02<br>
+<b>An:</b> Roos, Thomas<br>
+<b>Cc:</b> Vyacheslav Yurkov; openembedded-core@lists.openembedded.org<br>
+<b>Betreff:</b> RE: [EXTERNAL][OE-core] kirkstone boost upgrade?</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">CAUTION: This email originated from outside of the=
+ organization. Do not click links or open attachments unless you can confir=
+m the sender and know the content is safe.<br>
+<br>
+<br>
+<br>
+On 21 Jul 2023, at 09:25, Thomas Roos via lists.openembedded.org &lt;throos=
+=3Damazon.de@lists.openembedded.org&gt; wrote:<br>
+&gt;<br>
+&gt; Hi Vyacheslav,<br>
+&gt; I think it's this error: boost beast &quot;Fixed WebSocket handshake r=
+esponse on failure.&quot;<br>
+&gt; Fixed in 1.79.<br>
+&gt; My question was what is the policy of upgrading boost in an LTS branch=
+? I guess there is no change?<br>
+&gt; I totally agree that there are breaking changes - I had experienced a =
+lot in the past...<br>
+<br>
+If you can isolate the fix to a small patch that doesn=92t break anything e=
+lse, then you can submit that as a patch.&nbsp; If it needs to be an invasi=
+ve upgrade, that=92s less likely to happen.<br>
+<br>
+Ross<br>
+</div>
+</span></font>
+<br><br><br>Amazon Web Services EMEA SARL
+<br>38 avenue John F. Kennedy, L-1855 Luxembourg
+<br>Sitz der Gesellschaft: L-1855 Luxemburg
+<br>eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+<br>
+<br>Amazon Web Services EMEA SARL, Niederlassung Deutschland
+<br>Marcel-Breuer-Str. 12, D-80807 Muenchen
+<br>Sitz der Zweigniederlassung: Muenchen
+<br>eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 2422=
+40, USt-ID DE317013094
+<br><br><br>
+</body>
+</html>
+
+--_000_aec5abd544f84568b61ccd9ed7415bcbamazonde_--
+
 
