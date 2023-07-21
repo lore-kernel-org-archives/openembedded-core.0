@@ -1,414 +1,543 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687DAEB64DC
-	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 17:13:21 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.12725.1689959596002000049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C80C41513
+	for <webhook@archiver.kernel.org>; Fri, 21 Jul 2023 17:22:41 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.12847.1689960152203433793
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jul 2023 10:13:16 -0700
+ Fri, 21 Jul 2023 10:22:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JaopitTT;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6566062bc0=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36LDpTvK008239
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 10:13:15 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=szx8W
-	ln6+eq+1yfBF+4eAmGMHrOcQnryXooh85ffRR0=; b=JaopitTTJdiSbvHbPJl9Q
-	jfeDYA0SAVqi3rxxHMpu7h8ZtJggWya6eOKf7YouzYwZv/en75NBg796yH5ZUe/U
-	PBpoB4WAjPRXko3U7oGEgyBhiwSUUy7E1soOqxGU2A8TI2HPV7Lhd32XD5zjX7cr
-	XPiEgip5fNJcmh+CG0M3ovSmax5yhJbXN+GSi2JenkQW/F1tP+1t7TJjJ6FA/HsA
-	Hmki+kWlCwFI+iiUWeZbO46OY1wa777sKQk2em+37iPGVwBa5HbZysiXwzFzjaZ7
-	UIw77bFDdTJVrgDhJ7mSziPaXNgf1+fxL0WBHIHwreGozTWToTegswqpsjE3hHZ2
-	Q==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3rupqydxmh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 10:13:15 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 21 Jul 2023 10:13:14 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Fri, 21 Jul 2023 10:13:14 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [mickledore][PATCH] go: fix CVE-2023-24531
-Date: Fri, 21 Jul 2023 10:13:08 -0700
-Message-ID: <20230721171308.3720374-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.39.0
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ONhxtzc6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.47, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-98de21518fbso343977066b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 10:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1689960150; x=1690564950;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1fOWyUw1xZBP4/9OUOBtujmdK8uhT3sKr3cX4T06gvM=;
+        b=ONhxtzc6erGgQIeCIjD+q1jZJG6tBU/ac7gDamp7kkt49OUmZ4hM5ARSdj75uryr9b
+         6UtajWqMPXTsqUPMu9qW42PIMyqyRJ62HNT2WCyRPbgwk/iQFgdkBVKCRKFfm/HlzmRt
+         JF5bNV9k1r0UdRanGtZdl/O5v4Dc7rXe2V1vu7U+Ke4CrU0RnbIOIIdmbqp34RPPXJnV
+         wREuM66U8o7wq1dZ0724vFkGIXr/L3qBcsIRuhwRegUbwfEYJEpBWeHhB1XTvjgy2S0x
+         9OaZpSO+4BAQmNW8e1sF/ByJy7MvVdy8jiRfd4IkRkfj8WoTY1j4dzpA6wuq/xsYju5L
+         vRaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689960150; x=1690564950;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1fOWyUw1xZBP4/9OUOBtujmdK8uhT3sKr3cX4T06gvM=;
+        b=QoQpIv6nCffiIAOFqRoXaBUdwp04Twze49OLw5ETQR2Wtgk1rFjYyd7lT7z3E3MsQV
+         2EXMBYMngRXCqx6gn5ju1tMiNsCXLsaaCYwmP2CixHGFJ1vF7LDcoApDRWL7gqO76zcz
+         EwU0/ja6cX4mahCE7Epo8VECcHODhkg8xA7Qq+kgjc7YvZ6BxmkPGHCobcAUjOzIs6kc
+         vP0PbVNoBg03/p7qr/i0WG5JrO9Q12T5QucUxrGha8RPt+1NGi9LGJyG20IwnUtaJyxh
+         Uk+/8df4yMVkZBUZadsC3Lnpuu1Wv7siOqH6uShuodfV6EDp8JPJF9AIDHsmSEPI3x/W
+         2R6Q==
+X-Gm-Message-State: ABy/qLadFlAFrZqgJ//OBHvPWinkmmR6iEqGKxqj2ShuKL3n0SV7pRag
+	TP17IMYepCwpMkHS06JonmZrKUDlcec4f405hC6Y/2SSqBAG+CwtywI=
+X-Google-Smtp-Source: APBJJlFYEqaqlBXvQI1sxWPMmFQrZhTrzTNL8teog2XFPY17HRr9hfxhr3rL3+VxdFP+AZnfgwQ5IDXyD9eMCfGz3jI=
+X-Received: by 2002:a17:906:24e:b0:982:ab8d:1e08 with SMTP id
+ 14-20020a170906024e00b00982ab8d1e08mr2203304ejl.59.1689960150236; Fri, 21 Jul
+ 2023 10:22:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: X8zFD-xFyy8qdeMkPM81JX_C8Hxecgzu
-X-Proofpoint-ORIG-GUID: X8zFD-xFyy8qdeMkPM81JX_C8Hxecgzu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-21_10,2023-07-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- clxscore=1011 mlxscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307210150
+References: <20230721065004.3400285-1-yogita.urade@windriver.com>
+In-Reply-To: <20230721065004.3400285-1-yogita.urade@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 21 Jul 2023 07:22:19 -1000
+Message-ID: <CAOSpxdbhAz+9W-vhDvz=sY5QY3NtN+_QZhBwy0mAD7fVhEiyZw@mail.gmail.com>
+Subject: Re: [oe-core][kirkstone][PATCH 1/1] bind: fix CVE-2023-2911
+To: Yogita.Urade@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000070a80a06010282b1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 17:13:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184707
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jul 2023 17:22:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184708
 
-Backport required commits to fix CVE-2023-24531.
+--00000000000070a80a06010282b1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/go/go-1.20.5.inc        |   2 +
- .../go/go/CVE-2023-24531_1.patch              | 266 ++++++++++++++++++
- .../go/go/CVE-2023-24531_2.patch              |  47 ++++
- 3 files changed, 315 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2023-24531_1.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2023-24531_2.patch
+There is already a fix for this CVE in kirkstone:
 
-diff --git a/meta/recipes-devtools/go/go-1.20.5.inc b/meta/recipes-devtools/go/go-1.20.5.inc
-index 4e4e57d5cb..9cc79a8073 100644
---- a/meta/recipes-devtools/go/go-1.20.5.inc
-+++ b/meta/recipes-devtools/go/go-1.20.5.inc
-@@ -14,5 +14,7 @@ SRC_URI += "\
-     file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-+    file://CVE-2023-24531_1.patch \
-+    file://CVE-2023-24531_2.patch \
- "
- SRC_URI[main.sha256sum] = "9a15c133ba2cfafe79652f4815b62e7cfc267f68df1b9454c6ab2a3ca8b96a88"
-diff --git a/meta/recipes-devtools/go/go/CVE-2023-24531_1.patch b/meta/recipes-devtools/go/go/CVE-2023-24531_1.patch
-new file mode 100644
-index 0000000000..9de701b64b
---- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2023-24531_1.patch
-@@ -0,0 +1,266 @@
-+From c5463ec922a57d8b175c6639186ba9cbe15e6bc1 Mon Sep 17 00:00:00 2001
-+From: Michael Matloob <matloob@golang.org>
-+Date: Mon, 24 Apr 2023 16:57:28 -0400
-+Subject: [PATCH 1/2] cmd/go: sanitize go env outputs
-+
-+go env, without any arguments, outputs the environment variables in
-+the form of a script that can be run on the host OS. On Unix, single
-+quote the strings and place single quotes themselves outside the
-+single quoted strings. On windows use the set "var=val" syntax with
-+the quote starting before the variable.
-+
-+Fixes #58508
-+
-+Change-Id: Iecd379a4af7285ea9b2024f0202250c74fd9a2bd
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/488375
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Michael Matloob <matloob@golang.org>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Run-TryBot: Michael Matloob <matloob@golang.org>
-+Reviewed-by: Bryan Mills <bcmills@google.com>
-+Reviewed-by: Quim Muntal <quimmuntal@gmail.com>
-+
-+CVE: CVE-2023-24531
-+Upstream-Status: Backport [f379e78951a405e7e99a60fb231eeedbf976c108]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ src/cmd/go/internal/envcmd/env.go           | 60 ++++++++++++-
-+ src/cmd/go/internal/envcmd/env_test.go      | 94 +++++++++++++++++++++
-+ src/cmd/go/testdata/script/env_sanitize.txt |  5 ++
-+ src/cmd/go/testdata/script/work_env.txt     |  2 +-
-+ 4 files changed, 158 insertions(+), 3 deletions(-)
-+ create mode 100644 src/cmd/go/internal/envcmd/env_test.go
-+ create mode 100644 src/cmd/go/testdata/script/env_sanitize.txt
-+
-+diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
-+index fb7448a..5b52fad 100644
-+--- a/src/cmd/go/internal/envcmd/env.go
-++++ b/src/cmd/go/internal/envcmd/env.go
-+@@ -6,6 +6,7 @@
-+ package envcmd
-+ 
-+ import (
-++	"bytes"
-+ 	"context"
-+ 	"encoding/json"
-+ 	"fmt"
-+@@ -17,6 +18,7 @@ import (
-+ 	"runtime"
-+ 	"sort"
-+ 	"strings"
-++	"unicode"
-+ 	"unicode/utf8"
-+ 
-+ 	"cmd/go/internal/base"
-+@@ -413,9 +415,12 @@ func checkBuildConfig(add map[string]string, del map[string]bool) error {
-+ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
-+ 	for _, e := range env {
-+ 		if e.Name != "TERM" {
-++			if runtime.GOOS != "plan9" && bytes.Contains([]byte(e.Value), []byte{0}) {
-++				base.Fatalf("go: internal error: encountered null byte in environment variable %s on non-plan9 platform", e.Name)
-++			}
-+ 			switch runtime.GOOS {
-+ 			default:
-+-				fmt.Fprintf(w, "%s=\"%s\"\n", e.Name, e.Value)
-++				fmt.Fprintf(w, "%s=%s\n", e.Name, shellQuote(e.Value))
-+ 			case "plan9":
-+ 				if strings.IndexByte(e.Value, '\x00') < 0 {
-+ 					fmt.Fprintf(w, "%s='%s'\n", e.Name, strings.ReplaceAll(e.Value, "'", "''"))
-+@@ -426,17 +431,68 @@ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
-+ 						if x > 0 {
-+ 							fmt.Fprintf(w, " ")
-+ 						}
-++						// TODO(#59979): Does this need to be quoted like above?
-+ 						fmt.Fprintf(w, "%s", s)
-+ 					}
-+ 					fmt.Fprintf(w, ")\n")
-+ 				}
-+ 			case "windows":
-+-				fmt.Fprintf(w, "set %s=%s\n", e.Name, e.Value)
-++				if hasNonGraphic(e.Value) {
-++					base.Errorf("go: stripping unprintable or unescapable characters from %%%q%%", e.Name)
-++				}
-++				fmt.Fprintf(w, "set %s=%s\n", e.Name, batchEscape(e.Value))
-+ 			}
-+ 		}
-+ 	}
-+ }
-+ 
-++func hasNonGraphic(s string) bool {
-++	for _, c := range []byte(s) {
-++		if c == '\r' || c == '\n' || (!unicode.IsGraphic(rune(c)) && !unicode.IsSpace(rune(c))) {
-++			return true
-++		}
-++	}
-++	return false
-++}
-++
-++func shellQuote(s string) string {
-++	var b bytes.Buffer
-++	b.WriteByte('\'')
-++	for _, x := range []byte(s) {
-++		if x == '\'' {
-++			// Close the single quoted string, add an escaped single quote,
-++			// and start another single quoted string.
-++			b.WriteString(`'\''`)
-++		} else {
-++			b.WriteByte(x)
-++		}
-++	}
-++	b.WriteByte('\'')
-++	return b.String()
-++}
-++
-++func batchEscape(s string) string {
-++	var b bytes.Buffer
-++	for _, x := range []byte(s) {
-++		if x == '\r' || x == '\n' || (!unicode.IsGraphic(rune(x)) && !unicode.IsSpace(rune(x))) {
-++			b.WriteRune(unicode.ReplacementChar)
-++			continue
-++		}
-++		switch x {
-++		case '%':
-++			b.WriteString("%%")
-++		case '<', '>', '|', '&', '^':
-++			// These are special characters that need to be escaped with ^. See
-++			// https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set_1.
-++			b.WriteByte('^')
-++			b.WriteByte(x)
-++		default:
-++			b.WriteByte(x)
-++		}
-++	}
-++	return b.String()
-++}
-++
-+ func printEnvAsJSON(env []cfg.EnvVar) {
-+ 	m := make(map[string]string)
-+ 	for _, e := range env {
-+diff --git a/src/cmd/go/internal/envcmd/env_test.go b/src/cmd/go/internal/envcmd/env_test.go
-+new file mode 100644
-+index 0000000..32d99fd
-+--- /dev/null
-++++ b/src/cmd/go/internal/envcmd/env_test.go
-+@@ -0,0 +1,94 @@
-++// Copyright 2022 The Go Authors. All rights reserved.
-++// Use of this source code is governed by a BSD-style
-++// license that can be found in the LICENSE file.
-++
-++//go:build unix || windows
-++
-++package envcmd
-++
-++import (
-++	"bytes"
-++	"cmd/go/internal/cfg"
-++	"fmt"
-++	"internal/testenv"
-++	"os"
-++	"os/exec"
-++	"path/filepath"
-++	"runtime"
-++	"testing"
-++	"unicode"
-++)
-++
-++func FuzzPrintEnvEscape(f *testing.F) {
-++	f.Add(`$(echo 'cc"'; echo 'OOPS="oops')`)
-++	f.Add("$(echo shell expansion 1>&2)")
-++	f.Add("''")
-++	f.Add(`C:\"Program Files"\`)
-++	f.Add(`\\"Quoted Host"\\share`)
-++	f.Add("\xfb")
-++	f.Add("0")
-++	f.Add("")
-++	f.Add("''''''''")
-++	f.Add("\r")
-++	f.Add("\n")
-++	f.Add("E,%")
-++	f.Fuzz(func(t *testing.T, s string) {
-++		t.Parallel()
-++
-++		for _, c := range []byte(s) {
-++			if c == 0 {
-++				t.Skipf("skipping %q: contains a null byte. Null bytes can't occur in the environment"+
-++					" outside of Plan 9, which has different code path than Windows and Unix that this test"+
-++					" isn't testing.", s)
-++			}
-++			if c > unicode.MaxASCII {
-++				t.Skipf("skipping %#q: contains a non-ASCII character %q", s, c)
-++			}
-++			if !unicode.IsGraphic(rune(c)) && !unicode.IsSpace(rune(c)) {
-++				t.Skipf("skipping %#q: contains non-graphic character %q", s, c)
-++			}
-++			if runtime.GOOS == "windows" && c == '\r' || c == '\n' {
-++				t.Skipf("skipping %#q on Windows: contains unescapable character %q", s, c)
-++			}
-++		}
-++
-++		var b bytes.Buffer
-++		if runtime.GOOS == "windows" {
-++			b.WriteString("@echo off\n")
-++		}
-++		PrintEnv(&b, []cfg.EnvVar{{Name: "var", Value: s}})
-++		var want string
-++		if runtime.GOOS == "windows" {
-++			fmt.Fprintf(&b, "echo \"%%var%%\"\n")
-++			want += "\"" + s + "\"\r\n"
-++		} else {
-++			fmt.Fprintf(&b, "printf '%%s\\n' \"$var\"\n")
-++			want += s + "\n"
-++		}
-++		scriptfilename := "script.sh"
-++		if runtime.GOOS == "windows" {
-++			scriptfilename = "script.bat"
-++		}
-++		scriptfile := filepath.Join(t.TempDir(), scriptfilename)
-++		if err := os.WriteFile(scriptfile, b.Bytes(), 0777); err != nil {
-++			t.Fatal(err)
-++		}
-++		t.Log(b.String())
-++		var cmd *exec.Cmd
-++		if runtime.GOOS == "windows" {
-++			cmd = testenv.Command(t, "cmd.exe", "/C", scriptfile)
-++		} else {
-++			cmd = testenv.Command(t, "sh", "-c", scriptfile)
-++		}
-++		out, err := cmd.Output()
-++		t.Log(string(out))
-++		if err != nil {
-++			t.Fatal(err)
-++		}
-++
-++		if string(out) != want {
-++			t.Fatalf("output of running PrintEnv script and echoing variable: got: %q, want: %q",
-++				string(out), want)
-++		}
-++	})
-++}
-+diff --git a/src/cmd/go/testdata/script/env_sanitize.txt b/src/cmd/go/testdata/script/env_sanitize.txt
-+new file mode 100644
-+index 0000000..cc4d23a
-+--- /dev/null
-++++ b/src/cmd/go/testdata/script/env_sanitize.txt
-+@@ -0,0 +1,5 @@
-++env GOFLAGS='$(echo ''cc"''; echo ''OOPS="oops'')'
-++go env
-++[GOOS:darwin] stdout 'GOFLAGS=''\$\(echo ''\\''''cc"''\\''''; echo ''\\''''OOPS="oops''\\''''\)'''
-++[GOOS:linux] stdout 'GOFLAGS=''\$\(echo ''\\''''cc"''\\''''; echo ''\\''''OOPS="oops''\\''''\)'''
-++[GOOS:windows] stdout 'set GOFLAGS=\$\(echo ''cc"''; echo ''OOPS="oops''\)'
-+diff --git a/src/cmd/go/testdata/script/work_env.txt b/src/cmd/go/testdata/script/work_env.txt
-+index 511bb4e..8b1779e 100644
-+--- a/src/cmd/go/testdata/script/work_env.txt
-++++ b/src/cmd/go/testdata/script/work_env.txt
-+@@ -1,7 +1,7 @@
-+ go env GOWORK
-+ stdout '^'$GOPATH'[\\/]src[\\/]go.work$'
-+ go env
-+-stdout '^(set )?GOWORK="?'$GOPATH'[\\/]src[\\/]go.work"?$'
-++stdout '^(set )?GOWORK=''?'$GOPATH'[\\/]src[\\/]go.work''?$'
-+ 
-+ cd ..
-+ go env GOWORK
-+-- 
-+2.39.0
-+
-diff --git a/meta/recipes-devtools/go/go/CVE-2023-24531_2.patch b/meta/recipes-devtools/go/go/CVE-2023-24531_2.patch
-new file mode 100644
-index 0000000000..dec36f9d42
---- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2023-24531_2.patch
-@@ -0,0 +1,47 @@
-+From 24f1def536c5344e0067a3119790b83ee6224058 Mon Sep 17 00:00:00 2001
-+From: miller <millerresearch@gmail.com>
-+Date: Mon, 8 May 2023 16:56:21 +0100
-+Subject: [PATCH 2/2] cmd/go: quote entries in list-valued variables for go env
-+ in plan9
-+
-+When 'go env' without an argument prints environment variables as
-+a script which can be executed by the shell, variables with a
-+list value in Plan 9 (such as GOPATH) need to be printed with each
-+element enclosed in single quotes in case it contains characters
-+significant to the Plan 9 shell (such as ' ' or '=').
-+
-+For #58508
-+
-+Change-Id: Ia30f51307cc6d07a7e3ada6bf9d60bf9951982ff
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/493535
-+Run-TryBot: Cherry Mui <cherryyz@google.com>
-+Reviewed-by: Cherry Mui <cherryyz@google.com>
-+Reviewed-by: Russ Cox <rsc@golang.org>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Auto-Submit: Dmitri Shuralyov <dmitshur@golang.org>
-+
-+CVE: CVE-2023-24531
-+Upstream-Status: Backport [05cc9e55876874462a4726ca0101c970838c80e5]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ src/cmd/go/internal/envcmd/env.go | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
-+index 5b52fad..d4fc399 100644
-+--- a/src/cmd/go/internal/envcmd/env.go
-++++ b/src/cmd/go/internal/envcmd/env.go
-+@@ -431,8 +431,7 @@ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
-+ 						if x > 0 {
-+ 							fmt.Fprintf(w, " ")
-+ 						}
-+-						// TODO(#59979): Does this need to be quoted like above?
-+-						fmt.Fprintf(w, "%s", s)
-++						fmt.Fprintf(w, "'%s'", strings.ReplaceAll(s, "'", "''"))
-+ 					}
-+ 					fmt.Fprintf(w, ")\n")
-+ 				}
-+-- 
-+2.39.0
-+
--- 
-2.39.0
+https://git.openembedded.org/openembedded-core/commit/?h=3Dkirkstone&id=3D0=
+8810d3fe6988ea821805eca16105b4632335654
 
+Steve
+
+On Thu, Jul 20, 2023 at 8:50=E2=80=AFPM Urade, Yogita via lists.openembedde=
+d.org
+<Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
+
+> If the `recursive-clients` quota is reached on a BIND 9 resolver
+> configured with both `stale-answer-enable yes;` and
+> `stale-answer-client-timeout 0;`, a sequence of serve-stale-related
+> lookups could cause `named` to loop and terminate unexpectedly due
+> to a stack overflow.
+> This issue affects BIND 9 versions 9.16.33 through 9.16.41, 9.18.7
+> through 9.18.15, 9.16.33-S1 through 9.16.41-S1, and 9.18.11-S1
+> through 9.18.15-S1.
+>
+> References:
+> https://kb.isc.org/docs/cve-2023-2911
+>
+> https://downloads.isc.org/isc/bind9/9.18.16/doc/arm/html/notes.html#notes=
+-for-bind-9-18-16
+>
+> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> ---
+>  .../bind/bind-9.18.11/CVE-2023-2911.patch     | 109 ++++++++++++++++++
+>  .../recipes-connectivity/bind/bind_9.18.11.bb |   1 +
+>  2 files changed, 110 insertions(+)
+>  create mode 100644
+> meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch
+>
+> diff --git
+> a/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch
+> b/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch
+> new file mode 100644
+> index 0000000000..729d13ee18
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch
+> @@ -0,0 +1,109 @@
+> +From 2d6982985021ee354469a0fc380008d6c6fa8ae2 Mon Sep 17 00:00:00 2001
+> +From: Michal Nowak <mnowak@isc.org>
+> +Date: Thu, 20 Jul 2023 08:07:32 +0000
+> +Subject: [PATCH] Merge branch
+> '4089-confidential-stale-query-loop-bind-9.18'
+> + into 'security-bind-9.18'
+> +
+> +[9.18][CVE-2023-2911] Fix stale-answer-client-timeout 0 crash
+> +
+> +See merge request isc-private/bind9!523
+> +
+> +CVE-2023-2911
+> +
+> +Upstream-Status: Backport [
+> https://gitlab.isc.org/isc-projects/bind9/-/commit/2d6982985021ee354469a0=
+fc380008d6c6fa8ae2
+> ]
+> +
+> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> +---
+> + CHANGES        |  7 +++++++
+> + lib/ns/query.c | 29 +++++++++++++++++++++--------
+> + 2 files changed, 28 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/CHANGES b/CHANGES
+> +index ca2f3a3..0e18f27 100644
+> +--- a/CHANGES
+> ++++ b/CHANGES
+> +@@ -1,3 +1,10 @@
+> ++6192. [security]      A query that prioritizes stale data over lookup
+> ++                      triggers a fetch to refresh the stale data in
+> cache.
+> ++                      If the fetch is aborted for exceeding the recursi=
+on
+> ++                      quota, it was possible for 'named' to enter an
+> infinite
+> ++                      callback loop and crash due to stack overflow.
+> This has
+> ++                      been fixed. (CVE-2023-2911) [GL #4089]
+> ++
+> +       --- 9.18.11 released ---
+> +
+> + 6067. [security]      Fix serve-stale crash when recursive clients soft
+> quota
+> +diff --git a/lib/ns/query.c b/lib/ns/query.c
+> +index 0d2ba6b..7a812e6 100644
+> +--- a/lib/ns/query.c
+> ++++ b/lib/ns/query.c
+> +@@ -5824,6 +5824,7 @@ query_refresh_rrset(query_ctx_t *orig_qctx) {
+> +       qctx.client->query.dboptions &=3D ~(DNS_DBFIND_STALETIMEOUT |
+> +                                         DNS_DBFIND_STALEOK |
+> +                                         DNS_DBFIND_STALEENABLED);
+> ++      qctx.client->nodetach =3D false;
+> +
+> +       /*
+> +        * We'll need some resources...
+> +@@ -6076,7 +6077,13 @@ query_lookup(query_ctx_t *qctx) {
+> +                                       "%s stale answer used, an attempt
+> to "
+> +                                       "refresh the RRset will still be
+> made",
+> +                                       namebuf);
+> ++
+> +                               qctx->refresh_rrset =3D
+> STALE(qctx->rdataset);
+> ++                              /*
+> ++                               * If we are refreshing the RRSet, we mus=
+t
+> not
+> ++                               * detach from the client in query_send()=
+.
+> ++                               */
+> ++                              qctx->client->nodetach =3D
+> qctx->refresh_rrset;
+> +                               ns_client_extendederror(
+> +                                       qctx->client, ede,
+> +                                       "stale data prioritized over
+> lookup");
+> +@@ -6503,7 +6510,7 @@ ns_query_recurse(ns_client_t *client,
+> dns_rdatatype_t qtype, dns_name_t *qname,
+> +       if (recparam_match(&client->query.recparam, qtype, qname,
+> qdomain)) {
+> +               ns_client_log(client, NS_LOGCATEGORY_CLIENT,
+> NS_LOGMODULE_QUERY,
+> +                             ISC_LOG_INFO, "recursion loop detected");
+> +-              return (ISC_R_FAILURE);
+> ++              return (ISC_R_ALREADYRUNNING);
+> +       }
+> +
+> +       recparam_update(&client->query.recparam, qtype, qname, qdomain);
+> +@@ -7620,10 +7627,21 @@ query_usestale(query_ctx_t *qctx, isc_result_t
+> result) {
+> +               return (false);
+> +       }
+> +
+> +-      if (result =3D=3D DNS_R_DUPLICATE || result =3D=3D DNS_R_DROP) {
+> ++      if (qctx->refresh_rrset) {
+> ++              /*
+> ++               * This is a refreshing query, we have already prioritize=
+d
+> ++               * stale data, so don't enable serve-stale again.
+> ++               */
+> ++              return (false);
+> ++      }
+> ++
+> ++      if (result =3D=3D DNS_R_DUPLICATE || result =3D=3D DNS_R_DROP ||
+> ++          result =3D=3D ISC_R_ALREADYRUNNING)
+> ++      {
+> +               /*
+> +                * Don't enable serve-stale if the result signals a
+> duplicate
+> +-               * query or query that is being dropped.
+> ++               * query or a query that is being dropped or can't procee=
+d
+> ++               * because of a recursion loop.
+> +                */
+> +               return (false);
+> +       }
+> +@@ -11927,12 +11945,7 @@ ns_query_done(query_ctx_t *qctx) {
+> +       /*
+> +        * Client may have been detached after query_send(), so
+> +        * we test and store the flag state here, for safety.
+> +-       * If we are refreshing the RRSet, we must not detach from the
+> client
+> +-       * in the query_send(), so we need to override the flag.
+> +        */
+> +-      if (qctx->refresh_rrset) {
+> +-              qctx->client->nodetach =3D true;
+> +-      }
+> +       nodetach =3D qctx->client->nodetach;
+> +       query_send(qctx->client);
+> +
+> +--
+> +2.40.0
+> diff --git a/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> b/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> index 0618129318..4349b6441b 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "
+> https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+>
+> file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+>
+> file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+>             file://0001-avoid-start-failure-with-bind-user.patch \
+> +           file://CVE-2023-2911.patch \
+>             "
+>
+>  SRC_URI[sha256sum] =3D
+> "8ff3352812230cbcbda42df87cad961f94163d3da457c5e4bef8057fd5df2158"
+> --
+> 2.40.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184671):
+> https://lists.openembedded.org/g/openembedded-core/message/184671
+> Mute This Topic: https://lists.openembedded.org/mt/100272152/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> steve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000070a80a06010282b1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">There is already a fix for this CVE in kirkstone:<div><br>=
+</div><div><a href=3D"https://git.openembedded.org/openembedded-core/commit=
+/?h=3Dkirkstone&amp;id=3D08810d3fe6988ea821805eca16105b4632335654">https://=
+git.openembedded.org/openembedded-core/commit/?h=3Dkirkstone&amp;id=3D08810=
+d3fe6988ea821805eca16105b4632335654</a><br></div><div><br></div><div>Steve<=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Thu, Jul 20, 2023 at 8:50=E2=80=AFPM Urade, Yogita via <a href=3D"h=
+ttp://lists.openembedded.org">lists.openembedded.org</a> &lt;Yogita.Urade=
+=3D<a href=3D"mailto:windriver.com@lists.openembedded.org">windriver.com@li=
+sts.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">If the `recursive-clients` quota is reached on a BIND 9=
+ resolver<br>
+configured with both `stale-answer-enable yes;` and<br>
+`stale-answer-client-timeout 0;`, a sequence of serve-stale-related<br>
+lookups could cause `named` to loop and terminate unexpectedly due<br>
+to a stack overflow.<br>
+This issue affects BIND 9 versions 9.16.33 through 9.16.41, 9.18.7<br>
+through 9.18.15, 9.16.33-S1 through 9.16.41-S1, and 9.18.11-S1<br>
+through 9.18.15-S1.<br>
+<br>
+References:<br>
+<a href=3D"https://kb.isc.org/docs/cve-2023-2911" rel=3D"noreferrer" target=
+=3D"_blank">https://kb.isc.org/docs/cve-2023-2911</a><br>
+<a href=3D"https://downloads.isc.org/isc/bind9/9.18.16/doc/arm/html/notes.h=
+tml#notes-for-bind-9-18-16" rel=3D"noreferrer" target=3D"_blank">https://do=
+wnloads.isc.org/isc/bind9/9.18.16/doc/arm/html/notes.html#notes-for-bind-9-=
+18-16</a><br>
+<br>
+Signed-off-by: Yogita Urade &lt;<a href=3D"mailto:yogita.urade@windriver.co=
+m" target=3D"_blank">yogita.urade@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../bind/bind-9.18.11/CVE-2023-2911.patch=C2=A0 =C2=A0 =C2=A0| 109 ++=
+++++++++++++++++<br>
+=C2=A0.../recipes-connectivity/bind/<a href=3D"http://bind_9.18.11.bb" rel=
+=3D"noreferrer" target=3D"_blank">bind_9.18.11.bb</a> |=C2=A0 =C2=A01 +<br>
+=C2=A02 files changed, 110 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/bind/bind-9.18.11/CVE-20=
+23-2911.patch<br>
+<br>
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patc=
+h b/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch<br>
+new file mode 100644<br>
+index 0000000000..729d13ee18<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch<br>
+@@ -0,0 +1,109 @@<br>
++From 2d6982985021ee354469a0fc380008d6c6fa8ae2 Mon Sep 17 00:00:00 2001<br>
++From: Michal Nowak &lt;<a href=3D"mailto:mnowak@isc.org" target=3D"_blank"=
+>mnowak@isc.org</a>&gt;<br>
++Date: Thu, 20 Jul 2023 08:07:32 +0000<br>
++Subject: [PATCH] Merge branch &#39;4089-confidential-stale-query-loop-bind=
+-9.18&#39;<br>
++ into &#39;security-bind-9.18&#39;<br>
++<br>
++[9.18][CVE-2023-2911] Fix stale-answer-client-timeout 0 crash<br>
++<br>
++See merge request isc-private/bind9!523<br>
++<br>
++CVE-2023-2911<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://gitlab.isc.org/isc-projects/=
+bind9/-/commit/2d6982985021ee354469a0fc380008d6c6fa8ae2" rel=3D"noreferrer"=
+ target=3D"_blank">https://gitlab.isc.org/isc-projects/bind9/-/commit/2d698=
+2985021ee354469a0fc380008d6c6fa8ae2</a>]<br>
++<br>
++Signed-off-by: Yogita Urade &lt;<a href=3D"mailto:yogita.urade@windriver.c=
+om" target=3D"_blank">yogita.urade@windriver.com</a>&gt;<br>
++---<br>
++ CHANGES=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 7 +++++++<br>
++ lib/ns/query.c | 29 +++++++++++++++++++++--------<br>
++ 2 files changed, 28 insertions(+), 8 deletions(-)<br>
++<br>
++diff --git a/CHANGES b/CHANGES<br>
++index ca2f3a3..0e18f27 100644<br>
++--- a/CHANGES<br>
+++++ b/CHANGES<br>
++@@ -1,3 +1,10 @@<br>
+++6192. [security]=C2=A0 =C2=A0 =C2=A0 A query that prioritizes stale data =
+over lookup<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 triggers a fetch to refresh the stale data in cache.<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 If the fetch is aborted for exceeding the recursion<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 quota, it was possible for &#39;named&#39; to enter an infinite<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 callback loop and crash due to stack overflow. This has<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 been fixed. (CVE-2023-2911) [GL #4089]<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0--- 9.18.11 released ---<br>
++<br>
++ 6067. [security]=C2=A0 =C2=A0 =C2=A0 Fix serve-stale crash when recursive=
+ clients soft quota<br>
++diff --git a/lib/ns/query.c b/lib/ns/query.c<br>
++index 0d2ba6b..7a812e6 100644<br>
++--- a/lib/ns/query.c<br>
+++++ b/lib/ns/query.c<br>
++@@ -5824,6 +5824,7 @@ query_refresh_rrset(query_ctx_t *orig_qctx) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0qctx.client-&gt;query.dboptions &amp;=3D ~(DNS_=
+DBFIND_STALETIMEOUT |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DN=
+S_DBFIND_STALEOK |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DN=
+S_DBFIND_STALEENABLED);<br>
+++=C2=A0 =C2=A0 =C2=A0 qctx.client-&gt;nodetach =3D false;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * We&#39;ll need some resources...<br>
++@@ -6076,7 +6077,13 @@ query_lookup(query_ctx_t *qctx) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;%s =
+stale answer used, an attempt to &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;ref=
+resh the RRset will still be made&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0namebuf);=
+<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qctx-&gt;refresh_rrset =3D STALE(qctx=
+-&gt;rdataset);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If we are refreshing the RRSet, we =
+must not<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* detach from the client in query_sen=
+d().<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qctx-&gt;client-&gt;nodetach =3D qctx-&gt;r=
+efresh_rrset;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ns_client_extendederror(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qctx-&gt;=
+client, ede,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;sta=
+le data prioritized over lookup&quot;);<br>
++@@ -6503,7 +6510,7 @@ ns_query_recurse(ns_client_t *client, dns_rdatatype_=
+t qtype, dns_name_t *qname,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (recparam_match(&amp;client-&gt;query.recpar=
+am, qtype, qname, qdomain)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ns_client_log(clien=
+t, NS_LOGCATEGORY_CLIENT, NS_LOGMODULE_QUERY,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ISC_LOG_INFO, &quot;recursion loop detected&=
+quot;);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (ISC_R_FAILURE);<=
+br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (ISC_R_ALREADYRUN=
+NING);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0recparam_update(&amp;client-&gt;query.recparam,=
+ qtype, qname, qdomain);<br>
++@@ -7620,10 +7627,21 @@ query_usestale(query_ctx_t *qctx, isc_result_t res=
+ult) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return (false);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 if (result =3D=3D DNS_R_DUPLICATE || result =3D=3D D=
+NS_R_DROP) {<br>
+++=C2=A0 =C2=A0 =C2=A0 if (qctx-&gt;refresh_rrset) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* This is a refres=
+hing query, we have already prioritized<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* stale data, so d=
+on&#39;t enable serve-stale again.<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (false);<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 if (result =3D=3D DNS_R_DUPLICATE || result =3D=3D D=
+NS_R_DROP ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D=3D ISC_R_ALREADYRUNNING)<br=
+>
+++=C2=A0 =C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Don&#39;t enable=
+ serve-stale if the result signals a duplicate<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* query or query t=
+hat is being dropped.<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* query or a query=
+ that is being dropped or can&#39;t proceed<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* because of a rec=
+ursion loop.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return (false);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++@@ -11927,12 +11945,7 @@ ns_query_done(query_ctx_t *qctx) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * Client may have been detached after query_se=
+nd(), so<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * we test and store the flag state here, for s=
+afety.<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0* If we are refreshing the RRSet, we must not =
+detach from the client<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0* in the query_send(), so we need to override =
+the flag.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++-=C2=A0 =C2=A0 =C2=A0 if (qctx-&gt;refresh_rrset) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qctx-&gt;client-&gt;node=
+tach =3D true;<br>
++-=C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0nodetach =3D qctx-&gt;client-&gt;nodetach;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0query_send(qctx-&gt;client);<br>
++<br>
++--<br>
++2.40.0<br>
+diff --git a/meta/recipes-connectivity/bind/<a href=3D"http://bind_9.18.11.=
+bb" rel=3D"noreferrer" target=3D"_blank">bind_9.18.11.bb</a> b/meta/recipes=
+-connectivity/bind/<a href=3D"http://bind_9.18.11.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">bind_9.18.11.bb</a><br>
+index 0618129318..4349b6441b 100644<br>
+--- a/meta/recipes-connectivity/bind/<a href=3D"http://bind_9.18.11.bb" rel=
+=3D"noreferrer" target=3D"_blank">bind_9.18.11.bb</a><br>
++++ b/meta/recipes-connectivity/bind/<a href=3D"http://bind_9.18.11.bb" rel=
+=3D"noreferrer" target=3D"_blank">bind_9.18.11.bb</a><br>
+@@ -18,6 +18,7 @@ SRC_URI =3D &quot;<a href=3D"https://ftp.isc.org/isc/bind=
+9/$%7BPV%7D/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blan=
+k">https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://bind-ensure-searching-for-=
+json-headers-searches-sysr.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-named-lwresd-V-and-st=
+art-log-hide-build-options.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-avoid-start-failure-w=
+ith-bind-user.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-2911.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;8ff3352812230cbcbda42df87cad961f94163d3d=
+a457c5e4bef8057fd5df2158&quot;<br>
+-- <br>
+2.40.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#184671): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/184671" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/184671</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100272152/362=
+0601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100272152/3620601</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" target=
+=3D"_blank">steve@sakoman.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000070a80a06010282b1--
 
