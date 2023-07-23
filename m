@@ -2,111 +2,180 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0367C001B0
-	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 12:08:34 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.24143.1690114110299786473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 931F8C001B0
+	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 12:11:34 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.24180.1690114287318372691
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jul 2023 05:08:30 -0700
+ Sun, 23 Jul 2023 05:11:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=NRKmIwrq;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2b974031aeaso28603691fa.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 05:08:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=HfUEaBsv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b6f97c7115so47900161fa.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 05:11:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690114108; x=1690718908;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sKlvcwD9VvnQGQy+AQj7tmXQRb+/kTZq8OHvTJ7US9E=;
-        b=NRKmIwrq2J7G0wrgUrm9TYfWjM4HrGT9tBkbbG6Ja4n5MqFtG18AdSbhusu73t8owg
-         4yKr60UMzNdv05P1wgFtcOshOvA3o0HSNT85vl/814Q3zu0j3T+FZrdrk98WM27uy0iC
-         YSpiRZdJQvv/3c6V+5VQxioPIKyJg6OwR+AK8DOamQY3X9qM/AueNusrkZMctFiwSEtk
-         SgMLqByLEzcNwjz9BQleT7v7Y61n1AWj7dP2dCsG3YT7icGkwPJYi5dcnyNUwfaI9OtN
-         LbSMQBnt2ei01vBQxyuMUkl0gVo8doBZmZ10Bz1tsDOfpieeUppEZLWhd4LUMrOZopZo
-         HrBw==
+        d=gmail.com; s=20221208; t=1690114285; x=1690719085;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Gg1krQe6os6uDy3Rdp5Ps9s4K5agT2IxySNdAJHRS4=;
+        b=HfUEaBsvgeOrROMnNy8yDHH9MnHsXZyRVwuqIrvwtoEN0H1wS+YSeEI7XiwfM8+1fJ
+         Qebtgh3gkU3Bshun0FbEmg0WJ6jkHNgbC72Bchu+MykqIcPaSWGivjTSh3Bj/50PJpOa
+         G3En2luBD4hLyr/ic/qxxYUIokJB44ZCBrovrO4+U/T/avz2j/yQVGPIsg2ztiKEXMEu
+         7i4ofJEGt+irg3U3uLs1vDXj71NCQszjTM1NM8IX3lSEt7ZMQuOJcYJ02VDcKg/LH90V
+         XjYIGZXKl960J17JGEcw5nOKwQyZyZKsnKLWElw9AwbVIsqXTfiNXVxP0zi+Zrm9SR4u
+         KKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690114108; x=1690718908;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sKlvcwD9VvnQGQy+AQj7tmXQRb+/kTZq8OHvTJ7US9E=;
-        b=CfofZo0QqawbtAH7h7q57+GYag032Wb8MyRAC13gug3lukVlHICmaqYd7XCAWq3fpJ
-         ucwLeORB2MtDVtzFUltoh7UhFw7KTZxlIb+fQeAngH9kF6MDefd6XbVDzxAc+/083k0Q
-         I/RRZuIb+ANdfJt4knolLbvmX24DW4zS0HXFYwhnzrfnKIOwy0KpwOGUSxUJysBVq+dx
-         IqaFz79UGqupe953t2Xm+dV3JmSZGDp/jTjetnSidZYAdkxC3b/5uqGzyQxiKVu5AEU8
-         4pjGEXWRd/15oO1aHMFU+n2tlqbIkdjTtl0BF3v2SsJ85elbU5YK87Bp61Jdl8CvBcyL
-         2RMw==
-X-Gm-Message-State: ABy/qLbv+AbPqxdHsYpaoGKHwVixJ6aVWJKrJZTpmUDsf4C7hVQNTQn4
-	6GYkZNH/jYoN/lG8u9ihfOYZ1puaMjGC1s4TJEU=
-X-Google-Smtp-Source: APBJJlFjpZxwTFyzBiwKyGv0Ha4Twy9Yn5CWpi8fxv5Q0svd0tXUrjvRZjb3r6VtD6tcV/anoPnZBQ34peiCgG+ugv8=
-X-Received: by 2002:a05:6512:12d1:b0:4f8:5ede:d447 with SMTP id
- p17-20020a05651212d100b004f85eded447mr3929442lfg.28.1690114108249; Sun, 23
- Jul 2023 05:08:28 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690114285; x=1690719085;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Gg1krQe6os6uDy3Rdp5Ps9s4K5agT2IxySNdAJHRS4=;
+        b=f1iY3hUySMOhqjxLYXzAmJ1Ea3fo1z35a207o+hvVtGVIMDRnX+xuZ3LDaLBTKGWTT
+         6Sqk3KfK1rMKM8Eb7YEWS7cFof5f3UIAPAeN4fhAPqXCwzhWewZba2byq11VwqiLTfx7
+         QeKack4WkEwZjl+NQs1u4UwQNn6wzc8k+eTPgn5nzEix1f60mbWa2F7eUsnE448FKN5n
+         xcC0K9RwbsxCQvzESCdqhdurMYpkT4CYp0F9CM2+6IVkpMQ+UkjsxwhXg/BxZ9RlJ20z
+         Ny/NS9av1DKV0XT7iEu0ZojjyTMan9Qb+s4D4HmPETjrlV/5kCEG7oBDwtvUESyWPN2T
+         CebA==
+X-Gm-Message-State: ABy/qLatHaaThOqaHhHMTPnftMX9a6orGSCsShIt19aBjH6SU7+tg6dK
+	T5NmFKJn2/g8kpwkK3g7ykiwIwT4Rb+Wri3YKLkcZgwx
+X-Google-Smtp-Source: APBJJlHzqrWJ/4tNVf5WIHl7hNxlBnK38QOS+fJQwqbpAB4GutBzQLcLJUgsAUvLH3WysOfSKDvdTUo7/jeO8PEBwlo=
+X-Received: by 2002:ac2:43c3:0:b0:4fa:21d5:8ed8 with SMTP id
+ u3-20020ac243c3000000b004fa21d58ed8mr3456342lfl.4.1690114285360; Sun, 23 Jul
+ 2023 05:11:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230721105827.1637688-1-ovidiu.panait@windriver.com>
-In-Reply-To: <20230721105827.1637688-1-ovidiu.panait@windriver.com>
+References: <20230721142543.246415-1-jstephan@baylibre.com>
+In-Reply-To: <20230721142543.246415-1-jstephan@baylibre.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 23 Jul 2023 14:08:17 +0200
-Message-ID: <CANNYZj_a-+9MdidiWv0bRtQZWuyDebJmWGBSbyikfpkbsFeoYA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mdadm: add util-linux-blockdev ptest dependency
-To: ovidiu.panait@windriver.com
+Date: Sun, 23 Jul 2023 14:11:14 +0200
+Message-ID: <CANNYZj8tCEDM51XrCgfUfMu0ExJqJEwQ7=vU+4e7vrRqdpsKCg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC v2 0/2] Add bblock helper script
+To: Julien Stephan <jstephan@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 12:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184749
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 12:11:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184750
 
-Can you please check why the test doesn't fail with the dependency absent?
+Thanks for working on this. Should we think about how this could be tested?
 
 Alex
 
-On Fri, 21 Jul 2023 at 12:58, Ovidiu Panait via lists.openembedded.org
-<ovidiu.panait=windriver.com@lists.openembedded.org> wrote:
+On Fri, 21 Jul 2023 at 16:25, Julien Stephan <jstephan@baylibre.com> wrote:
 >
-> From: Ovidiu Panait <ovidiu.panait@windriver.com>
+> Hi all,
 >
-> 07revert-inplace test logs contain the following:
-> func.sh: line 335: /sbin/blockdev: No such file or directory
+> This is the v2 of bblock script.
 >
-> Add the missing util-linux-blockdev dependency.
+> Improvement from V1:
+> * Signatures are now package architecture specific meaning that if you
+>   switch MACHINE, the lock sig will not be taken into account
+> * I added the -r option to unlock recipes
+> * I added a -d option to display the current bblock.conf
+> * Added an include directive for conf/bblock.conf inside bitbake.conf
+> * Added -t option to specify the tasks to lock/unlock
 >
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  meta/recipes-extended/mdadm/mdadm_4.2.bb | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+> Limitations:
+> * I may be still missing some checks on user input
+> * I need to find a way to get the list of tasks ( by default still lock
+>   only the do_compile for now, unless -t is specified)
+> * Do not check if a particular recipe/task is already locked when trying
+>   to add lock. So entries may appear multiple times
+> * We still need the signature of the tasks to be already computed before
+>   locking. Need to find a way to generate it if missing
 >
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> index 50d9548747..fa50325f1f 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-> @@ -107,7 +107,14 @@ do_install_ptest() {
->  }
+> I did some tests using qemux86-64 and qemuarm but I may be missing some
+> corner cases.
 >
->  RDEPENDS:${PN} += "bash"
-> -RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs util-linux-lsblk util-linux-losetup strace"
-> +RDEPENDS:${PN}-ptest += " \
-> +    bash \
-> +    e2fsprogs-mke2fs \
-> +    util-linux-lsblk \
-> +    util-linux-losetup \
-> +    util-linux-blockdev \
-> +    strace \
-> +"
->  RRECOMMENDS:${PN}-ptest += " \
->      coreutils \
->      kernel-module-loop \
+> I force pushed my branch on poky-contrib [1]
+>
+> Any feedback are welcome!
+>
+> Cheers
+> Julien
+>
+> V1:
+> I am currently working on bug #13425 and I would like to post my wip
+> script as an RFC to get feedback on it, before going further in the
+> development.
+>
+> The script `script/bblock` can be used with the following command:
+>
+> bblock [list of recipes to lock]
+>
+> Here is a summary of what is currently implemented:
+> * can lock several recipes at once
+> * on first execution bblock will append `require bblock.inc` in
+>   `build/conf/auto.conf` (creates `auto.conf` if it doesn't exist)
+> * on first execution creates the file `build/conf/bblock.inc` with a
+>   dedicated header and:
+>          - adds SIGGEN_LOCKEDSIGS_TYPES +=3D "t-bblock"
+>          - adds SIGGEN_LOCKEDSIGS_TASKSIG_CHECK =3D "warn" to display war=
+ning but
+>            do not stop the build
+> * loops over all recipes to lock and adds entry with latest "do_compile"
+>   signature in `conf/bblock.inc`, such as: SIGGEN_LOCKEDSIGS_t-bblock +=
+=3D "bc:do_compile:e233cd793137a92dd575a417a2877e324ce526c4dc4a7db652abb951=
+2f406f1f"
+>
+> Limitations:
+> * only gets do_compile signature for now as a POC
+> * `bblock reset [list of recipes]` not yet implemented
+> * no check if a recipe is already locked
+>
+> Steps to test the script:
+> bitbake bc --> generate a signature for bc's tasks
+> bblock bc
+> # modify do_compile in bc recipe to force signature change
+> bitbake bc --> throws the following warning: `WARNING: The bc:do_compile =
+sig is computed to be 680bd6c291bf88e379e0c405a773cf5f81851e1a52570398cefd0=
+196000ac1ef, but the sig is locked to e233cd793137a92dd575a417a2877e324ce52=
+6c4dc4a7db652abb9512f406f1f in SIGGEN_LOCKEDSIGS_t-bblock`
+>
+> I also have a point I would like to discuss: I only get signature for
+> do_compile for the POC but wondering what should I do here:
+> * have a set of predefined task to lock, in that case how to choose the
+>   tasks?
+> * compute the list of all available tasks for a given recipe and get
+>   signature for all? Is there a way to get such list without using
+>   `infoil.build_targets(pn, "listtasks", handle_events=3DTrue)` as this
+>   will start bitbake, takes some time and requires some processing of
+>   the output
+> * add an option for the user to specify the task he wants to lock? (this
+>   may be useful to add anyway)
+>
+> My branch is available here [1]
+>
+> Am I going into the right direction?
+>
+> Cheers
+> Julien
+>
+> [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=3Djstephan/bbloc=
+k
+> Julien Stephan (2):
+>   bitbake.conf: include bblock.conf
+>   scripts/bblock: add a script to lock/unlock recipes
+>
+>  meta/conf/bitbake.conf |   1 +
+>  scripts/bblock         | 184 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 185 insertions(+)
+>  create mode 100755 scripts/bblock
+>
 > --
-> 2.39.1
+> 2.41.0
 >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#184682): https://lists.openembedded.org/g/openembedded-core/message/184682
-> Mute This Topic: https://lists.openembedded.org/mt/100274537/1686489
+> View/Reply Online (#184697): https://lists.openembedded.org/g/openembedde=
+d-core/message/184697
+> Mute This Topic: https://lists.openembedded.org/mt/100277504/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
