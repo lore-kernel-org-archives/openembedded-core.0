@@ -1,164 +1,181 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA85CC001DF
-	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 17:16:25 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.53])
- by mx.groups.io with SMTP id smtpd.web11.30196.1690132582090983584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCA5C001DC
+	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 22:06:57 +0000 (UTC)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web10.35302.1690150016709349698
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jul 2023 10:16:22 -0700
+ Sun, 23 Jul 2023 15:06:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=luz4Y/w7;
- spf=pass (domain: siemens.com, ip: 40.107.104.53, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCGEQeFc2BZeesxBGa1rWweADkAA8XNC9ALqRhXg37ISEjrFKCPlCzuPYz2gCPP+RzArRYYaz0fqSjh2bObhs7WbV3DtYvvqhT0Y4i6xXxYU0/BBkp7wweXTDJkEJr+MyghbAXDteZCzSJPkQg5obcwGeu17B2ku4qRFmv7B0pNiMc0wWd29hqKAvXmhZU0wWWjMXPvEgMcFAUAZGTiYGke4ht+WgWLsCOSd8jRRDysxo55PuDHis604ytsyVz5f7PDkwdF6T+dDEOYbVfJnob9QFT46Cz2WDeLFApTbGpNs6xpW/aCWAbyM7MM6n8EG6Cc8xmVNGW153/QS67cSjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=44uFA8w+jv96XZlG8K560Wcqjn1TFPLn78hnRUuzOtc=;
- b=P4mXcr8WQKQkszil/zMfdEs6Lszox5ajpH53muQ+oscMX3UceYM5JRQlnIOxdefrmg8LTs5kMiJ509j3A8HxMVo7FbuoWOwgnJiKKbgG8kbd3Za6enUA2qcLAKvdqDWOHCcXTyo0+/SnRXqhTkS7tapY6A2P8lXwpeNlZ00U0aVjSayACIz5TTVZ5i6G0xmVazNCUKm6V5Y8m8trKGkZziBQclnRXdjsEXZSV7sx/i/kedxb6H5jPXH10vrAibbH1oGZfxGMLo5aIkSfM0tFb4Rzhnk1MAqwx3VI/dnYA/O/KB3V1Tlwmy63FjMix/d3sAXFKDhcnXbrVirKPts8Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=44uFA8w+jv96XZlG8K560Wcqjn1TFPLn78hnRUuzOtc=;
- b=luz4Y/w7hfSgmKFEd93qjAtkY0FZ9ZljJdirmSfHc+gD7sOD22BZsZrW+VhKtMeNzzUzgww8oX18fZFCHmmfzZpg7X+l3CiEbivsY+yC2ozrCdqgddZ4cjQqzfJsZc7rZWJY+ZitZgc3gbwHM7k4x13oWwS+MfQSsLcXVowlIoM/60s6jcGrbcThNfCMtjFNPhWRxRS/UhO+M53pSgFeZaCk1l/kbc0JpbzgNQ4c060Vcjf2C7rbMk6LObBre3mmoNXk5UeFVfaIK+kXMB/CozfL5f6Nv7Di0xl0WG0jsM3TPn6tZAjtAgH7NuiRdnheS0KWY725eGobl0ZkBjIF5g==
-Received: from PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:266::11)
- by PR3PR10MB3803.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:41::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.31; Sun, 23 Jul
- 2023 17:16:19 +0000
-Received: from PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::144a:8e1c:787c:161b]) by PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::144a:8e1c:787c:161b%5]) with mapi id 15.20.6609.031; Sun, 23 Jul 2023
- 17:16:19 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "sakoman@gmail.com" <sakoman@gmail.com>, Patches and discussions about the
- oe-core layer <openembedded-core@lists.openembedded.org>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>
-Subject: RE: [OE-core] OE-core CVE metrics for master on Sun 23 Jul 2023
-Thread-Topic: [OE-core] OE-core CVE metrics for master on Sun 23 Jul 2023
-Thread-Index: AQHZvXIWFSQoJvwk40SzsFlF8r/hRK/Hl5YA
-Date: Sun, 23 Jul 2023 17:16:18 +0000
-Message-ID: 
- <PA4PR10MB570783B0A328B33F0FEB0A53FD3DA@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <CAGDS+nmXrjBwCKXoO0GgC6poO-sxFNpK6iJ16_sUptDV9eFPig@mail.gmail.com>
-In-Reply-To: 
- <CAGDS+nmXrjBwCKXoO0GgC6poO-sxFNpK6iJ16_sUptDV9eFPig@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-07-23T17:16:17Z;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=86220c63-962f-48da-b22c-84accab4e41b;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA4PR10MB5707:EE_|PR3PR10MB3803:EE_
-x-ms-office365-filtering-correlation-id: 39907884-73ff-4570-c8c8-08db8ba08766
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- vstVDybJZxfMxHSVQ6LO4RyHL7dbh8YV1FEOSeWI58t5yHznKLFDxmWHIq1GP2ABRNwEhXnuhRnG8nOoIMf1+V3mzpg9VmQMXjxLWv424A/73fT9EqcjAAw+NEMJiLwoGJZ1uFbogG8MyVBBo3Z292o4LvkqcvgBtqbEJlXpbHZa8JfNkxAfWrGjS0G8+XEozgUUsbvYp9os8N5IxBcd0r4G/KPlTRBUcxgkV1z4VEn+mz0FUXoaSUjt87mNYeLyiW/zQhRCS/kfA1o4f0pfLNGiUXKMuZUa128TFmvDQ7MgfItWEtY/wVmyyKlebu+RToXRnZr9R9axxo6pq5Rob3PMbyN1LX/Y9HZ+lNpTGObIIHOsss6jHizkTurxpgLdFBmW0YOOJ2it3mR1TDzAiKjxJAqW6pduoZe0q5EPpMsPpbyLOtwY+fQ40XgZXHqQ95ecwSbkyP7vTSzBZGSX53e8WL1gp/EGrxLR2HYSbSUbb5HFxXt5u5hS8/TnzYPE0usyyuJB1TkcA8h+Cb/Gc4LqUAJEvlavh2k914gLDEGg0ftPkcqpfbMxZ3zCcoZIO0vxHrpNEvRqJ2hJqn6KS+ZFRr9ETu5BssNJWSxllNE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(451199021)(966005)(7696005)(478600001)(71200400001)(9686003)(110136005)(55236004)(53546011)(186003)(6506007)(26005)(2906002)(316002)(76116006)(41300700001)(66946007)(66476007)(66556008)(64756008)(52536014)(5660300002)(8676002)(8936002)(66446008)(38100700002)(82960400001)(122000001)(33656002)(38070700005)(86362001)(83380400001)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aW5GWktJbWFLeml3UHdWSmhNUGVXbDdIVktFQXFOaUxNZExKVzYwTjU5WVhm?=
- =?utf-8?B?QWNpZnovT1BsVkIrdmVLdHRONVQrcTJRcm5ReklYT012NW85ZjV6WDEydE9m?=
- =?utf-8?B?T2VWZ0N3ckxsYkFCMVE2SnViUG1pUmdKaXBTNUtYY1N6K2Y0Y3BnTG90WmZY?=
- =?utf-8?B?eXd6cWlITVFQcTVMeWZ2M1JEWC9LRkt5MXZYOVlZUm1mSlhGOWh1RHU5SXBS?=
- =?utf-8?B?SXBBZ1ZuU2NkZERESVltUmRwa0lsdUE2K1VWclF3VDcxcVUzMitQelR0ZUJw?=
- =?utf-8?B?eGpMdUdCTkk5aXdjNnh1Z294N1lBTmZ1UUU4c3kxaXg3cUJrRFprbTIwZkE2?=
- =?utf-8?B?dnkvQ0JFd3BYd0Y4Qlpwa0o4d2RDUEI5SloraWdNK2lld1hXbTU0L1BBeG5P?=
- =?utf-8?B?a3YrWElxcHpUYW45clJmNmM0NGt6cUFla0pINXc5cktJK2lEbmpieTdieXJk?=
- =?utf-8?B?MzhjMVJIQlI4NDFUcFlvQ0dlazcyYXNmWmc2Qm5IQmRTYm5mb0E1YU1CUkZ1?=
- =?utf-8?B?TWRJdkdmR3pTWnVEaDg5YXNjZlNSNzludEZMczRVdUFmSndZcmpEbmdYa1l1?=
- =?utf-8?B?dkJNUk5IMmFVNE44K0puaS92UlpjSEtDN2ROd2Z4TU9qQ2ZqTGtEOTZJVzdW?=
- =?utf-8?B?NC9jbnErbXduSTJ0VFFIUFNwSkdFN2ZuZ1RobTIxWm1DbGYycWdlNk9YdmdR?=
- =?utf-8?B?OTNjclU5UFZIeGZlNmhMUFcxWEE4RG9LZmZrTkY3ZU1JNHdJZ1dtMHJZck9U?=
- =?utf-8?B?cHRSZHIzUUU3OHhlOVAyclNIcEVmb2ZISEd2ajdjaHBiQXpMaFV6c3JFbGdy?=
- =?utf-8?B?c29IRkpSMlI4U3hGelN1bjRVYVkvalhPQlFCcXQxTS9zMStsSEtLeU9OcDZV?=
- =?utf-8?B?WUE2bzhMaFFibnF0UEZCb0J2TTkyN2pqR2Z1b2FjUlVGcWhaWWIvSGRMM1Bv?=
- =?utf-8?B?dmNMMXY1UW9JMm1rbU9Va3FHdEhSQmlReGNzYmVucDJGeko0dS92MFZOcm1p?=
- =?utf-8?B?VnF3K2lkaSthZnJVdzhRTmxRS3dZRHoxTTR0dXdidjQrYXkvM05mcFRHNjEz?=
- =?utf-8?B?bi9WUTBjcXROK2VyWEJwU0JjRFRsZklvQXlBKy8reS9Rd3JRTnB1YXZXb0xT?=
- =?utf-8?B?enZsSG5nQ3YydDdscHp4d0xxSE5rTXJ2V2w5akIxSTFUUW90T0llT3dYeS9O?=
- =?utf-8?B?QWQzYjlxbHovS3VKMGFFdlg3Q0VpRTRHRXB0M1p2L3AzelZlZUU2a3hoV0lt?=
- =?utf-8?B?aUpDUndGQVZKOHI5dFlrQU1EbTJNYkhTdGgwTWpPN2h5YlozUDNVOFkrckhj?=
- =?utf-8?B?SGU2MlMyUVYvWWQ2VU1yLytEQko1S1NyZW44cGJJdFBVNzZSOTliZXQ5ZVRu?=
- =?utf-8?B?K0lvT25IOFRRa2R5Y1B1MlZ6L2F6YmtQWElvd3VGWXZad2cxK0d2QjE2Vi92?=
- =?utf-8?B?SW9hLzZPeGxBZVRtRENEcFpicTl5SW1sWHdORFNNUE8vbENPdzZUaUt1SFBP?=
- =?utf-8?B?aE1LRmtJcG90eHJtSVorU0Zqd05uMVNQNzE1Q283akpLdWhveFhWOU5DdVpw?=
- =?utf-8?B?UGNkbDVoelRsZlNEM2lNbFgvZEh3ZXgxQVMvcC9lbEZPTS92S2RaaDU1Zy9x?=
- =?utf-8?B?bW90TEV4SWRCY01pdHNwcERHdmxoQk02YXJBalNabXcreGlUb2s2dW15VGQ3?=
- =?utf-8?B?UVpocXB1anhsNkMzOUQ4a2ZrMXVsWmRLOW1FQVFTMHVUQkRDeDBDT0ltUjY1?=
- =?utf-8?B?NTJMb0JwUldBbUJuaEplRWd2TUJCZWV5cjZhNGV4YkZiOTE0bS9Fck8rZTI4?=
- =?utf-8?B?QSt2dCsvZllaK3Rabzk1WE9WRG15V09ZajFyR3lUNzBkL3FHVDlGZFJJb3R3?=
- =?utf-8?B?VDNrZmwwN01RYVh1NHUwdGhDclVQY0J6UEQ4ejBCWDhFczVPV2w4STlLdS9T?=
- =?utf-8?B?UlMvM3VLRjVGeWNHdmpwZ21mZEpkalF0TWpSeVczeUluVmpWa1pTSW56dHhC?=
- =?utf-8?B?QnVUQ3dRUXF1WmJmRVJxbjlJNlV6RUFHS1pzd1pMb2xmc3F4S1pHT1YwYVVY?=
- =?utf-8?B?TWxNMnBpOWFCbzFBNTl2bzJyY3l1R0FUaFdzVEpWNEwwZ3l2OUwvbGNKK1Mx?=
- =?utf-8?Q?/1HJ7a9SZfkqPFG4cq/J7yyAM?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=stu0FoWN;
+ spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-34896a1574dso23160045ab.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 15:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690150015; x=1690754815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wvb6W0k/6r3f0bjvxo/IE2vEACP6AbYD+hvpVL1kgPs=;
+        b=stu0FoWNMRC6NbPdf9F0OEQSVfXtsMbJIPi6S/tAzrURtKVJKnF0PjoGxlKm92hlNu
+         tnAJl+PwBMi7MYhO5ljaHBRLmx0ecdvlL1BhrK4uNXURlbL/mWeb7aqTqWjyf5QoX8Wn
+         EinPN6UAn/zVODbUUtpnutINDGgDxDHQQ7IB2K3ywZQ9FpfuYmSJ4u7Yy/8yvmsoiTSz
+         Hhikv1PbEevu3k2Tg5cEB3ywlHgWGVAUQjapNex1YW66QEsdUSOIBLhzrOAKEaqZf7E/
+         1ZUV/Oyt2vOvQJbEYgVP9aDWCk59rfvf6JNwBvxapmZFy7+aNA62LvrSVK7kb9uFzZIK
+         H/Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690150015; x=1690754815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wvb6W0k/6r3f0bjvxo/IE2vEACP6AbYD+hvpVL1kgPs=;
+        b=ZcDVglzO1bgCa4ktRVZf5ETBIxeU+a/yNj8BwT2y4pyBL2Jv+cuwz22xMXx9wyWpjx
+         XAZDa2nAIoHvuG+Lo2uIyyu618JTyw803kt1T0t8nnnZCWZa2uTi7SD25P7Emu8Avkj1
+         FGdaZt1WKuhoYIXSEV4OW9WeOO3MaB7QqOSAu01xhiMGGTFgx2p9vFtLYD0OXhBy7uKs
+         WYcSk+pBM8kQiCPgSFsLzcHzhQZ6PB3wuykOsQ27RtdUYzQYioHqAoEsPj54s1B3lhz+
+         F6UZw6Asap26M63G9iXH9O1EsKtTR8TxVl6zkRjl7c7q4R+l3pyRRmfD5G98MU3vanTG
+         yY+g==
+X-Gm-Message-State: ABy/qLZefvxszweS5s6fXLjFcTIiEFKykBYH5cHc4xPckQQxbov25PEN
+	vLegK9/OZm12/ptTG2YUOMoZLIzvAUY=
+X-Google-Smtp-Source: APBJJlH+TKccBx10W1wPX2pSes5/ZRKVabfRVLrGy3eYKNergDt50lop0DCXS+iz2GOgaS58ck/f1g==
+X-Received: by 2002:a05:6e02:1252:b0:348:bb23:da0 with SMTP id j18-20020a056e02125200b00348bb230da0mr5396174ilq.11.1690150015528;
+        Sun, 23 Jul 2023 15:06:55 -0700 (PDT)
+Received: from lons-builder.int.hatle.net ([76.164.132.203])
+        by smtp.gmail.com with ESMTPSA id p1-20020a92d681000000b0033e23a5c730sm2592045iln.88.2023.07.23.15.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 15:06:55 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [kirkstone][PATCH] python3: upgrade 3.10.9 -> 3.10.12
+Date: Sun, 23 Jul 2023 17:06:40 -0500
+Message-Id: <20230723220640.826527-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39907884-73ff-4570-c8c8-08db8ba08766
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2023 17:16:18.5736
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bGtvBp2s7P67jTDL5qfnZ68L/UTt+OD3ZyFmF6INxTcdxnPLOA9aU9OtQ9PyFBt45Io5tcrwptrUw+DKg737Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR10MB3803
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 17:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184764
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 22:06:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184765
 
-U29ycnkgdGhhdCBJIG1pc3NlZCB0aGF0IGR1cmluZyBteSByZXZpZXcuDQpJIGhhdmUgc2VudCBh
-IHBhdGNoIGZvciB0aGlzIG5vdy4NCg0KUGV0ZXINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
-LS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgU3Rl
-dmUgU2Frb21hbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTZW50OiBTdW5kYXksIEp1
-bHkgMjMsIDIwMjMgMTY6MjkNCj4gVG86IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRo
-ZSBvZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PjsgeW9jdG8tc2VjdXJpdHlAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiBTdWJqZWN0OiBbT0Ut
-Y29yZV0gT0UtY29yZSBDVkUgbWV0cmljcyBmb3IgbWFzdGVyIG9uIFN1biAyMyBKdWwgMjAyMw0K
-Pg0KPiBDVkUgY2hlY2sgc2NyaXB0IGZhaWxlZCB0aGlzIHdlZWsgd2l0aCB0aGUgZm9sbG93aW5n
-IGVycm9yOg0KPg0KPiBFUlJPUjogVW5hYmxlIHRvIHBhcnNlDQo+IC9ob21lL3N0ZXZlL2J1aWxk
-cy9jdmUvcG9reS9iaXRiYWtlL2xpYi9iYi9wYXJzZS9wYXJzZV9weS9Db25mSGFuZGxlci5weQ0K
-PiBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQo+ICAgRmlsZSAiL2hvbWUvc3Rl
-dmUvYnVpbGRzL2N2ZS9wb2t5L2JpdGJha2UvbGliL2JiL3BhcnNlL3BhcnNlX3B5L0NvbmZIYW5k
-bGVyLnB5IiwNCj4gbGluZSAyMDAsIGluIGZlZWRlcihsaW5lbm89MTI1LCBzPSdDVkVfU1RBVFVT
-W0NWRS0yMDIwLTE4OTc0XSA9DQo+ICJ1cHN0cmVhbS13b250Zml4OiBJdCBpcyBhIGZ1enppbmcg
-cmVsYXRlZCBidWZmZXIgb3ZlcmZsb3cuIEl0IGlzIG9mIGxvdyBpbXBhY3Qgc2luY2UgbW9zdCBk
-ZXZpY2VzJywgZm49J2NvbmYvZGlzdHJvL2luY2x1ZGUvY3ZlLWV4dHJhLWV4Y2x1c2lvbnMuaW5j
-Jywgc3RhdGVtZW50cz1bPGJiLnBhPg0KPg0KPiAgICAgPiAgICByYWlzZSBQYXJzZUVycm9yKCJ1
-bnBhcnNlZCBsaW5lOiAnJXMnIiAlIHMsIGZuLCBsaW5lbm8pOw0KPg0KPiBiYi5wYXJzZS5QYXJz
-ZUVycm9yOiBQYXJzZUVycm9yIGF0DQo+IGNvbmYvZGlzdHJvL2luY2x1ZGUvY3ZlLWV4dHJhLWV4
-Y2x1c2lvbnMuaW5jOjEyNTogdW5wYXJzZWQgbGluZToNCj4gJ0NWRV9TVEFUVVNbQ1ZFLTIwMjAt
-MTg5NzRdID0gInVwc3RyZWFtLXdvbnRmaXg6IEl0IGlzIGEgZnV6emluZyByZWxhdGVkIGJ1ZmZl
-ciBvdmVyZmxvdy4gSXQgaXMgb2YgbG93IGltcGFjdCBzaW5jZSBtb3N0IGRldmljZXMnDQo+DQo+
-IFRoaXMgc2VlbXMgdG8gYmUgZHVlIHRvIHRoZSBsYWNrIG9mIHRlcm1pbmF0aW5nICJcIiBjaGFy
-YWN0ZXJzIG9uIHRoZSBtdWx0aWxpbmUgZW50cnkgZm9yIHRoaXMgQ1ZFIGluIHRoZSBmb2xsb3dp
-bmcgY29tbWl0Og0KPg0KPiBodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRl
-ZC1jb3JlL2NvbW1pdC8/aWQ9MTYzNGVkNDA0OGNmNTY3ODhjZDVjMmMxYmRjOTc5YjcwYWZjZGNk
-Nw0K
+Security and bugfix updates.
+
+* Drop cve-2023-24329.patch as it is merged in 3.10.12
+
+CVE: CVE-2023-24329
+
+Includes openssl 1.1.1u which addresses:
+CVE: CVE-2023-0286
+CVE: CVE-2022-4304
+CVE: CVE-2022-4203
+
+https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-12-final
+https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-11-final
+https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-10-final
+
+License-Update: Update Copyright years to include 2023
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../python/python3/cve-2023-24329.patch       | 50 -------------------
+ .../{python3_3.10.9.bb => python3_3.10.12.bb} |  5 +-
+ 2 files changed, 2 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/cve-2023-24329.patch
+ rename meta/recipes-devtools/python/{python3_3.10.9.bb => python3_3.10.12.bb} (98%)
+
+diff --git a/meta/recipes-devtools/python/python3/cve-2023-24329.patch b/meta/recipes-devtools/python/python3/cve-2023-24329.patch
+deleted file mode 100644
+index d47425d239..0000000000
+--- a/meta/recipes-devtools/python/python3/cve-2023-24329.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9 Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Sun, 13 Nov 2022 11:00:25 -0800
+-Subject: [PATCH] gh-99418: Make urllib.parse.urlparse enforce that a scheme
+- must begin with an alphabetical ASCII character. (GH-99421)
+-
+-Prevent urllib.parse.urlparse from accepting schemes that don't begin with an alphabetical ASCII character.
+-
+-RFC 3986 defines a scheme like this: `scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )`
+-RFC 2234 defines an ALPHA like this: `ALPHA = %x41-5A / %x61-7A`
+-
+-The WHATWG URL spec defines a scheme like this:
+-`"A URL-scheme string must be one ASCII alpha, followed by zero or more of ASCII alphanumeric, U+002B (+), U+002D (-), and U+002E (.)."`
+-(cherry picked from commit 439b9cfaf43080e91c4ad69f312f21fa098befc7)
+-
+-Co-authored-by: Ben Kallus <49924171+kenballus@users.noreply.github.com>
+---- end original header ---
+-
+-CVE: CVE-2023-24329
+-
+-Upstream-Status: Backport [see below]
+-
+-Taken from https://github.com/python/cpython.git
+-commit 72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9
+-
+-CVE fix extracted; test case and update to NEWS abandoned.
+-Defuzzed.
+-
+-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+----
+- Lib/urllib/parse.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
+-index 26ddf30..1c53acb 100644
+---- a/Lib/urllib/parse.py
+-+++ b/Lib/urllib/parse.py
+-@@ -469,7 +469,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
+-         clear_cache()
+-     netloc = query = fragment = ''
+-     i = url.find(':')
+--    if i > 0:
+-+    if i > 0 and url[0].isascii() and url[0].isalpha():
+-         for c in url[:i]:
+-             if c not in scheme_chars:
+-                 break
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/python/python3_3.10.9.bb b/meta/recipes-devtools/python/python3_3.10.12.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.10.9.bb
+rename to meta/recipes-devtools/python/python3_3.10.12.bb
+index 867958c0fb..8bf1b6f816 100644
+--- a/meta/recipes-devtools/python/python3_3.10.9.bb
++++ b/meta/recipes-devtools/python/python3_3.10.12.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
+ LICENSE = "PSF-2.0"
+ SECTION = "devel/python"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://run-ptest \
+@@ -35,7 +35,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+-           file://cve-2023-24329.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+@@ -44,7 +43,7 @@ SRC_URI:append:class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+-SRC_URI[sha256sum] = "5ae03e308260164baba39921fdb4dbf8e6d03d8235a939d4582b33f0b5e46a83"
++SRC_URI[sha256sum] = "afb74bf19130e7a47d10312c8f5e784f24e0527981eab68e20546cfb865830b8"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
+2.25.1
+
 
