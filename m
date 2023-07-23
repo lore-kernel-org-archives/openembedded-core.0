@@ -1,181 +1,188 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 931F8C001B0
-	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 12:11:34 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.24180.1690114287318372691
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA131C001DC
+	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 12:24:54 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web11.24693.1690115084593029656
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jul 2023 05:11:27 -0700
+ Sun, 23 Jul 2023 05:24:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=HfUEaBsv;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b6f97c7115so47900161fa.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 05:11:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=REu211IF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.43, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-63ce5d41b5bso4841656d6.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 05:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690114285; x=1690719085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690115083; x=1690719883;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Gg1krQe6os6uDy3Rdp5Ps9s4K5agT2IxySNdAJHRS4=;
-        b=HfUEaBsvgeOrROMnNy8yDHH9MnHsXZyRVwuqIrvwtoEN0H1wS+YSeEI7XiwfM8+1fJ
-         Qebtgh3gkU3Bshun0FbEmg0WJ6jkHNgbC72Bchu+MykqIcPaSWGivjTSh3Bj/50PJpOa
-         G3En2luBD4hLyr/ic/qxxYUIokJB44ZCBrovrO4+U/T/avz2j/yQVGPIsg2ztiKEXMEu
-         7i4ofJEGt+irg3U3uLs1vDXj71NCQszjTM1NM8IX3lSEt7ZMQuOJcYJ02VDcKg/LH90V
-         XjYIGZXKl960J17JGEcw5nOKwQyZyZKsnKLWElw9AwbVIsqXTfiNXVxP0zi+Zrm9SR4u
-         KKYw==
+        bh=zhXJRRScjyFEUyCc3rwtm+gC3W86Dptk6/WqzurLEpE=;
+        b=REu211IFu5xZ7BligrjDGZHU4FJF7IVdmGcnF1xc2gE7cOUKXb/K3wsOIwQddeeNBR
+         ArgsWdFVBLwxbrsIs3xYjqLIhwKd2RITsaPWOo3ScYwUjPf5aq91gXfTLLdBp2Anmmck
+         d8RQeUfKZRbfnO4TZKwZmJc2cTCK/h0tMCoXwUId+VTn4A4vO6+PJ7O17DnpU0HQwqIo
+         vz35TpFrB17LKgp7MnKQNGmL/JFfEefgAsXjbkPyd/oFo6vZetTPvvqtjGp7clsrizbM
+         fYkhnvKabwqZierpuWPvarlWaEznH/vxx0blAj6apmTpLfXLlDQWOeU48YR26WtAydYP
+         pG6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690114285; x=1690719085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Gg1krQe6os6uDy3Rdp5Ps9s4K5agT2IxySNdAJHRS4=;
-        b=f1iY3hUySMOhqjxLYXzAmJ1Ea3fo1z35a207o+hvVtGVIMDRnX+xuZ3LDaLBTKGWTT
-         6Sqk3KfK1rMKM8Eb7YEWS7cFof5f3UIAPAeN4fhAPqXCwzhWewZba2byq11VwqiLTfx7
-         QeKack4WkEwZjl+NQs1u4UwQNn6wzc8k+eTPgn5nzEix1f60mbWa2F7eUsnE448FKN5n
-         xcC0K9RwbsxCQvzESCdqhdurMYpkT4CYp0F9CM2+6IVkpMQ+UkjsxwhXg/BxZ9RlJ20z
-         Ny/NS9av1DKV0XT7iEu0ZojjyTMan9Qb+s4D4HmPETjrlV/5kCEG7oBDwtvUESyWPN2T
-         CebA==
-X-Gm-Message-State: ABy/qLatHaaThOqaHhHMTPnftMX9a6orGSCsShIt19aBjH6SU7+tg6dK
-	T5NmFKJn2/g8kpwkK3g7ykiwIwT4Rb+Wri3YKLkcZgwx
-X-Google-Smtp-Source: APBJJlHzqrWJ/4tNVf5WIHl7hNxlBnK38QOS+fJQwqbpAB4GutBzQLcLJUgsAUvLH3WysOfSKDvdTUo7/jeO8PEBwlo=
-X-Received: by 2002:ac2:43c3:0:b0:4fa:21d5:8ed8 with SMTP id
- u3-20020ac243c3000000b004fa21d58ed8mr3456342lfl.4.1690114285360; Sun, 23 Jul
- 2023 05:11:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230721142543.246415-1-jstephan@baylibre.com>
-In-Reply-To: <20230721142543.246415-1-jstephan@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 23 Jul 2023 14:11:14 +0200
-Message-ID: <CANNYZj8tCEDM51XrCgfUfMu0ExJqJEwQ7=vU+4e7vrRqdpsKCg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC v2 0/2] Add bblock helper script
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20221208; t=1690115083; x=1690719883;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zhXJRRScjyFEUyCc3rwtm+gC3W86Dptk6/WqzurLEpE=;
+        b=HPeO+FSK4TeRmCxdt6q59e36BarT4Cu6cKGli/hPnMbqt/6CHjQZjaXA5VLtPSws1Z
+         PXBFbd9iuV63YkmGBlQBYwK/POpcqyAOUnYLbLYSz9/pM1OuaOgS4HA1tIasMg5lTQHQ
+         Ym+oiMfTRHpx5lLvetso8A9tTmOrAUIRJVdjC7+KIyxF3AYZ+2jnFRc50ka9/LRDme4u
+         /H3R4xOl5n4F3OaRy7Ynkl3oQlj4EzTP70t69gKubuwjVYJJ6aUwMMjz/aCGa53eSinN
+         hBHz6jdwU7audlJk0HniGEkAKPO2IVl7SGNgqO+gwzNJR5AElliMsjOTTj5/2iSB8GUa
+         K1jQ==
+X-Gm-Message-State: ABy/qLam8z96k5yL9WBusoJ5c6FgDG6aFZHXBQzQj+a+3TovcuyCTCeJ
+	UNWg8F/McLk87D77dV8N562Iat3vd7PAXOelrZM=
+X-Google-Smtp-Source: APBJJlERIO25iEYfwWDVesn0p7R5i4qTImVdU0umVcmYL0IaK+PvVbi9kc6LhYq9zCjZ1h0Qm8DBdA==
+X-Received: by 2002:a0c:e0cf:0:b0:63c:f8c1:62b6 with SMTP id x15-20020a0ce0cf000000b0063cf8c162b6mr631640qvk.54.1690115083025;
+        Sun, 23 Jul 2023 05:24:43 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id y16-20020a0cd990000000b006300e92ea02sm2783615qvj.121.2023.07.23.05.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 05:24:42 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 52548106E8E; Sun, 23 Jul 2023 02:24:41 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 23 Jul 2023 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 23 Jul 2023 02:24:41 -1000
+Message-Id: <20230723122441.52548106E8E@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 12:11:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184750
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 12:24:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184751
 
-Thanks for working on this. Should we think about how this could be tested?
+Branch: dunfell
 
-Alex
+New this week: 18 CVEs
+CVE-2020-27918 (CVSS3: 7.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27918 *
+CVE-2020-29623 (CVSS3: 3.3 LOW): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-9948 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9948 *
+CVE-2020-9951 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9951 *
+CVE-2020-9952 (CVSS3: 7.1 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9952 *
+CVE-2021-1765 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-33621 (CVSS3: 8.8 HIGH): ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33621 *
+CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
+CVE-2023-29406 (CVSS3: 6.5 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29406 *
+CVE-2023-31486 (CVSS3: 8.1 HIGH): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31486 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
 
-On Fri, 21 Jul 2023 at 16:25, Julien Stephan <jstephan@baylibre.com> wrote:
->
-> Hi all,
->
-> This is the v2 of bblock script.
->
-> Improvement from V1:
-> * Signatures are now package architecture specific meaning that if you
->   switch MACHINE, the lock sig will not be taken into account
-> * I added the -r option to unlock recipes
-> * I added a -d option to display the current bblock.conf
-> * Added an include directive for conf/bblock.conf inside bitbake.conf
-> * Added -t option to specify the tasks to lock/unlock
->
-> Limitations:
-> * I may be still missing some checks on user input
-> * I need to find a way to get the list of tasks ( by default still lock
->   only the do_compile for now, unless -t is specified)
-> * Do not check if a particular recipe/task is already locked when trying
->   to add lock. So entries may appear multiple times
-> * We still need the signature of the tasks to be already computed before
->   locking. Need to find a way to generate it if missing
->
-> I did some tests using qemux86-64 and qemuarm but I may be missing some
-> corner cases.
->
-> I force pushed my branch on poky-contrib [1]
->
-> Any feedback are welcome!
->
-> Cheers
-> Julien
->
-> V1:
-> I am currently working on bug #13425 and I would like to post my wip
-> script as an RFC to get feedback on it, before going further in the
-> development.
->
-> The script `script/bblock` can be used with the following command:
->
-> bblock [list of recipes to lock]
->
-> Here is a summary of what is currently implemented:
-> * can lock several recipes at once
-> * on first execution bblock will append `require bblock.inc` in
->   `build/conf/auto.conf` (creates `auto.conf` if it doesn't exist)
-> * on first execution creates the file `build/conf/bblock.inc` with a
->   dedicated header and:
->          - adds SIGGEN_LOCKEDSIGS_TYPES +=3D "t-bblock"
->          - adds SIGGEN_LOCKEDSIGS_TASKSIG_CHECK =3D "warn" to display war=
-ning but
->            do not stop the build
-> * loops over all recipes to lock and adds entry with latest "do_compile"
->   signature in `conf/bblock.inc`, such as: SIGGEN_LOCKEDSIGS_t-bblock +=
-=3D "bc:do_compile:e233cd793137a92dd575a417a2877e324ce526c4dc4a7db652abb951=
-2f406f1f"
->
-> Limitations:
-> * only gets do_compile signature for now as a POC
-> * `bblock reset [list of recipes]` not yet implemented
-> * no check if a recipe is already locked
->
-> Steps to test the script:
-> bitbake bc --> generate a signature for bc's tasks
-> bblock bc
-> # modify do_compile in bc recipe to force signature change
-> bitbake bc --> throws the following warning: `WARNING: The bc:do_compile =
-sig is computed to be 680bd6c291bf88e379e0c405a773cf5f81851e1a52570398cefd0=
-196000ac1ef, but the sig is locked to e233cd793137a92dd575a417a2877e324ce52=
-6c4dc4a7db652abb9512f406f1f in SIGGEN_LOCKEDSIGS_t-bblock`
->
-> I also have a point I would like to discuss: I only get signature for
-> do_compile for the POC but wondering what should I do here:
-> * have a set of predefined task to lock, in that case how to choose the
->   tasks?
-> * compute the list of all available tasks for a given recipe and get
->   signature for all? Is there a way to get such list without using
->   `infoil.build_targets(pn, "listtasks", handle_events=3DTrue)` as this
->   will start bitbake, takes some time and requires some processing of
->   the output
-> * add an option for the user to specify the task he wants to lock? (this
->   may be useful to add anyway)
->
-> My branch is available here [1]
->
-> Am I going into the right direction?
->
-> Cheers
-> Julien
->
-> [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=3Djstephan/bbloc=
-k
-> Julien Stephan (2):
->   bitbake.conf: include bblock.conf
->   scripts/bblock: add a script to lock/unlock recipes
->
->  meta/conf/bitbake.conf |   1 +
->  scripts/bblock         | 184 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 185 insertions(+)
->  create mode 100755 scripts/bblock
->
-> --
-> 2.41.0
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184697): https://lists.openembedded.org/g/openembedde=
-d-core/message/184697
-> Mute This Topic: https://lists.openembedded.org/mt/100277504/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Removed this week: 6 CVEs
+CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
+CVE-2023-2609 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2609 *
+CVE-2023-2610 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2610 *
+CVE-2023-28320 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28320 *
+CVE-2023-29400 (CVSS3: 7.3 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29400 *
+CVE-2023-3138 (CVSS3: 7.5 HIGH): libx11:libx11-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3138 *
+
+Full list:  Found 94 unpatched CVEs
+CVE-2020-15705 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-25742 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27918 (CVSS3: 7.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27918 *
+CVE-2020-29623 (CVSS3: 3.3 LOW): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-35503 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2020-35506 (CVSS3: 6.7 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
+CVE-2020-9948 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9948 *
+CVE-2020-9951 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9951 *
+CVE-2020-9952 (CVSS3: 7.1 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9952 *
+CVE-2021-1765 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-20269 (CVSS3: 5.5 MEDIUM): kexec-tools https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20269 *
+CVE-2021-20295 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20295 *
+CVE-2021-27097 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-31879 (CVSS3: 6.1 MEDIUM): wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-33621 (CVSS3: 8.8 HIGH): ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33621 *
+CVE-2021-3418 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+CVE-2021-3445 (CVSS3: 7.5 HIGH): libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
+CVE-2021-3782 (CVSS3: 6.6 MEDIUM): wayland:wayland-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3782 *
+CVE-2021-3947 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3947 *
+CVE-2021-42762 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
+CVE-2021-45085 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
+CVE-2021-45086 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
+CVE-2021-45087 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
+CVE-2021-45088 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
+CVE-2021-45481 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
+CVE-2021-45482 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
+CVE-2021-45483 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
+CVE-2022-0358 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0358 *
+CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
+CVE-2022-2347 (CVSS3: 7.1 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2347 *
+CVE-2022-23773 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23773 *
+CVE-2022-24765 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24765 *
+CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
+CVE-2022-29536 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29536 *
+CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
+CVE-2022-30293 (CVSS3: 7.5 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30293 *
+CVE-2022-30767 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30767 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
+CVE-2022-34835 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-34835 *
+CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
+CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
+CVE-2022-41720 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
+CVE-2022-41724 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41724 *
+CVE-2022-41725 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41725 *
+CVE-2022-44370 (CVSS3: 7.8 HIGH): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44370 *
+CVE-2022-44617 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44617 *
+CVE-2022-46285 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46285 *
+CVE-2022-4645 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4645 *
+CVE-2022-4883 (CVSS3: 8.8 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4883 *
+CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
+CVE-2023-24536 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24536 *
+CVE-2023-25358 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25358 *
+CVE-2023-25360 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25360 *
+CVE-2023-25361 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25361 *
+CVE-2023-25362 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25362 *
+CVE-2023-25363 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25363 *
+CVE-2023-26081 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26081 *
+CVE-2023-26965 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-26965 *
+CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
+CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-2828 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2828 *
+CVE-2023-28319 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28319 *
+CVE-2023-28321 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28321 *
+CVE-2023-28322 (CVSS3: 3.7 LOW): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28322 *
+CVE-2023-2908 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2908 *
+CVE-2023-29403 (CVSS3: 7.8 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
+CVE-2023-29406 (CVSS3: 6.5 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29406 *
+CVE-2023-29491 (CVSS3: 7.8 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29491 *
+CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
+CVE-2023-30630 (CVSS3: 7.8 HIGH): dmidecode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30630 *
+CVE-2023-31486 (CVSS3: 8.1 HIGH): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-31486 *
+CVE-2023-3316 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3316 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
+CVE-2023-36632 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36632 *
+CVE-2023-36664 (CVSS3: 7.8 HIGH): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36664 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
