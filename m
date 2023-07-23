@@ -1,181 +1,159 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCA5C001DC
-	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 22:06:57 +0000 (UTC)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web10.35302.1690150016709349698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80B90C001DC
+	for <webhook@archiver.kernel.org>; Sun, 23 Jul 2023 22:23:57 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.35905.1690151028130879359
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jul 2023 15:06:56 -0700
+ Sun, 23 Jul 2023 15:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=stu0FoWN;
- spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-34896a1574dso23160045ab.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 15:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690150015; x=1690754815;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wvb6W0k/6r3f0bjvxo/IE2vEACP6AbYD+hvpVL1kgPs=;
-        b=stu0FoWNMRC6NbPdf9F0OEQSVfXtsMbJIPi6S/tAzrURtKVJKnF0PjoGxlKm92hlNu
-         tnAJl+PwBMi7MYhO5ljaHBRLmx0ecdvlL1BhrK4uNXURlbL/mWeb7aqTqWjyf5QoX8Wn
-         EinPN6UAn/zVODbUUtpnutINDGgDxDHQQ7IB2K3ywZQ9FpfuYmSJ4u7Yy/8yvmsoiTSz
-         Hhikv1PbEevu3k2Tg5cEB3ywlHgWGVAUQjapNex1YW66QEsdUSOIBLhzrOAKEaqZf7E/
-         1ZUV/Oyt2vOvQJbEYgVP9aDWCk59rfvf6JNwBvxapmZFy7+aNA62LvrSVK7kb9uFzZIK
-         H/Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690150015; x=1690754815;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wvb6W0k/6r3f0bjvxo/IE2vEACP6AbYD+hvpVL1kgPs=;
-        b=ZcDVglzO1bgCa4ktRVZf5ETBIxeU+a/yNj8BwT2y4pyBL2Jv+cuwz22xMXx9wyWpjx
-         XAZDa2nAIoHvuG+Lo2uIyyu618JTyw803kt1T0t8nnnZCWZa2uTi7SD25P7Emu8Avkj1
-         FGdaZt1WKuhoYIXSEV4OW9WeOO3MaB7QqOSAu01xhiMGGTFgx2p9vFtLYD0OXhBy7uKs
-         WYcSk+pBM8kQiCPgSFsLzcHzhQZ6PB3wuykOsQ27RtdUYzQYioHqAoEsPj54s1B3lhz+
-         F6UZw6Asap26M63G9iXH9O1EsKtTR8TxVl6zkRjl7c7q4R+l3pyRRmfD5G98MU3vanTG
-         yY+g==
-X-Gm-Message-State: ABy/qLZefvxszweS5s6fXLjFcTIiEFKykBYH5cHc4xPckQQxbov25PEN
-	vLegK9/OZm12/ptTG2YUOMoZLIzvAUY=
-X-Google-Smtp-Source: APBJJlH+TKccBx10W1wPX2pSes5/ZRKVabfRVLrGy3eYKNergDt50lop0DCXS+iz2GOgaS58ck/f1g==
-X-Received: by 2002:a05:6e02:1252:b0:348:bb23:da0 with SMTP id j18-20020a056e02125200b00348bb230da0mr5396174ilq.11.1690150015528;
-        Sun, 23 Jul 2023 15:06:55 -0700 (PDT)
-Received: from lons-builder.int.hatle.net ([76.164.132.203])
-        by smtp.gmail.com with ESMTPSA id p1-20020a92d681000000b0033e23a5c730sm2592045iln.88.2023.07.23.15.06.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 15:06:55 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [kirkstone][PATCH] python3: upgrade 3.10.9 -> 3.10.12
-Date: Sun, 23 Jul 2023 17:06:40 -0500
-Message-Id: <20230723220640.826527-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=HLf9WaGL;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EF82F1BF203;
+	Sun, 23 Jul 2023 22:23:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1690151025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5hbToqkb80uTyJFDq39j6c6zWrfjC6q51XcA4mzkegg=;
+	b=HLf9WaGLv60L5Gc7OhC+3lZPViSMnbxi2uMqCYd8O9g0FKEgJn4d85NmmKW01oWLOTuXfJ
+	E5kIwJNbh7CwQdByFEW51VPS4gTiOuH/p3oFCL6fZazo/UjrZdB+BkomqBhZ75VqaJJjOG
+	PBw2nMoDm8i3LkPmbngNvKez4R2kIIjDpVY2ga8ADcV+iSK9ixUUEbsd7xgFPAP7xegC6S
+	XMUh3CPHzicBiL2jq0ap4J7b/y6jeFfvVX7M821hwkOBBrLtPw1Y7ou4Ivb7fxbS24M2H+
+	xgOfYs0ySsT7drfgBix9/HnZd70sdZowWe0jzdTSHvvISUIozjmbjmPjaizUkw==
+Date: Mon, 24 Jul 2023 00:23:44 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Piotr =?utf-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: ODP: ODP: [OE-Core][PATCH v8][master-next 1/5]
+ package_ipk.bbclass: add support for ACLs and xattr
+Message-ID: <20230723222344c0de9eca@mail.local>
+References: <17744C0B55ADA271.25264@lists.openembedded.org>
+ <AM6PR04MB5368ED123188D5223D0F14B7913CA@AM6PR04MB5368.eurprd04.prod.outlook.com>
+ <202307231504286d15f3bc@mail.local>
+ <17748A1F3FBBC488.4774@lists.openembedded.org>
+ <VI1PR04MB5373D3FCD62C630268F512BD913DA@VI1PR04MB5373.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <VI1PR04MB5373D3FCD62C630268F512BD913DA@VI1PR04MB5373.eurprd04.prod.outlook.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 22:06:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184765
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 22:23:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184766
 
-Security and bugfix updates.
+On 23/07/2023 16:32:55+0000, Piotr Łobacz wrote:
+> OK, I got it, but correct me if I'm wrong, namely packages differs between builds?
+> 
+> I have found this link https://docs.yoctoproject.org/dev/test-manual/reproducible-builds.html for it with instructions
+> on how to reproduce it. I'll give it a try and In case of problems will try to ask.
+> 
 
-* Drop cve-2023-24329.patch as it is merged in 3.10.12
+You will find the packages that differ in reproducibleA and
+reproducibleB so you can compare them yourself.
 
-CVE: CVE-2023-24329
+> Cheers,
+> Piotr
+> 
+> Od: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> w imieniu użytkownika Piotr Łobacz via lists.openembedded.org <p.lobacz=welotec.com@lists.openembedded.org>
+> Wysłane: niedziela, 23 lipca 2023 17:53
+> Do: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> DW: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+> Temat: ODP: ODP: [OE-Core][PATCH v8][master-next 1/5] package_ipk.bbclass: add support for ACLs and xattr
+> 
+> Hi,
+> 
+> > Hello,
+> >
+> > On 22/07/2023 21:03:43+0000, Piotr Łobacz wrote:
+> > > Hello Alexadre,
+> > > this time everything should be fixed and working :D I have tested it thrice:P
+> > >
+> > > Additionally I've discovered that somehow, during all these patchsets, an extra param "--numeric-owner" has gone from opkg-build script,
+> > > which is important to store uid(s)/gid(s) as numbers instead of names in tar archive. An updated patch has been already pushed to opkg-utils
+> > > upstream.
+> > >
+> > > You can run it and tell if everything is OK.
+> > >
+> >
+> > This ran and mostly worked. The remaining issue is the reproducibility
+> > issue:
+> 
+> I'm glad that we went further in this problem, but
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230722-1a1a_7s6/
+> 
+> > Unfortunately, diffoscope is not running on that large set.
+> 
+> unfortunately I don't have knowledge what's this link about. Can you explain me a little bit and how is this being run from cli?
+> 
+> > BR
+> > Piotr
+> >
+> >
+> > Od: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> w imieniu użytkownika Piotr Łobacz via lists.openembedded.org <p.lobacz=welotec.com@lists.openembedded.org>
+> > Wysłane: sobota, 22 lipca 2023 22:55
+> > Do: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+> > DW: Piotr Łobacz <p.lobacz@welotec.com>
+> > Temat: [OE-Core][PATCH v8][master-next 1/5] package_ipk.bbclass: add support for ACLs and xattr
+> >
+> > Extend OPKGBUILDCMD variable, with additional parameters, depending
+> > on target distro features, in order to support ACLs and xattr.
+> >
+> > With fix pushed to the opkg-devel:
+> > https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
+> > opkg-build is able to create tar archives with ACLs and xattr.
+> >
+> > Signed-off-by: Piotr Łobacz <p.lobacz@welotec.com>
+> > ---
+> >  meta/classes-global/package_ipk.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+> > index b4b7bc9ac2..a0f106e4ad 100644
+> > --- a/meta/classes-global/package_ipk.bbclass
+> > +++ b/meta/classes-global/package_ipk.bbclass
+> > @@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
+> >  PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
+> >
+> >  # Program to be used to build opkg packages
+> > -OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
+> > +OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}" ${@bb.utils.contains('DISTRO_FEATURES', 'acl', '-A', '', d)} ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', '-X', '', d)}'
+> >
+> >  OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
+> >  OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+> > --
+> > 2.34.1
+> 
+> >
+> >
+> >
+> 
+> 
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com/
 
-Includes openssl 1.1.1u which addresses:
-CVE: CVE-2023-0286
-CVE: CVE-2022-4304
-CVE: CVE-2022-4203
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184761): https://lists.openembedded.org/g/openembedded-core/message/184761
+> Mute This Topic: https://lists.openembedded.org/mt/100313731/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-12-final
-https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-11-final
-https://docs.python.org/release/3.10.12/whatsnew/changelog.html#python-3-10-10-final
 
-License-Update: Update Copyright years to include 2023
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- .../python/python3/cve-2023-24329.patch       | 50 -------------------
- .../{python3_3.10.9.bb => python3_3.10.12.bb} |  5 +-
- 2 files changed, 2 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/cve-2023-24329.patch
- rename meta/recipes-devtools/python/{python3_3.10.9.bb => python3_3.10.12.bb} (98%)
-
-diff --git a/meta/recipes-devtools/python/python3/cve-2023-24329.patch b/meta/recipes-devtools/python/python3/cve-2023-24329.patch
-deleted file mode 100644
-index d47425d239..0000000000
---- a/meta/recipes-devtools/python/python3/cve-2023-24329.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9 Mon Sep 17 00:00:00 2001
--From: "Miss Islington (bot)"
-- <31488909+miss-islington@users.noreply.github.com>
--Date: Sun, 13 Nov 2022 11:00:25 -0800
--Subject: [PATCH] gh-99418: Make urllib.parse.urlparse enforce that a scheme
-- must begin with an alphabetical ASCII character. (GH-99421)
--
--Prevent urllib.parse.urlparse from accepting schemes that don't begin with an alphabetical ASCII character.
--
--RFC 3986 defines a scheme like this: `scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )`
--RFC 2234 defines an ALPHA like this: `ALPHA = %x41-5A / %x61-7A`
--
--The WHATWG URL spec defines a scheme like this:
--`"A URL-scheme string must be one ASCII alpha, followed by zero or more of ASCII alphanumeric, U+002B (+), U+002D (-), and U+002E (.)."`
--(cherry picked from commit 439b9cfaf43080e91c4ad69f312f21fa098befc7)
--
--Co-authored-by: Ben Kallus <49924171+kenballus@users.noreply.github.com>
----- end original header ---
--
--CVE: CVE-2023-24329
--
--Upstream-Status: Backport [see below]
--
--Taken from https://github.com/python/cpython.git
--commit 72d356e3584ebfb8e813a8e9f2cd3dccf233c0d9
--
--CVE fix extracted; test case and update to NEWS abandoned.
--Defuzzed.
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
-----
-- Lib/urllib/parse.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
--index 26ddf30..1c53acb 100644
----- a/Lib/urllib/parse.py
--+++ b/Lib/urllib/parse.py
--@@ -469,7 +469,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
--         clear_cache()
--     netloc = query = fragment = ''
--     i = url.find(':')
---    if i > 0:
--+    if i > 0 and url[0].isascii() and url[0].isalpha():
--         for c in url[:i]:
--             if c not in scheme_chars:
--                 break
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/python/python3_3.10.9.bb b/meta/recipes-devtools/python/python3_3.10.12.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.10.9.bb
-rename to meta/recipes-devtools/python/python3_3.10.12.bb
-index 867958c0fb..8bf1b6f816 100644
---- a/meta/recipes-devtools/python/python3_3.10.9.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.12.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
- LICENSE = "PSF-2.0"
- SECTION = "devel/python"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -35,7 +35,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
--           file://cve-2023-24329.patch \
-            "
- 
- SRC_URI:append:class-native = " \
-@@ -44,7 +43,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "5ae03e308260164baba39921fdb4dbf8e6d03d8235a939d4582b33f0b5e46a83"
-+SRC_URI[sha256sum] = "afb74bf19130e7a47d10312c8f5e784f24e0527981eab68e20546cfb865830b8"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
