@@ -1,109 +1,113 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9E0C001DE
-	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 13:49:21 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.47390.1690206556803706408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1802C001DF
+	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 13:56:11 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.47230.1690206969632063002
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jul 2023 06:49:17 -0700
+ Mon, 24 Jul 2023 06:56:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Uqm+2zEz;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-51de9c2bc77so6225459a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 06:49:16 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=fHl9I3mn;
+ spf=pass (domain: linaro.org, ip: 209.85.221.53, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-317009c0f9aso4018606f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 06:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690206555; x=1690811355;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fvp1su99kBcstYyQnZu+iM4vEzMTsaOrlITAAOW+udQ=;
-        b=Uqm+2zEzMXGcxO3gNFiV7W/dbl8EG6VXfBbOP76GPsn3EkQyVQlHA/p+eb75fcKtP4
-         NMlwhuIGWCTIzsMNH6ohtAYxgD7mWxODo5i6vpZ584nqm8KyTLgiwWnkZekWksqO23mA
-         qt7OJ0Fwk+zvQOzFDUIhGoCYF6hU9XTxjVCw1szmeEkwt75yHTBO7F2/rAX0v+Hq91xv
-         XyRLpjlYrumfhJkWQ8NTpBszru87fb/qr0E/3mECuLVFJezzksQsP1lWBqpJoPNyqgZY
-         EJcJmV+sw1va/VtA/IGGGQgrXiBfftOWbdQFENei96mUpNwxoUyzI0W+mUQ56DDSVERy
-         rncg==
+        d=linaro.org; s=google; t=1690206968; x=1690811768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5vuMJ3FMpG/AXgxvxOvI/h4V61g/sMgwvwl4HKrKVVI=;
+        b=fHl9I3mneS4/q24kGDHXR1pUg77TwKSJK5TF4iuAdFfxDohsT/pf0iGz/reaV6sReh
+         km7tV3p4tdSD/64NPR4w1MSyZD2J8ruXZrd1d89QbFTaAvkREcjAVQq9pTIm79UO1IZG
+         UNZaWK/TvZidTQhNSnOdd/DTeqhCywtlYrSQYx/EKyM9Qb3o23wHXa07wJXyfvchU9AR
+         XgYe5jL/UQo80xsHxSPebe42XpOfPJ/YhFX+qHTq+xPAw0rfkdsp5DqD/EsPlmBeBgqY
+         X88r2KKti2XXKEz4VKG/3j2uwiImstK6ZZrS9Mya0MfrLV32f+RL0SunaVBgZWgqYSOq
+         8p0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690206555; x=1690811355;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fvp1su99kBcstYyQnZu+iM4vEzMTsaOrlITAAOW+udQ=;
-        b=cybn1xTk5wkw4vnQlWiAH1LDU/XNgOLh/nPl7UTtesrA55aBz56Uw5ZcLCK8MlSdqS
-         qduGLcxRrGplYX/k/t1pCSjKVneJcaBwowPiFN1HcqtJ7SRJVLpfhSDzx6mHx5T3sM9x
-         MdvV9kcUHfcAVOXztiSm5rN1qpEFqabXMZaf/XP8HNsQqv5kjXCQ30I+O3gkibcefqCy
-         pO51VvpaRPs7g+ozPQLpUUTttKd19B1qGpOvP2F4RtLAUeUXmKnjTadkqO6Fq7WIl6su
-         dqHkKCEcCFgauworz4xFZ38ZZuVxWZOw+uvViNZiGFqGbxSYkqnTOWI9rHu28C2BiArj
-         r0+A==
-X-Gm-Message-State: ABy/qLbxfaj/Wvt4opFMMj252G77T+rx0gSi1sA1FxYvhEm0gFgtE9aK
-	6J4uT6oT7ZDmjG0lqNrbtTgVMEms3xJnlA==
-X-Google-Smtp-Source: APBJJlF7q3cF7jKXOX2mhX94U7aEoOlnvUKfNH6T8Uf6L7OnNyv1YPdqCUn8+7h5V0OK/KvkK6ZSjw==
-X-Received: by 2002:a05:6402:120b:b0:51d:acda:2f4a with SMTP id c11-20020a056402120b00b0051dacda2f4amr9087169edw.37.1690202137930;
-        Mon, 24 Jul 2023 05:35:37 -0700 (PDT)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id e6-20020a056402088600b005223d76a3e3sm149625edy.85.2023.07.24.05.35.37
+        d=1e100.net; s=20221208; t=1690206968; x=1690811768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5vuMJ3FMpG/AXgxvxOvI/h4V61g/sMgwvwl4HKrKVVI=;
+        b=ZmgRvI0Cnm4AcTFIcLJEkyCqGRXzAlmmIwLmBtP5Dd/Jlqwer67VnVS74uXSlhVsi/
+         XQo4elUa//WgHh+Ov46S9cRH1LhIOoIJYZlf6WRT/rgzDq5XtHEcVM6R9QVt1msfGhWU
+         gO8p7jFBRH5SzVC3fE9ujtxiMpEkevJFDooOgOGt8fK0vCZUYJX9uiquU9rfFNHYEqDZ
+         UJSZd3xv71F6548MjzzHnc5wWw4CERoMrrJ6Ss+kfCpvhZqY+G3apRrfs1XicIwhATYi
+         YT9auKLLQvnYBhkQbGRPRvDEbnVRltTWhBUT85rSnHzuo+eB9S0lo15uhTwbufvbJIxK
+         b0BA==
+X-Gm-Message-State: ABy/qLbGBtTcMwX9mjaCgkc8+GuVBgD1NbuqiE69dFtpj1NawHNHWZMF
+	GudSRiNIvIfjTkL4E6sKoKYamtrqStGO0ISxP+L3WYC7
+X-Google-Smtp-Source: APBJJlEeCAizfvcWgNRyrlL/AvLCxwrSWthU+Ejy37W9KCuSl9k9B5/JRXPqxC3VXikfk6+jwaSnDw==
+X-Received: by 2002:a2e:7312:0:b0:2b6:d5af:1160 with SMTP id o18-20020a2e7312000000b002b6d5af1160mr6362622ljc.28.1690205135804;
+        Mon, 24 Jul 2023 06:25:35 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id y4-20020a2e7d04000000b002b6d3261571sm2862871ljc.99.2023.07.24.06.25.35
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 05:35:37 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+        Mon, 24 Jul 2023 06:25:35 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <Ross.Burton@arm.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] rpm: Install and/or tweak rpm macros file to make rpmbuild work
-Date: Mon, 24 Jul 2023 14:35:29 +0200
-Message-ID: <20230724123529.288581-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Subject: [PATCH] linux-firmware: package firmare for Dragonboard 410c
+Date: Mon, 24 Jul 2023 16:25:17 +0300
+Message-Id: <20230724132517.781666-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 13:49:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184786
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 13:56:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184787
 
-Some BSP architecture builds (e.g. genericx86-64 or anything from
-meta-intel) don't have their /usr/lib/rpm/platform/<arch>-linux
-directories. This causes rpmbuild fail on the target machine.
+Latest linux-firmware archive inclues firmware for the Dragonboard 410c
+device (Qualcomm apq8016 SBC). Follow the rest of linux-firmware-qcom-*
+packages as a template and create packages for the new firmware files.
 
-Use ${SDK_ARCH}-linux as the base arch which likely exists in
-/usr/lib/rpm/platform and clone it as ${MACHINE_ARCH}-linux.
-
-Also, fix %_lib and %_libdir in the new cloned platform directory
-to use ${baselib} and ${libdir} so the RPM package contents will
-be correct for library packages.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/recipes-devtools/rpm/rpm_4.18.1.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ .../linux-firmware/linux-firmware_20230625.bb              | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-index 95a9e92f96..21f0127561 100644
---- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-@@ -131,7 +131,20 @@ do_install:append:class-nativesdk() {
- # Rpm's make install creates var/tmp which clashes with base-files packaging
- do_install:append:class-target() {
-     rm -rf ${D}/var
-+
-+    if [ -d "${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-linux" ]; then
-+        if [ ! -d ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux ]; then
-+            cp -r ${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-linux ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux
-+        fi
-+    fi
-+    if [ -d ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux ]; then
-+        sed -i \
-+            -e "s:^%_lib\t.*$:%_lib\t${baselib}:" \
-+            -e "s:^%_libdir\t.*$:%_libdir\t${libdir}:" \
-+            ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux/macros
-+    fi
- }
-+
- do_install:append:class-nativesdk() {
-     rm -rf ${D}${SDKPATHNATIVE}/var
-     # Ensure find-debuginfo is located correctly inside SDK
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+index 329a3e3c9aa0..a98a4e9b45a6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+@@ -315,6 +315,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
+              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
+              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
++             ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
+              ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
+@@ -1000,6 +1001,8 @@ LICENSE:${PN}-qcom-adreno-a530 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a630 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a650 = "Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-a660 = "Firmware-qcom"
++LICENSE:${PN}-qcom-apq8016-modem = "Firmware-qcom"
++LICENSE:${PN}-qcom-apq8016-wifi = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom"
+@@ -1027,6 +1030,8 @@ FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.* ${n
+ FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
+ FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
+ FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
++FILES:${PN}-qcom-apq8016-modem = "${nonarch_base_libdir}/firmware/qcom/apq8016/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8016/modem.mbn"
++FILES:${PN}-qcom-apq8016-wifi = "${nonarch_base_libdir}/firmware/qcom/apq8016/wcnss.mbn ${nonarch_base_libdir}/firmware/qcom/apq8016/WCNSS*"
+ FILES:${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
+ FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
+ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
+@@ -1053,6 +1058,8 @@ RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-apq8016-modem = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-apq8016-wifi = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license"
 -- 
-2.41.0
+2.39.2
 
 
