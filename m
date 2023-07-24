@@ -1,79 +1,76 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D888C001B0
-	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 08:25:10 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.43628.1690187103955059641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76AC5C001DE
+	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 08:36:50 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.43297.1690187807111988398
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jul 2023 01:25:04 -0700
+ Mon, 24 Jul 2023 01:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=VjFg0yZ7;
- spf=pass (domain: baylibre.com, ip: 209.85.128.43, mailfrom: jstephan@baylibre.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fc0aecf107so29928925e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 01:25:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=C9Vj64h0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2b6fdaf6eefso58310691fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 01:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690187101; x=1690791901;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O60fPOAssXaYU84SUVhc86x5wslybxkrfzPSk9g5enw=;
-        b=VjFg0yZ74U7Nzt10DAVDRrn9LIHyrlYq0FKTG6l6AECwaOiPfmsLGLXzdlV1mqRkPi
-         gU0rj/10CF13MWWei/GhkLhYmlK1cTRL0rhACTjL21F9eWhM8SC6rQq6MIPXvX1jPJ9J
-         /01kOVpVbDvld1xRJtyNdmLSKgCCfE9rQKgEiPi2NWi/NHTeGjytSQzI0DgJoxtGd65V
-         S6S4KAEyz6Ca/1GWW5VcZwagKje3sbLFXKokmvsNQomLzEiT1K5V3JL4PJHxghh68Qjd
-         kfWtoUtSl5sUMkfwgzytTRt8/uzQoXHnwST7O0RQyUonOnK5Xl2/oIwRx/4sL24KjPkz
-         3FEw==
+        d=gmail.com; s=20221208; t=1690187804; x=1690792604;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H75c2mKxd2+RtntOyx0O2+1EH2mX9diqO14evm05EhE=;
+        b=C9Vj64h0j00vHUHRZiIGk0/baGHVo/ydvaV9V06lHnkXrnex8ll0DnThwcirKAp3lo
+         sqrnDFvU8ubRcrfYjZsjAzNz0GL/i37eeFydcygmRch0aaE7ix/rGvCmwwq5KAMmHCh2
+         1iuamQq5TbIMKvzvlOoGKHDgTA4cks2yodhHewNmXb06TyLQwsMSpY+AqDAXXrOOTZS3
+         xj9my77bNzPWgTY4RvTJKas5I4oQ6hlljv+XIZwy9xc0u7U0CE/QZNoIo49XcyusqK/N
+         tM1DosKnCJannCCFvfGnncDTuWKcPm0noHBjLrhmJvnNsncopLwy1fjJ2pB4kMmA8aB8
+         nvVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690187101; x=1690791901;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O60fPOAssXaYU84SUVhc86x5wslybxkrfzPSk9g5enw=;
-        b=U8p9d/w7RxmV+94y9c55O3IprGDv3J6vgxwUblVwMtVFo/OMrYBtsOfsZsdjvGfUXe
-         1CC4nS7QrEcKVMHJ6xjEIRm0omYoEWZlyTujlKWP7UK1lYW99uBLAkPfC5crPJU0F4lz
-         +nS6om6cgZj5U+5b0Hq6/Efer11oD5z4iPCksjqDlAEQxs+URS95kkpl+p2A5mFKXrkV
-         A8SzSNylKKvn1EjhrplCwYxENRU1w6gahLcBhjOiWTFgQQ6Irr689yUiL/zQCAKsgyM5
-         rmPjdRnF+3SHBeilj6JZcEoPoRE4kQu5NcVewgIFCY4v54qd0fbi1g2qU0+QdeVFJ3jK
-         oVyA==
-X-Gm-Message-State: ABy/qLbDOSJULzhTSmYBRx814/p5cxmpbdI5Uswyv9nqMDdW0vDrdIVE
-	g2wzxQMCBziTX4fcYy96y9qgzg==
-X-Google-Smtp-Source: APBJJlHAX6Szm4huERS0pFUI9CseHv2FMCr2EN/AXYYgcvjGBp68zfM3x9eI6vjzTUC/eb/FH9DF+w==
-X-Received: by 2002:a1c:f201:0:b0:3fb:ac9c:e6f with SMTP id s1-20020a1cf201000000b003fbac9c0e6fmr6105181wmc.38.1690187101520;
-        Mon, 24 Jul 2023 01:25:01 -0700 (PDT)
-Received: from localhost ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
-        by smtp.gmail.com with ESMTPSA id m11-20020a05600c280b00b003fa968e9c27sm12148071wmb.9.2023.07.24.01.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 01:25:00 -0700 (PDT)
-Date: Mon, 24 Jul 2023 10:25:01 +0200
-From: Julien Stephan <jstephan@baylibre.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [RFC v2 0/2] Add bblock helper script
-Message-ID: <b7qoln53fio3pwdngj2god5iy7lemvh46pys43lfewimdyfgam@d2vfmfbti4q6>
-References: <20230721142543.246415-1-jstephan@baylibre.com>
- <CANNYZj8tCEDM51XrCgfUfMu0ExJqJEwQ7=vU+4e7vrRqdpsKCg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1690187804; x=1690792604;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H75c2mKxd2+RtntOyx0O2+1EH2mX9diqO14evm05EhE=;
+        b=lExC9Bc7RDQHPcQ1o7xAdeju40izc2PJFB8sggPgVedCIC5mJE9kiDXLnJr5BPvfjK
+         h+vrQAUR/KTbazbZY5EqSdLpZ3x9lvlRCL3ZhLtOk+3vYP9CA/SgliKrI4/U1xiokf8l
+         luG93hbjoIGfHPHnBBP8vjbvsueXE3DFLjOhd5gG6jkJZASGCKE8j0BPsXmNw+/H/24R
+         GECS3XBk0r2T5lE9wB+f3hUhzf6rJSx+1QmGnVnMHqwRFdsyUBa09F6a/WRUzcNgXJfg
+         XCdhjCNNm3iycwifBf+7kfMYYv61Nyyy6RqGiH1tMtqK6M/c4tV8Jrl5Mo+OBv4FiZuK
+         Gy9g==
+X-Gm-Message-State: ABy/qLbjyK3wZQHxZp68PMS07yZVQBLVKf7oyVKRMudr9o1dtZt1jZ2I
+	2X2mD0+sIZkLH5nq/SqTkOn0otjESHPayFYKxhA=
+X-Google-Smtp-Source: APBJJlEEn8XjTOctVnDZSgcJ0acnqvzuaz8ySPdIZcWloO0odECzyH+h0+7iTMKX1o/z70Q/OUL0TwVd0hiapKrJRv8=
+X-Received: by 2002:a2e:b168:0:b0:2b7:7b9:4767 with SMTP id
+ a8-20020a2eb168000000b002b707b94767mr6108374ljm.41.1690187799449; Mon, 24 Jul
+ 2023 01:36:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj8tCEDM51XrCgfUfMu0ExJqJEwQ7=vU+4e7vrRqdpsKCg@mail.gmail.com>
+References: <20230721142543.246415-1-jstephan@baylibre.com>
+ <CANNYZj8tCEDM51XrCgfUfMu0ExJqJEwQ7=vU+4e7vrRqdpsKCg@mail.gmail.com> <b7qoln53fio3pwdngj2god5iy7lemvh46pys43lfewimdyfgam@d2vfmfbti4q6>
+In-Reply-To: <b7qoln53fio3pwdngj2god5iy7lemvh46pys43lfewimdyfgam@d2vfmfbti4q6>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 24 Jul 2023 10:36:28 +0200
+Message-ID: <CANNYZj_4GRz3j20Mc5wow2fpgHyhoTRsuwnYyHe6yiwnQM-vvA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC v2 0/2] Add bblock helper script
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 08:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184779
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 08:36:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184780
 
-On Sun, Jul 23, 2023 at 02:11:14PM +0200, Alexander Kanavin wrote:
-> Thanks for working on this. Should we think about how this could be tested?
->
-> Alex
->
+On Mon, 24 Jul 2023 at 10:25, Julien Stephan <jstephan@baylibre.com> wrote:
+> > Thanks for working on this. Should we think about how this could be tested?
+> Do you mean we should consider addind self test for bblock? or you want
+> to discuss about acceptance criteria for bblock?
 
-Hi Alex,
+Hello,
+I mean mostly about what should be tested. How can we verify that the
+script does what it's supposed to, in an automated way, so it won't
+silently break as new changes to bitbake/oe-core are added? What
+should such a test contain?
+The specific form of tests (whether it's selftest, or maybe a part of
+SDK testing, or something else) is secondary.
 
-Do you mean we should consider addind self test for bblock? or you want
-to discuss about acceptance criteria for bblock?
-
-Cheers
-Julien
+Alex
 
