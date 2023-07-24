@@ -1,231 +1,178 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C721C001B0
-	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 01:39:58 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web10.38613.1690162796729034621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FDDC41513
+	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 02:33:48 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.39766.1690166024556210915
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Jul 2023 18:39:57 -0700
+ Sun, 23 Jul 2023 19:33:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=it0zK6Vu;
- spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690162796; x=1721698796;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=fFVrc6MuNwHrF1tK/igceMtJsb3DPrcIC+x8NdJuQhs=;
-  b=it0zK6VuoF/sx0fBFE+lkfAumtD5I3a368wwEsimnElxeylxRc77ZiZl
-   /pp9h3BG3W5tgzi4/vEDc+xWFfghrkdnXRnWo13h4iPQ9dAyBJplNPgPq
-   3r1t4GvEfnaPHzXtSTUv66fl+pOtu6gsywJ53Ubh89BHXpokUYvOgiplp
-   xpwEYMUvWAnrM2WWxUQKSSmwiNHE0mcfcJPw75C2p9c/UNFn4NMX8qSXe
-   8V3nZEYVjL0ZM+NkdsILB8FjBT/JjWM5FOfR66/Eg847Ck2dUxGwpuBbT
-   DcU9A8sxOFvOVIVyHHaa9Y7Skof8SgGVvlEFVF8HWcQOvWYB8BWUyKFOI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347611173"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="347611173"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 18:39:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="755123101"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="755123101"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga008.jf.intel.com with ESMTP; 23 Jul 2023 18:39:55 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sun, 23 Jul 2023 18:39:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sun, 23 Jul 2023 18:39:55 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Sun, 23 Jul 2023 18:39:55 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Sun, 23 Jul 2023 18:39:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FFwesKcG/aCj0PBinbVo9sqBoChOvsDSu+zQ5ksD70dzn05FidzBsOfP+9g7ZIZwFhiRuW7W7yfWlL/2wFkzspujcfabrfkB46t2xu2dZp+4HCcH9XJX+8ssmMXkJOPF0lVxS/Pdq4J81J9vbUTDZx+OsgOfZHcHCkRGdYrSMh7cmbm/SmuWmA8rg3IRZa0QSc3jqX7RBnKSx1i7Yk3hHjqQs01Mek04zSUA2kd6czSGCDmHWNR1h4bZFjyHA77ZvBNDRP25exqXF0OovxP3YVm9EIb/bACYyMAX0hjBtb6p1zovYAvKh5eFu8W+PhcIWJN/5aRzCU2wd95TeU3RxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y8SFlSxQx70LNeaHwONR3nt7WDoMnP8+9pNw7XzXJ48=;
- b=A9hmx14qLEmlstdz4XEAbGUe+k7y7+KYLkddCM6mB+VhuippgaMtV6KiccV6Tlio22vAUN7HSYxj0W3tdRWUAzuZe8pszTXt4qcXHttqpi2XKSYzYMfSoY7nLWD3KRD3vKnVoFLUUnTbvpHBrjBhb/wSTOuubtWkLGfF55d1XrtMj2vAJBrCNBAWaSeP1IIU3Ixh+UnndOp0FPSzdIfueM7+0iUBWqRvcU/dvlDnbIA0/U5xWibQ44Zo7Ihj5u2uGVtHOWa+mayJLs1sXmb1wZvdVdsojpSSKXdQphakaYMarxlfOCH2WMrl9sHPYDD5bhxp21mJvkHkxmbWopzSLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by PH7PR11MB6330.namprd11.prod.outlook.com (2603:10b6:510:1fe::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.31; Mon, 24 Jul
- 2023 01:39:47 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ff43:1c5b:4873:5b2]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ff43:1c5b:4873:5b2%7]) with mapi id 15.20.6609.031; Mon, 24 Jul 2023
- 01:39:47 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-3.1.27.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-3.1.27.rc1)
-Thread-Index: AQHZvbBfrOd1JmJ13EOoyHPRBAVAYa/II3wA
-Date: Mon, 24 Jul 2023 01:39:47 +0000
-Message-ID: <BY5PR11MB41525E23ECC50EE2109F4DF3A102A@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <0101018984bfb447-6fef57b5-dfcc-4b0a-9cb8-11dd75284d77-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018984bfb447-6fef57b5-dfcc-4b0a-9cb8-11dd75284d77-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|PH7PR11MB6330:EE_
-x-ms-office365-filtering-correlation-id: d2bcea68-7415-4633-8259-08db8be6dd4b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6gBM/gDe3EqU+V6BES6KWl06m2AkpE9VyTstukU8gTiog4lM2hzXxHImQ9VLBOMUxbrpsk1TFswYsOyiKYRdt0zoMeMngKEEiREVd+DhfWLt0RreQixR7VtGMem2dQGvR6LZ7xGukkAAza66uC1+lK1SF1PzeDWHLv/POhIYI9IpHevdl3D3pT4T4AhVHYmbll+CXDG39Tu0fBLRNmSFoXIbj5tOF/9bqCZAs9GbhKLx6Z7qF4QByXiBHdObC3SFkDKG++dLjSqJCq8l8PgAfDdJeOlLNId8Kfe1CqrrqQBj+DwQ/qHTlgSsJQFM3g2eCWb+gzBfrbTtVfTPKmBuqzKAuQCMSsi1pSaol1Ty0DCHHTUs5CXQmI2dEzwRrZIx2KHhrIzdXdqh9zVk8EC7vJdaNFCe3SBep+c6h0PQZKczQ6WLvovUEi7/Wb7nMAE7XF6XzNFMGzdIVUajbTMLlpVdzNrwzhrw3pzif+hVewKXKNGB2DprlxmpFxVO9nqCGLodceGeZcVAlCBdg+YDmCQaFg44EJ9ebHy45GJW7BNV+b20WZ7j/I9aBs8UjnMhlCcD+70aa1XPuWxunRlXJ4uyiSyg3Xs5B/c51rTDxZs4o4YxmiUR6Q6oVomyylExUvPDD0LVWRai75i6ZLEpTg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(366004)(396003)(136003)(376002)(39860400002)(451199021)(2906002)(64756008)(76116006)(66946007)(66446008)(66476007)(66556008)(71200400001)(478600001)(7696005)(9686003)(966005)(83380400001)(110136005)(86362001)(33656002)(186003)(82960400001)(122000001)(26005)(38070700005)(53546011)(6506007)(38100700002)(55016003)(5660300002)(52536014)(15650500001)(8936002)(41300700001)(8676002)(316002)(66899021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JRew0IJnoVAnc1zSU/QldggdWqKv8LziUzC9XoQHDVCeD+UMC36a/JO/uKVx?=
- =?us-ascii?Q?rdymqQuQFmM6b0H5tzWzCgnDZBpzwiZvcGMGsJmgapiAolDEVW/ep3tgN8to?=
- =?us-ascii?Q?oX9lqYBdgunSksQIHEaTXXVrhY1p7piam4O8Qi4ojP1YXpd4WmXfGFulGvec?=
- =?us-ascii?Q?EuMfRG9aLPIh1rWizt+viT/hVSv0V0jkZZeZN3JbY2g0TB2EYx/NY5kGTqtZ?=
- =?us-ascii?Q?TQyT8Cg8dIRJgDovSjt23R+AZzqy1hkue8BtVl++PnuLgxEqVm1QwHNCwSdH?=
- =?us-ascii?Q?8SlqQ8fIUKFlDhdf/UmKncJR18l1tV0uGARiYkhrDxIV2stihsfpv2jhbtcZ?=
- =?us-ascii?Q?oR5CtAEFqhVGrZsU/P2i1nXUNMp01l8pXW5hYJ0zgV1Xw0ITeZZQ10ygamyQ?=
- =?us-ascii?Q?CzEubuH6BBylPZ4g4lRSCXHMASheIKP2Z7Q0jQIvsiphLweWD1TGPNGTvuQI?=
- =?us-ascii?Q?GEbA4p2mTKas9iIKgTkLGtcUyfCh4ZsB7fqmsQPqOLuYRumu/CNv2jYIZL2h?=
- =?us-ascii?Q?tQcSYFAhBmF9p8Bl973PXT7wF+ZkgRKCAcy8wXyMGprpvHqOFPb9dd9Ho7Yh?=
- =?us-ascii?Q?R3987YRtc4G19b0qOp7R/tigzn4kbzwXOmcxxM+QJDWWCEjbiAIOD8SiodQT?=
- =?us-ascii?Q?OFniLTRlhzXxh9AUABYHxZyvdmx4kVz/SCOKGV5ME156jnEziGePrJID8IbE?=
- =?us-ascii?Q?9BV9l6dfHRgiLPWICIhfMd6Xf480Z/y5QYeXI9B8IMxiCOX9kuScEQYG6N2u?=
- =?us-ascii?Q?CaF6lgfENVAIwkAgtTEAlPw6Nyjksyz6Fc9H2kFIwnb7NFEM8rOgV1AXcU4H?=
- =?us-ascii?Q?QH256xTItVkfYqTPUcL6XA1Rq7FKOrBSG5X/sIFW3oo8psQJ07tKfgsKFODr?=
- =?us-ascii?Q?6SiHpRoAxhVrDnoWis52kvMwIlDZS0JwQ2U6XaMJ6ZB8fUIXvn89v8ps/6Nd?=
- =?us-ascii?Q?zPUNYHfCIJLxD+jNMsTG97R/kzQgOVB65iWKlGcgoxWZXhAL2hb8e2XF4NfH?=
- =?us-ascii?Q?rUWL1WQ2xBQU6+qkHlokSKDpYmSc/UF8NdwQ0f5NbIpXeMmbtvwzDSP053iD?=
- =?us-ascii?Q?MesLEUt+fpGtCtnwkz9yd2Y/E9u198XVGgSk7GgV/85+UTE6Ex8p9pvlyHYv?=
- =?us-ascii?Q?clasoE870ADjw6BO/jMia3bAm3/9Dj41K/FAPr1pkce5pjH3f2t7mBSCt4XB?=
- =?us-ascii?Q?GJXZBqimzsok+fMRCVgsg8Qji4xTPnaAfuUOfqBtI6ADUk3A7amm/c1WtDkC?=
- =?us-ascii?Q?Pi1cueU+YIss16qpwBisY0uJq0i3/aZ7rZ6rqPgbI+9vvnAyAt5lUqT5Fb25?=
- =?us-ascii?Q?DroMbF+Duy4bVqlEokaZqHoL+25p0CMFqazXMgr2KqkX7jcI67dkoHF/JTvF?=
- =?us-ascii?Q?Z45hMYn1VGn9nduxuFR1u4/W4ayKPhn2Gb+sWRsTeLA7oJd2iEnfw3Aty4V+?=
- =?us-ascii?Q?MUa8GDjU6uCQxPe49gD0dkbIgf8O85tDB/Ye5++0R63JhrkADjhHCd3SE9m/?=
- =?us-ascii?Q?+ZIq8H8za3KcspwdD3F6l6d978PZxQF8rMdtilpkchJ2gD30EbuXzYAk3X49?=
- =?us-ascii?Q?O8mZq3KtPdyq2XUCu+xiaeQmzWMrD2uyUButckfY?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=f26xBHmC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6687446eaccso3682239b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Jul 2023 19:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690166024; x=1690770824;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OMWdzChQD4oGPfaSSdkb8H5OQMQpCQg6q5UpPVqvY9s=;
+        b=f26xBHmC3Ukh0Ekc5MeQBi566KpyfFx+tx4b4ortgoF2P0KvMnS9hJp6PuOLZQxCbe
+         irNo3v/9nJHY09CnUHXZm343q8ODBjsqtGW5k/uBvE81df0kN/Y0L/WkVLyM9Knkg6E7
+         /gszf5sYdZVg5E+ZFoJiMT/frWpx1bQeH5u7hcZVBrxa6HF0EPbZUPt8JdW46uzVcKY9
+         TeMceIxfHzZlleMhp47wpPoisQx/tN//Qp4j4QJMnb8VO9tYRv3S8/Y1UqSl7t/MaFKj
+         8Stj9of+/qIZiEpZbORbhdhKwE9hRH84Mytk51TwbaH4s+GvR5p/7/Jxu0xbnjZmpl19
+         DlfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690166024; x=1690770824;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OMWdzChQD4oGPfaSSdkb8H5OQMQpCQg6q5UpPVqvY9s=;
+        b=C/wNzFmwpYfjk28FVyZYABNuGcwg6vKki9ylRxK3UbntVIvhSXsf+nsYoFKktktxih
+         upv6Cz2JTAJu12k9d0zjFDlgcvWtaR7iFXVBNClRS3mSE2A/5Ow1TR03M6Lolt9vtwWl
+         dRKFWhnU4LGe0vca+jS3sFM3oFgMYRpMocmSjPbnuKT6q1RPHieDdQp+FA0XTLUJ8t0l
+         GlGLnKmr4D84xrmzXk2xsCNdn0vcI8KFZnWd4k6bHU6NXll8ZPGa22oCvzr6vSHBigem
+         4ld7NSBTwu2h30fyNPh1UK/WEBgozUV6Xq8Li0L7GtjVnsf1+Fd2IoumPzsc3oIZ6E5g
+         Baxg==
+X-Gm-Message-State: ABy/qLZgdoRYDs4EiVq8ClC0uHIEk9ELGhRwSO1ejWMioELF9fq4Q0I3
+	F2y+D3kyPOwP16nZb5ZbXuDJouLb24agOm28uRi15Q==
+X-Google-Smtp-Source: APBJJlFTJYaiBZz1OzpK8LFZYjdYLNQXxFBQgqbkUdY11x2lsXw7VVHuU6A0Yx13GrVERkZExfjn1g==
+X-Received: by 2002:a05:6a00:170b:b0:686:2526:ee70 with SMTP id h11-20020a056a00170b00b006862526ee70mr10201072pfc.14.1690166023480;
+        Sun, 23 Jul 2023 19:33:43 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id j1-20020aa783c1000000b0063f00898245sm1024174pfn.146.2023.07.23.19.33.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 19:33:43 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 1/8] qemu: backport Debian patch to fix CVE-2023-0330
+Date: Sun, 23 Jul 2023 16:33:26 -1000
+Message-Id: <aae5bf06ad3c67386544f9da55aa21fbf32c3418.1690165924.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1690165924.git.steve@sakoman.com>
+References: <cover.1690165924.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2bcea68-7415-4633-8259-08db8be6dd4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2023 01:39:47.4335
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KSSGlRSShMeINX+sTd8BOplbZUqiqDhWJ6N82i4TU7Wva/7kKgpxXfgTCScfO2l6jDh01VqBag6182npW7EPAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6330
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 01:39:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184768
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 02:33:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184770
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-3.1.27.r=
-c1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Kaby Lake (7th Generation Intel(r) Core(tm) Processors)
-	3. Tiger Lake (11th Generation Intel(r) Core(tm) Processors)
-	4. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	5. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	6. Edgerouter
-	7. Beaglebone
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-=20
-ETA for completion next Tuesday, 1st of August 2023.
-=20
-Best regards,
-Jing Hui
+import patch from ubuntu to fix
+ CVE-2023-0330
 
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches?h=ubuntu/jammy-security
+Upstream commit https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Monday, July 24, 2023 5:55 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-3.1.27.rc1)
->=20
->=20
-> A build flagged for QA (yocto-3.1.27.rc1) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-3.1.27.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: b60c7085ec370473bea9b3b4b65826a17638837f
-> meta-agl: 583f80f8e9d085a98f1cbab3a9d8082503ab739e
-> meta-arm: b1fe8443a7a72c65fa0fc3371f607c6671b3a882
-> meta-aws: 9d29db04581d732313a5b17a84d1df004056e002
-> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
-> meta-intel: 488af577a3f21f038c551612bb0af077fa2b743d
-> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
-> meta-openembedded: b5282ece919f016d91a1043769676efb02b4f0fb
-> meta-virtualization: 521459bf588435e847d981657485bae8d6f003b5
-> oecore: ab6a0d053d910c3d50fcb06e9c2ca98430b673a4
-> poky: df86cc15d0a39d8d85747f7acc2c887cccfd9fa7
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#282): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/282
-> Mute This Topic: https://lists.yoctoproject.org/mt/100318994/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-0330.patch             | 75 +++++++++++++++++++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 7f2b52fa88..c6c6e49ebf 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -93,6 +93,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2022-4144.patch \
+            file://0001-hw-display-qxl-Have-qxl_log_command-Return-early-if-.patch \
+            file://0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
++           file://CVE-2023-0330.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+new file mode 100644
+index 0000000000..025075fd6d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+@@ -0,0 +1,75 @@
++[Ubuntu note: remove fuzz-lsi53c895a-test.c changes since the file does not
++ exist for this release]
++From b987718bbb1d0eabf95499b976212dd5f0120d75 Mon Sep 17 00:00:00 2001
++From: Thomas Huth <thuth@redhat.com>
++Date: Mon, 22 May 2023 11:10:11 +0200
++Subject: [PATCH] hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI
++ controller (CVE-2023-0330)
++
++We cannot use the generic reentrancy guard in the LSI code, so
++we have to manually prevent endless reentrancy here. The problematic
++lsi_execute_script() function has already a way to detect whether
++too many instructions have been executed - we just have to slightly
++change the logic here that it also takes into account if the function
++has been called too often in a reentrant way.
++
++The code in fuzz-lsi53c895a-test.c has been taken from an earlier
++patch by Mauro Matteo Cascella.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1563
++Message-Id: <20230522091011.1082574-1-thuth@redhat.com>
++Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
++Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Thomas Huth <thuth@redhat.com>
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/qemu/tree/debian/patches/CVE-2023-0330.patch?h=ubuntu/jammy-security
++Upstream commit https://gitlab.com/qemu-project/qemu/-/commit/b987718bbb1d0eabf95499b976212dd5f0120d75]
++CVE: CVE-2023-0330
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ hw/scsi/lsi53c895a.c               | 23 +++++++++++++++------
++ tests/qtest/fuzz-lsi53c895a-test.c | 33 ++++++++++++++++++++++++++++++
++ 2 files changed, 50 insertions(+), 6 deletions(-)
++
++--- qemu-6.2+dfsg.orig/hw/scsi/lsi53c895a.c
+++++ qemu-6.2+dfsg/hw/scsi/lsi53c895a.c
++@@ -1135,15 +1135,24 @@ static void lsi_execute_script(LSIState
++     uint32_t addr, addr_high;
++     int opcode;
++     int insn_processed = 0;
+++    static int reentrancy_level;
+++
+++    reentrancy_level++;
++ 
++     s->istat1 |= LSI_ISTAT1_SRUN;
++ again:
++-    if (++insn_processed > LSI_MAX_INSN) {
++-        /* Some windows drivers make the device spin waiting for a memory
++-           location to change.  If we have been executed a lot of code then
++-           assume this is the case and force an unexpected device disconnect.
++-           This is apparently sufficient to beat the drivers into submission.
++-         */
+++    /*
+++     * Some windows drivers make the device spin waiting for a memory location
+++     * to change. If we have executed more than LSI_MAX_INSN instructions then
+++     * assume this is the case and force an unexpected device disconnect. This
+++     * is apparently sufficient to beat the drivers into submission.
+++     *
+++     * Another issue (CVE-2023-0330) can occur if the script is programmed to
+++     * trigger itself again and again. Avoid this problem by stopping after
+++     * being called multiple times in a reentrant way (8 is an arbitrary value
+++     * which should be enough for all valid use cases).
+++     */
+++    if (++insn_processed > LSI_MAX_INSN || reentrancy_level > 8) {
++         if (!(s->sien0 & LSI_SIST0_UDC)) {
++             qemu_log_mask(LOG_GUEST_ERROR,
++                           "lsi_scsi: inf. loop with UDC masked");
++@@ -1597,6 +1606,8 @@ again:
++         }
++     }
++     trace_lsi_execute_script_stop();
+++
+++    reentrancy_level--;
++ }
++ 
++ static uint8_t lsi_reg_readb(LSIState *s, int offset)
+-- 
+2.34.1
 
 
