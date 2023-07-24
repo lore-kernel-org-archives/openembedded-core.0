@@ -1,88 +1,88 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8918C001B0
-	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 14:12:51 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.48033.1690207969618890129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C272C001B0
+	for <webhook@archiver.kernel.org>; Mon, 24 Jul 2023 15:00:02 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.49773.1690210793729137065
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jul 2023 07:12:50 -0700
+ Mon, 24 Jul 2023 07:59:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=nX6rvFE7;
- spf=pass (domain: linaro.org, ip: 209.85.208.45, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51de9c2bc77so6263116a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 07:12:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Q+m6aGdY;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-997c4107d62so658159066b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 07:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690207968; x=1690812768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k4ijDD4z2b2DcSQkHVL4Luq5NJOZdiM+Rkxy3hZO0VM=;
-        b=nX6rvFE7CRvHRLgtPqMEbjO78a2v/vuAxBE0Vfi50bnqpzh/nCgV/fIkbqJxmkCMPK
-         GpRcGKGj4hV7CeU1hEl9wWj9toTHkDrfbIDU9v54h1748HeZ4MHVA1YLZRAW+lXYPTK0
-         3L7DHuSYxNRaDN7BZ/UBmX/GlenEPvX+QoVm2tU+dCegEIg0DGGaCJ+Rav6nc9QSR7sa
-         XjBEP75exUqoEBEilNpq1cOgDOMuiEmWncF2FVcp6yQKzRv57w8jbrL8VCiPe7HkUWbS
-         dEsL0ds8xn/6u7hFO/nfMDXN0vgyDeuQiE10NEPyUj6O7rRaaAbSEgKPcQLU/ezKowAf
-         +4AA==
+        d=gmail.com; s=20221208; t=1690210792; x=1690815592;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HK9IYL+YrcvejWs6PHdUV2SoOW+ooJZEiLmICcU7JG8=;
+        b=Q+m6aGdYSyhsuSXv1M6BgnOjJhSpM9vxs8DEYphn+uv7ZtRxIY1SXYBlUOLdNv5MXe
+         kF4/zeMNiTWF4Dril1cNfR+eO4Gk7EKQ4sT1oz/FPE8H/5Vin085fKQxSZ16F1iLqEy/
+         7PIbyEOoPRdmQCpRQBWqayXmWN/w8IX5NlgNPbhdLw4tejnIJYiz4qouI1HRopHx+rWa
+         0IL3DbM4U3zWlCia9J2Lpb21/O/0tZnsg+4QP+iEbnJbeoFEkVuW3h96LmNHs1EEhT4a
+         x97GFEpGAisAh1zUPltW5IWdjslU035NsyuSrOdHHEf1JsJqV3+SK2WEy8d3EVvBpFIR
+         tSJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690207968; x=1690812768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k4ijDD4z2b2DcSQkHVL4Luq5NJOZdiM+Rkxy3hZO0VM=;
-        b=NNdh/MCYH+PpynXnYvxURWDH/fTQSzWtOddOTmEXQW9/028QKU0AquEd6/3MYG5N3w
-         WfwiT10rr3YVcNG3UOoK06IFu0uk7st3opbq3I0b1F4DyK6806OUugBTuaFBcuRh2HzG
-         9/y6v7zuXosRAFReFSWkFV7yMPHfRp60aW9cZnc8NSCeAF3IGd31EneP3fsasWsUg7+H
-         oJOsbNp5qz90yGq41VQfok5/QmcxWBvoKNQoPALqP4hcF5Ax/GEv7zMBYRjg90dJu3x+
-         dLuvvXtbbRc1/9tsLLqFnplcRrpm5SUWpX3oZunKPQ7GJbuB+Uotcg3DVoVjplcXE8Ro
-         gmQQ==
-X-Gm-Message-State: ABy/qLaSzsBdmvk9RtuqVyqcMHKB6KZiALTubpanr0M4xFwvMk2Lwi6v
-	n3oKbX6QNioFmiX4w2XnQMeQ8uYDcFA8W90aS4rHvIeh
-X-Google-Smtp-Source: APBJJlHTG/CxULEIdof20Edq1xohvJ1ECcLApaxMYyZ2xCJyc6kqI5vVGuVwNy8XY0grMM6iYAFrGA==
-X-Received: by 2002:a19:6549:0:b0:4fd:d92e:31ca with SMTP id c9-20020a196549000000b004fdd92e31camr4952569lfj.36.1690201879831;
-        Mon, 24 Jul 2023 05:31:19 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id b6-20020ac247e6000000b004fbf5242e86sm2178023lfp.228.2023.07.24.05.31.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 05:31:19 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kmscube: bump SRCREV to get offscreen rendering to work
-Date: Mon, 24 Jul 2023 15:31:17 +0300
-Message-Id: <20230724123117.1960113-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20221208; t=1690210792; x=1690815592;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HK9IYL+YrcvejWs6PHdUV2SoOW+ooJZEiLmICcU7JG8=;
+        b=PD+DWyzBLOf6t2pePZ7OYAPwQynf9j1ukbXFDzasNsuJNhwb6zweJomgxqUhmw8skJ
+         D1MF01LSlKNTwuAG4rsrAmsvtqsFeKl9WSVK/mKOwYWML9K60AhiaEENAIiUKsyHBBWA
+         5PkTeJSdbjcTHNvWZjETFRQI50dmROPUBZS3N3aSpDHNyZUPsZokijOMoMiZrmnrwXrv
+         7mWjHwxdGwceudZE7mbmCDKY7TDHcBpJxGyWL+viEwMdbgo9rHMkvI86hLGM1JJFSyW3
+         LfRjkDSnVTLLlfNvFlZpVs6eIB9Gvgya4YDW0AJL305n4ByIN1yWXFsY/JZLvN/ciKsT
+         jUgA==
+X-Gm-Message-State: ABy/qLbRAtJMlz6dmgrXHImBz0dYCjfrtgBdndRRTBH8NXKeIetMdAE2
+	OOs10jv4M30SBtJQ5R4buGk=
+X-Google-Smtp-Source: APBJJlGMY0cf4jTiaAngixu0HZxp+Wo5poQGkTKiLefTLbdCcxJuDVevwLu/uosJM/tsQq1CyYj1aA==
+X-Received: by 2002:a17:906:53d6:b0:982:caf9:126 with SMTP id p22-20020a17090653d600b00982caf90126mr10621877ejo.42.1690210792011;
+        Mon, 24 Jul 2023 07:59:52 -0700 (PDT)
+Received: from [192.168.2.52] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id w12-20020a17090633cc00b0099275c59bc9sm6808688eja.33.2023.07.24.07.59.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jul 2023 07:59:51 -0700 (PDT)
+Message-ID: <3040946c-5697-d6f5-567c-7bb85f8e0c49@gmail.com>
+Date: Mon, 24 Jul 2023 16:59:50 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [OE-core] [PATCH] rpm: Install and/or tweak rpm macros file to
+ make rpmbuild work
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Ross Burton <Ross.Burton@arm.com>
+References: <20230724123529.288581-1-zboszor@gmail.com>
+ <CANNYZj9FLbQxnbhd-Lzcr5GB3Ycf+35O1eADZ51EuVNg-eN33A@mail.gmail.com>
+ <CANNYZj8HRnoCSBax5VzHU+xU+=XqeS3gF_ys_jFzJYs2+MivwQ@mail.gmail.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj8HRnoCSBax5VzHU+xU+=XqeS3gF_ys_jFzJYs2+MivwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 14:12:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184793
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 15:00:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184794
 
-Newer kmscube added support for offscreen rendering, using render nodes.
-Bump up SRCREV to get this feature supported in oe-core.
+2023. 07. 24. 16:03 keltezéssel, Alexander Kanavin írta:
+> On Mon, 24 Jul 2023 at 16:02, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>>> +        sed -i \
+>>> +            -e "s:^%_lib\t.*$:%_lib\t${baselib}:" \
+>>> +            -e "s:^%_libdir\t.*$:%_libdir\t${libdir}:" \
+>>> +            ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux/macros
+>> Can this be refactored to avoid sed please? This is both difficult or
+>> impossible to understand, and is prone to silent regressions.
+> What I mean is, can the file be generated in the first place with the
+> correct values?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- meta/recipes-graphics/kmscube/kmscube_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'll rework it using a template file.
+Still, sed would be used, but in a more readable fashion.
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index ca76251d7ab3..b385ff7452df 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -10,8 +10,9 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
- 
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
- 
--SRCREV = "cf4ec7f35521eb54d72ce0c92ce65b2249171cbd"
-+SRCREV = "53ea71efe63470cf698726d983e9da5748a754a1"
- SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
-+
- UPSTREAM_CHECK_COMMITS = "1"
- 
- S = "${WORKDIR}/git"
--- 
-2.39.2
-
+Will this work for you?
 
