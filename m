@@ -2,95 +2,150 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80335C0015E
-	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 10:42:23 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.17354.1690281736024970871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 939E1C0015E
+	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 10:44:43 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.17377.1690281875968400967
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jul 2023 03:42:16 -0700
+ Tue, 25 Jul 2023 03:44:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=SwLYoMRw;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: zboszor@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-992f15c36fcso916652166b.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 03:42:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=j7Oad3QK;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9936b3d0286so936087366b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 03:44:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690281734; x=1690886534;
+        d=gmail.com; s=20221208; t=1690281874; x=1690886674;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=j3IeiGfbnaY+emrNh/VsUZ+z8yvCxnxWIfmDek4RSoY=;
-        b=SwLYoMRw8d7Y/jkUMse93RrCiT+7GxrlRmSlsUUS0W7g/WREXGY35fwFFW+SKMs25T
-         7r79ERrovXAaq8MT41w3MV1MWMB0OIgl8RnH4sSDzZtqqaVmcesuqwFpR5+8MnVUeJCk
-         hzTDChE3ndd68NCctwXR2J5kbSv2+f6sup7MuWrWjc5Sq9VOZAG5T1zOEKMjdm42mb8C
-         VdecqW/Zb4GgUSnfBbFFO/igRcV/kroLM+eDSKOJItjO5IPwezqPw0pgP8pRHfB6Jvxs
-         tb+L2FM7+LclQmGx9JgBtTJ+GDagvfHGhJmHXXR/RtmPgEnzvpjEMe53li5TH/ni8d51
-         UHVg==
+        bh=SsH8oHEi69vLL/1wFN4mmprtZUWPBzBWj1wMYfcdWZA=;
+        b=j7Oad3QKk98jGUfFrBftQg6OEAD/t/BUcH1Hx+uyv4AOCxA3U+meLlpH9TAH/4FeQH
+         ppSdvdSsh9QS41SV0ioIscKBjZrDQyw4k2jlydPFTX6rgNAU4t9jlhg8x69+Jt698OTx
+         t+iC2Uzs50WjiukLDwuN/UYceI2/jfF6GnwO4UqMVKImtPDhKQMv2wvGyb2lTF6oUHGV
+         SUV8o0OaeOPNb8lgVpuxfep2ScB9n3cLINU60IoDzHRbArLPZA6aXn23yewc3Jpx4Ozh
+         1MYxz8NuLJSEvD3j+Cf1aGxSJbwiK+Ud424pDuyUXkV560nSlEYIMn2OpolxSa2nsCaR
+         QO2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690281734; x=1690886534;
+        d=1e100.net; s=20221208; t=1690281874; x=1690886674;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j3IeiGfbnaY+emrNh/VsUZ+z8yvCxnxWIfmDek4RSoY=;
-        b=M8zE0n79YCbMFl8FRaJk3YzGILy72cwlLLNGjTXYqlgdA6cJZ8DtmH5ZBuJrArBdiF
-         pqFNFZtbwCLMkSoZLenfuj6wr4/df1Mf5Ko+WPmb+pqpIAwa+K39IPmjgH9s1dbLUK+g
-         4cc3Mz2svqIEIydk/U35MeKuNWdfIRy7Kmga5TKRH/gaJDdV8ZLw0J/TNtrqUqAmscVA
-         fTC9Vh+VQ+iRig98URMuj4QT8WHmueYu6hsDfQC4kDQm9xKUzQOrHobxTNUma1kMhkCG
-         clo2BUQJnnxQ4uQkNIhms56P24N2xOiGn52cA8RRLft6ZxmCUGXuNe+kHwDjGd8zEGya
-         KEYw==
-X-Gm-Message-State: ABy/qLbsU0UQYWnU1/sr9f4rH7uTpsAEOYpqSJChFe0nbXKkwQoxGn3B
-	YAE5dV/fagywIcBTLxrth6A=
-X-Google-Smtp-Source: APBJJlFN61f0NZXSA47onF8d9oY05Y3owksr8nWFiHrkt4K4EgqwqfQ4DcDTF1SjIRPLF3O0VgkEkg==
-X-Received: by 2002:a17:906:51de:b0:993:d97f:ae06 with SMTP id v30-20020a17090651de00b00993d97fae06mr12990978ejk.13.1690281734200;
-        Tue, 25 Jul 2023 03:42:14 -0700 (PDT)
+        bh=SsH8oHEi69vLL/1wFN4mmprtZUWPBzBWj1wMYfcdWZA=;
+        b=VoCmILVdFyK7qL3ppo4gA7LfioNBv9IQwUNjVlg2+CmnhT0u6wUncBmZwUVIQ73X9J
+         PaeXBEAgXiKjahER8c3/9TmVr2jUDUhjrUFt1xnlgCJQBUwX1tFH51aUnSuGYyTjYBHe
+         Ewxx4eiAEyOGDasPu8xV1p9pKLhnsnGH5uFvJmbJIC4zDpy/vFO2S9kVoW7nFb+wfhQ/
+         INt04tv9hw4xkhoTWo0gcJP2l8gvloPN41mPRgY1UCMWbFVyOGbuc3UEzRjRqZmLLHM1
+         mm9zN51KplrVNVjvfH5PmRKgtRlDfZidKcotqdU9RMcBo841jWXJWN+ndtl0gs+g82H3
+         ntNA==
+X-Gm-Message-State: ABy/qLbPbOvwFI6R5Bv3u7cIvK2Ecwl+ExXNagWz7knr2tG82A0qQaXU
+	ju4lYBusNEn5GXq4xh3sn2c=
+X-Google-Smtp-Source: APBJJlGgBm5X88CmEvioJc8dwghpsA4F4VzIPJgo3nuJZ6z5QEbosZ+N9std3iq/gP4z4n7Vb1nTQQ==
+X-Received: by 2002:a17:906:9bcc:b0:991:f7cb:cc3d with SMTP id de12-20020a1709069bcc00b00991f7cbcc3dmr12346709ejc.65.1690281874026;
+        Tue, 25 Jul 2023 03:44:34 -0700 (PDT)
 Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id rv14-20020a17090710ce00b0099b921de301sm3290972ejb.159.2023.07.25.03.42.13
+        by smtp.gmail.com with ESMTPSA id c11-20020a170906924b00b0098e34446464sm7984214ejx.25.2023.07.25.03.44.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 03:42:13 -0700 (PDT)
-Message-ID: <ab87d8d1-2f07-8d90-1379-f152a3101d07@gmail.com>
-Date: Tue, 25 Jul 2023 12:42:12 +0200
+        Tue, 25 Jul 2023 03:44:33 -0700 (PDT)
+Message-ID: <7c327500-2f9b-796f-cf58-b2ee09dda8d2@gmail.com>
+Date: Tue, 25 Jul 2023 12:44:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [OE-core] [PATCH] rpm: Install and/or tweak rpm macros file to
  make rpmbuild work
 Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Ross Burton <Ross.Burton@arm.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Ross Burton <Ross.Burton@arm.com>
 References: <20230724123529.288581-1-zboszor@gmail.com>
- <CANNYZj9FLbQxnbhd-Lzcr5GB3Ycf+35O1eADZ51EuVNg-eN33A@mail.gmail.com>
- <CANNYZj8HRnoCSBax5VzHU+xU+=XqeS3gF_ys_jFzJYs2+MivwQ@mail.gmail.com>
- <3040946c-5697-d6f5-567c-7bb85f8e0c49@gmail.com>
- <CANNYZj__RUD=T7qgBpAmNs5K9Qf1hgFkjeqnsm_04yAQJkxQow@mail.gmail.com>
- <79529556-5b85-c8b5-1145-177c741f9da4@gmail.com>
- <CANNYZj92V90ADfPLOwT2QEkm9JyE4aDWM7SFCPO6JpFVbE7xqw@mail.gmail.com>
+ <0a32f2ba6a3d55a160423da13ffc3e3f30a1e02a.camel@linuxfoundation.org>
+ <b000bd79-9788-5345-eaee-b50f27d2fe45@gmail.com>
+ <fdd49f8d5f6bbf5814b9b27a400f16d367ced3ae.camel@linuxfoundation.org>
+ <ec544384-9953-5448-1cd0-35d5385409f5@gmail.com>
+ <594e2d0f34266070c7b257ac150d9d48d54c23d1.camel@linuxfoundation.org>
 From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj92V90ADfPLOwT2QEkm9JyE4aDWM7SFCPO6JpFVbE7xqw@mail.gmail.com>
+In-Reply-To: <594e2d0f34266070c7b257ac150d9d48d54c23d1.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 10:42:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184835
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 10:44:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184836
 
-2023. 07. 25. 12:30 keltezéssel, Alexander Kanavin írta:
-> On Tue, 25 Jul 2023 at 12:27, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> I have a working recipe change based on
->> https://github.com/rpm-software-management/rpm/pull/2579 (for 4.18.x)
->> https://github.com/rpm-software-management/rpm/pull/2580 (for 4.19.x)
+2023. 07. 25. 12:29 keltezéssel, Richard Purdie írta:
+> On Tue, 2023-07-25 at 12:24 +0200, Böszörményi Zoltán wrote:
+>> 2023. 07. 24. 22:16 keltezéssel, Richard Purdie írta:
+>>> On Mon, 2023-07-24 at 20:13 +0200, Böszörményi Zoltán wrote:
+>>>> 2023. 07. 24. 17:59 keltezéssel, Richard Purdie írta:
+>>>>> On Mon, 2023-07-24 at 14:35 +0200, Zoltan Boszormenyi wrote:
+>>>>>> Some BSP architecture builds (e.g. genericx86-64 or anything from
+>>>>>> meta-intel) don't have their /usr/lib/rpm/platform/<arch>-linux
+>>>>>> directories. This causes rpmbuild fail on the target machine.
+>>>>>>
+>>>>>> Use ${SDK_ARCH}-linux as the base arch which likely exists in
+>>>>>> /usr/lib/rpm/platform and clone it as ${MACHINE_ARCH}-linux.
+>>>>>>
+>>>>>> Also, fix %_lib and %_libdir in the new cloned platform directory
+>>>>>> to use ${baselib} and ${libdir} so the RPM package contents will
+>>>>>> be correct for library packages.
+>>>>>>
+>>>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>>>>>> ---
+>>>>>>     meta/recipes-devtools/rpm/rpm_4.18.1.bb | 13 +++++++++++++
+>>>>>>     1 file changed, 13 insertions(+)
+>>>>>>
+>>>>>> diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+>>>>>> index 95a9e92f96..21f0127561 100644
+>>>>>> --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+>>>>>> +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+>>>>>> @@ -131,7 +131,20 @@ do_install:append:class-nativesdk() {
+>>>>>>     # Rpm's make install creates var/tmp which clashes with base-files packaging
+>>>>>>     do_install:append:class-target() {
+>>>>>>         rm -rf ${D}/var
+>>>>>> +
+>>>>>> +    if [ -d "${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-linux" ]; then
+>>>>>> +        if [ ! -d ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux ]; then
+>>>>>> +            cp -r ${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-linux ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux
+>>>>>> +        fi
+>>>>>> +    fi
+>>>>> SDK_ARCH should not be referenced outside of nativesdk recipes. This
+>>>>> reference is almost certainly incorrect as it would make the target
+>>>>> recipe dependent on the value of SDKMACHINE.
+>>>> Please advise what setting should be used instead.
+>>>>
+>>>> MACHINE_ARCH is what ends up in /etc/rpm/platform.
+>>>> TARGET_ARCH is not available in Honister but SDK_ARCH is.
+>>>>
+>>>> Suggest a common setting that can be used in both older and
+>>>> newer Yocto versions that has the base arch name and is
+>>>> usable for target builds.
+>>> I'm afraid I don't understand the problem you're running into from your
+>>> description so I don't know how to answer that. TARGET_ARCH has been
+>>> around in OE for many years so I'd be surprised it is unavailable in
+>>> honister though.
+>> I usually verify variable settings via "bitbake -e packagename"
+>> and what I can see is that this:
 >>
->> I will send it soon.
-> I'd want to see what rpm upstream says. Maybe we're doing the whole
-> platform macro thing wrongly.
+>> bitbake -e rpm >rpm-vars.txt 2>&1
+>> grep TARGET_ARCH rpm-vars.txt
+>>
+>> shows TRANSLATED_TARGET_ARCH on Honister with TARGET_ARCH missing.
+>> Can I still use TARGET_ARCH in the rpm recipe on this old Yocto version?
+> In honister there is this:
+>
+> $ grep TARGET_ARCH.*export * -R
+> meta/conf/bitbake.conf:# Make sure TARGET_ARCH isn't exported
+> meta/conf/bitbake.conf:TARGET_ARCH[unexport] = "1"
+>
+> which is why it doesn't show up in bitbake -e, the variable does exist
+> though.
 
-Hm. Maybe using the BSP name as the platform name is the problem.
+Thanks!
 
-FWIW, on Fedora, there is no /etc/rpm/platform and binary
-packages simply use .x86_64.rpm or .i686.rpm suffixes.
-
-Apparently, rpmbuild can deduce the platform without help.
-After removing /etc/rpm/platform, rpmbuild will generate
-an .x86_64.rpm for me.
+>
+> Cheers,
+>
+> Richard
 
 
