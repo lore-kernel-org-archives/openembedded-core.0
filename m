@@ -1,228 +1,264 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BBE3EB64DD
-	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 05:53:22 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.14383.1690264399496090482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D588EB64DD
+	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 06:23:52 +0000 (UTC)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web10.14648.1690266227196141276
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jul 2023 22:53:19 -0700
+ Mon, 24 Jul 2023 23:23:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=NAAHuta0;
- spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690264399; x=1721800399;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=4nRLPEhvLTKOhB/JAB2P683VWC2r9kUlNQhQ53KKguc=;
-  b=NAAHuta0hS3zG9c6vsBjWCTxM3hJtZJ0gOX54aI9c3Sync4OWRKRURBH
-   VSA+4B9+5eIgdqGLbKw75l7cAnWzD/mZcIDDLFyje0W42eyq1HhtlnHUe
-   AKwtlJbKBCccKPX6sgiubNekbS3cjY4AJzXJy1weEz0Nsafd4a//Pdalc
-   admJTA8Sfm4rIUfoCPgn8749fP6b1rsfDHwmz/eX+6j/ylrcv6Yev5rPI
-   NVPZDocDByU8mZNPOTdTZ5pHJkc1U6gZWux3omQ99mCWuyS7UCi/xZmdU
-   dXa5WGrM8pfRXttdXPhJhlo2b2mYSj29zUn0Rsl3IageEUC+jhy+EsoEF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="370294571"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="370294571"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 22:53:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="791242462"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="791242462"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2023 22:53:18 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 22:53:18 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 22:53:17 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 24 Jul 2023 22:53:17 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 24 Jul 2023 22:53:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QtHYZggexrRFG+yHQDWwamhVIzqe+5jgseLpAWAadwcm340q7Ylgxmif3tFnt5edObSx7Xj3xlJhXq/gz+ZpM8FoUKOoPV4h6t72kT9CaTWHIS4SA2LTvZcTYTKBrD5Kq1ZDhkwhmF1UeeDKyn/FREAa1e/Df7u83hglsuo/g+3nanB69tRgd++Kb2POMy+N3IFV1C1KE3L53bGLOWLa1mVs50S1gW38c/85Hj31+RuIqRlZMBiKgiyRb+vaaajmYKTl1+Mj9uoOUEfCI7n7ziLBEUyTa7di9t2QfuM2eiRT7te9gOADjMEbCRkKsuLMJaoM0yWJlRi30wu6ao2chg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gg4CqzlMnVJ/FrJ0DlPMxZkKrM2XPi7p1GXU/v/Aem4=;
- b=CWEIJuhwNcfgL2Kcq1eQ5gIKYAR2rZAYrn4z3MzwwSAVOz7dxCD3l5xf1l4JkocEdy9YmYJreFo0upQ0FJ9swq96y3rbM2EHCcyQORPIie/p+WYIdKvJ1ZkJS0yFdVeQ+iHBtA8pyY8PGgutbHLi0JD016dZPP1dzGwAANQEO+3RBF0Abd35Rp2oLCWdI/Wuy3Y/ecvXBFqoSnXqMHvRMRWaMba4jZUNpHyNpdF4G1MTgRvs3vkt8QEntXYINEwfPgTte6f97i/YQA4R4w6lwxkjT9xHNFYmW5zL71o1l/QmdXAbZDLrv249yBKPMa+TMYarPteXVN0QuXl08L3NIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by DM4PR11MB5392.namprd11.prod.outlook.com (2603:10b6:5:397::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Tue, 25 Jul
- 2023 05:53:16 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ff43:1c5b:4873:5b2]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::ff43:1c5b:4873:5b2%7]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
- 05:53:16 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.3_M2.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.3_M2.rc1)
-Thread-Index: AQHZuviTSN81SNj3uUqS1VHMKqq2Pa/J7x3Q
-Date: Tue, 25 Jul 2023 05:53:15 +0000
-Message-ID: <BY5PR11MB415236B238C49B4BDC9B2E81A103A@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <0101018972ef9bb6-13d574f0-6c64-42aa-9666-4166acbb6a36-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018972ef9bb6-13d574f0-6c64-42aa-9666-4166acbb6a36-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DM4PR11MB5392:EE_
-x-ms-office365-filtering-correlation-id: 6f35bebb-17bc-45f1-f566-08db8cd370ae
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2rJijIbbzKeltx3NeqEszRom7hr8Y9vw2kkMAqTEzsSOPUNPtH5Cl4QtFpAbML682eADbOgyaPnakZW9mcEDPcrjt41OeiQ9kJeMQ1KKnshBivXh9EWWswy1t3lh1XXr93sszRSaZ1IlhuB/9NLVzckKcCGT+d4Rax4yDVJ+b+hgKzTlLctW0z+XUHtH3MoeDHjWglSixbu6WYKJUJwhY1l+Ycy4h4PNCOTgu1c8ocH7GeL17WrbrMZAxhSErx9WxC1aM1Qi2oSsJHCFsExj9nQTrhXiczbmYOk2hTIA+FP7NQbnjbMFgxyiQGB2ZEChGRieWVzTzv6eGPPE69pKdgodzOr1hvwLVqjX7XokX10wtuxPBpy1zxoJxUKqoEH+T1/LEPJ3u/N6RuMAVaUwy8Ku2NS99B3BYnoWAzYyHyBuFaTv5TU5AzdKyh6mJ7S6Ev+JYkzm7gCmSuJrnjawP5ZcKphaltJXxx21WtkLFgspSpESnnWsZnoLKL99yJwTyNgtDbO/OULxuw9CtsA3DZjADSv+hrXogVCxWABuf/oAJo6/MklOl7uakGcEJdNBGgBxappaHRT11gqxjSbNDaRgimkEuGmTNeEg29TdIh4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(136003)(376002)(396003)(39860400002)(346002)(451199021)(66899021)(110136005)(478600001)(186003)(55016003)(71200400001)(7696005)(53546011)(52536014)(5660300002)(8936002)(6506007)(38070700005)(33656002)(966005)(9686003)(26005)(2906002)(15650500001)(83380400001)(64756008)(76116006)(122000001)(66446008)(82960400001)(66476007)(38100700002)(41300700001)(8676002)(86362001)(316002)(66556008)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UCx/+mrEZajO49fRX+bEim9KLzEZx2ir5QYhC/FuwyJhU5+TJwhJrn2mvKs2?=
- =?us-ascii?Q?DdCdiLwT+HwlvfO6+9L2a2YDiq+r18VoAZt6UUdRgrnLqFmrVeQyYydSbFBs?=
- =?us-ascii?Q?GifalYxa1OTJxJW5WJSS07hAYUbrvhxNMTj933L72sHvtb81Wu2DRoupj6OS?=
- =?us-ascii?Q?KF4qvEOa5A4PNOibcr4wZDNZS3W6iKUnFb0l+QgS+08s2UoMs9V5QEMQpZl2?=
- =?us-ascii?Q?MqXyhDYl3NYec+IAmQDHNh+hAnJofE0gsNlPpCfwXlwa/FM+ORcGQZ+/yKya?=
- =?us-ascii?Q?VXFSCpQ6zgnvsGi48/geNommugm3wzdfelsM4NVY/Ay+t6W8S4N9eHgEu0+B?=
- =?us-ascii?Q?ztC27AJs1l27cvs5RFP1DhBcNQb21AKOQpVvzP/JrpDdH9BE2Cp6C256RVYi?=
- =?us-ascii?Q?UBk3DZ1EEklIwVgF8+h55N44zKXC6KW25DIQh+l1j4v6tglU6ApFNC0Xpcjx?=
- =?us-ascii?Q?JGrq+tPT/+THnzkkjbh6Ssp4AEltdrmNR3vDW+NIg81NnUi0TFfBEmC7KyPo?=
- =?us-ascii?Q?Vy895RfKQQDB0t5gPE5zjLg8YLS/hKdpE5g191+XEgiy5oFipNIc1jLHCIRV?=
- =?us-ascii?Q?Aiq8/7culEupw6mVRKnFcW9p+5QE5MOCJpMg/XhYincBAe5EEBJkSBU3MX+V?=
- =?us-ascii?Q?KWcNlEKK7Y8iek2E6eU/XH/AEOxsyy4LjVHuXFfE8tlnUPhvNwXGq3R5KXor?=
- =?us-ascii?Q?/Kq2yerJqURRpNZafjWPxlFqyUdSaNM7/hQ5hGPiCr01xMSnPO2cAnBIQ6iM?=
- =?us-ascii?Q?oP4Scr5mM/B7nU+xArZiW4YqXQJgHD68lAwd2UbZDNz8gWO8vvQWeeCxp2ey?=
- =?us-ascii?Q?mdUxZWH5/kt8JHPKsjONOttyErn+fZ1+x6oy1MbMNj+/ZUi/TohXmQzFPAA4?=
- =?us-ascii?Q?WtLXyMMTtKnafeIjDq/CSYWYtrO24bqxq0Vay55EC+gAsLyRh7z4J7I5lxJB?=
- =?us-ascii?Q?SXOPEMlVtL56f7Y1cEYAVRfUe0IGzkvau6O5JCKExhiqNkSfdn1bp/iWdbov?=
- =?us-ascii?Q?UTpCGD+mS1m9QRnGMwibpW1ieDpeeRhvoH2UsevVPyhKVJdhu5ndNwZpIvWW?=
- =?us-ascii?Q?/BozRvesHgJFKiPOCkLPrJQioSnSlVVKKLqG5dgvIF5CmFGZYXSGWsQxzBPE?=
- =?us-ascii?Q?bErTlyvtF1xddYyM8a6BLkwQit0BbeoxvVPP1AkZnWt+nR70aNxIJTI03cc/?=
- =?us-ascii?Q?uhO72VFlJwFI0yqceLUfDAVUmP9LuJzb4N2j7E/Zx90KyJDmHiGiBt1arna7?=
- =?us-ascii?Q?vlBpSgbIxJdhygZZ41Au92+7b3wGAzwr9+tv/zLmnVZ1cLAwKEtQ984q2zwv?=
- =?us-ascii?Q?VPq0x70H9GaOwX9MklAbStR8skCu1R38qla5bstR6LQby+n2vKoOrpuVUCXP?=
- =?us-ascii?Q?L2gLQUGBHsfRodVADd99e91V7LlPwRA737Wyy8PLKIaB6qolMddDufdgtZLb?=
- =?us-ascii?Q?pMhsWUXm3RwQXJoTyUE/bWLXAj9n+ltcqizl+22wdLvMHB8rWAr3h8DUr8qH?=
- =?us-ascii?Q?/z52n+BkRaSAm2T2pixrpfRe84hxU048KJDTa9RFwU/4WU43eRZrwAWrWmoE?=
- =?us-ascii?Q?MOawOnx1Oofw2f8dEIwoUk3MWxAZx4ocWKVI+p/T?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=e7qrRLo0;
+ spf=pass (domain: mvista.com, ip: 209.85.167.170, mailfrom: hprajapati@mvista.com)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3a36b309524so3899139b6e.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Jul 2023 23:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1690266226; x=1690871026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d1rxhj7UL9ldLxAPKK6Wjeqq4UgGizuGhaZHsCq9Af0=;
+        b=e7qrRLo0FUGWkovwsfQrG1N50qqJtopt0TYxMltIbvOf/5XapGen1Xg/RXMBXY69UL
+         IGbDm7ezY8hEicITfSwLA+jMXscH5SqL65M6pQI+Kr5zP4vIe3FhHNbSEyWzf8D6UlCf
+         mD0y6vqubRhuBlM0cn0YgbBUyuVczzfCKdUQE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690266226; x=1690871026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d1rxhj7UL9ldLxAPKK6Wjeqq4UgGizuGhaZHsCq9Af0=;
+        b=jGyA2c2im/YHIpYBYfBdHIeXS/Ij713K+kWnY3xoiF1xr9petXPU8kwblns/wXMQwa
+         Ffli1jpIypiKnOL8mKvWzghkTTNwQNhC5SfCkZcqPybHSpPr+J+THIpBc/DdbwU4ShBm
+         KDDpd5AjIOS6wLcNOgYFtISYyLZOILiaeeS2a6FpC4E2p4FLIxx7uAD7wlBRMxLRWMNz
+         yfyrIK8H1rYlvnxo60JSwYOG2RUG2bhsAZ/Y1SLB+8DSbq8/2yWW5l35W70/1etsnFpY
+         KPzuetBGwqDlljnQ0nsbB+q+10wlCMic7VakU+P3fFHQWs1GtzKzUil5wVHbPahKgOUi
+         Ilng==
+X-Gm-Message-State: ABy/qLZ9rPWkJVrg1cWGDVcoaOg4mtJPgoOhj3cgAn+nuKkvO5aW0rau
+	6keyOUsU726t2Hd0jvBETm8c4RfgC/tPacR0FFi6sQ==
+X-Google-Smtp-Source: APBJJlE+s1fgFp/ahgJ68D0hLzPQ3vUHac38lfN2ULHyjkCuMC1arAmbCp3fGaKW2ICsLOKuUNZsfw==
+X-Received: by 2002:a05:6808:1292:b0:3a3:61df:da with SMTP id a18-20020a056808129200b003a361df00damr15072323oiw.53.1690266226201;
+        Mon, 24 Jul 2023 23:23:46 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.172])
+        by smtp.gmail.com with ESMTPSA id n1-20020a17090a670100b002630bfd35b0sm9005278pjj.7.2023.07.24.23.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 23:23:45 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Tue, 25 Jul 2023 11:53:40 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] tiff: fix multiple CVEs
+Date: Tue, 25 Jul 2023 11:53:38 +0530
+Message-Id: <20230725062338.41007-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f35bebb-17bc-45f1-f566-08db8cd370ae
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2023 05:53:15.9218
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HwmdAwAjlHMixDEK1QHv3ND9X7D0Q1xV5eo9ZKSVjPX1a4kyYPMxMZ9JhxD9vFxXKTpNKQTUIt2mInNZRPLKOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5392
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 05:53:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184821
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 06:23:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184822
 
-Hi All,
-=20
-QA for yocto-4.3_M2.rc1 is completed. This is the full report for this rele=
-ase: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
+Bug-Debian: https://bugs.debian.org/1031632
+Origin: https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68
 
-One issue observed in this release:
+import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u7.debian.tar.xz
 
-Bug 15170 - [4.3 M2 RC1] segfault for createrepo_c on beaglebone and qemuar=
-m
+fix multiple CVEs:
 
-=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15170=20
+CVE-2023-0795
+CVE-2023-0796
+CVE-2023-0797
+CVE-2023-0798
+CVE-2023-0799
 
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../CVE-2023-0795_0796_0797_0798_0799.patch   | 162 ++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
+ 2 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
 
-
-Thanks,
-Jing Hui
-
-
-
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Thursday, July 20, 2023 6:54 PM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.3_M2.rc1)
->=20
->=20
->     A build flagged for QA (yocto-4.3_M2.rc1) was completed on the
-> autobuilder and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-4.3_M2.rc1
->=20
->=20
->     Build hash information:
->=20
->     bitbake: 64bc00a46d1aacc23fe7e8d9a46a126f3a4bc318
-> meta-agl: f1bb0ee68b18a39917e06bfbb08d677bbf8bdf25
-> meta-arm: e67d9c4dbc892ef688ff960d68e02627fc99bb53
-> meta-aws: 2b834db25df1dd90e2b05f89cf1ddf3790bfc220
-> meta-intel: f96c815a14dab58abce5d4ce69e8fa76c9f6de3a
-> meta-mingw: 4608d0bb7e47c52b8f6e9be259bfb1716fda9fd6
-> meta-openembedded: d57c4655623a7271dc93cfb741ffdbf1b511a5c2
-> meta-virtualization: 680f56d9e432c0cb7de41fe50610f218bf53ba1f
-> oecore: 8bb047ad3bd93fcf655eeec53e6d1de1e7747140
-> poky: f73ae292bc0b92df3cb76c6e8b220f18630f6bc7
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#279): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/279
-> Mute This Topic: https://lists.yoctoproject.org/mt/100253237/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
+new file mode 100644
+index 0000000000..498d5ec8ab
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
+@@ -0,0 +1,162 @@
++From 7808740e100ba30ffb791044f3b14dec3e85ed6f Mon Sep 17 00:00:00 2001
++From: Markus Koschany <apo@debian.org>
++Date: Tue, 21 Feb 2023 14:26:43 +0100
++Subject: [PATCH] CVE-2023-0795
++
++This is also the fix for CVE-2023-0796, CVE-2023-0797, CVE-2023-0798,
++CVE-2023-0799.
++
++Bug-Debian: https://bugs.debian.org/1031632
++Origin: https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68
++
++Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u7.debian.tar.xz ]
++CVE: CVE-2023-0795 CVE-2023-0796 CVE-2023-0797 CVE-2023-0798 CVE-2023-0799
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 51 ++++++++++++++++++++++++++++--------------------
++ 1 file changed, 30 insertions(+), 21 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index adf0f84..deba170 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -269,7 +269,6 @@ struct  region {
++   uint32_t width;     /* width in pixels */
++   uint32_t length;    /* length in pixels */
++   uint32_t buffsize;  /* size of buffer needed to hold the cropped region */
++-  unsigned char *buffptr; /* address of start of the region */
++ };
++ 
++ /* Cropping parameters from command line and image data 
++@@ -524,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
++ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
++                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
++ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
++-                       unsigned char **);
+++                       unsigned char **, int);
++ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++                        unsigned char *);
++ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++@@ -5219,7 +5218,6 @@ initCropMasks (struct crop_mask *cps)
++      cps->regionlist[i].width = 0;
++      cps->regionlist[i].length = 0;
++      cps->regionlist[i].buffsize = 0;
++-     cps->regionlist[i].buffptr = NULL;
++      cps->zonelist[i].position = 0;
++      cps->zonelist[i].total = 0;
++      }
++@@ -6511,8 +6509,13 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++                  (uint16_t) (image->adjustments & ROTATE_ANY));
++       return (-1);
++       }
++- 
++-    if (rotateImage(rotation, image, &image->width, &image->length, work_buff_ptr))
+++
+++      /* Dummy variable in order not to switch two times the
+++       * image->width,->length within rotateImage(),
+++       * but switch xres, yres there. */
+++      uint32_t width = image->width;
+++      uint32_t length = image->length;
+++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
++       {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++@@ -6580,7 +6583,6 @@ extractCompositeRegions(struct image_data *image,  struct crop_mask *crop,
++     /* These should not be needed for composite images */
++     crop->regionlist[i].width = crop_width;
++     crop->regionlist[i].length = crop_length;
++-    crop->regionlist[i].buffptr = crop_buff;
++ 
++     src_rowsize = ((img_width * bps * spp) + 7) / 8;
++     dst_rowsize = (((crop_width * bps * count) + 7) / 8);
++@@ -6817,7 +6819,6 @@ extractSeparateRegion(struct image_data *image,  struct crop_mask *crop,
++ 
++   crop->regionlist[region].width = crop_width;
++   crop->regionlist[region].length = crop_length;
++-  crop->regionlist[region].buffptr = crop_buff;
++ 
++   src = read_buff;
++   dst = crop_buff;
++@@ -7695,7 +7696,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++       {
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff))
+++                      &crop->combined_length, &crop_buff, FALSE))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
++@@ -7805,7 +7806,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++            * ToDo: Therefore rotateImage() and its usage has to be reworked (e.g. like mirrorImage()) !!
++            */
++ 	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
++-			&crop->regionlist[i].length, &crop_buff))
+++			&crop->regionlist[i].length, &crop_buff, FALSE))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
++@@ -7937,7 +7938,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr))
+++                    &crop->combined_length, crop_buff_ptr, TRUE))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
++@@ -8600,7 +8601,7 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
++ /* Rotate an image by a multiple of 90 degrees clockwise */
++ static int
++ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++-            uint32_t *img_length, unsigned char **ibuff_ptr)
+++            uint32_t *img_length, unsigned char **ibuff_ptr, int rot_image_params)
++   {
++   int      shift_width;
++   uint32_t   bytes_per_pixel, bytes_per_sample;
++@@ -8791,11 +8792,15 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++ 
++               *img_width = length;
++               *img_length = width;
++-              image->width = length;
++-              image->length = width;
++-              res_temp = image->xres;
++-              image->xres = image->yres;
++-              image->yres = res_temp;
+++            /* Only toggle image parameters if whole input image is rotated. */
+++            if (rot_image_params)
+++            {
+++                image->width = length;
+++                image->length = width;
+++                res_temp = image->xres;
+++                image->xres = image->yres;
+++                image->yres = res_temp;
+++            }
++ 	      break;
++ 
++     case 270: if ((bps % 8) == 0) /* byte aligned data */
++@@ -8868,11 +8873,15 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++ 
++               *img_width = length;
++               *img_length = width;
++-              image->width = length;
++-              image->length = width;
++-              res_temp = image->xres;
++-              image->xres = image->yres;
++-              image->yres = res_temp;
+++            /* Only toggle image parameters if whole input image is rotated. */
+++            if (rot_image_params)
+++            {
+++                image->width = length;
+++                image->length = width;
+++                res_temp = image->xres;
+++                image->xres = image->yres;
+++                image->yres = res_temp;
+++            }
++               break;
++     default:
++               break;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 4bd485a10a..2be25756bc 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-tiffcrop-subroutines-require-a-larger-buffer-fixes-2.patch \
+            file://CVE-2022-48281.patch \
+            file://CVE-2023-0800_0801_0802_0803_0804.patch \
++           file://CVE-2023-0795_0796_0797_0798_0799.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+-- 
+2.25.1
 
 
