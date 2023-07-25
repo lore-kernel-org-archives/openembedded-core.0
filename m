@@ -1,123 +1,151 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B248C0015E
-	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 10:28:43 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.17091.1690280913537001976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A32C0015E
+	for <webhook@archiver.kernel.org>; Tue, 25 Jul 2023 10:29:43 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.17210.1690280980736147312
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jul 2023 03:28:33 -0700
+ Tue, 25 Jul 2023 03:29:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=od5vZlf1;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fdd515cebcso8211806e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 03:28:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wf/4rBsj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31438512cafso4876098f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 03:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690280912; x=1690885712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W1luiBYNA5CL+n9v0hCwTG7lMQPh7hoyDhXUqA/v2yU=;
-        b=od5vZlf1rEMARnDPreIgaQqfBwmiy3thMi8xpI+IZ4dGudY3OfZYrTK45Sxw5UCkpm
-         5JiXdFLPmzIr/UuXwlknsmuUfr5PI3V2efcCGWjyTvg9gEjyRHHgBtS4wSfA7WaTYcB+
-         45OJ6/1M/VT7YQ6ZA8Lgylx5oZ2wG5oCU/MMLGOFK0CY9PjnyJKrhzI+c48zkeodIRP0
-         MjUXCy/zHLwortjElz9HD/S+8Ext/WnnYkneBVauw7J9aC20lxiYCrF2yw/m2nDePlNw
-         MOapXiP6ydgfpLrMYzwzcV/KVkd4rZWtw4X9F3L8S5Z25cP/LjifH9YxKZCsXGOIGlAn
-         PE2Q==
+        d=linuxfoundation.org; s=google; t=1690280979; x=1690885779;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jGSwRLCG8JNVW0pxjNXOO3W1PoqwMNXonMZHrYDJ/Vg=;
+        b=Wf/4rBsjH1XxiUQbc/V12ddiC7VA4ce5/uKVkYhadIMAfpdjcv6UKWwOLS+YSQDMIv
+         omkw9k1Kduej3mfVykfgYgqYWlJMQ1c55u/104vg+xJgZdf40SM4xPhWzjKn49Jg9bGt
+         K+kevB4knQGVtuDPsFYX4pExe28VEPVgnw9dg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690280912; x=1690885712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W1luiBYNA5CL+n9v0hCwTG7lMQPh7hoyDhXUqA/v2yU=;
-        b=V4m4I5EF6RjngmJzeJ/VZJTJPOho0yJIm8XNmGcOxXQCX1Z/djGjM6/VAvtVlLsTqN
-         AD6KYGdnX5d9wwcB66Ja+WcVzyduKgfdL8v4esb6UDZ51xmnZG9GUCG3kAqcz4Mwr8wY
-         BT0p96Mi6DfDTUsGoB7nMJrY9f8J6KoJOLBvkZWND8uCp5N4NAnjnnsTeToQynAD96Eb
-         DV4XZGqUfrW6s1uwa3St6Mq0cJLF9OBpeGBp7DLn3BgM4kCre3WN7B+m598bQF2yTxqW
-         X2DNkf1dKwUtw0s1D2Mdm92jDXI6S8KqO0xoSIPHbWKsR1cHYn5qDBVZk3IL1Q15Kt9k
-         Jmdw==
-X-Gm-Message-State: ABy/qLYqI8kQsEVV5BC3EoId/tNi2AXNusmZd1maUYLTHklOBbkPT++1
-	ulk0+wcevozjQXNFdgZfIde6JVqNxWLB8WjGfAw=
-X-Google-Smtp-Source: APBJJlH24TqChZwT/GVmcV+IV3vzXIobXLZ1uYEJOy9q5VQgxXdOCQjAiGInVvYr7h8bhpQa4SjtuIjK0ZtuLcoqsMU=
-X-Received: by 2002:a05:6512:1284:b0:4f8:5e65:b61b with SMTP id
- u4-20020a056512128400b004f85e65b61bmr8333089lfs.65.1690280911460; Tue, 25 Jul
- 2023 03:28:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230724204639.353571-1-p.lobacz@welotec.com> <VI1PR04MB537371C2BED481FEDB533DB89102A@VI1PR04MB5373.eurprd04.prod.outlook.com>
- <20230725092837d3f47a0f@mail.local> <177512EFFC81235D.7114@lists.openembedded.org>
- <VI1PR04MB537367B15795A2E226290F849103A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-In-Reply-To: <VI1PR04MB537367B15795A2E226290F849103A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 25 Jul 2023 12:28:19 +0200
-Message-ID: <CANNYZj-g=pozvQ_+PNh-qCTNkU4DX1M0hKhs4L9EnmxCBAU-FA@mail.gmail.com>
-Subject: Re: ODP: [OE-Core][PATCH v10][master-next 1/5] package_ipk.bbclass:
- add support for ACLs and xattr
-To: =?UTF-8?Q?Piotr_=C5=81obacz?= <p.lobacz@welotec.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1690280979; x=1690885779;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jGSwRLCG8JNVW0pxjNXOO3W1PoqwMNXonMZHrYDJ/Vg=;
+        b=LiKGLVRnrzgvUQ0G3w4ZJtUSbryBqoWhBrqJ3cD98yZ2UeVTWVX2pAKh1FH/M/RKlL
+         Ar8Ji88XVB2gCSMCrmLLcioQG12UWXahJzlFm5AEHOCqY7cZ8e1/shEIsrkB9hPBXa+D
+         Kb4e9ULyfnVfBWft27KDHJeohM/+Gi4XUMdV5AUHodjgTxjVy06ds8M+NQs26LggGWUd
+         T1gs7yb6ZIWroES2AAKTGC8W7IebgrgZfqWdMvzxohB10z+KFiS3eJh/yOaZ4rDB8dDG
+         BLRAXRnXr31++ExQ7/DoXoZvr8o0AfsmGhF1M6rNRDS2iCNaoTBTSKAmgIekVjHvLbPB
+         9EuQ==
+X-Gm-Message-State: ABy/qLatTNYBewuc30+QryJgvprqQHDm0FJjRP3KD/X9mw5EjIKFVHor
+	6HTfTvq4IIT+HJMzy3VkT+BwVw==
+X-Google-Smtp-Source: APBJJlG90wR6g/e4p21tNghskUxfZ12v5ReVcxPuPEMfPxscjl1BS6wlWMMlSKr/5MVcW8AFyfrs2g==
+X-Received: by 2002:a5d:5965:0:b0:317:3a18:df26 with SMTP id e37-20020a5d5965000000b003173a18df26mr7696389wri.39.1690280978919;
+        Tue, 25 Jul 2023 03:29:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:42df:c474:f29d:a4f9? ([2001:8b0:aba:5f3c:42df:c474:f29d:a4f9])
+        by smtp.gmail.com with ESMTPSA id t15-20020a5d49cf000000b003143765e207sm15931980wrs.49.2023.07.25.03.29.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 03:29:38 -0700 (PDT)
+Message-ID: <594e2d0f34266070c7b257ac150d9d48d54c23d1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rpm: Install and/or tweak rpm macros file to
+ make rpmbuild work
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?B=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Ross Burton <Ross.Burton@arm.com>
+Date: Tue, 25 Jul 2023 11:29:37 +0100
+In-Reply-To: <ec544384-9953-5448-1cd0-35d5385409f5@gmail.com>
+References: <20230724123529.288581-1-zboszor@gmail.com>
+	 <0a32f2ba6a3d55a160423da13ffc3e3f30a1e02a.camel@linuxfoundation.org>
+	 <b000bd79-9788-5345-eaee-b50f27d2fe45@gmail.com>
+	 <fdd49f8d5f6bbf5814b9b27a400f16d367ced3ae.camel@linuxfoundation.org>
+	 <ec544384-9953-5448-1cd0-35d5385409f5@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 10:28:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184832
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 10:29:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184833
 
-On Tue, 25 Jul 2023 at 11:58, Piotr =C5=81obacz <p.lobacz@welotec.com> wrot=
-e:
->
-> Yeah, I have just checked it for acpid-src packages and diffoscope worked=
- without any errors.
->
-> Question, is this test being run with acl or/and xattr? Because from what=
- I remember it was not. Can you check?
-> If this will confirm, then something is still wrong with the gnu format, =
-because right now all posix - meaning with acl/xattr support - packages are=
- working for me.
+On Tue, 2023-07-25 at 12:24 +0200, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n w=
+rote:
+> 2023. 07. 24. 22:16 keltez=C3=A9ssel, Richard Purdie =C3=ADrta:
+> > On Mon, 2023-07-24 at 20:13 +0200, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=
+=A1n wrote:
+> > > 2023. 07. 24. 17:59 keltez=C3=A9ssel, Richard Purdie =C3=ADrta:
+> > > > On Mon, 2023-07-24 at 14:35 +0200, Zoltan Boszormenyi wrote:
+> > > > > Some BSP architecture builds (e.g. genericx86-64 or anything from
+> > > > > meta-intel) don't have their /usr/lib/rpm/platform/<arch>-linux
+> > > > > directories. This causes rpmbuild fail on the target machine.
+> > > > >=20
+> > > > > Use ${SDK_ARCH}-linux as the base arch which likely exists in
+> > > > > /usr/lib/rpm/platform and clone it as ${MACHINE_ARCH}-linux.
+> > > > >=20
+> > > > > Also, fix %_lib and %_libdir in the new cloned platform directory
+> > > > > to use ${baselib} and ${libdir} so the RPM package contents will
+> > > > > be correct for library packages.
+> > > > >=20
+> > > > > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gm=
+ail.com>
+> > > > > ---
+> > > > >    meta/recipes-devtools/rpm/rpm_4.18.1.bb | 13 +++++++++++++
+> > > > >    1 file changed, 13 insertions(+)
+> > > > >=20
+> > > > > diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recip=
+es-devtools/rpm/rpm_4.18.1.bb
+> > > > > index 95a9e92f96..21f0127561 100644
+> > > > > --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+> > > > > +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+> > > > > @@ -131,7 +131,20 @@ do_install:append:class-nativesdk() {
+> > > > >    # Rpm's make install creates var/tmp which clashes with base-f=
+iles packaging
+> > > > >    do_install:append:class-target() {
+> > > > >        rm -rf ${D}/var
+> > > > > +
+> > > > > +    if [ -d "${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-linux" ]=
+; then
+> > > > > +        if [ ! -d ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}=
+-linux ]; then
+> > > > > +            cp -r ${D}${prefix}/lib/rpm/platform/${SDK_ARCH}-lin=
+ux ${D}${prefix}/lib/rpm/platform/${MACHINE_ARCH}-linux
+> > > > > +        fi
+> > > > > +    fi
+> > > > SDK_ARCH should not be referenced outside of nativesdk recipes. Thi=
+s
+> > > > reference is almost certainly incorrect as it would make the target
+> > > > recipe dependent on the value of SDKMACHINE.
+> > > Please advise what setting should be used instead.
+> > >=20
+> > > MACHINE_ARCH is what ends up in /etc/rpm/platform.
+> > > TARGET_ARCH is not available in Honister but SDK_ARCH is.
+> > >=20
+> > > Suggest a common setting that can be used in both older and
+> > > newer Yocto versions that has the base arch name and is
+> > > usable for target builds.
+> > I'm afraid I don't understand the problem you're running into from your
+> > description so I don't know how to answer that. TARGET_ARCH has been
+> > around in OE for many years so I'd be surprised it is unavailable in
+> > honister though.
+>=20
+> I usually verify variable settings via "bitbake -e packagename"
+> and what I can see is that this:
+>=20
+> bitbake -e rpm >rpm-vars.txt 2>&1
+> grep TARGET_ARCH rpm-vars.txt
+>=20
+> shows TRANSLATED_TARGET_ARCH on Honister with TARGET_ARCH missing.
+> Can I still use TARGET_ARCH in the rpm recipe on this old Yocto version?
 
-Hello Piotr,
+In honister there is this:
 
-may I suggest: you need to learn to reproduce the autobuilder failures
-locally. Integrators are stretched very thin, they juggle a ton of
-patches (other than the ones you want to get in), and the expectation
-is that when they tell you something fails, it is on you to do further
-investigation. Here's how you do it:
+$ grep TARGET_ARCH.*export * -R
+meta/conf/bitbake.conf:# Make sure TARGET_ARCH isn't exported
+meta/conf/bitbake.conf:TARGET_ARCH[unexport] =3D "1"
 
-- start by finding the failed build in the list of their definitions:
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
-You can see that it's this one:
+which is why it doesn't show up in bitbake -e, the variable does exist
+though.
 
-        "reproducible" : {
-            "MACHINE" : "qemux86-64",
-            "SDKMACHINE" : "x86_64",
-            "step1" : {
-                "shortname" : "Reproducible Selftest",
-                "EXTRACMDS" : ["${SCRIPTSDIR}/checkvnc;
-OEQA_DEBUGGING_SAVED_OUTPUT=3D${BASE_SHAREDDIR}/pub/repro-fail/
-DISPLAY=3D:1 oe-selftest -r reproducible"],
-                "ADDLAYER" : ["${BUILDDIR}/../meta-selftest"]
+Cheers,
 
-            }
-
-What that means is you need to set up a plain poky build (no extra
-layers, no custom configs specific to your organization), then run
-'oe-selftest -r reproducible'. That is however a heavy test as it
-builds everything, so we need to narrow it down to just the failing
-pieces.
-
-- the failure log shows that reproducibility is tested via
-meta/lib/oeqa/selftest/cases/reproducible.py. If you open that file,
-you can see OEQA_REPRODUCIBLE_TEST_TARGET narrows down the targets
-used to test reproducibility, and you can also set
-OEQA_REPRODUCIBLE_TEST_PACKAGE similarly.
-
-- now you can run oe-selftest -r reproducible. Once it finishes and
-confirms the failure, head to build-st/reproducibleA and
-build-st/reproducibleB, to see where the difference first appears.
-
-You can also replicate reproducibility test by manually setting up two
-different build directories with identical configs.
-
-Alex
+Richard
 
