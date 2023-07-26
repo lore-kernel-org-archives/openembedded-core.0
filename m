@@ -1,251 +1,301 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DF9C001DC
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 13:13:50 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.10662.1690377226129381287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC05C001B0
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 14:34:20 +0000 (UTC)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web10.12780.1690382051572447231
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jul 2023 06:13:46 -0700
+ Wed, 26 Jul 2023 07:34:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=bVtDs1Fi;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-51ff0e3d8c1so9614111a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 06:13:45 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=JsxraAoP;
+ spf=pass (domain: mvista.com, ip: 209.85.161.43, mailfrom: vkumbhar@mvista.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-56368c40e8eso4194623eaf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 07:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690377224; x=1690982024;
+        d=mvista.com; s=google; t=1690382050; x=1690986850;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bTTmEOvj2sC4GI/rBoI5w/oKxssBB+JPNGv9ghDoywc=;
-        b=bVtDs1FiE38asSpXExadopWm9mv3AQdMF9pR2mz3eG6KaEI+7iZ5HYlhEtZ2POi780
-         I9YKIWWtjcCDjLY80o9081LokvdnUkyXZ8IhNkZNovqX/mDwGeqKER6pt2IGJTp5ZtlW
-         l4OYM+Ls0/GrbvBnislLjAmYxF39ASVfPYQVQVwMPIAsjQqCSVkdJxlk9Z4zMT8OtxWL
-         zun7Xp68ap/qFKyB48X20Mk+k8qS/wP1AVS24HikYwO51a6hvVgnSHJ5FU5CTYNgu4dY
-         hylir09RqR9Cyvx99oBRRlG8Xvj/7AsnKJZklIARSc4F8gpMfnPXQVk8yeVcjNcfx6k/
-         ekrA==
+        bh=+xsiB1jGiry+bgwV3qX8RyqT5x4nqXZN3hWe8wFT16U=;
+        b=JsxraAoP+sh1wApKLVQfzs7wubMlM7npFoFQbEvvlT5FjFZsq4C/Cp3iTqSAPQNgwY
+         mY21EhaO5VMUNRYXCY4e7/INwfKYdrtgiVnwj/dwBxdbYeTE+HpeAOKU2v9iQhNyFK9X
+         NzveeUK5aYUaPXCaDdDAzEh3WmROmHdhUsKig=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690377224; x=1690982024;
+        d=1e100.net; s=20221208; t=1690382050; x=1690986850;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bTTmEOvj2sC4GI/rBoI5w/oKxssBB+JPNGv9ghDoywc=;
-        b=BnxUiv5boFOw9hEAEYYDjm7bHETq5zF1K/MKJt7wjhUntGRqu9Vj9NpLzZZUrTjKvL
-         k3tAQm2I81ujkT1jYoPHa56avl6vT7jctVzw6g+3/wYyYuaXFJRlCo5RSn7qfB4VXnjw
-         /wgWoYs2sxjeXfWRfSblYqZ5JvSkI+wHivw0nzkzIY7Dpu8UAIYkGoPmd7jUMuiACghf
-         aS6I9+NUBFJ5Janw2RbjtwSc7PQUXvueTkzIhNjRnUtx26SNRPfLexss0gBqSNjUGkfM
-         vBGdeUqHxWEgf8Z+Hc0T9JzlSD5lZga+6yU3RLDyOdv4Edl24+dpwZ62xTYzpyaBwJT9
-         KY2w==
-X-Gm-Message-State: ABy/qLYre4QqoTZjGWrDMF6xWXTxYpVfixKi1i3Rd+Rh0qyjxQKG9TTs
-	U9p7whyJNuaIGQBcGRjfmGe2xCdZZ2o=
-X-Google-Smtp-Source: APBJJlHapNch5Qznav47OCWDwmK3TWtA0SH6eFwUvCEipV9lkmyB0KhPSKNLp5AZTf3wBhC6PEZTVg==
-X-Received: by 2002:a17:906:18:b0:992:a9ba:b8da with SMTP id 24-20020a170906001800b00992a9bab8damr1637654eja.70.1690377224061;
-        Wed, 26 Jul 2023 06:13:44 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id jj27-20020a170907985b00b0099b7276235esm7678964ejc.93.2023.07.26.06.13.43
+        bh=+xsiB1jGiry+bgwV3qX8RyqT5x4nqXZN3hWe8wFT16U=;
+        b=gWt7i956uYby2BUHv35WYocriL51MT/ab5PGjI3ZAWQZGa5v82Lf1LHHWJo95pjnhj
+         9ajCFcrihYCPcEqwpZLuhLXcU+baE7vjLM/j4q7bR0nuaBDgyAHTzdHxMKQNWjBvwdPK
+         Hy4g68wtTjVBwFa5wM0xH/+WwC/UIevWeGz34lseopdUhjw0yxhvnAxCX73pfdi0mTbi
+         GaxDjmqKNzq+kHQHfr4ZRAxoQGk/VkbeIex9jUAayFBNfb6TUUgNTpDYDKbG2iNmNpsI
+         Qv3v26qBCY6Ibrod72ux/4cA+PkxsGXBoV1p4F4KDUh1DQnl7Uvx5hXt80hf7ocCnGDV
+         Agsw==
+X-Gm-Message-State: ABy/qLaxdcNCrI9VqacMTJYPtH7uodqkPLZyxrqt5Gxp/cM/DKJPUgk6
+	K2iLnMrUDgaQ4AZn3uAlF1BJiK7rorWrB7a3jVc=
+X-Google-Smtp-Source: APBJJlGMlYG6DeLlathpnHp0PjbilpcXWQZwEVwQBlf7cZrImJ6ajVBKvMWr7u5aemnNqmnvHaWMHg==
+X-Received: by 2002:a05:6358:7f04:b0:131:b4c:b871 with SMTP id p4-20020a0563587f0400b001310b4cb871mr2184003rwn.22.1690382050106;
+        Wed, 26 Jul 2023 07:34:10 -0700 (PDT)
+Received: from vkumbhar-Latitude-3400.mvista.com ([115.96.166.134])
+        by smtp.googlemail.com with ESMTPSA id a20-20020a637f14000000b0055fedbf1938sm6603397pgd.31.2023.07.26.07.34.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 06:13:43 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Wed, 26 Jul 2023 07:34:09 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [kirkstone][PATCH] libxcrypt: fix build with perl-5.38 and use master branch
-Date: Wed, 26 Jul 2023 15:13:31 +0200
-Message-ID: <20230726131331.2239727-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] go: fix CVE-2023-29406 net/http: insufficient sanitization of Host header
+Date: Wed, 26 Jul 2023 20:03:52 +0530
+Message-Id: <20230726143352.2707128-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 13:13:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184884
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 14:34:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184885
 
-* fixes do_configure failure:
-  checking whether all ucontext.h functions are available... yes
-  when is deprecated at libxcrypt/4.4.30-r0/git/build-aux/scripts/BuildCommon.pm line 522.
-  Compilation failed in require at ../git/build-aux/scripts/expand-selected-hashes line 28.
-  BEGIN failed--compilation aborted at ../git/build-aux/scripts/expand-selected-hashes line 28.
-  configure: error: bad value 'all' for --enable-hashes
-  NOTE: The following config.log files may provide further information.
-
-* with this patch backported it works OK:
-  libxcrypt/4.4.30-r0/git $ perl build-aux/scripts/expand-selected-hashes
-  usage: expand-selected-hashes hashes.conf names,of,selected,hashes
-
-* similarly do_compile failure:
-  ../git/build-aux/scripts/move-if-change crypt-hashes.h.T crypt-hashes.h
-  ../git/build-aux/scripts/move-if-change crypt-symbol-vers.h.T crypt-symbol-vers.h
-  given is deprecated at ../git/build-aux/scripts/gen-crypt-h line 41.
-  Makefile:3818: Makefile.deps: No such file or directory
-  make: *** [Makefile:3715: crypt.h.stamp] Error 255
-
-* also use master branch instead of develop, the SRCREV exists in both
-  but stable metadata branches should track stable component branches
-
-  libxcrypt/4.4.30-r0/git $ git branch -a --contains d7fe1ac04c326dba7e0440868889d1dccb41a175 | tee
-  * develop
-    remotes/origin/HEAD -> origin/develop
-    remotes/origin/develop
-    remotes/origin/master
-
-  and oe-core master also uses master SRCBRANCH since:
-  https://git.openembedded.org/openembedded-core/commit/?id=d18e89bd2b46c6e266cc39dbe9fdb6c032f5f1fe
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- ...ommon.pm-compatible-with-latest-perl.patch | 50 +++++++++++++++
- ...ve-smartmatch-usage-from-gen-crypt-h.patch | 62 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  7 ++-
- 3 files changed, 117 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch
- create mode 100644 meta/recipes-core/libxcrypt/files/0002-Remove-smartmatch-usage-from-gen-crypt-h.patch
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2023-29406.patch           | 212 ++++++++++++++++++
+ 2 files changed, 213 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
 
-diff --git a/meta/recipes-core/libxcrypt/files/0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch b/meta/recipes-core/libxcrypt/files/0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 33b53b1a34..b2cf805d2d 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -68,6 +68,7 @@ SRC_URI += "\
+     file://CVE-2023-29402.patch \
+     file://CVE-2023-29404.patch \
+     file://CVE-2023-29400.patch \
++    file://CVE-2023-29406.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
 new file mode 100644
-index 0000000000..b3e43d5815
+index 0000000000..080def4682
 --- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch
-@@ -0,0 +1,50 @@
-+From c3ec04f1aee68970b82e4b033bee1477e76798f9 Mon Sep 17 00:00:00 2001
-+From: Leon Timmermans <fawaka@gmail.com>
-+Date: Tue, 6 Jun 2023 17:03:57 +0200
-+Subject: [PATCH] Make BuildCommon.pm compatible with latest perl
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
+@@ -0,0 +1,212 @@
++From 5fa6923b1ea891400153d04ddf1545e23b40041b Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Wed, 28 Jun 2023 13:20:08 -0700
++Subject: [PATCH] [release-branch.go1.19] net/http: validate Host header before
++ sending
 +
-+It was previously using an experimental feature that has since been dropped.
-+This removes the use of that feature.
++Verify that the Host header we send is valid.
++Avoids surprising behavior such as a Host of "go.dev\r\nX-Evil:oops"
++adding an X-Evil header to HTTP/1 requests.
 +
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Upstream-Status: Backport [v4.4.35 https://github.com/besser82/libxcrypt/commit/ce562f4d33dc090fcd8f6ea1af3ba32cdc2b3c9c]
++Add a test, skip the test for HTTP/2. HTTP/2 is not vulnerable to
++header injection in the way HTTP/1 is, but x/net/http2 doesn't validate
++the header and will go into a retry loop when the server rejects it.
++CL 506995 adds the necessary validation to x/net/http2.
++
++Updates #60374
++Fixes #61075
++For CVE-2023-29406
++
++Change-Id: I05cb6866a9bead043101954dfded199258c6dd04
++Reviewed-on: https://go-review.googlesource.com/c/go/+/506996
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Damien Neil <dneil@google.com>
++(cherry picked from commit 499458f7ca04087958987a33c2703c3ef03e27e2)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/507358
++Run-TryBot: Tatiana Bradley <tatianabradley@google.com>
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/5fa6923b1ea891400153d04ddf1545e23b40041b]
++CVE: CVE-2023-29406
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ build-aux/scripts/BuildCommon.pm | 9 ++++-----
-+ 1 file changed, 4 insertions(+), 5 deletions(-)
++ src/net/http/http_test.go      | 29 ---------------------
++ src/net/http/request.go        | 47 ++++++++--------------------------
++ src/net/http/request_test.go   | 11 ++------
++ src/net/http/transport_test.go | 18 +++++++++++++
++ 4 files changed, 31 insertions(+), 74 deletions(-)
 +
-+diff --git a/build-aux/scripts/BuildCommon.pm b/build-aux/scripts/BuildCommon.pm
-+index 0e6f2a3..c38ba21 100644
-+--- a/build-aux/scripts/BuildCommon.pm
-++++ b/build-aux/scripts/BuildCommon.pm
-+@@ -11,7 +11,6 @@ use v5.14;    # implicit use strict, use feature ':5.14'
-+ use warnings FATAL => 'all';
-+ use utf8;
-+ use open qw(:utf8);
-+-no  if $] >= 5.018, warnings => 'experimental::smartmatch';
-+ no  if $] >= 5.022, warnings => 'experimental::re_strict';
-+ use if $] >= 5.022, re       => 'strict';
-+ 
-+@@ -519,19 +518,19 @@ sub parse_symver_args {
-+     my $COMPAT_ABI;
-+     local $_;
-+     for (@args) {
-+-        when (/^SYMVER_MIN=(.+)$/) {
-++        if (/^SYMVER_MIN=(.+)$/) {
-+             $usage_error->() if defined $SYMVER_MIN;
-+             $SYMVER_MIN = $1;
-+         }
-+-        when (/^SYMVER_FLOOR=(.+)$/) {
-++        elsif (/^SYMVER_FLOOR=(.+)$/) {
-+             $usage_error->() if defined $SYMVER_FLOOR;
-+             $SYMVER_FLOOR = $1;
-+         }
-+-        when (/^COMPAT_ABI=(.+)$/) {
-++        elsif (/^COMPAT_ABI=(.+)$/) {
-+             $usage_error->() if defined $COMPAT_ABI;
-+             $COMPAT_ABI = $1;
-+         }
-+-        default {
-++        else {
-+             $usage_error->() if defined $map_in;
-+             $map_in = $_;
-+         }
-diff --git a/meta/recipes-core/libxcrypt/files/0002-Remove-smartmatch-usage-from-gen-crypt-h.patch b/meta/recipes-core/libxcrypt/files/0002-Remove-smartmatch-usage-from-gen-crypt-h.patch
-new file mode 100644
-index 0000000000..603f52f792
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0002-Remove-smartmatch-usage-from-gen-crypt-h.patch
-@@ -0,0 +1,62 @@
-+From 95d6e03ae37f4ec948474d111105bbdd2938aba2 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
-+Date: Sun, 25 Jun 2023 01:35:08 +0200
-+Subject: [PATCH] Remove smartmatch usage from gen-crypt-h
++diff --git a/src/net/http/http_test.go b/src/net/http/http_test.go
++index f4ea52d..ea38cb4 100644
++--- a/src/net/http/http_test.go
+++++ b/src/net/http/http_test.go
++@@ -49,35 +49,6 @@ func TestForeachHeaderElement(t *testing.T) {
++	}
++ }
 +
-+Needed for Perl 5.38
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Upstream-Status: Backport [v4.4.36 https://github.com/besser82/libxcrypt/commit/95d6e03ae37f4ec948474d111105bbdd2938aba2]
-+---
-+ build-aux/scripts/gen-crypt-h | 31 ++++++++++++++-----------------
-+ 1 file changed, 14 insertions(+), 17 deletions(-)
-+
-+diff --git a/build-aux/scripts/gen-crypt-h b/build-aux/scripts/gen-crypt-h
-+index 12aecf6..b113b79 100644
-+--- a/build-aux/scripts/gen-crypt-h
-++++ b/build-aux/scripts/gen-crypt-h
-+@@ -12,7 +12,6 @@ use v5.14;    # implicit use strict, use feature ':5.14'
-+ use warnings FATAL => 'all';
-+ use utf8;
-+ use open qw(:std :utf8);
-+-no  if $] >= 5.018, warnings => 'experimental::smartmatch';
-+ no  if $] >= 5.022, warnings => 'experimental::re_strict';
-+ use if $] >= 5.022, re       => 'strict';
-+ 
-+@@ -37,22 +36,20 @@ sub process_config_h {
-+     local $_;
-+     while (<$fh>) {
-+         chomp;
-+-        # Yes, 'given $_' is really required here.
-+-        given ($_) {
-+-            when ('#define HAVE_SYS_CDEFS_H 1') {
-+-                $have_sys_cdefs_h = 1;
-+-            }
-+-            when ('#define HAVE_SYS_CDEFS_BEGIN_END_DECLS 1') {
-+-                $have_sys_cdefs_begin_end_decls = 1;
-+-            }
-+-            when ('#define HAVE_SYS_CDEFS_THROW 1') {
-+-                $have_sys_cdefs_throw = 1;
-+-            }
-+-            when (/^#define PACKAGE_VERSION "((\d+)\.(\d+)\.\d+)"$/) {
-+-                $substs{XCRYPT_VERSION_STR}   = $1;
-+-                $substs{XCRYPT_VERSION_MAJOR} = $2;
-+-                $substs{XCRYPT_VERSION_MINOR} = $3;
-+-            }
++-func TestCleanHost(t *testing.T) {
++-	tests := []struct {
++-		in, want string
++-	}{
++-		{"www.google.com", "www.google.com"},
++-		{"www.google.com foo", "www.google.com"},
++-		{"www.google.com/foo", "www.google.com"},
++-		{" first character is a space", ""},
++-		{"[1::6]:8080", "[1::6]:8080"},
++-
++-		// Punycode:
++-		{"гофер.рф/foo", "xn--c1ae0ajs.xn--p1ai"},
++-		{"bücher.de", "xn--bcher-kva.de"},
++-		{"bücher.de:8080", "xn--bcher-kva.de:8080"},
++-		// Verify we convert to lowercase before punycode:
++-		{"BÜCHER.de", "xn--bcher-kva.de"},
++-		{"BÜCHER.de:8080", "xn--bcher-kva.de:8080"},
++-		// Verify we normalize to NFC before punycode:
++-		{"gophér.nfc", "xn--gophr-esa.nfc"},            // NFC input; no work needed
++-		{"goph\u0065\u0301r.nfd", "xn--gophr-esa.nfd"}, // NFD input
++-	}
++-	for _, tt := range tests {
++-		got := cleanHost(tt.in)
++-		if tt.want != got {
++-			t.Errorf("cleanHost(%q) = %q, want %q", tt.in, got, tt.want)
++-		}
++-	}
++-}
++-
++ // Test that cmd/go doesn't link in the HTTP server.
++ //
++ // This catches accidental dependencies between the HTTP transport and
++diff --git a/src/net/http/request.go b/src/net/http/request.go
++index cb2edd2..2706300 100644
++--- a/src/net/http/request.go
+++++ b/src/net/http/request.go
++@@ -18,7 +18,6 @@ import (
++	"io/ioutil"
++	"mime"
++	"mime/multipart"
++-	"net"
++	"net/http/httptrace"
++	"net/textproto"
++	"net/url"
++@@ -26,7 +25,8 @@ import (
++	"strconv"
++	"strings"
++	"sync"
++-
 ++
-++        if ($_ eq '#define HAVE_SYS_CDEFS_H 1') {
-++            $have_sys_cdefs_h = 1;
-++        }
-++        elsif ($_ eq '#define HAVE_SYS_CDEFS_BEGIN_END_DECLS 1') {
-++            $have_sys_cdefs_begin_end_decls = 1;
-++        }
-++        elsif ($_ eq '#define HAVE_SYS_CDEFS_THROW 1') {
-++            $have_sys_cdefs_throw = 1;
-++        }
-++        elsif (/^#define PACKAGE_VERSION "((\d+)\.(\d+)\.\d+)"$/) {
-++            $substs{XCRYPT_VERSION_STR}   = $1;
-++            $substs{XCRYPT_VERSION_MAJOR} = $2;
-++            $substs{XCRYPT_VERSION_MINOR} = $3;
-+         }
-+     }
-+ 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 454a55d73d..342cbd0d06 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -11,9 +11,12 @@ inherit autotools pkgconfig
- 
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
- SRCREV = "d7fe1ac04c326dba7e0440868889d1dccb41a175"
--SRCBRANCH ?= "develop"
-+SRCBRANCH ?= "master"
- 
--SRC_URI += "file://fix_cflags_handling.patch"
-+SRC_URI += "file://fix_cflags_handling.patch \
-+    file://0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch \
-+    file://0002-Remove-smartmatch-usage-from-gen-crypt-h.patch \
-+"
- 
- PROVIDES = "virtual/crypt"
- 
+++	"golang.org/x/net/http/httpguts"
++	"golang.org/x/net/idna"
++ )
++
++@@ -557,12 +557,19 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
++	// is not given, use the host from the request URL.
++	//
++	// Clean the host, in case it arrives with unexpected stuff in it.
++-	host := cleanHost(r.Host)
+++	host := r.Host
++	if host == "" {
++		if r.URL == nil {
++			return errMissingHost
++		}
++-		host = cleanHost(r.URL.Host)
+++		host = r.URL.Host
+++	}
+++	host, err = httpguts.PunycodeHostPort(host)
+++	if err != nil {
+++		return err
+++	}
+++	if !httpguts.ValidHostHeader(host) {
+++		return errors.New("http: invalid Host header")
++	}
++
++	// According to RFC 6874, an HTTP client, proxy, or other
++@@ -717,38 +724,6 @@ func idnaASCII(v string) (string, error) {
++	return idna.Lookup.ToASCII(v)
++ }
++
++-// cleanHost cleans up the host sent in request's Host header.
++-//
++-// It both strips anything after '/' or ' ', and puts the value
++-// into Punycode form, if necessary.
++-//
++-// Ideally we'd clean the Host header according to the spec:
++-//   https://tools.ietf.org/html/rfc7230#section-5.4 (Host = uri-host [ ":" port ]")
++-//   https://tools.ietf.org/html/rfc7230#section-2.7 (uri-host -> rfc3986's host)
++-//   https://tools.ietf.org/html/rfc3986#section-3.2.2 (definition of host)
++-// But practically, what we are trying to avoid is the situation in
++-// issue 11206, where a malformed Host header used in the proxy context
++-// would create a bad request. So it is enough to just truncate at the
++-// first offending character.
++-func cleanHost(in string) string {
++-	if i := strings.IndexAny(in, " /"); i != -1 {
++-		in = in[:i]
++-	}
++-	host, port, err := net.SplitHostPort(in)
++-	if err != nil { // input was just a host
++-		a, err := idnaASCII(in)
++-		if err != nil {
++-			return in // garbage in, garbage out
++-		}
++-		return a
++-	}
++-	a, err := idnaASCII(host)
++-	if err != nil {
++-		return in // garbage in, garbage out
++-	}
++-	return net.JoinHostPort(a, port)
++-}
++-
++ // removeZone removes IPv6 zone identifier from host.
++ // E.g., "[fe80::1%en0]:8080" to "[fe80::1]:8080"
++ func removeZone(host string) string {
++diff --git a/src/net/http/request_test.go b/src/net/http/request_test.go
++index 461d66e..0d417ff 100644
++--- a/src/net/http/request_test.go
+++++ b/src/net/http/request_test.go
++@@ -676,15 +676,8 @@ func TestRequestBadHost(t *testing.T) {
++	}
++	req.Host = "foo.com with spaces"
++	req.URL.Host = "foo.com with spaces"
++-	req.Write(logWrites{t, &got})
++-	want := []string{
++-		"GET /after HTTP/1.1\r\n",
++-		"Host: foo.com\r\n",
++-		"User-Agent: " + DefaultUserAgent + "\r\n",
++-		"\r\n",
++-	}
++-	if !reflect.DeepEqual(got, want) {
++-		t.Errorf("Writes = %q\n  Want = %q", got, want)
+++	if err := req.Write(logWrites{t, &got}); err == nil {
+++		t.Errorf("Writing request with invalid Host: succeded, want error")
++	}
++ }
++
++diff --git a/src/net/http/transport_test.go b/src/net/http/transport_test.go
++index fa0c370..0afb6b9 100644
++--- a/src/net/http/transport_test.go
+++++ b/src/net/http/transport_test.go
++@@ -6249,3 +6249,21 @@ func TestIssue32441(t *testing.T) {
++		t.Error(err)
++	}
++ }
+++
+++func TestRequestSanitization(t *testing.T) {
+++	setParallel(t)
+++	defer afterTest(t)
+++
+++	ts := newClientServerTest(t, h1Mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
+++		if h, ok := req.Header["X-Evil"]; ok {
+++			t.Errorf("request has X-Evil header: %q", h)
+++		}
+++	})).ts
+++	defer ts.Close()
+++	req, _ := NewRequest("GET", ts.URL, nil)
+++	req.Host = "go.dev\r\nX-Evil:evil"
+++	resp, _ := ts.Client().Do(req)
+++	if resp != nil {
+++		resp.Body.Close()
+++	}
+++}
++--
++2.25.1
 -- 
-2.41.0
+2.25.1
 
 
