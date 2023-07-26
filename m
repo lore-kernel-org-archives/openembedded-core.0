@@ -1,188 +1,133 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1F1C0015E
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 06:50:28 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.5656.1690354228127374651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 907D5C001E0
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 07:01:38 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.82])
+ by mx.groups.io with SMTP id smtpd.web10.5765.1690354889386470409
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jul 2023 23:50:28 -0700
+ Wed, 26 Jul 2023 00:01:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=baBg71Ym;
- spf=pass (domain: mvista.com, ip: 209.85.210.51, mailfrom: hprajapati@mvista.com)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b9d68a7abaso5096447a34.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 23:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1690354227; x=1690959027;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+TmRdmFt0B7xSP5sZSjEP+NlTQmlMlDMbXjC/lrsDE=;
-        b=baBg71YmYXAmUwhwkQQNqlcgkE+cy2Jby1KjhzrlxhOni83kYzaauBAhKCTpDPW7Ul
-         yk/yyQDvGgP72tStfhEqx1qIrCS8KhmacxJHFrQyzkjlbBFQ1CtMzFFpiT5tdbXhW8hC
-         OYi88TLw7QYHcvvWM3LcaQsXMvedJ+f4pNX84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690354227; x=1690959027;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6+TmRdmFt0B7xSP5sZSjEP+NlTQmlMlDMbXjC/lrsDE=;
-        b=FJ/Pg3w3oYEDtnrUCx2YlcSR9FSpzdN5BA+DLndp2EJG+mPNDqWEBYHPV2tK7hcFzw
-         U5nlKIm/6+zlwkbX6jfuqZX/YXIU+AXT7UvBT+MygDpZbOO9PRV7iEEKYbK3qxoGAfmB
-         yjg4QZYlVe6sIKez1Oz7t9lM+Mck622Db7n0CxsrARiHHu88Ox/yr6+lhlSWDu/OdW5a
-         ZvDa1dHmWsml99Zk3u0W8sP+VcrCoYNcnZMubD0Km9mwDS01DNcBV7wzppY0xH8ya+l1
-         1D5WVtTQ9EhIjr4vd5lPWnRRJh0FP3eQqhcL9eElLYMWxjkSRYwT1BWrZnuWWJ4SinTU
-         PZag==
-X-Gm-Message-State: ABy/qLYf739XC2sE9fUB/h3u2JZKnq+nrEuS7E0SdCQpsd6z1GbEJ6Iy
-	s27Y33MucGnsUh/Wu6i4bfkpwVwJQfQaF60BrmMl1Q==
-X-Google-Smtp-Source: APBJJlGAuKwg6JDfa/DCkpvx7HyA9rKbqdqDMAzpXsDLDI5rHomShqtEy8wObChL6zN335NkFxR5Bg==
-X-Received: by 2002:a9d:7350:0:b0:6b9:9b41:fcbf with SMTP id l16-20020a9d7350000000b006b99b41fcbfmr1427420otk.25.1690354227200;
-        Tue, 25 Jul 2023 23:50:27 -0700 (PDT)
-Received: from MVIN00024 ([150.129.170.172])
-        by smtp.gmail.com with ESMTPSA id x21-20020a17090aa39500b00267d9f4d340sm583442pjp.44.2023.07.25.23.50.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 23:50:26 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Wed, 26 Jul 2023 12:20:21 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libtiff: fix CVE-2023-26965 heap-based use after free
-Date: Wed, 26 Jul 2023 12:20:20 +0530
-Message-Id: <20230726065020.55859-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=k+Ef0DtE;
+ spf=pass (domain: siemens.com, ip: 40.107.20.82, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UHH6ShI6gvUk8MyAHeeh6+uzrNYAYTOJzhI//8sQB8WKTJkWR7yZeNU9N6sNxD6dLlaBUnYadp9M+PC2/OAKa94JFJsMgn+H3GEmbhU9CFCYK8+qLdvlmnfc/YdnMKq3KBUCVTRwForZbkS8w3nruq/WrJPL9DznIHQTSZcqIj6AYTicK9COtp0h/fpxioWHQuocZi94saSxphYoE8/HIE+kMyR81/ItEEsrKiX//rWEFIJekodf/RMn+lDzjsI6JB12n5V1oYl/isDC7Z1F/LGV4kp6NCvsaoh7qEULPaPgvdvXtNCbT7ePKeWt8mvHz1o7KFD+ImpN4k6kiYZtAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8m1OQwNNIyYN/4zHU867cZr+nJmjeA41RaIepuJaR88=;
+ b=XFVih8wkPSI7CVbUjBU9tCsOI0jJOqqZ6yhWkupF9moMzm6WrIow+padNoiG5au6ZGrCZEuI3pOXJ/Y35bXdIySle6ciQotHqiqMzZPRxWxtC9ZxMgDv5KXvNNxJPb0SNpeGDMucZ94swmjRRkCy/uFVDHssPspzmgZNeAhV1VhM5pIZz330xS2m2eOrK5WkK6WUCQ9QyF/b8yWCysbdbUcXbCtypaxdo1VDs+sbDwt29MHYFijslx56yWBMu6tKcJwAHJqoTVF60AvEbKFoWwDsEQa4rls97ZPhObQ0FRhQxwbbOcGcLcF5ppuYl6/dGALbqzyM04xCsae206GT1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8m1OQwNNIyYN/4zHU867cZr+nJmjeA41RaIepuJaR88=;
+ b=k+Ef0DtEEqcRBD6jE7Jpx/KzPjHUSWY4g8dLq63w7dw6IqydWFwuoW/YhtrcOXtGsNcvOeXuYt/y7gDa6d3IYfkttFgp2IlxoYWHcboUbNrvCLvtW+aum9Rs6dbL/bGbDuD1Cs12zqA9itMqhhaVhNwRkHrZ0NBfCZdv8COvFVd10tplxeeqcob4VtivAcJHtfj42qXlt/dR1LCgm0XVgnSUfZ2vKGj7k7Gvil/EwfEEN+wSxk7BeX8Qc6gmsb89F7T/6Cpdml3TzjW20C2z15o3NqTt+DOC1jcG6Z9TBP95iLeq5zHbIKVGfS/sHhAx5VTkLrqses35MMnjYes7Gg==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV1PR10MB6169.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:97::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Wed, 26 Jul
+ 2023 07:01:26 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::252f:e0b5:470c:b374]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::252f:e0b5:470c:b374%3]) with mapi id 15.20.6631.026; Wed, 26 Jul 2023
+ 07:01:26 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "schitrod@cisco.com" <schitrod@cisco.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "xe-linux-external@cisco.com" <xe-linux-external@cisco.com>
+Subject: RE: [OE-core][PATCH] meta-networking: cve_check: convert
+ CVE_CHECK_IGNORE to CVE_STATUS
+Thread-Topic: [OE-core][PATCH] meta-networking: cve_check: convert
+ CVE_CHECK_IGNORE to CVE_STATUS
+Thread-Index: AQHZv4vBJZaZqv1F90yGIS1aa/RnX6/Lnj0g
+Date: Wed, 26 Jul 2023 07:01:26 +0000
+Message-ID: 
+ <AS1PR10MB5697DC9FF4B618AD9454817DFD00A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20230726063722.10076-1-schitrod@cisco.com>
+In-Reply-To: <20230726063722.10076-1-schitrod@cisco.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-07-26T07:01:24Z;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=45930bf7-1531-450d-b172-e79b6a5317aa;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
+document_confidentiality: Restricted
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB6169:EE_
+x-ms-office365-filtering-correlation-id: 17bc0c3a-ad2f-49f1-c157-08db8da62125
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ FzeAXVmVs8K3NqK/2vK0n6VuHDCeqbJ7h3Um4k1qAmQ3cRwLWikudHxKnN2LFn0dv/lPMErHUCyo5DVTPTQEWaZ6yu/E0xX0ctrG/Iu1KAniiVEFwWxQd8tFXki50XOCLftX98KRZFr+ZxXUeTYhHasJ+6c6bGw17NBE6opJ022EltCwv7OCCigygJbQhMxRa/RQ68ZyU69DYoxGw0OUe6cLt+ioRLW19G3x36Mh+we1tcF5kVNMywJp/yyF02hy89lz4qwdPS09e+T+ewgrjNWvC3FzzPYiXH6KBzCVCtRSsaStUQ1O9+VHjnA5wYsaBSOhf2kd/OO+3C0ZBdwsII8ozHt3Ii0d38OkldUZmc8eeQchdtjO3pg1iCRMV0k8FaAih611w+PZNcNcfzW28UgakDuoQiHdv0RJdG5gpdisQxdk0PryQ/TRoUvteG8fEL0h0ZU5I+J7pbIRUG5ThnKdhlv7IOrZMYaVDc3iSdghytbsNxWtOblXb+WCvMuFT24G3V3Coj3bELZ/qGf6Dw1uQTNq87ttlPm1pPUtFdQeLvalZp7aaFDvqu9MHuKJyBKh15Kp4k2Ou67VOj7U9QEYzCosM0GgDMrjvVwYxyg=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(366004)(376002)(396003)(39860400002)(451199021)(64756008)(66946007)(66446008)(66556008)(76116006)(66476007)(38070700005)(55016003)(83380400001)(86362001)(122000001)(38100700002)(33656002)(82960400001)(110136005)(966005)(26005)(478600001)(9686003)(55236004)(71200400001)(186003)(7696005)(6506007)(558084003)(316002)(41300700001)(5660300002)(2906002)(4326008)(8676002)(8936002)(52536014);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?UwTRmj/SB+GEFeRuEcu8ySkYzuMF4064WjmgVybzXhuzjRnjQlE/KdHknaWV?=
+ =?us-ascii?Q?YZ3+t7cX8R9A1mjcJFYg3hv8GPTwKSe/EkJQEb3j0le/72NS0gXvLwLWQqYo?=
+ =?us-ascii?Q?TuDW8LLxKetX4XweySkoqjVmM1lZe0dx2nXFOss+tofA8w8Hy3ly+apFXjj8?=
+ =?us-ascii?Q?uhGL3l5Qcli5c6aXgqR+wq4z8EGDsI7vWRg1vQtOEqhKnGvbJdZIA6hHR3C5?=
+ =?us-ascii?Q?YRsU00lywXm6xKtsuEuidhlcu0+heMGZagrSnet+ONY44j1MxrMqphv/PnS0?=
+ =?us-ascii?Q?haMLqom3sZFvtv2pHznW+FNxnaot+lA2osueRYyQwaT96zzjHBI2tprWl1k2?=
+ =?us-ascii?Q?hY2LOV07p2Do+iDKWGrhdHq4WtdBPN8ghbb+OA+m02TXFcFI5rUxjPobj56O?=
+ =?us-ascii?Q?wJOOEefkVhhhi8LyX/5SkUk2TkC/Yjkq5o0+3iync7flGG4zBDZPI5Zz3y4W?=
+ =?us-ascii?Q?hCa/HMVhBHmOcN06UE+phILhCrd4VPl8jTKFoHrIdvOI1R/KzQrTGqCFEA8C?=
+ =?us-ascii?Q?4lRL/lmKbGW5K5msXyPJpzM3u2X7RyiE25tqJiNnLnf5s6AXDztmwGP2Feaf?=
+ =?us-ascii?Q?L8rhafRH266hkoXQ2jyzbCY1z4icamJ9VgaMYrAk5ufSp5USk6avoHsH22/4?=
+ =?us-ascii?Q?pHt97SYcAS531sfcZfE1XeocTpaJdT8ZiA07fb97KouhCdlBwUGzjhKQe3o5?=
+ =?us-ascii?Q?9T8HlI2cpL1kx/I/poPY/fFiab2JvFxqPdIIycMcVV2qBx52h9+Zko2ogArQ?=
+ =?us-ascii?Q?qgWOrGZ1ffXkFM2DbKS7w1rbGDT4+YehrRXejiVl94ZZF1+zpgAJlnetUplC?=
+ =?us-ascii?Q?X+CqvQ7MOu85cadW7FO6hxJHhqKWzymax8ckn+dzzMBy5gAZi7EKqcEGgkcG?=
+ =?us-ascii?Q?e0ATFQ3KISSViX1WFyszMvurc3OumeZBgMBS6nU+0fdMJBs5aoFlgFyC/o7j?=
+ =?us-ascii?Q?fgnh1JmVGAXsQGhN0Y4Rxcj4a8lY/iobNNkhBNyYXu8oH6ewLNRA5EgsqgYS?=
+ =?us-ascii?Q?Ufpzm3+xZ9v5dMNpc/gzH8yW4IczP55f0EylPM65rbIxdvfI2AQYiqau59hg?=
+ =?us-ascii?Q?3UFJnKWAFBal9whkwGss6OP13O70u7Ag9KBrBkW81zggCF0tqWzq/6I4OJ6K?=
+ =?us-ascii?Q?0Nn5LoA0QzEz7Z9ubU+XitXyusRT93LTrd7edJul5/egm3vWreR2lZ25Sv1t?=
+ =?us-ascii?Q?bIl2WfzwLtSfujuzPrIs4GM3kHmPWSzKimBVpaXHJMEyNnA/jN2Rnz2LzzOT?=
+ =?us-ascii?Q?BIv9nV0MPsgCM0QlhGdgxk898328+Pcr0C4LQ7O5SerkHrj73Rqtxy7mgAlu?=
+ =?us-ascii?Q?be7Oo01iuRAkdgZLfUta5mdBNsCtg37oWRaIzJ4SOCXNCtphnBaSU2c+LYmf?=
+ =?us-ascii?Q?Rll0r0W8OPjxKYS1z7hZSrh/0MLS5Jjsc+cI97kLa4uEyDo5DTM0OXjNApyx?=
+ =?us-ascii?Q?7VDtugCyr/EPWUQB/na9StGGckKS+5DueR9EQrFs+0UUzScro6a4kW7STkhn?=
+ =?us-ascii?Q?FbeeRZtqiOOAadMij4tZ4XBI077emx1+/35Qp/VCTiuBf1p5ZBj5tpN+ZhND?=
+ =?us-ascii?Q?4W7qao74ufz5igZ0vNytCVT1001x02MVPL7EfEM1?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17bc0c3a-ad2f-49f1-c157-08db8da62125
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2023 07:01:26.2723
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qjNUtIR3BL+Y1NrrB/KpFGg1R6ldfdg3aDI0zlNA289ATaHNb1RXXYS6HGBteszqagrPQf+fA55dRHldaWhrwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6169
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 06:50:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184864
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 07:01:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184865
 
-Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/ec8ef90c1f573c9eb1f17d6a056aa0015f184acf
+There is already a patch available to convert all of meta-openembedded reci=
+pes
+https://lists.openembedded.org/g/openembedded-devel/message/103992
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libtiff/tiff/CVE-2023-26965.patch         | 97 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-26965.patch
+Also this is incorrect mailing list...
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26965.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26965.patch
-new file mode 100644
-index 0000000000..2162493e34
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26965.patch
-@@ -0,0 +1,97 @@
-+From ec8ef90c1f573c9eb1f17d6a056aa0015f184acf Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Tue, 14 Feb 2023 20:43:43 +0100
-+Subject: [PATCH] tiffcrop: Do not reuse input buffer for subsequent images.
-+ Fix issue 527
-+
-+Reuse of read_buff within loadImage() from previous image is quite unsafe, because other functions (like rotateImage() etc.) reallocate that buffer with different size without updating the local prev_readsize value.
-+
-+Closes #527
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/ec8ef90c1f573c9eb1f17d6a056aa0015f184acf]
-+CVE: CVE-2023-26965
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 47 +++++++++++++++--------------------------------
-+ 1 file changed, 15 insertions(+), 32 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index b811fbb..ce77c74 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -6066,9 +6066,7 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
-+   uint32_t   tw = 0, tl = 0;       /* Tile width and length */
-+   tmsize_t   tile_rowsize = 0;
-+   unsigned char *read_buff = NULL;
-+-  unsigned char *new_buff  = NULL;
-+   int      readunit = 0;
-+-  static   tmsize_t  prev_readsize = 0;
-+ 
-+   TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
-+   TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
-+@@ -6361,47 +6359,32 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
-+     }
-+  
-+   read_buff = *read_ptr;
-+-  /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
-+-  /* outside buffer */
-+-  if (!read_buff)
-+-  {
-+-    if( buffsize > 0xFFFFFFFFU - 3 )
-++    /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit
-++     * outside buffer */
-++    /* Reuse of read_buff from previous image is quite unsafe, because other
-++     * functions (like rotateImage() etc.) reallocate that buffer with different
-++     * size without updating the local prev_readsize value. */
-++   if (read_buff)
-+     {
-+-        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
-+-        return (-1);
-++        _TIFFfree(read_buff);
-+     }
-+-    read_buff = (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+-  }
-+-  else
-++    if (buffsize > 0xFFFFFFFFU - 3)
-+     {
-+-    if (prev_readsize < buffsize)
-+-    {
-+-      if( buffsize > 0xFFFFFFFFU - 3 )
-+-      {
-+-          TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
-+-          return (-1);
-+-      }
-+-      new_buff = _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+-      if (!new_buff)
-+-        {
-+-	free (read_buff);
-+-        read_buff = (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
-+-        }
-+-      else
-+-        read_buff = new_buff;
-+-      }
-++        TIFFError("loadImage", "Required read buffer size too large");
-++        return (-1);
-+     }
-+-  if (!read_buff)
-++    read_buff =
-++        (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
-++    if (!read_buff)
-+     {
-+-    TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
-+-    return (-1);
-++        TIFFError("loadImage", "Unable to allocate read buffer");
-++        return (-1);
-+     }
-+ 
-+   read_buff[buffsize] = 0;
-+   read_buff[buffsize+1] = 0;
-+   read_buff[buffsize+2] = 0;
-+ 
-+-  prev_readsize = buffsize;
-+   *read_ptr = read_buff;
-+ 
-+   /* N.B. The read functions used copy separate plane data into a buffer as interleaved
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 2ee10fca72..4796dfde24 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-0795_0796_0797_0798_0799.patch \
-            file://CVE-2023-25433.patch \
-            file://CVE-2023-25434-CVE-2023-25435.patch \
-+           file://CVE-2023-26965.patch \
-            "
- 
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
--- 
-2.25.1
-
+Peter
 
