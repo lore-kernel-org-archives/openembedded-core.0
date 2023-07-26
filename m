@@ -1,150 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5D4C001DC
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 09:17:09 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.7207.1690363027877941060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40CD7C001DE
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 09:22:49 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.78])
+ by mx.groups.io with SMTP id smtpd.web10.7252.1690363361353950502
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jul 2023 02:17:08 -0700
+ Wed, 26 Jul 2023 02:22:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HAV0lQdD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fdddf92b05so9918995e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 02:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1690363026; x=1690967826;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Vf319NApppFIDVL8vB+SwzDfXbs0+9ytZ0e8era+s8Y=;
-        b=HAV0lQdD7wL0kHV/ic1uE4YnPfmxmkgt+UHV0m5iJ7pQNTgNvpFBRxT3ctKGoNSzkx
-         MJOY4Oizl8hzjr3JQDqMhOGsHKy6pTzYJCH8x4QLarU7+4cG8GhYydinQGG06tAGOZdc
-         W4BD0oTd++NCh3GdHzef5HJ4HrU5b/Zez3BTI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690363026; x=1690967826;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vf319NApppFIDVL8vB+SwzDfXbs0+9ytZ0e8era+s8Y=;
-        b=evNeqYgajSlh88vXey+nzhqc8b5pFIv0mTDF6PNuK9w9JDgBxC5l9jrdxj0ncaGmB/
-         o47PMpU969pBN5Vj/WWfRgaPXeSVOMXi0zaTqPOptFNqIdjgy/TN2AOH6eoaE8OzYlAY
-         kmD7NhTCCk9rJAsSXUfBfuDOAa6XVcC4HpVXXiHxSSjIDyC7FkegIhnAs8oSfUZ1D0S3
-         Q+XLxwfRYAHvAQ/4Ma9S4JFSvXyDRf6b2fnUp6J2wxiGKRxQu5aoI/yRNyvM44hjztHl
-         57viVTAJZq+c5RqpVaBPqFqFLTFYmf3fPCqXKwAxXNtMbf+hBJ/u0TbtxpUwRQYb+078
-         w/dw==
-X-Gm-Message-State: ABy/qLbQRLt3xLh/iDjLBa2Prax3yS8GWvHFTYIBsmnKlk5CaJLtU0q3
-	RBuIXWyclZDkTCOuCzMeGgpLkg==
-X-Google-Smtp-Source: APBJJlHtVPutAHHLmoKw7+We5R6lg2ep3BRpfLQAGN9azxYQPHUSjlAXxI1ebZtWh5q7osSacMQEiw==
-X-Received: by 2002:a19:3842:0:b0:4fb:8bad:1cdf with SMTP id d2-20020a193842000000b004fb8bad1cdfmr828274lfj.42.1690363025480;
-        Wed, 26 Jul 2023 02:17:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b15:acff:c09:f648? ([2001:8b0:aba:5f3c:b15:acff:c09:f648])
-        by smtp.gmail.com with ESMTPSA id z10-20020a05600c220a00b003fbd9e390e1sm1392825wml.47.2023.07.26.02.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 02:17:04 -0700 (PDT)
-Message-ID: <89ae763f20e41dbf89cbb4d8ed4616ca9ed82d77.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Toolchain test results
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "steve@sakoman.com" <steve@sakoman.com>, "ross.burton@arm.com"
-	 <ross.burton@arm.com>, "randy.macleod@windriver.com"
-	 <randy.macleod@windriver.com>, "Sundeep.Kokkonda@windriver.com"
-	 <Sundeep.Kokkonda@windriver.com>
-Date: Wed, 26 Jul 2023 10:17:04 +0100
-In-Reply-To: <e6b6426580c3f6be5f492e2d1b9ae2a0b8049d12.camel@intel.com>
-References: <1772EB68FCA90E64.1400@lists.openembedded.org>
-	 <1c22b4fdfdcf22b58f7e06df872a9e0980645328.camel@linuxfoundation.org>
-	 <e6b6426580c3f6be5f492e2d1b9ae2a0b8049d12.camel@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: no key for signature: lookup selector2._domainkey.welotec.com on 127.0.0.1:53: no such host" header.i=@welotec.com header.s=selector2 header.b=I1pvfBbr;
+ spf=pass (domain: welotec.com, ip: 40.107.104.78, mailfrom: p.lobacz@welotec.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KioC2dgVRr5kuwicX8oJxj/YzAwO79DZdJx/FQzsw4tZbmKCbjYUq8DMlK5bdZyjPaQxnRkcSruQvBox8vSWqBBangvfjzWMFp98QcA/Mi/pTf5qXRNSbuuoRUtR7XwoZvttLqXWBLZ7vH00PrOMnfA21O526X4lokw2GPJ4HibCgDX/EmeZIy1vXEzlIK5mW+wnWbK3G6Vus+G6F1CwGwDOs+5mUgP2WnzGF1jq3tVPRDmlsJmwRXGfkXdOf9bQJ0JeHH3XIUq+Ess6ub+M55iBsdH+t0YjO53Y8qfJ43JWu16im9m+1Af07i+DoDTiPpmJdozUO8gZXgtQ5s/pcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+m/0dvvqXg3Wj8yTZTDEa3xc1tO3vwBVgyQA18gnN6k=;
+ b=mF6vaQYx6TzuegMOwpoc0Ql/YxrOYnocLAgHCmjQEQEtUZ9ZVQ8sUKsIpYyG3rp3WcEa4dc0yMu8MoofHNxLaPzRSEblbV3PHI4HPGzaeyakn1GWXKswyTCCaVmbUpBWho4ku5VtTKHENeiYUvxAo8IoIPpiNHNzppcYfcDftuHlsIiTXF3eSzr3zYqTakGlzMlw9l2IXtVZDJtEwPDrr2KVK5MPBhM/ueVGSVGBljHBw4uArXXZ1nt3ecitm9wIPvPR7/85P4uj3C8ZYs6axpm7oCr3XQO5A/kPXyF33AEXPCqmlKspMLN0jScVhjYz/5MAuFNKIs9K+cMKbUv/tQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
+ dkim=pass header.d=welotec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+m/0dvvqXg3Wj8yTZTDEa3xc1tO3vwBVgyQA18gnN6k=;
+ b=I1pvfBbrsvQRjr0bPKbgu1NqPI2458ISOT+W7trhw+WV4f0d4CyrB7ZiTZnFJmyDLDFxMRST2IwUPyS8jNHiYSTa2O9jHfLG+3h8vhvO9aNqNmMPcrPRvrJJw7WPNNeSPEghe+mmXjGpxS7eu2PLQILeOD7dmAoGDR3SrlZL+v0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=welotec.com;
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
+ by AS8PR04MB7830.eurprd04.prod.outlook.com (2603:10a6:20b:2ac::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Wed, 26 Jul
+ 2023 09:22:37 +0000
+Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::461b:ecc5:5b8c:7cc7]) by VI1PR04MB5373.eurprd04.prod.outlook.com
+ ([fe80::461b:ecc5:5b8c:7cc7%5]) with mapi id 15.20.6609.032; Wed, 26 Jul 2023
+ 09:22:37 +0000
+From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
+To: openembedded-core@lists.openembedded.org
+CC: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
+Subject: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass: add support for ACLs and xattr
+Date: Wed, 26 Jul 2023 11:22:24 +0200
+Message-ID: <20230726092228.1005306-1-p.lobacz@welotec.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+X-ClientProxiedBy: FR0P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::23) To VI1PR04MB5373.eurprd04.prod.outlook.com
+ (2603:10a6:803:da::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5373:EE_|AS8PR04MB7830:EE_
+X-MS-Office365-Filtering-Correlation-Id: cde68419-359f-4d0a-2fd5-08db8db9da45
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	RK2/pW4fDgXjhfTX5NqUm1P5vmojf665UwkIB6Yi70D5gZLW9a9GT3w3/aOP2uTAAgijX9yY5R3MfWbyjWL05+Dc9Yc3WuBeESPRyrHu73gGbwnO3Y+X5v4nUXf4AMoVFhc5egxLsvBJqAZeFJs5KPslSVA/JWoZTFuOaFuMWaT+K8wlEDcVipMPKS09+JvWHKLiu7/F+S867T75Fe38m8O5nvG29tPTF4GPzmPuhOI6Oc1x++Uf4JONyIWGlaU7ezfzXlCVinKF6BzqkQ9F3FoCuAl+F95S9iCfDPPzEw9DJghtPIKmiJjSmXgPaXE9PhTIeq61DyHr+kB+hCT3ZzUd3iLdN39RXi3qFvGJ+w4LFgr+6W6ha2psVHTvQqqVA1sr1mLP0XJUjLwmJdBp1DO9KEZVQfauNpl5cwSo5CJCcG/UTkQsYHQH6VleWZ6iT5zN9QBlQjCMjsGepxwmq3gsrtroxT7EdQDRq2tjJOpc53QuJ8PIcjszGwsxzTe/6OwEeigHMgoMvUuUF3gLDQBMPApThzgrCwwM9403e7ZwbJInWJ+rG+tu0wjowo84fdEzUOZUWNdQ/kIYgzB/eJSwrn3x0o7o5ai4zPBddaQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(396003)(136003)(346002)(376002)(366004)(451199021)(316002)(41300700001)(66476007)(66946007)(66556008)(6916009)(5660300002)(8936002)(4326008)(8676002)(2906002)(478600001)(36756003)(6486002)(966005)(52116002)(6512007)(6666004)(86362001)(107886003)(6506007)(1076003)(26005)(186003)(66574015)(38350700002)(38100700002)(2616005)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?WcMJTZYj2X3nHRTK57eJ9ZSX+J6/Mq9JL80pq4YMSfu6AaeKqbmyDsq8rp2S?=
+ =?us-ascii?Q?sDCHv7TZr2+2OXys5iqVdqzSfRHLCyp/77dFHHlNqY9ZG2XGxWjwOnPkPqYs?=
+ =?us-ascii?Q?E8DvI3VWyB4OPNZN8cVjiGKqIWi2t0E3LUDzeaSlcZJfdQ5DxyS76flIc6K7?=
+ =?us-ascii?Q?TvhOLvBK2aTQrVfr/U6KHiMlhX2Gnmc3Zim5TVGWZg8y8LZfHakhZTyNEsbv?=
+ =?us-ascii?Q?5ybbat0nCYZw9nZnwYTZjzC2J/gX8nZ7ydvBLCqEqkr5Lb8mrYF/x00pvI7q?=
+ =?us-ascii?Q?antSFYa6Bu3xsqwgDMTMfbDk1hjjDaEVUTRCZCuiwnvMq4o3NygQygfxggBP?=
+ =?us-ascii?Q?F5tH0lb0UB7qa/YEKISrykZazXUcGvqGcLI6mdXIdH43PL444NcJfVS1/FBJ?=
+ =?us-ascii?Q?rVPXCjGXKXKGvXnjyWZSFnjRTXr3gpl9Qa7XcsdEbIPalYzZpWhKMHcHRz/b?=
+ =?us-ascii?Q?4L1zglmIfsL5t5py/x6tV2SZAs5I7vyifNKRiwUw/z/uH+zV8XzmObqS4Y+0?=
+ =?us-ascii?Q?CBno5CT3d6mP7gXi9/WKzVJkW8uokd3m++U0ts5JbHKO4FQgHxdpG6k69prw?=
+ =?us-ascii?Q?8pW7CV/FlD6Hcys0YNDL1d3Yo46l1SYF3qXgPtmlgEUiPRqWJUIUkIHYCX4S?=
+ =?us-ascii?Q?4eQUpkCeFVh4ChAcjjhRr1W1YiFU23eQTypXDkky1BOYqNrKGHqTaYzBk1SY?=
+ =?us-ascii?Q?QAyxjM7VWeM8g9cUzCsohmvotsYEOTs6UGXJ124Ggtc8nTepsRTGpLJT7Ubi?=
+ =?us-ascii?Q?6avbIKqvqGfQy7b4pYa0Si0FvJGYedxIpWwPRoof7XSw5cTHhGeh2+FjVYuX?=
+ =?us-ascii?Q?9Bo7KTDxnPPNn0sBlheyGI10+v2tR6v+hu9R8Buh32IAed1BZ2Ks6aEtQU3d?=
+ =?us-ascii?Q?6tY0ZfHbqMs3TXEPfUPOuaJUUx2BoCNV3mJ4NInSpdIJomqIoQoLFm9Fm2kj?=
+ =?us-ascii?Q?P/vpWtuS8hcc1HxZhAKKl9CVu2dLbrrnK5ZsbA84/6DkUWLsypmKUWtfnVkB?=
+ =?us-ascii?Q?mtM+RwXE/7hVVrtL7jLaE/Q/Pmk+YQMmHwFx7HlJMcAnYPhiqTE3tk+Cv3iL?=
+ =?us-ascii?Q?I2mQRzxViJD7PdIy58fxepnCHFJqqbTLT5UV0qdUCBniap7zZ8eu4dcAI9O/?=
+ =?us-ascii?Q?kLLHEDB+IXPh832RYoTdv4nOUv1GHpqRcfsIaPKKMdQ+SKgVVXM6y3LamAec?=
+ =?us-ascii?Q?GWZbu3gT7mo9CshItvX/tc97Dy37XXiZ2kPjeR3SUwyCCdtdcXP6z7PaEtDe?=
+ =?us-ascii?Q?GMAzNIf3lxeQUxCVkJ/elVNnaFOd+aHZuxvgQgEyOtdqYnMRja7m6hWBiY7q?=
+ =?us-ascii?Q?+1L8drNFs/hQVxigiacfCLiBR6Vbvx2wp6TBrqPV9KXqDFN9W54JfOfayQ0y?=
+ =?us-ascii?Q?9pv2sLDtigRSbUmmWM09X4S03kP+uN5k6GS8sGo7v8tKY2IzYCGm8A/rn79s?=
+ =?us-ascii?Q?kXw2DLFSG5GLvW+MPLoWMq2PphyAhW2c0SowFDI7SyRz7Wr6YDZ0dIVoXK54?=
+ =?us-ascii?Q?isbmAWEDyPO29lcTIT3o9UWBmst8CMYmUcf/uddmFQRs4PNrHb0LlUjJeWuw?=
+ =?us-ascii?Q?BCcLqoXUNXDdSqoR6WXjNBkkkRCy2zDkG2HSx87H?=
+X-OriginatorOrg: welotec.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cde68419-359f-4d0a-2fd5-08db8db9da45
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 09:22:37.5115
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dcrgf5JjhLMNzSizOMvdA8b2Y8Nt1D+/S+P1Eh/AfcHunDH/oHEc8d64lf+Pe9p0ZuHWr60p9vuZTHB+5mxMoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7830
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 09:17:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184869
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 09:22:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184870
 
-On Wed, 2023-07-26 at 06:00 +0000, Mittal, Anuj wrote:
-> On Thu, 2023-07-20 at 12:26 +0100, Richard Purdie wrote:
-> > On Tue, 2023-07-18 at 10:14 +0100, Richard Purdie via
-> > lists.openembedded.org wrote:
-> > > qemuarm has ~350 failures
-> > > qemuarm64 has ~350 failures
-> > > qemux86-64 has ~4000 (3900 in glibc)
-> > > qemux86 has ~4000 (3500 in glibc)
-> > > qemuppc has ~600 failures
-> > > qemumips64 has ~5000 failures (all over)
-> > > qemumips has ~1600 failures
-> > >=20
-> > > Anuj: Can Intel look into the glibc test failures on x86?
-> >=20
-> > I realised the glibc issues were due to the network being disabled
-> > for
-> > the tests and have sent a patch to fix that. That reduces the
-> > failures
-> > from ~3900 to ~330. We should really try and reduce that further but
-> > it
-> > is a start!
-> >=20
->=20
-> A lot of locale/iconv tests seemed to be failing when calling write
-> with large buffers/files over NFS.=C2=A0Some of others were triggering OO=
-M.
->=20
-> I ran the tests again after making a few changes:
->=20
-> https://autobuilder.yocto.io/pub/non-release/20230726-11/testresults/qemu=
-x86-64-tc/
->=20
-> After switching NFS mount to TCP and increasing the memory available to
-> 1024, the number of tests failed came down to 69.
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> qemux86-64 PTest Result Summary
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -----------------------------------------------------------------------
-> ---------------------------------------
-> Recipe           | Passed       | Failed   | Skipped     | Time(s)
-> -----------------------------------------------------------------------
-> ---------------------------------------
-> binutils         | 289          | 0        | 8           | -
-> binutils-gas     | 1582         | 4        | 1           | -
-> binutils-ld      | 1622         | 6        | 111         | -
-> gcc              | 149696       | 28       | 27599       | -
-> gcc-g++          | 219260       | 30       | 21108       | -
-> gcc-libatomic    | 27           | 1        | 27          | -
-> gcc-libgomp      | 3426         | 1        | 1962        | -
-> gcc-libitm       | 24           | 1        | 24          | -
-> gcc-libstdc++-v3 | 9695         | 32       | 5459        | -
-> glibc            | 4984         | 69       | 147         | -
-> rust             | 15768        | 0        | 554         | -
-> -----------------------------------------------------------------------
-> ---------------------------------------
+Extend OPKGBUILDCMD variable, with additional parameters, depending
+on target distro features, in order to support ACLs and xattr.
 
+With fix pushed to the opkg-devel:
+https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
+opkg-build is able to create tar archives with ACLs and xattr.
 
-That looks like really good progress, thanks Anuj!
+Signed-off-by: Piotr =C5=81obacz <p.lobacz@welotec.com>
+---
+ meta/classes-global/package_ipk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think we might rebuild M2 to allow for some of the resulttool, ltp
-and other test fixes to make it in. I want to look into this 32 bit arm
-regression first to see what is going on there. If you're able to send
-some of these out we should pull them in and improve the failures for
-glibc too.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/=
+package_ipk.bbclass
+index b4b7bc9ac2..a0f106e4ad 100644
+--- a/meta/classes-global/package_ipk.bbclass
++++ b/meta/classes-global/package_ipk.bbclass
+@@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET =3D "${WORKDIR}/opkg-sdk-target.conf"
+ PKGWRITEDIRIPK =3D "${WORKDIR}/deploy-ipks"
+=20
+ # Program to be used to build opkg packages
+-OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
++OPKGBUILDCMD ??=3D 'opkg-build -Z xz -a "${XZ_DEFAULTS}" ${@bb.utils.conta=
+ins('DISTRO_FEATURES', 'acl', '-A', '', d)} ${@bb.utils.contains('DISTRO_FE=
+ATURES', 'xattr', '-X', '', d)}'
+=20
+ OPKG_ARGS +=3D "--force_postinstall --prefer-arch-to-version"
+ OPKG_ARGS +=3D "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDA=
+TIONS") =3D=3D "1"]}"
+--=20
+2.34.1
 
 
