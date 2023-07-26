@@ -1,1068 +1,290 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E4DC001DC
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 15:35:51 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web11.14237.1690385748327385261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2625EC0015E
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 15:57:41 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.15145.1690387059410694529
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jul 2023 08:35:49 -0700
+ Wed, 26 Jul 2023 08:57:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ht26IRe1;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.54, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-98df3dea907so1063152366b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 08:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690385746; x=1690990546;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=szHgj3z3058bjDcbeHia+t+jLXV4HRzWi6zTURFJOtg=;
-        b=Ht26IRe1SpDbIiDWRDUG7ZvAaQGMlu7lhW4N3h9LRCRoH7xuHEU0ClSt+gUan4e6bu
-         oec8ZkW67eE5KIwbcqJ/8nW0+7a0RQ4kKdkV4M8gD31BlJPVCDkzcIkXoHNakIYLBrgT
-         8g8HtRsWBl/e328qqpu3YWTXl50HSurxAyBupUfYlD4scwcFQczWYC2+NCbR0tEXPRgz
-         61vWx2+S/V9oD/gwFlNPYSHpN3MUGN3l5TO9R+/Xf0Pof0+ZxzD0haqivycGY6Ylps/e
-         92rHfsXI82ggGmDRUxO8AVC82GL2yylDIKbJY8JqySkI/CQq8sNBePpaolmAL/2RoxID
-         bgow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690385746; x=1690990546;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=szHgj3z3058bjDcbeHia+t+jLXV4HRzWi6zTURFJOtg=;
-        b=l4Rj07Zu7qV33lEGQSIFo3Ybl8juikMfrTUqAjorvDWyph8awJxTEsiYew1Laoh20d
-         7aeSXtq6MXQRTv6SXSRHVrKBCzU2+4GusDdNQtB5i+SNgYWNcaioTrkXZ1n8v2Vq5CW6
-         dRtI4KzaCAakKNv+a5XgiiU94lmVKOyhCIPpSfaNOatyIcQ3/75Ilpnch/ulilOfQ5No
-         PM0lb43xVSCNqiUZEFcguw6cYAcfmYzf1/9IvUzKfLM88rN2ZRW53woZy9DAEV5bt0CO
-         QlZO+hUX31xeMoVXe65XIPuRyFr3rysz5krwNcyrKc9D+KY1HYyJgySLd8iSN/D4qUqN
-         T49A==
-X-Gm-Message-State: ABy/qLbjfZr4tsneBykc1gv8UM2DIYmY8MmXhHYrUNxQkJ3bN/8RiuwE
-	AXNIwoS+OxY0dS+6tizHMnvMI9luRpL5j2px1zqdiIHp028UNmHV
-X-Google-Smtp-Source: APBJJlHVcG42TQquzZToJcVcChjiD42KpAHUHEXlesFdHMveGRanoozNztxFNPmioDBrOpCzkO/ATbn6mNmysDg92bk=
-X-Received: by 2002:a17:906:738b:b0:993:dcca:9607 with SMTP id
- f11-20020a170906738b00b00993dcca9607mr2137526ejl.2.1690385746141; Wed, 26 Jul
- 2023 08:35:46 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=c4mkyjlA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=6571459fde=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36QDWsaR021528
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 15:57:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=wMUvVDCNNNIIStbA1E
+	lZik5mJuGge6Hkk98lHN5gTrc=; b=c4mkyjlAhrTbOX5/n46om30kVFTsLOBr26
+	I6bO5+qiWDGBQApPal09GYG2N4Y3RVRh1kN87Swe0gYF1DlTBpPbfuLsGj1/+BWU
+	iplYUrs6nobvvBNQLuAWdWz96NsvoFmEfhZfOEoT4MEx5qoxzmr3s3qwqr45vbYS
+	2hMbg2c3bdRTgtM7862MdhvsCoIKzlgS9tlFk8UzvLomZtug4XCx/2KCq/3vs4j9
+	RfmeoGUt23EXtnkrkBaudlj3YY4JusVF9fpHAnPJ8p32nocWfKzcJzW0skuDERC7
+	FnRzUgPaUwbXy5KhjJm0WdKVPUFleb4tmu3Vq5ufCDsck3tZvqRg==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s0636bnsm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 15:57:38 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iAofRrJn6QQodCgINdbNaw3paeV9KHNmR5knY73HzymW03Jb/L2We9di869lneeLFHHDo32j4SmWKgcclpaQvnBVBbhVy93Cghh35eyfxXlPElzLKjQ0Lqym8r3rLZfgq0mSIYsuqgN53ydV5nkoxCNXLvn5xEgN2ydoJ1/SNttb36BLkLXuuzGB7fqyX5Y2UNj6Dcd2xJqo8RoPhbvPzaXqrgrCx/8pX3mQwUfIvihgNjjXN91tf9wfXD7UVBm0QcHVFa6jDPRlM49nWJPrHvhngbnSjbiU5nNEPCn1OvpFx08hKt/dE9h/C5azkKgy2xhX6WWw0ejZbAivJEbFew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wMUvVDCNNNIIStbA1ElZik5mJuGge6Hkk98lHN5gTrc=;
+ b=QgfrrSlWfkZ/5FRrGk3w0s3Smusggb3EMtAAUlwJozNBm/A1cRdVX4T8xamP38NCZoWwGb3xHIPipGasiV6A4XGVntJ+b5vTFma8HaZan5C4bdagHdH9V34KzppbCBorRK4maBBCi7Ui4qpRzhPqFVOS2Yh2vOOZ5XIw2nOCLI2HNfMQz0ZfUkqnqTGnQmwydIx+ybRIeNLwlti9ycoJUwv8fzRR0UB7BCLB/XReeOfopcNWbBUyfRjBr202N8QSTPg7RCN2iv0LZA+0PXxj7lzkPHJTHR8zwFnj/nrkQtJLTwAxYn55X28ez2CY5rkxD5VIAZr1olpixHBuB0JACw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
+ by CO1PR11MB5204.namprd11.prod.outlook.com (2603:10b6:303:6e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Wed, 26 Jul
+ 2023 15:57:34 +0000
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::d383:a84c:6dee:47e3]) by SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::d383:a84c:6dee:47e3%7]) with mapi id 15.20.6609.032; Wed, 26 Jul 2023
+ 15:57:34 +0000
+From: Yash Shinde <Yash.Shinde@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Yash.Shinde@windriver.com
+Subject: [PATCH] rust: Fix BOOTSTRAP_CARGO failure during Rust Oe-selftest
+Date: Wed, 26 Jul 2023 08:57:16 -0700
+Message-Id: <20230726155716.4152634-1-Yash.Shinde@windriver.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0082.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::27) To SJ1PR11MB6129.namprd11.prod.outlook.com
+ (2603:10b6:a03:488::12)
 MIME-Version: 1.0
-References: <20230726060902.40037-1-hprajapati@mvista.com>
-In-Reply-To: <20230726060902.40037-1-hprajapati@mvista.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 26 Jul 2023 05:35:35 -1000
-Message-ID: <CAOSpxdZ=QgDhCpVL1HbmWraCqSYR_mqJTn42GAibn1FDhAHnng@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] tiff: fix multiple CVEs
-To: Hitendra Prajapati <hprajapati@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000eebe7a0601659945"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6129:EE_|CO1PR11MB5204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cddcae2-6bd9-4072-1d19-08db8df106a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Kqk9GdVP6Y0/SMRya7mybE+RozTBfSPw0V1BTG78mNCf9RsFp1J7Ej/+xqWKXyiH9nd4qrYAAGSkP1D65fni13I4zsFpdcRW8P6m+Kk/Od1JF0cRpV45ecgLEk2sweUwuAAa0nGhWlMFdCOp+XvmY/d8yPwkBnZIKLHQX8zAHrHTq1N5W2zh7bWZDqm+eVUdYtrcpU9t8ADVYQ+aQvrC/TuK7GVXVeqiIRsIU2bDvem1C+RX5HS/0ryGWPBoe4OpK9N38irQiJ6VeFD6DgkEJ1YytruG/JNdqrpZaxdgO1cH/j7FybAIVU62LzlPnSRfkg3o8FsAjyOU1Qr4zTmuSF4XqrU7y7YrCReU29chdNXZ2ua1/DUCqOoK/zl+0kRpkXOmJBjJPUHVieHeQrO45V/UZCbHnNOnZ126H7R27TtRv2tOYZRdMe5cKMyDGtRTUEd8O+k9JWELXiloHOUgZ2xZ2/QPiRNlxjaFLwF4SGnXkGzwB6ryKFHbyuJj0u9Cg5QZUyuUYnk8wJCdfgtbBc0+3NEzIj1F0SJUeq/ZjVkGpgym9fqF9upv/f6KxRP900KaLuk8StlvkxUGcWGRYRR0t6zPEhRfi9IjXbn9P9g=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(396003)(376002)(136003)(346002)(366004)(451199021)(1076003)(26005)(186003)(6506007)(2906002)(52116002)(86362001)(6916009)(4326008)(36756003)(8936002)(8676002)(6486002)(6512007)(6666004)(478600001)(107886003)(316002)(38350700002)(38100700002)(41300700001)(5660300002)(66476007)(66556008)(66946007)(2616005)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Vdh4s35ID9bsRlV2XwrPN1RPg3VKPwzGjiKgsjGPF+QjzJ26iNp9/fuqtVYq?=
+ =?us-ascii?Q?3jShcnnjgB/Gwr2OSq/0HrBYUPyJDa7ubKGOK1PB/gkuSif4GWUIsNt8azEP?=
+ =?us-ascii?Q?9kjCiR7aXk1YhYEUCwa9/Kd7YwsTSLb/XoLo4ODce993prikaV4M/6yLwc8g?=
+ =?us-ascii?Q?M6AaagrwBwTN8sAwDNhRjFvt13keS1I9xr0dCYbGvvwkm0jSAMBKMv2hrB/h?=
+ =?us-ascii?Q?mG6vNWznfJjR1a4iuHXuY3j//DOjLbCxXcE/x9H0gjrBxD/KclgQbxvSyZXJ?=
+ =?us-ascii?Q?gzJgdtDutm8R9Rq1AxYmKQiXzUr9G9rX3XLZvf5XqnCkGgMvB3S66la1sidW?=
+ =?us-ascii?Q?w3KTABVhZDcnoo88t2mAG0K0kVcrriTw0L5OplbUl9Xe4iZ0MzeTdnpsQ3ri?=
+ =?us-ascii?Q?JeUU/xI7TpEf24KTM71E4QgXQHzVSBWkK51QmAdz7JxjFHh/w2FSHU+Sl8Iv?=
+ =?us-ascii?Q?X3sxvYbZ8oM/TOnBrEtIqsSaIj7wXMLd+Deai2B6EqDELHOyZQmIX0K01G+l?=
+ =?us-ascii?Q?JSC16BIiktFkJXN4yCytRr9bhQzVIyK1XlVd3NB776mLC28Yg5FnSur9lf76?=
+ =?us-ascii?Q?OZQYyKMt2kDyKr2C5YbuB43vnSbh2GRaY9bLmN+qSYCAIzHrs6zsMZ/4WhZX?=
+ =?us-ascii?Q?KtdgvETZKA7s7pI8s66Ea39+/UZgkbNhNeMAUTKTQ0mgc/fYeGguTmhGjcvS?=
+ =?us-ascii?Q?qPrsCV6HfFXcEpJj5zO30tdPsSb+ctPfI4Upl+FVaNL+8Kv28wzlkSxlXgJQ?=
+ =?us-ascii?Q?aMv21cBqttYyxZkT93xe08YwDoEM9OAr+JWNlwl8aLva3WVoAny3aUf1HDX2?=
+ =?us-ascii?Q?Ff1D5rREiSkpdJCxaBnLJtApTt4XSwwkJ4uRXktn1zQyTPbdtaBuVO09WvRr?=
+ =?us-ascii?Q?8o5VcOMKuRlYX5Aevb2uQ5ptirYfqMfVz2CtKOn19OzutfbnI/dvWy5iRXZh?=
+ =?us-ascii?Q?V+rIMhOm1wtoYp3u8JsOiYBpRKPw29l5wEXN67UGbOJZa0TW8zO6N3KBCsdm?=
+ =?us-ascii?Q?D0NLQeyxwYEiVzQ8/FL8A6ua4Z642H8pFOBicBiyat1HOXAGufQTaNpkocdn?=
+ =?us-ascii?Q?UqucAsh97KBFdz72//bys/GvkmWPUWOA0CornIYfoM8e5+cmgSefRpkYLGPw?=
+ =?us-ascii?Q?VaL3/Z/NZULGZaBIZ6GnS1PdL16Th9wVcOALR9NT2TUGhLv6gXNi3TUGgIuo?=
+ =?us-ascii?Q?QPvVB/vVkIMoNO5gFxElulem0jxSk1yRy8lNxnLKygcVBgQ/uR8PZKqVcP0I?=
+ =?us-ascii?Q?CIteWZx6lFAnhxwHMbyLHJp5ya33PTcJEl9wA+rDKi2IdKNu0YD9UbuGZHzO?=
+ =?us-ascii?Q?YytO5c8lDU1ybiL0dqQOtxNfD2B8iiZU5kpcSNGjiHrS7bAD5XAf67079itF?=
+ =?us-ascii?Q?AGIvHelhFO9nZvUAVD+YjgqrZjv1abcKerQmC8/meKEDDGzmr0yS0WRgVFPE?=
+ =?us-ascii?Q?MbKrrz2R/ypNRk7X1c2UU4TZn8CfYTP1Sf8F359gOVC3bDew7cVuD0iuE8Lw?=
+ =?us-ascii?Q?RZi9SA9A1iAzvVhYGvANkn5HiThleOSGe0bHn68em4Rthx/R5tLD8YnRvGte?=
+ =?us-ascii?Q?17iHSLRyqkt5wDd89SUQNHdSInSAMPd0njvAIRiUIa7uT9eAAD14OZ06MYnQ?=
+ =?us-ascii?Q?Zg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cddcae2-6bd9-4072-1d19-08db8df106a9
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2023 15:57:34.2797
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YRFLP6pGLVCdH+/TEfOVjwf04AgG5hjwGP1aaX1HLS3k2kjmfaiblOf4bUWM+iym6GV5ZDIIaIK+Lv+4MY9ocyOue5wsTvedxR3ZLifDbh0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5204
+X-Proofpoint-GUID: i7Qh5tLtavN4BBnfotOIfWh8e5449SYc
+X-Proofpoint-ORIG-GUID: i7Qh5tLtavN4BBnfotOIfWh8e5449SYc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_06,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=564 clxscore=1015 mlxscore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307260141
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 15:35:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184887
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 15:57:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184888
 
---000000000000eebe7a0601659945
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+BOOTSTRAP_CARGO command fails due to codegen flags like `-Cpanic` were
+prevented from being reflected in the current target configuration which
+leads to Rust build(rust version 1.70) failure in Oe-selftest.
 
-It would be quite helpful to me if in the future you would send multiple
-patches to the same recipe as a patch series rather than individually.
+Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/9dffb52738e0b2ccd15af36d4607a709b21e020c]
 
-That way I won't have to try to figure out which order you intended them to
-be applied!
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+---
+ .../rust/files/bootstrap_fail.patch           | 127 ++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |   1 +
+ 2 files changed, 128 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/bootstrap_fail.patch
 
-Steve
+diff --git a/meta/recipes-devtools/rust/files/bootstrap_fail.patch b/meta/recipes-devtools/rust/files/bootstrap_fail.patch
+new file mode 100644
+index 0000000000..1f44b6eaf6
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/bootstrap_fail.patch
+@@ -0,0 +1,127 @@
++rust: Fix BOOTSTRAP_CARGO failure during Rust Oe-selftest
++
++BOOTSTRAP_CARGO command fails due to codegen flags like `-Cpanic` were
++prevented from being reflected in the current target configuration which
++leads to Rust build(rust version 1.70) failure in Oe-selftest.
++
++Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/9dffb52738e0b2ccd15af36d4607a709b21e020c]
++
++Signed-off-by: Yash Shinde <yashinde145@gmail.com>
++---
++diff --git a/src/tools/compiletest/src/common.rs b/src/tools/compiletest/src/common.rs
++--- a/src/tools/compiletest/src/common.rs
+++++ b/src/tools/compiletest/src/common.rs
++@@ -431,7 +431,6 @@
++             .unwrap()
++         };
++
++-        let mut current = None;
++         let mut all_targets = HashSet::new();
++         let mut all_archs = HashSet::new();
++         let mut all_oses = HashSet::new();
++@@ -452,14 +451,11 @@
++             }
++             all_pointer_widths.insert(format!("{}bit", cfg.pointer_width));
++
++-            if target == config.target {
++-                current = Some(cfg);
++-            }
++             all_targets.insert(target.into());
++         }
++
++         Self {
++-            current: current.expect("current target not found"),
+++            current: Self::get_current_target_config(config),
++             all_targets,
++             all_archs,
++             all_oses,
++@@ -471,6 +467,89 @@
++         }
++     }
++
+++    fn get_current_target_config(config: &Config) -> TargetCfg {
+++        let mut arch = None;
+++        let mut os = None;
+++        let mut env = None;
+++        let mut abi = None;
+++        let mut families = Vec::new();
+++        let mut pointer_width = None;
+++        let mut endian = None;
+++        let mut panic = None;
+++
+++        for config in
+++            rustc_output(config, &["--print=cfg", "--target", &config.target]).trim().lines()
+++        {
+++            let (name, value) = config
+++                .split_once("=\"")
+++                .map(|(name, value)| {
+++                    (
+++                        name,
+++                        Some(
+++                            value
+++                                .strip_suffix("\"")
+++                                .expect("key-value pair should be properly quoted"),
+++                        ),
+++                    )
+++                })
+++                .unwrap_or_else(|| (config, None));
+++
+++            match name {
+++                "target_arch" => {
+++                    arch = Some(value.expect("target_arch should be a key-value pair").to_string());
+++                }
+++                "target_os" => {
+++                    os = Some(value.expect("target_os sould be a key-value pair").to_string());
+++                }
+++                "target_env" => {
+++                    env = Some(value.expect("target_env should be a key-value pair").to_string());
+++                }
+++                "target_abi" => {
+++                    abi = Some(value.expect("target_abi should be a key-value pair").to_string());
+++                }
+++                "target_family" => {
+++                    families
+++                        .push(value.expect("target_family should be a key-value pair").to_string());
+++                }
+++                "target_pointer_width" => {
+++                    pointer_width = Some(
+++                        value
+++                            .expect("target_pointer_width should be a key-value pair")
+++                            .parse::<u32>()
+++                            .expect("target_pointer_width should be a valid u32"),
+++                    );
+++                }
+++                "target_endian" => {
+++                    endian = Some(match value.expect("target_endian should be a key-value pair") {
+++                        "big" => Endian::Big,
+++                        "little" => Endian::Little,
+++                        _ => panic!("target_endian should be either 'big' or 'little'"),
+++                    });
+++                }
+++                "panic" => {
+++                    panic = Some(match value.expect("panic should be a key-value pair") {
+++                        "abort" => PanicStrategy::Abort,
+++                        "unwind" => PanicStrategy::Unwind,
+++                        _ => panic!("panic should be either 'abort' or 'unwind'"),
+++                    });
+++                }
+++                _ => (),
+++            }
+++        }
+++
+++        TargetCfg {
+++            arch: arch.expect("target configuration should specify target_arch"),
+++            os: os.expect("target configuration should specify target_os"),
+++            env: env.expect("target configuration should specify target_env"),
+++            abi: abi.expect("target configuration should specify target_abi"),
+++            families,
+++            pointer_width: pointer_width
+++                .expect("target configuration should specify target_pointer_width"),
+++            endian: endian.expect("target configuration should specify target_endian"),
+++            panic: panic.expect("target configuration should specify panic"),
+++        }
+++    }
+++
++     // #[cfg(bootstrap)]
++     // Needed only for one cycle, remove during the bootstrap bump.
++     fn collect_all_slow(config: &Config) -> HashMap<String, TargetCfg> {
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 0009c50172..8b9199e9ab 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -7,6 +7,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
+             file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=${RUSTSRC} \
+             file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
++            file://bootstrap_fail.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843bfbaf5c34639"
+ 
+-- 
+2.39.0
 
-On Tue, Jul 25, 2023 at 8:09=E2=80=AFPM Hitendra Prajapati <hprajapati@mvis=
-ta.com>
-wrote:
-
-> Backport fixes for:
-> * CVE-2023-25433 - Upstream-Status: Backport from
-> https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c96=
-9656bb8d678
-> &&
-> https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea979=
-6787cfd1b44
-> * CVE-2023-25434 & CVE-2023-25435 - Upstream-Status: Backport from
-> https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c=
-3706b849c38
->
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> ---
->  .../libtiff/tiff/CVE-2023-25433.patch         | 195 ++++++++++++++++++
->  .../tiff/CVE-2023-25434-CVE-2023-25435.patch  |  94 +++++++++
->  meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
->  3 files changed, 291 insertions(+)
->  create mode 100644
-> meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
->  create mode 100644
-> meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
->
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
-> b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
-> new file mode 100644
-> index 0000000000..285aa3d1c4
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
-> @@ -0,0 +1,195 @@
-> +From 9c22495e5eeeae9e00a1596720c969656bb8d678 Mon Sep 17 00:00:00 2001
-> +From: Su_Laus <sulau@freenet.de>
-> +Date: Fri, 3 Feb 2023 15:31:31 +0100
-> +Subject: [PATCH] CVE-2023-25433
-> +
-> +tiffcrop correctly update buffersize after rotateImage()
-> +fix#520 rotateImage() set up a new buffer and calculates its size
-> +individually. Therefore, seg_buffs[] size needs to be updated accordingl=
-y.
-> +Before this fix, the seg_buffs buffer size was calculated with a differe=
-nt
-> +formula than within rotateImage().
-> +
-> +Closes #520.
-> +
-> +Upstream-Status: Backport [
-> https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c96=
-9656bb8d678
-> &&
-> https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea979=
-6787cfd1b44
-> ]
-> +CVE: CVE-2023-25433
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + tools/tiffcrop.c | 78 +++++++++++++++++++++++++++++++++++++-----------
-> + 1 file changed, 60 insertions(+), 18 deletions(-)
-> +
-> +diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-> +index eee26bf..cbd24cc 100644
-> +--- a/tools/tiffcrop.c
-> ++++ b/tools/tiffcrop.c
-> +@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t,
-> uint16_t, uint16_t, uint32_t,
-> + static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t,
-> uint32_t,
-> +                                      uint32_t, uint32_t, uint8_t *,
-> uint8_t *);
-> + static int rotateImage(uint16_t, struct image_data *, uint32_t *,
-> uint32_t *,
-> +-                       unsigned char **, int);
-> ++                       unsigned char **, size_t *);
-> + static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t=
-,
-> +                        unsigned char *);
-> + static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t=
-,
-> +@@ -6515,7 +6515,7 @@ static int  correct_orientation(struct image_data
-> *image, unsigned char **work_b
-> +        * but switch xres, yres there. */
-> +       uint32_t width =3D image->width;
-> +       uint32_t length =3D image->length;
-> +-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr,
-> TRUE))
-> ++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr,
-> NULL))
-> +       {
-> +       TIFFError ("correct_orientation", "Unable to rotate image");
-> +       return (-1);
-> +@@ -7695,16 +7695,19 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +
-> +     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it
-> can reallocate the buffer */
-> +       {
-> ++        /* rotateImage() set up a new buffer and calculates its size
-> ++         * individually. Therefore, seg_buffs size  needs to be updated
-> ++         * accordingly. */
-> ++      size_t rot_buf_size =3D 0;
-> +       if (rotateImage(crop->rotation, image, &crop->combined_width,
-> +-                      &crop->combined_length, &crop_buff, FALSE))
-> ++                      &crop->combined_length, &crop_buff, &rot_buf_size=
-))
-> +         {
-> +         TIFFError("processCropSelections",
-> +                   "Failed to rotate composite regions by %"PRIu32"
-> degrees", crop->rotation);
-> +         return (-1);
-> +         }
-> +       seg_buffs[0].buffer =3D crop_buff;
-> +-      seg_buffs[0].size =3D (((crop->combined_width * image->bps + 7 ) =
-/ 8)
-> +-                            * image->spp) * crop->combined_length;
-> ++      seg_buffs[0].size =3D rot_buf_size;
-> +       }
-> +     }
-> +   else  /* Separated Images */
-> +@@ -7804,9 +7807,13 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +         {
-> +           /* rotateImage() changes image->width, ->length, ->xres and
-> ->yres, what it schouldn't do here, when more than one section is
-> processed.
-> +            * ToDo: Therefore rotateImage() and its usage has to be
-> reworked (e.g. like mirrorImage()) !!
-> +-           */
-> +-      if (rotateImage(crop->rotation, image, &crop->regionlist[i].width=
-,
-> +-                      &crop->regionlist[i].length, &crop_buff, FALSE))
-> ++           * Furthermore, rotateImage() set up a new buffer and
-> calculates
-> ++           * its size individually. Therefore, seg_buffs size  needs to
-> be
-> ++           * updated accordingly. */
-> ++         size_t rot_buf_size =3D 0;
-> ++           if (rotateImage(
-> ++                crop->rotation, image, &crop->regionlist[i].width,
-> ++                &crop->regionlist[i].length, &crop_buff, &rot_buf_size)=
-)
-> +           {
-> +           TIFFError("processCropSelections",
-> +                     "Failed to rotate crop region by %"PRIu16" degrees"=
-,
-> crop->rotation);
-> +@@ -7817,8 +7824,7 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +         crop->combined_width =3D total_width;
-> +         crop->combined_length =3D total_length;
-> +         seg_buffs[i].buffer =3D crop_buff;
-> +-        seg_buffs[i].size =3D (((crop->regionlist[i].width * image->bps=
- +
-> 7 ) / 8)
-> +-                               * image->spp) *
-> crop->regionlist[i].length;
-> ++        seg_buffs[i].size =3D rot_buf_size;
-> +         }
-> +       }  /* for crop->selections loop */
-> +     }  /* Separated Images (else case) */
-> +@@ -7827,7 +7833,6 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +
-> + /* Copy the crop section of the data from the current image into a buff=
-er
-> +  * and adjust the IFD values to reflect the new size. If no cropping is
-> +- * required, use the original read buffer as the crop buffer.
-> +  *
-> +  * There is quite a bit of redundancy between this routine and the more
-> +  * specialized processCropSelections, but this provides
-> +@@ -7938,7 +7943,7 @@ createCroppedImage(struct image_data *image, struc=
-t
-> crop_mask *crop,
-> +   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can
-> reallocate the buffer */
-> +     {
-> +     if (rotateImage(crop->rotation, image, &crop->combined_width,
-> +-                    &crop->combined_length, crop_buff_ptr, TRUE))
-> ++                    &crop->combined_length, crop_buff_ptr, NULL))
-> +       {
-> +       TIFFError("createCroppedImage",
-> +                 "Failed to rotate image or cropped selection by
-> %"PRIu16" degrees", crop->rotation);
-> +@@ -8600,14 +8605,16 @@ rotateContigSamples32bits(uint16_t rotation,
-> uint16_t spp, uint16_t bps, uint32_
-> +
-> + /* Rotate an image by a multiple of 90 degrees clockwise */
-> + static int
-> +-rotateImage(uint16_t rotation, struct image_data *image, uint32_t
-> *img_width,
-> +-            uint32_t *img_length, unsigned char **ibuff_ptr, int
-> rot_image_params)
-> ++rotateImage(uint16_t rotation, struct image_data *image,
-> ++            uint32_t *img_width,uint32_t *img_length,
-> ++            unsigned char **ibuff_ptr, size_t *rot_buf_size)
-> +   {
-> +   int      shift_width;
-> +   uint32_t   bytes_per_pixel, bytes_per_sample;
-> +   uint32_t   row, rowsize, src_offset, dst_offset;
-> +   uint32_t   i, col, width, length;
-> +-  uint32_t   colsize, buffsize, col_offset, pix_offset;
-> ++  uint32_t colsize, col_offset, pix_offset;
-> ++  tmsize_t buffsize;
-> +   unsigned char *ibuff;
-> +   unsigned char *src;
-> +   unsigned char *dst;
-> +@@ -8620,12 +8627,41 @@ rotateImage(uint16_t rotation, struct image_data
-> *image, uint32_t *img_width,
-> +   spp =3D image->spp;
-> +   bps =3D image->bps;
-> +
-> ++  if ((spp !=3D 0 && bps !=3D 0 &&
-> ++         width > (uint32_t)((UINT32_MAX - 7) / spp / bps)) ||
-> ++        (spp !=3D 0 && bps !=3D 0 &&
-> ++         length > (uint32_t)((UINT32_MAX - 7) / spp / bps)))
-> ++    {
-> ++        TIFFError("rotateImage", "Integer overflow detected.");
-> ++        return (-1);
-> ++    }
-> ++
-> +   rowsize =3D ((bps * spp * width) + 7) / 8;
-> +   colsize =3D ((bps * spp * length) + 7) / 8;
-> +   if ((colsize * width) > (rowsize * length))
-> +-    buffsize =3D (colsize + 1) * width;
-> ++{
-> ++        if (((tmsize_t)colsize + 1) !=3D 0 &&
-> ++            (tmsize_t)width > ((TIFF_TMSIZE_T_MAX -
-> NUM_BUFF_OVERSIZE_BYTES) /
-> ++                               ((tmsize_t)colsize + 1)))
-> ++        {
-> ++            TIFFError("rotateImage",
-> ++                      "Integer overflow when calculating buffer size.")=
-;
-> ++            return (-1);
-> ++        }
-> ++        buffsize =3D ((tmsize_t)colsize + 1) * width;
-> ++    }
-> +   else
-> +-    buffsize =3D (rowsize + 1) * length;
-> ++    {
-> ++        if (((tmsize_t)rowsize + 1) !=3D 0 &&
-> ++            (tmsize_t)length > ((TIFF_TMSIZE_T_MAX -
-> NUM_BUFF_OVERSIZE_BYTES) /
-> ++                                ((tmsize_t)rowsize + 1)))
-> ++        {
-> ++            TIFFError("rotateImage",
-> ++                      "Integer overflow when calculating buffer size.")=
-;
-> ++            return (-1);
-> ++        }
-> ++        buffsize =3D (rowsize + 1) * length;
-> ++    }
-> +
-> +   bytes_per_sample =3D (bps + 7) / 8;
-> +   bytes_per_pixel  =3D ((bps * spp) + 7) / 8;
-> +@@ -8648,11 +8684,17 @@ rotateImage(uint16_t rotation, struct image_data
-> *image, uint32_t *img_width,
-> +   /* Add 3 padding bytes for extractContigSamplesShifted32bits */
-> +   if (!(rbuff =3D (unsigned char *)limitMalloc(buffsize +
-> NUM_BUFF_OVERSIZE_BYTES)))
-> +     {
-> +-    TIFFError("rotateImage", "Unable to allocate rotation buffer of %1u
-> bytes", buffsize + NUM_BUFF_OVERSIZE_BYTES);
-> ++    TIFFError("rotateImage",
-> ++              "Unable to allocate rotation buffer of %" TIFF_SSIZE_FORM=
-AT
-> ++              " bytes ",
-> ++              buffsize + NUM_BUFF_OVERSIZE_BYTES);
-> +     return (-1);
-> +     }
-> +   _TIFFmemset(rbuff, '\0', buffsize + NUM_BUFF_OVERSIZE_BYTES);
-> +
-> ++  if (rot_buf_size !=3D NULL)
-> ++      *rot_buf_size =3D buffsize;
-> ++
-> +   ibuff =3D *ibuff_ptr;
-> +   switch (rotation)
-> +     {
-> +--
-> +2.25.1
-> +
-> diff --git
-> a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patc=
-h
-> b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patc=
-h
-> new file mode 100644
-> index 0000000000..e214277504
-> --- /dev/null
-> +++
-> b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patc=
-h
-> @@ -0,0 +1,94 @@
-> +From 69818e2f2d246e6631ac2a2da692c3706b849c38 Mon Sep 17 00:00:00 2001
-> +From: Su_Laus <sulau@freenet.de>
-> +Date: Sun, 29 Jan 2023 11:09:26 +0100
-> +Subject: [PATCH] CVE-2023-25434 & CVE-2023-25435
-> +
-> +tiffcrop: Amend rotateImage() not to toggle the input (main)
-> +image width and length parameters when only cropped image sections are
-> +rotated. Remove buffptr from region structure because never used.
-> +
-> +Closes #492 #493 #494 #495 #499 #518 #519
-> +
-> +Upstream-Status: Backport [
-> https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c=
-3706b849c38
-> ]
-> +CVE: CVE-2023-25434 & CVE-2023-25435
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + tools/tiffcrop.c | 27 ++++++++++++++++-----------
-> + 1 file changed, 16 insertions(+), 11 deletions(-)
-> +
-> +diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-> +index cbd24cc..b811fbb 100644
-> +--- a/tools/tiffcrop.c
-> ++++ b/tools/tiffcrop.c
-> +@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t,
-> uint16_t, uint16_t, uint32_t,
-> + static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t,
-> uint32_t,
-> +                                      uint32_t, uint32_t, uint8_t *,
-> uint8_t *);
-> + static int rotateImage(uint16_t, struct image_data *, uint32_t *,
-> uint32_t *,
-> +-                       unsigned char **, size_t *);
-> ++                       unsigned char **, size_t *, int);
-> + static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t=
-,
-> +                        unsigned char *);
-> + static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t=
-,
-> +@@ -6513,10 +6513,11 @@ static int  correct_orientation(struct image_dat=
-a
-> *image, unsigned char **work_b
-> +       /* Dummy variable in order not to switch two times the
-> +        * image->width,->length within rotateImage(),
-> +        * but switch xres, yres there. */
-> +-      uint32_t width =3D image->width;
-> +-      uint32_t length =3D image->length;
-> +-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr,
-> NULL))
-> +-      {
-> ++        uint32_t width =3D image->width;
-> ++        uint32_t length =3D image->length;
-> ++        if (rotateImage(rotation, image, &width, &length, work_buff_ptr=
-,
-> NULL,
-> ++                        TRUE))
-> ++        {
-> +       TIFFError ("correct_orientation", "Unable to rotate image");
-> +       return (-1);
-> +       }
-> +@@ -7700,7 +7701,8 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +          * accordingly. */
-> +       size_t rot_buf_size =3D 0;
-> +       if (rotateImage(crop->rotation, image, &crop->combined_width,
-> +-                      &crop->combined_length, &crop_buff, &rot_buf_size=
-))
-> ++                      &crop->combined_length, &crop_buff, &rot_buf_size=
-,
-> ++                            FALSE))
-> +         {
-> +         TIFFError("processCropSelections",
-> +                   "Failed to rotate composite regions by %"PRIu32"
-> degrees", crop->rotation);
-> +@@ -7811,9 +7813,10 @@ processCropSelections(struct image_data *image,
-> struct crop_mask *crop,
-> +            * its size individually. Therefore, seg_buffs size  needs to
-> be
-> +            * updated accordingly. */
-> +          size_t rot_buf_size =3D 0;
-> +-           if (rotateImage(
-> +-                crop->rotation, image, &crop->regionlist[i].width,
-> +-                &crop->regionlist[i].length, &crop_buff, &rot_buf_size)=
-)
-> ++           if (rotateImage(crop->rotation, image,
-> ++                                &crop->regionlist[i].width,
-> ++                                &crop->regionlist[i].length, &crop_buff=
-,
-> ++                                &rot_buf_size, FALSE))
-> +           {
-> +           TIFFError("processCropSelections",
-> +                     "Failed to rotate crop region by %"PRIu16" degrees"=
-,
-> crop->rotation);
-> +@@ -7943,7 +7946,7 @@ createCroppedImage(struct image_data *image, struc=
-t
-> crop_mask *crop,
-> +   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can
-> reallocate the buffer */
-> +     {
-> +     if (rotateImage(crop->rotation, image, &crop->combined_width,
-> +-                    &crop->combined_length, crop_buff_ptr, NULL))
-> ++                    &crop->combined_length, crop_buff_ptr, NULL, TRUE))
-> +       {
-> +       TIFFError("createCroppedImage",
-> +                 "Failed to rotate image or cropped selection by
-> %"PRIu16" degrees", crop->rotation);
-> +@@ -8607,7 +8610,9 @@ rotateContigSamples32bits(uint16_t rotation,
-> uint16_t spp, uint16_t bps, uint32_
-> + static int
-> + rotateImage(uint16_t rotation, struct image_data *image,
-> +             uint32_t *img_width,uint32_t *img_length,
-> +-            unsigned char **ibuff_ptr, size_t *rot_buf_size)
-> ++            unsigned char **ibuff_ptr, size_t *rot_buf_size,
-> ++            int rot_image_params)
-> ++
-> +   {
-> +   int      shift_width;
-> +   uint32_t   bytes_per_pixel, bytes_per_sample;
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> index 2be25756bc..2ee10fca72 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> @@ -35,6 +35,8 @@ SRC_URI =3D "
-> http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
->             file://CVE-2022-48281.patch \
->             file://CVE-2023-0800_0801_0802_0803_0804.patch \
->             file://CVE-2023-0795_0796_0797_0798_0799.patch \
-> +           file://CVE-2023-25433.patch \
-> +           file://CVE-2023-25434-CVE-2023-25435.patch \
->             "
->
->  SRC_URI[sha256sum] =3D
-> "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184859):
-> https://lists.openembedded.org/g/openembedded-core/message/184859
-> Mute This Topic: https://lists.openembedded.org/mt/100345399/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> steve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000eebe7a0601659945
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It would be quite helpful to me if in the future you would=
- send multiple patches to the same recipe as a patch series rather than ind=
-ividually.<div><br></div><div>That way I won&#39;t have to try to figure ou=
-t which order you intended=C2=A0them to be applied!</div><div><br></div><di=
-v>Steve</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Tue, Jul 25, 2023 at 8:09=E2=80=AFPM Hitendra Prajapati &lt=
-;<a href=3D"mailto:hprajapati@mvista.com">hprajapati@mvista.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Backport fix=
-es for:<br>
-* CVE-2023-25433 - Upstream-Status: Backport from <a href=3D"https://gitlab=
-.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678" rel=
-=3D"noreferrer" target=3D"_blank">https://gitlab.com/libtiff/libtiff/-/comm=
-it/9c22495e5eeeae9e00a1596720c969656bb8d678</a> &amp;&amp; <a href=3D"https=
-://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd=
-1b44" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/libtiff/libti=
-ff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44</a><br>
-* CVE-2023-25434 &amp; CVE-2023-25435 - Upstream-Status: Backport from <a h=
-ref=3D"https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2d=
-a692c3706b849c38" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/l=
-ibtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38</a><br>
-<br>
-Signed-off-by: Hitendra Prajapati &lt;<a href=3D"mailto:hprajapati@mvista.c=
-om" target=3D"_blank">hprajapati@mvista.com</a>&gt;<br>
----<br>
-=C2=A0.../libtiff/tiff/CVE-2023-25433.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 195 ++++++++++++++++++<br>
-=C2=A0.../tiff/CVE-2023-25434-CVE-2023-25435.patch=C2=A0 |=C2=A0 94 +++++++=
-++<br>
-=C2=A0meta/recipes-multimedia/libtiff/<a href=3D"http://tiff_4.3.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">tiff_4.3.0.bb</a> |=C2=A0 =C2=A02 +<br>
-=C2=A03 files changed, 291 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-2543=
-3.patch<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-2543=
-4-CVE-2023-25435.patch<br>
-<br>
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch b/me=
-ta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch<br>
-new file mode 100644<br>
-index 0000000000..285aa3d1c4<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch<br>
-@@ -0,0 +1,195 @@<br>
-+From 9c22495e5eeeae9e00a1596720c969656bb8d678 Mon Sep 17 00:00:00 2001<br>
-+From: Su_Laus &lt;<a href=3D"mailto:sulau@freenet.de" target=3D"_blank">su=
-lau@freenet.de</a>&gt;<br>
-+Date: Fri, 3 Feb 2023 15:31:31 +0100<br>
-+Subject: [PATCH] CVE-2023-25433<br>
-+<br>
-+tiffcrop correctly update buffersize after rotateImage()<br>
-+fix#520 rotateImage() set up a new buffer and calculates its size<br>
-+individually. Therefore, seg_buffs[] size needs to be updated accordingly.=
-<br>
-+Before this fix, the seg_buffs buffer size was calculated with a different=
-<br>
-+formula than within rotateImage().<br>
-+<br>
-+Closes #520.<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://gitlab.com/libtiff/libtiff/-=
-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678" rel=3D"noreferrer" target=
-=3D"_blank">https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a=
-1596720c969656bb8d678</a> &amp;&amp; <a href=3D"https://gitlab.com/libtiff/=
-libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44" rel=3D"noreferre=
-r" target=3D"_blank">https://gitlab.com/libtiff/libtiff/-/commit/688012dca2=
-c39033aa2dc7bcea9796787cfd1b44</a>]<br>
-+CVE: CVE-2023-25433<br>
-+Signed-off-by: Hitendra Prajapati &lt;<a href=3D"mailto:hprajapati@mvista.=
-com" target=3D"_blank">hprajapati@mvista.com</a>&gt;<br>
-+---<br>
-+ tools/tiffcrop.c | 78 +++++++++++++++++++++++++++++++++++++-----------<br=
->
-+ 1 file changed, 60 insertions(+), 18 deletions(-)<br>
-+<br>
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c<br>
-+index eee26bf..cbd24cc 100644<br>
-+--- a/tools/tiffcrop.c<br>
-++++ b/tools/tiffcrop.c<br>
-+@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_=
-t, uint16_t, uint32_t,<br>
-+ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32=
-_t,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t, uint3=
-2_t, uint8_t *, uint8_t *);<br>
-+ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_=
-t *,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0unsigned char **, int);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0unsigned char **, size_t *);<br>
-+ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 unsigned char *);<br>
-+ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,<=
-br>
-+@@ -6515,7 +6515,7 @@ static int=C2=A0 correct_orientation(struct image_da=
-ta *image, unsigned char **work_b<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 * but switch xres, yres there. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t width =3D image-&gt;width;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t length =3D image-&gt;length;<br>
-+-=C2=A0 =C2=A0 =C2=A0 if (rotateImage(rotation, image, &amp;width, &amp;le=
-ngth, work_buff_ptr, TRUE))<br>
-++=C2=A0 =C2=A0 =C2=A0 if (rotateImage(rotation, image, &amp;width, &amp;le=
-ngth, work_buff_ptr, NULL))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError (&quot;correct_orientation&quot;, &qu=
-ot;Unable to rotate image&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return (-1);<br>
-+@@ -7695,16 +7695,19 @@ processCropSelections(struct image_data *image, st=
-ruct crop_mask *crop,<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0if (crop-&gt;crop_mode &amp; CROP_ROTATE) /* rotate sh=
-ould be last as it can reallocate the buffer */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* rotateImage() set up a new buffer and calc=
-ulates its size<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* individually. Therefore, seg_buffs si=
-ze=C2=A0 needs to be updated<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* accordingly. */<br>
-++=C2=A0 =C2=A0 =C2=A0 size_t rot_buf_size =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (rotateImage(crop-&gt;rotation, image, &amp;=
-crop-&gt;combined_width, <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;crop-&gt;combined_length, &amp;crop_buff, FALSE))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;crop-&gt;combined_length, &amp;crop_buff, &amp;rot_buf_size))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;processCropSelections&qu=
-ot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;Failed to rotate composite regions by %&quot;PRIu32&quot; degrees&quot;, c=
-rop-&gt;rotation);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return (-1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0seg_buffs[0].buffer =3D crop_buff;<br>
-+-=C2=A0 =C2=A0 =C2=A0 seg_buffs[0].size =3D (((crop-&gt;combined_width * i=
-mage-&gt;bps + 7 ) / 8)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 * image-&gt;spp) * crop-&gt;combined_length; <br>
-++=C2=A0 =C2=A0 =C2=A0 seg_buffs[0].size =3D rot_buf_size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0else=C2=A0 /* Separated Images */<br>
-+@@ -7804,9 +7807,13 @@ processCropSelections(struct image_data *image, str=
-uct crop_mask *crop,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* rotateImage() changes image-&g=
-t;width, -&gt;length, -&gt;xres and -&gt;yres, what it schouldn&#39;t do he=
-re, when more than one section is processed. <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * ToDo: Therefore rotateImage() =
-and its usage has to be reworked (e.g. like mirrorImage()) !!<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+-=C2=A0 =C2=A0 =C2=A0 if (rotateImage(crop-&gt;rotation, image, &amp;crop-=
-&gt;regionlist[i].width, <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;crop-&gt;regionlist[i].length, &amp;crop_buff, FALSE))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Furthermore, rotateImage() set=
- up a new buffer and calculates<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* its size individually. Therefo=
-re, seg_buffs size=C2=A0 needs to be<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* updated accordingly. */<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t rot_buf_size =3D 0;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (rotateImage(<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 crop-&gt;rotation=
-, image, &amp;crop-&gt;regionlist[i].width,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;crop-&gt;reg=
-ionlist[i].length, &amp;crop_buff, &amp;rot_buf_size))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;processCropSelect=
-ions&quot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;Failed to rotate crop region by %&quot;PRIu16&quot; degrees&quot;,=
- crop-&gt;rotation);<br>
-+@@ -7817,8 +7824,7 @@ processCropSelections(struct image_data *image, stru=
-ct crop_mask *crop,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0crop-&gt;combined_width =3D total_width;=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0crop-&gt;combined_length =3D total_lengt=
-h;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0seg_buffs[i].buffer =3D crop_buff;<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 seg_buffs[i].size =3D (((crop-&gt;regionlist[=
-i].width * image-&gt;bps + 7 ) / 8)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* image-&gt;spp) * crop-&gt;regionlis=
-t[i].length; <br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 seg_buffs[i].size =3D rot_buf_size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}=C2=A0 /* for crop-&gt;selections loop */<br>
-+=C2=A0 =C2=A0 =C2=A0}=C2=A0 /* Separated Images (else case) */<br>
-+@@ -7827,7 +7833,6 @@ processCropSelections(struct image_data *image, stru=
-ct crop_mask *crop,<br>
-+ <br>
-+ /* Copy the crop section of the data from the current image into a buffer=
-<br>
-+=C2=A0 * and adjust the IFD values to reflect the new size. If no cropping=
- is<br>
-+- * required, use the original read buffer as the crop buffer.<br>
-+=C2=A0 *<br>
-+=C2=A0 * There is quite a bit of redundancy between this routine and the m=
-ore<br>
-+=C2=A0 * specialized processCropSelections, but this provides<br>
-+@@ -7938,7 +7943,7 @@ createCroppedImage(struct image_data *image, struct =
-crop_mask *crop,<br>
-+=C2=A0 =C2=A0if (crop-&gt;crop_mode &amp; CROP_ROTATE) /* rotate should be=
- last as it can reallocate the buffer */<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0if (rotateImage(crop-&gt;rotation, image, &amp;crop-&g=
-t;combined_width, <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &am=
-p;crop-&gt;combined_length, crop_buff_ptr, TRUE))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &am=
-p;crop-&gt;combined_length, crop_buff_ptr, NULL))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;createCroppedImage&quot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Failed=
- to rotate image or cropped selection by %&quot;PRIu16&quot; degrees&quot;,=
- crop-&gt;rotation);<br>
-+@@ -8600,14 +8605,16 @@ rotateContigSamples32bits(uint16_t rotation, uint1=
-6_t spp, uint16_t bps, uint32_<br>
-+ <br>
-+ /* Rotate an image by a multiple of 90 degrees clockwise */<br>
-+ static int<br>
-+-rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_wi=
-dth,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t *img_length, unsigned =
-char **ibuff_ptr, int rot_image_params)<br>
-++rotateImage(uint16_t rotation, struct image_data *image,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t *img_width,uint32_t *i=
-mg_length,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char **ibuff_ptr, size=
-_t *rot_buf_size)<br>
-+=C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 shift_width;<br>
-+=C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0bytes_per_pixel, bytes_per_sample;<br>
-+=C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0row, rowsize, src_offset, dst_offset;<br=
->
-+=C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0i, col, width, length;<br>
-+-=C2=A0 uint32_t=C2=A0 =C2=A0colsize, buffsize, col_offset, pix_offset;<br=
->
-++=C2=A0 uint32_t colsize, col_offset, pix_offset;<br>
-++=C2=A0 tmsize_t buffsize;<br>
-+=C2=A0 =C2=A0unsigned char *ibuff;<br>
-+=C2=A0 =C2=A0unsigned char *src;<br>
-+=C2=A0 =C2=A0unsigned char *dst;<br>
-+@@ -8620,12 +8627,41 @@ rotateImage(uint16_t rotation, struct image_data *=
-image, uint32_t *img_width,<br>
-+=C2=A0 =C2=A0spp =3D image-&gt;spp;<br>
-+=C2=A0 =C2=A0bps =3D image-&gt;bps;<br>
-+ <br>
-++=C2=A0 if ((spp !=3D 0 &amp;&amp; bps !=3D 0 &amp;&amp;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0width &gt; (uint32_t)((UINT32_MAX - 7) =
-/ spp / bps)) ||<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (spp !=3D 0 &amp;&amp; bps !=3D 0 &amp;&amp;<=
-br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0length &gt; (uint32_t)((UINT32_MAX - 7)=
- / spp / bps)))<br>
-++=C2=A0 =C2=A0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 TIFFError(&quot;rotateImage&quot;, &quot;Inte=
-ger overflow detected.&quot;);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return (-1);<br>
-++=C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0rowsize =3D ((bps * spp * width) + 7) / 8;<br>
-+=C2=A0 =C2=A0colsize =3D ((bps * spp * length) + 7) / 8;<br>
-+=C2=A0 =C2=A0if ((colsize * width) &gt; (rowsize * length))<br>
-+-=C2=A0 =C2=A0 buffsize =3D (colsize + 1) * width;<br>
-++{<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (((tmsize_t)colsize + 1) !=3D 0 &amp;&amp;=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (tmsize_t)width &gt; ((TIFF_TMS=
-IZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0((tmsize_t)colsize + 1)))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TIFFError(&quot;rotateImage&quo=
-t;,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Integer overflow when calculating buffer size.&quot;);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (-1);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffsize =3D ((tmsize_t)colsize + 1) * width;=
-<br>
-++=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0else<br>
-+-=C2=A0 =C2=A0 buffsize =3D (rowsize + 1) * length;<br>
-++=C2=A0 =C2=A0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (((tmsize_t)rowsize + 1) !=3D 0 &amp;&amp;=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (tmsize_t)length &gt; ((TIFF_TM=
-SIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((tmsize_t)rowsize + 1)))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TIFFError(&quot;rotateImage&quo=
-t;,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Integer overflow when calculating buffer size.&quot;);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return (-1);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffsize =3D (rowsize + 1) * length;<br>
-++=C2=A0 =C2=A0 }<br>
-+ <br>
-+=C2=A0 =C2=A0bytes_per_sample =3D (bps + 7) / 8;<br>
-+=C2=A0 =C2=A0bytes_per_pixel=C2=A0 =3D ((bps * spp) + 7) / 8;<br>
-+@@ -8648,11 +8684,17 @@ rotateImage(uint16_t rotation, struct image_data *=
-image, uint32_t *img_width,<br>
-+=C2=A0 =C2=A0/* Add 3 padding bytes for extractContigSamplesShifted32bits =
-*/<br>
-+=C2=A0 =C2=A0if (!(rbuff =3D (unsigned char *)limitMalloc(buffsize + NUM_B=
-UFF_OVERSIZE_BYTES)))<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+-=C2=A0 =C2=A0 TIFFError(&quot;rotateImage&quot;, &quot;Unable to allocate=
- rotation buffer of %1u bytes&quot;, buffsize + NUM_BUFF_OVERSIZE_BYTES);<b=
-r>
-++=C2=A0 =C2=A0 TIFFError(&quot;rotateImage&quot;,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Unable to allocate=
- rotation buffer of %&quot; TIFF_SSIZE_FORMAT<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; bytes &quot;,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buffsize + NUM_BUFF_OVER=
-SIZE_BYTES);<br>
-+=C2=A0 =C2=A0 =C2=A0return (-1);<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0_TIFFmemset(rbuff, &#39;\0&#39;, buffsize + NUM_BUFF_OVERSIZE=
-_BYTES);<br>
-+ <br>
-++=C2=A0 if (rot_buf_size !=3D NULL)<br>
-++=C2=A0 =C2=A0 =C2=A0 *rot_buf_size =3D buffsize;<br>
-++<br>
-+=C2=A0 =C2=A0ibuff =3D *ibuff_ptr;<br>
-+=C2=A0 =C2=A0switch (rotation)<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+-- <br>
-+2.25.1<br>
-+<br>
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-2=
-5435.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-2=
-5435.patch<br>
-new file mode 100644<br>
-index 0000000000..e214277504<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.pa=
-tch<br>
-@@ -0,0 +1,94 @@<br>
-+From 69818e2f2d246e6631ac2a2da692c3706b849c38 Mon Sep 17 00:00:00 2001<br>
-+From: Su_Laus &lt;<a href=3D"mailto:sulau@freenet.de" target=3D"_blank">su=
-lau@freenet.de</a>&gt;<br>
-+Date: Sun, 29 Jan 2023 11:09:26 +0100<br>
-+Subject: [PATCH] CVE-2023-25434 &amp; CVE-2023-25435<br>
-+<br>
-+tiffcrop: Amend rotateImage() not to toggle the input (main)<br>
-+image width and length parameters when only cropped image sections are<br>
-+rotated. Remove buffptr from region structure because never used.<br>
-+<br>
-+Closes #492 #493 #494 #495 #499 #518 #519<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://gitlab.com/libtiff/libtiff/-=
-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38" rel=3D"noreferrer" target=
-=3D"_blank">https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631a=
-c2a2da692c3706b849c38</a>]<br>
-+CVE: CVE-2023-25434 &amp; CVE-2023-25435<br>
-+Signed-off-by: Hitendra Prajapati &lt;<a href=3D"mailto:hprajapati@mvista.=
-com" target=3D"_blank">hprajapati@mvista.com</a>&gt;<br>
-+---<br>
-+ tools/tiffcrop.c | 27 ++++++++++++++++-----------<br>
-+ 1 file changed, 16 insertions(+), 11 deletions(-)<br>
-+<br>
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c<br>
-+index cbd24cc..b811fbb 100644<br>
-+--- a/tools/tiffcrop.c<br>
-++++ b/tools/tiffcrop.c<br>
-+@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_=
-t, uint16_t, uint32_t,<br>
-+ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32=
-_t,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t, uint3=
-2_t, uint8_t *, uint8_t *);<br>
-+ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_=
-t *,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0unsigned char **, size_t *);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0unsigned char **, size_t *, int);<br>
-+ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 unsigned char *);<br>
-+ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,<=
-br>
-+@@ -6513,10 +6513,11 @@ static int=C2=A0 correct_orientation(struct image_=
-data *image, unsigned char **work_b<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Dummy variable in order not to switch two ti=
-mes the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 * image-&gt;width,-&gt;length within rotateIma=
-ge(),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 * but switch xres, yres there. */<br>
-+-=C2=A0 =C2=A0 =C2=A0 uint32_t width =3D image-&gt;width;<br>
-+-=C2=A0 =C2=A0 =C2=A0 uint32_t length =3D image-&gt;length;<br>
-+-=C2=A0 =C2=A0 =C2=A0 if (rotateImage(rotation, image, &amp;width, &amp;le=
-ngth, work_buff_ptr, NULL))<br>
-+-=C2=A0 =C2=A0 =C2=A0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t width =3D image-&gt;width;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t length =3D image-&gt;length;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rotateImage(rotation, image, &amp;width, =
-&amp;length, work_buff_ptr, NULL,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 TRUE))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError (&quot;correct_orientation&quot;, &qu=
-ot;Unable to rotate image&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return (-1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -7700,7 +7701,8 @@ processCropSelections(struct image_data *image, stru=
-ct crop_mask *crop,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * accordingly. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t rot_buf_size =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (rotateImage(crop-&gt;rotation, image, &amp;=
-crop-&gt;combined_width, <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;crop-&gt;combined_length, &amp;crop_buff, &amp;rot_buf_size))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;crop-&gt;combined_length, &amp;crop_buff, &amp;rot_buf_size,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 FALSE))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;processCropSelections&qu=
-ot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;Failed to rotate composite regions by %&quot;PRIu32&quot; degrees&quot;, c=
-rop-&gt;rotation);<br>
-+@@ -7811,9 +7813,10 @@ processCropSelections(struct image_data *image, str=
-uct crop_mask *crop,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * its size individually. Therefo=
-re, seg_buffs size=C2=A0 needs to be<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * updated accordingly. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t rot_buf_size =3D 0;<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (rotateImage(<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 crop-&gt;rotation=
-, image, &amp;crop-&gt;regionlist[i].width,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;crop-&gt;reg=
-ionlist[i].length, &amp;crop_buff, &amp;rot_buf_size))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (rotateImage(crop-&gt;rotatio=
-n, image,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;crop-&gt;regionlist[i].width,<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;crop-&gt;regionlist[i].length, =
-&amp;crop_buff,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;rot_buf_size, FALSE))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;processCropSelect=
-ions&quot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;Failed to rotate crop region by %&quot;PRIu16&quot; degrees&quot;,=
- crop-&gt;rotation);<br>
-+@@ -7943,7 +7946,7 @@ createCroppedImage(struct image_data *image, struct =
-crop_mask *crop,<br>
-+=C2=A0 =C2=A0if (crop-&gt;crop_mode &amp; CROP_ROTATE) /* rotate should be=
- last as it can reallocate the buffer */<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0if (rotateImage(crop-&gt;rotation, image, &amp;crop-&g=
-t;combined_width, <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &am=
-p;crop-&gt;combined_length, crop_buff_ptr, NULL))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &am=
-p;crop-&gt;combined_length, crop_buff_ptr, NULL, TRUE))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0TIFFError(&quot;createCroppedImage&quot;, <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Failed=
- to rotate image or cropped selection by %&quot;PRIu16&quot; degrees&quot;,=
- crop-&gt;rotation);<br>
-+@@ -8607,7 +8610,9 @@ rotateContigSamples32bits(uint16_t rotation, uint16_=
-t spp, uint16_t bps, uint32_<br>
-+ static int<br>
-+ rotateImage(uint16_t rotation, struct image_data *image,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t *img_width,uint32=
-_t *img_length,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char **ibuff_ptr, size=
-_t *rot_buf_size)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char **ibuff_ptr, size=
-_t *rot_buf_size,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int rot_image_params)<br>
-++<br>
-+=C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 shift_width;<br>
-+=C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0bytes_per_pixel, bytes_per_sample;<br>
-+-- <br>
-+2.25.1<br>
-+<br>
-diff --git a/meta/recipes-multimedia/libtiff/<a href=3D"http://tiff_4.3.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">tiff_4.3.0.bb</a> b/meta/recipes-mu=
-ltimedia/libtiff/<a href=3D"http://tiff_4.3.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">tiff_4.3.0.bb</a><br>
-index 2be25756bc..2ee10fca72 100644<br>
---- a/meta/recipes-multimedia/libtiff/<a href=3D"http://tiff_4.3.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">tiff_4.3.0.bb</a><br>
-+++ b/meta/recipes-multimedia/libtiff/<a href=3D"http://tiff_4.3.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">tiff_4.3.0.bb</a><br>
-@@ -35,6 +35,8 @@ SRC_URI =3D &quot;<a href=3D"http://download.osgeo.org/li=
-btiff/tiff-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://do=
-wnload.osgeo.org/libtiff/tiff-${PV}.tar.gz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2022-48281.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-0800_0801_0802_08=
-03_0804.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-0795_0796_0797_07=
-98_0799.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-25433.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-25434-CVE-2023-25=
-435.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;0e46e5acb087ce7d1ac53cf4f56a09b221537fc8=
-6dfc5daaad1c2e89e1b37ac8&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#184859): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/184859" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/184859</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100345399/362=
-0601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/100345399/3620601</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" target=
-=3D"_blank">steve@sakoman.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000eebe7a0601659945--
 
