@@ -1,209 +1,391 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57564C001DC
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 06:00:48 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.5240.1690351247048612078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50045C001DC
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 06:09:18 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.5312.1690351749663963765
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jul 2023 23:00:47 -0700
+ Tue, 25 Jul 2023 23:09:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=G5ZyvUPF;
- spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690351247; x=1721887247;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=XkE+zU+xcRipyMNagVDPgu7kIvC9JRqvvAuEUgOeMno=;
-  b=G5ZyvUPFuj4BSZ8o9dCJk8rlqg1mlEo3p5lZdmpxX+xvUAx7wzDdG41U
-   RhazZknH4FdcQB3hbjxcy7+BRut/JxCbgIxc/B7gIgXkx84DV40U0TpT9
-   omuGiHM5GWX/tUap+FPp5/+LgNDJhDlzTKD6Fav+ep7KlirLZ5ufagsSj
-   2/Q8zGA27lSgToc6k0cADDeSmAZQzhgf8lNLvRhtHGb47mgxZDBPTH6jo
-   eemqc7p+WrUoB0A8N7p0bLbMEL7xd9EOOb3WmM+TeS0R4nCwDtoTgQ426
-   XBpZL80Yn4sG9ba6/8u/0P2n7IChOjj0vF5h3K+S1erWrXK7qnUlLVi6G
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370600415"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="370600415"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 23:00:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="720320645"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="720320645"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga007.jf.intel.com with ESMTP; 25 Jul 2023 23:00:45 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 23:00:45 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 23:00:44 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 25 Jul 2023 23:00:44 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.43) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 25 Jul 2023 23:00:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H/lkQR93nf18raLXRH2MKbcs9GFzslwfKX6uuPG92lL3hwxzFYDtB3XWeaG0/9z9C5QcA04rzXgJo7q70PPkwiS1vs2TiCHEywS4R9iHK1VXJQVnzlSxUbcTYQWvqvjCjLod0iK1z1fWI6f4PM1eR3HH3X+r6nKJX3zcoVwzwq1vfFICEIoBI1AIbX6mY76p/Nwowx2ZqAKxlkNTaajIJIyN6hwN9gRrZKJiD4WeZ1aqfIV3bS359D82zMmOW7TxL67WBbYc4s0MHD1bOClOUSd28ZWJ/guT5sA3YSkgiL8wABIqMV+1zmPS2WRgnmiiiDVVBrM+al0pbivk6juuhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XkE+zU+xcRipyMNagVDPgu7kIvC9JRqvvAuEUgOeMno=;
- b=Qs4GYth1ZBzgNHmX1+JyIhih/BuFVFm2aLfX3BZKEVnnciQUMAEYbLyWjE/wx4HmvFlz+yCJ2nMTfCiRj7pWENARt0CdEckDmZu2D2GRhzq3CrDeiQ128r493SZY+FU06gSTkAgNkfdaInStMCnsIeb24p7EseD9xVyoAehjN1CYkjmNueIp1zsj3RzwSriKlVibrgWfzmM9m3NEQtX0Dv0N90T26A+XcFp9unHqhVMa5967u+UiwSo1U/FXkLseXJFUc2PzLbzqWNAq4pyk2uK/3UKBMHg23iGFgyYKZA3sWbzYkvgVWYgaXU30RqShalK4o+ZBO4WGCPVszjLV1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18)
- by CH3PR11MB7937.namprd11.prod.outlook.com (2603:10b6:610:12c::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Wed, 26 Jul
- 2023 06:00:42 +0000
-Received: from IA1PR11MB6418.namprd11.prod.outlook.com
- ([fe80::1b87:b80a:6e3b:c2af]) by IA1PR11MB6418.namprd11.prod.outlook.com
- ([fe80::1b87:b80a:6e3b:c2af%4]) with mapi id 15.20.6609.025; Wed, 26 Jul 2023
- 06:00:42 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "steve@sakoman.com" <steve@sakoman.com>, "ross.burton@arm.com"
-	<ross.burton@arm.com>, "randy.macleod@windriver.com"
-	<randy.macleod@windriver.com>, "Sundeep.Kokkonda@windriver.com"
-	<Sundeep.Kokkonda@windriver.com>
-Subject: Re: [OE-core] Toolchain test results
-Thread-Topic: [OE-core] Toolchain test results
-Thread-Index: AQHZuv0eLeKLkpz+HEmePLstP3FOsa/LlwmA
-Date: Wed, 26 Jul 2023 06:00:42 +0000
-Message-ID: <e6b6426580c3f6be5f492e2d1b9ae2a0b8049d12.camel@intel.com>
-References: <1772EB68FCA90E64.1400@lists.openembedded.org>
-	 <1c22b4fdfdcf22b58f7e06df872a9e0980645328.camel@linuxfoundation.org>
-In-Reply-To: <1c22b4fdfdcf22b58f7e06df872a9e0980645328.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6418:EE_|CH3PR11MB7937:EE_
-x-ms-office365-filtering-correlation-id: cbf4d3f0-d619-41c5-b605-08db8d9da54d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: r7Sg8gh0tcaOorAEOc3+BZP9zk3RW3phYD4g9zmCfyPeGRbv/Npy/9VZJZsfOd7LWFWp/CD1JLtFbW4FLjLOs/I9REc7HGTHH3P4VvE1rwqjTjxICh2IonLzXS/CYTq+gEZbhrWgso9eXI//4LeLh5WdpMHDAhWJrPrGaUiOTD60POMHipfhiStBZBuTWPGWYfotuJAVppb8dkVvLvA1ZFIdXhtMOMhsXHv8scjxgZrmPxvS19GnoXExp9hhhZeW756J9LcwphH57OkAjY3rbghVr2HtmRp5YHcCIfh5bDkhe1xFRWRb06/y4+5pLyehhlbFuZCbrr/sYA+Ap8f+O+wU9RuUqCIkLse9NnAgm1u1FhzeTZRT39HedfKfBSM55w6h0Nengk5ZsfVqYLVghOnfcNYtnMBVLqBMVb5o24+Cy3ifxuxWE4FpB56zepc0H+RqIKSL3FcaTHEnhKaFqPmachvntyi3yIbIXyvrjNC8OxvUzzW6IoQuucGDPmhW59/r7IZxJYAAY8pJjyFnJon1776aHZ9Zh80GBEoPu1oxXDOguDeD2FdneSywrLCOh1Ga4QZZNUzKZBFt6mieA32DZCWHZK26xxQcgUCkrUE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6418.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(39860400002)(376002)(136003)(396003)(451199021)(966005)(6512007)(6486002)(54906003)(478600001)(110136005)(83380400001)(36756003)(38070700005)(86362001)(2906002)(66476007)(66556008)(2616005)(71200400001)(186003)(6506007)(26005)(66946007)(82960400001)(122000001)(66446008)(38100700002)(91956017)(41300700001)(316002)(4326008)(64756008)(76116006)(8936002)(5660300002)(8676002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MFc1QkFpTFZta0tSRHRsVG12bnBRbWsyK3ZQMEpJalF2TjZnTTNFQURwRjZz?=
- =?utf-8?B?ckhBOUJ0d253N3ppZU1FYVduczM5d0JLV29acjBRRkFnM3dtdjlBNTk1Mm1w?=
- =?utf-8?B?Um9PWW40VFhwTGJEaVkzc3lBR3N1VGxHWHBVT1JiR01kLzZnMXUvOGJxWWNk?=
- =?utf-8?B?MURSaDc1Zjdoa0Y3ZnNkSThrSVcvc1hqYzFQbnJNZlIxN1N3S0hJVmFCSHlI?=
- =?utf-8?B?ckxneVhidG14NHdhYjZkNDRENythaXJwL0FWRVp3SmgvTTRXL25oeWg0OTdE?=
- =?utf-8?B?WWNPR2xsWlpVVE5uM3hJdGcrR1NiVFlIWEp6M0pDNFNmbjMrTXNJS2tuYzFI?=
- =?utf-8?B?TEVTWkVJSi9RQW9ZU0U5R3l4UGlvQkg3c0lSMzVyTTZQMzEzblV2YWorQ0J6?=
- =?utf-8?B?QXg2KzZpQm1TeEV0Ly9jR2ZyemFXV3BobkhaVzJkUWdKMGRCMURyYWQ0b1Rz?=
- =?utf-8?B?NWdtWmh5eW5mL3drczZTMENhckswZlFhbURkK04vNldyNG5wL0NjSzRnWlNi?=
- =?utf-8?B?TG81cGlNUjlRTmJFbktlLzZvVmsyMFlxMFVzdEVtUnRpSG8vSm1WTkRzWk5Y?=
- =?utf-8?B?RWo0NDRuNlhXMjNRbWVUNnZCS2lMbi9rYzNNTUlMeUpYMlcwclcvSnB2VlBl?=
- =?utf-8?B?S1ZobzgvZXIwWDBZWWFDdThuazJFMURrQWc3YllqeDJxSlFMVVM5YWwzODU5?=
- =?utf-8?B?Zkc0L1Ztb0NBT281UWdzNzF6RlBJbVJnd2FXbU00SnluVTVlaEJ6L2o3aGxT?=
- =?utf-8?B?KzB0QzJzRVhFOHhjTnp0aUpoZnNmQnZMV29lbnNKU2gzdGVYM091MmdBUnE5?=
- =?utf-8?B?L0N2NnRjU1U0dVZsdFdITXVwVS9lcnROUFZYaHNlVUc0TVZLV2d0VkRkNWk4?=
- =?utf-8?B?WTdRTlVTMEIrNHV2QzZlbTdyTUJMZXl0VkM4eHprV2JOOERGRUZjejFNNW5B?=
- =?utf-8?B?UEMwOExhamsraW5rTUs2b2h6ZDUyYmxScWt2RUxwM3U4Q1hlNFl6NUdxZEY1?=
- =?utf-8?B?Y2RZNTZFTTE0OGdHZkxXNFVHeWhlK28xNm56SUNVSVcvRWs2Z29MR0crc29E?=
- =?utf-8?B?ZzEyQXpjdzdCcHdqMnZ3K1JKbFdPMFpYSHZPdzF1STRxZUJSREt4dzMvQnor?=
- =?utf-8?B?R0hSeGJYRlJMK0lzR09VbGdRaCtJa1BUWXVXTGNKWFlTQjNWb1Nib3poUTJR?=
- =?utf-8?B?czJBNTNGMUlCUy9wcHdpeUs0UHR3YkFXVExkVFBoTEtvMVQwbDRENWpZc0pE?=
- =?utf-8?B?YkUrK3FkS2F0Z0pCNW5QaVpRa2U0KzFkcGZyUHZWZVF3aWxFUVVJbm1JL2M1?=
- =?utf-8?B?V2dpZ1FwdjRHWjRVYTZJUDB3U0Y0anhmVk1CUjNSVEVYLyt2SUJNT3Q2S3VN?=
- =?utf-8?B?VDVPaW9pT2laR1dGWkkwTmVkU2VzcEVTanZvbnJmOWJWQTdSVHJrc2VGaW5U?=
- =?utf-8?B?dzllQjBXTXN4UTB1Mk40MEpxbmdsSTdvNjF6d1RoMURzSXpINHdhUHBzeXpG?=
- =?utf-8?B?TFJVcEh2Qkh1VzRSMGtVZC84bkZzdVR1NVFhcXUrc3pxUVZyaXN4Q1RrMFpr?=
- =?utf-8?B?SEJ3dm1wNDBTdkR6SWNDSHN1bUNrMElqMFdFZkk0Qy9Oc2p5ZS9MemRLSExB?=
- =?utf-8?B?dDVlcng3cFFjN2h4bzVDdHBVVFI2VHdwdFdjMXJXalNqT09yWUdyUFlabTV0?=
- =?utf-8?B?L2VTQ003eFlTU254S29PMUM4L2h4TTlUTVVrWklnSXdubzVWVVFjM2JnUWsz?=
- =?utf-8?B?ZVpJK3I3UXNKNHozZzVHZ2VrYkt1TVJYTmwrQnhiU01SY0o0WENRNUdiQ3JZ?=
- =?utf-8?B?c2E2UWJTTG1jckdNNzd0RmZzNDQ3OTYzWnE3YWFrUThONjVPL2pxaVFPNEVU?=
- =?utf-8?B?YUE4UTNFZlliakVaRnRqSUR1THU3MG5zSXVJRHlXN2tUZUVGWVVBL1k2RFVD?=
- =?utf-8?B?UjhQeUtleUhXOHhNZTZ4RGNTQmsxbkk0YXUyRUp2eFlkNW1idTdCS2diTmo2?=
- =?utf-8?B?U2dScFpsQzA5T256SmhtYXZIbjRrdFJ1SGxZNEo5UEtkWXZ1bGFyTUxuaFN3?=
- =?utf-8?B?eEIxWVlXRllOVGtMeUVUdmo4NDdnN3hMMmh0V1BHalVsNXNTT1FCZGk1QnRq?=
- =?utf-8?B?MENCcWlRL2JBL2c0aXdEL3pQbGs1VDIrMEI0MjJ6Rjd0VVBTdklYUlRZSERF?=
- =?utf-8?B?anc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <36F521A8D8B91E408AF9A0F7C4B65A43@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@mvista.com header.s=google header.b=PO/sH8gm;
+ spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686bea20652so548173b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Jul 2023 23:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1690351749; x=1690956549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qldu6Q2aVvAPcgwfrxGKXCSBVjGqnBh421IUDTW4zFY=;
+        b=PO/sH8gmoKS0VkKADH4+xlMrQbQ8RbV4vYJbQdcgoJ9C26keDsOwRpGRinyvZ1WPxJ
+         FG3V4fHsMKuTnEj4v8haUBQrFpOamsvux6eMDBXUiVJvLWdDdxvAtWD+XVH+ppQMul8v
+         xXCOS66euPqePzblaiqEyUxJ1R8M7mM1gZ7GI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690351749; x=1690956549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qldu6Q2aVvAPcgwfrxGKXCSBVjGqnBh421IUDTW4zFY=;
+        b=Q4kjPKotZJ0exSF29Vk2/73fpD6Qx3Sn74WZ1FaWh1nJCFb2rEsR9hpWxApvT/OL0/
+         LfR6YFdjwikLO+Z/gHzRZiKrfWqnv9G60G9nYznZjjnupn/+B56hn+xjVOiWPtjW60k1
+         QgkWELv4Z8Vcq4v3D0VLtvmMacUo7mD5nQBpHSDAoPlu0nYZp861bv5Pe+T4Az9Q62+a
+         bb1/EqvrlMO3vkiZuGwEqxOOGBe9Q1p5Q7z8wWLpCuVcBKnQObNVUCk8plsRFyO1dPoj
+         KuWMvqfglCOX2vJyaDVxEKJc9KZ1qvU8zp9of8jNu1u0UpUlkEEofOGEr0brC5Gja6jD
+         2wDw==
+X-Gm-Message-State: ABy/qLaH83lvRnNb3p1direwu12HPXWxtWQmdKTjeNfikckUw4aBdNGb
+	XKTnWhSuj6t+zRrCUSXD/EHWPvK8pHb2o22ttDyPiQ==
+X-Google-Smtp-Source: APBJJlF8vKx1g1ywx36QzoBLOCOmaRD3y5xnk5e/XMJTaeVE6/2VtFC4HYPhQV2c/iyK81FhEBZ6PA==
+X-Received: by 2002:a05:6a00:13a2:b0:686:5a11:a434 with SMTP id t34-20020a056a0013a200b006865a11a434mr1635484pfg.3.1690351748632;
+        Tue, 25 Jul 2023 23:09:08 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.172])
+        by smtp.gmail.com with ESMTPSA id c25-20020aa78e19000000b00682c864f35bsm10962285pfr.140.2023.07.25.23.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 23:09:08 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Wed, 26 Jul 2023 11:39:03 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] tiff: fix multiple CVEs
+Date: Wed, 26 Jul 2023 11:39:02 +0530
+Message-Id: <20230726060902.40037-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6418.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbf4d3f0-d619-41c5-b605-08db8d9da54d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2023 06:00:42.5384
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1aY4/gMmtr6aM6dN9toPa7zWELD09iTdNJqXIlj4O5Q0v0dEi9ZHmBH1M0avV2zt/i3cMqJ/R2OA9gqoK183Qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7937
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 06:00:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184858
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 06:09:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184859
 
-T24gVGh1LCAyMDIzLTA3LTIwIGF0IDEyOjI2ICswMTAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
-Cj4gT24gVHVlLCAyMDIzLTA3LTE4IGF0IDEwOjE0ICswMTAwLCBSaWNoYXJkIFB1cmRpZSB2aWEN
-Cj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBxZW11YXJtIGhhcyB+MzUwIGZh
-aWx1cmVzDQo+ID4gcWVtdWFybTY0IGhhcyB+MzUwIGZhaWx1cmVzDQo+ID4gcWVtdXg4Ni02NCBo
-YXMgfjQwMDAgKDM5MDAgaW4gZ2xpYmMpDQo+ID4gcWVtdXg4NiBoYXMgfjQwMDAgKDM1MDAgaW4g
-Z2xpYmMpDQo+ID4gcWVtdXBwYyBoYXMgfjYwMCBmYWlsdXJlcw0KPiA+IHFlbXVtaXBzNjQgaGFz
-IH41MDAwIGZhaWx1cmVzIChhbGwgb3ZlcikNCj4gPiBxZW11bWlwcyBoYXMgfjE2MDAgZmFpbHVy
-ZXMNCj4gPiANCj4gPiBBbnVqOiBDYW4gSW50ZWwgbG9vayBpbnRvIHRoZSBnbGliYyB0ZXN0IGZh
-aWx1cmVzIG9uIHg4Nj8NCj4gDQo+IEkgcmVhbGlzZWQgdGhlIGdsaWJjIGlzc3VlcyB3ZXJlIGR1
-ZSB0byB0aGUgbmV0d29yayBiZWluZyBkaXNhYmxlZA0KPiBmb3INCj4gdGhlIHRlc3RzIGFuZCBo
-YXZlIHNlbnQgYSBwYXRjaCB0byBmaXggdGhhdC4gVGhhdCByZWR1Y2VzIHRoZQ0KPiBmYWlsdXJl
-cw0KPiBmcm9tIH4zOTAwIHRvIH4zMzAuIFdlIHNob3VsZCByZWFsbHkgdHJ5IGFuZCByZWR1Y2Ug
-dGhhdCBmdXJ0aGVyIGJ1dA0KPiBpdA0KPiBpcyBhIHN0YXJ0IQ0KPiANCg0KQSBsb3Qgb2YgbG9j
-YWxlL2ljb252IHRlc3RzIHNlZW1lZCB0byBiZSBmYWlsaW5nIHdoZW4gY2FsbGluZyB3cml0ZQ0K
-d2l0aCBsYXJnZSBidWZmZXJzL2ZpbGVzIG92ZXIgTkZTLsKgU29tZSBvZiBvdGhlcnMgd2VyZSB0
-cmlnZ2VyaW5nIE9PTS4NCg0KSSByYW4gdGhlIHRlc3RzIGFnYWluIGFmdGVyIG1ha2luZyBhIGZl
-dyBjaGFuZ2VzOg0KDQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvLmlvL3B1Yi9ub24tcmVsZWFz
-ZS8yMDIzMDcyNi0xMS90ZXN0cmVzdWx0cy9xZW11eDg2LTY0LXRjLw0KDQpBZnRlciBzd2l0Y2hp
-bmcgTkZTIG1vdW50IHRvIFRDUCBhbmQgaW5jcmVhc2luZyB0aGUgbWVtb3J5IGF2YWlsYWJsZSB0
-bw0KMTAyNCwgdGhlIG51bWJlciBvZiB0ZXN0cyBmYWlsZWQgY2FtZSBkb3duIHRvIDY5Lg0KDQo9
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PQ0KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpx
-ZW11eDg2LTY0IFBUZXN0IFJlc3VsdCBTdW1tYXJ5DQo9PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpSZWNpcGUgICAgICAgICAgIHwgUGFzc2Vk
-ICAgICAgIHwgRmFpbGVkICAgfCBTa2lwcGVkICAgICB8IFRpbWUocykNCi0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCmJpbnV0aWxzICAgICAg
-ICAgfCAyODkgICAgICAgICAgfCAwICAgICAgICB8IDggICAgICAgICAgIHwgLQ0KYmludXRpbHMt
-Z2FzICAgICB8IDE1ODIgICAgICAgICB8IDQgICAgICAgIHwgMSAgICAgICAgICAgfCAtDQpiaW51
-dGlscy1sZCAgICAgIHwgMTYyMiAgICAgICAgIHwgNiAgICAgICAgfCAxMTEgICAgICAgICB8IC0N
-CmdjYyAgICAgICAgICAgICAgfCAxNDk2OTYgICAgICAgfCAyOCAgICAgICB8IDI3NTk5ICAgICAg
-IHwgLQ0KZ2NjLWcrKyAgICAgICAgICB8IDIxOTI2MCAgICAgICB8IDMwICAgICAgIHwgMjExMDgg
-ICAgICAgfCAtDQpnY2MtbGliYXRvbWljICAgIHwgMjcgICAgICAgICAgIHwgMSAgICAgICAgfCAy
-NyAgICAgICAgICB8IC0NCmdjYy1saWJnb21wICAgICAgfCAzNDI2ICAgICAgICAgfCAxICAgICAg
-ICB8IDE5NjIgICAgICAgIHwgLQ0KZ2NjLWxpYml0bSAgICAgICB8IDI0ICAgICAgICAgICB8IDEg
-ICAgICAgIHwgMjQgICAgICAgICAgfCAtDQpnY2MtbGlic3RkYysrLXYzIHwgOTY5NSAgICAgICAg
-IHwgMzIgICAgICAgfCA1NDU5ICAgICAgICB8IC0NCmdsaWJjICAgICAgICAgICAgfCA0OTg0ICAg
-ICAgICAgfCA2OSAgICAgICB8IDE0NyAgICAgICAgIHwgLQ0KcnVzdCAgICAgICAgICAgICB8IDE1
-NzY4ICAgICAgICB8IDAgICAgICAgIHwgNTU0ICAgICAgICAgfCAtDQotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNClRoYW5rcywNCg0KQW51
-ag0K
+Backport fixes for:
+* CVE-2023-25433 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44
+* CVE-2023-25434 & CVE-2023-25435 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../libtiff/tiff/CVE-2023-25433.patch         | 195 ++++++++++++++++++
+ .../tiff/CVE-2023-25434-CVE-2023-25435.patch  |  94 +++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
+ 3 files changed, 291 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
+
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
+new file mode 100644
+index 0000000000..285aa3d1c4
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
+@@ -0,0 +1,195 @@
++From 9c22495e5eeeae9e00a1596720c969656bb8d678 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 3 Feb 2023 15:31:31 +0100
++Subject: [PATCH] CVE-2023-25433
++
++tiffcrop correctly update buffersize after rotateImage()
++fix#520 rotateImage() set up a new buffer and calculates its size
++individually. Therefore, seg_buffs[] size needs to be updated accordingly.
++Before this fix, the seg_buffs buffer size was calculated with a different
++formula than within rotateImage().
++
++Closes #520.
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44]
++CVE: CVE-2023-25433
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 78 +++++++++++++++++++++++++++++++++++++-----------
++ 1 file changed, 60 insertions(+), 18 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index eee26bf..cbd24cc 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
++ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
++                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
++ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
++-                       unsigned char **, int);
+++                       unsigned char **, size_t *);
++ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++                        unsigned char *);
++ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++@@ -6515,7 +6515,7 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++        * but switch xres, yres there. */
++       uint32_t width = image->width;
++       uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
+++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++       {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++@@ -7695,16 +7695,19 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++ 
++     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++       {
+++        /* rotateImage() set up a new buffer and calculates its size
+++         * individually. Therefore, seg_buffs size  needs to be updated
+++         * accordingly. */
+++      size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, FALSE))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
++         return (-1);
++         }
++       seg_buffs[0].buffer = crop_buff;
++-      seg_buffs[0].size = (((crop->combined_width * image->bps + 7 ) / 8)
++-                            * image->spp) * crop->combined_length; 
+++      seg_buffs[0].size = rot_buf_size;
++       }
++     }
++   else  /* Separated Images */
++@@ -7804,9 +7807,13 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++         {
++           /* rotateImage() changes image->width, ->length, ->xres and ->yres, what it schouldn't do here, when more than one section is processed. 
++            * ToDo: Therefore rotateImage() and its usage has to be reworked (e.g. like mirrorImage()) !!
++-           */
++-	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
++-			&crop->regionlist[i].length, &crop_buff, FALSE))
+++           * Furthermore, rotateImage() set up a new buffer and calculates
+++           * its size individually. Therefore, seg_buffs size  needs to be
+++           * updated accordingly. */
+++	   size_t rot_buf_size = 0;
+++           if (rotateImage(
+++                crop->rotation, image, &crop->regionlist[i].width,
+++                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
++@@ -7817,8 +7824,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++         crop->combined_width = total_width;
++         crop->combined_length = total_length;
++         seg_buffs[i].buffer = crop_buff;
++-        seg_buffs[i].size = (((crop->regionlist[i].width * image->bps + 7 ) / 8)
++-                               * image->spp) * crop->regionlist[i].length; 
+++        seg_buffs[i].size = rot_buf_size;
++         }
++       }  /* for crop->selections loop */
++     }  /* Separated Images (else case) */
++@@ -7827,7 +7833,6 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++ 
++ /* Copy the crop section of the data from the current image into a buffer
++  * and adjust the IFD values to reflect the new size. If no cropping is
++- * required, use the original read buffer as the crop buffer.
++  *
++  * There is quite a bit of redundancy between this routine and the more
++  * specialized processCropSelections, but this provides
++@@ -7938,7 +7943,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, TRUE))
+++                    &crop->combined_length, crop_buff_ptr, NULL))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
++@@ -8600,14 +8605,16 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
++ 
++ /* Rotate an image by a multiple of 90 degrees clockwise */
++ static int
++-rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++-            uint32_t *img_length, unsigned char **ibuff_ptr, int rot_image_params)
+++rotateImage(uint16_t rotation, struct image_data *image,
+++            uint32_t *img_width,uint32_t *img_length,
+++            unsigned char **ibuff_ptr, size_t *rot_buf_size)
++   {
++   int      shift_width;
++   uint32_t   bytes_per_pixel, bytes_per_sample;
++   uint32_t   row, rowsize, src_offset, dst_offset;
++   uint32_t   i, col, width, length;
++-  uint32_t   colsize, buffsize, col_offset, pix_offset;
+++  uint32_t colsize, col_offset, pix_offset;
+++  tmsize_t buffsize;
++   unsigned char *ibuff;
++   unsigned char *src;
++   unsigned char *dst;
++@@ -8620,12 +8627,41 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++   spp = image->spp;
++   bps = image->bps;
++ 
+++  if ((spp != 0 && bps != 0 &&
+++         width > (uint32_t)((UINT32_MAX - 7) / spp / bps)) ||
+++        (spp != 0 && bps != 0 &&
+++         length > (uint32_t)((UINT32_MAX - 7) / spp / bps)))
+++    {
+++        TIFFError("rotateImage", "Integer overflow detected.");
+++        return (-1);
+++    }
+++
++   rowsize = ((bps * spp * width) + 7) / 8;
++   colsize = ((bps * spp * length) + 7) / 8;
++   if ((colsize * width) > (rowsize * length))
++-    buffsize = (colsize + 1) * width;
+++{
+++        if (((tmsize_t)colsize + 1) != 0 &&
+++            (tmsize_t)width > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                               ((tmsize_t)colsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = ((tmsize_t)colsize + 1) * width;
+++    }
++   else
++-    buffsize = (rowsize + 1) * length;
+++    {
+++        if (((tmsize_t)rowsize + 1) != 0 &&
+++            (tmsize_t)length > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                                ((tmsize_t)rowsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = (rowsize + 1) * length;
+++    }
++ 
++   bytes_per_sample = (bps + 7) / 8;
++   bytes_per_pixel  = ((bps * spp) + 7) / 8;
++@@ -8648,11 +8684,17 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++   /* Add 3 padding bytes for extractContigSamplesShifted32bits */
++   if (!(rbuff = (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES)))
++     {
++-    TIFFError("rotateImage", "Unable to allocate rotation buffer of %1u bytes", buffsize + NUM_BUFF_OVERSIZE_BYTES);
+++    TIFFError("rotateImage",
+++              "Unable to allocate rotation buffer of %" TIFF_SSIZE_FORMAT
+++              " bytes ",
+++              buffsize + NUM_BUFF_OVERSIZE_BYTES);
++     return (-1);
++     }
++   _TIFFmemset(rbuff, '\0', buffsize + NUM_BUFF_OVERSIZE_BYTES);
++ 
+++  if (rot_buf_size != NULL)
+++	*rot_buf_size = buffsize;
+++
++   ibuff = *ibuff_ptr;
++   switch (rotation)
++     {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
+new file mode 100644
+index 0000000000..e214277504
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
+@@ -0,0 +1,94 @@
++From 69818e2f2d246e6631ac2a2da692c3706b849c38 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 29 Jan 2023 11:09:26 +0100
++Subject: [PATCH] CVE-2023-25434 & CVE-2023-25435
++
++tiffcrop: Amend rotateImage() not to toggle the input (main)
++image width and length parameters when only cropped image sections are
++rotated. Remove buffptr from region structure because never used.
++
++Closes #492 #493 #494 #495 #499 #518 #519
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38]
++CVE: CVE-2023-25434 & CVE-2023-25435
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 27 ++++++++++++++++-----------
++ 1 file changed, 16 insertions(+), 11 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index cbd24cc..b811fbb 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
++ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
++                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
++ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
++-                       unsigned char **, size_t *);
+++                       unsigned char **, size_t *, int);
++ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++                        unsigned char *);
++ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++@@ -6513,10 +6513,11 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++       /* Dummy variable in order not to switch two times the
++        * image->width,->length within rotateImage(),
++        * but switch xres, yres there. */
++-      uint32_t width = image->width;
++-      uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++-      {
+++        uint32_t width = image->width;
+++        uint32_t length = image->length;
+++        if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL,
+++                        TRUE))
+++        {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++       }
++@@ -7700,7 +7701,8 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++          * accordingly. */
++       size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, &rot_buf_size))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size,
+++                            FALSE))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
++@@ -7811,9 +7813,10 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++            * its size individually. Therefore, seg_buffs size  needs to be
++            * updated accordingly. */
++ 	   size_t rot_buf_size = 0;
++-           if (rotateImage(
++-                crop->rotation, image, &crop->regionlist[i].width,
++-                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
+++           if (rotateImage(crop->rotation, image,
+++                                &crop->regionlist[i].width,
+++                                &crop->regionlist[i].length, &crop_buff,
+++                                &rot_buf_size, FALSE))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
++@@ -7943,7 +7946,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, NULL))
+++                    &crop->combined_length, crop_buff_ptr, NULL, TRUE))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
++@@ -8607,7 +8610,9 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
++ static int
++ rotateImage(uint16_t rotation, struct image_data *image,
++             uint32_t *img_width,uint32_t *img_length,
++-            unsigned char **ibuff_ptr, size_t *rot_buf_size)
+++            unsigned char **ibuff_ptr, size_t *rot_buf_size,
+++            int rot_image_params)
+++
++   {
++   int      shift_width;
++   uint32_t   bytes_per_pixel, bytes_per_sample;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 2be25756bc..2ee10fca72 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -35,6 +35,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-48281.patch \
+            file://CVE-2023-0800_0801_0802_0803_0804.patch \
+            file://CVE-2023-0795_0796_0797_0798_0799.patch \
++           file://CVE-2023-25433.patch \
++           file://CVE-2023-25434-CVE-2023-25435.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+-- 
+2.25.1
+
 
