@@ -1,156 +1,76 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3779C001DC
-	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 08:16:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.6557.1690359364796056609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8DDC001DC
+	for <webhook@archiver.kernel.org>; Wed, 26 Jul 2023 08:29:49 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.6704.1690360182855914862
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jul 2023 01:16:05 -0700
+ Wed, 26 Jul 2023 01:29:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=657121c14f=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36Q7hkJx019268
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 08:16:04 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s0636bb01-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 08:16:04 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 26 Jul 2023 01:15:56 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Wed, 26 Jul 2023 01:15:55 -0700
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [mickledore][PATCH] cups: Fix CVE-2023-34241
-Date: Wed, 26 Jul 2023 16:15:54 +0800
-Message-ID: <20230726081554.3400144-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.35.5
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=VKMO6wrb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fb960b7c9dso10269853e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 01:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690360180; x=1690964980;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xzK5Q5vAj48e+FD4mYz0hk2i2ckPBP4RzRdKDpt+L6Y=;
+        b=VKMO6wrbx/b0Ups9rOewXNX4uAiT8lgxFLY/RlkWMkVWrxNO04CPmCHZGVdaDMXfs9
+         hUchxNdq6RGsabnwR/nPH49PAZ1ScrAmrmK8RTd51x1iyRzu+YxR2kN9HGPxBBUIZZir
+         slbWmgjCLxqMKf/0Tky9B6Z4uJNrWwJFsEKMSIk3nskrrtgTu1+eqj1IYV6Y/avUUAa/
+         qB5qLbAy6EmcOFVPwnOrC1aQdKPTq9QS6QR18D5QRBWVUw18hH9SuWFPlARiO1fK+XhC
+         b1lV2XEFEGaNGVoHr39FH/JPYIK0gs+eO2zHfZXfKzfkXm/PrbH3GzPWxYXEe4rtpr8m
+         Xj4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690360180; x=1690964980;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xzK5Q5vAj48e+FD4mYz0hk2i2ckPBP4RzRdKDpt+L6Y=;
+        b=LC0dRl8paFju4A4ruTKpMFe6irRat9Xc+tucJAiKmJhiLQPa8x0SDliWeqB8fO1ySG
+         2xF04n0+mE0ZKgr6zFlUbW/XsiOxpI3NmFDS3NgKyjc4KGXZEcTjh5YK9CMbutadzxPx
+         UyA0gFEarZandpPMMMVnr9k0+Xcs1I0fdqlFd0tMuGUCG6eUHbSH8wTq+7Evh417g6c6
+         ovlB15fUGKkIRa91TGMGKheqks8gQ3tNeAOHpyr06h7NQFK34JqNPj3JHdSL4bJKfycq
+         nwZ9p413tsb6uAFKJdSqJXG+aynF1/7OSD5z0GQMB3jvC4jpFjwaUKgdXSHJBQzTnLTf
+         cT5A==
+X-Gm-Message-State: ABy/qLYxs1HdDeq7LpAQOS4WqqCU03h3Yw1+QHiTlepncp06lTc9BWmQ
+	Y2+84VTrQedbMhC3/e/w+0s=
+X-Google-Smtp-Source: APBJJlHh3rRcMwH7kbOcZLjK9yLkcu5EKrvKzrcySA2YIkVTajnlMQ5nTHgRDscooWXBBHYzZ/Ywew==
+X-Received: by 2002:ac2:5f48:0:b0:4fb:893e:8ffc with SMTP id 8-20020ac25f48000000b004fb893e8ffcmr929803lfz.17.1690360180149;
+        Wed, 26 Jul 2023 01:29:40 -0700 (PDT)
+Received: from ?IPv6:2a02:169:59a6:0:5488:f785:9061:cf6c? ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id t2-20020adfeb82000000b0031759e6b43fsm11127369wrn.39.2023.07.26.01.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 01:29:39 -0700 (PDT)
+Message-ID: <b39b4683d2048f09c29e7147c42a4f94c176bd64.camel@gmail.com>
+Subject: [kirkstone] cherry-pick kernel: add missing path to search for
+ debug files
+From: adrian.freihofer@gmail.com
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Jul 2023 10:29:38 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: tH2zpSQh5vW2moq_d3tLjLEeCxGJQpd9
-X-Proofpoint-ORIG-GUID: tH2zpSQh5vW2moq_d3tLjLEeCxGJQpd9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_01,2023-07-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=883 clxscore=1015 mlxscore=0 bulkscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307260073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 08:16:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184867
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jul 2023 08:29:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184868
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Hello Steve
 
-Backport patch [1] to fix CVE-2023-34241.
+I would like to ask you to cherry-picking commit
+8252367023b31d923c6031280843cdd35050df56 to kirckstone.
 
-[1] https://github.com/OpenPrinting/cups/commit/9809947a959e18409dcf562a3466ef246cb90cb2
+We are using it successfully and it's a trivial fix. The original
+discussion is here:
+https://lists.openembedded.org/g/openembedded-core/topic/88532225#160734
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-extended/cups/cups.inc           |  1 +
- .../cups/cups/CVE-2023-34241.patch            | 70 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-34241.patch
-
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index d77758fd3f..c6a676b747 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -16,6 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
-            file://CVE-2023-32324.patch \
-+           file://CVE-2023-34241.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2023-34241.patch b/meta/recipes-extended/cups/cups/CVE-2023-34241.patch
-new file mode 100644
-index 0000000000..4950ca341d
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2023-34241.patch
-@@ -0,0 +1,70 @@
-+From ffd290b4ab247f82722927ba9b21358daa16dbf1 Mon Sep 17 00:00:00 2001
-+From: Rose <83477269+AtariDreams@users.noreply.github.com>
-+Date: Thu, 1 Jun 2023 11:33:39 -0400
-+Subject: [PATCH] Log result of httpGetHostname BEFORE closing the connection
-+
-+httpClose frees the memory of con->http. This is problematic because httpGetHostname then tries to access the memory it points to.
-+
-+We have to log the hostname first.
-+
-+CVE: CVE-2023-34241
-+
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/9809947a959e18409dcf562a3466ef246cb90cb2]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ scheduler/client.c | 16 +++++++---------
-+ 1 file changed, 7 insertions(+), 9 deletions(-)
-+
-+diff --git a/scheduler/client.c b/scheduler/client.c
-+index 91e441188..327473a4d 100644
-+--- a/scheduler/client.c
-++++ b/scheduler/client.c
-+@@ -193,13 +193,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+    /*
-+     * Can't have an unresolved IP address with double-lookups enabled...
-+     */
-+-
-+-    httpClose(con->http);
-+-
-+     cupsdLogClient(con, CUPSD_LOG_WARN,
-+-                    "Name lookup failed - connection from %s closed!",
-++                    "Name lookup failed - closing connection from %s!",
-+                     httpGetHostname(con->http, NULL, 0));
-+ 
-++    httpClose(con->http);
-+     free(con);
-+     return;
-+   }
-+@@ -235,11 +233,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+       * with double-lookups enabled...
-+       */
-+ 
-+-      httpClose(con->http);
-+-
-+       cupsdLogClient(con, CUPSD_LOG_WARN,
-+-                      "IP lookup failed - connection from %s closed!",
-++                      "IP lookup failed - closing connection from %s!",
-+                       httpGetHostname(con->http, NULL, 0));
-++
-++      httpClose(con->http);
-+       free(con);
-+       return;
-+     }
-+@@ -256,11 +254,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+ 
-+   if (!hosts_access(&wrap_req))
-+   {
-+-    httpClose(con->http);
-+-
-+     cupsdLogClient(con, CUPSD_LOG_WARN,
-+                     "Connection from %s refused by /etc/hosts.allow and "
-+ 		    "/etc/hosts.deny rules.", httpGetHostname(con->http, NULL, 0));
-++
-++    httpClose(con->http);
-+     free(con);
-+     return;
-+   }
-+-- 
-+2.25.1
-+
--- 
-2.35.5
-
+Thank you and best regards,
+Adrian
 
