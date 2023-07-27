@@ -1,84 +1,82 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0BFEB64DD
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 20:19:32 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.17566.1690489167433317352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C60BDEB64DD
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 21:33:12 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.19243.1690493586859149051
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 13:19:27 -0700
+ Thu, 27 Jul 2023 14:33:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=PshseZMb;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bbd2761f1bso11026205ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 13:19:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HBncr2jG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-307d58b3efbso1417444f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690489167; x=1691093967;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvqABs+MESbuRH9kehrcX7Eroq4YEpydwWjNkj2gtcM=;
-        b=PshseZMbl6UwDdGtu2DoZ8A7CDqSwd5uI/yegmKTHVjFwT+AQ1TWbG4yDOQJiZh4Sp
-         xqS4VGT2itaypww9fDaLMGb8iSzkMMQvd4GccsyG9rXxVkrBbE+XAidcLqWzDHQTQuat
-         f3F65JNz9VcpxdZnBziPLX5/7K+oPQ5y22OGMCCM6uN22wlQYsYgEoRFPDUUIudUp5/2
-         25/5ojBv2gKiyjLlvNBpblNxP6Q70i6lHGt0sQYLoPmr16zwgPn5F6Plak/Qj0G5jOA0
-         cTgZQfQKl3pmEQPW6pPjdyCW4qjEn6p6Qc113Qq3y89LOrv/hvnM4lW+HpCdI9mC8+vQ
-         Dwyw==
+        d=linuxfoundation.org; s=google; t=1690493585; x=1691098385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9bquk4CiW0F7gLtkXb85S5P/GvPoAMGuRL1yMsevpc=;
+        b=HBncr2jG1/mlgOPHZMW6nH+k4l36XSb5nRdCDoa99zcLN5292D1Vtb8qUlHFsew1Cx
+         E/Pcg9sTKtCUdpqXtOT9v3pcUMz6kzB72z6EYhy8OWaFpsVSxE2EixzOiIgiaMaihQ69
+         IzWim/7wW/7o3sYM76BaHeZj/+fLL293qtvWE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690489167; x=1691093967;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VvqABs+MESbuRH9kehrcX7Eroq4YEpydwWjNkj2gtcM=;
-        b=MJK1ILs3AMjvPMO0tF3oHDRNP7qVT+8j4E38F7N2AEiFK2upL/U25pMW0tKz2vm1ZE
-         b2+lCx6yUZ1ChgCdgQJVydUJXf6mz4XbzQwYymSJFQlN3HpeZCZUxdQMyEeaM5Km5omA
-         sDsLJtxj9t2kCOJGS0K3xUQrr42+L02zR33iTdWMA/wdNXsrE0M/NDg4GjzcYlGDZB61
-         OjWyaXVjlrXEcUoWcRwXaVFZx2z141PQskvdRT+46Kzj8JIzgLZ2+3Z+gnA+oo6TVGlC
-         iEkBavHtHOYx0vMAQ/CUl6VEV82WVOFB3DQEw4dkEQ0iIt/R4oyAk8+D+SwQm0ZAbiKn
-         eHEg==
-X-Gm-Message-State: ABy/qLYNvZQvBOP5Wr2BKMcQCsscIyenDU8muASznJcGoDSpnVJBpGOx
-	wr/N6MCubxQ4FVvKGrXQPRNzBfknro78OQ==
-X-Google-Smtp-Source: APBJJlGiRKwtyezeRgEWmZ6gU4YHM4yIo9F5PHc3gdLn1VLTRu6zkRdwWhYRLowVMuGXQK7dc4FL8Q==
-X-Received: by 2002:a17:902:ef94:b0:1b8:8dbd:e1a0 with SMTP id iz20-20020a170902ef9400b001b88dbde1a0mr435706plb.13.1690489166608;
-        Thu, 27 Jul 2023 13:19:26 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:6180::5d37])
-        by smtp.gmail.com with ESMTPSA id r11-20020a1709028bcb00b001bb8895848bsm2040221plo.71.2023.07.27.13.19.25
+        d=1e100.net; s=20221208; t=1690493585; x=1691098385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9bquk4CiW0F7gLtkXb85S5P/GvPoAMGuRL1yMsevpc=;
+        b=bd4nTVrvXGMf/VYktxYvXACqRBohHVppDbI0LJ2K3Cq6LpSklS4A5raJKFRLY92GVr
+         /LdB8mDp7r6fXpD+hc5BbLcXXdNx5WhihVQ+/sAMSZDSn+oIU6rXKopRdp7k28G/L1lF
+         ifILBjngoGPYWb0s5czzn4Uy7b320OC/ev7p4rFmD4yb9fGLnqixouwC4Ku0b1NSN0af
+         zKy0y090ykxDdxO1ELa7euGzYNM4RTbv4HPzWLZpt5Z3MsAGrU+WchKoJvzpOnr9S0+/
+         RVB2RoXkv5lCJLGu0ueYia4BBbBpBJbZcHbblPFH+1h8wrz6Xd+QBxdxz7jr/iHD4/m+
+         WluQ==
+X-Gm-Message-State: ABy/qLZBtOYSRdLvSgUdq2L00cY8ymoNgLADVmWnTx1/iVna28eOuwA1
+	ooG+600+rY5C46KSm1qDmjjKFWjQpiJOxMcB2yA=
+X-Google-Smtp-Source: APBJJlEa5QuICYFuVDW+K0rLa1QAQDKMntYXzNxDgqOG2zkF+0p+vCG00hdvJ/0kJf1g8G4+PdyfeQ==
+X-Received: by 2002:a5d:4f05:0:b0:317:66c0:9d82 with SMTP id c5-20020a5d4f05000000b0031766c09d82mr212015wru.64.1690493584809;
+        Thu, 27 Jul 2023 14:33:04 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4e39:f3a8:af2d:87a2])
+        by smtp.gmail.com with ESMTPSA id r8-20020adfe688000000b0031434c08bb7sm2973792wrm.105.2023.07.27.14.33.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 13:19:26 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Thu, 27 Jul 2023 14:33:04 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ltp: Use bfd linker for KVM_LD as well when ld-is-lld
-Date: Thu, 27 Jul 2023 13:19:23 -0700
-Message-ID: <20230727201923.738765-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Subject: [PATCH] createrepo-c: Update patch status
+Date: Thu, 27 Jul 2023 22:33:03 +0100
+Message-Id: <20230727213303.1603982-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 20:19:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185003
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 21:33:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185004
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The patch was submitted upstream, thanks Khem.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/ltp/ltp_20230516.bb | 2 +-
+ meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20230516.bb b/meta/recipes-extended/ltp/ltp_20230516.bb
-index e4ba3c68724..9c9acc6c145 100644
---- a/meta/recipes-extended/ltp/ltp_20230516.bb
-+++ b/meta/recipes-extended/ltp/ltp_20230516.bb
-@@ -48,7 +48,7 @@ LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-l
- # it fails with gold also a bit later when trying to use *-payload.bin
- # http://errors.yoctoproject.org/Errors/Details/663094/
- # work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
--KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
-+KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-gold ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
+index d022d95b703..a63801ce26e 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
+@@ -8,7 +8,7 @@ Fixes format specifier mismatch warnings as well while here
+ e.g.
+ warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'time_t'
  
- TARGET_CC_ARCH += "${LDFLAGS}"
+-Upstream-Status: Pending
++Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/376]
  
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
 -- 
-2.41.0
+2.39.2
 
 
