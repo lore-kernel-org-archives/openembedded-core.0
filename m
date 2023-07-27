@@ -1,173 +1,205 @@
-Return-Path: <hayama@lineo.co.jp>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C094C0015E
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 08:22:48 +0000 (UTC)
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (JPN01-TYC-obe.outbound.protection.outlook.com [40.107.114.138])
- by mx.groups.io with SMTP id smtpd.web10.2828.1690446157874783196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A04CEC001E0
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 08:25:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.2905.1690446344127643019
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 01:22:38 -0700
+ Thu, 27 Jul 2023 01:25:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@lineouser.onmicrosoft.com header.s=selector1-lineouser-onmicrosoft-com header.b=ZnfTs3Kf;
- spf=pass (domain: lineo.co.jp, ip: 40.107.114.138, mailfrom: hayama@lineo.co.jp)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gs+DXjDAzNaEGEdprEKSeTWRG6o6WJPn5mqwxE0zvS5O7LsfBbKcJJVnPCpfK3tErfx2N2daChRJPe0vHP13RD3G83SYRwasslHplFBXP/ncbi6PkIMJLu+wL81qGz1+0wFNMcPp84AWyusJsE8HV3qd3yOmRO8I1zGKXRV79W5Diuj6ladMp7Yl3a6LwS/EI3DhyHgwfuugss276TgzZIYVDiIbN7J0ypwCPZSgT/1e7zfv/f6R0hiyVMntw/Xpp5I6BG+vlQsjsvbseDs3rvhWhqr89ShaO6eNc9/cwvEb34QB9uJh82zlbwKshE+hoLo12ldtOaLs/Ewcf32BFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9fFWCCetC4iHYkNl/RFqi5CO6vQiC5xNUEHeFfFT83o=;
- b=LvMjDEpUxFG7LYb4gz2PfHciZsOnUXrN1GqD2zSOXJyeLZjjOx9cRKFz0l/JtcER4E5XcIa9moJZOlpOD0oYFOZiLXV6Bi4piQSbEcgVQyfiCl77ZWbhTJLrvR0Ej8Nji2G47Y7ENxgVl62iQALjJAMWKGbKl3UekmMEzFdedkBveIFIweHx0IkbaLO68hFEAmETW6xdrxAYMU4YeFNCAWqRTBu7uZIrRQZA84aCElJjCuAUsw1thubEfKOpYauI2zppD+nD4+N6lN3cCM/SOsqGv9+UopRp3NwhM2K+GMGIB0TAJaACZcOs5S9BdqbcmWs+Nt5p5z29jUvz2kQxaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lineo.co.jp; dmarc=pass action=none header.from=lineo.co.jp;
- dkim=pass header.d=lineo.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lineouser.onmicrosoft.com; s=selector1-lineouser-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9fFWCCetC4iHYkNl/RFqi5CO6vQiC5xNUEHeFfFT83o=;
- b=ZnfTs3Kfc2J5EOf3NA/sOC/E2pfpDTXS0oQ3mdUw5VMNdHv5f78e7fCCwl3+dBB85IH6z1ich6yMKpAIOZ/zRcr91r/YWCHXsWw321frT6SD0uxgBLEXnFRxNEMChZbn7koR7iwEGHK72Hi92RspVhHhMjd6rhXbAwIf+d9nBnI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lineo.co.jp;
-Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com (2603:1096:404:dd::23)
- by OS3PR01MB9673.jpnprd01.prod.outlook.com (2603:1096:604:1f1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
- 2023 08:22:33 +0000
-Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com
- ([fe80::8834:3ac3:f0fb:e0a1]) by TY2PR01MB3769.jpnprd01.prod.outlook.com
- ([fe80::8834:3ac3:f0fb:e0a1%5]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
- 08:22:33 +0000
-Message-ID: <512858f6-70f2-1e0a-5b7b-2ba667dbf3b1@lineo.co.jp>
-Date: Thu, 27 Jul 2023 17:22:31 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [OE-core] [mickledore][kirkstone][dunfell][PATCH]
- systemd-systemctl: fix errors in instance name expansion
-Content-Language: en-US
-To: steve@sakoman.com
-References: <1775ABAC58286773.27447@lists.openembedded.org>
-From: Yuta Hayama <hayama@lineo.co.jp>
-Cc: Yuta Hayama <hayama@lineo.co.jp>, openembedded-core@lists.openembedded.org
-In-Reply-To: <1775ABAC58286773.27447@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: OS7PR01CA0258.jpnprd01.prod.outlook.com
- (2603:1096:604:255::17) To TY2PR01MB3769.jpnprd01.prod.outlook.com
- (2603:1096:404:dd::23)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6572d124a4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36R5JtxS007570
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 01:25:43 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s3bearc95-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 01:25:43 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 27 Jul 2023 01:25:44 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Thu, 27 Jul 2023 01:25:42 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [mickledore][PATCH] ruby: Fix CVE-2023-36617
+Date: Thu, 27 Jul 2023 16:25:41 +0800
+Message-ID: <20230727082541.2240745-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PR01MB3769:EE_|OS3PR01MB9673:EE_
-X-MS-Office365-Filtering-Correlation-Id: 719bf4aa-3509-4fba-8079-08db8e7aa0c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZKInoAk8EJB/8/3EiEQcXDDQr/Ridc5Q2BkWPy9qzbv1pa41k3v0Fa5yJcqz8FbTO737wyvU8iu607bX1mANFFzlebNj7vN3JKXWKxReyL1zaQZL0X240lloV0E9k+Hh551AkK2EtFpwMS4z1lSs+hGEasWkaLT089MZ0n+AasamLUvH6tyqMLKaEZjX2i2Em1WRumfyqfgSbK/+YaJCT7vX3J2LTWlnA07LdixBvDnVaV6EeloZni+lcqV0qIUsfZZQsgKCAVRgzOK/AivUjD1fsnbwmXstSFxB10ByjS0Ikf8I6WvEPGKWU6U95TszUZ5kXIX7RnYKuQUVaR62h+TFjKvrFzP+Axg11V6IH84vLv06qkFy/4e/FktfVtoKbBnGiMZtC/18d+Y/veK7/kqrEhg5ELF8GMxT7wI8jQi0tcR85VQQvISOv9GeWnJCxsZD9qj6EISn1EhP1Y1N/+wlUoLomZ/oii7Jm8zJj3tf3kfcsvJsbGs/4qodV4AR9di7ThLkMeQV8TIb6HHsukWWlxVpmc9ASO27NI//4t35u343s7B5aB9TFcEduulv9G65xaQfr27fbjyJe1ZADNJj7Y0Do+PAPTxEfrTqMIjHIz3DfFd5D/uedKT2abeMBnRa3q3QCsxouibNY3CDcg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3769.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39840400004)(396003)(136003)(346002)(366004)(376002)(451199021)(6512007)(38100700002)(6486002)(966005)(478600001)(41300700001)(5660300002)(2616005)(8676002)(4326008)(66556008)(66946007)(66476007)(8936002)(6916009)(316002)(186003)(83380400001)(53546011)(26005)(6506007)(31696002)(86362001)(2906002)(36756003)(66899021)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SklESlorT2NWVUc0Qm84TnovR2FlTjhYc2dzN1dET2xnLy9zOHJZeFBEVGlP?=
- =?utf-8?B?NXl6R2JEVTA1SmtvNFVlaW1TN3YzT3BEVGM4cmtRS2ZRNGVRcEVvSFpmWVgz?=
- =?utf-8?B?M1hWMUdyaCtiRWVTYUFIYVlCZGx1WmZsNkVtdUhtalZ0YTZaQkZDRTZJU0Q4?=
- =?utf-8?B?UTU2am85MHNKakx5UXV2dVJUMWZnaFdMdEpaZzJQMWpqWUlscHBwZ3EzVnRN?=
- =?utf-8?B?enBWbkZCbmJLS1JPeGkzOEIwN2VUYUZ3OTVpN1ZmR3VJZGVxTEZHZC8xT2t2?=
- =?utf-8?B?b2dlMTRkdmVRMWtyT042b1Z2TXRxRCtrNnl0eXFwVlVLUVdZQ1g4bzhGM0dv?=
- =?utf-8?B?ejVRRitzeGtMc1FnWDN6YUJoVi9lQjBwb21HeWRhMXZPUjNSYnpqNU1HUlNu?=
- =?utf-8?B?ZXE3MkcvSUg2eW5xN2Y1Z0NLWUpqQzNVbk01dmZ2NjRRRFdRVE1NWEtnVUdm?=
- =?utf-8?B?b3NPK3VhYVFwQVBpd0s0L29YOHdwWWxKa0ZZSjBVWUR6bTJteTZRYzcvakYx?=
- =?utf-8?B?VzJzZ2lSWWpiVytEQ0NDanlhTExRUFkyT1dCNWV4dTBzYkIvblROTWRHVmRl?=
- =?utf-8?B?OHJRODhOdkhSSzBQbXovSm10N3NuZUhLVnlFcHBDR09ROVhtVElXcFlzZHh1?=
- =?utf-8?B?L2RhS3F3SWl6cUsyT1ptRHhnSjZLR0diTGVLSDNlMUJzempKb3MyRk5kYmxa?=
- =?utf-8?B?VFVMWm9wQXhzQVZkb296T3YxNmFYYUlQQjV2Z3dxakZUYS9CRkdVNUtqRWtV?=
- =?utf-8?B?ckkrVVdqVnhvUWsyZDNDVVZ5RjhtaS84OEpGb25ackJSdVprMmFYdzdoNVg0?=
- =?utf-8?B?R1ovOXkzSVlPUmRERTNtcmQ0WEF0SzZIazhXcGxVRDFSUDFpVWxEaUp6WUR6?=
- =?utf-8?B?TGd5L1JJTHVackpOMjdWOEpCcWxPVnRKV1VMZFdraXpaU1FqTFA1SHY4SmtY?=
- =?utf-8?B?QjF2ZkJpOVBleHNRQndvR1hrTDR6SW5KYUdWWEgrUFd2VFZ0QXRobHJNazBa?=
- =?utf-8?B?QUxkcy96SEZTeFdsTDA0V2NYWVkvZnZwUi9GVFhmeDY2VVNZejZnNFR1UWts?=
- =?utf-8?B?NmNkSzUzMkZWL2tDc1d0THkrZTdBREFBeE9UdFJ2S0g5NitzclptU2hOSjgv?=
- =?utf-8?B?bEhOQVFpYTdiU2dSbU1FN2s3YldablNLNnBsbFpYSkVwYWJEeTBPbitidFZM?=
- =?utf-8?B?cDZuOGJyd3ZMNGxYT21vOTZmRDhDTThEb0pUUDJReFdBbzMzeTgwYzdVQm1n?=
- =?utf-8?B?anpNdEJkVXAxWmM4RzBBc2M5ekcxalhYM3BIUnRMcE5iUzRwWDUxaVlVV3Bu?=
- =?utf-8?B?NFpVc3ZCT2hIVkxyN3k4SE8wYTlsOVJxRmQwOFVubDdRcUxicUtEeG4vc1ov?=
- =?utf-8?B?S2Q4c3JyS25jbkxjWXNHSEc2RlY3NDU3NEhXeWJoczBaZjB4MjlMY0tIWGsz?=
- =?utf-8?B?bWJuWnk1ZVkwSnNwVUk5TFk5Y2pqUnU1aXdORmkyV1dZOVRkRWU2aWU4T25X?=
- =?utf-8?B?TWtVOVo3TG5URGtWeWwyR2dEaVBmWlBBeC91ZThVTFhTOWUrRC9MSW0rakR1?=
- =?utf-8?B?QzlFemhqcjVobmtLVXJ0QkVTMll5aG9uNEI3ZHNjMW1OaFNCaStPcjluRUVh?=
- =?utf-8?B?ai9YTDVybUw5WlVGOTVHMlI5TlRVMWlCR2M3YmNjOFVuR1R2bUhiQlQ2bjk4?=
- =?utf-8?B?c0VPTlFseXgvcVNFQkhpQ2RyUVYxTVZOK3BlK04rakJzTGtKZVUvZWJlWkJj?=
- =?utf-8?B?bDNjeWNKMzVWTGVkSXVqNVNuZVRQa3FKL0hYNVpOZjAzUFQrL3dUYUFwSTRN?=
- =?utf-8?B?aXhYWWpTYkVDWW95djBZb2JZVVZLeFdqQXQyK2dkazRPMmpDeGc5bkRBeTYy?=
- =?utf-8?B?RmNKa3I1YVZaZ3c3eW5VeG5COU9iYUIvY0Q1WWhFQWFCcUxpNXlWRStwQTZM?=
- =?utf-8?B?TFBLOCtVNHZnMTJnd0xlVFdZZFhkOGFOVk90T3RmVklzejNLMG1lZjhlWXBj?=
- =?utf-8?B?bkNmVm9QbGFLdVZZUkhyWGI0blFncUd6Vy8wbDBYTUZUdDgxWGF2QnhNZmtz?=
- =?utf-8?B?V05JOGJuamJTMit0d0gyTEpBajRqYzNlVEg1VWdaWld6SmduMGw4T3ZsZGJJ?=
- =?utf-8?Q?96V1VohJLi7tkF6UH/AP7V5lW?=
-X-OriginatorOrg: lineo.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 719bf4aa-3509-4fba-8079-08db8e7aa0c0
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3769.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 08:22:33.8293
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 850e1ad4-d43d-42a8-82ab-c68675f36887
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OWJJNuiTjcnxXLg5ppx/I8QC267ZutOoXKLZthPYt31ydPWcbwKdzMbzZsINEoPZ8hUUXzYN/Is7ijJzRTFftg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9673
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: TZLF5S-TeWNT7EKbaU2aIjQS6MZiVM40
+X-Proofpoint-GUID: TZLF5S-TeWNT7EKbaU2aIjQS6MZiVM40
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ mlxlogscore=999 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307270074
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 08:22:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184919
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 08:25:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184920
 
-Hi Steve,
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Sorry for rushing you.
-If the patch obviously needs to be backported to stable branch, could I post
-a backport request email right away? This issue is not listed in bugzilla, so
-I was worried that the patch might have been missed.
+Backport two patches [1] [2] to fix CVE-2023-36617 [3].
 
+[1] https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1
+[2] https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8
+[3] https://www.ruby-lang.org/en/news/2023/06/29/redos-in-uri-CVE-2023-36617/
 
-Regards,
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../ruby/ruby/CVE-2023-36617_1.patch          | 56 +++++++++++++++++++
+ .../ruby/ruby/CVE-2023-36617_2.patch          | 52 +++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.2.2.bb      |  2 +
+ 3 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
 
-Yuta Hayama
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+new file mode 100644
+index 0000000000..17c7e30176
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+@@ -0,0 +1,56 @@
++From 2ebb50d2dc302917a6f57c1239dc9e700dfe0e34 Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Thu, 27 Jul 2023 15:53:01 +0800
++Subject: [PATCH] Fix quadratic backtracking on invalid relative URI
++
++https://hackerone.com/reports/1958260
++
++CVE: CVE-2023-36617
++
++Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ lib/uri/rfc2396_parser.rb |  4 ++--
++ test/uri/test_parser.rb   | 12 ++++++++++++
++ 2 files changed, 14 insertions(+), 2 deletions(-)
++
++diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
++index 76a8f99..00c66cf 100644
++--- a/lib/uri/rfc2396_parser.rb
+++++ b/lib/uri/rfc2396_parser.rb
++@@ -497,8 +497,8 @@ module URI
++       ret = {}
++ 
++       # for URI::split
++-      ret[:ABS_URI] = Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
++-      ret[:REL_URI] = Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
+++      ret[:ABS_URI] = Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
+++      ret[:REL_URI] = Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
++ 
++       # for URI::extract
++       ret[:URI_REF]     = Regexp.new(pattern[:URI_REF])
++diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
++index 72fb590..721e05e 100644
++--- a/test/uri/test_parser.rb
+++++ b/test/uri/test_parser.rb
++@@ -79,4 +79,16 @@ class URI::TestParser < Test::Unit::TestCase
++     assert_equal([nil, nil, "example.com", nil, nil, "", nil, nil, nil], URI.split("//example.com"))
++     assert_equal([nil, nil, "[0::0]", nil, nil, "", nil, nil, nil], URI.split("//[0::0]"))
++   end
+++
+++  def test_rfc2822_parse_relative_uri
+++    pre = ->(length) {
+++      " " * length + "\0"
+++    }
+++    parser = URI::RFC2396_Parser.new
+++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri|
+++      assert_raise(URI::InvalidURIError) do
+++        parser.split(uri)
+++      end
+++    end
+++  end
++ end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+new file mode 100644
+index 0000000000..7c51deaa42
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+@@ -0,0 +1,52 @@
++From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Thu, 27 Jul 2023 16:16:30 +0800
++Subject: [PATCH] Fix quadratic backtracking on invalid port number
++
++https://hackerone.com/reports/1958260
++
++CVE: CVE-2023-36617
++
++Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ lib/uri/rfc3986_parser.rb |  2 +-
++ test/uri/test_parser.rb   | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
++index dd24a40..9b1663d 100644
++--- a/lib/uri/rfc3986_parser.rb
+++++ b/lib/uri/rfc3986_parser.rb
++@@ -100,7 +100,7 @@ module URI
++         QUERY: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
++         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
++         OPAQUE: /\A(?:[^\/].*)?\z/,
++-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
+++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
++       }
++     end
++ 
++diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
++index 721e05e..cee0acb 100644
++--- a/test/uri/test_parser.rb
+++++ b/test/uri/test_parser.rb
++@@ -91,4 +91,14 @@ class URI::TestParser < Test::Unit::TestCase
++       end
++     end
++   end
+++
+++  def test_rfc3986_port_check
+++    pre = ->(length) {"\t" * length + "a"}
+++    uri = URI.parse("http://my.example.com")
+++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |port|
+++      assert_raise(URI::InvalidComponentError) do
+++        uri.port = port
+++      end
+++    end
+++  end
++ end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+index 481fe7c23d..d1359e388c 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+@@ -31,6 +31,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+            file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
++           file://CVE-2023-36617_1.patch \
++           file://CVE-2023-36617_2.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ 
+-- 
+2.25.1
 
-On 2023/07/27 17:19, Yuta Hayama via lists.openembedded.org wrote:
-> If the instance name indicated by %i begins with a number, the meaning of the
-> replacement string "\\1{}".format(instance) is ambiguous.
-> 
-> To indicate group number 1 regardless of the instance name, use "\g<1>".
-> 
-> (From OE-Core rev: d18b939fb08b37380ce95934da38e6522392621c)
-> 
-> Signed-off-by: Yuta Hayama <hayama@lineo.co.jp>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/systemd/systemd-systemctl/systemctl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-> index 514f747fe6..7fe751b397 100755
-> --- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-> +++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-> @@ -202,7 +202,7 @@ class SystemdUnit():
->          try:
->              for dependent in config.get('Install', prop):
->                  # expand any %i to instance (ignoring escape sequence %%)
-> -                dependent = re.sub("([^%](%%)*)%i", "\\1{}".format(instance), dependent)
-> +                dependent = re.sub("([^%](%%)*)%i", "\\g<1>{}".format(instance), dependent)
->                  wants = systemdir / "{}.{}".format(dependent, dirstem) / service
->                  add_link(wants, target)
->  
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184918): https://lists.openembedded.org/g/openembedded-core/message/184918
-> Mute This Topic: https://lists.openembedded.org/mt/100386774/7729851
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hayama@lineo.co.jp]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
