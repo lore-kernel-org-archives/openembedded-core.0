@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 961C7C05052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A33B7C0729B
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:40 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.9066.1690468595469785427
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.9062.1690468593747579874
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 07:36:35 -0700
+ Thu, 27 Jul 2023 07:36:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=iHMYHshP;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b9540031acso16390611fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=rfTKvya+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b9a2033978so15792641fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468593; x=1691073393;
+        d=gmail.com; s=20221208; t=1690468592; x=1691073392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O4/4fLl8ens+z0gq4ROwzkVI6VIhMlQW66lrUlvPHbk=;
-        b=iHMYHshPoLPTC2nnmAKb5hBhbwnO77474eowR9zC/1ICwhxsNUqfzxVl50lExkzGfk
-         IWYv/nlU7xG5bckmxfcft7lKNs1SUYDWnML7iWhMFTxIklc/Jk+lqGZuHefiRkZZMhdy
-         dn1mWDE3p5of7vysTGWiGG6Lzt77uPgoOVo2HsxuyhZFkr2x2TV5aY4Rz3b7oGnFCUXR
-         cQwIEOT9++6SlRv7HmIE7SEuWMPsHvpim+/5miAhDxZ/I8KAtNg0jdai24I+9RxJvMmM
-         V6EA4Eb2o6RwMsSHAt7FEoaaBLA8k3Pwjb6Hm8QzX528yE3eLO6gGUzh9eTKVSqqb2JH
-         tVgQ==
+        bh=IGNY/PCGIRMWY/qqmhYtaScUBu7Fl8K681wAcT9b0TM=;
+        b=rfTKvya+yelRW1O0roV8oa9V5SQYk5WXTaJnHxLG6/Goni1VOLDDE2qntZFXl6+Pr1
+         zRlZA3wSNYCfH6OYds/OcLeFeiMOx7zGMaN7pZc7ilxMav17HZpnjKfrwNF7vxonQXOy
+         g0XC5b6AvCViflZpIbbvB+uA/pWlcaKkNlbZMTDybBX5kqy8iRWqCCuMjAO4WAqUL7zp
+         CtjVH0T4WIvvD9vP+073tKYn6T5z05gTrx3rKF0pInzPNgz3edTL3b06Q8BBPQnnzdQ1
+         QjA0n8ayYUa6gUZ5Z9VQE/pm/PqdxUA00CNeerSTGyGG2fhmDYIFZp/yC2gfogoS2hmR
+         vJpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468593; x=1691073393;
+        d=1e100.net; s=20221208; t=1690468592; x=1691073392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O4/4fLl8ens+z0gq4ROwzkVI6VIhMlQW66lrUlvPHbk=;
-        b=D+zg+h/PskmgDiudRogdBuY4xSHa0X5eG3b5hgdiZpCLkNfL0t6pTht7VvMH4NJtyD
-         e+fjbEd7Y/LEDCHdr5H24N2AOzzaVXZKTD3IakkzhQQr5BOZ8z+ysk4iFGJJaND2m66O
-         fS3qzvemw9RJwuBicgXSm6CVKImohBqEjgYBzD4xXE9mOfYnZAVI9FQpQwcVhscjTvxR
-         t694zC2Sr9TNRJYnZUqNozmrFnGgTcEQI2nPAxJiKeWiCKoC/iG1Tj3oBsMfOHKuwDno
-         1gWgl2+ubctlloT5Eyp5+4h+clq2cFlz2rtXU8USLU5yqmvVX4SZYWbKsterXrrjWikF
-         ujAA==
-X-Gm-Message-State: ABy/qLbNWHXVlI773RkTYKaY5pISydbdUlG5VM0fMI1Ih1SM0UYXH6C+
-	7sz8cKCH67Vhp6dYzp3Dc1zUc4ZYT3I=
-X-Google-Smtp-Source: APBJJlEfV6Ht55NovSYIvjNGexWyRefVVf7UuFLrikHHKtfOgmkLDKeUQAtmtDY1cTZ0P6FfEGjpCw==
-X-Received: by 2002:a2e:9982:0:b0:2b6:a08d:e142 with SMTP id w2-20020a2e9982000000b002b6a08de142mr1870928lji.7.1690468593074;
-        Thu, 27 Jul 2023 07:36:33 -0700 (PDT)
+        bh=IGNY/PCGIRMWY/qqmhYtaScUBu7Fl8K681wAcT9b0TM=;
+        b=gdybTEnZqo6ORVctsR14xu6LiirZUAnEWex2AOcnr8J9EjDZUSkEyS2ynsa/YDcMiS
+         5vGH3UeU0Mr37r5R4At5U0rp2xYOnaMr+HMpJva9v3o04eN9/tM8HzMzfmUW1IMqk89Y
+         bJnvN7MSDklQPuJ+/O/0HRiOq0/zC3Tq6SA0Y/YIwZyiP4rT+dNa8Rg5Oht+9o3tOige
+         R+PqrTaG26GOHYGsmpM89qNehx62a5ujmMwOczAJ3JkHtxfMbanpr7TwPanyBOL6MSky
+         mjpRFxjGR1G0Kg5uQDoDeLP9novZGo6/i+4Z4lq/0Dmzl01fmLbPC/atBWd3/ofZ8ven
+         lEEg==
+X-Gm-Message-State: ABy/qLYheTYegq1jyQByMAbkLil4AGhSaf7EwHAPclAAXy7jl9vIbZxh
+	pkcDh3kETP+FP6B8V8/osWHAw66X+jY=
+X-Google-Smtp-Source: APBJJlHLOCR4WzHVS7K7FecOCCmpeLmV9XbzsUqpqJVI1XPjr3EZq2oTAtFB7AdXKEscF90bPh2htw==
+X-Received: by 2002:a05:6512:2ef:b0:4fd:d7c7:170c with SMTP id m15-20020a05651202ef00b004fdd7c7170cmr1870528lfq.23.1690468591561;
+        Thu, 27 Jul 2023 07:36:31 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.32
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:32 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:31 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/21] librsvg: fix upstream version check
-Date: Thu, 27 Jul 2023 16:36:12 +0200
-Message-Id: <20230727143627.3718496-6-alex@linutronix.de>
+Subject: [PATCH 03/21] devtool: do not run recipe_qa task when extracting source
+Date: Thu, 27 Jul 2023 16:36:09 +0200
+Message-Id: <20230727143627.3718496-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
 References: <20230727143627.3718496-1-alex@linutronix.de>
@@ -62,40 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184946
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184943
 
-- upstream no longer uses odd-even scheme
-https://gitlab.gnome.org/GNOME/librsvg/-/releases/2.55.1
+The immediate reason is that the task is sstate enabled, and due
+to the way devtool sets up source extraction this causes bogus
+values to appear in tmp/sstate-control/index-* files.
 
-- x.y.9z versions are pre-releases and need to be excluded
+Also, recipe_qa may contain hard failures in the future, and it
+would be counterproductive for the failures to prevent devtool
+workflows (which may perhaps be about fixing the failure).
+
+An alternative would have been to not insert recipe_qa task before
+fetch task, but that would greatly delay the checks in larger
+bitbake builds, and it's better to run them as early as possible.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.56.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.56.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.56.1.bb
-index edd7ad38fd6..76fd5ae2d51 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.56.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.56.1.bb
-@@ -14,7 +14,7 @@ SECTION = "x11/utils"
- DEPENDS = "cairo gdk-pixbuf glib-2.0 libxml2 pango python3-docutils-native"
- BBCLASSEXTEND = "native nativesdk"
- 
--inherit cargo_common gnomebase pixbufcache upstream-version-is-even gobject-introspection rust vala gi-docgen cargo-update-recipe-crates
-+inherit cargo_common gnomebase pixbufcache gobject-introspection rust vala gi-docgen cargo-update-recipe-crates
- 
- require ${BPN}-crates.inc
- 
-@@ -23,6 +23,8 @@ SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.pat
- 
- SRC_URI[archive.sha256sum] = "1685aeacae9a441dcb12c0c3ec63706172a2f52705dafbefb8e7311d4d5e430b"
- 
-+UPSTREAM_CHECK_REGEX = "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
-+
- # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
- # so we cannot use cargo class directly, but still need bits and pieces from it 
- # for cargo to be happy
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 86ca77f7180..88a6ecd4219 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -567,6 +567,8 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+         logger.debug('writing append file %s' % appendfile)
+         with open(appendfile, 'a') as f:
+             f.write('###--- _extract_source\n')
++            f.write('deltask do_recipe_qa\n')
++            f.write('deltask do_recipe_qa_setscene\n')
+             f.write('ERROR_QA:remove = "patch-fuzz"\n')
+             f.write('DEVTOOL_TEMPDIR = "%s"\n' % tempdir)
+             f.write('DEVTOOL_DEVBRANCH = "%s"\n' % devbranch)
 -- 
 2.30.2
 
