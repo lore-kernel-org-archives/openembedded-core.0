@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B82E8C04FE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B89B7C3DA40
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:50 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.8992.1690468601794274725
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.8993.1690468602430952476
  for <openembedded-core@lists.openembedded.org>;
  Thu, 27 Jul 2023 07:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=X6CGoCY8;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99bdf08860dso96916766b.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=n8HVhjBP;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99bcfe28909so135974466b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468600; x=1691073400;
+        d=gmail.com; s=20221208; t=1690468601; x=1691073401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cOmMVEFba720c7tV7lgYB04rf5ofnA2gTFzSTAlzdFU=;
-        b=X6CGoCY8z0J59/fVmHntGA5pShqVWToDocKJDPQlF9Vb0O24ftw2n636+8q1k0RKHd
-         XN5reiJFzuYL7u/iptJ1vxeIMMrrbx1AmvL4BWniborJvsocso58zmYoDZEfemQaSBrm
-         Lg8s22WghlRPDuBp6TcZsO2SqGKZ2B6iwXXve0y169jiSwPexIcdd9va1phC7mGVhV69
-         k6oCm+T6AivGulaUwJ8a2oNYD5n3G4qF5wrMa1HyYRZ007cGuPbE6YqVZtZ8bqPYslt8
-         JsUkjBq8lK/CBw4wyuC+r2yOxoni8emCXFDdvRsCE1fE1VmsbuqDadUWNLL7u3KqI3oB
-         wT5A==
+        bh=DftNgqTdSEYede+VPTw38jUod0Mk47cpgRMcepJqFN0=;
+        b=n8HVhjBPsPjLra17hNMHWc+hLW3/h2LrA7kcir7ezRsv1JqZAHTJR+kO4aGzpU1an3
+         uURLEbaZ3jRm814hbCufW0Fu8LFnp4mt+DMi99mWBndeNF3uoOcr1ZlOqvflmgKbgCT4
+         M0HR9tvlH4zUywPq/HhjzuOg76eNMCx6UcNadSyzTXA6OyihttO0yPAlGGWQEDES6l02
+         T7z1FdPVTysBCLwA93MdETwni+C2M0LxAwUYzcHGzY4n5fh6n1yRAq2jrMQX4JuAd3yy
+         an0/jx9XgheDwGbApdWJ0ifgZm9sqqSlhb97B0H1JEUZXluWUTQMPzrjSMpjvoQ2SIck
+         VNHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468600; x=1691073400;
+        d=1e100.net; s=20221208; t=1690468601; x=1691073401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cOmMVEFba720c7tV7lgYB04rf5ofnA2gTFzSTAlzdFU=;
-        b=f7mpBgJTGUz1hwsYaAGFtJpqiiokVEiejeIm37QF2IzuSLc0X2F3DUGIhemK1spBwo
-         0DqKD0GUvX3uqFORH3LZM3Y+gxIetbhArUx4vLwb0PwSkOuEayJMASIjXXkum1PDhIs6
-         73KZ/UmLuPB6J7jwDiG+2mrRuyIlUIVUKCbquDKSywF5/u5j3kFyv/Qb2M3obme5PbBS
-         VI8L4EhG/teKhPJT9hU2qbOIvwcSGZq6yv+n+PxtUG7bDRFNoYquW1qCRtvikSJ5aqAD
-         bKLYmUMDNHkd2Z408ktLH9gdxgRNesjEK2ZDQAO8pNijCD3cIsh0MkWVnpI8z2xepFNV
-         QHNQ==
-X-Gm-Message-State: ABy/qLYz5DmeWgrI3aq4+5ZRFUgDyeh9zhm9FnZcE60S4OBO9e8uUA4v
-	a+tWNCKe9bJG0b59ypJb+DYDcoYW2QM=
-X-Google-Smtp-Source: APBJJlFJsVYDlInfAP8maOENomCSHoUVS42nNe8ygc4oid59ERAJgSVMHQDBziP3/vigfI6uk1ukoA==
-X-Received: by 2002:a17:907:1def:b0:99b:4d3d:c9b7 with SMTP id og47-20020a1709071def00b0099b4d3dc9b7mr2849535ejc.31.1690468600191;
+        bh=DftNgqTdSEYede+VPTw38jUod0Mk47cpgRMcepJqFN0=;
+        b=FV72+hkolqgJs3aXpQIc1JnSprnxxvqfssPDrJok5QUpg0o7hlpgOFK8yWMYduLedU
+         Kwccl/wLdz8f2+ElRfg7KkqGujAVrP4lbkyV78qwf0uyuxlHs+a14HM+1D3r03OtIGfz
+         xVhCc6tmyzVrwIPwYAZX2iVBs9TPsjVPf4fMntwnflvtgUPVzxQjjM20dCwpNxbwgGz1
+         v6Aw354jMKbFWIjtkZ2cvntPe6ugX2tl3dCTIPMueYy91AiEp7/kUjvAHs4SMMXeRMRu
+         z0SwhN4xCfLBcfrVI03laoaYDkWltomyx6bdzuo2GJASsoZd5voJdSdpwGfMnOQW+6BS
+         iNcg==
+X-Gm-Message-State: ABy/qLZ+euXcvP45m0pHB98e5DgvNigZ+N47TZEBnx4TebeQPP6wE8z7
+	QvzVxTudwrsHySjDY3l6r5pdUiPNvE8=
+X-Google-Smtp-Source: APBJJlFbAwxFgmzSzWnPa/WW2ZrjPVM2q7yCXydOgE/B9dZ0/IXtdHziJ0uEW6Te+RIW0GHB548XRw==
+X-Received: by 2002:a17:907:1dd8:b0:993:d7ff:afe7 with SMTP id og24-20020a1709071dd800b00993d7ffafe7mr2091084ejc.13.1690468600669;
         Thu, 27 Jul 2023 07:36:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.39
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:39 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 18/21] glibc-locale: use stricter matching for metapackages' runtime dependencies
-Date: Thu, 27 Jul 2023 16:36:24 +0200
-Message-Id: <20230727143627.3718496-18-alex@linutronix.de>
+Subject: [PATCH 19/21] uninative-tarball: install the full set of gconv modules
+Date: Thu, 27 Jul 2023 16:36:25 +0200
+Message-Id: <20230727143627.3718496-19-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
 References: <20230727143627.3718496-1-alex@linutronix.de>
@@ -62,54 +62,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184958
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184959
 
-This resolves two issues:
+msgfmt from gettext-native 0.22 is using iconv() to convert data to utf-8
+from arbitrary source encodings (previous versions of gettext did not
+do this conversion):
+https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commit;h=5412a4f79929004cb6db15d545e07dc953330e8d
 
-1. metapackages were depending on themselves (except -binaries which wouldn't match against 'glibc-binary').
-
-2. for the nativesdk variant, due to a non-empty dependency list at parsing time caused by
-issue 1, map_depends_variable() from meta/lib/oe/classextend.py was forcibly setting PACKAGES
-to the initial parse-time value (e.g. missing the dynamically created packages). This meant that
-three out of four nativesdk- metapackages were entireyly missing the dependencies on the
-respective dynamic package sets.
+As this is happening at build time, and the source encodings are specified by upstream projects
+ in translation files, we need the full set to cover all of them.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/glibc/glibc-locale.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/uninative-tarball.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index 760de9437b5..289f58d4df9 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -37,22 +37,22 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
- # Create a glibc-binaries package
- ALLOW_EMPTY:${BPN}-binaries = "1"
- PACKAGES += "${BPN}-binaries"
--RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary") != -1])}"
-+RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary-") != -1])}"
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index 4aecf39b890..7eebcaf11a4 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -3,18 +3,10 @@ LICENSE = "MIT"
  
- # Create a glibc-charmaps package
- ALLOW_EMPTY:${BPN}-charmaps = "1"
- PACKAGES += "${BPN}-charmaps"
--RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap") != -1])}"
-+RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap-") != -1])}"
+ TOOLCHAIN_TARGET_TASK = ""
  
- # Create a glibc-gconvs package
- ALLOW_EMPTY:${BPN}-gconvs = "1"
- PACKAGES += "${BPN}-gconvs"
--RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv") != -1])}"
-+RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv-") != -1])}"
- 
- # Create a glibc-localedatas package
- ALLOW_EMPTY:${BPN}-localedatas = "1"
- PACKAGES += "${BPN}-localedatas"
--RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata") != -1])}"
-+RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata-") != -1])}"
- 
- DESCRIPTION:localedef = "glibc: compile locale definition files"
- 
+-# ibm850 - mcopy from mtools
+-# iso8859-1 - guile
+-# utf-16, cp1252 - binutils-windres
+ TOOLCHAIN_HOST_TASK = "\
+     nativesdk-glibc \
+     nativesdk-glibc-dbg \
+-    nativesdk-glibc-gconv-ibm850 \
+-    nativesdk-glibc-gconv-iso8859-1 \
+-    nativesdk-glibc-gconv-utf-16 \
+-    nativesdk-glibc-gconv-cp1252 \
+-    nativesdk-glibc-gconv-euc-jp \
+-    nativesdk-glibc-gconv-libjis \
++    nativesdk-glibc-gconvs \
+     nativesdk-patchelf \
+     nativesdk-libxcrypt \
+     nativesdk-libxcrypt-compat \
 -- 
 2.30.2
 
