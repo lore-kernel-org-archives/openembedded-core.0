@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA00C00528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 547C8EB64DD
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 19:44:02 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.16746.1690487040865268672
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.16704.1690487034305322481
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 12:44:00 -0700
+ Thu, 27 Jul 2023 12:43:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=vWr4/C2y;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-55c85b4b06bso762978a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:44:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=xipqB09q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-267ffa55791so838966a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690487040; x=1691091840;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690487033; x=1691091833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CUvQEeTAs1RBVkXiHwWzOIyPNSkF+MHYrTUS2g1Uee0=;
-        b=vWr4/C2yDdmCGA989j+YKO+DGx9m+hqn3BbdQRz0qGh0nOkiv+kTxnCLPoKSVuPjL6
-         V95tfHtsU3DPzEPSai22KiqyoMTywyAx1S2MbDA6CGEj6zOLCWlHzaXYfKDHchsmrHt8
-         SKbfhn/BD4/cmjhH/59KcCkbRWLP4wj+UGO0waeh2VON2n1gFcrE8h13SNr3UZJtvi+R
-         vqlIJnZElS+3LqCncOcg0SI9jiwH1RHMDTuFpA+gTvNa1s/42FQDB+q8NAyl3vPGW+Ka
-         tH+fcM9MhY3YoPJuR6sZt319SbJfYi4dhlzRzcobKe205jKnpSC421kbrXtX1Bubt7KA
-         Dqfw==
+        bh=O1veEEdMkQ1Lx0P+Uubjd3VlaTMv20AJY98H6b5nD2Y=;
+        b=xipqB09qriQ/tToS+v2r5ee7BN6W82Sc1Zq1MrNwNrcAQdM3a5RXQxYoCwe0QXIL7m
+         Ar1TdsSjYUceS7C7Lta7ZTMTuTyCYXfymz0p4g33nCWjoiM5RwsLEKxk6Abped8otshZ
+         ZRXbf/n2Lqd5w/y4xGV5oyMmgGbBWM4uaRqraovoeNfZzXVFYIUYEhYA0wuuoUkK0e9P
+         Rv2oPJZvVQEprtCA32g6L1AeV/me3YWdt1Z0ox8TGV8yWhKpvv7TWV0rJGc7cezCWuOJ
+         lCywH1R/KpFQ/E4Lob4/7Y+iAG9PXHGbnbZVAY5Gr/O72UxJFvIjk8q59HiUyruoPVQU
+         akkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690487040; x=1691091840;
+        d=1e100.net; s=20221208; t=1690487033; x=1691091833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CUvQEeTAs1RBVkXiHwWzOIyPNSkF+MHYrTUS2g1Uee0=;
-        b=hGErogu2ifmS1t9SsufZSRXQJaXhXR4nzUNZCr33fjm7z8JT1RhnyYKqfRUbOgvd8M
-         elGMI79yfDXlQRAqhw/cTIFGTKU/q8Vag80K3l/uUjwqwIy5OMnylGwlGlkQ1MVgAE0H
-         P9AQX8vSho3gcvzxXEs8yX4BfOtd8OJo72mv4TlkJsGZ2ZuTlJRHZl9BhfOldW3gL8pT
-         Xd3vWzftw3+dH77I29wapVgwRwHJOJExBaWg+H+S3dkbvThDStO3nrHgyaXnhrxlMCLM
-         d8SkYuszPGmsLm3a8SJ9nVzIadU9sdrwv6NWPgiQ43JfkaTEe3SVlY9Q/sU79HZgKy/L
-         BfNw==
-X-Gm-Message-State: ABy/qLbhPIGcZpHHBLB7UjmEd16qj1nc1VudXC2EoxvXIlwiA/d+3rGI
-	jDPa3bdfTGedPHNuCLmZqEIOdsJ/ezsbnIYNPmE=
-X-Google-Smtp-Source: APBJJlFyrK/6smQP7+0ATJMAkP4CQG3J/FFeJMjtqQBopY+kl8CJNf/i09ZN8WqyN+UPmZYdkfj7WQ==
-X-Received: by 2002:a17:90b:4f86:b0:268:1355:b03e with SMTP id qe6-20020a17090b4f8600b002681355b03emr260983pjb.38.1690487039939;
-        Thu, 27 Jul 2023 12:43:59 -0700 (PDT)
+        bh=O1veEEdMkQ1Lx0P+Uubjd3VlaTMv20AJY98H6b5nD2Y=;
+        b=XXl/VD4NAlbn7AuYD+iNTL3tNEnVSgsV8o0bI4pXzQkpMtaDTAGdTT0GRKGSOu2l26
+         ZUVmZUyo2IHTafTQXHkw2q32noDrSXzeV7tbazgKEZZHW9Ola3IREi987geebgGvskUM
+         ++Mh2CKLRO5mzyqZnN4raV8RsMPjEITy3U9yuQtUw88jPV/572NmmRofwte1jm3GQOHf
+         NCpvTecM7EEeUfRRsSHh7Z8ZQqXPgn5Nv0JIYRR3S6lplbi2NPs4NYIPFZMCdEYL5Y6l
+         lswc7gFmDUShFCPfE4LbxlKbe/dG6wj3Yw+Sj1CRxMEBaLroog1F5ntnEUMHAX/94+w+
+         tjkw==
+X-Gm-Message-State: ABy/qLYtJNuU7NCgx7jfPrXHquIkX4YZZiqpXDXpfEPKSu6R/IS8M/XY
+	K0J8UMgT2OlXzHmt5cnhibOgDaq+139RKqFeArc=
+X-Google-Smtp-Source: APBJJlH2ofHqlsE70cT9lhCxS9Tm3o/ejw1vEEhCPrVWPIc+b8GqQvNUZddC6sWAhe4IzDOYP/METw==
+X-Received: by 2002:a17:90a:d194:b0:268:4c01:eb56 with SMTP id fu20-20020a17090ad19400b002684c01eb56mr270666pjb.2.1690487033246;
+        Thu, 27 Jul 2023 12:43:53 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b0025bcdada95asm1620532pjd.38.2023.07.27.12.43.58
+        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b0025bcdada95asm1620532pjd.38.2023.07.27.12.43.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 12:43:59 -0700 (PDT)
+        Thu, 27 Jul 2023 12:43:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 03/27] cups: Fix CVE-2023-34241
-Date: Thu, 27 Jul 2023 09:43:21 -1000
-Message-Id: <0048a87ec9442f1f9480d57ccfeeaa79ec171f04.1690486929.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 01/27] libjpeg-turbo: patch CVE-2023-2804
+Date: Thu, 27 Jul 2023 09:43:19 -1000
+Message-Id: <473058bf65ac98f644b1ffd4d5190ee782b824a5.1690486929.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1690486929.git.steve@sakoman.com>
 References: <cover.1690486929.git.steve@sakoman.com>
@@ -61,110 +61,230 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 19:44:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184976
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport patch [1] to fix CVE-2023-34241.
+Relevant links:
+* linked fronm NVD:
+  * https://github.com/libjpeg-turbo/libjpeg-turbo/issues/668#issuecomment-1492586118
+* follow-up analysis:
+  * https://github.com/libjpeg-turbo/libjpeg-turbo/issues/668#issuecomment-1496473989
+  * picked commits fix all issues mentioned in this analysis
 
-[1] https://github.com/OpenPrinting/cups/commit/9809947a959e18409dcf562a3466ef246cb90cb2
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/cups/cups.inc           |  1 +
- .../cups/cups/CVE-2023-34241.patch            | 70 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-34241.patch
+ .../jpeg/files/CVE-2023-2804-1.patch          | 103 ++++++++++++++++++
+ .../jpeg/files/CVE-2023-2804-2.patch          |  75 +++++++++++++
+ .../jpeg/libjpeg-turbo_2.1.5.1.bb             |   2 +
+ 3 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index d77758fd3f..c6a676b747 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -16,6 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
-            file://CVE-2023-32324.patch \
-+           file://CVE-2023-34241.patch \
+diff --git a/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+new file mode 100644
+index 0000000000..fd8a66bca7
+--- /dev/null
++++ b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+@@ -0,0 +1,103 @@
++From 42ce199c9cfe129e5e21afd48dfe757a6acf87c4 Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Tue, 4 Apr 2023 19:06:20 -0500
++Subject: [PATCH] Decomp: Don't enable 2-pass color quant w/ RGB565
++
++The 2-pass color quantization algorithm assumes 3-sample pixels.  RGB565
++is the only 3-component colorspace that doesn't have 3-sample pixels, so
++we need to treat it as a special case when determining whether to enable
++2-pass color quantization.  Otherwise, attempting to initialize 2-pass
++color quantization with an RGB565 output buffer could cause
++prescan_quantize() to read from uninitialized memory and subsequently
++underflow/overflow the histogram array.
++
++djpeg is supposed to fail gracefully if both -rgb565 and -colors are
++specified, because none of its destination managers (image writers)
++support color quantization with RGB565.  However, prescan_quantize() was
++called before that could occur.  It is possible but very unlikely that
++these issues could have been reproduced in applications other than
++djpeg.  The issues involve the use of two features (12-bit precision and
++RGB565) that are incompatible, and they also involve the use of two
++rarely-used legacy features (RGB565 and color quantization) that don't
++make much sense when combined.
++
++Fixes #668
++Fixes #671
++Fixes #680
++
++CVE: CVE-2023-2804
++Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/42ce199c9cfe129e5e21afd48dfe757a6acf87c4]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ ChangeLog.md | 12 ++++++++++++
++ jdmaster.c   |  5 +++--
++ jquant2.c    |  5 +++--
++ 3 files changed, 18 insertions(+), 4 deletions(-)
++
++diff --git a/ChangeLog.md b/ChangeLog.md
++index 1c1e6538a..f1bfb3d87 100644
++--- a/ChangeLog.md
+++++ b/ChangeLog.md
++@@ -1,3 +1,15 @@
+++2.1.6
+++=====
+++
+++### Significant changes relative to 2.1.5.1:
+++
+++1. Fixed an oversight in 1.4 beta1[8] that caused various segfaults and buffer
+++overruns when attempting to decompress various specially-crafted malformed
+++12-bit-per-component JPEG images using a 12-bit-per-component build of djpeg
+++(`-DWITH_12BIT=1`) with both color quantization and RGB565 color conversion
+++enabled.
+++
+++
++ 2.1.5.1
++ =======
++ 
++diff --git a/jdmaster.c b/jdmaster.c
++index a3690bf56..a9446adfd 100644
++--- a/jdmaster.c
+++++ b/jdmaster.c
++@@ -5,7 +5,7 @@
++  * Copyright (C) 1991-1997, Thomas G. Lane.
++  * Modified 2002-2009 by Guido Vollbeding.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2009-2011, 2016, 2019, 2022, D. R. Commander.
+++ * Copyright (C) 2009-2011, 2016, 2019, 2022-2023, D. R. Commander.
++  * Copyright (C) 2013, Linaro Limited.
++  * Copyright (C) 2015, Google, Inc.
++  * For conditions of distribution and use, see the accompanying README.ijg
++@@ -480,7 +480,8 @@ master_selection(j_decompress_ptr cinfo)
++     if (cinfo->raw_data_out)
++       ERREXIT(cinfo, JERR_NOTIMPL);
++     /* 2-pass quantizer only works in 3-component color space. */
++-    if (cinfo->out_color_components != 3) {
+++    if (cinfo->out_color_components != 3 ||
+++        cinfo->out_color_space == JCS_RGB565) {
++       cinfo->enable_1pass_quant = TRUE;
++       cinfo->enable_external_quant = FALSE;
++       cinfo->enable_2pass_quant = FALSE;
++diff --git a/jquant2.c b/jquant2.c
++index 44efb18ca..1c14ef763 100644
++--- a/jquant2.c
+++++ b/jquant2.c
++@@ -4,7 +4,7 @@
++  * This file was part of the Independent JPEG Group's software:
++  * Copyright (C) 1991-1996, Thomas G. Lane.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2009, 2014-2015, 2020, D. R. Commander.
+++ * Copyright (C) 2009, 2014-2015, 2020, 2023, D. R. Commander.
++  * For conditions of distribution and use, see the accompanying README.ijg
++  * file.
++  *
++@@ -1230,7 +1230,8 @@ jinit_2pass_quantizer(j_decompress_ptr cinfo)
++   cquantize->error_limiter = NULL;
++ 
++   /* Make sure jdmaster didn't give me a case I can't handle */
++-  if (cinfo->out_color_components != 3)
+++  if (cinfo->out_color_components != 3 ||
+++      cinfo->out_color_space == JCS_RGB565)
++     ERREXIT(cinfo, JERR_NOTIMPL);
++ 
++   /* Allocate the histogram/inverse colormap storage */
+diff --git a/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
+new file mode 100644
+index 0000000000..af955a72f6
+--- /dev/null
++++ b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
+@@ -0,0 +1,75 @@
++From 2e1b8a462f7f9f9bf6cd25a8516caa8203cc4593 Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Thu, 6 Apr 2023 18:33:41 -0500
++Subject: [PATCH] jpeg_crop_scanline: Fix calc w/sclg + 2x4,4x2 samp
++
++When computing the downsampled width for a particular component,
++jpeg_crop_scanline() needs to take into account the fact that the
++libjpeg code uses a combination of IDCT scaling and upsampling to
++implement 4x2 and 2x4 upsampling with certain decompression scaling
++factors.  Failing to account for that led to incomplete upsampling of
++4x2- or 2x4-subsampled components, which caused the color converter to
++read from uninitialized memory.  With 12-bit data precision, this caused
++a buffer overrun or underrun and subsequent segfault if the
++uninitialized memory contained a value that was outside of the valid
++sample range (because the color converter uses the value as an array
++index.)
++
++Fixes #669
++
++CVE: CVE-2023-2804
++Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/2e1b8a462f7f9f9bf6cd25a8516caa8203cc4593]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ ChangeLog.md |  8 ++++++++
++ jdapistd.c   | 10 ++++++----
++ 2 files changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/ChangeLog.md b/ChangeLog.md
++index f1bfb3d87..0a075c3c5 100644
++--- a/ChangeLog.md
+++++ b/ChangeLog.md
++@@ -9,6 +9,14 @@ overruns when attempting to decompress various specially-crafted malformed
++ (`-DWITH_12BIT=1`) with both color quantization and RGB565 color conversion
++ enabled.
++ 
+++2. Fixed an issue whereby `jpeg_crop_scanline()` sometimes miscalculated the
+++downsampled width for components with 4x2 or 2x4 subsampling factors if
+++decompression scaling was enabled.  This caused the components to be upsampled
+++incompletely, which caused the color converter to read from uninitialized
+++memory.  With 12-bit data precision, this caused a buffer overrun or underrun
+++and subsequent segfault if the sample value read from unitialized memory was
+++outside of the valid sample range.
+++
++ 
++ 2.1.5.1
++ =======
++diff --git a/jdapistd.c b/jdapistd.c
++index 02cd0cb93..96cded112 100644
++--- a/jdapistd.c
+++++ b/jdapistd.c
++@@ -4,7 +4,7 @@
++  * This file was part of the Independent JPEG Group's software:
++  * Copyright (C) 1994-1996, Thomas G. Lane.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2010, 2015-2020, 2022, D. R. Commander.
+++ * Copyright (C) 2010, 2015-2020, 2022-2023, D. R. Commander.
++  * Copyright (C) 2015, Google, Inc.
++  * For conditions of distribution and use, see the accompanying README.ijg
++  * file.
++@@ -236,9 +236,11 @@ jpeg_crop_scanline(j_decompress_ptr cinfo, JDIMENSION *xoffset,
++     /* Set downsampled_width to the new output width. */
++     orig_downsampled_width = compptr->downsampled_width;
++     compptr->downsampled_width =
++-      (JDIMENSION)jdiv_round_up((long)(cinfo->output_width *
++-                                       compptr->h_samp_factor),
++-                                (long)cinfo->max_h_samp_factor);
+++      (JDIMENSION)jdiv_round_up((long)cinfo->output_width *
+++                                (long)(compptr->h_samp_factor *
+++                                       compptr->_DCT_scaled_size),
+++                                (long)(cinfo->max_h_samp_factor *
+++                                       cinfo->_min_DCT_scaled_size));
++     if (compptr->downsampled_width < 2 && orig_downsampled_width >= 2)
++       reinit_upsampler = TRUE;
++ 
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+index e086830c02..86bf471eea 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+@@ -12,6 +12,8 @@ DEPENDS:append:x86:class-target = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
++           file://CVE-2023-2804-1.patch \
++           file://CVE-2023-2804-2.patch \
             "
  
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2023-34241.patch b/meta/recipes-extended/cups/cups/CVE-2023-34241.patch
-new file mode 100644
-index 0000000000..4950ca341d
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2023-34241.patch
-@@ -0,0 +1,70 @@
-+From ffd290b4ab247f82722927ba9b21358daa16dbf1 Mon Sep 17 00:00:00 2001
-+From: Rose <83477269+AtariDreams@users.noreply.github.com>
-+Date: Thu, 1 Jun 2023 11:33:39 -0400
-+Subject: [PATCH] Log result of httpGetHostname BEFORE closing the connection
-+
-+httpClose frees the memory of con->http. This is problematic because httpGetHostname then tries to access the memory it points to.
-+
-+We have to log the hostname first.
-+
-+CVE: CVE-2023-34241
-+
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/9809947a959e18409dcf562a3466ef246cb90cb2]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ scheduler/client.c | 16 +++++++---------
-+ 1 file changed, 7 insertions(+), 9 deletions(-)
-+
-+diff --git a/scheduler/client.c b/scheduler/client.c
-+index 91e441188..327473a4d 100644
-+--- a/scheduler/client.c
-++++ b/scheduler/client.c
-+@@ -193,13 +193,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+    /*
-+     * Can't have an unresolved IP address with double-lookups enabled...
-+     */
-+-
-+-    httpClose(con->http);
-+-
-+     cupsdLogClient(con, CUPSD_LOG_WARN,
-+-                    "Name lookup failed - connection from %s closed!",
-++                    "Name lookup failed - closing connection from %s!",
-+                     httpGetHostname(con->http, NULL, 0));
-+ 
-++    httpClose(con->http);
-+     free(con);
-+     return;
-+   }
-+@@ -235,11 +233,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+       * with double-lookups enabled...
-+       */
-+ 
-+-      httpClose(con->http);
-+-
-+       cupsdLogClient(con, CUPSD_LOG_WARN,
-+-                      "IP lookup failed - connection from %s closed!",
-++                      "IP lookup failed - closing connection from %s!",
-+                       httpGetHostname(con->http, NULL, 0));
-++
-++      httpClose(con->http);
-+       free(con);
-+       return;
-+     }
-+@@ -256,11 +254,11 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
-+ 
-+   if (!hosts_access(&wrap_req))
-+   {
-+-    httpClose(con->http);
-+-
-+     cupsdLogClient(con, CUPSD_LOG_WARN,
-+                     "Connection from %s refused by /etc/hosts.allow and "
-+ 		    "/etc/hosts.deny rules.", httpGetHostname(con->http, NULL, 0));
-++
-++    httpClose(con->http);
-+     free(con);
-+     return;
-+   }
-+-- 
-+2.25.1
-+
+ SRC_URI[sha256sum] = "2fdc3feb6e9deb17adec9bafa3321419aa19f8f4e5dea7bf8486844ca22207bf"
 -- 
 2.34.1
 
