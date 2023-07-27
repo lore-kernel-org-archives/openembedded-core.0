@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3738FC04E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E23EB64DD
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 19:44:12 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.16751.1690487046205384026
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.16708.1690487042661282363
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 12:44:06 -0700
+ Thu, 27 Jul 2023 12:44:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=vNCNbpha;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2682b4ca7b7so817243a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:44:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=UwmQsJh2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-56345ab18b0so757076a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690487045; x=1691091845;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690487042; x=1691091842;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ear8dMfSGonVw+06wqiumHv7IxCbIwWgECHphSVftJ8=;
-        b=vNCNbphayoCKFV4iQfZXtuSz7btBi7JUeu6XSoyfDusuSEjREdG6W09eQl5Tm/FIXI
-         V6+t0pqVNg9/cNippr4RyuZWg6OrFpMLOTKGUZ6mfaFcrcNWEFMjvda1+OAAQXHVVUPH
-         0LKrswlwFE7SvKo1meWjikfSN4OFGJ3w8uaGYoDrcB6eTWC0r/PWRRolSZRVfq74DXuY
-         li1VTjnErrWfxl3rTVmvZR7FoJmiOFSGT6rZhVc0E/E9vm79IY8XZgOdOrjE6AcYZ/8/
-         IvqxEB6uKA/UELugkw8FR5J4dfm/RSvklIKrUyiy4qkTXUYivglkEcOkphCi8c5mZD9M
-         jJLQ==
+        bh=OT7RBzCxelSWL4Fo+gOMx+jqhO7ELbbMyJxPsBO/cec=;
+        b=UwmQsJh2RJ98MolInryAyFRRM7XhGGrB5570P/t38vjUtKWhosJkLn4jnJz4cP4LaS
+         /JcEkUFEornoT8H1+d59GkzNIqi6XnHZQr3o+t5BM7JD+QRbmjElyErnIf4KzAsCX7y8
+         N2AmN1VMVzHcoaHTvOuFm1D3HO4u1YuQyYKXQp2dvI9g4+K4iOsRA2RZPs6R1n43JXbq
+         i4qHSZiPldbQBo1NGUIzVQRTcVPkQHWLy5o/WjjZ3KweMectNmoAKM+EoDGBsTnfdtqq
+         25vBpi0cXDKaGE3xBVeTZXDWICjlCRt1C7lfLuIYA39fHeXt2f9E1L+t7EllfFxu3R8P
+         EkQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690487045; x=1691091845;
+        d=1e100.net; s=20221208; t=1690487042; x=1691091842;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ear8dMfSGonVw+06wqiumHv7IxCbIwWgECHphSVftJ8=;
-        b=g+lh50Wt0esdr+wze7nY2ryIc1McaVtFWmBeFp91iIzoNUpXOAuhoip6fwfpA1LxT4
-         qOuVRYB/Iql0GzxqE00GQJ+l2rUfJxey9Anu5bT8p9YYgZzWFqsDBYlq7UQa+pj/FLi2
-         urmSIOmkFF9TKy2rfBuSCb57ZtV1ZCZngFIL1g1s82hBPr928fG3+P015MXs22NbcLeE
-         DlPUs79E1x+0WC6hsVwQomU1VmIfQ2AyrP+PlaS68lpXscvOgCgu+0qQtTrK9xUqLjhE
-         iFAJNQCGJfORR5CFYi2W2m/z8JFwYmiou8Ns9eT5w2rnYF8BIE7tUkfsALxfOeft24iw
-         NVug==
-X-Gm-Message-State: ABy/qLZz1TIJpg1uhIcn7CdkP/JcldqG8QLq5Ddv+AksRXMDJwPfkM0E
-	GV2RHfbj3BCb7tykf66CJ76Rmze7WkGdqPU5YwQ=
-X-Google-Smtp-Source: APBJJlEjdUHOaIMvBU5Wo7mMC+8KjOSCKOsIp/sXoP6OApSpjln4nvuD5HgdlrJhqbzKR0G9Djf0Kg==
-X-Received: by 2002:a17:90a:6e48:b0:263:6a7e:c239 with SMTP id s8-20020a17090a6e4800b002636a7ec239mr231648pjm.37.1690487045232;
-        Thu, 27 Jul 2023 12:44:05 -0700 (PDT)
+        bh=OT7RBzCxelSWL4Fo+gOMx+jqhO7ELbbMyJxPsBO/cec=;
+        b=QiWHRtx+a4T0fEpkJABJJlm3L+wRzmDl5TvStjY7KfYzfSxXs2ANVvbOe57pWjNQHL
+         r775q0fUadeELJxmK/au1GnmcLXgjqwuxYKcOVyAfpRBUjT+4FI3mrxyp2VxOVicY4KZ
+         BrS50ltyEbIUg8+AaPW9AM63q9dwVl989M79YMZDJyaMT0/kx3vlshxF+NZMt28ku1kK
+         PqpT7pt6zdgRPY18d3VGUJmvMQwTXdAkqLCbmlP2bSQl+YtQ2KDJqbq3wvc7wrjZcei9
+         XeKTu/WnLtJ2W4m3YoSJkFdD5NGCLOHW8mjQnaHL5/eLfLqYSUGkswihmMo02EOJrvzv
+         4WOw==
+X-Gm-Message-State: ABy/qLagqIT/OuWFpAqC/cvO+S07b855OdJ9JN4UgBmjQDQB3GAw8jQ5
+	fXZtBvTvF4TDwyRcDSb+EubZUah0Oszwb/1SuE4=
+X-Google-Smtp-Source: APBJJlGVQDGw6ALDmioDN7uhfA6Fm+svzQThOd31RGaeUxOsz4n1nIznv9iD2fmSAsd5Ln9NU+EbGg==
+X-Received: by 2002:a17:90b:400c:b0:268:1e77:c6f4 with SMTP id ie12-20020a17090b400c00b002681e77c6f4mr244956pjb.40.1690487041675;
+        Thu, 27 Jul 2023 12:44:01 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b0025bcdada95asm1620532pjd.38.2023.07.27.12.44.04
+        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b0025bcdada95asm1620532pjd.38.2023.07.27.12.44.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 12:44:04 -0700 (PDT)
+        Thu, 27 Jul 2023 12:44:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 06/27] linux-yocto/6.1: update to v6.1.37
-Date: Thu, 27 Jul 2023 09:43:24 -1000
-Message-Id: <4abc100a81401373edaa3c5859e4bf94e8dc3d0d.1690486929.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 04/27] ruby: Fix CVE-2023-36617
+Date: Thu, 27 Jul 2023 09:43:22 -1000
+Message-Id: <403a24f02600e2462e8ccfbb42651e15e002bd2e.1690486929.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1690486929.git.steve@sakoman.com>
 References: <cover.1690486929.git.steve@sakoman.com>
@@ -61,155 +61,158 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 19:44:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184981
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184979
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+Backport two patches [1] [2] to fix CVE-2023-36617 [3].
 
-    0f4ac6b4c5f0 Linux 6.1.37
-    323846590c55 xtensa: fix NOMMU build with lock_mm_and_find_vma() conversion
-    c2d89256de75 csky: fix up lock_mm_and_find_vma() conversion
-    4a1db15878aa parisc: fix expand_stack() conversion
-    0a1da2dde461 sparc32: fix lock_mm_and_find_vma() conversion
-    00f04a3385f7 Revert "thermal/drivers/mediatek: Use devm_of_iomap to avoid resource leak in mtk_thermal_probe"
-    a536383ef030 HID: logitech-hidpp: add HIDPP_QUIRK_DELAYED_INIT for the T651.
-    d89750b19681 HID: wacom: Use ktime_t rather than int when dealing with timestamps
-    879e79c3aead HID: hidraw: fix data race on device refcount
-    cae854249578 fbdev: fix potential OOB read in fast_imageblit()
-    e6bbad75712a mm: always expand the stack with the mmap write lock held
-    c4b31d1b694e execve: expand new process stack manually ahead of time
-    6a6b5616c3d0 mm: make find_extend_vma() fail if write lock not held
-    48c232819e77 powerpc/mm: convert coprocessor fault to lock_mm_and_find_vma()
-    21ee33d51bf9 mm/fault: convert remaining simple cases to lock_mm_and_find_vma()
-    1f4197f050de arm/mm: Convert to using lock_mm_and_find_vma()
-    ac764deea709 riscv/mm: Convert to using lock_mm_and_find_vma()
-    7227d70acc78 mips/mm: Convert to using lock_mm_and_find_vma()
-    82972ea17b47 powerpc/mm: Convert to using lock_mm_and_find_vma()
-    b92cd80e5f0b arm64/mm: Convert to using lock_mm_and_find_vma()
-    755aa1bc6aaf mm: make the page fault mmap locking killable
-    d6a5c7a1a6e5 mm: introduce new 'lock_mm_and_find_vma()' page fault helper
-    4e2ad53ababe maple_tree: fix potential out-of-bounds access in mas_wr_end_piv()
-    31cde3bdadca can: isotp: isotp_sendmsg(): fix return error fix on TX path
-    0af4750eaaed x86/smp: Cure kexec() vs. mwait_play_dead() breakage
-    6d3b2e0aef6c x86/smp: Use dedicated cache-line for mwait_play_dead()
-    50a1abc67702 x86/smp: Remove pointless wmb()s from native_stop_other_cpus()
-    e47037d28b73 x86/smp: Dont access non-existing CPUID leaf
-    edadebb349e8 x86/smp: Make stop_other_cpus() more robust
-    94a69d699941 x86/microcode/AMD: Load late on both threads too
-    84f077802e56 mm, hwpoison: when copy-on-write hits poison, take page offline
-    4af5960d7cd4 mm, hwpoison: try to recover from copy-on write faults
-    69925a346acb mptcp: ensure listener is unhashed before updating the sk status
-    42a018a796d1 mm/mmap: Fix error return in do_vmi_align_munmap()
-    a149174ff8bb mm/mmap: Fix error path in do_vmi_align_munmap()
+[1] https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1
+[2] https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8
+[3] https://www.ruby-lang.org/en/news/2023/06/29/redos-in-uri-CVE-2023-36617/
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4d43c9ebcb0308d9178f6f44c02cac13de126c92)
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ .../ruby/ruby/CVE-2023-36617_1.patch          | 56 +++++++++++++++++++
+ .../ruby/ruby/CVE-2023-36617_2.patch          | 52 +++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.2.2.bb      |  2 +
+ 3 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-index 19758206bc..b01f09b1a7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "5227a8173cee7256e370750216dbff5eca741134"
--SRCREV_meta ?= "aba2c2181163cf40e3f8c5618c05e78e931f235b"
-+SRCREV_machine ?= "48cdae83316b7055b4e63f3434ea26b0c04d7c71"
-+SRCREV_meta ?= "f15c15c0755e36ec185927dd83a8a569186836eb"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.1.36"
-+LINUX_VERSION ?= "6.1.37"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-index 48cc6b87fb..529f515db1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.1.inc
- 
--LINUX_VERSION ?= "6.1.36"
-+LINUX_VERSION ?= "6.1.37"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_meta ?= "aba2c2181163cf40e3f8c5618c05e78e931f235b"
-+SRCREV_machine ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_meta ?= "f15c15c0755e36ec185927dd83a8a569186836eb"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-index 47d2e72c3b..3245c3eab2 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
- KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "5dd09d311b31db8c7b098e14a7857ef8a6e5353d"
--SRCREV_machine:qemuarm64 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemuloongarch64 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemumips ?= "1d79865ce12928b85ab2ab1756e7aa7ae5cc4938"
--SRCREV_machine:qemuppc ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemuriscv64 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemuriscv32 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemux86 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemux86-64 ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_machine:qemumips64 ?= "7241bd2e494f07582f736ef1604e81ccd4afc7cf"
--SRCREV_machine ?= "6ba5ae474699ee9e6dd39874dfdb680959f55ffd"
--SRCREV_meta ?= "aba2c2181163cf40e3f8c5618c05e78e931f235b"
-+SRCREV_machine:qemuarm ?= "fccbb53f81908991a69214e09ae0eea360410617"
-+SRCREV_machine:qemuarm64 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemuloongarch64 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemumips ?= "8370d3d4823bcff9532dd6bb163359f75a5416cd"
-+SRCREV_machine:qemuppc ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemuriscv64 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemuriscv32 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemux86 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemux86-64 ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_machine:qemumips64 ?= "efe0a0701a1a8c5b6113d6a06b65857f8c84ac9f"
-+SRCREV_machine ?= "154c43de4e13946ccecf0ff13772db6c2adba355"
-+SRCREV_meta ?= "f15c15c0755e36ec185927dd83a8a569186836eb"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "a1c449d00ff8ce2c5fcea5f755df682d1f6bc2ef"
-+SRCREV_machine:class-devupstream ?= "0f4ac6b4c5f00f45b7a429c8a5b028a598c6400c"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.1/base"
- 
-@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.1.36"
-+LINUX_VERSION ?= "6.1.37"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+new file mode 100644
+index 0000000000..17c7e30176
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+@@ -0,0 +1,56 @@
++From 2ebb50d2dc302917a6f57c1239dc9e700dfe0e34 Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Thu, 27 Jul 2023 15:53:01 +0800
++Subject: [PATCH] Fix quadratic backtracking on invalid relative URI
++
++https://hackerone.com/reports/1958260
++
++CVE: CVE-2023-36617
++
++Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ lib/uri/rfc2396_parser.rb |  4 ++--
++ test/uri/test_parser.rb   | 12 ++++++++++++
++ 2 files changed, 14 insertions(+), 2 deletions(-)
++
++diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
++index 76a8f99..00c66cf 100644
++--- a/lib/uri/rfc2396_parser.rb
+++++ b/lib/uri/rfc2396_parser.rb
++@@ -497,8 +497,8 @@ module URI
++       ret = {}
++ 
++       # for URI::split
++-      ret[:ABS_URI] = Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
++-      ret[:REL_URI] = Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
+++      ret[:ABS_URI] = Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
+++      ret[:REL_URI] = Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
++ 
++       # for URI::extract
++       ret[:URI_REF]     = Regexp.new(pattern[:URI_REF])
++diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
++index 72fb590..721e05e 100644
++--- a/test/uri/test_parser.rb
+++++ b/test/uri/test_parser.rb
++@@ -79,4 +79,16 @@ class URI::TestParser < Test::Unit::TestCase
++     assert_equal([nil, nil, "example.com", nil, nil, "", nil, nil, nil], URI.split("//example.com"))
++     assert_equal([nil, nil, "[0::0]", nil, nil, "", nil, nil, nil], URI.split("//[0::0]"))
++   end
+++
+++  def test_rfc2822_parse_relative_uri
+++    pre = ->(length) {
+++      " " * length + "\0"
+++    }
+++    parser = URI::RFC2396_Parser.new
+++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri|
+++      assert_raise(URI::InvalidURIError) do
+++        parser.split(uri)
+++      end
+++    end
+++  end
++ end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+new file mode 100644
+index 0000000000..7c51deaa42
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+@@ -0,0 +1,52 @@
++From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Thu, 27 Jul 2023 16:16:30 +0800
++Subject: [PATCH] Fix quadratic backtracking on invalid port number
++
++https://hackerone.com/reports/1958260
++
++CVE: CVE-2023-36617
++
++Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ lib/uri/rfc3986_parser.rb |  2 +-
++ test/uri/test_parser.rb   | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
++index dd24a40..9b1663d 100644
++--- a/lib/uri/rfc3986_parser.rb
+++++ b/lib/uri/rfc3986_parser.rb
++@@ -100,7 +100,7 @@ module URI
++         QUERY: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
++         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
++         OPAQUE: /\A(?:[^\/].*)?\z/,
++-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
+++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
++       }
++     end
++ 
++diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
++index 721e05e..cee0acb 100644
++--- a/test/uri/test_parser.rb
+++++ b/test/uri/test_parser.rb
++@@ -91,4 +91,14 @@ class URI::TestParser < Test::Unit::TestCase
++       end
++     end
++   end
+++
+++  def test_rfc3986_port_check
+++    pre = ->(length) {"\t" * length + "a"}
+++    uri = URI.parse("http://my.example.com")
+++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |port|
+++      assert_raise(URI::InvalidComponentError) do
+++        uri.port = port
+++      end
+++    end
+++  end
++ end
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+index 481fe7c23d..d1359e388c 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
+@@ -31,6 +31,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+            file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
++           file://CVE-2023-36617_1.patch \
++           file://CVE-2023-36617_2.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
 -- 
 2.34.1
