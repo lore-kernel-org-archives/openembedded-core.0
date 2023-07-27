@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F51C3DA40
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 969BAC3DA41
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:40 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.9067.1690468596002730589
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.9064.1690468594208320206
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 07:36:36 -0700
+ Thu, 27 Jul 2023 07:36:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=oJ6MgNzb;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2b9b5ee9c5aso15593521fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fPoUvWaZ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-99bd1d0cf2fso138682566b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468594; x=1691073394;
+        d=gmail.com; s=20221208; t=1690468592; x=1691073392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LYi9dj87oiWaOJBvb0z8m3MxuMOCxLg3YWEONBMin5Y=;
-        b=oJ6MgNzbCvHfo3YsGPxYQgLRZZEO7C/TOeKiRwtJz+Ezrp7z9lvxMbKGqReFw8rSKA
-         aiuAbNuw2rsLwGrQJWjfLNE0D7J+3dLmkqWKqpAA3oOAOGEH9oTLhPIcN4BLtlkvkXpf
-         Z/fKaht0Ixgss1hwwXGnqeIKFYa7UJWjBNKUw7gZfjaqiYn0kFluYSC9UYI/g0MwagNO
-         mxFvy1tpRzeXNnt0ca1btl5DDWMLnzPK5zS/K4RmH6dbUFAkLuHrDI50CUxkuc6B0Ran
-         IHj6jQrmzpDBp6EVQxsUlopMoWjKhY1u3u8oISlQpV12BLnBe6srMY2gLmKrnQ2dp36I
-         bNsg==
+        bh=eJJrOS9qE6G4CRiNh0hwME02KBhw0nzK2SikzUJSYtA=;
+        b=fPoUvWaZnI1LvuSMPNvJKedOa6++czsqHhN0fc8VwS2A86azV4mPc7Tr1TKWohf6bZ
+         uND7z2MVrXMQ7kpCLndFMDjd3mC0f73Pbhod5Fl1/zu7hryok4BAAfgE3M1u8MkVbbG+
+         1Ize8xCjVaABTgNERcPwStTPziMQfK4jYXdaYuKykBnB2FJ3QDkfwrJDjEFzlmvZXqpl
+         N1fiBzSHS4FLn5OF9m0R6KagPih7SzTajCCY15pSMfyROIII6hN2TQ/S3EOrvCt2oK2w
+         vVDHzwsHkQl8Fv9YeajpC95KcD0OBi3XwU0dctIeGoHHp9DHBWRJpaTYMaZqW8JgCq0V
+         pn/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468594; x=1691073394;
+        d=1e100.net; s=20221208; t=1690468592; x=1691073392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LYi9dj87oiWaOJBvb0z8m3MxuMOCxLg3YWEONBMin5Y=;
-        b=kgKBPVZfo8bKv5IexSrVIaLbJd7uA+nqPMpOY3VtC0PCvCGktuCXp4YRLAz2ysg7Wp
-         GyMQxjXb4JM+2SyaRUOi46j84e5ButfIkMHgGwxaZh+zFipSvu3YWlo19PAZQIPjg8Ml
-         1KNCaOhtVLYfqy36bnGD1WW+QoGf7gkWBLJlCnJh97xRHjMgCcRY80RTESjxSxbIC7mF
-         KqV7whv/J8xP3yXlFYdZlTQimxNxOVqOb3eY112BHJcfxyPMITLwFf7Ty6M2dkxcfHAh
-         x6Y1IGSSJdz0C2HmvHgtd3rbPeJhD5FyQMxV7til2bgRKpGdn9hRLVX7Gg/VtoODotUO
-         ir2w==
-X-Gm-Message-State: ABy/qLbitvH+MZS9M5rzu9aGf3Rs3HGUJRo0+42wjB465fgmFcjZU+Vf
-	8XtrmEpM9P6ly9RKIb2Vl119oWvo0H0=
-X-Google-Smtp-Source: APBJJlHCq//UucaVPLPPkx4slVi6++R3oDpYwSFYWMly0hUjE/WNG6C61w6++lCUrrN86qJuyHokYA==
-X-Received: by 2002:a2e:8704:0:b0:2b9:3883:a765 with SMTP id m4-20020a2e8704000000b002b93883a765mr2045529lji.31.1690468594101;
-        Thu, 27 Jul 2023 07:36:34 -0700 (PDT)
+        bh=eJJrOS9qE6G4CRiNh0hwME02KBhw0nzK2SikzUJSYtA=;
+        b=Ec2YDz0m57LhS2SBPvSEGyUPGsmfQ57YH6c59s6fk7z4IKYhytRZHz2QAdkOENEXdS
+         xg0zlPqIJ4PvpQM4yvrR8/yTHHQEglVaXsLv4fIXkpcuMlpjkASop8MzE+BusVTmghrN
+         mYXE749Jq70/ZfpfpSFrHyzd32m4HiMcrhOnN8b56jCOFhUqICRkpB/M8XI2RZLWmvnT
+         T9WNhen4mdH4PaxcPjHJzn5US5rUVzjirgtWM4c1yMSHw8BlSXD0RZfYXeBglzOqC7IR
+         PLcxpZmHwYWh7T/3l98DzXQHh/wUNfQq4m/a8kxEpTAZygDwnZ7tq7fN2luMqBd1Uvar
+         RWwA==
+X-Gm-Message-State: ABy/qLbRuvaXwlOExjYFQATGRBqWDWL3A4ecK0BSNbngGQ/qsa53uQP7
+	LSZPjyQG525FNR3+8TOjDlclB/7K8pQ=
+X-Google-Smtp-Source: APBJJlGFURsITEkWuLC+NIrNpW/Tqrz/8PIPOosclj7uk+ylthUy6g4K5J/g4TpvbgZKfgG8/nnf9Q==
+X-Received: by 2002:a17:906:8443:b0:99b:da50:9ddc with SMTP id e3-20020a170906844300b0099bda509ddcmr1610286ejy.55.1690468592604;
+        Thu, 27 Jul 2023 07:36:32 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.33
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:33 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:32 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/21] gnu-efi: upgrade 3.0.15 -> 3.0.17
-Date: Thu, 27 Jul 2023 16:36:14 +0200
-Message-Id: <20230727143627.3718496-8-alex@linutronix.de>
+Subject: [PATCH 05/21] insane.bbclass: add a RECIPE_MAINTAINER check (oe-core recipes only)
+Date: Thu, 27 Jul 2023 16:36:11 +0200
+Message-Id: <20230727143627.3718496-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
 References: <20230727143627.3718496-1-alex@linutronix.de>
@@ -62,53 +62,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184948
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184945
 
-Unset LDFLAGS as the standard ones do not work when linking EFI binaries
-(the new version of gnu-efi adds various apps).
+Absent maintainer entries are as well a frequent source of friction, as they are checked
+only in selftest, and so aren't revealed until autobuilder runs.
+
+The selftest is retained as it also checks for obsolete entries in maintainers.inc
+(not possible to do in insane class).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../gnu-efi/{gnu-efi_3.0.15.bb => gnu-efi_3.0.17.bb}      | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.15.bb => gnu-efi_3.0.17.bb} (93%)
+ meta/classes-global/insane.bbclass | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.15.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
-similarity index 93%
-rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.15.bb
-rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
-index 5ae6f391ae9..547c469d19f 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.15.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
-@@ -17,7 +17,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
-            file://gnu-efi-3.0.9-fix-clang-build.patch \
-            "
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index 78506c30b1e..960dfc8924a 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -50,7 +50,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+ ERROR_QA:append:layer-core = " patch-status"
+-WARN_QA:append:layer-core = " missing-metadata"
++WARN_QA:append:layer-core = " missing-metadata missing-maintainer"
  
--SRC_URI[sha256sum] = "931a257b9c5c1ba65ff519f18373c438a26825f2db7866b163e96d1b168f20ea"
-+SRC_URI[sha256sum] = "7807e903349343a7a142ebb934703a2872235e89688cf586c032b0a1087bcaf4"
+ FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
+@@ -1485,7 +1485,16 @@ python do_recipe_qa() {
+             else:
+                 oe.qa.handle_error("missing-metadata", "Recipe {} in {} does not contain a HOMEPAGE. Please add an entry.".format(pn, fn), d)
  
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*|riscv64.*)-linux"
- COMPATIBLE_HOST:armv4 = 'null'
-@@ -34,6 +34,10 @@ def gnu_efi_arch(d):
-         return "ia32"
-     return tarch
- 
-+do_compile:prepend() {
-+    unset LDFLAGS
-+}
++    def test_missing_maintainer(d):
++        fn = d.getVar("FILE")
++        pn = d.getVar("PN")
++        if pn.endswith("-native") or pn.startswith("nativesdk-") or "packagegroup-" in pn or "core-image-ptest-" in pn:
++            return
++        if not d.getVar('RECIPE_MAINTAINER'):
++            oe.qa.handle_error("missing-maintainer", "Recipe {} in {} does not have an assigned maintainer. Please add an entry into meta/conf/distro/include/maintainers.inc.".format(pn, fn), d)
 +
- EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}' 'LD=${LD}' 'AR=${AR}' \
-                 'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}' 'LIBDIR=${libdir}' \
-                 "
-@@ -46,7 +50,7 @@ do_install() {
-         oe_runmake install INSTALLROOT="${D}"
+     test_missing_metadata(d)
++    test_missing_maintainer(d)
+     oe.qa.exit_if_errors(d)
  }
  
--FILES:${PN} += "${libdir}/*.lds"
-+FILES:${PN} += "${libdir}/*.lds ${libdir}/gnuefi/apps"
- 
- # 64-bit binaries are expected for EFI when targeting X32
- INSANE_SKIP:${PN}-dev:append:linux-gnux32 = " arch"
 -- 
 2.30.2
 
