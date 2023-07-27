@@ -1,259 +1,148 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <hayama@lineo.co.jp>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9783EC00528
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 08:39:18 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web10.2988.1690447157400957756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09E6C001DC
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 08:56:38 +0000 (UTC)
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (JPN01-TYC-obe.outbound.protection.outlook.com [40.107.114.117])
+ by mx.groups.io with SMTP id smtpd.web11.3249.1690448193446322470
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 01:39:17 -0700
+ Thu, 27 Jul 2023 01:56:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=EA70iBJv;
- spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: zboszor@gmail.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3464c774f23so2332985ab.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 01:39:17 -0700 (PDT)
+ dkim=pass header.i=@lineouser.onmicrosoft.com header.s=selector1-lineouser-onmicrosoft-com header.b=ujMRXiix;
+ spf=pass (domain: lineo.co.jp, ip: 40.107.114.117, mailfrom: hayama@lineo.co.jp)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mjPT2iNz+WnYyY5vIcTp9Oko6iuCKIpFOUEacQEbkKDqnu/VS7g41x2P0NqcFX7Mjc2xBtFHMMs6wARp6XrKj5ro4HiKw+EmTZxkCwayEZPNSNo9hcL/eKox3o+IXlt78EhgQqZnSyGlq8Ny1gu/6QcazLr4LkFMOnoRzCD8060In4xc6dfyMef03LUNqSaKqi29/RdFrCsYygvExQDxcKkrsZCv/y+YPntqeDdc/FyhWotpwhxlQ01M741mRqDXTo3A/a0O1oFCBlfx6MepcGaoGzlwo94GSG5evqS3zFLgVgn7LaGrLy9W45gkO6NIM6ss3JwOH8ZAyvyUEHiGzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ir5dOReoDB1XebavEyVNbYn0lNWGGlTHocYL+wPMe5g=;
+ b=kBiZmE4a5v1azhvLTBj9iHsn2FF5TCNAE7tfOXo1wcmlmKjBoZKmw8eSWVm8c3oXD53Uc+bHU55g4SvidU6ievxOJDmyfOeHl9OPwnH5O6w2xx+88yPCKRzUxJJeS1G3rmGeY1Hdxy28TCBTsZSDwUn6bzqg+FZT1peQjCBQbCTOYov7hBXyARz2lFUYtVv0OOnaQ17eio59RAd24HyQK/GM8Leamfh5ANOKOrZlMMwXiOGYUE/ObhPkUmCTEH3jPc5OW8ZBKTwA3PzZf8CoT0SFwcg70Utq9LnG+9n28TvDm7q/P1Gt43o90zyuaC2OskS3xMDiDhgMDL1RTxxvdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lineo.co.jp; dmarc=pass action=none header.from=lineo.co.jp;
+ dkim=pass header.d=lineo.co.jp; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690447156; x=1691051956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nYl8A5NiC6sjBvmau0VRQI00baet8hMlqEHWBZ1CZy0=;
-        b=EA70iBJvGJOHztACKfuqr2CzXZv/RIQipApyL0rn9ey4npkK87HVZGB/QC0R+xzqOh
-         V/5DwcfAzCWM6NcGbM5on65yyezp6E83zLiHkApeJHDbe4bJyKmYidkFLEtFvUl4pdVO
-         Oyp74rAdF49HDr814tQXk20Ktt7KR8tWgWv9MCrei6XVynYkzg2QFdnYVWJmNz8bOd79
-         eUkZoPWFYeBSzSKj9CzmG9eWOliYcLXNaKCbrTYJIbVZ1JGoqgOgpc36dLZA6xg5fsPf
-         N3Q6w20r5AksgEQS/sHi9WUagV1s4Z4+Ka2abzN4Ik8EdMIR5L3BKxIjoqVSV6Et17dd
-         j8Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690447156; x=1691051956;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nYl8A5NiC6sjBvmau0VRQI00baet8hMlqEHWBZ1CZy0=;
-        b=aiSJO1V3MEslxmafbVIDvwmv6Hgr50mHzPYERr3ztr9D9GCS4Fham920VOiDxAlqcl
-         Ghgacg/lwBfdhdHnvwA8VlA7YLosZ1EI8VjhSmO4iLolOZlnCUWofju0UrBp7kxnwsGp
-         C92+ORWdLs4+QvRpjVdiaDhiLYbPmIPCfM/yKKUZnFoWTG8hUPfC5DhRI6P4gi/wDf4n
-         MIN54NoSqNJjLLsfHpq2GM5cDtMw3Fynwy/EVCwmfI6FABi41z69+P1UUEqgAID9nc+i
-         BlyBmtDeMwpGZ70pB525hw3iZ7XS3ghmlcEyLcB0iqtiZ+BsUZ4Hpr366atez3CiM349
-         B6Fg==
-X-Gm-Message-State: ABy/qLabxutYi3PhvDekd9D86NoSP8Uzk3X6xh9vCJLR/L2E597DFSmI
-	BWnYpGoNt6RzwVMLuA9WR3/3NaVQKEU7kQ==
-X-Google-Smtp-Source: APBJJlEPpN2qW44WblRImGqBxBmjtosMCs9Ja8NlyUW0/xnS3rKaur9JTeczQrusTPS24Z3lLXaxvQ==
-X-Received: by 2002:a05:6e02:11ae:b0:348:cab1:4d5c with SMTP id 14-20020a056e0211ae00b00348cab14d5cmr4345780ilj.10.1690447156338;
-        Thu, 27 Jul 2023 01:39:16 -0700 (PDT)
-Received: from [192.168.2.51] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id u20-20020a02c054000000b0042b4f9ddecasm284691jam.85.2023.07.27.01.39.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 01:39:15 -0700 (PDT)
-Message-ID: <0b393539-3a4b-f239-5933-70c5586b387d@gmail.com>
-Date: Thu, 27 Jul 2023 10:39:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ d=lineouser.onmicrosoft.com; s=selector1-lineouser-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ir5dOReoDB1XebavEyVNbYn0lNWGGlTHocYL+wPMe5g=;
+ b=ujMRXiix1TBil54pnTsmbnMwpR9W05KrGml2wN13/lp728D62dB4nCvdgvR6GFzKySlC5MWEP3PXUY9qrvVOz6YVfUHJucRVB50eyFH0Qux9x+1NO8MD3TwAtUFZMN1KrtnzjZ9MO3Z2KppFo4Ohr7pI7dCet3JSgY3tDiwTaww=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=lineo.co.jp;
+Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com (2603:1096:404:dd::23)
+ by TY3PR01MB10940.jpnprd01.prod.outlook.com (2603:1096:400:3b5::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
+ 2023 08:56:28 +0000
+Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com
+ ([fe80::8834:3ac3:f0fb:e0a1]) by TY2PR01MB3769.jpnprd01.prod.outlook.com
+ ([fe80::8834:3ac3:f0fb:e0a1%5]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 08:56:28 +0000
+Message-ID: <4430b025-a805-3efa-3bc0-58089c47e8f2@lineo.co.jp>
+Date: Thu, 27 Jul 2023 17:56:26 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [OE-core] [PATCH] rpm: Allow setting platform macro settings
- externally
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Ross Burton <Ross.Burton@arm.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20230725135719.388231-1-zboszor@gmail.com>
- <CANNYZj9_AbGN9YsahpHVHA8wqingZaKfv-DD_DPGURt4ezPn5Q@mail.gmail.com>
- <17756CA97DEFC46E.21334@lists.openembedded.org>
- <dfbfb13e-208b-4a63-b0a6-339452184c9c@gmail.com>
- <CANNYZj-7LvTF9qBuQu_grfX6LAMwQHG6fme8xE2+F-nA=0x7+Q@mail.gmail.com>
 Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj-7LvTF9qBuQu_grfX6LAMwQHG6fme8xE2+F-nA=0x7+Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Yuta Hayama <hayama@lineo.co.jp>
+To: openembedded-core@lists.openembedded.org, steve@sakoman.com
+Cc: Yuta Hayama <hayama@lineo.co.jp>
+Subject: [kirkstone][dunfell][PATCH] cve-update-nvd2-native: always pass str
+ for json.loads()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCPR01CA0062.jpnprd01.prod.outlook.com
+ (2603:1096:405:2::26) To TY2PR01MB3769.jpnprd01.prod.outlook.com
+ (2603:1096:404:dd::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PR01MB3769:EE_|TY3PR01MB10940:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3154159c-c2e0-4bce-6512-08db8e7f5dae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uqjiefdZDr2vUxrS3by9lefc+ETVhx7+UaHcpqSmsn2idSDy7s8RcJXfYaGixqgzmFKsBTxcuNZh7NF1Md3jtrQoP+pI/U0wySYBhcDuWnD9A7GBwOj2DSu5/NB6ol3mq25AqAAPie+bIk1a0d3/I3C35l7esm5g5v8eOwWyC10erOI7X9Z59Gvnl+Kp0AZErea6tyh9OM1VOQnul0+19QmRjgqtCv+xl7jo7WO/eMufQT/JYRhBLmhSN2t8pIgKDngiC6aQfchQhyD7+blO5qud0Ft8l93S9MDlkVWnqyp2rETMSblqRjw/6lvNF0wv++JNsKlyQoHJysMBtX3ByYaXTkjOXibw9swlxFxIDu01B3dC/zstgyZX5yUjh96+QVxbPj0AnlYKTlupL/1m4GQFgXE+OGEHiXZX4kMJ8YNUZnxXTL6d9urn+JMEyfCsxOF/R3Ek8EakjoxLDJ+BWS/fP73LaXijDxS2aitT4u+ludL58BlblIROA7MCt7NDWISxfrgr1Od4VIoFz46WbIYUsCXEZoSzcuAvojauSks/sKfEcl01t54xvtOU/0zXr+qqZpZJuJscH5nTMS179Wr7Tj+L4lN8Pl3MtvbPTLrrisagJSfIcm8Z1NJ0bFaXAV+ZFJr9nUiZQzOTJwBGZw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3769.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(39840400004)(366004)(396003)(376002)(451199021)(31696002)(86362001)(36756003)(31686004)(107886003)(2906002)(478600001)(4744005)(38100700002)(2616005)(26005)(186003)(6506007)(66946007)(5660300002)(6512007)(6486002)(4326008)(316002)(66476007)(66556008)(83380400001)(8676002)(15650500001)(41300700001)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Qk0wL0M5QnJ3dy9kaEJwZlIxNElCb3dVRE40ZmFtOWt0Nit0c3R1akwvZlRy?=
+ =?utf-8?B?cWg3YjE0cG80c0F1K3BIeDN5WTZJTUFZaFg2WHJzMFNwSmd6ZWd0clFtY3dr?=
+ =?utf-8?B?NVUwWGE3dUJRREVyc0pja3VJSGxQNFpyWDdXUC9SODRiUUZsMTNhL3dURlpY?=
+ =?utf-8?B?dDcrQ0hSNG5XV1k1M0Q5dVQyS1VtaUVxcDMyaGdjWTlVWE5BTjhVYmZWM0w1?=
+ =?utf-8?B?bXJDamwzOFk4L3REUko5M2I5RVkrUUxaZmlOaDFJNGFJMC9RS01tTUYrdmhC?=
+ =?utf-8?B?RS9YUjh2VnVnSzZRenY4QWUrRWZOUmVyaDZIMGx6dEdCQStxMmZRUEo3UFVm?=
+ =?utf-8?B?V2o5VnU2c2NmNW1TVEwwc096TWRNbHBRVkVieGdQelFraDcrTjBtY2FodTJN?=
+ =?utf-8?B?am9KWHZDaG9VYVFacXRpWVZWdlBpL0pDTDNYb05qVDZsVTl6bGIrMlFwaVRa?=
+ =?utf-8?B?RG9WdHNjbytYbHkxdDNRdzNQanhkVW5IQ1RLUVZvVWJLY1hyL1ZXbGhuZzV2?=
+ =?utf-8?B?YkFrYmN0a2padGJNVER4bFJWMDBsZkN5ZjExNU00R2VzcG9oVkZwTUxjL2Ux?=
+ =?utf-8?B?SmRHY29JS2I5S25ObUZ4WlI0TktzOEs5VWpZdTVUV09yTGZRM3Q5TmVLQ2Er?=
+ =?utf-8?B?UGZhNGZ4ZkV2enp1RklqQ1F2OUpRR1JCc0RXdkpDdkpuVmw0TXVnUTUyb1BP?=
+ =?utf-8?B?OWxQM2ZkaHc0eWR3OXdPTWpYVjFlZGtNUWVDUXdKeVBwa0djaDBtUlRrSGtk?=
+ =?utf-8?B?QUVDVmhDVnQ1YnJDeWhneXBJZVNyS3RYQVZTNnpFZ2JvVUpGalQ4dmpOYzNE?=
+ =?utf-8?B?aTAxVEMxcHNzSTFiZXp0L29iTWhWVnZIL3JqZ3lQUTAyRmlVcFhpS1F0VzNS?=
+ =?utf-8?B?QlEzOXhCbUtra3l1RS9nZXFiSzFVNTVjK05FajhjOVowRDFwZXhYdVlOMWNp?=
+ =?utf-8?B?R01VZ0FjT3RTWTN6N294bW1LNGJsTGp5d0RlQTJHdEdFc3Y1RVNKTDdVOEk4?=
+ =?utf-8?B?TWl5WE40Uy9NUlkwemVpeE5PaDF6NVRRWkU4b1lKeVpyNzJSbFo1VWJrQVpE?=
+ =?utf-8?B?SGZKLzdFTVlpTTJNZU9xQXVUMGhjbFJ0ZzROaUVVZ085ZDB3cmVIb3JxLytH?=
+ =?utf-8?B?S0o2cERNdlZ6U0J3Y0h2N2VXZk9kSXNXM2JWa0ZCUkZXbWFkemNwV25uRFNF?=
+ =?utf-8?B?RWI4cElvVFliU1RzUFFLdW83TG9lbGUzTjd5bkFPK0pCZ3lRSU9XN0I4ZWpH?=
+ =?utf-8?B?ODZDZUpqYUNkWWtnOCtBVGpaVXRhejgzVVpCMU11cU1QVys5V0s4TWJnTUh6?=
+ =?utf-8?B?Yis0aUZLaCtTWmVYK3FwUzFpakppU1NIOWtJNVZneHdGUFRBT1VnTXMrN2VF?=
+ =?utf-8?B?WFg2S2tVMFFBczVHNzY0QzdRbkhKd09iMkZZeS9rWG1DZnoyYXQ2QjBiL2NC?=
+ =?utf-8?B?dTZXR2FnVTYyam1USVZmSTl0VHJqSExQc0Yvek5CZktNZWlYN2tLbEd5MFov?=
+ =?utf-8?B?dzI2WFJ4dW1UOTZTNHF0NXlrOUczbXlkczBDaFl0Rk5iRnJoNjJ3dzRGTUNI?=
+ =?utf-8?B?SzhHazBGeS9ld1V4cHh3OFhNMEtvcEZtRkFpTFMrSmFwbVI5eGptYy9pS2RL?=
+ =?utf-8?B?L20xbGpGN04yRDNBbmhRSmVTUWFaYWhLNitEL3Q5dURZSHppY0c5RVRxc0Fr?=
+ =?utf-8?B?K0c4ZllNd3U4cjJvaUJ6RDJUR05VR0lTSDF1aXBSTEEwTmhGbitmYUY1SzlL?=
+ =?utf-8?B?Q1MwWjhrbUI4ZWRuNnpqWUo1RU96THZyK0JXZFBCTGxyckYydVVuUlk5OGZ2?=
+ =?utf-8?B?SlZ4RWlKekpXQkFPMllHTXZFOGkxK1FYOVRpbnB6RytlK2V5bUVEUlBxRzJK?=
+ =?utf-8?B?cnJoOHRTNmJiZFcxalJ4NWwrLzRmRVgyOURQNzFIbE9mbzVnYXFieHNMeEhJ?=
+ =?utf-8?B?ZnZTVmdtRDREUDJSOHBpS0wyTkY1di9rdWRHbGw5RExtbWpXb2xzUmNUV1l0?=
+ =?utf-8?B?VlM2a1p0dGtmVW5zS0FpdDl1b25Uc3NUQVNYdGxLMG5oU2E0TzFhMnJYYXFI?=
+ =?utf-8?B?K0Z3T25pbW5oblhoWHQ0YTZoZHJMa1JSQU41TzZOb2x5M25pRVByQ2tYNWJj?=
+ =?utf-8?Q?/xhg6CK/x0eb9SZPxqugIB2Vu?=
+X-OriginatorOrg: lineo.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3154159c-c2e0-4bce-6512-08db8e7f5dae
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3769.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 08:56:28.7477
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 850e1ad4-d43d-42a8-82ab-c68675f36887
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ng9F3jive/M3FaBppgv9rcocigSDefzkZHmIC2Dd9ydO1PJF//S1+rqb9JQZYjPVHraAOKgOV+EkVkI/+EU5KQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10940
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 08:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184923
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 08:56:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184924
 
-2023. 07. 27. 10:30 keltezéssel, Alexander Kanavin írta:
-> I was hoping to get a reaction from Panu (who's the maintainer; Neal
-> is a contributor), but then I remembered he's a Finn, and this time of
-> the year all Finns disappear into summer cabins - temperatures above
-> +20 are still rare in that country, and actual sun in the sky is even
-> more precious :)
+Currently json.loads() accepts one of the types str, bytes, or bytearray
+as an argument, but bytes and bytearrays have only been allowed since
+python 3.6. The version of Python3 provided by default on Ubuntu 16.04
+and Debian 9.x is 3.5, so make raw_data type str to work correctly on
+these build hosts.
 
-:-)
+Signed-off-by: Yuta Hayama <hayama@lineo.co.jp>
+---
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> So I'm slightly torn: I don't have anything against the patch, I just
-> don't want to carry (and maintain) something that upstream rejected.
-> We've had plenty of such incidents with rpm in the past.
-
-No problem. I can carry the patch and recipe change internally in
-bbappend form until it's decided. Apparently, it's only me where
-the use case to need rpmbuild on a target machine ever occurred.
-
-Thanks.
-
->
-> Alex
->
-> On Thu, 27 Jul 2023 at 09:32, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> Patch approved with the requested changes.
->>
->> I sent a v2 with using the approved patch and adding
->> the exports only to do_install:class-target because
->> that's where it's needed.
->>
->> 2023. 07. 26. 15:05 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
->>> 2023. 07. 25. 18:30 keltezéssel, Alexander Kanavin írta:
->>>> I would want to hold this until we have a reaction from upstream.
->>> Now we have reaction. Both PRs were closed because they were not
->>> against master, my bad. Now reopened against master as
->>> https://github.com/rpm-software-management/rpm/pull/2585
->>>
->>> But there was some real comment here:
->>> https://github.com/rpm-software-management/rpm/pull/2580#issuecomment-1651647277
->>>
->>> The discussion may/should be taken to the issue at
->>> https://github.com/rpm-software-management/rpm/issues/2578
->>>
->>>> RPM_CUSTOM_* exports should go to specific tasks where they are needed.
->>>>
->>>> Alex
->>>>
->>>> On Tue, 25 Jul 2023 at 15:57, Zoltán Böszörményi <zboszor@gmail.com> wrote:
->>>>> Feed platform settings to installplatform externally. Based on the patch
->>>>> submitted under https://github.com/rpm-software-management/rpm/pull/2579
->>>>>
->>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->>>>> ---
->>>>>    ...ng-plaform-macro-settings-externally.patch | 56 +++++++++++++++++++
->>>>>    meta/recipes-devtools/rpm/rpm_4.18.1.bb       | 17 ++++++
->>>>>    2 files changed, 73 insertions(+)
->>>>>    create mode 100644
->>>>> meta/recipes-devtools/rpm/files/0001-Allow-setting-plaform-macro-settings-externally.patch
->>>>>
->>>>> diff --git
->>>>> a/meta/recipes-devtools/rpm/files/0001-Allow-setting-plaform-macro-settings-externally.patch
->>>>> b/meta/recipes-devtools/rpm/files/0001-Allow-setting-plaform-macro-settings-externally.patch
->>>>>
->>>>> new file mode 100644
->>>>> index 0000000000..8b3220f114
->>>>> --- /dev/null
->>>>> +++
->>>>> b/meta/recipes-devtools/rpm/files/0001-Allow-setting-plaform-macro-settings-externally.patch
->>>>> @@ -0,0 +1,56 @@
->>>>> +From 320f4f3861dad70342f065004311eac143d6522d Mon Sep 17 00:00:00 2001
->>>>> +From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
->>>>> + <zboszor@gmail.com>
->>>>> +Date: Tue, 25 Jul 2023 10:56:44 +0200
->>>>> +Subject: [PATCH] Allow setting plaform macro settings externally
->>>>> +MIME-Version: 1.0
->>>>> +Content-Type: text/plain; charset=UTF-8
->>>>> +Content-Transfer-Encoding: 8bit
->>>>> +
->>>>> +Yocto has their own way to set the platform names via BSPs
->>>>> +(Board Support Packages). These names are more specific than
->>>>> +basic CPU architectures, and such a platform name ends up in
->>>>> +/etc/rpm/platform but the corresponding subdirectory under
->>>>> +/usr/lib/rpm/platform does not exist.
->>>>> +
->>>>> +Allow creating such custom platform subdirectory with feeding
->>>>> +the necessary data using external variables: RPM_CUSTOM_ARCH,
->>>>> +RPM_CUSTOM_ISANAME, RPM_CUSTOM_ISABITS, RPM_CUSTOM_CANONARCH
->>>>> +and RPM_CUSTOM_CANONCOLOR
->>>>> +
->>>>> +Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->>>>> +Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/2579]
->>>>> +---
->>>>> + installplatform | 9 ++++++++-
->>>>> + 1 file changed, 8 insertions(+), 1 deletion(-)
->>>>> +
->>>>> +diff --git a/installplatform b/installplatform
->>>>> +index a5ad7c5b8..59f57697b 100755
->>>>> +--- a/installplatform
->>>>> ++++ b/installplatform
->>>>> +@@ -11,7 +11,7 @@ VENDOR="${4}"
->>>>> + OS="${5}"
->>>>> + RPMRC_GNU="${6}"
->>>>> +
->>>>> +-for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
->>>>> ++for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`
->>>>> ${RPM_CUSTOM_ARCH:+custom}; do
->>>>> +   RPMRC_OPTFLAGS="`sed -n 's/^optflags: '$ARCH' //p' $RPMRC`"
->>>>> +   RPMRC_OPTFLAGS="`echo $RPMRC_OPTFLAGS | sed -e 's, ,\ ,g'`"
->>>>> +   case $RPMRC_OPTFLAGS in
->>>>> +@@ -30,6 +30,13 @@ for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
->>>>> +   CANONCOLOR=
->>>>> +   FILTER=cat
->>>>> +   case "${ARCH}" in
->>>>> ++    custom)
->>>>> ++      ARCH=$RPM_CUSTOM_ARCH
->>>>> ++      ISANAME=$RPM_CUSTOM_ISANAME
->>>>> ++      ISABITS=$RPM_CUSTOM_ISABITS
->>>>> ++      CANONARCH=$RPM_CUSTOM_CANONARCH
->>>>> ++      CANONCOLOR=$RPM_CUSTOM_CANONCOLOR
->>>>> ++    ;;
->>>>> +     sparc64*)
->>>>> +       ISANAME=sparc
->>>>> +       ISABITS=64
->>>>> +--
->>>>> +2.41.0
->>>>> +
->>>>> diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
->>>>> b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
->>>>> index 95a9e92f96..bc036fc843 100644
->>>>> --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
->>>>> +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
->>>>> @@ -40,6 +40,7 @@ SRC_URI =
->>>>> "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
->>>>> file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
->>>>>               file://fix-declaration.patch \
->>>>> file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
->>>>> + file://0001-Allow-setting-plaform-macro-settings-externally.patch \
->>>>>               "
->>>>>
->>>>>    PE = "1"
->>>>> @@ -103,6 +104,21 @@ WRAPPER_TOOLS = " \
->>>>>       ${libdir}/rpm/rpmdeps \
->>>>>    "
->>>>>
->>>>> +def rpm_isaname(d):
->>>>> +    import re
->>>>> +    arch = d.getVar('TARGET_ARCH')
->>>>> +    if re.match("^i.86$", arch) or re.match("^x86.*64$", arch):
->>>>> +        return "x86"
->>>>> +    # Add more platform tweaks for ISANAME as needed
->>>>> +    return arch
->>>>> +
->>>>> +export RPM_CUSTOM_ARCH = "${MACHINE_ARCH}"
->>>>> +export RPM_CUSTOM_ISANAME = "${@rpm_isaname(d)}"
->>>>> +export RPM_CUSTOM_ISABITS = "${SITEINFO_BITS}"
->>>>> +export RPM_CUSTOM_CANONARCH = "${TARGET_ARCH}"
->>>>> +# CANONCOLOR determines whether /usr/lib or /usr/lib64 is used for a 64-bit platform
->>>>> +export RPM_CUSTOM_CANONCOLOR = "${@bb.utils.contains('DISTRO_FEATURES', 'multilib',
->>>>> '3', '0', d)}"
->>>>> +
->>>>>    do_configure:prepend() {
->>>>>            mkdir -p ${S}/build-aux
->>>>>    }
->>>>> @@ -132,6 +148,7 @@ do_install:append:class-nativesdk() {
->>>>>    do_install:append:class-target() {
->>>>>        rm -rf ${D}/var
->>>>>    }
->>>>> +
->>>>>    do_install:append:class-nativesdk() {
->>>>>        rm -rf ${D}${SDKPATHNATIVE}/var
->>>>>        # Ensure find-debuginfo is located correctly inside SDK
->>>>> --
->>>>> 2.41.0
->>>>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#184883): https://lists.openembedded.org/g/openembedded-core/message/184883
->>> Mute This Topic: https://lists.openembedded.org/mt/100350661/3617728
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 2f7dad7e82..67d76f75dd 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -136,7 +136,7 @@ def nvd_request_next(url, api_key, args):
+ 
+             if (r.headers['content-encoding'] == 'gzip'):
+                 buf = r.read()
+-                raw_data = gzip.decompress(buf)
++                raw_data = gzip.decompress(buf).decode("utf-8")
+             else:
+                 raw_data = r.read().decode("utf-8")
+ 
+-- 
+2.25.1
 
 
