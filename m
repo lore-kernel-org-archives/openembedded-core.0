@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA290C001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA23BC001DC
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:50 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.8991.1690468600636481217
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.8995.1690468603139574483
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 07:36:40 -0700
+ Thu, 27 Jul 2023 07:36:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=C6g0DNP1;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5222bc91838so1402142a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=QOjS2GOh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b95d5ee18dso15592931fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468599; x=1691073399;
+        d=gmail.com; s=20221208; t=1690468601; x=1691073401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6QKHWuyNGrvffD4ej82S4uyqB9PFeFK6YAS5XOdwJjM=;
-        b=C6g0DNP1hE0PjhEamjGj9r1i7Pwb1KAoTnehdhppxLESWM/2TiipN88cu6gaJnDsRA
-         EZq9OWoB0Vlw1OAHFQgdrIbD4vx7DgRdvKwgnUYx2r+7zoQMa/HFe+rGOM0TOSBf6I/X
-         LU5IvKVZmomAJFJipy0p0X9fYLRDHHDAAPz63PmZX8g5vLRzr9SrmJwPY4CNe6BHm0Gv
-         zCFkMEcYfdn76rWyPivL5LgLKgS6zpDgytK4l+GQB27Y+2XiHVki8J+JVUqDnac8lZ+s
-         5ULgvyaNfbfks48Hm+9PIGDkL2hbpwZBMTb9wXi7UUpCv1WzJ1a7/b7EU2jjlRRLNIgC
-         4ivg==
+        bh=KyYnCSpQ4Y+1RSIfW7LvQyutIWoQ45pp+Ih+IT9sYBY=;
+        b=QOjS2GOhMBL/Qb/v9nw+IGGrDjugycCrDr8vIbOKQcXd3r+J8EtT/Ndy/ZLZsId/YM
+         Flc6X/+jci60K/Vqc9CIkQspiqCDE3emaaWH03bdJ/hBm4B4SF9LW4FNg/BWf/bKp2rc
+         967HxFG/3rF7wuF6txCHOPAifmkA+vTGaSRRWMhXdnBBMsSYMmOHG9Nirs9nEZmAGaGk
+         5sAc5eak/ugmeJj5i0FpteGhTCctdruhFdvSp6W9FF20pJ7bGIATp6II8BsYzTe2KAnm
+         G5T0HR5rlkyiehEynuzkE5/FGIP4pPqZ4QNO55i1DoF7mGq1fbLuRZt3quGYWvT2+/4z
+         rXFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468599; x=1691073399;
+        d=1e100.net; s=20221208; t=1690468601; x=1691073401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6QKHWuyNGrvffD4ej82S4uyqB9PFeFK6YAS5XOdwJjM=;
-        b=YpTTiHAzCJ3/2a2LR0wAUt+o0VelW3SD1RTllVItsfill4KTKRqdh3XfhHoTKbG2iT
-         zuJ9xpyOU1f8d7QDIe9MrC4mFe8eP0w2ndgtlOX6FFmYnXE1FultFn6BvKFClO0iNzA6
-         MsAEjp8J3PloosZioRJO7CrDuhlGSqcrDxcCBDb3wZt/smpXi9l9HFSdfs1W3gTHtCbY
-         Jb5CHfxYk0HfFjw/ckAUSfU6vw+hsHzDuOy0ZuJL00cc/m0I+pxpZlk1QC8FrGmLFMwr
-         ETnOotxNgSmbc7eFu3CjJrdJ9Rbn/QwEPTcPXUzTe6jCKXipodQOU4LdwUJePejqnrY6
-         uP5A==
-X-Gm-Message-State: ABy/qLYO1LbMJ5FgK3/yO2++Jv5+KkFBC/aaaFXxLVZ3i96QhK3ENBQ0
-	bKU14HyTycVhu6aXT6/0cH/O9LFgGr4=
-X-Google-Smtp-Source: APBJJlHIacI+UrscIbpMLoXuylY4/j/TaaUrnFV2JH4XwyKweaoNPjc7SMlNHYMj7gxp0MuNFJsmbQ==
-X-Received: by 2002:a17:907:770c:b0:99b:ca24:ce42 with SMTP id kw12-20020a170907770c00b0099bca24ce42mr2028720ejc.44.1690468599018;
-        Thu, 27 Jul 2023 07:36:39 -0700 (PDT)
+        bh=KyYnCSpQ4Y+1RSIfW7LvQyutIWoQ45pp+Ih+IT9sYBY=;
+        b=JkfPL8ecyr6ClthBikW/6/CJJ04tcpiRt6PLlNBh+QcndqjoBDM+h8NdnGh54e5NvH
+         b5RNHCk8SCKPKeBfdYzGzJQ5kQ5TzK20cCX1S9pP1Pc4D/rPx+1rtdVAL0gRA19Yekxi
+         JTXEHXjEh3gX3WQFB7kBA3iVn2zy2jPlcjN/vzbSaZ63ktg6en73f5aDjEpMOCBHYcG/
+         j0PfD1LczjdV+Js08Gf8sBXy6wU9vh2kW+O5nrHeWD30MzoZaVQ4R23KR2uS7+eswr1T
+         RZXTI6rj4Ji3k7vc4BzaVNtEdM83pGotONWkvTWpuBEqWq7jnGIxUF+PXzQk8/UhJLyz
+         hgUQ==
+X-Gm-Message-State: ABy/qLYkb7oCVre0hglU5gcgxQ1AloK2VeLKlkSFhuqljBYR48PQmxN4
+	Prvr1qa+AA8psl/W64/wA1pb2gNdDk8=
+X-Google-Smtp-Source: APBJJlFNjJF0AEY01wL5jJpfwYMzyEUAgi/MZeW+lpdbnumY6fjA2rnXMO+x2OTMWS79Pv+Ww+hGOg==
+X-Received: by 2002:a2e:9ed4:0:b0:2b6:ccc7:4908 with SMTP id h20-20020a2e9ed4000000b002b6ccc74908mr1681328ljk.15.1690468601209;
+        Thu, 27 Jul 2023 07:36:41 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.38
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:38 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/21] libadwaita: add recipe from meta-gnome
-Date: Thu, 27 Jul 2023 16:36:22 +0200
-Message-Id: <20230727143627.3718496-16-alex@linutronix.de>
+Subject: [PATCH 20/21] buildtools-extended-tarball: install the full set of gconv modules
+Date: Thu, 27 Jul 2023 16:36:26 +0200
+Message-Id: <20230727143627.3718496-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
 References: <20230727143627.3718496-1-alex@linutronix.de>
@@ -62,60 +62,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184956
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184960
 
-This is a requirement of latest epiphany 44.x.
+The specific set was written to ensure vim builds reproducibly; this is
+however prone to silent regressions (if vim adds more usage of iconv with
+different encodings). Installing the full set also matches what standard
+desktop distributions do, and thus meets expectations of upstream projects in general.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../libadwaita/libadwaita_1.3.3.bb            | 25 +++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-gnome/libadwaita/libadwaita_1.3.3.bb
+ .../recipes-core/meta/buildtools-extended-tarball.bb | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 17f038c71ef..d472849265b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -305,6 +305,7 @@ RECIPE_MAINTAINER:pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-less = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-liba52 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libacpi = "Anuj Mittal <anuj.mittal@intel.com>"
-+RECIPE_MAINTAINER:pn-libadwaita = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libaio = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER:pn-libassuan = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.3.3.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.3.3.bb
-new file mode 100644
-index 00000000000..8ec5258c736
---- /dev/null
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.3.3.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Building blocks for modern GNOME applications"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/libadwaita"
-+LICENSE="LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-+
-+GNOMEBASEBUILDCLASS = "meson"
-+
-+DEPENDS = " \
-+    gtk4 \
-+"
-+
-+inherit gnomebase gobject-introspection gi-docgen vala features_check
-+
-+SRC_URI[archive.sha256sum] = "3fb9f6f8f570e543ab2dafb8b4b94d8b376c59ad565efadfede44557e3f3a9e1"
-+
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+REQUIRED_DISTRO_FEATURES = "opengl"
-+
-+GIR_MESON_ENABLE_FLAG = 'enabled'
-+GIR_MESON_DISABLE_FLAG = 'disabled'
-+GTKDOC_MESON_OPTION = 'gtk_doc'
-+
-+PACKAGECONFIG[examples] = "-Dexamples=true,-Dexamples=false"
-+
-+FILES:${PN} += "${datadir}/metainfo"
+diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
+index 83e3fddccc1..633f8e6b99d 100644
+--- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
+@@ -28,21 +28,13 @@ TOOLCHAIN_HOST_TASK += "\
+     nativesdk-libtool \
+     nativesdk-pkgconfig \
+     nativesdk-glibc-utils \
+-    nativesdk-glibc-gconv-ibm850 \
+-    nativesdk-glibc-gconv-iso8859-1 \
+-    nativesdk-glibc-gconv-utf-16 \
+-    nativesdk-glibc-gconv-cp1250 \
+-    nativesdk-glibc-gconv-cp1251 \
+-    nativesdk-glibc-gconv-cp1252 \
+-    nativesdk-glibc-gconv-euc-jp \
+-    nativesdk-glibc-gconv-libjis \
++    nativesdk-glibc-gconvs \
+     nativesdk-libxcrypt-dev \
+     nativesdk-parted \
+     nativesdk-dosfstools \
+     nativesdk-gptfdisk \
+     "
+-# gconv-cp1250, cp1251 and euc-jp needed for iconv to work in vim builds
+-# also copied list from uninative
++# gconvs needed for iconv to work in vim builds
+ 
+ TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
+ 
 -- 
 2.30.2
 
