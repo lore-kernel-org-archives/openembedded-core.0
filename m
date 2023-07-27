@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B038C04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79624C41513
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:40 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.8986.1690468599193203425
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.8984.1690468598047045405
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 07:36:39 -0700
+ Thu, 27 Jul 2023 07:36:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=P+ozJ5GV;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so1814607e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Y4bg/izJ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-992dcae74e0so135674366b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468597; x=1691073397;
+        d=gmail.com; s=20221208; t=1690468596; x=1691073396;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SpOHiShsZ6Q4PY0WpPwM694cVKXpLwq0M8XwWaHdTfY=;
-        b=P+ozJ5GVyJrLojxjNGskxdI4n0Nsxu7UjdkXuSdnl80czDT7u6oLFgeBDGq3JEt6ea
-         VuNFKsSYnbPBNiBKPVr8ga7miqyz6Ux3XTV4zk+S5PXLMQVEoU4RLypid2YUaV+2crMq
-         3NPnbk9ey6z9svPC4TqmjbmitBQRo4MoW4u+YWhxeY4SrXTDh50LLrgykCJRjWkKM6ub
-         9c97J+zHPNKYVVyruNBlckCjzTRb03LxXNGn17XXbuVlR7mIrO1ojVsV281gfWNibWhN
-         c+789HnRODpaScwYOV5vkl2Js1jjO/VHNmPDGLyzyozQ9Z1VI2OewDlMgWve81Fy5iNe
-         K4WA==
+        bh=3bq4/7fQf8am0gdRis6DN0ixH29loRuIkTx6ppm+xnA=;
+        b=Y4bg/izJWlSQRt8/84PkJXXIWbgYEzneed+0oYWUv47pWPP6Vo7OiwfFupJqoc+c2Q
+         EyXFo9dwo5kphcBNwYwwXmV2UAiKL0Dyh+Zv/qnc4xMpveQ5BEGTYtheMr72ivRHm7+l
+         F6MSSDt8cWQnH1D3yurdaSmiQW6dB3uXObWoQ0j6Qc4Lx1CRWee649CW/XMbjLxzggt9
+         TMeclVxUmpZ+JGFnIM1taOgZW1u0inYXWspL0AFkrz0K0cqGp4hZCphsCEOvSp2b0VH6
+         hNMToOfEHp2NAEmc2/pwRSLDdmQfUlQYJzt/f+Gr/iNRlakojk+xO/FPtmn3eB3Grlfw
+         Lzcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468597; x=1691073397;
+        d=1e100.net; s=20221208; t=1690468596; x=1691073396;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SpOHiShsZ6Q4PY0WpPwM694cVKXpLwq0M8XwWaHdTfY=;
-        b=JAWny9Yy5DHecANFPeET/OGsBcmp7xsIroCEZ6spX/YVXpUIcYmWF1UjrDHAz0ZXDF
-         vvJc1irUzeJUa5dMjkWpZXtKU/nSIuQWgwYda18WOkiYPMHafYe6GDZ0f5LL6iAZ5Y6E
-         RmLcTssG6wjc9XZTL6nhobz3ZpMVUt6jyIobGLe8ga8zotryzf88YK4pKbkW/x98Uy9c
-         qa7ytb55p4HZGeGI3dNV/0P/97RTeUna/jCaWTChjC7q7Tvg6NN/n70SsSmpJ/BuvqJ5
-         3dmXXJx2pe1VrvpzUxCF97vt7Gat3iRZId27dpSqQTbomUc6z0VrLctkciuQFgOaJMDn
-         1yqw==
-X-Gm-Message-State: ABy/qLYwRcd8LC2FHBzGJv2rKeyJH+efe0X3WrJW6nL5zxhWVvgk44ro
-	uhBWlM4Vex8e7TgPlyoyv8Czk9Iq4J8=
-X-Google-Smtp-Source: APBJJlG5yYGhh58VHXzedVYY4S7BVbYw9SMhoIagoC3V40Yz0spKR/gUz6kpPaNc0mf4t+8MtS1R7Q==
-X-Received: by 2002:a05:6512:ad4:b0:4fd:faf0:6591 with SMTP id n20-20020a0565120ad400b004fdfaf06591mr2398258lfu.10.1690468597273;
-        Thu, 27 Jul 2023 07:36:37 -0700 (PDT)
+        bh=3bq4/7fQf8am0gdRis6DN0ixH29loRuIkTx6ppm+xnA=;
+        b=TbbF3w8wxpdXAnAh1pDqNL5BxUqlXAjX5DPXCZSSHVOXjxBfT3ifjpy6vsBEgepMfP
+         tXhPsZK1GZysb0MyMg4x1DKCZsh7v02mJ25NB/kMirivYC1ZxjZqcDFfhLblloKDqn6v
+         duqMWfLmdeZy0kh8sbkpMoGxEN9bB+AYxYm6EM7+NF+JJM7jUc0gwMS2GVP/YH5RG8Bk
+         A8CgI+qnH6a3sqD342PVUhJqJKKBD8g6UQxsgEiWcWVOzIaP2+RXUcPBR5AN+jAH3e1C
+         gE7bkHByQzd+b+ny9zhQpdCKl5oY0o9zN/89B6h5tWU38KgFjCWO8IeN15/Vg1lOyC97
+         X9fg==
+X-Gm-Message-State: ABy/qLZYwJ2bqhoyCvwLsv4dUq0RQEwz0WFmFmyX4r3xyEKYyVQLvlLt
+	tw/HxBHOUAS6XjbbYWgnXc6jRejVTdk=
+X-Google-Smtp-Source: APBJJlFGtbePG0H5yVfdnXj7FuV/kCOigEbk9BK4U61T+6TA13pF1o9nfokGwD6OjIlC1zAkv0kgHQ==
+X-Received: by 2002:a17:906:7a16:b0:99b:4378:a5aa with SMTP id d22-20020a1709067a1600b0099b4378a5aamr2417595ejo.49.1690468596244;
+        Thu, 27 Jul 2023 07:36:36 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.36
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:37 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:35 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/21] jquery: upgrade 3.6.3 -> 3.7.0
-Date: Thu, 27 Jul 2023 16:36:19 +0200
-Message-Id: <20230727143627.3718496-13-alex@linutronix.de>
+Subject: [PATCH 11/21] systemd: upgrade 253.3 -> 253.7
+Date: Thu, 27 Jul 2023 16:36:17 +0200
+Message-Id: <20230727143627.3718496-11-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
 References: <20230727143627.3718496-1-alex@linutronix.de>
@@ -62,45 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184953
-
-License-Update: needed lines shifted upwards
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184950
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../jquery/{jquery_3.6.3.bb => jquery_3.7.0.bb}           | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/jquery/{jquery_3.6.3.bb => jquery_3.7.0.bb} (75%)
+ .../systemd/{systemd-boot_253.3.bb => systemd-boot_253.7.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../recipes-core/systemd/{systemd_253.3.bb => systemd_253.7.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot_253.3.bb => systemd-boot_253.7.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_253.3.bb => systemd_253.7.bb} (100%)
 
-diff --git a/meta/recipes-devtools/jquery/jquery_3.6.3.bb b/meta/recipes-devtools/jquery/jquery_3.7.0.bb
-similarity index 75%
-rename from meta/recipes-devtools/jquery/jquery_3.6.3.bb
-rename to meta/recipes-devtools/jquery/jquery_3.7.0.bb
-index db4745ad7ab..eceed9c9dd4 100644
---- a/meta/recipes-devtools/jquery/jquery_3.6.3.bb
-+++ b/meta/recipes-devtools/jquery/jquery_3.7.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://jquery.com/"
- DESCRIPTION = "${SUMMARY}"
- LICENSE = "MIT"
- SECTION = "devel"
--LIC_FILES_CHKSUM = "file://${S}/${BP}.js;beginline=8;endline=10;md5=9c7c6e9ab275fc1e0d99cb7180ecd14c"
-+LIC_FILES_CHKSUM = "file://${S}/${BP}.js;beginline=5;endline=7;md5=9c7c6e9ab275fc1e0d99cb7180ecd14c"
+diff --git a/meta/recipes-core/systemd/systemd-boot_253.3.bb b/meta/recipes-core/systemd/systemd-boot_253.7.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_253.3.bb
+rename to meta/recipes-core/systemd/systemd-boot_253.7.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index d50f2c9cba6..c2f2899044f 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
- # unpack items to ${S} so the archiver can see them
- #
-@@ -13,9 +13,9 @@ SRC_URI = "\
-     https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
-     "
- 
--SRC_URI[js.sha256sum] = "9d02ee01919145c20b03ee9d3013af7118793dedf5d2c0696a773af90066c953"
--SRC_URI[min.sha256sum] = "a6f3f0faea4b3d48e03176341bef0ed3151ffbf226d4c6635f1c6039c0500575"
--SRC_URI[map.sha256sum] = "156b740931ade6c1a98d99713eeb186f93847ffc56057e973becab4d037ed53a"
-+SRC_URI[js.sha256sum] = "265a924c42de4784cba8fd0e1bd77133bc833ea5f5a31fc77e08922c18fcfa43"
-+SRC_URI[min.sha256sum] = "d8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8"
-+SRC_URI[map.sha256sum] = "cae47e834ee977975a48c851b165cc52ea916cc968ba7d280b1293f573cd1a48"
- 
- UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
- 
+-SRCREV = "ed18c2ab79e8b94182d5dcf31d58457763f3e3e1"
++SRCREV = "f1c4da0414640cf201147144f558e1af31a3ae80"
+ SRCBRANCH = "v253-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
+            file://0026-src-boot-efi-efi-string.c-define-wchar_t-from-__WCHA.patch \
+diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-core/systemd/systemd_253.7.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_253.3.bb
+rename to meta/recipes-core/systemd/systemd_253.7.bb
 -- 
 2.30.2
 
