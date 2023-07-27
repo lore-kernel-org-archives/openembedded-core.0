@@ -2,145 +2,105 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A08CC001DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B038C04A6A
 	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 14:36:40 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.8979.1690468592454740635
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.8986.1690468599193203425
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 07:36:32 -0700
+ Thu, 27 Jul 2023 07:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=W2da/U4b;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-99bcc0adab4so140839766b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=P+ozJ5GV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so1814607e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 07:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690468591; x=1691073391;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dQYskZSqGwZOKiPJy3B7SRitfe0uvIoO8nDvI5qU3c=;
-        b=W2da/U4b0J31uUD7W4bpC4fIlkk+mYHndeWDOAH5STWf0q64Iz/xhvI5hCc5cQ1U9j
-         3vqgpVPoH5RZtz7l2TOZM0V8gk13rhyK+9y4lyYCRyPOeGFfbSqMOPAx7eTlIjl7nEXb
-         UxW3RwovpFongl10oVcOcHxTkMhXp8eoSoICdnZcZ3eOY1s49XjwusqWUUaSuZ015WRQ
-         v8HgSxTuxpD9dyH3ZwEsRbakYngTPOhixysGTx9XOGDiSety8m85C+ukZQcNCv2JL83Y
-         6v0rUnr6Jag8KnnCyVYCYQ2wGsDaPB78CthrsRjfVYfyv5gTQelAvAUEagSDE9nTNbji
-         ij8A==
+        d=gmail.com; s=20221208; t=1690468597; x=1691073397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SpOHiShsZ6Q4PY0WpPwM694cVKXpLwq0M8XwWaHdTfY=;
+        b=P+ozJ5GVyJrLojxjNGskxdI4n0Nsxu7UjdkXuSdnl80czDT7u6oLFgeBDGq3JEt6ea
+         VuNFKsSYnbPBNiBKPVr8ga7miqyz6Ux3XTV4zk+S5PXLMQVEoU4RLypid2YUaV+2crMq
+         3NPnbk9ey6z9svPC4TqmjbmitBQRo4MoW4u+YWhxeY4SrXTDh50LLrgykCJRjWkKM6ub
+         9c97J+zHPNKYVVyruNBlckCjzTRb03LxXNGn17XXbuVlR7mIrO1ojVsV281gfWNibWhN
+         c+789HnRODpaScwYOV5vkl2Js1jjO/VHNmPDGLyzyozQ9Z1VI2OewDlMgWve81Fy5iNe
+         K4WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690468591; x=1691073391;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+dQYskZSqGwZOKiPJy3B7SRitfe0uvIoO8nDvI5qU3c=;
-        b=WU3cqNssXeT5q8Ute0D61vbNakYArOn/TmFT4DKoOmKIigbcd9pG/JztGY9oFFZ5Uj
-         sz/PrIgNMQVB185RRGLOcloFtq8b0bMdZ4F9R/y770FqimXf2+NSA0zVjlb/1HCKp1Lp
-         f21POSIsB4q1fZreOjJKmNddla9WbUPxbLNK8AYWw9VSSqLrdyQjsHZHgNb+lUbGjwrY
-         pWJgGaBeaBFu/oFZEqEswekJtCaqMwMo/hQbJidpWfim2Q1vDtBJtuseh6ARrInuh1Uo
-         JW1sPQSjyTzxBw7AoCcYwbyIe5r7zKqMzHb2l64r3BFUbF+lPMsHhIQv1v9WOEKkQexS
-         Mh9g==
-X-Gm-Message-State: ABy/qLY7MyxIITFoa5A7oLrgDXgYHtA0PS5pkeJIbS4T9q1xH7djEa8A
-	VnJMCKtDnY2fD+FNDpTCPtLnsaBDTaw=
-X-Google-Smtp-Source: APBJJlEiGfa6ZAFqapCh6vNO16WzjX4U7Bwp/LSVTQUJZ2OvYez1j4WqVyZv9mAfmtFF4SQrHwyIaQ==
-X-Received: by 2002:a17:906:64c1:b0:994:8e9:67fe with SMTP id p1-20020a17090664c100b0099408e967femr2112936ejn.35.1690468590568;
-        Thu, 27 Jul 2023 07:36:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690468597; x=1691073397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SpOHiShsZ6Q4PY0WpPwM694cVKXpLwq0M8XwWaHdTfY=;
+        b=JAWny9Yy5DHecANFPeET/OGsBcmp7xsIroCEZ6spX/YVXpUIcYmWF1UjrDHAz0ZXDF
+         vvJc1irUzeJUa5dMjkWpZXtKU/nSIuQWgwYda18WOkiYPMHafYe6GDZ0f5LL6iAZ5Y6E
+         RmLcTssG6wjc9XZTL6nhobz3ZpMVUt6jyIobGLe8ga8zotryzf88YK4pKbkW/x98Uy9c
+         qa7ytb55p4HZGeGI3dNV/0P/97RTeUna/jCaWTChjC7q7Tvg6NN/n70SsSmpJ/BuvqJ5
+         3dmXXJx2pe1VrvpzUxCF97vt7Gat3iRZId27dpSqQTbomUc6z0VrLctkciuQFgOaJMDn
+         1yqw==
+X-Gm-Message-State: ABy/qLYwRcd8LC2FHBzGJv2rKeyJH+efe0X3WrJW6nL5zxhWVvgk44ro
+	uhBWlM4Vex8e7TgPlyoyv8Czk9Iq4J8=
+X-Google-Smtp-Source: APBJJlG5yYGhh58VHXzedVYY4S7BVbYw9SMhoIagoC3V40Yz0spKR/gUz6kpPaNc0mf4t+8MtS1R7Q==
+X-Received: by 2002:a05:6512:ad4:b0:4fd:faf0:6591 with SMTP id n20-20020a0565120ad400b004fdfaf06591mr2398258lfu.10.1690468597273;
+        Thu, 27 Jul 2023 07:36:37 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.30
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090607ca00b0099bcf9c2ec6sm846725ejc.75.2023.07.27.07.36.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 07:36:30 -0700 (PDT)
+        Thu, 27 Jul 2023 07:36:37 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 01/21] meta: add missing summaries for image recipes
-Date: Thu, 27 Jul 2023 16:36:07 +0200
-Message-Id: <20230727143627.3718496-1-alex@linutronix.de>
+Subject: [PATCH 13/21] jquery: upgrade 3.6.3 -> 3.7.0
+Date: Thu, 27 Jul 2023 16:36:19 +0200
+Message-Id: <20230727143627.3718496-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230727143627.3718496-1-alex@linutronix.de>
+References: <20230727143627.3718496-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 14:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184941
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184953
+
+License-Update: needed lines shifted upwards
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/images/core-image-minimal-initramfs.bb        | 1 +
- meta/recipes-core/images/core-image-tiny-initramfs.bb           | 1 +
- meta/recipes-core/ovmf/ovmf-shell-image.bb                      | 2 +-
- meta/recipes-extended/images/core-image-full-cmdline.bb         | 2 +-
- .../images/core-image-testcontroller-initramfs.bb               | 2 +-
- meta/recipes-extended/images/core-image-testcontroller.bb       | 2 +-
- meta/recipes-sato/images/core-image-sato.bb                     | 1 +
- 7 files changed, 7 insertions(+), 4 deletions(-)
+ .../jquery/{jquery_3.6.3.bb => jquery_3.7.0.bb}           | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/jquery/{jquery_3.6.3.bb => jquery_3.7.0.bb} (75%)
 
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 0b51187d516..1c08c7fec62 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -1,4 +1,5 @@
- # Simple initramfs image. Mostly used for live images.
-+SUMMARY = "Small image capable of booting a device."
- DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
-diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-index a1883de0ebe..96b56a2f59b 100644
---- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-@@ -1,4 +1,5 @@
- # Simple initramfs image artifact generation for tiny images.
-+SUMMARY = "Tiny image capable of booting a device."
- DESCRIPTION = "Tiny image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently. core-image-tiny-initramfs doesn't \
-diff --git a/meta/recipes-core/ovmf/ovmf-shell-image.bb b/meta/recipes-core/ovmf/ovmf-shell-image.bb
-index 50c4517da39..4d7958eb5fa 100644
---- a/meta/recipes-core/ovmf/ovmf-shell-image.bb
-+++ b/meta/recipes-core/ovmf/ovmf-shell-image.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "boot image with UEFI shell and tools"
-+SUMMARY = "boot image with UEFI shell and tools"
- COMPATIBLE_HOST:class-target='(i.86|x86_64).*'
+diff --git a/meta/recipes-devtools/jquery/jquery_3.6.3.bb b/meta/recipes-devtools/jquery/jquery_3.7.0.bb
+similarity index 75%
+rename from meta/recipes-devtools/jquery/jquery_3.6.3.bb
+rename to meta/recipes-devtools/jquery/jquery_3.7.0.bb
+index db4745ad7ab..eceed9c9dd4 100644
+--- a/meta/recipes-devtools/jquery/jquery_3.6.3.bb
++++ b/meta/recipes-devtools/jquery/jquery_3.7.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://jquery.com/"
+ DESCRIPTION = "${SUMMARY}"
+ LICENSE = "MIT"
+ SECTION = "devel"
+-LIC_FILES_CHKSUM = "file://${S}/${BP}.js;beginline=8;endline=10;md5=9c7c6e9ab275fc1e0d99cb7180ecd14c"
++LIC_FILES_CHKSUM = "file://${S}/${BP}.js;beginline=5;endline=7;md5=9c7c6e9ab275fc1e0d99cb7180ecd14c"
  
- # For this image recipe, only the wic format with a
-diff --git a/meta/recipes-extended/images/core-image-full-cmdline.bb b/meta/recipes-extended/images/core-image-full-cmdline.bb
-index 4d69073d9dc..4e1cf58d55b 100644
---- a/meta/recipes-extended/images/core-image-full-cmdline.bb
-+++ b/meta/recipes-extended/images/core-image-full-cmdline.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "A console-only image with more full-featured Linux system \
-+SUMMARY = "A console-only image with more full-featured Linux system \
- functionality installed."
+ # unpack items to ${S} so the archiver can see them
+ #
+@@ -13,9 +13,9 @@ SRC_URI = "\
+     https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
+     "
  
- IMAGE_FEATURES += "splash ssh-server-openssh"
-diff --git a/meta/recipes-extended/images/core-image-testcontroller-initramfs.bb b/meta/recipes-extended/images/core-image-testcontroller-initramfs.bb
-index 2bc035a538d..a5b3d10205c 100644
---- a/meta/recipes-extended/images/core-image-testcontroller-initramfs.bb
-+++ b/meta/recipes-extended/images/core-image-testcontroller-initramfs.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "Small image capable of booting a device with custom install scripts, \
-+SUMMARY = "Small image capable of booting a device with custom install scripts, \
- adding a second rootfs, used for testing."
+-SRC_URI[js.sha256sum] = "9d02ee01919145c20b03ee9d3013af7118793dedf5d2c0696a773af90066c953"
+-SRC_URI[min.sha256sum] = "a6f3f0faea4b3d48e03176341bef0ed3151ffbf226d4c6635f1c6039c0500575"
+-SRC_URI[map.sha256sum] = "156b740931ade6c1a98d99713eeb186f93847ffc56057e973becab4d037ed53a"
++SRC_URI[js.sha256sum] = "265a924c42de4784cba8fd0e1bd77133bc833ea5f5a31fc77e08922c18fcfa43"
++SRC_URI[min.sha256sum] = "d8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8"
++SRC_URI[map.sha256sum] = "cae47e834ee977975a48c851b165cc52ea916cc968ba7d280b1293f573cd1a48"
  
- # use -testfs live-install scripts
-diff --git a/meta/recipes-extended/images/core-image-testcontroller.bb b/meta/recipes-extended/images/core-image-testcontroller.bb
-index 20edbd5630c..ff79bde0c5d 100644
---- a/meta/recipes-extended/images/core-image-testcontroller.bb
-+++ b/meta/recipes-extended/images/core-image-testcontroller.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "A test controller image to be deployed on a target useful for testing other images using the OEQA runtime tests"
-+SUMMARY = "A test controller image to be deployed on a target useful for testing other images using the OEQA runtime tests"
+ UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
  
- IMAGE_FEATURES += "ssh-server-openssh package-management"
- 
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index e63a229d125..9200ae54401 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -1,3 +1,4 @@
-+SUMMARY = "Image with Sato, a mobile environment and visual style for mobile devices."
- DESCRIPTION = "Image with Sato, a mobile environment and visual style for \
- mobile devices. The image supports X11 with a Sato theme, Pimlico \
- applications, and contains terminal, editor, and file manager."
 -- 
 2.30.2
 
