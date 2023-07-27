@@ -1,117 +1,70 @@
-Return-Path: <belouargamohamed@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F41C0015E
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 19:07:02 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.15859.1690484821075760369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E5EC0015E
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 19:09:52 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.15924.1690484988413883847
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 12:07:01 -0700
+ Thu, 27 Jul 2023 12:09:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=J31xsYRH;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: belouargamohamed@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-317786befa2so1339143f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690484819; x=1691089619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=caBTnizjhnESP2dIxFlInxzwz3uqhIrN3Ayi44lDG10=;
-        b=J31xsYRHq8tNJSjxviR06SgAX2XNQA6Mt3LjImo8A0AP3Mo8Cs3OsDcC3OL4EpTV5y
-         7T6SpwnLqr6/1gq/zFF+jHZQPwBatsCgAKjEmGt0RBQQlNMXglEmcjO9d29wGNnYqpGR
-         ejMDwUWJHlo1y2r6YA+t8gNvo221uRK81Bo9uy0XhuunSnHFv524LR02VR9OvRVYGIGU
-         4YW69FeH1iewOtaKqbmnGFuqMFeBuOtIxBQes5/yfVf8jnagDxC2czVM3am6F5YCtJQE
-         MIM3GkHXdsTayOVm2Y2TKhWWky/ReAYgBvlf1hQJwdD/8no/nJtSwIlQucQ6b2QuuR+F
-         3/hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690484819; x=1691089619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=caBTnizjhnESP2dIxFlInxzwz3uqhIrN3Ayi44lDG10=;
-        b=cmYdwXty+djDR/ZrdMJNVVetJAYNQt+k66Iob1+a032iPMPNSPplMnoclhyFYBO+2L
-         JCa1kLbvW1gYXc31u1OFGgxhsGT+aebbZIhxbLXprZnx/KeqUGa2DLS2dhVWG15U5A8v
-         dKhkkehGWuT8f6JiLobUyCqc+U/1fBtTBWEVT6xdHrSj0Fk7dxHwnUK58QBIV3iK7ouB
-         f3hLg3O9GyUFhgJ8b+oLBeoVdDwwYjWQEUKV3cUMgI4CfzvT6PsWklEc92p/DO3KpdKU
-         9z+0iTNg8DAwlVdzoIBsr0C9hyq95+dqT6I+c9UXcUF5GfKzEBy0UmGOwmjn4mWhZbrU
-         1erQ==
-X-Gm-Message-State: ABy/qLYv9GBv0N6TO67zLwuNYM34pDmv3l9HerVQJNxES7Mxc6e/0OjS
-	2i6H9KdrScL8ObSFFDD8MsbJVG1+On8=
-X-Google-Smtp-Source: APBJJlH+aA8f9l2EBgR+gi29IzaxmnUjbvI6yNNCYKYodqw9k6x29EvVJByTI1cFlRCXtkM+ewPe7g==
-X-Received: by 2002:adf:f5cb:0:b0:314:350a:6912 with SMTP id k11-20020adff5cb000000b00314350a6912mr42993wrp.36.1690484818708;
-        Thu, 27 Jul 2023 12:06:58 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:842a:2e:7001:996a:7262:8144:271e])
-        by smtp.gmail.com with ESMTPSA id s18-20020a5d5112000000b00313e59cb371sm2868304wrt.12.2023.07.27.12.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 12:06:58 -0700 (PDT)
-From: belouargamohamed@gmail.com
-X-Google-Original-From: m.belouarga@technologyandstrategy.com
-To: openembedded-core@lists.openembedded.org
-Cc: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
-Subject: [PATCH] linux-firmware : Add firmware of RTL8822 serie
-Date: Thu, 27 Jul 2023 21:06:54 +0200
-Message-Id: <20230727190654.414447-1-m.belouarga@technologyandstrategy.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=d8TmSy14;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 376311C0002;
+	Thu, 27 Jul 2023 19:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1690484986;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XgthBauflHsJurxp8Wj5hh41SMvYawW9/DkqGaSzdm4=;
+	b=d8TmSy14Ic19bS6iJI9D6DgyLSMVPd0gjRAOOX0xhyNaSQGFo71623ZznAkkYrs3QZA3ZD
+	vqMengpdANSX22ohgnmwC6GMbtdLRy9vViEnsYwk6qnAWPIz0bVzzm2GfEpigdH9UopiwE
+	dFRhvKlMKDJ0DDBkeTxzfA0SRfjjkJUyNFc0FOJ+MTeijQIHxbQajguVIhZUJtUgv7Eu8g
+	QtKXfDrlhRx7lK0Or3nLRhCzhn/3NCPyBDvoJirSXueI1VZD5+h0kaGB1WeAa3CEEwg0rD
+	DUeJSz6E+EYLDd1Pc1xTdWZlAbQyfzSRAutH6ZDO/niyRmS5d8GERNT631vs7A==
+Date: Thu, 27 Jul 2023 21:09:44 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Yash.Shinde@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] oeqa/selftest/rust: Add failed test cases
+ to exclude list for Rust Oe-selftest
+Message-ID: <20230727190944b3e5d90e@mail.local>
+References: <202307271414473cf213ec@mail.local>
+ <31108.1690468372162790627@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <31108.1690468372162790627@lists.openembedded.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 19:07:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184973
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 19:09:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184974
 
-From: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
+On 27/07/2023 07:32:52-0700, Shinde, Yash via lists.openembedded.org wrote:
+> I already posted the other needed patch here, https://lists.openembedded.org/g/openembedded-core/topic/100373873#184890 ( https://lists.openembedded.org/g/openembedded-core/topic/100373873#184890 ) to be patched before this one.
+> 
 
-RTL8822 is a serie of wireless modules that need firmwares to function correctly.
-The linux firmware recipe does not have a package of these firmwares, and this commit add them.
+This is exactly my point, you must send a proper series when there are
+dependencies between your patches.
 
-Signed-off-by: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
----
- .../linux-firmware/linux-firmware_20230625.bb             | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-index 329a3e3c9a..3d6645579a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-@@ -241,6 +241,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8761 \
-              ${PN}-rtl8168 \
-+             ${PN}-rtl8822 \
-              ${PN}-cypress-license \
-              ${PN}-broadcom-license \
-              ${PN}-bcm-0bb4-0306 \
-@@ -581,6 +582,7 @@ LICENSE:${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8761 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
-+LICENSE:${PN}-rtl8822 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl-license = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8168 = "WHENCE"
- 
-@@ -611,6 +613,11 @@ FILES:${PN}-rtl8761 = " \
- FILES:${PN}-rtl8168 = " \
-   ${nonarch_base_libdir}/firmware/rtl_nic/rtl8168*.fw \
- "
-+FILES:${PN}-rtl8822 = " \
-+  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8822*.bin \
-+  ${nonarch_base_libdir}/firmware/rtw88/rtw8822*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8822*.bin \
-+"
- 
- RDEPENDS:${PN}-rtl8188 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192ce += "${PN}-rtl-license"
-@@ -619,6 +626,7 @@ RDEPENDS:${PN}-rtl8192su = "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8723 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8821 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8761 += "${PN}-rtl-license"
-+RDEPENDS:${PN}-rtl8822 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8168 += "${PN}-whence-license"
- 
- # For ti-connectivity
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184940): https://lists.openembedded.org/g/openembedded-core/message/184940
+> Mute This Topic: https://lists.openembedded.org/mt/100387455/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
