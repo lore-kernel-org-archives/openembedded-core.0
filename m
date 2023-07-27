@@ -1,2724 +1,870 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A54C04FE0
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 09:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74510C001E0
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 10:53:59 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.3744.1690451312126527426
+ by mx.groups.io with SMTP id smtpd.web10.4474.1690455231523405520
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 02:48:32 -0700
+ Thu, 27 Jul 2023 03:53:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=VqbsXllZ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6572013df1=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36R6rhJL003899
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 02:48:31 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=A00mBIV/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=6572c8459e=sundeep.kokkonda@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R9xRZW027091
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 03:53:51 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=fS5ZdOPic3Zi8Y1Mym
-	M7gvrJa0OiNfMIDw3T72XSVAI=; b=VqbsXllZEG/2m8ApC6Y0XeSGpoaHjA6kjZ
-	KgUGOlYUkiFoR4lTAEwU5fsiDoD2tm5hKJ7lGKz5HaNPXPg1cXPDwRwXi1/hfDsm
-	p4gxP70dlJLKFacq/OIag1fRAO/jqSg7BbigREgtvlPa6WAo3w7L6O9oYl8/WMlM
-	uTmohnfHYdcBvx0Pv3bkUhegOOLiQTixt9kh1q5kdNpTdxr+GzAkVZVQjIBIn7aD
-	IPDuj5iFyy7lpiNAsfmwriJ0SGpd1ZFACf8PFpk2PH/hWw3HRek9PGy0r+O/pcag
-	C/dbWVAy1JydDm5L8pXRnkbV/dmRzAi3mkgOcmun1Q5twELdkS8Q==
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s3beare1n-1
+	 h=from:to:cc:subject:date:message-id:content-type
+	:content-transfer-encoding:mime-version; s=PPS06212021; bh=Y+y4e
+	Rx87M2OO94a/O2IZIcTDIYvfHqQyVoI+qM85yE=; b=A00mBIV/YZRxUwiHDvRbV
+	qWIvu/M3ql6cYDLUp0UYrTbsFkZz6vThVEZLZ1DyYT8SwFnuFPgmnZG45WWbblpN
+	pu8UV87JgZnH4WF2wS5NPvDE6XTRL34Pnv4YRgy1YDy4KtWl0UJkgeyEJst+vqL/
+	L4y7sDyK4nEqAaG3zE1sei21ysF3LNCEee7mCG1TFWPF2ap2vjadjJRtL4lZGFTN
+	CtMOgouStLrKPSK3USXvIvQZHYOEW4rcyj1R608QbA4W1yVjZLanu6PVYuvT/8b2
+	DmQvZVJvHssG5UEYkYYUbnScTsP7XDrh668+5ToZqoK605YFEj9kZNg/nQ2TlP2z
+	Q==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s0ad04age-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 02:48:30 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 03:53:50 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 36RAroP2009620
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 03:53:50 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s0ad04agc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Jul 2023 03:53:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kfUdANO0E078kQHwbWcHAB5CytfCGjn2kbgd4BfnWKgYN/dyoU299frqV5LTNSV3CkJHTYRoba8ozCtoPuq7Rsql8y2De8lSMieEd94s9n+De5xciMY3f2OPaUufCWTC7DNwT/GxwMhgHAFrqBJxyewh/FzfbPk6GU+HpnAid1Z+ug7AyZioKqLFzquiMtySDvq03XiQw6X/m4Li9c4lJT5VbmHiKY5kh7Zz2AuPWdJbN43oEZcAZ3Bd/rTWaBZEchoZLfnFbhaKTwUqakTRvBoLbiLrKU+QW/CsviCueTmxmt+LwldYMkUiB4vcgBWBoQtVaxB+i2O7/y7L0F9m9Q==
+ b=U8sTGGVZANQ0uYu1/Q4C7P+jSk3ggko/bpzImYNvaiaInvxSLeRG3t4PHSRJuynDrOP+milIae/G64gMrVyVpeU0JviQ1niSOovhwgK2Djye/gteblM1abWYXqdbYVRynw8Xlby0sFTr+HpnZG53vpIElyNac4Il+/m28eAJymQjwWJNmuBblRndqgCo3lIaT+zyJMCt0FEi4+WqU5ZFcz3bdRAW/4zP2Ew5hV21GlIP1TUUsKe8Bc8pSjd1siW7OkFQ51EIx02QzeviB7R2y+LbDKgihzcJubKfrMxrKmn54hUyKi1qTc91WlUGWZZ+YByfPySAmKMteuB2DU3e9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fS5ZdOPic3Zi8Y1MymM7gvrJa0OiNfMIDw3T72XSVAI=;
- b=Exc5JpfpTDsywhM8xa+aEpAqX/qS+QfcnbvhT3641Mcb376H5KLqMbx+/LHLiqGoOuQ243tZtJIHKl1aOgOlh1EqAsPey9A+V1d2gTVySzuuuFgYnPIozUXeqaeoFepQz7ai0l2j82pyRt4dO88K7oIIoA3+Rh0bb/g91orOpiNE7xO1ioQbKQ61N4CMdn9M8FBgZXpZZVTf4R5GHafVG/zxgQV51cA41ydGAkmGm8uYdAORk6aKNtM8+HehdcWQF72MIUO8r7QUgZGnjy6Iu1cA2TMu3vtmjBFIjLNTpTZx6HTNqeV+Q4wAtzyOcFKgAX799qg9sVjRfVt8tSa/yg==
+ bh=Y+y4eRx87M2OO94a/O2IZIcTDIYvfHqQyVoI+qM85yE=;
+ b=f47vVW0KxGvYOc5aKTjSsoyUrsUlkks3kWAkfnEmJ1DNIivi6kDbCvSpo0IxhYZW0/f5UPkNjp6t55OefhYcR3mZHJCVKPTl0rzbJgdLCXas4s0exp9t2PzUkKETMky6LX/H1zfmQ/E2Xa5/ajtNmYms2JsJh9r5tzuYErGyK9QeTbn1COeFD7E3SncuiCz1cx/SrX9yzrv1gWyrKYEUzNWQiJE7t9RKkLBt1tNx3y+qK31M0bDQ0ytFynMxspsNPKwRqSr7eV/lrDluX4HPULn85kluA6xxp+gqx9Mxe35z/xKXg0sGYh+T5ol/wB280S3FdnFW6DSrkg9Kyf0oDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MN0PR11MB6133.namprd11.prod.outlook.com (2603:10b6:208:3cb::15)
- by PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7) with
+Received: from CH2PR11MB4470.namprd11.prod.outlook.com (2603:10b6:610:4a::32)
+ by SA2PR11MB5035.namprd11.prod.outlook.com (2603:10b6:806:116::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
- 2023 09:48:23 +0000
-Received: from MN0PR11MB6133.namprd11.prod.outlook.com
- ([fe80::4a1c:f32a:50b2:54c5]) by MN0PR11MB6133.namprd11.prod.outlook.com
- ([fe80::4a1c:f32a:50b2:54c5%4]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
- 09:48:23 +0000
-From: Yash Shinde <Yash.Shinde@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Thu, 27 Jul
+ 2023 10:53:46 +0000
+Received: from CH2PR11MB4470.namprd11.prod.outlook.com
+ ([fe80::2279:5c96:668d:f829]) by CH2PR11MB4470.namprd11.prod.outlook.com
+ ([fe80::2279:5c96:668d:f829%5]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 10:53:45 +0000
+From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Umesh.Kallapa@windriver.com,
-        Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com,
-        Shivaprasad.Moodalappa@windriver.com, Yash.Shinde@windriver.com
-Subject: [PATCH v2] oeqa/selftest/rust: Add failed test cases to exclude list for Rust Oe-selftest
-Date: Thu, 27 Jul 2023 02:48:04 -0700
-Message-Id: <20230727094804.72059-1-Yash.Shinde@windriver.com>
+Cc: randy.macleod@windriver.com, naveen.gowda@windriver.com,
+        shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com,
+        deepthi.hemraj@windriver.com, umesh.kalappa0@gmail.com
+Subject: [kirkstone][PATCH] gcc : upgrade to v11.4
+Date: Thu, 27 Jul 2023 03:53:15 -0700
+Message-Id: <20230727105315.97551-1-sundeep.kokkonda@windriver.com>
 X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0221.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::16) To MN0PR11MB6133.namprd11.prod.outlook.com
- (2603:10b6:208:3cb::15)
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: BY3PR10CA0026.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::31) To CH2PR11MB4470.namprd11.prod.outlook.com
+ (2603:10b6:610:4a::32)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6133:EE_|PH0PR11MB5832:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc47cfe8-6391-4277-068a-08db8e869dc6
+X-MS-TrafficTypeDiagnostic: CH2PR11MB4470:EE_|SA2PR11MB5035:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52b1f534-df72-4847-52f3-08db8e8fbfb8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	4OYu8ZSiCi/N0DYWgaI9bUiNLCnbGcNqoNqJA/krZbCoD0eXHTqTnJEnD1sMAEM2mKNUhTp5YXkQwWFMkmHVIFPuJaYKnrLQyCsOzLYnX56KoZxTuXvgoip5Y5pVI4kPeVtyzQ3l1+uPLLzx7Xf6HBP2AgDIsD1JhC6XL3jjUGsM1FjGQfwgU3B9Z0Phynb5Z6LtEIAWwMChf5fOIk5JTun+DuGnlUQiz+PbDQ1x42Wr6erbayg+3hg88vw2EnAJIctEH5hTezaXs4xq+NPSYtaIuOq0end0Oiy9xiiN4T3gy8uwKE6bZ1tRjwCbiRJQz6khW5zoioMVyRFmhUZzzX0KQgZvcLStknG7+axCTWcava/1SmroGI7sFGBHDLZmcNSxuM6dN/ZWGGl7w+KU10IuKfZCYsCD4pB3nHEg0yoW3GzM9lvg+WvDUxaVdX2Kbp+4undyOT7CWvi6hCw2ZqbgUFMVxCSkuWD2Zfg6hq6qv+awE4Foyx0f3sQuNwzlYsOUyfgyI0wy2pdXygtJua4DzJhLm0OsLnXUbmDwNHB3igySiKqUBZHRuIk13V2XkM1LLzmbyF3uMYACoQkZf7YAFeioUPHJtdp5C8Sl6t/IPKOYlXe3x6OSlUwC4NKbqz3KO6H+Z60xSXNYIF6LUA==
+	kHxFfn1EiMvjSM/Jkw6fV1/UG0tbXjnPB4e1rMGcwS0MmJqF139JHc4wdIkvsUkRrM3YPRonxndh0Pzl+QNEouMKsxMXb0uBHosuFlZ4W7uLoBNXuNfUnTVDZgVATR3vikBWv7c/W0Yk61YWZpLEAEPQaRr1FWyOFjB8Nw+BIk+eXQA8hyuKWhA8DTdC3fJpdY2+wjVq79ndEH1zG+QWDKDiJrDk2jE8VqpIeQhORNUZnxSI4RZMCUJ3BO6+2RwDkRoRW9WDFKvKfc9WEQvpd9fE9fClRUeHp0OwOeOOuyxh6JHdqOGk3IGBphDb2GawMiBe2gvTRoAbYMxAN6ja43lYFiE19bu6esI4KxQs+r8Ut6LUXNx4DLm4PrppV7bhWDjGUo9A1lK0yd9XpzJxn+bgBCSchbNRQNxROmPp1SwAVB2+QhnY+YvKtWxsdK8KVVzdqw7meUsdnKqFFwnm+nT/L1pWWCVOipIpDK9AxCgwzpUCkLSHnbmHOAp6O2QsagUz9uViy/moimSkS1EiNd4NuLqdHzV3R7h8lxh5VNQKigpViZbqGfqvrVrTDh4tY3aWU/a/8Eth+6Dgywg71u/e+qaq9N/HJwxzd8wZ8dQ=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6133.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39850400004)(346002)(136003)(376002)(396003)(451199021)(2906002)(66899021)(316002)(8936002)(8676002)(5660300002)(30864003)(41300700001)(36756003)(86362001)(6486002)(6666004)(52116002)(478600001)(1076003)(26005)(6506007)(107886003)(186003)(966005)(2616005)(66946007)(66556008)(83380400001)(38100700002)(38350700002)(6512007)(66476007)(4326008)(6916009)(559001)(579004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR11MB4470.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(366004)(396003)(39850400004)(451199021)(30864003)(83380400001)(2906002)(66946007)(66556008)(66476007)(6512007)(2616005)(36756003)(86362001)(38350700002)(38100700002)(52116002)(19627235002)(478600001)(6506007)(1076003)(6666004)(6486002)(26005)(186003)(966005)(41300700001)(5660300002)(6916009)(4326008)(316002)(84970400001)(8676002)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RX4UrM8NzW/EKzBblc3d6fQXewVchIagd9uuDOKUk55WilLxYaeFaFXaK7QU?=
- =?us-ascii?Q?GFsbXwx9ZNKPCA3ZHNXmUMaffHqZUEcLU7+A+LlI6zOrDUaE07oeULYgFg8t?=
- =?us-ascii?Q?NRYwBomkgRnneOG9twQ0kY30ssItHPmb7wxXRshYLzP+n/JjlvblUYSaNZJJ?=
- =?us-ascii?Q?BvDOSZTLVAGeelAtzeVX4rFiRTzDr0U0C6grvuPgXZ9DrU56+TygWIFLcRV5?=
- =?us-ascii?Q?UYp/ApGCbFlW6OTsfaKKZgYXieSB0xjPm93gWk0p5Kjg5i9Za3H4B9g+f+7e?=
- =?us-ascii?Q?iruoAPO+3274lIQRjJAehatFjfOB0GitRNxhMDSaofnnfw3vHaFM3ly+3Pvz?=
- =?us-ascii?Q?Xa9DBW4SxUxhtixZGubk2i2H7Tvm+thBS1V6zU6806zRK4LOHpW50sOHwosL?=
- =?us-ascii?Q?tUF1yv0SerF3/ce+L7Q99M9fQwDmbwtGrkar9AK5W1jHZD5opZqcwVrgNJuR?=
- =?us-ascii?Q?AgP0m7lL2LJsjH4qDjXmojmaE9uwFHWqeaYWGwVoseQBufLW+pfSi7zjGua4?=
- =?us-ascii?Q?VImDD8iDH8LakcrFWnPbjqulBFWkQ9ZLoFeWFU+qfjaMltA3gA2Z2HQpjE/t?=
- =?us-ascii?Q?yAuhE4xUCqjP7ZsMvSlEnhvybOa/84PfjRRmCt1d32JT6YU+T8uYxINthemd?=
- =?us-ascii?Q?o5mQoAxJOSp5i8QjnIQIG4yXYTsuY6/COZvWgiZ88bUhVgdQPcaTDRhtY9wF?=
- =?us-ascii?Q?3VMoAqEDRGvn2ZVWwGLYkWUnCtnD3Hhu0cQG9izJauQPSlUGMfMMb5X5nAgx?=
- =?us-ascii?Q?KbQ3MjrBku79NZhjKdKL1MZNcRqhZBhDtEo12qq2oXs+7Eldpt/AZYT3VG/b?=
- =?us-ascii?Q?YMge4cshfoOhmEJIpiVrBiycpOT1z25yEDlBNptOBduSBGs/I+pkMl0S3sjo?=
- =?us-ascii?Q?yzjTp2ZLCXhAZkMwn4W8tUg89g5ow2EXRp1cxBk3nztLd5F6u+JN2w1Zuo7n?=
- =?us-ascii?Q?rmj2ODnMqGuqLpcUCAAxsTWR9DhzVR6c7xxibSqPvcuy2NsCzq91q2KdnvQI?=
- =?us-ascii?Q?zXhVNanlkcuSpbKefKIgIjopIlS8GAduFMyNdMkDcgjXgZGF1Tjbx64Ztme3?=
- =?us-ascii?Q?QJWNpUE5ZAjuD0Zp9qwHn5lFX91y8BmvntmfSFJN4MEej+4XEqR5xdC6cC2p?=
- =?us-ascii?Q?nz3vZNbf0yvgFICSjx2hussv3slbAHqhON6Nz9mf12t6SDTX30xDg0BS+IsS?=
- =?us-ascii?Q?idez1DRbnvJvJcbQk/yDciehWoLY+Cz2UXbnYiC4bL1xDNQTeDD0zUR+rp1d?=
- =?us-ascii?Q?b/CZV7DG0hfI8lmpUfguzbmTo9rE/c4+88vPVZW2mfJQLxBy50ZHAZ88CuLo?=
- =?us-ascii?Q?M8GVLAjXelNRrkWCR2fiAKUbJzzgQLr5asqgmP7Hi3KcCqqmddCh9F6kNxoj?=
- =?us-ascii?Q?SvWnsT6ZHrg6LZ7YoJcG+BLgyMJRTLqm+HfFIuo15/iZEGZeYlYFv4cW1i2o?=
- =?us-ascii?Q?wQ5YvicC92PuqlPV/rl7zoSUEh9hkIS/28NhBierk8aZdD615H4uM5aUmr6D?=
- =?us-ascii?Q?JlYnMQwmCIFfBSvzr3B5tXKFfRbWG8I6KHDsUl0bDJGVrDa1QxIWAhkZusqy?=
- =?us-ascii?Q?NQBwYB2Yhb9o0wFw+JUG3siEf+T+MZJ4fR1vu7BdN+w2D8RbYcXgUG491Lio?=
- =?us-ascii?Q?bg=3D=3D?=
+	=?utf-8?B?YXdOVWlOY0xZYUVhQ0dxMkhhVHlzMWlEWnpNbVpESVZXanhwU29obG5EbGFU?=
+ =?utf-8?B?c2xaLzZhSlU1MWduMHp3c0VhbW5FUFNCakRtYXlJZjAyWVVGVHh0WVNRRVM3?=
+ =?utf-8?B?MTBDRS8zZzkzSC9iOXJRS0daaGlWRHV5MmE4OTBvK2FFMlZlTmZ3MzJvUUov?=
+ =?utf-8?B?OEx0ZzFaUlluczM5YlRwSVpFMXRMV2RwTVYzSHF2VEVNdnExK3RzYUE0Szlq?=
+ =?utf-8?B?L3hDRkk4WWZYaXNEdCtzTXJkQ0JWMUluNjdNcU5xdi9hR0w3Tjk2UGxLRXow?=
+ =?utf-8?B?QTAwRjdnMkVXTTdpNmhKRkRRY0E3ZHQyalpYWGVhUEFtdVFsZ3Q1RkNFR1Nk?=
+ =?utf-8?B?NmNHMXN6bWlQdjlmMUFHYmx0OXcxM3N0Qm1zUG9FdEpsWEJvR1pZUlovRGty?=
+ =?utf-8?B?ZTRWaHZGS25TYzFHS1Bzd1ZrakZOYjd4eWxuOGcyZ0R1V2JBMWxTZW9kWkQr?=
+ =?utf-8?B?NGZuejZtQzBzMHpRbFM1M24vanhNeXBCQnRndElJZ2NSVlZ1dFJqeVNueUo5?=
+ =?utf-8?B?S1J5SjdMaCtiMmlRYVBIejNzTWNQb3Z6T3BHa281K091V1F6WmI3Q0hQNHdV?=
+ =?utf-8?B?UU1iRXBXUDVsc0drMjZ2TFRGWTM1QXFtUkV5UzA0TE5BdmZ2dlhrUHZFNkNG?=
+ =?utf-8?B?OWlTUVdKOWFNMEJEY0pwZjgvMlpVUG43OEZsU2xZUUV5czlHSXlCVW9nd2Vo?=
+ =?utf-8?B?eTFXejRFY2hybm94d05nZ04vbER1YTBRbFNVMEdWMENLYjUvcEpMMllYaXVk?=
+ =?utf-8?B?T24rakU2MGR0elVpV1FEbjBDZ3U1bi9lazg5ZE83c2lwRUFMN0l5ZlNnT09o?=
+ =?utf-8?B?QzdnRzJwcVFQYm1lLzlMTW1TSFR2L0luRU16THI3dmJ5OWdIYlpZZ00wUW05?=
+ =?utf-8?B?c1BnTGJtMk96ZDdZUEVCN0xVU1NrM3UzZy9NY2FOTWxTeTFHSUpmaU5nR1J0?=
+ =?utf-8?B?NTllUTZRNXM1bWNqWkpJdmkwbG5aWEdXZXE1Sm1iSzcyR2pnM0IwbmJBTzRZ?=
+ =?utf-8?B?UEtHdmtrdWR3MVBYNlJUMW5DckhGY1IwOFFVaVdTWVRXL2Y1aTQ4Y0ZPWEdr?=
+ =?utf-8?B?OUs1VHBKZlQxWlVlWGVHZ2ZuNitMQ0JVeTVrS0g3R3hOcDVrYVcwZGdEMHJ0?=
+ =?utf-8?B?cTlqcEJWaUNBV1lPb1RqK0ttd0ZMeW95THNwOEdtTUNWMXNrRFRhYkl5SzNq?=
+ =?utf-8?B?ei9Ic3FiYnpyRjExcExZcENneExvalJWb01DdHVpUWlqOUk1NHFpODhBV3Bw?=
+ =?utf-8?B?U0drVVBtLzlLQnZvSy9GU2NoQXBxREZwOExCYXUzRFJ5YlBuZzhOUjI2RTJt?=
+ =?utf-8?B?M24vV0FqL2RtaVhkdXErSlZvZGZ5YTJ2ZmpFQ1kwWC9IMUNoTGt3VmpqM1Q2?=
+ =?utf-8?B?UnkvSUV3aUxPMGgraEk3NVBjcU5uSHpLdld2V0Jyck5yQWJoZlJnTWRpVlJD?=
+ =?utf-8?B?UmFiTFFucm9pU0p0a2d4dFVzYW0vRGJJcmVjZXRSTnZRdExXQzhvQnR4SStX?=
+ =?utf-8?B?UTRRRjFpemVrRDNKSW1MelJLazdEeWxURGxINDF4cjYya21ySlJNb1B2a25R?=
+ =?utf-8?B?NXhGNlhyZXRVT3h4b3Bld1RNbXFvT0hvZENaUjcvZFRmZDNqekQzcXZ1MUxO?=
+ =?utf-8?B?RFdoSXV2Z3BocGxldDgwbExROXdsUTJVV3pwKzlHSTFaekZPNW1hTnpYM2hX?=
+ =?utf-8?B?eVRtSG9CS1VHTllhU1RhTCtjU2J5YWI1WHU2YnlqdHF0bnVSZWRzakZJZTJV?=
+ =?utf-8?B?aDU3c2ZaeGJ4cXNDQjJ4eXAxRXlxUjRWeldNRkRBS25lNmlHbFY2UGhVajYx?=
+ =?utf-8?B?Y1dxQnZ1ZjZ1cTVlTkZ2OFhOTktuY0Q4cHdSV0pCS1JId28zWWhTeHlCSU54?=
+ =?utf-8?B?dFhQaGhseHFBd1RVbFhWRzlYSWxCSUI2T2RwbVZWOUtTdk1RanViY0RlZlRG?=
+ =?utf-8?B?SzdwbHhFK1JOOWxJMWU1YTR2bE9rOTR4QkluSDRmTmtXWklETTA4T3Q4T1Ux?=
+ =?utf-8?B?emRtQlBlMUZhQmpzaVBZaE55STN0WWVudnRzVDFGWDFwWk9xS1FkZkcybFR5?=
+ =?utf-8?B?UlM3ZWNpaWg4REpGdGdIL0pGMVI5ZkxhM2R6b1Vpek1ZZytEREl1V2hxcXdY?=
+ =?utf-8?B?U0VOMmlsUHRGZS82SllZL2oyVlV3OUdvRVJaK25XUnZlTVdRSVUrMXBLdEEw?=
+ =?utf-8?Q?yFBtkIJOWlVW7xK6BD7EW/Y=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc47cfe8-6391-4277-068a-08db8e869dc6
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6133.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52b1f534-df72-4847-52f3-08db8e8fbfb8
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR11MB4470.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 09:48:23.1730
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 10:53:45.3019
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +TmD6yU2YluwysXmEtRIP9xFpeffPYlPrQmWsoCvOXFaVYvAo79YvuoBc2H4XzJO396euk1iRHzAR650jkazkHrQ39BvxGIhXyA3U0OkxRg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5832
-X-Proofpoint-ORIG-GUID: wwtUBjjRcBA_R3pRbMO7k0MCSiQSkAtx
-X-Proofpoint-GUID: wwtUBjjRcBA_R3pRbMO7k0MCSiQSkAtx
+X-MS-Exchange-CrossTenant-UserPrincipalName: PBAjEsxM72tvFhhgtB89ZGWRDln1ybU11Gh8JHAjb1hp0wrNxvpQa8/qPF0JrzOPnU1D9dofR8G4hKEgRbYqMTGNAoho9uo7N8OunZY1Cfo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5035
+X-Proofpoint-ORIG-GUID: z_Qlp0Sl97G1jXFngHbtfA1IphPj3urp
+X-Proofpoint-GUID: 3ltUYkZosW8thXQXsiu6z1guty7KOI5F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2306200000 definitions=main-2307270087
+ definitions=2023-07-27_06,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0
+ clxscore=1015 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2306200000 definitions=main-2307270097
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 36R9xRZW027091
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 09:48:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184926
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 10:53:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/184927
 
-* Add the failing test cases in exclude_list to exclude them from testing during the Rust Oe-selftest.
+gcc stable version upgraded from v11.3 to v11.4
 
-* Drop  meta/recipes-devtools/rust/files/rust-oe-selftest.patch file as the failing tests are
-  moved from being a patch to exclude_list in meta/lib/oeqa/selftest/cases/rust.py.
+For changes in v11.4 see - https://gcc.gnu.org/gcc-11/changes.html
 
-* When updating to a newer version of Rust, it is manually needed to update the exclude_list. The tests that fail are observed to
-  work on some versions and fail on others. These tests have been excluded in order to successfully complete testing of Rust Oe-selftest.
+Below is the bug fix list for v11.4
+https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=3DRESOLVED&order=3Dsh=
+ort_desc%2Cbug_status%2Cpriority%2Cassigned_to%2Cbug_id&query_format=3Dad=
+vanced&resolution=3DFIXED&target_milestone=3D11.4
 
-* The tests that are passed and skipped are as follows-
+There are a total 115 bugs are fixed in this release, below is the list o=
+f bugs fixed excluding the regression fixes.
 
-Target			PASS			SKIPPED
+ID	Product	Comp	    Resolution	Summary=E2=96=B2
+108199	gcc	tree-opt	FIXE	Bitfields, unions and SRA and storage_order_attr=
+ibute
+107801	gcc	libstdc+	FIXE	Building cross compiler for H8 family fails in l=
+ibstdc++ (c++17/memory_resource.cc)
+108265	gcc	libstdc+	FIXE	chrono::hh_mm_ss can't be constructed from unsig=
+ned durations
+104443	gcc	libstdc+	FIXE	common_iterator<I, S>::operator-> is not correct=
+ly implemented
+98056	gcc	c++		FIXE	coroutines: ICE tree check: expected record_type or u=
+nion_type or qual_union_type, have array_type since r11-2183-g0f66b8486ce=
+a8668
+107061	gcc	target		FIXE	ENCODEKEY128 clobbers xmm4-xmm6
+105433	gcc	testsuit	FIXE	FAIL: gcc.target/i386/iamcu/test_3_element_struc=
+t_and_unions.c
+105095	gcc	testsuit	FIXE	gcc.dg/vect/complex/fast-math-complex-* tests ar=
+e not executed
+100474	gcc	c++		FIXE	ICE: in diagnose_trait_expr, at cp/constraint.cc:370=
+6
+105854	gcc	target		FIXE	ICE: in extract_constrain_insn, at recog.cc:2692 =
+(insn does not satisfy its constraints: sse2_lshrv1ti3)
+104462	gcc	target		FIXE	ICE: in extract_constrain_insn_cached, at recog.c=
+c:2682 with -mavx512fp16 -mno-xsave
+106045	gcc	libgomp		FIXE	Incorrect testcase in libgomp.c/target-31.c at -=
+O0
+56189	gcc	c++		FIXE	Infinite recursion with noexcept when instantiating f=
+unction template
+100295	gcc	c++		FIXE	Internal compiler error from generic lambda capturin=
+g parameter pack and expanding it in if constexpr
+100613	gcc	jit		FIXE	libgccjit should produce dylib on macOS
+104875	gcc	libstdc+	FIXE	libstdc++-v3/src/c++11/codecvt.cc:312:24: warnin=
+g: left shift count >=3D width of type
+107471	gcc	libstdc+	FIXE	mismatching constraints in common_iterator
+105284	gcc	libstdc+	FIXE	missing syncstream and spanstream forward decl. =
+in <iosfwd>
+98821	gcc	c++		FIXE	modules : c++tools configures with CC but code fragme=
+nts assume CXX.
+109846	gcc	fortran		FIXE	Pointer-valued function reference rejected as ac=
+tual argument
+101324	gcc	target		FIXE	powerpc64le: hashst appears before mflr at -O1 or=
+ higher
+102479	gcc	c++		FIXE	segfault when deducing class template arguments for =
+tuple with libc++-14
+105128	gcc	libstdc+	FIXE	source_location compile error for latest clang 1=
+5
+106183	gcc	libstdc+	FIXE	std::atomic::wait might fail to be unblocked by =
+notify_one/all on platforms without platform_wait()
+102994	gcc	libstdc+	FIXE	std::atomic<ptr>::wait is not marked const
+105324	gcc	libstdc+	FIXE	std::from_chars() assertion at floating_from_cha=
+rs.cc:78 when parsing 1.11111111....
+105375	gcc	libstdc+	FIXE	std::packaged_task has no deduction guide.
+104602	gcc	libstdc+	FIXE	std::source_location::current uses cast from voi=
+d*
+106808	gcc	libstdc+	FIXE	std::string_view range concept requirement cause=
+s compile error with Boost.Filesystem
+105725	gcc	c++		FIXE	[ICE] segfault with `-Wmismatched-tags`
+105920	gcc	target		FIXE	__builtin_cpu_supports ("f16c") should check AVX
 
-ARM                     15507		         428
-ARM64			15535		         400
-MIPS64			15479		         456
-X86			15528			 407
-X86-64			15643			 292
-
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py          |  211 +-
- .../rust/files/rust-oe-selftest.patch         | 2324 -----------------
- meta/recipes-devtools/rust/rust-source.inc    |    1 -
- 3 files changed, 210 insertions(+), 2326 deletions(-)
- delete mode 100644 meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+ .../gcc/{gcc-11.3.inc =3D> gcc-11.4.inc}        |   6 +-
+ ...ian_11.3.bb =3D> gcc-cross-canadian_11.4.bb} |   0
+ .../{gcc-cross_11.3.bb =3D> gcc-cross_11.4.bb}  |   0
+ ...-crosssdk_11.3.bb =3D> gcc-crosssdk_11.4.bb} |   0
+ ...cc-runtime_11.3.bb =3D> gcc-runtime_11.4.bb} |   0
+ ...itizers_11.3.bb =3D> gcc-sanitizers_11.4.bb} |   0
+ ...{gcc-source_11.3.bb =3D> gcc-source_11.4.bb} |   0
+ ...rch64-Update-Neoverse-N2-core-defini.patch |  20 ++--
+ ...rm-add-armv9-a-architecture-to-march.patch |  54 +++++-----
+ ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 102 +++++++++---------
+ ...s-fix-v4bx-to-linker-to-support-EABI.patch |   6 +-
+ .../gcc/{gcc_11.3.bb =3D> gcc_11.4.bb}          |   0
+ ...initial_11.3.bb =3D> libgcc-initial_11.4.bb} |   0
+ .../gcc/{libgcc_11.3.bb =3D> libgcc_11.4.bb}    |   0
+ ...ibgfortran_11.3.bb =3D> libgfortran_11.4.bb} |   0
+ 15 files changed, 92 insertions(+), 96 deletions(-)
+ rename meta/recipes-devtools/gcc/{gcc-11.3.inc =3D> gcc-11.4.inc} (97%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_11.3.bb =3D> gcc-cr=
+oss-canadian_11.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_11.3.bb =3D> gcc-cross_11.4.=
+bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_11.3.bb =3D> gcc-crosssdk=
+_11.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_11.3.bb =3D> gcc-runtime_1=
+1.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_11.3.bb =3D> gcc-saniti=
+zers_11.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_11.3.bb =3D> gcc-source_11.=
+4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc_11.3.bb =3D> gcc_11.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_11.3.bb =3D> libgcc-ini=
+tial_11.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_11.3.bb =3D> libgcc_11.4.bb} (1=
+00%)
+ rename meta/recipes-devtools/gcc/{libgfortran_11.3.bb =3D> libgfortran_1=
+1.4.bb} (100%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index 7a0fd7033d..35a80c442f 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -70,7 +70,216 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-             # no-fail-fast: Run all tests regardless of failure.
-             # bless: First runs rustfmt to format the codebase,
-             # then runs tidy checks.
--            testargs = "--exclude tests/rustdoc --exclude src/tools/rust-analyzer  --exclude tests/rustdoc-json  --exclude tests/run-make-fulldeps --exclude src/tools/tidy --exclude src/tools/rustdoc-themes --exclude src/rustdoc-json-types --exclude src/librustdoc --exclude src/doc/unstable-book --exclude src/doc/rustdoc --exclude src/doc/rustc --exclude compiler/rustc --exclude library/panic_abort --exclude library/panic_unwind --exclude src/tools/lint-docs  --exclude tests/rustdoc-js-std --doc --no-fail-fast --bless"
-+            exclude_list =  """
-+                                --exclude compiler/rustc
-+                                --exclude compiler/rustc_interface/src/tests.rs
-+                                --exclude library/panic_abort
-+                                --exclude library/panic_unwind
-+                                --exclude library/test/src/stats/tests.rs
-+                                --exclude src/bootstrap/builder/tests.rs
-+                                --exclude src/doc/rustc
-+                                --exclude src/doc/rustdoc
-+                                --exclude src/doc/unstable-book
-+                                --exclude src/librustdoc
-+                                --exclude src/rustdoc-json-types
-+                                --exclude src/tools/compiletest/src/common.rs
-+                                --exclude src/tools/lint-docs
-+                                --exclude src/tools/rust-analyzer
-+                                --exclude src/tools/rustdoc-themes
-+                                --exclude src/tools/tidy
-+                                --exclude tests/assembly/asm/aarch64-outline-atomics.rs
-+                                --exclude tests/codegen/abi-main-signature-32bit-c-int.rs
-+                                --exclude tests/codegen/abi-repr-ext.rs
-+                                --exclude tests/codegen/abi-x86-interrupt.rs
-+                                --exclude tests/codegen/branch-protection.rs
-+                                --exclude tests/codegen/catch-unwind.rs
-+                                --exclude tests/codegen/cf-protection.rs
-+                                --exclude tests/codegen/enum-bounds-check-derived-idx.rs
-+                                --exclude tests/codegen/force-unwind-tables.rs
-+                                --exclude tests/codegen/intrinsic-no-unnamed-attr.rs
-+                                --exclude tests/codegen/issues/issue-103840.rs
-+                                --exclude tests/codegen/issues/issue-47278.rs
-+                                --exclude tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs
-+                                --exclude tests/codegen/lifetime_start_end.rs
-+                                --exclude tests/codegen/local-generics-in-exe-internalized.rs
-+                                --exclude tests/codegen/match-unoptimized.rs
-+                                --exclude tests/codegen/noalias-rwlockreadguard.rs
-+                                --exclude tests/codegen/non-terminate/nonempty-infinite-loop.rs
-+                                --exclude tests/codegen/noreturn-uninhabited.rs
-+                                --exclude tests/codegen/repr-transparent-aggregates-3.rs
-+                                --exclude tests/codegen/sse42-implies-crc32.rs
-+                                --exclude tests/codegen/thread-local.rs
-+                                --exclude tests/codegen/uninit-consts.rs
-+                                --exclude tests/pretty/raw-str-nonexpr.rs
-+                                --exclude tests/run-make
-+                                --exclude tests/run-make/cdylib-fewer-symbols/foo.rs
-+                                --exclude tests/run-make/doctests-keep-binaries/t.rs
-+                                --exclude tests/run-make-fulldeps
-+                                --exclude tests/run-make/issue-22131/foo.rs
-+                                --exclude tests/run-make/issue-36710/Makefile
-+                                --exclude tests/run-make/issue-47551
-+                                --exclude tests/run-make/pgo-branch-weights
-+                                --exclude tests/run-make/pgo-gen
-+                                --exclude tests/run-make/pgo-gen-lto
-+                                --exclude tests/run-make/pgo-indirect-call-promotion
-+                                --exclude tests/run-make/pgo-use
-+                                --exclude tests/run-make/pointer-auth-link-with-c/Makefile
-+                                --exclude tests/run-make/profile
-+                                --exclude tests/run-make/static-pie
-+                                --exclude tests/run-make/sysroot-crates-are-unstable
-+                                --exclude tests/run-make/target-specs
-+                                --exclude tests/rustdoc
-+                                --exclude tests/rustdoc/async-move-doctest.rs
-+                                --exclude tests/rustdoc/async-trait.rs
-+                                --exclude tests/rustdoc/auto-traits.rs
-+                                --exclude tests/rustdoc/check-source-code-urls-to-def.rs
-+                                --exclude tests/rustdoc/comment-in-doctest.rs
-+                                --exclude tests/rustdoc/const-generics/const-generics-docs.rs
-+                                --exclude tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs
-+                                --exclude tests/rustdoc/cross-crate-hidden-impl-parameter.rs
-+                                --exclude tests/rustdoc/cross-crate-links.rs
-+                                --exclude tests/rustdoc/cross-crate-primitive-doc.rs
-+                                --exclude tests/rustdoc/doctest-manual-crate-name.rs
-+                                --exclude tests/rustdoc/edition-doctest.rs
-+                                --exclude tests/rustdoc/edition-flag.rs
-+                                --exclude tests/rustdoc/elided-lifetime.rs
-+                                --exclude tests/rustdoc/external-macro-src.rs
-+                                --exclude tests/rustdoc/extern-html-root-url.rs
-+                                --exclude tests/rustdoc/extern-impl-trait.rs
-+                                --exclude tests/rustdoc/hide-unstable-trait.rs
-+                                --exclude tests/rustdoc/inline_cross/add-docs.rs
-+                                --exclude tests/rustdoc/inline_cross/default-trait-method.rs
-+                                --exclude tests/rustdoc/inline_cross/dyn_trait.rs
-+                                --exclude tests/rustdoc/inline_cross/impl_trait.rs
-+                                --exclude tests/rustdoc/inline_cross/issue-24183.rs
-+                                --exclude tests/rustdoc/inline_cross/macros.rs
-+                                --exclude tests/rustdoc/inline_cross/trait-vis.rs
-+                                --exclude tests/rustdoc/inline_cross/use_crate.rs
-+                                --exclude tests/rustdoc/intra-doc-crate/self.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/additional_doc.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/basic.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/crate.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/hidden.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/macro.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/module.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs
-+                                --exclude tests/rustdoc/intra-doc/cross-crate/traits.rs
-+                                --exclude tests/rustdoc/intra-doc/extern-builtin-type-impl.rs
-+                                --exclude tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs
-+                                --exclude tests/rustdoc/intra-doc/extern-crate.rs
-+                                --exclude tests/rustdoc/intra-doc/extern-inherent-impl.rs
-+                                --exclude tests/rustdoc/intra-doc/extern-reference-link.rs
-+                                --exclude tests/rustdoc/intra-doc/issue-103463.rs
-+                                --exclude tests/rustdoc/intra-doc/issue-104145.rs
-+                                --exclude tests/rustdoc/intra-doc/issue-66159.rs
-+                                --exclude tests/rustdoc/intra-doc/pub-use.rs
-+                                --exclude tests/rustdoc/intra-doc/reexport-additional-docs.rs
-+                                --exclude tests/rustdoc/issue-18199.rs
-+                                --exclude tests/rustdoc/issue-23106.rs
-+                                --exclude tests/rustdoc/issue-23744.rs
-+                                --exclude tests/rustdoc/issue-25944.rs
-+                                --exclude tests/rustdoc/issue-30252.rs
-+                                --exclude tests/rustdoc/issue-38129.rs
-+                                --exclude tests/rustdoc/issue-40936.rs
-+                                --exclude tests/rustdoc/issue-43153.rs
-+                                --exclude tests/rustdoc/issue-46727.rs
-+                                --exclude tests/rustdoc/issue-48377.rs
-+                                --exclude tests/rustdoc/issue-48414.rs
-+                                --exclude tests/rustdoc/issue-53689.rs
-+                                --exclude tests/rustdoc/issue-54478-demo-allocator.rs
-+                                --exclude tests/rustdoc/issue-57180.rs
-+                                --exclude tests/rustdoc/issue-61592.rs
-+                                --exclude tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs
-+                                --exclude tests/rustdoc/issue-75588.rs
-+                                --exclude tests/rustdoc/issue-85454.rs
-+                                --exclude tests/rustdoc/issue-86620.rs
-+                                --exclude tests/rustdoc-json
-+                                --exclude tests/rustdoc-js-std
-+                                --exclude tests/rustdoc/macro_pub_in_module.rs
-+                                --exclude tests/rustdoc/masked.rs
-+                                --exclude tests/rustdoc/normalize-assoc-item.rs
-+                                --exclude tests/rustdoc/no-stack-overflow-25295.rs
-+                                --exclude tests/rustdoc/primitive-reexport.rs
-+                                --exclude tests/rustdoc/process-termination.rs
-+                                --exclude tests/rustdoc/pub-extern-crate.rs
-+                                --exclude tests/rustdoc/pub-use-extern-macros.rs
-+                                --exclude tests/rustdoc/reexport-check.rs
-+                                --exclude tests/rustdoc/reexport-dep-foreign-fn.rs
-+                                --exclude tests/rustdoc/reexport-doc.rs
-+                                --exclude tests/rustdoc/reexports-priv.rs
-+                                --exclude tests/rustdoc/reexports.rs
-+                                --exclude tests/rustdoc/rustc-incoherent-impls.rs
-+                                --exclude tests/rustdoc/test_option_check/bar.rs
-+                                --exclude tests/rustdoc/test_option_check/test.rs
-+                                --exclude tests/rustdoc/trait-alias-mention.rs
-+                                --exclude tests/rustdoc/trait-visibility.rs
-+                                --exclude tests/rustdoc-ui/cfg-test.rs
-+                                --exclude tests/rustdoc-ui/check-cfg-test.rs
-+                                --exclude tests/rustdoc-ui/display-output.rs
-+                                --exclude tests/rustdoc-ui/doc-comment-multi-line-attr.rs
-+                                --exclude tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
-+                                --exclude tests/rustdoc-ui/doc-test-doctest-feature.rs
-+                                --exclude tests/rustdoc-ui/doctest-multiline-crate-attribute.rs
-+                                --exclude tests/rustdoc-ui/doctest-output.rs
-+                                --exclude tests/rustdoc-ui/doc-test-rustdoc-feature.rs
-+                                --exclude tests/rustdoc-ui/failed-doctest-compile-fail.rs
-+                                --exclude tests/rustdoc-ui/issue-80992.rs
-+                                --exclude tests/rustdoc-ui/issue-91134.rs
-+                                --exclude tests/rustdoc-ui/nocapture-fail.rs
-+                                --exclude tests/rustdoc-ui/nocapture.rs
-+                                --exclude tests/rustdoc-ui/no-run-flag.rs
-+                                --exclude tests/rustdoc-ui/run-directory.rs
-+                                --exclude tests/rustdoc-ui/test-no_std.rs
-+                                --exclude tests/rustdoc-ui/test-type.rs
-+                                --exclude tests/rustdoc/unit-return.rs
-+                                --exclude tests/ui/abi/stack-probes-lto.rs
-+                                --exclude tests/ui/abi/stack-probes.rs
-+                                --exclude tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
-+                                --exclude tests/ui/asm/x86_64/sym.rs
-+                                --exclude tests/ui/associated-type-bounds/fn-apit.rs
-+                                --exclude tests/ui/associated-type-bounds/fn-dyn-apit.rs
-+                                --exclude tests/ui/associated-type-bounds/fn-wrap-apit.rs
-+                                --exclude tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs
-+                                --exclude tests/ui/drop/dynamic-drop.rs
-+                                --exclude tests/ui/empty_global_asm.rs
-+                                --exclude tests/ui-fulldeps/deriving-encodable-decodable-box.rs
-+                                --exclude tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs
-+                                --exclude tests/ui-fulldeps/deriving-global.rs
-+                                --exclude tests/ui-fulldeps/deriving-hygiene.rs
-+                                --exclude tests/ui-fulldeps/dropck_tarena_sound_drop.rs
-+                                --exclude tests/ui-fulldeps/empty-struct-braces-derive.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/bad_opt_access.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/bad_opt_access.stderr
-+                                --exclude tests/ui-fulldeps/internal-lints/default_hash_types.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/diagnostics.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/query_stability.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
-+                                --exclude tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs
-+                                --exclude tests/ui-fulldeps/issue-14021.rs
-+                                --exclude tests/ui-fulldeps/lint-group-denied-lint-allowed.rs
-+                                --exclude tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
-+                                --exclude tests/ui-fulldeps/lint-pass-macros.rs
-+                                --exclude tests/ui-fulldeps/regions-mock-tcx.rs
-+                                --exclude tests/ui-fulldeps/rustc_encodable_hygiene.rs
-+                                --exclude tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs
-+                                --exclude tests/ui/functions-closures/fn-help-with-err.rs
-+                                --exclude tests/ui/linkage-attr/issue-10755.rs
-+                                --exclude tests/ui/macros/restricted-shadowing-legacy.rs
-+                                --exclude tests/ui/process/nofile-limit.rs
-+                                --exclude tests/ui/process/process-panic-after-fork.rs
-+                                --exclude tests/ui/process/process-sigpipe.rs
-+                                --exclude tests/ui/simd/target-feature-mixup.rs
-+                                --exclude tests/ui/structs-enums/multiple-reprs.rs
-+                            """
-+
-+            exclude_fail_tests = exclude_list.split("\n")
-+            exclude_fail_tests = " ".join(exclude_fail_tests)
-+
-+            # Add exclude_fail_tests with other test arguments
-+            testargs =  exclude_fail_tests + " --doc --no-fail-fast --bless"
- 
-             # Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
-             cmd = " export PATH=%s/recipe-sysroot-native/usr/bin:$PATH;" % rustlibpath
-diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-deleted file mode 100644
-index 8e9da47761..0000000000
---- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-+++ /dev/null
-@@ -1,2324 +0,0 @@
--Rust testsuite outputs error even on a single testcase failure.
--Hence, some test runs are ignored as they fail with error messages.
--
--Upstream-Status: Inappropriate [Ignore the testcase that errors out]
--Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-----
--
--diff --git a/compiler/rustc_interface/src/tests.rs b/compiler/rustc_interface/src/tests.rs
--index eb8e65a6d..6e65e8787 100644
----- a/compiler/rustc_interface/src/tests.rs
--+++ b/compiler/rustc_interface/src/tests.rs
--@@ -103,6 +103,7 @@ fn assert_non_crate_hash_different(x: &Options, y: &Options) {
--
-- // When the user supplies --test we should implicitly supply --cfg test
-- #[test]
--+#[ignore]
-- fn test_switch_implies_cfg_test() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["--test".to_string()]).unwrap();
--@@ -114,6 +115,7 @@ fn test_switch_implies_cfg_test() {
--
-- // When the user supplies --test and --cfg test, don't implicitly add another --cfg test
-- #[test]
--+#[ignore]
-- fn test_switch_implies_cfg_test_unless_cfg_test() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["--test".to_string(), "--cfg=test".to_string()]).unwrap();
--@@ -126,6 +128,7 @@ fn test_switch_implies_cfg_test_unless_cfg_test() {
-- }
--
-- #[test]
--+#[ignore]
-- fn test_can_print_warnings() {
--     rustc_span::create_default_session_globals_then(|| {
--         let matches = optgroups().parse(&["-Awarnings".to_string()]).unwrap();
--diff --git a/library/test/src/stats/tests.rs b/library/test/src/stats/tests.rs
--index 3a6e8401b..8442a6b39 100644
----- a/library/test/src/stats/tests.rs
--+++ b/library/test/src/stats/tests.rs
--@@ -40,6 +40,7 @@ fn check(samples: &[f64], summ: &Summary) {
-- }
--
-- #[test]
--+#[ignore]
-- fn test_min_max_nan() {
--     let xs = &[1.0, 2.0, f64::NAN, 3.0, 4.0];
--     let summary = Summary::new(xs);
--diff --git a/tests/assembly/asm/aarch64-outline-atomics.rs b/tests/assembly/asm/aarch64-outline-atomics.rs
--index c2ec4e911..150d23004 100644
----- a/tests/assembly/asm/aarch64-outline-atomics.rs
--+++ b/tests/assembly/asm/aarch64-outline-atomics.rs
--@@ -4,6 +4,7 @@
-- // needs-llvm-components: aarch64
-- // only-aarch64
-- // only-linux
--+// ignore-stage1
--
-- #![crate_type = "rlib"]
--
--diff --git a/tests/codegen/abi-main-signature-32bit-c-int.rs b/tests/codegen/abi-main-signature-32bit-c-int.rs
--index 7f22ddcfc..ec84b72aa 100644
----- a/tests/codegen/abi-main-signature-32bit-c-int.rs
--+++ b/tests/codegen/abi-main-signature-32bit-c-int.rs
--@@ -3,6 +3,7 @@
--
-- // This test is for targets with 32bit c_int only.
-- // ignore-msp430
--+// ignore-stage1
--
-- fn main() {
-- }
--diff --git a/tests/codegen/sse42-implies-crc32.rs b/tests/codegen/sse42-implies-crc32.rs
--index 47b1a8993..71e2d5ef7 100644
----- a/tests/codegen/sse42-implies-crc32.rs
--+++ b/tests/codegen/sse42-implies-crc32.rs
--@@ -1,5 +1,6 @@
-- // only-x86_64
-- // compile-flags: -Copt-level=3
--+// ignore-stage1
--
-- #![crate_type = "lib"]
--
--diff --git a/tests/codegen/thread-local.rs b/tests/codegen/thread-local.rs
--index 0f1b29ca7..b2b4fd2ff 100644
----- a/tests/codegen/thread-local.rs
--+++ b/tests/codegen/thread-local.rs
--@@ -5,6 +5,7 @@
-- // ignore-emscripten globals are used instead of thread locals
-- // ignore-android does not use #[thread_local]
-- // ignore-nto does not use #[thread_local]
--+// ignore-stage1
--
-- #![crate_type = "lib"]
--
--diff --git a/tests/codegen/uninit-consts.rs b/tests/codegen/uninit-consts.rs
--index 4c07740b3..dac5da866 100644
----- a/tests/codegen/uninit-consts.rs
--+++ b/tests/codegen/uninit-consts.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -C no-prepopulate-passes
--+// ignore-stage1
--
-- // Check that we use undef (and not zero) for uninitialized bytes in constants.
--
--diff --git a/tests/pretty/raw-str-nonexpr.rs b/tests/pretty/raw-str-nonexpr.rs
--index 12440b5ae..5b62d45ff 100644
----- a/tests/pretty/raw-str-nonexpr.rs
--+++ b/tests/pretty/raw-str-nonexpr.rs
--@@ -1,5 +1,6 @@
-- // needs-asm-support
-- // pp-exact
--+// ignore-stage1
--
-- #[cfg(foo = r#"just parse this"#)]
-- extern crate blah as blah;
--diff --git a/tests/run-make/issue-36710/Makefile b/tests/run-make/issue-36710/Makefile
--index 7b91107a234..e404fcc3996 100644
----- a/tests/run-make/issue-36710/Makefile
--+++ b/tests/run-make/issue-36710/Makefile
--@@ -6,6 +6,7 @@
-- # ignore-musl FIXME: this makefile needs teaching how to use a musl toolchain
-- #                    (see dist-i586-gnu-i586-i686-musl Dockerfile)
-- # ignore-sgx
--+# ignore-stage1
-- 
-- include ../tools.mk
--
--diff --git a/tests/rustdoc-ui/cfg-test.rs b/tests/rustdoc-ui/cfg-test.rs
--index d4ca92585..fceb2968d 100644
----- a/tests/rustdoc-ui/cfg-test.rs
--+++ b/tests/rustdoc-ui/cfg-test.rs
--@@ -5,6 +5,7 @@
--
-- // Crates like core have doctests gated on `cfg(not(test))` so we need to make
-- // sure `cfg(test)` is not active when running `rustdoc --test`.
--+// ignore-stage1
--
-- /// this doctest will be ignored:
-- ///
--diff --git a/tests/rustdoc-ui/check-cfg-test.rs b/tests/rustdoc-ui/check-cfg-test.rs
--index 626cc8387..b0f9a1948 100644
----- a/tests/rustdoc-ui/check-cfg-test.rs
--+++ b/tests/rustdoc-ui/check-cfg-test.rs
--@@ -3,6 +3,7 @@
-- // normalize-stderr-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- /// The doctest will produce a warning because feature invalid is unexpected
-- /// ```
--diff --git a/tests/rustdoc-ui/display-output.rs b/tests/rustdoc-ui/display-output.rs
--index ec27a9f6b..61655fa6e 100644
----- a/tests/rustdoc-ui/display-output.rs
--+++ b/tests/rustdoc-ui/display-output.rs
--@@ -5,6 +5,7 @@
-- // compile-flags:--test --test-args=--show-output
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- /// ```
-- /// #![warn(unused)]
--diff --git a/tests/rustdoc-ui/doc-comment-multi-line-attr.rs b/tests/rustdoc-ui/doc-comment-multi-line-attr.rs
--index 97259f782..50a155fba 100644
----- a/tests/rustdoc-ui/doc-comment-multi-line-attr.rs
--+++ b/tests/rustdoc-ui/doc-comment-multi-line-attr.rs
--@@ -3,6 +3,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // check-pass
--+// ignore-stage1
--
-- //! ```rust
-- //! #![deny(
--diff --git a/tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs b/tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
--index b2a8133c9..ea064ba85 100644
----- a/tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
--+++ b/tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
--@@ -2,6 +2,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // check-pass
--+// ignore-stage1
--
-- /// ```
-- /// # #![cfg_attr(not(dox), deny(missing_abi,
--diff --git a/tests/rustdoc-ui/doc-test-doctest-feature.rs b/tests/rustdoc-ui/doc-test-doctest-feature.rs
--index 0b79aaece..8cef6d974 100644
----- a/tests/rustdoc-ui/doc-test-doctest-feature.rs
--+++ b/tests/rustdoc-ui/doc-test-doctest-feature.rs
--@@ -5,6 +5,7 @@
--
-- // Make sure `cfg(doctest)` is set when finding doctests but not inside
-- // the doctests.
--+// ignore-stage1
--
-- /// ```
-- /// assert!(!cfg!(doctest));
--diff --git a/tests/rustdoc-ui/doc-test-rustdoc-feature.rs b/tests/rustdoc-ui/doc-test-rustdoc-feature.rs
--index bf334c67e..c372097bd 100644
----- a/tests/rustdoc-ui/doc-test-rustdoc-feature.rs
--+++ b/tests/rustdoc-ui/doc-test-rustdoc-feature.rs
--@@ -2,6 +2,7 @@
-- // compile-flags:--test
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- #![feature(doc_cfg)]
--
--diff --git a/tests/rustdoc-ui/doctest-output.rs b/tests/rustdoc-ui/doctest-output.rs
--index 2670fa572..b4b612916 100644
----- a/tests/rustdoc-ui/doctest-output.rs
--+++ b/tests/rustdoc-ui/doctest-output.rs
--@@ -4,6 +4,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // check-pass
--+// ignore-stage1
--
-- //! ```
-- //! assert_eq!(1 + 1, 2);
--diff --git a/tests/rustdoc-ui/failed-doctest-compile-fail.rs b/tests/rustdoc-ui/failed-doctest-compile-fail.rs
--index 6f2ff5d70..2561ffdc3 100644
----- a/tests/rustdoc-ui/failed-doctest-compile-fail.rs
--+++ b/tests/rustdoc-ui/failed-doctest-compile-fail.rs
--@@ -5,6 +5,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // failure-status: 101
--+// ignore-stage1
--
-- /// ```compile_fail
-- /// println!("Hello");
--diff --git a/tests/rustdoc-ui/issue-91134.rs b/tests/rustdoc-ui/issue-91134.rs
--index d2ff3a252..90e0816d2 100644
----- a/tests/rustdoc-ui/issue-91134.rs
--+++ b/tests/rustdoc-ui/issue-91134.rs
--@@ -4,6 +4,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // edition:2021
--+// ignore-stage1
--
-- /// <https://github.com/rust-lang/rust/issues/91134>
-- ///
--diff --git a/tests/rustdoc-ui/nocapture.rs b/tests/rustdoc-ui/nocapture.rs
--index 321f5ca08..463751e48 100644
----- a/tests/rustdoc-ui/nocapture.rs
--+++ b/tests/rustdoc-ui/nocapture.rs
--@@ -2,6 +2,7 @@
-- // compile-flags:--test -Zunstable-options --nocapture
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- /// ```
-- /// println!("hello!");
--diff --git a/tests/rustdoc-ui/run-directory.rs b/tests/rustdoc-ui/run-directory.rs
--index 0d432c1e6..357e3ccc3 100644
----- a/tests/rustdoc-ui/run-directory.rs
--+++ b/tests/rustdoc-ui/run-directory.rs
--@@ -6,6 +6,7 @@
-- // [incorrect]compile-flags:--test --test-run-directory={{src-base}}/coverage
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- /// ```
-- /// assert_eq!(
--diff --git a/tests/rustdoc-ui/test-no_std.rs b/tests/rustdoc-ui/test-no_std.rs
--index ee919985e..3e479bf6f 100644
----- a/tests/rustdoc-ui/test-no_std.rs
--+++ b/tests/rustdoc-ui/test-no_std.rs
--@@ -2,6 +2,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // check-pass
--+// ignore-stage1
--
-- #![no_std]
--
--diff --git a/tests/rustdoc-ui/test-type.rs b/tests/rustdoc-ui/test-type.rs
--index 882da5c25..bc8e8e30f 100644
----- a/tests/rustdoc-ui/test-type.rs
--+++ b/tests/rustdoc-ui/test-type.rs
--@@ -2,6 +2,7 @@
-- // check-pass
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
--
-- /// ```
-- /// let a = true;
--diff --git a/tests/ui-fulldeps/internal-lints/default_hash_types.rs b/tests/ui-fulldeps/internal-lints/default_hash_types.rs
--index 795c7d2dc..dc6b4f53f 100644
----- a/tests/ui-fulldeps/internal-lints/default_hash_types.rs
--+++ b/tests/ui-fulldeps/internal-lints/default_hash_types.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_private)]
-- #![deny(rustc::default_hash_types)]
--diff --git a/tests/ui-fulldeps/internal-lints/diagnostics.rs b/tests/ui-fulldeps/internal-lints/diagnostics.rs
--index 643e81d99..2433228ef 100644
----- a/tests/ui-fulldeps/internal-lints/diagnostics.rs
--+++ b/tests/ui-fulldeps/internal-lints/diagnostics.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![crate_type = "lib"]
-- #![feature(rustc_attrs)]
--diff --git a/tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs b/tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
--index f6f0c0385..4523e2a6d 100644
----- a/tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
--+++ b/tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_private)]
-- #![deny(rustc::lint_pass_impl_without_macro)]
--diff --git a/tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs b/tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
--index 32b987338..6187e2370 100644
----- a/tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
--+++ b/tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_private)]
-- #![deny(rustc::usage_of_qualified_ty)]
--diff --git a/tests/ui-fulldeps/internal-lints/query_stability.rs b/tests/ui-fulldeps/internal-lints/query_stability.rs
--index 560675b44..e7d5ba583 100644
----- a/tests/ui-fulldeps/internal-lints/query_stability.rs
--+++ b/tests/ui-fulldeps/internal-lints/query_stability.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_private)]
-- #![deny(rustc::potential_query_instability)]
--diff --git a/tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs b/tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
--index 10bab2d88..8e72c8b38 100644
----- a/tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
--+++ b/tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_attrs)]
-- #![feature(rustc_private)]
--diff --git a/tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs b/tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs
--index 2cb1ed6fc..31b5a2131 100644
----- a/tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs
--+++ b/tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -Z unstable-options
--+// ignore-stage1
--
-- #![feature(rustc_private)]
--
--diff --git a/tests/ui-fulldeps/lint-group-denied-lint-allowed.rs b/tests/ui-fulldeps/lint-group-denied-lint-allowed.rs
--index 7498745f2..28c00f2f8 100644
----- a/tests/ui-fulldeps/lint-group-denied-lint-allowed.rs
--+++ b/tests/ui-fulldeps/lint-group-denied-lint-allowed.rs
--@@ -1,6 +1,7 @@
-- // aux-build:lint-group-plugin-test.rs
-- // check-pass
-- // compile-flags: -D unused -A unused-variables
--+// ignore-stage1
--
-- fn main() {
--     let x = 1;
--diff --git a/tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs b/tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
--index fc19bc039..9563e9930 100644
----- a/tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
--+++ b/tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
--@@ -1,5 +1,6 @@
-- // aux-build:lint-group-plugin-test.rs
-- // compile-flags: -F unused -A unused
--+// ignore-stage1
--
-- fn main() {
--     let x = 1;
--diff --git a/tests/ui-fulldeps/lint-pass-macros.rs b/tests/ui-fulldeps/lint-pass-macros.rs
--index b3c2a5427..9ed711a34 100644
----- a/tests/ui-fulldeps/lint-pass-macros.rs
--+++ b/tests/ui-fulldeps/lint-pass-macros.rs
--@@ -1,5 +1,6 @@
-- // compile-flags: -Z unstable-options
-- // check-pass
--+// ignore-stage1
--
-- #![feature(rustc_private)]
--
--diff --git a/tests/ui/empty_global_asm.rs b/tests/ui/empty_global_asm.rs
--index af13762d1..e9a5433ff 100644
----- a/tests/ui/empty_global_asm.rs
--+++ b/tests/ui/empty_global_asm.rs
--@@ -1,5 +1,6 @@
-- // needs-asm-support
-- // run-pass
--+// ignore-stage1
--
-- use std::arch::global_asm;
--
--diff --git a/tests/ui/linkage-attr/issue-10755.rs b/tests/ui/linkage-attr/issue-10755.rs
--index afd2dc46c..f0d4705e4 100644
----- a/tests/ui/linkage-attr/issue-10755.rs
--+++ b/tests/ui/linkage-attr/issue-10755.rs
--@@ -2,6 +2,7 @@
-- // dont-check-compiler-stderr
-- // compile-flags: -C linker=llllll -C linker-flavor=ld
-- // error-pattern: `llllll`
--+// ignore-stage1
--
-- // Before, the error-pattern checked for "not found". On WSL with appendWindowsPath=true, running
-- // in invalid command returns a PermissionDenied instead.
--diff --git a/tests/ui/macros/restricted-shadowing-legacy.rs b/tests/ui/macros/restricted-shadowing-legacy.rs
--index f5cac2dfb..d84f8efd6 100644
----- a/tests/ui/macros/restricted-shadowing-legacy.rs
--+++ b/tests/ui/macros/restricted-shadowing-legacy.rs
--@@ -74,6 +74,7 @@
-- // 62 |   Unordered   |   Unordered   |       =       |    +?    |
-- // 63 |   Unordered   |   Unordered   |       >       |    +?    |
-- // 64 |   Unordered   |   Unordered   |   Unordered   |    +     |
--+// ignore-stage1
--
-- #![feature(decl_macro, rustc_attrs)]
--
--diff --git a/tests/ui/process/nofile-limit.rs b/tests/ui/process/nofile-limit.rs
--index 3ddf8d6ef..316823fcc 100644
----- a/tests/ui/process/nofile-limit.rs
--+++ b/tests/ui/process/nofile-limit.rs
--@@ -3,6 +3,7 @@
-- // test for issue #96621.
-- //
-- // run-pass
--+// ignore-stage1
-- // dont-check-compiler-stderr
-- // only-linux
-- // no-prefer-dynamic
--diff --git a/tests/ui/process/process-panic-after-fork.rs b/tests/ui/process/process-panic-after-fork.rs
--index 6d4d24922..f681526bd 100644
----- a/tests/ui/process/process-panic-after-fork.rs
--+++ b/tests/ui/process/process-panic-after-fork.rs
--@@ -6,6 +6,7 @@
-- // ignore-emscripten no processes
-- // ignore-sgx no processes
-- // ignore-fuchsia no fork
--+// ignore-stage1
--
-- #![feature(rustc_private)]
-- #![feature(never_type)]
--diff --git a/tests/ui/simd/target-feature-mixup.rs b/tests/ui/simd/target-feature-mixup.rs
--index 5dd163715..ab8b02f23 100644
----- a/tests/ui/simd/target-feature-mixup.rs
--+++ b/tests/ui/simd/target-feature-mixup.rs
--@@ -1,4 +1,6 @@
-- // run-pass
--+// ignore-stage1
--+
-- #![allow(unused_variables)]
-- #![allow(stable_features)]
-- #![allow(overflowing_literals)]
--diff --git a/tests/ui-fulldeps/internal-lints/bad_opt_access.rs b/tests/ui-fulldeps/internal-lints/bad_opt_access.rs
--index d6bd6945e15..a5794e3636a 100644
----- a/tests/ui-fulldeps/internal-lints/bad_opt_access.rs
--+++ b/tests/ui-fulldeps/internal-lints/bad_opt_access.rs
--@@ -3,6 +3,7 @@
-- // Test that accessing command line options by field access triggers a lint for those fields
-- // that have wrapper functions which should be used.
-- 
--+// ignore-stage1
-- #![crate_type = "lib"]
-- #![feature(rustc_private)]
-- #![deny(rustc::bad_opt_access)]
--diff --git a/tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs b/tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs
--index a0a8114e0c5..29faed24e13 100644
----- a/tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs
--+++ b/tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs
--@@ -1,5 +1,6 @@
-- // rustc-env:CARGO_CRATE_NAME=rustc_dummy
-- 
--+// ignore-stage1
-- #![feature(rustc_private)]
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs b/tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs
--index ff764015dc7..8d0184b40f5 100644
----- a/tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs
--+++ b/tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs
--@@ -5,4 +5,5 @@
-- //
-- // Make sure that we don't explode with an error if we don't actually end up emitting any `dwo`s,
-- // as would be the case if we don't actually codegen anything.
--+// ignore-stage1
-- #![crate_type="rlib"]
--diff --git a/tests/ui/drop/dynamic-drop.rs b/tests/ui/drop/dynamic-drop.rs
--index 9e51d3adaaa..296032acebb 100644
----- a/tests/ui/drop/dynamic-drop.rs
--+++ b/tests/ui/drop/dynamic-drop.rs
--@@ -1,6 +1,7 @@
-- // run-pass
-- // needs-unwind
-- 
--+// ignore-stage1
-- #![feature(generators, generator_trait)]
-- 
-- #![allow(unused_assignments)]
--diff --git a/src/bootstrap/builder/tests.rs b/src/bootstrap/builder/tests.rs
--index 3574f11189e..4f4698a25bd 100644
----- a/src/bootstrap/builder/tests.rs
--+++ b/src/bootstrap/builder/tests.rs
--@@ -76,6 +76,7 @@ macro_rules! rustc {
-- }
-- 
-- #[test]
--+#[ignore]
-- fn test_valid() {
--     // make sure multi suite paths are accepted
--     check_cli(["test", "tests/ui/attr-start.rs", "tests/ui/attr-shebang.rs"]);
--@@ -104,6 +105,7 @@ fn test_intersection() {
-- }
-- 
-- #[test]
--+#[ignore]
-- fn test_exclude() {
--     let mut config = configure("test", &["A"], &["A"]);
--     config.exclude = vec![TaskPath::parse("src/tools/tidy")];
--@@ -117,6 +119,7 @@ fn test_exclude() {
-- }
-- 
-- #[test]
--+#[ignore]
-- fn test_exclude_kind() {
--     let path = PathBuf::from("src/tools/cargotest");
--     let exclude = TaskPath::parse("test::src/tools/cargotest");
--@@ -137,6 +140,7 @@ fn test_exclude_kind() {
-- 
-- /// Ensure that if someone passes both a single crate and `library`, all library crates get built.
-- #[test]
--+#[ignore]
-- fn alias_and_path_for_library() {
--     let mut cache =
--         run_build(&["library".into(), "core".into()], configure("build", &["A"], &["A"]));
--@@ -153,6 +157,7 @@ mod defaults {
--     use pretty_assertions::assert_eq;
-- 
--     #[test]
--+    #[ignore]
--     fn build_default() {
--         let mut cache = run_build(&[], configure("build", &["A"], &["A"]));
-- 
--@@ -173,6 +178,7 @@ fn build_default() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn build_stage_0() {
--         let config = Config { stage: 0, ..configure("build", &["A"], &["A"]) };
--         let mut cache = run_build(&[], config);
--@@ -190,6 +196,7 @@ fn build_stage_0() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn build_cross_compile() {
--         let config = Config { stage: 1, ..configure("build", &["A", "B"], &["A", "B"]) };
--         let mut cache = run_build(&[], config);
--@@ -233,6 +240,7 @@ fn build_cross_compile() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn doc_default() {
--         let mut config = configure("doc", &["A"], &["A"]);
--         config.compiler_docs = true;
--@@ -267,6 +275,7 @@ fn configure(host: &[&str], target: &[&str]) -> Config {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_baseline() {
--         let mut cache = run_build(&[], configure(&["A"], &["A"]));
-- 
--@@ -291,6 +300,7 @@ fn dist_baseline() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_with_targets() {
--         let mut cache = run_build(&[], configure(&["A"], &["A", "B"]));
-- 
--@@ -320,6 +330,7 @@ fn dist_with_targets() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_with_hosts() {
--         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B"]));
-- 
--@@ -362,6 +373,7 @@ fn dist_with_hosts() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_only_cross_host() {
--         let b = TargetSelection::from_user("B");
--         let mut config = configure(&["A", "B"], &["A", "B"]);
--@@ -381,6 +393,7 @@ fn dist_only_cross_host() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_with_targets_and_hosts() {
--         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B", "C"]));
-- 
--@@ -415,6 +428,7 @@ fn dist_with_targets_and_hosts() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_with_empty_host() {
--         let config = configure(&[], &["C"]);
--         let mut cache = run_build(&[], config);
--@@ -431,6 +445,7 @@ fn dist_with_empty_host() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn dist_with_same_targets_and_hosts() {
--         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B"]));
-- 
--@@ -482,6 +497,7 @@ fn dist_with_same_targets_and_hosts() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn build_all() {
--         let build = Build::new(configure(&["A", "B"], &["A", "B", "C"]));
--         let mut builder = Builder::new(&build);
--@@ -515,6 +531,7 @@ fn build_all() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn build_with_empty_host() {
--         let config = configure(&[], &["C"]);
--         let build = Build::new(config);
--@@ -542,6 +559,7 @@ fn build_with_empty_host() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn test_with_no_doc_stage0() {
--         let mut config = configure(&["A"], &["A"]);
--         config.stage = 0;
--@@ -585,6 +603,7 @@ fn test_with_no_doc_stage0() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn doc_ci() {
--         let mut config = configure(&["A"], &["A"]);
--         config.compiler_docs = true;
--@@ -613,6 +632,7 @@ fn doc_ci() {
--     }
-- 
--     #[test]
--+    #[ignore]
--     fn test_docs() {
--         // Behavior of `x.py test` doing various documentation tests.
--         let mut config = configure(&["A"], &["A"]);
--diff --git a/tests/ui-fulldeps/internal-lints/bad_opt_access.stderr b/tests/ui-fulldeps/internal-lints/bad_opt_access.stderr
----- a/tests/ui-fulldeps/internal-lints/bad_opt_access.stderr 2023-01-10 10:47:33.000000000 -0800
--+++ b/tests/ui-fulldeps/internal-lints/bad_opt_access.stderr 2023-01-20 03:49:06.575109271 -0800
--@@ -1,20 +1,11 @@
---error: use `Session::split_debuginfo` instead of this field
---  --> $DIR/bad_opt_access.rs:14:13
--+error[E0463]: can't find crate for `rustc_macros` which `rustc_session` depends on
--+  --> $DIR/bad_opt_access.rs:10:1
--    |
---LL |     let _ = sess.opts.cg.split_debuginfo;
---   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--+LL | extern crate rustc_session;
--+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
--    |
---note: the lint level is defined here
---  --> $DIR/bad_opt_access.rs:8:9
---   |
---LL | #![deny(rustc::bad_opt_access)]
---   |         ^^^^^^^^^^^^^^^^^^^^^
---
---error: use `Session::crate_types` instead of this field
---  --> $DIR/bad_opt_access.rs:17:13
---   |
---LL |     let _ = sess.opts.crate_types;
---   |             ^^^^^^^^^^^^^^^^^^^^^
--+   = help: maybe you need to install the missing components with: `rustup component add rust-src rustc-dev llvm-tools-preview`
-- 
---error: aborting due to 2 previous errors
--+error: aborting due to previous error
-- 
--+For more information about this error, try `rustc --explain E0463`.
--diff --git a/tests/ui/process/process-sigpipe.rs b/tests/ui/process/process-sigpipe.rs
----- a/tests/ui/process/process-sigpipe.rs    2023-01-10 10:47:33.000000000 -0800
--+++ b/tests/ui/process/process-sigpipe.rs    2023-01-27 01:07:05.335718181 -0800
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- #![allow(unused_imports)]
-- #![allow(deprecated)]
-- 
--diff --git a/tests/run-make/static-pie/Makefile b/tests/run-make/static-pie/Makefile
----- a/tests/run-make/static-pie/Makefile     2023-02-21 02:25:36.553233415 -0800
--+++ b/tests/run-make/static-pie/Makefile     2023-02-21 02:19:45.848629908 -0800
--@@ -3,6 +3,7 @@ include ../../run-make-fulldeps/tools.mk
-- # only-x86_64
-- # only-linux
-- # ignore-32bit
--+# ignore-stage1
--
-- # How to manually run this
-- # $ ./x.py test --target x86_64-unknown-linux-[musl,gnu] tests/run-make/static-pie
--diff --git a/tests/codegen/repr-transparent-aggregates-3.rs b/tests/codegen/repr-transparent-aggregates-3.rs
--index 0db17e6b13a..6e9cb7224c8 100644
----- a/tests/codegen/repr-transparent-aggregates-3.rs
--+++ b/tests/codegen/repr-transparent-aggregates-3.rs
--@@ -3,6 +3,7 @@
-- 
-- // only-mips64
-- // See repr-transparent.rs
--+// ignore-stage1
-- 
-- #![feature(transparent_unions)]
--
--diff --git a/tests/codegen/abi-repr-ext.rs b/tests/codegen/abi-repr-ext.rs
--index 23ade3c7216..addd8a2ebdc 100644
----- a/tests/codegen/abi-repr-ext.rs
--+++ b/tests/codegen/abi-repr-ext.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -O
--+// ignore-stage1
-- 
-- // revisions:x86_64 i686 aarch64-apple aarch64-windows aarch64-linux arm riscv
-- 
--diff --git a/tests/codegen/abi-x86-interrupt.rs b/tests/codegen/abi-x86-interrupt.rs
--index 928ad5a9bbd..5185edaae40 100644
----- a/tests/codegen/abi-x86-interrupt.rs
--+++ b/tests/codegen/abi-x86-interrupt.rs
--@@ -4,6 +4,7 @@
-- 
-- // needs-llvm-components: x86
-- // compile-flags: -C no-prepopulate-passes --target=x86_64-unknown-linux-gnu -Copt-level=0
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- #![no_core]
--diff --git a/tests/codegen/branch-protection.rs b/tests/codegen/branch-protection.rs
--index 994c71b2619..5d83a29da74 100644
----- a/tests/codegen/branch-protection.rs
--+++ b/tests/codegen/branch-protection.rs
--@@ -7,6 +7,7 @@
-- // [LEAF] compile-flags: -Z branch-protection=pac-ret,leaf
-- // [BKEY] compile-flags: -Z branch-protection=pac-ret,b-key
-- // compile-flags: --target aarch64-unknown-linux-gnu
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- #![feature(no_core, lang_items)]
--diff --git a/tests/codegen/catch-unwind.rs b/tests/codegen/catch-unwind.rs
--index b90ef104ce7..12d5d1451a2 100644
----- a/tests/codegen/catch-unwind.rs
--+++ b/tests/codegen/catch-unwind.rs
--@@ -10,6 +10,7 @@
-- // ignore-riscv64 FIXME
-- // On s390x the closure is also in another function
-- // ignore-s390x FIXME
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- #![feature(c_unwind)]
--diff --git a/tests/codegen/cf-protection.rs b/tests/codegen/cf-protection.rs
--index ccbc863f571..f4281d87abf 100644
----- a/tests/codegen/cf-protection.rs
--+++ b/tests/codegen/cf-protection.rs
--@@ -8,6 +8,7 @@
-- // [return] compile-flags: -Z cf-protection=return
-- // [full] compile-flags: -Z cf-protection=full
-- // compile-flags: --target x86_64-unknown-linux-gnu
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- #![feature(no_core, lang_items)]
--diff --git a/tests/codegen/enum-bounds-check-derived-idx.rs b/tests/codegen/enum-bounds-check-derived-idx.rs
--index aa66c2ed08e..db6c87c7338 100644
----- a/tests/codegen/enum-bounds-check-derived-idx.rs
--+++ b/tests/codegen/enum-bounds-check-derived-idx.rs
--@@ -1,7 +1,7 @@
-- // This test checks an optimization that is not guaranteed to work. This test case should not block
-- // a future LLVM update.
-- // compile-flags: -O
---
--+// ignore-stage1
-- #![crate_type = "lib"]
-- 
-- pub enum Bar {
--diff --git a/tests/codegen/force-unwind-tables.rs b/tests/codegen/force-unwind-tables.rs
--index 4c0a5602c6d..d5faf190290 100644
----- a/tests/codegen/force-unwind-tables.rs
--+++ b/tests/codegen/force-unwind-tables.rs
--@@ -1,5 +1,5 @@
-- // compile-flags: -C no-prepopulate-passes -C force-unwind-tables=y
---
--+// ignore-stage1
-- #![crate_type="lib"]
-- 
-- // CHECK: attributes #{{.*}} uwtable
--diff --git a/tests/codegen/intrinsic-no-unnamed-attr.rs b/tests/codegen/intrinsic-no-unnamed-attr.rs
--index c8a8e0b3e7a..f779f5cc27e 100644
----- a/tests/codegen/intrinsic-no-unnamed-attr.rs
--+++ b/tests/codegen/intrinsic-no-unnamed-attr.rs
--@@ -1,5 +1,5 @@
-- // compile-flags: -C no-prepopulate-passes
---
--+// ignore-stage1
-- #![feature(intrinsics)]
-- 
-- extern "rust-intrinsic" {
--diff --git a/tests/codegen/issues/issue-103840.rs b/tests/codegeni/issues/issue-103840.rs
--index f19d7031bb3..92408e75964 100644
----- a/tests/codegen/issues/issue-103840.rs
--+++ b/tests/codegen/issues/issue-103840.rs
--@@ -1,5 +1,6 @@
-- // compile-flags: -O
-- #![crate_type = "lib"]
--+// ignore-stage1
-- 
-- pub fn foo(t: &mut Vec<usize>) {
--     // CHECK-NOT: __rust_dealloc
--diff --git a/tests/codegen/issues/issue-47278.rs b/tests/codegen/issues/issue-47278.rs
--index 9076274f45e..de7203e139b 100644
----- a/tests/codegen/issues/issue-47278.rs
--+++ b/tests/codegen/issues/issue-47278.rs
--@@ -1,5 +1,6 @@
-- // -C no-prepopulate-passes
-- #![crate_type="staticlib"]
--+// ignore-stage1
-- 
-- #[repr(C)]
-- pub struct Foo(u64);
--diff --git a/tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs b/tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs
--index 1ad05906e21..8df862aeee5 100644
----- a/tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs
--+++ b/tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs
--@@ -2,6 +2,7 @@
-- // index is part of a (x | y) < C style condition
-- 
-- // compile-flags: -O
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/codegen/lifetime_start_end.rs b/tests/codegen/lifetime_start_end.rs
--index 471a0b8cedd..356650de0c1 100644
----- a/tests/codegen/lifetime_start_end.rs
--+++ b/tests/codegen/lifetime_start_end.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -O -C no-prepopulate-passes -Zmir-opt-level=0
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/codegen/local-generics-in-exe-internalized.rs b/tests/codegen/local-generics-in-exe-internalized.rs
--index 449c5ca75fc..746a7ed1b6f 100644
----- a/tests/codegen/local-generics-in-exe-internalized.rs
--+++ b/tests/codegen/local-generics-in-exe-internalized.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -C no-prepopulate-passes -Zshare-generics=yes
--+// ignore-stage1
-- 
-- // Check that local generics are internalized if they are in the same CGU
-- 
--diff --git a/tests/codegen/match-unoptimized.rs b/tests/codegen/match-unoptimized.rs
--index 78ea4f9b409..23b2c62bd38 100644
----- a/tests/codegen/match-unoptimized.rs
--+++ b/tests/codegen/match-unoptimized.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -C no-prepopulate-passes -Copt-level=0
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/codegen/noalias-rwlockreadguard.rs b/tests/codegen/noalias-rwlockreadguard.rs
--index 7f7b46c85a8..a32910da3e7 100644
----- a/tests/codegen/noalias-rwlockreadguard.rs
--+++ b/tests/codegen/noalias-rwlockreadguard.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -O -C no-prepopulate-passes -Z mutable-noalias=yes
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/codegen/non-terminate/nonempty-infinite-loop.rs b/tests/codegen/non-terminate/nonempty-infinite-loop.rs
--index 5e25e04fc24..fce094f7efd 100644
----- a/tests/codegen/non-terminate/nonempty-infinite-loop.rs
--+++ b/tests/codegen/non-terminate/nonempty-infinite-loop.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -C opt-level=3
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/codegen/noreturn-uninhabited.rs b/tests/codegen/noreturn-uninhabited.rs
--index 49f93cf62c7..2da42faeabd 100644
----- a/tests/codegen/noreturn-uninhabited.rs
--+++ b/tests/codegen/noreturn-uninhabited.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: -g -C no-prepopulate-passes
--+// ignore-stage1
-- 
-- #![crate_type = "lib"]
-- 
--diff --git a/tests/rustdoc/async-move-doctest.rs b/tests/rustdoc/async-move-doctest.rs
--index 2ba61388c9e..402c5bbaaf7 100644
----- a/tests/rustdoc/async-move-doctest.rs
--+++ b/tests/rustdoc/async-move-doctest.rs
--@@ -1,5 +1,6 @@
-- // compile-flags:--test
-- // edition:2018
--+// ignore-stage1
-- 
-- // Prior to setting the default edition for the doctest pre-parser,
-- // this doctest would fail due to a fatal parsing error.
--diff --git a/tests/rustdoc/async-trait.rs b/tests/rustdoc/async-trait.rs
--index a473e467473..df3be5adc17 100644
----- a/tests/rustdoc/async-trait.rs
--+++ b/tests/rustdoc/async-trait.rs
--@@ -1,5 +1,6 @@
-- // aux-build:async-trait-dep.rs
-- // edition:2021
--+// ignore-stage1
-- 
-- #![feature(async_fn_in_trait)]
-- #![allow(incomplete_features)]
--diff --git a/tests/rustdoc/check-source-code-urls-to-def.rs b/tests/rustdoc/check-source-code-urls-to-def.rs
--index 41b9d41fa44..0805a07a0c9 100644
----- a/tests/rustdoc/check-source-code-urls-to-def.rs
--+++ b/tests/rustdoc/check-source-code-urls-to-def.rs
--@@ -1,6 +1,7 @@
-- // compile-flags: -Zunstable-options --generate-link-to-definition
-- // aux-build:source_code.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- #![feature(rustc_attrs)]
-- 
--diff --git a/tests/rustdoc/comment-in-doctest.rs b/tests/rustdoc/comment-in-doctest.rs
--index 5691d173569..a57c0e1f3bd 100644
----- a/tests/rustdoc/comment-in-doctest.rs
--+++ b/tests/rustdoc/comment-in-doctest.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- // comments, both doc comments and regular ones, used to trick rustdoc's doctest parser into
-- // thinking that everything after it was part of the regular program. combined with the librustc_ast
--diff --git a/tests/rustdoc/const-generics/const-generics-docs.rs b/tests/rustdoc/const-generics/const-generics-docs.rs
--index 828486a41d4..02a934996f8 100644
----- a/tests/rustdoc/const-generics/const-generics-docs.rs
--+++ b/tests/rustdoc/const-generics/const-generics-docs.rs
--@@ -1,5 +1,7 @@
-- // edition:2018
-- // aux-build: extern_crate.rs
--+// ignore-stage1
--+
-- #![crate_name = "foo"]
-- 
-- extern crate extern_crate;
--diff --git a/tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs b/tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs
--index d02bc4fe712..6f432da06bf 100644
----- a/tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs
--+++ b/tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs
--@@ -1,5 +1,6 @@
-- // Regression test for issue #95717
-- // Hide cross-crate `#[doc(hidden)]` associated items in trait impls.
--+// ignore-stage1
-- 
-- #![crate_name = "dependent"]
-- // edition:2021
--diff --git a/tests/rustdoc/cross-crate-hidden-impl-parameter.rs b/tests/rustdoc/cross-crate-hidden-impl-parameter.rs
--index eb2ced2f7f4..08a6f8b27f3 100644
----- a/tests/rustdoc/cross-crate-hidden-impl-parameter.rs
--+++ b/tests/rustdoc/cross-crate-hidden-impl-parameter.rs
--@@ -1,4 +1,6 @@
-- // Issue #86448: test for cross-crate `doc(hidden)`
--+// ignore-stage1
--+
-- #![crate_name = "foo"]
-- 
-- // aux-build:cross-crate-hidden-impl-parameter.rs
--diff --git a/tests/rustdoc/cross-crate-links.rs b/tests/rustdoc/cross-crate-links.rs
--index 7c736a4cc11..a0be9a367c6 100644
----- a/tests/rustdoc/cross-crate-links.rs
--+++ b/tests/rustdoc/cross-crate-links.rs
--@@ -1,5 +1,6 @@
-- // aux-build:all-item-types.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/cross-crate-primitive-doc.rs b/tests/rustdoc/cross-crate-primitive-doc.rs
--index 4ba296ee04a..51fa62ffb53 100644
----- a/tests/rustdoc/cross-crate-primitive-doc.rs
--+++ b/tests/rustdoc/cross-crate-primitive-doc.rs
--@@ -1,6 +1,7 @@
-- // aux-build:primitive-doc.rs
-- // compile-flags: --extern-html-root-url=primitive_doc=../ -Z unstable-options
-- // only-linux
--+// ignore-stage1
-- 
-- #![feature(no_core)]
-- #![no_core]
--diff --git a/tests/rustdoc/doctest-manual-crate-name.rs b/tests/rustdoc/doctest-manual-crate-name.rs
--index 3a5e3734e14..2b4b19b4708 100644
----- a/tests/rustdoc/doctest-manual-crate-name.rs
--+++ b/tests/rustdoc/doctest-manual-crate-name.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- //! ```
-- //! #![crate_name="asdf"]
--diff --git a/tests/rustdoc/edition-doctest.rs b/tests/rustdoc/edition-doctest.rs
--index 6de25996bed..4acb562a29c 100644
----- a/tests/rustdoc/edition-doctest.rs
--+++ b/tests/rustdoc/edition-doctest.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- /// ```rust,edition2018
-- /// #![feature(try_blocks)]
--diff --git a/tests/rustdoc/edition-flag.rs b/tests/rustdoc/edition-flag.rs
--index e54c7d2969b..4cee5e1a3cf 100644
----- a/tests/rustdoc/edition-flag.rs
--+++ b/tests/rustdoc/edition-flag.rs
--@@ -1,5 +1,6 @@
-- // compile-flags:--test
-- // edition:2018
--+// ignore-stage1
-- 
-- /// ```rust
-- /// fn main() {
--diff --git a/tests/rustdoc/elided-lifetime.rs b/tests/rustdoc/elided-lifetime.rs
--index 006132ef8aa..75ac6496dfb 100644
----- a/tests/rustdoc/elided-lifetime.rs
--+++ b/tests/rustdoc/elided-lifetime.rs
--@@ -4,6 +4,7 @@
-- //
-- // Since Rust 2018 we encourage writing out <'_> explicitly to make it clear
-- // that borrowing is occurring. Make sure rustdoc is following the same idiom.
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/extern-html-root-url.rs b/tests/rustdoc/extern-html-root-url.rs
--index 17eedcf2ab8..429bf78b9d5 100644
----- a/tests/rustdoc/extern-html-root-url.rs
--+++ b/tests/rustdoc/extern-html-root-url.rs
--@@ -2,6 +2,7 @@
-- // aux-build:html_root.rs
-- // aux-build:no_html_root.rs
-- // NOTE: intentionally does not build any auxiliary docs
--+// ignore-stage1
-- 
-- extern crate html_root;
-- extern crate no_html_root;
--diff --git a/tests/rustdoc/extern-impl-trait.rs b/tests/rustdoc/extern-impl-trait.rs
--index 8ab026afd1b..c47d6802211 100644
----- a/tests/rustdoc/extern-impl-trait.rs
--+++ b/tests/rustdoc/extern-impl-trait.rs
--@@ -1,4 +1,5 @@
-- // aux-build:extern-impl-trait.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/external-macro-src.rs b/tests/rustdoc/external-macro-src.rs
--index 359551ab78d..86499a0bf2e 100644
----- a/tests/rustdoc/external-macro-src.rs
--+++ b/tests/rustdoc/external-macro-src.rs
--@@ -1,4 +1,5 @@
-- // aux-build:external-macro-src.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/hide-unstable-trait.rs b/tests/rustdoc/hide-unstable-trait.rs
--index 0bf7cabc43b..9ceeccfead8 100644
----- a/tests/rustdoc/hide-unstable-trait.rs
--+++ b/tests/rustdoc/hide-unstable-trait.rs
--@@ -1,4 +1,5 @@
-- // aux-build:unstable-trait.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- #![feature(private_trait)]
--diff --git a/tests/rustdoc/inline_cross/add-docs.rs b/tests/rustdoc/inline_cross/add-docs.rs
--index a1124d2094c..a11b866647d 100644
----- a/tests/rustdoc/inline_cross/add-docs.rs
--+++ b/tests/rustdoc/inline_cross/add-docs.rs
--@@ -1,4 +1,5 @@
-- // aux-build:add-docs.rs
--+// ignore-stage1
-- 
-- extern crate inner;
-- 
--diff --git a/tests/rustdoc/inline_cross/default-trait-method.rs b/tests/rustdoc/inline_cross/default-trait-method.rs
--index a4ec73a127d..8db38c99791 100644
----- a/tests/rustdoc/inline_cross/default-trait-method.rs
--+++ b/tests/rustdoc/inline_cross/default-trait-method.rs
--@@ -1,4 +1,5 @@
-- // aux-build:default-trait-method.rs
--+// ignore-stage1
-- 
-- extern crate foo;
-- 
--diff --git a/tests/rustdoc/inline_cross/impl_trait.rs b/tests/rustdoc/inline_cross/impl_trait.rs
--index b6a1552bc00..85377b19e0d 100644
----- a/tests/rustdoc/inline_cross/impl_trait.rs
--+++ b/tests/rustdoc/inline_cross/impl_trait.rs
--@@ -1,5 +1,6 @@
-- // aux-build:impl_trait_aux.rs
-- // edition:2018
--+// ignore-stage1
-- 
-- extern crate impl_trait_aux;
-- 
--diff --git a/tests/rustdoc/inline_cross/issue-24183.rs b/tests/rustdoc/inline_cross/issue-24183.rs
--index 751a32385e8..d25211cb2b0 100644
----- a/tests/rustdoc/inline_cross/issue-24183.rs
--+++ b/tests/rustdoc/inline_cross/issue-24183.rs
--@@ -1,5 +1,6 @@
-- #![crate_type = "lib"]
-- #![crate_name = "usr"]
--+// ignore-stage1
-- 
-- // aux-crate:issue_24183=issue-24183.rs
-- // edition: 2021
--diff --git a/tests/rustdoc/inline_cross/macros.rs b/tests/rustdoc/inline_cross/macros.rs
--index a41b9c5b197..1b4bccee176 100644
----- a/tests/rustdoc/inline_cross/macros.rs
--+++ b/tests/rustdoc/inline_cross/macros.rs
--@@ -1,5 +1,6 @@
-- // aux-build:macros.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- #![feature(macro_test)]
-- #![crate_name = "foo"]
--diff --git a/tests/rustdoc/inline_cross/trait-vis.rs b/tests/rustdoc/inline_cross/trait-vis.rs
--index b646babacc5..b77e966afe3 100644
----- a/tests/rustdoc/inline_cross/trait-vis.rs
--+++ b/tests/rustdoc/inline_cross/trait-vis.rs
--@@ -1,4 +1,5 @@
-- // aux-build:trait-vis.rs
--+// ignore-stage1
-- 
-- extern crate inner;
-- 
--diff --git a/tests/rustdoc/inline_cross/use_crate.rs b/tests/rustdoc/inline_cross/use_crate.rs
--index 00e0f041c56..c5bf6010d93 100644
----- a/tests/rustdoc/inline_cross/use_crate.rs
--+++ b/tests/rustdoc/inline_cross/use_crate.rs
--@@ -3,6 +3,7 @@
-- // build-aux-docs
-- // edition:2018
-- // compile-flags:--extern use_crate --extern use_crate_2
--+// ignore-stage1
-- 
-- // During the buildup to Rust 2018, rustdoc would eagerly inline `pub use some_crate;` as if it
-- // were a module, so we changed it to make `pub use`ing crate roots remain as a `pub use` statement
--diff --git a/tests/rustdoc/intra-doc-crate/self.rs b/tests/rustdoc/intra-doc-crate/self.rs
--index 8c36a7fa002..848e17a18a1 100644
----- a/tests/rustdoc/intra-doc-crate/self.rs
--+++ b/tests/rustdoc/intra-doc-crate/self.rs
--@@ -1,5 +1,6 @@
-- // aux-build:self.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- extern crate cross_crate_self;
-- 
--diff --git a/tests/rustdoc/intra-doc/cross-crate/additional_doc.rs b/tests/rustdoc/intra-doc/cross-crate/additional_doc.rs
--index e52fb9b1c9f..765ad78fb4d 100644
----- a/tests/rustdoc/intra-doc/cross-crate/additional_doc.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/additional_doc.rs
--@@ -1,5 +1,7 @@
-- // aux-build:additional_doc.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- extern crate my_rand;
--diff --git a/tests/rustdoc/intra-doc/cross-crate/basic.rs b/tests/rustdoc/intra-doc/cross-crate/basic.rs
--index ad7454918b4..a959a15a672 100644
----- a/tests/rustdoc/intra-doc/cross-crate/basic.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/basic.rs
--@@ -1,5 +1,7 @@
-- // aux-build:intra-doc-basic.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- // from https://github.com/rust-lang/rust/issues/65983
--diff --git a/tests/rustdoc/intra-doc/cross-crate/crate.rs b/tests/rustdoc/intra-doc/cross-crate/crate.rs
--index edf544708b6..735847bcbb5 100644
----- a/tests/rustdoc/intra-doc/cross-crate/crate.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/crate.rs
--@@ -1,5 +1,7 @@
-- // aux-build:intra-link-cross-crate-crate.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![crate_name = "outer"]
-- extern crate inner;
-- // @has outer/fn.f.html '//a[@href="../inner/fn.g.html"]' "crate::g"
--diff --git a/tests/rustdoc/intra-doc/cross-crate/hidden.rs b/tests/rustdoc/intra-doc/cross-crate/hidden.rs
--index 4f7d075ba48..d7ffed2d19d 100644
----- a/tests/rustdoc/intra-doc/cross-crate/hidden.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/hidden.rs
--@@ -1,5 +1,7 @@
-- // aux-build:hidden.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- // tests https://github.com/rust-lang/rust/issues/73363
--diff --git a/tests/rustdoc/intra-doc/cross-crate/macro.rs b/tests/rustdoc/intra-doc/cross-crate/macro.rs
--index 32f0a55d3c6..31add14b3b6 100644
----- a/tests/rustdoc/intra-doc/cross-crate/macro.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/macro.rs
--@@ -1,6 +1,8 @@
-- // aux-build:macro_inner.rs
-- // aux-build:proc_macro.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- extern crate macro_inner;
-- extern crate proc_macro_inner;
--diff --git a/tests/rustdoc/intra-doc/cross-crate/module.rs b/tests/rustdoc/intra-doc/cross-crate/module.rs
--index fde9322657d..72e55a83007 100644
----- a/tests/rustdoc/intra-doc/cross-crate/module.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/module.rs
--@@ -1,6 +1,8 @@
-- // outer.rs
-- // aux-build: module.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- extern crate module_inner;
-- // @has 'module/bar/index.html' '//a[@href="../../module_inner/trait.SomeTrait.html"]' 'SomeTrait'
--diff --git a/tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs b/tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs
--index 577fe78a508..1da901cd8b8 100644
----- a/tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs
--@@ -1,5 +1,7 @@
-- // aux-build:submodule-inner.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- extern crate a;
--diff --git a/tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs b/tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs
--index d0c0b7e85ae..39c42c5a684 100644
----- a/tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs
--@@ -1,5 +1,7 @@
-- // aux-build:submodule-outer.rs
-- // edition:2018
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- extern crate bar as bar_;
--diff --git a/tests/rustdoc/intra-doc/cross-crate/traits.rs b/tests/rustdoc/intra-doc/cross-crate/traits.rs
--index 7b9554bfdb0..0417a5f4537 100644
----- a/tests/rustdoc/intra-doc/cross-crate/traits.rs
--+++ b/tests/rustdoc/intra-doc/cross-crate/traits.rs
--@@ -1,5 +1,7 @@
-- // aux-build:traits.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
-- extern crate inner;
--diff --git a/tests/rustdoc/intra-doc/extern-builtin-type-impl.rs b/tests/rustdoc/intra-doc/extern-builtin-type-impl.rs
--index 7bb1ded3f3c..994ece708ca 100644
----- a/tests/rustdoc/intra-doc/extern-builtin-type-impl.rs
--+++ b/tests/rustdoc/intra-doc/extern-builtin-type-impl.rs
--@@ -1,6 +1,7 @@
-- // Reexport of a structure that derefs to a type with lang item impls having doc links in their
-- // comments. The doc link points to an associated item, so we check that traits in scope for that
-- // link are populated.
--+// ignore-stage1
-- 
-- // aux-build:extern-builtin-type-impl-dep.rs
-- 
--diff --git a/tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs b/tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs
--index ad50887e922..69d5aa1717a 100644
----- a/tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs
--+++ b/tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs
--@@ -7,6 +7,7 @@
-- // aux-crate:priv:empty2=empty2.rs
-- // build-aux-docs
-- // compile-flags:-Z unstable-options --edition 2018
--+// ignore-stage1
-- 
-- // @has extern_crate_only_used_in_link/index.html
-- // @has - '//a[@href="../issue_66159_1/struct.Something.html"]' 'issue_66159_1::Something'
--diff --git a/tests/rustdoc/intra-doc/extern-crate.rs b/tests/rustdoc/intra-doc/extern-crate.rs
--index 4e4438dea03..b6793531515 100644
----- a/tests/rustdoc/intra-doc/extern-crate.rs
--+++ b/tests/rustdoc/intra-doc/extern-crate.rs
--@@ -3,6 +3,7 @@
-- // When loading `extern crate` statements, we would pull in their docs at the same time, even
-- // though they would never actually get displayed. This tripped intra-doc-link resolution failures,
-- // for items that aren't under our control, and not actually getting documented!
--+// ignore-stage1
-- 
-- #![deny(rustdoc::broken_intra_doc_links)]
-- 
--diff --git a/tests/rustdoc/intra-doc/extern-inherent-impl.rs b/tests/rustdoc/intra-doc/extern-inherent-impl.rs
--index 2e41c2214f4..8851071adbd 100644
----- a/tests/rustdoc/intra-doc/extern-inherent-impl.rs
--+++ b/tests/rustdoc/intra-doc/extern-inherent-impl.rs
--@@ -1,5 +1,6 @@
-- // Reexport of a structure with public inherent impls having doc links in their comments. The doc
-- // link points to an associated item, so we check that traits in scope for that link are populated.
--+// ignore-stage1
-- 
-- // aux-build:extern-inherent-impl-dep.rs
-- 
--diff --git a/tests/rustdoc/intra-doc/extern-reference-link.rs b/tests/rustdoc/intra-doc/extern-reference-link.rs
--index bad6ec75579..43cf0c23e8b 100644
----- a/tests/rustdoc/intra-doc/extern-reference-link.rs
--+++ b/tests/rustdoc/intra-doc/extern-reference-link.rs
--@@ -1,5 +1,6 @@
-- // compile-flags: --extern pub_struct
-- // aux-build:pub-struct.rs
--+// ignore-stage1
-- 
-- /// [SomeStruct]
-- ///
--diff --git a/tests/rustdoc/intra-doc/issue-103463.rs b/tests/rustdoc/intra-doc/issue-103463.rs
--index 4adf8a9a8a4..3b965529577 100644
----- a/tests/rustdoc/intra-doc/issue-103463.rs
--+++ b/tests/rustdoc/intra-doc/issue-103463.rs
--@@ -1,6 +1,7 @@
-- // The `Trait` is not pulled into the crate resulting in doc links in its methods being resolved.
-- 
-- // aux-build:issue-103463-aux.rs
--+// ignore-stage1
-- 
-- extern crate issue_103463_aux;
-- use issue_103463_aux::Trait;
--diff --git a/tests/rustdoc/intra-doc/issue-104145.rs b/tests/rustdoc/intra-doc/issue-104145.rs
--index 9ce36740d60..74c790ddd45 100644
----- a/tests/rustdoc/intra-doc/issue-104145.rs
--+++ b/tests/rustdoc/intra-doc/issue-104145.rs
--@@ -1,6 +1,7 @@
-- // Doc links in `Trait`'s methods are resolved because it has a local impl.
-- 
-- // aux-build:issue-103463-aux.rs
--+// ignore-stage1
-- 
-- extern crate issue_103463_aux;
-- use issue_103463_aux::Trait;
--diff --git a/tests/rustdoc/intra-doc/issue-66159.rs b/tests/rustdoc/intra-doc/issue-66159.rs
--index 56742b39790..64ef5f3d07c 100644
----- a/tests/rustdoc/intra-doc/issue-66159.rs
--+++ b/tests/rustdoc/intra-doc/issue-66159.rs
--@@ -1,5 +1,6 @@
-- // aux-crate:priv:pub_struct=pub-struct.rs
-- // compile-flags:-Z unstable-options
--+// ignore-stage1
-- 
-- // The issue was an ICE which meant that we never actually generated the docs
-- // so if we have generated the docs, we're okay.
--diff --git a/tests/rustdoc/intra-doc/pub-use.rs b/tests/rustdoc/intra-doc/pub-use.rs
--index 8a998496cf5..26109bc52fc 100644
----- a/tests/rustdoc/intra-doc/pub-use.rs
--+++ b/tests/rustdoc/intra-doc/pub-use.rs
--@@ -1,4 +1,5 @@
-- // aux-build: intra-link-pub-use.rs
--+// ignore-stage1
-- #![deny(rustdoc::broken_intra_doc_links)]
-- #![crate_name = "outer"]
-- 
--diff --git a/tests/rustdoc/intra-doc/reexport-additional-docs.rs b/tests/rustdoc/intra-doc/reexport-additional-docs.rs
--index 64683bacd65..6ed63e4dd26 100644
----- a/tests/rustdoc/intra-doc/reexport-additional-docs.rs
--+++ b/tests/rustdoc/intra-doc/reexport-additional-docs.rs
--@@ -1,5 +1,7 @@
-- // aux-build:intra-link-reexport-additional-docs.rs
-- // build-aux-docs
--+// ignore-stage1
--+
-- #![crate_name = "foo"]
-- extern crate inner;
-- 
--diff --git a/tests/rustdoc/issue-18199.rs b/tests/rustdoc/issue-18199.rs
--index bc0c4a56502..1995fd2ec7d 100644
----- a/tests/rustdoc/issue-18199.rs
--+++ b/tests/rustdoc/issue-18199.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- #![doc(test(attr(feature(staged_api))))]
-- 
--diff --git a/tests/rustdoc/issue-23106.rs b/tests/rustdoc/issue-23106.rs
--index 8cda2fc3380..e7b5c1e28c5 100644
----- a/tests/rustdoc/issue-23106.rs
--+++ b/tests/rustdoc/issue-23106.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- /// ```
-- /// #
--diff --git a/tests/rustdoc/issue-23744.rs b/tests/rustdoc/issue-23744.rs
--index 642817396b2..780b131a842 100644
----- a/tests/rustdoc/issue-23744.rs
--+++ b/tests/rustdoc/issue-23744.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- /// Example of rustdoc incorrectly parsing <code>```rust,should_panic</code>.
-- ///
--diff --git a/tests/rustdoc/issue-25944.rs b/tests/rustdoc/issue-25944.rs
--index 49625294bbe..b6df4518de4 100644
----- a/tests/rustdoc/issue-25944.rs
--+++ b/tests/rustdoc/issue-25944.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- /// ```
-- /// let a = r#"
--diff --git a/tests/rustdoc/issue-30252.rs b/tests/rustdoc/issue-30252.rs
--index c3777362a66..a80f92dc754 100644
----- a/tests/rustdoc/issue-30252.rs
--+++ b/tests/rustdoc/issue-30252.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test --cfg feature="bar"
--+// ignore-stage1
-- 
-- /// ```rust
-- /// assert_eq!(cfg!(feature = "bar"), true);
--diff --git a/tests/rustdoc/issue-38129.rs b/tests/rustdoc/issue-38129.rs
--index 156d50fa52a..60ab5dd1885 100644
----- a/tests/rustdoc/issue-38129.rs
--+++ b/tests/rustdoc/issue-38129.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- // This file tests the source-partitioning behavior of rustdoc.
-- // Each test contains some code that should be put into the generated
--diff --git a/tests/rustdoc/issue-40936.rs b/tests/rustdoc/issue-40936.rs
--index 4d2e4c17b1f..8dcfc4068d3 100644
----- a/tests/rustdoc/issue-40936.rs
--+++ b/tests/rustdoc/issue-40936.rs
--@@ -1,5 +1,6 @@
-- // aux-build:issue-40936.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/issue-43153.rs b/tests/rustdoc/issue-43153.rs
--index 0fe680f10af..8c67d64826a 100644
----- a/tests/rustdoc/issue-43153.rs
--+++ b/tests/rustdoc/issue-43153.rs
--@@ -1,5 +1,6 @@
-- // Test that `include!` in a doc test searches relative to the directory in
-- // which the test is declared.
--+// ignore-stage1
-- 
-- // compile-flags:--test
-- 
--diff --git a/tests/rustdoc/issue-46727.rs b/tests/rustdoc/issue-46727.rs
--index 8cfc4827a7f..55f155e0219 100644
----- a/tests/rustdoc/issue-46727.rs
--+++ b/tests/rustdoc/issue-46727.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-46727.rs
--+// ignore-stage1
-- 
-- extern crate issue_46727;
-- 
--diff --git a/tests/rustdoc/issue-48377.rs b/tests/rustdoc/issue-48377.rs
--index c32bcf380ea..c196b77a3e7 100644
----- a/tests/rustdoc/issue-48377.rs
--+++ b/tests/rustdoc/issue-48377.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- //! This is a doc comment
-- //!
--diff --git a/tests/rustdoc/issue-48414.rs b/tests/rustdoc/issue-48414.rs
--index b35743d887b..e8ade910228 100644
----- a/tests/rustdoc/issue-48414.rs
--+++ b/tests/rustdoc/issue-48414.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-48414.rs
--+// ignore-stage1
-- 
-- // ICE when resolving paths for a trait that linked to another trait, when both were in an external
-- // crate
--diff --git a/tests/rustdoc/issue-53689.rs b/tests/rustdoc/issue-53689.rs
--index 832140e061b..9a40ea6bc1b 100644
----- a/tests/rustdoc/issue-53689.rs
--+++ b/tests/rustdoc/issue-53689.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-53689.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/issue-54478-demo-allocator.rs b/tests/rustdoc/issue-54478-demo-allocator.rs
--index 4811f363bc9..f4d12f6f630 100644
----- a/tests/rustdoc/issue-54478-demo-allocator.rs
--+++ b/tests/rustdoc/issue-54478-demo-allocator.rs
--@@ -1,5 +1,6 @@
-- // Issue #54478: regression test showing that we can demonstrate
-- // `#[global_allocator]` in code blocks built by `rustdoc`.
--+// ignore-stage1
-- //
-- // ## Background
-- //
--@@ -11,6 +12,7 @@
-- // Rather than try to revise the visbility semanics, we instead
-- // decided to change `rustdoc` to behave more like the compiler's
-- // default setting, by leaving off `-C prefer-dynamic`.
--+// ignore-stage1
-- 
-- // compile-flags:--test
-- 
--diff --git a/tests/rustdoc/issue-57180.rs b/tests/rustdoc/issue-57180.rs
--index 14bd2b0fec0..5f89e5d42f5 100644
----- a/tests/rustdoc/issue-57180.rs
--+++ b/tests/rustdoc/issue-57180.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-57180.rs
--+// ignore-stage1
-- 
-- extern crate issue_57180;
-- use issue_57180::Trait;
--diff --git a/tests/rustdoc/issue-61592.rs b/tests/rustdoc/issue-61592.rs
--index 4b6c37b94aa..048487390bb 100644
----- a/tests/rustdoc/issue-61592.rs
--+++ b/tests/rustdoc/issue-61592.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-61592.rs
--+// ignore-stage1
-- 
-- extern crate foo;
-- 
--diff --git a/tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs b/tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs
--index 2700f2370ee..d883c03d7d2 100644
----- a/tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs
--+++ b/tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs
--@@ -1,4 +1,5 @@
-- // Regression test for ICE #73061
--+// ignore-stage1
-- 
-- // aux-build:issue-73061.rs
-- 
--diff --git a/tests/rustdoc/issue-75588.rs b/tests/rustdoc/issue-75588.rs
--index 3b11059a755..e78cdfa236e 100644
----- a/tests/rustdoc/issue-75588.rs
--+++ b/tests/rustdoc/issue-75588.rs
--@@ -1,5 +1,6 @@
-- // aux-build:realcore.rs
-- // aux-build:real_gimli.rs
--+// ignore-stage1
-- 
-- // Ensure unstably exported traits have their Implementors sections.
-- 
--diff --git a/tests/rustdoc/issue-85454.rs b/tests/rustdoc/issue-85454.rs
--index 5a49a9d0651..fd2f4f8b535 100644
----- a/tests/rustdoc/issue-85454.rs
--+++ b/tests/rustdoc/issue-85454.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-85454.rs
--+// ignore-stage1
-- // build-aux-docs
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/issue-86620.rs b/tests/rustdoc/issue-86620.rs
--index ef15946ec50..675a12b4d14 100644
----- a/tests/rustdoc/issue-86620.rs
--+++ b/tests/rustdoc/issue-86620.rs
--@@ -1,4 +1,5 @@
-- // aux-build:issue-86620-1.rs
--+// ignore-stage1
-- 
-- extern crate issue_86620_1;
-- 
--diff --git a/tests/rustdoc/macro_pub_in_module.rs b/tests/rustdoc/macro_pub_in_module.rs
--index 42f760cff6a..1a51aef9a8a 100644
----- a/tests/rustdoc/macro_pub_in_module.rs
--+++ b/tests/rustdoc/macro_pub_in_module.rs
--@@ -1,5 +1,6 @@
-- // aux-build:macro_pub_in_module.rs
-- // edition:2018
--+// ignore-stage1
-- // build-aux-docs
-- 
-- //! See issue #74355
--diff --git a/tests/rustdoc/masked.rs b/tests/rustdoc/masked.rs
--index 875c026fd05..416d8fbabd0 100644
----- a/tests/rustdoc/masked.rs
--+++ b/tests/rustdoc/masked.rs
--@@ -1,4 +1,5 @@
-- // aux-build:masked.rs
--+// ignore-stage1
-- 
-- #![feature(doc_masked)]
-- 
--diff --git a/tests/rustdoc/no-stack-overflow-25295.rs b/tests/rustdoc/no-stack-overflow-25295.rs
--index dd79f1e4baa..0bc58afa4cb 100644
----- a/tests/rustdoc/no-stack-overflow-25295.rs
--+++ b/tests/rustdoc/no-stack-overflow-25295.rs
--@@ -1,5 +1,6 @@
-- // Ensure this code doesn't stack overflow.
-- // aux-build:enum-primitive.rs
--+// ignore-stage1
-- 
-- #[macro_use] extern crate enum_primitive;
-- 
--diff --git a/tests/rustdoc/normalize-assoc-item.rs b/tests/rustdoc/normalize-assoc-item.rs
--index c6fd5e1101e..945a31853f4 100644
----- a/tests/rustdoc/normalize-assoc-item.rs
--+++ b/tests/rustdoc/normalize-assoc-item.rs
--@@ -1,4 +1,5 @@
-- // ignore-tidy-linelength
--+// ignore-stage1
-- // aux-build:normalize-assoc-item.rs
-- // build-aux-docs
-- // compile-flags:-Znormalize-docs
--diff --git a/tests/rustdoc/primitive-reexport.rs b/tests/rustdoc/primitive-reexport.rs
--index 10a8a47db52..ecdb4848265 100644
----- a/tests/rustdoc/primitive-reexport.rs
--+++ b/tests/rustdoc/primitive-reexport.rs
--@@ -1,5 +1,6 @@
-- // aux-build: primitive-reexport.rs
-- // compile-flags:--extern foo --edition 2018
--+// ignore-stage1
-- 
-- #![crate_name = "bar"]
-- 
--diff --git a/tests/rustdoc/process-termination.rs b/tests/rustdoc/process-termination.rs
--index 32258792b6e..2236842afc9 100644
----- a/tests/rustdoc/process-termination.rs
--+++ b/tests/rustdoc/process-termination.rs
--@@ -1,4 +1,5 @@
-- // compile-flags:--test
--+// ignore-stage1
-- 
-- /// A check of using various process termination strategies
-- ///
--diff --git a/tests/rustdoc/pub-extern-crate.rs b/tests/rustdoc/pub-extern-crate.rs
--index 26747a4d1ac..98b3068cfd5 100644
----- a/tests/rustdoc/pub-extern-crate.rs
--+++ b/tests/rustdoc/pub-extern-crate.rs
--@@ -1,4 +1,5 @@
-- // aux-build:pub-extern-crate.rs
--+// ignore-stage1
-- 
-- // @has pub_extern_crate/index.html
-- // @!has - '//code' 'pub extern crate inner'
--diff --git a/tests/rustdoc/pub-use-extern-macros.rs b/tests/rustdoc/pub-use-extern-macros.rs
--index eefe6b4b073..f67ec499459 100644
----- a/tests/rustdoc/pub-use-extern-macros.rs
--+++ b/tests/rustdoc/pub-use-extern-macros.rs
--@@ -1,4 +1,5 @@
-- // aux-build:pub-use-extern-macros.rs
--+// ignore-stage1
-- 
-- extern crate macros;
-- 
--diff --git a/tests/rustdoc/reexport-check.rs b/tests/rustdoc/reexport-check.rs
--index 5908d2150f2..9e3c825558e 100644
----- a/tests/rustdoc/reexport-check.rs
--+++ b/tests/rustdoc/reexport-check.rs
--@@ -1,4 +1,6 @@
-- // aux-build:reexport-check.rs
--+// ignore-stage1
--+
-- #![crate_name = "foo"]
-- 
-- extern crate reexport_check;
--diff --git a/tests/rustdoc/reexport-dep-foreign-fn.rs b/tests/rustdoc/reexport-dep-foreign-fn.rs
--index e7f5720d583..f09e2da12f8 100644
----- a/tests/rustdoc/reexport-dep-foreign-fn.rs
--+++ b/tests/rustdoc/reexport-dep-foreign-fn.rs
--@@ -1,4 +1,5 @@
-- // aux-build:all-item-types.rs
--+// ignore-stage1
-- 
-- // This test is to ensure there is no problem on handling foreign functions
-- // coming from a dependency.
--diff --git a/tests/rustdoc/reexport-doc.rs b/tests/rustdoc/reexport-doc.rs
--index df2c889b4d5..52558b39068 100644
----- a/tests/rustdoc/reexport-doc.rs
--+++ b/tests/rustdoc/reexport-doc.rs
--@@ -1,4 +1,5 @@
-- // aux-build:reexport-doc-aux.rs
--+// ignore-stage1
-- 
-- extern crate reexport_doc_aux as dep;
-- 
--diff --git a/tests/rustdoc/reexports-priv.rs b/tests/rustdoc/reexports-priv.rs
--index 571d7f06fdc..bec1096ad14 100644
----- a/tests/rustdoc/reexports-priv.rs
--+++ b/tests/rustdoc/reexports-priv.rs
--@@ -1,4 +1,5 @@
-- // aux-build: reexports.rs
--+// ignore-stage1
-- // compile-flags: --document-private-items
-- 
-- #![crate_name = "foo"]
--diff --git a/tests/rustdoc/reexports.rs b/tests/rustdoc/reexports.rs
--index 3c51ac395af..018abbfd277 100644
----- a/tests/rustdoc/reexports.rs
--+++ b/tests/rustdoc/reexports.rs
--@@ -1,4 +1,5 @@
-- // aux-build: reexports.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/rustc-incoherent-impls.rs b/tests/rustdoc/rustc-incoherent-impls.rs
--index 3fdefbecc54..c8382a50679 100644
----- a/tests/rustdoc/rustc-incoherent-impls.rs
--+++ b/tests/rustdoc/rustc-incoherent-impls.rs
--@@ -1,4 +1,5 @@
-- // aux-build:incoherent-impl-types.rs
--+// ignore-stage1
-- // build-aux-docs
-- 
-- #![crate_name = "foo"]
--diff --git a/tests/rustdoc/test_option_check/bar.rs b/tests/rustdoc/test_option_check/bar.rs
--index 50a182cf7e0..6f48c9c923b 100644
----- a/tests/rustdoc/test_option_check/bar.rs
--+++ b/tests/rustdoc/test_option_check/bar.rs
--@@ -1,5 +1,6 @@
-- // compile-flags: --test
-- // check-test-line-numbers-match
--+// ignore-stage1
-- 
-- /// This looks like another awesome test!
-- ///
--diff --git a/tests/rustdoc/test_option_check/test.rs b/tests/rustdoc/test_option_check/test.rs
--index 964e8e37ed5..208bccafe4c 100644
----- a/tests/rustdoc/test_option_check/test.rs
--+++ b/tests/rustdoc/test_option_check/test.rs
--@@ -1,4 +1,5 @@
-- // compile-flags: --test
--+// ignore-stage1
-- // check-test-line-numbers-match
-- 
-- pub mod bar;
--diff --git a/tests/rustdoc/trait-alias-mention.rs b/tests/rustdoc/trait-alias-mention.rs
--index 6da0dc68785..8916e1321c7 100644
----- a/tests/rustdoc/trait-alias-mention.rs
--+++ b/tests/rustdoc/trait-alias-mention.rs
--@@ -1,5 +1,6 @@
-- // aux-build:trait-alias-mention.rs
-- // build-aux-docs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/trait-visibility.rs b/tests/rustdoc/trait-visibility.rs
--index 8ba3ee03a74..9bd62dd5c0a 100644
----- a/tests/rustdoc/trait-visibility.rs
--+++ b/tests/rustdoc/trait-visibility.rs
--@@ -1,4 +1,5 @@
-- // aux-build:trait-visibility.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/rustdoc/unit-return.rs b/tests/rustdoc/unit-return.rs
--index 6ddfa0c4d5c..a144308a581 100644
----- a/tests/rustdoc/unit-return.rs
--+++ b/tests/rustdoc/unit-return.rs
--@@ -1,4 +1,5 @@
-- // aux-build:unit-return.rs
--+// ignore-stage1
-- 
-- #![crate_name = "foo"]
-- 
--diff --git a/tests/ui-fulldeps/deriving-encodable-decodable-box.rs b/tests/ui-fulldeps/deriving-encodable-decodable-box.rs
--index 1c376f59e51..8f852db5efd 100644
----- a/tests/ui-fulldeps/deriving-encodable-decodable-box.rs
--+++ b/tests/ui-fulldeps/deriving-encodable-decodable-box.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(unused_imports)]
-- #![feature(rustc_private)]
--diff --git a/tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs b/tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs
--index 844d40f2ecd..d0d530ac79f 100644
----- a/tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs
--+++ b/tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(unused_imports)]
-- // This briefly tests the capability of `Cell` and `RefCell` to implement the
--diff --git a/tests/ui-fulldeps/deriving-global.rs b/tests/ui-fulldeps/deriving-global.rs
--index 214bb4368ff..7ff6e31f09e 100644
----- a/tests/ui-fulldeps/deriving-global.rs
--+++ b/tests/ui-fulldeps/deriving-global.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![feature(rustc_private)]
-- 
--diff --git a/tests/ui-fulldeps/deriving-hygiene.rs b/tests/ui-fulldeps/deriving-hygiene.rs
--index e1084a08fec..f18b703116a 100644
----- a/tests/ui-fulldeps/deriving-hygiene.rs
--+++ b/tests/ui-fulldeps/deriving-hygiene.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(non_upper_case_globals)]
-- #![feature(rustc_private)]
--diff --git a/tests/ui-fulldeps/dropck_tarena_sound_drop.rs b/tests/ui-fulldeps/dropck_tarena_sound_drop.rs
--index ffad80171da..d60062be118 100644
----- a/tests/ui-fulldeps/dropck_tarena_sound_drop.rs
--+++ b/tests/ui-fulldeps/dropck_tarena_sound_drop.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(unknown_lints)]
-- // Check that an arena (TypedArena) can carry elements whose drop
--diff --git a/tests/ui-fulldeps/empty-struct-braces-derive.rs b/tests/ui-fulldeps/empty-struct-braces-derive.rs
--index 10e8beaa7b1..29419f97aa1 100644
----- a/tests/ui-fulldeps/empty-struct-braces-derive.rs
--+++ b/tests/ui-fulldeps/empty-struct-braces-derive.rs
--@@ -1,5 +1,6 @@
-- // run-pass
-- // `#[derive(Trait)]` works for empty structs/variants with braces or parens.
--+// ignore-stage1
-- 
-- #![feature(rustc_private)]
-- 
--diff --git a/tests/ui-fulldeps/issue-14021.rs b/tests/ui-fulldeps/issue-14021.rs
--index 309b5c4a03d..5b9fb023d85 100644
----- a/tests/ui-fulldeps/issue-14021.rs
--+++ b/tests/ui-fulldeps/issue-14021.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(unused_mut)]
-- #![allow(unused_imports)]
--diff --git a/tests/ui-fulldeps/regions-mock-tcx.rs b/tests/ui-fulldeps/regions-mock-tcx.rs
--index 63975ef62c5..24e008bb76b 100644
----- a/tests/ui-fulldeps/regions-mock-tcx.rs
--+++ b/tests/ui-fulldeps/regions-mock-tcx.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(dead_code)]
-- #![allow(unused_imports)]
--diff --git a/tests/ui-fulldeps/rustc_encodable_hygiene.rs b/tests/ui-fulldeps/rustc_encodable_hygiene.rs
--index 509a6b1d22c..ab5f4aed548 100644
----- a/tests/ui-fulldeps/rustc_encodable_hygiene.rs
--+++ b/tests/ui-fulldeps/rustc_encodable_hygiene.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![feature(rustc_private)]
--
--diff --git a/tests/run-make/cdylib-fewer-symbols/foo.rs b/tests/run-make/cdylib-fewer-symbols/foo.rs
--index af37bc8e953..2f080fb37b2 100644
----- a/tests/run-make/cdylib-fewer-symbols/foo.rs
--+++ b/tests/run-make/cdylib-fewer-symbols/foo.rs
--@@ -1,5 +1,5 @@
-- #![crate_type = "cdylib"]
---
--+#[ignore]
-- #[no_mangle]
-- pub extern "C" fn foo() -> u32 {
--     3
--diff --git a/tests/run-make/doctests-keep-binaries/t.rs b/tests/run-make/doctests-keep-binaries/t.rs
--index c38cf0a0b25..13b89c05e03 100644
----- a/tests/run-make/doctests-keep-binaries/t.rs
--+++ b/tests/run-make/doctests-keep-binaries/t.rs
--@@ -1,3 +1,4 @@
--+// ignore-stage1
-- /// Fungle the foople.
-- /// ```
-- /// t::foople();
--diff --git a/tests/rustdoc-ui/doctest-multiline-crate-attribute.rs b/tests/rustdoc-ui/doctest-multiline-crate-attribute.rs
--index 260f5a7a64f..c05f9adf46b 100644
----- a/tests/rustdoc-ui/doctest-multiline-crate-attribute.rs
--+++ b/tests/rustdoc-ui/doctest-multiline-crate-attribute.rs
--@@ -2,6 +2,7 @@
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
-- // check-pass
--+// ignore-stage1
-- 
-- /// ```
-- /// #![deprecated(since = "5.2", note = "foo was rarely used. \
--diff --git a/tests/rustdoc-ui/issue-80992.rs b/tests/rustdoc-ui/issue-80992.rs
--index 80ff225b879..e589999ae29 100644
----- a/tests/rustdoc-ui/issue-80992.rs
--+++ b/tests/rustdoc-ui/issue-80992.rs
--@@ -2,6 +2,7 @@
-- // compile-flags:--test
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
-- 
-- pub fn test() -> Result<(), ()> {
--     //! ```compile_fail
--diff --git a/tests/rustdoc-ui/no-run-flag.rs b/tests/rustdoc-ui/no-run-flag.rs
--index 181730eb416..33fa85d7d9d 100644
----- a/tests/rustdoc-ui/no-run-flag.rs
--+++ b/tests/rustdoc-ui/no-run-flag.rs
--@@ -4,6 +4,7 @@
-- // compile-flags:-Z unstable-options --test --no-run --test-args=--test-threads=1
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
-- 
-- /// ```
-- /// let a = true;
--diff --git a/tests/rustdoc-ui/nocapture-fail.rs b/tests/rustdoc-ui/nocapture-fail.rs
--index 9a3fb592c63..9899183cdf6 100644
----- a/tests/rustdoc-ui/nocapture-fail.rs
--+++ b/tests/rustdoc-ui/nocapture-fail.rs
--@@ -3,6 +3,7 @@
-- // normalize-stderr-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test: "tests/rustdoc-ui" -> "$$DIR"
-- // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
--+// ignore-stage1
-- 
-- /// ```compile_fail
-- /// fn foo() {
--diff --git a/tests/run-make/issue-22131/foo.rs b/tests/run-make/issue-22131/foo.rs
--index 33255d76879..56ffc4224e4 100644
----- a/tests/run-make/issue-22131/foo.rs
--+++ b/tests/run-make/issue-22131/foo.rs
--@@ -1,5 +1,6 @@
-- /// ```rust
-- /// assert_eq!(foo::foo(), 1);
-- /// ```
--+// ignore-stage1
-- #[cfg(feature = "bar")]
-- pub fn foo() -> i32 { 1 }
--diff --git a/tests/rustdoc/auto-traits.rs b/tests/rustdoc/auto-traits.rs
--index 93d4bf2f656..b0eb5f1af7c 100644
----- a/tests/rustdoc/auto-traits.rs
--+++ b/tests/rustdoc/auto-traits.rs
--@@ -1,4 +1,5 @@
-- // aux-build:auto-traits.rs
--+// ignore-stage1
-- 
-- #![feature(auto_traits)]
-- 
--diff --git a/tests/rustdoc/inline_cross/dyn_trait.rs b/tests/rustdoc/inline_cross/dyn_trait.rs
--index 649d98f7139..82f88a4713c 100644
----- a/tests/rustdoc/inline_cross/dyn_trait.rs
--+++ b/tests/rustdoc/inline_cross/dyn_trait.rs
--@@ -1,4 +1,5 @@
-- #![crate_name = "user"]
--+// ignore-stage1
-- 
-- // aux-crate:dyn_trait=dyn_trait.rs
-- // edition:2021
--diff --git a/tests/ui/abi/stack-probes-lto.rs b/tests/ui/abi/stack-probes-lto.rs
--index 0dccb633df9..36e4d04ccaa 100644
----- a/tests/ui/abi/stack-probes-lto.rs
--+++ b/tests/ui/abi/stack-probes-lto.rs
--@@ -13,6 +13,7 @@
-- // ignore-fuchsia no exception handler registered for segfault
-- // compile-flags: -C lto
-- // no-prefer-dynamic
--+// ignore-stage1
-- // ignore-nto Crash analysis impossible at SIGSEGV in QNX Neutrino
-- 
-- include!("stack-probes.rs");
--diff --git a/tests/ui/abi/stack-probes.rs b/tests/ui/abi/stack-probes.rs
--index 8137c92304d..9f4edca3caf 100644
----- a/tests/ui/abi/stack-probes.rs
--+++ b/tests/ui/abi/stack-probes.rs
--@@ -11,6 +11,7 @@
-- // ignore-sgx no processes
-- // ignore-fuchsia no exception handler registered for segfault
-- // ignore-nto Crash analysis impossible at SIGSEGV in QNX Neutrino
--+// ignore-stage1
-- 
-- use std::env;
-- use std::mem::MaybeUninit;
--diff --git a/tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs b/tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
--index 5a6283e9f13..c036f7f03e6 100644
----- a/tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
--+++ b/tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
--@@ -1,7 +1,7 @@
-- // Test that slice subslice patterns are correctly handled in const evaluation.
-- 
-- // run-pass
---
--+// ignore-stage1
-- #[derive(PartialEq, Debug, Clone)]
-- struct N(u8);
-- 
--diff --git a/tests/ui/asm/x86_64/sym.rs b/tests/ui/asm/x86_64/sym.rs
--index 93ef4f09062..6b076924bda 100644
----- a/tests/ui/asm/x86_64/sym.rs
--+++ b/tests/ui/asm/x86_64/sym.rs
--@@ -2,6 +2,7 @@
-- // only-linux
-- // needs-asm-support
-- // run-pass
--+// ignore-stage1
-- 
-- #![feature(thread_local)]
-- 
--diff --git a/tests/ui/associated-type-bounds/fn-apit.rs b/tests/ui/associated-type-bounds/fn-apit.rs
--index 3c9f511338f..e8fd5fc3c3e 100644
----- a/tests/ui/associated-type-bounds/fn-apit.rs
--+++ b/tests/ui/associated-type-bounds/fn-apit.rs
--@@ -1,6 +1,6 @@
-- // run-pass
-- // aux-build:fn-aux.rs
---
--+// ignore-stage1
-- #![allow(unused)]
-- #![feature(associated_type_bounds)]
-- 
--diff --git a/tests/ui/associated-type-bounds/fn-dyn-apit.rs b/tests/ui/associated-type-bounds/fn-dyn-apit.rs
--index c4e8092c211..7c690f42846 100644
----- a/tests/ui/associated-type-bounds/fn-dyn-apit.rs
--+++ b/tests/ui/associated-type-bounds/fn-dyn-apit.rs
--@@ -1,6 +1,7 @@
-- // run-pass
-- // aux-build:fn-dyn-aux.rs
-- 
--+// ignore-stage1
-- #![allow(unused)]
-- #![feature(associated_type_bounds)]
-- 
--diff --git a/tests/ui/associated-type-bounds/fn-wrap-apit.rs b/tests/ui/associated-type-bounds/fn-wrap-apit.rs
--index 96df13e372a..b1df6e867f2 100644
----- a/tests/ui/associated-type-bounds/fn-wrap-apit.rs
--+++ b/tests/ui/associated-type-bounds/fn-wrap-apit.rs
--@@ -1,6 +1,7 @@
-- // run-pass
-- // aux-build:fn-aux.rs
-- 
--+// ignore-stage1
-- #![feature(associated_type_bounds)]
-- #![allow(dead_code)]
-- 
--diff --git a/tests/ui/structs-enums/multiple-reprs.rs b/tests/ui/structs-enums/multiple-reprs.rs
--index 4be503a0ef4..2cf0875fc5c 100644
----- a/tests/ui/structs-enums/multiple-reprs.rs
--+++ b/tests/ui/structs-enums/multiple-reprs.rs
--@@ -1,4 +1,5 @@
-- // run-pass
--+// ignore-stage1
-- 
-- #![allow(dead_code)]
--
--diff --git a/src/tools/compiletest/src/common.rs b/src/tools/compiletest/src/common.rs
----- a/src/tools/compiletest/src/common.rs
--+++ b/src/tools/compiletest/src/common.rs
--@@ -431,7 +431,6 @@
--             .unwrap()
--         };
-- 
---        let mut current = None;
--         let mut all_targets = HashSet::new();
--         let mut all_archs = HashSet::new();
--         let mut all_oses = HashSet::new();
--@@ -452,14 +451,11 @@
--             }
--             all_pointer_widths.insert(format!("{}bit", cfg.pointer_width));
-- 
---            if target == config.target {
---                current = Some(cfg);
---            }
--             all_targets.insert(target.into());
--         }
-- 
--         Self {
---            current: current.expect("current target not found"),
--+            current: Self::get_current_target_config(config),
--             all_targets,
--             all_archs,
--             all_oses,
--@@ -471,6 +467,89 @@
--         }
--     }
-- 
--+    fn get_current_target_config(config: &Config) -> TargetCfg {
--+        let mut arch = None;
--+        let mut os = None;
--+        let mut env = None;
--+        let mut abi = None;
--+        let mut families = Vec::new();
--+        let mut pointer_width = None;
--+        let mut endian = None;
--+        let mut panic = None;
--+
--+        for config in
--+            rustc_output(config, &["--print=cfg", "--target", &config.target]).trim().lines()
--+        {
--+            let (name, value) = config
--+                .split_once("=\"")
--+                .map(|(name, value)| {
--+                    (
--+                        name,
--+                        Some(
--+                            value
--+                                .strip_suffix("\"")
--+                                .expect("key-value pair should be properly quoted"),
--+                        ),
--+                    )
--+                })
--+                .unwrap_or_else(|| (config, None));
--+
--+            match name {
--+                "target_arch" => {
--+                    arch = Some(value.expect("target_arch should be a key-value pair").to_string());
--+                }
--+                "target_os" => {
--+                    os = Some(value.expect("target_os sould be a key-value pair").to_string());
--+                }
--+                "target_env" => {
--+                    env = Some(value.expect("target_env should be a key-value pair").to_string());
--+                }
--+                "target_abi" => {
--+                    abi = Some(value.expect("target_abi should be a key-value pair").to_string());
--+                }
--+                "target_family" => {
--+                    families
--+                        .push(value.expect("target_family should be a key-value pair").to_string());
--+                }
--+                "target_pointer_width" => {
--+                    pointer_width = Some(
--+                        value
--+                            .expect("target_pointer_width should be a key-value pair")
--+                            .parse::<u32>()
--+                            .expect("target_pointer_width should be a valid u32"),
--+                    );
--+                }
--+                "target_endian" => {
--+                    endian = Some(match value.expect("target_endian should be a key-value pair") {
--+                        "big" => Endian::Big,
--+                        "little" => Endian::Little,
--+                        _ => panic!("target_endian should be either 'big' or 'little'"),
--+                    });
--+                }
--+                "panic" => {
--+                    panic = Some(match value.expect("panic should be a key-value pair") {
--+                        "abort" => PanicStrategy::Abort,
--+                        "unwind" => PanicStrategy::Unwind,
--+                        _ => panic!("panic should be either 'abort' or 'unwind'"),
--+                    });
--+                }
--+                _ => (),
--+            }
--+        }
--+
--+        TargetCfg {
--+            arch: arch.expect("target configuration should specify target_arch"),
--+            os: os.expect("target configuration should specify target_os"),
--+            env: env.expect("target configuration should specify target_env"),
--+            abi: abi.expect("target configuration should specify target_abi"),
--+            families,
--+            pointer_width: pointer_width
--+                .expect("target configuration should specify target_pointer_width"),
--+            endian: endian.expect("target configuration should specify target_endian"),
--+            panic: panic.expect("target configuration should specify panic"),
--+        }
--+    }
--+
--     // #[cfg(bootstrap)]
--     // Needed only for one cycle, remove during the bootstrap bump.
--     fn collect_all_slow(config: &Config) -> HashMap<String, TargetCfg> {
--diff --git a/tests/run-make/issue-47551/Makefile b/tests/run-make/issue-47551/Makefile
--index 5a6ac725701..9290f2e0555 100644
----- a/tests/run-make/issue-47551/Makefile
--+++ b/tests/run-make/issue-47551/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # only-linux
-- # ignore-32bit
-- 
--diff --git a/tests/run-make/pgo-branch-weights/Makefile b/tests/run-make/pgo-branch-weights/Makefile
--index c60206a1f34..4666be03b85 100644
----- a/tests/run-make/pgo-branch-weights/Makefile
--+++ b/tests/run-make/pgo-branch-weights/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- # ignore-windows-gnu
-- 
--diff --git a/tests/run-make/pgo-gen-lto/Makefile b/tests/run-make/pgo-gen-lto/Makefile
--index 3f2f6a838b5..9e4f555d21c 100644
----- a/tests/run-make/pgo-gen-lto/Makefile
--+++ b/tests/run-make/pgo-gen-lto/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- # ignore-windows-gnu
-- 
--diff --git a/tests/run-make/pgo-gen/Makefile b/tests/run-make/pgo-gen/Makefile
--index 4623a74957b..22aed059cf4 100644
----- a/tests/run-make/pgo-gen/Makefile
--+++ b/tests/run-make/pgo-gen/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- # ignore-windows-gnu
-- 
--diff --git a/tests/run-make/pgo-indirect-call-promotion/Makefile b/tests/run-make/pgo-indirect-call-promotion/Makefile
--index 45302215cc6..519447882ea 100644
----- a/tests/run-make/pgo-indirect-call-promotion/Makefile
--+++ b/tests/run-make/pgo-indirect-call-promotion/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- # ignore-windows-gnu
-- 
--diff --git a/tests/run-make/pgo-use/Makefile b/tests/run-make/pgo-use/Makefile
--index 3bac9b77aa3..5c64b2342e1 100644
----- a/tests/run-make/pgo-use/Makefile
--+++ b/tests/run-make/pgo-use/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- # ignore-windows-gnu
-- 
--diff --git a/tests/run-make/profile/Makefile b/tests/run-make/profile/Makefile
--index fffc051adbf..42a63a871d6 100644
----- a/tests/run-make/profile/Makefile
--+++ b/tests/run-make/profile/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- # needs-profiler-support
-- 
-- include ../tools.mk
--diff --git a/tests/run-make/sysroot-crates-are-unstable/Makefile b/tests/run-make/sysroot-crates-are-unstable/Makefile
--index 1e267fb9576..e3e83c52cc2 100644
----- a/tests/run-make/sysroot-crates-are-unstable/Makefile
--+++ b/tests/run-make/sysroot-crates-are-unstable/Makefile
--@@ -1,2 +1,3 @@
--+# ignore-stage1
-- all:
-- 	'$(PYTHON)' test.py
--diff --git a/tests/run-make/target-specs/Makefile b/tests/run-make/target-specs/Makefile
--index a33f5368e3c..84459293364 100644
----- a/tests/run-make/target-specs/Makefile
--+++ b/tests/run-make/target-specs/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- include ../tools.mk
-- all:
-- 	$(RUSTC) foo.rs --target=my-awesome-platform.json --crate-type=lib --emit=asm
--diff --git a/tests/ui/functions-closures/fn-help-with-err.rs b/tests/ui/functions-closures/fn-help-with-err.rs
--index 612fe1b8419..d021f33c550 100644
----- a/tests/ui/functions-closures/fn-help-with-err.rs
--+++ b/tests/ui/functions-closures/fn-help-with-err.rs
--@@ -1,4 +1,5 @@
-- // This test case checks the behavior of typeck::check::method::suggest::is_fn on Ty::Error.
--+// ignore-stage1
-- 
-- struct Foo;
--
--diff --git a/tests/run-make/pointer-auth-link-with-c/Makefile b/tests/run-make/pointer-auth-link-with-c/Makefile
--index dffbd303582..5347d0a90f1 100644
----- a/tests/run-make/pointer-auth-link-with-c/Makefile
--+++ b/tests/run-make/pointer-auth-link-with-c/Makefile
--@@ -1,3 +1,4 @@
--+# ignore-stage1
-- include ../tools.mk
-- 
-- # only-aarch64
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 8b9199e9ab..4a720e645b 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -6,7 +6,6 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
-             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
-             file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=${RUSTSRC} \
--            file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
-             file://bootstrap_fail.patch;patchdir=${RUSTSRC} \
+diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-11.4.inc
+similarity index 97%
+rename from meta/recipes-devtools/gcc/gcc-11.3.inc
+rename to meta/recipes-devtools/gcc/gcc-11.4.inc
+index ab2ece3cce..a907661df4 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.4.inc
+@@ -2,11 +2,11 @@ require gcc-common.inc
+=20
+ # Third digit in PV should be incremented after a minor release
+=20
+-PV =3D "11.3.0"
++PV =3D "11.4.0"
+=20
+ # BINV should be incremented to a revision after a minor gcc release
+=20
+-BINV =3D "11.3.0"
++BINV =3D "11.4.0"
+=20
+ FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+=20
+@@ -70,7 +70,7 @@ SRC_URI =3D "\
+ 	   file://0004-arm-add-armv9-a-architecture-to-march.patch \
  "
- SRC_URI[rust.sha256sum] = "bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843bfbaf5c34639"
--- 
+=20
+-SRC_URI[sha256sum] =3D "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a=
+5e1c89e338a3ac39"
++SRC_URI[sha256sum] =3D "3f2db222b007e8a4a23cd5ba56726ef08e8b1f1eb2055ee7=
+2c1402cea73a8dd9"
+=20
+ S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+=20
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_11.3.bb b/meta/=
+recipes-devtools/gcc/gcc-cross-canadian_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross-canadian_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-cross-canadian_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_11.3.bb b/meta/recipes-d=
+evtools/gcc/gcc-cross_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-cross_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-cross_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_11.3.bb b/meta/recipe=
+s-devtools/gcc/gcc-crosssdk_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-crosssdk_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-crosssdk_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb b/meta/recipes=
+-devtools/gcc/gcc-runtime_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-runtime_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-runtime_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_11.3.bb b/meta/reci=
+pes-devtools/gcc/gcc-sanitizers_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-sanitizers_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-sanitizers_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-source_11.3.bb b/meta/recipes-=
+devtools/gcc/gcc-source_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc-source_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc-source_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N=
+2-core-defini.patch b/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-N=
+eoverse-N2-core-defini.patch
+index 8429242348..a0c9db72e1 100644
+--- a/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-=
+defini.patch
++++ b/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-=
+defini.patch
+@@ -19,24 +19,20 @@ diff --git a/gcc/config/aarch64/aarch64-cores.def b/g=
+cc/config/aarch64/aarch64-c
+ index 4643e0e27..3478e567a 100644
+ --- a/gcc/config/aarch64/aarch64-cores.def
+ +++ b/gcc/config/aarch64/aarch64-cores.def
+-@@ -145,9 +145,6 @@ AARCH64_CORE("neoverse-512tvb", neoverse512tvb, cort=
+exa57, 8_4A,  AARCH64_FL_FOR
+- /* Qualcomm ('Q') cores. */
+- AARCH64_CORE("saphira",     saphira,    saphira,    8_4A,  AARCH64_FL_F=
+OR_ARCH8_4 | AARCH64_FL_CRYPTO | AARCH64_FL_RCPC, saphira,   0x51, 0xC01,=
+ -1)
+-=20
+--/* Armv8.5-A Architecture Processors.  */
++@@ -147,7 +147,6 @@
++ AARCH64_CORE("saphira",     saphira,    saphira,    8_4A,  AARCH64_FL_F=
+OR_ARCH8_4 | AARCH64_FL_CRYPTO, saphira,   0x51, 0xC01, -1)
++
++ /* Armv8.5-A Architecture Processors.  */
+ -AARCH64_CORE("neoverse-n2", neoversen2, cortexa57, 8_5A, AARCH64_FL_FOR=
+_ARCH8_5 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_F16 | AARCH64_F=
+L_SVE | AARCH64_FL_SVE2 | AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARC=
+H64_FL_MEMTAG, neoversen2, 0x41, 0xd49, -1)
+--
++ AARCH64_CORE("neoverse-v2", neoversev2, cortexa57, 8_5A, AARCH64_FL_FOR=
+_ARCH8_5 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_F16 | AARCH64_F=
+L_SVE | AARCH64_FL_SVE2 | AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARC=
+H64_FL_MEMTAG, neoverse512tvb, 0x41, 0xd4f, -1)
++
+  /* ARMv8-A big.LITTLE implementations.  */
+-=20
+- AARCH64_CORE("cortex-a57.cortex-a53",  cortexa57cortexa53, cortexa53, 8=
+A,  AARCH64_FL_FOR_ARCH8 | AARCH64_FL_CRC, cortexa57, 0x41, AARCH64_BIG_L=
+ITTLE (0xd07, 0xd03), -1)
+-@@ -163,4 +160,7 @@ AARCH64_CORE("cortex-a76.cortex-a55",  cortexa76cort=
+exa55, cortexa53, 8_2A,  AAR
++@@ -165,4 +164,7 @@
+  /* Armv8-R Architecture Processors.  */
+  AARCH64_CORE("cortex-r82", cortexr82, cortexa53, 8R, AARCH64_FL_FOR_ARC=
+H8_R, cortexa53, 0x41, 0xd15, -1)
+-=20
++
+ +/* Armv9-A Architecture Processors. */
+ +AARCH64_CORE("neoverse-n2", neoversen2, cortexa57, 9A, AARCH64_FL_FOR_A=
+RCH9 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_SVE2_BITPERM | AARC=
+H64_FL_RNG | AARCH64_FL_MEMTAG | AARCH64_FL_PROFILE, neoversen2, 0x41, 0x=
+d49, -1)
+ +
+  #undef AARCH64_CORE
+---=20
+-2.32.0
+=20
+diff --git a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architect=
+ure-to-march.patch b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-a=
+rchitecture-to-march.patch
+index 864c8b3017..b9b0988d5a 100644
+--- a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-=
+march.patch
++++ b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-=
+march.patch
+@@ -43,10 +43,10 @@ Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.c=
+om>
+  gcc/testsuite/lib/target-supports.exp     |  3 ++-
+  9 files changed, 79 insertions(+), 8 deletions(-)
+=20
+-Index: gcc-11.3.0/gcc/config/arm/arm-cpus.in
++Index: gcc/gcc/config/arm/arm-cpus.in
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/arm-cpus.in
+-+++ gcc-11.3.0/gcc/config/arm/arm-cpus.in
++--- a/gcc/config/arm/arm-cpus.in
+++++ b/gcc/config/arm/arm-cpus.in
+ @@ -132,6 +132,9 @@ define feature cmse
+  # Architecture rel 8.1-M.
+  define feature armv8_1m_main
+@@ -87,10 +87,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm-cpus.in
+  begin arch iwmmxt
+   tune for iwmmxt
+   tune flags LDSCHED STRONG XSCALE
+-Index: gcc-11.3.0/gcc/config/arm/arm-tables.opt
++Index: gcc/gcc/config/arm/arm-tables.opt
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/arm-tables.opt
+-+++ gcc-11.3.0/gcc/config/arm/arm-tables.opt
++--- a/gcc/config/arm/arm-tables.opt
+++++ b/gcc/config/arm/arm-tables.opt
+ @@ -380,10 +380,13 @@ EnumValue
+  Enum(arm_arch) String(armv8.1-m.main) Value(30)
+ =20
+@@ -107,10 +107,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm-tables.opt
+ =20
+  Enum
+  Name(arm_fpu) Type(enum fpu_type)
+-Index: gcc-11.3.0/gcc/config/arm/arm.h
++Index: gcc/gcc/config/arm/arm.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/arm.h
+-+++ gcc-11.3.0/gcc/config/arm/arm.h
++--- a/gcc/config/arm/arm.h
+++++ b/gcc/config/arm/arm.h
+ @@ -456,7 +456,8 @@ enum base_architecture
+    BASE_ARCH_8A =3D 8,
+    BASE_ARCH_8M_BASE =3D 8,
+@@ -121,10 +121,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm.h
+  };
+ =20
+  /* The major revision number of the ARM Architecture implemented by the=
+ target.  */
+-Index: gcc-11.3.0/gcc/config/arm/t-aprofile
++Index: gcc/gcc/config/arm/t-aprofile
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/t-aprofile
+-+++ gcc-11.3.0/gcc/config/arm/t-aprofile
++--- a/gcc/config/arm/t-aprofile
+++++ b/gcc/config/arm/t-aprofile
+ @@ -26,8 +26,8 @@
+ =20
+  # Arch and FPU variants to build libraries with
+@@ -180,10 +180,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-aprofile
+ -			     $(foreach ARCH, armv7-a armv8-a, \
+ +			     $(foreach ARCH, armv7-a armv8-a armv9-a, \
+  			       mthumb/march.$(ARCH)/mfloat-abi.soft=3Dm$(MODE)/march.$(ARCH)=
+/mfloat-abi.softfp))
+-Index: gcc-11.3.0/gcc/config/arm/t-arm-elf
++Index: gcc/gcc/config/arm/t-arm-elf
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/t-arm-elf
+-+++ gcc-11.3.0/gcc/config/arm/t-arm-elf
++--- a/gcc/config/arm/t-arm-elf
+++++ b/gcc/config/arm/t-arm-elf
+ @@ -38,6 +38,8 @@ v7ve_fps	:=3D vfpv3-d16 vfpv3 vfpv3-d16-fp
+  # it seems to work ok.
+  v8_fps		:=3D simd fp16 crypto fp16+crypto dotprod fp16fml
+@@ -214,10 +214,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-arm-elf
+  MULTILIB_MATCHES     +=3D $(foreach ARCH, armv7e-m armv8-m.mainline, \
+  			  march?armv7+fp=3Dmarch?$(ARCH)+fp.dp)
+ =20
+-Index: gcc-11.3.0/gcc/config/arm/t-multilib
++Index: gcc/gcc/config/arm/t-multilib
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/t-multilib
+-+++ gcc-11.3.0/gcc/config/arm/t-multilib
++--- a/gcc/config/arm/t-multilib
+++++ b/gcc/config/arm/t-multilib
+ @@ -78,6 +78,8 @@ v8_4_a_simd_variants	:=3D $(call all_feat_
+  v8_5_a_simd_variants	:=3D $(call all_feat_combs, simd fp16 crypto i8mm =
+bf16)
+  v8_6_a_simd_variants	:=3D $(call all_feat_combs, simd fp16 crypto i8mm =
+bf16)
+@@ -244,10 +244,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-multilib
+  endif		# Not APROFILE.
+ =20
+  # Use Thumb libraries for everything.
+-Index: gcc-11.3.0/gcc/doc/invoke.texi
++Index: gcc/gcc/doc/invoke.texi
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/doc/invoke.texi
+-+++ gcc-11.3.0/gcc/doc/invoke.texi
++--- a/gcc/doc/invoke.texi
+++++ b/gcc/doc/invoke.texi
+ @@ -19701,6 +19701,7 @@ Permissible names are:
+  @samp{armv7-m}, @samp{armv7e-m},
+  @samp{armv8-m.base}, @samp{armv8-m.main},
+@@ -256,10 +256,10 @@ Index: gcc-11.3.0/gcc/doc/invoke.texi
+  @samp{iwmmxt} and @samp{iwmmxt2}.
+ =20
+  Additionally, the following architectures, which lack support for the
+-Index: gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
++Index: gcc/gcc/testsuite/gcc.target/arm/multilib.exp
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/testsuite/gcc.target/arm/multilib.exp
+-+++ gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
++--- a/gcc/testsuite/gcc.target/arm/multilib.exp
+++++ b/gcc/testsuite/gcc.target/arm/multilib.exp
+ @@ -135,6 +135,14 @@ if {[multilib_config "aprofile"] } {
+  	{-march=3Darmv8.6-a+simd+fp16 -mfloat-abi=3Dsoftfp} "thumb/v8-a+simd/s=
+oftfp"
+  	{-march=3Darmv8.6-a+simd+fp16+nofp -mfloat-abi=3Dsoftfp} "thumb/v8-a/n=
+ofp"
+@@ -275,10 +275,10 @@ Index: gcc-11.3.0/gcc/testsuite/gcc.target/arm/mult=
+ilib.exp
+  	{-mcpu=3Dcortex-a53+crypto -mfloat-abi=3Dhard} "thumb/v8-a+simd/hard"
+  	{-mcpu=3Dcortex-a53+nofp -mfloat-abi=3Dsoftfp} "thumb/v8-a/nofp"
+  	{-march=3Darmv8-a+crc -mfloat-abi=3Dhard -mfpu=3Dvfp} "thumb/v8-a+simd=
+/hard"
+-Index: gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
++Index: gcc/gcc/testsuite/lib/target-supports.exp
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/testsuite/lib/target-supports.exp
+-+++ gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
++--- a/gcc/testsuite/lib/target-supports.exp
+++++ b/gcc/testsuite/lib/target-supports.exp
+ @@ -4820,7 +4820,8 @@ foreach { armfunc armflag armdefs } {
+  	v8m_base "-march=3Darmv8-m.base -mthumb -mfloat-abi=3Dsoft"
+  		__ARM_ARCH_8M_BASE__
+diff --git a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINK=
+ER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0006-De=
+fine-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+index b3515c9734..ece5873258 100644
+--- a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-=
+UCLIBC_DYNAMIC_LINKE.patch
++++ b/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-=
+UCLIBC_DYNAMIC_LINKE.patch
+@@ -39,10 +39,10 @@ Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+  gcc/config/sparc/linux64.h         |  4 ++--
+  17 files changed, 53 insertions(+), 58 deletions(-)
+=20
+-Index: gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
++Index: gcc/gcc/config/aarch64/aarch64-linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/aarch64/aarch64-linux.h
+-+++ gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
++--- a/gcc/config/aarch64/aarch64-linux.h
+++++ b/gcc/config/aarch64/aarch64-linux.h
+ @@ -21,10 +21,10 @@
+  #ifndef GCC_AARCH64_LINUX_H
+  #define GCC_AARCH64_LINUX_H
+@@ -56,10 +56,10 @@ Index: gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
+ =20
+  #undef  ASAN_CC1_SPEC
+  #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
+-Index: gcc-11.3.0/gcc/config/alpha/linux-elf.h
++Index: gcc/gcc/config/alpha/linux-elf.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/alpha/linux-elf.h
+-+++ gcc-11.3.0/gcc/config/alpha/linux-elf.h
++--- a/gcc/config/alpha/linux-elf.h
+++++ b/gcc/config/alpha/linux-elf.h
+ @@ -23,8 +23,8 @@ along with GCC; see the file COPYING3.
+  #define EXTRA_SPECS \
+  { "elf_dynamic_linker", ELF_DYNAMIC_LINKER },
+@@ -71,10 +71,10 @@ Index: gcc-11.3.0/gcc/config/alpha/linux-elf.h
+  #if DEFAULT_LIBC =3D=3D LIBC_UCLIBC
+  #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
+  #elif DEFAULT_LIBC =3D=3D LIBC_GLIBC
+-Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
++Index: gcc/gcc/config/arm/linux-eabi.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
+-+++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
++--- a/gcc/config/arm/linux-eabi.h
+++++ b/gcc/config/arm/linux-eabi.h
+ @@ -65,8 +65,8 @@
+     GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
+ =20
+@@ -95,10 +95,10 @@ Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
+ =20
+  /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+     use the GNU/Linux version, not the generic BPABI version.  */
+-Index: gcc-11.3.0/gcc/config/arm/linux-elf.h
++Index: gcc/gcc/config/arm/linux-elf.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/linux-elf.h
+-+++ gcc-11.3.0/gcc/config/arm/linux-elf.h
++--- a/gcc/config/arm/linux-elf.h
+++++ b/gcc/config/arm/linux-elf.h
+ @@ -60,7 +60,7 @@
+ =20
+  #define LIBGCC_SPEC "%{mfloat-abi=3Dsoft*:-lfloat} -lgcc"
+@@ -108,10 +108,10 @@ Index: gcc-11.3.0/gcc/config/arm/linux-elf.h
+ =20
+  #define LINUX_TARGET_LINK_SPEC  "%{h*} \
+     %{static:-Bstatic} \
+-Index: gcc-11.3.0/gcc/config/i386/linux.h
++Index: gcc/gcc/config/i386/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/i386/linux.h
+-+++ gcc-11.3.0/gcc/config/i386/linux.h
++--- a/gcc/config/i386/linux.h
+++++ b/gcc/config/i386/linux.h
+ @@ -20,7 +20,7 @@ along with GCC; see the file COPYING3.
+  <http://www.gnu.org/licenses/>.  */
+ =20
+@@ -122,10 +122,10 @@ Index: gcc-11.3.0/gcc/config/i386/linux.h
+  #undef MUSL_DYNAMIC_LINKER
+ -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
+ +#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-i386.so.1"
+-Index: gcc-11.3.0/gcc/config/i386/linux64.h
++Index: gcc/gcc/config/i386/linux64.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/i386/linux64.h
+-+++ gcc-11.3.0/gcc/config/i386/linux64.h
++--- a/gcc/config/i386/linux64.h
+++++ b/gcc/config/i386/linux64.h
+ @@ -27,13 +27,13 @@ see the files COPYING3 and COPYING.RUNTI
+  #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
+  #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
+@@ -146,10 +146,10 @@ Index: gcc-11.3.0/gcc/config/i386/linux64.h
+  #undef MUSL_DYNAMIC_LINKERX32
+ -#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
+ +#define MUSL_DYNAMIC_LINKERX32 SYSTEMLIBS_DIR "ld-musl-x32.so.1"
+-Index: gcc-11.3.0/gcc/config/linux.h
++Index: gcc/gcc/config/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/linux.h
+-+++ gcc-11.3.0/gcc/config/linux.h
++--- a/gcc/config/linux.h
+++++ b/gcc/config/linux.h
+ @@ -94,10 +94,10 @@ see the files COPYING3 and COPYING.RUNTI
+     GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
+     GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
+@@ -165,10 +165,10 @@ Index: gcc-11.3.0/gcc/config/linux.h
+  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
+  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
+  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
+-Index: gcc-11.3.0/gcc/config/microblaze/linux.h
++Index: gcc/gcc/config/microblaze/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/microblaze/linux.h
+-+++ gcc-11.3.0/gcc/config/microblaze/linux.h
++--- a/gcc/config/microblaze/linux.h
+++++ b/gcc/config/microblaze/linux.h
+ @@ -28,7 +28,7 @@
+  #undef TLS_NEEDS_GOT
+  #define TLS_NEEDS_GOT 1
+@@ -187,10 +187,10 @@ Index: gcc-11.3.0/gcc/config/microblaze/linux.h
+ =20
+  #undef  SUBTARGET_EXTRA_SPECS
+  #define SUBTARGET_EXTRA_SPECS \
+-Index: gcc-11.3.0/gcc/config/mips/linux.h
++Index: gcc/gcc/config/mips/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/mips/linux.h
+-+++ gcc-11.3.0/gcc/config/mips/linux.h
++--- a/gcc/config/mips/linux.h
+++++ b/gcc/config/mips/linux.h
+ @@ -22,29 +22,29 @@ along with GCC; see the file COPYING3.
+  #define GNU_USER_LINK_EMULATIONN32 "elf32%{EB:b}%{EL:l}tsmipn32"
+ =20
+@@ -230,10 +230,10 @@ Index: gcc-11.3.0/gcc/config/mips/linux.h
+ =20
+  #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
+  #define GNU_USER_DYNAMIC_LINKERN32 \
+-Index: gcc-11.3.0/gcc/config/nios2/linux.h
++Index: gcc/gcc/config/nios2/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/nios2/linux.h
+-+++ gcc-11.3.0/gcc/config/nios2/linux.h
++--- a/gcc/config/nios2/linux.h
+++++ b/gcc/config/nios2/linux.h
+ @@ -29,7 +29,7 @@
+  #undef CPP_SPEC
+  #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
+@@ -243,10 +243,10 @@ Index: gcc-11.3.0/gcc/config/nios2/linux.h
+ =20
+  #undef LINK_SPEC
+  #define LINK_SPEC LINK_SPEC_ENDIAN \
+-Index: gcc-11.3.0/gcc/config/riscv/linux.h
++Index: gcc/gcc/config/riscv/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/riscv/linux.h
+-+++ gcc-11.3.0/gcc/config/riscv/linux.h
++--- a/gcc/config/riscv/linux.h
+++++ b/gcc/config/riscv/linux.h
+ @@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.
+      GNU_USER_TARGET_OS_CPP_BUILTINS();				\
+    } while (0)
+@@ -265,10 +265,10 @@ Index: gcc-11.3.0/gcc/config/riscv/linux.h
+ =20
+  /* Because RISC-V only has word-sized atomics, it requries libatomic wh=
+ere
+     others do not.  So link libatomic by default, as needed.  */
+-Index: gcc-11.3.0/gcc/config/rs6000/linux64.h
++Index: gcc/gcc/config/rs6000/linux64.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/rs6000/linux64.h
+-+++ gcc-11.3.0/gcc/config/rs6000/linux64.h
++--- a/gcc/config/rs6000/linux64.h
+++++ b/gcc/config/rs6000/linux64.h
+ @@ -336,24 +336,19 @@ extern int dot_symbols;
+  #undef	LINK_OS_DEFAULT_SPEC
+  #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
+@@ -299,10 +299,10 @@ Index: gcc-11.3.0/gcc/config/rs6000/linux64.h
+ =20
+  #undef  DEFAULT_ASM_ENDIAN
+  #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
+-Index: gcc-11.3.0/gcc/config/rs6000/sysv4.h
++Index: gcc/gcc/config/rs6000/sysv4.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/rs6000/sysv4.h
+-+++ gcc-11.3.0/gcc/config/rs6000/sysv4.h
++--- a/gcc/config/rs6000/sysv4.h
+++++ b/gcc/config/rs6000/sysv4.h
+ @@ -780,10 +780,10 @@ GNU_USER_TARGET_CC1_SPEC
+ =20
+  #define MUSL_DYNAMIC_LINKER_E ENDIAN_SELECT("","le","")
+@@ -316,10 +316,10 @@ Index: gcc-11.3.0/gcc/config/rs6000/sysv4.h
+ =20
+  #ifndef GNU_USER_DYNAMIC_LINKER
+  #define GNU_USER_DYNAMIC_LINKER GLIBC_DYNAMIC_LINKER
+-Index: gcc-11.3.0/gcc/config/s390/linux.h
++Index: gcc/gcc/config/s390/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/s390/linux.h
+-+++ gcc-11.3.0/gcc/config/s390/linux.h
++--- a/gcc/config/s390/linux.h
+++++ b/gcc/config/s390/linux.h
+ @@ -72,13 +72,13 @@ along with GCC; see the file COPYING3.
+  #define MULTILIB_DEFAULTS { "m31" }
+  #endif
+@@ -338,10 +338,10 @@ Index: gcc-11.3.0/gcc/config/s390/linux.h
+ =20
+  #undef  LINK_SPEC
+  #define LINK_SPEC \
+-Index: gcc-11.3.0/gcc/config/sh/linux.h
++Index: gcc/gcc/config/sh/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/sh/linux.h
+-+++ gcc-11.3.0/gcc/config/sh/linux.h
++--- a/gcc/config/sh/linux.h
+++++ b/gcc/config/sh/linux.h
+ @@ -61,10 +61,10 @@ along with GCC; see the file COPYING3.
+ =20
+  #undef MUSL_DYNAMIC_LINKER
+@@ -355,10 +355,10 @@ Index: gcc-11.3.0/gcc/config/sh/linux.h
+ =20
+  #undef SUBTARGET_LINK_EMUL_SUFFIX
+  #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
+-Index: gcc-11.3.0/gcc/config/sparc/linux.h
++Index: gcc/gcc/config/sparc/linux.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/sparc/linux.h
+-+++ gcc-11.3.0/gcc/config/sparc/linux.h
++--- a/gcc/config/sparc/linux.h
+++++ b/gcc/config/sparc/linux.h
+ @@ -78,7 +78,7 @@ extern const char *host_detect_local_cpu
+     When the -shared link option is used a final link is not being
+     done.  */
+@@ -368,10 +368,10 @@ Index: gcc-11.3.0/gcc/config/sparc/linux.h
+ =20
+  #undef  LINK_SPEC
+  #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
+-Index: gcc-11.3.0/gcc/config/sparc/linux64.h
++Index: gcc/gcc/config/sparc/linux64.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/sparc/linux64.h
+-+++ gcc-11.3.0/gcc/config/sparc/linux64.h
++--- a/gcc/config/sparc/linux64.h
+++++ b/gcc/config/sparc/linux64.h
+ @@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.
+     When the -shared link option is used a final link is not being
+     done.  */
+diff --git a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-t=
+o-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc/0009-gcc-a=
+rmv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+index 0f94936140..1ec942e977 100644
+--- a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linke=
+r-to-support-EABI.patch
++++ b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linke=
+r-to-support-EABI.patch
+@@ -18,10 +18,10 @@ Upstream-Status: Pending
+  gcc/config/arm/linux-eabi.h | 6 +++++-
+  1 file changed, 5 insertions(+), 1 deletion(-)
+=20
+-Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
++Index: gcc/gcc/config/arm/linux-eabi.h
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
+-+++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
++--- a/gcc/config/arm/linux-eabi.h
+++++ b/gcc/config/arm/linux-eabi.h
+ @@ -91,10 +91,14 @@
+  #define MUSL_DYNAMIC_LINKER \
+    SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=3Dha=
+rd:hf}%{mfdpic:-fdpic}.so.1"
+diff --git a/meta/recipes-devtools/gcc/gcc_11.3.bb b/meta/recipes-devtool=
+s/gcc/gcc_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/gcc_11.3.bb
+rename to meta/recipes-devtools/gcc/gcc_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial_11.3.bb b/meta/reci=
+pes-devtools/gcc/libgcc-initial_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgcc-initial_11.3.bb
+rename to meta/recipes-devtools/gcc/libgcc-initial_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgcc_11.3.bb b/meta/recipes-devt=
+ools/gcc/libgcc_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgcc_11.3.bb
+rename to meta/recipes-devtools/gcc/libgcc_11.4.bb
+diff --git a/meta/recipes-devtools/gcc/libgfortran_11.3.bb b/meta/recipes=
+-devtools/gcc/libgfortran_11.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/gcc/libgfortran_11.3.bb
+rename to meta/recipes-devtools/gcc/libgfortran_11.4.bb
+--=20
 2.39.0
 
 
