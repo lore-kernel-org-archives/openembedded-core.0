@@ -1,97 +1,84 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26CCAC41513
-	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 19:44:52 +0000 (UTC)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.web11.16780.1690487082495469416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0BFEB64DD
+	for <webhook@archiver.kernel.org>; Thu, 27 Jul 2023 20:19:32 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.17566.1690489167433317352
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 12:44:42 -0700
+ Thu, 27 Jul 2023 13:19:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ouipXmXz;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-38c35975545so1125561b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 12:44:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=PshseZMb;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bbd2761f1bso11026205ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 13:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690487081; x=1691091881;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d6i5UEOTXYKEf6bahwCIBjQ3LNTHMawt+yvrs8J8gLY=;
-        b=ouipXmXzIhorrfYvK3Tue7iSKlVo8OCHdaOtGYzYSSRBMzb2iEv67NoYa9Y1hrfZol
-         DCrQVsSy6VO6G+7ixV//rlA0OeqkF8howIFdQNW7LOOW9PZJP1eDJRQtk1zqn9fs6Y36
-         Z9bwgmITdlm8Xu+QuxWC2Ci0SPsdgLqK33iaA2CtSo75U+8FjR/Cml1uk/itbrkvXbHC
-         7SOtOe0KYi6np7GddXC/FLamp6P0aIwKYmFjJAJEm77HjKP2r067Kdz6U9OkF4D5P2Dc
-         ancFvmQjmNRUPc0JV7Hivzg3uJALv3USfap1agOeKD+SaucGxEgfSRIikeNqr2CURK/d
-         vmZQ==
+        d=gmail.com; s=20221208; t=1690489167; x=1691093967;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VvqABs+MESbuRH9kehrcX7Eroq4YEpydwWjNkj2gtcM=;
+        b=PshseZMbl6UwDdGtu2DoZ8A7CDqSwd5uI/yegmKTHVjFwT+AQ1TWbG4yDOQJiZh4Sp
+         xqS4VGT2itaypww9fDaLMGb8iSzkMMQvd4GccsyG9rXxVkrBbE+XAidcLqWzDHQTQuat
+         f3F65JNz9VcpxdZnBziPLX5/7K+oPQ5y22OGMCCM6uN22wlQYsYgEoRFPDUUIudUp5/2
+         25/5ojBv2gKiyjLlvNBpblNxP6Q70i6lHGt0sQYLoPmr16zwgPn5F6Plak/Qj0G5jOA0
+         cTgZQfQKl3pmEQPW6pPjdyCW4qjEn6p6Qc113Qq3y89LOrv/hvnM4lW+HpCdI9mC8+vQ
+         Dwyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690487081; x=1691091881;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d6i5UEOTXYKEf6bahwCIBjQ3LNTHMawt+yvrs8J8gLY=;
-        b=MWl97tffWm4PDCSswBvSjbSy7tpTNrWWiLnlVnVEcPHk8CY32sDz6SVciszm1nFPlm
-         LEbuctpwDdLfbJQlxpncR8ha0zunbhp+1EAn5EEHiiE9E12SLimczMRs7Pr6pLepXDeS
-         k7O1zS0oyA8ReDywtoMyG+hwNWnGJtdc4NFH4cgowBM5o223D9dlr8zzM9JLVW2pQNkv
-         wZvXcFeqtnibG9lTepoXRY6FcxdI8vZrU+tc7ZfyJXmAiVK/p/bHYRdo1T+96VFOvppu
-         gE4rKeDf6ssECaU2vqPkUApE4qjQDNpvRLviJ+G9aJSlIN5mJdWvVEIrpLO2kpkl3NFt
-         4R/g==
-X-Gm-Message-State: ABy/qLZFdPVqRz5+BnFPNuqqu/rMtqXpBJ9ZlClje7MSY/AODWqlImMo
-	LnYTwEKsd1PWR7qiqu7/CfCOWe4s+zEwdROkk6s=
-X-Google-Smtp-Source: APBJJlEodRJOgAKzeFT4wPw41DMxU7G5cLXwBbGBQcrxj66M4en2thUi8kOfsvuwcX+EJsDSb3PPsA==
-X-Received: by 2002:a05:6808:408d:b0:3a4:4b42:612b with SMTP id db13-20020a056808408d00b003a44b42612bmr179526oib.42.1690487081378;
-        Thu, 27 Jul 2023 12:44:41 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a01dd00b0025bcdada95asm1620532pjd.38.2023.07.27.12.44.40
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1690489167; x=1691093967;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VvqABs+MESbuRH9kehrcX7Eroq4YEpydwWjNkj2gtcM=;
+        b=MJK1ILs3AMjvPMO0tF3oHDRNP7qVT+8j4E38F7N2AEiFK2upL/U25pMW0tKz2vm1ZE
+         b2+lCx6yUZ1ChgCdgQJVydUJXf6mz4XbzQwYymSJFQlN3HpeZCZUxdQMyEeaM5Km5omA
+         sDsLJtxj9t2kCOJGS0K3xUQrr42+L02zR33iTdWMA/wdNXsrE0M/NDg4GjzcYlGDZB61
+         OjWyaXVjlrXEcUoWcRwXaVFZx2z141PQskvdRT+46Kzj8JIzgLZ2+3Z+gnA+oo6TVGlC
+         iEkBavHtHOYx0vMAQ/CUl6VEV82WVOFB3DQEw4dkEQ0iIt/R4oyAk8+D+SwQm0ZAbiKn
+         eHEg==
+X-Gm-Message-State: ABy/qLYNvZQvBOP5Wr2BKMcQCsscIyenDU8muASznJcGoDSpnVJBpGOx
+	wr/N6MCubxQ4FVvKGrXQPRNzBfknro78OQ==
+X-Google-Smtp-Source: APBJJlGiRKwtyezeRgEWmZ6gU4YHM4yIo9F5PHc3gdLn1VLTRu6zkRdwWhYRLowVMuGXQK7dc4FL8Q==
+X-Received: by 2002:a17:902:ef94:b0:1b8:8dbd:e1a0 with SMTP id iz20-20020a170902ef9400b001b88dbde1a0mr435706plb.13.1690489166608;
+        Thu, 27 Jul 2023 13:19:26 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:6180::5d37])
+        by smtp.gmail.com with ESMTPSA id r11-20020a1709028bcb00b001bb8895848bsm2040221plo.71.2023.07.27.13.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 12:44:41 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Thu, 27 Jul 2023 13:19:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 26/27] openssl: use a glob on the PERLEXTERNAL to track updates on the path
-Date: Thu, 27 Jul 2023 09:43:44 -1000
-Message-Id: <e50a2298b10107b8ee66b2efd52c9d51d7a99fa5.1690486929.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1690486929.git.steve@sakoman.com>
-References: <cover.1690486929.git.steve@sakoman.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ltp: Use bfd linker for KVM_LD as well when ld-is-lld
+Date: Thu, 27 Jul 2023 13:19:23 -0700
+Message-ID: <20230727201923.738765-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 19:44:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185001
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 20:19:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185003
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
-
-The Text-Template was updated from 1.46 to 1.56
-
-| ERROR: openssl-native-3.1.1-r0 do_configure: PERLEXTERNAL '/build/tmp/work/x86_64-linux/openssl-native/3.1.1-r0/openssl-3.1.1/external/perl/Text-Template-1.46/lib' not found!
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b9a7739b01e31d0cc8358d99255e3e1b02a0a1a8)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_3.1.1.bb | 2 +-
+ meta/recipes-extended/ltp/ltp_20230516.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.1.bb b/meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-index b849f9ca79..432ab4032b 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.1.1.bb
-@@ -137,7 +137,7 @@ do_configure () {
- 	fi
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
--	PERLEXTERNAL="${S}/external/perl/Text-Template-1.46/lib"
-+	PERLEXTERNAL="$(realpath ${S}/external/perl/Text-Template-*/lib)"
- 	test -d "$PERLEXTERNAL" || bberror "PERLEXTERNAL '$PERLEXTERNAL' not found!"
- 	HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="$PERLEXTERNAL" \
- 	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-3 --libdir=${libdir} $target
+diff --git a/meta/recipes-extended/ltp/ltp_20230516.bb b/meta/recipes-extended/ltp/ltp_20230516.bb
+index e4ba3c68724..9c9acc6c145 100644
+--- a/meta/recipes-extended/ltp/ltp_20230516.bb
++++ b/meta/recipes-extended/ltp/ltp_20230516.bb
+@@ -48,7 +48,7 @@ LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-l
+ # it fails with gold also a bit later when trying to use *-payload.bin
+ # http://errors.yoctoproject.org/Errors/Details/663094/
+ # work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
+-KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
++KVM_LD = "${@bb.utils.contains_any('DISTRO_FEATURES', 'ld-is-gold ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
 -- 
-2.34.1
+2.41.0
 
 
