@@ -2,126 +2,109 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB4FC001E0
-	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 09:40:06 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.28830.1690537198658426623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5003BC001DE
+	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 09:45:56 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.29045.1690537547826736272
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jul 2023 02:39:59 -0700
+ Fri, 28 Jul 2023 02:45:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=HIYfT1XY;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fbd33a57ddso20127725e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 02:39:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=NtGWTyt0;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fbea14700bso19328875e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 02:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690537197; x=1691141997;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zQhIZCifpwAD2gvgXFpV4hiko9VoBVnp2zUGCXtyAlA=;
-        b=HIYfT1XY3xlkHVhR16hJTQ2u7w6dJYxGSXYk7/nsOX3pL6GgBcATo44k9KjpTtpF+i
-         6meUrwmS8EacCjcfzYuCYpTcchqvfAlvR1yKjgpE8hFdg0vMAchweBqLZpHQWkc6s1jV
-         9JUeocabOqxf13KNbgnJRpd4I5Z2TgUrdYpIzD6+2MYzxF7d5ZnmrCXXq93gM81Fs5vt
-         NXiN/Iw4MJbJ8EE5Ym9s0ZmVPqmUYJ1ROgrzia08HDxF2vvFr3ALiGK5RwLSAvawh+Rs
-         oiTv4qEBTnn9fGmCByoMmoCGi/H8tFZ6IMjXRt3fm2+lZr5Inx6408fq3mueGIDm/PVE
-         oFmQ==
+        d=gmail.com; s=20221208; t=1690537546; x=1691142346;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Up8E2I4uAjlBJYaLYtFnLuMchk0LPLrotJpBhlaK6uI=;
+        b=NtGWTyt0/elRNxXSCZIPsZDekPpJ+RqJnyAMDwcHJj9unZy0NeZB9zOl5bRs+Soy5A
+         6rOXyfHH5KfQlg7WXm+7CYljRoV4S+USAJs3DT/rkt83ILDKmApspAqLCIaJKIQUVK37
+         HIy1yc3dtu09BQs/qYO2/EGTlDxFPSZmEQadwat82bpA2xcg5U8dcVUYlrq2eOgb7zjs
+         +vp9Ajk3e2sUaTIQBIOkKcxyJxNwu3PLKpD/afWPwWQtBPLTlltrDNP5hTMQBy11JsyB
+         kxVfRTDGRHN9ky1ULycSKUMzuXB6WrWS/Q0enGNYeOLaVJBOdKxNRUt4znw6uWZCcUnN
+         wjEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690537197; x=1691141997;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zQhIZCifpwAD2gvgXFpV4hiko9VoBVnp2zUGCXtyAlA=;
-        b=dGDxaYSNkMpzOg/ZsK213rXlCaYMxKCq7U7ew19ymSx/n6NjUA8YQnyJk1RMauHQh1
-         KwLlq4c1ITIJ61ReEpno6NjON3tlxXuaS/XPW66haAyVi5RcEuFEXJJD7/YFSKpay2sM
-         cbo8gPb4kNf/FtOzqZuy69RFRNf4wkV3x8rkcJAVmNiROrg6UbtwdbpaS3ljbsQN2IFY
-         VGStYpi9vUPi3XvvoBItjdtwmpRJduPDbWBzIWP2rygkfDWNJLZY81djb2/vrJpBWTr8
-         DbQATSNFDLkarmh4cVwNkNf0o9ZfOFO2wgejYrrDl4SWhEXIKvBnwSY99zKpMKkF+LnI
-         XINA==
-X-Gm-Message-State: ABy/qLbtiPGoxXz+fOaj5RhMHAMwimcUWbssk30ib0jSKwKt9ad4YP5a
-	/Q/IQ881/caBzNrSJYfwv21gUsnod8k=
-X-Google-Smtp-Source: APBJJlHv5bUxqseFoPJ89pV+H8Zsx+fMKG3v5t1kL3r8KjkAoUI6Iut/k5W9fnoCJQrpChMNnio5fQ==
-X-Received: by 2002:a1c:790b:0:b0:3fc:1f0:a66e with SMTP id l11-20020a1c790b000000b003fc01f0a66emr1247304wme.1.1690537196406;
-        Fri, 28 Jul 2023 02:39:56 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690537546; x=1691142346;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Up8E2I4uAjlBJYaLYtFnLuMchk0LPLrotJpBhlaK6uI=;
+        b=INCfxBVdVeGdQOFzKuV3Jy7hCr/7NWb8kjRRwvdQ1p1eNttmQReXOvRhwWRyY/pvAX
+         UgwhXA/PrTMfVrVqHm+QUG1kBeHPy81MupFGeNh9PQOyF1HRQQjW5TCs3YFy3cnYWTaV
+         KzqFZl8k9I/8bOkmuc9AF8+4Sd/Z9xhJib4IY7OM8cDVA+02ekucFiyKhNLNb9hA4Zx2
+         zOalXhW0I7rEIy6qXNloBtIbnaUS4VA97UtaetnPaG9F02LcRjZr5W79/1t21+W81mA+
+         27KUQ9y8c/PjEaCH38VTITp5PMS07nkc+9lXfPNgZv3KXxsbPGHyV7VpvOTWPeOeYJJW
+         yMRw==
+X-Gm-Message-State: ABy/qLZACdlFXenleVvvOd0XudyQvKDTf8YSAuTDMnUJvSVmb6kgy2+H
+	2G7zAUhW3GBNdoth4R4a+JRwLoHydWU=
+X-Google-Smtp-Source: APBJJlGi+gYV8wp5i5vRq+3MwOQDDpRNg17J3OzpFQ5Hj+QFybCzfTV8ad0u0AqJMyr9jC+UPOiuZQ==
+X-Received: by 2002:a1c:6a14:0:b0:3fb:fef9:cdcd with SMTP id f20-20020a1c6a14000000b003fbfef9cdcdmr1238705wmc.22.1690537545701;
+        Fri, 28 Jul 2023 02:45:45 -0700 (PDT)
 Received: from localhost.localdomain (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id 9-20020a05600c230900b003fbe561f6a3sm6564537wmo.37.2023.07.28.02.39.55
+        by smtp.gmail.com with ESMTPSA id 9-20020a05600c230900b003fbe561f6a3sm6564537wmo.37.2023.07.28.02.45.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 02:39:55 -0700 (PDT)
+        Fri, 28 Jul 2023 02:45:45 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH 1/2] base-passwd: Add the sgx group
-Date: Fri, 28 Jul 2023 10:39:48 +0100
-Message-Id: <20230728093950.12046-1-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 2/2] udev: eudev: Revert add group to sgx
+Date: Fri, 28 Jul 2023 10:39:49 +0100
+Message-Id: <20230728093950.12046-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230728093950.12046-1-alex.kiernan@gmail.com>
+References: <20230728093950.12046-1-alex.kiernan@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 09:40:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185015
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 09:45:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185016
 
-To avoid errors from eudev/udev we need an sgx group, but if we add it
-via groupadd that causes shadow login to be brought into an image, which
-causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
-Function not implemented` as shadow's login doesn't implement the
-heuristics which busybox has to handle this kernel configuration.
+The sgx group is part of base-passwd now.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- .../0001-base-passwd-Add-the-sgx-group.patch  | 30 +++++++++++++++++++
- .../base-passwd/base-passwd_3.6.1.bb          |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+ meta/recipes-core/systemd/systemd_253.3.bb | 2 +-
+ meta/recipes-core/udev/eudev_3.2.12.bb     | 5 +----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-new file mode 100644
-index 000000000000..e1340e1b70cf
---- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
-@@ -0,0 +1,30 @@
-+From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
-+From: Alex Kiernan <alexk@zuma.ai>
-+Date: Fri, 28 Jul 2023 10:28:57 +0100
-+Subject: [PATCH] base-passwd: Add the sgx group
-+
-+To avoid errors from eudev/udev we need an sgx group, but if we add it
-+via groupadd that causes shadow login to be brought into an image, which
-+causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
-+Function not implemented` as shadow's login doesn't implement the
-+heuristics which busybox has to handle this kernel configuration.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ group.master | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/group.master b/group.master
-+index d34d2b832d43..e54fd1d2c6dc 100644
-+--- a/group.master
-++++ b/group.master
-+@@ -34,6 +34,7 @@ video:*:44:
-+ sasl:*:45:
-+ plugdev:*:46:
-+ kvm:*:47:
-++sgx:*:48:
-+ staff:*:50:
-+ games:*:60:
-+ shutdown:*:70:
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-index 204016b3e72e..44bcfb019930 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
-            file://0005-Add-kvm-group.patch \
-            file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch \
-            file://0007-Add-wheel-group.patch \
-+           file://0001-base-passwd-Add-the-sgx-group.patch \
-            "
+diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-core/systemd/systemd_253.3.bb
+index cf0e17ff002b..1fd4556afd0e 100644
+--- a/meta/recipes-core/systemd/systemd_253.3.bb
++++ b/meta/recipes-core/systemd/systemd_253.3.bb
+@@ -424,7 +424,7 @@ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
+ "
+ GROUPADD_PARAM:${PN} = "-r systemd-journal;"
+-GROUPADD_PARAM:udev = "-r render;-r sgx;"
++GROUPADD_PARAM:udev = "-r render"
+ GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
+diff --git a/meta/recipes-core/udev/eudev_3.2.12.bb b/meta/recipes-core/udev/eudev_3.2.12.bb
+index 4268bcc2c5de..572ccecafd0c 100644
+--- a/meta/recipes-core/udev/eudev_3.2.12.bb
++++ b/meta/recipes-core/udev/eudev_3.2.12.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "ccdd64ec3c381d3c3ed0e99d2e70d1f62988c7763de89ca7bdffafa5ea
  
- SRC_URI[sha256sum] = "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6c6428f2c92866f79af"
+ GITHUB_BASE_URI = "https://github.com/eudev-project/eudev/releases"
+ 
+-inherit autotools update-rc.d qemu pkgconfig features_check manpages github-releases useradd
++inherit autotools update-rc.d qemu pkgconfig features_check manpages github-releases
+ 
+ CONFLICT_DISTRO_FEATURES = "systemd"
+ 
+@@ -85,6 +85,3 @@ pkg_postinst:${PN}-hwdb () {
+ pkg_prerm:${PN}-hwdb () {
+ 	rm -f $D${sysconfdir}/udev/hwdb.bin
+ }
+-
+-USERADD_PACKAGES = "${PN}"
+-GROUPADD_PARAM:${PN} = "-r sgx"
 -- 
 2.39.0
 
