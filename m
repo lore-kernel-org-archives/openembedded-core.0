@@ -2,61 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31686C001DE
-	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 05:53:25 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.26668.1690523598099963611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CDEC001DE
+	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 05:54:25 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.26678.1690523659668331312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 22:53:18 -0700
+ Thu, 27 Jul 2023 22:54:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Mlz4AFI/;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1bbc7b2133fso11089725ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 22:53:18 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=dbuoqzcE;
+ spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-686ba29ccb1so1091241b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 22:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1690523597; x=1691128397;
+        d=mvista.com; s=google; t=1690523659; x=1691128459;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
-        b=Mlz4AFI/inPPz8dkaeJKTRTa9Fjtqt/wOMgmecfxNjz7a5/GC58xRkyouOgpwzzxFM
-         i4BjHzeBrPeJRiXdOGepXRPjb4YXl6RU+xKO644MS7EVJjmc9S52HkToxuSdk6PhDzOJ
-         tStc+NHEhE/8e6PrKOuKZqTl19XwX3oV+7IOU=
+        b=dbuoqzcED2LnAiuN3OoYuxx5YJoT19sJyqTRtBoJfB3Vl0VYrdB/tgOXknQdpqeh9b
+         u5pBuzZKjRvYtWycKAJcGtKY2zczNH6X7dt5C3K4DjPbRuAjNk0MhIYrAe9/HNVbdouz
+         VTqHNHQzORcpPSFiVgpDs4ZWE8t9O1nkTFOsg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690523597; x=1691128397;
+        d=1e100.net; s=20221208; t=1690523659; x=1691128459;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
-        b=Fwna4vWVjjhMfgNbxVrBPw0udsnYcBn1/GyR6u4KCxvUkTqM9ISTrO8SWEis7LM3ju
-         t55xuZaaYuYSNoeEJ+SFKiW+BAiSVpYeHr1UUB12wynBFAiiVRT1NWM/krsbGKC0PzGE
-         QhNUpE4MNWF1eDI7BMU5+3U/T0zL2+a7T1W6aFihvD4vLtayLlXFIDvu3jt2YJ4qEqMb
-         bQRKVj4Cwa8WRqAy8/gnu22MMS98p0ey+FsZz0dvE+JsYJFF23ShVzn31mvCUpi3cdfm
-         6CZ7w/YzH/+c+Vl8PX3p3QElb7S+yW7gkXDKk8nxW2+uLcQGAct2IK+4JlfOj/S5GFZs
-         tCxQ==
-X-Gm-Message-State: ABy/qLaEQXOnyStVXf2lQj5P5DzsloPIm2pkUIfBw9vBe9sEZjPo5dVw
-	FvDe2FE2pI4HyiUrnAP7mJSojdqbzVBKWja6nHs=
-X-Google-Smtp-Source: APBJJlFSkguWZES1hzb+8B1XkcfzZTNqNzSDmhk+h5o30VDpdhVf9WslxAYyDrLetRdFOKMGVgS8MA==
-X-Received: by 2002:a17:902:8217:b0:1b6:771a:3516 with SMTP id x23-20020a170902821700b001b6771a3516mr642008pln.22.1690523597242;
-        Thu, 27 Jul 2023 22:53:17 -0700 (PDT)
+        b=VApPBqwCQ08VxO2Eg5GNSGWJ6azLzvYbP4By2ffW+LiYbT66oWI8aV/4tlekRY8tZX
+         8QZR50Ehea/BccuQsZ+yn237huDY3SRJ2jovqMH16ZiGJqDd1JTBFW8nkdYzoJ9SbEea
+         gOBfTML9BEMnkq+hC+2zJ+VTggChXCky7CzNn7WLMrk1jneX+scNA3dgdmgwtatxf+U6
+         e6m0ViluHtkOKJn+fzNqAsLILODknpIbeXhoRkcCFbspLWV9G4+xn3QfCVpVDmC+/6AB
+         RLCh1CnU+BLjrxIMoZFy3wbJRcncpQyxiff7gZHO0qli4pGbEyG/XAyHJSgxUEE+Voyk
+         WO6Q==
+X-Gm-Message-State: ABy/qLbArQyolC9NDwF8vuM1hFq7qV1KAQoavku5+UMczLFytXAYruTc
+	YCKuTIDwlpZuIsFYFr3AbLtiNvWu6awzWXVA3zQ=
+X-Google-Smtp-Source: APBJJlFmuqfRyLu5v1oqX43sL5bahCXlzLM1Vn/iGrdcgH8VkPDrN6iyP8Pa2jPOyYHZYrqsfNLbog==
+X-Received: by 2002:a05:6a00:2d0f:b0:668:8ad5:778f with SMTP id fa15-20020a056a002d0f00b006688ad5778fmr1217661pfb.17.1690523658843;
+        Thu, 27 Jul 2023 22:54:18 -0700 (PDT)
 Received: from MVIN00024 ([43.249.234.171])
-        by smtp.gmail.com with ESMTPSA id c17-20020a170903235100b001bb9d6b1baasm2616955plh.198.2023.07.27.22.53.14
+        by smtp.gmail.com with ESMTPSA id j8-20020aa78d08000000b006828e49c04csm2408867pfe.75.2023.07.27.22.54.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 22:53:16 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 28 Jul 2023 11:23:11 +0530
+        Thu, 27 Jul 2023 22:54:18 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 28 Jul 2023 11:24:13 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libtiff: fix CVE-2023-26966 libtiff: Buffer Overflow
-Date: Fri, 28 Jul 2023 11:23:10 +0530
-Message-Id: <20230728055310.23309-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCHv2] libtiff: fix CVE-2023-26966 Buffer Overflow
+Date: Fri, 28 Jul 2023 11:24:12 +0530
+Message-Id: <20230728055412.23404-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 05:53:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185013
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 05:54:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185014
 
 Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/b0e1c25dd1d065200c8d8f59ad0afe014861a1b9
 
