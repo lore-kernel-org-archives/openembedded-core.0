@@ -1,76 +1,84 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0D9C001DE
-	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 11:00:06 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.29678.1690541999848250515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F851C04A94
+	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 11:13:16 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.30018.1690542795582996882
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jul 2023 04:00:00 -0700
+ Fri, 28 Jul 2023 04:13:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=UJkGU38f;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b9a828c920so32374411fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 03:59:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=exbih6ue;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3fbea14706eso20992125e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 04:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690541998; x=1691146798;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5LUFbH2by1D8jFYQUxPH+lECqbBXcaOIlPpGWQ1gzfE=;
-        b=UJkGU38fP3EM//wnEOxR+ebgmfCugpPtSA/cBAe0bUg+JHZj1A+XIKpPfcSRTwYjMb
-         Wj1MiCHa+02ei+LT95gyGfDkYBIoEuscLo5s4AmnyyL7/BW5daFuatxU1fXleCNNsBj7
-         NZjvY5Y8joajR9e9VOEHpa8Fq9IqXANPMM1ozAurijTSPITJ7cI+HhTFz/weaLm4KX4r
-         F+cgGlKGwJ8FacnwaGXTcoWD0lBz4kF4NKHt/Khl/Ff0WrfgoLkT/a+y0Iu6yNG+1kuj
-         5PMa1EnRmlyoF/8dw9PYuu4D8jm94A/+QNpaCXdspZsnmXoKY/83xYxLCJTM4e5pUBVu
-         NMBg==
+        d=linuxfoundation.org; s=google; t=1690542793; x=1691147593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oniJMkN0jYjIX6IAvaSr977qphYCLC+Zj6FOsUkT8jc=;
+        b=exbih6ueStgTUxO6DeRtqJs8XGI9kt0i4Eue0Qc3BDW5CMwifI7IMW1/snWrMRGdeA
+         49mXhPnGw1iaC4zq7vkPypQ1rbltBG5n9tMiIiYcP4T3X7SJYnIwtFbxU8u1O5xK5u/N
+         DE15gn7oPPOSy/CfAQtun+YOtI6SMlqnggXh0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690541998; x=1691146798;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5LUFbH2by1D8jFYQUxPH+lECqbBXcaOIlPpGWQ1gzfE=;
-        b=YJSETHwG2ciJ1ADHSKq+x5Z3xZ5KCxa1QX5UXHGfdjWh7rueyRGhqybMkR1BgDnKmR
-         FJoz7owmk2xyWLXu4CdVgkPjU17btqCQEyd2Uy0Gcbf8JlURx5WsnEjnSG/K8c7MEb5B
-         kgpAyYYAJpsWHtiZLVpwq/FIFTrmpobggBE2AXD/IiWyi80fU4pn7602UuY5FX8jkF0D
-         cEvRnsATa0216wqCrFAe7a8Hlza6CuxQNug1K+BTLcbOwDqOiKfWaTieFAHGCpi3Lrj4
-         VxMpwarCZigW4RYg9KAZx7zJK1B2xX4GmbVh5n62TkecCI6G3s2/te0vH8YHFmg+frdZ
-         J9tA==
-X-Gm-Message-State: ABy/qLYJc7ijix7tWJ/vwZRvrYP5Kvp6lnI6uNX5nRSLP83f9eR6aKTw
-	NwZg57/F4RZaLs4oXkImHdV/ME8wBrSa9Ydroec=
-X-Google-Smtp-Source: APBJJlFhBI1VmAKVZG/H7hdMZJPdltwuGsk9WYWbRmJWp7fpIeWG/4i7NSlPcpPKo+USrddEErqe7ekVgJ7iJ158ksg=
-X-Received: by 2002:a2e:7807:0:b0:2b6:e958:5700 with SMTP id
- t7-20020a2e7807000000b002b6e9585700mr1512828ljc.4.1690541997944; Fri, 28 Jul
- 2023 03:59:57 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690542793; x=1691147593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oniJMkN0jYjIX6IAvaSr977qphYCLC+Zj6FOsUkT8jc=;
+        b=cP+0zKfof1iPHXKS0dKGT1rob44qIFT2JbQTbucXrx6/TbxKKzqVRse+WHS2vjLCpu
+         aTxJvXDzHg2QooeWKIASJWiZf8eMrV9lv/a2L6slLkOWqwMt8iaR5U5cUhKas86B8iMQ
+         ipJmJCg3c5r2wI9iyD0+KrL1uS/LnrHeJfERzX5oUugSuTGfWySluvrzHW5vrkDP1DbC
+         JeeTBQjTVppuNXnUQFtOpQFzcweHBoIhPKozLTclcAg9drF9rsNHQQ5EuAPMaVDhhtrN
+         U9GLQ+JMF+AFEssVZQG4KBqwX4RlDSyH5b3xS/YvvE/S1V8kDg3aw0UYEIo4PEwy3Z9v
+         HREw==
+X-Gm-Message-State: ABy/qLaauJ1WXoJC2Ybt2VYrzEqi1RLYcKTO8m++jRMmcuxZnUMf1VUE
+	gEEqc1sIjri24gn3WcZNnhGbXvqZRDfwapNbxCs=
+X-Google-Smtp-Source: APBJJlGhEjaljEd09QMMbeWGAf5fc/6qqNf5dN/p7v/WV/W2WgYagKvhPidC1FlPVv7RDJD0uySmXQ==
+X-Received: by 2002:a7b:c019:0:b0:3fd:2dcc:bc19 with SMTP id c25-20020a7bc019000000b003fd2dccbc19mr1518372wmb.15.1690542793402;
+        Fri, 28 Jul 2023 04:13:13 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4e39:f3a8:af2d:87a2])
+        by smtp.gmail.com with ESMTPSA id k17-20020a7bc311000000b003fc02218d6csm6730736wmj.25.2023.07.28.04.13.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 04:13:12 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] oeqa/runtime/ltp: Increase ltp test output timeout
+Date: Fri, 28 Jul 2023 12:13:08 +0100
+Message-Id: <20230728111311.1665976-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230727143627.3718496-1-alex@linutronix.de> <20230727143627.3718496-16-alex@linutronix.de>
- <a88db32d-aea3-d125-72d3-5d25db427f36@gmail.com>
-In-Reply-To: <a88db32d-aea3-d125-72d3-5d25db427f36@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 28 Jul 2023 12:59:46 +0200
-Message-ID: <CANNYZj_QwQHj_At0QZRC4DD28XDuCNkxcn9E=O3n65BLKuQO_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 16/21] libadwaita: add recipe from meta-gnome
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 11:00:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185020
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 11:13:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185021
 
-On Thu, 27 Jul 2023 at 18:12, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On 7/27/23 7:36 AM, Alexander Kanavin wrote:
-> > This is a requirement of latest epiphany 44.x.
-> >
->
-> This import breaks layer check tests for meta-oe job because now we have
-> this recipe in two places. Would be good to send a removal to meta-gnome
-> simultaneously.
+On our slower arm server, the tests currently timeout leading to inconsistent test
+results. Increase the timeout to avoid this and aim to make the test results
+consistent.
 
-Patch sent.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
+index 29c26d7d324..13a4f84ac00 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp.py
++++ b/meta/lib/oeqa/runtime/cases/ltp.py
+@@ -71,7 +71,7 @@ class LtpTest(LtpTestBase):
+             cmd = '/opt/ltp/runltp -f %s -q -r /opt/ltp -l /opt/ltp/results/%s -I 1 -d /opt/ltp' % (ltp_group, ltp_group)
+ 
+             starttime = time.time()
+-            (status, output) = self.target.run(cmd)
++            (status, output) = self.target.run(cmd, timeout=1200)
+             endtime = time.time()
+ 
+             # Write the console log to disk for convenience
+-- 
+2.39.2
+
 
