@@ -1,126 +1,128 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CDEC001DE
-	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 05:54:25 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.26678.1690523659668331312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB4FC001E0
+	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 09:40:06 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.28830.1690537198658426623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jul 2023 22:54:19 -0700
+ Fri, 28 Jul 2023 02:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dbuoqzcE;
- spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-686ba29ccb1so1091241b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Jul 2023 22:54:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=HIYfT1XY;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fbd33a57ddso20127725e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 02:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1690523659; x=1691128459;
+        d=gmail.com; s=20221208; t=1690537197; x=1691141997;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
-        b=dbuoqzcED2LnAiuN3OoYuxx5YJoT19sJyqTRtBoJfB3Vl0VYrdB/tgOXknQdpqeh9b
-         u5pBuzZKjRvYtWycKAJcGtKY2zczNH6X7dt5C3K4DjPbRuAjNk0MhIYrAe9/HNVbdouz
-         VTqHNHQzORcpPSFiVgpDs4ZWE8t9O1nkTFOsg=
+        bh=zQhIZCifpwAD2gvgXFpV4hiko9VoBVnp2zUGCXtyAlA=;
+        b=HIYfT1XY3xlkHVhR16hJTQ2u7w6dJYxGSXYk7/nsOX3pL6GgBcATo44k9KjpTtpF+i
+         6meUrwmS8EacCjcfzYuCYpTcchqvfAlvR1yKjgpE8hFdg0vMAchweBqLZpHQWkc6s1jV
+         9JUeocabOqxf13KNbgnJRpd4I5Z2TgUrdYpIzD6+2MYzxF7d5ZnmrCXXq93gM81Fs5vt
+         NXiN/Iw4MJbJ8EE5Ym9s0ZmVPqmUYJ1ROgrzia08HDxF2vvFr3ALiGK5RwLSAvawh+Rs
+         oiTv4qEBTnn9fGmCByoMmoCGi/H8tFZ6IMjXRt3fm2+lZr5Inx6408fq3mueGIDm/PVE
+         oFmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690523659; x=1691128459;
+        d=1e100.net; s=20221208; t=1690537197; x=1691141997;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
-        b=VApPBqwCQ08VxO2Eg5GNSGWJ6azLzvYbP4By2ffW+LiYbT66oWI8aV/4tlekRY8tZX
-         8QZR50Ehea/BccuQsZ+yn237huDY3SRJ2jovqMH16ZiGJqDd1JTBFW8nkdYzoJ9SbEea
-         gOBfTML9BEMnkq+hC+2zJ+VTggChXCky7CzNn7WLMrk1jneX+scNA3dgdmgwtatxf+U6
-         e6m0ViluHtkOKJn+fzNqAsLILODknpIbeXhoRkcCFbspLWV9G4+xn3QfCVpVDmC+/6AB
-         RLCh1CnU+BLjrxIMoZFy3wbJRcncpQyxiff7gZHO0qli4pGbEyG/XAyHJSgxUEE+Voyk
-         WO6Q==
-X-Gm-Message-State: ABy/qLbArQyolC9NDwF8vuM1hFq7qV1KAQoavku5+UMczLFytXAYruTc
-	YCKuTIDwlpZuIsFYFr3AbLtiNvWu6awzWXVA3zQ=
-X-Google-Smtp-Source: APBJJlFmuqfRyLu5v1oqX43sL5bahCXlzLM1Vn/iGrdcgH8VkPDrN6iyP8Pa2jPOyYHZYrqsfNLbog==
-X-Received: by 2002:a05:6a00:2d0f:b0:668:8ad5:778f with SMTP id fa15-20020a056a002d0f00b006688ad5778fmr1217661pfb.17.1690523658843;
-        Thu, 27 Jul 2023 22:54:18 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.171])
-        by smtp.gmail.com with ESMTPSA id j8-20020aa78d08000000b006828e49c04csm2408867pfe.75.2023.07.27.22.54.15
+        bh=zQhIZCifpwAD2gvgXFpV4hiko9VoBVnp2zUGCXtyAlA=;
+        b=dGDxaYSNkMpzOg/ZsK213rXlCaYMxKCq7U7ew19ymSx/n6NjUA8YQnyJk1RMauHQh1
+         KwLlq4c1ITIJ61ReEpno6NjON3tlxXuaS/XPW66haAyVi5RcEuFEXJJD7/YFSKpay2sM
+         cbo8gPb4kNf/FtOzqZuy69RFRNf4wkV3x8rkcJAVmNiROrg6UbtwdbpaS3ljbsQN2IFY
+         VGStYpi9vUPi3XvvoBItjdtwmpRJduPDbWBzIWP2rygkfDWNJLZY81djb2/vrJpBWTr8
+         DbQATSNFDLkarmh4cVwNkNf0o9ZfOFO2wgejYrrDl4SWhEXIKvBnwSY99zKpMKkF+LnI
+         XINA==
+X-Gm-Message-State: ABy/qLbtiPGoxXz+fOaj5RhMHAMwimcUWbssk30ib0jSKwKt9ad4YP5a
+	/Q/IQ881/caBzNrSJYfwv21gUsnod8k=
+X-Google-Smtp-Source: APBJJlHv5bUxqseFoPJ89pV+H8Zsx+fMKG3v5t1kL3r8KjkAoUI6Iut/k5W9fnoCJQrpChMNnio5fQ==
+X-Received: by 2002:a1c:790b:0:b0:3fc:1f0:a66e with SMTP id l11-20020a1c790b000000b003fc01f0a66emr1247304wme.1.1690537196406;
+        Fri, 28 Jul 2023 02:39:56 -0700 (PDT)
+Received: from localhost.localdomain (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id 9-20020a05600c230900b003fbe561f6a3sm6564537wmo.37.2023.07.28.02.39.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 22:54:18 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 28 Jul 2023 11:24:13 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Fri, 28 Jul 2023 02:39:55 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCHv2] libtiff: fix CVE-2023-26966 Buffer Overflow
-Date: Fri, 28 Jul 2023 11:24:12 +0530
-Message-Id: <20230728055412.23404-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 1/2] base-passwd: Add the sgx group
+Date: Fri, 28 Jul 2023 10:39:48 +0100
+Message-Id: <20230728093950.12046-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 05:54:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185014
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 09:40:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185015
 
-Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/b0e1c25dd1d065200c8d8f59ad0afe014861a1b9
+To avoid errors from eudev/udev we need an sgx group, but if we add it
+via groupadd that causes shadow login to be brought into an image, which
+causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
+Function not implemented` as shadow's login doesn't implement the
+heuristics which busybox has to handle this kernel configuration.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- .../libtiff/tiff/CVE-2023-26966.patch         | 35 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
+ .../0001-base-passwd-Add-the-sgx-group.patch  | 30 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.6.1.bb          |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
 new file mode 100644
-index 0000000000..85764304f9
+index 000000000000..e1340e1b70cf
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
-@@ -0,0 +1,35 @@
-+From b0e1c25dd1d065200c8d8f59ad0afe014861a1b9 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Thu, 16 Feb 2023 12:03:16 +0100
-+Subject: [PATCH] tif_luv: Check and correct for NaN data in uv_encode().
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+@@ -0,0 +1,30 @@
++From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
++From: Alex Kiernan <alexk@zuma.ai>
++Date: Fri, 28 Jul 2023 10:28:57 +0100
++Subject: [PATCH] base-passwd: Add the sgx group
 +
-+Closes #530
++To avoid errors from eudev/udev we need an sgx group, but if we add it
++via groupadd that causes shadow login to be brought into an image, which
++causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
++Function not implemented` as shadow's login doesn't implement the
++heuristics which busybox has to handle this kernel configuration.
 +
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b0e1c25dd1d065200c8d8f59ad0afe014861a1b9]
-+CVE: CVE-2023-26966
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Inappropriate [oe-specific]
++
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 +---
-+ libtiff/tif_luv.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/libtiff/tif_luv.c b/libtiff/tif_luv.c
-+index 13765ea..40b2719 100644
-+--- a/libtiff/tif_luv.c
-++++ b/libtiff/tif_luv.c
-+@@ -908,6 +908,13 @@ uv_encode(double u, double v, int em)	/* encode (u',v') coordinates */
-+ {
-+ 	register int	vi, ui;
-+ 
-++	/* check for NaN */
-++	if (u != u || v != v)
-++	{
-++		u = U_NEU;
-++		v = V_NEU;
-++        }
-++
-+ 	if (v < UV_VSTART)
-+ 		return oog_encode(u, v);
-+ 	vi = tiff_itrunc((v - UV_VSTART)*(1./UV_SQSIZ), em);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 8e69621afb..61d8142e41 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-3316.patch \
-            file://CVE-2023-3618-1.patch \
-            file://CVE-2023-3618-2.patch \
-+           file://CVE-2023-26966.patch \
++diff --git a/group.master b/group.master
++index d34d2b832d43..e54fd1d2c6dc 100644
++--- a/group.master
+++++ b/group.master
++@@ -34,6 +34,7 @@ video:*:44:
++ sasl:*:45:
++ plugdev:*:46:
++ kvm:*:47:
+++sgx:*:48:
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
+index 204016b3e72e..44bcfb019930 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0005-Add-kvm-group.patch \
+            file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch \
+            file://0007-Add-wheel-group.patch \
++           file://0001-base-passwd-Add-the-sgx-group.patch \
             "
  
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+ SRC_URI[sha256sum] = "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6c6428f2c92866f79af"
 -- 
-2.25.1
+2.39.0
 
 
