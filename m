@@ -1,288 +1,192 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54583C0015E
-	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 13:38:27 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.32545.1690551498243920985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 707CDC001DF
+	for <webhook@archiver.kernel.org>; Fri, 28 Jul 2023 14:01:57 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web10.32825.1690552908702855634
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jul 2023 06:38:18 -0700
+ Fri, 28 Jul 2023 07:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=lyAu3sAf;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b933bbd3eeso33038421fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 06:38:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=EzRgVutC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-78372b896d0so87267839f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 07:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690551496; x=1691156296;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ybp2huDIFXKaFGoX/b8yxiOH2NGoVpPlgdJCjw8HO/0=;
-        b=lyAu3sAfK9Ze6lQ9pqU13/dysAFSSkR5CF7x0kPUmiVhl2TdBuZ30pWTnYUbbFC3DB
-         RajkJfKZ0zmuyzBkUWyv/Q5tLfNj9d3/QnAmdczcFyGLaKNvP6xN1KmR8n/jdSWi4LmI
-         XCBzh54TBHoocCIH/YeT7hv9VnKqMLQEeQAuI0c9kTiGgZOz7W3QVm1sWb1O2LeXPe0M
-         jS/HnJDfj6C2T94tvbY0P5YcoZllUAxnnELFll/LuQa2Ah8ypazeRQxYeJvPk3JWzJgz
-         Bsx28bDVhKaCo+JX2RI4upSE777KCeUBgkWr/OXciihccLTCWV9ApdJ9XENjy1OLxX4r
-         DksA==
+        d=gmail.com; s=20221208; t=1690552908; x=1691157708;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6kmdATkDW0zKsJ6vxZa3N+bhS+l2ZcVWQg8AG4IXhqA=;
+        b=EzRgVutCO9HlW8zFIrSDWqUWyAKYJsojwxKZwC0ZiywMoy5dBk7UuelxDiq1EOh/zf
+         b0gIC8BN2s1oTNvztHHakLbv1tepm8JMgo0Od49EwozKVYEH96XBLbI0a8drWgZABDNN
+         LU4PrNxDKcKOP9VzCfkputKYINitGUyjDSbJnpPoG1KGePn/XxkVaT9HaY26xrdgXeQI
+         mbrK0SnIr8UdhXtztE2/ymoW1TUs//JS/VEUFpT8bmcMWZBXZJiJNCYQa95eon1cav23
+         Pl1k0ioTrWK3nOmxYwLTLUxBF/gcp79O1xTUa9kz5jFx2snOVy2mr4ztlt8Xxdzr/dkA
+         tuLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690551496; x=1691156296;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ybp2huDIFXKaFGoX/b8yxiOH2NGoVpPlgdJCjw8HO/0=;
-        b=VsaK3fygcbToOMjwAVI2Nqw/m5MU6zlrNV/BzfVOcuaWIy/2ZnBPwRAtUq5ZwytP4d
-         q28cUDHwRQUE1YJbQkvi54HupIY5bI9B2cSEjXETK7bbJQt1EcejO83biywbJI3QoKfs
-         Kfdc2d0bGV6dDMQqTDFAAb2Ua+bQek/i1EIgFCrWC0q5TW2B+GvnjJLSy/H94T6jnvEL
-         Fi3EUI23en/a48jbhZe5bTXqDJB4YgV/93HL5DVoERaS8DcsrbTGT1OqHUaOWGPXHJxG
-         cUJK5VZSd9rgp9TCJmYkbez4qUt8ukwHTmLAoeqrhpSg22dHeIjlMMhkwVZB/NzCfpyL
-         aGXg==
-X-Gm-Message-State: ABy/qLYfQ6W32GwyhFV4Spco91j0KTEefMfYweSNFQzHLUfIwetvp1oC
-	sLhjrZxZ14lZ+J6V0s2eIGERoBb+HqO6zpb4Jac=
-X-Google-Smtp-Source: APBJJlFDz82jhFHkYuAkgiFmwIyp+rvF4gxMq56skPbxedeMX08pr0lzu9ZsVX+MHEK8l2wmEkSwnekrxX9GKQTFkTs=
-X-Received: by 2002:a2e:9608:0:b0:2b9:d28c:9c1c with SMTP id
- v8-20020a2e9608000000b002b9d28c9c1cmr1250313ljh.26.1690551496093; Fri, 28 Jul
- 2023 06:38:16 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690552908; x=1691157708;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6kmdATkDW0zKsJ6vxZa3N+bhS+l2ZcVWQg8AG4IXhqA=;
+        b=CLNwQWS3Hs0EJJ8cY8NqVK10yXd+58v8SEBb9cZBqHeb/zFdIx3pw/urwKFYMsDH4n
+         uBmNC+wiAZY2tsVNP68i5apROx/Mb6kGOJV1RqbckGFnOxUzK3gj++9U4yvKR/4/vJf3
+         l5GTJdGyBMoMajQ3/zaFYF7jxz8EHEwgXDRwVTcGfylyV70TBf7f0gxQUalhSHkwBfZ1
+         8poaHX+fNNETm1bmiOBRJOrahlitBw6+vqkY3Hx+sJlt+beb4M+xnCbirmGhTfRX3Vto
+         Ge0MZ10NH/pdVknBifEyishqTxEQ34lHK73XVz9VEcT4xJZMLzJqQ4S+k5pB0oLGak4f
+         Pkew==
+X-Gm-Message-State: ABy/qLZWS16mQPra/RA/I7+TIOYEcDpXUEZkbS97AxC2S7t0oQWBmUHl
+	dalGtTl5zhii5XqGmvyTFfG+snKTM7tAWfdgh6Y=
+X-Google-Smtp-Source: APBJJlGxnVc1bjB3VAwi4XZr0hKzrifPxlrJ+/A2UoOUu4Zc+tr+SD/mPDBtREePyc8p7bzieJeVC8s5QzYuIROsoLk=
+X-Received: by 2002:a5d:984c:0:b0:787:9f4:a286 with SMTP id
+ p12-20020a5d984c000000b0078709f4a286mr3234864ios.3.1690552907716; Fri, 28 Jul
+ 2023 07:01:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230727143627.3718496-1-alex@linutronix.de> <20230727143627.3718496-12-alex@linutronix.de>
- <20230728131317ca8fba29@mail.local>
-In-Reply-To: <20230728131317ca8fba29@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 28 Jul 2023 15:38:04 +0200
-Message-ID: <CANNYZj9O3qRyV9gGs9ybeuxjg6q3h6XsLLna8xvp=qL3_CFvqQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 12/21] util-linux: upgrade 2.38.1 -> 2.39.1
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+References: <20230728093950.12046-1-alex.kiernan@gmail.com> <CAPoiz9xVrUn-B7U61CjrU7Qkq2tMVJ-znYbSMnv0zPFBUDSLhA@mail.gmail.com>
+In-Reply-To: <CAPoiz9xVrUn-B7U61CjrU7Qkq2tMVJ-znYbSMnv0zPFBUDSLhA@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 28 Jul 2023 15:01:35 +0100
+Message-ID: <CAO5Uq5S6b1LpkeEXBL6eo-YELeRATERAu3ikOFsT=+UUgdG=sA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 1/2] base-passwd: Add the sgx group
+To: Jon Mason <jdmason@kudzu.us>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 13:38:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185030
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 14:01:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185031
 
-I don't know. Nothing stands out in particular here:
-https://git.yoctoproject.org/poky-contrib/log/?h=abelloni/master-next
-
-Both failures happened on arm64 I think?
-
-Alex
-
-On Fri, 28 Jul 2023 at 15:13, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
+On Fri, Jul 28, 2023 at 1:52=E2=80=AFPM Jon Mason <jdmason@kudzu.us> wrote:
 >
-> Hello,
->
-> I got a new ptest failure twice with this patch:
->
-> 'util-linux': ['lsfd:_--inet_option']
->
-> I don't see it on your run, I'm wondering what is in my branch that
-> causes it.
->
-> On 27/07/2023 16:36:18+0200, Alexander Kanavin wrote:
-> > License-update: added bsd-2-clause
-> > https://github.com/util-linux/util-linux/commit/faeb1b64b36ededd1a0b62555cad65f002d47ac6
+> On Fri, Jul 28, 2023 at 5:40=E2=80=AFAM Alex Kiernan <alex.kiernan@gmail.=
+com> wrote:
 > >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > To avoid errors from eudev/udev we need an sgx group, but if we add it
+> > via groupadd that causes shadow login to be brought into an image, whic=
+h
+> > causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
+> > Function not implemented` as shadow's login doesn't implement the
+> > heuristics which busybox has to handle this kernel configuration.
+>
+> Firstly, thank you very much for fixing this.  I was having lots of
+> trouble with it.
+>
+> I just wanted to point out that the underlying sgx issue is unique to
+> Intel/x86.  So, it might make sense to only apply this patch in this
+> case.
+>
+
+You get the noise from eudev on everything (I'm deploying onto
+aarch64), I guess because it fails at parse time and everyone gets the
+same rules. Obviously we could try for an sgx only rule on x86, but
+tbh that feels like way too much effort!
+
+I think we want something like this on poky-tiny so this doesn't regress:
+
+diff --git a/meta-poky/conf/distro/poky-tiny.conf
+b/meta-poky/conf/distro/poky-tiny.conf
+index f65d2dabf3af..728d161d59af 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -122,3 +122,7 @@ SKIP_RECIPE[core-image-weston] =3D "not buildable
+with poky-tiny"
+
+ # Disable python usage in opkg-utils since it won't build with tiny config
+ PACKAGECONFIG:remove:pn-opkg-utils =3D "python"
++
++# If shadow-base is brought into the image, logins will fail because it
++# doesn't have the heuristics to work when CONFIG_MULTIUSER is unset.
++PACKAGE_EXCLUDE:poky-tiny =3D "shadow-base"
+
+> Thanks,
+> Jon
+>
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 > > ---
-> >  ...2.38.1.bb => util-linux-libuuid_2.39.1.bb} |  0
-> >  meta/recipes-core/util-linux/util-linux.inc   | 10 ++--
-> >  .../0001-check-for-sys-pidfd.h.patch          | 53 -------------------
-> >  ...configure.ac-Improve-check-for-magic.patch | 40 --------------
-> >  .../util-linux/util-linux/run-ptest           |  6 +++
-> >  ...l-linux_2.38.1.bb => util-linux_2.39.1.bb} |  0
-> >  6 files changed, 10 insertions(+), 99 deletions(-)
-> >  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.38.1.bb => util-linux-libuuid_2.39.1.bb} (100%)
-> >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> >  rename meta/recipes-core/util-linux/{util-linux_2.38.1.bb => util-linux_2.39.1.bb} (100%)
 > >
-> > diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
-> > rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb
-> > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> > index 3868b1c41d3..99ce2a24b0a 100644
-> > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > @@ -6,13 +6,13 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+> >  .../0001-base-passwd-Add-the-sgx-group.patch  | 30 +++++++++++++++++++
+> >  .../base-passwd/base-passwd_3.6.1.bb          |  1 +
+> >  2 files changed, 31 insertions(+)
+> >  create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-base=
+-passwd-Add-the-sgx-group.patch
 > >
-> >  SECTION = "base"
-> >
-> > -LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause & BSD-4-Clause"
-> > +LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause"
-> >  LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
-> >  LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
-> >
-> > -LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-> > +LIC_FILES_CHKSUM = "file://README.licensing;md5=12ae7768a65ec8f2e44d930df9cb43fa \
-> >                      file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> >                      file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> >                      file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-> > @@ -23,7 +23,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da
-> >                      file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> >                      file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> >                      file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> > -"
-> > +                    "
-> >
-> >  FILESEXTRAPATHS:prepend := "${THISDIR}/util-linux:"
-> >  MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-> > @@ -35,8 +35,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-> >             file://run-ptest \
-> >             file://display_testname_for_subtest.patch \
-> >             file://avoid_parallel_tests.patch \
-> > -           file://0001-check-for-sys-pidfd.h.patch \
-> > -           file://0001-configure.ac-Improve-check-for-magic.patch \
+> > diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd=
+-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-b=
+ase-passwd-Add-the-sgx-group.patch
+> > new file mode 100644
+> > index 000000000000..e1340e1b70cf
+> > --- /dev/null
+> > +++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-th=
+e-sgx-group.patch
+> > @@ -0,0 +1,30 @@
+> > +From 9e57771d138ac423d5139b984b8c869122ce4976 Mon Sep 17 00:00:00 2001
+> > +From: Alex Kiernan <alexk@zuma.ai>
+> > +Date: Fri, 28 Jul 2023 10:28:57 +0100
+> > +Subject: [PATCH] base-passwd: Add the sgx group
+> > +
+> > +To avoid errors from eudev/udev we need an sgx group, but if we add it
+> > +via groupadd that causes shadow login to be brought into an image, whi=
+ch
+> > +causes images which have CONFIG_MULTIUSER unset to fail with `setgid:
+> > +Function not implemented` as shadow's login doesn't implement the
+> > +heuristics which busybox has to handle this kernel configuration.
+> > +
+> > +Upstream-Status: Inappropriate [oe-specific]
+> > +
+> > +Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > +---
+> > + group.master | 1 +
+> > + 1 file changed, 1 insertion(+)
+> > +
+> > +diff --git a/group.master b/group.master
+> > +index d34d2b832d43..e54fd1d2c6dc 100644
+> > +--- a/group.master
+> > ++++ b/group.master
+> > +@@ -34,6 +34,7 @@ video:*:44:
+> > + sasl:*:45:
+> > + plugdev:*:46:
+> > + kvm:*:47:
+> > ++sgx:*:48:
+> > + staff:*:50:
+> > + games:*:60:
+> > + shutdown:*:70:
+> > diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/=
+recipes-core/base-passwd/base-passwd_3.6.1.bb
+> > index 204016b3e72e..44bcfb019930 100644
+> > --- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
+> > +++ b/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
+> > @@ -13,6 +13,7 @@ SRC_URI =3D "https://launchpad.net/debian/+archive/pr=
+imary/+files/${BPN}_${PV}.tar
+> >             file://0005-Add-kvm-group.patch \
+> >             file://0006-Make-it-possible-to-configure-whether-to-use-SE=
+Linux.patch \
+> >             file://0007-Add-wheel-group.patch \
+> > +           file://0001-base-passwd-Add-the-sgx-group.patch \
 > >             "
 > >
-> > -SRC_URI[sha256sum] = "60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f"
-> > +SRC_URI[sha256sum] = "890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b"
-> > diff --git a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch b/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> > deleted file mode 100644
-> > index 19f57f14bc7..00000000000
-> > --- a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> > +++ /dev/null
-> > @@ -1,53 +0,0 @@
-> > -From 548bc568f3c735e53fb5b0a5ab6473a3f1457b91 Mon Sep 17 00:00:00 2001
-> > -From: Khem Raj <raj.khem@gmail.com>
-> > -Date: Sun, 7 Aug 2022 14:39:19 -0700
-> > -Subject: [PATCH] check for sys/pidfd.h
-> > -
-> > -This header in newer glibc defines the signatures of functions
-> > -pidfd_send_signal() and pidfd_open() and when these functions are
-> > -defined by libc then we need to include the relevant header to get
-> > -the definitions. Clang 15+ has started to error out when function
-> > -signatures are missing.
-> > -
-> > -Fixes errors like
-> > -misc-utils/kill.c:402:6: error: call to undeclared function 'pidfd_send_signal'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> > -        if (pidfd_send_signal(pfd, ctl->numsig, &info, 0) < 0)
-> > -
-> > -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/1769]
-> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ----
-> > - configure.ac          | 1 +
-> > - include/pidfd-utils.h | 4 +++-
-> > - 2 files changed, 4 insertions(+), 1 deletion(-)
-> > -
-> > -diff --git a/configure.ac b/configure.ac
-> > -index a511e93de..fd7d9245f 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -342,6 +342,7 @@ AC_CHECK_HEADERS([ \
-> > -     sys/mkdev.h \
-> > -     sys/mount.h \
-> > -     sys/param.h \
-> > -+    sys/pidfd.h \
-> > -     sys/prctl.h \
-> > -     sys/resource.h \
-> > -     sys/sendfile.h \
-> > -diff --git a/include/pidfd-utils.h b/include/pidfd-utils.h
-> > -index eddede976..d9e33cbc5 100644
-> > ---- a/include/pidfd-utils.h
-> > -+++ b/include/pidfd-utils.h
-> > -@@ -4,8 +4,10 @@
-> > - #ifdef HAVE_SYS_SYSCALL_H
-> > - # include <sys/syscall.h>
-> > - # if defined(SYS_pidfd_send_signal) && defined(SYS_pidfd_open)
-> > -+#  ifdef HAVE_SYS_PIDFD_H
-> > -+#   include <sys/pidfd.h>
-> > -+#  endif
-> > - #  include <sys/types.h>
+> >  SRC_URI[sha256sum] =3D "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6=
+c6428f2c92866f79af"
 > > --
-> > - #  ifndef HAVE_PIDFD_SEND_SIGNAL
-> > - static inline int pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> > -                                 unsigned int flags)
-> > ---
-> > -2.37.1
-> > -
-> > diff --git a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch b/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> > deleted file mode 100644
-> > index 00611fe5788..00000000000
-> > --- a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> > +++ /dev/null
-> > @@ -1,40 +0,0 @@
-> > -From 263381ddd46eea2293c70bc811273b66bc52087b Mon Sep 17 00:00:00 2001
-> > -From: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > -Date: Fri, 19 Aug 2022 14:47:49 +0200
-> > -Subject: [PATCH] configure.ac: Improve check for magic
-> > -
-> > -Check whether magic.h header exists before defining HAVE_MAGIC.
-> > -
-> > -Despite library availability there still can be missing header.
-> > -Current test doesn't cover that possibility which will lead compilation
-> > -to fail in case of separate sysroot.
-> > -
-> > -Upstream-Status: Backport
-> > -[https://github.com/util-linux/util-linux/commit/263381ddd46eea2293c70bc811273b66bc52087b]
-> > -
-> > -Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > -Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> > ----
-> > - configure.ac | 6 ++++--
-> > - 1 file changed, 4 insertions(+), 2 deletions(-)
-> > -
-> > -diff --git a/configure.ac b/configure.ac
-> > -index daa8f0dca..968a0daf0 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -1570,8 +1570,10 @@ AC_ARG_WITH([libmagic],
-> > - )
-> > - AS_IF([test "x$with_libmagic" = xno], [have_magic=no], [
-> > -   AC_CHECK_LIB([magic], [magic_open], [
-> > --    AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libmagic present.])
-> > --    MAGIC_LIBS="-lmagic"
-> > -+    AC_CHECK_HEADER(magic.h, [
-> > -+      AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libmagic present.])
-> > -+      MAGIC_LIBS="-lmagic"
-> > -+    ])
-> > -   ])
-> > - ])
-> > - AC_SUBST([MAGIC_LIBS])
-> > ---
-> > -2.37.1
-> > -
-> > diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
-> > index 097107cd095..e25e9d10823 100644
-> > --- a/meta/recipes-core/util-linux/util-linux/run-ptest
-> > +++ b/meta/recipes-core/util-linux/util-linux/run-ptest
-> > @@ -16,6 +16,12 @@ export PATH=$bindir/bin:$PATH
-> >  # losetup tests will be skipped and/or fail otherwise
-> >  modprobe loop
+> > 2.39.0
 > >
-> > +# required for mount/fallback test to pass
-> > +# systemd does this by default, but ptest images do not use it
-> > +# see https://man7.org/linux/man-pages/man7/mount_namespaces.7.html
-> > +# for a long description of mount namespaces in Linux
-> > +mount --make-shared /
-> > +
-> >  ./tests/run.sh --use-system-commands --parsable --show-diff | sed -u '{
-> >        s/^\(.*\):\(.*\) \.\.\. OK$/PASS: \1:\2/
-> >        s/^\(.*\):\(.*\) \.\.\. FAILED \(.*\)$/FAIL: \1:\2 \3/
-> > diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/recipes-core/util-linux/util-linux_2.39.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/util-linux/util-linux_2.38.1.bb
-> > rename to meta/recipes-core/util-linux/util-linux_2.39.1.bb
-> > --
-> > 2.30.2
 > >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > > Links: You receive all messages sent to this group.
-> > View/Reply Online (#184951): https://lists.openembedded.org/g/openembedded-core/message/184951
-> > Mute This Topic: https://lists.openembedded.org/mt/100391613/3617179
+> > View/Reply Online (#185015): https://lists.openembedded.org/g/openembed=
+ded-core/message/185015
+> > Mute This Topic: https://lists.openembedded.org/mt/100407464/3616920
 > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+jdmason@kudzu.us]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+
+
+
+--=20
+Alex Kiernan
 
