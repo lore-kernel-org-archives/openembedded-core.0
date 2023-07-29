@@ -2,31 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D11C0015E
-	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 18:23:25 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.web11.59219.1690654997350210936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43EA8C001E0
+	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 18:24:05 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.59230.1690655038436528674
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Jul 2023 11:23:18 -0700
+ Sat, 29 Jul 2023 11:23:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=cMF97Yhc;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20230729182314a89c01449875cae130-n7zd4y@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20230729182314a89c01449875cae130
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Lvh4jnhs;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2023072918235673e906ba7e21c68967-qk9w9d@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2023072918235673e906ba7e21c68967
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 29 Jul 2023 20:23:14 +0200
+        Sat, 29 Jul 2023 20:23:56 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=SD3JYYSeXIKXKbo2NQ2iyEQ46rfH25SsEiIx3GMSYoY=;
- b=cMF97YhctZPZEyrRJwzSaO4M9GSu8SoDHS3cc60L5XRxBdK5EjHBbDK6PeEGhAS5zMPlFK
- aRGVHsCeij4wFp+6C5CjYomQ6FTHrfhjJj1JiAQ8uLu8X/Mn1AF9oIBTAesxRGcEW4ukhlyN
- PjCddHY8JEDEL75WYeQSIfv9KZzts=;
+ bh=Rl5zMKaTd3CWWw1nfbOONxera2AIYfj1i43dFNaM59Y=;
+ b=Lvh4jnhsPKpLdGQ7gR1qcT6LubZIHTXyT4muI1YOkkgfT9J//H6PCFlGq2p7CiAR/ZDyt/
+ Cqhs5PoZA4cJbUqubL7TnP+FjwcCNZynARlKCWHcAUbPWuDbJ2cq/mk61xH7OyLLgwYFoxB4
+ El4oa9GoQ9v2oQ++BljtDk/WZwh/4=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][mickledore][PATCH] libarchive: ignore CVE-2023-30571
-Date: Sat, 29 Jul 2023 20:22:35 +0200
-Message-Id: <20230729182235.1522941-1-peter.marko@siemens.com>
+Subject: [OE-core][dunfell][PATCH] libarchive: ignore CVE-2023-30571
+Date: Sat, 29 Jul 2023 20:23:19 +0200
+Message-Id: <20230729182319.1522991-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -34,8 +34,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Jul 2023 18:23:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185056
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Jul 2023 18:24:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185057
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -55,19 +55,19 @@ This should however not invalidate above statment about ignoring this CVE.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-extended/libarchive/libarchive_3.6.2.bb | 3 +++
+ meta/recipes-extended/libarchive/libarchive_3.4.2.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index ffcc103112..0219ffa720 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -33,6 +33,9 @@ UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
- SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+index 582787d3f3..728eedc401 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+@@ -46,6 +46,9 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+ SRC_URI[md5sum] = "d953ed6b47694dadf0e6042f8f9ff451"
+ SRC_URI[sha256sum] = "b60d58d12632ecf1e8fad7316dc82c6b9738a35625746b47ecdcaf4aed176176"
  
 +# upstream-wontfix: upstream has documented that reported function is not thread-safe
-+CVE_CHECK_IGNORE += "CVE-2023-30571"
++CVE_CHECK_WHITELIST += "CVE-2023-30571"
 +
  inherit autotools update-alternatives pkgconfig
  
