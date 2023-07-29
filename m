@@ -1,401 +1,115 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A567EC001DC
-	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 04:42:51 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web10.48466.1690605768079857852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE81DC0015E
+	for <webhook@archiver.kernel.org>; Sat, 29 Jul 2023 05:09:41 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.49364.1690607375634884676
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jul 2023 21:42:48 -0700
+ Fri, 28 Jul 2023 22:09:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=BYZKC+np;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6b9b89627c3so2295817a34.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 21:42:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=XAuRkJ8G;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-31763b2c5a4so2868819f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Jul 2023 22:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690605767; x=1691210567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fX89LmfoZlQGWW9Viwxz4TAWlj8zAqUneZhfl7uOOXs=;
-        b=BYZKC+npF0ITx49QRX45s4m/R8V5kuvDIbjOA0rmbphcq2UILoqm5kmnfVcp0Jbhmt
-         Nf/CICKHi3GbMyZiywgbCwh3EYCex6BtrjGjbyT9M5M65sETGi5gHOWligMTvMueIl6E
-         r322UJBUirsCh2iatpQqirgIuyJhVUorq8vr88V8jR5EiYYg/3hiXWkLZRtSIlCqUSbO
-         qXZvZhIn77ZhCBKQ7MoczP9kadGif7B968hS+h4lT/gBduJNsphhcbGncWHUVDpIJ6wC
-         UfGe3pNgQkGLL/ekm4mfPlw2Sao27ZqYORoj9CD30Yo1v5gdQhyoPWlhrRYlqHgvkbv4
-         ZXOg==
+        d=gmail.com; s=20221208; t=1690607373; x=1691212173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v9g6073G52Nf+Ro5gKHW2nFK0TyfBimij3E/elO8E8o=;
+        b=XAuRkJ8G6xs8gSgfhqatc8O1W7rkKkNll6XPN6TATmEllMoPXKAeBe7+xDEx2tmLcp
+         NF+iC8dawjHkJTTbS98qDRP8O3oqAi9QPJQfrzCaWVt1/tZl6kkc/iwSYeMVniI76Xos
+         Aik7FnAP4EnSiWOkFvhr111i6npYlVC4HKmEa4VzAQ6kiec9hoFyMiC2K/8LyE3dncYF
+         V+F+BEccqPn7p3z5iilSvMmUe2PY8E2qL07DyO6OXvmEGq0YfjTlJp8XhLidUTmx6VP3
+         5ip20ChGCYwEUwe1aD9iGmC9tQcvYbhfA3ucQDvJ5P/6IVOTyjcqg+I0iO3c5XpnFYu3
+         Hzhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690605767; x=1691210567;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fX89LmfoZlQGWW9Viwxz4TAWlj8zAqUneZhfl7uOOXs=;
-        b=Q07KG+2SewRIG/ft0/lJZjR+B0sh8AUZQdWTWt4vaQKhekjwmqDWjIgFQCQK3bPX3R
-         7gf1xTxhGHt6K2s6VQmerswR64/7etHTUpsowlDOYmSg4ccuKGR73RRO5hSKqtZt5Ok5
-         1nlkfa+ao0xisz3TqzlKUO4xDwrM1DWWIoXIAQAyEKIH7uNzEmMaDwjjcZhu3RwLoclG
-         dYl9OuiA++aTV0128cG/KKgpKvMRqBrk9R58nrEKMcmdSzKeRrWem4X0EOICoRcQOhPU
-         i25efZNYn3jRsnCzrOEIbA5z6xJ6N1P6B/tj8xTYzv3edQcRp9m42tErKZ6PQA2j3/4D
-         GRpg==
-X-Gm-Message-State: ABy/qLYRG3HxRUn8RWsdzZgdFhTg8FEff6+QQe/P1jjA66r1jBzsm7UO
-	WBn0+77V3d53kLp8HSeuMZ/gxsjmL57pvQBcksU=
-X-Google-Smtp-Source: APBJJlHGhHzBDl55tWHAZrz/+jXA03SYGgjGXrPz/eE4PsS8/2t3uIb2pZul2lVfxyPvnu1lpBMnoYpzmrwooWtlV1U=
-X-Received: by 2002:a05:6808:f14:b0:3a4:947:c97b with SMTP id
- m20-20020a0568080f1400b003a40947c97bmr6223211oiw.0.1690605766986; Fri, 28 Jul
- 2023 21:42:46 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690607373; x=1691212173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v9g6073G52Nf+Ro5gKHW2nFK0TyfBimij3E/elO8E8o=;
+        b=ebg/MH2/zMlv+EKmPx7sprnK7ak/bfjE43cwFDoaa6ZcJsF1Uzo2RiZWqB7U3KEEjr
+         Qi3njdLyCQiW9huN7Hy+NHuv2w5ueym0Fy+sq73gfku0OSfxotqzwssOY723UjIm3MLT
+         empbJvsYdpI3xb/uH2giCP6gLJ8pwdsWNcvt4hdKjLkpBq8Bzqc0KRq4ikhWudeE2EmL
+         Jn184vm8uXe9LoU4OYaefaWokeyjRK5MkNKiRVbMMA0OAxUbx7NYFMErgT7MxWexxTe1
+         JgmBLIDLT2WLws2SW1mTocJLnyuQn11xxjGKL4s7AbKRTl3ySo1RjmY8qfOUz3rDnQXq
+         /L+Q==
+X-Gm-Message-State: ABy/qLYgsHSZwUu8doX77owXNxHGiWr1V2iiSbM2qsE0gWfGTCd8bDgp
+	1a/HbjBqE0UOLWVGwzhlnN4nlDNZLE0=
+X-Google-Smtp-Source: APBJJlGyxlLkhZ9pkYCA3pUIH6JnMhm209+FdCwqYcPfoNapWZUjeQTrWY+kEP/i2K5wjzy6P9og0A==
+X-Received: by 2002:a5d:4b03:0:b0:314:50d:4540 with SMTP id v3-20020a5d4b03000000b00314050d4540mr3890258wrq.18.1690607373411;
+        Fri, 28 Jul 2023 22:09:33 -0700 (PDT)
+Received: from work-pc.sigfox.io ([2a01:e0a:8d5:c6c0:6c97:10b2:99c8:d41])
+        by smtp.gmail.com with ESMTPSA id f17-20020adffcd1000000b00313f61889ecsm6482356wrs.66.2023.07.28.22.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 22:09:32 -0700 (PDT)
+From: frederic.martinsons@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
+Subject: [PATCH] ptest-cargo.bbclass: Support of cargo workspaces
+Date: Sat, 29 Jul 2023 07:09:21 +0200
+Message-Id: <20230729050921.139912-1-frederic.martinsons@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230727074307.50192-1-zboszor@gmail.com> <20230728210415b54eca9e@mail.local>
-In-Reply-To: <20230728210415b54eca9e@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Jul 2023 21:42:20 -0700
-Message-ID: <CAMKF1sopgV8oPytoZ1pVx=zQp+aWKbvubxRuhj18u9a0-SG6fQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] rpm: Allow setting platform macro settings externally
-To: alexandre.belloni@bootlin.com
-Cc: Zoltan Boszormenyi <zboszor@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Ross Burton <Ross.Burton@arm.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Jul 2023 04:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185044
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Jul 2023 05:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185045
 
-On Fri, Jul 28, 2023 at 2:04=E2=80=AFPM Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
->
-> Most of the builds are breaking with:
->
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/generic=
-x86-alt/build/build/tmp/work/core2-32-poky-linux/rpm/1_4.18.1-r0/temp/log.d=
-o_install.3923248
-> Log data follows:
-> | DEBUG: Executing python function extend_recipe_sysroot
-> | NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/genericx86=
--alt/build/meta/recipes-core/dbus/dbus_1.14.8.bb:do_populate_sysroot', '/ho=
-me/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-core/glibc/glib=
-c_2.37.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/genericx86-al=
-t/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_populate_sysroo=
-t', '/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-devtool=
-s/file/file_5.44.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/gen=
-ericx86-alt/build/meta/recipes-devtools/gcc/gcc-cross_13.1.bb:do_populate_s=
-ysroot', '/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-de=
-vtools/gcc/gcc-runtime_13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto=
--worker/genericx86-alt/build/meta/recipes-devtools/libtool/libtool-cross_2.=
-4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/genericx86-alt/b=
-uild/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysr=
-oot', '/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-devto=
-ols/lua/lua_5.4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/ge=
-nericx86-alt/build/meta/recipes-devtools/python/python3_3.11.4.bb:do_popula=
-te_sysroot', '/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipe=
-s-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuil=
-d/yocto-worker/genericx86-alt/build/meta/recipes-extended/bzip2/bzip2_1.0.8=
-.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/genericx86-alt/buil=
-d/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot', '/home/pokybui=
-ld/yocto-worker/genericx86-alt/build/meta/recipes-extended/zstd/zstd_1.5.5.=
-bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/genericx86-alt/build=
-/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb:do_populate_sysroot', '=
-/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-support/popt=
-/popt_1.19.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/genericx8=
-6-alt/build/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_populate_sysro=
-ot', 'virtual:native:/home/pokybuild/yocto-worker/genericx86-alt/build/meta=
-/recipes-core/gettext/gettext_0.21.1.bb:do_populate_sysroot', 'virtual:nati=
-ve:/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-devtools/=
-autoconf/autoconf_2.72c.bb:do_populate_sysroot', 'virtual:native:/home/poky=
-build/yocto-worker/genericx86-alt/build/meta/recipes-devtools/automake/auto=
-make_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-=
-worker/genericx86-alt/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_p=
-opulate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/genericx86-a=
-lt/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysro=
-ot', 'virtual:native:/home/pokybuild/yocto-worker/genericx86-alt/build/meta=
-/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:nativ=
-e:/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes-devtools/p=
-ython/python3_3.11.4.bb:do_populate_sysroot']
-> | NOTE: Installed into sysroot: []
-> | NOTE: Skipping as already exists in sysroot: ['dbus', 'glibc', 'elfutil=
-s', 'file', 'gcc-cross-i686', 'gcc-runtime', 'libtool-cross', 'libtool-nati=
-ve', 'lua', 'python3', 'quilt-native', 'bzip2', 'xz', 'zstd', 'libgcrypt', =
-'popt', 'sqlite3', 'gettext-native', 'autoconf-native', 'automake-native', =
-'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'opk=
-g-utils', 'zlib', 'binutils-cross-i686', 'texinfo-dummy-native', 'readline'=
-, 'linux-libc-headers', 'libgcc', 'xz-native', 'libmpc-native', 'gmp-native=
-', 'zstd-native', 'mpfr-native', 'flex-native', 'gnu-config-native', 'zlib-=
-native', 'gettext-minimal-native', 'attr-native', 'base-passwd', 'glib-2.0'=
-, 'libx11', 'base-files', 'shadow-sysroot', 'shadow', 'expat', 'systemd', '=
-shadow-native', 'libsm', 'm4-native', 'openssl-native', 'libffi-native', 'g=
-dbm-native', 'ncurses-native', 'bzip2-native', 'libtirpc-native', 'sqlite3-=
-native', 'libnsl2-native', 'util-linux-libuuid-native', 'libedit-native', '=
-expat-native', 'libffi', 'libxcrypt', 'ncurses', 'libnsl2', 'openssl', 'uti=
-l-linux-libuuid', 'libedit', 'libtirpc', 'gdbm', 'curl', 'libmicrohttpd', '=
-libarchive', 'libgpg-error', 'libcap', 'libpcre2', 'util-linux', 'bash-comp=
-letion', 'xtrans', 'xorgproto', 'util-macros', 'libxcb', 'libpam', 'attr', =
-'kmod', 'libseccomp', 'libxkbcommon', 'acl', 'libice', 'perl-native', 'cmak=
-e-native', 'libidn2', 'gnutls', 'libcap-ng', 'libpthread-stubs', 'libxau', =
-'libxdmcp', 'xcb-proto', 'cracklib', 'wayland-protocols', 'libxml2', 'wayla=
-nd', 'xkeyboard-config', 'make-native', 'libunistring', 'libtasn1', 'gmp', =
-'nettle']
-> | DEBUG: Python function extend_recipe_sysroot finished
-> | DEBUG: Executing python function autotools_aclocals
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-li=
-nux', 'common-glibc', 'i686-linux', 'common']
-> | DEBUG: Python function autotools_aclocals finished
-> | DEBUG: Executing shell function do_install
-> | /home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-=
-32-poky-linux/rpm/1_4.18.1-r0/temp/run.do_install.3923248: line 163: export=
-: `=3D': not a valid identifier
-> | WARNING: /home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/wo=
-rk/core2-32-poky-linux/rpm/1_4.18.1-r0/temp/run.do_install.3923248:163 exit=
- 1 from 'export RPM_CUSTOM_ARCH =3D "genericx86"'
-> | WARNING: Backtrace (BB generated script):
-> |       #1: do_install, /home/pokybuild/yocto-worker/genericx86-alt/build=
-/build/tmp/work/core2-32-poky-linux/rpm/1_4.18.1-r0/temp/run.do_install.392=
-3248, line 163
-> |       #2: main, /home/pokybuild/yocto-worker/genericx86-alt/build/build=
-/tmp/work/core2-32-poky-linux/rpm/1_4.18.1-r0/temp/run.do_install.3923248, =
-line 220
-> NOTE: recipe rpm-1_4.18.1-r0: task do_install: Failed
->
+From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-The reason is that the syntax for specifying exports in shell have
-spurious spaces
+For complex project, it is very common to have multiple
+sub artifacts and so use workspaces, sometimes it has
+even no root artifacts (but several bin or lib) and
+virtual manifest is used for that.
 
-do_install() {
-    export RPM_CUSTOM_ARCH =3D "qemux86_64"
-    export RPM_CUSTOM_ISANAME =3D "x86"
-    export RPM_CUSTOM_ISABITS =3D "64"
-    export RPM_CUSTOM_CANONARCH =3D "x86_64"
-    # CANONCOLOR determines whether /usr/lib or /usr/lib64 is used for
-a 64-bit platform
-    export RPM_CUSTOM_CANONCOLOR =3D "0"
-........
+Long story short, support this case in ptest-cargo class
+to look for all test binaries in the current project
+and no more those generated by the root Cargo.toml
 
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+---
+ meta/classes-recipe/ptest-cargo.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-See the space before and after '=3D' assignment operator.
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+index 5d53abe969..ff57be8525 100644
+--- a/meta/classes-recipe/ptest-cargo.bbclass
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -16,6 +16,8 @@ python do_compile_ptest_cargo() {
+     cargo_build_flags = d.getVar("CARGO_BUILD_FLAGS", True)
+     rust_flags = d.getVar("RUSTFLAGS", True)
+     manifest_path = d.getVar("MANIFEST_PATH", True)
++    project_manifest_path = os.path.normpath(manifest_path)
++    manifest_dir = os.path.dirname(manifest_path)
+ 
+     env = os.environ.copy()
+     env['RUSTFLAGS'] = rust_flags
+@@ -46,13 +48,15 @@ python do_compile_ptest_cargo() {
+             pass
+         else:
+             try:
+-                # Filter the test packages coming from the current manifest
++                # Filter the test packages coming from the current project:
++                #    - test binaries from the root manifest
++                #    - test binaries from sub manifest of the current project if any
+                 current_manifest_path = os.path.normpath(data['manifest_path'])
+-                project_manifest_path = os.path.normpath(manifest_path)
+-                if current_manifest_path == project_manifest_path:
++                common_path = os.path.commonpath([current_manifest_path, project_manifest_path])
++                if common_path in [manifest_dir, current_manifest_path]:
+                     if (data['target']['test'] or data['target']['doctest']) and data['executable']:
+                         test_bins.append(data['executable'])
+-            except KeyError as e:
++            except (KeyError, ValueError) as e:
+                 # skip lines that do not meet the requirements
+                 pass
+ 
+-- 
+2.34.1
 
-
-> On 27/07/2023 09:43:07+0200, Zoltan Boszormenyi wrote:
-> > Feed platform settings to installplatform externally. Based on the patc=
-h
-> > submitted under https://github.com/rpm-software-management/rpm/pull/258=
-5
-> >
-> > Patch against INSTALL was backported for rpm 4.18.1
-> >
-> > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.co=
-m>
-> > ---
-> >  ...g-platform-macro-settings-externally.patch | 107 ++++++++++++++++++
-> >  meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  20 ++++
-> >  2 files changed, 127 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/rpm/files/0001-Allow-setting-=
-platform-macro-settings-externally.patch
-> >
-> > diff --git a/meta/recipes-devtools/rpm/files/0001-Allow-setting-platfor=
-m-macro-settings-externally.patch b/meta/recipes-devtools/rpm/files/0001-Al=
-low-setting-platform-macro-settings-externally.patch
-> > new file mode 100644
-> > index 0000000000..86d357a4e8
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro=
--settings-externally.patch
-> > @@ -0,0 +1,107 @@
-> > +From 12ae0bf5d1540695af0a3499fc88698c48bc20d3 Mon Sep 17 00:00:00 2001
-> > +From: =3D?UTF-8?q?Zolt=3DC3=3DA1n=3D20B=3DC3=3DB6sz=3DC3=3DB6rm=3DC3=
-=3DA9nyi?=3D
-> > + <zboszor@gmail.com>
-> > +Date: Tue, 25 Jul 2023 10:56:44 +0200
-> > +Subject: [PATCH] Allow setting platform macro settings externally
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +By default, rpm installs a series of default platforms based on
-> > +the CPU architecture names in subdirectories called
-> > +
-> > +    /usr/lib/platform/<arch>-linux
-> > +
-> > +This is enough for regular Linux distributions. However, some
-> > +distributions may use more specific platform names that refer to
-> > +particular computer systems, like SBCs or specific CPU tuning when
-> > +compiling.
-> > +
-> > +If the platform subdirectory does not exist in /usr/lib/platform
-> > +then rpmbuild does not work.
-> > +
-> > +Allow creating such custom platform subdirectory with feeding
-> > +the necessary data using external variables: RPM_CUSTOM_ARCH,
-> > +RPM_CUSTOM_ISANAME, RPM_CUSTOM_ISABITS, RPM_CUSTOM_CANONARCH
-> > +and RPM_CUSTOM_CANONCOLOR
-> > +
-> > +Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.c=
-om>
-> > +Upstream-Status: Submitted [https://github.com/rpm-software-management=
-/rpm/pull/2585]
-> > +---
-> > + INSTALL         | 32 ++++++++++++++++++++++++++++++++
-> > + installplatform |  9 ++++++++-
-> > + 2 files changed, 40 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/INSTALL b/INSTALL
-> > +index 13d0d8a83..35ad10793 100644
-> > +--- a/INSTALL
-> > ++++ b/INSTALL
-> > +@@ -148,6 +148,38 @@ and then install with:
-> > +
-> > +     make install
-> > +
-> > ++By default, rpm installs a series of default platforms based on the C=
-PU
-> > ++architecture names in subdirectories called
-> > ++
-> > ++    /usr/lib/platform/<arch>-linux
-> > ++
-> > ++This is enough for regular Linux distributions. However, some distrib=
-utions
-> > ++may use more specific platform names that refer to particular compute=
-r
-> > ++systems, like SBCs or specific CPU tuning when compiling. Examples of=
- such
-> > ++platform names are: "genericx86_64", "intel_skylake_64", "raspberrypi=
-_armv7",
-> > ++"raspberrypi_armv8", etc.
-> > ++
-> > ++If the platform name is put into /etc/rpm/platform, then rpmbuild use=
-s it
-> > ++and the only macros file rpmbuild looks for is
-> > ++
-> > ++    /usr/lib/platform/`cat /etc/rpm/platform`-linux/macros
-> > ++
-> > ++If this file does not exist, many rpm macros will not have their expe=
-cted
-> > ++values set and e.g. %configure will fail when trying to run rpmbuild.
-> > ++
-> > ++To allow creating the macros file for such a custom platform, the she=
-ll
-> > ++variables listed below must be set. If RPM_CUSTOM_ARCH is not set, th=
-e rest
-> > ++is ignored.
-> > ++
-> > ++    export RPM_CUSTOM_ARCH=3Dgenericx86_64
-> > ++    export RPM_CUSTOM_ISANAME=3Dx86
-> > ++    export RPM_CUSTOM_ISABITS=3D64
-> > ++    export RPM_CUSTOM_CANONARCH=3Dx86_64
-> > ++    export RPM_CUSTOM_CANONCOLOR=3D0 # to use /usr/lib for %_libdir
-> > ++    export RPM_CUSTOM_CANONCOLOR=3D3 # to use /usr/lib64 for %_libdir
-> > ++
-> > ++    make install # this also installs /usr/lib/platform/genericx86_64=
--linux/macros
-> > ++
-> > + Rpm comes with an automated self-test suite. The test-suite relies he=
-avily
-> > + on fakechroot (https://github.com/dex4er/fakechroot/) and cannot be e=
-xecuted
-> > + without it. Provided that fakechroot was found during configure,
-> > +diff --git a/installplatform b/installplatform
-> > +index a5ad7c5b8..59f57697b 100755
-> > +--- a/installplatform
-> > ++++ b/installplatform
-> > +@@ -11,7 +11,7 @@ VENDOR=3D"${4}"
-> > + OS=3D"${5}"
-> > + RPMRC_GNU=3D"${6}"
-> > +
-> > +-for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
-> > ++for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2` ${RPM_CUST=
-OM_ARCH:+custom}; do
-> > +   RPMRC_OPTFLAGS=3D"`sed -n 's/^optflags: '$ARCH' //p' $RPMRC`"
-> > +   RPMRC_OPTFLAGS=3D"`echo $RPMRC_OPTFLAGS | sed -e 's, ,\ ,g'`"
-> > +   case $RPMRC_OPTFLAGS in
-> > +@@ -30,6 +30,13 @@ for ARCH in noarch `grep ^arch_canon $RPMRC | cut -=
-d: -f2`; do
-> > +   CANONCOLOR=3D
-> > +   FILTER=3Dcat
-> > +   case "${ARCH}" in
-> > ++    custom)
-> > ++    ARCH=3D$RPM_CUSTOM_ARCH
-> > ++    ISANAME=3D$RPM_CUSTOM_ISANAME
-> > ++    ISABITS=3D$RPM_CUSTOM_ISABITS
-> > ++    CANONARCH=3D$RPM_CUSTOM_CANONARCH
-> > ++    CANONCOLOR=3D$RPM_CUSTOM_CANONCOLOR
-> > ++    ;;
-> > +     sparc64*)
-> > +     ISANAME=3Dsparc
-> > +     ISABITS=3D64
-> > +--
-> > +2.41.0
-> > +
-> > diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-dev=
-tools/rpm/rpm_4.18.1.bb
-> > index 95a9e92f96..97dd843e56 100644
-> > --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-> > +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-> > @@ -40,6 +40,7 @@ SRC_URI =3D "git://github.com/rpm-software-management=
-/rpm;branch=3Drpm-4.18.x;protoc
-> >             file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_has=
-h.patch \
-> >             file://fix-declaration.patch \
-> >             file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
-> > +           file://0001-Allow-setting-platform-macro-settings-externall=
-y.patch \
-> >             "
-> >
-> >  PE =3D "1"
-> > @@ -128,10 +129,29 @@ do_install:append:class-nativesdk() {
-> >       EOF
-> >  }
-> >
-> > +def rpm_isaname(d):
-> > +    import re
-> > +    arch =3D d.getVar('TARGET_ARCH')
-> > +    if re.match("^i.86$", arch) or re.match("^x86.*64$", arch):
-> > +        return "x86"
-> > +    # Add more platform tweaks for ISANAME as needed
-> > +    return arch
-> > +
-> > +# Add the custom BSP platform "macros" file
-> > +do_install:prepend:class-target() {
-> > +    export RPM_CUSTOM_ARCH =3D "${MACHINE_ARCH}"
-> > +    export RPM_CUSTOM_ISANAME =3D "${@rpm_isaname(d)}"
-> > +    export RPM_CUSTOM_ISABITS =3D "${SITEINFO_BITS}"
-> > +    export RPM_CUSTOM_CANONARCH =3D "${TARGET_ARCH}"
-> > +    # CANONCOLOR determines whether /usr/lib or /usr/lib64 is used for=
- a 64-bit platform
-> > +    export RPM_CUSTOM_CANONCOLOR =3D "${@bb.utils.contains('DISTRO_FEA=
-TURES', 'multilib', '3', '0', d)}"
-> > +}
-> > +
-> >  # Rpm's make install creates var/tmp which clashes with base-files pac=
-kaging
-> >  do_install:append:class-target() {
-> >      rm -rf ${D}/var
-> >  }
-> > +
-> >  do_install:append:class-nativesdk() {
-> >      rm -rf ${D}${SDKPATHNATIVE}/var
-> >      # Ensure find-debuginfo is located correctly inside SDK
-> > --
-> > 2.41.0
-> >
->
-> >
-> >
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185040): https://lists.openembedded.org/g/openembedde=
-d-core/message/185040
-> Mute This Topic: https://lists.openembedded.org/mt/100386513/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
