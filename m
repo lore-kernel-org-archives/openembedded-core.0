@@ -2,116 +2,95 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA17C001DF
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 19:04:12 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.79532.1690743849686326452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F652C001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 19:21:02 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.79831.1690744854743682685
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 12:04:09 -0700
+ Sun, 30 Jul 2023 12:20:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=rhQ8pH8d;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-563e860df0fso2838902a12.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 12:04:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Rtd/yrIO;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bba04b9df3so30579375ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 12:20:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690743849; x=1691348649;
+        d=gmail.com; s=20221208; t=1690744854; x=1691349654;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gQFJJnBNIF1kVOTf9nox7QSakSFjUlg5Uzqw4yKUu1k=;
-        b=rhQ8pH8danl9YSXHukIuUPDWQI1CKFpmFlOmnSIoFE7/wMf/Nk5lUORxX9Pr8RReqT
-         +pVVcNL3h2d0tGrNjCcUV1TC2pMv5UEhZOkwrlc6vLl0ET8tUZcZrNn5YlSQU/TOuleM
-         ntF7jFTo10BJgJ/UkfdPEMz3INIyRIq0G6+t3yTpHjyOcmcgcPNuaD5qwNY8R025xvF7
-         Cf80Fr5+uiSRJHj745i0ZKyaPuTv+h/tdqXj7/SWc+vRDYEAS4CIzfKM4AgLnOqsJq2I
-         1dvrFSDgifwByS3+F0EWKwuhpMs3NiS706y/2BpMtBQa+0vKfATdyAkII4zRMgrpj42B
-         Sfvg==
+        bh=TcDYISTBHKi9nC5rkaj6CK3gvb+KHQNvFoXmRBI0VB4=;
+        b=Rtd/yrIOG8NMDZ6R4lQT4GOLDosVl6WDztubPHrp4BhhveBQqHn+EcZzowbHQhEPE8
+         V5jfA5b6kG8GaNdpF8d83iZ+I6G3PRagAQzO0YlShP65+Mlv8BWQYMfGfEOLOD2otqtd
+         bfq0AJUiL+dHKfVz4REfWYBV8AHcZRPJSj8hSkHN6SaHCAOCwwxwFDpDCFfU96BiPTeE
+         ay0N8PWtCG0akBWZSc5w2Ouzvhc5ppJpMN+wDYyhO6ZMW97TkstBZehIw1YVekmpvh8g
+         VfK0mo1nCyqp4UP8kxaO8HfanyptjdZChSmejx8DtuMoVEHXBrGsC+818mDc6mpzjJT9
+         V1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690743849; x=1691348649;
+        d=1e100.net; s=20221208; t=1690744854; x=1691349654;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gQFJJnBNIF1kVOTf9nox7QSakSFjUlg5Uzqw4yKUu1k=;
-        b=PstTxUA7gZF83KcAIkzaEdQCmLJhCRmbCRCESCN6DY9PpIg7U9QkiOwbuiV0wm0Wen
-         aGn56/SQgbLRJ+C9IhjqCffB+7xBd3Ph7ixAcksTAUMvMmjwV+x/76r1jhovu7+cSHvJ
-         X32nj5xy6CQo8+BhNCejR7fmTSgRTjTpIu9CqgV49Vm+pRXPh4/g3bR03LVebKDl3LX5
-         kq8VrWe+8lwJjEtNovdTEaI0aak0f/X5HhMr3EIczhEGErAVkenJ/MUERlNcOCS+XtUp
-         DSA2h56FDrAVAkWOluJgPJThHqBD7lNgea7mOrorFVfBCXOLEAQknvbF9FbH+XgCLNTe
-         4uQg==
-X-Gm-Message-State: ABy/qLZkx+1WmYZ9lax7O+GfTEv/nzZKFRnMhYZuFoyu1LaTefEmnzEd
-	3sCLeDj3QQ4lRhGKutcF+OHW8G3ctAA=
-X-Google-Smtp-Source: APBJJlHWbZuvB9LyqjRDXK3C6poNZRNx/i54LHWRlvIEYc8SBq+FxRYh6cS24V6INFhbAvU7Y5TEtQ==
-X-Received: by 2002:a17:90a:5a82:b0:262:ec13:d3a with SMTP id n2-20020a17090a5a8200b00262ec130d3amr8292347pji.28.1690743848712;
-        Sun, 30 Jul 2023 12:04:08 -0700 (PDT)
+        bh=TcDYISTBHKi9nC5rkaj6CK3gvb+KHQNvFoXmRBI0VB4=;
+        b=LpbSZX8MsiGNT8Mg7aabuoAB/4J0Go4UK15irKege7QVweNzC2XvoS9Vd5t05G9VZZ
+         O3OUivnWZvT8PNmxh5gfxNB3FQNuv+HKjHsTmrcQzWvGIeFdPiWD6GmbFmaYF5VmG8vX
+         /1AvVsNwCJCNvPMHS22jPXR9EO+/5KzMZ7JlOMtxBsxAcX/BowJd8Q0Pfo2r6D8aS3Yf
+         UOjDddN1vK30U3zqRRB4mETny0yhnb8RNiGoaZNAGiVMvjviY2z2DPxMnBV8w1qZLRK9
+         qjvizVkVICjKG2q54jkLEzLOMUSEslEJFSwPutytIdOzMym1izsF5IIz3GjNlkNA7gak
+         HniA==
+X-Gm-Message-State: ABy/qLaAWHl4YJzchbPOQesYkdH2+9fGudH9aXBWPk/sWhUNE4IfQiIv
+	DlpNf4iDmyiVM5AjxUNAofBC1Eiwss0=
+X-Google-Smtp-Source: APBJJlG+fFFuJnjYMKm5BOBHXECwrBO9ebUG6O/cDumdLpQINr/76Ku9UkeCznCtowmW8NCCv1yZig==
+X-Received: by 2002:a17:902:ea10:b0:1ac:5717:fd5 with SMTP id s16-20020a170902ea1000b001ac57170fd5mr8920114plg.60.1690744853755;
+        Sun, 30 Jul 2023 12:20:53 -0700 (PDT)
 Received: from chiron.. ([2601:1c0:ca00:cea0:6031:b260:43bc:b5ef])
-        by smtp.gmail.com with ESMTPSA id n4-20020a170902e54400b00198d7b52eefsm6933904plf.257.2023.07.30.12.04.07
+        by smtp.gmail.com with ESMTPSA id e16-20020a17090301d000b001bb381b8260sm6971294plh.100.2023.07.30.12.20.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 12:04:08 -0700 (PDT)
+        Sun, 30 Jul 2023 12:20:53 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-more-itertools: upgrade 9.1.0 -> 10.0.0
-Date: Sun, 30 Jul 2023 12:03:27 -0700
-Message-Id: <20230730190326.2335908-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-wheel: upgrade 0.40.0 -> 0.41.0
+Date: Sun, 30 Jul 2023 12:20:50 -0700
+Message-Id: <20230730192050.2701042-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 19:04:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185111
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 19:21:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185112
 
-https://more-itertools.readthedocs.io/en/stable/versions.html
+https://wheel.readthedocs.io/en/stable/news.html
 
-10.0.0
-* Potentially breaking changes
-  - Python 3.7 support was dropped, since it went EOL on 2023-06-27
-  - batched() no longer issues a DeprecationWarning; it is now an alias
-    for itertools.batched for Python 3.12+
-  - batched() and matmul() now yield tuples instead of lists
-* New functions
-  - combination_with_replacement_index() (thanks to Schoyen)
-  - nth_combination_with_replacement() (thanks to Schoyen)
-  - polynomial_eval() (from the Python itertools docs)
-  - polynomial_derivative() (from the Python itertools docs)
-  - sum_of_squares() (from the Python itertools docs)
-* Changes to existing functions
-  - seekable() now has relative_seek method (thanks to karlb)
-  - chunked_even() was optimized (thanks to elliotwutingfeng)
-  - numeric_range() was optimized (thanks to eltoder)
-  - duplicates_justseen(), pairwise(), partial_product(), and partition()
-    were updated and optimized (thanks to pochmann)
-  - unique_in_window() had its implementation updated (thanks to
-    elliotwutingfeng)
-  - iterate() now breaks when its func argument raises StopIteration (thanks
-    to jrebiffe)
-* Other changes
-  - Some documentation and testing issues were fixed (thanks to lonnen and
-    XuehaiPan)
+0.41.0 (2023-07-22)
+* Added full support of the build tag syntax to wheel tags (you can now
+  set a build tag like 123mytag)
+* Fixed warning on Python 3.12 about onerror deprecation. (PR by Henry
+  Schreiner)
+* Support testing on Python 3.12 betas (PR by Ewout ter Hoeven)
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-All ptests pass on core-image-ptest-python3-more-itertools for qemux86-64
-
- ...more-itertools_9.1.0.bb => python3-more-itertools_10.0.0.bb} | 2 +-
+ .../python/{python3-wheel_0.40.0.bb => python3-wheel_0.41.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_9.1.0.bb => python3-more-itertools_10.0.0.bb} (87%)
+ rename meta/recipes-devtools/python/{python3-wheel_0.40.0.bb => python3-wheel_0.41.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
-index 8c33b7161bc..e07d4b78606 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.40.0.bb b/meta/recipes-devtools/python/python3-wheel_0.41.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-wheel_0.40.0.bb
+rename to meta/recipes-devtools/python/python3-wheel_0.41.0.bb
+index 2b8111d544b..2d8742545da 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.40.0.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.41.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
  
--SRC_URI[sha256sum] = "cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"
-+SRC_URI[sha256sum] = "cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1"
+-SRC_URI[sha256sum] = "cd1196f3faee2b31968d626e1731c94f99cbdb67cf5a46e4f5656cbee7738873"
++SRC_URI[sha256sum] = "55a0f0a5a84869bce5ba775abfd9c462e3a6b1b7b7ec69d72c0b83d673a5114d"
  
- inherit pypi python_flit_core ptest
+ inherit python_flit_core pypi
  
 -- 
 2.34.1
