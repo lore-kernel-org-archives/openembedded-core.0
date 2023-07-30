@@ -1,333 +1,166 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CEEC001DC
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 20:36:42 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.80567.1690749398139120794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E68EB64DD
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 21:38:33 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.81853.1690753112019366438
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 13:36:38 -0700
+ Sun, 30 Jul 2023 14:38:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QF+cVoiW;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 28F17E0005;
-	Sun, 30 Jul 2023 20:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1690749395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vseoFUnPqwcCAlkxbrNMKXzrAEGt1Vl8H/ak5M6MJ7A=;
-	b=QF+cVoiWgbV4p0kgDSUS058H7EeLWmjhD44bk23Of36ke1ATKFCyHZ/8575k0p/DCT5bzR
-	+rrPZYOOYi3yglRt7TgzeixKNDAiF2uFfeisjfehf/FVDSFFYFquZipujSWQN3P6/+82yI
-	DiIutFWvXCmBV1YGnO63YUwxkUVbz8dhepbydLCjpcX3IM2+FfBDmI7aDIU7l7OLxIvO4v
-	nTEi1EH6POjhswbvTHBL1fko3ZiwVEfp3OhyMi6p2SyYdNuHF4KC70nnT+gamlxRnnAvqK
-	/AIlAq/Exyk2Jaa3r7QaYb1cw+BM795ZbWI8ujLdBFF/d/3V5inUPATCCocqgQ==
-Date: Sun, 30 Jul 2023 22:36:34 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 12/21] util-linux: upgrade 2.38.1 -> 2.39.1
-Message-ID: <202307302036342002024f@mail.local>
-References: <20230727143627.3718496-1-alex@linutronix.de>
- <20230727143627.3718496-12-alex@linutronix.de>
- <20230728131317ca8fba29@mail.local>
- <17760BA193C3A223.27447@lists.openembedded.org>
- <CANNYZj_=kDrFgL8nEv8vJsu6zvOra+V92=GjCGj-j2YVhhiOSQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fGMGLjx+;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bbdc05a93bso22881255ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 14:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690753111; x=1691357911;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BKYjUcNpOm/mxfVzR4jRPoX17/uiUnIaDJ5IxRVaRRw=;
+        b=fGMGLjx+UQONFBh8QCTsuwInN2zI04k0cnu7E9hnHdyvA4gG2lOfQLA8lb1mEzx6ry
+         eeLB7b9NdZtwHMR6GA96O9D34ccomzqO6LwNfhoS6IbdQZlTFx8Yr5whqt3+EzAfeP6c
+         zqNNLQeokMN10mCANtWMaVAzyHvhzqLN04WcLIvYK7Lw1wbTTKP4qLblD/KgWQTYlfFn
+         m/BkzRaW5RF08yv0/2ho+zK37CELfkkOZ3IF6hWmRbsBctsvEhH95p3L9FNW0Lx+RzUl
+         0aS9VLzYtcGqcWQowPjrnq3qWtm5jJfrQiCtWTA8BD60IZxLX0qNfAaiXkpWuq0010uH
+         EtSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690753111; x=1691357911;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BKYjUcNpOm/mxfVzR4jRPoX17/uiUnIaDJ5IxRVaRRw=;
+        b=XkvhjXL21Ead6m89ZVxRZOr+BHs3zq0+Rj88RGVWXq3rY1wbeSWnQNamrHUZjrnFYC
+         PBBbBx2CFsGxvKvTQTNxwW6tNVp5cZwk6UTZnsQ6yw2Q1jkWtJX8yFymQrwn5bUTfya6
+         hh9UAtydhE+wUSA2gYWOygTq+Z7kvKj7iHP3ikY9PlzPl/OpdEOUfiipLE9n1qUiBskq
+         DLbLLsquNiAm/VtcQdq6MDC5zPm05x8cmcRozx5I0LGJyU+LGtL+FGmYM3MIzfas1mU0
+         b8/e1KbppxjeyRWvZabCaFgr16igMq+RsxGP+5i+1o8z64Mq8MeW06fO7jJIMXKlI3up
+         TaIQ==
+X-Gm-Message-State: ABy/qLZKwDrK16hkIh4pvyqEmJtDT+C9+2bSwb7fLroHwfXcWhah1HGM
+	7YrnYZ1WSWsbv2SAw6PoQtw0qsEO3MKFcg==
+X-Google-Smtp-Source: APBJJlH0vJ3u7oLALK3xKxAEZ4Oc7lZh3SHYZljF1YzQ5VoSwQdHjOALArVcWCT0C6VYPTb3JmHKYA==
+X-Received: by 2002:a17:903:228a:b0:1b8:b382:f6c3 with SMTP id b10-20020a170903228a00b001b8b382f6c3mr7316482plh.13.1690753111089;
+        Sun, 30 Jul 2023 14:38:31 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::8c80])
+        by smtp.gmail.com with ESMTPSA id a2-20020a170902ee8200b001b04c2023e3sm7027395pld.218.2023.07.30.14.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jul 2023 14:38:30 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gnu-efi: Fix build break on riscv64
+Date: Sun, 30 Jul 2023 14:38:28 -0700
+Message-ID: <20230730213828.3420458-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj_=kDrFgL8nEv8vJsu6zvOra+V92=GjCGj-j2YVhhiOSQ@mail.gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 20:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185113
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 21:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185114
 
-On 28/07/2023 17:25:46+0200, Alexander Kanavin wrote:
-> I just locally ran the ptest against current abelloni/master-next
-> (1db230c0191eefffd94be0e8f40312b76e8b8769) with arm-64 target on an
-> x86 host, and that passed too. I can try to do that on the actual arm
-> host in the AB cluster, but otherwise out of ideas at the moment. Can
-> you bisect the patchset?
-> 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...0001-riscv64-adjust-type-definitions.patch | 34 +++++++++++++++++++
+ .../0001-riscv64-ignore-unknown-relocs.patch  | 32 +++++++++++++++++
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb    |  2 ++
+ 3 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-adjust-type-definitions.patch
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-ignore-unknown-relocs.patch
 
-This is not 100% reproducible and so difficult to bisect. This is the
-log:
-
-diff-{{{
---- /usr/lib/util-linux/ptest/tests/expected/lsfd/option-inet
-+++ /usr/lib/util-linux/ptest/tests/output/lsfd/option-inet
-@@ -5,10 +5,10 @@
-     3     TCPv6 state=listen laddr=[::1]:34567
-     4     TCPv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
-     5     TCPv6 state=established laddr=[::1]:34567 raddr=[::1]:23456
--    3       UDP state=close laddr=127.0.0.1:34567
--    4       UDP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
--    3 UDPLITEv6 state=close laddr=[::1]:34567
--    4 UDPLITEv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
-+    3       UDP socket:[33864]
-+    4       UDP socket:[33865]
-+    3 UDPLITEv6 socket:[31413]
-+    4 UDPLITEv6 socket:[31414]
- # --inet=4
-     3  TCP state=listen laddr=127.0.0.1:34567
-     4  TCP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
-}}}-diff
-
-FAIL:          lsfd: --inet option                                 (lsfd/option-inet)
-
-
-All the occurrences are on the arm workers, ubuntu1804-arm-1 and
-ubuntu2204-arm-1 for now.
-
-
-
-> Alex
-> 
-> On Fri, 28 Jul 2023 at 15:38, Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > I don't know. Nothing stands out in particular here:
-> > https://git.yoctoproject.org/poky-contrib/log/?h=abelloni/master-next
-> >
-> > Both failures happened on arm64 I think?
-> >
-> > Alex
-> >
-> > On Fri, 28 Jul 2023 at 15:13, Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > I got a new ptest failure twice with this patch:
-> > >
-> > > 'util-linux': ['lsfd:_--inet_option']
-> > >
-> > > I don't see it on your run, I'm wondering what is in my branch that
-> > > causes it.
-> > >
-> > > On 27/07/2023 16:36:18+0200, Alexander Kanavin wrote:
-> > > > License-update: added bsd-2-clause
-> > > > https://github.com/util-linux/util-linux/commit/faeb1b64b36ededd1a0b62555cad65f002d47ac6
-> > > >
-> > > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > > > ---
-> > > >  ...2.38.1.bb => util-linux-libuuid_2.39.1.bb} |  0
-> > > >  meta/recipes-core/util-linux/util-linux.inc   | 10 ++--
-> > > >  .../0001-check-for-sys-pidfd.h.patch          | 53 -------------------
-> > > >  ...configure.ac-Improve-check-for-magic.patch | 40 --------------
-> > > >  .../util-linux/util-linux/run-ptest           |  6 +++
-> > > >  ...l-linux_2.38.1.bb => util-linux_2.39.1.bb} |  0
-> > > >  6 files changed, 10 insertions(+), 99 deletions(-)
-> > > >  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.38.1.bb => util-linux-libuuid_2.39.1.bb} (100%)
-> > > >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> > > >  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> > > >  rename meta/recipes-core/util-linux/{util-linux_2.38.1.bb => util-linux_2.39.1.bb} (100%)
-> > > >
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb
-> > > > similarity index 100%
-> > > > rename from meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb
-> > > > rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> > > > index 3868b1c41d3..99ce2a24b0a 100644
-> > > > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > > > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > > > @@ -6,13 +6,13 @@ disk partitioning, kernel message management, filesystem creation, and system lo
-> > > >
-> > > >  SECTION = "base"
-> > > >
-> > > > -LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause & BSD-4-Clause"
-> > > > +LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause"
-> > > >  LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
-> > > >  LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
-> > > >  LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
-> > > >  LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
-> > > >
-> > > > -LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-> > > > +LIC_FILES_CHKSUM = "file://README.licensing;md5=12ae7768a65ec8f2e44d930df9cb43fa \
-> > > >                      file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> > > >                      file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> > > >                      file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-> > > > @@ -23,7 +23,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da
-> > > >                      file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> > > >                      file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> > > >                      file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-> > > > -"
-> > > > +                    "
-> > > >
-> > > >  FILESEXTRAPATHS:prepend := "${THISDIR}/util-linux:"
-> > > >  MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-> > > > @@ -35,8 +35,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-> > > >             file://run-ptest \
-> > > >             file://display_testname_for_subtest.patch \
-> > > >             file://avoid_parallel_tests.patch \
-> > > > -           file://0001-check-for-sys-pidfd.h.patch \
-> > > > -           file://0001-configure.ac-Improve-check-for-magic.patch \
-> > > >             "
-> > > >
-> > > > -SRC_URI[sha256sum] = "60492a19b44e6cf9a3ddff68325b333b8b52b6c59ce3ebd6a0ecaa4c5117e84f"
-> > > > +SRC_URI[sha256sum] = "890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b"
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch b/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> > > > deleted file mode 100644
-> > > > index 19f57f14bc7..00000000000
-> > > > --- a/meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
-> > > > +++ /dev/null
-> > > > @@ -1,53 +0,0 @@
-> > > > -From 548bc568f3c735e53fb5b0a5ab6473a3f1457b91 Mon Sep 17 00:00:00 2001
-> > > > -From: Khem Raj <raj.khem@gmail.com>
-> > > > -Date: Sun, 7 Aug 2022 14:39:19 -0700
-> > > > -Subject: [PATCH] check for sys/pidfd.h
-> > > > -
-> > > > -This header in newer glibc defines the signatures of functions
-> > > > -pidfd_send_signal() and pidfd_open() and when these functions are
-> > > > -defined by libc then we need to include the relevant header to get
-> > > > -the definitions. Clang 15+ has started to error out when function
-> > > > -signatures are missing.
-> > > > -
-> > > > -Fixes errors like
-> > > > -misc-utils/kill.c:402:6: error: call to undeclared function 'pidfd_send_signal'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> > > > -        if (pidfd_send_signal(pfd, ctl->numsig, &info, 0) < 0)
-> > > > -
-> > > > -Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/1769]
-> > > > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ----
-> > > > - configure.ac          | 1 +
-> > > > - include/pidfd-utils.h | 4 +++-
-> > > > - 2 files changed, 4 insertions(+), 1 deletion(-)
-> > > > -
-> > > > -diff --git a/configure.ac b/configure.ac
-> > > > -index a511e93de..fd7d9245f 100644
-> > > > ---- a/configure.ac
-> > > > -+++ b/configure.ac
-> > > > -@@ -342,6 +342,7 @@ AC_CHECK_HEADERS([ \
-> > > > -     sys/mkdev.h \
-> > > > -     sys/mount.h \
-> > > > -     sys/param.h \
-> > > > -+    sys/pidfd.h \
-> > > > -     sys/prctl.h \
-> > > > -     sys/resource.h \
-> > > > -     sys/sendfile.h \
-> > > > -diff --git a/include/pidfd-utils.h b/include/pidfd-utils.h
-> > > > -index eddede976..d9e33cbc5 100644
-> > > > ---- a/include/pidfd-utils.h
-> > > > -+++ b/include/pidfd-utils.h
-> > > > -@@ -4,8 +4,10 @@
-> > > > - #ifdef HAVE_SYS_SYSCALL_H
-> > > > - # include <sys/syscall.h>
-> > > > - # if defined(SYS_pidfd_send_signal) && defined(SYS_pidfd_open)
-> > > > -+#  ifdef HAVE_SYS_PIDFD_H
-> > > > -+#   include <sys/pidfd.h>
-> > > > -+#  endif
-> > > > - #  include <sys/types.h>
-> > > > --
-> > > > - #  ifndef HAVE_PIDFD_SEND_SIGNAL
-> > > > - static inline int pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
-> > > > -                                 unsigned int flags)
-> > > > ---
-> > > > -2.37.1
-> > > > -
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch b/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> > > > deleted file mode 100644
-> > > > index 00611fe5788..00000000000
-> > > > --- a/meta/recipes-core/util-linux/util-linux/0001-configure.ac-Improve-check-for-magic.patch
-> > > > +++ /dev/null
-> > > > @@ -1,40 +0,0 @@
-> > > > -From 263381ddd46eea2293c70bc811273b66bc52087b Mon Sep 17 00:00:00 2001
-> > > > -From: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > > > -Date: Fri, 19 Aug 2022 14:47:49 +0200
-> > > > -Subject: [PATCH] configure.ac: Improve check for magic
-> > > > -
-> > > > -Check whether magic.h header exists before defining HAVE_MAGIC.
-> > > > -
-> > > > -Despite library availability there still can be missing header.
-> > > > -Current test doesn't cover that possibility which will lead compilation
-> > > > -to fail in case of separate sysroot.
-> > > > -
-> > > > -Upstream-Status: Backport
-> > > > -[https://github.com/util-linux/util-linux/commit/263381ddd46eea2293c70bc811273b66bc52087b]
-> > > > -
-> > > > -Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-> > > > -Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> > > > ----
-> > > > - configure.ac | 6 ++++--
-> > > > - 1 file changed, 4 insertions(+), 2 deletions(-)
-> > > > -
-> > > > -diff --git a/configure.ac b/configure.ac
-> > > > -index daa8f0dca..968a0daf0 100644
-> > > > ---- a/configure.ac
-> > > > -+++ b/configure.ac
-> > > > -@@ -1570,8 +1570,10 @@ AC_ARG_WITH([libmagic],
-> > > > - )
-> > > > - AS_IF([test "x$with_libmagic" = xno], [have_magic=no], [
-> > > > -   AC_CHECK_LIB([magic], [magic_open], [
-> > > > --    AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libmagic present.])
-> > > > --    MAGIC_LIBS="-lmagic"
-> > > > -+    AC_CHECK_HEADER(magic.h, [
-> > > > -+      AC_DEFINE([HAVE_MAGIC], [1], [Define to 1 if you have the libmagic present.])
-> > > > -+      MAGIC_LIBS="-lmagic"
-> > > > -+    ])
-> > > > -   ])
-> > > > - ])
-> > > > - AC_SUBST([MAGIC_LIBS])
-> > > > ---
-> > > > -2.37.1
-> > > > -
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
-> > > > index 097107cd095..e25e9d10823 100644
-> > > > --- a/meta/recipes-core/util-linux/util-linux/run-ptest
-> > > > +++ b/meta/recipes-core/util-linux/util-linux/run-ptest
-> > > > @@ -16,6 +16,12 @@ export PATH=$bindir/bin:$PATH
-> > > >  # losetup tests will be skipped and/or fail otherwise
-> > > >  modprobe loop
-> > > >
-> > > > +# required for mount/fallback test to pass
-> > > > +# systemd does this by default, but ptest images do not use it
-> > > > +# see https://man7.org/linux/man-pages/man7/mount_namespaces.7.html
-> > > > +# for a long description of mount namespaces in Linux
-> > > > +mount --make-shared /
-> > > > +
-> > > >  ./tests/run.sh --use-system-commands --parsable --show-diff | sed -u '{
-> > > >        s/^\(.*\):\(.*\) \.\.\. OK$/PASS: \1:\2/
-> > > >        s/^\(.*\):\(.*\) \.\.\. FAILED \(.*\)$/FAIL: \1:\2 \3/
-> > > > diff --git a/meta/recipes-core/util-linux/util-linux_2.38.1.bb b/meta/recipes-core/util-linux/util-linux_2.39.1.bb
-> > > > similarity index 100%
-> > > > rename from meta/recipes-core/util-linux/util-linux_2.38.1.bb
-> > > > rename to meta/recipes-core/util-linux/util-linux_2.39.1.bb
-> > > > --
-> > > > 2.30.2
-> > > >
-> > >
-> > > >
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > Alexandre Belloni, co-owner and COO, Bootlin
-> > > Embedded Linux and Kernel engineering
-> > > https://bootlin.com
-> >
-> > 
-> >
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185037): https://lists.openembedded.org/g/openembedded-core/message/185037
-> Mute This Topic: https://lists.openembedded.org/mt/100391613/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-adjust-type-definitions.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-adjust-type-definitions.patch
+new file mode 100644
+index 00000000000..3475606264e
+--- /dev/null
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-adjust-type-definitions.patch
+@@ -0,0 +1,34 @@
++From 1de509497826faa0ad84b82f5e2c3d21ee613459 Mon Sep 17 00:00:00 2001
++From: Moody Liu <mooodyhunter@outlook.com>
++Date: Sat, 13 May 2023 17:39:16 +0100
++Subject: [PATCH] riscv64: adjust type definitions
++
++CHAR8 needs to be defined while BOOLEAN should be removed
++here to prevent typedef conflicts
++
++Upstream-Status: Backport [https://sourceforge.net/p/gnu-efi/code/ci/1de509497826faa0ad84b82f5e2c3d21ee613459/]
++Signed-off-by: Moody Liu <mooodyhunter@outlook.com>
++---
++ inc/riscv64/efibind.h | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/inc/riscv64/efibind.h b/inc/riscv64/efibind.h
++index 4fdf81d..d8b4f39 100644
++--- a/inc/riscv64/efibind.h
+++++ b/inc/riscv64/efibind.h
++@@ -32,11 +32,9 @@ typedef uint16_t                UINT16;
++ typedef int16_t                 INT16;
++ typedef uint8_t                 UINT8;
++ typedef int8_t                  INT8;
+++typedef char                    CHAR8;
++ typedef wchar_t                 CHAR16;
++ #define WCHAR                   CHAR16
++-#ifndef BOOLEAN
++-typedef uint8_t                 BOOLEAN;
++-#endif
++ #undef VOID
++ typedef void                    VOID;
++ typedef int64_t                 INTN;
++-- 
++2.41.0
++
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-ignore-unknown-relocs.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-ignore-unknown-relocs.patch
+new file mode 100644
+index 00000000000..5b3c152c5e0
+--- /dev/null
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-riscv64-ignore-unknown-relocs.patch
+@@ -0,0 +1,32 @@
++From 708f66acfec9a86f237726d45095cbd380fd83ca Mon Sep 17 00:00:00 2001
++From: Callum Farmer <gmbr3@opensuse.org>
++Date: Wed, 21 Jun 2023 11:32:28 +0100
++Subject: [PATCH] riscv64: ignore unknown relocs
++
++Sometimes ld emits relocs such as R_RISCV_64 for unwind symbols
++these don't need to be handled yet so just can be skipped otherwise
++the binary will never load
++
++Upstream-Status: Backport [https://sourceforge.net/p/gnu-efi/code/ci/708f66acfec9a86f237726d45095cbd380fd83ca/]
++Signed-off-by: Callum Farmer <gmbr3@opensuse.org>
++---
++ gnuefi/reloc_riscv64.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/gnuefi/reloc_riscv64.c b/gnuefi/reloc_riscv64.c
++index 0b02d83..e429602 100644
++--- a/gnuefi/reloc_riscv64.c
+++++ b/gnuefi/reloc_riscv64.c
++@@ -81,8 +81,7 @@ EFI_STATUS EFIAPI _relocate(long ldbase, Elf_Dyn *dyn)
++ 			*addr = ldbase + rel->r_addend;
++ 			break;
++ 		default:
++-			/* Panic */
++-			while (1) ;
+++				break;
++ 		}
++ 		rel = (Elf_Rela *)((char *)rel + relent);
++ 		relsz -= relent;
++-- 
++2.41.0
++
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
+index 547c469d19f..d37d638e097 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.17.bb
+@@ -15,6 +15,8 @@ LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=e582
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
+            file://parallel-make-archives.patch \
+            file://gnu-efi-3.0.9-fix-clang-build.patch \
++           file://0001-riscv64-adjust-type-definitions.patch \
++           file://0001-riscv64-ignore-unknown-relocs.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "7807e903349343a7a142ebb934703a2872235e89688cf586c032b0a1087bcaf4"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
 
