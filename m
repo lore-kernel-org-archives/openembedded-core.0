@@ -2,255 +2,397 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10394C001DF
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:02 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.77616.1690740060687111558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC990C001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:11 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.78383.1690740070059140643
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 11:01:01 -0700
+ Sun, 30 Jul 2023 11:01:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=UUx1upTH;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-68336d06620so3821074b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=yz6V9lPw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-686fc0d3c92so2197573b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740059; x=1691344859;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8QWuFQVMDpplW4bycRc5wqwMMK5C4jqsciRmMQyUrw=;
-        b=UUx1upTHxDaXF2g2Uu+1g80oN9cn/mxH72RgVeQ7mPa26Od1uih16OpRVtM86Ev1lA
-         zg5nMc6Ous0x0dsM5V8dmT/XfTYuDXuYvsphKCBX3nyEMNVNTGYRfP18G8WabcLAtQHV
-         yrWrlASIokmWriBguIwd28c+TE/Bb+DatFm5WcXhp6L8kvS6HsPSGL3ENFWt8JLujMFd
-         X23eVYXmWNO9vmbNM0hJUhAE8L5cEKKYAknyKDK1WTPj7+1yIAMDsKkbIsZmCbSq6rIO
-         3b0w3hD0x9GLGyTdQMyc6bYwvUK339SMvoGsA7EFYnGSgHS8HrbXBo71uccVh9ZnP8Vs
-         yAwA==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740069; x=1691344869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z3jZ0edb1tjTbLYl7+tlDHgwnn+2pEUsF0yYivBULuY=;
+        b=yz6V9lPw1PZOrGw/o4ew7GeJSCFs8iR5xER1UBBVy4wNjHOXJmpKpOnSmrTXewfNAn
+         kPzE7tTcRxaIuWCk/Wu29H7o/IXIznVVP0GKDXD2zEY5l2jpNJUg6bXuP0MvD5KQa3iR
+         gihrJ/LJuAFst9wtVv4l3tHrYJnC4pn5b6+AP1AuDGXZrj81QjdHWngcbwv1Bm33qmSI
+         broDcsXfSv82P2tzPiSYfeu4esUJAWZDS2AC05WD+tIlyxgIJvTcIzqkTSCensxcwItr
+         Jjp1ty3Oc56UqJGyI68OK/1Uzr/VrlnrKYNXW+hBfkr9Xkkuf07sp0gvAtc8hslGLu1t
+         LmMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690740059; x=1691344859;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U8QWuFQVMDpplW4bycRc5wqwMMK5C4jqsciRmMQyUrw=;
-        b=fmWG/1HMa+eprx6W6cB0Eke3R8CNfQyCHgX7oeLceQrYu412FBKGJtsoPbGxNXupEZ
-         mAMkcQVDg3pyDLzayXY9AR/hibWfqOSTQMLOpk3xWY+cAUc+v9V62MrETDex5P+BVQ1t
-         DJ9bqjomGUmsFcqDBeKxgHFNXnBTEyDi63mlh5b15YrnqolAPhAWe5KKSBmzlcO/J4yd
-         R+06aKeWVQR+0lm0J2otKA94p7thqxbofrctJp1JqCbuN/cGE4v1fOXzazJAop83UusC
-         TFdMw/1YYOcKUX8OinafACzWykrgnuEu3ZzXbJy32poxEq+a9lU5HpFuAXejGxgj3I/d
-         f7ag==
-X-Gm-Message-State: ABy/qLZELFd4/Hg9oz33Pia8ONaQQN7zAd8Et67xPl2vSIQh1TKufsnL
-	PSmHsr3q4Sy/Ke3FpYruxbHEFgsJSstXtEy2pepdcA==
-X-Google-Smtp-Source: APBJJlEJR7TIFyjcAttg5dJSA5F8whvn5O68e7U4ghdWDWk+ZpAiAQVG3Y3SgYY9CcoOj25JccSzjg==
-X-Received: by 2002:a05:6a00:240a:b0:64f:35c8:8584 with SMTP id z10-20020a056a00240a00b0064f35c88584mr9348518pfh.18.1690740059500;
-        Sun, 30 Jul 2023 11:00:59 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690740069; x=1691344869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z3jZ0edb1tjTbLYl7+tlDHgwnn+2pEUsF0yYivBULuY=;
+        b=edA57qWt7UBCPBXstN/PwvMN2C+KQdcBqljH76JDAACm27iTifstOQ4nmRL3u+WvDT
+         C5n4J+nq0W4HHPCwPw6GSecZofXAMR8jMo51mH54X/1pM9P6z0MF99pUI30N2hIJzckE
+         47SzAIeuC9BlF4fGBOr7A4zARLaYQ5gRrRquAm+WX16r2LoKzvwPyROTf+C+xgwI4WkG
+         tTh+yLmRKOa2ijXUvPZMenwMZSsC8QKs+d+u1f/qPeOv2d75W5OLrAVTJ944rAqz7E5J
+         Z8NWMmth7JZ4Y/dIBVjgp8r4g3t+LS//NKWSbbG8DJRUT4G+xsT8Uk1ZEWlLEby5Pguo
+         wINw==
+X-Gm-Message-State: ABy/qLbOMuZVzUlSnginfAo9v7oXDLbomThpeL+yhakXqSnm6OTN9k45
+	ZQ1tM1fVNwg0lmDgvwFm/SsyC0xFXubeXhXLWLxDFg==
+X-Google-Smtp-Source: APBJJlEMnYAONIBZDgKq9CXkIh7W8TwY1Zs7E86sKlIVH4foA5QX+JGswVubqJp26VqtUH6+6JXRug==
+X-Received: by 2002:a05:6a20:9151:b0:13b:9cf1:a779 with SMTP id x17-20020a056a20915100b0013b9cf1a779mr9630277pzc.37.1690740068832;
+        Sun, 30 Jul 2023 11:01:08 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.00.58
+        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 11:00:59 -0700 (PDT)
+        Sun, 30 Jul 2023 11:01:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/30] Patch review
-Date: Sun, 30 Jul 2023 08:00:23 -1000
-Message-Id: <cover.1690739937.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/30] tiff: fix multiple CVEs
+Date: Sun, 30 Jul 2023 08:00:28 -1000
+Message-Id: <01b9f7f7bb3eaecd6aa757fa090fcc4424788ce1.1690739937.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1690739937.git.steve@sakoman.com>
+References: <cover.1690739937.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185078
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185083
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Tuesday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Backport fixes for:
+* CVE-2023-25433 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44
+* CVE-2023-25434 & CVE-2023-25435 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5667
-
-The following changes since commit e7d3e02a624f7ce23d012bb11ad1df2049066b37:
-
-  package.bbclass: moving field data process before variable process in process_pkgconfig (2023-07-21 07:14:06 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alexander Kanavin (1):
-  diffutils: update 3.9 -> 3.10
-
-Andrej Valek (1):
-  kernel: add missing path to search for debug files
-
-Archana Polampalli (1):
-  openssh: fix CVE-2023-38408
-
-Benjamin Bouvier (1):
-  util-linux: add alternative links for ipcs,ipcrm
-
-Hitendra Prajapati (3):
-  tiff: fix multiple CVEs
-  tiff: fix multiple CVEs
-  libtiff: fix CVE-2023-26965 heap-based use after free
-
-Jose Quaresma (2):
-  openssl: add PERLEXTERNAL path to test its existence
-  openssl: use a glob on the PERLEXTERNAL to track updates on the path
-
-Khem Raj (1):
-  meson.bbclass: Point to llvm-config from native sysroot
-
-Martin Jansa (1):
-  libxcrypt: fix build with perl-5.38 and use master branch
-
-Ovidiu Panait (4):
-  mdadm: fix util-linux ptest dependency
-  mdadm: fix 07revert-inplace ptest
-  mdadm: fix segfaults when running ptests
-  mdadm: skip running known broken ptests
-
-Peter Marko (2):
-  libjpeg-turbo: patch CVE-2023-2804
-  python3: ignore CVE-2023-36632
-
-Quentin Schulz (1):
-  uboot-extlinux-config.bbclass: fix old override syntax in comment
-
-Ross Burton (2):
-  python3: fix missing comma in get_module_deps3.py
-  oeqa/runtime/cases/rpm: fix wait_for_no_process_for_user failure case
-
-Sundeep KOKKONDA (1):
-  gcc : upgrade to v11.4
-
-Tim Orling (1):
-  python3: upgrade 3.10.9 -> 3.10.12
-
-Vivek Kumbhar (1):
-  go: fix CVE-2023-29406 net/http insufficient sanitization of Host
-    header
-
-Wang Mingyu (3):
-  libassuan: upgrade 2.5.5 -> 2.5.6
-  libksba: upgrade 1.6.3 -> 1.6.4
-  lttng-ust: upgrade 2.13.5 -> 2.13.6
-
-Yoann Congal (2):
-  recipetool: Fix inherit in created -native* recipes
-  oeqa/selftest/devtool: add unit test for "devtool add -b"
-
-Yogita Urade (1):
-  dmidecode: fix CVE-2023-30630
-
-Yuta Hayama (1):
-  systemd-systemctl: fix errors in instance name expansion
-
- meta/classes/kernel.bbclass                   |   1 +
- meta/classes/meson.bbclass                    |   1 +
- meta/classes/uboot-extlinux-config.bbclass    |   8 +-
- meta/conf/distro/include/maintainers.inc      |   2 +-
- meta/lib/oeqa/runtime/cases/rpm.py            |   4 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  32 +
- .../openssh/openssh/CVE-2023-38408-0001.patch | 585 ++++++++++++++++++
- .../openssh/openssh/CVE-2023-38408-0002.patch | 173 ++++++
- .../openssh/openssh/CVE-2023-38408-0003.patch |  36 ++
- .../openssh/openssh/CVE-2023-38408-0004.patch | 114 ++++
- .../openssh/openssh_8.9p1.bb                  |   4 +
- .../openssl/openssl_3.0.9.bb                  |   4 +-
- ...ommon.pm-compatible-with-latest-perl.patch |  50 ++
- ...ve-smartmatch-usage-from-gen-crypt-h.patch |  62 ++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |   7 +-
- .../systemd/systemd-systemctl/systemctl       |   2 +-
- .../util-linux/util-linux_2.37.4.bb           |   2 +
- .../dmidecode/CVE-2023-30630_1.patch          | 237 +++++++
- .../dmidecode/CVE-2023-30630_2.patch          |  80 +++
- .../dmidecode/CVE-2023-30630_3.patch          |  69 +++
- .../dmidecode/CVE-2023-30630_4.patch          | 137 ++++
- .../dmidecode/dmidecode_3.3.bb                |   4 +
- .../gcc/{gcc-11.3.inc => gcc-11.4.inc}        |   6 +-
- ...ian_11.3.bb => gcc-cross-canadian_11.4.bb} |   0
- .../{gcc-cross_11.3.bb => gcc-cross_11.4.bb}  |   0
- ...-crosssdk_11.3.bb => gcc-crosssdk_11.4.bb} |   0
- ...cc-runtime_11.3.bb => gcc-runtime_11.4.bb} |   0
- ...itizers_11.3.bb => gcc-sanitizers_11.4.bb} |   0
- ...{gcc-source_11.3.bb => gcc-source_11.4.bb} |   0
- ...rch64-Update-Neoverse-N2-core-defini.patch |  20 +-
- ...rm-add-armv9-a-architecture-to-march.patch |  54 +-
- ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 102 +--
- ...s-fix-v4bx-to-linker-to-support-EABI.patch |   6 +-
- .../gcc/{gcc_11.3.bb => gcc_11.4.bb}          |   0
- ...initial_11.3.bb => libgcc-initial_11.4.bb} |   0
- .../gcc/{libgcc_11.3.bb => libgcc_11.4.bb}    |   0
- ...ibgfortran_11.3.bb => libgfortran_11.4.bb} |   0
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2023-29406.patch           | 210 +++++++
- .../python/python3/cve-2023-24329.patch       |  50 --
- .../python/python3/get_module_deps3.py        |   2 +-
- .../{python3_3.10.9.bb => python3_3.10.12.bb} |   7 +-
- ...001-Skip-strip-trailing-cr-test-case.patch |  19 +-
- .../{diffutils_3.9.bb => diffutils_3.10.bb}   |   2 +-
- ...anup-validate_geometry_ddf_container.patch | 148 +++++
- ...nter-dereference-in-validate_geometr.patch |  56 ++
- ...se-after-close-bug-by-closing-after-.patch |  91 +++
- ...gfault-when-calling-NULL-get_bad_blo.patch |  42 ++
- ...Mark-and-ignore-broken-test-failures.patch | 128 ++++
- ...dd-broken-files-for-all-broken-tests.patch | 454 ++++++++++++++
- meta/recipes-extended/mdadm/files/run-ptest   |   2 +-
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |   9 +-
- .../jpeg/files/CVE-2023-2804-1.patch          | 103 +++
- .../jpeg/files/CVE-2023-2804-2.patch          |  75 +++
- .../jpeg/libjpeg-turbo_2.1.5.1.bb             |   2 +
- ...ttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb} |   2 +-
- .../CVE-2023-0795_0796_0797_0798_0799.patch   | 162 +++++
- .../libtiff/tiff/CVE-2023-25433.patch         | 195 ++++++
- .../tiff/CVE-2023-25434-CVE-2023-25435.patch  |  94 +++
- .../libtiff/tiff/CVE-2023-26965.patch         |  97 +++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   4 +
- ...{libassuan_2.5.5.bb => libassuan_2.5.6.bb} |   2 +-
- .../{libksba_1.6.3.bb => libksba_1.6.4.bb}    |   2 +-
- scripts/lib/recipetool/create.py              |   4 +
- 64 files changed, 3585 insertions(+), 180 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-0001.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-0002.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-0003.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-0004.patch
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch
- create mode 100644 meta/recipes-core/libxcrypt/files/0002-Remove-smartmatch-usage-from-gen-crypt-h.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch
- rename meta/recipes-devtools/gcc/{gcc-11.3.inc => gcc-11.4.inc} (97%)
- rename meta/recipes-devtools/gcc/{gcc-cross-canadian_11.3.bb => gcc-cross-canadian_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross_11.3.bb => gcc-cross_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-crosssdk_11.3.bb => gcc-crosssdk_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-runtime_11.3.bb => gcc-runtime_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-sanitizers_11.3.bb => gcc-sanitizers_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-source_11.3.bb => gcc-source_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc_11.3.bb => gcc_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc-initial_11.3.bb => libgcc-initial_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc_11.3.bb => libgcc_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgfortran_11.3.bb => libgfortran_11.4.bb} (100%)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2023-29406.patch
- delete mode 100644 meta/recipes-devtools/python/python3/cve-2023-24329.patch
- rename meta/recipes-devtools/python/{python3_3.10.9.bb => python3_3.10.12.bb} (98%)
- rename meta/recipes-extended/diffutils/{diffutils_3.9.bb => diffutils_3.10.bb} (93%)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-DDF-Cleanup-validate_geometry_ddf_container.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0002-DDF-Fix-NULL-pointer-dereference-in-validate_geometr.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0003-mdadm-Grow-Fix-use-after-close-bug-by-closing-after-.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0004-monitor-Avoid-segfault-when-calling-NULL-get_bad_blo.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0005-mdadm-test-Mark-and-ignore-broken-test-failures.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0006-tests-Add-broken-files-for-all-broken-tests.patch
- create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
- create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
- rename meta/recipes-kernel/lttng/{lttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb} (95%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libtiff/tiff/CVE-2023-25433.patch         | 195 ++++++++++++++++++
+ .../tiff/CVE-2023-25434-CVE-2023-25435.patch  |  94 +++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
+ 3 files changed, 291 insertions(+)
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-26965.patch
- rename meta/recipes-support/libassuan/{libassuan_2.5.5.bb => libassuan_2.5.6.bb} (93%)
- rename meta/recipes-support/libksba/{libksba_1.6.3.bb => libksba_1.6.4.bb} (94%)
 
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
+new file mode 100644
+index 0000000000..285aa3d1c4
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25433.patch
+@@ -0,0 +1,195 @@
++From 9c22495e5eeeae9e00a1596720c969656bb8d678 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 3 Feb 2023 15:31:31 +0100
++Subject: [PATCH] CVE-2023-25433
++
++tiffcrop correctly update buffersize after rotateImage()
++fix#520 rotateImage() set up a new buffer and calculates its size
++individually. Therefore, seg_buffs[] size needs to be updated accordingly.
++Before this fix, the seg_buffs buffer size was calculated with a different
++formula than within rotateImage().
++
++Closes #520.
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44]
++CVE: CVE-2023-25433
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 78 +++++++++++++++++++++++++++++++++++++-----------
++ 1 file changed, 60 insertions(+), 18 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index eee26bf..cbd24cc 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
++ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
++                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
++ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
++-                       unsigned char **, int);
+++                       unsigned char **, size_t *);
++ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++                        unsigned char *);
++ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++@@ -6515,7 +6515,7 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++        * but switch xres, yres there. */
++       uint32_t width = image->width;
++       uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
+++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++       {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++@@ -7695,16 +7695,19 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++ 
++     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++       {
+++        /* rotateImage() set up a new buffer and calculates its size
+++         * individually. Therefore, seg_buffs size  needs to be updated
+++         * accordingly. */
+++      size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, FALSE))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
++         return (-1);
++         }
++       seg_buffs[0].buffer = crop_buff;
++-      seg_buffs[0].size = (((crop->combined_width * image->bps + 7 ) / 8)
++-                            * image->spp) * crop->combined_length; 
+++      seg_buffs[0].size = rot_buf_size;
++       }
++     }
++   else  /* Separated Images */
++@@ -7804,9 +7807,13 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++         {
++           /* rotateImage() changes image->width, ->length, ->xres and ->yres, what it schouldn't do here, when more than one section is processed. 
++            * ToDo: Therefore rotateImage() and its usage has to be reworked (e.g. like mirrorImage()) !!
++-           */
++-	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
++-			&crop->regionlist[i].length, &crop_buff, FALSE))
+++           * Furthermore, rotateImage() set up a new buffer and calculates
+++           * its size individually. Therefore, seg_buffs size  needs to be
+++           * updated accordingly. */
+++	   size_t rot_buf_size = 0;
+++           if (rotateImage(
+++                crop->rotation, image, &crop->regionlist[i].width,
+++                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
++@@ -7817,8 +7824,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++         crop->combined_width = total_width;
++         crop->combined_length = total_length;
++         seg_buffs[i].buffer = crop_buff;
++-        seg_buffs[i].size = (((crop->regionlist[i].width * image->bps + 7 ) / 8)
++-                               * image->spp) * crop->regionlist[i].length; 
+++        seg_buffs[i].size = rot_buf_size;
++         }
++       }  /* for crop->selections loop */
++     }  /* Separated Images (else case) */
++@@ -7827,7 +7833,6 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++ 
++ /* Copy the crop section of the data from the current image into a buffer
++  * and adjust the IFD values to reflect the new size. If no cropping is
++- * required, use the original read buffer as the crop buffer.
++  *
++  * There is quite a bit of redundancy between this routine and the more
++  * specialized processCropSelections, but this provides
++@@ -7938,7 +7943,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, TRUE))
+++                    &crop->combined_length, crop_buff_ptr, NULL))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
++@@ -8600,14 +8605,16 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
++ 
++ /* Rotate an image by a multiple of 90 degrees clockwise */
++ static int
++-rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++-            uint32_t *img_length, unsigned char **ibuff_ptr, int rot_image_params)
+++rotateImage(uint16_t rotation, struct image_data *image,
+++            uint32_t *img_width,uint32_t *img_length,
+++            unsigned char **ibuff_ptr, size_t *rot_buf_size)
++   {
++   int      shift_width;
++   uint32_t   bytes_per_pixel, bytes_per_sample;
++   uint32_t   row, rowsize, src_offset, dst_offset;
++   uint32_t   i, col, width, length;
++-  uint32_t   colsize, buffsize, col_offset, pix_offset;
+++  uint32_t colsize, col_offset, pix_offset;
+++  tmsize_t buffsize;
++   unsigned char *ibuff;
++   unsigned char *src;
++   unsigned char *dst;
++@@ -8620,12 +8627,41 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++   spp = image->spp;
++   bps = image->bps;
++ 
+++  if ((spp != 0 && bps != 0 &&
+++         width > (uint32_t)((UINT32_MAX - 7) / spp / bps)) ||
+++        (spp != 0 && bps != 0 &&
+++         length > (uint32_t)((UINT32_MAX - 7) / spp / bps)))
+++    {
+++        TIFFError("rotateImage", "Integer overflow detected.");
+++        return (-1);
+++    }
+++
++   rowsize = ((bps * spp * width) + 7) / 8;
++   colsize = ((bps * spp * length) + 7) / 8;
++   if ((colsize * width) > (rowsize * length))
++-    buffsize = (colsize + 1) * width;
+++{
+++        if (((tmsize_t)colsize + 1) != 0 &&
+++            (tmsize_t)width > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                               ((tmsize_t)colsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = ((tmsize_t)colsize + 1) * width;
+++    }
++   else
++-    buffsize = (rowsize + 1) * length;
+++    {
+++        if (((tmsize_t)rowsize + 1) != 0 &&
+++            (tmsize_t)length > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                                ((tmsize_t)rowsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = (rowsize + 1) * length;
+++    }
++ 
++   bytes_per_sample = (bps + 7) / 8;
++   bytes_per_pixel  = ((bps * spp) + 7) / 8;
++@@ -8648,11 +8684,17 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
++   /* Add 3 padding bytes for extractContigSamplesShifted32bits */
++   if (!(rbuff = (unsigned char *)limitMalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES)))
++     {
++-    TIFFError("rotateImage", "Unable to allocate rotation buffer of %1u bytes", buffsize + NUM_BUFF_OVERSIZE_BYTES);
+++    TIFFError("rotateImage",
+++              "Unable to allocate rotation buffer of %" TIFF_SSIZE_FORMAT
+++              " bytes ",
+++              buffsize + NUM_BUFF_OVERSIZE_BYTES);
++     return (-1);
++     }
++   _TIFFmemset(rbuff, '\0', buffsize + NUM_BUFF_OVERSIZE_BYTES);
++ 
+++  if (rot_buf_size != NULL)
+++	*rot_buf_size = buffsize;
+++
++   ibuff = *ibuff_ptr;
++   switch (rotation)
++     {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
+new file mode 100644
+index 0000000000..e214277504
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-25434-CVE-2023-25435.patch
+@@ -0,0 +1,94 @@
++From 69818e2f2d246e6631ac2a2da692c3706b849c38 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 29 Jan 2023 11:09:26 +0100
++Subject: [PATCH] CVE-2023-25434 & CVE-2023-25435
++
++tiffcrop: Amend rotateImage() not to toggle the input (main)
++image width and length parameters when only cropped image sections are
++rotated. Remove buffptr from region structure because never used.
++
++Closes #492 #493 #494 #495 #499 #518 #519
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38]
++CVE: CVE-2023-25434 & CVE-2023-25435
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 27 ++++++++++++++++-----------
++ 1 file changed, 16 insertions(+), 11 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index cbd24cc..b811fbb 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -523,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
++ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
++                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
++ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
++-                       unsigned char **, size_t *);
+++                       unsigned char **, size_t *, int);
++ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++                        unsigned char *);
++ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
++@@ -6513,10 +6513,11 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++       /* Dummy variable in order not to switch two times the
++        * image->width,->length within rotateImage(),
++        * but switch xres, yres there. */
++-      uint32_t width = image->width;
++-      uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++-      {
+++        uint32_t width = image->width;
+++        uint32_t length = image->length;
+++        if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL,
+++                        TRUE))
+++        {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++       }
++@@ -7700,7 +7701,8 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++          * accordingly. */
++       size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, &rot_buf_size))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size,
+++                            FALSE))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
++@@ -7811,9 +7813,10 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++            * its size individually. Therefore, seg_buffs size  needs to be
++            * updated accordingly. */
++ 	   size_t rot_buf_size = 0;
++-           if (rotateImage(
++-                crop->rotation, image, &crop->regionlist[i].width,
++-                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
+++           if (rotateImage(crop->rotation, image,
+++                                &crop->regionlist[i].width,
+++                                &crop->regionlist[i].length, &crop_buff,
+++                                &rot_buf_size, FALSE))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
++@@ -7943,7 +7946,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, NULL))
+++                    &crop->combined_length, crop_buff_ptr, NULL, TRUE))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
++@@ -8607,7 +8610,9 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
++ static int
++ rotateImage(uint16_t rotation, struct image_data *image,
++             uint32_t *img_width,uint32_t *img_length,
++-            unsigned char **ibuff_ptr, size_t *rot_buf_size)
+++            unsigned char **ibuff_ptr, size_t *rot_buf_size,
+++            int rot_image_params)
+++
++   {
++   int      shift_width;
++   uint32_t   bytes_per_pixel, bytes_per_sample;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 2be25756bc..2ee10fca72 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -35,6 +35,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-48281.patch \
+            file://CVE-2023-0800_0801_0802_0803_0804.patch \
+            file://CVE-2023-0795_0796_0797_0798_0799.patch \
++           file://CVE-2023-25433.patch \
++           file://CVE-2023-25434-CVE-2023-25435.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
 2.34.1
 
