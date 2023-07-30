@@ -2,93 +2,116 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44ABFC001DC
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:48:42 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.78511.1690742912690272982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA17C001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 19:04:12 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web11.79532.1690743849686326452
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 11:48:32 -0700
+ Sun, 30 Jul 2023 12:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=aPl5Dy0b;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-26826f93a1fso2623399a91.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:48:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=rhQ8pH8d;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-563e860df0fso2838902a12.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 12:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690742912; x=1691347712;
+        d=gmail.com; s=20221208; t=1690743849; x=1691348649;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WI0+BIMmR+SkG8mPJW4jVykjvHjY2aaHNC7jxDjVKRE=;
-        b=aPl5Dy0bps2RV8JMI9Aagmv1yVOICNEBFWmdSNNtFI4U0whbkrpecnC+v8sEJ9SvHb
-         JaZoZ65LvsvfRB8Kxtf6USE9MWgkH/94GuFv/CnyH3ai8M54kMDbiqiF9T4y0knkahH7
-         S6nMzes2h9GV8E7swJnyV+5ynyIBkno9uhGkgLYNIh5hCktW+WIQzGWlnmTjFz6MC8rm
-         LNU1wEqn4s/IvKtKiSHUMFdRIafsC2W1bjlUVOV5OViFBOw3wPcB6iFIXi6zVKkD9eOH
-         XRDxRSsl+m7A/grB4qEDlqwr43QgOcqSahBJfjEgEBIS7cMNz2aIqV0MzWpfkZ0Iddn2
-         gVpg==
+        bh=gQFJJnBNIF1kVOTf9nox7QSakSFjUlg5Uzqw4yKUu1k=;
+        b=rhQ8pH8danl9YSXHukIuUPDWQI1CKFpmFlOmnSIoFE7/wMf/Nk5lUORxX9Pr8RReqT
+         +pVVcNL3h2d0tGrNjCcUV1TC2pMv5UEhZOkwrlc6vLl0ET8tUZcZrNn5YlSQU/TOuleM
+         ntF7jFTo10BJgJ/UkfdPEMz3INIyRIq0G6+t3yTpHjyOcmcgcPNuaD5qwNY8R025xvF7
+         Cf80Fr5+uiSRJHj745i0ZKyaPuTv+h/tdqXj7/SWc+vRDYEAS4CIzfKM4AgLnOqsJq2I
+         1dvrFSDgifwByS3+F0EWKwuhpMs3NiS706y/2BpMtBQa+0vKfATdyAkII4zRMgrpj42B
+         Sfvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690742912; x=1691347712;
+        d=1e100.net; s=20221208; t=1690743849; x=1691348649;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WI0+BIMmR+SkG8mPJW4jVykjvHjY2aaHNC7jxDjVKRE=;
-        b=EEax8S2kJfHoVtSKShVIh1U61+aojRm0tdqeBiGma1tE2dVA0Teoyl10Wo+AQVjLHw
-         HkIRgxkt0A2Aua1+rOMwcE+tkmXMpcyXZEdSH3FfHdUMkFY3xDvU6Tssh5GOk+97tP6s
-         7QYTwsUaJPGRbEQ3rWL77vhrhltLPMGelcbYrQVoLDV7aDiDW3KBSbZ9JlhOmZNftU5x
-         D7FkIci6qPkWi5i7gQo06/cq89oCF5Q/mARl8a/0et1pirYvRk57mqN5STTDGKdE456n
-         dKOjt5jpetnNvjUOllxo33LGIdlHjMvjY7o8Q6RQqPgPfjBnmLmsbBXaAh+pZACJ3Tcp
-         aUYQ==
-X-Gm-Message-State: ABy/qLZVqqtdj9aqjY8V2ufmtKBHc5Jl8hi3YoxhyCoKPJbyToCM2Lbx
-	Dvhryz9u3t+1VrSax1jVrf/CogzrttA=
-X-Google-Smtp-Source: APBJJlFbewZYU0WWpbO4Rb4uIIwiVuGfwMuj42y+HoT5z0kRuutjz6i+Ik/4Fbjbmso2tGi5elh6MQ==
-X-Received: by 2002:a17:90a:858d:b0:263:4962:94c6 with SMTP id m13-20020a17090a858d00b00263496294c6mr7460855pjn.20.1690742911648;
-        Sun, 30 Jul 2023 11:48:31 -0700 (PDT)
+        bh=gQFJJnBNIF1kVOTf9nox7QSakSFjUlg5Uzqw4yKUu1k=;
+        b=PstTxUA7gZF83KcAIkzaEdQCmLJhCRmbCRCESCN6DY9PpIg7U9QkiOwbuiV0wm0Wen
+         aGn56/SQgbLRJ+C9IhjqCffB+7xBd3Ph7ixAcksTAUMvMmjwV+x/76r1jhovu7+cSHvJ
+         X32nj5xy6CQo8+BhNCejR7fmTSgRTjTpIu9CqgV49Vm+pRXPh4/g3bR03LVebKDl3LX5
+         kq8VrWe+8lwJjEtNovdTEaI0aak0f/X5HhMr3EIczhEGErAVkenJ/MUERlNcOCS+XtUp
+         DSA2h56FDrAVAkWOluJgPJThHqBD7lNgea7mOrorFVfBCXOLEAQknvbF9FbH+XgCLNTe
+         4uQg==
+X-Gm-Message-State: ABy/qLZkx+1WmYZ9lax7O+GfTEv/nzZKFRnMhYZuFoyu1LaTefEmnzEd
+	3sCLeDj3QQ4lRhGKutcF+OHW8G3ctAA=
+X-Google-Smtp-Source: APBJJlHWbZuvB9LyqjRDXK3C6poNZRNx/i54LHWRlvIEYc8SBq+FxRYh6cS24V6INFhbAvU7Y5TEtQ==
+X-Received: by 2002:a17:90a:5a82:b0:262:ec13:d3a with SMTP id n2-20020a17090a5a8200b00262ec130d3amr8292347pji.28.1690743848712;
+        Sun, 30 Jul 2023 12:04:08 -0700 (PDT)
 Received: from chiron.. ([2601:1c0:ca00:cea0:6031:b260:43bc:b5ef])
-        by smtp.gmail.com with ESMTPSA id q9-20020a17090a68c900b00268385b0501sm4908619pjj.27.2023.07.30.11.48.31
+        by smtp.gmail.com with ESMTPSA id n4-20020a170902e54400b00198d7b52eefsm6933904plf.257.2023.07.30.12.04.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 11:48:31 -0700 (PDT)
+        Sun, 30 Jul 2023 12:04:08 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-certifi: upgrade 2023.5.7 -> 2023.7.22
-Date: Sun, 30 Jul 2023 11:48:27 -0700
-Message-Id: <20230730184827.2268059-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-more-itertools: upgrade 9.1.0 -> 10.0.0
+Date: Sun, 30 Jul 2023 12:03:27 -0700
+Message-Id: <20230730190326.2335908-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185110
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 19:04:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185111
 
-No changelog provided. Commits:
+https://more-itertools.readthedocs.io/en/stable/versions.html
 
-8fb96ed (tag: 2023.07.22) 2023.07.22
-afe7722 Bump actions/setup-python from 4.6.1 to 4.7.0 (#230)
-2038739 Bump dessant/lock-threads from 3.0.0 to 4.0.1 (#229)
-44df761 Hash pin Actions and enable dependabot (#228)
+10.0.0
+* Potentially breaking changes
+  - Python 3.7 support was dropped, since it went EOL on 2023-06-27
+  - batched() no longer issues a DeprecationWarning; it is now an alias
+    for itertools.batched for Python 3.12+
+  - batched() and matmul() now yield tuples instead of lists
+* New functions
+  - combination_with_replacement_index() (thanks to Schoyen)
+  - nth_combination_with_replacement() (thanks to Schoyen)
+  - polynomial_eval() (from the Python itertools docs)
+  - polynomial_derivative() (from the Python itertools docs)
+  - sum_of_squares() (from the Python itertools docs)
+* Changes to existing functions
+  - seekable() now has relative_seek method (thanks to karlb)
+  - chunked_even() was optimized (thanks to elliotwutingfeng)
+  - numeric_range() was optimized (thanks to eltoder)
+  - duplicates_justseen(), pairwise(), partial_product(), and partition()
+    were updated and optimized (thanks to pochmann)
+  - unique_in_window() had its implementation updated (thanks to
+    elliotwutingfeng)
+  - iterate() now breaks when its func argument raises StopIteration (thanks
+    to jrebiffe)
+* Other changes
+  - Some documentation and testing issues were fixed (thanks to lonnen and
+    XuehaiPan)
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...python3-certifi_2023.5.7.bb => python3-certifi_2023.7.22.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-certifi_2023.5.7.bb => python3-certifi_2023.7.22.bb} (86%)
+All ptests pass on core-image-ptest-python3-more-itertools for qemux86-64
 
-diff --git a/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb b/meta/recipes-devtools/python/python3-certifi_2023.7.22.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-certifi_2023.5.7.bb
-rename to meta/recipes-devtools/python/python3-certifi_2023.7.22.bb
-index 924b05c12cb..c4e1e7b9174 100644
---- a/meta/recipes-devtools/python/python3-certifi_2023.5.7.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2023.7.22.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3c2b7404369c587c3559afb604fce2f2"
+ ...more-itertools_9.1.0.bb => python3-more-itertools_10.0.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-more-itertools_9.1.0.bb => python3-more-itertools_10.0.0.bb} (87%)
+
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
+index 8c33b7161bc..e07d4b78606 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_9.1.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_10.0.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
  
--SRC_URI[sha256sum] = "0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"
-+SRC_URI[sha256sum] = "539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082"
+-SRC_URI[sha256sum] = "cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"
++SRC_URI[sha256sum] = "cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1"
  
- inherit pypi setuptools3
+ inherit pypi python_flit_core ptest
  
 -- 
 2.34.1
