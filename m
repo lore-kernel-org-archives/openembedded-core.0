@@ -1,265 +1,163 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2FEC001DE
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 09:58:19 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.70871.1690711090763450477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B51CC001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 11:21:40 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.70895.1690716092007276071
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 02:58:11 -0700
+ Sun, 30 Jul 2023 04:21:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=StQ7HiMV;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4fe04882c66so5733519e87.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 02:58:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=uyqCkIo9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.44, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-63d2b7d77bfso26019166d6.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 04:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690711089; x=1691315889;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dWepdJZQfmjCVrcxLxS3MaWL4KxLvaTfLy1XqF6NzTg=;
-        b=StQ7HiMVCXFK+ShkoccNa42H2t+4Mb96bqOQ06+DH5MHpvnUWQRJzN30UmmV+v2eSD
-         /jYeVZqbzs7Z/fzuj4gEtWkShIaDMpV8sJdqnE3aBnkY0ng0dWF9Wcz7IDD6eUKaxN3z
-         WPGi5/wt3MaB+x9kDSRpBPWUALtlaheq3kvPPV7rm7CGjOM8c714LhzZCmgG2j7B7yKy
-         oGk9BqDTmG6A0nfprXa9XWQUq7xbqA2mDcchs13f0ArVVazBHMpdhDgop9DJNArYZUAT
-         GG3MzJTU+73sTglYVSFnbTFNqcfucbEfE5MBJ7PpnZUuMAAM/fmkKSd/sO87sJUa3WdQ
-         mwBw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690716091; x=1691320891;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Tf8guHCKddxPJg9BqsbPe2hEeb5AHdWPuscDw1FoXE=;
+        b=uyqCkIo9CaoWKAI0FxX826aSZzhySPRGsJ2Ti3M1DQ/Ycfv7ML75+rMbj15GI0jjoS
+         wrWTrBgbZA4/eP11u9t1w8432qlTXHskXqDAjJdreQm2me1bvCWUojW1dDTKdYGpQsqD
+         ZqUeYpU7dYcau5suxYV7h8FNfvOSMrzKquxryJYV7VbWPiuGZNQcE/UKNkA4IUPJ11n7
+         NU4ToB1UA7vIsB88iacqT4aqswBBAa7jadNQ1uxoldhHxvCRYF9xGihvwTB3FaSfrRXU
+         +lTLuqCXJkh0daJj8cP9B655TwKXyohQX7xvrZXjXhZSpZCTHjC2VlmlSqHGDxVL6Mw6
+         ANgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690711089; x=1691315889;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dWepdJZQfmjCVrcxLxS3MaWL4KxLvaTfLy1XqF6NzTg=;
-        b=Np7NESwXhldkJM2qsmhTgrn+hplLfISgTYCx3AHbtC18WTMs0JiH5w5rZc08izdaRm
-         kc+Tpe44PyMDIx0X8j2Fdu6VPN7FMKLBxK3uFhKpugl3OwND/GO/xXQrk/qmSx7ETCUM
-         3nxqDzKZdZFQP20OUIzLf3SbGOpSiGBlrWREM9HRaMKJfDZyAOhffWLQBzqt62uvB7TM
-         4zr/czJYUhOkQW1EPB5K392EsYFpoR8KlvsDZNFrnbZTh9mVSbzTaJoZUUak8VFKtppg
-         2A499TZsaFEKsAsa5fGKARr2zD3KFz4gaj+qJdE/EY8qAUmo7LhgzfRld6uI6+OCrHyO
-         LWUA==
-X-Gm-Message-State: ABy/qLahk5c6AYwe3cbbkQQRLyGkWwwc3ENqyNcTnQziwpmHIKK7QlpP
-	WSKdTdqSbncEMNynGduiUpMNhHKIXIPm+BrbDhc=
-X-Google-Smtp-Source: APBJJlHPyuU4qXQ2BkPWbfuEmpNth/KOJb3WvaICKc8UiaKn7hrKAsF1Qt9e0j16VukMhZjqo1JsVAhRARpCjzouirE=
-X-Received: by 2002:a19:504a:0:b0:4f4:b783:8556 with SMTP id
- z10-20020a19504a000000b004f4b7838556mr3568422lfj.66.1690711088291; Sun, 30
- Jul 2023 02:58:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <177391A172EF42E0.8989@lists.openembedded.org> <CA+cAkeqxqth7a1oAujjhkdid35rH3gMVx9XByEZcKySt_eMsxw@mail.gmail.com>
-In-Reply-To: <CA+cAkeqxqth7a1oAujjhkdid35rH3gMVx9XByEZcKySt_eMsxw@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Sun, 30 Jul 2023 11:57:56 +0200
-Message-ID: <CA+cAkeoqNJ4KFh2sWJhH2t7fVN_ErC7K4wcQ2PdnCwHVer9zOg@mail.gmail.com>
-Subject: Re: [OE-core] About requirements on cross compiling rust package
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Randy MacLeod <Randy.MacLeod@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000d5e3240601b159c3"
+        d=1e100.net; s=20221208; t=1690716091; x=1691320891;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4Tf8guHCKddxPJg9BqsbPe2hEeb5AHdWPuscDw1FoXE=;
+        b=bukCjQWAVOsL+uRBMOZtkYSbTHabgLVJDHHppGDImU7mkM3GfOP09zNFkuPBRLt7H+
+         6McULvY9YJyedo2E7HxzRz/437jmtv65u00jTYVMk+I2Qrl/zLlt2UbM03iZKIxHvddm
+         xvoyW/XMW9UZ/98dj2FyZhr02jYyvT1YTYR4TojmqAgf9Wi7RdlI14z4yq1MUlABDatq
+         GfpvIdNf96Hz5+eb7BIepHUzEoq76L4cxZHXMqtUPWuAA9TkSKBOVsWfZeIEjngo115P
+         V5o8jWccxiv/dRiRPyJh9qiFOraBvUBrazzX3M21n01ktTzsBD7GN0T0vbCB5HiLMteO
+         wNnQ==
+X-Gm-Message-State: ABy/qLadBae80kSEqDV6+UkyHFhIx/tbRiKB0BJIo8mp3ugWxyMwWw+o
+	59lQUwf0LxD3MvHhrLLgnbCSWclEysMivZeCUec=
+X-Google-Smtp-Source: APBJJlFy+Msm6jifSDVo0vZDTxvjlrPh7TnqiLLpcDBTpP55B1/Q7CD8AICk/entxi2T3dPpAxGsKw==
+X-Received: by 2002:a0c:de0e:0:b0:5f4:5af6:1304 with SMTP id t14-20020a0cde0e000000b005f45af61304mr6823961qvk.16.1690716090569;
+        Sun, 30 Jul 2023 04:21:30 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id v6-20020a0c9c06000000b00623839cba8csm2830145qve.44.2023.07.30.04.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jul 2023 04:21:30 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 9FCA6107139; Sun, 30 Jul 2023 01:21:28 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 30 Jul 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 30 Jul 2023 01:21:28 -1000
+Message-Id: <20230730112128.9FCA6107139@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 09:58:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185063
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:21:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185064
 
---000000000000d5e3240601b159c3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-Since I had no answers to this, I'll send a patch series soon (tomorrow?)
-targeting what I have in mind, for rust-hello-world, I think I'll send a
-specific patch to disable frozen flag for this recipe (until its fate is
-known).
+New this week: 31 CVEs
+CVE-2020-24490 (CVSS3: 6.5 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25668 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25668 *
+CVE-2020-27777 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27777 *
+CVE-2020-27815 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27815 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2023-0160 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0160 *
+CVE-2023-1206 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1206 *
+CVE-2023-2176 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2176 *
+CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
+CVE-2023-2975 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2975 *
+CVE-2023-32250 (CVSS3: 8.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32250 *
+CVE-2023-32254 (CVSS3: 8.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32254 *
+CVE-2023-3268 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3268 *
+CVE-2023-3269 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3269 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3446 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3446 *
+CVE-2023-35823 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35823 *
+CVE-2023-35824 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35824 *
+CVE-2023-35826 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35826 *
+CVE-2023-35828 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35828 *
+CVE-2023-35829 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35829 *
+CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
+CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
+CVE-2023-38409 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38409 *
+CVE-2023-38426 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38426 *
+CVE-2023-38427 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38427 *
+CVE-2023-38428 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38428 *
+CVE-2023-38429 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38429 *
+CVE-2023-38430 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38430 *
+CVE-2023-38431 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38431 *
+CVE-2023-38432 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38432 *
 
-Maybe sending code will help to know what it is about and, I hope, make
-people interested in rust dev inside yocto give some feedbacks
+Removed this week: 10 CVEs
+CVE-2023-0330 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0330 *
+CVE-2023-2804 (CVSS3: 6.5 MEDIUM): libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2804 *
+CVE-2023-3090 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3090 *
+CVE-2023-3117 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3117 *
+CVE-2023-3316 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3316 *
+CVE-2023-3317 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3317 *
+CVE-2023-3358 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3358 *
+CVE-2023-3359 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3359 *
+CVE-2023-3389 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3389 *
+CVE-2023-3390 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3390 *
 
-Le lun. 24 juil. 2023, 11:27, Fr=C3=A9d=C3=A9ric Martinsons <
-frederic.martinsons@gmail.com> a =C3=A9crit :
+Full list:  Found 52 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2020-24490 (CVSS3: 6.5 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25668 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25668 *
+CVE-2020-27777 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27777 *
+CVE-2020-27815 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27815 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
+CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
+CVE-2023-0160 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0160 *
+CVE-2023-1206 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1206 *
+CVE-2023-2176 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2176 *
+CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
+CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
+CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
+CVE-2023-2975 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2975 *
+CVE-2023-30571 (CVSS3: 5.3 MEDIUM): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-30571 *
+CVE-2023-32250 (CVSS3: 8.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32250 *
+CVE-2023-32254 (CVSS3: 8.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32254 *
+CVE-2023-3268 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3268 *
+CVE-2023-3269 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3269 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3446 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3446 *
+CVE-2023-35823 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35823 *
+CVE-2023-35824 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35824 *
+CVE-2023-35826 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35826 *
+CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
+CVE-2023-35828 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35828 *
+CVE-2023-35829 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35829 *
+CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
+CVE-2023-36632 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36632 *
+CVE-2023-36664 (CVSS3: 7.8 HIGH): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-36664 *
+CVE-2023-37453 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37453 *
+CVE-2023-37454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37454 *
+CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
+CVE-2023-38409 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38409 *
+CVE-2023-38426 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38426 *
+CVE-2023-38427 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38427 *
+CVE-2023-38428 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38428 *
+CVE-2023-38429 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38429 *
+CVE-2023-38430 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38430 *
+CVE-2023-38431 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38431 *
+CVE-2023-38432 (CVSS3: 9.1 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38432 *
 
-> Hello I make some advance on this and there is a drawback that I didn't
-> foreseen, in case of patched
-> git url (those set up by cargo_common_do_patch_path), the Cargo.lock file
-> must be modified
-> to remove source entry , hence not compatible with --frozen.
->
-> I put more info in comment YOCTO #15104
-> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104> for those
-> interested but for the moment, I cleaned
-> the Cargo.lock by myself before freezing it for the next build steps.
->
-> There is still the question about the fate of "rust-hello-world" recipe
-> too (which cannot
-> be built with --frozen flag without having a Cargo.lock file), I don't
-> know if I can suppress it
-> or if I need to create a Cargo.lock for it.
->
-> On Thu, 20 Jul 2023 at 14:00, Frederic Martinsons via
-> lists.openembedded.org <frederic.martinsons=3D
-> gmail.com@lists.openembedded.org> wrote:
->
->> Hello list,
->>
->> In the course of YOCTO #15104
->> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104>  , I finally
->> found the issue was due to a missing Cargo.lock file at the root of the
->> project (which is pretty usual for a Rust project from git since Cargo.l=
-ock
->> is only required when publishing on the crates registry).
->>
->> With a Cargo.lock correctly placed, the patch process made by
->> cargo_common.bbclass works perfectly fine even with a virtual manifest.
->>
->> I often encountered issues that were in the end due to a missing
->> Cargo.lock and I think we all agree on this list (I didn't crawl the mai=
-l
->> archives, I talked from my memory) that this file is absolutely required
->> when building a rust project under yocto.
->> (especially for reproducible build)
->>
->> I'm currently testing a patch which will replace --offline cargo build
->> flags with --frozen (which supersedes --offline mode since it prevents
->> network access but also Cargo.lock to be present and up to date).
->>
->> I have two questions though:
->>   1) rust-hello-world doesn't embed a Cargo.lock (and doesn't need to
->> since it had zero dependencies) , considering that we now have a more
->> "real" recipe (zvariant) that is used within selftest, would it be
->> acceptable to suppress rust-hello-world ?
->>   2) below is kind of message we will have when using --frozen with an
->> absent Cargo.lock:
->>
->> | error: failed to get `glib` as a dependency of package `zvariant
->> v3.12.0
->> (/home/fmartinsons/TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linu=
-x/zbus/3.11.0-r0/git/zvariant)`
->> |
->> | Caused by:
->> |   failed to load source for dependency `glib`
->> |
->> | Caused by:
->> |   Unable to update https://github.com/gtk-rs/glib?rev=3Dc9ee583cea0
->> |
->> | Caused by:
->> |   failed to fetch into:
->> /home/fmartinsons/TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linux=
-/zbus/3.11.0-r0/cargo_home/git/db/glib-928cf7b282977403
->> |
->> | Caused by:
->> |   attempting to update a git repository, but --frozen was specified
->>
->> I think it is not very clear that the root cause is a missing Cargo.lock
->> , so I'm wondering if a specific bitbake ops (do_compile_prepend) would =
-not
->> be  better to check for Cargo.lock and output an explicit message (it
->> doesn't prevent to keep --frozen anyway). What do you think ?
->>
->> PS: I copied Randy as the maintainer of rust-hello-world but also  the
->> ticket assignee.
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#184635):
->> https://lists.openembedded.org/g/openembedded-core/message/184635
->> Mute This Topic: https://lists.openembedded.org/mt/100254129/6213388
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> frederic.martinsons@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---000000000000d5e3240601b159c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Since I had no answers to this, I&#39;ll send a patch ser=
-ies soon (tomorrow?) targeting what I have in mind, for rust-hello-world, I=
- think I&#39;ll send a specific patch to disable frozen flag for this recip=
-e (until its fate is known).<div dir=3D"auto"><br></div><div dir=3D"auto">M=
-aybe sending code will help to know what it is about and, I hope, make peop=
-le interested in rust dev inside yocto give some feedbacks=C2=A0</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le lu=
-n. 24 juil. 2023, 11:27, Fr=C3=A9d=C3=A9ric Martinsons &lt;<a href=3D"mailt=
-o:frederic.martinsons@gmail.com">frederic.martinsons@gmail.com</a>&gt; a =
-=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
-Hello I make some advance on this and there is a drawback that I didn&#39;t=
- foreseen, in case of patched<div>git url (those set up by cargo_common_do_=
-patch_path), the Cargo.lock file must be modified</div><div>to remove sourc=
-e entry , hence not compatible=C2=A0with --frozen.</div><div><br></div><div=
->I put more info in comment=C2=A0<a href=3D"https://bugzilla.yoctoproject.o=
-rg/show_bug.cgi?id=3D15104" target=3D"_blank" rel=3D"noreferrer">YOCTO #151=
-04</a>=C2=A0for those interested=C2=A0but for the moment, I cleaned</div><d=
-iv>the Cargo.lock by myself before freezing it for the next build steps.</d=
-iv><div><br></div><div>There is still the question about the fate of &quot;=
-rust-hello-world&quot; recipe too (which cannot=C2=A0</div><div>be built wi=
-th --frozen flag without having a Cargo.lock file), I don&#39;t know if I c=
-an suppress it</div><div>or if I need to create a Cargo.lock for it.</div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Thu, 20 Jul 2023 at 14:00, Frederic Martinsons via <a href=3D"http://list=
-s.openembedded.org" target=3D"_blank" rel=3D"noreferrer">lists.openembedded=
-.org</a> &lt;frederic.martinsons=3D<a href=3D"mailto:gmail.com@lists.openem=
-bedded.org" target=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedd=
-ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div dir=3D"ltr">Hello list,<div><br></div><div>In the course=C2=A0of=
-=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104"=
- target=3D"_blank" rel=3D"noreferrer">YOCTO #15104</a>=C2=A0 , I finally fo=
-und the issue was due to a missing Cargo.lock file at the root of the proje=
-ct (which is pretty usual for a Rust project from git since Cargo.lock is o=
-nly required when publishing on the crates registry).=C2=A0</div><div><br><=
-/div><div>With a Cargo.lock correctly placed, the patch process made by car=
-go_common.bbclass works perfectly fine even with a virtual manifest.</div><=
-div><br></div><div>I often encountered issues that were in the end due to a=
- missing Cargo.lock and I think we all agree on this list (I didn&#39;t cra=
-wl the mail archives, I talked from my memory) that this file is absolutely=
- required when building a rust project under yocto.</div><div>(especially f=
-or reproducible build)</div><div><br></div><div>I&#39;m currently testing a=
- patch which will replace --offline cargo build flags with --frozen (which =
-supersedes=C2=A0--offline mode since it prevents network access but also Ca=
-rgo.lock to be present and up to date).</div><div><br></div><div>I have two=
- questions though:</div><div>=C2=A0 1) rust-hello-world doesn&#39;t embed a=
- Cargo.lock (and doesn&#39;t need to since it had zero dependencies) , cons=
-idering that we now have a more &quot;real&quot; recipe (zvariant) that is =
-used within selftest, would it be acceptable to suppress rust-hello-world ?=
-</div><div>=C2=A0 2) below is kind of message we will have when using --fro=
-zen with an absent Cargo.lock:</div><div><br></div><div>| error: failed to =
-get `glib` as a dependency of package `zvariant v3.12.0 (/home/fmartinsons/=
-TAPOS_build/build-tapos/tmp/work/corei7-64-tapos-linux/zbus/3.11.0-r0/git/z=
-variant)`<br>| <br>| Caused by:<br>| =C2=A0 failed to load source for depen=
-dency `glib`<br>| <br>| Caused by:<br>| =C2=A0 Unable to update <a href=3D"=
-https://github.com/gtk-rs/glib?rev=3Dc9ee583cea0" target=3D"_blank" rel=3D"=
-noreferrer">https://github.com/gtk-rs/glib?rev=3Dc9ee583cea0</a><br>| <br>|=
- Caused by:<br>| =C2=A0 failed to fetch into: /home/fmartinsons/TAPOS_build=
-/build-tapos/tmp/work/corei7-64-tapos-linux/zbus/3.11.0-r0/cargo_home/git/d=
-b/glib-928cf7b282977403<br>| <br>| Caused by:<br>| =C2=A0 attempting to upd=
-ate a git repository, but --frozen was specified<br></div><div><br></div><d=
-iv>I think it is not very clear that the root cause is a missing Cargo.lock=
- , so I&#39;m wondering if a specific bitbake ops (do_compile_prepend) woul=
-d not be=C2=A0 better to check for Cargo.lock and output an explicit messag=
-e (it doesn&#39;t prevent to keep --frozen anyway). What do you think ?</di=
-v><div><br></div><div>PS: I copied Randy as the maintainer of rust-hello-wo=
-rld but also=C2=A0 the ticket assignee.</div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#184635): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/184635" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/184635</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100254129/621=
-3388" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/100254129/6213388</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martin=
-sons@gmail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gm=
-ail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---000000000000d5e3240601b159c3--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
