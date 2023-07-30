@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 027BDC04E69
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:32 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.78394.1690740084440687315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93F5C001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:41 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.78405.1690740098952324677
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 11:01:24 -0700
+ Sun, 30 Jul 2023 11:01:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=mM+GWNsx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-563f8e8a53dso2291117a12.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:24 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=yPdIPWNe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6873a30d02eso153167b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740083; x=1691344883;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740098; x=1691344898;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6DyL2bxXABFI3GHK3XwF2dO5zmtkdQkRCwHbbvHMP2s=;
-        b=mM+GWNsx6PqUZ5xfO23jz5nF7hIOEHDLOyCpiuiYmnLiMXda6gzX6B64EFQKTDiTbe
-         7C1akufjXc/Q767lLmMtEX9THSXyBoDNHjAqBb2HneWjOICXQA3QYf51+jYpj4Oc3PFo
-         2pHGQyT3kvJ3KDOx2+s5s9ZePe2QMBq6bZGF/Zi+U1WHJC/CV2V9kEEPF9jaSZNFSWVq
-         NyOyt/o3XPDzlePZqnYm71aI1bSWVYhkRR8UCioMeLkzwqUwswWcdkHrAx5sNacwX6Ze
-         Ls/SrG5ZEZU7MDSKLu/Cg7H2A3OA1TL6U6ENr7QY/usCTNtXTYW7cutN926vdUFTmy4l
-         x7rA==
+        bh=UtInZUa14qkh2GR2leBQIsfJ1yHmtX7TcTVKUsy/IF4=;
+        b=yPdIPWNe26hbk5M625+7YtZw8kz8JnATPBqo7MATXmkgh4E4ppvyDlxcqrzoE6Tydb
+         m4n1MgIGTYpGk6rTSsJeQemMEJ+QHre3vkKiJzImjZg4lFAqKw6Ea0KQe47fd3y8ERGy
+         6sd/nFkA60VC6DX8O212cfs49kV7wSt/hZDqEgUkzmdaYYOGVl8gEYEON5F/xlhplQYd
+         9ei0/4RAzUD07ixXYbqOlHrU07xwqN1LD86N/W3vMidEk2a2Hbbia0faWPk+kUEHZHa6
+         p6Savp/+fQwfMXeSGF4194D2vAscc1SvVASS+AluS5ms6jzLKQ5/9kVYLOw+vzcVSqh1
+         9GnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690740083; x=1691344883;
+        d=1e100.net; s=20221208; t=1690740098; x=1691344898;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6DyL2bxXABFI3GHK3XwF2dO5zmtkdQkRCwHbbvHMP2s=;
-        b=EhqdGmrsMOLH6F34FWNG02eEbPp5gnkJ10D7qndf7zqTTF5O8tl0AnqGU/RV7qpvl3
-         rPpL0eGO2bALCKE1ShuaVDL3DtnEuNrbvIl2F6i3gCi1z0pgbgBnZt8GtvlHHWZCvNH+
-         oxwmuyU+AUf4Pi95ooXtDxNMrF4FzA9NYO70WVf9aZsfvXvzYG/hcCSZYYNfA9OxwBYw
-         l9lpjMFaDng/9VGxIKXI8Dkl/G+/F9FPTjuxrVOi/XIR0Rr3r7D5r4AFqXFxlbn5QzCh
-         qZVHc9hcvBTXVF0XuPY+efzSG7iyDknGBPknvnOwnZAZw80hV9R/2uYC22w38Lc0+4Qu
-         MEBw==
-X-Gm-Message-State: ABy/qLZRn9KDjPsa7ojesLhiRl6f31fx8n6erPJP+XpqppCcysMvLpBS
-	jpOiVK+UqIXYwxHI5tkBVZsXMTRcUhJbiKEdzhgj0A==
-X-Google-Smtp-Source: APBJJlFJ7DLqe27B1vEp+ESuXEEuifDr/EUErohL8KN0dBiBBgmL58zx5eAy9Ft7nww3WivzmQUGhw==
-X-Received: by 2002:a05:6a20:32aa:b0:12d:a04c:7e8b with SMTP id g42-20020a056a2032aa00b0012da04c7e8bmr6613031pzd.40.1690740083532;
-        Sun, 30 Jul 2023 11:01:23 -0700 (PDT)
+        bh=UtInZUa14qkh2GR2leBQIsfJ1yHmtX7TcTVKUsy/IF4=;
+        b=Dpdt/TlubeMDxdBqiR/OfugPf+PjXGPofMtnBJV8Sn+AeIGnZm8oMEPU9bjA3nYcF9
+         bSJfKzcm/fAPWufL01VB4zUz7+SsmeOkTIvwztwNw5q2Twu2/+Zdou+rIqSSorhrjrD1
+         HvKz7oQV2q4+qS3iZeS/2wwE2eAchSxDVQWnaJHvCJdrH66J+fwmccYdGG5xlnbFFyCN
+         zPlQjxpa/dk1iCXeGqMZ2W7jsjVKz+x/dMt0/t7UF8/XBzJ3afxu3XQv8TRdz7w80A19
+         TCRiKq4pL4IwD3+eub8egJ0WPbM2ThJMGOEGquE6sKU+tIm8wxlpp7ODD6qU8ZjjHOS2
+         kfvA==
+X-Gm-Message-State: ABy/qLb0jKYiRg0kBeOCuPiu1V7hwlAt4tMQc99BZpasPGBlCl3JuLbd
+	icvLNaCLfrAbX8pykGpeR+Dp7ZQ6VmQFZQ5whF3BCA==
+X-Google-Smtp-Source: APBJJlHMjmNpQYbPnwSzr8GqHzIZeNqfYYsK5ozgpMBk79pr5YEEjuDbEWcvvD112Dr+v5bRZaCVQQ==
+X-Received: by 2002:a05:6a00:2296:b0:687:1be4:46e7 with SMTP id f22-20020a056a00229600b006871be446e7mr6924499pfe.9.1690740098065;
+        Sun, 30 Jul 2023 11:01:38 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.22
+        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 11:01:23 -0700 (PDT)
+        Sun, 30 Jul 2023 11:01:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/30] lttng-ust: upgrade 2.13.5 -> 2.13.6
-Date: Sun, 30 Jul 2023 08:00:36 -1000
-Message-Id: <1361c8f4be21e41db74623dcacc92d8f02e6a2ee.1690739937.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/30] mdadm: fix 07revert-inplace ptest
+Date: Sun, 30 Jul 2023 08:00:44 -1000
+Message-Id: <e45cf0306645e501ebde9aa3e626cb1a9d0c4d54.1690739937.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1690739937.git.steve@sakoman.com>
 References: <cover.1690739937.git.steve@sakoman.com>
@@ -60,47 +60,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185091
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185099
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-Changelog:
-===========
-* Fix: segmentation fault on filter interpretation in "switch" mode
-* Fix: `ip` context is expressed as a base-10 field
-* Fix: c99: use __asm__ __volatile__
-* Fix: c99: static assert: clang build fails due to multiple typedef
-* Fix: Reevaluate LTTNG_UST_TRACEPOINT_DEFINE each time tracepoint.h is included
-* Fix: trace events in C++ constructors/destructors
-* Fix: trace events in C constructors/destructors
-* Fix: use unaligned pointer accesses for lttng_inline_memcpy
+Testcase 07revert-inplace fails if strace is not installed:
+...
+strace -o /tmp/str ./mdadm -A /dev/md0 --update=revert-reshape /dev/<...>
+tests/07revert-inplace: line 40: strace: command not found
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Add strace to mdadm-ptest RDEPENDS to make sure the testcase passes even with
+a core-image-minimal build.
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 656470b4b0db579308d218d1ece77bdacd168d14)
+(cherry picked from commit 7d9386663ac52ab69812867a0823c6055aedbc18)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lttng/{lttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb}          | 2 +-
+ meta/recipes-extended/mdadm/mdadm_4.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-ust_2.13.5.bb => lttng-ust_2.13.6.bb} (95%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.13.5.bb b/meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb
-similarity index 95%
-rename from meta/recipes-kernel/lttng/lttng-ust_2.13.5.bb
-rename to meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb
-index 916408bff0..424b0fa645 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.13.5.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb
-@@ -34,7 +34,7 @@ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://0001-Makefile.am-update-rpath-link.patch \
-            "
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index af486e6d9c..aa97eef3ce 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -99,7 +99,7 @@ do_install_ptest() {
+ }
  
--SRC_URI[sha256sum] = "f1d7bb4984a3dc5dacd3b7bcb4c10c04b041b0eecd7cba1fef3d8f86aff02bd6"
-+SRC_URI[sha256sum] = "e7e04596dd73ac7aa99e27cd000f949dbb0fed51bd29099f9b08a25c1df0ced5"
- 
- CVE_PRODUCT = "ust"
- 
+ RDEPENDS:${PN} += "bash"
+-RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs util-linux-lsblk util-linux-losetup"
++RDEPENDS:${PN}-ptest += "bash e2fsprogs-mke2fs util-linux-lsblk util-linux-losetup strace"
+ RRECOMMENDS:${PN}-ptest += " \
+     coreutils \
+     kernel-module-loop \
 -- 
 2.34.1
 
