@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 062F8C04E69
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:12 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.77620.1690740066305741909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3C6C41513
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:11 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.78380.1690740062659625169
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 11:01:06 -0700
+ Sun, 30 Jul 2023 11:01:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=b/SSVWS9;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-686f94328a4so2015582b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WAo+YprJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-68336d06620so3821095b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740065; x=1691344865;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740062; x=1691344862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aEYqR8Cxfh0E+sPBHwlP0qs772eIWv1h1bXip3dwbN8=;
-        b=b/SSVWS9SXgLJzDvfHB82U2H6NOQ0+CW3BztkNfL1zmyPtkuBXrgRBDf9LXLnfI+pQ
-         c8rtG/rxIPyrEkzbkP7F3gGL9yhYfQFxdAraW8OV8rSgSGUOG1VpBh6J9OJZ0ixv9OMj
-         OFxN4nKe7uwqheCjLhVIh9TTTKJmWJGWihBT0e+9546114L/YsoLDM77DDBVABHWnAs4
-         f6WwLXdamRghqofzT8wkCjT2gEH+qn7UlBxnWdHIVf8G/0zDUpTVe4tVEtuGgFdze8pL
-         XGQpzTsY2GQ8MPzrw9OeXrNPR7JS3x++Q1Ebw02PkI94FQLai6AekZdDdMnd/ZppT2SH
-         V3ZA==
+        bh=O1veEEdMkQ1Lx0P+Uubjd3VlaTMv20AJY98H6b5nD2Y=;
+        b=WAo+YprJ1LGT92dsAnFzaWeW5uCqPBtbdlpgle/BABzelj6aq8iO2F0E0YiaqR1Kdz
+         faKCQmMJlYTw8BFcvcV/CQDkt+OXaLEpaJsGeYJd4AXVGRZIZZ01IwdJuDh3H4xXo8Wb
+         5KyO0PrcBvtWllU5ZRKRVAqhynXpOp+X+UjKG3Hied9nsxH9H1g1xOiSNb3O6lwc27q9
+         SUsnlKnpxqRsTS1x41uKUjsvT5fkSonzMOogzkZjwK4sPzfNaaC88C6CyJeu3KHgu26y
+         aQjXRLQAFAmwUNlsoejZKBI7h9c6EY2yH8xpSxUM9bl9XffZqGiG6DYG9mlGW4sp57Rc
+         xQKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690740065; x=1691344865;
+        d=1e100.net; s=20221208; t=1690740062; x=1691344862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aEYqR8Cxfh0E+sPBHwlP0qs772eIWv1h1bXip3dwbN8=;
-        b=EU1aBP5saU8ru4tmo4j7Orkjki2kHLQt5PSyNeOJDPx3VDaC3rGh0Z2K26vuI/JQBQ
-         BZzoV5bonsIgdpHCtVlqeKgq0fsxhge0c9vgWCrINoMm77NtQIixwrpVRT3+hoh4UWbt
-         OmnPGwacB2A8iMn9LiY2eM447ouEog4fwRmWnbUkjsWC7io2Pz/tCSNWVDYrkAruldQ4
-         aJgxlrHzN3vwNrShDn/VBY6dcSG+Za72mLcd5cred1OOCgYcDRrhW1V9KmFcO8sInkFR
-         jiQSBcwe4MBjSIW1CRwvLIAONlERzxadkqWOyNilmRBruobeobmWj1lw5LoGJ7jZ8pxj
-         uXJw==
-X-Gm-Message-State: ABy/qLbJvwVq1AplaIe5WRWeuNwxrZxoJOrjUeanXpYA7RVJ6ddWancP
-	dzn3iJ6k5uyHnFbg3ZRAaS2lcQ9AYDxWG2UK2pxoPQ==
-X-Google-Smtp-Source: APBJJlGjE3419Iu50PJL2iwgTIFsiAsj894wToMhcpLCKSCsSeqKvwDHZD8ovxkjE2Tubexr1wamHw==
-X-Received: by 2002:a05:6a00:39a7:b0:666:c1ab:d6e5 with SMTP id fi39-20020a056a0039a700b00666c1abd6e5mr8081635pfb.16.1690740065308;
-        Sun, 30 Jul 2023 11:01:05 -0700 (PDT)
+        bh=O1veEEdMkQ1Lx0P+Uubjd3VlaTMv20AJY98H6b5nD2Y=;
+        b=a45jpFoMAsYkk7khg6U6dbe5XaNSydk0CpHR8tBh1/SPKDDxaGKsby8z/p9IwrQuHx
+         esxPKAanKs40O0t3AHZpdewcH+G5fYzBgEaBbUoidVZEEJZZ+Yxhl8/umqVsK3ew7hVi
+         0rk4zj2BmDI5hPR+kegkJ6vWPdvjxvTaEEISgmh46dgzbyZMOBQd+WrEeIyuh/Fu/z6d
+         p7AjzkB6btT0oT9o+IhCEvjnMiNAz1Q0cTawKaDKEd2V+kySJ6k3Zh6RRaV2kf8V+KYW
+         F8REhS2TT32cLbLjKF7RaUTZcxQoIBcEcEJwT8Ap9G6L+pTFQTeYp9Bm3podPTsPpbwN
+         93HA==
+X-Gm-Message-State: ABy/qLZEn1N4zOo6e0QaLtJd/73dbXkUKFfsZjkB8CJD2TuW0S8bRUGZ
+	yGhCmf/zvSJd1A+LIJc2+50HnCbNYTyBZzo5L4M7Zw==
+X-Google-Smtp-Source: APBJJlHCcgWpN27bQqt+uaqMe/V5ocki3Td4lDO6lWpz65oMOss20OUiVN9ifE96ZIfF+pNNbbV9og==
+X-Received: by 2002:a05:6a00:14ca:b0:687:22ce:365f with SMTP id w10-20020a056a0014ca00b0068722ce365fmr5149409pfu.29.1690740061621;
+        Sun, 30 Jul 2023 11:01:01 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.04
+        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 11:01:04 -0700 (PDT)
+        Sun, 30 Jul 2023 11:01:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/30] tiff: fix multiple CVEs
-Date: Sun, 30 Jul 2023 08:00:26 -1000
-Message-Id: <1a4e54d5b7b4d26b9fcdc2be1b115600ca71c9ea.1690739937.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/30] libjpeg-turbo: patch CVE-2023-2804
+Date: Sun, 30 Jul 2023 08:00:24 -1000
+Message-Id: <ca8ede6d29c04159e85c2bdd2b635c58ec6a1484.1690739937.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1690739937.git.steve@sakoman.com>
 References: <cover.1690739937.git.steve@sakoman.com>
@@ -60,212 +60,231 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185081
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185079
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Bug-Debian: https://bugs.debian.org/1031632
-Origin: https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68
+Relevant links:
+* linked fronm NVD:
+  * https://github.com/libjpeg-turbo/libjpeg-turbo/issues/668#issuecomment-1492586118
+* follow-up analysis:
+  * https://github.com/libjpeg-turbo/libjpeg-turbo/issues/668#issuecomment-1496473989
+  * picked commits fix all issues mentioned in this analysis
 
-import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u7.debian.tar.xz
-
-fix multiple CVEs:
-
-CVE-2023-0795
-CVE-2023-0796
-CVE-2023-0797
-CVE-2023-0798
-CVE-2023-0799
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2023-0795_0796_0797_0798_0799.patch   | 162 ++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
- 2 files changed, 163 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
+ .../jpeg/files/CVE-2023-2804-1.patch          | 103 ++++++++++++++++++
+ .../jpeg/files/CVE-2023-2804-2.patch          |  75 +++++++++++++
+ .../jpeg/libjpeg-turbo_2.1.5.1.bb             |   2 +
+ 3 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
+diff --git a/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
 new file mode 100644
-index 0000000000..498d5ec8ab
+index 0000000000..fd8a66bca7
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-0795_0796_0797_0798_0799.patch
-@@ -0,0 +1,162 @@
-+From 7808740e100ba30ffb791044f3b14dec3e85ed6f Mon Sep 17 00:00:00 2001
-+From: Markus Koschany <apo@debian.org>
-+Date: Tue, 21 Feb 2023 14:26:43 +0100
-+Subject: [PATCH] CVE-2023-0795
++++ b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+@@ -0,0 +1,103 @@
++From 42ce199c9cfe129e5e21afd48dfe757a6acf87c4 Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Tue, 4 Apr 2023 19:06:20 -0500
++Subject: [PATCH] Decomp: Don't enable 2-pass color quant w/ RGB565
 +
-+This is also the fix for CVE-2023-0796, CVE-2023-0797, CVE-2023-0798,
-+CVE-2023-0799.
++The 2-pass color quantization algorithm assumes 3-sample pixels.  RGB565
++is the only 3-component colorspace that doesn't have 3-sample pixels, so
++we need to treat it as a special case when determining whether to enable
++2-pass color quantization.  Otherwise, attempting to initialize 2-pass
++color quantization with an RGB565 output buffer could cause
++prescan_quantize() to read from uninitialized memory and subsequently
++underflow/overflow the histogram array.
 +
-+Bug-Debian: https://bugs.debian.org/1031632
-+Origin: https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68
++djpeg is supposed to fail gracefully if both -rgb565 and -colors are
++specified, because none of its destination managers (image writers)
++support color quantization with RGB565.  However, prescan_quantize() was
++called before that could occur.  It is possible but very unlikely that
++these issues could have been reproduced in applications other than
++djpeg.  The issues involve the use of two features (12-bit precision and
++RGB565) that are incompatible, and they also involve the use of two
++rarely-used legacy features (RGB565 and color quantization) that don't
++make much sense when combined.
 +
-+Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u7.debian.tar.xz ]
-+CVE: CVE-2023-0795 CVE-2023-0796 CVE-2023-0797 CVE-2023-0798 CVE-2023-0799
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++Fixes #668
++Fixes #671
++Fixes #680
 +
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++CVE: CVE-2023-2804
++Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/42ce199c9cfe129e5e21afd48dfe757a6acf87c4]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ tools/tiffcrop.c | 51 ++++++++++++++++++++++++++++--------------------
-+ 1 file changed, 30 insertions(+), 21 deletions(-)
++ ChangeLog.md | 12 ++++++++++++
++ jdmaster.c   |  5 +++--
++ jquant2.c    |  5 +++--
++ 3 files changed, 18 insertions(+), 4 deletions(-)
 +
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index adf0f84..deba170 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -269,7 +269,6 @@ struct  region {
-+   uint32_t width;     /* width in pixels */
-+   uint32_t length;    /* length in pixels */
-+   uint32_t buffsize;  /* size of buffer needed to hold the cropped region */
-+-  unsigned char *buffptr; /* address of start of the region */
-+ };
-+ 
-+ /* Cropping parameters from command line and image data 
-+@@ -524,7 +523,7 @@ static int rotateContigSamples24bits(uint16_t, uint16_t, uint16_t, uint32_t,
-+ static int rotateContigSamples32bits(uint16_t, uint16_t, uint16_t, uint32_t,
-+                                      uint32_t, uint32_t, uint8_t *, uint8_t *);
-+ static int rotateImage(uint16_t, struct image_data *, uint32_t *, uint32_t *,
-+-                       unsigned char **);
-++                       unsigned char **, int);
-+ static int mirrorImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
-+                        unsigned char *);
-+ static int invertImage(uint16_t, uint16_t, uint16_t, uint32_t, uint32_t,
-+@@ -5219,7 +5218,6 @@ initCropMasks (struct crop_mask *cps)
-+      cps->regionlist[i].width = 0;
-+      cps->regionlist[i].length = 0;
-+      cps->regionlist[i].buffsize = 0;
-+-     cps->regionlist[i].buffptr = NULL;
-+      cps->zonelist[i].position = 0;
-+      cps->zonelist[i].total = 0;
-+      }
-+@@ -6511,8 +6509,13 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
-+                  (uint16_t) (image->adjustments & ROTATE_ANY));
-+       return (-1);
-+       }
-+- 
-+-    if (rotateImage(rotation, image, &image->width, &image->length, work_buff_ptr))
++diff --git a/ChangeLog.md b/ChangeLog.md
++index 1c1e6538a..f1bfb3d87 100644
++--- a/ChangeLog.md
+++++ b/ChangeLog.md
++@@ -1,3 +1,15 @@
+++2.1.6
+++=====
 ++
-++      /* Dummy variable in order not to switch two times the
-++       * image->width,->length within rotateImage(),
-++       * but switch xres, yres there. */
-++      uint32_t width = image->width;
-++      uint32_t length = image->length;
-++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
-+       {
-+       TIFFError ("correct_orientation", "Unable to rotate image");
-+       return (-1);
-+@@ -6580,7 +6583,6 @@ extractCompositeRegions(struct image_data *image,  struct crop_mask *crop,
-+     /* These should not be needed for composite images */
-+     crop->regionlist[i].width = crop_width;
-+     crop->regionlist[i].length = crop_length;
-+-    crop->regionlist[i].buffptr = crop_buff;
+++### Significant changes relative to 2.1.5.1:
+++
+++1. Fixed an oversight in 1.4 beta1[8] that caused various segfaults and buffer
+++overruns when attempting to decompress various specially-crafted malformed
+++12-bit-per-component JPEG images using a 12-bit-per-component build of djpeg
+++(`-DWITH_12BIT=1`) with both color quantization and RGB565 color conversion
+++enabled.
+++
+++
++ 2.1.5.1
++ =======
 + 
-+     src_rowsize = ((img_width * bps * spp) + 7) / 8;
-+     dst_rowsize = (((crop_width * bps * count) + 7) / 8);
-+@@ -6817,7 +6819,6 @@ extractSeparateRegion(struct image_data *image,  struct crop_mask *crop,
++diff --git a/jdmaster.c b/jdmaster.c
++index a3690bf56..a9446adfd 100644
++--- a/jdmaster.c
+++++ b/jdmaster.c
++@@ -5,7 +5,7 @@
++  * Copyright (C) 1991-1997, Thomas G. Lane.
++  * Modified 2002-2009 by Guido Vollbeding.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2009-2011, 2016, 2019, 2022, D. R. Commander.
+++ * Copyright (C) 2009-2011, 2016, 2019, 2022-2023, D. R. Commander.
++  * Copyright (C) 2013, Linaro Limited.
++  * Copyright (C) 2015, Google, Inc.
++  * For conditions of distribution and use, see the accompanying README.ijg
++@@ -480,7 +480,8 @@ master_selection(j_decompress_ptr cinfo)
++     if (cinfo->raw_data_out)
++       ERREXIT(cinfo, JERR_NOTIMPL);
++     /* 2-pass quantizer only works in 3-component color space. */
++-    if (cinfo->out_color_components != 3) {
+++    if (cinfo->out_color_components != 3 ||
+++        cinfo->out_color_space == JCS_RGB565) {
++       cinfo->enable_1pass_quant = TRUE;
++       cinfo->enable_external_quant = FALSE;
++       cinfo->enable_2pass_quant = FALSE;
++diff --git a/jquant2.c b/jquant2.c
++index 44efb18ca..1c14ef763 100644
++--- a/jquant2.c
+++++ b/jquant2.c
++@@ -4,7 +4,7 @@
++  * This file was part of the Independent JPEG Group's software:
++  * Copyright (C) 1991-1996, Thomas G. Lane.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2009, 2014-2015, 2020, D. R. Commander.
+++ * Copyright (C) 2009, 2014-2015, 2020, 2023, D. R. Commander.
++  * For conditions of distribution and use, see the accompanying README.ijg
++  * file.
++  *
++@@ -1230,7 +1230,8 @@ jinit_2pass_quantizer(j_decompress_ptr cinfo)
++   cquantize->error_limiter = NULL;
 + 
-+   crop->regionlist[region].width = crop_width;
-+   crop->regionlist[region].length = crop_length;
-+-  crop->regionlist[region].buffptr = crop_buff;
++   /* Make sure jdmaster didn't give me a case I can't handle */
++-  if (cinfo->out_color_components != 3)
+++  if (cinfo->out_color_components != 3 ||
+++      cinfo->out_color_space == JCS_RGB565)
++     ERREXIT(cinfo, JERR_NOTIMPL);
 + 
-+   src = read_buff;
-+   dst = crop_buff;
-+@@ -7695,7 +7696,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
-+     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
-+       {
-+       if (rotateImage(crop->rotation, image, &crop->combined_width, 
-+-                      &crop->combined_length, &crop_buff))
-++                      &crop->combined_length, &crop_buff, FALSE))
-+         {
-+         TIFFError("processCropSelections", 
-+                   "Failed to rotate composite regions by %"PRIu32" degrees", crop->rotation);
-+@@ -7805,7 +7806,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
-+            * ToDo: Therefore rotateImage() and its usage has to be reworked (e.g. like mirrorImage()) !!
-+            */
-+ 	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
-+-			&crop->regionlist[i].length, &crop_buff))
-++			&crop->regionlist[i].length, &crop_buff, FALSE))
-+           {
-+           TIFFError("processCropSelections", 
-+                     "Failed to rotate crop region by %"PRIu16" degrees", crop->rotation);
-+@@ -7937,7 +7938,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
-+     {
-+     if (rotateImage(crop->rotation, image, &crop->combined_width, 
-+-                    &crop->combined_length, crop_buff_ptr))
-++                    &crop->combined_length, crop_buff_ptr, TRUE))
-+       {
-+       TIFFError("createCroppedImage", 
-+                 "Failed to rotate image or cropped selection by %"PRIu16" degrees", crop->rotation);
-+@@ -8600,7 +8601,7 @@ rotateContigSamples32bits(uint16_t rotation, uint16_t spp, uint16_t bps, uint32_
-+ /* Rotate an image by a multiple of 90 degrees clockwise */
-+ static int
-+ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
-+-            uint32_t *img_length, unsigned char **ibuff_ptr)
-++            uint32_t *img_length, unsigned char **ibuff_ptr, int rot_image_params)
-+   {
-+   int      shift_width;
-+   uint32_t   bytes_per_pixel, bytes_per_sample;
-+@@ -8791,11 +8792,15 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
-+ 
-+               *img_width = length;
-+               *img_length = width;
-+-              image->width = length;
-+-              image->length = width;
-+-              res_temp = image->xres;
-+-              image->xres = image->yres;
-+-              image->yres = res_temp;
-++            /* Only toggle image parameters if whole input image is rotated. */
-++            if (rot_image_params)
-++            {
-++                image->width = length;
-++                image->length = width;
-++                res_temp = image->xres;
-++                image->xres = image->yres;
-++                image->yres = res_temp;
-++            }
-+ 	      break;
-+ 
-+     case 270: if ((bps % 8) == 0) /* byte aligned data */
-+@@ -8868,11 +8873,15 @@ rotateImage(uint16_t rotation, struct image_data *image, uint32_t *img_width,
-+ 
-+               *img_width = length;
-+               *img_length = width;
-+-              image->width = length;
-+-              image->length = width;
-+-              res_temp = image->xres;
-+-              image->xres = image->yres;
-+-              image->yres = res_temp;
-++            /* Only toggle image parameters if whole input image is rotated. */
-++            if (rot_image_params)
-++            {
-++                image->width = length;
-++                image->length = width;
-++                res_temp = image->xres;
-++                image->xres = image->yres;
-++                image->yres = res_temp;
-++            }
-+               break;
-+     default:
-+               break;
-+-- 
-+2.25.1
++   /* Allocate the histogram/inverse colormap storage */
+diff --git a/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
+new file mode 100644
+index 0000000000..af955a72f6
+--- /dev/null
++++ b/meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
+@@ -0,0 +1,75 @@
++From 2e1b8a462f7f9f9bf6cd25a8516caa8203cc4593 Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Thu, 6 Apr 2023 18:33:41 -0500
++Subject: [PATCH] jpeg_crop_scanline: Fix calc w/sclg + 2x4,4x2 samp
 +
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 4bd485a10a..2be25756bc 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://0001-tiffcrop-subroutines-require-a-larger-buffer-fixes-2.patch \
-            file://CVE-2022-48281.patch \
-            file://CVE-2023-0800_0801_0802_0803_0804.patch \
-+           file://CVE-2023-0795_0796_0797_0798_0799.patch \
++When computing the downsampled width for a particular component,
++jpeg_crop_scanline() needs to take into account the fact that the
++libjpeg code uses a combination of IDCT scaling and upsampling to
++implement 4x2 and 2x4 upsampling with certain decompression scaling
++factors.  Failing to account for that led to incomplete upsampling of
++4x2- or 2x4-subsampled components, which caused the color converter to
++read from uninitialized memory.  With 12-bit data precision, this caused
++a buffer overrun or underrun and subsequent segfault if the
++uninitialized memory contained a value that was outside of the valid
++sample range (because the color converter uses the value as an array
++index.)
++
++Fixes #669
++
++CVE: CVE-2023-2804
++Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/2e1b8a462f7f9f9bf6cd25a8516caa8203cc4593]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ ChangeLog.md |  8 ++++++++
++ jdapistd.c   | 10 ++++++----
++ 2 files changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/ChangeLog.md b/ChangeLog.md
++index f1bfb3d87..0a075c3c5 100644
++--- a/ChangeLog.md
+++++ b/ChangeLog.md
++@@ -9,6 +9,14 @@ overruns when attempting to decompress various specially-crafted malformed
++ (`-DWITH_12BIT=1`) with both color quantization and RGB565 color conversion
++ enabled.
++ 
+++2. Fixed an issue whereby `jpeg_crop_scanline()` sometimes miscalculated the
+++downsampled width for components with 4x2 or 2x4 subsampling factors if
+++decompression scaling was enabled.  This caused the components to be upsampled
+++incompletely, which caused the color converter to read from uninitialized
+++memory.  With 12-bit data precision, this caused a buffer overrun or underrun
+++and subsequent segfault if the sample value read from unitialized memory was
+++outside of the valid sample range.
+++
++ 
++ 2.1.5.1
++ =======
++diff --git a/jdapistd.c b/jdapistd.c
++index 02cd0cb93..96cded112 100644
++--- a/jdapistd.c
+++++ b/jdapistd.c
++@@ -4,7 +4,7 @@
++  * This file was part of the Independent JPEG Group's software:
++  * Copyright (C) 1994-1996, Thomas G. Lane.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2010, 2015-2020, 2022, D. R. Commander.
+++ * Copyright (C) 2010, 2015-2020, 2022-2023, D. R. Commander.
++  * Copyright (C) 2015, Google, Inc.
++  * For conditions of distribution and use, see the accompanying README.ijg
++  * file.
++@@ -236,9 +236,11 @@ jpeg_crop_scanline(j_decompress_ptr cinfo, JDIMENSION *xoffset,
++     /* Set downsampled_width to the new output width. */
++     orig_downsampled_width = compptr->downsampled_width;
++     compptr->downsampled_width =
++-      (JDIMENSION)jdiv_round_up((long)(cinfo->output_width *
++-                                       compptr->h_samp_factor),
++-                                (long)cinfo->max_h_samp_factor);
+++      (JDIMENSION)jdiv_round_up((long)cinfo->output_width *
+++                                (long)(compptr->h_samp_factor *
+++                                       compptr->_DCT_scaled_size),
+++                                (long)(cinfo->max_h_samp_factor *
+++                                       cinfo->_min_DCT_scaled_size));
++     if (compptr->downsampled_width < 2 && orig_downsampled_width >= 2)
++       reinit_upsampler = TRUE;
++ 
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+index e086830c02..86bf471eea 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+@@ -12,6 +12,8 @@ DEPENDS:append:x86:class-target = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
++           file://CVE-2023-2804-1.patch \
++           file://CVE-2023-2804-2.patch \
             "
  
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+ SRC_URI[sha256sum] = "2fdc3feb6e9deb17adec9bafa3321419aa19f8f4e5dea7bf8486844ca22207bf"
 -- 
 2.34.1
 
