@@ -2,63 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1868DC001DC
-	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 17:52:12 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.77483.1690739529174641309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6DAC001DF
+	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 17:59:12 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.77592.1690739944660581058
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 10:52:09 -0700
+ Sun, 30 Jul 2023 10:59:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=oOKjgMlT;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-686ea67195dso2692446b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 10:52:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=AhwHpgJG;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6862842a028so2581085b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 10:59:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690739528; x=1691344328;
+        d=gmail.com; s=20221208; t=1690739944; x=1691344744;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sr14HZdXC38ICOLQdSluvglvl3C0fpFbzggJGxslOIU=;
-        b=oOKjgMlTcChanigRSoKMj8Au+RpOOqTUAzEhuvMHQSExWoIiug3fHN1d0K/yhj+NIj
-         IEoskbPv+t/VMNJxpLkk8wz6d/kGVVc22+BawseLdDggEEaLesK7cEF8u3vbjOgwuUfQ
-         3OfkP3peRWz6E7O6X4BnSLWaP3pmCXhZJF1WiFwZS5FFtjgVmjGe/fYowIZXPzbO35rW
-         TaseWuuma8IV9GMQozliwZF2Pi8lNkzoxKHKxMQm9vJKIc3GPaXfFk3MQJj6Vxebr9Ep
-         45EhiT1ZVlvg76WlAiA+nzdUe7krhOL1lYa9+G049T3Y7pFv+gHxMIAOQcFaz987l8V4
-         LWuQ==
+        bh=NKpEUPnybAjfOiljUnd1NRUOmGS7Sx3rOY0Y0JHZY/0=;
+        b=AhwHpgJGCHG9ezmowvjvz6vvKOoicbZZ4vqrazAikb50WJEDy4ja7LRnf8X0HCQlpP
+         o8Na0lKMY6e8CpPvDqA0X67Qk+kPQOL0aXRWehgcwrB0XG8FTK8c/BAPGiEC43TBvSw8
+         vY16cSrl7E5PXmo/Ou4zbHa3/HSknAPICsPcknQ4YYopOX/UtBEMse1/ZshZ1dwK5OQa
+         0pyFGZ7zdMJQuvS683u0V9FNLhFLjd8UjoJ5xmIpFLSSya4AsepotMFzbb4Gut/uMTxA
+         NPJhmL1uXi89bnLYxKkqPbkz/zDzz3+hKKTBJ3+nVvK9qdOPMExZQTG38rpSWsgcUhQs
+         85zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690739528; x=1691344328;
+        d=1e100.net; s=20221208; t=1690739944; x=1691344744;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Sr14HZdXC38ICOLQdSluvglvl3C0fpFbzggJGxslOIU=;
-        b=W9SDr4DKtMdsjpvLD1DNQvGZJmNrGjf66l0s/0yJTRnkN01g8xfKJ7ArkqyypvFT4R
-         aJtn68qsdJBr1i215Te9DY6gCI1TEDqIVVUYOgWskg5rxuEq0H/95GMx7/mnlMG6OWJC
-         8pYoZ7V0SJXTBK0sye1BW93uqn2BjBtwNx58/nmpuH30FDBal+SS+FzNzWVvrNfIJ/RT
-         sFUbmOf/+i8UksGgsIp2iYHFQ5xnrfR3RkjluWIWdzsSipHy979KmagcjvN7qI39tUnC
-         xAPbD3a/hiLWke9hJxAU7R0uZxls1YBzxQ04JHo0Ipy4v42x9MUQvDvJ5Hiwq2+38Y5y
-         M9Jg==
-X-Gm-Message-State: ABy/qLb/gMDSPhxdC9iUTYji/GzB+RRVtOwrZWjF54VODEZa7KYX6VYq
-	hUswwP+qYKKVD7Eb8+fMB7DfaztfGk5SuQ==
-X-Google-Smtp-Source: APBJJlE1dSoQ9U25VzdFopGyUQeBoBPAIDRfRKr9QcPS8ixWk7AgzNaLvtAfBIokzrKk3z/QFnkLoA==
-X-Received: by 2002:a05:6a00:2d86:b0:687:3d69:7601 with SMTP id fb6-20020a056a002d8600b006873d697601mr831768pfb.4.1690739527166;
-        Sun, 30 Jul 2023 10:52:07 -0700 (PDT)
+        bh=NKpEUPnybAjfOiljUnd1NRUOmGS7Sx3rOY0Y0JHZY/0=;
+        b=AcHnsUoyJDN2pwslf09KZdzDbGIDwHIrEOb2FJNrU3nE/hFC23WjStH9z1UxGLDYs0
+         lugtkElFvTxYBIBndr3BYsamy33f5igDTImogg8JLIOE00LwCc+RDMHGpA+R58CBpuR1
+         9KykSdwLGPdwUa/9CasqjaHQt2BcpxG/TBiUpKeh9EZB3MxHOM2kTEzIjjymw/capAZT
+         btR6F4XAPxBoRnU/tVAfWBXCt774NP/IjnXIRf/wxVyqVZ+Ub0aGVu1ELxPYMpN879vi
+         TBpqurjph5fjx883QuwTlQ3uo/nTOYxFPB5NklToP0S1+45w3FshqdBEFhx/ARkz2BE9
+         uaEg==
+X-Gm-Message-State: ABy/qLbFHIapRpGe9XBJgYZOlS0SKdGCcS2wBLuvDAcp+jnlxjZXu3B3
+	EsQhzKPeltc1l8lTi8KhCch6cmZjqg0bdQ==
+X-Google-Smtp-Source: APBJJlG2OAQESLhWsll2CPlgHla+3T0DLYSKG85Jgdhp1GpfbtrkMPm92MFMUgTIkSb6H9v3nZKnEA==
+X-Received: by 2002:a05:6a20:8e2a:b0:137:4bff:7c92 with SMTP id y42-20020a056a208e2a00b001374bff7c92mr8306329pzj.0.1690739942998;
+        Sun, 30 Jul 2023 10:59:02 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::3004])
-        by smtp.gmail.com with ESMTPSA id k3-20020a633d03000000b00563ed9ea698sm6737541pga.64.2023.07.30.10.52.05
+        by smtp.gmail.com with ESMTPSA id u23-20020aa78397000000b0065a1b05193asm3614071pfm.185.2023.07.30.10.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 10:52:06 -0700 (PDT)
+        Sun, 30 Jul 2023 10:59:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] binutils: Upgrade to 2.41 release
-Date: Sun, 30 Jul 2023 10:52:03 -0700
-Message-ID: <20230730175203.6491-1-raj.khem@gmail.com>
+Subject: [PATCH v2] binutils: Upgrade to 2.41 release
+Date: Sun, 30 Jul 2023 10:58:59 -0700
+Message-ID: <20230730175859.11238-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 17:52:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185076
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 17:59:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185077
 
 Detailed changes [1]
 
@@ -66,8 +66,10 @@ Detailed changes [1]
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Needed to drop a backport
+
  meta/conf/distro/include/tcmode-default.inc   |    2 +-
- .../{binutils-2.40.inc => binutils-2.41.inc}  |   15 +-
+ .../{binutils-2.40.inc => binutils-2.41.inc}  |   14 +-
  ....40.bb => binutils-cross-canadian_2.41.bb} |    0
  ...40.bb => binutils-cross-testsuite_2.41.bb} |    0
  ...s-cross_2.40.bb => binutils-cross_2.41.bb} |    0
@@ -86,19 +88,17 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...or-clang-before-checking-gcc-version.patch |    2 +-
  ...-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch |    6 +-
  ...sing-_Alignof-when-using-C11-or-newe.patch |    2 +-
- ...nt-check-whether-a-value-is-negative.patch |   72 +
  ...-pe-dll.o-entry-deom-targ_extra_ofil.patch |   32 -
  .../binutils/0016-CVE-2023-25586.patch        |   34 -
  .../binutils/binutils/fix-time64.patch        |   94 -
  .../{binutils_2.40.bb => binutils_2.41.bb}    |    0
- 25 files changed, 1813 insertions(+), 3139 deletions(-)
+ 24 files changed, 1740 insertions(+), 3139 deletions(-)
  rename meta/recipes-devtools/binutils/{binutils-2.40.inc => binutils-2.41.inc} (78%)
  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.40.bb => binutils-cross-canadian_2.41.bb} (100%)
  rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.40.bb => binutils-cross-testsuite_2.41.bb} (100%)
  rename meta/recipes-devtools/binutils/{binutils-cross_2.40.bb => binutils-cross_2.41.bb} (100%)
  rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.40.bb => binutils-crosssdk_2.41.bb} (100%)
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0001-Fix-an-illegal-memory-access-when-an-accessing-a-zer.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0014-gas-In-O_constant-check-whether-a-value-is-negative.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25586.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/fix-time64.patch
@@ -121,7 +121,7 @@ diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-dev
 similarity index 78%
 rename from meta/recipes-devtools/binutils/binutils-2.40.inc
 rename to meta/recipes-devtools/binutils/binutils-2.41.inc
-index dea68ee6fc2..a22d9bb3ec6 100644
+index dea68ee6fc2..fa056dd99e1 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.40.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.41.inc
 @@ -10,15 +10,15 @@ LIC_FILES_CHKSUM="\
@@ -145,7 +145,7 @@ index dea68ee6fc2..a22d9bb3ec6 100644
  BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
  SRC_URI = "\
       ${BINUTILS_GIT_URI} \
-@@ -32,9 +32,6 @@ SRC_URI = "\
+@@ -32,9 +32,5 @@ SRC_URI = "\
       file://0011-Check-for-clang-before-checking-gcc-version.patch \
       file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
       file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
@@ -153,7 +153,6 @@ index dea68ee6fc2..a22d9bb3ec6 100644
 -     file://0016-CVE-2023-25586.patch \
 -     file://fix-time64.patch \
 -     file://0001-Fix-an-illegal-memory-access-when-an-accessing-a-zer.patch \
-+     file://0014-gas-In-O_constant-check-whether-a-value-is-negative.patch \
  "
  S  = "${WORKDIR}/git"
 diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.40.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.41.bb
@@ -222,12 +221,12 @@ index 31157cacd2f..00000000000
 -2.34.1
 -
 diff --git a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
-index ca249834ea6..798e38fb70b 100644
+index ca249834ea6..48ecd6a4f01 100644
 --- a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
 @@ -1,4 +1,4 @@
 -From 4bdab425bdd7dc52c95bfd62e035c1b9abe9595e Mon Sep 17 00:00:00 2001
-+From 13329f9c3daf09ff3163b0746ca1615c5273d3e8 Mon Sep 17 00:00:00 2001
++From 1418ddb08714c987623b2ba876958d86761ebe5f Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:58:54 +0000
  Subject: [PATCH] binutils-crosssdk: Generate relocatable SDKs
@@ -254,22 +253,22 @@ index ca249834ea6..798e38fb70b 100644
  +++ b/ld/scripttempl/elf.sc
  @@ -148,8 +148,8 @@ if test -z "$DATA_SEGMENT_ALIGN"; then
 diff --git a/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch b/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
-index 663dc4af7d6..d3f9746d82b 100644
+index 663dc4af7d6..7abdab1bf21 100644
 --- a/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
 @@ -1,4 +1,4 @@
 -From c79005d4d9991593557766ad569f48c26482399f Mon Sep 17 00:00:00 2001
-+From bd19b72f691890bb4f80419f2e1a52c38ba241ca Mon Sep 17 00:00:00 2001
++From 665c3f4b9627a4a4d76d394fbd2008acfa6aa2a5 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 6 Mar 2017 23:37:05 -0800
  Subject: [PATCH] binutils-cross: Do not generate linker script directories
 diff --git a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
-index f46116f1af6..d4dc590a7eb 100644
+index f46116f1af6..5a283ff923d 100644
 --- a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
 @@ -1,4 +1,4 @@
 -From 70da8b91026c5381d430194910fc15e3b6c5ec7f Mon Sep 17 00:00:00 2001
-+From 6f719580cb180d96ea523abc5685526db90d5930 Mon Sep 17 00:00:00 2001
++From ceaa508225c17893226734e6d0d8b63aaec2d670 Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Wed, 19 Feb 2020 09:51:16 -0800
  Subject: [PATCH] binutils-nativesdk: Search for alternative ld.so.conf in SDK
@@ -320,12 +319,12 @@ index f46116f1af6..d4dc590a7eb 100644
   /* The prefix for system library directories.  */
   const char *ld_sysroot;
 diff --git a/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch b/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
-index e7d2593c493..e034b531d8a 100644
+index e7d2593c493..11576eafdc3 100644
 --- a/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
 @@ -1,4 +1,4 @@
 -From fa477bb947fa17543f4550bc0e7e715c8355649c Mon Sep 17 00:00:00 2001
-+From 76bc1e9effb5f0e09d9843ac4f2dabe33c83e3fd Mon Sep 17 00:00:00 2001
++From fe1d4166caa5e566453f23c4263933dd704eebe4 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:09:58 +0000
  Subject: [PATCH] Point scripts location to libdir
@@ -348,22 +347,22 @@ index e7d2593c493..e034b531d8a 100644
  +++ b/ld/Makefile.in
  @@ -574,7 +574,7 @@ AM_CFLAGS = $(WARN_CFLAGS) $(ELF_CLFAGS) $(JANSSON_CFLAGS) $(ZSTD_CFLAGS)
 diff --git a/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch b/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
-index 7242f487959..e6a4055840e 100644
+index 7242f487959..691a2fb7540 100644
 --- a/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
 @@ -1,4 +1,4 @@
 -From 7912f5a918e612950feb04d845934f26160e85da Mon Sep 17 00:00:00 2001
-+From eb1d7d7023ee1234eb745422e8c0fd4151bab86b Mon Sep 17 00:00:00 2001
++From 05b51e63f40ef59a7ef1e5278f915e8812aa5f43 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:39:01 +0000
  Subject: [PATCH] don't let the distro compiler point to the wrong installation
 diff --git a/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch b/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
-index 87bbe9fb1b9..469403417d4 100644
+index 87bbe9fb1b9..11b1ea2218e 100644
 --- a/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
 @@ -1,4 +1,4 @@
 -From 725ca09ee1041f64589f26ba815ef11da687c608 Mon Sep 17 00:00:00 2001
-+From 12779fdf9bd347c883c136f762bcfb66c3deca8f Mon Sep 17 00:00:00 2001
++From b2cc54cfbb0938c2b63af58631043ce504e41131 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 15 Jan 2016 06:31:09 +0000
  Subject: [PATCH] warn for uses of system directories when cross linking
@@ -383,7 +382,7 @@ index 87bbe9fb1b9..469403417d4 100644
   
  diff --git a/ld/configure b/ld/configure
 -index 995708089fd..6406a42c442 100755
-+index 0c32b16241a..f5cd391d722 100755
++index 1503936432f..29896853a90 100755
  --- a/ld/configure
  +++ b/ld/configure
  @@ -839,6 +839,7 @@ with_lib_path
@@ -513,22 +512,22 @@ index 87bbe9fb1b9..469403417d4 100644
 + 
 + 	case OPTION_DEPENDENCY_FILE:
 diff --git a/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch b/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
-index fdd1f7756fb..c84d31201a5 100644
+index fdd1f7756fb..fa8cdcf287f 100644
 --- a/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
 @@ -1,4 +1,4 @@
 -From 4e9d4ace8a340399aeaa8332e2cfbfcc7d2d14d7 Mon Sep 17 00:00:00 2001
-+From 7bc56866563abd42f34cbcf6dfb9f5645558d2c5 Mon Sep 17 00:00:00 2001
++From a00c8d672a050d2d70d7adbbce67d0576e699513 Mon Sep 17 00:00:00 2001
  From: Zhenhua Luo <zhenhua.luo@nxp.com>
  Date: Sat, 11 Jun 2016 22:08:29 -0500
  Subject: [PATCH] fix the incorrect assembling for ppc wait mnemonic
 diff --git a/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch b/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
-index 0be871f5cf0..98be2b75f5f 100644
+index 0be871f5cf0..e9af44dfdec 100644
 --- a/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
 @@ -1,4 +1,4 @@
 -From a66b1806350a9bed7b188c7d115991f6cdee51a9 Mon Sep 17 00:00:00 2001
-+From 3cc2344855cebe01dddec0037e333e27cfa54c36 Mon Sep 17 00:00:00 2001
++From 3d058d30ab2eb1ee33468cb351164c98ce4fd545 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Sun, 14 Feb 2016 17:04:07 +0000
  Subject: [PATCH] Use libtool 2.4
@@ -592,7 +591,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   all_backends = @all_backends@
  diff --git a/bfd/configure b/bfd/configure
 -index 60ea6becab2..84dcdf167ba 100755
-+index dcb10317390..304dbdb0810 100755
++index abc24a93028..f4c8ea4e54b 100755
  --- a/bfd/configure
  +++ b/bfd/configure
  @@ -706,6 +706,9 @@ OTOOL
@@ -767,7 +766,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   am__include = @am__include@
  diff --git a/binutils/configure b/binutils/configure
 -index c7bd42049c3..06285371350 100755
-+index e69d448eb76..35e064604dc 100755
++index 4cd196ab74b..dca6f77919d 100755
  --- a/binutils/configure
  +++ b/binutils/configure
  @@ -700,8 +700,11 @@ OTOOL
@@ -920,7 +919,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   am__include = @am__include@
  diff --git a/gas/configure b/gas/configure
 -index 3c0c3e27d3b..11baafb9db6 100755
-+index d4078feef3d..d6336232b63 100755
++index db1b80fc907..4bdd9705d8d 100755
  --- a/gas/configure
  +++ b/gas/configure
  @@ -686,8 +686,11 @@ OTOOL
@@ -929,7 +928,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   {
     void *self = dlopen (0, LT_DLGLOBAL|LT_DLLAZY_OR_NOW);
 -@@ -15133,13 +15783,20 @@ exeext='`$ECHO "$exeext" | $SED "$delay_single_quote_subst"`'
-+@@ -15135,13 +15785,20 @@ exeext='`$ECHO "$exeext" | $SED "$delay_single_quote_subst"`'
++@@ -15132,13 +15782,20 @@ exeext='`$ECHO "$exeext" | $SED "$delay_single_quote_subst"`'
   lt_unset='`$ECHO "$lt_unset" | $SED "$delay_single_quote_subst"`'
   lt_SP2NL='`$ECHO "$lt_SP2NL" | $SED "$delay_single_quote_subst"`'
   lt_NL2SP='`$ECHO "$lt_NL2SP" | $SED "$delay_single_quote_subst"`'
@@ -938,7 +937,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   RANLIB='`$ECHO "$RANLIB" | $SED "$delay_single_quote_subst"`'
   old_postinstall_cmds='`$ECHO "$old_postinstall_cmds" | $SED "$delay_single_quote_subst"`'
 -@@ -15154,14 +15811,17 @@ lt_cv_sys_global_symbol_pipe='`$ECHO "$lt_cv_sys_global_symbol_pipe" | $SED "$de
-+@@ -15156,14 +15813,17 @@ lt_cv_sys_global_symbol_pipe='`$ECHO "$lt_cv_sys_global_symbol_pipe" | $SED "$de
++@@ -15153,14 +15810,17 @@ lt_cv_sys_global_symbol_pipe='`$ECHO "$lt_cv_sys_global_symbol_pipe" | $SED "$de
   lt_cv_sys_global_symbol_to_cdecl='`$ECHO "$lt_cv_sys_global_symbol_to_cdecl" | $SED "$delay_single_quote_subst"`'
   lt_cv_sys_global_symbol_to_c_name_address='`$ECHO "$lt_cv_sys_global_symbol_to_c_name_address" | $SED "$delay_single_quote_subst"`'
   lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='`$ECHO "$lt_cv_sys_global_symbol_to_c_name_address_lib_prefix" | $SED "$delay_single_quote_subst"`'
@@ -947,7 +946,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   NMEDIT='`$ECHO "$NMEDIT" | $SED "$delay_single_quote_subst"`'
   LIPO='`$ECHO "$LIPO" | $SED "$delay_single_quote_subst"`'
 -@@ -15194,12 +15854,12 @@ hardcode_shlibpath_var='`$ECHO "$hardcode_shlibpath_var" | $SED "$delay_single_q
-+@@ -15196,12 +15856,12 @@ hardcode_shlibpath_var='`$ECHO "$hardcode_shlibpath_var" | $SED "$delay_single_q
++@@ -15193,12 +15853,12 @@ hardcode_shlibpath_var='`$ECHO "$hardcode_shlibpath_var" | $SED "$delay_single_q
   hardcode_automatic='`$ECHO "$hardcode_automatic" | $SED "$delay_single_quote_subst"`'
   inherit_rpath='`$ECHO "$inherit_rpath" | $SED "$delay_single_quote_subst"`'
   link_all_deplibs='`$ECHO "$link_all_deplibs" | $SED "$delay_single_quote_subst"`'
@@ -956,7 +955,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   variables_saved_for_relink='`$ECHO "$variables_saved_for_relink" | $SED "$delay_single_quote_subst"`'
   need_lib_prefix='`$ECHO "$need_lib_prefix" | $SED "$delay_single_quote_subst"`'
 -@@ -15254,8 +15914,13 @@ reload_flag \
-+@@ -15256,8 +15916,13 @@ reload_flag \
++@@ -15253,8 +15913,13 @@ reload_flag \
   OBJDUMP \
   deplibs_check_method \
   file_magic_cmd \
@@ -965,7 +964,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   RANLIB \
   CC \
 -@@ -15265,12 +15930,14 @@ lt_cv_sys_global_symbol_pipe \
-+@@ -15267,12 +15932,14 @@ lt_cv_sys_global_symbol_pipe \
++@@ -15264,12 +15929,14 @@ lt_cv_sys_global_symbol_pipe \
   lt_cv_sys_global_symbol_to_cdecl \
   lt_cv_sys_global_symbol_to_c_name_address \
   lt_cv_sys_global_symbol_to_c_name_address_lib_prefix \
@@ -974,7 +973,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   NMEDIT \
   LIPO \
 -@@ -15286,7 +15953,6 @@ no_undefined_flag \
-+@@ -15288,7 +15955,6 @@ no_undefined_flag \
++@@ -15285,7 +15952,6 @@ no_undefined_flag \
   hardcode_libdir_flag_spec \
   hardcode_libdir_flag_spec_ld \
   hardcode_libdir_separator \
@@ -983,7 +982,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   include_expsyms \
   file_list_spec \
 -@@ -15322,6 +15988,7 @@ module_cmds \
-+@@ -15324,6 +15990,7 @@ module_cmds \
++@@ -15321,6 +15987,7 @@ module_cmds \
   module_expsym_cmds \
   export_symbols_cmds \
   prelink_cmds \
@@ -992,7 +991,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   postuninstall_cmds \
   finish_cmds \
 -@@ -16094,7 +16761,8 @@ $as_echo X"$file" |
-+@@ -16096,7 +16763,8 @@ $as_echo X"$file" |
++@@ -16093,7 +16760,8 @@ $as_echo X"$file" |
   # NOTE: Changes made to this file will be lost: look at ltmain.sh.
   #
   #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -1001,7 +1000,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   #
   #   This file is part of GNU Libtool.
 -@@ -16197,19 +16865,42 @@ SP2NL=$lt_lt_SP2NL
-+@@ -16199,19 +16867,42 @@ SP2NL=$lt_lt_SP2NL
++@@ -16196,19 +16864,42 @@ SP2NL=$lt_lt_SP2NL
   # turn newlines into spaces.
   NL2SP=$lt_lt_NL2SP
   
@@ -1010,7 +1009,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   STRIP=$lt_STRIP
   
 -@@ -16239,6 +16930,12 @@ global_symbol_to_c_name_address=$lt_lt_cv_sys_global_symbol_to_c_name_address
-+@@ -16241,6 +16932,12 @@ global_symbol_to_c_name_address=$lt_lt_cv_sys_global_symbol_to_c_name_address
++@@ -16238,6 +16929,12 @@ global_symbol_to_c_name_address=$lt_lt_cv_sys_global_symbol_to_c_name_address
   # Transform the output of nm in a C name address pair when lib prefix is needed.
   global_symbol_to_c_name_address_lib_prefix=$lt_lt_cv_sys_global_symbol_to_c_name_address_lib_prefix
   
@@ -1019,7 +1018,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   objdir=$objdir
   
 -@@ -16248,6 +16945,9 @@ MAGIC_CMD=$MAGIC_CMD
-+@@ -16250,6 +16947,9 @@ MAGIC_CMD=$MAGIC_CMD
++@@ -16247,6 +16944,9 @@ MAGIC_CMD=$MAGIC_CMD
   # Must we lock files when doing compilation?
   need_locks=$lt_need_locks
   
@@ -1028,7 +1027,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   DSYMUTIL=$lt_DSYMUTIL
   
 -@@ -16362,12 +17062,12 @@ with_gcc=$GCC
-+@@ -16364,12 +17064,12 @@ with_gcc=$GCC
++@@ -16361,12 +17061,12 @@ with_gcc=$GCC
   # Compiler flag to turn off builtin functions.
   no_builtin_flag=$lt_lt_prog_compiler_no_builtin_flag
   
@@ -1037,7 +1036,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   link_static_flag=$lt_lt_prog_compiler_static
   
 -@@ -16454,9 +17154,6 @@ inherit_rpath=$inherit_rpath
-+@@ -16456,9 +17156,6 @@ inherit_rpath=$inherit_rpath
++@@ -16453,9 +17153,6 @@ inherit_rpath=$inherit_rpath
   # Whether libtool must link a program against all its dependency libraries.
   link_all_deplibs=$link_all_deplibs
   
@@ -1046,7 +1045,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   always_export_symbols=$always_export_symbols
   
 -@@ -16472,6 +17169,9 @@ include_expsyms=$lt_include_expsyms
-+@@ -16474,6 +17171,9 @@ include_expsyms=$lt_include_expsyms
++@@ -16471,6 +17168,9 @@ include_expsyms=$lt_include_expsyms
   # Commands necessary for linking programs (against libraries) with templates.
   prelink_cmds=$lt_prelink_cmds
   
@@ -1055,7 +1054,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   file_list_spec=$lt_file_list_spec
   
 -@@ -16504,210 +17204,169 @@ ltmain="$ac_aux_dir/ltmain.sh"
-+@@ -16506,210 +17206,169 @@ ltmain="$ac_aux_dir/ltmain.sh"
++@@ -16503,210 +17203,169 @@ ltmain="$ac_aux_dir/ltmain.sh"
     # if finds mixed CR/LF and LF-only lines.  Since sed operates in
     # text mode, it properly converts lines to CR/LF.  This bash problem
     # is reportedly fixed, but why not run on old versions too?
@@ -1064,7 +1063,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   am__include = @am__include@
  diff --git a/gprof/configure b/gprof/configure
 -index c5a081c88aa..a1b06379df4 100755
-+index cf231c62d24..a66cdb6d4d5 100755
++index 98ba6d7f5b3..113505b963c 100755
  --- a/gprof/configure
  +++ b/gprof/configure
  @@ -663,8 +663,11 @@ OTOOL
@@ -1082,7 +1081,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   NMEDIT = @NMEDIT@
  diff --git a/gprofng/configure b/gprofng/configure
 -index 3ad87139280..e4593cbb838 100755
-+index fcc25146018..81c96a0fc74 100755
++index 69eb806a17d..9e97e334544 100755
  --- a/gprofng/configure
  +++ b/gprofng/configure
 -@@ -674,6 +674,8 @@ OTOOL
@@ -2133,7 +2132,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   NMEDIT = @NMEDIT@
  diff --git a/gprofng/libcollector/configure b/gprofng/libcollector/configure
 -index 079a0b71ec3..a28289cfe9d 100755
-+index bdc8c7749af..c3a1661285e 100755
++index 865ddb3d91d..31533528ee2 100755
  --- a/gprofng/libcollector/configure
  +++ b/gprofng/libcollector/configure
 -@@ -641,6 +641,8 @@ OTOOL
@@ -3153,7 +3152,7 @@ index 0be871f5cf0..98be2b75f5f 100644
   ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
  diff --git a/ld/configure b/ld/configure
 -index 6406a42c442..21ab5b06709 100755
-+index f5cd391d722..7a86106a34d 100755
++index 29896853a90..9e93585f94e 100755
  --- a/ld/configure
  +++ b/ld/configure
  @@ -700,8 +700,11 @@ OTOOL
@@ -8759,7 +8758,7 @@ index 0be871f5cf0..98be2b75f5f 100644
 -+++ b/sim/configure
 -@@ -887,8 +887,11 @@ OTOOL
 +diff --git a/opcodes/configure b/opcodes/configure
-+index 71504e10c51..a4aad27105c 100755
++index fc4109a1a47..6c42352868c 100755
 +--- a/opcodes/configure
 ++++ b/opcodes/configure
 +@@ -682,6 +682,9 @@ OTOOL
@@ -9458,42 +9457,42 @@ index 0be871f5cf0..98be2b75f5f 100644
     # text mode, it properly converts lines to CR/LF.  This bash problem
     # is reportedly fixed, but why not run on old versions too?
 diff --git a/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch b/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
-index afd694db4d4..731bf5a6faf 100644
+index afd694db4d4..b736436b06f 100644
 --- a/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
 @@ -1,4 +1,4 @@
 -From ff2754e302d06df51f8dd8ef877afb65eb30fcab Mon Sep 17 00:00:00 2001
-+From d88fa1359c92258f6754addd0dac05dd55150474 Mon Sep 17 00:00:00 2001
++From 2f40ff7170c83757bae4aebee8daa8982d028d96 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:42:38 +0000
  Subject: [PATCH] Fix rpath in libtool when sysroot is enabled
 diff --git a/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch b/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
-index cc0fb551b23..226a20ec2df 100644
+index cc0fb551b23..f60848bf041 100644
 --- a/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
 @@ -1,4 +1,4 @@
 -From 039b4afd7d3b5a599aebee97410809276a622ccd Mon Sep 17 00:00:00 2001
-+From 7029082925a6c0926431b6cd7848cdbb7240761d Mon Sep 17 00:00:00 2001
++From d71151fe69c43c0e87b5608f36b2779189b9646c Mon Sep 17 00:00:00 2001
  From: Ross Burton <ross.burton@intel.com>
  Date: Mon, 6 Mar 2017 23:33:27 -0800
  Subject: [PATCH] sync with OE libtool changes
 diff --git a/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch b/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
-index b921dd12183..84fa3619265 100644
+index b921dd12183..3a34ef6d7de 100644
 --- a/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
 @@ -1,4 +1,4 @@
 -From 4eb24605fb2012c0f02883d1f560d5d852c0705e Mon Sep 17 00:00:00 2001
-+From 0eb9268d7bdb671cad9b823efcb8230a94e9a86f Mon Sep 17 00:00:00 2001
++From 6058ad8a1b6a0cf18c5d72fa74b5caa35730a93b Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Wed, 15 Apr 2020 14:17:20 -0700
  Subject: [PATCH] Check for clang before checking gcc version
 diff --git a/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch b/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
-index f69071ae96d..e2bb9584fa1 100644
+index f69071ae96d..9fcd5a12b16 100644
 --- a/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
 @@ -1,4 +1,4 @@
 -From 9613e47bfdea18d2764eec130676e3e0b40c676f Mon Sep 17 00:00:00 2001
-+From 940c35f34ece22a6541eaddf865c016f8073fd0c Mon Sep 17 00:00:00 2001
++From d8723423330af35beecf6f81f8a26a448047f821 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Thu, 10 Mar 2022 21:21:33 -0800
  Subject: [PATCH] Only generate an RPATH entry if LD_RUN_PATH is not empty
@@ -9516,93 +9515,15 @@ index f69071ae96d..e2bb9584fa1 100644
     if (rpath == NULL)
       rpath = (const char *) getenv ("LD_RUN_PATH");
 diff --git a/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
-index 9cdc7e219d1..ac60a671ac0 100644
+index 9cdc7e219d1..69628065d51 100644
 --- a/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
 @@ -1,4 +1,4 @@
 -From 8af01d85c4e5a5558d770291b7df86acfd59827c Mon Sep 17 00:00:00 2001
-+From 8ff5d1b0adaaa5e87d89bff28a087a267cafca81 Mon Sep 17 00:00:00 2001
++From 1542eb8d11e1c7f2ed6096014bedb98963ab7af0 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Sun, 15 Jan 2023 00:16:25 -0800
  Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
-diff --git a/meta/recipes-devtools/binutils/binutils/0014-gas-In-O_constant-check-whether-a-value-is-negative.patch b/meta/recipes-devtools/binutils/binutils/0014-gas-In-O_constant-check-whether-a-value-is-negative.patch
-new file mode 100644
-index 00000000000..05b714c6744
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0014-gas-In-O_constant-check-whether-a-value-is-negative.patch
-@@ -0,0 +1,72 @@
-+From a9c5cc7d9a8933020ac597849f50235b54854f20 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 27 Jul 2023 09:26:35 -0700
-+Subject: [PATCH] gas: In O_constant check whether a value is negative
-+
-+Upstream-Status: Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=30688]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gas/read.c                       | 4 ++--
-+ gas/testsuite/gas/elf/common3.s  | 3 +++
-+ gas/testsuite/gas/elf/common3a.d | 3 +++
-+ gas/testsuite/gas/elf/common3b.d | 3 +++
-+ 4 files changed, 11 insertions(+), 2 deletions(-)
-+
-+diff --git a/gas/read.c b/gas/read.c
-+index 0cceca8a802..826156db3fe 100644
-+--- a/gas/read.c
-++++ b/gas/read.c
-+@@ -1751,7 +1751,7 @@ s_comm_internal (int param,
-+       ignore_rest_of_line ();
-+       goto out;
-+     }
-+-  else if (temp != size || !exp.X_unsigned)
-++  else if (temp != size || (!exp.X_unsigned && exp.X_add_number < 0))
-+     {
-+       as_warn (_("size (%ld) out of range, ignored"), (long) temp);
-+       ignore_rest_of_line ();
-+@@ -2541,7 +2541,7 @@ parse_align (int align_bytes)
-+   if (exp.X_op == O_absent)
-+     goto no_align;
-+ 
-+-  if (!exp.X_unsigned)
-++  if (!exp.X_unsigned && exp.X_add_number < 0)
-+     {
-+       as_warn (_("alignment negative; 0 assumed"));
-+       align = 0;
-+diff --git a/gas/testsuite/gas/elf/common3.s b/gas/testsuite/gas/elf/common3.s
-+index f684da48c4f..5d2ee8af491 100644
-+--- a/gas/testsuite/gas/elf/common3.s
-++++ b/gas/testsuite/gas/elf/common3.s
-+@@ -1 +1,4 @@
-+ 	.comm foobar,30,4
-++	.comm buf1, 5-1, 8
-++	.comm buf2, 4, 9-1
-++	.lcomm lbuf, 9-1
-+diff --git a/gas/testsuite/gas/elf/common3a.d b/gas/testsuite/gas/elf/common3a.d
-+index fa9d5ceb395..2248c349c6c 100644
-+--- a/gas/testsuite/gas/elf/common3a.d
-++++ b/gas/testsuite/gas/elf/common3a.d
-+@@ -3,5 +3,8 @@
-+ #readelf: -s -W
-+ 
-+ #...
-++ +[0-9]+: +0+ +8 +OBJECT +LOCAL +DEFAULT +[1-9] +lbuf
-+  +[0-9]+: +0+4 +30 +COMMON +GLOBAL +DEFAULT +COM +foobar
-++ +[0-9]+: +0+8 +4 +COMMON +GLOBAL +DEFAULT +COM +buf1
-++ +[0-9]+: +0+8 +4 +COMMON +GLOBAL +DEFAULT +COM +buf2
-+ #pass
-+diff --git a/gas/testsuite/gas/elf/common3b.d b/gas/testsuite/gas/elf/common3b.d
-+index 9481d134274..5ece2fb80b3 100644
-+--- a/gas/testsuite/gas/elf/common3b.d
-++++ b/gas/testsuite/gas/elf/common3b.d
-+@@ -3,5 +3,8 @@
-+ #readelf: -s -W
-+ 
-+ #...
-++ +[0-9]+: +0+ +8 +OBJECT +LOCAL +DEFAULT +[1-9] +lbuf
-+  +[0-9]+: +0+4 +30 +OBJECT +GLOBAL +DEFAULT +COM +foobar
-++ +[0-9]+: +0+8 +4 +OBJECT +GLOBAL +DEFAULT +COM +buf1
-++ +[0-9]+: +0+8 +4 +OBJECT +GLOBAL +DEFAULT +COM +buf2
-+ #pass
 diff --git a/meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch b/meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch
 deleted file mode 100644
 index f57f65ce725..00000000000
