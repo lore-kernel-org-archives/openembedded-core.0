@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFE7C00528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED8C8C04FDF
 	for <webhook@archiver.kernel.org>; Sun, 30 Jul 2023 18:01:51 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.77650.1690740108093193301
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.77648.1690740106202337737
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 11:01:48 -0700
+ Sun, 30 Jul 2023 11:01:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=rh/k5pcV;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-686ba97e4feso3828491b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=4OPsF9M+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-686bc261111so2698057b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 11:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740107; x=1691344907;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1690740105; x=1691344905;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9Dag5+60WzPjmcl3PqVJm/aeWvJpQ6Omf8oMMcM3mpo=;
-        b=rh/k5pcVNfMKqvG+PHzTsgMb5tnHjUwa5iXmbCBe1DEsNfQeeUn19A+S8OzxrCE/0b
-         kvQWOAspERuNBeG73PKHDzpoUgQoKNGxmSazTR6nviO64UqQkbtVS4Ba7FwqaUjBgom1
-         ZOjHWD3SEKALrOVbb+RCczVTWM3azAiqnv1PEsHCxAAywqlkPN7yFenTaI4Sw3rQDggo
-         OcMqVR0xO97PfuoPV5SbPrlhGm3zEbyApSytsXpNBYc/S7Zoh1eMVWBWo7riMi8oWqTW
-         XqkGXBGPqmedz+v+AtMj3OaKeSQu2jRYBGKgqWwgqcHEvy0bWsKkVHCGDsTsX9jl6SxU
-         B0pA==
+        bh=LBhIRYtv0h6pI8XUZFM2u2dVpE97W/E7MKjKcRuqkNg=;
+        b=4OPsF9M+yN2DV3Q0LrCkjXiS6JZeAuFL5LqCnT1leWXg5W1EvmJEi8NnugJsZrHj8E
+         nPccsPzNNdQnLtlN+4RcnFcgf3TcPdlcvK2RL4I7KejcVS7zLUm2ALjdwbECh+O09qF5
+         gGDORhW6lu+CAs0VeRtFMvs2XDDtprsRx5Wjc2NCdA+hXz0OAfPbd5ktHnyVKSVNxEhC
+         PLC7EMHV+hFusCX0kkRH14SVc8lqyIVCROMX2A7yVPOEQu0/puF/TE8YJcSEAc47i+VU
+         HjVtImyJmpDNdbo4O8aMyDg4fp/FAGV3nu4aQfHW0FIplCyF/aNyQMMdup86H5e5Rwlv
+         aTpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690740107; x=1691344907;
+        d=1e100.net; s=20221208; t=1690740105; x=1691344905;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9Dag5+60WzPjmcl3PqVJm/aeWvJpQ6Omf8oMMcM3mpo=;
-        b=EDLcvdnVEzZULKm4FiutJmNgPV5D3/FbVpfHm0AjYS2DiybVN+4S18cmjYXHzYL7oH
-         XpFAl9Lrt7t3KyPBtt9Rd09L5OXJzyTUbg/iWUE5Yn119r0jO915xuSsNkQbftK7hcx+
-         9ZRv5YXf/HDqSfFin2SDgpH9K7wF60N9wPo7Tq+A5OswFOHvZ9yvAH4UmWgXXhmSw9pE
-         06R/jWwk2et3qy/kd0WOV2W0ZDvQDjG3dpq24gmnABxgVuZ+j6RlWj5s32Bd0AIEwRvD
-         7muRwJpgKnJrE3PREGY1hvc3nJ3GsR7ffYnBl6QnOZ1HRLCtsJ46l4HG+qssqbzAVIsG
-         2s1A==
-X-Gm-Message-State: ABy/qLYAFFrawxGCfen2S3/wij394vaQxBA2xvIcTMt9BDqF8LUS6+cp
-	ry5Gtn4KBnK4845BPeKrVXczwJmFI5L8J0EhKY+P3A==
-X-Google-Smtp-Source: APBJJlHz2+1dpB+vXTxIm6E7RFGO3ZZ9lXr2cHYLbR8jUrfDLdB340EndBJUvTMvpI+q/1Dq4cejDQ==
-X-Received: by 2002:a05:6a00:1351:b0:675:8f71:290a with SMTP id k17-20020a056a00135100b006758f71290amr10544633pfu.34.1690740107214;
-        Sun, 30 Jul 2023 11:01:47 -0700 (PDT)
+        bh=LBhIRYtv0h6pI8XUZFM2u2dVpE97W/E7MKjKcRuqkNg=;
+        b=bikR7whvw//s+ZSsOG0ssukuoNP1gTTtBfGUv8SxIESeDagleihSG4O6ZbA2U4Ep1J
+         +5RanatMRYH5oEfnnlYENUUyVtux2+a2qvDRzLm0uzdKBYl3fakCO4iVdg64yWWo16yY
+         YSnjqWiFAvRs4GuCs5KGE1EDXftjqDOAhYpwDrH7+b4V1MU3pnPCfdSLMos4QdbLXTXS
+         NlJ5VPzfOJq5z7SYx3DPvh3YFMy1NxFLFINbXPoUneAdkTTZmTYPHCQvLAQA6zEMCxPS
+         hZl0HUnt2A+isYxJSaQB8gSxGSxlJGOfzp/Yzc3bohJB/Qvo3+WKxWzsBEBL1rJx1omc
+         r/4w==
+X-Gm-Message-State: ABy/qLb+F0GyAHnA44aazv/mepZatYrxmj/31aeqlL8qbBtryBSqL5We
+	8CTNJsaEFipjZ+iXjMBImh3zft3DA8Tpxtc0r5vzfw==
+X-Google-Smtp-Source: APBJJlGJhHxFxWwssxNN5sl6BH5tA6y1+QmaVOzkBopgZ5IRca/1zX6oniAuCGBDiieeeyykWcCGTg==
+X-Received: by 2002:a05:6a20:9155:b0:13b:9e04:5466 with SMTP id x21-20020a056a20915500b0013b9e045466mr8746542pzc.49.1690740105318;
+        Sun, 30 Jul 2023 11:01:45 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.46
+        by smtp.gmail.com with ESMTPSA id e9-20020a62ee09000000b0066e7a540ea5sm6150494pfi.205.2023.07.30.11.01.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jul 2023 11:01:46 -0700 (PDT)
+        Sun, 30 Jul 2023 11:01:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 26/30] oeqa/runtime/cases/rpm: fix wait_for_no_process_for_user failure case
-Date: Sun, 30 Jul 2023 08:00:49 -1000
-Message-Id: <974c8abdd1d31c14b9b554217a956e8f1b0ea070.1690739937.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 25/30] meson.bbclass: Point to llvm-config from native sysroot
+Date: Sun, 30 Jul 2023 08:00:48 -1000
+Message-Id: <f60f22fda1203d868f13dd224aa9d21ae4620dbc.1690739937.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1690739937.git.steve@sakoman.com>
 References: <cover.1690739937.git.steve@sakoman.com>
@@ -61,38 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 18:01:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185104
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185103
 
-From: Ross Burton <ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-str.format() doesn't use % notation, update the formatting to work.
+Default search in meson would grok /usr/bin for llvm-config and if found
+will use it, which might add wrong paths into cflags/ldflags, since we
+depend on llvm-native when building gallium support ( thats when
+llvm-config is effective), its better to point llvm-config into native
+sysroot so it can add correct paths into compiler/linker cmdline
 
-assertTrue() is a member of self not a global, and assertTrue(True) will
-always pass. Change this to just self.fail() as this is the failure case.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 017f3a0b1265c1a3b69c20bdb56bbf446111977e)
+(cherry picked from commit cc73360b9728812ed6123e30559b77d8e89cc21c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/rpm.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/meson.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index 5bdce3d522..7226b8af6a 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -57,8 +57,8 @@ class RpmBasicTest(OERuntimeTestCase):
-                     return
-                 time.sleep(1)
-             user_pss = [ps for ps in output.split("\n") if u + ' ' in ps]
--            msg = "There're %s 's process(es) still running: %s".format(u, "\n".join(user_pss))
--            assertTrue(True, msg=msg)
-+            msg = "User %s has processes still running: %s" % (u, "\n".join(user_pss))
-+            self.fail(msg=msg)
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 19b54e0fdc..fb6660c1a2 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -105,6 +105,7 @@ nm = ${@meson_array('BUILD_NM', d)}
+ strip = ${@meson_array('BUILD_STRIP', d)}
+ readelf = ${@meson_array('BUILD_READELF', d)}
+ objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
++llvm-config = '${STAGING_BINDIR_NATIVE}/llvm-config'
+ pkgconfig = 'pkg-config-native'
+ ${@rust_tool(d, "BUILD_SYS")}
  
-         def unset_up_test_user(u):
-             # ensure no test1 process in running
 -- 
 2.34.1
 
