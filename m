@@ -1,100 +1,63 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E8DCC04A94
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 05:59:25 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.1611.1690783163505755871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D50C001DE
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 06:38:15 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.1993.1690785485480797619
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 22:59:23 -0700
+ Sun, 30 Jul 2023 23:38:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Y0WGTsav;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so3705572e87.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Jul 2023 22:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690783162; x=1691387962;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bzfQrQupR6i5hKqUUa8CcLSpwjNZVOi9ZTikturMblQ=;
-        b=Y0WGTsav7g5SnQFFVusLMh33zOu9u5qUek1/AJSpnKNjKecpP3UIA66WA+WUSTsv2r
-         crI641Ps1N09XoZX5RTxVujjwJxE6YwYg04KMkiPRBYKi/w8fNY9fDjgKkzwZS0s6UMP
-         zumHljcSuw/FfUa+FKuMfDtx6sM4n5RGWeVgwrOIh9nUmVRU+ClMWQp+Fb77IFt/O7G3
-         YOl6OQfg7tsLHbygvvNl27rHaSvqUicWN3kyPbEd1tnGkgQ80h/uIFbzW33vomXkEHZa
-         J6Sq7J8VMFnsRKXlMmoXBPw6EXnNNXARLnXqvGfxYH8BpmfU/jT1P0lTf9+A/qkhaawX
-         BICw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690783162; x=1691387962;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bzfQrQupR6i5hKqUUa8CcLSpwjNZVOi9ZTikturMblQ=;
-        b=OQjLtX4LXGWK9FtevlJmrXMdTo23JuBDJzsjVa7K2cFxFQS3pdvf9OAS8eIRs88vtq
-         StLaAF65NaJ4Pg7nAUeGUnmsr9NGQQsOfLV2d0XUIT4HTZ8pQ/bxXJWZPlPucwn9C3E7
-         axi0mahtGLw6W04Nw4f1XmGp2wXHI+ZfwjL+rct8r4J3pyASYgwO3GoKrbHRBsAVseBP
-         N7Uvcg3cJ1Du9Lw9DizAMGinGEhTg4neEVHXw1Z9iFX3s6e0TcS4VNic8z12duHFSH6P
-         58QGa+A3cAbC+wAFA1oOqsa2px1vB+PasBmib0pnvhydpWetlfMGI1sVRIXFePxKTEAy
-         fMOQ==
-X-Gm-Message-State: ABy/qLb/K9zmYaXnj2vTQdnttogMF/9dnUm5tFRUGEjc6d5R2Y781YAp
-	RECi1AIt7tWaGzBrDCl+Pt+ipV8WCW952Dl1qkA=
-X-Google-Smtp-Source: APBJJlEe/5ifnjuH7FK+1+Os3c426Z9qH1NDY7W7SKtyuzfYq+1z3Ie8UoZAbVT+xfxc76ZvUx9c0gJxZk27b+vUssQ=
-X-Received: by 2002:ac2:522b:0:b0:4fe:279b:7609 with SMTP id
- i11-20020ac2522b000000b004fe279b7609mr2597192lfl.17.1690783161347; Sun, 30
- Jul 2023 22:59:21 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=L6By8W96;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202307310638024b37230315105f2954-caxw0v@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202307310638024b37230315105f2954
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 31 Jul 2023 08:38:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=+tp+e6pS5qVas3T3DliPG7WM7OKBZvoy2NrcLAEPmoE=;
+ b=L6By8W96Wm+6/kHW29TAcvU78KDCrxQxTLPt97O8VzTlypzP8Yhi9U3Kcspbnq6+6JWu+D
+ BsOcf93eLXTNZe8oG97JwbISTH0JLDOBxkG3yZMczgfbM2c3jXJeOCW79IsAs3f+FcYYHu80
+ L4+XZrhLM21qHRdS3vHGt9G/TytxI=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH 1/2] cve-exclusion_6.1: correct typo in exclusion list name
+Date: Mon, 31 Jul 2023 08:36:52 +0200
+Message-Id: <20230731063653.8269-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20230727143627.3718496-1-alex@linutronix.de> <20230727143627.3718496-12-alex@linutronix.de>
- <20230728131317ca8fba29@mail.local> <17760BA193C3A223.27447@lists.openembedded.org>
- <CANNYZj_=kDrFgL8nEv8vJsu6zvOra+V92=GjCGj-j2YVhhiOSQ@mail.gmail.com> <202307302036342002024f@mail.local>
-In-Reply-To: <202307302036342002024f@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 31 Jul 2023 07:59:09 +0200
-Message-ID: <CANNYZj83YD55624+LAOwa46DRbED0h+HhHd0gDS6GNUb9C3qvA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 12/21] util-linux: upgrade 2.38.1 -> 2.39.1
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 05:59:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185118
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 06:38:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185120
 
-On Sun, 30 Jul 2023 at 22:36, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
-> This is not 100% reproducible and so difficult to bisect. This is the
-> log:
->
-> diff-{{{
-> --- /usr/lib/util-linux/ptest/tests/expected/lsfd/option-inet
-> +++ /usr/lib/util-linux/ptest/tests/output/lsfd/option-inet
-> @@ -5,10 +5,10 @@
->      3     TCPv6 state=listen laddr=[::1]:34567
->      4     TCPv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
->      5     TCPv6 state=established laddr=[::1]:34567 raddr=[::1]:23456
-> -    3       UDP state=close laddr=127.0.0.1:34567
-> -    4       UDP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
-> -    3 UDPLITEv6 state=close laddr=[::1]:34567
-> -    4 UDPLITEv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
-> +    3       UDP socket:[33864]
-> +    4       UDP socket:[33865]
-> +    3 UDPLITEv6 socket:[31413]
-> +    4 UDPLITEv6 socket:[31414]
->  # --inet=4
->      3  TCP state=listen laddr=127.0.0.1:34567
->      4  TCP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
-> }}}-diff
->
-> FAIL:          lsfd: --inet option                                 (lsfd/option-inet)
->
->
-> All the occurrences are on the arm workers, ubuntu1804-arm-1 and
-> ubuntu2204-arm-1 for now.
+This will remove 6 CVEs which were already excluded before.
 
-Thanks, I'll try to narrow it further. May be that it's the update
-itself, and not interaction with something else in the branch. Does
-look like a race condition as well.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index 2eb4836c35..6505fbeb60 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -571,7 +571,7 @@ CVE_STATUS[CVE-2023-3220] = "cpe-stable-backport: Backported in version v6.1.16"
+ # Backported to 6.1.28
+ CVE_STATUS_GROUPS += "CVE_STATUS_KERNEL_6128"
+ CVE_STATUS_KERNEL_6128 = "CVE-2023-3268 CVE-2023-35823 CVE-2023-35824 CVE-2023-35826 CVE-2023-35828 CVE-2023-35829"
+-CVE_STATUS_KERNEL_6122[status] = "cpe-stable-backport: Backported in version v6.1.28"
++CVE_STATUS_KERNEL_6128[status] = "cpe-stable-backport: Backported in version v6.1.28"
+ 
+ # Backported to 6.1.30
+ # Backported to 6.1.30 as 9a342d4
+-- 
+2.30.2
+
 
