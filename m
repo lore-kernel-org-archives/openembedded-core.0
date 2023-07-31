@@ -2,223 +2,151 @@ Return-Path: <charlie.johnston@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E52C04A94
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 21:53:31 +0000 (UTC)
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.95])
- by mx.groups.io with SMTP id smtpd.web10.5468.1690840410786187176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82142C41513
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 21:53:41 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.91])
+ by mx.groups.io with SMTP id smtpd.web10.5473.1690840418721861909
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jul 2023 14:53:30 -0700
+ Mon, 31 Jul 2023 14:53:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=W6tgtQZD;
- spf=pass (domain: ni.com, ip: 40.107.94.95, mailfrom: charlie.johnston@ni.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=GNQASt18;
+ spf=pass (domain: ni.com, ip: 40.107.94.91, mailfrom: charlie.johnston@ni.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jEm5SNxCH0uE60fsEilquThHu8ssII94vEGf/iriX8owJZpL3wFUtXU8/QzEH5Ct9yHUObrMiKcG/pqu9UYL7cjLcvw/Detc7qkovB6FqLWIeX851Rt/gBkRPi6svn1NPU3EElPr1gFbUMFlvgOoKINHXCOrSarTBQofyrqzNdOUZmKFrx3sIONPwAAZrmEzjkumYVO4IXQZL+q43+bCN7ucPCcgd4SYrczr3Iu3F1/YiWZr3dD0r89GPAmuwkiz9EObiDUrARwcq8HiqG2lmluWxFW2oB6widK7rOpI9qruUEH3+YhEvt5LEV9zp7/SH5bT6DL1QFFxZt1D1EIDOw==
+ b=HrZWTS4SezRvmh1tl47LzTmiRb+uo+doYQKygI8/MHSGx2AfyR1mJpNEAB9iTWhQ2L1t7B3MkuqbeqMQlY3qLNfCpj0BBNh67tOCFtBu5jkYvY9n5Vh6vGb21N+cM1kjBRT2dxJd70zw2bO2v6omW+r8alC1dKE+sDjDwGBUbn2NfsIDs2BBRbKVRKPBnb8QGwyupHqszz4cReBPTuIXUEYxc8gvaIrLptIR1cIai9M0uTNQvAXQaDvJg562ay/RACqr6C2x23iUCuiYcUGLxgPjhdyc6xihX+s6bUMss9/PGmrTfSdvPzyWAZX7x98XKs+WtPZ0LoHLXil7yT5Xhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uLjpp+j9SUVPiE/VHTtgZEwH5G6Tkb1zt6gKoPJrSL4=;
- b=QSl7V4bf4Uz3kHxv0e3nFkC+y2fiAmg5J+AIU7IZA1Gupewb3uip8BXJ2o2/wZC7VOYT6PZPz9fNJ74AFgcbKJxQmQMbHq8wjATX+qjE83laDuLn7s3o2tA8PqHW0BWvMyACIZ5W+d13juMEkeKJPxsvOM4N3IIGPr3JclsEeENLt04syvM6h210I+IgMJXNMeOnVqEIjMkyKxj4OtP8kBzERd+tKeY+69mdivlZeLqZesxZFEcWBIZlIanhPZRosOW8JNFS77qRgohPjrl6SlS3BQ4GIpJmufJwCYa+jIA64COiggD1moYcbCpuDv8IkDLkOflWGXGjH6pIlAhX0A==
+ bh=jXky5BQUCr8iWXgm6MIstxc+w6aBYz0o5M+YQMtgtPI=;
+ b=Joo6ivB+FIqvUIMDuG2a6sVP/ZgwF3ghL7vGgGiwn9FLjybxGydbW3yvWhce9L16C3zxkRBFuLH4NzGpnCUEqRE/5oaCxs6Gz2FarcvEotFKKvyUcLmAHL+mihHNTSzB45zzlHn1mfGPVKpzK+QdZQIufd336kdtZ8uvYjXtAcWBEw9zgS6jFl5uVfWCvqgYYgxBo9uBufk2r3oiTMSwMk0YXr5OW+BVuRncEbD1rRz42eBIvp2/N84rD2ktHEd3BhO2RNxN7rA9eNpY0XILiJMo5e+aZGKM3Mi0mnkuMQy24/nYljE/PZTrB9MhGqG3v1sMbtVDpGRzsRPylYoXBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
  header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uLjpp+j9SUVPiE/VHTtgZEwH5G6Tkb1zt6gKoPJrSL4=;
- b=W6tgtQZDivMufYh1pLMwih/BHTjzncV2kclshUo370fRF2+JDFP06qxyl/1aduOHXTRpYW3DUkSL1iAjKn7McXUsYZQfE3sb4wFVTafDe+s/H8MHSCfdB0P4Lhk6taitb0GEFMMbBo/KBHrGS8c+7ULynDyQVGevt+h5FGY60oI=
+ bh=jXky5BQUCr8iWXgm6MIstxc+w6aBYz0o5M+YQMtgtPI=;
+ b=GNQASt18Z4R2qqORvgC0qFSFJT7j1PuMV8tvg5nSBkm76uvGh+6uUiJ7n28w6Om7XmSBnLeleIINK47sw+bKQ2r0mMdc3cNGyIJcHYlAhi1+y1tnUQvhZ9Rdph4aBaUlN+qYelFPQtgpFhujtSL3KFPmkyOkBxiF+bYfobhiDps=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=ni.com;
 Received: from SN6PR04MB4879.namprd04.prod.outlook.com (2603:10b6:805:9b::29)
  by SJ2PR04MB8510.namprd04.prod.outlook.com (2603:10b6:a03:4fb::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
- 2023 21:53:28 +0000
+ 2023 21:53:36 +0000
 Received: from SN6PR04MB4879.namprd04.prod.outlook.com
  ([fe80::c738:ef27:97ab:fa11]) by SN6PR04MB4879.namprd04.prod.outlook.com
  ([fe80::c738:ef27:97ab:fa11%7]) with mapi id 15.20.6631.026; Mon, 31 Jul 2023
- 21:53:28 +0000
+ 21:53:36 +0000
 From: Charlie Johnston <charlie.johnston@ni.com>
 To: openembedded-core@lists.openembedded.org
 CC: Charlie Johnston <charlie.johnston@ni.com>
-Subject: [oe-core][RFC PATCH v2 3/6] package_manager: Add _find_task_pkg_deps helper method.
-Date: Mon, 31 Jul 2023 16:43:00 -0500
-Message-ID: <20230731215310.3949441-4-charlie.johnston@ni.com>
+Subject: [oe-core][RFC PATCH v2 6/6] packagefeed.bbclass: Add cleanfunc for cleaning feeds.
+Date: Mon, 31 Jul 2023 16:43:03 -0500
+Message-ID: <20230731215310.3949441-7-charlie.johnston@ni.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230731215310.3949441-1-charlie.johnston@ni.com>
 References: <20230731215310.3949441-1-charlie.johnston@ni.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SN6PR01CA0011.prod.exchangelabs.com (2603:10b6:805:b6::24)
- To SN6PR04MB4879.namprd04.prod.outlook.com (2603:10b6:805:9b::29)
+X-ClientProxiedBy: SA9PR11CA0030.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::35) To SN6PR04MB4879.namprd04.prod.outlook.com
+ (2603:10b6:805:9b::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN6PR04MB4879:EE_|SJ2PR04MB8510:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14ceac06-6758-4ddb-f7bc-08db921092e0
+X-MS-Office365-Filtering-Correlation-Id: c0c87ba2-324f-4233-2fca-08db921097c2
 x-ni-monitor: EOP Exclude NI Domains ETR True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	3lIPWtjGEsfpMv+Sdvp7cLRD2gxtfHGzIeXuRtBVQKSUT581wpLpYjWlFHeJa/njixvws5+v1qP8+HtAuGIei7Mfu4OWJQsMjNSj/wgoFhc9uWmf4984dgH2oACosOsAflJWekWb5h+0FNcKoBL192I+4Jh9V1iUc2eYepExuWE1ZahA6X+vYrHv5pKGoGTWu57j7KzQmZr+xY4FP5TYAo71FbaJmi2EWQyerwDPhFjPr6cZNOJNu2LCBlBrPYxgsz7Vtm6gNqTKPIv18NkuZE1x4a2dO3JOrXUcxbl5HviX63j777A3n0bpmaua6yvHXbU0NJiIMa1Sq+VWqF5QWScLVVajywG58Ick3qB1Z1Z1I5BKXpWtZyqqX0f/VIdEuMruVhLFdje2UT21c10muAUpi8hVQ2YaPQMVDHpQsd3Phm7/ej/mVOoqjFNJsQ734b7JQDa3LanQJhmkitLlaa6w66+rmBABazbNLEexGtuyJDCxymPvXbxxjq/ZDxLOxuINcgL6jglCQc2YCe8QMUrnibT4A52cyRBQUAUXjHYIc8GSvHBijtbyDhyYdYPV
+	51umvytwif7H1PkljjtioaZG8fYxMkBlYBSmqc+Lb+WXGoS+JXf0t0bFRp1NV4EMwTm63tX98FhAaB9Rcpd6xeV5CT0Kk/+d+jUQjhKd5+CN0uh3AO4nsG0V6q2qcKzeCzgQlqhKOMsUgl/wcnsAKo2xOBivS9MeQZaGX+fmZZJZcQuPdi4SaejZmGLa00J1JYrWjiP4KA/9/OgwURx4KR8rIYyiwuX9SaboyqlSaW1N9ujy88NgAct7iivF5oPFFufPtXYrFnap6fa0r8irfN9pKRyhfLC6KZ1wMQtv6pDtTfltWDWF8gPIQjsru6oXpc2ORu+VKnAT7Rf8I3qNOwc7wTCqINAegWbMsZWx14zJ8ejVXPmBxL+TjDfSg9slB0/A3tSaKFZiIgJE4jAaR648yGsx4dj5k7sP8WsRvF0PvhQPyvy4cUhmSY0cA/9HTTymSOHdDZcH1gKlWVk7v42AmdBMZa9FPz5SYWTdFy1PX+9qnb52i0WMBCjhgNX8krZRWhLY1pDNlXiJ5pEoX7JbSK3V4CkIC0SzT5TkQq1+5Fo3uRPd39R335YbCsOk
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4879.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(376002)(396003)(346002)(451199021)(44832011)(6512007)(6486002)(36756003)(2616005)(26005)(1076003)(6506007)(83380400001)(186003)(66946007)(66556008)(41300700001)(38100700002)(66476007)(86362001)(316002)(4326008)(5660300002)(8936002)(6916009)(8676002)(2906002)(6666004)(478600001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?J1m/C4hauriT9Fp9mjh60Q9YQIgw98rkmnE1kOL8j9o1eyKNAbgMt8eNFssW?=
- =?us-ascii?Q?teK4FXP7tpNEdpEzBBLTJVc2ya+hSEXLu4Vbt/exU7afUhDfpWLLUKNJ6qSj?=
- =?us-ascii?Q?sGN/seFUOxbByLzHevwBDsUceEyznNNMs9DQlBD2oZEQp2hKI0ILAD6xXWvn?=
- =?us-ascii?Q?2hv6x2WSNbHx/wECCbS56dfsUrennxfu+gbMDhqvinONu9eqY64q5VFDX2An?=
- =?us-ascii?Q?JE6dhAmaxsrcBQf4f0LmAbQOHNc8oy3zxUSFVT7CxY3zdeHYX2/c/NirD4I7?=
- =?us-ascii?Q?NBbp3jWj2wGS1MkLyv+CRtz2NhNy+aZxVYQXj+f/ADG6vvJ7Ndf0Re2gSaF6?=
- =?us-ascii?Q?awuH5tT74y2NJ7wvKGB/FSj5n27ACYeJuMaZhEEgQXTlI2uZkk2k607/DlxV?=
- =?us-ascii?Q?w6iz6KiQgSaNFy2VJgsJR2Cff0K7r8CMtQ2GqaonPw1Gi8p5SEcaVEgtE9/x?=
- =?us-ascii?Q?+Mmvwj7NsjxqRrTbZnD1c3GhnaFpRLLrPKdO6khjE7Y04oBQENZ1U/HCfWuI?=
- =?us-ascii?Q?dobRDzUlNAODbVcHXqnAG2/r94PxJ4aQoPIFo7K8Vu3rJMnStMUjYXacfQ+d?=
- =?us-ascii?Q?jI83/93OPr4KmjfFNCkO7799dcNOmCjyaOZZJy2nyDqn9IlTbPClPALWpTux?=
- =?us-ascii?Q?bjyralmiUkbe9EDTgePzy+2zl3XXugXZ5Eq/E3k7xqpjuegNwQ2PzB3EqrOn?=
- =?us-ascii?Q?wHUPIc2+7nr5FCTDLWvJ4tmuALDK8L1ILj8MO0PA3uvBsMV8MRpqxAu45ZtT?=
- =?us-ascii?Q?+HkNmn9bzsN15pg8LZA4HSGuNDvMKBGQqAWbmpzA698mYPvvVx/mhgiBO7Lo?=
- =?us-ascii?Q?PeUcgMtt20kpyHH/UK6Xk8wBRF/C1ZO3qM3fL5a1eCq8DEcGxebHJuH1quOj?=
- =?us-ascii?Q?kw/d0NDwl2X3kYqdX7w7FQJBhuia2Nldi3fGfaIveI3dyB5pq8+fGZ+k+nVN?=
- =?us-ascii?Q?NaFk3YrvtrWVkN4qz5Eq/E/WVB4EllZt8IFRZYuBkaD1Fcn9afs3Hg+e8h3T?=
- =?us-ascii?Q?lS7oXHO4GWaSupq8JieDMtqTPe7vgFtCjM9ZFLEZlCp58sYrSWvPeLXGze1E?=
- =?us-ascii?Q?G4N2dacCy1xC06/U3qZePioAsdF1uCBUo5J7c2OtpFSLdCCQiVH+whfxCqbv?=
- =?us-ascii?Q?tVbLO8MeWxKBQv+ZOmFg1dOrc/2DMuWdt7E12UvPbcqX/gVB+cxiRDsJvR7Z?=
- =?us-ascii?Q?mNYOX8cvllpIwv6lW9PNCpnbDsvzgfN1gR9A+HnMEd6ErDEbkTgYmkeYgXqW?=
- =?us-ascii?Q?nKP16wFfP7IKZTNmfA61arscf8mBZLva1zxi6bNmQnATo1mA7HDwhDa4WUNP?=
- =?us-ascii?Q?ZDcNDgd+gHpGd3ix8HKVY+ZJzQ8zizuWFTM5J/SxZ/eyHlLQL+6zewUAh5Z1?=
- =?us-ascii?Q?VGd97choCfGH3huTj/RCZisL3/huccfOo/Dtgv4eylTuCrXSqzprXlHsVw0J?=
- =?us-ascii?Q?maMrADjPah+655S5YVUVy7q5rw2DY6nMpXVrb0ngJfgfjs8TC3/QDpmlP6Mj?=
- =?us-ascii?Q?JJNa+ef0Y+CsaI7v8PetPV6TRAmsCxIdoRY/Pq8rZejq3Dwlq1iVGbY2zgM5?=
- =?us-ascii?Q?/xcXYcdeEUkocV5pA1RyU2gto9yWn8rYgxQAmGFTggQwugmTgNzRJIz8Ju8m?=
- =?us-ascii?Q?Pg=3D=3D?=
+	=?us-ascii?Q?AetZZ51BOA5NiMg8iZDJgnW715TVxgcpB4HNLHy14milb8mDa78QkK2fVu5k?=
+ =?us-ascii?Q?nQ8FVDadIyK1VqrmI06eRTzkekzuvrj0QQ/nEirMYKvNpVvJieN+vzu1qM8y?=
+ =?us-ascii?Q?QvJjVMpW7MasfNv7SjpMFiD0IpHE7UpyKPSUDKHbcaM0J2it5MDYV6xTjtQP?=
+ =?us-ascii?Q?7z4s00ztWMOnRKbGfumUMKrnSYo84BJPfITLHrkWP7JV9k97M+R6gO48cZ9P?=
+ =?us-ascii?Q?zDd4YQnoUXJH0guAsH0AKQ6ka9ObHDk/APKSWtw0HPWhwm4xAyFDOTyVD8q8?=
+ =?us-ascii?Q?OAObaL2yftbmrWvE13CUJWdpxipRTX1UGCucLN4xLM0QoR12FCYFmwgdhKdM?=
+ =?us-ascii?Q?L3GIZWWVNaRZIwlX3eLxCsEIjGLRm4Kf2rzz2xwDCrhe9JPTWDFNDJA/M+E2?=
+ =?us-ascii?Q?jkR/3gtb3Uok3DiOaOn9KOfub0PUI4dc2uCqiFcT1bKdoi8xbJxigLHsYDL/?=
+ =?us-ascii?Q?ysJctO5EIto5QWCz+y4A0vBViTVhMsBU8yiAFuVexolKv1WRxefj9Auf+c2/?=
+ =?us-ascii?Q?ez5lqMDIZXE57+HTotd3mc+LU/eSLeOCuyVWgze47Ar83xGV8pBNg3o9SJu+?=
+ =?us-ascii?Q?D84anpj4+5nIvJtk97IWlvaiuMQeg2n+fQY4JrJeTRCNw5oWikTTuI2Qy2Fa?=
+ =?us-ascii?Q?wI3PbZKN4m7QWW0TKrnDJLwdbiRI81ikvESfdUcn0Scj9S39Tl2pryRjPlJ0?=
+ =?us-ascii?Q?yfZcsCbdJ9Xjgpj1b8VaXNE8RFLLBuNuZqi06M+clZzJNe6i9StCN20oIWPi?=
+ =?us-ascii?Q?i2ks2kbifvkv5Bf5wXyPMa22FgaX9Q1lNWEC0tcKSnBpd3sZomS+FeTDDh6n?=
+ =?us-ascii?Q?OcayBeGGrifXQATDQ1LHoyWVoDEzl1BxJVCKQJ1iRFrZFj5bKA2/ZjXMA35K?=
+ =?us-ascii?Q?+MzM5/upX2PPjwiHdCF2D8UU2Lw87vCZF0MxTx/HrPNSxkqDhETWG5KHi5ls?=
+ =?us-ascii?Q?uFcqZ28DNMlWJbvL56Ye4iIx64HwxMxw4cp9Ck5uyczUIYMVZzh7Uc1MmnlY?=
+ =?us-ascii?Q?TeUNIgo8xaV8haK9+if8lNpZ5JP4oMTHUML+fuMberZi7VtIploHoWHMC//3?=
+ =?us-ascii?Q?c4G1bOIdQNkiwej88qxq0mb5FTEl/Z9i2U8WuwStHyatgFdsBG9f4svmWakT?=
+ =?us-ascii?Q?wYlvxAO4BrEAN8mx33QkWH31sp1Y5T1vfl2QZ453FI52Bjce8A21W1wnH28l?=
+ =?us-ascii?Q?gfGKKatT4i5SrVj6O8HC3c7G9TLBI7iD73nntnAdCOq0+9gbR1zUqOU8D9hM?=
+ =?us-ascii?Q?H9fqDlonFswiPOpj7x3U3Gx+lrKiG2W//IQbJBjlb9h+ZJrZ6W+HNVwDeliU?=
+ =?us-ascii?Q?8upLFjADK+9X3Fcew1sOZfOzEKaFoOt8v8v7a83TR5sKO07rw0t4wwqRgLqp?=
+ =?us-ascii?Q?z/LIc+szMwr0CpgS95WOTh6lOvCrm92+5JxxmkKHN803kfvfHy2URQMozXp/?=
+ =?us-ascii?Q?JlvS45i6XGiswVsqLL/KxhLeGfKJdyBjErJWlXClSIOUfoAviL2g6TP0OHtr?=
+ =?us-ascii?Q?WS6CRmsGH1IAvRVjp5w/BkY8lofhu8vX1sJfLR8bmj+dUn7i+InLGKd2seBF?=
+ =?us-ascii?Q?qQfmLBS+8eg+zsSj4Lpp/bMoZMQTf1WRjGjckoVVKrITBW24VW1cSWrUCxoX?=
+ =?us-ascii?Q?eA=3D=3D?=
 X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14ceac06-6758-4ddb-f7bc-08db921092e0
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0c87ba2-324f-4233-2fca-08db921097c2
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4879.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 21:53:28.5791
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 21:53:36.7488
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4KTkOhSR2cEJGIJKrP07o+sx6Qz/Z89jze4d8y+WMVZagNru0ArY1w1FpEd43YRx+mCZaSuPZe4eXhz7fW6a6Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: El2xP0iNpKqio7orssFzd0Rxxa/PlH+NOxjBcVbo834WMETcnMwq3rY3MQjeLqLr+grs2ceREK2ZQeT3FrHKDg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR04MB8510
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 21:53:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185177
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 21:53:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185180
 
-To make the logic from create_feed_dir reusable, this
-change splits the logic used to traverse the package
-dependencies into a helper function.
-
-Additionally, the logic used to find the initial
-task was updated.
+Since the packagefeed build logic does not use sstate,
+the deploy directories will not be cleaned by a do_clean
+or similar commands. This change adds a function to wipe
+all feed deploy directories for the given feed when a
+clean command is run. That is, regardless of the value
+of PACKAGE_CLASSES, all <tmp>/feeds/<pkg_type>/<pn>
+directories will be cleaned.
 
 Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
 ---
- meta/lib/oe/package_manager/__init__.py | 60 ++++++++++++++-----------
- 1 file changed, 35 insertions(+), 25 deletions(-)
+ meta/classes-recipe/packagefeed.bbclass | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_=
-manager/__init__.py
-index 0934cda89d..7d040bcaf2 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -449,7 +449,7 @@ class PackageManager(object, metaclass=3DABCMeta):
-             return res
-         return _append(uris, base_paths)
-=20
--def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydepen=
-dencies):
-+def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydepen=
-dencies, assumeprovidedfeeds =3D None):
-     """
-     Go through our do_package_write_X dependencies and hardlink the packag=
-es we depend
-     upon into the repo directory. This prevents us seeing other packages t=
-hat may
-@@ -473,30 +473,15 @@ def create_packages_dir(d, subrepo_dir, deploydir, ta=
-skname, filterbydependencie
-         oe.path.symlink(deploydir, subrepo_dir, True)
-         return
-=20
--    start =3D None
--    for dep in taskdepdata:
--        data =3D taskdepdata[dep]
--        if data[1] =3D=3D mytaskname and data[0] =3D=3D pn:
--            start =3D dep
--            break
--    if start is None:
--        bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
--    pkgdeps =3D set()
--    start =3D [start]
--    seen =3D set(start)
--    # Support direct dependencies (do_rootfs -> do_package_write_X)
--    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs=
- -> do_package_write_X)
--    while start:
--        next =3D []
--        for dep2 in start:
--            for dep in taskdepdata[dep2][3]:
--                if taskdepdata[dep][0] !=3D pn:
--                    if "do_" + taskname in dep:
--                        pkgdeps.add(dep)
--                elif dep not in seen:
--                    next.append(dep)
--                    seen.add(dep)
--        start =3D next
-+    pkgdeps =3D _find_task_pkg_deps(pn, taskdepdata, mytaskname, taskname)
+diff --git a/meta/classes-recipe/packagefeed.bbclass b/meta/classes-recipe/=
+packagefeed.bbclass
+index 04b45e7723..1df09b85c2 100644
+--- a/meta/classes-recipe/packagefeed.bbclass
++++ b/meta/classes-recipe/packagefeed.bbclass
+@@ -24,4 +24,16 @@ addtask packagefeed before do_build
+ do_packagefeed[recrdeptask] +=3D "do_package_qa"
+ do_packagefeed[nostamp] =3D "1"
+ do_packagefeed[rdepends] +=3D "${@' '.join([x + ':do_packagefeed' for x in=
+ d.getVar('FEED_DEPENDS').split()])}"
+-do_packagefeed[cleandirs] +=3D "${DEPLOY_DIR_FEED_DEB}/${PN} ${DEPLOY_DIR_=
+FEED_IPK}/${PN} ${DEPLOY_DIR_FEED_RPM}/${PN}"
 +
-+    # Find any packages which might already be provided in a separate feed=
- or repo
-+    # and remove them to avoid duplicates. This assumes any dependencies o=
-f the packages
-+    # are already met as well.
-+    if assumeprovidedfeeds is not None:
-+        for pkg_pn in assumeprovidedfeeds.split():
-+            provided_pkgdeps =3D _find_task_pkg_deps(pkg_pn, taskdepdata, =
-mytaskname, taskname)
-+            pkgdeps =3D pkgdeps.difference(provided_pkgdeps)
-=20
-     for dep in pkgdeps:
-         c =3D taskdepdata[dep][0]
-@@ -533,6 +518,31 @@ def create_packages_dir(d, subrepo_dir, deploydir, tas=
-kname, filterbydependencie
-                         raise
-=20
-=20
-+def _find_task_pkg_deps(pn, taskdepdata, mytaskname, taskname):
-+    start_task =3D next((dep for dep, data in taskdepdata.items()
-+                  if data[1] =3D=3D mytaskname and data[0] =3D=3D pn), Non=
-e)
-+    if start_task is None:
-+        bb.fatal("Couldn't find %s:%s in BB_TASKDEPDATA?" % (pn, mytasknam=
-e))
-+    pkgdeps =3D set()
-+    tasks =3D [start_task]
-+    seen =3D set(start_task)
-+    # Support direct dependencies (do_rootfs -> do_package_write_X)
-+    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs=
- -> do_package_write_X)
-+    while tasks:
-+        new_tasks =3D []
-+        for task in tasks:
-+            deps =3D taskdepdata[task][3]
-+            for dep in deps:
-+                if taskdepdata[dep][0] !=3D pn:
-+                    if "do_" + taskname in dep:
-+                        pkgdeps.add(dep)
-+                elif dep not in seen:
-+                    new_tasks.append(dep)
-+                    seen.add(dep)
-+        tasks =3D new_tasks
-+    return pkgdeps
++CLEANFUNCS +=3D "packagefeed_clean"
 +
++python packagefeed_clean() {
++    bb.note("Cleaning feed directories for %s" % d.getVar('PN'))
 +
- def generate_index_files(d, feedname =3D None):
-     from oe.package_manager.rpm import RpmSubdirIndexer
-     from oe.package_manager.ipk import OpkgIndexer
++    deploy_dirs =3D [d.expand("${DEPLOY_DIR_FEED_DEB}/${PN}"),
++                   d.expand("${DEPLOY_DIR_FEED_IPK}/${PN}"),
++                   d.expand("${DEPLOY_DIR_FEED_RPM}/${PN}")]
++
++    for dir in deploy_dirs:
++        oe.path.remove(dir)
++}
 --=20
 2.41.0
 
