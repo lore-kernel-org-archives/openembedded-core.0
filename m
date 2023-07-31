@@ -1,128 +1,136 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15FFEC001DF
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 09:44:26 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.3767.1690796658331620281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5578BC001DE
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 10:16:06 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.4213.1690798557858748801
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jul 2023 02:44:18 -0700
+ Mon, 31 Jul 2023 03:15:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=oYke7YBs;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso48330445e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 02:44:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ckNmYLaf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fe28f92d8eso2327917e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 03:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690796656; x=1691401456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1690798556; x=1691403356;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p+Je3rq+Bg2IulUMK4l4pCVlQTT7qpTbAubHcbfzdwY=;
-        b=oYke7YBso2Olym25K1EdxVW8rlGiJP0bQXNY8Xl4tlCheXj8zzdSgcHfqi+RvMl83t
-         H000QytMFEpTTJDSz+ATe1aaLTDKJZmMhHaFySRoY6lfViAMM2/uJDwohCVO15+gcy9v
-         Y8Lavu9Z8q+A/wAF40ZaohVanDLcGlJrQx+r6/qMtVzc7yfUOuak/ngoMBa80S6q3cwV
-         YCwWxzogZQgldIHNgJWH0Fv4FyJtY7tCoWOrf1Dger+ZIRGeGpEvN17OSR+7DPC+Pq3I
-         VGrcm4rNVK7gg7pHPhKTF28MZalEaYZddZlKdHC7d9RWy9ztmeYrJ9e2Xs7abwbd1c1T
-         mC/Q==
+        bh=Lpg7H23eZlwr8aZLqK3+aQAgXtZGDpOzLTlX4ZNwUBw=;
+        b=ckNmYLafQUg4MmcABvgNdQ/ibr++17qZPadkZkZBHyw2b/jDKPs+KbLIOhpsJEDgbb
+         ZfKdPXzXBrJ1Yf4ZUq4pHaBd2PsDhfRYehd2Jg//mTdTbwcezPt879mHR37ReBNC+P6w
+         hCPeYhvrxD9linOLsfKWefKf/juRWMIarRe0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690796656; x=1691401456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p+Je3rq+Bg2IulUMK4l4pCVlQTT7qpTbAubHcbfzdwY=;
-        b=iCbHs/ppEblIJ/8fLHudYQvv5fPQ2AHkLT6+Td33x3tGMmHpq+PUeFx8ao0tWILP1R
-         beybm9k2cqMWBU/flQSgDys4Qf7WTxeFUCKlbBKESP17NVvZSMZ5o86i7aqpnexZxyxK
-         QL+6caH8zvExm54c5pFARfHW+KMsOccthLhdJdLYnWZ75MrWFsHojHj3T0ZakXM3O4HX
-         ChfbPUP7/0Th6i94ZWAUEIRK58XC820sAY/LDijbdF6cTPZh2OnxA6qqorswJqo3SBYX
-         ANjad2EuTxC06sgH3QcND2GhMSlLnI3W4BPzMUfzkQgg7082D8MHRySlRnMPaqPmozES
-         ryDQ==
-X-Gm-Message-State: ABy/qLYsOPi7ObJRggOIyApafa8Wm0fhOLwzZ+sEB3XczFn2SHQuGjEx
-	xD/sM9pa6eG+k6Tgl4BhPC6SxUnYgok=
-X-Google-Smtp-Source: APBJJlEAU5NDA+1yqfY6Cat23D6j/pOTL0x5+9ftIEB0kSH/Y6eeLUtVPtZdLtC7k97KHsjxeAxKpQ==
-X-Received: by 2002:adf:f644:0:b0:314:362d:6d7b with SMTP id x4-20020adff644000000b00314362d6d7bmr7872306wrp.19.1690796655985;
-        Mon, 31 Jul 2023 02:44:15 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:c4e8:ab56:aff:118a])
-        by smtp.gmail.com with ESMTPSA id i17-20020a5d55d1000000b003143be36d99sm12526610wrw.58.2023.07.31.02.44.14
+        d=1e100.net; s=20221208; t=1690798556; x=1691403356;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Lpg7H23eZlwr8aZLqK3+aQAgXtZGDpOzLTlX4ZNwUBw=;
+        b=gCSPO7SFzSrwjSKMBu1o5NLhZb386+MFema/0tgJOYjKPyqU3xsSKFOSIQqdN9I3PH
+         jm2YWpsUP3HQTu5ocDPTxvvGiAyagF06cKxRPk/5qVgjRom1wa7tB/dzBMpJqMf3VDA7
+         FNFmZ7Gf0UW37iqGrU4yGjJJszVEcOpD0RhK2p8/oVTbOOoMsgBZmrq6V/T/fapE5FOG
+         mpDR7q5hqM6dEPqIJp8bFbkn1DJqE/VrmlV4YIhYFHHYzqHAStBDb1bI6blXBDEPvofz
+         x5aaJe+Olm5Ddtb+tCzGF0YJ4eyauCJqVvoYIeRxRB6tRgas/bfwwULip0IIdsoTFb87
+         hhYA==
+X-Gm-Message-State: ABy/qLYNmy1RlFJehKnmLEICnfdkvAQxxlRoDYemlab0FLMxuaOqxe6J
+	zo2Hj7faArdYw+4odVGknfLKgw==
+X-Google-Smtp-Source: APBJJlHh5Kg47Mv+z9dhjFXLRmztKChMamB2u7dQDBP6tOJnFr29WoUzoa7HmHhXRrIqKZFaclaZ9A==
+X-Received: by 2002:a2e:9bcc:0:b0:2b9:ebcb:9c80 with SMTP id w12-20020a2e9bcc000000b002b9ebcb9c80mr1397111ljj.39.1690798555721;
+        Mon, 31 Jul 2023 03:15:55 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6f93:b696:bedd:c076? ([2001:8b0:aba:5f3c:6f93:b696:bedd:c076])
+        by smtp.gmail.com with ESMTPSA id b3-20020a05600c4a8300b003fe1b3e0852sm8740690wmp.0.2023.07.31.03.15.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 02:44:15 -0700 (PDT)
-From: frederic.martinsons@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com
-Subject: [PATCH 3/3] cargo.bbclass: Offer a way to use --offline instead of --frozen
-Date: Mon, 31 Jul 2023 11:44:10 +0200
-Message-Id: <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1690795930.git.frederic.martinsons@gmail.com>
-References: <cover.1690795930.git.frederic.martinsons@gmail.com>
+        Mon, 31 Jul 2023 03:15:55 -0700 (PDT)
+Message-ID: <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Suti <peter.suti@streamunlimited.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 31 Jul 2023 11:15:54 +0100
+In-Reply-To: <20230731093415.261532-1-peter.suti@streamunlimited.com>
+References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 09:44:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185131
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 10:16:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185132
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+On Mon, 2023-07-31 at 11:34 +0200, Peter Suti wrote:
+> Fixes [YOCTO #15164]
+>=20
+> Instead of deleting setscene tasks, now SSTATE_SKIP_CREATION is set inste=
+ad.
+>=20
+> This seems to fix the compile issues where the populate_sysroot task was
+> not run when an externalsrc recipe was built as a dependency.
+>=20
+> Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 
-And use that for rust-hello-world recipe that did not ship
-a Cargo.lock file.
+I think this is going to swap one set of issues for another.
 
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
----
- meta/classes-recipe/cargo.bbclass                          | 4 +++-
- meta/classes-recipe/cargo_common.bbclass                   | 3 +++
- meta/recipes-extended/rust-example/rust-hello-world_git.bb | 2 ++
- 3 files changed, 8 insertions(+), 1 deletion(-)
+Setting the skip creation option will stop sstate from being generated
+but it won't stop bitbake reusing existing sstate. In the case of
+externalsrc, we need to stop it using sstate at all so this patch won't
+always have the effect we need :(
 
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 8c0b92df8d..d8ab94f2b4 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -39,12 +39,14 @@ MANIFEST_PATH ??= "${S}/${CARGO_SRC_DIR}/Cargo.toml"
- 
- RUSTFLAGS ??= ""
- BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
-+
- # --frozen flag will prevent network access (which is required since only
- # the do_fetch step is authorized to access network)
- # and will require an up to date Cargo.lock file.
- # This force the package being built to already ship a Cargo.lock, in the end
- # this is what we want, at least, for reproducibility of the build.
--CARGO_BUILD_FLAGS = "-v --frozen --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${MANIFEST_PATH}"
-+CARGO_EXTRA_FLAGS =  "${@['--frozen', '--offline'][d.getVar('CARGO_NO_FROZEN') == '1']}"
-+CARGO_BUILD_FLAGS = "-v ${CARGO_EXTRA_FLAGS} --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${MANIFEST_PATH}"
- 
- # This is based on the content of CARGO_BUILD_FLAGS and generally will need to
- # change if CARGO_BUILD_FLAGS changes.
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index 01afb74640..d17501182f 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -152,6 +152,9 @@ python cargo_common_do_patch_paths() {
-     if not patches:
-         return
- 
-+    if d.getVar("CARGO_NO_FROZEN") == 1:
-+        return
-+
-     # Cargo.lock file is needed for to be sure that artifacts
-     # downloaded by the fetch steps are those expected by the
-     # project and that the possible patches are correctly applied.
-diff --git a/meta/recipes-extended/rust-example/rust-hello-world_git.bb b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-index 1d91109b51..cad184837f 100644
---- a/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-+++ b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-@@ -14,6 +14,8 @@ SUMMARY = "Hello World by Cargo for Rust"
- HOMEPAGE = "https://github.com/meta-rust/rust-hello-world"
- LICENSE = "MIT | Apache-2.0"
- 
-+CARGO_NO_FROZEN = "1"
-+
- S = "${WORKDIR}/git"
- 
- BBCLASSEXTEND = "native"
--- 
-2.34.1
+Cheers,
+
+Richard
+
+
+>=20
+> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.=
+bbclass
+> index a649bcdff8..12f2718850 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -76,6 +76,8 @@ python () {
+> =20
+>          # Dummy value because the default function can't be called with =
+blank SRC_URI
+>          d.setVar('SRCPV', '999')
+> +        # sstate is never going to work for external source trees, disab=
+le it
+> +        d.setVar('SSTATE_SKIP_CREATION', '1')
+> =20
+>          if d.getVar('CONFIGUREOPT_DEPTRACK') =3D=3D '--disable-dependenc=
+y-tracking':
+>              d.setVar('CONFIGUREOPT_DEPTRACK', '')
+> @@ -83,10 +85,7 @@ python () {
+>          tasks =3D filter(lambda k: d.getVarFlag(k, "task"), d.keys())
+> =20
+>          for task in tasks:
+> -            if task.endswith("_setscene"):
+> -                # sstate is never going to work for external source tree=
+s, disable it
+> -                bb.build.deltask(task, d)
+> -            elif os.path.realpath(d.getVar('S')) =3D=3D os.path.realpath=
+(d.getVar('B')):
+> +            if os.path.realpath(d.getVar('S')) =3D=3D os.path.realpath(d=
+.getVar('B')):
+>                  # Since configure will likely touch ${S}, ensure only we=
+ lock so one task has access at a time
+>                  d.appendVarFlag(task, "lockfiles", " ${S}/singletask.loc=
+k")
+> =20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185127): https://lists.openembedded.org/g/openembedde=
+d-core/message/185127
+> Mute This Topic: https://lists.openembedded.org/mt/100458147/1686473
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ri=
+chard.purdie@linuxfoundation.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
