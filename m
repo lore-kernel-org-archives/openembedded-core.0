@@ -1,60 +1,55 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <p.lobacz@welotec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8497FC001E0
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 21:19:51 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.4627.1690838382197828154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBA5C001E0
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 21:24:11 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.79])
+ by mx.groups.io with SMTP id smtpd.web10.4728.1690838642755599451
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jul 2023 14:19:42 -0700
+ Mon, 31 Jul 2023 14:24:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NK1utirk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-31765792c7cso5256051f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 14:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1690838380; x=1691443180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GFf5b92AnxRPuHlO7uvs4bnJhBwkXOors4UhZ/XqzOQ=;
-        b=NK1utirkl7wi+b9ZACSsp14RHtZI6jqKkf/+AHa6su3ptaLNkHjNlaSWCRi4T7Osp4
-         mqI3ky/Xvc7W3msG6wvS9Pq/MqQjcHqfWQq+Jt2ozkgD65swWdYU/MjrCoVXhnoe751y
-         8wnwGU8q83ngci/C8le085Hu8B6ZJ/YD9Nxy8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690838380; x=1691443180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GFf5b92AnxRPuHlO7uvs4bnJhBwkXOors4UhZ/XqzOQ=;
-        b=avajzyjrvmLEZCo7meGunU/Aw5pnY8OPS3x/dIR7HbXuokmAkl1Bjci4jZSqvBi2vI
-         obQSe0j6ZHVzj4pgdTtmtUYW6xAX7Q/Agbqj8ck98bQ3I24+8Yxq4XPua+SRTtu1CNyc
-         XwTzgT6iWex0xOtfYRMr3/c8hWV3RucgG8oeYyZQObkURzUmGG6hlrVn6ecK94EAUdw0
-         4C8/UdkT1IMwgY+t83vT5YG7IITxHGVaQKeA3efO19AsTwb6h4XMZjgYgiac2Yq43wf7
-         gpgPQ58StlI27BGuvIIox/G2aVDHyWtb4y79B8AZZybiDfTbn/Wo/R1AB/sdXOTb9yqP
-         1QQQ==
-X-Gm-Message-State: ABy/qLZRtkQQRtzaUh8typcaDhIYa8T3qc8/8HQtRt3f1w/GjU6IbWI2
-	rp0C2S8QaCMWXTneH2HKs5R7ow==
-X-Google-Smtp-Source: APBJJlH/s/63u0znyS8ROq30EsCu9A1qjhcFRzWe6DCRIzxIHCBaK+dRFUcwMq0RtGRrHTY8HfWIBw==
-X-Received: by 2002:adf:e105:0:b0:314:3bd7:6a0c with SMTP id t5-20020adfe105000000b003143bd76a0cmr663062wrz.33.1690838380598;
-        Mon, 31 Jul 2023 14:19:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e3b7:1714:595d:8417? ([2001:8b0:aba:5f3c:e3b7:1714:595d:8417])
-        by smtp.gmail.com with ESMTPSA id s21-20020a1cf215000000b003fc00892c13sm12060992wmc.35.2023.07.31.14.19.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jul 2023 14:19:40 -0700 (PDT)
-Message-ID: <972083f47f3513fada3dc64c233f2c229f952aca.camel@linuxfoundation.org>
+ dkim=fail reason="dkim: no key for signature: lookup selector2._domainkey.welotec.com on 127.0.0.1:53: no such host" header.i=@welotec.com header.s=selector2 header.b=b3xdWHHE;
+ spf=pass (domain: welotec.com, ip: 40.107.22.79, mailfrom: p.lobacz@welotec.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FCcmG8Cgv7PqTpT1qi5v6RCKLobLfFOjU7rpr57Krop+8nlys8Dp0644uwFVeLoCn6ieBjF3lJbnz0D1F6RdYfuo3VP8sojsNOnyfO9LHleLLao3srj016is6ypYu99p3Md/9hqq8o5vpECxZTTB9B5D5y1baivqlRj4BpbsbPfpZP0NjEpIb1Dxr6agqJuzrFXxDyWMQsZW3J8HFQEld7Kwv0qyA5EG7GhXym5cswxyio/F4MlM+sjF0ohD2UooXj+bvg5sOxXCjmm9PyQlJBMbPptBNBB2et2cKDIsJk6rky7LWlRPOyTgqVaQfgx3Pcjm6YXnSqSY9W9cPnPD5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ShrxcmoUTLahkDYTnxRNtwN48S1jpVDlLzsL/qaDO04=;
+ b=nidz2EHIs2OwfcXAb7WKiw82JwwEMVUrqKgp8dj2ePkJJBxz4Q9lyoRBaBTCK9MyPOnJzr+n/x1siRYXI74OHQJgdzxCx4rJqdLbMESYTyflzoEWc+7JreVAtdjacEyGAE+d/hxzgQ7egQF4PKXvHP/undNwj4ousPoA8SP71c9F+7bRA8L41VpCby9v6KjnrZXKuCd0eMkPDhMNmmCUJP9XRzqCsP/IaVUqcaLmpm/ZQBFCWU5UWth6RBWuGDge5nLLKygdnXNyVSAtnW5pB9mi2n6ksuThN8K4VFu0Zb5MENy64sA/4Kxljbj5s9QAC23xQjaLd7BnLnPHbasWVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
+ dkim=pass header.d=welotec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ShrxcmoUTLahkDYTnxRNtwN48S1jpVDlLzsL/qaDO04=;
+ b=b3xdWHHE1fj2PWDvAqWy3TP/XVpNEcYcux0l2/x2iSbY6ev9qCziISInrx+LqI5TgWidTenXq+QTQlq4M1yhs7HzZq3N16XqilSF5fKVta9sc2jBvpuuYsNluzUzij0hrLnb9YBERTzcNzczHJZID2mQ8zgXnUXXvJmKrvlr0X4=
+Received: from AM6PR04MB5368.eurprd04.prod.outlook.com (2603:10a6:20b:9c::17)
+ by VI1PR04MB9979.eurprd04.prod.outlook.com (2603:10a6:800:1da::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28; Mon, 31 Jul
+ 2023 21:23:57 +0000
+Received: from AM6PR04MB5368.eurprd04.prod.outlook.com
+ ([fe80::6b7b:1852:edb1:9b53]) by AM6PR04MB5368.eurprd04.prod.outlook.com
+ ([fe80::6b7b:1852:edb1:9b53%7]) with mapi id 15.20.6631.026; Mon, 31 Jul 2023
+ 21:23:56 +0000
+From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Joshua Watt
+	<JPEWhacker@gmail.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Alex Stewart
+	<alex.stewart@ni.com>
 Subject: Re: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass: add
  support for ACLs and xattr
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <JPEWhacker@gmail.com>, Piotr =?UTF-8?Q?=C5=81obacz?=
-	 <p.lobacz@welotec.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Alex Stewart
- <alex.stewart@ni.com>
-Date: Mon, 31 Jul 2023 22:19:39 +0100
-In-Reply-To: <CAJdd5GYifrOT_9-fct6TT95sw6tDe0L7etLxOcaEgTTGvWFPJg@mail.gmail.com>
+Thread-Topic: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass: add
+ support for ACLs and xattr
+Thread-Index: AQHZw+GoIkE0W6fK8k+8nz7vZaP5pK/UO6gAgAAW+ACAAA8KgIAAASbo
+Date: Mon, 31 Jul 2023 21:23:56 +0000
+Message-ID: 
+ <AM6PR04MB53686D49B46380144CB447829105A@AM6PR04MB5368.eurprd04.prod.outlook.com>
 References: <20230726092228.1005306-1-p.lobacz@welotec.com>
 	 <VI1PR04MB5373AD2BB745671859678D699100A@VI1PR04MB5373.eurprd04.prod.outlook.com>
 	 <20230727141809d2150cbd@mail.local>
@@ -62,63 +57,202 @@ References: <20230726092228.1005306-1-p.lobacz@welotec.com>
 	 <VI1PR04MB537349F74CD4C3E13B272B879105A@VI1PR04MB5373.eurprd04.prod.outlook.com>
 	 <VI1PR04MB5373AB9F0C887CF659E739439105A@VI1PR04MB5373.eurprd04.prod.outlook.com>
 	 <CAJdd5GYifrOT_9-fct6TT95sw6tDe0L7etLxOcaEgTTGvWFPJg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ <972083f47f3513fada3dc64c233f2c229f952aca.camel@linuxfoundation.org>
+In-Reply-To: 
+ <972083f47f3513fada3dc64c233f2c229f952aca.camel@linuxfoundation.org>
+Accept-Language: pl-PL, en-GB, en-US
+Content-Language: pl-PL
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=welotec.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM6PR04MB5368:EE_|VI1PR04MB9979:EE_
+x-ms-office365-filtering-correlation-id: 5bdf88b1-d3a6-408b-82f7-08db920c72d5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ RZAHfxNkMJvRPgOwmt3y/zBla1zFBGQyctfV9DhDOoO0+KI8M69hUFrdz3pkg6V2mVd58/InYMxP1tUsN0M30YYy3gCdrws+DX6efuNphD2SBDctTVD/Ef5lTHYWNz4OpcvUzBqvXx1vHsQi5cFo0uCklQxvgUaG9JlqgQB36J6Dcn+kPWp6VkcLhQ4cJ+xQsgczFH62nuqrhVl2QfG95pg57wJOSKUCyxmogJbmp9X+MRE7tvN8vusMB5tqxN1NO8UzowKTr2M0Fjqh+9tF28F9YXB/7HttwV391eoHOVtqZuYYmnrUFLHN7dOUF9wR/7Gko4WeznZFaNoT92MwGDXFdaVWcabZHG1QQgNz0oFzcARJTrxtD1hqjiLZeXcuMOqEL1XNO5PZbraBdMTGtCnozjiOEwFUau5CywDN9loATC4/tIIvdoHfkTgpUiEY2Kjwie3tMFG2pX8O04Tvt4l9OSwPDxWtXX/+beidWbSeAYkmpYUXvZm3bt07ZSTOiRxsgXSEQqKr846KCig+lf/WNPcsaBkjUdwfcUlrjj2MGqWOyBb6YcxuDjmeDGUPMpqntBbkaAuRWjeqwIpfJ+heIxPG6i9tOVfsoLUZnkrPle5QgwqASmIe3Tfr5EHWiZvIye7s0eBMYdfdHyetHl0zuPn6jSoETco2Y7Ikjvg=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5368.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(136003)(376002)(39830400003)(396003)(346002)(451199021)(9686003)(85182001)(85202003)(7696005)(55016003)(53546011)(186003)(6506007)(26005)(83380400001)(66574015)(76116006)(33656002)(66946007)(66556008)(52536014)(38070700005)(122000001)(54906003)(110136005)(4326008)(86362001)(66476007)(316002)(8676002)(8936002)(5660300002)(64756008)(66446008)(41300700001)(38100700002)(2906002)(71200400001)(478600001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?b3JyVTRNY1E2LzJDREFCOG1RbUN6eFUyb2JKWGErMEw2dmJXVXpSU1RsSHIx?=
+ =?utf-8?B?V2xjU3JJWTVhaHpxcExlZVJ5WGYvcXdEdlNUSXdUKy9ueUVOeWpCQ0pXUy8z?=
+ =?utf-8?B?YVFMcmdkaUR5TEhyYzg0M2lscUd2WnlNSXVtMVNiTVE1dnJXR3pTYzMxL2Rw?=
+ =?utf-8?B?L0JqSWVPa1lYMkROV1NueEZ2ZitqMkhKaVlhS0tjTENNdFNNWm9ubjRqOWUv?=
+ =?utf-8?B?UFlpZ2tQd1N2M1p5cnZHNDdKYlIyblZTYlRVcytadjZ6ZjlncDVNc3JEUitq?=
+ =?utf-8?B?R3luMTNnaC9zaXhYUi9hckxZZis5aFNoNEk0c0xnRmgzQTRVbkUvZXNpeEY3?=
+ =?utf-8?B?ODA3MnczUXgxbC9JS3pzWVpTWkJFSHdybUcwajlTblpLVDY1WW1oOGFtbEVP?=
+ =?utf-8?B?NGpLZDV6MUs4K2lUMUNkUXYreE50cGgyWHFnejhzRy91b0NvS3h1ckNBY0l2?=
+ =?utf-8?B?ejhETlFDZTNLdDRtbHRpWDlTMWVJUU96elpoT1FsVVRVVVVIZWhMRUNSdnVV?=
+ =?utf-8?B?d29wRThPbTFna0hSTHFJMThxSEliU2wrcEFpMmk5aE9zN21iQ3ZSOUMxc3Y5?=
+ =?utf-8?B?TnB3eW9iaWNRaWdMRDk2aUdKUnVseitKZmtxY25SeE1QTDVSc2RLRnlKZTZp?=
+ =?utf-8?B?YmRseGdOOUtDVzJZMjcxU2FlZHg3d2hGL09GS3NxbkFiVER1TXFoSHBueTNt?=
+ =?utf-8?B?cDNzd0ppUG1wZlNsR3cxV3Z4eHg4ZW9QcTYzNkt0cmV1UnQxdW4yUDBMRG8x?=
+ =?utf-8?B?TzZJWFNXR3MwQTdBZ3RLRURBSDZnVUdjZXBsSHF2ekpZYXp1eElvdENnNDhW?=
+ =?utf-8?B?NVhLaWJJUWVMbjN0cHRPaHEwc0NzL0dJRVdhQWMvYjZkbjJ3aU95V3plWnpO?=
+ =?utf-8?B?aVhnRjR2TmpLZkxQbS9xb3VDNjh2T0hDeUpaTnNlQ0ZlUmVuTVlmRElaT1po?=
+ =?utf-8?B?d2RXOGI1ekdmRjN2TWhtOVpoUTB3di9YeENYQWpQc2RFVmw4THdZUVJJQWhN?=
+ =?utf-8?B?c3dXMURDdS9yc0pZQk1wbG9OQmhyTXdDRzVwSEVtd1pRMHhIbS9wVUViR2xF?=
+ =?utf-8?B?cENTSUhuK0ZPU0d0YVY1ekRHLzkzUXd0MENPTHJiYUVkbzNjTTVCM01jV1Jh?=
+ =?utf-8?B?MlJBbTlmbkVnVkhab0dWbmpoalg2K2JQRDg2aDQrSWVmbG1EcVVSUzF5dkhs?=
+ =?utf-8?B?a2Rra25qUG03MTlFTWQwWlVtNW45dGg0TldKcHdxMDJCelZWVFZZMFJzYmQz?=
+ =?utf-8?B?d05uZXhnY1h5TU82OVRvTkE2NXFBelp5VjVMOWxhaTI4ckhoNWJvS2RJNERt?=
+ =?utf-8?B?RHdTVGdDdWdSeTBnTXhBejhHbG5ZejVFMmlOcTU1QmtWODZvbXVkNVJaV3li?=
+ =?utf-8?B?SWppOE9PWlYwL1hVMVFlb2VEMlV3d2Z6QXlueEpwRDVyay91SWR1K01lZ0V6?=
+ =?utf-8?B?U0d3dU5kRlprajVrcFNJU0lpSGh3UnZPTC84TTcxbGp6TG5PZ1ZTMWRxYTB4?=
+ =?utf-8?B?NUQxdW1tSWkyWnlqR3hBS2h0Sk9uQ09XKy8xNU5iWmROeUxhalJicXZOWHVp?=
+ =?utf-8?B?R1J3VEFVanN4SE11eVVzZjZRMHUrdXREbzROTVJYQVVZWHM5MmZaRmpXa01x?=
+ =?utf-8?B?RUU4K1Q2aVNoRkp3UHkyanAwZkZFSnl4N3NoZnpGM2t4Z2kxb1h6TVozdS84?=
+ =?utf-8?B?am9wK3l2V1RnOWdhWDVySmQ1TTdTbkJzd282Vmt2OVJEVnNXTUtaSGVkRjA3?=
+ =?utf-8?B?MEVvbzM5NUFSeDZFZkMxVnk5KzNBVjFSZ2dra0s3cENCRjcyWERuSkRBN0VT?=
+ =?utf-8?B?bC9Mc2VqOHZVZ01xM2tIeVpZSEpIcERIT2tUaTh4RldZK281V2huaGdsbk9l?=
+ =?utf-8?B?MDVRenh2SVN6WWtDM3R5bFlnbGtNRVlseHVXeWNtWDdEVVN4dzlMSWFEa0Rp?=
+ =?utf-8?B?YWk1ZnJtSnNpQThXZVcrcFJFajlsV1RrSFZCOWZNRFc2QThmUU1IQzB4Ykpr?=
+ =?utf-8?B?a1lZSnFLZ2xrSFJEUFhUQlBkZUdIVWdscDk5L1YvSjRUS2E4dTRQb1M1OHdM?=
+ =?utf-8?B?TG5PdFFMRmM2YTBLRFZsVFBCSENBa05zUTYra1FyS2JOL2F2WUNBZEI2TzJt?=
+ =?utf-8?B?NTVJM1JVaElwQThUSGplUnhEenNUc0ZHeUVZVm9UMlZBUThxQjdyek04b1Rq?=
+ =?utf-8?B?bWc9PQ==?=
+Content-Type: multipart/alternative;
+	boundary="_000_AM6PR04MB53686D49B46380144CB447829105AAM6PR04MB5368eurp_"
 MIME-Version: 1.0
+X-OriginatorOrg: welotec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5368.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bdf88b1-d3a6-408b-82f7-08db920c72d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2023 21:23:56.6643
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zRV6Tk+1Xyau0S+MVICh69Rypilqo/6KSV8ZXP96UKAVKfHtTn+urTn1015YL5HKLLcESpj+S0dDuN/z+oe/Cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9979
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 21:19:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185171
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 21:24:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185172
 
-On Mon, 2023-07-31 at 14:25 -0600, Joshua Watt wrote:
-> On Mon, Jul 31, 2023 at 1:10=E2=80=AFPM Piotr =C5=81obacz <p.lobacz@welot=
-ec.com> wrote:
-> >=20
-> > I=E2=80=99m sorry for splitting this message but it has happend by acci=
-dent=E2=80=A6
-> >=20
-> > Returning to the topic my assumption is that for some reason in reprodu=
-cibleA, these miliseconds are cutted and in case of reproducibleB they are =
-not.
-> >=20
-> > This was obviously working for opkg-build in case of gnu format which i=
-s cutting it also but for posix format it stores and thus error occurs.
-> >=20
-> > My question is where can I find the code responsible for moving/coping =
-data into these packages-split directories?
->=20
-> I suspect this is because reproducibleA is allowed to restore from
-> sstate where the milliseconds are not preserved, while reproducibleB
-> doesn't restore from sstate.
->=20
-> I'm not sure how you would store the milliseconds in sstate and make
-> sure it was consistent, but that is probably where you need to look.
-> Start in sstate.bbclass
+--_000_AM6PR04MB53686D49B46380144CB447829105AAM6PR04MB5368eurp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-What is likely happening is that we have two cases:
+QmlnIHRoeCBmb3IgcXVpY2sgcmVzcG9uc2UgUmljaGFyZC4NCg0KSSB3aWxsIGxvb2sgaW50byBp
+dC4NCg0KQlINClBpb3RyDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KT2Q6IFJp
+Y2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KV3lzxYJh
+bmU6IE1vbmRheSwgSnVseSAzMSwgMjAyMyAxMToxOTozOSBQTQ0KRG86IEpvc2h1YSBXYXR0IDxK
+UEVXaGFja2VyQGdtYWlsLmNvbT47IFBpb3RyIMWBb2JhY3ogPHAubG9iYWN6QHdlbG90ZWMuY29t
+Pg0KRFc6IEFsZXhhbmRyZSBCZWxsb25pIDxhbGV4YW5kcmUuYmVsbG9uaUBib290bGluLmNvbT47
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBBbGV4IFN0ZXdhcnQgPGFsZXguc3Rld2FydEBu
+aS5jb20+DQpUZW1hdDogUmU6IFtPRS1Db3JlXVtQQVRDSCB2MTFdW21hc3Rlci1uZXh0IDEvNV0g
+cGFja2FnZV9pcGsuYmJjbGFzczogYWRkIHN1cHBvcnQgZm9yIEFDTHMgYW5kIHhhdHRyDQoNCk9u
+IE1vbiwgMjAyMy0wNy0zMSBhdCAxNDoyNSAtMDYwMCwgSm9zaHVhIFdhdHQgd3JvdGU6DQo+IE9u
+IE1vbiwgSnVsIDMxLCAyMDIzIGF0IDE6MTDigK9QTSBQaW90ciDFgW9iYWN6IDxwLmxvYmFjekB3
+ZWxvdGVjLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBJ4oCZbSBzb3JyeSBmb3Igc3BsaXR0aW5nIHRo
+aXMgbWVzc2FnZSBidXQgaXQgaGFzIGhhcHBlbmQgYnkgYWNjaWRlbnTigKYNCj4gPg0KPiA+IFJl
+dHVybmluZyB0byB0aGUgdG9waWMgbXkgYXNzdW1wdGlvbiBpcyB0aGF0IGZvciBzb21lIHJlYXNv
+biBpbiByZXByb2R1Y2libGVBLCB0aGVzZSBtaWxpc2Vjb25kcyBhcmUgY3V0dGVkIGFuZCBpbiBj
+YXNlIG9mIHJlcHJvZHVjaWJsZUIgdGhleSBhcmUgbm90Lg0KPiA+DQo+ID4gVGhpcyB3YXMgb2J2
+aW91c2x5IHdvcmtpbmcgZm9yIG9wa2ctYnVpbGQgaW4gY2FzZSBvZiBnbnUgZm9ybWF0IHdoaWNo
+IGlzIGN1dHRpbmcgaXQgYWxzbyBidXQgZm9yIHBvc2l4IGZvcm1hdCBpdCBzdG9yZXMgYW5kIHRo
+dXMgZXJyb3Igb2NjdXJzLg0KPiA+DQo+ID4gTXkgcXVlc3Rpb24gaXMgd2hlcmUgY2FuIEkgZmlu
+ZCB0aGUgY29kZSByZXNwb25zaWJsZSBmb3IgbW92aW5nL2NvcGluZyBkYXRhIGludG8gdGhlc2Ug
+cGFja2FnZXMtc3BsaXQgZGlyZWN0b3JpZXM/DQo+DQo+IEkgc3VzcGVjdCB0aGlzIGlzIGJlY2F1
+c2UgcmVwcm9kdWNpYmxlQSBpcyBhbGxvd2VkIHRvIHJlc3RvcmUgZnJvbQ0KPiBzc3RhdGUgd2hl
+cmUgdGhlIG1pbGxpc2Vjb25kcyBhcmUgbm90IHByZXNlcnZlZCwgd2hpbGUgcmVwcm9kdWNpYmxl
+Qg0KPiBkb2Vzbid0IHJlc3RvcmUgZnJvbSBzc3RhdGUuDQo+DQo+IEknbSBub3Qgc3VyZSBob3cg
+eW91IHdvdWxkIHN0b3JlIHRoZSBtaWxsaXNlY29uZHMgaW4gc3N0YXRlIGFuZCBtYWtlDQo+IHN1
+cmUgaXQgd2FzIGNvbnNpc3RlbnQsIGJ1dCB0aGF0IGlzIHByb2JhYmx5IHdoZXJlIHlvdSBuZWVk
+IHRvIGxvb2suDQo+IFN0YXJ0IGluIHNzdGF0ZS5iYmNsYXNzDQoNCldoYXQgaXMgbGlrZWx5IGhh
+cHBlbmluZyBpcyB0aGF0IHdlIGhhdmUgdHdvIGNhc2VzOg0KDQphKSBkb19wYWNrYWdlIGlzIHJ1
+biBhbmQgZG9fcGFja2FnZV93cml0ZV9pcGsgdXNlcyB0aGUgZmlsZXMgZGlyZWN0bHkNCmZyb20g
+ZGlzayB3aGljaCBoYXMgdGhlIG1pbGxpc2Vjb25kIGRhdGEuIGRvX3BhY2thZ2Ugd3JpdGVzIGFu
+IHNzdGF0ZQ0KdGFyYmFsbCB1c2luZyB0YXIgaW4gbm9uLXBvc2l4IG1vZGUuDQoNCmIpIGRvX3Bh
+Y2thZ2Vfc2V0c2NlbmUgcnVucyBpbnN0ZWFkIG9mIGRvX3BhY2thZ2UuIFRoaXMgcmVzdG9yZXMg
+dGhlDQp0YXJiYWxsIHdyaXR0ZW4gaW50byBzc3RhdGUgaW4gYSkuIFRoZSBtaWxsaXNlY29uZCBk
+YXRhIGlzIHRoZXJlZm9yZQ0KbG9zdC4gZG9fcGFja2FnZV93cml0ZV9pcGsgd291bGQgdGhlbiBi
+ZSB3cml0dGVuIHdpdGhvdXQgaXQuDQoNCkknZCBndWVzcyB5b3UgbmVlZCB0byBtYWtlIHRoZSBz
+c3RhdGUgYXJjaGl2ZXMgb2YgZG9fcGFja2FnZSBzdG9yZSB0aGUNCmFjbCBhbmQgZXh0ZW5kZWQg
+YXR0cmlidXRlIGRhdGEgYW5kIHdoZW4gdGhhdCBpcyBkb25lLCB0aGUgbWlsbGlzZWNvbmQNCnRp
+bWVzdGFtcCBkYXRhIHdpbGwgcHJvYmFibHkgYmUgc2F2ZWQgdG9vPyBJJ20gbm90IHN1cmUgdGhp
+cyBpcyBnb2luZw0KdG8gYmUgYSBnZW5lcmFsbHkgdXNlZnVsIHRoaW5nIGluIHRoZSBnZW5lcmFs
+IGNhc2UgdGhvdWdoIGFuZCB6ZXJvaW5nDQp0aGUgbWlsbGlzZWNvbmQgcG9ydGlvbiB3b3VsZCBy
+ZWFsbHkgYmUgZWFzaWVyIGluIGdlbmVyYWwgaWYgd2UgY291bGQuDQpDZXJ0YWlubHksIFNPVVJD
+RV9EQVRFX0VQT0NIIGRvZXNuJ3QgaGF2ZSBtaWxsaXNlY29uZCBwcmVjaXNpb24uDQoNCkNoZWVy
+cywNCg0KUmljaGFyZA0KDQoNCg0KDQo=
 
-a) do_package is run and do_package_write_ipk uses the files directly
-from disk which has the millisecond data. do_package writes an sstate
-tarball using tar in non-posix mode.
+--_000_AM6PR04MB53686D49B46380144CB447829105AAM6PR04MB5368eurp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-b) do_package_setscene runs instead of do_package. This restores the
-tarball written into sstate in a). The millisecond data is therefore
-lost. do_package_write_ipk would then be written without it.
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBkaXI9Imx0
+ciI+DQo8ZGl2PjwvZGl2Pg0KPGRpdj4NCjxkaXY+PHNwYW4gZGlyPSJsdHIiIHN0eWxlPSJ0ZXh0
+LWRlY29yYXRpb246bm9uZSI+QmlnIHRoeCBmb3IgcXVpY2sgcmVzcG9uc2UgUmljaGFyZC48L3Nw
+YW4+DQo8ZGl2IGRpcj0ibHRyIiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOm5vbmUiPjxicj4NCjwv
+ZGl2Pg0KPGRpdiBkaXI9Imx0ciIgc3R5bGU9InRleHQtZGVjb3JhdGlvbjpub25lIj5JIHdpbGwg
+bG9vayBpbnRvIGl0LjwvZGl2Pg0KPGRpdiBpZD0ibXMtb3V0bG9vay1tb2JpbGUtc2lnbmF0dXJl
+IiBkaXI9Imx0ciIgc3R5bGU9InRleHQtZGVjb3JhdGlvbjpub25lIj4NCjxkaXY+PGJyPg0KPC9k
+aXY+DQo8ZGl2IGRpcj0ibHRyIj5CUjwvZGl2Pg0KPHNwYW4gZGlyPSJsdHIiPlBpb3RyPC9zcGFu
+PjwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGlkPSJtcy1vdXRsb29rLW1vYmlsZS1zaWduYXR1cmUiIGRp
+cj0ibHRyIj48L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8aHIgc3R5bGU9ImRpc3BsYXk6aW5saW5l
+LWJsb2NrO3dpZHRoOjk4JSIgdGFiaW5kZXg9Ii0xIj4NCjxkaXYgaWQ9ImRpdlJwbHlGd2RNc2ci
+IGRpcj0ibHRyIj48Zm9udCBmYWNlPSJDYWxpYnJpLCBzYW5zLXNlcmlmIiBzdHlsZT0iZm9udC1z
+aXplOjExcHQiIGNvbG9yPSIjMDAwMDAwIj48Yj5PZDo8L2I+IFJpY2hhcmQgUHVyZGllICZsdDty
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnJmd0Ozxicj4NCjxiPld5c8WCYW5lOjwv
+Yj4gTW9uZGF5LCBKdWx5IDMxLCAyMDIzIDExOjE5OjM5IFBNPGJyPg0KPGI+RG86PC9iPiBKb3No
+dWEgV2F0dCAmbHQ7SlBFV2hhY2tlckBnbWFpbC5jb20mZ3Q7OyBQaW90ciDFgW9iYWN6ICZsdDtw
+LmxvYmFjekB3ZWxvdGVjLmNvbSZndDs8YnI+DQo8Yj5EVzo8L2I+IEFsZXhhbmRyZSBCZWxsb25p
+ICZsdDthbGV4YW5kcmUuYmVsbG9uaUBib290bGluLmNvbSZndDs7IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcmZ3Q7OyBBbGV4IFN0ZXdhcnQgJmx0O2FsZXguc3Rld2FydEBuaS5jb20mZ3Q7
+PGJyPg0KPGI+VGVtYXQ6PC9iPiBSZTogW09FLUNvcmVdW1BBVENIIHYxMV1bbWFzdGVyLW5leHQg
+MS81XSBwYWNrYWdlX2lway5iYmNsYXNzOiBhZGQgc3VwcG9ydCBmb3IgQUNMcyBhbmQgeGF0dHI8
+L2ZvbnQ+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJCb2R5RnJhZ21l
+bnQiPjxmb250IHNpemU9IjIiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTFwdDsiPg0KPGRpdiBj
+bGFzcz0iUGxhaW5UZXh0Ij5PbiBNb24sIDIwMjMtMDctMzEgYXQgMTQ6MjUgLTA2MDAsIEpvc2h1
+YSBXYXR0IHdyb3RlOjxicj4NCiZndDsgT24gTW9uLCBKdWwgMzEsIDIwMjMgYXQgMToxMOKAr1BN
+IFBpb3RyIMWBb2JhY3ogJmx0O3AubG9iYWN6QHdlbG90ZWMuY29tJmd0OyB3cm90ZTo8YnI+DQom
+Z3Q7ICZndDsgPGJyPg0KJmd0OyAmZ3Q7IEnigJltIHNvcnJ5IGZvciBzcGxpdHRpbmcgdGhpcyBt
+ZXNzYWdlIGJ1dCBpdCBoYXMgaGFwcGVuZCBieSBhY2NpZGVudOKApjxicj4NCiZndDsgJmd0OyA8
+YnI+DQomZ3Q7ICZndDsgUmV0dXJuaW5nIHRvIHRoZSB0b3BpYyBteSBhc3N1bXB0aW9uIGlzIHRo
+YXQgZm9yIHNvbWUgcmVhc29uIGluIHJlcHJvZHVjaWJsZUEsIHRoZXNlIG1pbGlzZWNvbmRzIGFy
+ZSBjdXR0ZWQgYW5kIGluIGNhc2Ugb2YgcmVwcm9kdWNpYmxlQiB0aGV5IGFyZSBub3QuPGJyPg0K
+Jmd0OyAmZ3Q7IDxicj4NCiZndDsgJmd0OyBUaGlzIHdhcyBvYnZpb3VzbHkgd29ya2luZyBmb3Ig
+b3BrZy1idWlsZCBpbiBjYXNlIG9mIGdudSBmb3JtYXQgd2hpY2ggaXMgY3V0dGluZyBpdCBhbHNv
+IGJ1dCBmb3IgcG9zaXggZm9ybWF0IGl0IHN0b3JlcyBhbmQgdGh1cyBlcnJvciBvY2N1cnMuPGJy
+Pg0KJmd0OyAmZ3Q7IDxicj4NCiZndDsgJmd0OyBNeSBxdWVzdGlvbiBpcyB3aGVyZSBjYW4gSSBm
+aW5kIHRoZSBjb2RlIHJlc3BvbnNpYmxlIGZvciBtb3ZpbmcvY29waW5nIGRhdGEgaW50byB0aGVz
+ZSBwYWNrYWdlcy1zcGxpdCBkaXJlY3Rvcmllcz88YnI+DQomZ3Q7IDxicj4NCiZndDsgSSBzdXNw
+ZWN0IHRoaXMgaXMgYmVjYXVzZSByZXByb2R1Y2libGVBIGlzIGFsbG93ZWQgdG8gcmVzdG9yZSBm
+cm9tPGJyPg0KJmd0OyBzc3RhdGUgd2hlcmUgdGhlIG1pbGxpc2Vjb25kcyBhcmUgbm90IHByZXNl
+cnZlZCwgd2hpbGUgcmVwcm9kdWNpYmxlQjxicj4NCiZndDsgZG9lc24ndCByZXN0b3JlIGZyb20g
+c3N0YXRlLjxicj4NCiZndDsgPGJyPg0KJmd0OyBJJ20gbm90IHN1cmUgaG93IHlvdSB3b3VsZCBz
+dG9yZSB0aGUgbWlsbGlzZWNvbmRzIGluIHNzdGF0ZSBhbmQgbWFrZTxicj4NCiZndDsgc3VyZSBp
+dCB3YXMgY29uc2lzdGVudCwgYnV0IHRoYXQgaXMgcHJvYmFibHkgd2hlcmUgeW91IG5lZWQgdG8g
+bG9vay48YnI+DQomZ3Q7IFN0YXJ0IGluIHNzdGF0ZS5iYmNsYXNzPGJyPg0KPGJyPg0KV2hhdCBp
+cyBsaWtlbHkgaGFwcGVuaW5nIGlzIHRoYXQgd2UgaGF2ZSB0d28gY2FzZXM6PGJyPg0KPGJyPg0K
+YSkgZG9fcGFja2FnZSBpcyBydW4gYW5kIGRvX3BhY2thZ2Vfd3JpdGVfaXBrIHVzZXMgdGhlIGZp
+bGVzIGRpcmVjdGx5PGJyPg0KZnJvbSBkaXNrIHdoaWNoIGhhcyB0aGUgbWlsbGlzZWNvbmQgZGF0
+YS4gZG9fcGFja2FnZSB3cml0ZXMgYW4gc3N0YXRlPGJyPg0KdGFyYmFsbCB1c2luZyB0YXIgaW4g
+bm9uLXBvc2l4IG1vZGUuPGJyPg0KPGJyPg0KYikgZG9fcGFja2FnZV9zZXRzY2VuZSBydW5zIGlu
+c3RlYWQgb2YgZG9fcGFja2FnZS4gVGhpcyByZXN0b3JlcyB0aGU8YnI+DQp0YXJiYWxsIHdyaXR0
+ZW4gaW50byBzc3RhdGUgaW4gYSkuIFRoZSBtaWxsaXNlY29uZCBkYXRhIGlzIHRoZXJlZm9yZTxi
+cj4NCmxvc3QuIGRvX3BhY2thZ2Vfd3JpdGVfaXBrIHdvdWxkIHRoZW4gYmUgd3JpdHRlbiB3aXRo
+b3V0IGl0Ljxicj4NCjxicj4NCkknZCBndWVzcyB5b3UgbmVlZCB0byBtYWtlIHRoZSBzc3RhdGUg
+YXJjaGl2ZXMgb2YgZG9fcGFja2FnZSBzdG9yZSB0aGU8YnI+DQphY2wgYW5kIGV4dGVuZGVkIGF0
+dHJpYnV0ZSBkYXRhIGFuZCB3aGVuIHRoYXQgaXMgZG9uZSwgdGhlIG1pbGxpc2Vjb25kPGJyPg0K
+dGltZXN0YW1wIGRhdGEgd2lsbCBwcm9iYWJseSBiZSBzYXZlZCB0b28/IEknbSBub3Qgc3VyZSB0
+aGlzIGlzIGdvaW5nPGJyPg0KdG8gYmUgYSBnZW5lcmFsbHkgdXNlZnVsIHRoaW5nIGluIHRoZSBn
+ZW5lcmFsIGNhc2UgdGhvdWdoIGFuZCB6ZXJvaW5nPGJyPg0KdGhlIG1pbGxpc2Vjb25kIHBvcnRp
+b24gd291bGQgcmVhbGx5IGJlIGVhc2llciBpbiBnZW5lcmFsIGlmIHdlIGNvdWxkLjxicj4NCkNl
+cnRhaW5seSwgU09VUkNFX0RBVEVfRVBPQ0ggZG9lc24ndCBoYXZlIG1pbGxpc2Vjb25kIHByZWNp
+c2lvbi48YnI+DQo8YnI+DQpDaGVlcnMsPGJyPg0KPGJyPg0KUmljaGFyZDxicj4NCjxicj4NCjxi
+cj4NCjxicj4NCjxicj4NCjwvZGl2Pg0KPC9zcGFuPjwvZm9udD48L2Rpdj4NCjwvYm9keT4NCjwv
+aHRtbD4NCg==
 
-I'd guess you need to make the sstate archives of do_package store the
-acl and extended attribute data and when that is done, the millisecond
-timestamp data will probably be saved too? I'm not sure this is going
-to be a generally useful thing in the general case though and zeroing
-the millisecond portion would really be easier in general if we could.
-Certainly, SOURCE_DATE_EPOCH doesn't have millisecond precision.
-
-Cheers,
-
-Richard
-
-
-
-
+--_000_AM6PR04MB53686D49B46380144CB447829105AAM6PR04MB5368eurp_--
 
