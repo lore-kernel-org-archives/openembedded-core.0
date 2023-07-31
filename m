@@ -2,33 +2,31 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B92C04A94
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 06:38:15 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.2034.1690785485290711541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF7EC001DF
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 07:03:35 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.2221.1690787013202987226
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Jul 2023 23:38:06 -0700
+ Mon, 31 Jul 2023 00:03:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GoKu63rU;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202307310638020118dbcff8b9e39de9-ojfyfy@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202307310638020118dbcff8b9e39de9
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=N7hO7o09;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202307310703319bf8d75abb176ded99-uk2heg@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202307310703319bf8d75abb176ded99
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 31 Jul 2023 08:38:02 +0200
+        Mon, 31 Jul 2023 09:03:31 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=Fz6bH6xd5avd4o3HLl7XsVKJIzlDc248/r0JjuwuSEY=;
- b=GoKu63rUMkYRLhQIbIs8Q7+kP0neLHz34QJBXf8ufdL8c4e3qZ4a0HmwPftjtLvJQWAxfY
- 4YT7PnrAc8N7JuueilfQ9290Wm77+RfZOuVD78KpolBLnEnENjZJHXwQ5ToEM7jseWMDcgtv
- zoi+AIvEUipYlZTrxTt0SLfKsatEw=;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=l5kZdRhl8inoVlyK/CV+8RUAaHkmlhgEXstchbfmtJ8=;
+ b=N7hO7o098putnocIYB6ZPlm8prSnG66WHLebYTGJmkgKjtxOr6CosxKhg1Jr6K3eK8Y63r
+ IEmVSDvJVJ56f4r7SPKcYsMkqcKSweTAZT2xVESQBqiwLOOISHUpq5jw/N0h3pu0gd+NkeZw
+ cJHiSRUe8VXyiRCzt42ga5O6YxJhg=;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 2/2] bluez5: correct CVE status of ignored CVEs
-Date: Mon, 31 Jul 2023 08:36:53 +0200
-Message-Id: <20230731063653.8269-2-peter.marko@siemens.com>
-In-Reply-To: <20230731063653.8269-1-peter.marko@siemens.com>
-References: <20230731063653.8269-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2 1/2] cve-exclusion_6.1: correct typo in exclusion list name
+Date: Mon, 31 Jul 2023 09:02:31 +0200
+Message-Id: <20230731070232.9782-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,37 +34,31 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 06:38:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185119
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 07:03:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185121
 
-Rewrite of CVE_CHECK_IGNORE to CVE_STATUS contained copy+paste
-problem changing CVE numbers.
+From: Peter Marko <peter.marko@siemens.com>
 
-CVE-2020-12352 -> CVE-2022-3563
-CVE-2020-24490 -> CVE-2022-3637
-
-CVE-2020-12352 is now for kernel only in NVD BD, so remove it.
-CVE-2020-24490 is corrected in this commit.
+This will remove 6 CVEs which were already excluded before.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5_5.68.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.68.bb b/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-index f8405ed091..7c7ad75ed8 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-@@ -2,8 +2,7 @@ require bluez5.inc
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index 2eb4836c35..6505fbeb60 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -571,7 +571,7 @@ CVE_STATUS[CVE-2023-3220] = "cpe-stable-backport: Backported in version v6.1.16"
+ # Backported to 6.1.28
+ CVE_STATUS_GROUPS += "CVE_STATUS_KERNEL_6128"
+ CVE_STATUS_KERNEL_6128 = "CVE-2023-3268 CVE-2023-35823 CVE-2023-35824 CVE-2023-35826 CVE-2023-35828 CVE-2023-35829"
+-CVE_STATUS_KERNEL_6122[status] = "cpe-stable-backport: Backported in version v6.1.28"
++CVE_STATUS_KERNEL_6128[status] = "cpe-stable-backport: Backported in version v6.1.28"
  
- SRC_URI[sha256sum] = "fc505e6445cb579a55cacee6821fe70d633921522043d322b696de0a175ff933"
- 
--CVE_STATUS[CVE-2022-3563] = "cpe-incorrect: This issues have kernel fixes rather than bluez fixes"
--CVE_STATUS[CVE-2022-3637] = "cpe-incorrect: This issues have kernel fixes rather than bluez fixes"
-+CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
+ # Backported to 6.1.30
+ # Backported to 6.1.30 as 9a342d4
 -- 
 2.30.2
 
