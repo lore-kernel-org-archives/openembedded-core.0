@@ -1,133 +1,248 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B57CDC001DF
-	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 08:11:05 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.2847.1690791060603169126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0AE5C001DC
+	for <webhook@archiver.kernel.org>; Mon, 31 Jul 2023 08:21:45 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.2953.1690791703496322941
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jul 2023 01:11:00 -0700
+ Mon, 31 Jul 2023 01:21:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=CpgLuHnu;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b9cdbf682eso41560921fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 01:11:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=O1gcyJgc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-52229f084beso6690226a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 01:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690791059; x=1691395859;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jzu/DpYkgFwhgfYJ3u+iT8vhMS/Do6jvLmqyl+FpTI=;
-        b=CpgLuHnuSZ3uAznL7rsPQ6SslvzJl3vFw2ACztLPmIsDtwa36odIm/W8quU7R4sz/5
-         aaa0qgP8xS4t8wdVIYujs6ba75jwKqFh7L4UITAIVYKCST3v4LzY13Pv2V8xLx4OOn8E
-         0HVczR94/G4LjQZVhZPSh6Kp/ms53pbUGF+UQiwGwYWkFSMW8U2TKDckW1XacH5C40mv
-         rKji5oLlOPc+ahgXyXM8XBXvVh7N/xNAGN++jmSwJLNrFSr6Id/yiWPVQgmusgELItTE
-         wxEwErro5LOTUzTE68L/Zbyhlku/HUoTPoSurQAUxYve5XZBD5KOSlPIQMNZdosDxWDE
-         Ouwg==
+        d=gmail.com; s=20221208; t=1690791701; x=1691396501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZANnsgKRvE/IloWyH6wkA699H8p0tcNjnjVgy5bpamg=;
+        b=O1gcyJgcLOnTNh+kFoPC/8w6MfmNIP9YFRD1o8xqsJsw0xc79TiCFx8AT+DWabzikH
+         auSGblPnU9XQt7wY4TPpPaaqe+R1+OFSxUIXETQWG8Ln8isbXp/zf4fRSbD1nER792Lx
+         oHQEwn2BxHshHgdrTP8GTmiV6cAJPWRyPQ/LNJ6ymAZwGTUepx8yW6oIYDmRcLrUCy3L
+         bzY2p3KMv7/GDn8igfg/vezIpJeisaA7LSS6V8fz3X6WftL8QBhTkQqSoxnXST9f7ORM
+         O+zSn46NHsmPKvUqpjsFDaEKrVWuevQO88F0doxiGqzy0kMr1JrYZ2cyEImTpU4OhP2m
+         4h5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690791059; x=1691395859;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1690791701; x=1691396501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3jzu/DpYkgFwhgfYJ3u+iT8vhMS/Do6jvLmqyl+FpTI=;
-        b=fjZ7nPQsuHvQBJm1ddZolJaRnoedUHyxApAVRVuPARxfa3DY/3IEhhveFbuZfkCmyV
-         XOySxjUMS2quhFevh8DntgjnXCdhi4cBombtNab1mBFtsg8utPyBp6RmETG5WTJpwJeb
-         5T77U+hA/fY9Z8oaUZuKTbucESqo4ra1186GY0PB0S9T7kZhtxxsz6XKaCxxZcDVotxx
-         ApvL+vSDSx53XsMGPgNJP5R52t7p9b8HIAJKfkvJJQthvtsgtx6v1dCp/YesI2QHhS9A
-         N4ICU5Ku1lY29x0xkiZK1EUMOaX4ZT7XE7dtJ0U5N3W/aeD8QPHNOp3NRVc5crnNbfaq
-         PQ8Q==
-X-Gm-Message-State: ABy/qLYhQdd/M71rkJe/1eHQqQELaFK3VxJFvCTwsVG5cIxFuVOf980q
-	0zZgXJjSjm4Tq9FS6Wgk6LEDv5XJQ2xAMchKgyQ=
-X-Google-Smtp-Source: APBJJlE71K6OEoKJTVk/7RG+G+7NA5y0S/ISN3nPHFK8tzwqdAuIodi3CIQnjUISIpoLAc5yjPF2XjD1XGoG4Fw/m1Q=
-X-Received: by 2002:a2e:7013:0:b0:2b6:cf31:5e81 with SMTP id
- l19-20020a2e7013000000b002b6cf315e81mr6092875ljc.20.1690791058410; Mon, 31
- Jul 2023 01:10:58 -0700 (PDT)
+        bh=ZANnsgKRvE/IloWyH6wkA699H8p0tcNjnjVgy5bpamg=;
+        b=UWglFklwDDP/SIBvEgnlX2cfTzgp09SPp6avbk6LIVYBe6aEsvlEYA1+H3tqEhkXz1
+         CAy85fCP82Zm8oTolmmtYLYAFZCcNfNgjetRYZ9pjYVd0SjuArowYEweeMId4447FqVj
+         TIhE/iV5lGVQm2hnF4EwzhwOHqQ9qsF1/ETBmzg44Dw1wvPnZxaqo8wSJIJbT4hp3BvF
+         AXHw6yXIJaQU1WRScAhI8wpDsN8t1h+7C9CgZi4wGxHXXZ40vhQXI7jcWC1R6o6dNl9L
+         V90A5xZ3PMebKJQBghwvQQDRdfBcAwrbj/hnrDv9RzLnxA2bDFddI/DUao1L/XThh2NY
+         a+Lg==
+X-Gm-Message-State: ABy/qLZUCgypClq5Dl4+1JUfVV4D3WqfxSfGtvsj4EqFyF9ubh4EpCIC
+	TutLA3Hilb4wLGC+AZm61tF2eZRz5y+BawsB
+X-Google-Smtp-Source: APBJJlG2O8Xro+0hk2MhwcQfrLW44/iz9gAbnskDfuNp2kAms6I6Mh45exRVj5X4h5zItkQLd9gdaw==
+X-Received: by 2002:aa7:c554:0:b0:522:40dd:74f3 with SMTP id s20-20020aa7c554000000b0052240dd74f3mr9125948edr.39.1690791701347;
+        Mon, 31 Jul 2023 01:21:41 -0700 (PDT)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id b23-20020aa7df97000000b00522d742bc4bsm13406edy.62.2023.07.31.01.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 01:21:41 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ross Burton <Ross.Burton@arm.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v5] rpm: Allow setting platform macro settings externally
+Date: Mon, 31 Jul 2023 10:21:38 +0200
+Message-ID: <20230731082138.92309-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230727143627.3718496-1-alex@linutronix.de> <20230727143627.3718496-12-alex@linutronix.de>
- <20230728131317ca8fba29@mail.local> <17760BA193C3A223.27447@lists.openembedded.org>
- <CANNYZj_=kDrFgL8nEv8vJsu6zvOra+V92=GjCGj-j2YVhhiOSQ@mail.gmail.com>
- <202307302036342002024f@mail.local> <1776DE5455DFB899.15684@lists.openembedded.org>
- <1776E39D10B7A347.29388@lists.openembedded.org>
-In-Reply-To: <1776E39D10B7A347.29388@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 31 Jul 2023 10:10:46 +0200
-Message-ID: <CANNYZj84rh+GXEL7azYHKWCRREH7ypqmqD3mnkDeKd9ipemNqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 12/21] util-linux: upgrade 2.38.1 -> 2.39.1
-To: alex.kanavin@gmail.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 08:11:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185125
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Jul 2023 08:21:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185126
 
-I sent a revised patch that excludes the flaky test.
+Feed platform settings to installplatform externally. Based on the patch
+submitted under https://github.com/rpm-software-management/rpm/pull/2585
 
-Alex
+Patch against INSTALL was backported for rpm 4.18.1
 
-On Mon, 31 Jul 2023 at 09:36, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> I looked into it. Yes it's a race in a badly written shell script:
-> https://github.com/util-linux/util-linux/issues/2399
->
-> I'll see if the test can be easily skipped until upstream sorts it out.
->
-> Alex
->
-> On Mon, 31 Jul 2023 at 07:59, Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > On Sun, 30 Jul 2023 at 22:36, Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > > This is not 100% reproducible and so difficult to bisect. This is the
-> > > log:
-> > >
-> > > diff-{{{
-> > > --- /usr/lib/util-linux/ptest/tests/expected/lsfd/option-inet
-> > > +++ /usr/lib/util-linux/ptest/tests/output/lsfd/option-inet
-> > > @@ -5,10 +5,10 @@
-> > >      3     TCPv6 state=listen laddr=[::1]:34567
-> > >      4     TCPv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
-> > >      5     TCPv6 state=established laddr=[::1]:34567 raddr=[::1]:23456
-> > > -    3       UDP state=close laddr=127.0.0.1:34567
-> > > -    4       UDP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
-> > > -    3 UDPLITEv6 state=close laddr=[::1]:34567
-> > > -    4 UDPLITEv6 state=established laddr=[::1]:23456 raddr=[::1]:34567
-> > > +    3       UDP socket:[33864]
-> > > +    4       UDP socket:[33865]
-> > > +    3 UDPLITEv6 socket:[31413]
-> > > +    4 UDPLITEv6 socket:[31414]
-> > >  # --inet=4
-> > >      3  TCP state=listen laddr=127.0.0.1:34567
-> > >      4  TCP state=established laddr=127.0.0.1:23456 raddr=127.0.0.1:34567
-> > > }}}-diff
-> > >
-> > > FAIL:          lsfd: --inet option                                 (lsfd/option-inet)
-> > >
-> > >
-> > > All the occurrences are on the arm workers, ubuntu1804-arm-1 and
-> > > ubuntu2204-arm-1 for now.
-> >
-> > Thanks, I'll try to narrow it further. May be that it's the update
-> > itself, and not interaction with something else in the branch. Does
-> > look like a race condition as well.
-> >
-> > Alex
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185123): https://lists.openembedded.org/g/openembedded-core/message/185123
-> Mute This Topic: https://lists.openembedded.org/mt/100391613/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ ...atform-macro-settings-externally-258.patch | 118 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  20 +++
+ 2 files changed, 138 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+
+diff --git a/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+new file mode 100644
+index 0000000000..f4c3630b8c
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+@@ -0,0 +1,118 @@
++From e58c607dcdb303ff3ba1b22fd23eb20e374b6ed3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
++ <zboszor@gmail.com>
++Date: Fri, 28 Jul 2023 12:16:56 +0200
++Subject: [PATCH] Allow setting platform macro settings externally (#2585)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++* Allow setting platform macro settings externally
++
++By default, rpm installs a series of default platforms based on
++the CPU architecture names in subdirectories called
++
++    /usr/lib/platform/<arch>-<os>
++
++This is enough for regular Linux distributions. However, some
++distributions may use more specific platform names that refer to
++particular computer systems, like SBCs or specific CPU tuning when
++compiling.
++
++If the platform subdirectory does not exist in /usr/lib/platform
++then rpmbuild does not work.
++
++Allow creating such custom platform subdirectory with feeding
++the necessary data using external variables: RPM_CUSTOM_ARCH,
++RPM_CUSTOM_ISANAME, RPM_CUSTOM_ISABITS, RPM_CUSTOM_CANONARCH
++and RPM_CUSTOM_CANONCOLOR
++
++Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
++
++---------
++
++Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
++Co-authored-by: Florian Festi <ffesti@redhat.com>
++---
++ INSTALL         | 37 +++++++++++++++++++++++++++++++++++++
++ installplatform |  9 ++++++++-
++ 2 files changed, 45 insertions(+), 1 deletion(-)
++
++diff --git a/INSTALL b/INSTALL
++index 13d0d8a83..5e035cf6a 100644
++--- a/INSTALL
+++++ b/INSTALL
++@@ -148,6 +148,43 @@ and then install with:
++ 
++     make install
++ 
+++
+++By default, rpm installs a series of default platforms based on the CPU
+++architecture names in subdirectories called
+++
+++    /usr/lib/platform/<arch>-<os>
+++
+++This is enough for many distributions. However, some distributions
+++may use more specific platform names that refer to particular computer
+++systems, like SBCs or specific CPU tuning when compiling. Examples of such
+++platform names are: "genericx86_64", "intel_skylake_64", "raspberrypi_armv7",
+++"raspberrypi_armv8", etc.
+++
+++If the platform name is put into /etc/rpm/platform, then rpmbuild uses it
+++and the only macros file rpmbuild looks for is
+++
+++    /usr/lib/platform/`cat /etc/rpm/platform`-<os>/macros
+++
+++If this file does not exist, many rpm macros will not have their expected
+++values set and e.g. %configure will fail when trying to run rpmbuild.
+++
+++To allow creating the macros file for such a custom platform, the shell
+++variables listed below must be set. If RPM_CUSTOM_ARCH is not set, the rest
+++is ignored.
+++
+++    export RPM_CUSTOM_ARCH=genericx86_64
+++    export RPM_CUSTOM_ISANAME=x86
+++    export RPM_CUSTOM_ISABITS=64
+++    export RPM_CUSTOM_CANONARCH=x86_64
+++    export RPM_CUSTOM_CANONCOLOR=0 # to use /usr/lib for %_libdir
+++    export RPM_CUSTOM_CANONCOLOR=3 # to use /usr/lib64 for %_libdir
+++
+++    make install 
+++
+++This also creates and installs the new platform file e.g.
+++/usr/lib/platform/genericx86_64-linux/macros
+++
+++
++ Rpm comes with an automated self-test suite. The test-suite relies heavily
++ on fakechroot (https://github.com/dex4er/fakechroot/) and cannot be executed
++ without it. Provided that fakechroot was found during configure,
++diff --git a/installplatform b/installplatform
++index a5ad7c5b8..59f57697b 100755
++--- a/installplatform
+++++ b/installplatform
++@@ -11,7 +11,7 @@ VENDOR="${4}"
++ OS="${5}"
++ RPMRC_GNU="${6}"
++ 
++-for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
+++for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2` ${RPM_CUSTOM_ARCH:+custom}; do
++   RPMRC_OPTFLAGS="`sed -n 's/^optflags: '$ARCH' //p' $RPMRC`"
++   RPMRC_OPTFLAGS="`echo $RPMRC_OPTFLAGS | sed -e 's, ,\ ,g'`"
++   case $RPMRC_OPTFLAGS in
++@@ -30,6 +30,13 @@ for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
++   CANONCOLOR=
++   FILTER=cat
++   case "${ARCH}" in
+++    custom)
+++	ARCH=$RPM_CUSTOM_ARCH
+++	ISANAME=$RPM_CUSTOM_ISANAME
+++	ISABITS=$RPM_CUSTOM_ISABITS
+++	CANONARCH=$RPM_CUSTOM_CANONARCH
+++	CANONCOLOR=$RPM_CUSTOM_CANONCOLOR
+++    ;;
++     sparc64*) 
++ 	ISANAME=sparc
++ 	ISABITS=64
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+index 95a9e92f96..0b8ebebb51 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
+            file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
+            file://fix-declaration.patch \
+            file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
++           file://0001-Allow-setting-platform-macro-settings-externally-258.patch \
+            "
+ 
+ PE = "1"
+@@ -128,10 +129,29 @@ do_install:append:class-nativesdk() {
+ 	EOF
+ }
+ 
++def rpm_isaname(d):
++    import re
++    arch = d.getVar('TARGET_ARCH')
++    if re.match("^i.86$", arch) or re.match("^x86.*64$", arch):
++        return "x86"
++    # Add more platform tweaks for ISANAME as needed
++    return arch
++
++# Add the custom BSP platform "macros" file
++do_install:prepend:class-target() {
++    export RPM_CUSTOM_ARCH="${MACHINE_ARCH}"
++    export RPM_CUSTOM_ISANAME="${@rpm_isaname(d)}"
++    export RPM_CUSTOM_ISABITS="${SITEINFO_BITS}"
++    export RPM_CUSTOM_CANONARCH="${TARGET_ARCH}"
++    # CANONCOLOR determines whether /usr/lib or /usr/lib64 is used for a 64-bit platform
++    export RPM_CUSTOM_CANONCOLOR="${@bb.utils.contains('DISTRO_FEATURES', 'multilib', '3', '0', d)}"
++}
++
+ # Rpm's make install creates var/tmp which clashes with base-files packaging
+ do_install:append:class-target() {
+     rm -rf ${D}/var
+ }
++
+ do_install:append:class-nativesdk() {
+     rm -rf ${D}${SDKPATHNATIVE}/var
+     # Ensure find-debuginfo is located correctly inside SDK
+-- 
+2.41.0
+
 
