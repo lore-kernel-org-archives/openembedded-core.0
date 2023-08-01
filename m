@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B00CAC27C5F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA45CC2FC06
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:52 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.17590.1690907328990527750
+ by mx.groups.io with SMTP id smtpd.web10.17605.1690907331418794001
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hh6hwctA;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=X/Yp0Hss;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189b1ee4c93-fe797e7d-191a-475e-a2ea-0cd278ed06a8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QFHNkSfx;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Y4f72FzL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189b1ee4d3f-ad8d9c88-cbd8-4af6-b696-d140b34191f8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1690907331;
+	t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6n2pSacvEU8mTzJo+ZNxsRi3tB0clwqJRLD87/8m9lI=;
-	b=hh6hwctA7xFDY3eADv8sv5LFEIuXD10ypiELLrmnuQLs+XbjenPNz3QEafdzByib
-	IyQF76AoJ/AdBDLoPhoRU6Ae7jtIOgjTKctShjAvkOMyaRuuhKB5AK3wEoHMyPFGPkg
-	N+w/LNjjP2Hi/CXtVOLYIrc/QMp0cGsjBbW5IXzw=
+	bh=TQpEIBhjNbiyPCIKqmVlOS2qcCc5O6wTNV2rJvslsUs=;
+	b=QFHNkSfxME0UOI73Fb3KtWbFd3zvDp9xZGefx6/de8YkPps38iQddHWkeNFdzEfO
+	oDFDpdTHml6h06JKP8NtwcGvsDamDCJsTapoHCsJ4gYcvRammDRt3m0WOz5gjHHc70q
+	UrtxF09DKtb05Y+0JsqzyUsChSXNB5Qeea1jxbM4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907331;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6n2pSacvEU8mTzJo+ZNxsRi3tB0clwqJRLD87/8m9lI=;
-	b=X/Yp0Hss3HesokIH5pMsGIMACxElQP+lSJoNxTeLnNH5YdfqzvhWLlkAeLOEbG5S
-	4Tt2QfdBoueFwjXyuasy91wfiCpRUQEy8GFyiRVjt+ZSNQDi1vXNMjOZCaVGPLxA9gB
-	oeYMV75/G3/pruF9cclM92MfBmra9aDSjKvofmXE=
-Content-Type: multipart/mixed; boundary="===============6766951578726788880=="
+	bh=TQpEIBhjNbiyPCIKqmVlOS2qcCc5O6wTNV2rJvslsUs=;
+	b=Y4f72FzLVElEg0jt/vRc7M/25i5L6ZNEVVmISoj6i0L87T2HTYVJZsrwnO+HfHSr
+	i5Myj8YHc11ii4Shqkol1A/F463vGkNfGvwCsipQj2em9CWJgxbNpDF7Yl01H1zC0sg
+	PXi/cpAggxIVLLy1Ez1ysZWWcfry94G2IjuTRnvc=
+Content-Type: multipart/mixed; boundary="===============6321728599657621771=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-headers: upgrading to 1.3.250.1 SUCCEEDED
-Message-ID: <01010189b1ee4c93-fe797e7d-191a-475e-a2ea-0cd278ed06a8-000000@us-west-2.amazonses.com>
+Subject: [AUH] vulkan-headers: upgrading to 1.3.250.1 SUCCEEDED
+Message-ID: <01010189b1ee4d3f-ad8d9c88-cbd8-4af6-b696-d140b34191f8-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.08.01-54.240.27.192
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185322
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185327
 
---===============6766951578726788880==
+--===============6321728599657621771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.250.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-headers* to *1.3.250.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.250.0-1.3.250.1.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.250.0-1.3.250.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,46 +72,46 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 17f20b34c8a136a4f8c9de06a53fbdf602176df0 Mon Sep 17 00:00:00 2001
+From 551d07ae1217a1faf2a60d1079af641234f804b4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Aug 2023 14:14:24 +0000
-Subject: [PATCH] spirv-headers: upgrade 1.3.250.0 -> 1.3.250.1
+Date: Tue, 1 Aug 2023 14:29:18 +0000
+Subject: [PATCH] vulkan-headers: upgrade 1.3.250.0 -> 1.3.250.1
 
 ---
- .../{spirv-headers_1.3.250.0.bb => spirv-headers_1.3.250.1.bb}    | 0
+ .../{vulkan-headers_1.3.250.0.bb => vulkan-headers_1.3.250.1.bb}  | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-graphics/spir/{spirv-headers_1.3.250.0.bb => spirv-headers_1.3.250.1.bb} (100%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.250.0.bb => vulkan-headers_1.3.250.1.bb} (100%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.250.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.250.1.bb
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.1.bb
 similarity index 100%
-rename from meta/recipes-graphics/spir/spirv-headers_1.3.250.0.bb
-rename to meta/recipes-graphics/spir/spirv-headers_1.3.250.1.bb
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.250.1.bb
 -- 
 2.39.2
 
 
---===============6766951578726788880==
+--===============6321728599657621771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/spirv-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
-packages/core2-32-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.250.0" to "1.3.250.1"
-packages/core2-32-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1494,28 +1494,29 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6766951578726788880==
+--===============6321728599657621771==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-headers-upgrade-1.3.250.0-1.3.250.1.patch"
+ filename="0001-vulkan-headers-upgrade-1.3.250.0-1.3.250.1.patch"
 
-RnJvbSAxN2YyMGIzNGM4YTEzNmE0ZjhjOWRlMDZhNTNmYmRmNjAyMTc2ZGYwIE1vbiBTZXAgMTcg
+RnJvbSA1NTFkMDdhZTEyMTdhMWZhZjJhNjBkMTA3OWFmNjQxMjM0ZjgwNGI0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBBdWcgMjAyMyAxNDoxNDoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LWhlYWRlcnM6IHVwZ3JhZGUgMS4zLjI1MC4wIC0+IDEuMy4yNTAuMQoKLS0tCiAuLi4ve3Nw
-aXJ2LWhlYWRlcnNfMS4zLjI1MC4wLmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI1MC4xLmJifSAg
-ICB8IDAKIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWhlYWRlcnNfMS4zLjI1MC4w
-LmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI1MC4xLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1oZWFkZXJzXzEuMy4yNTAuMC5iYiBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI1MC4xLmJiCnNpbWls
-YXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9z
-cGlydi1oZWFkZXJzXzEuMy4yNTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjUwLjEuYmIKLS0gCjIuMzkuMgoK
+CkRhdGU6IFR1ZSwgMSBBdWcgMjAyMyAxNDoyOToxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
+bGthbi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yNTAuMCAtPiAxLjMuMjUwLjEKCi0tLQogLi4uL3t2
+dWxrYW4taGVhZGVyc18xLjMuMjUwLjAuYmIgPT4gdnVsa2FuLWhlYWRlcnNfMS4zLjI1MC4xLmJi
+fSAgfCAwCiAxIGZpbGUgY2hhbmdlZCwgMCBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1oZWFkZXJzXzEuMy4y
+NTAuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjUwLjEuYmJ9ICgxMDAlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjI1MC4w
+LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjUw
+LjEuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFw
+aGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS4zLjI1MC4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yNTAuMS5iYgotLSAKMi4z
+OS4yCgo=
 
---===============6766951578726788880==
+--===============6321728599657621771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2903,5 +2904,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6766951578726788880==--
+--===============6321728599657621771==--
 
