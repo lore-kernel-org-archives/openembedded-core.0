@@ -1,81 +1,270 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A51EB64DD
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:07:59 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.8533.1690880878521613306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302ACC001DF
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:09:29 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.8585.1690880964980067937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 02:07:58 -0700
+ Tue, 01 Aug 2023 02:09:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pe3YTOsv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-307d20548adso4817327f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:07:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=p1oepG1Z;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so5991277e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1690880877; x=1691485677;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6I0BgXWQrbRIoAXy7GHBVwz3nmAtBWTB5hUQJuKf5H0=;
-        b=Pe3YTOsvkfg62n9jRCL5+3tZM3lw1gCGDcxT57K96M8l7kvevEPOsMeQ7ALYJ6dNwi
-         P8pbpCdzb98G6fnLPvQIXeZGI21ykZVxeLX+wbk2dL5DVUuNca1X2aypfJ3cN+W7eShB
-         lK8sbRSIwEHU8lAxvUp++5y3VA545BUZErQK4=
+        d=gmail.com; s=20221208; t=1690880963; x=1691485763;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZMk8mwOgrzklF2MIIZsXoVaao8nsAx4MzhiK0ayUqlg=;
+        b=p1oepG1Zgx91kk5Sa68FKB0C9Spmj0PTc+GePd9MBzmyMKhirxHlAJ+uUe4tLqYvT5
+         uJja2KTRCJE7QftzdeHtVLzmTdrePXhyLqOPZMZnvCt1ZOiqb8Jn/BuQJ07WjK7Gw7Cm
+         6vYPTJqrur8dTfdSeas36JbiKXAMxCerApNeW6NbAzwNucVxUl1tTHayjDLp7AAoHllV
+         b1mA96z3DksvTgpgh9/oONPjaF+S9oEj7rbHFUAVgMUYSsDiDPX7IvF11Avypa5/WQRo
+         NEvp/fLN4XrcLxYaFcyAX2yHyytvpZIEw416clFIeA3f78AwK84Mxyaz6GLfbVFxEmZF
+         H6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690880877; x=1691485677;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6I0BgXWQrbRIoAXy7GHBVwz3nmAtBWTB5hUQJuKf5H0=;
-        b=JsyDa8kmqDhQGrXRQThcc0jXssdXlF1AKDQW6ROEjet7gkdsaO4tYozUzqn87mk+yC
-         ZEFG1i/lo94GOvEkEKU82sloJCsk0id9xLoywBD62xaRKaQVPch6DIw8TVQioROwpex5
-         wu6YnzSaj3Mrrbqo2OrMLTUsW21ezG+hEzEhYFcCRhEtJ6gh+eWhmd8U9TwYauaLIm5C
-         v3AZih1YfEWA78J7+7mBrHLwvuzZtKFyXE3gP/3qB777vh5ZhBUtkhGMdC3QdWVURF96
-         O2IlRFIrKElLufhCD0ZR+S++/wAqFzyeJSpvC0kpze1fRC39n1mnuyVst248nN5B3lHR
-         qi8g==
-X-Gm-Message-State: ABy/qLYqTwEJmuLDeB2zWxfpC/VflUzAEQdqZ8FOiypExzfFEn08LySI
-	bntq27GqE7x9dlHRpIczKNYu5w==
-X-Google-Smtp-Source: APBJJlFohmgNSR+rPnWYpEAyewBHK/w3XsKIbqu5kraarDzJ7D+YGHU2SpgmLk9/Ux/bONctFwWLEA==
-X-Received: by 2002:a05:6000:1005:b0:317:5c36:913b with SMTP id a5-20020a056000100500b003175c36913bmr1721788wrx.48.1690880876741;
-        Tue, 01 Aug 2023 02:07:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e3b7:1714:595d:8417? ([2001:8b0:aba:5f3c:e3b7:1714:595d:8417])
-        by smtp.gmail.com with ESMTPSA id y17-20020adfd091000000b003178dc2371bsm12075551wrh.7.2023.08.01.02.07.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 02:07:56 -0700 (PDT)
-Message-ID: <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use
- --offline instead of --frozen
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
-Date: Tue, 01 Aug 2023 10:07:55 +0100
-In-Reply-To: <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
-References: <cover.1690795930.git.frederic.martinsons@gmail.com>
-	 <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
-	 <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
-	 <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1690880963; x=1691485763;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZMk8mwOgrzklF2MIIZsXoVaao8nsAx4MzhiK0ayUqlg=;
+        b=YehTQThCwOaHIGqiVJHmIxih+7wPPUx40HbWO/B7LEqIwpLNXm5/fPNklg0KpJ+HyQ
+         /TRETJXcdCBA8E82Y6KbwBVVAnW1UCM3aUA2eFaFMMtw8BDu2VaGrOJG6h+bJ3jhGb0X
+         An+wCSqgYxiXYpMDI2m40sYBzuijOYTYxNlATormcXR9EsSJoDcObhmTIpgkhMVQGaLz
+         /9ICEJnij9dNWbwTpqqAIDpIL2gkizb3fHCG3E02vub3jpwms1w5pjkKcvYiUdLefVq6
+         wcH9Or7OgTXuZQYggG2o60xV8LuYv1wC/2hAKrTFYuTxd+jB+Z4cOkziAU4ZFfnfhWEv
+         qS7A==
+X-Gm-Message-State: ABy/qLZTzNpWrEKjjFONE2VUoeEFiQuAmNXpeJU4R8VSw5FVOiB0+R8J
+	3FDbTUVozzVw43AU/P7hxgHgfZK58hnykfg4Nwc+EHIOgMk=
+X-Google-Smtp-Source: APBJJlFmd+vBlZaDK/PlBpbjZhzw6KJXmmOV98FF74BqELfwhh09oO3GHlpHr2ccJtLbUItmFTlUNHlhwIM9wbQLDiY=
+X-Received: by 2002:a05:6512:314c:b0:4f9:571d:c50e with SMTP id
+ s12-20020a056512314c00b004f9571dc50emr1579421lfi.36.1690880962854; Tue, 01
+ Aug 2023 02:09:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1690795930.git.frederic.martinsons@gmail.com> <CANNYZj9-PaCUOp1jcuzzpNsU6Pde+LTGBSUHZGphNZPaLYPbFA@mail.gmail.com>
+In-Reply-To: <CANNYZj9-PaCUOp1jcuzzpNsU6Pde+LTGBSUHZGphNZPaLYPbFA@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Tue, 1 Aug 2023 11:09:11 +0200
+Message-ID: <CA+cAkepFrqiBLztAE4nOeUakHArjzbzB+=16R2V7mGzA1D2EnA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Use frozen flag for cargo build
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
+Content-Type: multipart/alternative; boundary="0000000000002602a90601d8e750"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:07:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185219
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:09:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185220
 
-On Tue, 2023-08-01 at 11:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> Thanks Richard, but I'd prefer to drop this patch if possible.
-> I think the rust-hello-world is no more useful=C2=A0and that we can
-> replace it by a more "real" example like zvariant
-> from meta-selftest.
->=20
-> Let's see what others think about this
+--0000000000002602a90601d8e750
+Content-Type: text/plain; charset="UTF-8"
 
-After some thought, I'm in favour. Lets drop it.
+Hello Alexander,
 
-Cheers,
+I tried to explain in the code and commit comments, you may also want to
+read the ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15104
+and I try to explain and ask for help in a dedicated topic on this very
+list: see https://lists.openembedded.org/g/openembedded-core/topic/100254129
 
-Richard
+But to summarize, Cargo.lock is required for various purposes and it
+includes the patching path process to work.
+I think having no Cargo.lock for a rust recipe built under yocto is not
+desirable.
+
+For the  --frozen flag, it put harder constraints than --offline (--offline
+prevent network access but doesn't prevent modification
+of Cargo.lock)
+
+The special case to revert the behavior introduced was made to comply with
+rust-hello-world existence. I would like
+to suppress this recipe instead of having this patch but I don't know if it
+is desirable and I'd like to think
+for other points of views.
+
+
+On Mon, 31 Jul 2023 at 19:48, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> I think you need to better describe the benefits. What are the
+> improvements? Can we just stay with --offline?
+>
+> There's lots of intricate code added around cargo.lock handling, with
+> special casing to revert to previous behavior via new variable, but
+> I'm struggling to understand: to what end?
+>
+> Alex
+>
+>
+>
+>
+>
+> On Mon, 31 Jul 2023 at 11:44, Frederic Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> >
+> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
+> >
+> > This patch series force the usage of --frozen instead of --offline
+> during cargo build.
+> > This has the advantage to be sure that Cargo.lock file will not be
+> modified.
+> > Moreover, raise a clear error when Cargo.lock is not present.
+> > For this to work, we must modify ourself the Cargo.lock before building
+> > in case there are git repo that have been patched.
+> >
+> > The last commit is to handle the specific case of rust-hello-world
+> recipe.
+> > If this recipe is no more necessary, we can drop this last patch.
+> >
+> > The following changes since commit
+> 9b5b850d6a6982bb8ff14dcfbb6769b293638293:
+> >
+> >   libarchive: ignore CVE-2023-30571 (2023-07-30 12:00:13 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/fmartinsons/openembedded-core
+> 15104-check-cargo-lock
+> >
+> > Frederic Martinsons (3):
+> >   cargo.bbclass: Use --frozen flag for cargo operations
+> >   cargo_common.bbclass: Handle Cargo.lock modifications for git
+> >     dependencies
+> >   cargo.bbclass: Offer a way to use --offline instead of --frozen
+> >
+> >  meta/classes-recipe/cargo.bbclass             |  9 +++-
+> >  meta/classes-recipe/cargo_common.bbclass      | 43 +++++++++++++++++++
+> >  .../rust-example/rust-hello-world_git.bb      |  2 +
+> >  3 files changed, 53 insertions(+), 1 deletion(-)
+> >
+> > --
+> > 2.34.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#185128):
+> https://lists.openembedded.org/g/openembedded-core/message/185128
+> > Mute This Topic: https://lists.openembedded.org/mt/100458213/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+
+--0000000000002602a90601d8e750
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello Alexander,<div><br></div><div>I tried to explain in =
+the code and commit comments, you may also want to read the ticket:=C2=A0<a=
+ href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104" target=
+=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104</a></=
+div><div>and I try to explain and ask for help in a dedicated topic on this=
+ very list: see=C2=A0<a href=3D"https://lists.openembedded.org/g/openembedd=
+ed-core/topic/100254129">https://lists.openembedded.org/g/openembedded-core=
+/topic/100254129</a></div><div><br></div><div>But to summarize, Cargo.lock =
+is required for various purposes and it includes the patching path process =
+to work.</div><div>I think having no Cargo.lock for a rust recipe built und=
+er yocto is not desirable.</div><div><br></div><div>For the=C2=A0 --frozen =
+flag, it put harder constraints than --offline (--offline prevent network a=
+ccess but doesn&#39;t prevent modification</div><div>of Cargo.lock)</div><d=
+iv><br></div><div>The special case to revert the behavior introduced was ma=
+de to comply with rust-hello-world existence. I would like</div><div>to sup=
+press this recipe instead of having this patch but I don&#39;t know if it i=
+s desirable and I&#39;d like to think</div><div>for other points of views.<=
+/div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Mon, 31 Jul 2023 at 19:48, Alexander Kanavin &lt;<a =
+href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">I think you need to better describe the benefits. What are the<br>
+improvements? Can we just stay with --offline?<br>
+<br>
+There&#39;s lots of intricate code added around cargo.lock handling, with<b=
+r>
+special casing to revert to previous behavior via new variable, but<br>
+I&#39;m struggling to understand: to what end?<br>
+<br>
+Alex<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+On Mon, 31 Jul 2023 at 11:44, Frederic Martinsons<br>
+&lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank">fred=
+eric.martinsons@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gm=
+ail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; This patch series force the usage of --frozen instead of --offline dur=
+ing cargo build.<br>
+&gt; This has the advantage to be sure that Cargo.lock file will not be mod=
+ified.<br>
+&gt; Moreover, raise a clear error when Cargo.lock is not present.<br>
+&gt; For this to work, we must modify ourself the Cargo.lock before buildin=
+g<br>
+&gt; in case there are git repo that have been patched.<br>
+&gt;<br>
+&gt; The last commit is to handle the specific case of rust-hello-world rec=
+ipe.<br>
+&gt; If this recipe is no more necessary, we can drop this last patch.<br>
+&gt;<br>
+&gt; The following changes since commit 9b5b850d6a6982bb8ff14dcfbb6769b2936=
+38293:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0libarchive: ignore CVE-2023-30571 (2023-07-30 12:00:13 +01=
+00)<br>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/fmartinsons/openembedded-cor=
+e" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/fmartinsons/open=
+embedded-core</a> 15104-check-cargo-lock<br>
+&gt;<br>
+&gt; Frederic Martinsons (3):<br>
+&gt;=C2=A0 =C2=A0cargo.bbclass: Use --frozen flag for cargo operations<br>
+&gt;=C2=A0 =C2=A0cargo_common.bbclass: Handle Cargo.lock modifications for =
+git<br>
+&gt;=C2=A0 =C2=A0 =C2=A0dependencies<br>
+&gt;=C2=A0 =C2=A0cargo.bbclass: Offer a way to use --offline instead of --f=
+rozen<br>
+&gt;<br>
+&gt;=C2=A0 meta/classes-recipe/cargo.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 9 +++-<br>
+&gt;=C2=A0 meta/classes-recipe/cargo_common.bbclass=C2=A0 =C2=A0 =C2=A0 | 4=
+3 +++++++++++++++++++<br>
+&gt;=C2=A0 .../rust-example/<a href=3D"http://rust-hello-world_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust-hello-world_git.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 +<br>
+&gt;=C2=A0 3 files changed, 53 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#185128): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/185128" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/185128</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10045821=
+3/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/100458213/1686489</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.co=
+m" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div>
+
+--0000000000002602a90601d8e750--
 
