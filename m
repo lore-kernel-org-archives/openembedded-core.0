@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB15C001DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F9BC41513
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:51 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.17714.1690907330802766112
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.17596.1690907330140553437
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=S+bJEGqv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JVcYJdft;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010189b1ee46cf-b8f99f2c-e9c0-41fb-ab47-c15822cd088b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bdX1QXF7;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QO6m/btE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010189b1ee46ec-0a47a197-ede6-4c2c-a9c1-39f3f2434e32-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907330;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dhIHh2txK6a6oMWGXxyFmtgrK0QxEGLr7WkFsHN8zwY=;
-	b=S+bJEGqvwvpHiI0g0ciwlcRs28oNYOryKB1VOUt36rQ3LPUsF8Yv62/efaNGmPjN
-	BvHDJVttrq3ADSUusLEEZKuuN94ll2EIwji2gdz1q+Uzkx8+01jW4PekHeEdk1TaYzq
-	2ZE3shqvC7UK5gaOZJvEqUmvcphH9DvNW7ky0f2g=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=I5ldObJMP4/9o3DLvDE5o+q+3JXEeK3C0+kOHl7uhFE=;
+	b=bdX1QXF71ZCeIZcBnmpHiJ01LokYnFnd7AJs2oxo8cFkkJABKxpYBwSeNeOFeuoG
+	z1rOjcvqWPdkS/fcZSB8yc7cFzDbaPOT18aC8Whj/g9P9diYKXEde8Nw3njopDkId58
+	rQVyA8+pqHsEsIqUs2gzZHvniSnRMFk+TBxRSMbo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907330;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dhIHh2txK6a6oMWGXxyFmtgrK0QxEGLr7WkFsHN8zwY=;
-	b=JVcYJdftT02fWLY+5UNjPfevLGBRB/iYnICbw/RI+Unpbeyzt2Odywl4IP2In0su
-	zievpql5ixYbWU6Ckz1e1FoLgMRREluyfVzcsJ+d41fQCEM92ZzeBnVVOzgDhd/54bo
-	YahhvK2AIylCtq0VhqduV1TGTLcbFqsLn/iQHFEw=
-Content-Type: multipart/mixed; boundary="===============3674964757829147024=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=I5ldObJMP4/9o3DLvDE5o+q+3JXEeK3C0+kOHl7uhFE=;
+	b=QO6m/btEBC5qhJ4pryP9Hz4OUHBKjeiQXZhTmvOUFv1rzD/yyyvjcJCLQpswIZRj
+	igILzXakbE/D+pUyP1+OvgS0kJ+wMYycMcomxeAsXqu8Z9ASCjqMVIlEtWwp8YIihHs
+	hl5yGgmGdXBK7NqwcBRWwApOMnbr6FRv+mJ/g1iA=
+Content-Type: multipart/mixed; boundary="===============9147008772982716097=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangruochen@loongson.cn>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pip: upgrading to 23.2.1 FAILED
-Message-ID: <01010189b1ee46cf-b8f99f2c-e9c0-41fb-ab47-c15822cd088b-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pyparsing: upgrading to 3.1.1 FAILED
+Message-ID: <01010189b1ee46ec-0a47a197-ede6-4c2c-a9c1-39f3f2434e32-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.193
+X-SES-Outgoing: 2023.08.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185291
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185288
 
---===============3674964757829147024==
+--===============9147008772982716097==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +50,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pip* to *23.2.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-pyparsing* to *3.1.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-pip -V 23.2.1
+The following devtool command failed:  upgrade python3-pyparsing -V 3.1.1
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (10:04:30.278749)
+NOTE: Retrying server connection (#1)... (10:05:08.009456)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -122,24 +121,15 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   7% |##                                  | ETA:  0:00:01
-Adding changed files:  15% |#####                               | ETA:  0:00:00
-Adding changed files:  23% |########                            | ETA:  0:00:00
 Adding changed files:  30% |###########                         | ETA:  0:00:00
-Adding changed files:  38% |#############                       | ETA:  0:00:00
-Adding changed files:  46% |################                    | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
 Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  69% |#########################           | ETA:  0:00:00
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pip/pip-23.2.1.tar.gz;downloadfilename=pip-23.2.1.tar.gz...
-INFO: Rebasing devtool onto 6f1973bde921193e5deebc789dca61568e4965a3
+INFO: Fetching https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.1.tar.gz;downloadfilename=pyparsing-3.1.1.tar.gz...
+INFO: Rebasing devtool onto a2b80db01e2a7804f775aff21284249cd9396800
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -153,7 +143,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-pip/LICENSE.txt'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-pyparsing/LICENSE'
 
 
 Please review the attached files for further information and build/update failures.
@@ -161,5 +151,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3674964757829147024==--
+--===============9147008772982716097==--
 
