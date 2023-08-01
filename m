@@ -1,186 +1,167 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C58C001E0
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA62CC04A94
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 11:34:09 +0000 (UTC)
 Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.9576.1690886090285704374
+ by mx.groups.io with SMTP id smtpd.web10.10422.1690889641161573383
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 03:34:50 -0700
+ Tue, 01 Aug 2023 04:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZWLitiOP;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b9aa1d3029so80569731fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 03:34:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=YjmRtAoT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so86570781fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 04:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690886088; x=1691490888;
+        d=gmail.com; s=20221208; t=1690889639; x=1691494439;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fm1U9mVOx6xTMVcR2zaqN1XJCQE2YxEmwCqCLX2FhgE=;
-        b=ZWLitiOP+TcKiVFojcpgbFviYXcYAMvAJjqi8gUKINdTvoD2/vG1g25aKneFgyRG/o
-         8rNVc1i8UKb69VG7LoznDThEwoRuSLJ0r0QGcl6zqa3GjewiK3cN/hmZbDg+AZh/IoDP
-         UgDFo4uL9sPnoANa3iIOwXLQH/8rJIV0vZM6YkLW+uuEY8CU0Ayl44SP90vNuLwFi9Fr
-         +4II1VjVPure4c6eIMs+YQ4H4rCXtSFg+bJaohWV+b3BFE3lyj/hdvIKBrqoA3PUBsyY
-         n46D8vWXxzjsv+g4LIiSTogrTiC+XBNLk8Nf2gat80ktuJ4dv+oHAdYrTv6AcJVf8llT
-         PafA==
+        bh=ZvxXBJMKC99Q9VyGTfFoRU54wAqXQ4JBvUZHxTVDBCc=;
+        b=YjmRtAoTRc923RC/+88iI9o0qcMHgHVGMKTNtZeVKRO3gB0oXUklPGgJyit8EmsfCJ
+         W5mJAutw3AMrn4UrvBs2KOGdrffqiHCUz6OvwwkHBkEXo2IPGcOEOXEEk0hFqpOswQRt
+         S4Q3Q1UBKHF4PrB7dDyZFEQjoSjlkBDoF8/zBGC6mAvZZYuoT3plk70kQcpl77cxj+6B
+         WO2STjgNudqWZuO8HR+GOVgxh/OqdPHnNStaRjZ7i9DV4ppcGU4Pun+kY3eXCljVzezg
+         ydSV4ytmdsqMTq1DfQtwg3UzU2rVk2YtGEarRMUqOooUIayTzpDODs+Pc/s8eIQbaLU1
+         kMwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690886088; x=1691490888;
+        d=1e100.net; s=20221208; t=1690889639; x=1691494439;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fm1U9mVOx6xTMVcR2zaqN1XJCQE2YxEmwCqCLX2FhgE=;
-        b=C7xKcTihOPdU7ra5IPHplPrRbydSOq4q1/lBqslxRYnnb84RJqMfWCODPs6abSF3I6
-         1eGPTLtOiY45pVRWZSECPqIcZ/Z+FHpLLRFqcSISbAVw1gghZ+2gtMB7KyiIw/6lCTL2
-         9xEXsFVCjq22kKYK/zHz/H0tGEN3N0ZbBqxD9WSVjAhe4rp83r6wnMfzedt6Fh9uvEed
-         KxFYD4vy2Pnw0XxWZK4tn57Pz+ER0wqivJjvG/RVcQX//CT1vnz7rfM/jaHfSxC+D8jy
-         up9SskByIZVB/QFKaVOz/vx4ZbUlOy/RGso/f06m1UDIetGzzw49sNY8Pm0kUyteyKGm
-         gGSg==
-X-Gm-Message-State: ABy/qLZqBfX/DFUfbSZQiTNh/zDj3PhHcG1NSVfSzFK4pVxpIwGSPjCE
-	sxomtCQb53lEgX7YQBD4EgE6rWnzhrmeFlr3GSSzRTEf
-X-Google-Smtp-Source: APBJJlHuXMO1FPcETo2TXN49cJLp7FJeTSx7L11LwQ/leKJYlC8WRoY9FzhOo4knhhC6teTPYdv8qHut/i7KAJI/2KA=
-X-Received: by 2002:a2e:3304:0:b0:2b8:4079:fd9d with SMTP id
- d4-20020a2e3304000000b002b84079fd9dmr2153841ljc.29.1690886088239; Tue, 01 Aug
- 2023 03:34:48 -0700 (PDT)
+        bh=ZvxXBJMKC99Q9VyGTfFoRU54wAqXQ4JBvUZHxTVDBCc=;
+        b=CtDqZE1i0c7yDAv/viKKsWBeAsBFTUMo+YVz5Bu40frEHDKYlkMA1WRuLytdLqtTU7
+         HPs9hT0K4z2+JZFjHohq6DND4t0I66WABTE6wSpbu5t5qY6RiYu9cjx9EV6RKXgiUuOr
+         3yQU2cQ7IZv728tMSR6ujcxvzihc2tzFfxeYQVzhNhiKwdGEO6gsuqkze0uY4BUJr8bA
+         RkG/hpGXQz8VaZ9bqnzIFu2ITnQzZmgNIWES2ALJ4GV6yJP8fhDGDACdMZSHQD77LpV4
+         u66x6VavpRQLc4DHlSkDtvYhcCpX/QKWhvui3wn7peNel5xvfCfGa9jhkL/qCq3y9QmA
+         47nw==
+X-Gm-Message-State: ABy/qLa7wG7uIRhL5GzX0XYQ+DVgvrqt11zA/GFJnxq5KiXOpVxbC3lJ
+	5ofNZuCd0SxG2k7zGxOzDe98YyRAVxK83eGGNS4=
+X-Google-Smtp-Source: APBJJlGYHwLxPu8oFuu6G4mz+3gzRUXCQmv1R4194hlRY4dEqnWC4n8+o1k3FsKGkYXDq6CKoSQDsKCQybCpgz3vUa4=
+X-Received: by 2002:a2e:8455:0:b0:2b9:cd3d:4136 with SMTP id
+ u21-20020a2e8455000000b002b9cd3d4136mr2029684ljh.2.1690889638784; Tue, 01 Aug
+ 2023 04:33:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801102534.60770-1-ppjadhav456@gmail.com> <CANNYZj_UNgeQ6odbQ1Mmf5kjgQMDkLNQcnR7DDLLYw0se3Fj4A@mail.gmail.com>
-In-Reply-To: <CANNYZj_UNgeQ6odbQ1Mmf5kjgQMDkLNQcnR7DDLLYw0se3Fj4A@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Aug 2023 12:34:36 +0200
-Message-ID: <CANNYZj_nxUHVYxiaoPOvS5NguBmMxmTpYF6ccxzN3mOvpbjgbw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] alsa-lib: Add ptest
-To: Poonam Jadhav <ppjadhav456@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, poonam.jadhav@kpit.com, 
-	ranjitsinh.rathod@kpit.com
-Content-Type: text/plain; charset="UTF-8"
+References: <cover.1690795930.git.frederic.martinsons@gmail.com>
+ <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
+ <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
+ <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
+ <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
+ <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
+ <1f72dc4842eaadc8fa49eef29f2f0af4179131c9.camel@linuxfoundation.org>
+ <CANNYZj96-co4wRxY=N3KS4bEsFr_v=yJphOC0ZBO92TerGtmug@mail.gmail.com>
+ <CA+cAkepSOxNovN+iuRx8_=9Ut=bLXBb8YHbHG5SJJedGfGmeBg@mail.gmail.com>
+ <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org> <CAO5Uq5T=HcAVWaU0RQzqXg0vhQ=ybkOWgHg5GuXWvQEqwt+uqg@mail.gmail.com>
+In-Reply-To: <CAO5Uq5T=HcAVWaU0RQzqXg0vhQ=ybkOWgHg5GuXWvQEqwt+uqg@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Tue, 1 Aug 2023 13:33:47 +0200
+Message-ID: <CA+cAkeoCbc487_zKJspcG5_mhUyKk_ZGtd517Qoq1KkKmREsBg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use --offline
+ instead of --frozen
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>
+Content-Type: multipart/alternative; boundary="0000000000004631820601daec07"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:34:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185238
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 11:34:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185239
 
-Oh, and: any new feature must be submitted for master branch first,
-then backported to stable branches.
+--0000000000004631820601daec07
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Ok, thanks you all for the answers. I'll then add a new patch to make this
+cleansing and drop the patch I made to use --offline instead of --frozen
+(no more needed)
 
-On Tue, 1 Aug 2023 at 12:33, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+Le mar. 1 ao=C3=BBt 2023, 12:04, Alex Kiernan <alex.kiernan@gmail.com> a =
+=C3=A9crit :
+
+> On Tue, Aug 1, 2023 at 11:01=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Tue, 2023-08-01 at 11:55 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+> > > zariant rust recipe is tested for devtool cases there
+> > >
+> > > The test case mentioned earlier seems to verify that we can run rust
+> > > test code, do we want to keep testing
+> > > that rust binary can run ? If so, how to keep testing this while
+> > > removing rust-hello-world recipes ?
+> > >
+> > > maybe we can add a simple "println!("Hello world") " in this file ,
+> > > compile it like it is already done and run it
+> > > to check its output ?
+> > >
+> > > What do you think?
+> >
+> > Doesn't test_rust_compile already also run the rust code it compiled?
+> >
 >
-> What do the tests do, and why they should be run? Are they actually
-> useful to run when assembling a custom distribution, and would they
-> help uncover integration issues? If it's merely testing the component
-> itself, and it is regularly run by upstream, there is little benefit
-> to adding them to yocto qa.
+> Yes and checks the exit code - really not sure I see any additional
+> value in turning it into another "Hello World". I'm fairly sure the
+> cargo test gets you another "Hello World" test (but again only checks
+> the return value). I think the rust-hello-world test is covered in
+> other ways now.
 >
-> The tests should be built via upstream makefiles, not via a manually
-> hardcoded list (which is also incomplete compared to the makefile, and
-> there's no explanation for that).
 >
-> Alex
+> --
+> Alex Kiernan
 >
-> On Tue, 1 Aug 2023 at 12:25, Poonam Jadhav <ppjadhav456@gmail.com> wrote:
-> >
-> > From: Poonam Jadhav <Poonam.Jadhav@kpit.com>
-> >
-> > Alsa-lib is a user space library that provides audio
-> > and MIDI functionality apis for simplifying application
-> > programming and provide higher level functionality
-> >
-> > ptest executes below binaries on target:
-> > 1.config
-> > 2.control
-> > 3.client_event_filter
-> > 4.midi_event
-> > 5.namehint
-> >
-> > Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-> > ---
-> >  .../distro/include/ptest-packagelists.inc     |  1 +
-> >  .../alsa/alsa-lib/run-ptest                   | 14 ++++++++++++++
-> >  .../alsa/alsa-lib_1.2.1.2.bb                  | 19 ++++++++++++++++++-
-> >  3 files changed, 33 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/run-ptest
-> >
-> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> > index 3fb7ec2657..b74e18a322 100644
-> > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > @@ -5,6 +5,7 @@
-> >  #
-> >  PTESTS_FAST = "\
-> >      acl-ptest \
-> > +    alsa-lib-ptest \
-> >      apr-ptest \
-> >      apr-util-ptest \
-> >      attr-ptest \
-> > diff --git a/meta/recipes-multimedia/alsa/alsa-lib/run-ptest b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
-> > new file mode 100644
-> > index 0000000000..8fbf9f140a
-> > --- /dev/null
-> > +++ b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
-> > @@ -0,0 +1,14 @@
-> > +#!/bin/sh
-> > +set -eux
-> > +
-> > +for t in config control midi_event client_event_filter client_event_filter
-> > +do
-> > +    if "./$t" > "alsa-lib_$t.log" 2>&1
-> > +    then
-> > +        echo "PASS: $t"
-> > +    else
-> > +        echo "FAIL: $t"
-> > +        cat "alsa-lib_$t.log"
-> > +    fi
-> > +    rm "alsa-lib_$t.log"
-> > +done
-> > diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> > index 4867c798b9..192e35ba3a 100644
-> > --- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> > +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> > @@ -18,11 +18,12 @@ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-> >             file://0005-ucm-Do-not-fail-to-parse-configs-on-cards-with-an-em.patch \
-> >             file://0001-Fix-alsa-sound-.h-for-external-programs.patch \
-> >             file://0001-uapi-Move-typedefs-from-uapi-to-sound.patch \
-> > +           file://run-ptest \
-> >             "
-> >  SRC_URI[md5sum] = "82ddd3698469beec147e4f4a67134ea0"
-> >  SRC_URI[sha256sum] = "958e260e3673f1f6ff6b2d2c0df3fc2e469bea5b2957163ce96ce17f23e87943"
-> >
-> > -inherit autotools pkgconfig
-> > +inherit autotools pkgconfig ptest
-> >
-> >  EXTRA_OECONF += " \
-> >      ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-softfloat', '', d)} \
-> > @@ -52,3 +53,19 @@ RREPLACES_alsa-conf = "alsa-conf-base"
-> >  RCONFLICTS_alsa-conf = "alsa-conf-base"
-> >
-> >  BBCLASSEXTEND = "native nativesdk"
-> > +
-> > +do_compile:append() {
-> > +    ${CC} ${CFLAGS} ${LDFLAGS} "${S}/test/lsb/config.c" -I "${S}/include" -L "${B}/src/.libs/" -lasound -o config
-> > +    ${CC} ${CFLAGS} ${LDFLAGS} "${S}/test/control.c" -I "${S}/include" -L "${B}/src/.libs/" -lasound -o control
-> > +    ${CC} ${CFLAGS} ${LDFLAGS} "${S}/test/client_event"_filter.c -I "${S}/include" -L "${B}/src/.libs/" -lasound -o client_event_filter
-> > +    ${CC} ${CFLAGS} ${LDFLAGS} "${S}/test/namehint.c" -I "${S}/include" -L "${B}/src/.libs/" -lasound -o namehint
-> > +    ${CC} ${CFLAGS} ${LDFLAGS} "${S}/test/lsb/midi_event.c" -I "${S}/include" -L "${B}/src/.libs/" -lasound -o midi_event
-> > +}
-> > +
-> > +do_install_ptest:append() {
-> > +    install -m 0755 "${B}/config" "${D}${PTEST_PATH}"
-> > +    install -m 0755 "${B}/control" "${D}${PTEST_PATH}"
-> > +    install -m 0755 "${B}/client_event_filter" "${D}${PTEST_PATH}"
-> > +    install -m 0755 "${B}/midi_event" "${D}${PTEST_PATH}"
-> > +    install -m 0755 "${B}/namehint" "${D}${PTEST_PATH}"
-> > +}
-> > --
-> > 2.25.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#185236): https://lists.openembedded.org/g/openembedded-core/message/185236
-> > Mute This Topic: https://lists.openembedded.org/mt/100480016/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+
+--0000000000004631820601daec07
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Ok, thanks you all for the answers. I&#39;ll then add a n=
+ew patch to make this cleansing and drop the patch I made to use --offline =
+instead of --frozen (no more needed)=C2=A0</div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">Le mar. 1 ao=C3=BBt 2023, 12:04, =
+Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gmail.com">alex.kiernan@gma=
+il.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+On Tue, Aug 1, 2023 at 11:01=E2=80=AFAM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+ rel=3D"noreferrer">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Tue, 2023-08-01 at 11:55 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote=
+:<br>
+&gt; &gt; zariant rust recipe is tested for devtool cases there<br>
+&gt; &gt;<br>
+&gt; &gt; The test case mentioned earlier seems to verify that we can run r=
+ust<br>
+&gt; &gt; test code, do we want to keep testing<br>
+&gt; &gt; that rust binary can run ? If so, how to keep testing this while<=
+br>
+&gt; &gt; removing rust-hello-world recipes ?<br>
+&gt; &gt;<br>
+&gt; &gt; maybe we can add a simple &quot;println!(&quot;Hello world&quot;)=
+ &quot; in this file ,<br>
+&gt; &gt; compile it like it is already done and run it<br>
+&gt; &gt; to check its output ?<br>
+&gt; &gt;<br>
+&gt; &gt; What do you think?<br>
+&gt;<br>
+&gt; Doesn&#39;t test_rust_compile already also run the rust code it compil=
+ed?<br>
+&gt;<br>
+<br>
+Yes and checks the exit code - really not sure I see any additional<br>
+value in turning it into another &quot;Hello World&quot;. I&#39;m fairly su=
+re the<br>
+cargo test gets you another &quot;Hello World&quot; test (but again only ch=
+ecks<br>
+the return value). I think the rust-hello-world test is covered in<br>
+other ways now.<br>
+<br>
+<br>
+-- <br>
+Alex Kiernan<br>
+</blockquote></div>
+
+--0000000000004631820601daec07--
 
