@@ -1,131 +1,166 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F1BBC001E0
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:42:39 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.8885.1690882950735869054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBB9EB64DD
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:42:59 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.8894.1690882975953411481
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 02:42:31 -0700
+ Tue, 01 Aug 2023 02:42:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=F6DXnmsF;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe2ba3e260so2041715e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:42:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=CaeCHKzj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe10f0f4d1so8979945e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690882949; x=1691487749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vl4tEU6PBBPbT2sJb5YSOXxH9HgidvnHk4+GOtQg8/k=;
-        b=F6DXnmsFkSU3CsPDmT1yZkM5ELuG+jXF2fDa4Q9XVchwFr2Na2JXvl9F5wJukZzzIw
-         znnDeWR3MVpCMSN3KbV6yxdspAcBN55Nj4nibvs22t6s8eZH3T1hD9r1OIpGUdoFvT1h
-         8q3Ir+ZpMbmZsyx1mROTKxcNuNLS0C/FFNepfutaknqZsjvPEmGwcGmsiPJ4t8GdvCaa
-         6VTJsgFXOyNPuB9xhnXfGRxra/Rv7VCeXw9t3z7Ar/WwMoFHQkj2mVlsm4rZX2mcQnrO
-         +6tMxDIPS2b70mVrkbn2A5Fie40mPYxZ/hTKJTlztkXK6KMCMZcuRp9nPTqI3EHuf32T
-         fAHA==
+        d=gmail.com; s=20221208; t=1690882974; x=1691487774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bekAHoTp8OO/h7DC645YhNlESEY73jrSsNQGRIh6zoI=;
+        b=CaeCHKzjDuu6wZfG04IUt/hPYT08iRN1CZ7NZK8idGC53Qmt+8RufCGgry43X1/7TJ
+         i5iwkh6el7uE9+Yi/z82JlQs8XcYtdHqhU+0X8G1eSQ4lmF4s+fTzDTe5XaQ2z7BFM6f
+         w3odOMgi92241ent+sIf4KN48eivjmCMu2FmlWgPRX2hRiU2amz7/6Ka4T+RowZOLCb0
+         Fzoe63BoxsM9JME/DpYW9LLTZD+3yNcNIIx4pXtZ2cClOYCkGp3sOSkUvtR1h8DI4H6t
+         Vdqb5NtmlaaVkcpOo0YwZX4IVeMuRuQYKWYH274hcM0h9ca75wgGKmE9wTpn7PQwRRcJ
+         Hr9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690882949; x=1691487749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Vl4tEU6PBBPbT2sJb5YSOXxH9HgidvnHk4+GOtQg8/k=;
-        b=RNDoCIEZD1ZfJ1KsHw1oOdvBh4jPpzjPW9cXEEB/obWV9QmvF2HXXgQJ63EX60N6U4
-         D9tDlQNQeH1AgZNIQBKy5M8EGL2YG8eLEh2DwM5O93UzU5KWmRPt5tHs3rNIk1mOihy9
-         whpzRKiSClBuK2g+q4G8Bp0ynikyClO/lo0e73akNeqXU/TKKjR3SF3MB/O4SYNU5Piq
-         R+by1mbHqGR53VJP19srN6JTJBgqnhspCtWt34KJAvffZpbld7RbVkyWkNSucS0On27t
-         4ha7Czb4roEFzsGBbAyUohOLtCesvUbYBRnZ5ZLopuAfh+ccstaKuZhFX/pgCKR/zp8V
-         edNQ==
-X-Gm-Message-State: ABy/qLYOaOMpYqtK9D+6pwYnDkYyLwhEV5IrkVK9WqWaz9Z83tpqLQmC
-	eACPhdqiYO1dA6sVaeg8wsbqgRfH3Pw=
-X-Google-Smtp-Source: APBJJlFVN4YzaAMaSV7J04P7vYPUBYbzAY6KIWBRVQJB36etFNZSqI5VaYs8AAec9tzJS8pgYUyF7A==
-X-Received: by 2002:a7b:c3d2:0:b0:3fa:934c:8356 with SMTP id t18-20020a7bc3d2000000b003fa934c8356mr1985419wmj.10.1690882948888;
-        Tue, 01 Aug 2023 02:42:28 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y17-20020a05600c20d100b003fba6709c68sm13554404wmm.47.2023.08.01.02.42.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 02:42:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] alsa-utils: backport a fix to build with glibc-2.38
-Date: Tue,  1 Aug 2023 11:42:23 +0200
-Message-ID: <20230801094223.459136-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20221208; t=1690882974; x=1691487774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bekAHoTp8OO/h7DC645YhNlESEY73jrSsNQGRIh6zoI=;
+        b=IEBBgYANai/g3kK1I9GlLgkLXEP0rrX5/+GwF4jGHljGINXDxGi2YOJYqUuVFd9Yb7
+         WTvXPL9UG82/6Htcamn7WAHjxYXYzPQm/7Hk8y18qCHJGw2hF2LQScd7Qx+cVhdy8Bnn
+         QTAbwnT4JiufrwImlFS5ZLQyUAOz/nd+NTT6sM9OcsjmyRpPAGTL+3XJ5wjqfPjScq+x
+         sXiVlaQVWTkGqExWQ2WOOXtZXTCRMP2E3Ag1Tki71kpCBww7w0vm0Fkl7oGhlhjO8DKp
+         OrWNJdEYn9VJf4GgCwcT97qfyXRVqXTy71RPURdgH1oidmQhXxEYp+QZR+BtpsKqPcdt
+         lyFQ==
+X-Gm-Message-State: ABy/qLaXq1BNB+UE8tytADscH+4pyd3Fy218q+bf6rouxS+1YYQ9hges
+	tA6A+QCdqP7prpEJili3x5YIjXZxTv46icV4sCs=
+X-Google-Smtp-Source: APBJJlGi9qY77cj4s7HsgZsVPvKfkTwa5GI1Wz0VtNxVBGxF4reBITLqWqHsttGIXwSJmN7GEvjUxI/uuAqlKVN5Feo=
+X-Received: by 2002:a2e:3307:0:b0:2b9:b007:c7d1 with SMTP id
+ d7-20020a2e3307000000b002b9b007c7d1mr2031141ljc.4.1690882973815; Tue, 01 Aug
+ 2023 02:42:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1690795930.git.frederic.martinsons@gmail.com>
+ <CANNYZj9-PaCUOp1jcuzzpNsU6Pde+LTGBSUHZGphNZPaLYPbFA@mail.gmail.com> <CA+cAkepFrqiBLztAE4nOeUakHArjzbzB+=16R2V7mGzA1D2EnA@mail.gmail.com>
+In-Reply-To: <CA+cAkepFrqiBLztAE4nOeUakHArjzbzB+=16R2V7mGzA1D2EnA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Aug 2023 11:42:42 +0200
+Message-ID: <CANNYZj884M3QF5N7gETUTbi2tL0PNcLoicaVjU6Pc752aUvFBw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Use frozen flag for cargo build
+To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185224
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:42:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185225
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...dd-define-to-compile-with-glibc-2.38.patch | 39 +++++++++++++++++++
- .../alsa/alsa-utils_1.2.9.bb                  |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-add-define-to-compile-with-glibc-2.38.patch
+Thanks for explaining, I suppose you can simply rework the patchset to
+remove rust-hello-world, and rework all places where it's used (you
+can grep the poky source tree :)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-add-define-to-compile-with-glibc-2.38.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-add-define-to-compile-with-glibc-2.38.patch
-new file mode 100644
-index 0000000000..8c23fb2cec
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-add-define-to-compile-with-glibc-2.38.patch
-@@ -0,0 +1,39 @@
-+From a610f4c21b083c0f9cf62ad2251dfadc98abb50e Mon Sep 17 00:00:00 2001
-+From: Rudi Heitbaum <rudi@heitbaum.com>
-+Date: Sat, 22 Jul 2023 15:36:09 +0000
-+Subject: [PATCH] alsactl: add define to compile with glibc 2.38
-+
-+strlcat and strlcpy have been added to glibc 2.38.
-+update the defines to use the glibc versions, and not conflict with
-+string.h.
-+
-+ref:
-+- https://sourceware.org/git/?p=glibc.git;a=commit;h=454a20c8756c9c1d55419153255fc7692b3d2199
-+
-+Fixes: https://github.com/alsa-project/alsa-utils/pull/225
-+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/d6a71bfbde9e1710743d3a446c6ea3b41c45234e]
-+---
-+ alsactl/init_sysdeps.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/alsactl/init_sysdeps.c b/alsactl/init_sysdeps.c
-+index 3aca1b4..f09b1ae 100644
-+--- a/alsactl/init_sysdeps.c
-++++ b/alsactl/init_sysdeps.c
-+@@ -18,6 +18,7 @@
-+  */
-+ 
-+ #if defined(__GLIBC__) && !(defined(__UCLIBC__) && defined(__USE_BSD))
-++#if !(__GLIBC_PREREQ(2, 38))
-+ static size_t strlcpy(char *dst, const char *src, size_t size)
-+ {
-+ 	size_t bytes = 0;
-+@@ -60,4 +61,5 @@ static size_t strlcat(char *dst, const char *src, size_t size)
-+ 	*q = '\0';
-+ 	return bytes;
-+ }
-++#endif /* !(__GLIBC_PREREQ(2, 38)) */
-+ #endif /* __GLIBC__ */
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
-index 2f344015a9..af28f5468f 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.9.bb
-@@ -26,6 +26,7 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
- # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
- SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-fix-compilation-when-building-in-a-subdir.patch \
-+           file://0001-alsactl-add-define-to-compile-with-glibc-2.38.patch \
-           "
- SRC_URI[sha256sum] = "e7623d4525595f92e11ce25ee9a97f2040a14c6e4dcd027aa96e06cbce7817bd"
- 
--- 
-2.41.0
+Alex
 
+On Tue, 1 Aug 2023 at 11:09, Fr=C3=A9d=C3=A9ric Martinsons
+<frederic.martinsons@gmail.com> wrote:
+>
+> Hello Alexander,
+>
+> I tried to explain in the code and commit comments, you may also want to =
+read the ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15104
+> and I try to explain and ask for help in a dedicated topic on this very l=
+ist: see https://lists.openembedded.org/g/openembedded-core/topic/100254129
+>
+> But to summarize, Cargo.lock is required for various purposes and it incl=
+udes the patching path process to work.
+> I think having no Cargo.lock for a rust recipe built under yocto is not d=
+esirable.
+>
+> For the  --frozen flag, it put harder constraints than --offline (--offli=
+ne prevent network access but doesn't prevent modification
+> of Cargo.lock)
+>
+> The special case to revert the behavior introduced was made to comply wit=
+h rust-hello-world existence. I would like
+> to suppress this recipe instead of having this patch but I don't know if =
+it is desirable and I'd like to think
+> for other points of views.
+>
+>
+> On Mon, 31 Jul 2023 at 19:48, Alexander Kanavin <alex.kanavin@gmail.com> =
+wrote:
+>>
+>> I think you need to better describe the benefits. What are the
+>> improvements? Can we just stay with --offline?
+>>
+>> There's lots of intricate code added around cargo.lock handling, with
+>> special casing to revert to previous behavior via new variable, but
+>> I'm struggling to understand: to what end?
+>>
+>> Alex
+>>
+>>
+>>
+>>
+>>
+>> On Mon, 31 Jul 2023 at 11:44, Frederic Martinsons
+>> <frederic.martinsons@gmail.com> wrote:
+>> >
+>> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
+>> >
+>> > This patch series force the usage of --frozen instead of --offline dur=
+ing cargo build.
+>> > This has the advantage to be sure that Cargo.lock file will not be mod=
+ified.
+>> > Moreover, raise a clear error when Cargo.lock is not present.
+>> > For this to work, we must modify ourself the Cargo.lock before buildin=
+g
+>> > in case there are git repo that have been patched.
+>> >
+>> > The last commit is to handle the specific case of rust-hello-world rec=
+ipe.
+>> > If this recipe is no more necessary, we can drop this last patch.
+>> >
+>> > The following changes since commit 9b5b850d6a6982bb8ff14dcfbb6769b2936=
+38293:
+>> >
+>> >   libarchive: ignore CVE-2023-30571 (2023-07-30 12:00:13 +0100)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   https://gitlab.com/fmartinsons/openembedded-core 15104-check-cargo-l=
+ock
+>> >
+>> > Frederic Martinsons (3):
+>> >   cargo.bbclass: Use --frozen flag for cargo operations
+>> >   cargo_common.bbclass: Handle Cargo.lock modifications for git
+>> >     dependencies
+>> >   cargo.bbclass: Offer a way to use --offline instead of --frozen
+>> >
+>> >  meta/classes-recipe/cargo.bbclass             |  9 +++-
+>> >  meta/classes-recipe/cargo_common.bbclass      | 43 ++++++++++++++++++=
++
+>> >  .../rust-example/rust-hello-world_git.bb      |  2 +
+>> >  3 files changed, 53 insertions(+), 1 deletion(-)
+>> >
+>> > --
+>> > 2.34.1
+>> >
+>> >
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > Links: You receive all messages sent to this group.
+>> > View/Reply Online (#185128): https://lists.openembedded.org/g/openembe=
+dded-core/message/185128
+>> > Mute This Topic: https://lists.openembedded.org/mt/100458213/1686489
+>> > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[alex.kanavin@gmail.com]
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >
 
