@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E84F9C10F1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F2AC16B13
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:51 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.17704.1690907328533334860
+ by mx.groups.io with SMTP id smtpd.web10.17594.1690907329688098195
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=buSnp2cO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BxjI+6mx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189b1ee425c-924981bd-4229-4258-8c76-6d92d5f8b5a8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=di/6r7/n;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=L1uIqXOL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189b1ee41c1-e595854a-e877-4efb-9ade-09c929ae23fc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907329;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xFm37aTT48qr8HuDrxV7cWGo88HE9AAR8qoouNW8lfI=;
-	b=buSnp2cOc9gDNEt12adMSpoCMTsSlHs1OKk6QYpkRIVu/s8zBnv0p+zvLbL0Ct1w
-	u9ISiWNeeJFvdFG5NFcf/vTECgym/p6wDC4iymSDbsetJGQvtQSJqMln/BZ9HA/91p5
-	VwqjvPm762rZ3n1JBNicpk9lB+VVuQJ1rDBSyhrs=
+	bh=anvA0FP+yiyI1GnxizMvp+9Mz3uyG+decQUMQoM13xI=;
+	b=di/6r7/nXy6NIv8KEmRukz+J1RnJIIn/wS4wLkWQ8lakZ5BUDx+U6cEEkDtvMy7s
+	yLH5f0hkWxv6QRVzLxB/jxp91ziwULIS3UWCTI2hk9FWwcMFtpiJAN/dzjYtHwA+QwB
+	ypC3U0wLwDoWiCTjxZe2gKoIeL2UKtaVEvYFV+GA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907329;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xFm37aTT48qr8HuDrxV7cWGo88HE9AAR8qoouNW8lfI=;
-	b=BxjI+6mxZ5S70PRQKr/F9Dttd9ZdS+LtcfuRq/3yvMigys3TLTHnQ8qWK+8Qb1/M
-	hfbb3SMXjKsuUe3+auJt7vV0BzpfhE+DRFbB0bsYlIrLJ0xYL3wMNczSmO0iSimqwMb
-	Ch3wXwf7ppx3aLmt98YQ1BqyxnqnAkiAjVGoBFNo=
-Content-Type: multipart/mixed; boundary="===============3555476721250518953=="
+	bh=anvA0FP+yiyI1GnxizMvp+9Mz3uyG+decQUMQoM13xI=;
+	b=L1uIqXOLYcZahuMcGMZljeMJfCebJznimCYnK0jhllrgK7xwF6DAWNbJ0wH7RkWq
+	hbTH/+kn7xeGSV2k7mqewG8izmdyjsDpQwUcl2GULpMgUlB6/bBDgrGr3zBkQTCVrFe
+	kRRVRKwMFzVVyMEjeSkU7qsH1ipTf8zHwFISyaPI=
+Content-Type: multipart/mixed; boundary="===============7966861884177038035=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux: upgrading to 2.39.1 FAILED
-Message-ID: <01010189b1ee425c-924981bd-4229-4258-8c76-6d92d5f8b5a8-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Aug 2023 16:28:49 +0000
+Subject: [AUH] util-linux-libuuid: upgrading to 2.39.1 FAILED
+Message-ID: <01010189b1ee41c1-e595854a-e877-4efb-9ade-09c929ae23fc-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Aug 2023 16:28:48 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.08.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185268
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185270
 
---===============3555476721250518953==
+--===============7966861884177038035==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux* to *2.39.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.39.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade util-linux -V 2.39.1
+The following devtool command failed:  upgrade util-linux-libuuid -V 2.39.1
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (07:42:29.436000)
+NOTE: Retrying server connection (#1)... (07:37:49.972619)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -135,14 +135,14 @@ Adding changed files:  16% |#####                               | ETA:  0:00:08
 Adding changed files:  18% |######                              | ETA:  0:00:07
 Adding changed files:  19% |#######                             | ETA:  0:00:06
 Adding changed files:  21% |#######                             | ETA:  0:00:06
-Adding changed files:  22% |########                            | ETA:  0:00:06
+Adding changed files:  22% |########                            | ETA:  0:00:05
 Adding changed files:  24% |########                            | ETA:  0:00:05
 Adding changed files:  26% |#########                           | ETA:  0:00:05
 Adding changed files:  27% |##########                          | ETA:  0:00:04
 Adding changed files:  29% |##########                          | ETA:  0:00:04
 Adding changed files:  31% |###########                         | ETA:  0:00:04
 Adding changed files:  32% |###########                         | ETA:  0:00:04
-Adding changed files:  34% |############                        | ETA:  0:00:04
+Adding changed files:  34% |############                        | ETA:  0:00:03
 Adding changed files:  36% |############                        | ETA:  0:00:03
 Adding changed files:  37% |#############                       | ETA:  0:00:03
 Adding changed files:  39% |##############                      | ETA:  0:00:03
@@ -188,7 +188,7 @@ INFO: Extracting current version source...
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
 INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.1.tar.xz...
-INFO: Rebasing devtool onto 6e8b4ce98db2002c1774d5a7b619ac949c906f8f
+INFO: Rebasing devtool onto f9f8a9e12d5b9f266f6010a871a4f27da2b6eba0
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -202,7 +202,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux/README.licensing'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux-libuuid/README.licensing'
 
 
 Please review the attached files for further information and build/update failures.
@@ -210,5 +210,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3555476721250518953==--
+--===============7966861884177038035==--
 
