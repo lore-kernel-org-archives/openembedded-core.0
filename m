@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 729BDC2FC07
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F957C2FC0F
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:29:03 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.17717.1690907331374076328
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.17615.1690907333340419832
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aR50cWoE;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JoZIRE5n;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189b1ee5118-0dff176b-cb3f-4a8b-ac4a-572e5c028a89-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eHl5Ij3i;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Sps0tRmZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189b1ee4eeb-b51aa66b-ea33-4f1a-b20b-e244ad35d312-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1690907333;
+	t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YuxomFofzIo13Dlc2TACaizwVCrGYIeVtuIlt9N7Cv8=;
-	b=aR50cWoEgvRRsuaPF+IUoK+9UEatK8ib22wfeWIVwrcOvYKPC4Rti2SOkoMuzmfN
-	qmKxmNTlH73GpCsZ+xHUIAl/M3YUljuizbT2XkrSFAXTg9+IHh8Xu3+yq+rQU2JifsI
-	qpCUUrWYE5t9y+ZL/wD6vYRDiNETA6p+bxsQ3jYo=
+	bh=/uzoFWh5preGlV6hfnx5e24NREqusa3V746ruKysX8I=;
+	b=eHl5Ij3ivG3EsR66jjAh3fg8t16D8N38GF1mZmucyWdfoKoWiObC/ry//tQrOaZw
+	QWvYk0/HyS+vWGNzUxAJZkPWEggbL7PBVfAWWCf/84FzaQqEbUuD/eGz5LPFFGevbdE
+	bQkfC8tcYjxyNEdK13+D9cSbroTF90wO2rstfsd4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907333;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YuxomFofzIo13Dlc2TACaizwVCrGYIeVtuIlt9N7Cv8=;
-	b=JoZIRE5npO2E7yGaaVDk1n/Gqp+ifms1E0CT2uspW0av6IjcgnDJaSVfc8TOtOvR
-	rHYt2Bu+3VdHHyXwrmLlWl7nwv0syVLnSHfuMtCU6C2+8ClWmtRzqDUWKy3ev02UlYj
-	UtyACw03g2Bh606fEhRT9tQ8pZEXBDmCVxW/HTWE=
-Content-Type: multipart/mixed; boundary="===============5677842317321627724=="
+	bh=/uzoFWh5preGlV6hfnx5e24NREqusa3V746ruKysX8I=;
+	b=Sps0tRmZ+6IGi/nIovvRqNBHy+En/6xHuBR7Pb5SDoergm0+S6idPOhpZlxRjsM+
+	0hIIqTlGlkwLutcvDHE+8D+7EJqL/5fzEybXB96qU6dJWqAG8itZ4XsUb5OnwLwkrPS
+	WDBVM/dxi2bFjRgwHBgKgEQtGwIFBvxiIsyFmKp0=
+Content-Type: multipart/mixed; boundary="===============7171836077337487723=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.22.5 FAILED
-Message-ID: <01010189b1ee5118-0dff176b-cb3f-4a8b-ac4a-572e5c028a89-000000@us-west-2.amazonses.com>
+Subject: [AUH] lttng-tools: upgrading to 2.13.10 FAILED
+Message-ID: <01010189b1ee4eeb-b51aa66b-ea33-4f1a-b20b-e244ad35d312-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.192
+X-SES-Outgoing: 2023.08.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185344
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185343
 
---===============5677842317321627724==
+--===============7171836077337487723==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,12 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.22.5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *lttng-tools* to *2.13.10* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gstreamer1.0-rtsp-server -V 1.22.5
+Running 'devtool upgrade' for recipe lttng-tools failed.
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (15:19:52.852940)
-NOTE: Directory listing: ['upgrade-helper', 'bitbake-cookerdaemon.log', 'sstate-cache', 'cache', 'buildhistory', 'downloads', 'conf', 'workspace', 'tmp']
-NOTE: Retrying server connection (#1)... (15:19:52.961527)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -85,9 +81,9 @@ meta-yocto-bsp       = "tmp-auh-upgrades:12a94e38c0fcd9970cd22ef1cfd5c89c2ae7913
 workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 32 (100% match, 100% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
@@ -115,36 +111,54 @@ meta-yocto-bsp       = "tmp-auh-upgrades:12a94e38c0fcd9970cd22ef1cfd5c89c2ae7913
 workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 2 Local 1 Mirrors 0 Missed 1 Current 26 (50% match, 96% complete)
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 3 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:   3% |#                                   | ETA:  0:00:05
+Adding changed files:   7% |##                                  | ETA:  0:00:03
+Adding changed files:  11% |####                                | ETA:  0:00:03
+Adding changed files:  15% |#####                               | ETA:  0:00:02
+Adding changed files:  19% |#######                             | ETA:  0:00:02
+Adding changed files:  23% |########                            | ETA:  0:00:02
+Adding changed files:  27% |#########                           | ETA:  0:00:02
+Adding changed files:  31% |###########                         | ETA:  0:00:01
+Adding changed files:  35% |############                        | ETA:  0:00:01
+Adding changed files:  39% |##############                      | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:01
+Adding changed files:  50% |##################                  | ETA:  0:00:01
+Adding changed files:  54% |###################                 | ETA:  0:00:01
+Adding changed files:  58% |#####################               | ETA:  0:00:01
+Adding changed files:  62% |######################              | ETA:  0:00:00
+Adding changed files:  66% |#######################             | ETA:  0:00:00
+Adding changed files:  70% |#########################           | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
 Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  86% |##############################      | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
 INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.22.5.tar.xz...
-INFO: Rebasing devtool onto f6b0254d126c4ab4fb56fcdf1100c82de0dbc541
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 336, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 565, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-rtsp-server/COPYING'
+INFO: Fetching https://lttng.org/files/lttng-tools/lttng-tools-2.13.10.tar.bz2...
+INFO: Rebasing devtool onto 4d5cc9c6bc44229ec9bae258839b4da19e324347
+WARNING: Command 'git rebase 4d5cc9c6bc44229ec9bae258839b4da19e324347' failed:
+Auto-merging lttng-tools-2.13.10/tests/utils/parse-callstack.py
+CONFLICT (content): Merge conflict in lttng-tools-2.13.10/tests/utils/parse-callstack.py
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Source subdirectory has changed, updating S value
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/lttng-tools
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/lttng-tools/lttng-tools_2.13.10.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -152,5 +166,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5677842317321627724==--
+--===============7171836077337487723==--
 
