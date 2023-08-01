@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 655C7C27C42
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AF9C27C50
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:52 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.17717.1690907331374076328
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.17604.1690907331288884016
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eFtgvmu5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Kb7fulBX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189b1ee48e4-e8bb2223-a7e8-4b93-a158-87a9022d98e6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YXXQ7EJw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QTNc3nre;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189b1ee46ad-eccd7366-8db7-4bb2-9908-0b3906359701-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LTP/pwnzKg3E4qnRY61w50fz0VJQOsjw8f8CzygM3k4=;
-	b=eFtgvmu5oXVx37WWBUT2bsxh0CMfnEh90hk20XsWvrx1+Op3XEbxZTBLqtfaNvlG
-	Hv1EE+w2OynWOEfTahgXhyi3c7HVC+ZFZ/GJ9C9nCxEUuUrTEd3fO8+msPd0ununZmM
-	9rNdC2gnujlaoUgexaUyXHLPed0abGI51diwW4gI=
+	bh=7ASRF9nzTAmhGEX65r/VRRy5NtBZI1bulK0RytqSAqs=;
+	b=YXXQ7EJw1wnijemmwUxvB8BsMD+miNhL3zDeuToG9pAuPLr8dqXM1Sdyk+4KhA3y
+	Mr1qNmCia9K1lAeqnyKRYSgWWxBFR1yB+7xUTCy3yIBU9ql9KWWU9I1PDaCkCv4AzeA
+	hWDiySZz7I3UDrOa0akEkoLmsoaqJd0tvJiZ5o4Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LTP/pwnzKg3E4qnRY61w50fz0VJQOsjw8f8CzygM3k4=;
-	b=Kb7fulBXOvv2sifg/v2fiSc4einuZD8ix3MVy7p5lruV3fznTHAG7ba9Viy1JNyK
-	ha0wo/L+Okt08DeuDKV7N7FqqgAH9PY7xwZ8SIBoMYasaUCYYeHjOVCuLquWz1Ulqr3
-	pNLDwTHslNX+ohYMH6McNQ5U6RUI7Yr2+iAmwMEI=
-Content-Type: multipart/mixed; boundary="===============6025711668430138760=="
+	bh=7ASRF9nzTAmhGEX65r/VRRy5NtBZI1bulK0RytqSAqs=;
+	b=QTNc3nre7AQM5LCGIi7Qjy0pQdeKASvPg+maFlPS0Q8/UXnP5AlwDewlk0K6YEj5
+	Bv6jo815MeCwebr7UKK4VLSMSLyTs25qLNqkidwy9tLFivN6X+8FLolQvsIcU8/ALoa
+	Np/8PBmQOsQF/XLxXYvIN6ScmctCSc+YQhZxhn2c=
+Content-Type: multipart/mixed; boundary="===============7933451408984665589=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.4 FAILED
-Message-ID: <01010189b1ee48e4-e8bb2223-a7e8-4b93-a158-87a9022d98e6-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-more-itertools: upgrading to 10.0.0 FAILED
+Message-ID: <01010189b1ee46ad-eccd7366-8db7-4bb2-9908-0b3906359701-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.192
+X-SES-Outgoing: 2023.08.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185301
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185299
 
---===============6025711668430138760==
+--===============7933451408984665589==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,20 +51,21 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-more-itertools* to *10.0.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade ethtool -V 6.4
+The following devtool command failed:  upgrade python3-more-itertools -V 10.0.0
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (12:47:04.014475)
+NOTE: Retrying server connection (#1)... (09:56:50.623376)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
 
 Summary: There was 1 WARNING message.
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -121,15 +122,13 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  39% |##############                      | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.4.tar.gz...
-INFO: Rebasing devtool onto 01a18e047755e6563fa503f6d9235805748971d7
+INFO: Fetching https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-10.0.0.tar.gz;downloadfilename=more-itertools-10.0.0.tar.gz...
+INFO: Rebasing devtool onto cb010df8064ed29eb0214787c38805c843522ea8
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -143,7 +142,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ethtool/COPYING'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-more-itertools/LICENSE'
 
 
 Please review the attached files for further information and build/update failures.
@@ -151,5 +150,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6025711668430138760==--
+--===============7933451408984665589==--
 
