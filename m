@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA86C2FC16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFE49C3DA40
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:29:03 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.17604.1690907331288884016
+ by mx.groups.io with SMTP id smtpd.web10.17595.1690907329769184757
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aCtLM9mr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SZ3q47DT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189b1ee5000-36d5b868-bdb7-4659-882e-51b5f00adeb3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BAc3I2fs;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Khv/7WIJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189b1ee505f-47ebfe19-7e83-4ce2-be8d-6155e18f21c6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZDJSnX2yY97odPMfOZfSZAbvOBV8KAAzjWrfxfyPgNs=;
-	b=aCtLM9mrvL9Q96p1cUSsTW3OSA0ht2A1HwTvGjGFAq58nemodraD+PfrA0vs4zGQ
-	350EPb2dsSqOENJBKDok86uhxe9Psgu0qN8ZrmiI0V8sS9P5yLQGE4iM5UbGirmrP1N
-	vcY3rYc3OT7XKZNes8TiSbzkai6QvA+5LpAoGMIY=
+	bh=OK4BPVjI/nhsVXgYGV7E2tG0FrXDWs75ZDmX5R7SyxE=;
+	b=BAc3I2fsdbP6rUM3kCrCS/kTq/O6mWV//egB4hhSWcA8QCVp264Zfy/Z3yDKOZxW
+	SkHFhxGzxQEoSL+RdZvP26pTTiHxyUiCUaJ2zYNJBMzfHUPsCsZT0TwqX6m5kAWQhwp
+	rGrVlC6+PuaWqCVItO0CICvjkLNcq0pAsHT7Tqq0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZDJSnX2yY97odPMfOZfSZAbvOBV8KAAzjWrfxfyPgNs=;
-	b=SZ3q47DT8YeOSv+h+zvb326FUi4EIGsJuhL8QJcY4sYTefy8r+GmYl5yH+WZ0pa1
-	4ZsPmApJkBEb2LOoDGs4d32F1WMhz0i2PUIEbgO//1xzaq5A5Srv+XBlP2ULfcpLk6Z
-	WV0vLo07FuCO8byIg7VUj4tHXgskbBSAP4odEVvk=
-Content-Type: multipart/mixed; boundary="===============3141986949418935811=="
+	bh=OK4BPVjI/nhsVXgYGV7E2tG0FrXDWs75ZDmX5R7SyxE=;
+	b=Khv/7WIJEc4/67nAqp0b/EM5ncuR+bni0/Omzfh0zqUsR+/Suef9tmEw2M40B4Ge
+	97kCt6SHS0aevtEFkmyY9O3JdqeRl1u9QUCnlYBqkpGDhjB/J7Rr4mHi72sUoVA929H
+	TOx6VG3BigMyLx1jCzvCShBQ8UFEprPB31D4/e7k=
+Content-Type: multipart/mixed; boundary="===============1781421478926304041=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-bad: upgrading to 1.22.5 FAILED
-Message-ID: <01010189b1ee5000-36d5b868-bdb7-4659-882e-51b5f00adeb3-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-plugins-good: upgrading to 1.22.5 FAILED
+Message-ID: <01010189b1ee505f-47ebfe19-7e83-4ce2-be8d-6155e18f21c6-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.08.01-54.240.27.29
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185335
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185336
 
---===============3141986949418935811==
+--===============1781421478926304041==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-bad* to *1.22.5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-good* to *1.22.5* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gstreamer1.0-plugins-bad -V 1.22.5
+The following devtool command failed:  upgrade gstreamer1.0-plugins-good -V 1.22.5
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (15:13:57.605883)
-NOTE: Directory listing: ['upgrade-helper', 'bitbake-cookerdaemon.log', 'sstate-cache', 'cache', 'buildhistory', 'downloads', 'conf', 'workspace', 'tmp']
-NOTE: Retrying server connection (#1)... (15:13:57.714282)
+NOTE: Retrying server connection (#1)... (15:16:54.758924)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -123,74 +121,44 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:09
-Adding changed files:   3% |#                                   | ETA:  0:00:06
-Adding changed files:   4% |#                                   | ETA:  0:00:04
-Adding changed files:   6% |##                                  | ETA:  0:00:04
-Adding changed files:   7% |##                                  | ETA:  0:00:04
-Adding changed files:   9% |###                                 | ETA:  0:00:03
-Adding changed files:  11% |####                                | ETA:  0:00:03
-Adding changed files:  12% |####                                | ETA:  0:00:03
-Adding changed files:  14% |#####                               | ETA:  0:00:03
-Adding changed files:  15% |#####                               | ETA:  0:00:03
-Adding changed files:  17% |######                              | ETA:  0:00:03
-Adding changed files:  19% |######                              | ETA:  0:00:03
-Adding changed files:  20% |#######                             | ETA:  0:00:02
-Adding changed files:  22% |########                            | ETA:  0:00:02
-Adding changed files:  23% |########                            | ETA:  0:00:02
-Adding changed files:  25% |#########                           | ETA:  0:00:02
-Adding changed files:  27% |#########                           | ETA:  0:00:02
-Adding changed files:  28% |##########                          | ETA:  0:00:02
-Adding changed files:  30% |##########                          | ETA:  0:00:02
-Adding changed files:  31% |###########                         | ETA:  0:00:02
-Adding changed files:  33% |############                        | ETA:  0:00:02
-Adding changed files:  35% |############                        | ETA:  0:00:02
-Adding changed files:  36% |#############                       | ETA:  0:00:02
-Adding changed files:  38% |#############                       | ETA:  0:00:02
-Adding changed files:  39% |##############                      | ETA:  0:00:02
-Adding changed files:  41% |##############                      | ETA:  0:00:02
-Adding changed files:  43% |###############                     | ETA:  0:00:02
-Adding changed files:  44% |################                    | ETA:  0:00:01
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  47% |#################                   | ETA:  0:00:01
-Adding changed files:  49% |#################                   | ETA:  0:00:01
-Adding changed files:  50% |##################                  | ETA:  0:00:01
-Adding changed files:  52% |##################                  | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:01
-Adding changed files:  55% |####################                | ETA:  0:00:01
-Adding changed files:  57% |####################                | ETA:  0:00:01
-Adding changed files:  58% |#####################               | ETA:  0:00:01
-Adding changed files:  60% |#####################               | ETA:  0:00:01
-Adding changed files:  62% |######################              | ETA:  0:00:01
-Adding changed files:  63% |######################              | ETA:  0:00:01
-Adding changed files:  65% |#######################             | ETA:  0:00:01
-Adding changed files:  66% |########################            | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:01
-Adding changed files:  70% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:00
+Adding changed files:   3% |#                                   | ETA:  0:00:03
+Adding changed files:   6% |##                                  | ETA:  0:00:02
+Adding changed files:   9% |###                                 | ETA:  0:00:02
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  15% |#####                               | ETA:  0:00:01
+Adding changed files:  18% |######                              | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:01
+Adding changed files:  24% |########                            | ETA:  0:00:01
+Adding changed files:  27% |#########                           | ETA:  0:00:01
+Adding changed files:  30% |###########                         | ETA:  0:00:01
+Adding changed files:  33% |############                        | ETA:  0:00:01
+Adding changed files:  36% |#############                       | ETA:  0:00:01
+Adding changed files:  39% |##############                      | ETA:  0:00:01
+Adding changed files:  42% |###############                     | ETA:  0:00:01
+Adding changed files:  45% |################                    | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  52% |##################                  | ETA:  0:00:00
+Adding changed files:  55% |###################                 | ETA:  0:00:00
+Adding changed files:  58% |####################                | ETA:  0:00:00
+Adding changed files:  61% |######################              | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  70% |#########################           | ETA:  0:00:00
 Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  74% |##########################          | ETA:  0:00:00
 Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
 Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
 Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |##############################      | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:03
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.5.tar.xz...
-INFO: Rebasing devtool onto 78f8ee26c436a140738f40667e533204af2cc7b8
+INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.22.5.tar.xz...
+INFO: Rebasing devtool onto b95131b023adc4bafdf4c93bb171129dc8d4aa16
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -204,7 +172,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-plugins-bad/COPYING'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-plugins-good/COPYING'
 
 
 Please review the attached files for further information and build/update failures.
@@ -212,5 +180,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3141986949418935811==--
+--===============1781421478926304041==--
 
