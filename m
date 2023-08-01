@@ -1,96 +1,137 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74DC3C001E0
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:01:19 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.9075.1690884073643898768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3EBC001E0
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:01:29 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.81])
+ by mx.groups.io with SMTP id smtpd.web10.7772.1690876346928206364
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 03:01:13 -0700
+ Tue, 01 Aug 2023 00:52:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W0ctN/LU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fe1fc8768aso21009005e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 03:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1690884072; x=1691488872;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oGgrkS7WRz9z/Wt0lABqr5H7MLRgGvTX3eigs8KuVjw=;
-        b=W0ctN/LU+dpmHPepr6/TNnQGNen+lI6sNUPE+4le+w2p6vgZ43x2FXIulF9dUXKWbY
-         z9ZiWeB9m3zciBZteOTdXqe3tOFiZCX3eaHWHBsN0064b6VmNfYk0GVCEftoHMhvujLK
-         ZS6odLSmXsx1FK1Pp1kkYAkVb0b0TBumia05c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690884072; x=1691488872;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oGgrkS7WRz9z/Wt0lABqr5H7MLRgGvTX3eigs8KuVjw=;
-        b=OXqtA4lFv8ONYORPndglXNo4dkTnHn7FEyH6PrUaZ84maJPtbCW9o4fhJugIucrQaU
-         e8vK5RcCc0EK/W7twyF7uw2aMbUzLa0x6dTwe00LBajhoMxxFmISNALKZVB+TXP3IP2k
-         JbnPxOVIukVDchCghGkFQVCfrki5TpolLvPxjEvRpUgseznwdjagTzwEPWpg2SNbBv+u
-         s/AUFP8DfqGXTokibSpWvBRglODkGwEd55cn0jWabc4cp1qVIdFdk4CxSTZfPysqSwai
-         Gao7NVptkJVwCuJUUNiP9WmJ0oWBSCx651kAWBB+2MSuTNbLyDHCy/ewjTYsEPOjc3+G
-         wUvQ==
-X-Gm-Message-State: ABy/qLYhru8znzkLDz357p+juvLw9M2lIuqBp+16DoyF4MqcuwXiib3b
-	szt1QUKqgJvuEet7Xt4L/Z8Jqw==
-X-Google-Smtp-Source: APBJJlHfygv0UHb2wYIIwkMoTYroa/gF/6rHQnB0/huXus43GvCydfhNODMTNxSxTPRxG/NZ+8CVcw==
-X-Received: by 2002:a05:600c:259:b0:3fe:1deb:86 with SMTP id 25-20020a05600c025900b003fe1deb0086mr2101342wmj.28.1690884072011;
-        Tue, 01 Aug 2023 03:01:12 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e3b7:1714:595d:8417? ([2001:8b0:aba:5f3c:e3b7:1714:595d:8417])
-        by smtp.gmail.com with ESMTPSA id k1-20020adff5c1000000b00314417f5272sm15741325wrp.64.2023.08.01.03.01.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 03:01:11 -0700 (PDT)
-Message-ID: <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use
- --offline instead of --frozen
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons
- <frederic.martinsons@gmail.com>,  Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
-Date: Tue, 01 Aug 2023 11:01:10 +0100
-In-Reply-To: <CA+cAkepSOxNovN+iuRx8_=9Ut=bLXBb8YHbHG5SJJedGfGmeBg@mail.gmail.com>
-References: <cover.1690795930.git.frederic.martinsons@gmail.com>
-	 <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
-	 <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
-	 <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
-	 <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
-	 <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
-	 <1f72dc4842eaadc8fa49eef29f2f0af4179131c9.camel@linuxfoundation.org>
-	 <CANNYZj96-co4wRxY=N3KS4bEsFr_v=yJphOC0ZBO92TerGtmug@mail.gmail.com>
-	 <CA+cAkepSOxNovN+iuRx8_=9Ut=bLXBb8YHbHG5SJJedGfGmeBg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@kerlink.fr header.s=selector1 header.b=dp5+zRGN;
+ spf=pass (domain: kerlink.fr, ip: 40.107.8.81, mailfrom: j.lemetayer@kerlink.fr)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=egywjJRsz12zkg6DjnX8nv1Ce9KxrV/CupvB66VUUERShb+dj4PfWP/X4/TJvFX+OQROH+lFiLB8MKzjBDckkpKR95NP0gWe3uZCfVJ2jEE057EzSmVvZ8IiwUgK8mpb+jV5q2JudfTpdaWwFHLv36YXr4U/7rXEQSH6jQHyWeBTEQs8HJKFQVBIuKS/lex17KlRc6RXqX+bhtq5Q/9crk/T7iy/Uq5kIi1mGUGjrIB6SL9eF8QsDVghadmEfbdNB0xZgWifahsXe0Bt9zGV2rzdURLzRzYZPqYLQ19UjctxchNPLNyicRhPfl2e+7RLnPOPwQMcphE1Tc5H86elOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h9Oh/1tShT7k9Dy/TBvEzM/FG223z+pQb1juvguZC4g=;
+ b=AN1amsCMJyqc3c9IOy2JH1tbSxHi4EWzsqB37M2+k81FZouom9qY87gWnpavcVpNSWP6HvwrMazfOq9nel5JkHlkR9caueOJRC0ZKf5LEtOaWyr5Udc1AtKXgnvpxDURDwfD+X58kSZfDvsISCbT3PQJ1yH21RoeYuV0gC0O9RGjjH6z6N9yIo1BpkqMPcB2Fg4ooqXtszxTOu3kUnnGcWbbZ5PvFEXcB5KKAxZVdUSnpqgVLkVTu8dHEvdFo3z6mBR7Rs+bhMQv6npJJtMB6HhZcsA/Z1i+ggU3wrnNGzjndhf2B+bo+d+DMYl1dHZ2HwojFTWESx7RfOmPm+mD+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kerlink.fr; dmarc=pass action=none header.from=kerlink.fr;
+ dkim=pass header.d=kerlink.fr; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kerlink.fr;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h9Oh/1tShT7k9Dy/TBvEzM/FG223z+pQb1juvguZC4g=;
+ b=dp5+zRGNi0hEcO6sZshXx7PqXPNA84sDbMpWBQ5yBGZnD252lfEDFUduHnWl0afqpgHO4iqj12YACvnH83AqEAcUQqXG9oZxipfZJQhbUPHvbNYaRRc5c7TWcVtXVvhQ8DWTohAbAuJz+MB9nISwkeyDtrgqFNKnVzLXAo4QaPCmvO8wmFkddioTGIdQ3F4N6OXKCQ42FVmAgqjjqVmLuKNkDYZ3MSRnbxHDtEU9YTL7aS5byLjx2VX9O8Le5SWxXY2ptQQw2uSI2Am3YFj+mmvOzR385VJaceSShYmnztSmoxHbPuJl4Z3yLTz6jVEhdmidLxcCvUIi5oWHL8vOfA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kerlink.fr;
+Received: from AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:d5::29)
+ by AS1PR10MB5650.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Tue, 1 Aug
+ 2023 07:52:23 +0000
+Received: from AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3b7c:ae85:4dc7:5a64]) by AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3b7c:ae85:4dc7:5a64%5]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
+ 07:52:23 +0000
+From: "Jean-Marie Lemetayer" <j.lemetayer@kerlink.fr>
+To: openembedded-core@lists.openembedded.org
+CC: Jean-Marie Lemetayer <j.lemetayer@kerlink.fr>
+Subject: [PATCH v2] package: always sort the conffiles
+Date: Tue,  1 Aug 2023 09:52:02 +0200
+Message-ID: <20230801075202.4246-1-j.lemetayer@kerlink.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2023072810313162556501@mail.local>
+References: <2023072810313162556501@mail.local>
+X-ClientProxiedBy: LO2P265CA0481.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13a::6) To AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:d5::29)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2513:EE_|AS1PR10MB5650:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7714b756-2867-42bb-1155-08db92643d91
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	sX3h5PsM1f3Aji8fjse7Puuh98ZBWFW4K7rl3a8beDNXwWlDVUwBY2F/tWxGr0b5jSZKUnfOeC/gVhaP0v8UbEgmOmUThWlLVTXPHR5+lQDaYnFclpVJOtwSsL8vd3WncGtKkYi45kO1rbV8jjE0NhZrHkonU7P+Ts98R2fyaO7Jc4FpCr7VmkQCELK/bFYs5LDeWicTDOa0AjPRkwc3WwYmmsUD6pV6kk2TlzG1OTcNoY4cZ/r25ykDPatYeIZB8Tf3jI4mLfHa/xHyol92YshAESJAJAjA91GMhhXFp/81tTVhdhwSMJJpkG0OYuJCxd2B42mz1xwuEBiSIaHOSf6PLFMnW9FQSC4m34EhqaFzrI2kxQnBY8rtOXMsxVZ7e5PtJeADFJ6QOTc5MZWZ7ebAIcXxPOQbG/hhm7UbJmD7fX8DQHO9xY3/kq3SvgjQ1/Jms72KKJAblQimMnL2nQokmYP09ADQL8j63KiIuTk347CRoW1ikBn+eDN93cYxMBPE0rPRhHB+zVzwsZeNWrXrIbgOWa4LLVV/Ba4AHFtTje0Y2T/QUNjJXLpZmPTZths7YNRClf7SAZoG8L+uCMUfEdTseqEUMkLG3K9FDPRHbBfT6IVYSFL7Bmv390VG
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39850400004)(376002)(396003)(366004)(346002)(451199021)(6512007)(6486002)(52116002)(6666004)(2616005)(83380400001)(36756003)(86362001)(186003)(38100700002)(38350700002)(26005)(1076003)(6506007)(5660300002)(4326008)(41300700001)(8936002)(8676002)(6916009)(66946007)(66476007)(2906002)(4744005)(316002)(107886003)(478600001)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?U88JK5+WyLDwLYDxOLh1T0k5b6VUEflCllcgcrJwoYcIYwQwRihglNPlyZtt?=
+ =?us-ascii?Q?XK2lwXEzUdW39NSHxuevrJJOBuwf3pzSTUeDbN18f8MlBx+d842jVW6l4THy?=
+ =?us-ascii?Q?23LPphuOxYVzLfkcYCvnfBqpVbFZ8SCV5AbYPlaraPOSGy4QCFH0LuYE6a5b?=
+ =?us-ascii?Q?UZDBFrvpPiG3d7qHgTzWsn89Lapjwfa6+RXCWinLFp1EdPIHAZlEu2QwbRhx?=
+ =?us-ascii?Q?hBqdtCMb0MvqH/kC4wdy08dA6Pj1Nx3xiCCOSk7STo843YlmNvqOzC9g9KqQ?=
+ =?us-ascii?Q?hKGhA2mXfpdh2anozhhonpJ3BNXDN9pfXEDGBV0sMY1L6gEuzVeMXh8/73t4?=
+ =?us-ascii?Q?zk2C5GU+zmLWQkAu+Y1lQgALyUYKkZs3pT0PxAtVGPCnSWKRBqgdhvsRuxP2?=
+ =?us-ascii?Q?2GVlMII3osfPfnAWZcciZMDYip8N7RWhaUf4aGgHoLB6A+bRZrbEpHDzN0iQ?=
+ =?us-ascii?Q?OHwehACyCxwqKbZJt3h9r+wjgQOfS4t1aIQOi7yBtQp7+HaZzm36ibVkvt2G?=
+ =?us-ascii?Q?N5jmSih4blw9t6YIhBw2EDqSBAmA6c9spKSpN0D0KP0OjMCLs1/y3isAkfMa?=
+ =?us-ascii?Q?BT+KoLkhaHb+177Y0mw90Fw7n4Yby1dTrWxnHVcirXnbLE55GEXO6eaL5AVL?=
+ =?us-ascii?Q?1C9qCzLHPCAzhCs/3tZ6FhGjg6PcXMlxqMLdeyKkGA5bvrIKGap0GpmVZeCI?=
+ =?us-ascii?Q?tlrZWMjr6reCpyYqxTzypRBlPngo524E4mjqLPQ74+t/RoE2q6pvHOQ4Rcu7?=
+ =?us-ascii?Q?uYXVHu70RrTdtfVmhm8wLVt/B0qfy4Hd29pPmJUIL4LVIK29c06Cvp3TaDWn?=
+ =?us-ascii?Q?M7CTaNeusZJZ6tr6X+0JC6rAO6L/oNsO/rXD6V8+akSsDnOzD6gMqp5tCLt8?=
+ =?us-ascii?Q?yLt0U4M1jsnDuUuIpP8fvVDwpeVl7aZjNrLwLtQeEpQerQmEbPtzPDFeOUG6?=
+ =?us-ascii?Q?ELa71glth1wcxAcYXvjNlKPE9nKV3EjkKih2sAon8Geez1UxRgp92Gs3oWGv?=
+ =?us-ascii?Q?DWHQYDKoy36RYf2OVIr+9lCNqUvtyZJpol7SldGNpH0KOd3LbKA+uVR7MHrT?=
+ =?us-ascii?Q?bcY1sLN23w9yZjobL+Z5XN5LH38sRnGeVcjnWdn+Xemfwm5r2xUuxZchXrjP?=
+ =?us-ascii?Q?0OlFXdfol3xZ0i398Od83VKKvfJf21HfNSO7aByZo2BNNNyX9I1Za7XhrwgK?=
+ =?us-ascii?Q?SQD0iIY8Vh7RJrnoDxyD5OmW9jvQQeB+HswM7ZScGzOu+j+52o4F6V7HGqAJ?=
+ =?us-ascii?Q?0Ol+GKlmfhL3TwjYIPBSXtv3iInjdWyumdvIjUdruX7NnZCmsHyb986/4z32?=
+ =?us-ascii?Q?TH24nkwzm9skWHoVpOvSG+u4tBhHoIvXHr8kVx0WJ/QHEZ56suggQ9niPu/6?=
+ =?us-ascii?Q?uswIInB8sUJ7nBlaZM/tQYHIFZhdyJnW39nZ6A9011XKv5yRHAFrZgqJA5W1?=
+ =?us-ascii?Q?9/GrbfhclMFyICwNMvjFN9QwfIO9SU7olji807DpEM2uTEwsbZp6whTbKulk?=
+ =?us-ascii?Q?Y2dZcIdUSpVcR676igE5VYSx1A64hfKlqlKCuubc63wkM5acBW4eipYTyIPd?=
+ =?us-ascii?Q?wTHppb+/LwFcQBaYCW6ec1ToHnQ5bnOhknEhZtyb?=
+X-OriginatorOrg: kerlink.fr
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7714b756-2867-42bb-1155-08db92643d91
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2023 07:52:23.2233
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e53a72e6-936b-4019-8ac1-596e63242dec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MUDWk8mAH9hP9hEiBp6i2B+abScvJ8wrfWaw8YA2QHtj9P/NI4lBRSsT5XCrZpZh/yOjgxpA35RY9apm6Vcxag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5650
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:01:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185228
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:01:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185230
 
-On Tue, 2023-08-01 at 11:55 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> zariant rust recipe is tested for devtool cases=C2=A0there
->=20
-> The test case mentioned=C2=A0earlier seems to verify=C2=A0that we can run=
- rust
-> test code, do we want to keep testing
-> that rust binary can run ? If so, how to keep testing this while
-> removing rust-hello-world recipes ?
->=20
-> maybe we can add a simple "println!("Hello world") " in=C2=A0this file=C2=
-=A0,
-> compile it like it is already done and run it
-> to check its output ?
->=20
-> What do you think?
+To improve package reproducibility, the conffiles order should not be
+directly linked to the file system.
 
-Doesn't test_rust_compile already also run the rust code it compiled?
+Sorting the conffiles solves this issue.
 
-Cheers,
+Signed-off-by: Jean-Marie Lemetayer <j.lemetayer@kerlink.fr>
+---
+ meta/lib/oe/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 70040f09e7..9d70925b9b 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -613,7 +613,7 @@ def get_conffiles(pkg, d):
+         conf_list[i] =3D conf_list[i][1:]
+=20
+     os.chdir(cwd)
+-    return conf_list
++    return sorted(conf_list)
+=20
+ def legitimize_package_name(s):
+     """
+--=20
+2.34.1
 
 
