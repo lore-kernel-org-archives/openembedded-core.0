@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 369BDC04FE1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 555DEC07E8C
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:29:03 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.17712.1690907330393386961
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.17591.1690907329176044908
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TqSUBP5w;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mX/8+17w;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010189b1ee5229-5cb327b3-3fb4-455a-96b0-f2217d9f39a3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JYnSykYq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kM7ruaWi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010189b1ee523f-80420a7d-7b17-427a-91ca-b0310d65c333-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=XMBqFy5oSBVbUXkBeYMm4vI9LIo1yX05JvV/79GB5Y0=;
-	b=TqSUBP5wHX3m+gvtDPa6xhAKTuxcbi4aqe8LC7GThMqeniUEr5v+UZGSPZg6muth
-	t9Zap7YbfC3ay9SoEnNcmWCMODzZMoN5GibDgRgP6S/PoTi7tPqYQYxW2WPhBGB0eM/
-	gdIOnSnnTIyDkpznPwpMFRRldQJFQa7B9CW1V1+U=
+	bh=xaG6RIOz1Q7W2cfPLk6Gy7ZERvigAfsd8/ChsNdPfVc=;
+	b=JYnSykYqYI+62Y669qJUOCCZovkKKbvMjOUA4UqGN2tuw2nu4JtgXFcWo3/t1n8c
+	i6AqtLnE7Rp69NIezA6lFvCh9IXvIdSjmMzFtrO9Rpd4czrexuJOLxHH1otQzHuDMDs
+	YVNu4QjxT9bvFaTAzJSCUiC5mOSx5TupL0fxzQnY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907333;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=XMBqFy5oSBVbUXkBeYMm4vI9LIo1yX05JvV/79GB5Y0=;
-	b=mX/8+17wqtMlWafKwW/1RZV8fkSxaxvV7KqWbt4lAgaUIrYGJtan1jATRdfUtqWX
-	WGDMD91HlNCGvFhsSe28fi9a+jcMmkVFC4mRBs0dQKphOQF7NclHlkHAkc2lhYZ5lxx
-	wDhVTM/Xu627psOdVGXyQXpFWTXR6kgdXxurhoEs=
-Content-Type: multipart/mixed; boundary="===============2602426843860317022=="
+	bh=xaG6RIOz1Q7W2cfPLk6Gy7ZERvigAfsd8/ChsNdPfVc=;
+	b=kM7ruaWicJkAcuYN7HMw4WUV7zZ1upuY5u/PoRIyU66n1zyPEPVVyREXZqaPPlnV
+	H3GWVPAj0TUyfinzTHstW75FqCLp9Y1kZs/+a4TUl2BR9+JblYVubvGpVymgn0PuKvx
+	zjeuaBrBxOiMXghFieBU5DjC3vpTrtUZqGJ5guHQ=
+Content-Type: multipart/mixed; boundary="===============3298878916451245396=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.4.3 FAILED
-Message-ID: <01010189b1ee5229-5cb327b3-3fb4-455a-96b0-f2217d9f39a3-000000@us-west-2.amazonses.com>
+Subject: [AUH] diffoscope: upgrading to 246 FAILED
+Message-ID: <01010189b1ee523f-80420a7d-7b17-427a-91ca-b0310d65c333-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:53 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.23
+X-SES-Outgoing: 2023.08.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185351
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185348
 
---===============2602426843860317022==
+--===============3298878916451245396==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnupg* to *2.4.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *diffoscope* to *246* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gnupg -V 2.4.3
+The following devtool command failed:  upgrade diffoscope -V 246
 NOTE: Starting bitbake server...
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
@@ -63,7 +63,6 @@ Loaded 1806 entries from dependency cache.
 
 Summary: There was 1 WARNING message.
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -86,7 +85,7 @@ Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100%
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
+NOTE: Writing buildhistory took: 4 seconds
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -116,42 +115,28 @@ Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% comp
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 5 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   4% |#                                   | ETA:  0:00:02
-Adding changed files:   8% |###                                 | ETA:  0:00:02
-Adding changed files:  12% |####                                | ETA:  0:00:01
-Adding changed files:  16% |######                              | ETA:  0:00:01
-Adding changed files:  21% |#######                             | ETA:  0:00:01
-Adding changed files:  25% |#########                           | ETA:  0:00:02
-Adding changed files:  29% |##########                          | ETA:  0:00:01
-Adding changed files:  33% |############                        | ETA:  0:00:01
-Adding changed files:  37% |#############                       | ETA:  0:00:01
-Adding changed files:  42% |###############                     | ETA:  0:00:01
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  50% |##################                  | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  58% |#####################               | ETA:  0:00:00
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files:  67% |########################            | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:   8% |##                                  | ETA:  0:00:03
+Adding changed files:  16% |#####                               | ETA:  0:00:02
+Adding changed files:  24% |########                            | ETA:  0:00:02
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  40% |##############                      | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:01
+Adding changed files:  56% |####################                | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  72% |#########################           | ETA:  0:00:00
+Adding changed files:  80% |############################        | ETA:  0:00:00
 Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
 Adding changed files:  96% |##################################  | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:01
 
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.3.tar.bz2...
-INFO: Rebasing devtool onto ec41c2c22d7f2217d675c002c5f4e6e3cee492b8
-INFO: Rebasing devtool-override-class-native onto ec41c2c22d7f2217d675c002c5f4e6e3cee492b8
-INFO: Rebasing devtool-override-class-nativesdk onto ec41c2c22d7f2217d675c002c5f4e6e3cee492b8
+INFO: Fetching https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-246.tar.gz;downloadfilename=diffoscope-246.tar.gz...
+INFO: Rebasing devtool onto b0b080ec33db3a4a37bcbe6e9a32aa1d923dcaec
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -165,7 +150,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gnupg/COPYING'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/diffoscope/COPYING'
 
 
 Please review the attached files for further information and build/update failures.
@@ -173,5 +158,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2602426843860317022==--
+--===============3298878916451245396==--
 
