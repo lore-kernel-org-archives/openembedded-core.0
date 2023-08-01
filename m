@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1BDC25B7E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655C7C27C42
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:52 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.17594.1690907329688098195
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.17717.1690907331374076328
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=c5QHVmFY;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=MKYYD4ZA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189b1ee4a48-dd310374-1a93-490d-ae9e-e2e2ad94903b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eFtgvmu5;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Kb7fulBX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189b1ee48e4-e8bb2223-a7e8-4b93-a158-87a9022d98e6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1690907331;
+	t=1690907330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KwB9g8CQT3K3REy4avqc9yreCtq3zMLRdK7F76PZhYw=;
-	b=c5QHVmFYnG8m3Wdb7lXIt1PWRCY2g5OIEaKExtE1FHXmBhq426yBo+mwpzlskr0t
-	HlZCnvwkc8GNKlFhdCVCCZ3oWxIQz+d99ldYPjw25Wo+w7Zp3DHKwrCV2T8f93kzIdq
-	Mzve8mP0HiqIDVCJUkiardbrQjtdj4v3QpN5IQNE=
+	bh=LTP/pwnzKg3E4qnRY61w50fz0VJQOsjw8f8CzygM3k4=;
+	b=eFtgvmu5oXVx37WWBUT2bsxh0CMfnEh90hk20XsWvrx1+Op3XEbxZTBLqtfaNvlG
+	Hv1EE+w2OynWOEfTahgXhyi3c7HVC+ZFZ/GJ9C9nCxEUuUrTEd3fO8+msPd0ununZmM
+	9rNdC2gnujlaoUgexaUyXHLPed0abGI51diwW4gI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907331;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907330;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KwB9g8CQT3K3REy4avqc9yreCtq3zMLRdK7F76PZhYw=;
-	b=MKYYD4ZAVbLxkLQuUDPZCieeqeMM/Tnqvv+tdJknRGpoCsVk01fwVoEij7+H4ZRl
-	I5HWBKBHIJ3a32PGjOYtpSB5/Rf9gkbWu3y3rBb39wQEXILsM+U6nte6Ky38ggANZj4
-	CtNFmZPCcIHAJhLNkDF97kVBjYYCENBwXhD/P1po=
-Content-Type: multipart/mixed; boundary="===============7060362471013132734=="
+	bh=LTP/pwnzKg3E4qnRY61w50fz0VJQOsjw8f8CzygM3k4=;
+	b=Kb7fulBXOvv2sifg/v2fiSc4einuZD8ix3MVy7p5lruV3fznTHAG7ba9Viy1JNyK
+	ha0wo/L+Okt08DeuDKV7N7FqqgAH9PY7xwZ8SIBoMYasaUCYYeHjOVCuLquWz1Ulqr3
+	pNLDwTHslNX+ohYMH6McNQ5U6RUI7Yr2+iAmwMEI=
+Content-Type: multipart/mixed; boundary="===============6025711668430138760=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tar: upgrading to 1.35 FAILED
-Message-ID: <01010189b1ee4a48-dd310374-1a93-490d-ae9e-e2e2ad94903b-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Aug 2023 16:28:51 +0000
+Subject: [AUH] ethtool: upgrading to 6.4 FAILED
+Message-ID: <01010189b1ee48e4-e8bb2223-a7e8-4b93-a158-87a9022d98e6-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Aug 2023 16:28:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.191
+X-SES-Outgoing: 2023.08.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185305
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185301
 
---===============7060362471013132734==
+--===============6025711668430138760==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *tar* to *1.35* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *ethtool* to *6.4* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade tar -V 1.35
+The following devtool command failed:  upgrade ethtool -V 6.4
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (13:03:07.336160)
+NOTE: Retrying server connection (#1)... (12:47:04.014475)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -79,7 +79,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:00e7000d2b7af0a1f22d03c58956595f416e12f4"
+meta-yocto-bsp       = "tmp-auh-upgrades:cdd58910ff549d39538f5351aa02259810906a20"
 workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
 
 Initialising tasks...done.
@@ -109,7 +109,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:00e7000d2b7af0a1f22d03c58956595f416e12f4"
+meta-yocto-bsp       = "tmp-auh-upgrades:cdd58910ff549d39538f5351aa02259810906a20"
 workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
 
 Initialising tasks...done.
@@ -121,35 +121,15 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   4% |#                                   | ETA:  0:00:04
-Adding changed files:   8% |###                                 | ETA:  0:00:02
-Adding changed files:  12% |####                                | ETA:  0:00:02
-Adding changed files:  16% |######                              | ETA:  0:00:01
-Adding changed files:  20% |#######                             | ETA:  0:00:01
-Adding changed files:  25% |#########                           | ETA:  0:00:01
-Adding changed files:  29% |##########                          | ETA:  0:00:01
-Adding changed files:  33% |############                        | ETA:  0:00:01
-Adding changed files:  37% |#############                       | ETA:  0:00:01
-Adding changed files:  41% |###############                     | ETA:  0:00:01
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  50% |##################                  | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  58% |#####################               | ETA:  0:00:00
-Adding changed files:  62% |######################              | ETA:  0:00:00
-Adding changed files:  67% |########################            | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/tar/tar-1.35.tar.bz2...
-INFO: Rebasing devtool onto 6eefd978b30027bb69941e885317635fa9202c3a
+INFO: Fetching https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.4.tar.gz...
+INFO: Rebasing devtool onto 01a18e047755e6563fa503f6d9235805748971d7
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -163,7 +143,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/tar/COPYING'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ethtool/COPYING'
 
 
 Please review the attached files for further information and build/update failures.
@@ -171,5 +151,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7060362471013132734==--
+--===============6025711668430138760==--
 
