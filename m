@@ -1,135 +1,103 @@
-Return-Path: <philip@balister.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F1A6C41513
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:01:29 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.84])
- by mx.groups.io with SMTP id smtpd.web11.7467.1690874949026324108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF19C001DF
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:04:49 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web11.9104.1690884282041124777
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 00:29:09 -0700
+ Tue, 01 Aug 2023 03:04:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@kerlink.fr header.s=selector1 header.b=prhwT9U/;
- spf=pass (domain: kerlink.fr, ip: 40.107.13.84, mailfrom: j.lemetayer@kerlink.fr)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UmDZeProk3S1CtjtDye97pubEkRxeIMhcYt4vTeqUuXHxCoD3rGfPWIMM4/xYFDnzFrZXs1BjmmCrQimk/Iw11dSkBM53e1nJ8JWw7SUONUntspZQmZyzpnT9SkOguNmymFngPpgtWuzyoxIUt0UvhidzNsRWfH/pUYa8+6raOywU3BSzOU//Vo8uHFCjANsf3w9iyiuxGLa36YkeaDyMPbjqljeR+e2Ao4L82lzFA5w2itgXLGfSdLj8U344gBN50dqF5LfKv9XUdMTaweegbFxBcF911xJm5tBqEJlBiYrZv6HTGjm9XrQI9X4+iwSELslHFO6JrqIbBtSvV2Ezw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h9Oh/1tShT7k9Dy/TBvEzM/FG223z+pQb1juvguZC4g=;
- b=YeCwvx+cA2hqzKXckTkjdIS8ouMXUtzOPRK/2j0tB1afuIzn1pK3vPcG4Kt1F5JB/8BQRIJc921nIL3XVa6urhRQGUZzFkGZfDAt23dDv3kPxd3qS6eOqNi41UCO7CbGDAN5M0/9NSPQAVqgLzKBrUQvn/l0ttIQdaDAU3yGDCRtUM7PTxAkHILbi2plUECW9lr5JUqJ/sCnRqQvZxiLLlhJoqsWjl3lqQbJxAK5QNcKQbwZJA8RdbmZjmS10v4rsVZC/oc4qmmuDPgYe0rybvaaiIIUzRLZE33grhBmnFLDga5co59osjPIE0QUh8vurSo54xiy9cVY1v/VD+/d/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kerlink.fr; dmarc=pass action=none header.from=kerlink.fr;
- dkim=pass header.d=kerlink.fr; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kerlink.fr;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h9Oh/1tShT7k9Dy/TBvEzM/FG223z+pQb1juvguZC4g=;
- b=prhwT9U/IyllpAB6l/qhjFrpuZyfPt8PlAV3Gb1i6NUlAUqlItq5IJniTC0H6b2nBlkhvNWCZaWTSXY+gNjmAEtE9f5tc8gaAEqegF/vRZHmgasvpZ7wYi1763ipTq9nFTkLWa0kLiOz16OP5wfZNl2VfYm7cGLYM6bJWI9X/9jye0i0ZFL5mBhZWHxmbiaZsqnKhip+phaSj3ihDnxsCuFdX8fC/7ARZS9aJa8O19WkmZ/B27DgNkvKYnwdrCxR4Rpb0KHQeqZLLzBDmhN3ePiCsjpwkrXKkO1bYlhITJxSnmBUBk8NVqBPP17qKRe8pspuiLzBLjTAq8bRXihTNw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kerlink.fr;
-Received: from AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:d5::29)
- by AS8PR10MB7254.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:619::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.42; Tue, 1 Aug
- 2023 07:29:05 +0000
-Received: from AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3b7c:ae85:4dc7:5a64]) by AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3b7c:ae85:4dc7:5a64%5]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
- 07:29:05 +0000
-From: "Jean-Marie Lemetayer" <j.lemetayer@kerlink.fr>
-To: openembedded-core@lists.openembedded.org
-CC: Jean-Marie Lemetayer <j.lemetayer@kerlink.fr>
-Subject: [PATCH v2] package: always sort the conffiles
-Date: Tue,  1 Aug 2023 09:28:53 +0200
-Message-ID: <20230801072853.5029-1-j.lemetayer@kerlink.fr>
-X-Mailer: git-send-email 2.34.1
-X-ClientProxiedBy: FR3P281CA0102.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::17) To AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:d5::29)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=ghIACssQ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-786bb09e595so150537139f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 03:04:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690884281; x=1691489081;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R+e1XK2nuSqt4ycvVexH4APCPZ/cP0X8FHnrGFblcWM=;
+        b=ghIACssQbA43pFIozsQddmereHKgXpw6eWyFWa6zAFjU+imGNi7TBFYh2VG0PFOBMe
+         lwlPTDXcFN3WF9q76AcfH4iP1l0YewJModQTK7YUGv7Xc9bzmM8tklj6l+TK5rKGNeFg
+         kpUxqLTMc7H6BxwyrCrP24n+JltBbNeliVFPjSXoy+iuQtQ3QLeFTbGKKGHctdyD7+Af
+         AQ77gE2xtvbIol35xZLWnJ8iLjAT6flzioDxthp7k4UYT+mA4GHA09eGydDMZPPthHnD
+         l6P3MimeYCEISjsMrFfaq1SaUSnWKba12buPh0ZHaJzx16JbKZaUbJFL2xNKDegOYgBo
+         GVsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690884281; x=1691489081;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R+e1XK2nuSqt4ycvVexH4APCPZ/cP0X8FHnrGFblcWM=;
+        b=M0kM3ACqC3zDinr7dxZyzSkkfB9f7kHnaGoz+rBy/klYfeLcgL0i6fyWvgi89ULtD+
+         lRHvkRm4rgMrHrOXabN7h+INxaA9lnCq1jx4I/Nu1tJCMHqAGBeM7sU6j7Vb6pOko2Qj
+         i9obHFO52OfFaiV+zw1gBe/TPv3EXQf1RUXwUYZrmzkT4+JfqAU7X0/1jlONBb18kiJG
+         xg+Ccjz3/ZkPIw52X/7iM62fHZJDTSYw0qYrG10eX9xdeQklmMVPzAqMwStehhrMYFex
+         n2U1vmZR65Zu4Y6FBMF6xtTr8wrrLVG6FU6ShQnfwHVwsahzPGOrCTxcN4R+/Ov05mkP
+         PtiA==
+X-Gm-Message-State: ABy/qLbKE96NfIunF/rzKRU6PZQm2c7KludjiLcjEzrppxN/MM1Rozka
+	hOkRRoB8BF3QmXd/lLuGEv3Iw9ozleryA3jwOsc=
+X-Google-Smtp-Source: APBJJlHi0EPvjzfNSBS5eGsBmdnClt1v8Xqu3gstHQ9n0kC9cTWO/fZH1yUjdr+brVuxAIyGskDJKL/KDHZRBAvXjFQ=
+X-Received: by 2002:a05:6e02:1ba1:b0:349:178b:2818 with SMTP id
+ n1-20020a056e021ba100b00349178b2818mr7479773ili.13.1690884281024; Tue, 01 Aug
+ 2023 03:04:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR10MB2513:EE_|AS8PR10MB7254:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b46c55f-465d-4d8f-0061-08db9260fc2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	frpvk+oQrX+4+DW97SE12Z1YJdGh2337Vv3m0ZQiTHL9x7mJPGXOc8OEKNsyggGX0BHXt3OOH42YnbnQXMxy3QamBthSdVYj4T40PWbu/TIFUSHA/8PZFGLVRrP8vQZVRJqVdiX6Mkf6RydPhLR5WDkF8mzQER/SGNZqEjjFAZQmQNc6eN4VhNMsJvo/r+OL3Sj/GmE8zQ14/VLB+8yD9mQs2gmsFBguwpK31wbcQBzvpEZAcvVtr59b7toq+gDbEBqDv2ru0pG15Fd4crkbY1ZlnUfMs+zpKZyft3SeSkFbmD7b/Eyd5eCQkNoWBZ5gVz4yZYxPhvVXXX5iaMGIV3RxIjAzofMzralhg4fvzb5/Q0WLe/SmUgPlhAZUqP5g/FPDSprh56GB8Y8BPZJXOhnW45DIwH4zapjgdeW5VM4v6yTvbD5Tqv9OQTkr3BSmPt+RHN6HE0W0GAHmhfmBRpxm0sN8BxrKnQGMz/duR9T0b9zykpHeIhITe1Gw1DgMGfESJoCM07coPBtv2XMVsDddGoJsXFsDX38TENkkaPz2ZX+HDXwxXlZdkG6DYh/6QJysfJ7KwfpUoMKuHZm98xkjk5+68VTyCRRkhC60qUQNAG2sKuBCTQRpzOx0PShb
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(376002)(136003)(39850400004)(396003)(451199021)(6512007)(6486002)(52116002)(36756003)(2616005)(6506007)(26005)(1076003)(83380400001)(107886003)(186003)(66946007)(66556008)(41300700001)(38350700002)(38100700002)(86362001)(66476007)(316002)(5660300002)(6916009)(4326008)(8676002)(8936002)(2906002)(6666004)(478600001)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?KHOmFa6Tnq7m7orK8Rs4cPCig94kghGA1LNUm+kd8uQRN/QKz/ScUEzU3NbR?=
- =?us-ascii?Q?2iGm50uTkRuAHsKpGt5ZAgS2wniNAAG6ad3LE6dMrP7lsbeZzlctg3wnMUEw?=
- =?us-ascii?Q?7ORu6a2VNEMdr6uSDZ4PIex0xOPYxkrCZPzB3kzG4rjr1gvEI504Ti0Qg/hi?=
- =?us-ascii?Q?l8x0LKyjfChLZznmSE4+LqtBemxdMgwt9TWOPZ9L8Am462X9paoBYO27lTpw?=
- =?us-ascii?Q?rYDz3Q4/Zky43gv6YZAxNNA6MjYgWEh83c7jJ7LDuQl0ygvDzAhYNZyIw1/9?=
- =?us-ascii?Q?qR9rm1QjDmFEFzfGfDNp0MDUaOFsxIaLz6ZGNhNAqKZSaPKKwi04QkutChnm?=
- =?us-ascii?Q?CqhpHFczT/ptXYZ4aqMsqW9cnO1IfvaBc4AmVw2SDMG7YJMyLHXqpmZKGHmK?=
- =?us-ascii?Q?Qx6f55aTUOIe4M++9NY8koN0o7W9gZ4PrEbCKqNg7bTVRaavOFIjVQzZr6fg?=
- =?us-ascii?Q?H3LO9vF+Va4aLi4AK/gY2KliJZL6nXhSo/foAMG1j9RvmLiPUwr9Rh3lAPit?=
- =?us-ascii?Q?ofzDa/4/mNpXC6bBBg9hCwq+ZJM/Dw/NamMn8zORY2yAJQFbt+deuUSvrtgU?=
- =?us-ascii?Q?otbCAawdxmf8w5sJQb9ER+uWpXcO6R8fFiXprdBTqZaM9yL3S0McW9t6wTsP?=
- =?us-ascii?Q?9BE4NuTfQtIYLe3vHq23XWoE+ShG8nCkFaAubb4lw/BF+HQUqV+lssLLoko7?=
- =?us-ascii?Q?jvxARQ2KPRIVF0ElSEjnYxF0mYHU6nZvyKi7Bd7jptHhZkRDGGRxzSZmZVdk?=
- =?us-ascii?Q?xJL9oZ8gR0X8HLVJknO0e+erB+PK0Fk6knmAv/kp1di/r4CmTjEZhuBBgIvW?=
- =?us-ascii?Q?hs55+7uPgbiytUn3k9nhPHs46te3TWkHtcm9UgCjBNR10Y8Rvtq7OwEYPUqU?=
- =?us-ascii?Q?LKy8mY15nLoa5r4JT8XdRbJMe6eYX0GlIkwtmhzb8/2Ua988+tEkYr/wS82l?=
- =?us-ascii?Q?m+wpTfccnagPOVHfv7p19eov7BtQpuCVjN+8UdE7CUl6WFfS4H8QAElzzPyu?=
- =?us-ascii?Q?FCdnzjr+A745B2vxM22JABlXUGmjGKIQIXiuRtDCUlUmifHw6lXobOsILUJJ?=
- =?us-ascii?Q?BQDXfnhNm+VX9u/bXCb8nAk5J7FnNjfmGdjl5E5ofb552wLNRKs9iKHMQp70?=
- =?us-ascii?Q?G+Wz4iMCE/b/HHlkufO5ZQ9FrCb4O9GNg//FstPCumByUQdpauKRjCp735pY?=
- =?us-ascii?Q?a12Ot3ECTADIJ1M08wLBMweoQQeUNCEmPWLvj7uOdO2EdkxyKmTpIr93TKTX?=
- =?us-ascii?Q?Axxjuj1LAH8vSFJh29FtrhyVuKvnngdgLCI4rXDYgZqwLLxPxefkTk9jaIph?=
- =?us-ascii?Q?HSYqZhnJEOQ0asRf0G6sJkt9D2EH3HS6HqZY8Qttx5J7Bgc5QNLwV9LN5dwj?=
- =?us-ascii?Q?NnO5hhGbQoDoPIrPYvfOasM4UxylfDkP4zS/iglLy8x8mVoC1kosKBHdJsbD?=
- =?us-ascii?Q?ScpAoyXBrZYadTSyyUErm1cNCYel2QXc292mrEa4objWK3PO5ya2zaJvyTwV?=
- =?us-ascii?Q?9fil/gqACGp0C8gEItV1BTnOIDiA7Q2bNixibtP+NuEOXINV0o7/EcJq5BIq?=
- =?us-ascii?Q?Ve7A5r7mDKTJ3W0wj/9Q29HYVgRrW+ssTCCRRIZy?=
-X-OriginatorOrg: kerlink.fr
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b46c55f-465d-4d8f-0061-08db9260fc2b
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2513.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2023 07:29:04.9622
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e53a72e6-936b-4019-8ac1-596e63242dec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eBUKnC8LTd2JhVMUcdlGqTzWb47acZH1KM+/de7qPuQPb2sJv92HY5iFnKcahm3VBRzfY+jwAtF9laU2uX5o8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB7254
+References: <cover.1690795930.git.frederic.martinsons@gmail.com>
+ <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
+ <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
+ <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
+ <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
+ <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
+ <1f72dc4842eaadc8fa49eef29f2f0af4179131c9.camel@linuxfoundation.org>
+ <CANNYZj96-co4wRxY=N3KS4bEsFr_v=yJphOC0ZBO92TerGtmug@mail.gmail.com>
+ <CA+cAkepSOxNovN+iuRx8_=9Ut=bLXBb8YHbHG5SJJedGfGmeBg@mail.gmail.com> <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org>
+In-Reply-To: <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 1 Aug 2023 11:04:28 +0100
+Message-ID: <CAO5Uq5T=HcAVWaU0RQzqXg0vhQ=ybkOWgHg5GuXWvQEqwt+uqg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use --offline
+ instead of --frozen
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
+	Randy.MacLeod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185229
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:04:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185231
 
-To improve package reproducibility, the conffiles order should not be
-directly linked to the file system.
+On Tue, Aug 1, 2023 at 11:01=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2023-08-01 at 11:55 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+> > zariant rust recipe is tested for devtool cases there
+> >
+> > The test case mentioned earlier seems to verify that we can run rust
+> > test code, do we want to keep testing
+> > that rust binary can run ? If so, how to keep testing this while
+> > removing rust-hello-world recipes ?
+> >
+> > maybe we can add a simple "println!("Hello world") " in this file ,
+> > compile it like it is already done and run it
+> > to check its output ?
+> >
+> > What do you think?
+>
+> Doesn't test_rust_compile already also run the rust code it compiled?
+>
 
-Sorting the conffiles solves this issue.
+Yes and checks the exit code - really not sure I see any additional
+value in turning it into another "Hello World". I'm fairly sure the
+cargo test gets you another "Hello World" test (but again only checks
+the return value). I think the rust-hello-world test is covered in
+other ways now.
 
-Signed-off-by: Jean-Marie Lemetayer <j.lemetayer@kerlink.fr>
----
- meta/lib/oe/package.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 70040f09e7..9d70925b9b 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -613,7 +613,7 @@ def get_conffiles(pkg, d):
-         conf_list[i] =3D conf_list[i][1:]
-=20
-     os.chdir(cwd)
--    return conf_list
-+    return sorted(conf_list)
-=20
- def legitimize_package_name(s):
-     """
 --=20
-2.34.1
-
+Alex Kiernan
 
