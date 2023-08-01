@@ -1,364 +1,253 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFB9C0015E
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:00:41 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.73])
- by mx.groups.io with SMTP id smtpd.web10.16800.1690905639829059847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 225A7C0015E
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:06:21 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.17070.1690905975719877323
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 09:00:40 -0700
+ Tue, 01 Aug 2023 09:06:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: no key for signature: lookup selector2._domainkey.welotec.com on 127.0.0.1:53: no such host" header.i=@welotec.com header.s=selector2 header.b=UOANah/L;
- spf=pass (domain: welotec.com, ip: 40.107.104.73, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MP7/erU1etogm/q0RDd/klor9ckuHbDVzU6hp1vGYQfVy52Z0yqhRGBhGTJREG1N/QKN+WjYVBguIzU6wwK43IJ5l7Iww5hTc3EoZ3/TlDqKxgIiWE1FjzyuMf4ZOKOh1XDZMuVvDITeQPIn+q5QLMfNiKsK0F3i0fzuZvd8NnYwfS+/X7nikFllk29lx/lJRykPlwJFol3HA/xfyar7if0umKarwKtOkI9p7QMiHEQLOhMeNdTKFXbPa2M6k4svp1vRzQ6Xu55EqD8fgdX760K6ajrMv3WIYQJyY8x+/cHvnDvZZUl4Lp7VYBhrjuME9ZIN98mLP/ekmITAxql8Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZxNhZsplQoCYGm042PpuDaHhkbEs732YbGlwUJNS5Ts=;
- b=bVVwDNshws+ZYcTy4BPXa24gMwywNFiUeB/UGA7p68AY7ZEnD20b2n4FWZNx5CNf8rMc3V0MLyYnSMn8FhRlHON6h5VG1kQtN/0MAWkuO536ZKxMqVy4z8LtUx+LmRqc6nTHjWbdbauuCJbdSV/y7SQ9w3FDv6jkSKxYSLYN+awYjrKc8ouY1bvKRCq9rOxTrKMsfH6H1ut1T5B4HZ8QqmvmtgJAQYMcyNe1S6EkLh6U3SXwhYxw732jSyUVhWiwej4wUy0K0B6hUNFFhMuE8iwnRbkyLLtkbYI9y59k4/Ly/j055VdPyUxiEnZFvKs1691/Eszsq4DB+LCS9h0F4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZxNhZsplQoCYGm042PpuDaHhkbEs732YbGlwUJNS5Ts=;
- b=UOANah/L/cNr8foc2f4muIhjLiE6HQtlQnsv24RYQtKxdpOlnpI74f8V5jLfArt1jjl+BHvzdGRJKWVWnFPXN0M+6W173GsHSXAoUmFyXxJj8tejGxbsd1FEaIHlYV5mophaWmYHM+uCnwMsgMMlyOSfERHI9VIjgmx1N3t2A1I=
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by VI1PR04MB6861.eurprd04.prod.outlook.com (2603:10a6:803:13c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.42; Tue, 1 Aug
- 2023 16:00:34 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::b693:eb1b:b0e6:9a06]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::b693:eb1b:b0e6:9a06%4]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
- 16:00:34 +0000
-From: =?iso-8859-2?Q?Piotr_=A3obacz?= <p.lobacz@welotec.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Martin Jansa
-	<martin.jansa@gmail.com>
-CC: Joshua Watt <JPEWhacker@gmail.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Alex Stewart
-	<alex.stewart@ni.com>
-Subject: ODP: ODP: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass:
- add support for ACLs and xattr
-Thread-Topic: ODP: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass:
- add support for ACLs and xattr
-Thread-Index: 
- AQHZw+GoIkE0W6fK8k+8nz7vZaP5pK/UO6gAgAAW+ACAAA8KgIAAASbogAAAXL+AAQZxAIAAA5o+gAARULGAABcLAIAAAz64
-Date: Tue, 1 Aug 2023 16:00:34 +0000
-Message-ID: 
- <VI1PR04MB5373E5689BA7DE3CD6F6201C910AA@VI1PR04MB5373.eurprd04.prod.outlook.com>
-References: <20230726092228.1005306-1-p.lobacz@welotec.com>
-	 <VI1PR04MB5373AD2BB745671859678D699100A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <20230727141809d2150cbd@mail.local>
-	 <17762A3A069807A3.31298@lists.openembedded.org>
-	 <VI1PR04MB537349F74CD4C3E13B272B879105A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <VI1PR04MB5373AB9F0C887CF659E739439105A@VI1PR04MB5373.eurprd04.prod.outlook.com>
-	 <CAJdd5GYifrOT_9-fct6TT95sw6tDe0L7etLxOcaEgTTGvWFPJg@mail.gmail.com>
-	 <972083f47f3513fada3dc64c233f2c229f952aca.camel@linuxfoundation.org>
-	 <177710C9CE043B33.12785@lists.openembedded.org>
-	 <AM6PR04MB5368B2FF63E716221B740A029105A@AM6PR04MB5368.eurprd04.prod.outlook.com>
-	 <CA+chaQfRM855mvJwnxvUKk_JpXq51AS7uXuqM0qv=Uayj4OQNg@mail.gmail.com>
-	 <1777455C95C57250.15736@lists.openembedded.org>
-	 <VI1PR04MB5373E8E3C680850A6293BC9D910AA@VI1PR04MB5373.eurprd04.prod.outlook.com>
- <2fa1c6d32bae5fad13dba22c328d41063a519eeb.camel@linuxfoundation.org>
-In-Reply-To: 
- <2fa1c6d32bae5fad13dba22c328d41063a519eeb.camel@linuxfoundation.org>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: pl-PL
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|VI1PR04MB6861:EE_
-x-ms-office365-filtering-correlation-id: b691afc8-d7eb-4ce5-6b64-08db92a87092
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- RL77exQRPwUhmh+Ud79zlLn+VmlPKe7fmfWLvg/9Y4u5a2OISDPxw0qKD+YxRGG5xIHFqaHbQEleI67ygJa45l3k8dlimwfBFwR9hH4nT18omPjF+tWYPK4CgqE3B+af3WcJGMBpHcPFWTu95gmLafhwT8CTXGgfCfsN5zJMeI++EGwdxwDjVGq4DK0/+wyjWZ+T1NkevfJ+7bJNB2NNAuGsw4HK7vPNcE/CZPxV3d6ifKTS+joCwbB5W75bEgpw3GjgA6mO+2V2PxIn01qyefCnF59VpsZCBWsaVEA29B5YFdtCRnN0du+Xc40WTLZMmK8D2DEsGFg0BfSpvLkRK0/KopyCas03bs5zyjS7PL1HAG0rRwRe7Xj9Rt9wze7ym43xrfgqAA4w/hjYeJZoVU1grLtDDTi5TR9MhzMISts6oDY4pkyHImisVhIdMU1Wa1vEIeWL4xf8kSdgFHgBbk/8QfiDqguXtODy/4xZwi26Ahfp/HOG0MTDdMQHyo46or/pDNqdnaKwAq9DeqwGBxwcE/ZRxYdyqA5zHwAXRiaUZuDjxP9J+IBv9+hKi3U+vBH3KOwBvrA5AEulF3Lhplj4yPe5Y23L/rc2NfGdNIc=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39830400003)(136003)(366004)(376002)(346002)(451199021)(5660300002)(52536014)(6506007)(8936002)(8676002)(186003)(76116006)(41300700001)(316002)(26005)(4326008)(45080400002)(478600001)(91956017)(110136005)(66446008)(66556008)(66946007)(54906003)(66476007)(64756008)(7696005)(86362001)(9686003)(966005)(71200400001)(55016003)(38070700005)(33656002)(2906002)(166002)(38100700002)(122000001)(19627405001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-2?Q?jw8R3iC4aMokTTdTwJM4O+VZq/nKaE0vNvZ+QeRkqynfIBeynSNEo+wfTD?=
- =?iso-8859-2?Q?xkYW+5Vrs9nTmNzNapDZ5ydsonWaFjMIkqHJzwagQW1LxORsRY45vrsKop?=
- =?iso-8859-2?Q?ocWFWSH5YIX/VmQ10SC75TIjQZAL0/labMNNSzQShPeNUlz8Rrt8ypwKab?=
- =?iso-8859-2?Q?75GyemgUEXjhoG1/AABGS0wrp7a8SQ+uBpPHwJ9Tr6OXQwctIcmZFI5JDf?=
- =?iso-8859-2?Q?mZ8V/MvCDPx2/7YKNhVWwGAwFos8jYZYmbjOH7gl0eW0DWa04Bl9aSy1Ma?=
- =?iso-8859-2?Q?5ltgotEHHCPdfGBdvKHuaFCwEvZESM6RPtmvBl/UiL8/2YFB/bOMl+5prM?=
- =?iso-8859-2?Q?Mbd/YJXMdJMLgekHIaqwmhmtL/c+ds+8e4v8rQVo+rbchetDyw29oBzWxi?=
- =?iso-8859-2?Q?XHk0e/4Um+j54A5vXtNXAqW8VzNBqpSQW3q/JqNE6ur/9ybtGSb/EnnsGv?=
- =?iso-8859-2?Q?LA+2MfsIgqAqx4zfQkK8X3XNGSHXPG+NKO25F0UPPy54cYSk30X2zZ7WSB?=
- =?iso-8859-2?Q?kKMw18E7vi8qn991m6pZ4tY+9VjPKJd5eu/nYz9tDf50vGwPNdQC38OhiL?=
- =?iso-8859-2?Q?TNQSHDqNibq0GKW0xgZ9Ljix79ExboDM3EnqentgJ0vIR+o2R5iY6HXLkM?=
- =?iso-8859-2?Q?ilGeT39zkH0w0B/irdy8mJCmpf17t9L/pMoBCr+c+yDPOvGu1vebJkCyYF?=
- =?iso-8859-2?Q?KORzuUQQ0oOwzYPi7kRNAIVNkvzwdYN7A72yjJtxSWe1Gc5WPydIJBzYY5?=
- =?iso-8859-2?Q?SfIPawNVNdRI6Hd3zjM3PDUobSWVu8xr9HM07KNV1b9zrdKMlvycgqh85h?=
- =?iso-8859-2?Q?CvaIU5MCv9hFKGKKdCyqidzYWmC67KD3DAatA95bzdKKyukX+16XaY13jF?=
- =?iso-8859-2?Q?pkd9lt5iE9xJ8V+3reH+lJ4X88ASbtOSp2C89MaW9ro0UjupqNqzdBQ7ux?=
- =?iso-8859-2?Q?OGq2T/kq9F+pzvVj4rwncnjONPfTqOC3RLAHTWR/9bSFjmGCLxX2vpVj8T?=
- =?iso-8859-2?Q?Z817/FBRWpu4mZCcQwG7SuVbmurG6t7dsEn5KWqTOxbifcuBbo5MoTIUve?=
- =?iso-8859-2?Q?94hPaWNApSJh9JkRY01k2lcC22bcBFk8rbE8NYZn1h5aH8DiKmyd1Syky2?=
- =?iso-8859-2?Q?4yy22ATDyV2oF0ZoGlmsvSBE9nLgzBGinwvlBTgyJ+K7r4vjzGjVDErgcD?=
- =?iso-8859-2?Q?uwmZfO8zjyVdr8U6OpUeEPZ9zIUC1KDfNfk6S2g6RLvrlP+QT0DbgILyJS?=
- =?iso-8859-2?Q?jmETF7BFLB1/al17XUOFc+MaSDqf2SE/324oZqBLkEmEkQxVvhZW8/BQvT?=
- =?iso-8859-2?Q?lqIQA8iFvKVgSuWps+qi4OoJBcZj1iC7kMH9Wxa0C77KLAbyxW6FwYQ/Yd?=
- =?iso-8859-2?Q?mM+Ke3fRGoRQsshQkqlgfBhPmrCSgRWRAbBugW8IfZJiVjhqY2fHJKJhsX?=
- =?iso-8859-2?Q?RwxZYNFBJntK1LETrtfCV78P/Par1I5KVsXW7g4fNWyd4XFUQoODeeuA5u?=
- =?iso-8859-2?Q?oJ0cwf2SDVawOVvIoj20kppCMfmAQ0KgI95G6izTejkHpeXulliUklJ3dV?=
- =?iso-8859-2?Q?hBliSDHgmWEw/ORPBoiP1K8T63HBH/kOZ1TN4ciC+BddLJuYkaqv8w3eIg?=
- =?iso-8859-2?Q?flRbqk4E2mIrumsDd+Qy9AAfOHVO4E5r+l?=
-Content-Type: multipart/alternative;
-	boundary="_000_VI1PR04MB5373E5689BA7DE3CD6F6201C910AAVI1PR04MB5373eurp_"
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hC9x/bRA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75774bb12a=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 371CdW8E009349
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Aug 2023 09:06:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=1vUor
+	1btaXvCWJu2SQ+MbcNu4esTGIsbK1guqV5XHlU=; b=hC9x/bRAGqia0VhbJSfVL
+	19CuwGK/aCZsb5KdpUeq+E96DZzyoU49yV3hc7RF9X93qMqZl+22ciNNayW4jiwS
+	MZEHVfid6gSZ6JGcQVG69cLKeWM9Vy/VM9705ok83z3vaQz1srpJrNJ48/LaJiH/
+	plLgwRDEGg7qrHHx5Z6tAHcMcz+FebiRoTSyuKJ2ueFfcbo6LdK88C8HX6UWzOHG
+	r6WH8We94bJq9SF1nuRadmF19PEVwMX0r/i9PnhmYwMqr4DdH0ctFe3eJ/yQxcDV
+	G3uZRP8d0XlZbHSpEQ0NLsxIkz1bbLAkS4YkNs2zfUMUl53cuO71MSEgbAgGS046
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s6daqs845-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:06:15 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 1 Aug 2023 09:06:13 -0700
+From: nmali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <hari.gpillai@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] openssl: fix for CVE-2023-2975 & CVE-2023-3446
+Date: Tue, 1 Aug 2023 16:05:55 +0000
+Message-ID: <20230801160555.1469395-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b691afc8-d7eb-4ce5-6b64-08db92a87092
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2023 16:00:34.3579
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rFESPMZuE1vUYAn6baBlBafONQ9ENZ8LVjq9fI6GsWzQhsVzQ9HAUE7MKF84/aJs/wCkllwq4waGt28N2WrJ1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6861
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: oox3z6bKDz2obxDMBhm1Yi49AeQpFTbj
+X-Proofpoint-GUID: oox3z6bKDz2obxDMBhm1Yi49AeQpFTbj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_13,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 malwarescore=0 clxscore=1011 bulkscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 adultscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308010145
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185253
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:06:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185254
 
---_000_VI1PR04MB5373E5689BA7DE3CD6F6201C910AAVI1PR04MB5373eurp_
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+From: Narpat Mali <narpat.mali@windriver.com>
 
-That is what I was thinking for the first time, but by default tar is being=
- run with posix,
-so, it is not possible that these commands are responsible for this...
+CVE-2023-2975: AES-SIV implementation ignores empty associated data entries
+https://nvd.nist.gov/vuln/detail/CVE-2023-2975
 
-My guess is about do_package from package.bbclass and it calls this createC=
-opy function which calls copyhardlinktree.
-And to my supprise there is also tar command, but it is written there:
+CVE-2023-3446: Excessive time spent checking DH keys and parameters
+https://nvd.nist.gov/vuln/detail/CVE-2023-3446
 
-        # Need to copy directories only with tar first since cp will error =
-if two
-        # writers try and create a directory at the same time
+Have also tested openssl ptest with both the CVE patches and it has been
+successfully passed.
 
-and afterwards is this cp command with --preserve=3Dxattrs and according to=
- cp manual we can also preserve timestamps.
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+---
+ .../openssl/openssl/CVE-2023-2975.patch       | 62 +++++++++++++++
+ .../openssl/openssl/CVE-2023-3446.patch       | 79 +++++++++++++++++++
+ .../openssl/openssl_3.0.9.bb                  |  2 +
+ 3 files changed, 143 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-3446.patch
 
-Correct me if my thinking is wrong.
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
+new file mode 100644
+index 0000000000..b1c72de111
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
+@@ -0,0 +1,62 @@
++From 00e2f5eea29994d19293ec4e8c8775ba73678598 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tomas@openssl.org>
++Date: Tue, 4 Jul 2023 17:30:35 +0200
++Subject: [PATCH] Do not ignore empty associated data with AES-SIV mode
++
++The AES-SIV mode allows for multiple associated data items
++authenticated separately with any of these being 0 length.
++
++The provided implementation ignores such empty associated data
++which is incorrect in regards to the RFC 5297 and is also
++a security issue because such empty associated data then become
++unauthenticated if an application expects to authenticate them.
++
++Fixes CVE-2023-2975
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Paul Dale <pauli@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/21384)
++
++(cherry picked from commit c426c281cfc23ab182f7d7d7a35229e7db1494d9)
++
++CVE: CVE-2023-2975
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/00e2f5eea29994d19293ec4e8c8775ba73678598]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ .../implementations/ciphers/cipher_aes_siv.c   | 18 +++++++++++-------
++ 1 file changed, 11 insertions(+), 7 deletions(-)
++
++diff --git a/providers/implementations/ciphers/cipher_aes_siv.c b/providers/implementations/ciphers/cipher_aes_siv.c
++index 45010b90db..b396c8651a 100644
++--- a/providers/implementations/ciphers/cipher_aes_siv.c
+++++ b/providers/implementations/ciphers/cipher_aes_siv.c
++@@ -120,14 +120,18 @@ static int siv_cipher(void *vctx, unsigned char *out, size_t *outl,
++     if (!ossl_prov_is_running())
++         return 0;
++
++-    if (inl == 0) {
++-        *outl = 0;
++-        return 1;
++-    }
+++    /* Ignore just empty encryption/decryption call and not AAD. */
+++    if (out != NULL) {
+++        if (inl == 0) {
+++            if (outl != NULL)
+++                *outl = 0;
+++            return 1;
+++        }
++
++-    if (outsize < inl) {
++-        ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
++-        return 0;
+++        if (outsize < inl) {
+++            ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
+++            return 0;
+++        }
++     }
++
++     if (ctx->hw->cipher(ctx, out, in, inl) <= 0)
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-3446.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-3446.patch
+new file mode 100644
+index 0000000000..c34b19a649
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-3446.patch
+@@ -0,0 +1,79 @@
++From 1fa20cf2f506113c761777127a38bce5068740eb Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Thu, 6 Jul 2023 16:36:35 +0100
++Subject: [PATCH] Fix DH_check() excessive time with over sized modulus
++
++The DH_check() function checks numerous aspects of the key or parameters
++that have been supplied. Some of those checks use the supplied modulus
++value even if it is excessively large.
++
++There is already a maximum DH modulus size (10,000 bits) over which
++OpenSSL will not generate or derive keys. DH_check() will however still
++perform various tests for validity on such a large modulus. We introduce a
++new maximum (32,768) over which DH_check() will just fail.
++
++An application that calls DH_check() and supplies a key or parameters
++obtained from an untrusted source could be vulnerable to a Denial of
++Service attack.
++
++The function DH_check() is itself called by a number of other OpenSSL
++functions. An application calling any of those other functions may
++similarly be affected. The other functions affected by this are
++DH_check_ex() and EVP_PKEY_param_check().
++
++CVE-2023-3446
++
++Reviewed-by: Paul Dale <pauli@openssl.org>
++Reviewed-by: Tom Cosgrove <tom.cosgrove@arm.com>
++Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/21451)
++
++(cherry picked from commit 9e0094e2aa1b3428a12d5095132f133c078d3c3d)
++
++CVE: CVE-2023-3446
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/1fa20cf2f506113c761777127a38bce5068740eb]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ crypto/dh/dh_check.c | 6 ++++++
++ include/openssl/dh.h | 6 +++++-
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/crypto/dh/dh_check.c b/crypto/dh/dh_check.c
++index 0b391910d6..84a926998e 100644
++--- a/crypto/dh/dh_check.c
+++++ b/crypto/dh/dh_check.c
++@@ -152,6 +152,12 @@ int DH_check(const DH *dh, int *ret)
++     if (nid != NID_undef)
++         return 1;
++
+++    /* Don't do any checks at all with an excessively large modulus */
+++    if (BN_num_bits(dh->params.p) > OPENSSL_DH_CHECK_MAX_MODULUS_BITS) {
+++        ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_LARGE);
+++        return 0;
+++    }
+++
++     if (!DH_check_params(dh, ret))
++         return 0;
++
++diff --git a/include/openssl/dh.h b/include/openssl/dh.h
++index b97871eca7..36420f51d8 100644
++--- a/include/openssl/dh.h
+++++ b/include/openssl/dh.h
++@@ -89,7 +89,11 @@ int EVP_PKEY_CTX_get0_dh_kdf_ukm(EVP_PKEY_CTX *ctx, unsigned char **ukm);
++ #  include <openssl/dherr.h>
++
++ #  ifndef OPENSSL_DH_MAX_MODULUS_BITS
++-#   define OPENSSL_DH_MAX_MODULUS_BITS    10000
+++#   define OPENSSL_DH_MAX_MODULUS_BITS        10000
+++#  endif
+++
+++#  ifndef OPENSSL_DH_CHECK_MAX_MODULUS_BITS
+++#   define OPENSSL_DH_CHECK_MAX_MODULUS_BITS  32768
++ #  endif
++
++ #  define OPENSSL_DH_FIPS_MIN_MODULUS_BITS 1024
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
+index 849bd7e5a6..82e393da4b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
+@@ -12,6 +12,8 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
++           file://CVE-2023-2975.patch \
++           file://CVE-2023-3446.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.40.0
 
-I'm giving it a shot and will inform you about progress.
-
-BR
-Piotr
-________________________________
-Od: Richard Purdie <richard.purdie@linuxfoundation.org>
-Wys=B3ane: wtorek, 1 sierpnia 2023 17:41
-Do: Piotr =A3obacz <p.lobacz@welotec.com>; Martin Jansa <martin.jansa@gmail=
-.com>
-DW: Joshua Watt <JPEWhacker@gmail.com>; Alexandre Belloni <alexandre.bellon=
-i@bootlin.com>; openembedded-core@lists.openembedded.org <openembedded-core=
-@lists.openembedded.org>; Alex Stewart <alex.stewart@ni.com>
-Temat: Re: ODP: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bbclass: =
-add support for ACLs and xattr
-
-On Tue, 2023-08-01 at 15:16 +0000, Piotr =A3obacz wrote:
-> Hi Richard,
-> you were right. I have made another test with wiping out whole sstate-cac=
-he for acpid and rerunning the whole reproducible test.
-> It occurs that the package /media/plobacz/9582beb9-8774-4d4d-976f-63a6f1c=
-87c13/poky-contrib/build/sstate-cache/a7/41/sstate:acpid:core2-64-poky-linu=
-x:2.0.34:r0:core2-64:11:a741afe7c0bfc218a844a546735ddc4dcaf578bff5d6a3762b1=
-bdedf0819fc9b_package.tar.zst was already containing wrong timestamps.
->
-> > I'd guess you need to make the sstate archives of do_package store the
-> > acl and extended attribute data and when that is done, the millisecond
-> > timestamp data will probably be saved too?
->
-> So I'm guessing that commands which are producing this package_name_packa=
-ge.tar.zst are producing it in gnu format. Question is where can I find it?
-> Is it being produced in this sstate.bbclass or elsewhere?
-
-https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.yoc=
-toproject.org%2Fpoky%2Ftree%2Fmeta%2Fclasses-global%2Fsstate.bbclass%23n859=
-&data=3D05%7C01%7Cp.lobacz%40welotec.com%7C6ede1a2d1d444ff526c208db92a5cf36=
-%7C25111a7f1d5a4c51a4ca7f8e44011b39%7C0%7C0%7C638265013099817702%7CUnknown%=
-7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6M=
-n0%3D%7C3000%7C%7C%7C&sdata=3D1JiMQn00kK9Kddz6%2FMhPVKThB3crvKNTz9%2FrTOt14=
-hM%3D&reserved=3D0<https://git.yoctoproject.org/poky/tree/meta/classes-glob=
-al/sstate.bbclass#n859>
-
-tar -I "$ZSTD" $OPT -f $TFILE *
-
-or
-
-tar -I "$ZSTD" $OPT --file=3D$TFILE --files-from=3D/dev/null
-
-Cheers,
-
-Richard
-
-
---_000_VI1PR04MB5373E5689BA7DE3CD6F6201C910AAVI1PR04MB5373eurp_
-Content-Type: text/html; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-2">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-That is what I was thinking for the first time, but by default tar is being=
- run with posix,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-so, it is not possible that these commands are responsible for this...</div=
->
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1">
-My guess is about do_package from package.bbclass and it calls this createC=
-opy function which calls copyhardlinktree.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1">
-And to my supprise there is also tar command, but it is written there:</div=
->
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3">
-&nbsp; &nbsp; &nbsp; &nbsp; # Need to copy directories only with tar first =
-since cp will error if two
-<br class=3D"ContentPasted3">
-&nbsp; &nbsp; &nbsp; &nbsp; # writers try and create a directory at the sam=
-e time</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-and afterwards is this cp command with --preserve=3Dxattrs and according to=
- cp manual we can also preserve timestamps.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-Correct me if my thinking is wrong.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-I'm giving it a shot and will inform you about progress.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-BR</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0 Conten=
-tPasted1 ContentPasted2 ContentPasted3 ContentPasted4">
-Piotr<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>Od:</b> Richard Purdie &lt;rich=
-ard.purdie@linuxfoundation.org&gt;<br>
-<b>Wys=B3ane:</b> wtorek, 1 sierpnia 2023 17:41<br>
-<b>Do:</b> Piotr =A3obacz &lt;p.lobacz@welotec.com&gt;; Martin Jansa &lt;ma=
-rtin.jansa@gmail.com&gt;<br>
-<b>DW:</b> Joshua Watt &lt;JPEWhacker@gmail.com&gt;; Alexandre Belloni &lt;=
-alexandre.belloni@bootlin.com&gt;; openembedded-core@lists.openembedded.org=
- &lt;openembedded-core@lists.openembedded.org&gt;; Alex Stewart &lt;alex.st=
-ewart@ni.com&gt;<br>
-<b>Temat:</b> Re: ODP: [OE-Core][PATCH v11][master-next 1/5] package_ipk.bb=
-class: add support for ACLs and xattr</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Tue, 2023-08-01 at 15:16 +0000, Piotr =A3obacz =
-wrote:<br>
-&gt; Hi Richard,<br>
-&gt; you were right. I have made another test with wiping out whole sstate-=
-cache for acpid and rerunning the whole reproducible test.<br>
-&gt; It occurs that the package /media/plobacz/9582beb9-8774-4d4d-976f-63a6=
-f1c87c13/poky-contrib/build/sstate-cache/a7/41/sstate:acpid:core2-64-poky-l=
-inux:2.0.34:r0:core2-64:11:a741afe7c0bfc218a844a546735ddc4dcaf578bff5d6a376=
-2b1bdedf0819fc9b_package.tar.zst was
- already containing wrong timestamps.<br>
-&gt; <br>
-&gt; &gt; I'd guess you need to make the sstate archives of do_package stor=
-e the<br>
-&gt; &gt; acl and extended attribute data and when that is done, the millis=
-econd<br>
-&gt; &gt; timestamp data will probably be saved too?<br>
-&gt; <br>
-&gt; So I'm guessing that commands which are producing this package_name_pa=
-ckage.tar.zst are producing it in gnu format. Question is where can I find =
-it?<br>
-&gt; Is it being produced in this sstate.bbclass or elsewhere?<br>
-<br>
-<a href=3D"https://git.yoctoproject.org/poky/tree/meta/classes-global/sstat=
-e.bbclass#n859">https://eur04.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Fgit.yoctoproject.org%2Fpoky%2Ftree%2Fmeta%2Fclasses-global%2Fsstat=
-e.bbclass%23n859&amp;data=3D05%7C01%7Cp.lobacz%40welotec.com%7C6ede1a2d1d44=
-4ff526c208db92a5cf36%7C25111a7f1d5a4c51a4ca7f8e44011b39%7C0%7C0%7C638265013=
-099817702%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
-iI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3D1JiMQn00kK9Kddz6%2FMh=
-PVKThB3crvKNTz9%2FrTOt14hM%3D&amp;reserved=3D0</a><br>
-<br>
-tar -I &quot;$ZSTD&quot; $OPT -f $TFILE *<br>
-<br>
-or<br>
-<br>
-tar -I &quot;$ZSTD&quot; $OPT --file=3D$TFILE --files-from=3D/dev/null<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_VI1PR04MB5373E5689BA7DE3CD6F6201C910AAVI1PR04MB5373eurp_--
 
