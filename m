@@ -1,130 +1,85 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3534BEB64DD
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:20:59 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.8684.1690881653714886689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A81DEB64DD
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 09:38:39 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.8843.1690882711127566348
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 02:20:54 -0700
+ Tue, 01 Aug 2023 02:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=U/BVDh/c;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b962535808so82813311fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:20:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dJ9LWFEq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbd33a57b6so60235745e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 02:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690881652; x=1691486452;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YIZy8HJIE19hLAPFUnmrSjMXF/s7jxMhcdUpgY+e7xw=;
-        b=U/BVDh/cpWBkfZH3bLtf42c+5qQiO/hnnL4Nf0WO9Dm1y0rwKN9T1xum/pQPm512Uz
-         dnkT/YqSlMX04wvWTuAZ8YRojkA10qKlzGjPSIKbJ3Bh8iZtAEjb/kCYaJdRrnHbxLlP
-         y9aFAdfHXlWbU7ZxsDA+SAn5HiEYkyfJvU7kmOASS3gtbR3m61a6y6zKXHhFQX/Ta+ga
-         fNDkdPEu8c3cpg82nyz1P/lPBLZKC57S6qTVH1+zF85uBCktp4pcIQqvS4Rj1fL7yLc9
-         kbJewxqpKwv1A2FgrLmj68DB/cCryTuhbZyVtA7Dh8ZEiq6jxIeiXbIr9DrDOIinWVRQ
-         vrCA==
+        d=linuxfoundation.org; s=google; t=1690882709; x=1691487509;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uMitS+K33jusq4P8WcqB3m2wIeSnpEB20Icg9pKRkwc=;
+        b=dJ9LWFEqJ37CRDh4VUn+7WrtA6zOP5FIozF7LVv52B1OvRjihf/tFww1696QHDduQY
+         PanDRwFoPkrwyk2POJkyIDSPT9Rsy8iizQLba8wNTZKIC9XYZr2+LKFV6Cx3OawtH6lR
+         BQ89n+irt2xESltmC1sJhJC4OS4Gzdp9JhLQI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690881652; x=1691486452;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YIZy8HJIE19hLAPFUnmrSjMXF/s7jxMhcdUpgY+e7xw=;
-        b=WcmbkPYqrYU6/PxkzXHQmYI8Guhf+U3CHfXF7/rXv5AF2F/ZcDOksb/LZc6RaZ/jI9
-         8ZW70jrjADZ9taO/r//OWK/CS5ioBzvV/yY/hIm3Q3Cuv4Qo5AlSwjrWG0YqgCSg8AbX
-         X2ogPZKkUe4dfmIZ1jpurEQeacu1/zSHDBxa+1YrLuE/R8jkecFcjrbCfGdEV1O9DqLG
-         xF9ormJFKzXMcJ/yW/c89XYrR8UNCjehU2i5U380MOxsLHxL/xWZmkpSyhbOqxEpTfj3
-         UeuzSC3ApDVlQ1hyoWJTSnjCiLleb0RHpW7EibDUPsiQy2cQdtKnh9E6fsFugRF8EEc0
-         iiDw==
-X-Gm-Message-State: ABy/qLYPaqzdLH2sUE4PADQ2STDc0wijdjbzbJDzTe8YQ01zEMlBYESt
-	Ujq51dEet41TNAC6J/6i/y1y6eNHp//0oAaPFsk=
-X-Google-Smtp-Source: APBJJlGWj0DuWbf5RtisPlOfHFQoS/7BJk+ZHxfKM2/KO5g6NXiCXWPpA/7DzXjHwRl4z4JYUx0HzncTT0zdZyIvYIQ=
-X-Received: by 2002:a2e:b301:0:b0:2b9:e7d7:64bd with SMTP id
- o1-20020a2eb301000000b002b9e7d764bdmr1842973lja.47.1690881651662; Tue, 01 Aug
- 2023 02:20:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1690795930.git.frederic.martinsons@gmail.com>
- <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
- <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
- <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com> <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
-In-Reply-To: <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Tue, 1 Aug 2023 11:20:40 +0200
-Message-ID: <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use --offline
- instead of --frozen
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20221208; t=1690882709; x=1691487509;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uMitS+K33jusq4P8WcqB3m2wIeSnpEB20Icg9pKRkwc=;
+        b=H6g5hfAGfAEuIk2mGqp0QY8oIVBJY+paaTHvXx05taNiI19fzJd8gb99mbiVpIJgEo
+         3etRxTHDw5xjQR2QSIRyX+NZoSKgfN5P4ssEHBa7wiYhWFG4iVz+V2sFDCpJxHclrrOH
+         rwItukHV+q00BDgFn8UEzfiYutDR+PUPohgJc+0eHGfAcrv7bEY/yjeWtZWzEkqp2hXF
+         L8oK82kx6Pa+8g1ClAu5RDoe/kAAT/MhYYdwE6mDJbTXSRCRGArK4GEmygybA7AENes9
+         XVYH/ektleMifRGP8IY3/9odXTTGc0IonuxCBPsU4gf30ok+UeehLHiBskl497eQCRAY
+         ilyA==
+X-Gm-Message-State: ABy/qLZ1sME025ugmCVHGKnm8exu9CypUwtg+X6PYJR6BWFYQ3MJcUo1
+	p/YmKhPOaPixG4TRb01spZTNgw==
+X-Google-Smtp-Source: APBJJlGri8ZRu9uNbv800Cpq/5U+/8C6vztRilkkWn/X11EIgNoKjctw93/ZOUlu009lrJ0gv+DqXQ==
+X-Received: by 2002:a05:600c:44a:b0:3fb:e254:b81e with SMTP id s10-20020a05600c044a00b003fbe254b81emr2171122wmb.12.1690882709549;
+        Tue, 01 Aug 2023 02:38:29 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e3b7:1714:595d:8417? ([2001:8b0:aba:5f3c:e3b7:1714:595d:8417])
+        by smtp.gmail.com with ESMTPSA id f18-20020a7bcd12000000b003fe2696ccfcsm2449414wmj.23.2023.08.01.02.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 02:38:29 -0700 (PDT)
+Message-ID: <1f72dc4842eaadc8fa49eef29f2f0af4179131c9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use
+ --offline instead of --frozen
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
-Content-Type: multipart/alternative; boundary="0000000000003462aa0601d910c7"
+Date: Tue, 01 Aug 2023 10:38:28 +0100
+In-Reply-To: <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
+References: <cover.1690795930.git.frederic.martinsons@gmail.com>
+	 <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
+	 <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
+	 <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
+	 <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
+	 <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:20:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185221
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 09:38:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185222
 
---0000000000003462aa0601d910c7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2023-08-01 at 11:20 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+> Ok but this raises other questions then, this recipe is part of
+> packagegroup-core-tools-tesapps
 
-Ok but this raises other questions then, this recipe is part of
-packagegroup-core-tools-tesapps
-<https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/pack=
-agegroups/packagegroup-core-tools-testapps.bb#n28>
-and is part of a test case
-<https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/runtime/=
-cases/rust.py#n52>
-So what to do with those ? Suppress them too or adapt them with another
-recipe (zvariant ?)
+Just drop that.
 
-On Tue, 1 Aug 2023 at 11:07, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+> and is part of a=C2=A0test case So what to do with those ? Suppress them
+> too or adapt them with another recipe (zvariant ?)
 
-> On Tue, 2023-08-01 at 11:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > Thanks Richard, but I'd prefer to drop this patch if possible.
-> > I think the rust-hello-world is no more useful and that we can
-> > replace it by a more "real" example like zvariant
-> > from meta-selftest.
-> >
-> > Let's see what others think about this
->
-> After some thought, I'm in favour. Lets drop it.
->
-> Cheers,
->
-> Richard
->
+I think the other test cases supersede this one so that can be dropped
+too?
 
---0000000000003462aa0601d910c7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr">Ok but this raises other questions then, this recipe is pa=
-rt of <a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/r=
-ecipes-core/packagegroups/packagegroup-core-tools-testapps.bb#n28">packageg=
-roup-core-tools-tesapps</a><div>and is part of a=C2=A0<a href=3D"https://gi=
-t.openembedded.org/openembedded-core/tree/meta/lib/oeqa/runtime/cases/rust.=
-py#n52">test case</a></div><div>So what to do with those ? Suppress them to=
-o or adapt them with another recipe (zvariant ?)</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 1 Aug 2023 a=
-t 11:07, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundatio=
-n.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On Tue, 2023-08-01 at 11:00 +0200,=
- Fr=C3=A9d=C3=A9ric Martinsons wrote:<br>
-&gt; Thanks Richard, but I&#39;d prefer to drop this patch if possible.<br>
-&gt; I think the rust-hello-world is no more useful=C2=A0and that we can<br=
->
-&gt; replace it by a more &quot;real&quot; example like zvariant<br>
-&gt; from meta-selftest.<br>
-&gt; <br>
-&gt; Let&#39;s see what others think about this<br>
-<br>
-After some thought, I&#39;m in favour. Lets drop it.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-
---0000000000003462aa0601d910c7--
+Richard
 
