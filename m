@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0728C2FC11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E98EC05052
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:29:03 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.17704.1690907328533334860
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.17726.1690907333187288693
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VpMRLdZe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Q6XZ676S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189b1ee5017-93412c54-1daa-4a2a-9dd5-e3d709d64b6e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Q3lHK+8+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ArOzJTd1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189b1ee4f9e-3d8232d1-88cf-4ea0-8e41-3f6d156bd5f7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ntf4X0Kdm6dJW5MIh0SVCizKIQXOrEqXB/5LsIgKsk0=;
-	b=VpMRLdZem4YsKqQUwXQdFLDZCZLopaaK54aa2Dy8/zS7Xm+G+Y7M+XWut00e9u9p
-	3NPZprZDeTnUEHbsZyg4LnBX2H7I3Tf9wOrkCrF1/Pxnc37IvCylEFBbgsMkvl/Orao
-	ctUz/cfbmDAho2qTeOdSG3JupAQXO/BvigcPO+Mg=
+	bh=NfJIeUpED2ELEq5149p4XofCpe0UmukxCfBJwW4/b6A=;
+	b=Q3lHK+8+Wg0g8z3bpS6MYT8w9JRzbmUWbKE76nFN/r4adfOWV2Mjg/6y0qmVgnZl
+	1Qg7A1F1xY+6BW8WogDuXkxIV98ZVjD/Bjm8Dd/lq6NN8ULmC2OJdkTagJ2+WyYBsgM
+	mkd599bfVNZbDdbvrDEp/S7ZI/zbX0IYu/M2tyrQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ntf4X0Kdm6dJW5MIh0SVCizKIQXOrEqXB/5LsIgKsk0=;
-	b=Q6XZ676SQo4HsqzuZT7OQ6ckf7H6K9habh01BDRpSRtU72DYVe1esFWJcH14pUon
-	CAEShL/ZMYj/ZnF0GMzLhyJqZcGOEcMKoQQymjc6rpgF04YCwpROhl4p8/iOSfMevCD
-	W/YEb3coZ+Ajs6yWSC5SkW+XEzxc/Orf8D6SYy/Y=
-Content-Type: multipart/mixed; boundary="===============8977451062181376816=="
+	bh=NfJIeUpED2ELEq5149p4XofCpe0UmukxCfBJwW4/b6A=;
+	b=ArOzJTd1/bfN/5SQIweRSPD3rIY0G2Jv9dLj0H8EInt8UNovAnysaF8T3nJ1/Npu
+	QsTcJpQBTwRRxn5Cy0v+andjfqTxvXwYopj7xTqjG0hzSG5ByjdwtdFsZlevoTztJqX
+	D3QwbvN31bIC96JdCuMx3Jh40WEqVN6i5VpE5LYk=
+Content-Type: multipart/mixed; boundary="===============8825638593039466991=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-base: upgrading to 1.22.5 FAILED
-Message-ID: <01010189b1ee5017-93412c54-1daa-4a2a-9dd5-e3d709d64b6e-000000@us-west-2.amazonses.com>
+Subject: [AUH] gst-devtools: upgrading to 1.22.5 FAILED
+Message-ID: <01010189b1ee4f9e-3d8232d1-88cf-4ea0-8e41-3f6d156bd5f7-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Aug 2023 16:28:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.191
+X-SES-Outgoing: 2023.08.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185339
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185340
 
---===============8977451062181376816==
+--===============8825638593039466991==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,12 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-base* to *1.22.5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gst-devtools* to *1.22.5* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gstreamer1.0-plugins-base -V 1.22.5
+The following devtool command failed:  upgrade gst-devtools -V 1.22.5
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (15:14:57.342376)
-NOTE: Directory listing: ['upgrade-helper', 'bitbake-cookerdaemon.log', 'sstate-cache', 'cache', 'buildhistory', 'downloads', 'conf', 'workspace', 'tmp']
-NOTE: Retrying server connection (#1)... (15:14:57.451261)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -89,7 +85,7 @@ Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 32 (100% match, 100%
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 3 seconds
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -119,42 +115,21 @@ Sstate summary: Wanted 2 Local 1 Mirrors 0 Missed 1 Current 26 (50% match, 96% c
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 3 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   3% |#                                   | ETA:  0:00:02
-Adding changed files:   7% |##                                  | ETA:  0:00:02
-Adding changed files:  11% |####                                | ETA:  0:00:01
-Adding changed files:  15% |#####                               | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:01
-Adding changed files:  22% |########                            | ETA:  0:00:01
-Adding changed files:  26% |#########                           | ETA:  0:00:01
-Adding changed files:  30% |##########                          | ETA:  0:00:01
-Adding changed files:  34% |############                        | ETA:  0:00:01
-Adding changed files:  37% |#############                       | ETA:  0:00:00
-Adding changed files:  41% |###############                     | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  49% |#################                   | ETA:  0:00:00
-Adding changed files:  53% |###################                 | ETA:  0:00:00
-Adding changed files:  56% |####################                | ETA:  0:00:00
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files:  64% |#######################             | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
+Adding changed files:  19% |#######                             | ETA:  0:00:00
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  58% |#####################               | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.5.tar.xz...
-INFO: Rebasing devtool onto 6048f1af7f4171f795dc47d40efdcd3781afcf3f
+INFO: Fetching https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.22.5.tar.xz...
+INFO: Rebasing devtool onto 079fa1950c47bdee50f9756de40e9c48648b2f5c
 Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
     ret = main()
@@ -168,7 +143,7 @@ Traceback (most recent call last):
   File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
     with open(os.path.join(srcpath, path), 'rb') as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-plugins-base/COPYING'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gst-devtools/validate/COPYING'
 
 
 Please review the attached files for further information and build/update failures.
@@ -176,5 +151,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8977451062181376816==--
+--===============8825638593039466991==--
 
