@@ -1,103 +1,147 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF19C001DF
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:04:49 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web11.9104.1690884282041124777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D93CEB64DD
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 10:07:19 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.9171.1690884432916616249
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 03:04:42 -0700
+ Tue, 01 Aug 2023 03:07:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ghIACssQ;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-786bb09e595so150537139f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 03:04:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=c+bCgdAe;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-4fe3678010eso3154500e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 03:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690884281; x=1691489081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R+e1XK2nuSqt4ycvVexH4APCPZ/cP0X8FHnrGFblcWM=;
-        b=ghIACssQbA43pFIozsQddmereHKgXpw6eWyFWa6zAFjU+imGNi7TBFYh2VG0PFOBMe
-         lwlPTDXcFN3WF9q76AcfH4iP1l0YewJModQTK7YUGv7Xc9bzmM8tklj6l+TK5rKGNeFg
-         kpUxqLTMc7H6BxwyrCrP24n+JltBbNeliVFPjSXoy+iuQtQ3QLeFTbGKKGHctdyD7+Af
-         AQ77gE2xtvbIol35xZLWnJ8iLjAT6flzioDxthp7k4UYT+mA4GHA09eGydDMZPPthHnD
-         l6P3MimeYCEISjsMrFfaq1SaUSnWKba12buPh0ZHaJzx16JbKZaUbJFL2xNKDegOYgBo
-         GVsA==
+        d=gmail.com; s=20221208; t=1690884431; x=1691489231;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zi9evIErXcTGZ3MXGpYCmpbhp+4pb0shWPX3Sd2IHns=;
+        b=c+bCgdAeCP8KZF+TN+HAJIo5cLoYICxaZ3rjw3ZTeTFVZGWLFOeVPuIBaukSgHpjmp
+         PGY4BcYnhvFxd3kA1LpN/XorYDDUyS/WiWCZUt3xEQ2dms2B7UUSJ7otoLoQWqjebJOE
+         Zgik76m5Xyuw8LcRR7vJj9rJjltcX0EhWUkTsLjvB08/sFoKy+mxB3P8W7+53VTopxt5
+         3JX2XL/8Sn+0Pmu9SjBkPFm6/sgqxAgUP7uKzyRjIhyj257koJhsCi6rZTkVZ9xT/H/E
+         qKSoULVm6bbFhFoV0Ay43J0y1nWL6rY6zDptMnFNEMK3j8BpLmAhGAiJHqwQuSX4lEGF
+         +Vkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690884281; x=1691489081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R+e1XK2nuSqt4ycvVexH4APCPZ/cP0X8FHnrGFblcWM=;
-        b=M0kM3ACqC3zDinr7dxZyzSkkfB9f7kHnaGoz+rBy/klYfeLcgL0i6fyWvgi89ULtD+
-         lRHvkRm4rgMrHrOXabN7h+INxaA9lnCq1jx4I/Nu1tJCMHqAGBeM7sU6j7Vb6pOko2Qj
-         i9obHFO52OfFaiV+zw1gBe/TPv3EXQf1RUXwUYZrmzkT4+JfqAU7X0/1jlONBb18kiJG
-         xg+Ccjz3/ZkPIw52X/7iM62fHZJDTSYw0qYrG10eX9xdeQklmMVPzAqMwStehhrMYFex
-         n2U1vmZR65Zu4Y6FBMF6xtTr8wrrLVG6FU6ShQnfwHVwsahzPGOrCTxcN4R+/Ov05mkP
-         PtiA==
-X-Gm-Message-State: ABy/qLbKE96NfIunF/rzKRU6PZQm2c7KludjiLcjEzrppxN/MM1Rozka
-	hOkRRoB8BF3QmXd/lLuGEv3Iw9ozleryA3jwOsc=
-X-Google-Smtp-Source: APBJJlHi0EPvjzfNSBS5eGsBmdnClt1v8Xqu3gstHQ9n0kC9cTWO/fZH1yUjdr+brVuxAIyGskDJKL/KDHZRBAvXjFQ=
-X-Received: by 2002:a05:6e02:1ba1:b0:349:178b:2818 with SMTP id
- n1-20020a056e021ba100b00349178b2818mr7479773ili.13.1690884281024; Tue, 01 Aug
- 2023 03:04:41 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690884431; x=1691489231;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Zi9evIErXcTGZ3MXGpYCmpbhp+4pb0shWPX3Sd2IHns=;
+        b=WvYKLUu/PGpDSWZsnNCzMcDoUtqJlYUo+5jTGUfO669+CUbZqSiL9pUnGj7ZeMUFHm
+         7/eGqK0BLjJY0GyNE06dqp7TZmvpJ4am3kLP3weoM37guxZUcoV0h2+HJb8Cd7qSFeFR
+         bk0GhxLZ4+Az5pEoqQ8RLeh72X3dz6j8v3xA/b464FPryE21PP1CUpyhWcL3kCER06ZH
+         B0ek/yB8JlDVHzYw34Fqj/zsGuSm0HoXexslatn21oAqFkEKQYF9m/lvYG2dYN+Q2x/n
+         kBUIvWNoohVElaT7QwUh1rDTB5DZQF0OVcm478UKUNHiSx66x9X440ywX9hZdJrI9RNB
+         mJiA==
+X-Gm-Message-State: ABy/qLYBRVSEX+e1PbQdbv8G13Mn9ZnfJYZjm7NCLVMetIsArJp8L6oh
+	pwIYaJFA29JARbxHUPdjehpGp9Co7l+y/ZGNrvM=
+X-Google-Smtp-Source: APBJJlGd4Khkg2ZFz3a6jhkMxqy75DcuJrLGRyEuSzsllihS/dsRjLr04cs5ZFE6IQNWH2V7+zzLUehMtIGl59yBudw=
+X-Received: by 2002:ac2:532e:0:b0:4f8:49a7:2deb with SMTP id
+ f14-20020ac2532e000000b004f849a72debmr1755429lfh.8.1690884430719; Tue, 01 Aug
+ 2023 03:07:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1690795930.git.frederic.martinsons@gmail.com>
- <7a3e6d5250d6d0cc526dbede582815007a3b3e56.1690795930.git.frederic.martinsons@gmail.com>
- <205e20dd658f80e5215b6330f387cb4f95c30d4f.camel@linuxfoundation.org>
- <CA+cAkeoSMuuZoY+u7bAXq=9CAtrjyQew5MwCLMXRo7O9KRH4PQ@mail.gmail.com>
- <8ee20428cdc9a71f33bed57893ed6683f05e620b.camel@linuxfoundation.org>
- <CA+cAkepixZXe=6SP8eKwkg7+h3p0CcK+s8s3Uyg0vYmACtH=xA@mail.gmail.com>
- <1f72dc4842eaadc8fa49eef29f2f0af4179131c9.camel@linuxfoundation.org>
- <CANNYZj96-co4wRxY=N3KS4bEsFr_v=yJphOC0ZBO92TerGtmug@mail.gmail.com>
- <CA+cAkepSOxNovN+iuRx8_=9Ut=bLXBb8YHbHG5SJJedGfGmeBg@mail.gmail.com> <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org>
-In-Reply-To: <d036b9e08737619b03af2e6b27bc99e9abcee377.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 1 Aug 2023 11:04:28 +0100
-Message-ID: <CAO5Uq5T=HcAVWaU0RQzqXg0vhQ=ybkOWgHg5GuXWvQEqwt+uqg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] cargo.bbclass: Offer a way to use --offline
- instead of --frozen
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Randy.MacLeod@windriver.com
+References: <20230731215310.3949441-1-charlie.johnston@ni.com> <20230731215310.3949441-3-charlie.johnston@ni.com>
+In-Reply-To: <20230731215310.3949441-3-charlie.johnston@ni.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Aug 2023 12:06:58 +0200
+Message-ID: <CANNYZj-24Xjci4DmDgi+ANf52oniH+yMy61QPf=UWo=4iH+7iQ@mail.gmail.com>
+Subject: Re: [oe-core][RFC PATCH v2 2/6] package_manager: Add feed support to generate_index_files.
+To: Charlie Johnston <charlie.johnston@ni.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:04:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185231
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 10:07:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185232
 
-On Tue, Aug 1, 2023 at 11:01=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+I think it's better to change indexer_map either to three different
+dictionaries, or a dictionary of dictionaries. Putting more than two
+things in a tuple (that aren't of the same kind) results in a code
+that's hard to read. For example:
+
+feedpath = indexer_map[pkg_class][1] if feedname is None else
+indexer_map[pkg_class][2]
+if os.path.exists(feedpath):
+            result = indexer_map[pkg_class][0](d, feedpath).write_index()
+
+What is '1' and what is '2' and what is '0'? They should be named
+properly, and not numbered.
+
+Same applies to patch 4/6.
+
+Alex
+
+
+
+On Mon, 31 Jul 2023 at 23:53, Charlie Johnston <charlie.johnston@ni.com> wrote:
 >
-> On Tue, 2023-08-01 at 11:55 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > zariant rust recipe is tested for devtool cases there
-> >
-> > The test case mentioned earlier seems to verify that we can run rust
-> > test code, do we want to keep testing
-> > that rust binary can run ? If so, how to keep testing this while
-> > removing rust-hello-world recipes ?
-> >
-> > maybe we can add a simple "println!("Hello world") " in this file ,
-> > compile it like it is already done and run it
-> > to check its output ?
-> >
-> > What do you think?
+> Currently, the generate_index_files function only handles
+> the creation of index files in the DEPLOY_DIR_<PKG_TYPE>
+> directories. This change adds an optional feedname input
+> that will instead point the index generation at a package
+> specific feed directory. If no feedname is specified,
+> the original behavior persists.
 >
-> Doesn't test_rust_compile already also run the rust code it compiled?
+> The directory for index creation will be
+> ${DEPLOY_DIR_FEED_<PKG_TYPE>}/feedname.
 >
-
-Yes and checks the exit code - really not sure I see any additional
-value in turning it into another "Hello World". I'm fairly sure the
-cargo test gets you another "Hello World" test (but again only checks
-the return value). I think the rust-hello-world test is covered in
-other ways now.
-
-
---=20
-Alex Kiernan
+> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
+> ---
+>  meta/lib/oe/package_manager/__init__.py | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+> index 0c313190cf..0934cda89d 100644
+> --- a/meta/lib/oe/package_manager/__init__.py
+> +++ b/meta/lib/oe/package_manager/__init__.py
+> @@ -533,7 +533,7 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+>                          raise
+>
+>
+> -def generate_index_files(d):
+> +def generate_index_files(d, feedname = None):
+>      from oe.package_manager.rpm import RpmSubdirIndexer
+>      from oe.package_manager.ipk import OpkgIndexer
+>      from oe.package_manager.deb import DpkgIndexer
+> @@ -541,9 +541,9 @@ def generate_index_files(d):
+>      classes = d.getVar('PACKAGE_CLASSES').replace("package_", "").split()
+>
+>      indexer_map = {
+> -        "rpm": (RpmSubdirIndexer, d.getVar('DEPLOY_DIR_RPM')),
+> -        "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK')),
+> -        "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB'))
+> +        "rpm": (RpmSubdirIndexer, d.getVar('DEPLOY_DIR_RPM'), d.expand('${DEPLOY_DIR_FEED_RPM}/%s' % feedname)),
+> +        "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK'), d.expand('${DEPLOY_DIR_FEED_IPK}/%s' % feedname)),
+> +        "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB'), d.expand('${DEPLOY_DIR_FEED_DEB}/%s' % feedname))
+>      }
+>
+>      result = None
+> @@ -552,8 +552,9 @@ def generate_index_files(d):
+>          if not pkg_class in indexer_map:
+>              continue
+>
+> -        if os.path.exists(indexer_map[pkg_class][1]):
+> -            result = indexer_map[pkg_class][0](d, indexer_map[pkg_class][1]).write_index()
+> +        feedpath = indexer_map[pkg_class][1] if feedname is None else indexer_map[pkg_class][2]
+> +        if os.path.exists(feedpath):
+> +            result = indexer_map[pkg_class][0](d, feedpath).write_index()
+>
+>              if result is not None:
+>                  bb.fatal(result)
+> --
+> 2.41.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185176): https://lists.openembedded.org/g/openembedded-core/message/185176
+> Mute This Topic: https://lists.openembedded.org/mt/100471803/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
