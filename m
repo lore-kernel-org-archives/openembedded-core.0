@@ -1,160 +1,722 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D4FC00528
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 18:50:34 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.56])
- by mx.groups.io with SMTP id smtpd.web11.21330.1690915829965743156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76BADC0015E
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 20:48:39 +0000 (UTC)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web10.1428.1690922914992718364
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 11:50:31 -0700
+ Tue, 01 Aug 2023 13:48:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=ZUYyeo1l;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=ZUYyeo1l;
- spf=pass (domain: arm.com, ip: 40.107.105.56, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T+PVvOwOBn3JdKU7Z/Ny0xvOK0Neqj7369K9g8UTdQQ=;
- b=ZUYyeo1lpyqygD1I46BdkHyKI9+uNWZN5JqEYyxfX9C767ETiYy0c3S9qdXZH3dAdLHDUNUG8UZP1FwJdJxYhwzzhMLGYSUfzlTNeyN+sDeDZyN5OooOgluEmSrJmCG4sH56LFyPSVENb1HP3bUf0PzoOzQ9uNJR0nut4xTFxns=
-Received: from AM6PR02CA0026.eurprd02.prod.outlook.com (2603:10a6:20b:6e::39)
- by AM9PR08MB6116.eurprd08.prod.outlook.com (2603:10a6:20b:2d4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.45; Tue, 1 Aug
- 2023 18:50:26 +0000
-Received: from AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:6e:cafe::b) by AM6PR02CA0026.outlook.office365.com
- (2603:10a6:20b:6e::39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43 via Frontend
- Transport; Tue, 1 Aug 2023 18:50:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT015.mail.protection.outlook.com (100.127.140.173) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6631.44 via Frontend Transport; Tue, 1 Aug 2023 18:50:26 +0000
-Received: ("Tessian outbound d7adc65d10b4:v145"); Tue, 01 Aug 2023 18:50:25 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 0a87e996f9544d00
-X-CR-MTA-TID: 64aa7808
-Received: from 58dfd4c14288.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3DFC71D2-B7C2-48ED-9E05-B022E4A104F7.1;
-	Tue, 01 Aug 2023 18:50:19 +0000
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 58dfd4c14288.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 01 Aug 2023 18:50:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kFfmGLcq1wAKFAfFbt81ja/KT+Ybc5wm/j3QRGQlJxAA//3jb0JeAQtQW7j+PnyDQRp0kzll0r3hUvpJTW/pazJz9180WeJuQfv9XCH22mSuXUfGhL0RXerijUXGp1N2GWxiHp3MTTiKaVC8A7rICpQQuXsVeT/G48BSmKX+NZ6Ek+kmxEQULSxp/qz0iXVWM+Uz5ofhzjLMumr+qe2Up+oP71GsB6AbF8upwvRDdk5yyIcek0+0kxcrOdPtmjbs5PvpD/CKgwMpmw5a+eyPIqIBwVjN2PxiTsfI3m+cJScmsQfZULRNoDDo5Xl+Ve8toG7lFBPW26aJEu8z9jku7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T+PVvOwOBn3JdKU7Z/Ny0xvOK0Neqj7369K9g8UTdQQ=;
- b=cb+s+yUVeY5veT5hUnpYNDdpjFWS8RGv36Be/JHAnMoDAk09xb9yOoBnMMZaHnkwjM6OQrX2Cn1be5i2pEwUmu6BmlIrfUYyoGW4Npnv+uPKRSaDzXJrhvJjh/t/bqOx8mQVL/UrMCef7HVd/8dGBuNhSNAPzufRuC1AVyGDNlzJmrFi7TJDB0vpRs7xopB2QCFW3i2Sm9kHnJQ/QVnalaCi3srgKLagxoXvxPabE5wHgyNTSt8IZeh6YE8m/fOJb8Xwi4SZ2eFcUim7O9Jb5qYeSlJLoXQuSR4Es9m/N+rwEV63tMjGP9DbB5TqOvOi32sELGnCSNdT9s4a9JlVSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T+PVvOwOBn3JdKU7Z/Ny0xvOK0Neqj7369K9g8UTdQQ=;
- b=ZUYyeo1lpyqygD1I46BdkHyKI9+uNWZN5JqEYyxfX9C767ETiYy0c3S9qdXZH3dAdLHDUNUG8UZP1FwJdJxYhwzzhMLGYSUfzlTNeyN+sDeDZyN5OooOgluEmSrJmCG4sH56LFyPSVENb1HP3bUf0PzoOzQ9uNJR0nut4xTFxns=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB10374.eurprd08.prod.outlook.com (2603:10a6:20b:547::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Tue, 1 Aug
- 2023 18:50:15 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6631.042; Tue, 1 Aug 2023
- 18:50:15 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "chris.sutton@l3harris.com" <chris.sutton@l3harris.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] eSDK is missing native cross-compiler toolchain and
- compiled target libs
-Thread-Topic: [OE-core] eSDK is missing native cross-compiler toolchain and
- compiled target libs
-Thread-Index: AQHZxF5kTLb6H85utUyUTqg7O1U2da/VyToA
-Date: Tue, 1 Aug 2023 18:50:15 +0000
-Message-ID: <0D714194-137D-47CB-9401-C7B2DAB33FA7@arm.com>
-References: <KF92.1690198680497382322.XSbE@lists.openembedded.org>
-In-Reply-To: <KF92.1690198680497382322.XSbE@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.700.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB10374:EE_|AM7EUR03FT015:EE_|AM9PR08MB6116:EE_
-X-MS-Office365-Filtering-Correlation-Id: bce33bf2-11ff-4928-4e40-08db92c02b61
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 4S08IaZAf2TKTd9HkhTeYC50HWKIud9n4BqDgYZw/MQkSH5V8BeaHwSTrC/VUgVa1mM3R3QBAf/WjKvtYEsfP7FQ9RI7AEtzkNYEl45HamJH8xZWK2Z3/387kTmfRqzVbfYs0JCA+esuPzSjfXtSZgs/RlVJkIZdsYU1nMsr5yOTLtmLDNYDgJLSuQmdpaeznzgiYF/bXdrSyDM02H8doOwEY07zJdUNjTPh/bqz/q3jtC1Yl8YtK4v+CkGgLX8ZUaVP7qbZ+2/WSjkZlvnDJCwR8LjAWOuqaX9X8vjZkV6LrhMtlMcy9FaY4tk9PmJAH9JYqNp5mdxd+ehuTcNyq8JnLQIZdenyVaC8YyLNvFu9uaSGYP+2VLfMXYkPRYjbr3XjmvSH0x777Z0qyvkHNgVhkvlPr5NufyzB23umkA9ARNN3bUt6mbsN1Ui3p/1JPhYJ3Oxjjw5lkPGEqjsvcDVtP62i3VYFJTS1ZlC6ZpvEpAiOYy22JGqrNL4YqhjBPG8KHN5tgA8glSuhak7i7Y0D/WxpthhQ9SDkxxseXVofJh66kA/JAwoqNBzJUPynGZh1jIkBSjZSiqcYsJZYJxltkWbaKi4eGTtzqolkhXZcyM8afCcF5Y/xD+CsKLeOzBxPSrjn1boNKRE5+XsibA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(396003)(39860400002)(366004)(346002)(451199021)(66476007)(86362001)(6916009)(316002)(8936002)(66446008)(64756008)(8676002)(5660300002)(4326008)(41300700001)(122000001)(38100700002)(66556008)(91956017)(76116006)(66946007)(38070700005)(478600001)(4744005)(2906002)(71200400001)(33656002)(36756003)(6512007)(6486002)(6506007)(26005)(186003)(2616005)(53546011)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B5D013B49F1441498500710F75011222@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Bdq2ebiC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: ticotimo@gmail.com)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a5abb5e2aeso4775846b6e.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 13:48:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690922914; x=1691527714;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCrMFDdfPeGINWKmQH7wTIDe1noFbAnEygd+wmjLrT0=;
+        b=Bdq2ebiCnXsxJNcIl/2l48xFZDwN3M522CgCGFw3uoOslI86LDNPqMm/Z+wquJIcHr
+         boBE63SNR6y9Sq7KC75Ls+zw8KX/2vC9h18CyNb135ixhCIDTTCSiSpkY2JaMogfF2X4
+         akDn3QTMrvrjGtZx7V+XjChA1F6jDpiG/vr4U54Cu9Ft6bggC3eeFoH27GgtNEMofDTz
+         cmUdjV4+vkgLiJwdlRVRfPwoPlFBvUhM1VYqlZYwC+UvGEIjmon1BjrcEqFGTaCG5rGW
+         QUudqY95Vq69XMiRDSHeW1gqaO1bvIVMQeMHdwgAibNIvx3it8rWb9GG80eWVXwI2GRb
+         eBWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690922914; x=1691527714;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GCrMFDdfPeGINWKmQH7wTIDe1noFbAnEygd+wmjLrT0=;
+        b=FNgJ7kZBwWLmuN6wK2pHRY1IKwqunXGifZ9NbkTQyqWW7sFWnCDWscvSRZxXY2ElIA
+         bI8zwmnNnSIPLiRb+VBUAoIuIx7fl0lNdxVxrkEvzi3ay/L5Ww3AU2LmkEZN1ibe4zxJ
+         tHxd6SHslztYlMq9pmg/dYjyRINoaLBT3lGwHqNlr3sa0bCWvAzpq/m/UBvVdzlEwJlk
+         wGIyzHRTNi0sc2wfCQi4LUFFnCQWpKAVAortBn2SALVdw149q4xnk6HF3HlIUGqdMYG7
+         TRXNoo2ck/laSgMq4VCVHyZtkHueFA5rrFz1rhoLqwCCWa0sab2W1GjmE5/FYAu3/2M7
+         kGiQ==
+X-Gm-Message-State: ABy/qLZ0ecKPZ9KJogdgHBXwUWdNMW40YZeezw6RBripPNd5D+VdN3AE
+	3FA3gM509tZuc4cPkHHYs3ovl+eUQko8b4ayp3s=
+X-Google-Smtp-Source: APBJJlGmVwFV7utGs2d0MHnCykeWfo1tSwc6uzgZcPYG3GquT7Jjl8lHKeidHfL/jVkIDWKGOpzNlEMyOx6dI6y6Fco=
+X-Received: by 2002:a05:6808:2197:b0:3a4:357a:ebf4 with SMTP id
+ be23-20020a056808219700b003a4357aebf4mr19797015oib.0.1690922913929; Tue, 01
+ Aug 2023 13:48:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10374
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	f27d95e2-5fb9-4294-bf6a-08db92c024d7
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	A7uuHJWir7gcjoojGWszxas9l/qV0baEqMYPbfFfMlhBED8Ws+CS/54dHgGjyM2/9zhh5VWM4W7zyHX2HfiOW6VHnkl5JV7V1+fydpl0MwLl9fD1Su7/jJP4jnPRJVQDOU5lW/ksRvSWtDT2pGvNF2Ou/q/T2G3DQwNakxemABmw9vsJzbk9fQSKePq1i06uYKkhlQ500eoETcatfNDovfAFxt7+urzsKk5K1G6dQg4urrB4e25PE3faYAyhqQN5mTF26yz9sEvbx7TxyrP3G7Mv8COeO7sMKZW40mgp3kwBLdnSDUXNqempXP9ABUDKYpBgkdGsn1U9wY2cU4/oMTuRYzVpQGfz/pQ41qrf1WXH/5/fszvZTMDMrVr3q4q8riXfDec+xNDEsYBqHHUzSM9zIrsnNx5wuZbeo7Se7GwniXsXJ1X0hKcJlJNbbmWUudBZTtI1j/FsSiakxDxyPCIomD4rgw7IwpCj/dhdqUDsJYLGFj4b2OqIEg6R1Ti3qrSy6ms+AV+rOx+/TeAEQ/kyP7fQyHy5I1jpKZy6AKKT6+IjhkQ8pYyjmBw5wIw1zh0kHst2mcNUcqmqEh3Kyim/emc4OYS7hYu6IYlh4YDYWoWobP48enXhAKZTmfZ/kNTdPuBRzlWNI93uaOLe2ynWC5/pCOuReuCqdtYBrU4J1ocbK1XmscQC43yvn57BWHZHpAnI3rKHt4x4Fi3A4iIXflbgIH3lZN4qN6KtkteBu5sDgipV9r1ZwzMRlxXh
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(346002)(39860400002)(376002)(82310400008)(451199021)(46966006)(40470700004)(36840700001)(186003)(8936002)(8676002)(6862004)(26005)(41300700001)(4744005)(2906002)(5660300002)(36860700001)(47076005)(40460700003)(336012)(2616005)(40480700001)(86362001)(81166007)(478600001)(316002)(82740400003)(6506007)(33656002)(6486002)(356005)(70586007)(70206006)(4326008)(6512007)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2023 18:50:26.1605
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bce33bf2-11ff-4928-4e40-08db92c02b61
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6116
+References: <01010189b1ee533c-9d06d28e-1ac4-48ec-9c61-acc24630bbad-000000@us-west-2.amazonses.com>
+ <CANNYZj8AmqfvSzO=buyS9j6kAo2L4d_Q+FfsQHmwYvidnt++bQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8AmqfvSzO=buyS9j6kAo2L4d_Q+FfsQHmwYvidnt++bQ@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 1 Aug 2023 13:48:22 -0700
+Message-ID: <CANx9H-D=YBxeCLuF-2ssxzGsKTrSGTyG2gak=PKban9jgrJWmg@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] Upgrade status: 2023-08-01
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Auto Upgrade Helper <auh@yoctoproject.org>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a09e6c0601e2ab99"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 18:50:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185361
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 20:48:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185362
 
-T24gMjQgSnVsIDIwMjMsIGF0IDEyOjM4LCBTdXR0b24sIENocmlzIChGUCkgLSBJQyB2aWEgbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZyA8Y2hyaXMuc3V0dG9uPWwzaGFycmlzLmNvbUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gIEnigJl2ZSBidWlsdCB0aGUgZVNESyBmb3IgcG9reSBo
-b25pc3Rlci4gSG93ZXZlciwgaXQgRE9FUyBOT1QgY29udGFpbiB0aGUgY3Jvc3MtY29tcGlsZXIg
-dG9vbGNoYWluL2NvbXBpbGVkIHRhcmdldCBsaWJzLg0KPiBJIGJ1aWxkIHRoZSBzdGFuZGFyZCBT
-REsgYW5kIGl0IERPRVMgY29udGFpbiB0aGUgY3Jvc3MtY29tcGlsZXIgdG9vbGNoYWluL2NvbXBp
-bGVkIHRhcmdldCBsaWJzIGJ1dCBvZiBjb3Vyc2UgaGFzIG5vIGJ1aWx0LWluIFFFTVUuDQoNCkkg
-Y2Fu4oCZdCBzZWUgYW55IHJlYXNvbiB3aHkgeW91IGNhbuKAmXQganVzdCBhZGQgbmF0aXZlc2Rr
-LXFlbXUgdG8geW91ciBzdGFuZGFyZCBTREsuDQoNCj4gSSBhbSBjb25mdXNlZCBieSB0aGlzLiBJ
-IHRob3VnaHQgdGhlIGVTREsgY2FtZSB3aXRoIGEgdG9vbGNoYWluLCBidXQgaXQgc2VlbXMgbm90
-Lg0KPiAgSSBuZWVkIGJvdGggdGhlIGNyb3NzLWNvbXBpbGVyIHRvb2xjaGFpbi9jb21waWxlZCB0
-YXJnZXQgbGlicyBhbmQgUUVNVS4NCj4gSG93IGNhbiBJIGluY2x1ZGUgdGhlIGNyb3NzLWNvbXBp
-bGVyIHRvb2xjaGFpbi9jb21waWxlZCB0YXJnZXQgbGlicyBpbiB0aGUgZVNESyBidWlsZD8NCg0K
-ZVNES3MgYXJlIHByZXR0eSBtaW5pbWFsIG91dCBvZiB0aGUgYm94LCB5b3UgbmVlZCB0byB1c2Ug
-4oCYZGV2dG9vbCBzZGstaW5zdGFsbOKAmSB0byBpbnN0YWxsIHRvb2xzLiAg4oCYZGV2dG9vbCBz
-ZGstaW5zdGFsbCBnY2MtY3Jvc3MtYWFyY2g2NOKAmSBvciBzaW1pbGFyIHNob3VsZCB3b3JrIEkg
-YmVsaWV2ZS4NCg0KUm9zcw==
+--000000000000a09e6c0601e2ab99
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Aug 1, 2023 at 9:36=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
+l.com>
+wrote:
+
+> A lot of the failures seem to be about
+>
+> File
+> "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/up=
+grade.py",
+> line 473, in _extract_licenses
+>     with open(os.path.join(srcpath, path), 'rb') as f:
+>          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> FileNotFoundError: [Errno 2] No such file or directory:
+>
+> '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/cur=
+l/COPYING'
+>
+> As the projects didn't do anything to license files, something has
+> clearly regressed here, I'll take a look and probably start a re-run.
+>
+>
+I did the meta-perl/meta-python run on Sunday 30th and noticed the same
+much higher preponderance of devtool errors.
+I did a run of the recipes in oe-core that I maintain on 25th July and it
+had less devtool errors (3 of my recipes passed,
+only python3-sphinx failed and that was not devtool related). So that 5 day
+window is where something regressed.
+
+Alex
+>
+>
+> On Tue, 1 Aug 2023 at 18:30, Auto Upgrade Helper <auh@yoctoproject.org>
+> wrote:
+> >
+> > AUH finished upgrade batch the result patches/logs can be found at:
+> > https://autobuilder.yocto.io/pub/auh/20230801050116, next are the
+> statistics:
+> >
+> > Recipe upgrade statistics:
+> >
+> >     * Failed (devtool error): 76
+> >         bind, 9.18.17, Unassigned <unassigned@yoctoproject.org>
+> >         kea, 2.4.0, Unassigned <unassigned@yoctoproject.org>
+> >         openssh, 9.3p2, Unassigned <unassigned@yoctoproject.org>
+> >         gettext, 0.22, Robert Yang <liezhi.yang@windriver.com>
+> >         glibc-tests, 2.38, Lukasz Majewski <lukma@denx.de>
+> >         glibc, 2.38, Khem Raj <raj.khem@gmail.com>
+> >         libcgroup, 3.1.0, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         systemd-boot, 254, Chen Qi <Qi.Chen@windriver.com>
+> >         systemd, 254, Chen Qi <Qi.Chen@windriver.com>
+> >         util-linux-libuuid, 2.39.1, Chen Qi <Qi.Chen@windriver.com>
+> >         util-linux, 2.39.1, Chen Qi <Qi.Chen@windriver.com>
+> >         binutils, 2.41, Khem Raj <raj.khem@gmail.com>
+> >         cmake, 3.27.1, Unassigned <unassigned@yoctoproject.org>
+> >         gnu-config, 20230216-new-commits-available, Robert Yang <
+> liezhi.yang@windriver.com>
+> >         meson, 1.2.0, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         perl, 5.38.0, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         python3-certifi, 2023.7.22, Tim Orling <tim.orling@konsulko.com=
+>
+> >         python3-cython, 3.0.0, Unassigned <unassigned@yoctoproject.org>
+> >         python3-dbusmock, 0.29.1, Unassigned <
+> unassigned@yoctoproject.org>
+> >         python3-dtschema, 2023.7, Bruce Ashfield <
+> bruce.ashfield@gmail.com>
+> >         python3-editables, 0.5, Ross Burton <ross.burton@arm.com>
+> >         python3-jsonschema, 4.18.4, Bruce Ashfield <
+> bruce.ashfield@gmail.com>
+> >         python3-libarchive-c, 5.0, Joshua Watt <JPEWhacker@gmail.com>
+> >         python3-markdown, 3.4.4, Alexander Kanavin <
+> alex.kanavin@gmail.com>
+> >         python3-more-itertools, 10.0.0, Tim Orling <
+> tim.orling@konsulko.com>
+> >         python3-numpy, 1.25.2, Unassigned <unassigned@yoctoproject.org>
+> >         python3-pathspec, 0.11.2, Ross Burton <ross.burton@arm.com>
+> >         python3-pip, 23.2.1, Zang Ruochen <zangruochen@loongson.cn>
+> >         python3-pyparsing, 3.1.1, Unassigned <
+> unassigned@yoctoproject.org>
+> >         python3-sphinx, 7.1.1, Tim Orling <tim.orling@konsulko.com>
+> >         python3-wheel, 0.41.0, Tim Orling <tim.orling@konsulko.com>
+> >         cargo, 1.71.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+> >         libstd-rs, 1.71.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+> >         rust-llvm, 1.71.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+> >         rust, 1.71.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+> >         vala, 0.56.9, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         ethtool, 6.4, Changhyeok Bae <changhyeok.bae@gmail.com>
+> >         go-helloworld, 0.1-new-commits-available, Khem Raj <
+> raj.khem@gmail.com>
+> >         groff, 1.23.0, Hongxu Jia <hongxu.jia@windriver.com>
+> >         libarchive, 3.7.1, Otavio Salvador <
+> otavio.salvador@ossystems.com.br>
+> >         sudo, 1.9.14p3, Chen Qi <Qi.Chen@windriver.com>
+> >         tar, 1.35, Chen Qi <Qi.Chen@windriver.com>
+> >         epiphany, 44.6, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         adwaita-icon-theme, 44.0, Ross Burton <ross.burton@arm.com>
+> >         libgudev, 238, Ross Burton <ross.burton@arm.com>
+> >         librsvg, 2.56.3, Anuj Mittal <anuj.mittal@intel.com>
+> >         harfbuzz, 8.1.0, Anuj Mittal <anuj.mittal@intel.com>
+> >         libsdl2, 2.28.1, Yi Zhao <yi.zhao@windriver.com>
+> >         libglu, 9.0.3, Ross Burton <ross.burton@arm.com>
+> >         mesa, 23.1.4, Otavio Salvador <otavio.salvador@ossystems.com.br=
+>
+> >         piglit, 1.0-new-commits-available, Ross Burton <
+> ross.burton@arm.com>
+> >         vulkan-loader, 1.3.250.1, Anuj Mittal <anuj.mittal@intel.com>
+> >         vulkan-samples, git-new-commits-available, Ross Burton <
+> ross.burton@arm.com>
+> >         wayland-utils, 1.2.0, Denys Dmytriyenko <denis@denix.org>
+> >         libpthread-stubs, 0.5, Alexander Kanavin <alex.kanavin@gmail.co=
+m
+> >
+> >         lttng-modules, 2.13.10, Richard Purdie <
+> richard.purdie@linuxfoundation.org>
+> >         lttng-tools, 2.13.10, Richard Purdie <
+> richard.purdie@linuxfoundation.org>
+> >         gst-devtools, 1.22.5, Anuj Mittal <anuj.mittal@intel.com>
+> >         gstreamer1.0-libav, 1.22.5, Anuj Mittal <anuj.mittal@intel.com>
+> >         gstreamer1.0-omx, 1.22.5, Anuj Mittal <anuj.mittal@intel.com>
+> >         gstreamer1.0-plugins-bad, 1.22.5, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         gstreamer1.0-plugins-base, 1.22.5, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         gstreamer1.0-plugins-good, 1.22.5, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         gstreamer1.0-plugins-ugly, 1.22.5, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         gstreamer1.0-python, 1.22.5, Anuj Mittal <anuj.mittal@intel.com=
+>
+> >         gstreamer1.0-rtsp-server, 1.22.5, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         gstreamer1.0-vaapi, 1.22.5, Anuj Mittal <anuj.mittal@intel.com>
+> >         gstreamer1.0, 1.22.5, Anuj Mittal <anuj.mittal@intel.com>
+> >         webkitgtk, 2.40.4, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         curl, 8.2.1, Robert Joslyn <robert.joslyn@redrectangle.org>
+> >         diffoscope, 246, Joshua Watt <JPEWhacker@gmail.com>
+> >         gmp, 6.3.0, Khem Raj <raj.khem@gmail.com>
+> >         gnupg, 2.4.3, Hongxu Jia <hongxu.jia@windriver.com>
+> >         gpgme, 1.21.0, Hongxu Jia <hongxu.jia@windriver.com>
+> >         libgit2, 1.7.0, Unassigned <unassigned@yoctoproject.org>
+> >         re2c, 3.1, Khem Raj <raj.khem@gmail.com>
+> >     * Succeeded: 19
+> >         dhcpcd, 10.0.2, Unassigned <unassigned@yoctoproject.org>
+> >         seatd, 0.8.0, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         btrfs-tools, 6.3.3, Wang Mingyu <wangmy@fujitsu.com>
+> >         createrepo-c, 1.0.0, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         dnf, 4.16.2, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         file, 5.45, Yi Zhao <yi.zhao@windriver.com>
+> >         libdnf, 0.70.2, Alexander Kanavin <alex.kanavin@gmail.com>
+> >         mmc-utils, 0.1-new-commits-available, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         python3-dtc, 1.7.0, Trevor Gamblin <tgamblin@baylibre.com>
+> >         sysklogd, 2.5.1, Chen Qi <Qi.Chen@windriver.com>
+> >         glslang, 1.3.250.1, Jose Quaresma <quaresma.jose@gmail.com>
+> >         shaderc, 2023.5, Jose Quaresma <quaresma.jose@gmail.com>
+> >         spirv-headers, 1.3.250.1, Jose Quaresma <quaresma.jose@gmail.co=
+m
+> >
+> >         spirv-tools, 1.3.250.1, Jose Quaresma <quaresma.jose@gmail.com>
+> >         vulkan-headers, 1.3.250.1, Anuj Mittal <anuj.mittal@intel.com>
+> >         vulkan-tools, 1.3.250.1, Anuj Mittal <anuj.mittal@intel.com>
+> >         vulkan-validation-layers, 1.3.250.1, Vincent Davis Jr
+> <vince@underview.tech>
+> >         puzzles, 0.0-new-commits-available, Anuj Mittal <
+> anuj.mittal@intel.com>
+> >         xxhash, 0.8.2, Alexander Kanavin <alex.kanavin@gmail.com>
+> >     * Failed(other errors): 1
+> >         glibc-testsuite, 2.38, Khem Raj <raj.khem@gmail.com>
+> >     * Failed(do_compile): 1
+> >         stress-ng, 0.16.02, Anuj Mittal <anuj.mittal@intel.com>
+> >
+> >     TOTAL: attempted=3D97 succeeded=3D19(19.59%) failed=3D78(80.41%)
+> >
+> > Recipe upgrade statistics per Maintainer:
+> >
+> >     Chen Qi <Qi.Chen: attempted=3D7 succeeded=3D1(14.29%) failed=3D6(85=
+.71%)
+> >     Richard Purdie <richard.purdie: attempted=3D2 succeeded=3D0(0.00%)
+> failed=3D2(100.00%)
+> >     Unassigned <unassigned: attempted=3D10 succeeded=3D1(10.00%)
+> failed=3D9(90.00%)
+> >     Randy MacLeod <Randy.MacLeod: attempted=3D4 succeeded=3D0(0.00%)
+> failed=3D4(100.00%)
+> >     Robert Joslyn <robert.joslyn: attempted=3D1 succeeded=3D0(0.00%)
+> failed=3D1(100.00%)
+> >     Bruce Ashfield <bruce.ashfield: attempted=3D2 succeeded=3D0(0.00%)
+> failed=3D2(100.00%)
+> >     Changhyeok Bae <changhyeok.bae: attempted=3D1 succeeded=3D0(0.00%)
+> failed=3D1(100.00%)
+> >     Wang Mingyu <wangmy: attempted=3D1 succeeded=3D1(100.00%) failed=3D=
+0(0.00%)
+> >     Joshua Watt <JPEWhacker: attempted=3D2 succeeded=3D0(0.00%)
+> failed=3D2(100.00%)
+> >     Robert Yang <liezhi.yang: attempted=3D2 succeeded=3D0(0.00%)
+> failed=3D2(100.00%)
+> >     Lukasz Majewski <lukma: attempted=3D1 succeeded=3D0(0.00%)
+> failed=3D1(100.00%)
+> >     Yi Zhao <yi.zhao: attempted=3D2 succeeded=3D1(50.00%) failed=3D1(50=
+.00%)
+> >     Vincent Davis Jr <vince: attempted=3D1 succeeded=3D1(100.00%)
+> failed=3D0(0.00%)
+> >     Zang Ruochen <zangruochen: attempted=3D1 succeeded=3D0(0.00%)
+> failed=3D1(100.00%)
+> >     Denys Dmytriyenko <denis: attempted=3D1 succeeded=3D0(0.00%)
+> failed=3D1(100.00%)
+> >     Khem Raj <raj.khem: attempted=3D6 succeeded=3D0(0.00%) failed=3D6(1=
+00.00%)
+> >     Tim Orling <tim.orling: attempted=3D4 succeeded=3D0(0.00%)
+> failed=3D4(100.00%)
+> >     Anuj Mittal <anuj.mittal: attempted=3D19 succeeded=3D4(21.05%)
+> failed=3D15(78.95%)
+> >     Trevor Gamblin <tgamblin: attempted=3D1 succeeded=3D1(100.00%)
+> failed=3D0(0.00%)
+> >     Alexander Kanavin <alex.kanavin: attempted=3D13 succeeded=3D5(38.46=
+%)
+> failed=3D8(61.54%)
+> >     Jose Quaresma <quaresma.jose: attempted=3D4 succeeded=3D4(100.00%)
+> failed=3D0(0.00%)
+> >     Hongxu Jia <hongxu.jia: attempted=3D3 succeeded=3D0(0.00%)
+> failed=3D3(100.00%)
+> >     Ross Burton <ross.burton: attempted=3D7 succeeded=3D0(0.00%)
+> failed=3D7(100.00%)
+> >     Otavio Salvador <otavio.salvador: attempted=3D2 succeeded=3D0(0.00%=
+)
+> failed=3D2(100.00%)
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185356):
+> https://lists.openembedded.org/g/openembedded-core/message/185356
+> Mute This Topic: https://lists.openembedded.org/mt/100487678/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000a09e6c0601e2ab99
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 1, 2023 at 9:36=E2=80=AFA=
+M Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D=
+"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">A lot of the failures seem to be about<br>
+<br>
+File &quot;/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/de=
+vtool/upgrade.py&quot;,<br>
+line 473, in _extract_licenses<br>
+=C2=A0 =C2=A0 with open(os.path.join(srcpath, path), &#39;rb&#39;) as f:<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<b=
+r>
+FileNotFoundError: [Errno 2] No such file or directory:<br>
+&#39;/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/c=
+url/COPYING&#39;<br>
+<br>
+As the projects didn&#39;t do anything to license files, something has<br>
+clearly regressed here, I&#39;ll take a look and probably start a re-run.<b=
+r>
+<br></blockquote><div><br></div><div>I did the meta-perl/meta-python run on=
+ Sunday 30th and noticed the same much higher preponderance of devtool erro=
+rs.</div><div>I did a run of the recipes in oe-core that I maintain on 25th=
+ July and it had less devtool errors (3 of my recipes passed,</div><div>onl=
+y python3-sphinx failed and that was not devtool related). So that 5 day wi=
+ndow is where something regressed.</div><div><br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+Alex<br>
+<br>
+<br>
+On Tue, 1 Aug 2023 at 18:30, Auto Upgrade Helper &lt;<a href=3D"mailto:auh@=
+yoctoproject.org" target=3D"_blank">auh@yoctoproject.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; AUH finished upgrade batch the result patches/logs can be found at:<br=
+>
+&gt; <a href=3D"https://autobuilder.yocto.io/pub/auh/20230801050116" rel=3D=
+"noreferrer" target=3D"_blank">https://autobuilder.yocto.io/pub/auh/2023080=
+1050116</a>, next are the statistics:<br>
+&gt;<br>
+&gt; Recipe upgrade statistics:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* Failed (devtool error): 76<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bind, 9.18.17, Unassigned &lt;<a href=
+=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctop=
+roject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kea, 2.4.0, Unassigned &lt;<a href=3D=
+"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproj=
+ect.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0openssh, 9.3p2, Unassigned &lt;<a hre=
+f=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yocto=
+project.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gettext, 0.22, Robert Yang &lt;<a hre=
+f=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windri=
+ver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glibc-tests, 2.38, Lukasz Majewski &l=
+t;<a href=3D"mailto:lukma@denx.de" target=3D"_blank">lukma@denx.de</a>&gt;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glibc, 2.38, Khem Raj &lt;<a href=3D"=
+mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libcgroup, 3.1.0, Alexander Kanavin &=
+lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin=
+@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0systemd-boot, 254, Chen Qi &lt;<a hre=
+f=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com<=
+/a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0systemd, 254, Chen Qi &lt;<a href=3D"=
+mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&g=
+t;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0util-linux-libuuid, 2.39.1, Chen Qi &=
+lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windr=
+iver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0util-linux, 2.39.1, Chen Qi &lt;<a hr=
+ef=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com=
+</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0binutils, 2.41, Khem Raj &lt;<a href=
+=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmake, 3.27.1, Unassigned &lt;<a href=
+=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctop=
+roject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gnu-config, 20230216-new-commits-avai=
+lable, Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=
+=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0meson, 1.2.0, Alexander Kanavin &lt;<=
+a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gma=
+il.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0perl, 5.38.0, Alexander Kanavin &lt;<=
+a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gma=
+il.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-certifi, 2023.7.22, Tim Orlin=
+g &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orli=
+ng@konsulko.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-cython, 3.0.0, Unassigned &lt=
+;<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigne=
+d@yoctoproject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-dbusmock, 0.29.1, Unassigned =
+&lt;<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassi=
+gned@yoctoproject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-dtschema, 2023.7, Bruce Ashfi=
+eld &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce=
+.ashfield@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-editables, 0.5, Ross Burton &=
+lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm=
+.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-jsonschema, 4.18.4, Bruce Ash=
+field &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bru=
+ce.ashfield@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-libarchive-c, 5.0, Joshua Wat=
+t &lt;<a href=3D"mailto:JPEWhacker@gmail.com" target=3D"_blank">JPEWhacker@=
+gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-markdown, 3.4.4, Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
+kanavin@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-more-itertools, 10.0.0, Tim O=
+rling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.=
+orling@konsulko.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-numpy, 1.25.2, Unassigned &lt=
+;<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigne=
+d@yoctoproject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-pathspec, 0.11.2, Ross Burton=
+ &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@a=
+rm.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-pip, 23.2.1, Zang Ruochen &lt=
+;<a href=3D"mailto:zangruochen@loongson.cn" target=3D"_blank">zangruochen@l=
+oongson.cn</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-pyparsing, 3.1.1, Unassigned =
+&lt;<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassi=
+gned@yoctoproject.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-sphinx, 7.1.1, Tim Orling &lt=
+;<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@ko=
+nsulko.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-wheel, 0.41.0, Tim Orling &lt=
+;<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@ko=
+nsulko.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cargo, 1.71.0, Randy MacLeod &lt;<a h=
+ref=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacLeod@=
+windriver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libstd-rs, 1.71.0, Randy MacLeod &lt;=
+<a href=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacL=
+eod@windriver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rust-llvm, 1.71.0, Randy MacLeod &lt;=
+<a href=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacL=
+eod@windriver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rust, 1.71.0, Randy MacLeod &lt;<a hr=
+ef=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacLeod@w=
+indriver.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vala, 0.56.9, Alexander Kanavin &lt;<=
+a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gma=
+il.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ethtool, 6.4, Changhyeok Bae &lt;<a h=
+ref=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">changhyeok.bae@gm=
+ail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0go-helloworld, 0.1-new-commits-availa=
+ble, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">r=
+aj.khem@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0groff, 1.23.0, Hongxu Jia &lt;<a href=
+=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver=
+.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libarchive, 3.7.1, Otavio Salvador &l=
+t;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">ota=
+vio.salvador@ossystems.com.br</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sudo, 1.9.14p3, Chen Qi &lt;<a href=
+=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
+a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar, 1.35, Chen Qi &lt;<a href=3D"mai=
+lto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0epiphany, 44.6, Alexander Kanavin &lt=
+;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@g=
+mail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0adwaita-icon-theme, 44.0, Ross Burton=
+ &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@a=
+rm.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libgudev, 238, Ross Burton &lt;<a hre=
+f=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&=
+gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0librsvg, 2.56.3, Anuj Mittal &lt;<a h=
+ref=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.co=
+m</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0harfbuzz, 8.1.0, Anuj Mittal &lt;<a h=
+ref=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.co=
+m</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libsdl2, 2.28.1, Yi Zhao &lt;<a href=
+=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</=
+a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libglu, 9.0.3, Ross Burton &lt;<a hre=
+f=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&=
+gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mesa, 23.1.4, Otavio Salvador &lt;<a =
+href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.s=
+alvador@ossystems.com.br</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0piglit, 1.0-new-commits-available, Ro=
+ss Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross=
+.burton@arm.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vulkan-loader, 1.3.250.1, Anuj Mittal=
+ &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal=
+@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vulkan-samples, git-new-commits-avail=
+able, Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bla=
+nk">ross.burton@arm.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wayland-utils, 1.2.0, Denys Dmytriyen=
+ko &lt;<a href=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org=
+</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libpthread-stubs, 0.5, Alexander Kana=
+vin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.ka=
+navin@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lttng-modules, 2.13.10, Richard Purdi=
+e &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blan=
+k">richard.purdie@linuxfoundation.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lttng-tools, 2.13.10, Richard Purdie =
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+>richard.purdie@linuxfoundation.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gst-devtools, 1.22.5, Anuj Mittal &lt=
+;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@int=
+el.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-libav, 1.22.5, Anuj Mitt=
+al &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitt=
+al@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-omx, 1.22.5, Anuj Mittal=
+ &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal=
+@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-plugins-bad, 1.22.5, Anu=
+j Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anu=
+j.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-plugins-base, 1.22.5, An=
+uj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">an=
+uj.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-plugins-good, 1.22.5, An=
+uj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">an=
+uj.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-plugins-ugly, 1.22.5, An=
+uj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">an=
+uj.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-python, 1.22.5, Anuj Mit=
+tal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mit=
+tal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-rtsp-server, 1.22.5, Anu=
+j Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anu=
+j.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0-vaapi, 1.22.5, Anuj Mitt=
+al &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitt=
+al@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gstreamer1.0, 1.22.5, Anuj Mittal &lt=
+;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@int=
+el.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0webkitgtk, 2.40.4, Alexander Kanavin =
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0curl, 8.2.1, Robert Joslyn &lt;<a hre=
+f=3D"mailto:robert.joslyn@redrectangle.org" target=3D"_blank">robert.joslyn=
+@redrectangle.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diffoscope, 246, Joshua Watt &lt;<a h=
+ref=3D"mailto:JPEWhacker@gmail.com" target=3D"_blank">JPEWhacker@gmail.com<=
+/a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gmp, 6.3.0, Khem Raj &lt;<a href=3D"m=
+ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gnupg, 2.4.3, Hongxu Jia &lt;<a href=
+=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver=
+.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gpgme, 1.21.0, Hongxu Jia &lt;<a href=
+=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver=
+.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libgit2, 1.7.0, Unassigned &lt;<a hre=
+f=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yocto=
+project.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0re2c, 3.1, Khem Raj &lt;<a href=3D"ma=
+ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* Succeeded: 19<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dhcpcd, 10.0.2, Unassigned &lt;<a hre=
+f=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yocto=
+project.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0seatd, 0.8.0, Alexander Kanavin &lt;<=
+a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gma=
+il.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0btrfs-tools, 6.3.3, Wang Mingyu &lt;<=
+a href=3D"mailto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fujitsu.com</=
+a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0createrepo-c, 1.0.0, Alexander Kanavi=
+n &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kana=
+vin@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dnf, 4.16.2, Alexander Kanavin &lt;<a=
+ href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmai=
+l.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file, 5.45, Yi Zhao &lt;<a href=3D"ma=
+ilto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt;=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libdnf, 0.70.2, Alexander Kanavin &lt=
+;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@g=
+mail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmc-utils, 0.1-new-commits-available,=
+ Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank"=
+>anuj.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-dtc, 1.7.0, Trevor Gamblin &l=
+t;<a href=3D"mailto:tgamblin@baylibre.com" target=3D"_blank">tgamblin@bayli=
+bre.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysklogd, 2.5.1, Chen Qi &lt;<a href=
+=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
+a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glslang, 1.3.250.1, Jose Quaresma &lt=
+;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.jose=
+@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shaderc, 2023.5, Jose Quaresma &lt;<a=
+ href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gm=
+ail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spirv-headers, 1.3.250.1, Jose Quares=
+ma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresm=
+a.jose@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spirv-tools, 1.3.250.1, Jose Quaresma=
+ &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.=
+jose@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vulkan-headers, 1.3.250.1, Anuj Mitta=
+l &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mitta=
+l@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vulkan-tools, 1.3.250.1, Anuj Mittal =
+&lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@=
+intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vulkan-validation-layers, 1.3.250.1, =
+Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0puzzles, 0.0-new-commits-available, A=
+nuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">a=
+nuj.mittal@intel.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xxhash, 0.8.2, Alexander Kanavin &lt;=
+<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gm=
+ail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* Failed(other errors): 1<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glibc-testsuite, 2.38, Khem Raj &lt;<=
+a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</=
+a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* Failed(do_compile): 1<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stress-ng, 0.16.02, Anuj Mittal &lt;<=
+a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel=
+.com</a>&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0TOTAL: attempted=3D97 succeeded=3D19(19.59%) failed=
+=3D78(80.41%)<br>
+&gt;<br>
+&gt; Recipe upgrade statistics per Maintainer:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Chen Qi &lt;Qi.Chen: attempted=3D7 succeeded=3D1(14=
+.29%) failed=3D6(85.71%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Richard Purdie &lt;richard.purdie: attempted=3D2 su=
+cceeded=3D0(0.00%) failed=3D2(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Unassigned &lt;unassigned: attempted=3D10 succeeded=
+=3D1(10.00%) failed=3D9(90.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Randy MacLeod &lt;Randy.MacLeod: attempted=3D4 succ=
+eeded=3D0(0.00%) failed=3D4(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Robert Joslyn &lt;robert.joslyn: attempted=3D1 succ=
+eeded=3D0(0.00%) failed=3D1(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Bruce Ashfield &lt;bruce.ashfield: attempted=3D2 su=
+cceeded=3D0(0.00%) failed=3D2(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Changhyeok Bae &lt;changhyeok.bae: attempted=3D1 su=
+cceeded=3D0(0.00%) failed=3D1(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Wang Mingyu &lt;wangmy: attempted=3D1 succeeded=3D1=
+(100.00%) failed=3D0(0.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Joshua Watt &lt;JPEWhacker: attempted=3D2 succeeded=
+=3D0(0.00%) failed=3D2(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Robert Yang &lt;liezhi.yang: attempted=3D2 succeede=
+d=3D0(0.00%) failed=3D2(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Lukasz Majewski &lt;lukma: attempted=3D1 succeeded=
+=3D0(0.00%) failed=3D1(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Yi Zhao &lt;yi.zhao: attempted=3D2 succeeded=3D1(50=
+.00%) failed=3D1(50.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Vincent Davis Jr &lt;vince: attempted=3D1 succeeded=
+=3D1(100.00%) failed=3D0(0.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Zang Ruochen &lt;zangruochen: attempted=3D1 succeed=
+ed=3D0(0.00%) failed=3D1(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Denys Dmytriyenko &lt;denis: attempted=3D1 succeede=
+d=3D0(0.00%) failed=3D1(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Khem Raj &lt;raj.khem: attempted=3D6 succeeded=3D0(=
+0.00%) failed=3D6(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Tim Orling &lt;tim.orling: attempted=3D4 succeeded=
+=3D0(0.00%) failed=3D4(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Anuj Mittal &lt;anuj.mittal: attempted=3D19 succeed=
+ed=3D4(21.05%) failed=3D15(78.95%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Trevor Gamblin &lt;tgamblin: attempted=3D1 succeede=
+d=3D1(100.00%) failed=3D0(0.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Alexander Kanavin &lt;alex.kanavin: attempted=3D13 =
+succeeded=3D5(38.46%) failed=3D8(61.54%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Jose Quaresma &lt;quaresma.jose: attempted=3D4 succ=
+eeded=3D4(100.00%) failed=3D0(0.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hongxu Jia &lt;hongxu.jia: attempted=3D3 succeeded=
+=3D0(0.00%) failed=3D3(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Ross Burton &lt;ross.burton: attempted=3D7 succeede=
+d=3D0(0.00%) failed=3D7(100.00%)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Otavio Salvador &lt;otavio.salvador: attempted=3D2 =
+succeeded=3D0(0.00%) failed=3D2(100.00%)<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#185356): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/185356" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/185356</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100487678/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/100487678/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000a09e6c0601e2ab99--
 
