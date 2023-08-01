@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF12C27C6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5C5C2FC01
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 16:28:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.17720.1690907331872559046
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.17602.1690907330673207690
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Aug 2023 09:28:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Z1sRmhUh;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YjqoI5cf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010189b1ee4cef-ec051e6a-c10e-4511-8967-1daa24c05d79-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NJWyfi6F;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WocQg4s3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189b1ee4dde-0a79fca7-274e-4422-a2fb-4f75090ba057-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4ZrYIHzF9jyu72wOtUzcbmMR67Snbw4Gdd2/6du/muY=;
-	b=Z1sRmhUhXcL0Zs8H7A1ptouvKAKSaq7cjpPJiCKaSj4YyjLiOEl2JN3JSFP91w8L
-	gzXNtB87gimsrUjhzUXzkXAw739XHDrZIw0eYhk0fpyxhRYfePBhvUuKYJdrWlIZwnr
-	i5ZvheY69uhh8eOg/G2xSZZu7MWQcs47ii4tA6H8=
+	bh=d6bwaXsAyusq581JBnmMDNjfm/V5Riucjb7m9QSVe2s=;
+	b=NJWyfi6FVbm0q09xi24Lg9TIJYTQs4o52k1yt5hnZJVsxeB3nm+TDDGbwYdA0LwB
+	vuno6jTbly/FjjVM0GRBn5OVdrOb+d+1vcJcca/L3luGnBAfXi/QrZ/WCFJAXLiDT3v
+	AHXFR66VSk0aZ+D04+YOex+to5q2GhQ815ju5Cio=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1690907332;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4ZrYIHzF9jyu72wOtUzcbmMR67Snbw4Gdd2/6du/muY=;
-	b=YjqoI5cf3Ms9jJyqecTBaYAuYAgVikw7GMszLyObz2PMnS04RMmWhS7WJLsM3kCr
-	zf7A93ps+3g/+YGXBltfSOCkC7OotPvka8KWcn71eaSSFtlqj3nu8dnnEoKVvxdy4qt
-	dFXa7c0CvajDoN/3ZN4AMySM9DDn4uZsiF/32ZFw=
-Content-Type: multipart/mixed; boundary="===============6297726566120215078=="
+	bh=d6bwaXsAyusq581JBnmMDNjfm/V5Riucjb7m9QSVe2s=;
+	b=WocQg4s3kG2id08BA9vuikZAenL5PpOwtoZjpstFqJZ4KVxS/e0ppeXfcShG6uRF
+	TCOTir8PXy2grb1jtIyjnEqjokJvRdnWU8NeCEkWEtcwyGOGurufV1PY36DmsEbh70+
+	JDxsz8+KpZUM9jpVi1Uf5xKPLt1ghOEdeaZ7p6gA=
+Content-Type: multipart/mixed; boundary="===============6912695053928998432=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libgudev: upgrading to 238 FAILED
-Message-ID: <01010189b1ee4cef-ec051e6a-c10e-4511-8967-1daa24c05d79-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Aug 2023 16:28:51 +0000
+Subject: [AUH] vulkan-samples: upgrading to
+ 7333a2b17efdaa96575e04f3f7d3844920923557 FAILED
+Message-ID: <01010189b1ee4dde-0a79fca7-274e-4422-a2fb-4f75090ba057-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Aug 2023 16:28:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.01-54.240.27.45
+X-SES-Outgoing: 2023.08.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 16:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185319
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185325
 
---===============6297726566120215078==
+--===============6912695053928998432==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +52,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libgudev* to *238* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *7333a2b17efdaa96575e04f3f7d3844920923557* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade libgudev -V 238
+The following devtool command failed:  upgrade vulkan-samples -S 7333a2b17efdaa96575e04f3f7d3844920923557
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (13:36:21.833299)
+NOTE: Retrying server connection (#1)... (14:35:56.514011)
 WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1806 entries from dependency cache.
@@ -79,68 +80,68 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:00e7000d2b7af0a1f22d03c58956595f416e12f4"
+meta-yocto-bsp       = "tmp-auh-upgrades:57a1383bedbbc1530cb5317301e815de91451bee"
 workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 32 (100% match, 100% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.8" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1806 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1807 targets, 37 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:00e7000d2b7af0a1f22d03c58956595f416e12f4"
-workspace            = "master:4ddeb8ee8baf964dddf9cf9085d78aa0bf7b28eb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 2 Local 1 Mirrors 0 Missed 1 Current 26 (50% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
 
 INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//libgudev/238/libgudev-238.tar.xz;name=archive...
-INFO: Rebasing devtool onto aea07e657dcab7dca214cb53fd6a2edbe7c2e9f4
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 349, in <module>
-    ret = main()
-          ^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 336, in main
-    ret = args.func(args, config, basepath, workspace)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 565, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 473, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libgudev/COPYING'
+ERROR: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-24jdnpce/workdir/git/third_party/spdlog/.git/hooks'
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-24jdnpce/temp/log.do_patch.1701645
+ERROR: Extracting source for vulkan-samples failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -148,5 +149,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6297726566120215078==--
+--===============6912695053928998432==--
 
