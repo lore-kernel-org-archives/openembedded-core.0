@@ -1,70 +1,161 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0007EB64DD
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 06:20:17 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web11.6809.1690870811574343939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A788C0015E
+	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 07:41:48 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web11.7590.1690875704017811941
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jul 2023 23:20:12 -0700
+ Tue, 01 Aug 2023 00:41:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ogeqvzHn;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20230801062008012964af9a7b2f5367-nrkjhy@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20230801062008012964af9a7b2f5367
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 01 Aug 2023 08:20:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Q8trG3/s2JgcYcSTQS51AdXlBYdyTj1GDUqrX62PB1I=;
- b=ogeqvzHnw+peTUm1ccKi2wxJPWXgHCQdEMOorr4mgKNsg4lurG8p3XWzKzCpXfYYrgqQfL
- soLrfj2XNfgv9PM4NpFQuMRIBcdLgrrrdohtWPQxGHAG+B3B7ZUcLDCtv3JIDCCUbUR7jqgE
- idhi255aRlUiN1oXgTnJaaTpbmmdg=;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="126655414"
+X-IronPort-AV: E=Sophos;i="6.01,246,1684767600"; 
+   d="scan'208";a="126655414"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 16:41:42 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 7622DD5041
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:40 +0900 (JST)
+Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id B8032D3F16
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:39 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.167.225.33])
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id C522A2FC8177;
+	Tue,  1 Aug 2023 16:41:38 +0900 (JST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] gcc-runtime: remove bashism
-Date: Tue,  1 Aug 2023 08:18:49 +0200
-Message-Id: <20230801061850.5188-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] gmp: upgrade 6.2.1 -> 6.3.0
+Date: Tue,  1 Aug 2023 15:41:14 +0800
+Message-Id: <1690875687-21573-4-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1690875687-21573-1-git-send-email-wangmy@fujitsu.com>
+References: <1690875687-21573-1-git-send-email-wangmy@fujitsu.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27786.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27786.005
+X-TMASE-Result: 10--8.220900-10.000000
+X-TMASE-MatchedRID: FBE0XpCroJijz0nOeth/yTo39wOA02LhQRlUSJjs8Z8H4DTIEE89jLlR
+	DJlAaWLLPwLvC4teLccGf1fvGgsKkTWMGExKAErBCtzGvPCy/m4E9jhJ6ArePEWazpgSzbcPoLe
+	GyPisKp3hS2D+Cu5xlgFMzJmZTqOYYr3mRifQt8oapIb9znReA5GAt645FF0SHxWKE4YDWmG8sE
+	3bFhYTJiqq0O5S3DJ8Lfwz7bjtDsHc2Rqz++uLDvx0ykrbAxjCchr4pBLGIvAH8UzOewTxw78FH
+	rw7frluNIBrw7gT13Qv/zJQ0aiPJpFCdtV6Jf3WKiJEqUFWRggsCSoags4adYByPQdXYSHP06IY
+	WN6ouQKuVMLwi6djTxBLu4HBju7GfmpY4OvTCPLZJrfdkZdZ1kLixrsCJ1jTwSC6qIZ5nkmjxYy
+	RBa/qJShNCXvA0fw+A/nNPR3f3dw7AFczfjr/7HS5d3XJbz+0Nb8ZNjL/DtGtUpGz6IxN+La9F1
+	5Lu9mq2nj3HdFfbWg=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 06:20:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185193
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 07:41:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185197
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Debian 12 no longer supports replacing dash with bash as default shell.
-Therefore to achieve compatibility with Debian 12, all bashisms need
-to be removed.
+cve-2021-43618.patch
+removed since it's included in 6.3.0
 
-Shell comparison via == gives an error with dash and thus the condition
-is always false.
+Changelog:
+============
+  BUGS FIXED
+  * A possible overflow of type int is avoided for mpz_cmp on huge operands.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+  * A possible error condition when a malformed file is read with
+    mpz_inp_raw is now correctly handled.
+
+  FEATURES
+  * New public function mpz_prevprime, companion of the existing
+    mpz_nextprime.
+
+  * New documented pointer types mpz_ptr, mpz_srcptr, and similar for
+    other GMP types. Refer to the manual for full list and suggested
+    usage. These types have been present in gmp.h at least since
+    GMP-4.0, but previously not advertised to users.
+
+  * Support for 64-bit Arm under Macos.
+
+  * Support for the loongarch64 CPU family.
+
+  * Support for building with LTO, link-time optimisations.
+
+  SPEEDUPS
+  * New special code for base = 2 in mpz_powm reduces the average time
+    for the functions that test primality.
+
+  * Speedup for the function mpz_nextprime on large operands.
+
+  * Speedup for multiplications (some sizes only) thanks to new
+    internal functions to compute small negacyclic products.
+
+  * Special assembly code for IBM z13 and later "mainframe" CPUs, resulting in
+    a huge speedup.
+
+  * Improved assembly for several 64-bit x86 CPUs, Risc-V, 64-bit Arm.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gmp/gmp/cve-2021-43618.patch              | 27 -------------------
+ .../gmp/{gmp_6.2.1.bb => gmp_6.3.0.bb}        |  4 +--
+ 2 files changed, 1 insertion(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+ rename meta/recipes-support/gmp/{gmp_6.2.1.bb => gmp_6.3.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index bccc8a5b89..64b6168ba7 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -132,7 +132,7 @@ do_install:append:class-target () {
- 		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
- 	fi
+diff --git a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch b/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+deleted file mode 100644
+index 095fb21eaa..0000000000
+--- a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-CVE: CVE-2021-43618
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-# HG changeset patch
+-# User Marco Bodrato <bodrato@mail.dm.unipi.it>
+-# Date 1634836009 -7200
+-# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
+-# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
+-mpz/inp_raw.c: Avoid bit size overflows
+-
+-diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
+---- a/mpz/inp_raw.c	Tue Dec 22 23:49:51 2020 +0100
+-+++ b/mpz/inp_raw.c	Thu Oct 21 19:06:49 2021 +0200
+-@@ -88,8 +88,11 @@
+- 
+-   abs_csize = ABS (csize);
+- 
+-+  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
+-+    return 0; /* Bit size overflows */
+-+
+-   /* round up to a multiple of limbs */
+--  abs_xsize = BITS_TO_LIMBS (abs_csize*8);
+-+  abs_xsize = BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
+- 
+-   if (abs_xsize != 0)
+-     {
+diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
+similarity index 87%
+rename from meta/recipes-support/gmp/gmp_6.2.1.bb
+rename to meta/recipes-support/gmp/gmp_6.3.0.bb
+index 29055492c2..3dbcd68b5c 100644
+--- a/meta/recipes-support/gmp/gmp_6.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
+@@ -14,10 +14,8 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
+            file://use-includedir.patch \
+            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
+            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
+-           file://cve-2021-43618.patch \
+            "
+-SRC_URI[md5sum] = "28971fc21cf028042d4897f02fd355ea"
+-SRC_URI[sha256sum] = "eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
++SRC_URI[sha256sum] = "ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
  
--	if [ "${TARGET_ARCH}" == "x86_64" -a "${MULTILIB_VARIANTS}" != "" ];then
-+	if [ "${TARGET_ARCH}" = "x86_64" -a "${MULTILIB_VARIANTS}" != "" ];then
- 		ln -sf ../${X86ARCH32}${TARGET_VENDOR}-${TARGET_OS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}/32
- 	fi
+ acpaths = ""
  
 -- 
-2.30.2
+2.34.1
 
 
