@@ -2,34 +2,34 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A788C0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D31FC41513
 	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 07:41:48 +0000 (UTC)
-Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
- by mx.groups.io with SMTP id smtpd.web11.7590.1690875704017811941
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web10.7613.1690875707317464613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 00:41:45 -0700
+ Tue, 01 Aug 2023 00:41:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="126655414"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="126603451"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684767600"; 
-   d="scan'208";a="126655414"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 16:41:42 +0900
+   d="scan'208";a="126603451"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 16:41:44 +0900
 Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 7622DD5041
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:40 +0900 (JST)
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 52EDFDB3C7
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:42 +0900 (JST)
 Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id B8032D3F16
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:39 +0900 (JST)
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 96EF7D3F16
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Aug 2023 16:41:41 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id C522A2FC8177;
-	Tue,  1 Aug 2023 16:41:38 +0900 (JST)
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id BD56C2FC8177;
+	Tue,  1 Aug 2023 16:41:40 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] gmp: upgrade 6.2.1 -> 6.3.0
-Date: Tue,  1 Aug 2023 15:41:14 +0800
-Message-Id: <1690875687-21573-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] bind: upgrade 9.18.16 -> 9.18.17
+Date: Tue,  1 Aug 2023 15:41:16 +0800
+Message-Id: <1690875687-21573-6-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1690875687-21573-1-git-send-email-wangmy@fujitsu.com>
 References: <1690875687-21573-1-git-send-email-wangmy@fujitsu.com>
@@ -37,124 +37,141 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27786.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27786.005
-X-TMASE-Result: 10--8.220900-10.000000
-X-TMASE-MatchedRID: FBE0XpCroJijz0nOeth/yTo39wOA02LhQRlUSJjs8Z8H4DTIEE89jLlR
-	DJlAaWLLPwLvC4teLccGf1fvGgsKkTWMGExKAErBCtzGvPCy/m4E9jhJ6ArePEWazpgSzbcPoLe
-	GyPisKp3hS2D+Cu5xlgFMzJmZTqOYYr3mRifQt8oapIb9znReA5GAt645FF0SHxWKE4YDWmG8sE
-	3bFhYTJiqq0O5S3DJ8Lfwz7bjtDsHc2Rqz++uLDvx0ykrbAxjCchr4pBLGIvAH8UzOewTxw78FH
-	rw7frluNIBrw7gT13Qv/zJQ0aiPJpFCdtV6Jf3WKiJEqUFWRggsCSoags4adYByPQdXYSHP06IY
-	WN6ouQKuVMLwi6djTxBLu4HBju7GfmpY4OvTCPLZJrfdkZdZ1kLixrsCJ1jTwSC6qIZ5nkmjxYy
-	RBa/qJShNCXvA0fw+A/nNPR3f3dw7AFczfjr/7HS5d3XJbz+0Nb8ZNjL/DtGtUpGz6IxN+La9F1
-	5Lu9mq2nj3HdFfbWg=
+X-TMASE-Result: 10--21.046900-10.000000
+X-TMASE-MatchedRID: 0LRGK1b0mamjz0nOeth/yRIRh9wkXSlF0hjNs9++x/oH4DTIEE89jH+j
+	vhRCUKYAwK5MBEKsd/BQSUm5CsBM4VaTTIuA6AbSzYK5U+QI3O7nrllatbeJEFOat2azgyj1tY4
+	N1nU8OYRqyd3L/byFi36OhKWZAZtShp3OtYR8kkwgaafg6U60I793fXsHDB0HuqWf6Nh7tmGeRK
+	7qwUtdMOfbYRxKtAGdIKtySTLNoW9grjeh0lt2oH4iswX+GH/Ybo9qnUw920fKUAGJEFJZ7Up2G
+	cT5C1HO4K9FmervsqV/XdryBgAySUpCFcNebto2SCtgxgcsrMqSiza26cvwNC99T+uJIleR1vZ7
+	s3YIVDL7tBxFpWhrycYoh/qEF/tV3orNkpcxHYRO5y1KmK5bJTZlY6a4lRLZpjlkbDvDJ4f5N6b
+	Apqr+0xab+AC2MJ3sJBo2+H9VjZtx9EmrVy1N/EhwlOfYeSqxG1cxYvrc7y+8AP8E7dDFCp6ba/
+	D5x6cp4vM1YF6AJbbCCfuIMF6xLbxAi7jPoeEQftwZ3X11IV0=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 07:41:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185197
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185199
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-cve-2021-43618.patch
-removed since it's included in 6.3.0
+License-Update: Remove trailing whitespace from COPYRIGHT
 
 Changelog:
-============
-  BUGS FIXED
-  * A possible overflow of type int is avoided for mpz_cmp on huge operands.
-
-  * A possible error condition when a malformed file is read with
-    mpz_inp_raw is now correctly handled.
-
-  FEATURES
-  * New public function mpz_prevprime, companion of the existing
-    mpz_nextprime.
-
-  * New documented pointer types mpz_ptr, mpz_srcptr, and similar for
-    other GMP types. Refer to the manual for full list and suggested
-    usage. These types have been present in gmp.h at least since
-    GMP-4.0, but previously not advertised to users.
-
-  * Support for 64-bit Arm under Macos.
-
-  * Support for the loongarch64 CPU family.
-
-  * Support for building with LTO, link-time optimisations.
-
-  SPEEDUPS
-  * New special code for base = 2 in mpz_powm reduces the average time
-    for the functions that test primality.
-
-  * Speedup for the function mpz_nextprime on large operands.
-
-  * Speedup for multiplications (some sizes only) thanks to new
-    internal functions to compute small negacyclic products.
-
-  * Special assembly code for IBM z13 and later "mainframe" CPUs, resulting in
-    a huge speedup.
-
-  * Improved assembly for several 64-bit x86 CPUs, Risc-V, 64-bit Arm.
+==========
+-Add shutdown checks in dns_catz_dbupdate_callback() to
+ avoid a race with dns_catz_shutdown_catzs().
+-Restore support to read legacy HMAC-MD5 K file pairs.
+-Use NS records for relaxed QNAME-minimization mode.
+ This reduces the number of queries named makes when
+ resolving, as it allows the non-existence of NS RRsets
+ at non-referral nodes to be cached in addition to the
+ referrals that are normally cached.
+-Fix nslookup erroneously reporting a timeout when the
+ input is delayed.
+-Improve HTTP Connection: header protocol conformance
+ in the statistics channel.
+-Remove the holes in the isc_result_t enum to compact
+ the isc_result tables.
+-Fix a data race between the dns_zone and dns_catz
+ modules when registering/unregistering a database
+ update notification callback for a catalog zone.
+-Report "permission denied" instead of "unexpected error"
+ when trying to update a zone file on a read-only file
+ system. Thanks to Midnight Veil.
+-Fix a catz db update notification callback registration
+ logic error, which could crash named when receiving an
+ AXFR update for a catalog zone while the previous update
+ process of the catalog zone was already running.
+-Retry without DNS COOKIE on FORMERR if it appears that
+ the FORMERR was due to the presence of a DNS COOKIE
+ option.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../gmp/gmp/cve-2021-43618.patch              | 27 -------------------
- .../gmp/{gmp_6.2.1.bb => gmp_6.3.0.bb}        |  4 +--
- 2 files changed, 1 insertion(+), 30 deletions(-)
- delete mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
- rename meta/recipes-support/gmp/{gmp_6.2.1.bb => gmp_6.3.0.bb} (87%)
+ .../0001-avoid-start-failure-with-bind-user.patch             | 0
+ ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
+ ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
+ .../bind/{bind-9.18.16 => bind-9.18.17}/bind9                 | 0
+ .../bind/{bind-9.18.16 => bind-9.18.17}/conf.patch            | 0
+ .../bind/{bind-9.18.16 => bind-9.18.17}/generate-rndc-key.sh  | 0
+ .../init.d-add-support-for-read-only-rootfs.patch             | 0
+ .../make-etc-initd-bind-stop-work.patch                       | 0
+ .../bind/{bind-9.18.16 => bind-9.18.17}/named.service         | 0
+ .../bind/{bind_9.18.16.bb => bind_9.18.17.bb}                 | 4 ++--
+ 10 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.16 => bind-9.18.17}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.16.bb => bind_9.18.17.bb} (96%)
 
-diff --git a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch b/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
-deleted file mode 100644
-index 095fb21eaa..0000000000
---- a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--CVE: CVE-2021-43618
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--# HG changeset patch
--# User Marco Bodrato <bodrato@mail.dm.unipi.it>
--# Date 1634836009 -7200
--# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
--# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
--mpz/inp_raw.c: Avoid bit size overflows
--
--diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
----- a/mpz/inp_raw.c	Tue Dec 22 23:49:51 2020 +0100
--+++ b/mpz/inp_raw.c	Thu Oct 21 19:06:49 2021 +0200
--@@ -88,8 +88,11 @@
-- 
--   abs_csize = ABS (csize);
-- 
--+  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
--+    return 0; /* Bit size overflows */
--+
--   /* round up to a multiple of limbs */
---  abs_xsize = BITS_TO_LIMBS (abs_csize*8);
--+  abs_xsize = BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
-- 
--   if (abs_xsize != 0)
--     {
-diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
-similarity index 87%
-rename from meta/recipes-support/gmp/gmp_6.2.1.bb
-rename to meta/recipes-support/gmp/gmp_6.3.0.bb
-index 29055492c2..3dbcd68b5c 100644
---- a/meta/recipes-support/gmp/gmp_6.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
-@@ -14,10 +14,8 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://use-includedir.patch \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
--           file://cve-2021-43618.patch \
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.17/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.17/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.17/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/bind9 b/meta/recipes-connectivity/bind/bind-9.18.17/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.17/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.17/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.17/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.17/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.17/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.17/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.17/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.16/named.service b/meta/recipes-connectivity/bind/bind-9.18.17/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.16/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.17/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.16.bb b/meta/recipes-connectivity/bind/bind_9.18.17.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.18.16.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.17.bb
+index d9b62bb8b0..9e7973ecbf 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.16.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.17.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+ SECTION = "console/network"
+ 
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=d8cf7bd9c4fd5471a588e7e66e672408"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c7a0b6d9a1b692a5da9af9d503671f43"
+ 
+ DEPENDS = "openssl libcap zlib libuv"
+ 
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
--SRC_URI[md5sum] = "28971fc21cf028042d4897f02fd355ea"
--SRC_URI[sha256sum] = "eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
-+SRC_URI[sha256sum] = "ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
  
- acpaths = ""
+-SRC_URI[sha256sum] = "c88234fe07ee75c3c8a9e59152fee64b714643de8e22cf98da3db4d0b57e0775"
++SRC_URI[sha256sum] = "bde1c5017b81d1d79c69eb8f537f2e5032fd3623acdd5ee830d4f74bc2483458"
  
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.34.1
 
