@@ -2,230 +2,169 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C760C001DF
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 14:24:39 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.16620.1690986278288863561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EE7C001E0
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 14:26:49 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.16686.1690986402188247869
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 07:24:38 -0700
+ Wed, 02 Aug 2023 07:26:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=n54M7ak6;
- spf=pass (domain: baylibre.com, ip: 209.85.221.48, mailfrom: jstephan@baylibre.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31751d7d96eso5884269f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 07:24:38 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=TW9j+0xr;
+ spf=pass (domain: baylibre.com, ip: 209.85.167.45, mailfrom: jstephan@baylibre.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe463420fbso3195959e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 07:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690986276; x=1691591076;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690986400; x=1691591200;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+I6XDFBaTn8V7kyBaNTIJ4iu87wSZOjTRTUfXfYTh5c=;
-        b=n54M7ak6LCsofMFAfVbxMp56omjybpcEEJvhTLAtFkS/MZnNgzGS4n4ZSqB73Mb7be
-         nf7Fy0Vu3D0n2wZ0NucGeopysxk512eGiiuilKP3eADdA65TOessdXrZjQDEyuuIRZkB
-         9KEDxgm8RMzmJjRWSTH/vlIsV4NrJqdKeJsnl8U/tmIPpoThHzI3e7cA/RZvcwwnil53
-         Lz0k0O8Psv2TNWXmRX0LIuhmKwd0Z7uB66ERIo8aLPvEWlKAC9xc0XWa1MtzV4HAoAGp
-         cxsexP9uhCRI/HxMpn++T0h6WdxEuvvA1/BtOcEtnwXIZEbQThd3ALlj+JyxGvCzcIvg
-         2AtA==
+        bh=VsB4+7Mnw2m3/1hYh3A+mhyPVWtqkT1PByw+yWbz9cA=;
+        b=TW9j+0xrNwVfFMulSPbGvXaP/+knwNInmKbkRPd/kjcdx0ghdt5vsz8BXLHI3pEBEj
+         2wObUMS3WswXxqdYJG62OyWWDJRAgBrw5XVyxOb6j6y+K/HcQMYddjtNCyJPVJVdFNeG
+         EenSLsEjSjII/NKCWL6rXAGK5DhujGUwJ/HouAt0YQNppm4PMY7WemnRX1YciTW7OI7G
+         mW9/C4TxxYLxc8Vy+s3OgAGg26LKzmZqfrjH5krRxhG4TWF5doYcucZeJ+IGQsQW5gvj
+         ilHHWajMB4WTHvXdsgtX68rK5HNN5NcanJQP/n4BkfpeYmsyGqABky4iMGo/nGeAw49+
+         Bt5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690986276; x=1691591076;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1690986400; x=1691591200;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+I6XDFBaTn8V7kyBaNTIJ4iu87wSZOjTRTUfXfYTh5c=;
-        b=SEWxT6iGdGzJDMKIhOiBAudcn+dAxbNLqicxnFQTkXGtieWRvOWiAfMukJspqu9imN
-         a4l8cirrIBwLBsOJQp/n8v9rlV++gkj1eP9irh9di8XogGwY2SYfAyerOsJ8zkV27cde
-         pCgi3eAL+/BsL8hK3hHXPGyj0iBh7dQDbuJDUivoalPpuACherbveaCIYHcqezYWUQsg
-         BXMHLQ6xXuFfdma4SiOj6xUUQlBXDbSDSWxyDv98R2w6DVSCf1UYMnhXGxmX2qW9Wqxq
-         eAURWsL7BuXpDlZhmJekalSUVTJSR5xp0Pst7evFu1+3UQbMb9ZQcImkZ1ga7aLNsvQ8
-         yu/A==
-X-Gm-Message-State: ABy/qLZbxe2QduBahwVL0X1faFPEdDbiT9GHlTLW6wn/SRWC0+Wyoonr
-	IjAs9bs83blghd5e1SoPxZxB+b9y++fhrvcjnzamVA==
-X-Google-Smtp-Source: APBJJlHzmOcRz/jF2wOtioAQSOwjF6ijyVpPSGNBu89cFHWxpN2Ia/zc2TkqnRdxCI+Ncwoj2IeBHA==
-X-Received: by 2002:adf:f0cf:0:b0:314:2e95:1ec9 with SMTP id x15-20020adff0cf000000b003142e951ec9mr5148841wro.10.1690986276621;
-        Wed, 02 Aug 2023 07:24:36 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id y17-20020adfd091000000b003178dc2371bsm15707079wrh.7.2023.08.02.07.24.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 07:24:36 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v4 5/5] oeqa/selftest/bblock: add self test for bblock tool
-Date: Wed,  2 Aug 2023 16:24:32 +0200
-Message-ID: <20230802142432.2296716-6-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230802142432.2296716-1-jstephan@baylibre.com>
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
+        bh=VsB4+7Mnw2m3/1hYh3A+mhyPVWtqkT1PByw+yWbz9cA=;
+        b=ejKhjkUT65C+M2y+qKWR2jWT6M6yPYV/TrLZ9ab/hV9dOXoV4w/YqXlPAj7nX3KqGW
+         nUsCoLND37EVeCbdamBCgcsVJf0vUKOOn8IBxFlXOZqxGRQMpHGCrB98gFQhr3drhyzy
+         EQzo2IIuRwkE3qSoEdFjYJnIKv8wEQMSkac9FSjrrgYwEntc6CuJZuY2/Vb2Wnc0AI98
+         bfOHC6JYkK0VPtmYPw2bi5dYnOCpDCtAtUm/JHdamIJ45AxXLHOl9V3XivWhkluEMQzG
+         EpuTXnKb9Vn9Lxzo+seQVbd8/4NJvLXKTfLd7izheESNUhqIt2kJZs8BulgPhZWskoAs
+         +m1w==
+X-Gm-Message-State: ABy/qLbs2uAZJBTsXQOc2DFeHqskv3KATrNEtsgZ/NA3OMKFvpupfiG4
+	ETkw4iRSHqAr4XmwM6YlsaXPYq+vqUgdhbmHBn7Y1w==
+X-Google-Smtp-Source: APBJJlG+1uul648mBijzmogB2jd7ZSTk2PfXhYaoy2AYCPybfr7H8whWT69q01gmBad8+NjRLALjpW5Oiwt8MVBl7fU=
+X-Received: by 2002:ac2:4f0b:0:b0:4fe:45ca:f8e7 with SMTP id
+ k11-20020ac24f0b000000b004fe45caf8e7mr4523027lfr.57.1690986400250; Wed, 02
+ Aug 2023 07:26:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230727135612.951926-1-jstephan@baylibre.com> <202307292244101a8e8cea@mail.local>
+In-Reply-To: <202307292244101a8e8cea@mail.local>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Wed, 2 Aug 2023 16:26:29 +0200
+Message-ID: <CAEHHSvYW3CNDv0qocawAuyhzF8nsAfaJ5+hqyt=9A1RX7+jHCw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 0/3] Add bblock helper scripts
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 14:24:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185408
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 14:26:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185409
 
-it implements various combination of locking single/multiple recipe(s)/task(s)
+Le dim. 30 juil. 2023 =C3=A0 00:44, Alexandre Belloni
+<alexandre.belloni@bootlin.com> a =C3=A9crit :
+>
+> Hello,
+>
+> On 27/07/2023 15:56:09+0200, Julien Stephan wrote:
+> > Hi all,
+> >
+> > This is v3 from bblock script.
+> >
+>
+> This doesn't apply cleanly on master, can you rebase?
+>
+> Thanks!
 
-it also tests that locked sig are architecture dependant
+Hi Alexandre,
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- meta/lib/oeqa/selftest/cases/bblock.py | 146 +++++++++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/bblock.py
+done, just pushed v4 here:
+https://lists.openembedded.org/g/openembedded-core/message/185403
 
-diff --git a/meta/lib/oeqa/selftest/cases/bblock.py b/meta/lib/oeqa/selftest/cases/bblock.py
-new file mode 100644
-index 00000000000..803ea3d64c8
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/bblock.py
-@@ -0,0 +1,146 @@
-+#
-+# Copyright (c) 2023 BayLibre, SAS
-+# Author: Julien Stepahn <jstephan@baylibre.com>
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import os
-+import re
-+
-+import oeqa.utils.ftools as ftools
-+from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars, bitbake
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+
-+class BBLock(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super(BBLock, cls).setUpClass()
-+        cls.lockfile = cls.builddir+"/conf/bblock.conf"
-+
-+    def unlock_recipes(self, recipes=None, tasks=None):
-+        cmd = 'bblock -r '
-+        if recipes:
-+            cmd += ' '.join(recipes)
-+        if tasks:
-+            cmd += ' -t ' + ','.join(tasks)
-+        result = runCmd(cmd)
-+
-+        if recipes:
-+            # ensure all signatures are removed from lockfile
-+            contents = ftools.read_file(self.lockfile)
-+            for recipe in recipes:
-+                for task in tasks:
-+                    find_in_contents = re.search("SIGGEN_LOCKEDSIGS_.+\s\+=\s\"%s:%s:.*\"" % (recipe, task), contents)
-+                    self.assertFalse(find_in_contents, msg = "%s:%s should not be present into bblock.conf anymore" % (recipe, task))
-+                self.assertExists(self.lockfile)
-+        else:
-+            self.assertNotExists(self.lockfile)
-+
-+    def lock_recipes(self, recipes, tasks=None, machine=None):
-+        cmd = 'bblock ' + ' '.join(recipes)
-+        if tasks:
-+            cmd += ' -t ' + ','.join(tasks)
-+
-+        if machine:
-+            cmd = "MACHINE=" + machine + " " + cmd
-+        with open("/tmp/tmp.txt", "w") as file:
-+            file.write(cmd)
-+        result = runCmd(cmd)
-+
-+        self.assertExists(self.lockfile)
-+
-+        # ensure all signatures are added to lockfile
-+        contents = ftools.read_file(self.lockfile)
-+        for recipe in recipes:
-+            for task in tasks:
-+                find_in_contents = re.search("SIGGEN_LOCKEDSIGS_.+\s\+=\s\"%s:%s:.*\"" % (recipe, task), contents)
-+                self.assertTrue(find_in_contents, msg = "%s:%s was not added into bblock.conf. bblock output: %s" % (recipe, task, result.output))
-+
-+    def modify_tasks(self, recipes, tasks):
-+        task_append = ""
-+        for recipe in recipes:
-+            bb_vars = get_bb_vars(['PV'], recipe)
-+            recipe_pv = bb_vars['PV']
-+            recipe_append_file = recipe + '_' + recipe_pv + '.bbappend'
-+
-+            os.mkdir(os.path.join(self.testlayer_path, 'recipes-test', recipe))
-+            recipe_append_path = os.path.join(self.testlayer_path, 'recipes-test', recipe, recipe_append_file)
-+
-+            for task in tasks:
-+                task_append += "%s:append() {\necho \"modify task hash\"\n}\n" % task
-+            ftools.write_file(recipe_append_path, task_append)
-+            self.add_command_to_tearDown('rm -rf %s' % os.path.join(self.testlayer_path, 'recipes-test', recipe))
-+
-+    def test_lock_single_recipe_single_task(self):
-+        recipes = ["quilt"]
-+        tasks = ["do_compile"]
-+        self._run_test(recipes, tasks)
-+
-+    def test_lock_single_recipe_multiple_tasks(self):
-+        recipes = ["quilt"]
-+        tasks = ["do_compile" ,"do_install"]
-+        self._run_test(recipes, tasks)
-+
-+    def test_lock_architecture_specific(self):
-+        recipes = ["quilt"]
-+        tasks = ["do_compile"]
-+
-+        # lock quilt's do_compile task for qemuarm machine
-+        self.lock_recipes(recipes, tasks, "qemuarm")
-+
-+        # modify quilt's do_compile task
-+        self.modify_tasks(recipes, tasks)
-+
-+        # build quilt using by default qemux86-64.
-+        # No Note/Warning should be emitted since sig is locked for qemuarm
-+        # (quilt package is architecture dependant)
-+        info_message = "NOTE: The following recipes have locked tasks: " + recipes[0]
-+        warn_message = "The %s:%s sig is computed to be" % (recipes[0], tasks[0])
-+        result = bitbake(recipes[0] + " -n")
-+        self.assertNotIn(info_message, result.output)
-+        self.assertNotIn(warn_message, result.output)
-+
-+    def test_lock_multiple_recipe_single_task(self):
-+        recipes = ["quilt", "bc"]
-+        tasks= ["do_compile"]
-+        self._run_test(recipes, tasks)
-+
-+    def _run_test(self, recipes, tasks=None):
-+        # unlock all recipes and ensure no bblock.conf file exist
-+        self.unlock_recipes()
-+
-+        # lock tasks for recipes
-+        result = self.lock_recipes(recipes, tasks)
-+
-+        # build recipes. At this stage we should have a Note about recipes
-+        # having locked task's sig, but no warning since sig still match
-+        info_message = "NOTE: The following recipes have locked tasks: " + " ".join(recipes)
-+        for recipe in recipes:
-+            result = bitbake(recipe + " -n")
-+            self.assertIn(info_message, result.output)
-+            for task in tasks:
-+                warn_message = "The %s:%s sig is computed to be" % (recipe, task)
-+                self.assertNotIn(warn_message, result.output)
-+
-+        ## modify all tasks that are locked to trigger a sig change then build the recipes
-+        ## at this stage we should have a Note as before, but also a warning for all
-+        ## locked stage indicating the sig mismatch
-+        self.modify_tasks(recipes, tasks)
-+        for recipe in recipes:
-+            result = bitbake(recipe + " -n")
-+            self.assertIn(info_message, result.output)
-+            for task in tasks:
-+                warn_message = "The %s:%s sig is computed to be" % (recipe, task)
-+                self.assertIn(warn_message, result.output)
-+
-+        # unlock all tasks and rebuild, no more Note/Warning should remain
-+        self.unlock_recipes(recipes, tasks)
-+        for recipe in recipes:
-+            result = bitbake(recipe + " -n")
-+            self.assertNotIn(info_message, result.output)
-+            for task in tasks:
-+                warn_message = "The %s:%s sig is computed to be" % (recipe, task)
-+                self.assertNotIn(warn_message, result.output)
--- 
-2.41.0
-
+Best
+Julien
+>
+> > Improvement from v2:
+> > * Add a function in bb.cooker to compute task signatures
+> > * Replace the findSigInfo function by the new created one. This has the
+> >   following advantages:
+> >     * findSigInfo needs the task to be already built to get the siginfo
+> >       file, meaning we cannot lock a recipe on a fresh build
+> >     * we can now generate the signatures for all available task of a gi=
+ven
+> >       recipe
+> > * Check if a given task is already locked. If so, don't duplicate
+> >   entry in bblock.conf
+> >
+> > Limitations:
+> > * Needs to taint tasks that are locked, to display a warning
+> > * I may be still missing some checks on user input
+> > * Silently does nothing if given task doesn't exist
+> > * Silently does nothing when resetting a recipe that doesn't exist
+> >
+> > I did some tests using qemux86-64 and qemuarm but I may be missing some
+> > corner cases.
+> >
+> > Improvement from V1:
+> > * Signatures are now package architecture specific meaning that if you
+> >   switch MACHINE, the lock sig will not be taken into account
+> > * I added the -r option to unlock recipes
+> > * I added a -d option to display the current bblock.conf
+> > * Added an include directive for conf/bblock.conf inside bitbake.conf
+> > * Added -t option to specify the tasks to lock/unlock
+> >
+> > Limitations:
+> > * I may be still missing some checks on user input
+> > * I need to find a way to get the list of tasks ( by default still lock
+> >   only the do_compile for now, unless -t is specified)
+> > * Do not check if a particular recipe/task is already locked when tryin=
+g
+> >   to add lock. So entries may appear multiple times
+> > * We still need the signature of the tasks to be already computed befor=
+e
+> >   locking. Need to find a way to generate it if missing
+> >
+> > V2: https://lists.openembedded.org/g/openembedded-core/message/184697
+> > V1: https://lists.openembedded.org/g/openembedded-core/message/184584
+> >
+> > My branch is available here [1]
+> >
+> > Cheers
+> > Julien
+> >
+> > [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=3Djstephan/bbl=
+ock
+> >
+> > Julien Stephan (3):
+> >   bitbake.conf: include bblock.conf
+> >   bitbake: cooker: add a new function to retrieve task signatures
+> >   scripts/bblock: add a script to lock/unlock recipes
+> >
+> >  bitbake/lib/bb/command.py |   6 ++
+> >  bitbake/lib/bb/cooker.py  |  16 ++++
+> >  bitbake/lib/bb/event.py   |   8 ++
+> >  meta/conf/bitbake.conf    |   1 +
+> >  scripts/bblock            | 182 ++++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 213 insertions(+)
+> >  create mode 100755 scripts/bblock
+> >
+> > --
+> > 2.41.0
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#184932): https://lists.openembedded.org/g/openembed=
+ded-core/message/184932
+> > Mute This Topic: https://lists.openembedded.org/mt/100390731/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
