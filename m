@@ -1,117 +1,235 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <kergoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D785FC001DF
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 17:14:36 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web10.2042.1690996468697026139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC09C04E69
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 17:17:56 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web11.2162.1690996672273221150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 10:14:28 -0700
+ Wed, 02 Aug 2023 10:17:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=r/EPxsxI;
- spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6bc8d1878a0so88203a34.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 10:14:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=OrgM8xht;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: kergoth@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-583c48a9aa1so75966727b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 10:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690996468; x=1691601268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=157akadV47Fs4VMaGvzjTnwD45rfNN6qMvjAl/of/cw=;
-        b=r/EPxsxIt3huT6FZ6abFj9J6PzFrzTOy6M2AKQmruRDNHnJqNCCNyXlSv4hfHjZa52
-         tyCnkIInQr3JFkgES4patteZUiMZh1mh7ly5OPerAb+T88HSCMLQaeFzwfzqvlM1QhC3
-         TOjtdcgNgavYfUFoXGmq1Dd92vHMwunczipA44Ko5iTfY+yhjokLwSnWmNyXWvmexoP4
-         EkYJ31PehrjOQwEUEm2i3hp+VoCRPXX/pzzVXAUgV1ncZlkLZQga1aGS+suZZDUXd8k5
-         F1GkMcH6/mggoEguHTuvxOUqp/WkrvxF58BcSHyEiVAmiaR+ZShneuTqLZ8ivLks/ev4
-         6tSQ==
+        d=gmail.com; s=20221208; t=1690996671; x=1691601471;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YBqUm/M8uM17ghqjSJMEuM7Fkq1gKpKtok4b2+ejDDg=;
+        b=OrgM8xhtbRV95/de1AAoUeGeMfO+ROuG7t5jel8G/SO+eaaBblCX6BgKrZyTf9luF+
+         wAKOk287HScuEUnZyi8LGMJtzj4UGh387BZZfjnCqgeFGflWF3V21Yb1VxoL6lPKQ0JC
+         3SbuYb8/6VrpIkUZdlCjWMxyi8WABTp5NaLhBr4Wcoz/GOioedxc1sfQgLM8YeoKBgLK
+         f8lDa/P6n09cCt8RKPvwhCQ5rxGXNmqaKHlxv4I3leXznT3oJUQyOHrg6lfMQFhLkl4s
+         uogXZ1zH4m0ZE9QqqUAqZRuUNDai3YE9Tq5t51zQlOhQ3Oa25h1JSi8etfSgWWIEnLfu
+         BXJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690996468; x=1691601268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=157akadV47Fs4VMaGvzjTnwD45rfNN6qMvjAl/of/cw=;
-        b=RSeFasev0PAf76lNVZOx7ThbimTKpVH9frPMvHmAUeHes4ksDP9ihNUUxgNG/Dwr6m
-         pq4Zl6tdEdgI8ZtAKnXechP8ZGogmVDcswJ5NkjQ/h18w69HWgDX5HhSZVSLHfKGEFV/
-         RUi2FNQomdkmRByCSX7y5KliBCaZ4WQ7weu6grZrvbbrUV74r8miM6PalqOu77Zc4WaW
-         FrKTP428/MfosA9qKzT7DQb51krtt2syoMCJaaL3r2uWlZhaK3bRfTJ73i9yaX/f7gzS
-         GVulxdACxR6Zug+u3UFcVqR3KzAkOWO2key6VTCiQOi7eOGOotuxoCLLy8TZ0lxTZuL4
-         NT7w==
-X-Gm-Message-State: ABy/qLYYSORSlkk5/CcUwD8Acj1jBSGeWEOxJtBUKHVX1CWYiJpMY5RH
-	th6kKANIWyKh4aH0CkSB0e7D/PfTjRMx2V0IwN0=
-X-Google-Smtp-Source: APBJJlFjeb+QowEhOgBvAYaKDiPLXz2LevrIG/wwmXXldgtg0vA3l4m2sR6s8nAlsjLycUN53l7dpHok+vEFcYMkGlg=
-X-Received: by 2002:a05:6871:28a:b0:1bf:2ad9:8dae with SMTP id
- i10-20020a056871028a00b001bf2ad98daemr4148166oae.45.1690996467724; Wed, 02
- Aug 2023 10:14:27 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690996671; x=1691601471;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YBqUm/M8uM17ghqjSJMEuM7Fkq1gKpKtok4b2+ejDDg=;
+        b=MKWafnYWMD5VsmLnRATMiwmTf2w6yuqqh8sUNChSYrw5Q0i4PWR/fYMn1qcNvusEAo
+         CGtXlExnB092SWw4UpOgRqAY4PrjbGigQ8juA4sZdroa0lWjCpwVlUmKdhY+oBq22g6g
+         iZG4oJCJ6A1giTXL1YU0NUVMg03sbEWjqOHAxmOztASqTUi4/r1/Bw4IWQcWvUo+3Q1N
+         hZcgLIwx7rB06y6qqcDTFKK/6U81V9q/7ZvM4qpZN+jN5CF+q25yHX4MbSSLWZcIR+Pp
+         ornxlxIJ+GXAc6cHvzWzBlpQ2rQFLw5tCHX9qqnJ8BkXDAJjQHJ1q/AeQMxPDy3nXw73
+         7tEA==
+X-Gm-Message-State: ABy/qLY9Cija6TeNPr8JKBCMaF3+G2590C6J2P7R5d3kQAQOEYFsNJoI
+	h4/maOy0tS+aVReUB148s8NOJjrAlYYBKAk+MCE=
+X-Google-Smtp-Source: APBJJlFMBFj9Cu9/yBpuOK2uz0zW2zRTqyunLP81Gzejo2bdgMKsqhyYHuZl7GckqAtpwMj38xHAhOOOwSKZlYcDjak=
+X-Received: by 2002:a81:6b46:0:b0:579:e5fb:f6c5 with SMTP id
+ g67-20020a816b46000000b00579e5fbf6c5mr16761212ywc.2.1690996671461; Wed, 02
+ Aug 2023 10:17:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230728204418.4044524-1-luca.boccassi@gmail.com>
- <20230731112736.1238510-1-luca.boccassi@gmail.com> <20230731164010faa31974@mail.local>
- <CAMw=ZnR3L05DSaBGSijuA5-vNXPkriCjdbi02LJsUFmVo-FbHA@mail.gmail.com>
- <202307311713165bd45fd1@mail.local> <CAMw=ZnTCOt1aq-iQLRsgjv5sJL_GYXWW3dNup300B1dbNYnLZw@mail.gmail.com>
- <1777043202ABE7FB.4565@lists.openembedded.org> <CANNYZj_9PaJtAhi1XTMzO8oY9GgxUh6hO+00f0Ph2MUndzBVbA@mail.gmail.com>
- <CAMw=ZnR9S1oHjjPUyOHnDakPOM-6JkyHbnTTR2hDjqv65qfB1w@mail.gmail.com> <CAMw=ZnQymjXr1qazSz8ZHX=+fUzj_fJJpbku_+7vUv-8rCYN_g@mail.gmail.com>
-In-Reply-To: <CAMw=ZnQymjXr1qazSz8ZHX=+fUzj_fJJpbku_+7vUv-8rCYN_g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Aug 2023 10:14:01 -0700
-Message-ID: <CAMKF1sq83x6=sg1nFnPUm_WdLLULeTkorf3KnBvQeunfWN_oVA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] systemd: update to v254
-To: Luca Bocassi <luca.boccassi@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <c447aa42-9eae-ce9c-356f-ae3133c00418@ti.com>
+In-Reply-To: <c447aa42-9eae-ce9c-356f-ae3133c00418@ti.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Wed, 2 Aug 2023 10:17:40 -0700
+Message-ID: <CABcZANmXqJcCaqdxuHrTdvrg1kZ8OCeOag_ZGUA2J_TUkuLJFw@mail.gmail.com>
+Subject: Re: [OE-core] image.bbclass question
+To: reatmon@ti.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000eb41f10601f3d701"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 17:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185417
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 17:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185418
 
-Luca
+--000000000000eb41f10601f3d701
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 2, 2023 at 1:12=E2=80=AFAM Luca Bocassi <luca.boccassi@gmail.co=
-m> wrote:
+Image builds obey IMAGE_FSTYPES. Initramfs images set that to
+INITRAMFS_FSTYPES, so it's comparing the two as a check to see if this is
+an initramfs image. It isn't making sure it matches a hardcoded list, so
+intersection isn't necessary.
+
+On Wed, Aug 2, 2023 at 9:41=E2=80=AFAM Ryan Eatmon via lists.openembedded.o=
+rg
+<reatmon=3Dti.com@lists.openembedded.org> wrote:
+
 >
-> On Mon, 31 Jul 2023 at 19:00, Luca Boccassi <luca.boccassi@gmail.com> wro=
-te:
-> >
-> > On Mon, 31 Jul 2023 at 18:37, Alexander Kanavin <alex.kanavin@gmail.com=
-> wrote:
-> > >
-> > > A better option: fix the libpam recipe to say:
-> > >
-> > > ANY_OF_DISTRO_FEATURES =3D "pam systemd"
-> > > instead of  current
-> > > REQUIRED_DISTRO_FEATURES =3D "pam"
-> > >
-> > >
-> > > This should avoid having to fix the tests.
-> >
-> > Thanks for the suggestion, applied in v6.
+> I am trying to add support for the INITRAMFS_MAXSIZE into the meta-ti
+> layer for our tiny image.
 >
-> Hi, did v6 help with those test runs? Thanks
-
-
-I am seeing a build failure with TCLIBC=3Dmusl
-
-| ../git/src/basic/user-util.c:708:30: error: use of undeclared
-identifier 'LOCK_EX'; did you mean 'LOCK_BSD'?
-|   708 |         r =3D unposix_lock(fd, LOCK_EX);
-|       |                              ^~~~~~~
-|       |                              LOCK_BSD
-| ../git/src/basic/lock-util.h:38:9: note: 'LOCK_BSD' declared here
-|    38 |         LOCK_BSD,
-|       |         ^
-| 1 error generated.
-
+> I have added the following to our tiny image file:
+>
+> INITRAMFS_FSTYPES +=3D "cpio cpio.xz"
+> INITRAMFS_MAXSIZE =3D "65536"
+>
+> But I'm not seeing any errors about the image being too big being printed=
+.
+>
+> In looking at the code in question:
+>
+>      # Check the initramfs size against INITRAMFS_MAXSIZE (if set)
+>      if image_fstypes =3D=3D initramfs_fstypes !=3D ''  and initramfs_max=
+size:
+>          initramfs_maxsize_int =3D int(initramfs_maxsize)
+>          if base_size > initramfs_maxsize_int:
+>              bb.error("The initramfs size %d(K) exceeds
+> INITRAMFS_MAXSIZE: %d(K)" % \
+>                  (base_size, initramfs_maxsize_int))
+>              bb.error("You can set INITRAMFS_MAXSIZE a larger value.
+> Usually, it should")
+>              bb.fatal("be less than 1/2 of ram size, or you may fail to
+> boot it.\n")
+>
+>
+> What is the purpose of the:
+>
+> if image_fstypes =3D=3D initramfs_fstypes !=3D ''
+>
+>
+> It seems to looking for the ONLY images being built are the exact same
+> as the INITRAMFS_FSTYPES...  Shouldn't that be more of an intersection
+> check?  If any of the INITRAMFS_FSTYPES are in the IMAGE_FSTYPES, then
+> check the size?
+>
+> Or am I missing something?
+>
+>
+>
+> --
+> Ryan Eatmon                reatmon@ti.com
+> -----------------------------------------
+> Texas Instruments, Inc.  -  LCPD  -  MGTS
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#185381): https://lists.openembedded.org/g/openembedde=
-d-core/message/185381
-> Mute This Topic: https://lists.openembedded.org/mt/100459438/1997914
+> View/Reply Online (#185415):
+> https://lists.openembedded.org/g/openembedded-core/message/185415
+> Mute This Topic: https://lists.openembedded.org/mt/100509426/3617123
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> kergoth@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
+
+--=20
+Christopher Larson
+chris_larson@mentor.com, chris.larson@siemens.com, kergoth@gmail.com
+Principal Software Engineer, Embedded Linux Solutions, Siemens Digital
+Industries Software
+
+--000000000000eb41f10601f3d701
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Image builds obey IMAGE_FSTYPES. Initramfs images set that=
+ to INITRAMFS_FSTYPES, so it&#39;s comparing the two as a check to see if t=
+his is an initramfs image. It isn&#39;t making sure it matches a hardcoded =
+list, so intersection isn&#39;t necessary.</div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 2, 2023 at 9:41=E2=80=
+=AFAM Ryan Eatmon via <a href=3D"http://lists.openembedded.org">lists.opene=
+mbedded.org</a> &lt;reatmon=3D<a href=3D"mailto:ti.com@lists.openembedded.o=
+rg">ti.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+I am trying to add support for the INITRAMFS_MAXSIZE into the meta-ti <br>
+layer for our tiny image.<br>
+<br>
+I have added the following to our tiny image file:<br>
+<br>
+INITRAMFS_FSTYPES +=3D &quot;cpio cpio.xz&quot;<br>
+INITRAMFS_MAXSIZE =3D &quot;65536&quot;<br>
+<br>
+But I&#39;m not seeing any errors about the image being too big being print=
+ed.<br>
+<br>
+In looking at the code in question:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Check the initramfs size against INITRAMFS_MAXSIZE (i=
+f set)<br>
+=C2=A0 =C2=A0 =C2=A0if image_fstypes =3D=3D initramfs_fstypes !=3D &#39;&#3=
+9;=C2=A0 and initramfs_maxsize:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0initramfs_maxsize_int =3D int(initramfs_m=
+axsize)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if base_size &gt; initramfs_maxsize_int:<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.error(&quot;The initramf=
+s size %d(K) exceeds <br>
+INITRAMFS_MAXSIZE: %d(K)&quot; % \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(base_size, i=
+nitramfs_maxsize_int))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.error(&quot;You can set =
+INITRAMFS_MAXSIZE a larger value. <br>
+Usually, it should&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.fatal(&quot;be less than=
+ 1/2 of ram size, or you may fail to <br>
+boot it.\n&quot;)<br>
+<br>
+<br>
+What is the purpose of the:<br>
+<br>
+if image_fstypes =3D=3D initramfs_fstypes !=3D &#39;&#39;<br>
+<br>
+<br>
+It seems to looking for the ONLY images being built are the exact same <br>
+as the INITRAMFS_FSTYPES...=C2=A0 Shouldn&#39;t that be more of an intersec=
+tion <br>
+check?=C2=A0 If any of the INITRAMFS_FSTYPES are in the IMAGE_FSTYPES, then=
+ <br>
+check the size?<br>
+<br>
+Or am I missing something?<br>
+<br>
+<br>
+<br>
+-- <br>
+Ryan Eatmon=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=
+=3D"mailto:reatmon@ti.com" target=3D"_blank">reatmon@ti.com</a><br>
+-----------------------------------------<br>
+Texas Instruments, Inc.=C2=A0 -=C2=A0 LCPD=C2=A0 -=C2=A0 MGTS<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#185415): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/185415" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/185415</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100509426/361=
+7123" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100509426/3617123</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:kergoth@gmail.com" target=
+=3D"_blank">kergoth@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><div dir=3D"ltr"><font color=3D"#333333">Christopher Larson<=
+br><a>chris_larson@mentor.com</a>,=C2=A0<a>chris.larson@siemens.com</a>,=C2=
+=A0<a>kergoth@gmail.com</a><br>Principal Software Engineer,=C2=A0Embedded L=
+inux Solutions,=C2=A0Siemens Digital Industries Software</font><br></div></=
+div></div>
+
+--000000000000eb41f10601f3d701--
 
