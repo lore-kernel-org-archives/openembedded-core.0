@@ -1,170 +1,260 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16135C001E0
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:38:19 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web11.15204.1690983489672260390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 124D1C001E0
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:41:39 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.15280.1690983695159907296
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 06:38:09 -0700
+ Wed, 02 Aug 2023 06:41:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=fVCVsKdK;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-790b95beeedso81279339f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690983489; x=1691588289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N/hbVzUyY2BBM9IwdfgaTLUvXHp55oNGho0Z6MU9otg=;
-        b=fVCVsKdKgI1z9uj1gKCD+E2xFNNVCqOCrTrNWI+dGpjlDKwpB+uoiF40WtjqgILgBh
-         ktTYM6yiVABsdnpRdNT5E2gpgf4n0PGq9etnxwq3RZTImugvhLcK4uATsvZeUx+JzD38
-         9fM4Mf/LYg9EEKI+Yl7X++v/nrHeHW8cvE1y79hDbP04PQ0zBs9ydKV0v8b6e09zzxgF
-         nied0A/CCusH9Zhjg2iSCTqegBFxX0vsb4oLKe6NnsgcJLL9WgS//Ulo7gPTegldTdnu
-         mBsC9TDMDCcr8gE6HmEdRgqtaM5inp8Hu3NAvkN48NQqPLofY61gMtY6UkMyfdeFnbFP
-         P6sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690983489; x=1691588289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N/hbVzUyY2BBM9IwdfgaTLUvXHp55oNGho0Z6MU9otg=;
-        b=UTjG44gzRZLlHZKPrZH8mbZO2FxMrLTwhUWXA0wiOpBZndcAznqNc9OYHVeJUNezcm
-         tSLEU5YFOZxFf05xSbca5bYIR5pAota0+XOqOuxLUwO7rwtWXr+1xtFI+MTMk1+qiL5s
-         lWB+OgeDQwOyO7yZ36aBP1Z/NC1aj4Q/0BeABZlJj1vY906qMJ8XX2WdrplGh+uATZCN
-         3rgH/S8jrF1od9h8GM085Qkd1abHIOy5zU2vLo9UvPXtmPYqas8Y02pFoSc2MCqYM5tm
-         K9Q4wtyLLHFxS4V6L4xYOb59iVCGp0XRPat8EjY1bns82cNap0OaUD6APOh5NhURKBPr
-         ol1Q==
-X-Gm-Message-State: ABy/qLZuzIU3sRhVk/6yb8tBHWA/kW+2aMo4sRloztxKxM7RVTTRXwMo
-	DusLDYUS5FRKjpAyol+oCYWPuE9PT1dTteotFLk=
-X-Google-Smtp-Source: APBJJlFUQnCh/INsh7x/tNCrGX6j0l1i4AijX6ZBYKttfdreSB8wbsaY2Pkl/S7Smfp0ErtG2XvS7s46YxNrYlXCf/8=
-X-Received: by 2002:a5e:a514:0:b0:790:acd0:a26 with SMTP id
- 20-20020a5ea514000000b00790acd00a26mr8576680iog.21.1690983488877; Wed, 02 Aug
- 2023 06:38:08 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KdUo4eXq;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 366E82000C;
+	Wed,  2 Aug 2023 13:41:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1690983693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FCBZeZLwLBojlwd8CQIKl+tv4FiRKcVSaHNWG83SwpA=;
+	b=KdUo4eXq20UyhcSbGoKeg4k83b6UMj58EPLB89BAHVZSr6s51YaBLt9nEeEezSAqr/mzrg
+	EjM2h7v9UM97vG+yQiH25x/1zM9eaX4IbjDY+EPgSecUQfyY3hvMvfhv2fA27Bpy/iv7b0
+	XGhTsyHXFfJTLVegbktdThN6tIsoeryRRQng64kZqHbhE8sivTSkmOujc1DmtHpUiwt7B0
+	UfXo48NfUlyfVxU9Ae//zUmyvSEvXkLUGsh8y+4pZ8/hdd91SLXhiivhsJZXdk2AMiivGy
+	HknKyVu9JYQhuav4378S5Ddftq7HknDU5jJqdvStkwPnmZCaLwvfi+HyyVsjTA==
+Date: Wed, 2 Aug 2023 15:41:31 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Ross Burton <Ross.Burton@arm.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v6] rpm: Allow setting platform macro settings
+ externally
+Message-ID: <20230802134131db3e0b1e@mail.local>
+References: <20230801132957.401557-1-zboszor@gmail.com>
 MIME-Version: 1.0
-References: <20230802114705.90137-1-joel@jms.id.au> <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
- <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
-In-Reply-To: <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 2 Aug 2023 09:38:09 -0400
-Message-ID: <CADkTA4MxqDTacjdsJkN6Gxf8PMmqV5iy6_0e-Umn5BDjybDbPA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
-To: Joel Stanley <joel@jms.id.au>
-Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Andrew Geissler <geissonator@gmail.com>, mdmii@outlook.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230801132957.401557-1-zboszor@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185398
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:41:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185399
 
-On Wed, Aug 2, 2023 at 9:15=E2=80=AFAM Joel Stanley <joel@jms.id.au> wrote:
->
-> On Wed, 2 Aug 2023 at 12:45, Fr=C3=A9d=C3=A9ric Martinsons
-> <frederic.martinsons@gmail.com> wrote:
-> >
-> >
-> >
-> > On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
-> >>
-> >> The one liner tests using `[ ] && action` need to have || true after t=
-he action,
-> >> otherwise the line returns false and the recipie fails.
-> >>
-> >> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> >> ---
-> >>  meta/classes-recipe/kernel.bbclass | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
-kernel.bbclass
-> >> index 247ef4a48aa7..f1bc41e82be8 100644
-> >> --- a/meta/classes-recipe/kernel.bbclass
-> >> +++ b/meta/classes-recipe/kernel.bbclass
-> >> @@ -486,7 +486,7 @@ kernel_do_install() {
-> >>         install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map=
--${KERNEL_VERSION}
-> >>         install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERN=
-EL_VERSION}
-> >>         install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KER=
-NEL_VERSION}
-> >> -       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/$=
-{KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
-> >> +       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/$=
-{KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
-> >>  }
-> >>
-> >
-> > By doing that, you simply silent possible error of the action after the=
- test, below is a little snippet showing that
->
-> Sure. But the test is looking for the file, so if it doesn't exist
-> then the command install won't run.
+Hello,
 
-Something doesn't seem quite right, that test for Module.symvers (there
-and in the shared workdir code) were put in place for the scenario
-you are mentioning .. if Modules are disabled and hence Module.symvers does=
-n't
-exist.
+This causes
+sstatetests.SStateHashSameSigs3.test_sstate_sametune_samesigs to fail:
 
-At one point, we even tested that sort of configuration.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5572/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5538/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5547/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5495/steps/14/logs/stdio
 
-I didn't dig more through the logs, but maybe we had lines after that comma=
-nd
-previously, so the last return code wasn't a failure and hence no task
-failure.
+On 01/08/2023 15:29:57+0200, Zoltan Boszormenyi wrote:
+> Feed platform settings to installplatform externally. Based on the patch
+> submitted under https://github.com/rpm-software-management/rpm/pull/2585
+> 
+> Patch against INSTALL was backported for rpm 4.18.1
+> 
+> Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
+> ---
+>  ...atform-macro-settings-externally-258.patch | 119 ++++++++++++++++++
+>  meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  20 +++
+>  2 files changed, 139 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+> 
+> diff --git a/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+> new file mode 100644
+> index 0000000000..a32ce38533
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-macro-settings-externally-258.patch
+> @@ -0,0 +1,119 @@
+> +From e58c607dcdb303ff3ba1b22fd23eb20e374b6ed3 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
+> + <zboszor@gmail.com>
+> +Date: Fri, 28 Jul 2023 12:16:56 +0200
+> +Subject: [PATCH] Allow setting platform macro settings externally (#2585)
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +* Allow setting platform macro settings externally
+> +
+> +By default, rpm installs a series of default platforms based on
+> +the CPU architecture names in subdirectories called
+> +
+> +    /usr/lib/platform/<arch>-<os>
+> +
+> +This is enough for regular Linux distributions. However, some
+> +distributions may use more specific platform names that refer to
+> +particular computer systems, like SBCs or specific CPU tuning when
+> +compiling.
+> +
+> +If the platform subdirectory does not exist in /usr/lib/platform
+> +then rpmbuild does not work.
+> +
+> +Allow creating such custom platform subdirectory with feeding
+> +the necessary data using external variables: RPM_CUSTOM_ARCH,
+> +RPM_CUSTOM_ISANAME, RPM_CUSTOM_ISABITS, RPM_CUSTOM_CANONARCH
+> +and RPM_CUSTOM_CANONCOLOR
+> +
+> +Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
+> +Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/fde03ae33d55b160a31a6c54946880dcdf8fd0d6]
+> +
+> +---------
+> +
+> +Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
+> +Co-authored-by: Florian Festi <ffesti@redhat.com>
+> +---
+> + INSTALL         | 37 +++++++++++++++++++++++++++++++++++++
+> + installplatform |  9 ++++++++-
+> + 2 files changed, 45 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/INSTALL b/INSTALL
+> +index 13d0d8a83..5e035cf6a 100644
+> +--- a/INSTALL
+> ++++ b/INSTALL
+> +@@ -148,6 +148,43 @@ and then install with:
+> + 
+> +     make install
+> + 
+> ++
+> ++By default, rpm installs a series of default platforms based on the CPU
+> ++architecture names in subdirectories called
+> ++
+> ++    /usr/lib/platform/<arch>-<os>
+> ++
+> ++This is enough for many distributions. However, some distributions
+> ++may use more specific platform names that refer to particular computer
+> ++systems, like SBCs or specific CPU tuning when compiling. Examples of such
+> ++platform names are: "genericx86_64", "intel_skylake_64", "raspberrypi_armv7",
+> ++"raspberrypi_armv8", etc.
+> ++
+> ++If the platform name is put into /etc/rpm/platform, then rpmbuild uses it
+> ++and the only macros file rpmbuild looks for is
+> ++
+> ++    /usr/lib/platform/`cat /etc/rpm/platform`-<os>/macros
+> ++
+> ++If this file does not exist, many rpm macros will not have their expected
+> ++values set and e.g. %configure will fail when trying to run rpmbuild.
+> ++
+> ++To allow creating the macros file for such a custom platform, the shell
+> ++variables listed below must be set. If RPM_CUSTOM_ARCH is not set, the rest
+> ++is ignored.
+> ++
+> ++    export RPM_CUSTOM_ARCH=genericx86_64
+> ++    export RPM_CUSTOM_ISANAME=x86
+> ++    export RPM_CUSTOM_ISABITS=64
+> ++    export RPM_CUSTOM_CANONARCH=x86_64
+> ++    export RPM_CUSTOM_CANONCOLOR=0 # to use /usr/lib for %_libdir
+> ++    export RPM_CUSTOM_CANONCOLOR=3 # to use /usr/lib64 for %_libdir
+> ++
+> ++    make install 
+> ++
+> ++This also creates and installs the new platform file e.g.
+> ++/usr/lib/platform/genericx86_64-linux/macros
+> ++
+> ++
+> + Rpm comes with an automated self-test suite. The test-suite relies heavily
+> + on fakechroot (https://github.com/dex4er/fakechroot/) and cannot be executed
+> + without it. Provided that fakechroot was found during configure,
+> +diff --git a/installplatform b/installplatform
+> +index a5ad7c5b8..59f57697b 100755
+> +--- a/installplatform
+> ++++ b/installplatform
+> +@@ -11,7 +11,7 @@ VENDOR="${4}"
+> + OS="${5}"
+> + RPMRC_GNU="${6}"
+> + 
+> +-for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
+> ++for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2` ${RPM_CUSTOM_ARCH:+custom}; do
+> +   RPMRC_OPTFLAGS="`sed -n 's/^optflags: '$ARCH' //p' $RPMRC`"
+> +   RPMRC_OPTFLAGS="`echo $RPMRC_OPTFLAGS | sed -e 's, ,\ ,g'`"
+> +   case $RPMRC_OPTFLAGS in
+> +@@ -30,6 +30,13 @@ for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
+> +   CANONCOLOR=
+> +   FILTER=cat
+> +   case "${ARCH}" in
+> ++    custom)
+> ++	ARCH=$RPM_CUSTOM_ARCH
+> ++	ISANAME=$RPM_CUSTOM_ISANAME
+> ++	ISABITS=$RPM_CUSTOM_ISABITS
+> ++	CANONARCH=$RPM_CUSTOM_CANONARCH
+> ++	CANONCOLOR=$RPM_CUSTOM_CANONCOLOR
+> ++    ;;
+> +     sparc64*) 
+> + 	ISANAME=sparc
+> + 	ISABITS=64
+> +-- 
+> +2.41.0
+> +
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+> index 95a9e92f96..0b8ebebb51 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
+> @@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
+>             file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
+>             file://fix-declaration.patch \
+>             file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
+> +           file://0001-Allow-setting-platform-macro-settings-externally-258.patch \
+>             "
+>  
+>  PE = "1"
+> @@ -128,10 +129,29 @@ do_install:append:class-nativesdk() {
+>  	EOF
+>  }
+>  
+> +def rpm_isaname(d):
+> +    import re
+> +    arch = d.getVar('TARGET_ARCH')
+> +    if re.match("^i.86$", arch) or re.match("^x86.*64$", arch):
+> +        return "x86"
+> +    # Add more platform tweaks for ISANAME as needed
+> +    return arch
+> +
+> +# Add the custom BSP platform "macros" file
+> +do_install:prepend:class-target() {
+> +    export RPM_CUSTOM_ARCH="${MACHINE_ARCH}"
+> +    export RPM_CUSTOM_ISANAME="${@rpm_isaname(d)}"
+> +    export RPM_CUSTOM_ISABITS="${SITEINFO_BITS}"
+> +    export RPM_CUSTOM_CANONARCH="${TARGET_ARCH}"
+> +    # CANONCOLOR determines whether /usr/lib or /usr/lib64 is used for a 64-bit platform
+> +    export RPM_CUSTOM_CANONCOLOR="${@bb.utils.contains('DISTRO_FEATURES', 'multilib', '3', '0', d)}"
+> +}
+> +
+>  # Rpm's make install creates var/tmp which clashes with base-files packaging
+>  do_install:append:class-target() {
+>      rm -rf ${D}/var
+>  }
+> +
+>  do_install:append:class-nativesdk() {
+>      rm -rf ${D}${SDKPATHNATIVE}/var
+>      # Ensure find-debuginfo is located correctly inside SDK
+> -- 
+> 2.41.0
+> 
 
-As was mentioned, we could make the test more explicit if the shorthand of
-just checking for the symvers file isn't working, since really, if we have =
-an
-|| true in the one-liner, we probably can tweak things to not test for
-Module.symvers
-at all.
-
-Bruce
-
-
->
-> I can't think of any realistic situation where install would fail if
-> the file is present.
->
-> > I think the origin of your issue is that the action failed , having the=
- log of kernel_do_install task would help.
->
-> That isn't the case.
->
-> The issue is the Modules.symvers file is not found. This is expected,
-> because the kernel does not use modules.
->
-> Here is the log, with paths trimmed:
->
-> DEBUG: Executing shell function do_install
-> NOTE: no modules to install
-> WARNING: temp/run.do_install.2584671:225 exit 1 from '[ -e Module.symvers=
- ]'
-> WARNING: Backtrace (BB generated script):
->     #1: do_install, temp/run.do_install.2584671, line 225
->     #2: main, temp/run.do_install.2584671, line 283
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#185391): https://lists.openembedded.org/g/openembedde=
-d-core/message/185391
-> Mute This Topic: https://lists.openembedded.org/mt/100503145/1050810
+> View/Reply Online (#185245): https://lists.openembedded.org/g/openembedded-core/message/185245
+> Mute This Topic: https://lists.openembedded.org/mt/100483574/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
