@@ -1,224 +1,494 @@
-Return-Path: <charlie.johnston@ni.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5331C00528
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 21:40:53 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.127])
- by mx.groups.io with SMTP id smtpd.web11.573.1691012448925498502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1CCC001DF
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 22:29:24 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.1789.1691015360853451949
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 14:40:49 -0700
+ Wed, 02 Aug 2023 15:29:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=Svt0+CR8;
- spf=pass (domain: ni.com, ip: 40.107.244.127, mailfrom: charlie.johnston@ni.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=asjZcazQbnu/DI+6u8FOp162vbA3UGhgUPWNjZPWNMxXSVLqe8Ljx25wmxPcf4a1Q2EQQBCV0YGbYNPAtoVtuHf5FgZbAt2OyBpZQ57QC9e1JvGNro9dh+d2LuNoRfnu8snxbfU2KzqIud/swfA+X6EDSGF8yq+HDwv/GU9dRTi0ImHaGCZCQzt4Wdh0QI8pFwJjEkaxdwvYF4C16YZgEUveMdFPV3Vo8WwqEmY3bQfspIGNih8+2jX67JgvBu8KuniHpFbIcp2mMJwKgzaX9cKWHVQnmBNEro9EtrjE4YiuATQAfDTkAriHViedLYFtVqQ7G2Qilyra+1cdO6Jakw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pa1VtDkPys8LJ+xwU8hizM36gE3s6N72nNXFPu4yo38=;
- b=gQPXh22AhR/T6v3q0DSsJBCt85EG+U1WzuP4aCBWgIlAFhfCFuWWisWiyrbadeKlQgawJHoiEyjppaSb5ymbsc7hzivZsop/MTe7ENNq1jq7kPuGjjxfvW1gpvl7NqR3h6B4ocrtUjPqJ1i8bc9G0xYBCwnuVWRGfpG5C6UfUxoNUCqnp0/RW0+ONHGTrqmewlI3PugIlONCoU0kSINUsekI5qz8nYQZ18mue6cke/znlEgiv9gv+Mg9/TXj01gRQYK9TEZWNwau4+9I4YZr2VAmxSPKshFa/wLJwvznRT6j0Z1nLUnoF5ABcb9Wlb8qxk3QuajCYPXdzF+Tzv5oKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pa1VtDkPys8LJ+xwU8hizM36gE3s6N72nNXFPu4yo38=;
- b=Svt0+CR8PzPlHoWpJucqMD1DatrmW3Ig6QB5MQaSHLoNy4Zmh8/u+lBE8YOvW3bA9bm7t3vCVtMM52MExZbqhmQordVw/hNGKk5siL/wEuoQDxp4zN+/yEtqxJrVvPZWQuYBTxoIr5je5wu6PAeRLDt/L3lsuz2l0x5EdxcB3fM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ni.com;
-Received: from SN6PR04MB4879.namprd04.prod.outlook.com (2603:10b6:805:9b::29)
- by SJ0PR04MB7294.namprd04.prod.outlook.com (2603:10b6:a03:294::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.19; Wed, 2 Aug
- 2023 21:40:47 +0000
-Received: from SN6PR04MB4879.namprd04.prod.outlook.com
- ([fe80::c738:ef27:97ab:fa11]) by SN6PR04MB4879.namprd04.prod.outlook.com
- ([fe80::c738:ef27:97ab:fa11%7]) with mapi id 15.20.6631.045; Wed, 2 Aug 2023
- 21:40:47 +0000
-From: Charlie Johnston <charlie.johnston@ni.com>
-To: openembedded-core@lists.openembedded.org
-CC: Charlie Johnston <charlie.johnston@ni.com>
-Subject: [oe-core][PATCH 5/6] packagefeed.bbclass: Add new bbclass for building feeds.
-Date: Wed,  2 Aug 2023 16:35:09 -0500
-Message-ID: <20230802214019.1068795-6-charlie.johnston@ni.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230802214019.1068795-1-charlie.johnston@ni.com>
-References: <20230802214019.1068795-1-charlie.johnston@ni.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: SA9PR03CA0004.namprd03.prod.outlook.com
- (2603:10b6:806:20::9) To SN6PR04MB4879.namprd04.prod.outlook.com
- (2603:10b6:805:9b::29)
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd89.aul.t-online.de (fwd89.aul.t-online.de [10.223.144.115])
+	by mailout11.t-online.de (Postfix) with SMTP id 5928CD18;
+	Thu,  3 Aug 2023 00:29:18 +0200 (CEST)
+Received: from [192.168.0.109] ([24.134.105.89]) by fwd89.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qRKLD-0FT8aW0; Thu, 3 Aug 2023 00:29:16 +0200
+Date: Thu, 03 Aug 2023 00:29:09 +0200
+From: f_l_k@t-online.de
+Subject: Re: [oe-core][PATCH 1/2] webkitgtk: upgrade 2.40.2 -> 2.40.5
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Message-Id: <LSBSYR.605OD6VIH5OO@t-online.de>
+In-Reply-To: <CANNYZj8aoo6gh1amU2pOBC+jZj_=psDtYs5YZeaLLHaNT0prFg@mail.gmail.com>
+References: <20230802150801.2607-1-f_l_k@t-online.de>
+	<CANNYZj8aoo6gh1amU2pOBC+jZj_=psDtYs5YZeaLLHaNT0prFg@mail.gmail.com>
+X-Mailer: geary/44.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR04MB4879:EE_|SJ0PR04MB7294:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d3764f6-a87b-4f6a-4b2a-08db93a12223
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	IgPTVe6zCvvMPTP2FXFPONulbY5KI/vkG/Cijz3bIDNcvoAKpOtJqvOGhDSI4Xhcqv4ELgTs/U5af2gpYpx8PqM6E8aUdyXf9aE9dmcn1ZH4axx/MIgI2zWZAnHvsMKFX14lH152YXFfsfiqOVhnHqmXMzH9HWG4XwZzqUZqWZYVx8hmD92MVZwh4U0+yadAMtOISCsTMBYlDojEjRxJFJaOwfIoV1kEGxsM3DeRtvqqz3sAXFRplU7Ciqx2ytM535BiNEsncmgd2EYJ2q/i+QwXI79IHtvhof36fwp+OBdJX9mNeXj09gMM3gXbGf0IgctPNjYcRycbVY7HleKmrYxxju6tm4hzb4D+Grai58JSTx8aVI73khFdnh7BK5eT1aB71durnNc7lLsEVSOy5d8OrTH2yURoLTjgc/2IH/RI44hiWBtqS+V9LJj7paJMNZpcJ+IMuRumrPHF/2gPIVs0LKuphjIUIftG+htE/Bi/wGNOdv05MjSE11S258dJsn2wyefsxnD0na0yrXo7FEhZRDRps0wSR7xyr3YLmJ8z6LnWDmCpjeVybu4svAtZ
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4879.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(396003)(376002)(136003)(366004)(451199021)(8676002)(5660300002)(2616005)(41300700001)(38100700002)(316002)(186003)(8936002)(1076003)(6506007)(26005)(4326008)(6916009)(66946007)(86362001)(66556008)(66476007)(6512007)(2906002)(6666004)(6486002)(36756003)(478600001)(44832011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?S94LDe/HGNtIef2l+e9+2ZeqZsPWuEwXspspklhnMW/33sNsplOPCWKwehmz?=
- =?us-ascii?Q?eMeB+j+umH6VufgCRB39/OniTKj36OfF6O3NOpMR7x0u/VkSb2es/fmE04A2?=
- =?us-ascii?Q?/5ElIir5KI9TEmXfR3Iac8wWtgnWI8ppWjNbfi1WBUeKWs0FFGILU+sMt3vx?=
- =?us-ascii?Q?CZ8qvYDl4tb8AdCBmxkcKou1LquY0eW87ZDlGlVMPTA25PL/72hbos8vSQKl?=
- =?us-ascii?Q?rqL1I0r1SN7qYIoiQ/1zLXQSv2VxVdhM7Tqxt47gjEwTF6wCClzJpupMcTqA?=
- =?us-ascii?Q?Umzg6b6YYY91f3NRhiaa8q1EzoOD24QolS1Bc9kt7uURt6eYBW51ERXG+jII?=
- =?us-ascii?Q?J5KbTmeP0S8Psdy+DYMqUed9vDzISxCxpl1euCK/sme1Geknt75dESbSHfIm?=
- =?us-ascii?Q?AZSgnfzdGhNW583ziM9CyChLNv0cIvt3S2tLYaLnVRKLdvUTCsr/hcL6mYHt?=
- =?us-ascii?Q?SY9wmBjCOo/cZoDP7vs7J0pdUjZ2Dl0RsMJT1dWbXCMQSugsNkXfx9sKwbhH?=
- =?us-ascii?Q?lC+wMYdhLEiJwvuKePO9uPhpoJ6rKyRVKiAzAbsLo8y5285j8S1zcDt9Fw3N?=
- =?us-ascii?Q?LBk1ovgvImiEhwYUM7zON7soRAFJ1xFIaYYBibelgZVa7F/cCNzoxekvNdee?=
- =?us-ascii?Q?qnsiCeaU/WkbYeI8B9cZD7iLhw5IIPR+KyNVRw+GzvsOc+BErU8UdGYhbA7y?=
- =?us-ascii?Q?JgSSQwOb30j7yE5UaIDw/zl8QeNwBDGitrMZFu0hoaupQSDR9jZTvuu1PzvF?=
- =?us-ascii?Q?unqI6kxCHFHVNg783r/m7gffNCpJnJM4uWL5JJtvbtFoZSNnL+n8XGU75Iqy?=
- =?us-ascii?Q?5u+SyHj0zfl2mOl8ZtjMEhDE2wqfTsCRoRgF51ctrXxVoQZmTNMF7WTAckBN?=
- =?us-ascii?Q?bbQ/d0rXCsEp4LolZxtPnHV2lmQUm3b5j5i85o3KK0gdbs0QqmDQGxmbobPi?=
- =?us-ascii?Q?tQegdbtLmyl9g/US4k63bcvIWud5X/+why9PlekgnWUp4qP/N1Is2PItFNNi?=
- =?us-ascii?Q?VkPw6mKSv3od8qck60RQYzV/eYAcBMSHL8i/rH152PesCDuhcBq7kod4t2X6?=
- =?us-ascii?Q?ENlJiliVTCTnlahWcrP2Vp03JFh7YuYZQhHCn1me90jvx71OG0QYEjqrBnSt?=
- =?us-ascii?Q?nKLLM81wxrT6ygSRs6NqbgBnquOJr6JyWSGoPn1/o4ytUe+szGCcJS9W1po3?=
- =?us-ascii?Q?dOUVYm8OkAIlKvJHBIpz/0Ag0Kk/7n66xR6qfIpMXZTmUretpmAL++CSprZB?=
- =?us-ascii?Q?i48B15CsrkkmU+ZR1T1CTpMw7wOIAVknXVuL5z38ZZZ5T5KahovT4W70+4Gm?=
- =?us-ascii?Q?jKKw+nhazO46CzHoIgou4+IXf5A2W9tWruOD/fhlIQpQwRhFuZTCrizK0UTf?=
- =?us-ascii?Q?m9x/XKVZw61P5O/qIlWfzg1BVoJ7kBKGZ8mePEKY2YBBTUzyRevBSVeNKAs7?=
- =?us-ascii?Q?c0+JpVm5rwgzCmJSQZAtSNdN9++GV9NQb10W8JXEEwZdqY1LYAXPshGTC8Ky?=
- =?us-ascii?Q?D19xneBalWu9NiF0fTQeRWaN158fXXkoYquQNFMeJWIS29bu+FV9ZgTyhh+u?=
- =?us-ascii?Q?QlfMGkNZmQXCvtsdQHD7J3iAmZhWMIdfgmWPSbUFNuuZIomxOQqgXEQyE0WV?=
- =?us-ascii?Q?LA=3D=3D?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d3764f6-a87b-4f6a-4b2a-08db93a12223
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4879.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2023 21:40:47.6145
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wWkuR1PA1t2YtakUSYFSTAZs3aU8l+cVjjWD8krZsOwI68AsbYwkv1J+WXh3I1+6GPpoHn/hjognlFtcW5SZwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7294
+Content-Type: multipart/alternative; boundary="=-i5gtPG1LS7UaE6HZ8byW"
+X-TOI-EXPURGATEID: 150726::1691015356-CD6279BF-30E065F4/0/0 CLEAN NORMAL
+X-TOI-MSGID: e60ae318-c370-4161-a913-368d2a72c048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 21:40:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185439
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 22:29:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185441
 
-Add a new bbclass that allows building a feed using the
-new oe.package_manager class. Additionally, there are
-packagefeed_<type> bbclasses to define package type
-specific configurations.
+--=-i5gtPG1LS7UaE6HZ8byW
+Content-Type: text/plain; charset=iso-8859-13; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The do_packagefeed task currently does no use SSTATE
-data and is set to always run via [nostamp] =3D "1".
+Yes, I checked that as well. I'm sorry I didn't comment in more detail.
 
-The variable FEED_DEPENDS is used to specify feeds that
-the packagefeed depends on and will be available
-side-by-side. This prevents duplicate packages in the
-two feeds.
+On Wed, Aug 2 2023 at 07:42:53 PM +02:00:00, Alexander Kanavin=20
+<alex.kanavin@gmail.com> wrote:
+> 'Unneeded patches' is not a good phrase to use: it's better to say
+> explicitly that the patches have been merged into the new release (or
+> if there is some other reason they are not needed anymore). I had to
+> go to upstream repo and check that, but I shouldn't have to.
+>=20
+> Alex
+>=20
+> On Wed, 2 Aug 2023 at 17:08, Markus Volk <f_l_k@t-online.de=20
+> <mailto:f_l_k@t-online.de>> wrote:
+>>=20
+>>  - Remove unneeded patches
+>>=20
+>>      What=FFs new in the WebKitGTK 2.40.5 release?
+>>      - Fix several crashes and rendering issues.
+>>=20
+>>      What=FFs new in the WebKitGTK 2.40.4 release?
+>>      - Fix a bug in JavaScript reading variable arguments in a call.
+>>=20
+>>      What=FFs new in the WebKitGTK 2.40.3 release?
+>>      - Make memory pressure monitor honor=20
+>> memory.memsw.usage_in_bytes if exists.
+>>      - Include key modifiers in wheel events.
+>>      - Apply cookie blocking policy to WebSocket handshakes.
+>>      - Remove accidental dependency on GLib 2.70.
+>>      - Fix the build with BUBBLEWRAP_SANDBOX disabled.
+>>      - Fix several crashes and rendering issues.
+>>=20
+>>  Signed-off-by: Markus Volk <f_l_k@t-online.de=20
+>> <mailto:f_l_k@t-online.de>>
+>>  ---
+>>   ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 -------------
+>>   ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41=20
+>> -------------------
+>>   ...ebkitgtk_2.40.2.bb =3D> webkitgtk_2.40.5.bb} |  5 +--
+>>   3 files changed, 1 insertion(+), 73 deletions(-)
+>>   delete mode 100644=20
+>> meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLists=
+.txt-ensure-reproduc.patch
+>>   delete mode 100644=20
+>> meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f7894=
+bf4.patch
+>>   rename meta/recipes-sato/webkit/{webkitgtk_2.40.2.bb =3D>=20
+>> webkitgtk_2.40.5.bb} (96%)
+>>=20
+>>  diff --git=20
+>> a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLis=
+ts.txt-ensure-reproduc.patch=20
+>> b/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLis=
+ts.txt-ensure-reproduc.patch
+>>  deleted file mode 100644
+>>  index bbe265059d..0000000000
+>>  ---=20
+>> a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeLis=
+ts.txt-ensure-reproduc.patch
+>>  +++ /dev/null
+>>  @@ -1,28 +0,0 @@
+>>  -From cd65e3d9256a4f6eb7906a9f10678c29a4ffef2f Mon Sep 17 00:00:00=20
+>> 2001
+>>  -From: Alexander Kanavin <alex@linutronix.de=20
+>> <mailto:alex@linutronix.de>>
+>>  -Date: Mon, 26 Jun 2023 14:30:02 +0200
+>>  -Subject: [PATCH] Source/JavaScriptCore/CMakeLists.txt: ensure=20
+>> reproducibility
+>>  - of __TIMESTAMP__
+>>  -
+>>  -__TIMESTAMP__ refers to mtime of the file that contains it, which=20
+>> is unstable
+>>  -and breaks binary reproducibility when the file is generated at=20
+>> build time. To ensure
+>>  -this does not happen, mtime should be set from the original file.
+>>  -
+>>  -Upstream-Status: Submitted=20
+>> [<https://github.com/WebKit/WebKit/pull/15293>]
+>>  -Signed-off-by: Alexander Kanavin <alex@linutronix.de=20
+>> <mailto:alex@linutronix.de>>
+>>  ----
+>>  - Source/JavaScriptCore/CMakeLists.txt | 1 +
+>>  - 1 file changed, 1 insertion(+)
+>>  -
+>>  -diff --git a/Source/JavaScriptCore/CMakeLists.txt=20
+>> b/Source/JavaScriptCore/CMakeLists.txt
+>>  -index 43dc22ff..c2e3b1cd 100644
+>>  ---- a/Source/JavaScriptCore/CMakeLists.txt
+>>  -+++ b/Source/JavaScriptCore/CMakeLists.txt
+>>  -@@ -159,6 +159,7 @@ add_custom_command(
+>>  -     OUTPUT=20
+>> ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
+>>  -     MAIN_DEPENDENCY=20
+>> ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in
+>>  -     COMMAND ${PERL_EXECUTABLE} -pe=20
+>> s/CACHED_TYPES_CKSUM/__TIMESTAMP__/=20
+>> ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in >=20
+>> ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
+>>  -+    COMMAND touch -r=20
+>> ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in=20
+>> ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
+>>  -             VERBATIM
+>>  - )
+>>  -
+>>  diff --git=20
+>> a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f78=
+94bf4.patch=20
+>> b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f78=
+94bf4.patch
+>>  deleted file mode 100644
+>>  index 79da855ff4..0000000000
+>>  ---=20
+>> a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f78=
+94bf4.patch
+>>  +++ /dev/null
+>>  @@ -1,41 +0,0 @@
+>>  -From 4977290ab4ab35258a6da9b13795c9b0f7894bf4 Mon Sep 17 00:00:00=20
+>> 2001
+>>  -From: Diego Pino Garcia <dpino@igalia.com=20
+>> <mailto:dpino@igalia.com>>
+>>  -Date: Mon, 22 May 2023 19:58:50 -0700
+>>  -Subject: [PATCH] [GLIB] Fix build error after 264196@main
+>>  - <https://bugs.webkit.org/show_bug.cgi?id=3D256917>
+>>  -
+>>  -Reviewed by Michael Catanzaro.
+>>  -
+>>  -Variable BWRAP_EXECUTABLE is only defined when BUBBLEWRAP_SANDBOX=20
+>> is
+>>  -enabled.
+>>  -
+>>  -* Source/WTF/wtf/glib/Sandbox.cpp:
+>>  -(WTF::isInsideUnsupportedContainer):
+>>  -
+>>  -Canonical link: <https://commits.webkit.org/264395@main>
+>>  -Upstream-Status: Backport=20
+>> [<https://github.com/WebKit/WebKit/commit/4977290ab4ab35258a6da9b13795c9=
+b0f7894bf4>]
+>>  -Signed-off-by: Alexander Kanavin <alex@linutronix.de=20
+>> <mailto:alex@linutronix.de>>
+>>  ----
+>>  - Source/WTF/wtf/glib/Sandbox.cpp | 2 ++
+>>  - 1 file changed, 2 insertions(+)
+>>  -
+>>  -diff --git a/Source/WTF/wtf/glib/Sandbox.cpp=20
+>> b/Source/WTF/wtf/glib/Sandbox.cpp
+>>  -index 7d84e830ab33e..9b07bb8cb5a9b 100644
+>>  ---- a/Source/WTF/wtf/glib/Sandbox.cpp
+>>  -+++ b/Source/WTF/wtf/glib/Sandbox.cpp
+>>  -@@ -36,6 +36,7 @@ bool isInsideFlatpak()
+>>  -     return returnValue;
+>>  - }
+>>  -
+>>  -+#if ENABLE(BUBBLEWRAP_SANDBOX)
+>>  - bool isInsideUnsupportedContainer()
+>>  - {
+>>  -     static bool inContainer =3D g_file_test("/run/.containerenv",=20
+>> G_FILE_TEST_EXISTS);
+>>  -@@ -64,6 +65,7 @@ bool isInsideUnsupportedContainer()
+>>  -
+>>  -     return inContainer && !supportedContainer;
+>>  - }
+>>  -+#endif
+>>  -
+>>  - bool isInsideSnap()
+>>  - {
+>>  diff --git a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb=20
+>> b/meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
+>>  similarity index 96%
+>>  rename from meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
+>>  rename to meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
+>>  index a9391bfc99..7bf32e8610 100644
+>>  --- a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
+>>  +++ b/meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
+>>  @@ -13,11 +13,9 @@ SRC_URI =3D=20
+>> "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+>>             =20
+>> file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch=20
+>> <file://0001-findgobjectintrospection.cmake-prefix-variables-obta.patch/=
+>=20
+>> \
+>>              file://reproducibility.patch=20
+>> <file://reproducibility.patch/> \
+>>              file://0d3344e17d258106617b0e6d783d073b188a2548.patch=20
+>> <file://0d3344e17d258106617b0e6d783d073b188a2548.patch/> \
+>>  -           file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch=20
+>> <file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch/> \
+>>  -          =20
+>> file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch=20
+>> <file://0001-source-javascriptcore-cmakelists.txt-ensure-reproduc.patch/=
+>=20
+>> \
+>>              file://check-GST_GL_HAVE_PLATFORM_GLX.patch=20
+>> <file://check-gst_gl_have_platform_glx.patch/> \
+>>              "
+>>  -SRC_URI[sha256sum] =3D=20
+>> "96898870d994da406ee7a632816dcde9a3bb395ee5f344fcb3f3b8cc8a77e000"
+>>  +SRC_URI[sha256sum] =3D=20
+>> "7de051a263668621d91a61a5eb1c3771d1a7cec900043d4afef06c326c16037f"
+>>=20
+>>   inherit cmake pkgconfig gobject-introspection perlnative=20
+>> features_check upstream-version-is-even gi-docgen
+>>=20
+>>  @@ -162,6 +160,5 @@ src_package_preprocess () {
+>>               ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
+>>               ${B}/WebCore/DerivedSources/*.cpp \
+>>               ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
+>>  -
+>>   }
+>>=20
+>>  --
+>>  2.41.0
+>>=20
+>>=20
+>>=20
+>>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185422):=20
+> <https://lists.openembedded.org/g/openembedded-core/message/185422>
+> Mute This Topic: <https://lists.openembedded.org/mt/100507379/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org=20
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe:=20
+> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
----
- meta/classes-recipe/packagefeed.bbclass     | 26 +++++++++++++++++++++
- meta/classes-recipe/packagefeed_deb.bbclass |  8 +++++++
- meta/classes-recipe/packagefeed_ipk.bbclass |  8 +++++++
- meta/classes-recipe/packagefeed_rpm.bbclass |  8 +++++++
- 4 files changed, 50 insertions(+)
- create mode 100644 meta/classes-recipe/packagefeed.bbclass
- create mode 100644 meta/classes-recipe/packagefeed_deb.bbclass
- create mode 100644 meta/classes-recipe/packagefeed_ipk.bbclass
- create mode 100644 meta/classes-recipe/packagefeed_rpm.bbclass
 
-diff --git a/meta/classes-recipe/packagefeed.bbclass b/meta/classes-recipe/=
-packagefeed.bbclass
-new file mode 100644
-index 0000000000..08df96f662
---- /dev/null
-+++ b/meta/classes-recipe/packagefeed.bbclass
-@@ -0,0 +1,26 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+PKGFEED_INHERITS =3D "${@' '.join(['packagefeed_' + x for x in d.getVar('P=
-ACKAGE_CLASSES').replace("package_", "").split()])}"
-+inherit ${PKGFEED_INHERITS} nopackages
-+
-+LICENSE ?=3D "MIT"
-+
-+# Feeds listed in FEED_DEPENDS and their dependencies will be excluded fro=
-m the feed.
-+# This allows for side-by-side feeds without duplicate packages.
-+FEED_DEPENDS ??=3D ""
-+
-+fakeroot python do_packagefeed() {
-+    from oe.package_manager import generate_feed_dirs, generate_index_file=
-s
-+
-+    generate_feed_dirs(d, d.getVar("FEED_DEPENDS"))
-+    generate_index_files(d, isFeed=3DTrue)
-+}
-+addtask packagefeed before do_build
-+do_packagefeed[recrdeptask] +=3D "do_package_qa"
-+do_packagefeed[nostamp] =3D "1"
-+do_packagefeed[rdepends] +=3D "${@' '.join([x + ':do_packagefeed' for x in=
- d.getVar('FEED_DEPENDS').split()])}"
-+do_packagefeed[cleandirs] +=3D "${DEPLOY_DIR_FEED_DEB}/${PN} ${DEPLOY_DIR_=
-FEED_IPK}/${PN} ${DEPLOY_DIR_FEED_RPM}/${PN}"
-diff --git a/meta/classes-recipe/packagefeed_deb.bbclass b/meta/classes-rec=
-ipe/packagefeed_deb.bbclass
-new file mode 100644
-index 0000000000..2decc70a4f
---- /dev/null
-+++ b/meta/classes-recipe/packagefeed_deb.bbclass
-@@ -0,0 +1,8 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+do_packagefeed[depends] +=3D "apt-native:do_populate_sysroot"
-+do_packagefeed[recrdeptask] +=3D "do_package_write_deb"
-diff --git a/meta/classes-recipe/packagefeed_ipk.bbclass b/meta/classes-rec=
-ipe/packagefeed_ipk.bbclass
-new file mode 100644
-index 0000000000..89d296200b
---- /dev/null
-+++ b/meta/classes-recipe/packagefeed_ipk.bbclass
-@@ -0,0 +1,8 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+do_packagefeed[depends] +=3D "opkg-native:do_populate_sysroot opkg-utils-n=
-ative:do_populate_sysroot"
-+do_packagefeed[recrdeptask] +=3D "do_package_write_ipk"
-diff --git a/meta/classes-recipe/packagefeed_rpm.bbclass b/meta/classes-rec=
-ipe/packagefeed_rpm.bbclass
-new file mode 100644
-index 0000000000..8ce37cc855
---- /dev/null
-+++ b/meta/classes-recipe/packagefeed_rpm.bbclass
-@@ -0,0 +1,8 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+do_packagefeed[depends] +=3D "createrepo-c-native:do_populate_sysroot"
-+do_packagefeed[recrdeptask] +=3D "do_package_write_rpm"
---=20
-2.41.0
+--=-i5gtPG1LS7UaE6HZ8byW
+Content-Type: text/html; charset=iso-8859-13
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div>Yes, I checked that as well. I'm s=
+orry I didn't comment in more detail.</div></div><div id=3D"geary-quote" di=
+r=3D"auto"><br>On Wed, Aug 2 2023 at 07:42:53 PM +02:00:00, Alexander Kanav=
+in &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type=3D"cite"><div =
+class=3D"plaintext" style=3D"white-space: break-spaces;">'Unneeded patches'=
+ is not a good phrase to use: it's better to say
+explicitly that the patches have been merged into the new release (or
+if there is some other reason they are not needed anymore). I had to
+go to upstream repo and check that, but I shouldn't have to.
+
+Alex
+
+On Wed, 2 Aug 2023 at 17:08, Markus Volk &lt;<a href=3D"mailto:f_l_k@t-onli=
+ne.de">f_l_k@t-online.de</a>&gt; wrote:
+<blockquote>
+ - Remove unneeded patches
+
+     What=FFs new in the WebKitGTK 2.40.5 release?
+     - Fix several crashes and rendering issues.
+
+     What=FFs new in the WebKitGTK 2.40.4 release?
+     - Fix a bug in JavaScript reading variable arguments in a call.
+
+     What=FFs new in the WebKitGTK 2.40.3 release?
+     - Make memory pressure monitor honor memory.memsw.usage_in_bytes if ex=
+ists.
+     - Include key modifiers in wheel events.
+     - Apply cookie blocking policy to WebSocket handshakes.
+     - Remove accidental dependency on GLib 2.70.
+     - Fix the build with BUBBLEWRAP_SANDBOX disabled.
+     - Fix several crashes and rendering issues.
+
+ Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
+t-online.de</a>&gt;
+ ---
+  ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 -------------
+  ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 -------------------
+  ...ebkitgtk_2.40.2.bb =3D&gt; webkitgtk_2.40.5.bb} |  5 +--
+  3 files changed, 1 insertion(+), 73 deletions(-)
+  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScr=
+iptCore-CMakeLists.txt-ensure-reproduc.patch
+  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6=
+da9b13795c9b0f7894bf4.patch
+  rename meta/recipes-sato/webkit/{webkitgtk_2.40.2.bb =3D&gt; webkitgtk_2.=
+40.5.bb} (96%)
+
+ diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore=
+-CMakeLists.txt-ensure-reproduc.patch b/meta/recipes-sato/webkit/webkitgtk/=
+0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
+ deleted file mode 100644
+ index bbe265059d..0000000000
+ --- a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMakeL=
+ists.txt-ensure-reproduc.patch
+ +++ /dev/null
+ @@ -1,28 +0,0 @@
+ -From cd65e3d9256a4f6eb7906a9f10678c29a4ffef2f Mon Sep 17 00:00:00 2001
+ -From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de">alex@li=
+nutronix.de</a>&gt;
+ -Date: Mon, 26 Jun 2023 14:30:02 +0200
+ -Subject: [PATCH] Source/JavaScriptCore/CMakeLists.txt: ensure reproducibi=
+lity
+ - of __TIMESTAMP__
+ -
+ -__TIMESTAMP__ refers to mtime of the file that contains it, which is unst=
+able
+ -and breaks binary reproducibility when the file is generated at build tim=
+e. To ensure
+ -this does not happen, mtime should be set from the original file.
+ -
+ -Upstream-Status: Submitted [<a href=3D"https://github.com/WebKit/WebKit/p=
+ull/15293">https://github.com/WebKit/WebKit/pull/15293</a>]
+ -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de=
+">alex@linutronix.de</a>&gt;
+ ----
+ - Source/JavaScriptCore/CMakeLists.txt | 1 +
+ - 1 file changed, 1 insertion(+)
+ -
+ -diff --git a/Source/JavaScriptCore/CMakeLists.txt b/Source/JavaScriptCore=
+/CMakeLists.txt
+ -index 43dc22ff..c2e3b1cd 100644
+ ---- a/Source/JavaScriptCore/CMakeLists.txt
+ -+++ b/Source/JavaScriptCore/CMakeLists.txt
+ -@@ -159,6 +159,7 @@ add_custom_command(
+ -     OUTPUT ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion=
+.cpp
+ -     MAIN_DEPENDENCY ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersio=
+n.cpp.in
+ -     COMMAND ${PERL_EXECUTABLE} -pe s/CACHED_TYPES_CKSUM/__TIMESTAMP__/ $=
+{JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in &gt; ${JavaScri=
+ptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
+ -+    COMMAND touch -r ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersi=
+on.cpp.in ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
+ -             VERBATIM
+ - )
+ -
+ diff --git a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b137=
+95c9b0f7894bf4.patch b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258=
+a6da9b13795c9b0f7894bf4.patch
+ deleted file mode 100644
+ index 79da855ff4..0000000000
+ --- a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0f=
+7894bf4.patch
+ +++ /dev/null
+ @@ -1,41 +0,0 @@
+ -From 4977290ab4ab35258a6da9b13795c9b0f7894bf4 Mon Sep 17 00:00:00 2001
+ -From: Diego Pino Garcia &lt;<a href=3D"mailto:dpino@igalia.com">dpino@iga=
+lia.com</a>&gt;
+ -Date: Mon, 22 May 2023 19:58:50 -0700
+ -Subject: [PATCH] [GLIB] Fix build error after 264196@main
+ - <a href=3D"https://bugs.webkit.org/show_bug.cgi?id=3D256917">https://bug=
+s.webkit.org/show_bug.cgi?id=3D256917</a>
+ -
+ -Reviewed by Michael Catanzaro.
+ -
+ -Variable BWRAP_EXECUTABLE is only defined when BUBBLEWRAP_SANDBOX is
+ -enabled.
+ -
+ -* Source/WTF/wtf/glib/Sandbox.cpp:
+ -(WTF::isInsideUnsupportedContainer):
+ -
+ -Canonical link: <a href=3D"https://commits.webkit.org/264395@main">https:=
+//commits.webkit.org/264395@main</a>
+ -Upstream-Status: Backport [<a href=3D"https://github.com/WebKit/WebKit/co=
+mmit/4977290ab4ab35258a6da9b13795c9b0f7894bf4">https://github.com/WebKit/We=
+bKit/commit/4977290ab4ab35258a6da9b13795c9b0f7894bf4</a>]
+ -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de=
+">alex@linutronix.de</a>&gt;
+ ----
+ - Source/WTF/wtf/glib/Sandbox.cpp | 2 ++
+ - 1 file changed, 2 insertions(+)
+ -
+ -diff --git a/Source/WTF/wtf/glib/Sandbox.cpp b/Source/WTF/wtf/glib/Sandbo=
+x.cpp
+ -index 7d84e830ab33e..9b07bb8cb5a9b 100644
+ ---- a/Source/WTF/wtf/glib/Sandbox.cpp
+ -+++ b/Source/WTF/wtf/glib/Sandbox.cpp
+ -@@ -36,6 +36,7 @@ bool isInsideFlatpak()
+ -     return returnValue;
+ - }
+ -
+ -+#if ENABLE(BUBBLEWRAP_SANDBOX)
+ - bool isInsideUnsupportedContainer()
+ - {
+ -     static bool inContainer =3D g_file_test("/run/.containerenv", G_FILE=
+_TEST_EXISTS);
+ -@@ -64,6 +65,7 @@ bool isInsideUnsupportedContainer()
+ -
+ -     return inContainer &amp;&amp; !supportedContainer;
+ - }
+ -+#endif
+ -
+ - bool isInsideSnap()
+ - {
+ diff --git a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb b/meta/recipes-s=
+ato/webkit/webkitgtk_2.40.5.bb
+ similarity index 96%
+ rename from meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
+ rename to meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
+ index a9391bfc99..7bf32e8610 100644
+ --- a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
+ +++ b/meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
+ @@ -13,11 +13,9 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
+${PV}.tar.xz \
+             <a href=3D"file://0001-FindGObjectIntrospection.cmake-prefix-v=
+ariables-obta.patch">file://0001-FindGObjectIntrospection.cmake-prefix-vari=
+ables-obta.patch</a> \
+             <a href=3D"file://reproducibility.patch">file://reproducibilit=
+y.patch</a> \
+             <a href=3D"file://0d3344e17d258106617b0e6d783d073b188a2548.pat=
+ch">file://0d3344e17d258106617b0e6d783d073b188a2548.patch</a> \
+ -           <a href=3D"file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.pat=
+ch">file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch</a> \
+ -           <a href=3D"file://0001-Source-JavaScriptCore-CMakeLists.txt-en=
+sure-reproduc.patch">file://0001-Source-JavaScriptCore-CMakeLists.txt-ensur=
+e-reproduc.patch</a> \
+             <a href=3D"file://check-GST_GL_HAVE_PLATFORM_GLX.patch">file:/=
+/check-GST_GL_HAVE_PLATFORM_GLX.patch</a> \
+             "
+ -SRC_URI[sha256sum] =3D "96898870d994da406ee7a632816dcde9a3bb395ee5f344fcb=
+3f3b8cc8a77e000"
+ +SRC_URI[sha256sum] =3D "7de051a263668621d91a61a5eb1c3771d1a7cec900043d4af=
+ef06c326c16037f"
+
+  inherit cmake pkgconfig gobject-introspection perlnative features_check u=
+pstream-version-is-even gi-docgen
+
+ @@ -162,6 +160,5 @@ src_package_preprocess () {
+              ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
+              ${B}/WebCore/DerivedSources/*.cpp \
+              ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
+ -
+  }
+
+ --
+ 2.41.0
+
+
+=20
+
+</blockquote></div><div class=3D"plaintext" style=3D"white-space: break-spa=
+ces;">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#185422): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/185422">https://lists.openembedded.org/g/openembedd=
+ed-core/message/185422</a>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100507379/361=
+8223">https://lists.openembedded.org/mt/100507379/3618223</a>
+Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
+rg">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hre=
+f=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</div></blockquote></div>
+--=-i5gtPG1LS7UaE6HZ8byW--
 
 
