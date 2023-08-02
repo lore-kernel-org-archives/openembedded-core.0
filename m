@@ -1,81 +1,109 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 592B1C001DF
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 23:17:14 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web11.2636.1691018229650319155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D04C00528
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 23:36:34 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.2984.1691019387286832751
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 16:17:09 -0700
+ Wed, 02 Aug 2023 16:36:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=EgjGu2Mr;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-584388ec441so2640837b3.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 16:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691018229; x=1691623029;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ggpGlrwkSQ5Zjda29SU1CWpo3JcTEyypV05gKDmJ7Y=;
-        b=EgjGu2MrwKf09M4CfTYyiTNXcFCrszj9FnR1ZI6kacis0HIvGa3PYpJoXpAzlvjv1l
-         xtSkE/Pfm38wQiD0mWRuLHVVcALYPsKyGIbQOjdiDLwOxiF5tgtjM1Qt1Rfu56Bfqm+d
-         F/7zB1RSVT/w7IhONyuBaHure7aqN8EwKwRbEt5NN0PivMv+rujwhI7NJaqV4GPQ4Fpy
-         YbkA4upfaMVbTTuXVptf1alRSKkwFP/x7YGOPPQTuskUW6P+CoOQKjWMSQnTYBmwV754
-         pkaTwB+2tLTVtq9DA5DAAYN0HfoGb8NdxMAy56VTcBbmrsXZGy1Qpqv4ljrgsPlKHfUV
-         NbUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691018229; x=1691623029;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ggpGlrwkSQ5Zjda29SU1CWpo3JcTEyypV05gKDmJ7Y=;
-        b=UjjEzEro3O5+VoNoZeSyQzRka14GJ1mef+EcqljxQRC5RaDYxH7/QUr2V0JqdFA+sy
-         s5aAx9/kMuiBAw0xjcX9vnqLtwVPYPIXqc/k3TfKgNi0jlKPS9Cc00aX+DKVF9Q2RvyL
-         38cVl0dyAmTVAk9x+fsnvugxLqFMlZgsV96170cD/T01QegsRkvXheYtEg8auOQnDGRC
-         wFxjM64F1DSxD4fcbDqcy427mSZqhNMGk2KyN3FcN34NriDzAWClUhthMja0ZPwVntzf
-         QmC3zNLi8VGKt/kym1af03jTyFSapGsevAUcKSFwl1tu73xocCrx0JfmdL4VEnbsJk2g
-         tY9Q==
-X-Gm-Message-State: ABy/qLbwrplvEX4NTdn6W+BeX26pQ9HusTx0BvBmoAmVrA1Jny/6uJ6z
-	oNAeqoTYBAeX8ts9eNMXhd6+eBZSOuc5wg6dxU4=
-X-Google-Smtp-Source: APBJJlFrEVMiSxgnhB3niycsRf7oDifTSJEWJb+IlRI8MlkzuTnTkurOZnraVXWdOh5WulepTssoJ7UXiQ/2op9lVac=
-X-Received: by 2002:a0d:df96:0:b0:56f:fbc6:3b0 with SMTP id
- i144-20020a0ddf96000000b0056ffbc603b0mr16134919ywe.14.1691018228810; Wed, 02
- Aug 2023 16:17:08 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jV9Z/7f1;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75783e41b8=joe.slater@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 372NF95s020626
+	for <openembedded-core@lists.openembedded.org>; Wed, 2 Aug 2023 16:36:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=gmOmh
+	Mj4uys19CXERMVidFFyLdHGY4N9WwHZt2P+RIU=; b=jV9Z/7f1pBYzzIGcWBFL4
+	WuavLAX5XZ+Zd4MI3dN3dSgNLUUCWsypABgMWuq3LuDXwjWFpDeBxbcxhEwo0D6f
+	8dSsHBu8oplLv48I+XL498wkggdwRxLIyJKJQTOGfR+LcaWmojzw6J7RwE5wchyY
+	08JECQQuasPH/SiUB6AIdc+6CRSddXYdMB9WRep1EW+ie9hMq9Xl7XOPhCzTpC/h
+	1vVFmtUHAUI2UkvHXD7Yj+2xh4cwLkrs9Amo6gL1YQiLLpeW5SnbD2a4OLBKfP+D
+	GU94j2iGWkdnT89JastamQ+W4hOA6sy+CGJ+GffcsQBHTsZ7ViebyO+Lxbiw0sWY
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s78py9484-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 16:36:26 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 2 Aug 2023 16:36:26 -0700
+Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Wed, 2 Aug 2023 16:36:26 -0700
+From: <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] runqemu: add some logging control
+Date: Wed, 2 Aug 2023 16:36:26 -0700
+Message-ID: <20230802233626.3642612-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230728204418.4044524-1-luca.boccassi@gmail.com>
- <20230802185425.2044630-1-luca.boccassi@gmail.com> <b7a75eb0-caf6-d999-42c8-d1532200807e@gmail.com>
-In-Reply-To: <b7a75eb0-caf6-d999-42c8-d1532200807e@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-Date: Thu, 3 Aug 2023 00:16:57 +0100
-Message-ID: <CAMw=ZnTgBDUJg9-rmzVxEcHUx3OJbt1=nDnjkZ41BJ9+kaPiXQ@mail.gmail.com>
-Subject: Re: [PATCH v7] systemd: update to v254
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: GedHgesqGbWHQAXAAOa7Rpr5Q8zWMXN6
+X-Proofpoint-GUID: GedHgesqGbWHQAXAAOa7Rpr5Q8zWMXN6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-02_18,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
+ mlxlogscore=566 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 mlxscore=0 phishscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308020208
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 23:17:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185443
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 23:36:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185444
 
-On Wed, 2 Aug 2023 at 20:27, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On 8/2/23 11:54 AM, luca.boccassi@gmail.com wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> >
-> > - Drop dependency on gnu-efi, add dependency on pyelftools for EFI builds
-> > - Refresh patches
-> > - Ship new files and directories
-> > - Use meson target to build sd-boot instead of filenames
-> > - Change libpam recipe to set ANY_OF_DISTRO_FEATURES = "pam systemd" to let
-> >    logind pull in pam-plugin-umask
-> >
->
-> We need to fix the includes in few more places, I have submitted another
-> pull
->
-> https://github.com/systemd/systemd/pull/28651
+From: Joe Slater <joe.slater@windriver.com>
 
-Merged and backported in v8.
+Use QB_LOG_FILE to log to a file, and QB_LOG_LEVEL
+to set the base log level.  Example values -
+
+QB_LOG_FILE="runq.log"
+QB_LOG_LEVEL=DEBUG
+
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ scripts/runqemu | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 5e6793d44e..bea164d041 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -36,12 +36,20 @@ runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`\n\n %s" % message)
+ 
+ def create_logger():
+     logger = logging.getLogger('runqemu')
+-    logger.setLevel(logging.INFO)
++    try:
++        logger.setLevel(os.getenv("QB_LOG_LEVEL"))
++    except:
++        logger.setLevel(logging.INFO)
+ 
+-    # create console handler and set level to debug
+-    ch = logging.StreamHandler()
+-    ch.setLevel(logging.DEBUG)
+ 
++    # create a handler and set level to debug
++    try:
++        ch = logging.FileHandler(os.getenv("QB_LOG_FILE"))
++    except:
++        ch = logging.StreamHandler()
++
++    ch.setLevel(logging.DEBUG)
++    
+     # create formatter
+     formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+ 
+-- 
+2.25.1
+
 
