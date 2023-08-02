@@ -1,259 +1,236 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8404FC00528
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 12:05:58 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.13156.1690977957099418202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A6BC001E0
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 12:45:58 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.14041.1690980348311738764
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 05:05:57 -0700
+ Wed, 02 Aug 2023 05:45:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=HmRU/07Y;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2b72161c6e9so10957921fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 05:05:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=aKZUpGRB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fe27849e6aso6842279e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 05:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690977955; x=1691582755;
+        d=gmail.com; s=20221208; t=1690980346; x=1691585146;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zdJSHP+EDROVXKTgotUz27ZzampbcDXdBeEu9QWvyUg=;
-        b=HmRU/07Y9M3tD1WyeWDFnwVc4J1Xjj1eBA8C6gz4iH5rnqpg7w8LKPHQJVR5zh4bT2
-         Y0koPiwYKco/sxai8ICZCl404AkY/Xt5Q/v7hpemyaD9xzbPSnCU8mc/24/DcGMRd7xE
-         RdMV5ERfD0tKDZsyjJ81oxW64Yf2bPyz+t8J/JRi3R1NcE49CIB7K8pheV8EssDhRJD3
-         Hr33Rt772Zms3avH3EeaMGFPNyWUvuJk7x8Xl5NoLFHOQTn/5E6p+ohxxii6njFlbM2J
-         nBIsidNVE/NIF3gEmizFy/zHBBD4r4VYPTbhxsqX2O8QwzrlbR2vPZyEzKxNssmWAsK6
-         YB3g==
+        bh=y3CphaCKFqHRn3hQXd9svBI5Nf92+/E8EboniMSUrMs=;
+        b=aKZUpGRBik6x50X0lWjWiRVn7O/NSxWwfCqeDpE0+druxozb0Xi7j0T4B8vXy8peFz
+         m79I1wMCrH9NX1fD43C0OsT3r562HFfPfA4SPmUmCkiQLU3yO2Oin/w/uJHsML7KtVOd
+         AjYVWZNuxfxeEfHEJkE1dCzONRs+qbZ88tqoJd2zA+Zwzx0MbZaXSq4Y5OJld+CMHFgR
+         CEb0MiX+DVwl5eYrCoZdd2R4ZGUuu0hv3oyiFMJR3H+1elPxCoh4Hf4luULcn9e5h1Dz
+         g75uSjXO7eu5ongTl2zlub31kPtQi7bEASTczgsKJDxPoU2O2xp7YxgSaQ+cf7SpvJzT
+         Hrdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690977955; x=1691582755;
+        d=1e100.net; s=20221208; t=1690980346; x=1691585146;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zdJSHP+EDROVXKTgotUz27ZzampbcDXdBeEu9QWvyUg=;
-        b=DTy9JkvK8aqPZ0RpWhBj7Ef2jym19Q7HDxMcnqaH+hR906ECwP1Wn9KqColfdKt9ol
-         sQ3NmLjBd6iuaK1eu0MlqX0Icps0uOOa+E/2zMiSBZ+rmXKZBlVh8RRL4ui4GoVpcMyC
-         oimllE+0o6PEOXSpVgu+xnAC6+4sq9xh98wdUjD/UL2gXs2GAByvP/Ar654rIIwv+Dq5
-         dvPsl1UkRuCmD8XwL7Qt+4IQqLEpK8gPJPujxWHw0BhkjlR+DnjUmqDgGj0B00GRY1Qt
-         uJwqVp8JnbkY5W0GuouVX4Kgm6Pe4Qt+kyGcnH8F2NASHNt7MYnUEuSDHsCa5UqGNNi1
-         sfww==
-X-Gm-Message-State: ABy/qLYbsgI4rtbQhwwZ4qmthgck5vPmE8X3fla0YWMzIai445Lk4+k/
-	SDXRjuaSVlJN9wivu4f6zhjDPykLceeY2QommpKEC7xM
-X-Google-Smtp-Source: APBJJlHh4mgz/Ja3rOGwxb8XzvwB+a9fQG0OFgwwVLN88kTV6P+GxhgPq1nMiilxbh7IydICPYXNbObSTkR09d4F7Fo=
-X-Received: by 2002:a05:651c:10b6:b0:2b6:b30f:5bf with SMTP id
- k22-20020a05651c10b600b002b6b30f05bfmr2384124ljn.13.1690977955082; Wed, 02
- Aug 2023 05:05:55 -0700 (PDT)
+        bh=y3CphaCKFqHRn3hQXd9svBI5Nf92+/E8EboniMSUrMs=;
+        b=aejlqV0/a0nIGQp+nowqo98YdvMfNunXCRSVelJzccjJCoCpHYoHUIcCW3K0345puB
+         dBMWCIlwgQ4rFq8iDAGBEuN4npj0kPSA8FXsMe0gXVtlQM2rf92jwv09T4DiMItnef7o
+         Vw6owDpv8Nr6Kk/DHt0M9XZiEAy5lLLUZFP6fth6mzcRohhtb0AQYWsOaXCF49DiimgB
+         aUnJTGoZwBf7wqOoouIW7gEn52fNrHLbMsTuZnTfu44VZi1gftNFVUBI3EcBKDcFWg25
+         qdvg1AIhd4LmT3MzkAbYiZADfyvjHZGWhk6uPS4tJ35fqyosXW7oQF8dCtpDwf8IsYM8
+         r1TQ==
+X-Gm-Message-State: ABy/qLZRIX3TMGGGHy2M/RhASCGzNyh5IqHkGWVUmNVjkIC4kCARXpBg
+	Ms0fL4Sq9Nuh8N2PGSbIqrhGWzX0lz3C+eeUM/c=
+X-Google-Smtp-Source: APBJJlEt7LVznPqv8LJYUt2lssfDiM11HVof4vbBuiEgg/ci1svNVMdR2Qv2kCRP+1erUTp3Dkaz3D+kjfEIJYuHm4I=
+X-Received: by 2002:a05:6512:3d02:b0:4fa:6d62:9219 with SMTP id
+ d2-20020a0565123d0200b004fa6d629219mr6536212lfv.62.1690980346185; Wed, 02 Aug
+ 2023 05:45:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1687446532.git.steve@sakoman.com>
-In-Reply-To: <cover.1687446532.git.steve@sakoman.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 2 Aug 2023 14:05:41 +0200
-Message-ID: <CAApg2=S9kC2xNNDuzM-WDjeJiNOdY6KKMK1jJ=dPBm0fMZgk3Q@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/14] Patch review
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000055f5940601ef7c67"
+References: <20230802114705.90137-1-joel@jms.id.au>
+In-Reply-To: <20230802114705.90137-1-joel@jms.id.au>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Wed, 2 Aug 2023 14:45:34 +0200
+Message-ID: <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
+To: Joel Stanley <joel@jms.id.au>
+Cc: openembedded-core@lists.openembedded.org, 
+	Andrew Geissler <geissonator@gmail.com>, mdmii@outlook.com
+Content-Type: multipart/alternative; boundary="000000000000db4a7f0601f00a34"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 12:05:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185388
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 12:45:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185389
 
---00000000000055f5940601ef7c67
+--000000000000db4a7f0601f00a34
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 22, 2023 at 5:31=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
-rote:
+On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
 
-> Please review this set of changes for dunfell and have comments back by
-> end of day Monday.
+> The one liner tests using `[ ] && action` need to have || true after the
+> action,
+> otherwise the line returns false and the recipie fails.
 >
-> Passed a-full on autobuilder:
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  meta/classes-recipe/kernel.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5493
->
-> The following changes since commit
-> 77f6fbfa18b4ad77c3756cfdc45d441a20210781:
->
->   build-appliance-image: Update to dunfell head revision (2023-06-17
-> 09:47:49 -1000)
->
-> are available in the Git repository at:
->
->   https://git.openembedded.org/openembedded-core-contrib
-> stable/dunfell-nut
->
-> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/du=
-nfell-nut
->
-> Abdellatif El Khlifi (1):
->   kernel-fitimage: adding support for Initramfs bundle and u-boot script
->
-> Andrej Valek (1):
->   kernel-fitimage: use correct kernel image
->
-> Hitendra Prajapati (1):
->   openssl: CVE-2023-2650 Possible DoS translating ASN.1 object
->     identifiers
->
-> Ian Ray (1):
->   systemd-systemctl: support instance expansion in WantedBy
->
-> Jan Vermaete (1):
->   cve-update-nvd2-native: added the missing http import
->
-> Marta Rybczynska (1):
->   cve-update-nvd2-native: new CVE database fetcher
->
-> Martin Siegumfeldt (1):
->   systemd-systemctl: fix instance template WantedBy symlink construction
->
-> Michael Halstead (4):
->   uninative: Upgrade to 3.8.1 to include libgcc
->   uninative: Upgrade to 3.9 to include glibc 2.37
->   uninative: Upgrade to 3.10 to support gcc 13
->   uninative: Upgrade to 4.0 to include latest gcc 13.1.1
->
-> Richard Purdie (1):
->   uninative: Ensure uninative is enabled in all cases for BuildStarted
->     event
->
-> Sanjay Chitroda (1):
->   cups: Fix CVE-2023-32324
->
-> Steve Sakoman (1):
->   uninative.bbclass: handle read only files outside of patchelf
->
->  meta/classes/cve-check.bbclass                |   4 +-
->  meta/classes/kernel-fitimage.bbclass          | 142 ++++++--
->  meta/classes/uninative.bbclass                |   4 +
->  meta/conf/distro/include/yocto-uninative.inc  |  10 +-
->  .../openssl/openssl/CVE-2023-2650.patch       | 122 +++++++
->  .../openssl/openssl_1.1.1t.bb                 |   1 +
->  .../meta/cve-update-nvd2-native.bb            | 334 ++++++++++++++++++
->  .../systemd/systemd-systemctl/systemctl       |   8 +-
->  meta/recipes-extended/cups/cups.inc           |   1 +
->  .../cups/cups/CVE-2023-32324.patch            |  36 ++
->  10 files changed, 629 insertions(+), 33 deletions(-)
->  create mode 100644
-> meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch
->  create mode 100644 meta/recipes-core/meta/cve-update-nvd2-native.bb
->  create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-32324.patch
+> diff --git a/meta/classes-recipe/kernel.bbclass
+> b/meta/classes-recipe/kernel.bbclass
+> index 247ef4a48aa7..f1bc41e82be8 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -486,7 +486,7 @@ kernel_do_install() {
+>         install -m 0644 System.map
+> ${D}/${KERNEL_IMAGEDEST}/System.map-${KERNEL_VERSION}
+>         install -m 0644 .config
+> ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSION}
+>         install -m 0644 vmlinux
+> ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION}
+> -       [ -e Module.symvers ] && install -m 0644 Module.symvers
+> ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
+> +       [ -e Module.symvers ] && install -m 0644 Module.symvers
+> ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
+>  }
 >
 >
-Tested this version for the CVE fetcher backport to dunfell, no unexpected
-issues seen.
+By doing that, you simply silent possible error of the action after the
+test, below is a little snippet showing that
 
-Kind regards,
-Marta
+ fmartinsons@work-pc:~$ touch foo
+fmartinsons@work-pc:~$ [ -e foo ] && ls non_existent_file
+ls: cannot access 'non_existent_file': No such file or directory
+fmartinsons@work-pc:~$ echo $?
+2
+fmartinsons@work-pc:~$ [ -e foo ] && ls non_existent_file || true
+ls: cannot access 'non_existent_file': No such file or directory
+fmartinsons@work-pc:~$ echo $?
+0
+fmartinsons@work-pc:~$ touch existent_file
+fmartinsons@work-pc:~$ [ -e foo ] && ls existent_file
+existent_file
+fmartinsons@work-pc:~$ echo $?
+0
+fmartinsons@work-pc:~$
 
---00000000000055f5940601ef7c67
+I think the origin of your issue is that the action failed , having the log
+of kernel_do_install task would help.
+
+  # Must be ran no earlier than after do_kernel_checkout or else Makefile
+> won't be in ${S}/Makefile
+> @@ -555,7 +555,7 @@ do_shared_workdir () {
+>
+>         # Copy files required for module builds
+>         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+> -       [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> +       [ -e Module.symvers ] && cp Module.symvers $kerneldir/ || true
+>         cp .config $kerneldir/
+>         mkdir -p $kerneldir/include/config
+>         cp include/config/kernel.release
+> $kerneldir/include/config/kernel.release
+> --
+> 2.40.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185386):
+> https://lists.openembedded.org/g/openembedded-core/message/185386
+> Mute This Topic: https://lists.openembedded.org/mt/100503145/6213388
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> frederic.martinsons@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000db4a7f0601f00a34
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 22, 2023 at 5:31=E2=80=AF=
-PM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Please review this set of changes for dunfell and have comments back by<br>
-end of day Monday.<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 2 Aug 2023 at 13:47, Joel Sta=
+nley &lt;<a href=3D"mailto:joel@jms.id.au">joel@jms.id.au</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">The one liner test=
+s using `[ ] &amp;&amp; action` need to have || true after the action,<br>
+otherwise the line returns false and the recipie fails.<br>
 <br>
-Passed a-full on autobuilder:<br>
+Signed-off-by: Joel Stanley &lt;<a href=3D"mailto:joel@jms.id.au" target=3D=
+"_blank">joel@jms.id.au</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/kernel.bbclass | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
-s/5493" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/83/builds/5493</a><br>
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
+l.bbclass<br>
+index 247ef4a48aa7..f1bc41e82be8 100644<br>
+--- a/meta/classes-recipe/kernel.bbclass<br>
++++ b/meta/classes-recipe/kernel.bbclass<br>
+@@ -486,7 +486,7 @@ kernel_do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 System.map ${D}/${KERNEL_IMAGED=
+EST}/System.map-${KERNEL_VERSION}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 .config ${D}/${KERNEL_IMAGEDEST=
+}/config-${KERNEL_VERSION}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST=
+}/vmlinux-${KERNEL_VERSION}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e Module.symvers ] &amp;&amp; install -m 064=
+4 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e Module.symvers ] &amp;&amp; install -m 064=
+4 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} =
+|| true<br>
+=C2=A0}<br>
+<br></blockquote><div><br></div><div>By doing that, you simply silent possi=
+ble error of the action after the test, below is a little snippet showing t=
+hat</div><div><br></div><div>=C2=A0fmartinsons@work-pc:~$ touch foo</div>fm=
+artinsons@work-pc:~$ [ -e foo ] &amp;&amp; ls non_existent_file<br>ls: cann=
+ot access &#39;non_existent_file&#39;: No such file or directory<br>fmartin=
+sons@work-pc:~$ echo $?<br>2<br>fmartinsons@work-pc:~$ [ -e foo ] &amp;&amp=
+; ls non_existent_file || true<br>ls: cannot access &#39;non_existent_file&=
+#39;: No such file or directory<br>fmartinsons@work-pc:~$ echo $?<br>0<br>f=
+martinsons@work-pc:~$ touch existent_file<br>fmartinsons@work-pc:~$ [ -e fo=
+o ] &amp;&amp; ls existent_file<br>existent_file<br>fmartinsons@work-pc:~$ =
+echo $?<br>0<br>fmartinsons@work-pc:~$</div><div class=3D"gmail_quote"><br>=
+</div><div class=3D"gmail_quote">I think the origin of your issue is that t=
+he action failed , having the log of kernel_do_install task would help.</di=
+v><div class=3D"gmail_quote"><br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">=C2=A0 # Must be ran no earlier than after do_kernel_checkout or el=
+se Makefile won&#39;t be in ${S}/Makefile<br>
+@@ -555,7 +555,7 @@ do_shared_workdir () {<br>
 <br>
-The following changes since commit 77f6fbfa18b4ad77c3756cfdc45d441a20210781=
-:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy files required for module builds<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp System.map $kerneldir/System.map-${KERNEL_VE=
+RSION}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e Module.symvers ] &amp;&amp; cp Module.symv=
+ers $kerneldir/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e Module.symvers ] &amp;&amp; cp Module.symv=
+ers $kerneldir/ || true<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp .config $kerneldir/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p $kerneldir/include/config<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp include/config/kernel.release $kerneldir/inc=
+lude/config/kernel.release<br>
+-- <br>
+2.40.1<br>
 <br>
-=C2=A0 build-appliance-image: Update to dunfell head revision (2023-06-17 0=
-9:47:49 -1000)<br>
 <br>
-are available in the Git repository at:<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#185386): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/185386" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/185386</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100503145/621=
+3388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100503145/6213388</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
+com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core-contrib" r=
-el=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/openembedd=
-ed-core-contrib</a> stable/dunfell-nut<br>
-=C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded-core-contrib/lo=
-g/?h=3Dstable/dunfell-nut" rel=3D"noreferrer" target=3D"_blank">http://cgit=
-.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/dunfell-nut</a>=
-<br>
-<br>
-Abdellatif El Khlifi (1):<br>
-=C2=A0 kernel-fitimage: adding support for Initramfs bundle and u-boot scri=
-pt<br>
-<br>
-Andrej Valek (1):<br>
-=C2=A0 kernel-fitimage: use correct kernel image<br>
-<br>
-Hitendra Prajapati (1):<br>
-=C2=A0 openssl: CVE-2023-2650 Possible DoS translating ASN.1 object<br>
-=C2=A0 =C2=A0 identifiers<br>
-<br>
-Ian Ray (1):<br>
-=C2=A0 systemd-systemctl: support instance expansion in WantedBy<br>
-<br>
-Jan Vermaete (1):<br>
-=C2=A0 cve-update-nvd2-native: added the missing http import<br>
-<br>
-Marta Rybczynska (1):<br>
-=C2=A0 cve-update-nvd2-native: new CVE database fetcher<br>
-<br>
-Martin Siegumfeldt (1):<br>
-=C2=A0 systemd-systemctl: fix instance template WantedBy symlink constructi=
-on<br>
-<br>
-Michael Halstead (4):<br>
-=C2=A0 uninative: Upgrade to 3.8.1 to include libgcc<br>
-=C2=A0 uninative: Upgrade to 3.9 to include glibc 2.37<br>
-=C2=A0 uninative: Upgrade to 3.10 to support gcc 13<br>
-=C2=A0 uninative: Upgrade to 4.0 to include latest gcc 13.1.1<br>
-<br>
-Richard Purdie (1):<br>
-=C2=A0 uninative: Ensure uninative is enabled in all cases for BuildStarted=
-<br>
-=C2=A0 =C2=A0 event<br>
-<br>
-Sanjay Chitroda (1):<br>
-=C2=A0 cups: Fix CVE-2023-32324<br>
-<br>
-Steve Sakoman (1):<br>
-=C2=A0 uninative.bbclass: handle read only files outside of patchelf<br>
-<br>
-=C2=A0meta/classes/cve-check.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-=C2=A0meta/classes/kernel-fitimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 142 ++++++--<br>
-=C2=A0meta/classes/uninative.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +<br>
-=C2=A0meta/conf/distro/include/yocto-uninative.inc=C2=A0 |=C2=A0 10 +-<br>
-=C2=A0.../openssl/openssl/CVE-2023-2650.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
-22 +++++++<br>
-=C2=A0.../openssl/<a href=3D"http://openssl_1.1.1t.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">openssl_1.1.1t.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0.../meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"noreferr=
-er" target=3D"_blank">cve-update-nvd2-native.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 334 ++++++++++++++++++<br>
-=C2=A0.../systemd/systemd-systemctl/systemctl=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A08 +-<br>
-=C2=A0meta/recipes-extended/cups/cups.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0.../cups/cups/CVE-2023-32324.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 36 ++<br>
-=C2=A010 files changed, 629 insertions(+), 33 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023=
--2650.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/meta/<a href=3D"http://cve-updat=
-e-nvd2-native.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-nvd2-nati=
-ve.bb</a><br>
-=C2=A0create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-32324.pat=
-ch<br>
-<br></blockquote><div><br></div><div>Tested this version for the CVE fetche=
-r backport to dunfell, no unexpected issues seen.</div><div><br></div><div>=
-Kind regards,</div><div>Marta <br></div></div></div>
+</blockquote></div></div>
 
---00000000000055f5940601ef7c67--
+--000000000000db4a7f0601f00a34--
 
