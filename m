@@ -1,613 +1,411 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA63C00528
-	for <webhook@archiver.kernel.org>; Tue,  1 Aug 2023 22:30:24 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.1940.1690929021500706382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 526CDC00528
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 00:18:35 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.3937.1690935503993218265
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 15:30:21 -0700
+ Tue, 01 Aug 2023 17:18:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=llDJ1XQU;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20230801223017c24a77262e60b6965a-xgmvec@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20230801223017c24a77262e60b6965a
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 02 Aug 2023 00:30:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=jRgfruHTj45cQJq9hi4lGF2M2xn4OTFSl4H8VjN6CwU=;
- b=llDJ1XQUcUho1vebcM890TRCHw0ytoMLx9BU9D1iShvIllLngXwJi3k7c8RUct+1vmFi9t
- pRZ5fCxebkVx0PrCmQFumyT1tAsMq09OA98kzNRnetUszNLyPhe4mmOgpMYRhafPXajzboA0
- JOnHyGFLV09cwZchZ5JQuqGqqZ6Pw=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][dunfell][PATCH] openssl: Upgrade 1.1.1t -> 1.1.1v
-Date: Wed,  2 Aug 2023 00:29:31 +0200
-Message-Id: <20230801222931.2942099-1-peter.marko@siemens.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=k8hNU6rK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=757808ff50=sakib.sajal@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 371NoxVF017988
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Aug 2023 17:18:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=5IyXhK8TEKtEqkChcBLiZzG/IOlEvW9oXTz0OOzRqcE=; b=
+	k8hNU6rKYrf4INQjtEz2mlPQM2e1IkIUjxRAY75lgeyozjNbZZqaOwnWe1XVvd0X
+	ad+N47qBCPacE5DBFvjUasv7Ndh7wTgZO94g7XXWa1j+McrM/jebRSukxoh5IU8L
+	LTuH91f0Re4yexgrdQdg7Mq7ilYeHLPDRVUj5PgDiTpsgHvKxt9O7ImIX6H2BcLs
+	zqfjbMrNvGTOwIyN8NkR1rrU8KYnkgA31yeWo+pvdxn9vIzws98kiZp9/4q+k9sw
+	7OvPlOCViCqEWoAv2UjLM5hLzPAET9S0ZQyzGUtBGFEuwwRhocrzERKf1W7IcCeS
+	uqDsBq197SUEA0ufL+ZRng==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s78py8532-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 17:18:22 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 1 Aug 2023 17:18:21 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Tue, 1 Aug 2023 17:18:21 -0700
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH 2/3] go: fix CVE-2023-24531
+Date: Tue, 1 Aug 2023 17:18:12 -0700
+Message-ID: <20230802001813.3521965-2-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230802001813.3521965-1-sakib.sajal@windriver.com>
+References: <20230802001813.3521965-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: tkHqTH7FYmccXHkwVf-IWNA6WZ5lVHAD
+X-Proofpoint-GUID: tkHqTH7FYmccXHkwVf-IWNA6WZ5lVHAD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_21,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 mlxscore=0 phishscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308020000
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 22:30:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185364
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 00:18:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185365
 
-From: Peter Marko <peter.marko@siemens.com>
+Backport required patches from go1.21 to fix CVE-2023-24531.
 
-https://www.openssl.org/news/openssl-1.1.1-notes.html
-Major changes between OpenSSL 1.1.1u and OpenSSL 1.1.1v [1 Aug 2023]
-* Fix excessive time spent checking DH q parameter value (CVE-2023-3817)
-* Fix DH_check() excessive time with over sized modulus (CVE-2023-3446)
-Major changes between OpenSSL 1.1.1t and OpenSSL 1.1.1u [30 May 2023]
-* Mitigate for very slow `OBJ_obj2txt()` performance with gigantic OBJECT IDENTIFIER sub-identities. (CVE-2023-2650)
-* Fixed documentation of X509_VERIFY_PARAM_add0_policy() (CVE-2023-0466)
-* Fixed handling of invalid certificate policies in leaf certificates (CVE-2023-0465)
-* Limited the number of nodes created in a policy tree ([CVE-2023-0464])
-
-All CVEs for upgrade to 1.1.1u were already patched, so effectively
-this will apply patches for CVE-2023-3446 and CVE-2023-3817 plus
-several non-CVE fixes.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- .../openssl/openssl/CVE-2023-0464.patch       | 226 ------------------
- .../openssl/openssl/CVE-2023-0465.patch       |  60 -----
- .../openssl/openssl/CVE-2023-0466.patch       |  82 -------
- .../openssl/openssl/CVE-2023-2650.patch       | 122 ----------
- .../{openssl_1.1.1t.bb => openssl_1.1.1v.bb}  |   6 +-
- 5 files changed, 1 insertion(+), 495 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1t.bb => openssl_1.1.1v.bb} (96%)
+ meta/recipes-devtools/go/go-1.17.13.inc       |   4 +-
+ .../go/go-1.21/CVE-2023-24531_1.patch         | 252 ++++++++++++++++++
+ .../go/go-1.21/CVE-2023-24531_2.patch         |  47 ++++
+ 3 files changed, 302 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-24531_1.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-24531_2.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-deleted file mode 100644
-index cce5bad9f0..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
-+++ /dev/null
-@@ -1,226 +0,0 @@
--From 879f7080d7e141f415c79eaa3a8ac4a3dad0348b Mon Sep 17 00:00:00 2001
--From: Pauli <pauli@openssl.org>
--Date: Wed, 8 Mar 2023 15:28:20 +1100
--Subject: [PATCH] x509: excessive resource use verifying policy constraints
--
--A security vulnerability has been identified in all supported versions
--of OpenSSL related to the verification of X.509 certificate chains
--that include policy constraints.  Attackers may be able to exploit this
--vulnerability by creating a malicious certificate chain that triggers
--exponential use of computational resources, leading to a denial-of-service
--(DoS) attack on affected systems.
--
--Fixes CVE-2023-0464
--
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--Reviewed-by: Shane Lontis <shane.lontis@oracle.com>
--(Merged from https://github.com/openssl/openssl/pull/20569)
--
--CVE: CVE-2023-0464
--Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=patch;h=879f7080d7e141f415c79eaa3a8ac4a3dad0348b]
--Signed-off-by: Nikhil R <nikhil.r@kpit.com>
--
-----
-- crypto/x509v3/pcy_local.h |  8 +++++++-
-- crypto/x509v3/pcy_node.c  | 12 +++++++++---
-- crypto/x509v3/pcy_tree.c  | 37 +++++++++++++++++++++++++++----------
-- 3 files changed, 43 insertions(+), 14 deletions(-)
--
--diff --git a/crypto/x509v3/pcy_local.h b/crypto/x509v3/pcy_local.h
--index 5daf78de45..344aa06765 100644
----- a/crypto/x509v3/pcy_local.h
--+++ b/crypto/x509v3/pcy_local.h
--@@ -111,6 +111,11 @@ struct X509_POLICY_LEVEL_st {
-- };
-- 
-- struct X509_POLICY_TREE_st {
--+    /* The number of nodes in the tree */
--+    size_t node_count;
--+    /* The maximum number of nodes in the tree */
--+    size_t node_maximum;
--+
--     /* This is the tree 'level' data */
--     X509_POLICY_LEVEL *levels;
--     int nlevel;
--@@ -159,7 +164,8 @@ X509_POLICY_NODE *tree_find_sk(STACK_OF(X509_POLICY_NODE) *sk,
-- X509_POLICY_NODE *level_add_node(X509_POLICY_LEVEL *level,
--                                  X509_POLICY_DATA *data,
--                                  X509_POLICY_NODE *parent,
---                                 X509_POLICY_TREE *tree);
--+                                 X509_POLICY_TREE *tree,
--+                                 int extra_data);
-- void policy_node_free(X509_POLICY_NODE *node);
-- int policy_node_match(const X509_POLICY_LEVEL *lvl,
--                       const X509_POLICY_NODE *node, const ASN1_OBJECT *oid);
--diff --git a/crypto/x509v3/pcy_node.c b/crypto/x509v3/pcy_node.c
--index e2d7b15322..d574fb9d66 100644
----- a/crypto/x509v3/pcy_node.c
--+++ b/crypto/x509v3/pcy_node.c
--@@ -59,10 +59,15 @@ X509_POLICY_NODE *level_find_node(const X509_POLICY_LEVEL *level,
-- X509_POLICY_NODE *level_add_node(X509_POLICY_LEVEL *level,
--                                  X509_POLICY_DATA *data,
--                                  X509_POLICY_NODE *parent,
---                                 X509_POLICY_TREE *tree)
--+                                 X509_POLICY_TREE *tree,
--+                                 int extra_data)
-- {
--     X509_POLICY_NODE *node;
-- 
--+    /* Verify that the tree isn't too large.  This mitigates CVE-2023-0464 */
--+    if (tree->node_maximum > 0 && tree->node_count >= tree->node_maximum)
--+        return NULL;
--+
--     node = OPENSSL_zalloc(sizeof(*node));
--     if (node == NULL) {
--         X509V3err(X509V3_F_LEVEL_ADD_NODE, ERR_R_MALLOC_FAILURE);
--@@ -70,7 +75,7 @@ X509_POLICY_NODE *level_add_node(X509_POLICY_LEVEL *level,
--     }
--     node->data = data;
--     node->parent = parent;
---    if (level) {
--+    if (level != NULL) {
--         if (OBJ_obj2nid(data->valid_policy) == NID_any_policy) {
--             if (level->anyPolicy)
--                 goto node_error;
--@@ -90,7 +95,7 @@ X509_POLICY_NODE *level_add_node(X509_POLICY_LEVEL *level,
--         }
--     }
-- 
---    if (tree) {
--+    if (extra_data) {
--         if (tree->extra_data == NULL)
--             tree->extra_data = sk_X509_POLICY_DATA_new_null();
--         if (tree->extra_data == NULL){
--@@ -103,6 +108,7 @@ X509_POLICY_NODE *level_add_node(X509_POLICY_LEVEL *level,
--         }
--     }
-- 
--+    tree->node_count++;
--     if (parent)
--         parent->nchild++;
-- 
--diff --git a/crypto/x509v3/pcy_tree.c b/crypto/x509v3/pcy_tree.c
--index 6e8322cbc5..6c7fd35405 100644
----- a/crypto/x509v3/pcy_tree.c
--+++ b/crypto/x509v3/pcy_tree.c
--@@ -13,6 +13,18 @@
-- 
-- #include "pcy_local.h"
-- 
--+/*
--+ * If the maximum number of nodes in the policy tree isn't defined, set it to
--+ * a generous default of 1000 nodes.
--+ *
--+ * Defining this to be zero means unlimited policy tree growth which opens the
--+ * door on CVE-2023-0464.
--+ */
--+
--+#ifndef OPENSSL_POLICY_TREE_NODES_MAX
--+# define OPENSSL_POLICY_TREE_NODES_MAX 1000
--+#endif
--+
-- /*
--  * Enable this to print out the complete policy tree at various point during
--  * evaluation.
--@@ -168,6 +180,9 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--         return X509_PCY_TREE_INTERNAL;
--     }
-- 
--+    /* Limit the growth of the tree to mitigate CVE-2023-0464 */
--+    tree->node_maximum = OPENSSL_POLICY_TREE_NODES_MAX;
--+
--     /*
--      * http://tools.ietf.org/html/rfc5280#section-6.1.2, figure 3.
--      *
--@@ -184,7 +199,7 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--     level = tree->levels;
--     if ((data = policy_data_new(NULL, OBJ_nid2obj(NID_any_policy), 0)) == NULL)
--         goto bad_tree;
---    if (level_add_node(level, data, NULL, tree) == NULL) {
--+    if (level_add_node(level, data, NULL, tree, 1) == NULL) {
--         policy_data_free(data);
--         goto bad_tree;
--     }
--@@ -243,7 +258,8 @@ static int tree_init(X509_POLICY_TREE **ptree, STACK_OF(X509) *certs,
--  * Return value: 1 on success, 0 otherwise
--  */
-- static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
---                                    X509_POLICY_DATA *data)
--+                                    X509_POLICY_DATA *data,
--+                                    X509_POLICY_TREE *tree)
-- {
--     X509_POLICY_LEVEL *last = curr - 1;
--     int i, matched = 0;
--@@ -253,13 +269,13 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
--         X509_POLICY_NODE *node = sk_X509_POLICY_NODE_value(last->nodes, i);
-- 
--         if (policy_node_match(last, node, data->valid_policy)) {
---            if (level_add_node(curr, data, node, NULL) == NULL)
--+            if (level_add_node(curr, data, node, tree, 0) == NULL)
--                 return 0;
--             matched = 1;
--         }
--     }
--     if (!matched && last->anyPolicy) {
---        if (level_add_node(curr, data, last->anyPolicy, NULL) == NULL)
--+        if (level_add_node(curr, data, last->anyPolicy, tree, 0) == NULL)
--             return 0;
--     }
--     return 1;
--@@ -272,7 +288,8 @@ static int tree_link_matching_nodes(X509_POLICY_LEVEL *curr,
--  * Return value: 1 on success, 0 otherwise.
--  */
-- static int tree_link_nodes(X509_POLICY_LEVEL *curr,
---                           const X509_POLICY_CACHE *cache)
--+                           const X509_POLICY_CACHE *cache,
--+                           X509_POLICY_TREE *tree)
-- {
--     int i;
-- 
--@@ -280,7 +297,7 @@ static int tree_link_nodes(X509_POLICY_LEVEL *curr,
--         X509_POLICY_DATA *data = sk_X509_POLICY_DATA_value(cache->data, i);
-- 
--         /* Look for matching nodes in previous level */
---        if (!tree_link_matching_nodes(curr, data))
--+        if (!tree_link_matching_nodes(curr, data, tree))
--             return 0;
--     }
--     return 1;
--@@ -311,7 +328,7 @@ static int tree_add_unmatched(X509_POLICY_LEVEL *curr,
--     /* Curr may not have anyPolicy */
--     data->qualifier_set = cache->anyPolicy->qualifier_set;
--     data->flags |= POLICY_DATA_FLAG_SHARED_QUALIFIERS;
---    if (level_add_node(curr, data, node, tree) == NULL) {
--+    if (level_add_node(curr, data, node, tree, 1) == NULL) {
--         policy_data_free(data);
--         return 0;
--     }
--@@ -373,7 +390,7 @@ static int tree_link_any(X509_POLICY_LEVEL *curr,
--     }
--     /* Finally add link to anyPolicy */
--     if (last->anyPolicy &&
---        level_add_node(curr, cache->anyPolicy, last->anyPolicy, NULL) == NULL)
--+        level_add_node(curr, cache->anyPolicy, last->anyPolicy, tree, 0) == NULL)
--         return 0;
--     return 1;
-- }
--@@ -555,7 +572,7 @@ static int tree_calculate_user_set(X509_POLICY_TREE *tree,
--             extra->qualifier_set = anyPolicy->data->qualifier_set;
--             extra->flags = POLICY_DATA_FLAG_SHARED_QUALIFIERS
--                 | POLICY_DATA_FLAG_EXTRA_NODE;
---            node = level_add_node(NULL, extra, anyPolicy->parent, tree);
--+            node = level_add_node(NULL, extra, anyPolicy->parent, tree, 1);
--         }
--         if (!tree->user_policies) {
--             tree->user_policies = sk_X509_POLICY_NODE_new_null();
--@@ -582,7 +599,7 @@ static int tree_evaluate(X509_POLICY_TREE *tree)
-- 
--     for (i = 1; i < tree->nlevel; i++, curr++) {
--         cache = policy_cache_set(curr->cert);
---        if (!tree_link_nodes(curr, cache))
--+        if (!tree_link_nodes(curr, cache, tree))
--             return X509_PCY_TREE_INTERNAL;
-- 
--         if (!(curr->flags & X509_V_FLAG_INHIBIT_ANY)
---- 
--2.34.1
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
-deleted file mode 100644
-index be5068074e..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From b013765abfa80036dc779dd0e50602c57bb3bf95 Mon Sep 17 00:00:00 2001
--From: Matt Caswell <matt@openssl.org>
--Date: Tue, 7 Mar 2023 16:52:55 +0000
--Subject: [PATCH] Ensure that EXFLAG_INVALID_POLICY is checked even in leaf
-- certs
--
--Even though we check the leaf cert to confirm it is valid, we
--later ignored the invalid flag and did not notice that the leaf
--cert was bad.
--
--Fixes: CVE-2023-0465
--
--Reviewed-by: Hugo Landau <hlandau@openssl.org>
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/20588)
--
--CVE: CVE-2023-0465
--Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=b013765abfa80036dc779dd0e50602c57bb3bf95]
--Comment: Refreshed first hunk
--Signed-off-by: Omkar Patil <omkar.patil@kpit.com>
--
-----
-- crypto/x509/x509_vfy.c | 11 +++++++++--
-- 1 file changed, 9 insertions(+), 2 deletions(-)
--
--diff --git a/crypto/x509/x509_vfy.c b/crypto/x509/x509_vfy.c
--index 925fbb5412..1dfe4f9f31 100644
----- a/crypto/x509/x509_vfy.c
--+++ b/crypto/x509/x509_vfy.c
--@@ -1649,18 +1649,25 @@
--     }
--     /* Invalid or inconsistent extensions */
--     if (ret == X509_PCY_TREE_INVALID) {
---        int i;
--+        int i, cbcalled = 0;
-- 
--         /* Locate certificates with bad extensions and notify callback. */
---        for (i = 1; i < sk_X509_num(ctx->chain); i++) {
--+        for (i = 0; i < sk_X509_num(ctx->chain); i++) {
--             X509 *x = sk_X509_value(ctx->chain, i);
-- 
--             if (!(x->ex_flags & EXFLAG_INVALID_POLICY))
--                 continue;
--+            cbcalled = 1;
--             if (!verify_cb_cert(ctx, x, i,
--                                 X509_V_ERR_INVALID_POLICY_EXTENSION))
--                 return 0;
--         }
--+        if (!cbcalled) {
--+            /* Should not be able to get here */
--+            X509err(X509_F_CHECK_POLICY, ERR_R_INTERNAL_ERROR);
--+            return 0;
--+        }
--+        /* The callback ignored the error so we return success */
--         return 1;
--     }
--     if (ret == X509_PCY_TREE_FAILURE) {
---- 
--2.34.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
-deleted file mode 100644
-index f042aa5da1..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
-+++ /dev/null
-@@ -1,82 +0,0 @@
--From 0d16b7e99aafc0b4a6d729eec65a411a7e025f0a Mon Sep 17 00:00:00 2001
--From: Tomas Mraz <tomas@openssl.org>
--Date: Tue, 21 Mar 2023 16:15:47 +0100
--Subject: [PATCH] Fix documentation of X509_VERIFY_PARAM_add0_policy()
--
--The function was incorrectly documented as enabling policy checking.
--
--Fixes: CVE-2023-0466
--
--Reviewed-by: Matt Caswell <matt@openssl.org>
--Reviewed-by: Paul Dale <pauli@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/20564)
--
--CVE: CVE-2023-0466
--Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=0d16b7e99aafc0b4a6d729eec65a411a7e025f0a]
--Comment: Refreshed first hunk from CHANGE and NEWS
--Signed-off-by: Omkar Patil <omkar.patil@kpit.com>
--
-----
-- CHANGES                                  | 5 +++++
-- NEWS                                     | 1 +
-- doc/man3/X509_VERIFY_PARAM_set_flags.pod | 9 +++++++--
-- 3 files changed, 13 insertions(+), 2 deletions(-)
--
--diff --git a/CHANGES b/CHANGES
--index efccf7838e..b19f1429bb 100644
----- a/CHANGES
--+++ b/CHANGES
--@@ -9,6 +9,11 @@
-- 
--  Changes between 1.1.1s and 1.1.1t [7 Feb 2023]
-- 
--+  *) Corrected documentation of X509_VERIFY_PARAM_add0_policy() to mention
--+     that it does not enable policy checking. Thanks to
--+     David Benjamin for discovering this issue. (CVE-2023-0466)
--+     [Tomas Mraz]
--+
--   *) Fixed X.400 address type confusion in X.509 GeneralName.
-- 
--      There is a type confusion vulnerability relating to X.400 address processing
--diff --git a/NEWS b/NEWS
--index 36a9bb6890..62615693fa 100644
----- a/NEWS
--+++ b/NEWS
--@@ -7,6 +7,7 @@
-- 
--   Major changes between OpenSSL 1.1.1s and OpenSSL 1.1.1t [7 Feb 2023]
-- 
--+      o Fixed documentation of X509_VERIFY_PARAM_add0_policy() (CVE-2023-0466)
--       o Fixed X.400 address type confusion in X.509 GeneralName (CVE-2023-0286)
--       o Fixed Use-after-free following BIO_new_NDEF (CVE-2023-0215)
--       o Fixed Double free after calling PEM_read_bio_ex (CVE-2022-4450)
--diff --git a/doc/man3/X509_VERIFY_PARAM_set_flags.pod b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
--index f6f304bf7b..aa292f9336 100644
----- a/doc/man3/X509_VERIFY_PARAM_set_flags.pod
--+++ b/doc/man3/X509_VERIFY_PARAM_set_flags.pod
--@@ -92,8 +92,9 @@ B<trust>.
-- X509_VERIFY_PARAM_set_time() sets the verification time in B<param> to
-- B<t>. Normally the current time is used.
-- 
---X509_VERIFY_PARAM_add0_policy() enables policy checking (it is disabled
---by default) and adds B<policy> to the acceptable policy set.
--+X509_VERIFY_PARAM_add0_policy() adds B<policy> to the acceptable policy set.
--+Contrary to preexisting documentation of this function it does not enable
--+policy checking.
-- 
-- X509_VERIFY_PARAM_set1_policies() enables policy checking (it is disabled
-- by default) and sets the acceptable policy set to B<policies>. Any existing
--@@ -377,6 +378,10 @@ and has no effect.
-- 
-- The X509_VERIFY_PARAM_get_hostflags() function was added in OpenSSL 1.1.0i.
-- 
--+The function X509_VERIFY_PARAM_add0_policy() was historically documented as
--+enabling policy checking however the implementation has never done this.
--+The documentation was changed to align with the implementation.
--+
-- =head1 COPYRIGHT
-- 
-- Copyright 2009-2020 The OpenSSL Project Authors. All Rights Reserved.
---- 
--2.34.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch
-deleted file mode 100644
-index ef344dda7f..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch
-+++ /dev/null
-@@ -1,122 +0,0 @@
--From 9e209944b35cf82368071f160a744b6178f9b098 Mon Sep 17 00:00:00 2001
--From: Richard Levitte <levitte@openssl.org>
--Date: Fri, 12 May 2023 10:00:13 +0200
--Subject: [PATCH] Restrict the size of OBJECT IDENTIFIERs that OBJ_obj2txt will
-- translate
--
--OBJ_obj2txt() would translate any size OBJECT IDENTIFIER to canonical
--numeric text form.  For gigantic sub-identifiers, this would take a very
--long time, the time complexity being O(n^2) where n is the size of that
--sub-identifier.
--
--To mitigate this, a restriction on the size that OBJ_obj2txt() will
--translate to canonical numeric text form is added, based on RFC 2578
--(STD 58), which says this:
--
--> 3.5. OBJECT IDENTIFIER values
-->
--> An OBJECT IDENTIFIER value is an ordered list of non-negative numbers.
--> For the SMIv2, each number in the list is referred to as a sub-identifier,
--> there are at most 128 sub-identifiers in a value, and each sub-identifier
--> has a maximum value of 2^32-1 (4294967295 decimal).
--
--Fixes otc/security#96
--Fixes CVE-2023-2650
--
--Reviewed-by: Matt Caswell <matt@openssl.org>
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/9e209944b35cf82368071f160a744b6178f9b098]
--CVE: CVE-2023-2650
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- CHANGES                  | 28 +++++++++++++++++++++++++++-
-- NEWS                     |  2 ++
-- crypto/objects/obj_dat.c | 19 +++++++++++++++++++
-- 3 files changed, 48 insertions(+), 1 deletion(-)
--
--diff --git a/CHANGES b/CHANGES
--index 1eaaf4e..f2cf38f 100644
----- a/CHANGES
--+++ b/CHANGES
--@@ -7,7 +7,33 @@
--  https://github.com/openssl/openssl/commits/ and pick the appropriate
--  release branch.
-- 
--- Changes between 1.1.1s and 1.1.1t [7 Feb 2023]
--+ Changes between 1.1.1t and 1.1.1u [xx XXX xxxx]
--+
--+  *) Mitigate for the time it takes for `OBJ_obj2txt` to translate gigantic
--+     OBJECT IDENTIFIER sub-identifiers to canonical numeric text form.
--+
--+     OBJ_obj2txt() would translate any size OBJECT IDENTIFIER to canonical
--+     numeric text form.  For gigantic sub-identifiers, this would take a very
--+     long time, the time complexity being O(n^2) where n is the size of that
--+     sub-identifier.  (CVE-2023-2650)
--+
--+     To mitigitate this, `OBJ_obj2txt()` will only translate an OBJECT
--+     IDENTIFIER to canonical numeric text form if the size of that OBJECT
--+     IDENTIFIER is 586 bytes or less, and fail otherwise.
--+
--+     The basis for this restriction is RFC 2578 (STD 58), section 3.5. OBJECT
--+     IDENTIFIER values, which stipulates that OBJECT IDENTIFIERS may have at
--+     most 128 sub-identifiers, and that the maximum value that each sub-
--+     identifier may have is 2^32-1 (4294967295 decimal).
--+
--+     For each byte of every sub-identifier, only the 7 lower bits are part of
--+     the value, so the maximum amount of bytes that an OBJECT IDENTIFIER with
--+     these restrictions may occupy is 32 * 128 / 7, which is approximately 586
--+     bytes.
--+
--+     Ref: https://datatracker.ietf.org/doc/html/rfc2578#section-3.5
--+
--+Changes between 1.1.1s and 1.1.1t [7 Feb 2023]
-- 
--   *) Corrected documentation of X509_VERIFY_PARAM_add0_policy() to mention
--      that it does not enable policy checking. Thanks to
--diff --git a/NEWS b/NEWS
--index a86220a..41922c4 100644
----- a/NEWS
--+++ b/NEWS
--@@ -7,6 +7,8 @@
-- 
--   Major changes between OpenSSL 1.1.1s and OpenSSL 1.1.1t [7 Feb 2023]
-- 
--+      o Mitigate for very slow `OBJ_obj2txt()` performance with gigantic
--+        OBJECT IDENTIFIER sub-identities.  (CVE-2023-2650)
--       o Fixed documentation of X509_VERIFY_PARAM_add0_policy() (CVE-2023-0466)
--       o Fixed X.400 address type confusion in X.509 GeneralName (CVE-2023-0286)
--       o Fixed Use-after-free following BIO_new_NDEF (CVE-2023-0215)
--diff --git a/crypto/objects/obj_dat.c b/crypto/objects/obj_dat.c
--index 7e8de72..d699915 100644
----- a/crypto/objects/obj_dat.c
--+++ b/crypto/objects/obj_dat.c
--@@ -428,6 +428,25 @@ int OBJ_obj2txt(char *buf, int buf_len, const ASN1_OBJECT *a, int no_name)
--     first = 1;
--     bl = NULL;
-- 
--+    /*
--+     * RFC 2578 (STD 58) says this about OBJECT IDENTIFIERs:
--+     *
--+     * > 3.5. OBJECT IDENTIFIER values
--+     * >
--+     * > An OBJECT IDENTIFIER value is an ordered list of non-negative
--+     * > numbers. For the SMIv2, each number in the list is referred to as a
--+     * > sub-identifier, there are at most 128 sub-identifiers in a value,
--+     * > and each sub-identifier has a maximum value of 2^32-1 (4294967295
--+     * > decimal).
--+     *
--+     * So a legitimate OID according to this RFC is at most (32 * 128 / 7),
--+     * i.e. 586 bytes long.
--+     *
--+     * Ref: https://datatracker.ietf.org/doc/html/rfc2578#section-3.5
--+     */
--+    if (len > 586)
--+        goto err;
--+
--     while (len > 0) {
--         l = 0;
--         use_bn = 0;
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-similarity index 96%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-index eea8ef64af..d3bf76863a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-@@ -19,17 +19,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://reproducible.patch \
-            file://reproducibility.patch \
-            file://0001-Configure-add-2-missing-key-sorts.patch \
--           file://CVE-2023-0464.patch \
--           file://CVE-2023-0465.patch \
--           file://CVE-2023-0466.patch \
--           file://CVE-2023-2650.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index f8b046500a..d46eab01a0 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -1,6 +1,6 @@
+ require go-common.inc
  
- SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+-FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
++FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.21:${FILE_DIRNAME}/go-1.19:${FILE_DIRNAME}/go-1.18:"
  
--SRC_URI[sha256sum] = "8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b"
-+SRC_URI[sha256sum] = "d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
  
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+@@ -39,6 +39,8 @@ SRC_URI += "\
+     file://CVE-2023-24536_1.patch \
+     file://CVE-2023-24536_2.patch \
+     file://CVE-2023-24536_3.patch \
++    file://CVE-2023-24531_1.patch \
++    file://CVE-2023-24531_2.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_1.patch b/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_1.patch
+new file mode 100644
+index 0000000000..5f6d7e16a8
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_1.patch
+@@ -0,0 +1,252 @@
++From 0f717b5f7d32bb660c01ec0366bd53c9b4c5ab5d Mon Sep 17 00:00:00 2001
++From: Michael Matloob <matloob@golang.org>
++Date: Mon, 24 Apr 2023 16:57:28 -0400
++Subject: [PATCH 1/2] cmd/go: sanitize go env outputs
++
++go env, without any arguments, outputs the environment variables in
++the form of a script that can be run on the host OS. On Unix, single
++quote the strings and place single quotes themselves outside the
++single quoted strings. On windows use the set "var=val" syntax with
++the quote starting before the variable.
++
++Fixes #58508
++
++Change-Id: Iecd379a4af7285ea9b2024f0202250c74fd9a2bd
++Reviewed-on: https://go-review.googlesource.com/c/go/+/488375
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Michael Matloob <matloob@golang.org>
++Reviewed-by: Damien Neil <dneil@google.com>
++Run-TryBot: Michael Matloob <matloob@golang.org>
++Reviewed-by: Bryan Mills <bcmills@google.com>
++Reviewed-by: Quim Muntal <quimmuntal@gmail.com>
++
++CVE: CVE-2023-24531
++Upstream-Status: Backport [f379e78951a405e7e99a60fb231eeedbf976c108]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ src/cmd/go/internal/envcmd/env.go           | 60 ++++++++++++-
++ src/cmd/go/internal/envcmd/env_test.go      | 94 +++++++++++++++++++++
++ src/cmd/go/testdata/script/env_sanitize.txt |  5 ++
++ 3 files changed, 157 insertions(+), 2 deletions(-)
++ create mode 100644 src/cmd/go/internal/envcmd/env_test.go
++ create mode 100644 src/cmd/go/testdata/script/env_sanitize.txt
++
++diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
++index 43b94e7..0ce8843 100644
++--- a/src/cmd/go/internal/envcmd/env.go
+++++ b/src/cmd/go/internal/envcmd/env.go
++@@ -6,6 +6,7 @@
++ package envcmd
++ 
++ import (
+++	"bytes"
++ 	"context"
++ 	"encoding/json"
++ 	"fmt"
++@@ -17,6 +18,7 @@ import (
++ 	"runtime"
++ 	"sort"
++ 	"strings"
+++	"unicode"
++ 	"unicode/utf8"
++ 
++ 	"cmd/go/internal/base"
++@@ -379,9 +381,12 @@ func checkBuildConfig(add map[string]string, del map[string]bool) error {
++ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
++ 	for _, e := range env {
++ 		if e.Name != "TERM" {
+++			if runtime.GOOS != "plan9" && bytes.Contains([]byte(e.Value), []byte{0}) {
+++				base.Fatalf("go: internal error: encountered null byte in environment variable %s on non-plan9 platform", e.Name)
+++			}
++ 			switch runtime.GOOS {
++ 			default:
++-				fmt.Fprintf(w, "%s=\"%s\"\n", e.Name, e.Value)
+++				fmt.Fprintf(w, "%s=%s\n", e.Name, shellQuote(e.Value))
++ 			case "plan9":
++ 				if strings.IndexByte(e.Value, '\x00') < 0 {
++ 					fmt.Fprintf(w, "%s='%s'\n", e.Name, strings.ReplaceAll(e.Value, "'", "''"))
++@@ -392,17 +397,68 @@ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
++ 						if x > 0 {
++ 							fmt.Fprintf(w, " ")
++ 						}
+++						// TODO(#59979): Does this need to be quoted like above?
++ 						fmt.Fprintf(w, "%s", s)
++ 					}
++ 					fmt.Fprintf(w, ")\n")
++ 				}
++ 			case "windows":
++-				fmt.Fprintf(w, "set %s=%s\n", e.Name, e.Value)
+++				if hasNonGraphic(e.Value) {
+++					base.Errorf("go: stripping unprintable or unescapable characters from %%%q%%", e.Name)
+++				}
+++				fmt.Fprintf(w, "set %s=%s\n", e.Name, batchEscape(e.Value))
++ 			}
++ 		}
++ 	}
++ }
++ 
+++func hasNonGraphic(s string) bool {
+++	for _, c := range []byte(s) {
+++		if c == '\r' || c == '\n' || (!unicode.IsGraphic(rune(c)) && !unicode.IsSpace(rune(c))) {
+++			return true
+++		}
+++	}
+++	return false
+++}
+++
+++func shellQuote(s string) string {
+++	var b bytes.Buffer
+++	b.WriteByte('\'')
+++	for _, x := range []byte(s) {
+++		if x == '\'' {
+++			// Close the single quoted string, add an escaped single quote,
+++			// and start another single quoted string.
+++			b.WriteString(`'\''`)
+++		} else {
+++			b.WriteByte(x)
+++		}
+++	}
+++	b.WriteByte('\'')
+++	return b.String()
+++}
+++
+++func batchEscape(s string) string {
+++	var b bytes.Buffer
+++	for _, x := range []byte(s) {
+++		if x == '\r' || x == '\n' || (!unicode.IsGraphic(rune(x)) && !unicode.IsSpace(rune(x))) {
+++			b.WriteRune(unicode.ReplacementChar)
+++			continue
+++		}
+++		switch x {
+++		case '%':
+++			b.WriteString("%%")
+++		case '<', '>', '|', '&', '^':
+++			// These are special characters that need to be escaped with ^. See
+++			// https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set_1.
+++			b.WriteByte('^')
+++			b.WriteByte(x)
+++		default:
+++			b.WriteByte(x)
+++		}
+++	}
+++	return b.String()
+++}
+++
++ func printEnvAsJSON(env []cfg.EnvVar) {
++ 	m := make(map[string]string)
++ 	for _, e := range env {
++diff --git a/src/cmd/go/internal/envcmd/env_test.go b/src/cmd/go/internal/envcmd/env_test.go
++new file mode 100644
++index 0000000..32d99fd
++--- /dev/null
+++++ b/src/cmd/go/internal/envcmd/env_test.go
++@@ -0,0 +1,94 @@
+++// Copyright 2022 The Go Authors. All rights reserved.
+++// Use of this source code is governed by a BSD-style
+++// license that can be found in the LICENSE file.
+++
+++//go:build unix || windows
+++
+++package envcmd
+++
+++import (
+++	"bytes"
+++	"cmd/go/internal/cfg"
+++	"fmt"
+++	"internal/testenv"
+++	"os"
+++	"os/exec"
+++	"path/filepath"
+++	"runtime"
+++	"testing"
+++	"unicode"
+++)
+++
+++func FuzzPrintEnvEscape(f *testing.F) {
+++	f.Add(`$(echo 'cc"'; echo 'OOPS="oops')`)
+++	f.Add("$(echo shell expansion 1>&2)")
+++	f.Add("''")
+++	f.Add(`C:\"Program Files"\`)
+++	f.Add(`\\"Quoted Host"\\share`)
+++	f.Add("\xfb")
+++	f.Add("0")
+++	f.Add("")
+++	f.Add("''''''''")
+++	f.Add("\r")
+++	f.Add("\n")
+++	f.Add("E,%")
+++	f.Fuzz(func(t *testing.T, s string) {
+++		t.Parallel()
+++
+++		for _, c := range []byte(s) {
+++			if c == 0 {
+++				t.Skipf("skipping %q: contains a null byte. Null bytes can't occur in the environment"+
+++					" outside of Plan 9, which has different code path than Windows and Unix that this test"+
+++					" isn't testing.", s)
+++			}
+++			if c > unicode.MaxASCII {
+++				t.Skipf("skipping %#q: contains a non-ASCII character %q", s, c)
+++			}
+++			if !unicode.IsGraphic(rune(c)) && !unicode.IsSpace(rune(c)) {
+++				t.Skipf("skipping %#q: contains non-graphic character %q", s, c)
+++			}
+++			if runtime.GOOS == "windows" && c == '\r' || c == '\n' {
+++				t.Skipf("skipping %#q on Windows: contains unescapable character %q", s, c)
+++			}
+++		}
+++
+++		var b bytes.Buffer
+++		if runtime.GOOS == "windows" {
+++			b.WriteString("@echo off\n")
+++		}
+++		PrintEnv(&b, []cfg.EnvVar{{Name: "var", Value: s}})
+++		var want string
+++		if runtime.GOOS == "windows" {
+++			fmt.Fprintf(&b, "echo \"%%var%%\"\n")
+++			want += "\"" + s + "\"\r\n"
+++		} else {
+++			fmt.Fprintf(&b, "printf '%%s\\n' \"$var\"\n")
+++			want += s + "\n"
+++		}
+++		scriptfilename := "script.sh"
+++		if runtime.GOOS == "windows" {
+++			scriptfilename = "script.bat"
+++		}
+++		scriptfile := filepath.Join(t.TempDir(), scriptfilename)
+++		if err := os.WriteFile(scriptfile, b.Bytes(), 0777); err != nil {
+++			t.Fatal(err)
+++		}
+++		t.Log(b.String())
+++		var cmd *exec.Cmd
+++		if runtime.GOOS == "windows" {
+++			cmd = testenv.Command(t, "cmd.exe", "/C", scriptfile)
+++		} else {
+++			cmd = testenv.Command(t, "sh", "-c", scriptfile)
+++		}
+++		out, err := cmd.Output()
+++		t.Log(string(out))
+++		if err != nil {
+++			t.Fatal(err)
+++		}
+++
+++		if string(out) != want {
+++			t.Fatalf("output of running PrintEnv script and echoing variable: got: %q, want: %q",
+++				string(out), want)
+++		}
+++	})
+++}
++diff --git a/src/cmd/go/testdata/script/env_sanitize.txt b/src/cmd/go/testdata/script/env_sanitize.txt
++new file mode 100644
++index 0000000..cc4d23a
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/env_sanitize.txt
++@@ -0,0 +1,5 @@
+++env GOFLAGS='$(echo ''cc"''; echo ''OOPS="oops'')'
+++go env
+++[GOOS:darwin] stdout 'GOFLAGS=''\$\(echo ''\\''''cc"''\\''''; echo ''\\''''OOPS="oops''\\''''\)'''
+++[GOOS:linux] stdout 'GOFLAGS=''\$\(echo ''\\''''cc"''\\''''; echo ''\\''''OOPS="oops''\\''''\)'''
+++[GOOS:windows] stdout 'set GOFLAGS=\$\(echo ''cc"''; echo ''OOPS="oops''\)'
++-- 
++2.35.5
++
+diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_2.patch b/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_2.patch
+new file mode 100644
+index 0000000000..eecc04c2e3
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-24531_2.patch
+@@ -0,0 +1,47 @@
++From b2624f973692ca093348395c2418d1c422f2a162 Mon Sep 17 00:00:00 2001
++From: miller <millerresearch@gmail.com>
++Date: Mon, 8 May 2023 16:56:21 +0100
++Subject: [PATCH 2/2] cmd/go: quote entries in list-valued variables for go env
++ in plan9
++
++When 'go env' without an argument prints environment variables as
++a script which can be executed by the shell, variables with a
++list value in Plan 9 (such as GOPATH) need to be printed with each
++element enclosed in single quotes in case it contains characters
++significant to the Plan 9 shell (such as ' ' or '=').
++
++For #58508
++
++Change-Id: Ia30f51307cc6d07a7e3ada6bf9d60bf9951982ff
++Reviewed-on: https://go-review.googlesource.com/c/go/+/493535
++Run-TryBot: Cherry Mui <cherryyz@google.com>
++Reviewed-by: Cherry Mui <cherryyz@google.com>
++Reviewed-by: Russ Cox <rsc@golang.org>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Auto-Submit: Dmitri Shuralyov <dmitshur@golang.org>
++
++CVE: CVE-2023-24531
++Upstream-Status: Backport [05cc9e55876874462a4726ca0101c970838c80e5]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ src/cmd/go/internal/envcmd/env.go | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
++index 0ce8843..b48d0bd 100644
++--- a/src/cmd/go/internal/envcmd/env.go
+++++ b/src/cmd/go/internal/envcmd/env.go
++@@ -397,8 +397,7 @@ func PrintEnv(w io.Writer, env []cfg.EnvVar) {
++ 						if x > 0 {
++ 							fmt.Fprintf(w, " ")
++ 						}
++-						// TODO(#59979): Does this need to be quoted like above?
++-						fmt.Fprintf(w, "%s", s)
+++						fmt.Fprintf(w, "'%s'", strings.ReplaceAll(s, "'", "''"))
++ 					}
++ 					fmt.Fprintf(w, ")\n")
++ 				}
++-- 
++2.35.5
++
 -- 
-2.30.2
+2.39.0
 
 
