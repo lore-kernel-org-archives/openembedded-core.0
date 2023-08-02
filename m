@@ -1,191 +1,128 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA161C00528
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:16:38 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.14853.1690982193063103694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE5DC001DF
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:25:28 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.15085.1690982725757204532
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 06:16:33 -0700
+ Wed, 02 Aug 2023 06:25:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=JnohUpc6;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso74062935e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:16:32 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=jXZ6eNAk;
+ spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fe463420fbso3071101e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690982191; x=1691586991;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EkCP8Fd0Jz79gki+ChLtlejuzRUMD3wKqWF2ou/EaMk=;
-        b=JnohUpc6VG5C6BbGRqQ8boOjdmUHW+wDWCuuAE4O1sfQmbBvjl7blll2kGjn7JQEKN
-         CGUc6XCfa7APkLIzKVm6KwW4N0UyAyy0TUGkFF7I+v4Ta23gINBLqCGr/0DzWYYdNVlk
-         vg2vG0AgLn1NwFAVp/sggtj6KeU5JlBmyxdpIz6AOTY6ItvAC/za8v4yw7lS1dsUZ6G+
-         t6ykD7E2hSVkR69VczxOcb/fmHlsgaRrZ/n1uad59PDo42wdUaYt2Gjr74G7ua6VFNv2
-         970otnCvjxamvL6vesl3RIjWnrWED+MfZk+x4vb/1EcFBXzapE35rb/p3uCa5Zs0FWxZ
-         cv/g==
+        d=linaro.org; s=google; t=1690982724; x=1691587524;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tzo7EHKfCN0EsoGFgyRv44AygWXM7dE1+kcqAJ36ZsM=;
+        b=jXZ6eNAkIP9WOB9lnMw9U9VdEMPRZk9XElzrrju7DdmGrgcgrL5p+cLLh6IlmY79r6
+         88Ws4+YH3a0PRFLHIxPROJpHLkZQkcM6a5sV0fxjuDPnXzS4AWHwo19YqoVVB5wOWVBS
+         N/VOwwT6OnB561HxQZTze6NXVtyrLfL033GlQTTcjXU7tVqxSyaNmsQIzU/qhvL2+Jf2
+         nMtE6W73wJ3jWSk5bVkMCXrP820BSYjVx33y7DsdmhsAl5Uai0ZWMGrAJYNnyByqjQpW
+         BBWsVbZoNnQ62qyOer1ele1caBPw5LIfJnHL8Lve3BVAloTWqJoKLw2WCTiF4EhC//GT
+         0S7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690982191; x=1691586991;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EkCP8Fd0Jz79gki+ChLtlejuzRUMD3wKqWF2ou/EaMk=;
-        b=L9ReV04PEZrTx88tP4PFp5uLaJid5v/kgBYblCbODZPHWIt97jVqkifkRpzRObuPe1
-         Lx8zC2nfD9Ujw0QHLaBYBLkWBDBVeZbA0LfXHUwwi9mW333kKiqfFz5hLjvnf2a0z2JT
-         13HW8z9qTheqNWNbaJnAJfy6LaP+LOVpbAIFBurUxwAc6Prd3c4aJxOw9Ldbr3pM4dSf
-         HpM+L3AWXImAXSxMz84urQhW7sEVaR24XVvHNbxzLBJK2DbzlCuoPWZ6XfY3+i8e329X
-         hSoM08Su1LAZdbX0dKsBmbHtiF3NXNq3D/H6JGaHqP0I2mmY5XxZ7VX1Rb8zISD68iy+
-         hNkA==
-X-Gm-Message-State: ABy/qLbCBbLNjGnrLw285UmSOCa1wqQeYecxQXo1W83iD69GDkG9Yoth
-	XNGkPohPpLLfeomr30YaDWUv8g7/sUw=
-X-Google-Smtp-Source: APBJJlHQIVaXVuep/IjuCG6ouwoEDpyRWn5jpl43fGkZfNyAqu+eG0BcSGRWewAPpQKzrEJ/6xISjg==
-X-Received: by 2002:a5d:43c3:0:b0:317:734e:3614 with SMTP id v3-20020a5d43c3000000b00317734e3614mr5005221wrr.39.1690982190991;
-        Wed, 02 Aug 2023 06:16:30 -0700 (PDT)
-Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:ab32:1451:bfe8:2a0f])
-        by smtp.gmail.com with ESMTPSA id l18-20020adfe9d2000000b003112f836d4esm18951248wrn.85.2023.08.02.06.16.30
+        d=1e100.net; s=20221208; t=1690982724; x=1691587524;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tzo7EHKfCN0EsoGFgyRv44AygWXM7dE1+kcqAJ36ZsM=;
+        b=LZBBNmIDwRPteIzZ4mGG4+BuBYh//ApuXCV0OIoW5oM/pTnoPDxDtP9K01Pjoc1qQu
+         ZZxlK/2AETc5o5l1ynOXZiLDC2DE4McbpnpaN2Fb/uf/RK9AXsMDavgHuEPXiSimu7b/
+         pUEfOgxv/G8np/3KZvLA6EJ1LISb9KfmhkhHLZEExhaTA5emzu0ANwoN/LovikA7yAWP
+         mMk+GWkKulH8q/whuumTUZPp58GnSvMBpu3xI3meZIl0ZK0Rj65007qFgu2qsDyd1YUn
+         cg8y6f48n1yPOBIG7jqf+TkJPJ1RmFu3ep//0UsGxKKL1A9y9kumeI1SP/TNgBdi3N0U
+         jyFg==
+X-Gm-Message-State: ABy/qLbNIgHMBvUccN9Ep5pwpo1FYNRwi7OqxV5N2TZjx/Ys9ujDefSS
+	CdK1P6hCFryyMPRtWtGab6APBw==
+X-Google-Smtp-Source: APBJJlGsYOkpKjdxxza70M+5aV/BCrgGOIQ87imUOhabGQGT2x1eKaaZWqvs7BYdW3OOEkx6TV7ruA==
+X-Received: by 2002:a19:4314:0:b0:4fd:fef7:95a5 with SMTP id q20-20020a194314000000b004fdfef795a5mr4154771lfa.11.1690982723774;
+        Wed, 02 Aug 2023 06:25:23 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id v11-20020a056512096b00b004fdc5557a70sm2943706lft.141.2023.08.02.06.25.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 06:16:30 -0700 (PDT)
-From: frederic.martinsons@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
-Subject: [PATCH 3/3] drop rust-hello-world recipe
-Date: Wed,  2 Aug 2023 15:16:05 +0200
-Message-Id: <69932b78a14903b214fcb19c780d88dccefe4a18.1690981978.git.frederic.martinsons@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1690981978.git.frederic.martinsons@gmail.com>
-References: <cover.1690981978.git.frederic.martinsons@gmail.com>
+        Wed, 02 Aug 2023 06:25:23 -0700 (PDT)
+Date: Wed, 2 Aug 2023 16:25:21 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Joel Stanley <joel@jms.id.au>
+Cc: =?iso-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	Andrew Geissler <geissonator@gmail.com>, mdmii@outlook.com
+Subject: Re: [OE-core] [PATCH] kernel: Don't fail if Modules.symvers doesn't
+ exist
+Message-ID: <ZMpZQU+duutoPL16@nuoska>
+References: <20230802114705.90137-1-joel@jms.id.au>
+ <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
+ <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:16:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185395
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:25:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185396
 
-From: Frederic Martinsons <frederic.martinsons@gmail.com>
+Hi,
 
-we now have more rust/cargo recipes and test that covers
-various use cases.
+On Wed, Aug 02, 2023 at 01:15:34PM +0000, Joel Stanley wrote:
+> On Wed, 2 Aug 2023 at 12:45, Fr�d�ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> >
+> >
+> >
+> > On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
+> >>
+> >> The one liner tests using `[ ] && action` need to have || true after the action,
+> >> otherwise the line returns false and the recipie fails.
+> >>
+> >> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> >> ---
+> >>  meta/classes-recipe/kernel.bbclass | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+> >> index 247ef4a48aa7..f1bc41e82be8 100644
+> >> --- a/meta/classes-recipe/kernel.bbclass
+> >> +++ b/meta/classes-recipe/kernel.bbclass
+> >> @@ -486,7 +486,7 @@ kernel_do_install() {
+> >>         install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map-${KERNEL_VERSION}
+> >>         install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSION}
+> >>         install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION}
+> >> -       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
+> >> +       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
+> >>  }
+> >>
+> >
+> > By doing that, you simply silent possible error of the action after the test, below is a little snippet showing that
+> 
+> Sure. But the test is looking for the file, so if it doesn't exist
+> then the command install won't run.
+> 
+> I can't think of any realistic situation where install would fail if
+> the file is present.
+> 
+> > I think the origin of your issue is that the action failed , having the log of kernel_do_install task would help.
+> 
+> That isn't the case.
+> 
+> The issue is the Modules.symvers file is not found. This is expected,
+> because the kernel does not use modules.
 
-Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 -
- meta/lib/oeqa/runtime/cases/rust.py           | 12 ----------
- .../packagegroup-core-tools-testapps.bb       |  3 ---
- .../rust-hello-world/0001-enable-LTO.patch    | 24 -------------------
- .../rust-example/rust-hello-world_git.bb      | 19 ---------------
- 5 files changed, 59 deletions(-)
- delete mode 100644 meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
- delete mode 100644 meta/recipes-extended/rust-example/rust-hello-world_git.bb
+This crucial bit of information is not in the commit message, please add it.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 1c9c5616d8..202e5739a0 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -734,7 +734,6 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
--RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
-index c9c60e16fd..9bf0312669 100644
---- a/meta/lib/oeqa/runtime/cases/rust.py
-+++ b/meta/lib/oeqa/runtime/cases/rust.py
-@@ -48,15 +48,3 @@ class RustCompileTest(OERuntimeTestCase):
-         status, output = self.target.run('cargo run --manifest-path=/tmp/hello/Cargo.toml')
-         msg = 'running compiled file failed, output: %s' % output
-         self.assertEqual(status, 0, msg=msg)
--
--class RustHelloworldTest(OERuntimeTestCase):
--    @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['rust-hello-world'])
--    def test_rusthelloworld(self):
--        cmd = "rust-hello-world"
--        status, output = self.target.run(cmd)
--        msg = 'Exit status was not 0. Output: %s' % output
--        self.assertEqual(status, 0, msg=msg)
--
--        msg = 'Incorrect output: %s' % output
--        self.assertEqual(output, "Hello, world!", msg=msg)
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index e05e329020..1fee1c925d 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -25,8 +25,6 @@ GOTOOLS ?= "go-helloworld"
- GOTOOLS:powerpc ?= ""
- GOTOOLS:riscv32 ?= ""
- 
--RUSTTOOLS ?= "rust-hello-world"
--
- GSTEXAMPLES ?= "gst-examples"
- GSTEXAMPLES:riscv64 = ""
- 
-@@ -59,5 +57,4 @@ RDEPENDS:${PN} = "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', "${X11GLTOOLS}", "", d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', '3g', "${3GTOOLS}", "", d)} \
-     ${GOTOOLS} \
--    ${RUSTTOOLS} \
-     "
-diff --git a/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch b/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-deleted file mode 100644
-index f319545ee1..0000000000
---- a/meta/recipes-extended/rust-example/rust-hello-world/0001-enable-LTO.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From fa40b874f6470ec11a8fd7b0c9909d0cdd2d6feb Mon Sep 17 00:00:00 2001
--From: Dan Callaghan <dan.callaghan@opengear.com>
--Date: Fri, 5 Feb 2021 08:56:34 +1000
--Subject: [PATCH] enable LTO
--
--Upstream-Status: Pending
-----
-- Cargo.toml | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/Cargo.toml b/Cargo.toml
--index 7a2f6c8..cdb6b5d 100644
----- a/Cargo.toml
--+++ b/Cargo.toml
--@@ -3,3 +3,6 @@
-- name = "rust-hello-world"
-- version = "0.0.1"
-- authors = ["Cody P Schafer <dev@codyps.com>"]
--+
--+[profile.release]
--+lto = true
---- 
--2.28.0
--
-diff --git a/meta/recipes-extended/rust-example/rust-hello-world_git.bb b/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-deleted file mode 100644
-index 1d91109b51..0000000000
---- a/meta/recipes-extended/rust-example/rust-hello-world_git.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--inherit cargo
--
--SRC_URI = "git://github.com/meta-rust/rust-hello-world.git;protocol=https;branch=master"
--SRCREV="e0fa23f1a3cb1eb1407165bd2fc36d2f6e6ad728"
--LIC_FILES_CHKSUM="file://COPYRIGHT;md5=e6b2207ac3740d2d01141c49208c2147"
--
--SRC_URI += "\
--    file://0001-enable-LTO.patch \
--    "
--
--UPSTREAM_CHECK_COMMITS = "1"
--
--SUMMARY = "Hello World by Cargo for Rust"
--HOMEPAGE = "https://github.com/meta-rust/rust-hello-world"
--LICENSE = "MIT | Apache-2.0"
--
--S = "${WORKDIR}/git"
--
--BBCLASSEXTEND = "native"
--- 
-2.34.1
+Then, I think there are better ways to detect if kernel modules are disabled
+completely. See for example kernel.bbclass line 430:
 
+if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+
+Cheers,
+
+-Mikko
 
