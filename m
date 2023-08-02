@@ -1,203 +1,161 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <geissonator@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD56C001DF
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 15:08:59 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web11.17553.1690988929124359354
- for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 08:08:49 -0700
-Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd77.aul.t-online.de (fwd77.aul.t-online.de [10.223.144.103])
-	by mailout02.t-online.de (Postfix) with SMTP id 58A542017F
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Aug 2023 17:08:24 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.160.142]) by fwd77.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qRDSX-2ddkUD0; Wed, 2 Aug 2023 17:08:21 +0200
-From: Markus Volk <f_l_k@t-online.de>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 997DDC04E69
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 16:08:16 +0000 (UTC)
+Subject: Re: [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH 1/2] webkitgtk: upgrade 2.40.2 -> 2.40.5
-Date: Wed,  2 Aug 2023 17:08:00 +0200
-Message-ID: <20230802150801.2607-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.41.0
+From: "Andrew Geissler" <geissonator@gmail.com>
+X-Originating-Location: Brunswick, Maine, US (75.68.245.129)
+X-Originating-Platform: Mac Firefox 115
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1690988901-10810931-EC0B620A/0/0 CLEAN NORMAL
-X-TOI-MSGID: 3691e199-037c-485a-8e92-fc960ef2acac
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 02 Aug 2023 09:08:13 -0700
+References: <CADkTA4MxqDTacjdsJkN6Gxf8PMmqV5iy6_0e-Umn5BDjybDbPA@mail.gmail.com>
+In-Reply-To: <CADkTA4MxqDTacjdsJkN6Gxf8PMmqV5iy6_0e-Umn5BDjybDbPA@mail.gmail.com>
+Message-ID: <5783.1690992493049046066@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="pCl4JSFIrDc4IaASg5g8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 15:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185413
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 16:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185414
 
-- Remove unneeded patches
+--pCl4JSFIrDc4IaASg5g8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-    What=E2=80=99s new in the WebKitGTK 2.40.5 release?
-    - Fix several crashes and rendering issues.
+On Wed, Aug 2, 2023 at 06:38 AM, Bruce Ashfield wrote:
 
-    What=E2=80=99s new in the WebKitGTK 2.40.4 release?
-    - Fix a bug in JavaScript reading variable arguments in a call.
+>=20
+> On Wed, Aug 2, 2023 at 9:15=E2=80=AFAM Joel Stanley <joel@jms.id.au> wrot=
+e:
+>=20
+>> On Wed, 2 Aug 2023 at 12:45, Fr=C3=A9d=C3=A9ric Martinsons
+>> <frederic.martinsons@gmail.com> wrote:
+>>=20
+>>>=20
+>>>=20
+>>> On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
+>>>=20
+>>>> The one liner tests using `[ ] && action` need to have || true after t=
+he
+>>>> action,
+>>>> otherwise the line returns false and the recipie fails.
+>>>>=20
+>>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>>> ---
+>>>> meta/classes-recipe/kernel.bbclass | 4 ++--
+>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>=20
+>>>> diff --git a/meta/classes-recipe/kernel.bbclass
+>>>> b/meta/classes-recipe/kernel.bbclass
+>>>> index 247ef4a48aa7..f1bc41e82be8 100644
+>>>> --- a/meta/classes-recipe/kernel.bbclass
+>>>> +++ b/meta/classes-recipe/kernel.bbclass
+>>>> @@ -486,7 +486,7 @@ kernel_do_install() {
+>>>> install -m 0644 System.map
+>>>> ${D}/${KERNEL_IMAGEDEST}/System.map-${KERNEL_VERSION}
+>>>> install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSI=
+ON}
+>>>> install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERS=
+ION}
+>>>>=20
+>>>> - [ -e Module.symvers ] && install -m 0644 Module.symvers
+>>>> ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
+>>>> + [ -e Module.symvers ] && install -m 0644 Module.symvers
+>>>> ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
+>>>> }
+>>>=20
+>>> By doing that, you simply silent possible error of the action after the
+>>> test, below is a little snippet showing that
+>>=20
+>> Sure. But the test is looking for the file, so if it doesn't exist
+>> then the command install won't run.
+>=20
+> Something doesn't seem quite right, that test for Module.symvers (there
+> and in the shared workdir code) were put in place for the scenario
+> you are mentioning .. if Modules are disabled and hence Module.symvers
+> doesn't
+> exist.
+>=20
+> At one point, we even tested that sort of configuration.
+>=20
+> I didn't dig more through the logs, but maybe we had lines after that
+> command
+> previously, so the last return code wasn't a failure and hence no task
+> failure.
 
-    What=E2=80=99s new in the WebKitGTK 2.40.3 release?
-    - Make memory pressure monitor honor memory.memsw.usage_in_bytes if e=
-xists.
-    - Include key modifiers in wheel events.
-    - Apply cookie blocking policy to WebSocket handshakes.
-    - Remove accidental dependency on GLib 2.70.
-    - Fix the build with BUBBLEWRAP_SANDBOX disabled.
-    - Fix several crashes and rendering issues.
+Yep, this is what happened, there used to be these 2 lines after it:
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- ...tCore-CMakeLists.txt-ensure-reproduc.patch | 28 -------------
- ...290ab4ab35258a6da9b13795c9b0f7894bf4.patch | 41 -------------------
- ...ebkitgtk_2.40.2.bb =3D> webkitgtk_2.40.5.bb} |  5 +--
- 3 files changed, 1 insertion(+), 73 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaSc=
-riptCore-CMakeLists.txt-ensure-reproduc.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a=
-6da9b13795c9b0f7894bf4.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.40.2.bb =3D> webkitgtk_2.40=
-.5.bb} (96%)
+install -d ${D}${sysconfdir}/modprobe.d
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCor=
-e-CMakeLists.txt-ensure-reproduc.patch b/meta/recipes-sato/webkit/webkitg=
-tk/0001-Source-JavaScriptCore-CMakeLists.txt-ensure-reproduc.patch
-deleted file mode 100644
-index bbe265059d..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Source-JavaScriptCore-CMake=
-Lists.txt-ensure-reproduc.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From cd65e3d9256a4f6eb7906a9f10678c29a4ffef2f Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 26 Jun 2023 14:30:02 +0200
--Subject: [PATCH] Source/JavaScriptCore/CMakeLists.txt: ensure reproducib=
-ility
-- of __TIMESTAMP__
--
--__TIMESTAMP__ refers to mtime of the file that contains it, which is uns=
-table
--and breaks binary reproducibility when the file is generated at build ti=
-me. To ensure
--this does not happen, mtime should be set from the original file.
--
--Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/15293]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- Source/JavaScriptCore/CMakeLists.txt | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Source/JavaScriptCore/CMakeLists.txt b/Source/JavaScriptCor=
-e/CMakeLists.txt
--index 43dc22ff..c2e3b1cd 100644
----- a/Source/JavaScriptCore/CMakeLists.txt
--+++ b/Source/JavaScriptCore/CMakeLists.txt
--@@ -159,6 +159,7 @@ add_custom_command(
--     OUTPUT ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersio=
-n.cpp
--     MAIN_DEPENDENCY ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersi=
-on.cpp.in
--     COMMAND ${PERL_EXECUTABLE} -pe s/CACHED_TYPES_CKSUM/__TIMESTAMP__/ =
-${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVersion.cpp.in > ${JavaScri=
-ptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.cpp
--+    COMMAND touch -r ${JAVASCRIPTCORE_DIR}/runtime/JSCBytecodeCacheVers=
-ion.cpp.in ${JavaScriptCore_DERIVED_SOURCES_DIR}/JSCBytecodeCacheVersion.=
-cpp
--             VERBATIM
-- )
--=20
-diff --git a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13=
-795c9b0f7894bf4.patch b/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35=
-258a6da9b13795c9b0f7894bf4.patch
-deleted file mode 100644
-index 79da855ff4..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/4977290ab4ab35258a6da9b13795c9b0=
-f7894bf4.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 4977290ab4ab35258a6da9b13795c9b0f7894bf4 Mon Sep 17 00:00:00 2001
--From: Diego Pino Garcia <dpino@igalia.com>
--Date: Mon, 22 May 2023 19:58:50 -0700
--Subject: [PATCH] [GLIB] Fix build error after 264196@main
-- https://bugs.webkit.org/show_bug.cgi?id=3D256917
--
--Reviewed by Michael Catanzaro.
--
--Variable BWRAP_EXECUTABLE is only defined when BUBBLEWRAP_SANDBOX is
--enabled.
--
--* Source/WTF/wtf/glib/Sandbox.cpp:
--(WTF::isInsideUnsupportedContainer):
--
--Canonical link: https://commits.webkit.org/264395@main
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/49772=
-90ab4ab35258a6da9b13795c9b0f7894bf4]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- Source/WTF/wtf/glib/Sandbox.cpp | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/Source/WTF/wtf/glib/Sandbox.cpp b/Source/WTF/wtf/glib/Sandb=
-ox.cpp
--index 7d84e830ab33e..9b07bb8cb5a9b 100644
----- a/Source/WTF/wtf/glib/Sandbox.cpp
--+++ b/Source/WTF/wtf/glib/Sandbox.cpp
--@@ -36,6 +36,7 @@ bool isInsideFlatpak()
--     return returnValue;
-- }
--=20
--+#if ENABLE(BUBBLEWRAP_SANDBOX)
-- bool isInsideUnsupportedContainer()
-- {
--     static bool inContainer =3D g_file_test("/run/.containerenv", G_FIL=
-E_TEST_EXISTS);
--@@ -64,6 +65,7 @@ bool isInsideUnsupportedContainer()
--=20
--     return inContainer && !supportedContainer;
-- }
--+#endif
--=20
-- bool isInsideSnap()
-- {
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb b/meta/recipes-=
-sato/webkit/webkitgtk_2.40.5.bb
-similarity index 96%
-rename from meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
-index a9391bfc99..7bf32e8610 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.40.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.40.5.bb
-@@ -13,11 +13,9 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}=
--${PV}.tar.xz \
-            file://0001-FindGObjectIntrospection.cmake-prefix-variables-o=
-bta.patch \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
--           file://4977290ab4ab35258a6da9b13795c9b0f7894bf4.patch \
--           file://0001-Source-JavaScriptCore-CMakeLists.txt-ensure-repro=
-duc.patch \
-            file://check-GST_GL_HAVE_PLATFORM_GLX.patch \
-            "
--SRC_URI[sha256sum] =3D "96898870d994da406ee7a632816dcde9a3bb395ee5f344fc=
-b3f3b8cc8a77e000"
-+SRC_URI[sha256sum] =3D "7de051a263668621d91a61a5eb1c3771d1a7cec900043d4a=
-fef06c326c16037f"
-=20
- inherit cmake pkgconfig gobject-introspection perlnative features_check =
-upstream-version-is-even gi-docgen
-=20
-@@ -162,6 +160,5 @@ src_package_preprocess () {
-             ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
-             ${B}/WebCore/DerivedSources/*.cpp \
-             ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
--
- }
-=20
---=20
-2.41.0
+install -d ${D}${sysconfdir}/modules-load.d
 
+https://gerrit.openbmc.org/c/openbmc/openbmc/+/65313/3/poky/meta/classes-re=
+cipe/kernel.bbclass
+
+Once these were removed we started hitting this failure over in OpenBMC.
+
+--pCl4JSFIrDc4IaASg5g8
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 2, 2023 at 06:38 AM, Bruce Ashfield wrote:<br />
+<blockquote>On Wed, Aug 2, 2023 at 9:15=E2=80=AFAM Joel Stanley &lt;joel@jm=
+s.id.au&gt; wrote:<br />
+<blockquote>On Wed, 2 Aug 2023 at 12:45, Fr&eacute;d&eacute;ric Martinsons<=
+br />&lt;frederic.martinsons@gmail.com&gt; wrote:<br />
+<blockquote><br /><br />On Wed, 2 Aug 2023 at 13:47, Joel Stanley &lt;joel@=
+jms.id.au&gt; wrote:<br />
+<blockquote>The one liner tests using `[ ] &amp;&amp; action` need to have =
+|| true after the action,<br />otherwise the line returns false and the rec=
+ipie fails.<br /><br />Signed-off-by: Joel Stanley &lt;joel@jms.id.au&gt;<b=
+r />---<br />meta/classes-recipe/kernel.bbclass | 4 ++--<br />1 file change=
+d, 2 insertions(+), 2 deletions(-)<br /><br />diff --git a/meta/classes-rec=
+ipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass<br />index 247ef4a4=
+8aa7..f1bc41e82be8 100644<br />--- a/meta/classes-recipe/kernel.bbclass<br =
+/>+++ b/meta/classes-recipe/kernel.bbclass<br />@@ -486,7 +486,7 @@ kernel_=
+do_install() {<br />install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/Sys=
+tem.map-${KERNEL_VERSION}<br />install -m 0644 .config ${D}/${KERNEL_IMAGED=
+EST}/config-${KERNEL_VERSION}<br />install -m 0644 vmlinux ${D}/${KERNEL_IM=
+AGEDEST}/vmlinux-${KERNEL_VERSION}<br />- [ -e Module.symvers ] &amp;&amp; =
+install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KE=
+RNEL_VERSION}<br />+ [ -e Module.symvers ] &amp;&amp; install -m 0644 Modul=
+e.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true=
+<br />}</blockquote>
+By doing that, you simply silent possible error of the action after the tes=
+t, below is a little snippet showing that</blockquote>
+Sure. But the test is looking for the file, so if it doesn't exist<br />the=
+n the command install won't run.</blockquote>
+Something doesn't seem quite right, that test for Module.symvers (there<br =
+/>and in the shared workdir code) were put in place for the scenario<br />y=
+ou are mentioning .. if Modules are disabled and hence Module.symvers doesn=
+'t<br />exist.<br /><br />At one point, we even tested that sort of configu=
+ration.<br /><br />I didn't dig more through the logs, but maybe we had lin=
+es after that command<br />previously, so the last return code wasn't a fai=
+lure and hence no task<br />failure.</blockquote>
+Yep, this is what happened, there used to be these 2 lines after it:<br /><=
+br />
+<div id=3D"left-content-487" class=3D"gr-diff contentText" data-side=3D"lef=
+t"><span class=3D"gr-diff tab" style=3D"tab-size: 4; -moz-tab-size: 4;"> </=
+span>install -d ${D}${sysconfdir}/modprobe.d</div>
+<table id=3D"diffTable" class=3D"responsive selected-left">
+<tbody class=3D"gr-diff section delta total">
+<tr class=3D"gr-diff diff-row side-by-side" tabindex=3D"-1" aria-labelledby=
+=3D"left-button-486 left-content-486">
+<td class=3D"gr-diff content left no-intraline-info remove">
+<div id=3D"left-content-486" class=3D"gr-diff contentText" data-side=3D"lef=
+t">install -d ${D}${sysconfdir}/modules-load.d</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p><br />https://gerrit.openbmc.org/c/openbmc/openbmc/+/65313/3/poky/meta/c=
+lasses-recipe/kernel.bbclass</p>
+<br />Once these were removed we started hitting this failure over in OpenB=
+MC.
+
+--pCl4JSFIrDc4IaASg5g8--
 
