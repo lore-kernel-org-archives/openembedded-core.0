@@ -1,122 +1,141 @@
-Return-Path: <joel@jms.id.au>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CCAC00528
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:15:58 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.14631.1690982148248513992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC42EC001DF
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:16:38 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.14665.1690982191964157932
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 06:15:48 -0700
+ Wed, 02 Aug 2023 06:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@jms.id.au header.s=google header.b=OKjHNv5y;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: joel.stan@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-99357737980so1039950466b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:15:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Wu9bFInC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso6282712f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1690982147; x=1691586947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1690982190; x=1691586990;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0oszZD699zTceOvPt0JmW2MK6mOXfadsMG8hb0+vah8=;
-        b=OKjHNv5ySbQdjAWoXLNC4HXfp0eFrIykJIivSIVvL83DORf1mjRmkzVGmguxb/M7BE
-         al5UYMEQXSwghUDFyzyinyGPgwfwMKsRilYkes1PRE+D0RtoULftP3ewbUkn++d0G02+
-         5Ah3tuuPnO5ZiSBpvPls+ivGlsw6bMVk2iSPc=
+        bh=4NF0pv8k7hGO9nLYwlw08qIcEqwY8gl97EEPJ49imMU=;
+        b=Wu9bFInC2Z3PRX+E7xz+ensqj7PEBNjXtxlfhvj/cxpy+BDiELfIxD9dTbWXI6wAhs
+         mj88Zfk153oTW/x7J6IzAq9tg42W8v3eYwp4dO/YN8KollOV/v3stcyc2nMZnJvHl1Iu
+         ZIyGrFhVJg9/uNIL3s4dulLCUydN5qsm7zRB6SgYud5dUrjMZXow1ZKKvDx/h1PwTScl
+         +4sU4JxZeZ772ogT2W7EqYmeM3AzGETVnZ/MIX5szKYdMP+oOZpu5mOKGw0HJyFQjwZ8
+         nVvVCwcjgRDn+K8hjhgi5ohBDcJ5FGCcoeW1ewe09YctxXdVLlboS3DnyETbMZ/8FqfG
+         77Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690982147; x=1691586947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1690982190; x=1691586990;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0oszZD699zTceOvPt0JmW2MK6mOXfadsMG8hb0+vah8=;
-        b=kjTuJmuehS13pKIg1hbthMXmaV9g8TKSRpPX6nV8jLKd0h3fiqHdW2IZdw6WMMsQA+
-         6YTqhr68x931c+ZKLk/0+sk19YFKADePkROWe+5/f6WE3diqsjsy2FfKHgFVN4//aoGD
-         oGszE25BYTBcrfvfn3V+4VCd3ie7zK+4E0oKxCe9ZDUHBSMg5qXAkuqM8FplJjUUinYh
-         RbYKI6IOuqWg0WuJWVupnu4Ss4dtfha2dYJ1q2SH8MFTM2fQYt+7etvWIHq9rL46FiHJ
-         1MVrG+kw5Cz8NKfj29TR3lupgi6boTDOoKcsRyn2cpu52pAphHOABU04VXesptJhL7hV
-         WrWw==
-X-Gm-Message-State: ABy/qLbasnE6+vLd4Z5WYGUaTMaoyMj9OfIQQbGDbWfcel8EROquL/UV
-	AdpmkefU2jU9x89mQO+lSCRWWkXbDRsScx7/8go=
-X-Google-Smtp-Source: APBJJlHlUqfbQhxsSRhQdRSaK43Veit3ipCtNfTh/x6rauCu7QV5IfyZehbir6Ru+y4G6O4XLYlE3EATEfSP+W7v+t8=
-X-Received: by 2002:a17:906:53d0:b0:99b:5642:b97a with SMTP id
- p16-20020a17090653d000b0099b5642b97amr5078154ejo.46.1690982146393; Wed, 02
- Aug 2023 06:15:46 -0700 (PDT)
+        bh=4NF0pv8k7hGO9nLYwlw08qIcEqwY8gl97EEPJ49imMU=;
+        b=epvdKRvHDIwE0vGBU5koOk5jVC0zk3wJXKhZX+X5PmKfeGokBqA/EocCO2JoFkdoRj
+         ojT0cLzafIS61g0Ok29jUylijVp1M2dLJmPMDlg9c/oCRwHu2KOf5xWGLIUusCDxWNNm
+         2ZcQctnvtcdcXr6gZO5/Wfc5J59npPTbETitdvQX5/eCoz9rZuK2+uSL3YIy0iZIZ3Uh
+         JjEYgcknFTWa8l1KJNziPFEoffxIW1xuOuxTHx7X6eQK3GaskZ78YwNRAEtv8FxyjPGg
+         tNyCc7g6HssatNhy9xYTzQm3lqE7h+1E9HyqyfTfXkohwd/UeVX7uyMxVIuzuw6yyTnv
+         Fcpw==
+X-Gm-Message-State: ABy/qLYenlkDx+mERfRoFKbIGV1dh6/zpR8mu8V12qOtkLCJGLeYmLpP
+	GXpycT0sAf8NBU07JjRHKocO0/flX24=
+X-Google-Smtp-Source: APBJJlFAN/Glt9oaJmbMmcG4ZwnlPmLXiVrlNJFCQOfhMwPMn3i1dmW83bM6Mp9X2TgNrlgnB5Eufw==
+X-Received: by 2002:a05:6000:108b:b0:314:1560:cc68 with SMTP id y11-20020a056000108b00b003141560cc68mr4548571wrw.56.1690982189897;
+        Wed, 02 Aug 2023 06:16:29 -0700 (PDT)
+Received: from work-pc.core.sigfox.net ([2a01:e0a:8d5:c6c0:ab32:1451:bfe8:2a0f])
+        by smtp.gmail.com with ESMTPSA id l18-20020adfe9d2000000b003112f836d4esm18951248wrn.85.2023.08.02.06.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 06:16:29 -0700 (PDT)
+From: frederic.martinsons@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Frederic Martinsons <frederic.martinsons@gmail.com>
+Subject: [PATCH 2/3] cargo_common.bbclass: Handle Cargo.lock modifications for git dependencies
+Date: Wed,  2 Aug 2023 15:16:04 +0200
+Message-Id: <51dae2aea3c591d6f96aa91af4b467332433b28e.1690981978.git.frederic.martinsons@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1690981978.git.frederic.martinsons@gmail.com>
+References: <cover.1690981978.git.frederic.martinsons@gmail.com>
 MIME-Version: 1.0
-References: <20230802114705.90137-1-joel@jms.id.au> <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
-In-Reply-To: <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 2 Aug 2023 13:15:34 +0000
-Message-ID: <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Andrew Geissler <geissonator@gmail.com>, mdmii@outlook.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:15:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185391
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185394
 
-On Wed, 2 Aug 2023 at 12:45, Fr=C3=A9d=C3=A9ric Martinsons
-<frederic.martinsons@gmail.com> wrote:
->
->
->
-> On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
->>
->> The one liner tests using `[ ] && action` need to have || true after the=
- action,
->> otherwise the line returns false and the recipie fails.
->>
->> Signed-off-by: Joel Stanley <joel@jms.id.au>
->> ---
->>  meta/classes-recipe/kernel.bbclass | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ke=
-rnel.bbclass
->> index 247ef4a48aa7..f1bc41e82be8 100644
->> --- a/meta/classes-recipe/kernel.bbclass
->> +++ b/meta/classes-recipe/kernel.bbclass
->> @@ -486,7 +486,7 @@ kernel_do_install() {
->>         install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map-$=
-{KERNEL_VERSION}
->>         install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL=
-_VERSION}
->>         install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNE=
-L_VERSION}
->> -       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${K=
-ERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
->> +       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${K=
-ERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
->>  }
->>
->
-> By doing that, you simply silent possible error of the action after the t=
-est, below is a little snippet showing that
+From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-Sure. But the test is looking for the file, so if it doesn't exist
-then the command install won't run.
+Now we use --frozen, Cargo.lock cannot be modified by cargo build.
+These patched git dependencies requires that the git url is removed
+from Cargo.lock.
 
-I can't think of any realistic situation where install would fail if
-the file is present.
+Fixes #15104
 
-> I think the origin of your issue is that the action failed , having the l=
-og of kernel_do_install task would help.
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+---
+ meta/classes-recipe/cargo_common.bbclass | 41 ++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-That isn't the case.
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index db54826ddb..b732a1bd95 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -117,6 +117,8 @@ cargo_common_do_configure () {
+ }
+ 
+ python cargo_common_do_patch_paths() {
++    import shutil
++
+     cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config")
+     if not os.path.exists(cargo_config):
+         return
+@@ -146,6 +148,45 @@ python cargo_common_do_patch_paths() {
+             print('\n[patch."%s"]' % k, file=config)
+             for name in v:
+                 print(name, file=config)
++
++    if not patches:
++        return
++
++    # Cargo.lock file is needed for to be sure that artifacts
++    # downloaded by the fetch steps are those expected by the
++    # project and that the possible patches are correctly applied.
++    # Moreover since we do not want any modification
++    # of this file (for reproducibility purpose), we prevent it by
++    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
++    # here is better than letting cargo tell (in case the file is missing)
++    # "Cargo.lock should be modified but --frozen was given"
++
++    manifest_path = d.getVar("MANIFEST_PATH", True)
++    lockfile = os.path.join(os.path.dirname(manifest_path), "Cargo.lock")
++    if not os.path.exists(lockfile):
++        bb.fatal(f"{lockfile} file doesn't exist")
++
++    # There are patched files and so Cargo.lock should be modified but we use
++    # --frozen so let's handle that modifications here.
++    #
++    # Note that a "better" (more elegant ?) would have been to use cargo update for
++    # patched packages:
++    #  cargo update --offline -p package_1 -p package_2
++    # But this is not possible since it requires that cargo local git db
++    # to be populated and this is not the case as we fetch git repo ourself.
++
++    lockfile_orig = lockfile + ".orig"
++    if not os.path.exists(lockfile_orig):
++        shutil.copy(lockfile, lockfile_orig)
++
++    newlines = []
++    with open(lockfile_orig, "r") as f:
++        for line in f.readlines():
++            if not line.startswith("source = \"git"):
++                newlines.append(line)
++
++    with open(lockfile, "w") as f:
++        f.writelines(newlines)
+ }
+ do_configure[postfuncs] += "cargo_common_do_patch_paths"
+ 
+-- 
+2.34.1
 
-The issue is the Modules.symvers file is not found. This is expected,
-because the kernel does not use modules.
-
-Here is the log, with paths trimmed:
-
-DEBUG: Executing shell function do_install
-NOTE: no modules to install
-WARNING: temp/run.do_install.2584671:225 exit 1 from '[ -e Module.symvers ]=
-'
-WARNING: Backtrace (BB generated script):
-    #1: do_install, temp/run.do_install.2584671, line 225
-    #2: main, temp/run.do_install.2584671, line 283
 
