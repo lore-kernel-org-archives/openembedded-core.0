@@ -1,99 +1,170 @@
-Return-Path: <eekmecic@snap.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D10D3C04A6A
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:26:08 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.15098.1690982762580191097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16135C001E0
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 13:38:19 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.15204.1690983489672260390
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 06:26:02 -0700
+ Wed, 02 Aug 2023 06:38:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=PvzRTpnB;
- spf=pass (domain: snapchat.com, ip: 209.85.214.181, mailfrom: eekmecic@snapchat.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1b8ad907ba4so43868445ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:26:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fVCVsKdK;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-790b95beeedso81279339f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 06:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1690982762; x=1691587562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aMhkLTPpgfqWudDstDW1t9GWC+wC0QungsKjE6pFl1U=;
-        b=PvzRTpnB1IkAFFBuo+UdVdjFdnJ31xt0K4QRwebivWHHJ2N577stDIgXpV/qy50sHP
-         0gFCEKkP22fk2vGm2UixVbFA7ZzqYKmN3u3TFbOWS1cOkV6KNlCY9GeVS50iv6PQiPCV
-         X/xkG+I/t/beXhInElH+TERfK95T8pRTdfVRc=
+        d=gmail.com; s=20221208; t=1690983489; x=1691588289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N/hbVzUyY2BBM9IwdfgaTLUvXHp55oNGho0Z6MU9otg=;
+        b=fVCVsKdKgI1z9uj1gKCD+E2xFNNVCqOCrTrNWI+dGpjlDKwpB+uoiF40WtjqgILgBh
+         ktTYM6yiVABsdnpRdNT5E2gpgf4n0PGq9etnxwq3RZTImugvhLcK4uATsvZeUx+JzD38
+         9fM4Mf/LYg9EEKI+Yl7X++v/nrHeHW8cvE1y79hDbP04PQ0zBs9ydKV0v8b6e09zzxgF
+         nied0A/CCusH9Zhjg2iSCTqegBFxX0vsb4oLKe6NnsgcJLL9WgS//Ulo7gPTegldTdnu
+         mBsC9TDMDCcr8gE6HmEdRgqtaM5inp8Hu3NAvkN48NQqPLofY61gMtY6UkMyfdeFnbFP
+         P6sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690982762; x=1691587562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aMhkLTPpgfqWudDstDW1t9GWC+wC0QungsKjE6pFl1U=;
-        b=dK4ThZAZtR+NyWu2fqYuJ91wT8rwyRNIL1gF47+e8hKtYstPcXAbmhsDmekkFmDT7o
-         jKhZguW2vOfVVd8LMAGeRlgEkFvP93Ug3eGFNa4OlRn/kRTRm7gPVSixD2VE6KtuSJiQ
-         DxVn/M2eI8FIq4XyV+ydAPu45eS64TwVqfvuWVyQViprSFLE/8Ek4Z2Bpo+OsM0znBxJ
-         2RIMaXaMYRLxDLaUwtJfvS/gWyyCJKqoiXqlNoZwKcciVmA52JKRnIE+eY2ijRKbQPVd
-         WYt9eYebY5firGoeKRBgINq2089UPsd/u4BncGrJXYeBrwSOekkiFv04eyUcVn4wpFyj
-         CIUA==
-X-Gm-Message-State: ABy/qLYj39klN16s7vyngpNC51b0bkBGDxPiC/A5bzG+/xE3sDgTlfPE
-	2czHP+NCec8HZcokQZnmX23jInY5Mnd2VsTOwYKBQUnq+p8=
-X-Google-Smtp-Source: APBJJlGM1iPRyLCNVkAx+qsDMRSXcUbVHnG4rvqAwaEsu4rmm4MvCMHoOeOUYs233R1LxMBv6vZn1g==
-X-Received: by 2002:a17:903:2308:b0:1b9:f97a:16ab with SMTP id d8-20020a170903230800b001b9f97a16abmr15650176plh.57.1690982761731;
-        Wed, 02 Aug 2023 06:26:01 -0700 (PDT)
-Received: from 4SK64Z2.sc-core.net ([144.232.179.190])
-        by smtp.gmail.com with ESMTPSA id t4-20020a170902a5c400b001b8baa83639sm7634726plq.200.2023.08.02.06.26.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 06:26:01 -0700 (PDT)
-From: eekmecic@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Emil=20Ekme=C4=8Di=C4=87?= <eekmecic@snap.com>
-Subject: [PATCH v2] Add GCP fetcher to list of supported protocols
-Date: Wed,  2 Aug 2023 06:25:41 -0700
-Message-Id: <20230802132540.807837-1-eekmecic@snap.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1690983489; x=1691588289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N/hbVzUyY2BBM9IwdfgaTLUvXHp55oNGho0Z6MU9otg=;
+        b=UTjG44gzRZLlHZKPrZH8mbZO2FxMrLTwhUWXA0wiOpBZndcAznqNc9OYHVeJUNezcm
+         tSLEU5YFOZxFf05xSbca5bYIR5pAota0+XOqOuxLUwO7rwtWXr+1xtFI+MTMk1+qiL5s
+         lWB+OgeDQwOyO7yZ36aBP1Z/NC1aj4Q/0BeABZlJj1vY906qMJ8XX2WdrplGh+uATZCN
+         3rgH/S8jrF1od9h8GM085Qkd1abHIOy5zU2vLo9UvPXtmPYqas8Y02pFoSc2MCqYM5tm
+         K9Q4wtyLLHFxS4V6L4xYOb59iVCGp0XRPat8EjY1bns82cNap0OaUD6APOh5NhURKBPr
+         ol1Q==
+X-Gm-Message-State: ABy/qLZuzIU3sRhVk/6yb8tBHWA/kW+2aMo4sRloztxKxM7RVTTRXwMo
+	DusLDYUS5FRKjpAyol+oCYWPuE9PT1dTteotFLk=
+X-Google-Smtp-Source: APBJJlFUQnCh/INsh7x/tNCrGX6j0l1i4AijX6ZBYKttfdreSB8wbsaY2Pkl/S7Smfp0ErtG2XvS7s46YxNrYlXCf/8=
+X-Received: by 2002:a5e:a514:0:b0:790:acd0:a26 with SMTP id
+ 20-20020a5ea514000000b00790acd00a26mr8576680iog.21.1690983488877; Wed, 02 Aug
+ 2023 06:38:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230802114705.90137-1-joel@jms.id.au> <CA+cAkeqRRNUyPxDZrk_3kkQCT2xbE72S5vxrZ_VvHH-xcEB2YA@mail.gmail.com>
+ <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
+In-Reply-To: <CACPK8Xd1DqL9WoV=kwxDO3bzcBEB_KhH-1oKhKE2xoqZzX9a-A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 2 Aug 2023 09:38:09 -0400
+Message-ID: <CADkTA4MxqDTacjdsJkN6Gxf8PMmqV5iy6_0e-Umn5BDjybDbPA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
+To: Joel Stanley <joel@jms.id.au>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>, 
+	openembedded-core@lists.openembedded.org, 
+	Andrew Geissler <geissonator@gmail.com>, mdmii@outlook.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:26:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185397
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 13:38:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185398
 
-From: Emil Ekmečić <eekmecic@snap.com>
+On Wed, Aug 2, 2023 at 9:15=E2=80=AFAM Joel Stanley <joel@jms.id.au> wrote:
+>
+> On Wed, 2 Aug 2023 at 12:45, Fr=C3=A9d=C3=A9ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> >
+> >
+> >
+> > On Wed, 2 Aug 2023 at 13:47, Joel Stanley <joel@jms.id.au> wrote:
+> >>
+> >> The one liner tests using `[ ] && action` need to have || true after t=
+he action,
+> >> otherwise the line returns false and the recipie fails.
+> >>
+> >> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> >> ---
+> >>  meta/classes-recipe/kernel.bbclass | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
+kernel.bbclass
+> >> index 247ef4a48aa7..f1bc41e82be8 100644
+> >> --- a/meta/classes-recipe/kernel.bbclass
+> >> +++ b/meta/classes-recipe/kernel.bbclass
+> >> @@ -486,7 +486,7 @@ kernel_do_install() {
+> >>         install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map=
+-${KERNEL_VERSION}
+> >>         install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERN=
+EL_VERSION}
+> >>         install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KER=
+NEL_VERSION}
+> >> -       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/$=
+{KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
+> >> +       [ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/$=
+{KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
+> >>  }
+> >>
+> >
+> > By doing that, you simply silent possible error of the action after the=
+ test, below is a little snippet showing that
+>
+> Sure. But the test is looking for the file, so if it doesn't exist
+> then the command install won't run.
 
-If accepted, this patch should merge with the corresponding BitBake
-patch titled "fetch2: add Google Cloud Platform (GCP) fetcher".
+Something doesn't seem quite right, that test for Module.symvers (there
+and in the shared workdir code) were put in place for the scenario
+you are mentioning .. if Modules are disabled and hence Module.symvers does=
+n't
+exist.
 
-Signed-off-by: Emil Ekmečić <eekmecic@snap.com>
----
- meta/classes-global/sanity.bbclass | 3 ++-
- meta/classes/own-mirrors.bbclass   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+At one point, we even tested that sort of configuration.
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index abb52fbe21..9b824915f2 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -871,7 +871,8 @@ def check_sanity_everybuild(status, d):
-     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
-     protocols = ['http', 'ftp', 'file', 'https', \
-                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
--                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3', 'az', 'ftps', 'crate']
-+                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3', \
-+                 'az', 'ftps', 'crate', 'gs']
-     for mirror_var in mirror_vars:
-         mirrors = (d.getVar(mirror_var) or '').replace('\\n', ' ').split()
- 
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
-index 62258e4160..36c7f8e3f3 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -18,4 +18,5 @@ ftp://.*/.*     ${SOURCE_MIRROR_URL} \
- npm://.*/?.*    ${SOURCE_MIRROR_URL} \
- s3://.*/.*      ${SOURCE_MIRROR_URL} \
- crate://.*/.*   ${SOURCE_MIRROR_URL} \
-+gs://.*/.*      ${SOURCE_MIRROR_URL} \
- "
--- 
-2.40.1
+I didn't dig more through the logs, but maybe we had lines after that comma=
+nd
+previously, so the last return code wasn't a failure and hence no task
+failure.
 
+As was mentioned, we could make the test more explicit if the shorthand of
+just checking for the symvers file isn't working, since really, if we have =
+an
+|| true in the one-liner, we probably can tweak things to not test for
+Module.symvers
+at all.
+
+Bruce
+
+
+>
+> I can't think of any realistic situation where install would fail if
+> the file is present.
+>
+> > I think the origin of your issue is that the action failed , having the=
+ log of kernel_do_install task would help.
+>
+> That isn't the case.
+>
+> The issue is the Modules.symvers file is not found. This is expected,
+> because the kernel does not use modules.
+>
+> Here is the log, with paths trimmed:
+>
+> DEBUG: Executing shell function do_install
+> NOTE: no modules to install
+> WARNING: temp/run.do_install.2584671:225 exit 1 from '[ -e Module.symvers=
+ ]'
+> WARNING: Backtrace (BB generated script):
+>     #1: do_install, temp/run.do_install.2584671, line 225
+>     #2: main, temp/run.do_install.2584671, line 283
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185391): https://lists.openembedded.org/g/openembedde=
+d-core/message/185391
+> Mute This Topic: https://lists.openembedded.org/mt/100503145/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
