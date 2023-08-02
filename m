@@ -1,107 +1,98 @@
-Return-Path: <peter.suti@streamunlimited.com>
+Return-Path: <joel@jms.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB717C001DE
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 09:27:17 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.10202.1690968431187192336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D448C001E0
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 11:47:28 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.12711.1690976838606019543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 02:27:11 -0700
+ Wed, 02 Aug 2023 04:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@streamunlimited.com header.s=google header.b=EMZHoBc6;
- spf=pass (domain: streamunlimited.com, ip: 209.85.167.44, mailfrom: peter.suti@streamunlimited.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4fe2503e3easo7647452e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 02:27:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Qhi4HXPg;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: joel.stan@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1bba2318546so57167795ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 04:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=streamunlimited.com; s=google; t=1690968429; x=1691573229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y1vwhgfJewDb6lbgPbS7I2TdWOszCsZ/mco86mYQAQ8=;
-        b=EMZHoBc63yffEmzCzkxDVok830aM6WxsjWWu4xq/U8q2PjcLbZAlOkqfhiGsCGcHtm
-         KNc6X78rguFHd8Qr+x+Hn0qX95WVZf9RnkXHNBUPYsOI6MiFQIWx00qTvYpPRSR168NC
-         QV3gikxgH5lRrtes46ugDX+bhMJ0ldhE83ykE=
+        d=gmail.com; s=20221208; t=1690976837; x=1691581637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=2calBg0NTA+7UkD4BSwR3vF/QS+kbfG+SJJJu3V2raA=;
+        b=Qhi4HXPgXxiPkrlU6DBf9liyOoDUldYWASh9HX9DXub0ghQYglx+iETbrLbIm1lAKS
+         AWpXpYlZiVwLynk5iCpkHsxiW0uv52RxOk/1FXq1aHfG4fm/eURAr/IRwlsLnW78H/U4
+         TCda/hS65ZCIK5a4Qr0/groO+JX+BBokoSau9SrqxIjkBMYhP9IVcKXSU+j6NlHlSUW8
+         hk2YHJPh+GAXLK3S94+shy4PR9VLt6nfn49vE6eUh3A7ah/jCzEo3UJ9Z6b10VUNvylN
+         3r3cyo3o5//TN7ecDqeXCWGYN4pLjMWFCmFWHbuqfjTAXXShDgHYjlqWL4zx6fYBKZNU
+         NHBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690968429; x=1691573229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y1vwhgfJewDb6lbgPbS7I2TdWOszCsZ/mco86mYQAQ8=;
-        b=NizFpcDJPS6Bfjzv9mmD9uD6fMCiZFE6ftihKcnERFG76dalQn0KbnvP4SSb6JcivG
-         qxI61FNCgwNoIACjZLIiUvdZ1q1Aduh8UcZidLR42Xuk2/eRp1NKtr313enibx5ph+5M
-         YUJWxgQ8cMgOip9m/IatObOM4o732mPd7nCoVUY31PVn/1hlSdtBx7FCP1a1pJbky/8I
-         IcqR2YU3YZwVFRM2ZmXJD5C3ErRY9FwbpBjl36rIjHplHicQrrqZpJZixyCO2CM+F7Y+
-         u2Nwoy1gQN71phWjqF1gvnUoNVwIyd99KiXw/BD2lc4ZATn0KkPCqSGTxq+lrQcoiba5
-         lsfw==
-X-Gm-Message-State: ABy/qLb8y64ZN/F1rnZdJR5XDv0itN0Si0O3n8vN38/K0ZY8J/8nwpaY
-	hlo/eqYEIcL7hszYDCblUi9P9cyyNls5MZzceIqUOA==
-X-Google-Smtp-Source: APBJJlE/DboVu3X4XvUGhVc82D/nd1x3ljvbnJReAFt8IZUOXTKYjexi/WOSxI1+vyjOUCQ9h1uA202sp2jpTyfvRds=
-X-Received: by 2002:a19:4f4e:0:b0:4fb:820a:f87f with SMTP id
- a14-20020a194f4e000000b004fb820af87fmr4377589lfk.10.1690968428968; Wed, 02
- Aug 2023 02:27:08 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690976837; x=1691581637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2calBg0NTA+7UkD4BSwR3vF/QS+kbfG+SJJJu3V2raA=;
+        b=bkZZF5ax2pMEsZ1mgaIzB0igz9z9vQmHnDH+Fin7tJbkArIm43tVBJ1qfJpd88RD4s
+         RNgwPBpBRT2OSEQSYbmK+ujmUykIVltKK6uGL1J7EDWA1rU9ItFjR+TV2lI5qoRlHMk5
+         6b0tHtWxiOsi9Tw0nYozbdcVeMSQ8ZTCRHPk6EuADOj+HJpRoo+fE0k3dDe4sMQeoqQ4
+         rfxoq976l3ZYQ8v/L+zGyQjvZf/Vj32UQVrBFMocvE4a4AFKYzbBNhxRmGdhPaD64hSa
+         EJCTxm2Bm3aeOAB7woFUENIxHfIc/e/56inTKwU6DlU3yR3lWHQPIPbOc8ijycK3p0Pi
+         WIAA==
+X-Gm-Message-State: ABy/qLa+IDH+f0YQNYSLgrkbBVeoSaZZ4qm/RavE0yPyWQr+5DqvW+ZZ
+	snB6zy7AMNDE9eRBCWsQEL8iIRan2/o=
+X-Google-Smtp-Source: APBJJlH5EubwJqdZwImX0g7aRI+VV8M2T/htoKYdo/m59U5vWyiYJDoJMp2TO7mU3UBimLLONCAF+Q==
+X-Received: by 2002:a17:902:f683:b0:1bc:1b01:8961 with SMTP id l3-20020a170902f68300b001bc1b018961mr8248512plg.1.1690976837209;
+        Wed, 02 Aug 2023 04:47:17 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.19])
+        by smtp.gmail.com with ESMTPSA id q16-20020a170902dad000b001b89c313185sm12254445plx.205.2023.08.02.04.47.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 04:47:16 -0700 (PDT)
+Sender: "joel.stan@gmail.com" <joel.stan@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrew Geissler <geissonator@gmail.com>,
+	mdmii@outlook.com
+Subject: [PATCH] kernel: Don't fail if Modules.symvers doesn't exist
+Date: Wed,  2 Aug 2023 21:17:05 +0930
+Message-Id: <20230802114705.90137-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
- <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
- <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
- <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
- <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com> <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
-In-Reply-To: <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
-From: Peter Suti <peter.suti@streamunlimited.com>
-Date: Wed, 2 Aug 2023 11:26:57 +0200
-Message-ID: <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 09:27:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185384
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 11:47:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185386
 
-On Mon, Jul 31, 2023 at 2:33=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> I did look at the bug and it sounds like if you clean a recipe, builds
-> of other recipes which depend upon it then fail?
+The one liner tests using `[ ] && action` need to have || true after the action,
+otherwise the line returns false and the recipie fails.
 
-Well not just in this case specifically, it is reproducible when doing
-a clean build.
-But this is the easiest most convenient way to reproduce because most
-of the sstate can be reused.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ meta/classes-recipe/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> We need to understand what is happening with both the sstate manifests
-> and the stamp files to fully understand this bug.
->
-> do_prepare_recipe_sysroot of this recipe that depends on the
-> externalsrc one should trigger it's do_populate_sysroot. The question
-> is whether the do_clean removed the do_populate_sysroot stamp file for
-> that recipe or not? It sounds like it did remove the sstate manifest.
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 247ef4a48aa7..f1bc41e82be8 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -486,7 +486,7 @@ kernel_do_install() {
+ 	install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION}
+-	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
++	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION} || true
+ }
+ 
+ # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
+@@ -555,7 +555,7 @@ do_shared_workdir () {
+ 
+ 	# Copy files required for module builds
+ 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+-	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
++	[ -e Module.symvers ] && cp Module.symvers $kerneldir/ || true
+ 	cp .config $kerneldir/
+ 	mkdir -p $kerneldir/include/config
+ 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+-- 
+2.40.1
 
-I have checked the manifest and stamp creation and as far as I can
-tell that part is correct.
-
-> The more I look at this, the more I think changing the deltask is just
-> masking the issue and there is some other problem at play here which we
-> need to address directly.
-
-I agree, I have dug a bit further and the issue seems to come from runqueue=
-.py.
-It seems that the current implementation depends heavily on the
-presence of _setscene tasks to build the dependency graph. Altering
-this behavior would indeed require significant effort and potentially
-lead to unforeseen consequences.
-
-> Unfortunately it took me half an hour just to be able to read through
-> the pieces of this and get far enough I could write a coherent answer
-> to your question. It is a struggle to reply to everything in this level
-> of detail, much as I'd like to :/.
-
-I'd like to thank you for the time you have invested in this issue! I
-appreciate the help.
-I understand that my proposed solution might not be ideal, but fixing
-the underlying issue in runqueue would be a real challenge.
-If upstream is not interested in this patch, I can also understand that.
 
