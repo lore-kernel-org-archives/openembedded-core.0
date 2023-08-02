@@ -1,112 +1,294 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F7CC001DE
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 05:18:36 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web10.8035.1690953512270092318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6883C001DE
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 05:36:06 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.8113.1690954559327454415
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Aug 2023 22:18:32 -0700
+ Tue, 01 Aug 2023 22:35:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=klrdML7u;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3a36b309524so5077902b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 22:18:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=HbPXTlv2;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bbc87ded50so40143355ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Aug 2023 22:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690953511; x=1691558311;
+        d=mvista.com; s=google; t=1690954558; x=1691559358;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sOKzU/Gu6/tsxjdnjax25gtTmSCeAv3U7dBK3zIaDas=;
-        b=klrdML7uGEwUG0qqnovzAZ+NdWXdit0wlm8KFQcTganWtkq71bu7lFskWH366fgJx3
-         1fACqUuDhOZHu/pzMI18jagQPJSn/hGEHx0JsXLUnZfGvaMm7JJIcCtJf9xecIkHQJlp
-         jFcAKRn4+VLVewog6MotLVvGC2XJWwOk4I3w//foT72PJzv0+/7dyLsFCygiZx8eALVc
-         K8MGvm/aGc8BSamqZ8oZMjaypHUuYDVKGFu8WL2xkVGVT5cl+dDpPPxuy/pqi4dDV0/Y
-         v110gbnwQMTr+G9zOkgn/+RxBsBNz3ry99IlW6m0VNE+rrYwY79Uxfk4aQFD/OAH7Hbg
-         4MdA==
+        bh=fJ1CvGct/9/UdOGvjSmba9/E9HByarg7/oO/lwf+AdQ=;
+        b=HbPXTlv20XT9hqjO1tmsqdF9uwmiLGael4X/P/QiaZ1Z2Gew5N0Yxo5B/9sW9OyLRK
+         nkI6YzU1ckY/vVeWdHOiv9ZOE+hAkx4M3VoYvSRt709GGy9kW3L7aJ6yJoV4dZ1JxjQG
+         +3MyJmNx5gMOjKa3AL3TMRSi599x+y0O4CjY8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690953511; x=1691558311;
+        d=1e100.net; s=20221208; t=1690954558; x=1691559358;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sOKzU/Gu6/tsxjdnjax25gtTmSCeAv3U7dBK3zIaDas=;
-        b=NZdWk64wLHHYH9GLJGVG2tmjw6GFtdyi4lxMGuXWo+kXgIqchlr4RgMHkGh0Ffm2rf
-         MiLybQ+/ADaqUpVNehC0rfHpjOGJM4H90PiwKrurgrhEEv4qSwik7I34gPT+gbpXYt3g
-         MZGTRU4LBIRMTbyZkx1Hfi85PriqbD5vs9xDY/1cgcwecMoZrxUAzoNA3PYbNNtMvlkZ
-         oUVbbEazZ+6ChnDAxFH6kaG7l24Cf9Qfd0FCDyfCMGpDq2auWftfdIVVWmDYn4+6BLtZ
-         yOGGmXY1jurF7FvRkyvJy286Wh48kWOjLR5unyRfKD5Vzr9yUh0IDgziLB122B8Q5cs1
-         y4rw==
-X-Gm-Message-State: ABy/qLaGTO8yAo1+1TBlZwqmFOF3DlVLqhq8daj1+3ygcCZONyBM8ZG/
-	RVn6Ak1rsNWiNdyIb6h/kWFkOQFFjRh6Tw==
-X-Google-Smtp-Source: APBJJlHsrgqDB/r8YWCpziFSln6Y4xCaKHFh/zdJpE/aX9ALsnEg8LB9KlXmV6qf3BcKXhF4nKTzBw==
-X-Received: by 2002:a05:6808:bc7:b0:3a3:1424:7258 with SMTP id o7-20020a0568080bc700b003a314247258mr18791192oik.3.1690953511222;
-        Tue, 01 Aug 2023 22:18:31 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::94c8])
-        by smtp.gmail.com with ESMTPSA id c13-20020aa7880d000000b00640f51801e6sm8734921pfo.159.2023.08.01.22.18.30
+        bh=fJ1CvGct/9/UdOGvjSmba9/E9HByarg7/oO/lwf+AdQ=;
+        b=YXgGLb+hmd+2pmE0h/VM1CAvMP2p0hkdQYV9UfON+fqaoQJSAQyyoK37RPH81ZC/d0
+         T050uwPddcwBLvvBXYRDJUacH+roDNv1pMGKKGXLA+ghzlub2oovqYHCMU8FUgSpHl3g
+         T/ZDTGkyI1MmFXThlMHdG7D+eZOSlK1Bsr6/t1fUMhfOgfQoZlmNEB5vQWAN7yc/JgHS
+         iJNAgkm+mPRKOjDC2EdakMEQyTn+kTHmkTj53tlJiIyry5BNvg+PBH0dztbWZnj9vHCB
+         SxheIGjeNsPh5/Y1PA7evjHmPnJkyyxwXrvMQd8CL5SuqU4L9LbvLehU4LeXlOxuuKXH
+         JZZg==
+X-Gm-Message-State: ABy/qLbH4egDdWRm8tjWOdMJxrzjZ2S1Ok44kUsliKtrU6leHnuxTGlv
+	x2LHyGl8TVXvIy36ECcovwi4anlOMSoAnshIvG8=
+X-Google-Smtp-Source: APBJJlEPIU+AwQd2vTLu/nSMkqy3cX2H2jt+0l6T9YYCzSE3MqQNeXGVlyyx/7S345SUuIYVv9sXgQ==
+X-Received: by 2002:a17:902:eb4d:b0:1bc:98c:b1c5 with SMTP id i13-20020a170902eb4d00b001bc098cb1c5mr7725238pli.35.1690954558502;
+        Tue, 01 Aug 2023 22:35:58 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.255])
+        by smtp.gmail.com with ESMTPSA id c10-20020a170902c1ca00b001bc18e579aesm4336851plc.101.2023.08.01.22.35.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Aug 2023 22:18:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 01 Aug 2023 22:35:58 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation); Wed, 02 Aug 2023 11:05:53 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] musl: Upgrade to tip of trunk
-Date: Tue,  1 Aug 2023 22:18:28 -0700
-Message-ID: <20230802051828.16307-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] tiff: fix multiple CVEs
+Date: Wed,  2 Aug 2023 11:05:52 +0530
+Message-Id: <20230802053552.20162-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 05:18:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185374
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 05:36:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185375
 
-Brings following changes
+Backport fixes for:
+* CVE-2023-2908 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f
+* CVE-2023-3316 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536
+* CVE-2023-3618 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37 && https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8
 
-* 83b858f8 fix rejection of dns responses with pointers past 512 byte offset
-* a4ecaf89 dns stub resolver: increase buffer size to handle chained CNAMEs
-* 40834f6c printf core: fix gratuitous integer formatting buffer size
-* 3a23cd06 all printf variants: fix argument type handling for %c and %lc
-* fa4a8abd fix public clone function to be safe and usable by applications
-* 0c277ff1 fix broken thread list unlocking after fork
-* 4653b987 mbrtowc: Fix wrong return value when n > UINT_MAX
-* b90841e2 configure: replace -Os with equivalent based on -O2
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
-v2: Add MIRROR for redundancy
+ .../libtiff/files/CVE-2023-2908.patch         | 33 +++++++++++
+ .../libtiff/files/CVE-2023-3316.patch         | 59 +++++++++++++++++++
+ .../libtiff/files/CVE-2023-3618-1.patch       | 34 +++++++++++
+ .../libtiff/files/CVE-2023-3618-2.patch       | 47 +++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  4 ++
+ 5 files changed, 177 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
 
- meta/recipes-core/musl/musl_git.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index b4c2b1f8980..297c5581a37 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "718f363bc2067b6487900eddc9180c84e7739f80"
-+SRCREV = "83b858f83b658bd34eca5d8ad4d145f673ae7e5e"
- 
- BASEVER = "1.2.4"
- 
-@@ -12,11 +12,13 @@ PV = "${BASEVER}+git${SRCPV}"
- 
- # mirror is at git://github.com/kraj/musl.git
- 
--SRC_URI = "git://git.musl-libc.org/git/musl;branch=master;protocol=https \
-+SRC_URI = "git://git.musl-libc.org/git/musl.git;branch=master;protocol=https \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-           "
- 
-+MIRRORS += "git://git.musl-libc.org/git/musl.git git://github.com/kraj/musl.git"
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
+new file mode 100644
+index 0000000000..62a5e1831c
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
+@@ -0,0 +1,33 @@
++From 8c0859a80444c90b8dfb862a9f16de74e16f0a9e Mon Sep 17 00:00:00 2001
++From: xiaoxiaoafeifei <lliangliang2007@163.com>
++Date: Fri, 21 Apr 2023 13:01:34 +0000
++Subject: [PATCH] countInkNamesString(): fix `UndefinedBehaviorSanitizer`:
++ applying zero offset to null pointer
 +
- S = "${WORKDIR}/git"
- 
- PROVIDES += "virtual/libc virtual/libiconv virtual/libintl virtual/crypt"
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f]
++CVE: CVE-2023-2908
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libtiff/tif_dir.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index 9d8267a..6389b40 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -145,10 +145,10 @@ static uint16
++ countInkNamesString(TIFF *tif, uint32 slen, const char *s)
++ {
++ 	uint16 i = 0;
++-	const char *ep = s + slen;
++-	const char *cp = s;
++ 
++ 	if (slen > 0) {
+++		const char *ep = s + slen;
+++	        const char *cp = s;
++ 		do {
++ 			for (; cp < ep && *cp != '\0'; cp++) {}
++ 			if (cp >= ep)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
+new file mode 100644
+index 0000000000..8db24fc714
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
+@@ -0,0 +1,59 @@
++From d63de61b1ec3385f6383ef9a1f453e4b8b11d536 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 3 Feb 2023 17:38:55 +0100
++Subject: [PATCH] TIFFClose() avoid NULL pointer dereferencing. fix#515
++
++Closes #515
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536]
++CVE: CVE-2023-3316
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libtiff/tif_close.c | 11 +++++++----
++ tools/tiffcrop.c    |  5 ++++-
++ 2 files changed, 11 insertions(+), 5 deletions(-)
++
++diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
++index e4228df..335e80f 100644
++--- a/libtiff/tif_close.c
+++++ b/libtiff/tif_close.c
++@@ -118,13 +118,16 @@ TIFFCleanup(TIFF* tif)
++  */
++ 
++ void
++-TIFFClose(TIFF* tif)
+++TIFFClose(TIFF *tif)
++ {
++-	TIFFCloseProc closeproc = tif->tif_closeproc;
++-	thandle_t fd = tif->tif_clientdata;
+++    if (tif != NULL)
+++    {
+++        TIFFCloseProc closeproc = tif->tif_closeproc;
+++        thandle_t fd = tif->tif_clientdata;
++ 
++ 	TIFFCleanup(tif);
++-	(void) (*closeproc)(fd);
+++        (void)(*closeproc)(fd);
+++    }
++ }
++ 
++ /* vim: set ts=8 sts=8 sw=8 noet: */
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index a533089..f14bb0c 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -2526,7 +2526,10 @@ main(int argc, char* argv[])
++       }
++     }
++ 
++-  TIFFClose(out);
+++    if (out != NULL)
+++    {
+++        TIFFClose(out);
+++    }
++ 
++   return (0);
++   } /* end main */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+new file mode 100644
+index 0000000000..35ed852519
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+@@ -0,0 +1,34 @@
++From 881a070194783561fd209b7c789a4e75566f7f37 Mon Sep 17 00:00:00 2001
++From: zhailiangliang <zhailiangliang@loongson.cn>
++Date: Tue, 7 Mar 2023 15:02:08 +0800
++Subject: [PATCH] Fix memory leak in tiffcrop.c
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
++CVE: CVE-2023-3618
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index f14bb0c..7121c7c 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -7746,8 +7746,13 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++ 
++   read_buff = *read_buff_ptr;
++ 
+++  /* Memory is freed before crop_buff_ptr is overwritten */
+++    if (*crop_buff_ptr != NULL)
+++    {
+++	_TIFFfree(*crop_buff_ptr);
+++    }
+++
++   /* process full image, no crop buffer needed */
++-  crop_buff = read_buff;
++   *crop_buff_ptr = read_buff;
++   crop->combined_width = image->width;
++   crop->combined_length = image->length;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+new file mode 100644
+index 0000000000..fd67305c0b
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+@@ -0,0 +1,47 @@
++From b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 5 May 2023 19:43:46 +0200
++Subject: [PATCH] Consider error return of writeSelections(). Fixes #553
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8]
++CVE: CVE-2023-3618
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 14 ++++++++++----
++ 1 file changed, 10 insertions(+), 4 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 7121c7c..93b7f96 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -2437,9 +2437,15 @@ main(int argc, char* argv[])
++         {  /* Whole image or sections not based on output page size */
++         if (crop.selections > 0)
++           {
++-	  writeSelections(in, &out, &crop, &image, &dump, seg_buffs,
++-                          mp, argv[argc - 1], &next_page, total_pages);
++-          }
+++             if (writeSelections(in, &out, &crop, &image, &dump,
+++                                 seg_buffs, mp, argv[argc - 1],
+++                                 &next_page, total_pages))
+++              {
+++                TIFFError("main",
+++                          "Unable to write new image selections");
+++                exit(EXIT_FAILURE);
+++              }
+++	  }
++ 	else  /* One file all images and sections */
++           {
++ 	  if (update_output_file (&out, mp, crop.exp_mode, argv[argc - 1],
++@@ -7749,7 +7755,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   /* Memory is freed before crop_buff_ptr is overwritten */
++     if (*crop_buff_ptr != NULL)
++     {
++-	_TIFFfree(*crop_buff_ptr);
+++       _TIFFfree(*crop_buff_ptr);
++     }
++ 
++   /* process full image, no crop buffer needed */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index fcb2ce1ae4..e3daaf1007 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -40,6 +40,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-25434-CVE-2023-25435.patch \
+            file://CVE-2023-26965.patch \
+            file://CVE-2023-26966.patch \
++           file://CVE-2023-2908.patch \
++           file://CVE-2023-3316.patch \
++           file://CVE-2023-3618-1.patch \
++           file://CVE-2023-3618-2.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
-2.41.0
+2.25.1
 
 
