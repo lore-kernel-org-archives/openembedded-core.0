@@ -2,169 +2,171 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EE7C001E0
-	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 14:26:49 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.16686.1690986402188247869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53675C04E69
+	for <webhook@archiver.kernel.org>; Wed,  2 Aug 2023 14:44:49 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.16893.1690987479119359382
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 07:26:42 -0700
+ Wed, 02 Aug 2023 07:44:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=TW9j+0xr;
- spf=pass (domain: baylibre.com, ip: 209.85.167.45, mailfrom: jstephan@baylibre.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe463420fbso3195959e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 07:26:41 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=dKiTu9Tu;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.43, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fb4146e8ceso64218225e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 07:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690986400; x=1691591200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VsB4+7Mnw2m3/1hYh3A+mhyPVWtqkT1PByw+yWbz9cA=;
-        b=TW9j+0xrNwVfFMulSPbGvXaP/+knwNInmKbkRPd/kjcdx0ghdt5vsz8BXLHI3pEBEj
-         2wObUMS3WswXxqdYJG62OyWWDJRAgBrw5XVyxOb6j6y+K/HcQMYddjtNCyJPVJVdFNeG
-         EenSLsEjSjII/NKCWL6rXAGK5DhujGUwJ/HouAt0YQNppm4PMY7WemnRX1YciTW7OI7G
-         mW9/C4TxxYLxc8Vy+s3OgAGg26LKzmZqfrjH5krRxhG4TWF5doYcucZeJ+IGQsQW5gvj
-         ilHHWajMB4WTHvXdsgtX68rK5HNN5NcanJQP/n4BkfpeYmsyGqABky4iMGo/nGeAw49+
-         Bt5A==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690987477; x=1691592277;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tecBnf53ChmRw6+u+brJmJ5+amAMHSEIS9THiBzVgTA=;
+        b=dKiTu9TucOCr3XXu/m2vHkJ2EB/SCIcBye5emQyjW8Tm+izxynyJ2RSdOXYMsM0AfV
+         PE2ZX9qoNspB2dtvDFlvhWAEM6Q+BB1AOBMRkDUcV3/NJ54HmBQ5LyxsPFqJltlCEeCF
+         twVvSVU/AjHpIbs3OWZ7dmTu2MwnBvJJjK4pskWBsCH0idOByjoVRA4ltpnhnZ9SakP6
+         dX/QfxbqESkwGQ2bvLFmYu6BqZrjuuaCy+b1SZyhQrmR0xz4qf4GmmTO5CE+ETCihr0C
+         frARE31DGfPwIKyOQ5YsDOEYyRg85EaxDIhvIYDFhekhqK11JFSw7NOp5X7WOXECy9Yc
+         AhiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690986400; x=1691591200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VsB4+7Mnw2m3/1hYh3A+mhyPVWtqkT1PByw+yWbz9cA=;
-        b=ejKhjkUT65C+M2y+qKWR2jWT6M6yPYV/TrLZ9ab/hV9dOXoV4w/YqXlPAj7nX3KqGW
-         nUsCoLND37EVeCbdamBCgcsVJf0vUKOOn8IBxFlXOZqxGRQMpHGCrB98gFQhr3drhyzy
-         EQzo2IIuRwkE3qSoEdFjYJnIKv8wEQMSkac9FSjrrgYwEntc6CuJZuY2/Vb2Wnc0AI98
-         bfOHC6JYkK0VPtmYPw2bi5dYnOCpDCtAtUm/JHdamIJ45AxXLHOl9V3XivWhkluEMQzG
-         EpuTXnKb9Vn9Lxzo+seQVbd8/4NJvLXKTfLd7izheESNUhqIt2kJZs8BulgPhZWskoAs
-         +m1w==
-X-Gm-Message-State: ABy/qLbs2uAZJBTsXQOc2DFeHqskv3KATrNEtsgZ/NA3OMKFvpupfiG4
-	ETkw4iRSHqAr4XmwM6YlsaXPYq+vqUgdhbmHBn7Y1w==
-X-Google-Smtp-Source: APBJJlG+1uul648mBijzmogB2jd7ZSTk2PfXhYaoy2AYCPybfr7H8whWT69q01gmBad8+NjRLALjpW5Oiwt8MVBl7fU=
-X-Received: by 2002:ac2:4f0b:0:b0:4fe:45ca:f8e7 with SMTP id
- k11-20020ac24f0b000000b004fe45caf8e7mr4523027lfr.57.1690986400250; Wed, 02
- Aug 2023 07:26:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230727135612.951926-1-jstephan@baylibre.com> <202307292244101a8e8cea@mail.local>
-In-Reply-To: <202307292244101a8e8cea@mail.local>
+        d=1e100.net; s=20221208; t=1690987477; x=1691592277;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tecBnf53ChmRw6+u+brJmJ5+amAMHSEIS9THiBzVgTA=;
+        b=jzWtDPGvl//JykKLR5L3gHXD6GShj2dgTCtIBsDepeFP2opwmzpHkNFeFst5AOZ1Tm
+         cWFqjE33xE0u1F1Rw8YMtw4+KP0/cf93FDkgUHnAhwOpTQYrE7wK0nkWMAgEIxnxX2me
+         1/ielnmN3Tmi4GtTBlUjiPbOcSwtjDpFosMBLetrh014aJoUxXP9AZN3R3NiLeHImV93
+         zYnQnXYP1x8Egl8goSA20lhzjAHS5x7nGJ1LZAgQOj0lANpau7v6T9CdnAFrgCaRcexC
+         0JdQnceSElovWB1b+1shNYa5YXKdNNiRfOYVIhSfAn7KOqSBirDbMX/D3eH+ukUrPJul
+         BvLQ==
+X-Gm-Message-State: ABy/qLbbgrdk3HV5fSrU1slINLRS+TME0FGt91lCV5I0B0zHLboU/+9k
+	n27ECx/9hIszFxYBb5uldCMSajxcE8y/jGC1LIj3jQ==
+X-Google-Smtp-Source: APBJJlHJ/5227v+Ovw8HqACNnD7CGEpPiaGnNEXNcUaPvMc6gc52vJKaCPTIEN5OFT+y+3szhIcEOg==
+X-Received: by 2002:a1c:6a0a:0:b0:3f7:3699:c294 with SMTP id f10-20020a1c6a0a000000b003f73699c294mr5005689wmc.29.1690987476967;
+        Wed, 02 Aug 2023 07:44:36 -0700 (PDT)
+Received: from localhost ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id y25-20020a1c4b19000000b003fbca942499sm1878424wma.14.2023.08.02.07.44.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 07:44:36 -0700 (PDT)
+Date: Wed, 2 Aug 2023 16:44:36 +0200
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 2 Aug 2023 16:26:29 +0200
-Message-ID: <CAEHHSvYW3CNDv0qocawAuyhzF8nsAfaJ5+hqyt=9A1RX7+jHCw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 0/3] Add bblock helper scripts
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4 2/5] bitbake: cooker: add a new function to retrieve
+ task signatures
+Message-ID: <jko5mkbz3wiunslj7oavugxa44am24g4wofe27xr7ws4mdubh5@gxtuugrb7v5d>
+References: <20230802142432.2296716-1-jstephan@baylibre.com>
+ <20230802142432.2296716-3-jstephan@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802142432.2296716-3-jstephan@baylibre.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 14:26:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185409
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 14:44:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185410
 
-Le dim. 30 juil. 2023 =C3=A0 00:44, Alexandre Belloni
-<alexandre.belloni@bootlin.com> a =C3=A9crit :
+On Wed, Aug 02, 2023 at 04:24:29PM +0200, Julien Stephan wrote:
+> adding a new command in cooker to compute and get task signatures
 >
-> Hello,
+> this commit also add the associated command and event needed to get the
+> signatures using tinfoil
 >
-> On 27/07/2023 15:56:09+0200, Julien Stephan wrote:
-> > Hi all,
-> >
-> > This is v3 from bblock script.
-> >
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  bitbake/lib/bb/command.py |  6 ++++++
+>  bitbake/lib/bb/cooker.py  | 16 ++++++++++++++++
+>  bitbake/lib/bb/event.py   |  8 ++++++++
+>  3 files changed, 30 insertions(+)
 >
-> This doesn't apply cleanly on master, can you rebase?
+> diff --git a/bitbake/lib/bb/command.py b/bitbake/lib/bb/command.py
+> index a355f56c60c..12202779ac0 100644
+> --- a/bitbake/lib/bb/command.py
+> +++ b/bitbake/lib/bb/command.py
+> @@ -776,3 +776,9 @@ class CommandsAsync:
+>          bb.event.fire(bb.event.FindSigInfoResult(res), command.cooker.databuilder.mcdata[mc])
+>          command.finishAsyncCommand()
+>      findSigInfo.needcache = False
+> +
+> +    def getTaskSignatures(self, command, params):
+> +        res = command.cooker.getTaskSignatures(params[0], params[1])
+> +        bb.event.fire(bb.event.GetTaskSignatureResult(res), command.cooker.data)
+> +        command.finishAsyncCommand()
+> +    getTaskSignatures.needcache = True
+> diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
+> index 11c9fa2c40d..687cdde5e6d 100644
+> --- a/bitbake/lib/bb/cooker.py
+> +++ b/bitbake/lib/bb/cooker.py
+> @@ -1542,6 +1542,22 @@ class BBCooker:
 >
-> Thanks!
+>          self.idleCallBackRegister(buildFileIdle, rq)
+>
+> +    def getTaskSignatures(self, target, task):
+> +        sig = []
+> +
+> +        taskdata, runlist = self.buildTaskData(target, "do_build", self.configuration.halt)
+> +        rq = bb.runqueue.RunQueue(self, self.data, self.recipecaches, taskdata, runlist)
+> +        rq.rqdata.prepare()
+> +
+> +        for key in rq.rqdata.runtaskentries:
+> +            pn = bb.parse.siggen.tidtopn[key]
+> +            taskname = bb.runqueue.taskname_from_tid(key)
+> +            if pn in target:
+> +                if (task and taskname in task) or (not task):
+> +                    rq.rqdata.prepare_task_hash(key)
+> +                    sig.append([pn, taskname, rq.rqdata.get_task_unihash(key)])
+> +        return sig
+> +
 
-Hi Alexandre,
+Hi all,
 
-done, just pushed v4 here:
-https://lists.openembedded.org/g/openembedded-core/message/185403
+I would like some feedback on this function. The goal of this function
+was to be able to get a task signature (for bblock to use it, see bblock
+series). The idea was:
+- get the task signatures of "task"
+- if "task" is empty, get the signature of all tasks
 
-Best
+Using buildTaskData with "do_build" task gives me almost all tasks
+signatures, at least, the "normal recipe build tasks" according to the doc [1].
+But we don't get the signatures for the "Manually called Tasks"
+
+At first I thought it would be good enough for bblock use case, but now
+I am not so sure anymore:
+* for oeqa self test, I need to have access to the same list of tasks,
+  but running `bitbake -c listtasks` gives *all* the tasks
+* this function as is is not generic enough: we cannot get the task
+  signature for all the "manually called tasks" (but is that really a
+  problem?)
+* bblock cannot lock those tasks
+
+So what do you think? Should I make this function more generic and
+called it several times to get *all* the tasks signature?
+
+Cheers
 Julien
+[1]: https://docs.yoctoproject.org/ref-manual/tasks.html
+
+>      def buildTargets(self, targets, task):
+>          """
+>          Attempt to build the targets specified
+> diff --git a/bitbake/lib/bb/event.py b/bitbake/lib/bb/event.py
+> index 0d0e0a68aac..f8acacd80d1 100644
+> --- a/bitbake/lib/bb/event.py
+> +++ b/bitbake/lib/bb/event.py
+> @@ -857,6 +857,14 @@ class FindSigInfoResult(Event):
+>          Event.__init__(self)
+>          self.result = result
 >
-> > Improvement from v2:
-> > * Add a function in bb.cooker to compute task signatures
-> > * Replace the findSigInfo function by the new created one. This has the
-> >   following advantages:
-> >     * findSigInfo needs the task to be already built to get the siginfo
-> >       file, meaning we cannot lock a recipe on a fresh build
-> >     * we can now generate the signatures for all available task of a gi=
-ven
-> >       recipe
-> > * Check if a given task is already locked. If so, don't duplicate
-> >   entry in bblock.conf
-> >
-> > Limitations:
-> > * Needs to taint tasks that are locked, to display a warning
-> > * I may be still missing some checks on user input
-> > * Silently does nothing if given task doesn't exist
-> > * Silently does nothing when resetting a recipe that doesn't exist
-> >
-> > I did some tests using qemux86-64 and qemuarm but I may be missing some
-> > corner cases.
-> >
-> > Improvement from V1:
-> > * Signatures are now package architecture specific meaning that if you
-> >   switch MACHINE, the lock sig will not be taken into account
-> > * I added the -r option to unlock recipes
-> > * I added a -d option to display the current bblock.conf
-> > * Added an include directive for conf/bblock.conf inside bitbake.conf
-> > * Added -t option to specify the tasks to lock/unlock
-> >
-> > Limitations:
-> > * I may be still missing some checks on user input
-> > * I need to find a way to get the list of tasks ( by default still lock
-> >   only the do_compile for now, unless -t is specified)
-> > * Do not check if a particular recipe/task is already locked when tryin=
-g
-> >   to add lock. So entries may appear multiple times
-> > * We still need the signature of the tasks to be already computed befor=
-e
-> >   locking. Need to find a way to generate it if missing
-> >
-> > V2: https://lists.openembedded.org/g/openembedded-core/message/184697
-> > V1: https://lists.openembedded.org/g/openembedded-core/message/184584
-> >
-> > My branch is available here [1]
-> >
-> > Cheers
-> > Julien
-> >
-> > [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=3Djstephan/bbl=
-ock
-> >
-> > Julien Stephan (3):
-> >   bitbake.conf: include bblock.conf
-> >   bitbake: cooker: add a new function to retrieve task signatures
-> >   scripts/bblock: add a script to lock/unlock recipes
-> >
-> >  bitbake/lib/bb/command.py |   6 ++
-> >  bitbake/lib/bb/cooker.py  |  16 ++++
-> >  bitbake/lib/bb/event.py   |   8 ++
-> >  meta/conf/bitbake.conf    |   1 +
-> >  scripts/bblock            | 182 ++++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 213 insertions(+)
-> >  create mode 100755 scripts/bblock
-> >
-> > --
-> > 2.41.0
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#184932): https://lists.openembedded.org/g/openembed=
-ded-core/message/184932
-> > Mute This Topic: https://lists.openembedded.org/mt/100390731/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
+> +class GetTaskSignatureResult(Event):
+> +    """
+> +    Event to return results from GetTaskSignatures command
+> +    """
+> +    def __init__(self, sig):
+> +        Event.__init__(self)
+> +        self.sig = sig
+> +
+>  class ParseError(Event):
+>      """
+>      Event to indicate parse failed
 > --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> 2.41.0
+>
 
