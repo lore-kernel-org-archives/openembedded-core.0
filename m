@@ -1,114 +1,104 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B84EC001DF
-	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 19:49:13 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web10.3827.1691092149839456840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03123C001DF
+	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 19:50:33 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.3874.1691092222827846475
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Aug 2023 12:49:09 -0700
+ Thu, 03 Aug 2023 12:50:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZVxKQqNF;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3a1ebb85f99so1041706b6e.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 12:49:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=LtHN7Jx8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686b879f605so954237b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 12:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691092149; x=1691696949;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vVXlgiCY4cL5MoDBxAa8AAxBfKUbwB2SQtReSCbFIjQ=;
-        b=ZVxKQqNF5PK24W11e3+pjsR5tF0JqrxZZpuid0YOvo1q+KuS3v5csRpc0jpTvzvYa2
-         2Y9mRtd5oxg1WA10nw9J8mrGnl5voERF7njNMpGAtZzYqSifyKnm/HUCK2MNhSwQTIgL
-         DQaWaVDeHmpaAryypOT/Aa/Lxif+rK37s1W5hwH+lxygkPEjvJssVzaI4oZOeRSdd7TA
-         Npy3DNUoEXeR0Aokn4mKeOR5TuGF0K/g9DUi1uXdzPPtynps7mYVVvWyDD65fruVy7Qh
-         acKa4RFPsWu1IFPtGE4ACqclkKJihgjMx9TnMRsBVuTm+8XPSnG5ueFE/3JB6Ga8yMZq
-         mESg==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691092222; x=1691697022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aSemngLUj4GoBD5K9N1gd1vKN7yaGEnGeV6swCEAbs0=;
+        b=LtHN7Jx8WxAVLcbbn9J8WEF8R0AHlswEgDfR+i1jE1CtEMn7VFCCj55ME0QNhTZrhf
+         RbO+9cqLpQTCz33aWUfCa7sxU7WLBXr37qkiigvAH3mOyeNjamKVGxlMmLRnxnuRLkzL
+         ug+j19oEhzniG2fRGcOMOM4SuDu9mz/KbZGzRZ8qSZw5ILcYB0Topi4eWr4vt9lMRW8v
+         UK6HLtbtI1jAbvVE8vbSd2/GomDy6jaBoobhxIpAciT6j00Ff1zNfR4AkTXV0pe5TeTd
+         uafqELQYh9MSlKjhSLXGI8OiEk70382X6HgX6p2nHoLIntUHcxZiW7f3sVFHJoZKp8HV
+         GiqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691092149; x=1691696949;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vVXlgiCY4cL5MoDBxAa8AAxBfKUbwB2SQtReSCbFIjQ=;
-        b=gAhhMHeBPkTxw3gpgSlHsHV6F8ehJ6wWosA9diQRM4VkF4HkawYrlmQRQVFdcpyTwy
-         XSKBYzvGaws9QqO3fvC5rTsb0G4oAPcZcsBkGfCIIc3/AYmp7n5I8dNXi8wUZvAIYBkW
-         JczQ7XUanCVndZv+8LoVNis5HwZWFEXLooXjrqhpLXnNTittYvc64W0smsCpjEcXSL5s
-         zDNBucu0sT3rpmn86cFN6lchzLMomXvw8LruPVyEcR2v3ZfkcXz1xcl4nlApBzHhtDIy
-         9DD1NdUAlmhDlVnvS4/SQX0Aopicmt2e8nwDkMYHm97+/IOyZ54WQRSmc3xH2EX59Ln1
-         /B2Q==
-X-Gm-Message-State: ABy/qLaIjO7LZIJLEVG3CxPWwW2WS3BVCPBdpx2/7h8o9PBQ4LvFURx8
-	nxAo587jKynXEdbzKPdBiV9dwr8SODs=
-X-Google-Smtp-Source: APBJJlE7GMnvwkjCqeIEa0z13xXBEmy7ou5UaMYReanidighcTLkdKuLzpqhW4FdlRKxPbQQAvCzAA==
-X-Received: by 2002:a05:6808:1211:b0:3a7:6b7c:8b5e with SMTP id a17-20020a056808121100b003a76b7c8b5emr3008173oil.11.1691092148716;
-        Thu, 03 Aug 2023 12:49:08 -0700 (PDT)
-Received: from chiron.. ([2601:1c0:ca00:cea0:70d1:27f8:1df1:4ce4])
-        by smtp.gmail.com with ESMTPSA id n27-20020a638f1b000000b00551df489590sm62916pgd.12.2023.08.03.12.49.08
+        d=1e100.net; s=20221208; t=1691092222; x=1691697022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aSemngLUj4GoBD5K9N1gd1vKN7yaGEnGeV6swCEAbs0=;
+        b=NbmutHp9bF2RdUryG40Ad6DI+n+GSMozJlmHm0DLtIOZZpCGzBgSYuQr4UjQiTrmlu
+         TvyVuL6HUKRXx/VpxMlTrvrYLDiaF3jer0ZQTKozuDgXMYSwhXblayN0UNI63qTmUkbq
+         Cg4XaGE9I13nJiYgVEwNze49t6ddV8iRWt9RT0ZmWlzeTHZfCuzHxFSE5WQAQINwKmYu
+         yM2BP6KWm9s6r5kfsC6L0Bz5xhw/JNNvgyxvBhSU8qj5pZ18GRNtT0mtlt1UJiZbIsFO
+         4UXOF1WSmGeUfrDBw5cjS9QCA+qpLQj/TP19WaiWAnXIJ8wziFoQGekgct3G4/mj85hz
+         D+oA==
+X-Gm-Message-State: ABy/qLY601JGKd32MoHP5BOvq1albJ8HqjAwjooE7VmCZpCjZarUreUC
+	o1CXnykNInk5HIG5Qw3vteGVLhThxgTUNJZ5nPc=
+X-Google-Smtp-Source: APBJJlEYN7TYjv8hTWpekJrsw5DCS4UV++ecebF6Sww29432RuUS8pauqDEmyGsbwiCs3wZUb4tHkw==
+X-Received: by 2002:a05:6a00:1513:b0:687:3a7d:ad7a with SMTP id q19-20020a056a00151300b006873a7dad7amr14166780pfu.7.1691092221830;
+        Thu, 03 Aug 2023 12:50:21 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id g26-20020aa7875a000000b00682a9325ffcsm226483pfo.5.2023.08.03.12.50.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 12:49:08 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        Thu, 03 Aug 2023 12:50:21 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-cryptography{-vectors}: upgrade -> 41.0.3
-Date: Thu,  3 Aug 2023 12:48:03 -0700
-Message-Id: <20230803194802.3057173-1-tim.orling@konsulko.com>
+Subject: [OE-core][kirkstone] gcc: fix runpath errors in cc1 binary
+Date: Thu,  3 Aug 2023 09:50:13 -1000
+Message-Id: <20230803195013.4105755-1-steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 19:49:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185500
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 19:50:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185501
 
-https://cryptography.io/en/latest/changelog/#v41-0-3
+The runpath in the cc1 binary is:
 
-* Fixed performance regression loading DH public keys.
-* Fixed a memory leak when using ChaCha20Poly1305.
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 3.1.2.
+Library runpath: [$ORIGIN/../../../recipe-sysroot-native/usr/lib:$ORIGIN/../../../recipe-sysroot-native/lib]
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+This does not match the actual location of the libraries, which would require:
+
+Library runpath: [$ORIGIN/../../recipe-sysroot-native/usr/lib:$ORIGIN/../../recipe-sysroot-native/lib]
+
+Prior to gcc 9.1 the recipe set B explicity with:
+
+B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+
+and this build directory structure matches the runpath in cc1, so there is no issue.
+
+This line was commented out in versions 9.1 through 11.3.  The upgrade to 12.1 once
+again uncommented this line.
+
+As a result the runpath is incorrect in version 9.1 through 11.3 and cc1 defaults
+to using host libraries.
+
+This patch restores setting B as done in master and versions prior to 9.1
+
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-All ptests passed (except those that are skipped) on core-image-ptest-python3-cryptography on qemux86-64
+ meta/recipes-devtools/gcc/gcc-11.4.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- ...vectors_41.0.2.bb => python3-cryptography-vectors_41.0.3.bb} | 2 +-
- ...n3-cryptography_41.0.2.bb => python3-cryptography_41.0.3.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cryptography-vectors_41.0.2.bb => python3-cryptography-vectors_41.0.3.bb} (91%)
- rename meta/recipes-devtools/python/{python3-cryptography_41.0.2.bb => python3-cryptography_41.0.3.bb} (95%)
-
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.2.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-cryptography-vectors_41.0.2.bb
-rename to meta/recipes-devtools/python/python3-cryptography-vectors_41.0.3.bb
-index 52f2c35315c..1b499e02999 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
+diff --git a/meta/recipes-devtools/gcc/gcc-11.4.inc b/meta/recipes-devtools/gcc/gcc-11.4.inc
+index a907661df4..3670f494a6 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.4.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.4.inc
+@@ -76,7 +76,7 @@ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  
--SRC_URI[sha256sum] = "028dff94a8522ca818b11295ff12df55f348f33a193c0597ddfe8239e53d1582"
-+SRC_URI[sha256sum] = "80de0452c4b34f56f5518e81ebd75b6b905f5728aaed521d42e41f4ebc8a43fb"
+ # For dev release snapshotting
+ #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${RELEASE}"
+-#B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
++B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
  
- PYPI_PACKAGE = "cryptography_vectors"
- 
-diff --git a/meta/recipes-devtools/python/python3-cryptography_41.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_41.0.3.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-cryptography_41.0.2.bb
-rename to meta/recipes-devtools/python/python3-cryptography_41.0.3.bb
-index 20d6c97f36a..b6ea6608eb8 100644
---- a/meta/recipes-devtools/python/python3-cryptography_41.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_41.0.3.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
-                    "
- LDSHARED += "-pthread"
- 
--SRC_URI[sha256sum] = "7d230bf856164de164ecb615ccc14c7fc6de6906ddd5b491f3af90d3514c925c"
-+SRC_URI[sha256sum] = "6d192741113ef5e30d89dcb5b956ef4e1578f304708701b8b73d38e3e1461f34"
- 
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://0001-Fix-include-directory-when-cross-compiling-9129.patch \
+ # Language Overrides
+ FORTRAN = ""
 -- 
 2.34.1
 
