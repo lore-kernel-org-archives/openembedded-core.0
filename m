@@ -1,361 +1,178 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6543C001E0
-	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 07:55:56 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.9140.1691049354530058395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB851C001E0
+	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 07:58:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.9402.1691049533469236703
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Aug 2023 00:55:54 -0700
+ Thu, 03 Aug 2023 00:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=FZUMtuzH;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fe28f92d8eso1118603e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 00:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691049352; x=1691654152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I7S2EBAdwMWbra5jsMq05fjJdUnp5FZrlwyD6xZiPig=;
-        b=FZUMtuzHl2tW9BcHFi2nvPDfhb0Iw7OxGJ+ftxhjqQBiLtT5KoAn+nYR06//OklPfT
-         yb3Ym4C0MggfSCzFXq3UFlSXsVusNzRC/4Zyv7HDwxbS/Zxu0H0FXLqmJzFLTFW5624R
-         wepycIxQ/YkNPHg1aCscwajF2URI4V6/0KJI/SrqjH/m3J3m90t3fvs7AYxkOzmZDtMf
-         y+nlokcOdGdQqRhr22p6YCO0ZIvu8tAIHaouB1rN+CJIrUVDBzx7jhW+l1AO2ARocs3M
-         h3B19WBisHRnrEiRs6pVuqUQ4dUtLlg6DtM0iHt8JFNBIwn4OmWoGF53vQwdWNJjqiku
-         0p/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691049352; x=1691654152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I7S2EBAdwMWbra5jsMq05fjJdUnp5FZrlwyD6xZiPig=;
-        b=O+ZAvCwQSqsTcBJU4Sb6z5oQLJrwctmx0gR1iXZfWLAB+Wo1nC6hKvydrnPIeKNO+s
-         to/TnI++aboi8PcQQeqkzas9Ys9ILX9F9/Kft+3+hoHZ3qQTyjIJFl8qpFVCn3hYoiLc
-         xcgDp2sch7a8OuMVOY/5IAQ51DfhaFWAQA4XHWdSfl8S2DRfC4lOAnT+KjfNWTSJupfr
-         u65a7/EPqs5MvMS+gkpZehNAe5xGqvFMJoyCF35dwSM6fX/MVb+UtJloxqw5VGx3vt38
-         mnrGyt1nrswg3qWnmelXP4owS3LKDhYSWIuxZPVGTRV4UdN3lCF5B9wvGoOQ/0u+Wqvf
-         LpUQ==
-X-Gm-Message-State: ABy/qLZSfZrUza3Tu/WrnPyobk2OgbJonlcwxxDII7UiYgzEfJx127Ho
-	OUbQeAEmTUlzGkmcYA/lfFJtADP4WhANL0Fawbc=
-X-Google-Smtp-Source: APBJJlEdo5rUnu7uQCIkNxCKbobPgq48l0r67WPVg0AdQEvQTpd2OVX1h6G1FSY70RQCWqzWDd5ueugHCG3HJ2hTu80=
-X-Received: by 2002:a19:2d42:0:b0:4fb:8948:2b8e with SMTP id
- t2-20020a192d42000000b004fb89482b8emr6387703lft.8.1691049352169; Thu, 03 Aug
- 2023 00:55:52 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=a1uz7Ov/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7579963e98=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3737Jm1S020828
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Aug 2023 07:58:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=Sm8UtA+MhuVSp9JmAl
+	ftavCUdMQcQVKW6cfbbj44VsQ=; b=a1uz7Ov//P9RGRenDs5TQNEAqDnLWRbWn5
+	erpjko8gQ/9P3obdAcjNNEYnwJYHAoSVp5/FKNgGnjX8xiaTfRXPd6/TTwZJknqN
+	gQg/x44mMBHrOggBoPaLIiN3BdOSLwexTICV7WU2poi1hQIUgYaVRcPtXvpOLf3a
+	uT51gFbVV6duJMcsqCBEM9lKs/Hzn0OCi9Z1shbfVgDrMI6qokaieOr+xba+1Xz9
+	1xrTtzDVFNNIGTjrAN3JIi5a8MmhQteTLbNSmQbmwviYW1xE5FrKzqGXhGzAgMlN
+	7NJaY1gFf1Cp3L0kfzdg5UztQQ0UnJTpIl6v80m5xkOMysBGHRZg==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s4qyx4msp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 07:58:52 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NSziW/OM0GGH3QaVQpCAAUO9+ZlbefqQWByhGBPrdlpXh88wOrRX9hYBJiZ98bXnVp6Hmptro360f/EoAnI1kC2h5y9DPttzxFg7kJzrJ+yl12U9OgPot2IDEodiSJTTqv9h3fzxzeNYALuYwMIBM0ZbCy04EaXWYXX9jzhHZT76Etb7bpnnsaQZn0vtXH/GK2ihGfiYlAsGFC9dOsQW2XUUm9HDx4v//WgXra/pSVQrxOl5Z3hX4g8WBPs4ktcEsmeR/VLnFAAphsgslVOFFCKYI4AZPq9oQUjwNi+7UUz+GheuAMN/fym9GwcCoUsDSRAlPs6mMlPuevohT+CeSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sm8UtA+MhuVSp9JmAlftavCUdMQcQVKW6cfbbj44VsQ=;
+ b=JNQpoXst645iBy6RjmJJ8ovqCDBL7OEOm4qCIZOHwyXQCtopC18k2VGtmyR4kVjuKVR+W78qn39bAltTd0b9C/9cIb3AO520X+lhxiUUn312WUfffTAy0hy4IIlV1lVgcFKATEIO6ztjQIPHmOQuhmcVC77qfkQGkRmEC0R130ZcVw5ZldhRJilCzzVvRiaVf3dkJRAntBuO8JbzmlPdvOllAP5fGZXiE41DgY3eH1Ke+qePQVkn+/shv2Ky329QcDPXE0aR/ygsZlG9wFysVD/hoIbgD7yfA56MJ+a4HdCPlVwUxrpQyTnSh8zSCry8xrC8ZZGFM63ajEv2jC1C+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by PH7PR11MB7720.namprd11.prod.outlook.com (2603:10b6:510:2b3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
+ 2023 07:58:47 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::86dd:2ee6:ac66:812d]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::86dd:2ee6:ac66:812d%4]) with mapi id 15.20.6631.046; Thu, 3 Aug 2023
+ 07:58:47 +0000
+From: Qi.Chen@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: mark.asselstine@windriver.com
+Subject: [OE-core][PATCH] openssh: sync with upstream's default
+Date: Thu,  3 Aug 2023 00:58:37 -0700
+Message-Id: <20230803075837.1728947-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0080.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::25) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-References: <20230801132957.401557-1-zboszor@gmail.com> <20230802134131db3e0b1e@mail.local>
- <e4dcb013-25f0-63f8-4713-8d4b71757cb4@gmail.com> <CANNYZj_WpBs=f0thUNdEgBi9G-VepAF-_hf2gxsRP1mOjD1vtA@mail.gmail.com>
- <ffd0b874-711a-abc8-0445-2884e24f8a3b@gmail.com>
-In-Reply-To: <ffd0b874-711a-abc8-0445-2884e24f8a3b@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 3 Aug 2023 09:55:40 +0200
-Message-ID: <CANNYZj-hE=Cct9bLOhy_kWA9NZqnpUAJ3ZTXW2RnoXzz65B1fw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v6] rpm: Allow setting platform macro settings externally
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
-	Ross Burton <Ross.Burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB7720:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb75eb99-ceb3-436b-83ee-08db93f777aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	rCCNvMr+9Wgibxv6SuwgbyUWSG2hczOnz7RvapUd2j6+4ild7/0rVjv/5FGQbGImW/+VDWsiFgaL5iLh3z0xwRYNbmts6UupQZXaOmOwn+VEvwXb7IBthYUfEVodWaJozUPfEqXlULC+AEK/ACehLsXqtOX+3OysReWHk0xi/6N3RiH46iMxqjaqga5+iCF2Z7SAZUuz8h/eiNun/lp5hivTcyZjBGS56bf6LyOhMeM8FJifF9acjPVKQZinYAzyYQes92Sy0yRPYXp6QMrKKCN3B/Ce8fRxx/PCv8SOWpBkNWO+daZ54RlNGPak50c+Saw5Z+lQSC8+oLSL3nwijiwFrgg/R4CP4SZuFfBIeWMFARXP0ZC1KiRdXOReWF6tJjyYUkbr+4utS71RrGw4Edmq1TUNGiKoM6PuSqItAh9elNlwPpB2u+je2c7oT1rkZiwRI4+5hEC9ElhvcLk8Si2pi6mCUKZiDmVEqjrPjob8k8uksqD6nqKYXgP+UZSQrZ8ihnxiJiDrrntTx7vf1zeXQvXVVjY0N/6ARJ3wmkQOI+x8i+H46Vro32BZJoh8jep7f4hccWYS1SiXxwkd7u8ZSwNk97MDVH+etwy67k0xN1SeoUkiSGtiHadsQ2NB
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(396003)(346002)(136003)(376002)(366004)(451199021)(66556008)(66476007)(41300700001)(316002)(2906002)(6916009)(66946007)(4326008)(8676002)(8936002)(5660300002)(38350700002)(6506007)(38100700002)(26005)(1076003)(36756003)(186003)(2616005)(83380400001)(86362001)(9686003)(6512007)(478600001)(52116002)(6486002)(6666004)(107886003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jfj+88zAbjFxtYT7HAYFkiktqDJkXuVvVYdEN4wZt/f0GETp5luEhZYRCk6e?=
+ =?us-ascii?Q?axsTgg6Loc9Bmm80ExAu1VnPZ0IpYMQW9mb0CfrBA1YrHxUW2hZ+iOyL1xj0?=
+ =?us-ascii?Q?l2vCk1dJ4A2fYhX/FcROdFnJMWw1hJaNrxwGdUm8jgKurgM4MiVPdh6tG52Y?=
+ =?us-ascii?Q?Tdz0rQ3rx+TxJ4f1+WYrcBc92UNopK9ouo7LlX7vRuirYMjY4LSbsDwxap3d?=
+ =?us-ascii?Q?dHkGtmemD7EBOGp4YyctYx3ZB95ToYO3E5jLvVvF1qvvH4G8aV1iAkTCWP4b?=
+ =?us-ascii?Q?a5nahcfeIfiGyIt0OErmCdiGSH53NA6ZRhy8resAGozBisU/MRk6KdwOFX4g?=
+ =?us-ascii?Q?Fw6Pb0nOj3y3n4hkr3/vYEdm/hPGeKUv8zRkpeWFFjSJUQF2/Qd4ERZejLye?=
+ =?us-ascii?Q?ryz1tM4lwtrRias42ncQLH+mWQQA4Eg+fHkIBUBwXW5e1VjR1EcOVkvewKn5?=
+ =?us-ascii?Q?kN5dUBrPKsAIC+4udQuh1YMbSa0iaVfvuL6zYkPlXSbeJTnl5xahfm6c2X2q?=
+ =?us-ascii?Q?L3TbR6VXDHXCnJa0+gf1n83Ux0+eDrsBX+w3bnCriLmHjFw8ouj07WG9X4j6?=
+ =?us-ascii?Q?ZYBGn3VLAx9+YuiXRRyOpaEUjeeBpWSwicF0dzMFwPeIJYUELLWrc7hr/5uP?=
+ =?us-ascii?Q?VNPf3BtSCO4V1BMg70KF574IhJ2dLVa0MUf5FL+25WtDPPndpfDId6S1LSJ1?=
+ =?us-ascii?Q?cy1xVIq1trEKFEEg9XC0ogI9Kf/zbxDw47ITg8L+ZOg/7UtItRaJKthc1znm?=
+ =?us-ascii?Q?YUxvLezacbosPF9P+PdN33MFkzDBvcS44Dk9n6I0nsArihVEd15gkkw7qfXw?=
+ =?us-ascii?Q?yAi1nxZts8jCv+gO2OnfiVsMWW/6hC6Usb7Mlsg0jZaMBSTvrMuto5Budanh?=
+ =?us-ascii?Q?NIP1vuj+UvoopcP8oloRAohXVym60pgYRXZ7nrTP4/aF0Gscw5g2r0JbV4oX?=
+ =?us-ascii?Q?wzS/xwz4zQ4/Nksk8B8dPTpkZsIOGa59qzX+m5Jxek/o4YAGgMACILp0gFug?=
+ =?us-ascii?Q?u4aCYgiNSSmkAXI68gulDo2q6kwNQ4nW+VP1iXB8H6og+vD5rosN6JwnPoW+?=
+ =?us-ascii?Q?ldpvQBhKNFbP5lZY+4QVIHjDkxc/KgiTxa09GoQjavCH338oSnAC3H278biC?=
+ =?us-ascii?Q?p9gX6wDabCA8trzyLO4VEzq7Cadom2woS3L7ur4wisBPSeEICajcTGavOOzM?=
+ =?us-ascii?Q?hDwZizDw4Borb1imaKUCd9Tt/PUGMkkk4sGQOAJ6JGVX6fSiyhespEqEOiDw?=
+ =?us-ascii?Q?mo1ma22xSFJFzdDE2Vxr1S4fjnUI6oVUUZYp5E36KreqNciSt34rP2o5hNdP?=
+ =?us-ascii?Q?CRFEJE8uOMOe0RogACbgDnQHXQ6NneX1bSavvw8YAGyC9353Tic0n3GoLNYy?=
+ =?us-ascii?Q?oMCUGMWlrBCt7LxBUTB2lt4tBNqG96Fvc9OCCmlhcsARawmaJpFsrrmL+KWP?=
+ =?us-ascii?Q?ZmTk4L5ot9uU+SPCgkus3w7xJ1Uva9PUrOhX8Xt0jCIyKGnk5xd2LR7HdEt6?=
+ =?us-ascii?Q?0r9GeosJp6yyedCL4CC566/D7bnKA9HBO+3Imq8vgEtxzicNhek8ZZeJarh1?=
+ =?us-ascii?Q?SQtdF5GUagRx5rKrjYdLlUgbNWltHDMxIy6vkSbOPyW0bpCWUctrGGnDp06G?=
+ =?us-ascii?Q?Ow=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb75eb99-ceb3-436b-83ee-08db93f777aa
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2023 07:58:47.8215
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y47zDpKHpdEAyQ6IJvsYaLgWoUPbOT2u6IQsmyjpvdHje8a+JrGLv7G+THpKi+uP8cf5eaF1LyPi97DxalaetQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7720
+X-Proofpoint-GUID: HwvXRDp2NNjj6CumlJYEs-WahaJnpHTh
+X-Proofpoint-ORIG-GUID: HwvXRDp2NNjj6CumlJYEs-WahaJnpHTh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-03_06,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 mlxscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308030070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 07:55:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185462
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 07:58:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185463
 
-I applied the patch and checked what the difference in install tree
-is. I see that the only difference is addition of
-usr/lib/rpm/platform/qemux86_64-linux/macros
+From: Chen Qi <Qi.Chen@windriver.com>
 
-I'd like to step back for a bit, and clarify:
+This change sync the contents of this file with upstream's
+ssh_config except for the locally added line
+'Include /etc/ssh/ssh_config.d/*.conf'.
 
-What is the mechanism at runtime for finding that file? How does rpm
-tooling arrive at the path it needs to read? How is 'qemux86_64-linux'
-computed? Are there alternative locations that macros are also taken
-from?
+More specifically the ForwardXXX options are disabled by default,
+this sync with what ssh_config(5) says about these two items.
 
-And once that is clarified, the next question would be:
-Can we instruct rpm to read macros from a default location for a
-self-hosted target?
+In addition, the RSAAuthentication items are removed as they are v1 protocol.
+See the contents of Changelog file in openssh project as below:
+"""
+commit bfe19197a92b7916f64a121fbd3c179abf15e218
+Author: Darren Tucker <dtucker@dtucker.net>
+Date:   Fri Jul 2 15:43:28 2021 +1000
 
-You might also just teach that developer who is unwilling to learn new
-stuff to write recipes. It's about the same amount of effort as
-writing rpm .spec files :)
+    Remove now-unused SSHv1 enums.
 
-Alex
+    sRhostsRSAAuthentication and sRSAAuthentication are protocol 1 options
+    and are no longer used.
+"""
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-connectivity/openssh/openssh/ssh_config | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
+index ca70f37375..cb2774a163 100644
+--- a/meta/recipes-connectivity/openssh/openssh/ssh_config
++++ b/meta/recipes-connectivity/openssh/openssh/ssh_config
+@@ -19,11 +19,9 @@
+ 
+ Include /etc/ssh/ssh_config.d/*.conf
+ 
+-Host *
+-  ForwardAgent yes
+-  ForwardX11 yes
+-#   RhostsRSAAuthentication no
+-#   RSAAuthentication yes
++# Host *
++#   ForwardAgent no
++#   ForwardX11 no
+ #   PasswordAuthentication yes
+ #   HostbasedAuthentication no
+ #   GSSAPIAuthentication no
+-- 
+2.40.0
 
-On Thu, 3 Aug 2023 at 08:09, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
-r@gmail.com> wrote:
->
-> 2023. 08. 02. 21:54 keltez=C3=A9ssel, Alexander Kanavin =C3=ADrta:
-> > I think the culprit is the usage of MACHINE_ARCH. You can't have that
-> > in regular recipes, as that makes them machine-specific, rather than
-> > tune (i.e. architecture) specific.
->
-> So, how to fix it?
->
-> Would putting this into the rpm recipe be enough and acceptable?
->
-> PACKAGE_ARCH =3D "${MACHINE_ARCHJ}"
->
-> Reasoning: the patch that makes rpm carry the
-> $MACHINE_ARCH}-linux platform specific macros file
-> does make rpm machine-specific.
->
-> >
-> > Alex
-> >
-> > On Wed, 2 Aug 2023 at 21:28, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zb=
-oszor@gmail.com> wrote:
-> >> Some clues please. What does this error mean? How to solve it?
-> >>
-> >> 2023. 08. 02. 15:41 keltez=C3=A9ssel, Alexandre Belloni =C3=ADrta:
-> >>> Hello,
-> >>>
-> >>> This causes
-> >>> sstatetests.SStateHashSameSigs3.test_sstate_sametune_samesigs to fail=
-:
-> >>>
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/557=
-2/steps/14/logs/stdio
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/553=
-8/steps/14/logs/stdio
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/554=
-7/steps/15/logs/stdio
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/549=
-5/steps/14/logs/stdio
-> >>>
-> >>> On 01/08/2023 15:29:57+0200, Zoltan Boszormenyi wrote:
-> >>>> Feed platform settings to installplatform externally. Based on the p=
-atch
-> >>>> submitted under https://github.com/rpm-software-management/rpm/pull/=
-2585
-> >>>>
-> >>>> Patch against INSTALL was backported for rpm 4.18.1
-> >>>>
-> >>>> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail=
-.com>
-> >>>> ---
-> >>>>    ...atform-macro-settings-externally-258.patch | 119 +++++++++++++=
-+++++
-> >>>>    meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  20 +++
-> >>>>    2 files changed, 139 insertions(+)
-> >>>>    create mode 100644 meta/recipes-devtools/rpm/files/0001-Allow-set=
-ting-platform-macro-settings-externally-258.patch
-> >>>>
-> >>>> diff --git a/meta/recipes-devtools/rpm/files/0001-Allow-setting-plat=
-form-macro-settings-externally-258.patch b/meta/recipes-devtools/rpm/files/=
-0001-Allow-setting-platform-macro-settings-externally-258.patch
-> >>>> new file mode 100644
-> >>>> index 0000000000..a32ce38533
-> >>>> --- /dev/null
-> >>>> +++ b/meta/recipes-devtools/rpm/files/0001-Allow-setting-platform-ma=
-cro-settings-externally-258.patch
-> >>>> @@ -0,0 +1,119 @@
-> >>>> +From e58c607dcdb303ff3ba1b22fd23eb20e374b6ed3 Mon Sep 17 00:00:00 2=
-001
-> >>>> +From: =3D?UTF-8?q?Zolt=3DC3=3DA1n=3D20B=3DC3=3DB6sz=3DC3=3DB6rm=3DC=
-3=3DA9nyi?=3D
-> >>>> + <zboszor@gmail.com>
-> >>>> +Date: Fri, 28 Jul 2023 12:16:56 +0200
-> >>>> +Subject: [PATCH] Allow setting platform macro settings externally (=
-#2585)
-> >>>> +MIME-Version: 1.0
-> >>>> +Content-Type: text/plain; charset=3DUTF-8
-> >>>> +Content-Transfer-Encoding: 8bit
-> >>>> +
-> >>>> +* Allow setting platform macro settings externally
-> >>>> +
-> >>>> +By default, rpm installs a series of default platforms based on
-> >>>> +the CPU architecture names in subdirectories called
-> >>>> +
-> >>>> +    /usr/lib/platform/<arch>-<os>
-> >>>> +
-> >>>> +This is enough for regular Linux distributions. However, some
-> >>>> +distributions may use more specific platform names that refer to
-> >>>> +particular computer systems, like SBCs or specific CPU tuning when
-> >>>> +compiling.
-> >>>> +
-> >>>> +If the platform subdirectory does not exist in /usr/lib/platform
-> >>>> +then rpmbuild does not work.
-> >>>> +
-> >>>> +Allow creating such custom platform subdirectory with feeding
-> >>>> +the necessary data using external variables: RPM_CUSTOM_ARCH,
-> >>>> +RPM_CUSTOM_ISANAME, RPM_CUSTOM_ISABITS, RPM_CUSTOM_CANONARCH
-> >>>> +and RPM_CUSTOM_CANONCOLOR
-> >>>> +
-> >>>> +Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmai=
-l.com>
-> >>>> +Upstream-Status: Backport [https://github.com/rpm-software-manageme=
-nt/rpm/commit/fde03ae33d55b160a31a6c54946880dcdf8fd0d6]
-> >>>> +
-> >>>> +---------
-> >>>> +
-> >>>> +Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmai=
-l.com>
-> >>>> +Co-authored-by: Florian Festi <ffesti@redhat.com>
-> >>>> +---
-> >>>> + INSTALL         | 37 +++++++++++++++++++++++++++++++++++++
-> >>>> + installplatform |  9 ++++++++-
-> >>>> + 2 files changed, 45 insertions(+), 1 deletion(-)
-> >>>> +
-> >>>> +diff --git a/INSTALL b/INSTALL
-> >>>> +index 13d0d8a83..5e035cf6a 100644
-> >>>> +--- a/INSTALL
-> >>>> ++++ b/INSTALL
-> >>>> +@@ -148,6 +148,43 @@ and then install with:
-> >>>> +
-> >>>> +     make install
-> >>>> +
-> >>>> ++
-> >>>> ++By default, rpm installs a series of default platforms based on th=
-e CPU
-> >>>> ++architecture names in subdirectories called
-> >>>> ++
-> >>>> ++    /usr/lib/platform/<arch>-<os>
-> >>>> ++
-> >>>> ++This is enough for many distributions. However, some distributions
-> >>>> ++may use more specific platform names that refer to particular comp=
-uter
-> >>>> ++systems, like SBCs or specific CPU tuning when compiling. Examples=
- of such
-> >>>> ++platform names are: "genericx86_64", "intel_skylake_64", "raspberr=
-ypi_armv7",
-> >>>> ++"raspberrypi_armv8", etc.
-> >>>> ++
-> >>>> ++If the platform name is put into /etc/rpm/platform, then rpmbuild =
-uses it
-> >>>> ++and the only macros file rpmbuild looks for is
-> >>>> ++
-> >>>> ++    /usr/lib/platform/`cat /etc/rpm/platform`-<os>/macros
-> >>>> ++
-> >>>> ++If this file does not exist, many rpm macros will not have their e=
-xpected
-> >>>> ++values set and e.g. %configure will fail when trying to run rpmbui=
-ld.
-> >>>> ++
-> >>>> ++To allow creating the macros file for such a custom platform, the =
-shell
-> >>>> ++variables listed below must be set. If RPM_CUSTOM_ARCH is not set,=
- the rest
-> >>>> ++is ignored.
-> >>>> ++
-> >>>> ++    export RPM_CUSTOM_ARCH=3Dgenericx86_64
-> >>>> ++    export RPM_CUSTOM_ISANAME=3Dx86
-> >>>> ++    export RPM_CUSTOM_ISABITS=3D64
-> >>>> ++    export RPM_CUSTOM_CANONARCH=3Dx86_64
-> >>>> ++    export RPM_CUSTOM_CANONCOLOR=3D0 # to use /usr/lib for %_libdi=
-r
-> >>>> ++    export RPM_CUSTOM_CANONCOLOR=3D3 # to use /usr/lib64 for %_lib=
-dir
-> >>>> ++
-> >>>> ++    make install
-> >>>> ++
-> >>>> ++This also creates and installs the new platform file e.g.
-> >>>> ++/usr/lib/platform/genericx86_64-linux/macros
-> >>>> ++
-> >>>> ++
-> >>>> + Rpm comes with an automated self-test suite. The test-suite relies=
- heavily
-> >>>> + on fakechroot (https://github.com/dex4er/fakechroot/) and cannot b=
-e executed
-> >>>> + without it. Provided that fakechroot was found during configure,
-> >>>> +diff --git a/installplatform b/installplatform
-> >>>> +index a5ad7c5b8..59f57697b 100755
-> >>>> +--- a/installplatform
-> >>>> ++++ b/installplatform
-> >>>> +@@ -11,7 +11,7 @@ VENDOR=3D"${4}"
-> >>>> + OS=3D"${5}"
-> >>>> + RPMRC_GNU=3D"${6}"
-> >>>> +
-> >>>> +-for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2`; do
-> >>>> ++for ARCH in noarch `grep ^arch_canon $RPMRC | cut -d: -f2` ${RPM_C=
-USTOM_ARCH:+custom}; do
-> >>>> +   RPMRC_OPTFLAGS=3D"`sed -n 's/^optflags: '$ARCH' //p' $RPMRC`"
-> >>>> +   RPMRC_OPTFLAGS=3D"`echo $RPMRC_OPTFLAGS | sed -e 's, ,\ ,g'`"
-> >>>> +   case $RPMRC_OPTFLAGS in
-> >>>> +@@ -30,6 +30,13 @@ for ARCH in noarch `grep ^arch_canon $RPMRC | cu=
-t -d: -f2`; do
-> >>>> +   CANONCOLOR=3D
-> >>>> +   FILTER=3Dcat
-> >>>> +   case "${ARCH}" in
-> >>>> ++    custom)
-> >>>> ++   ARCH=3D$RPM_CUSTOM_ARCH
-> >>>> ++   ISANAME=3D$RPM_CUSTOM_ISANAME
-> >>>> ++   ISABITS=3D$RPM_CUSTOM_ISABITS
-> >>>> ++   CANONARCH=3D$RPM_CUSTOM_CANONARCH
-> >>>> ++   CANONCOLOR=3D$RPM_CUSTOM_CANONCOLOR
-> >>>> ++    ;;
-> >>>> +     sparc64*)
-> >>>> +    ISANAME=3Dsparc
-> >>>> +    ISABITS=3D64
-> >>>> +--
-> >>>> +2.41.0
-> >>>> +
-> >>>> diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-=
-devtools/rpm/rpm_4.18.1.bb
-> >>>> index 95a9e92f96..0b8ebebb51 100644
-> >>>> --- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-> >>>> +++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-> >>>> @@ -40,6 +40,7 @@ SRC_URI =3D "git://github.com/rpm-software-managem=
-ent/rpm;branch=3Drpm-4.18.x;protoc
-> >>>>               file://0001-python-Use-Py_hash_t-instead-of-long-in-hd=
-r_hash.patch \
-> >>>>               file://fix-declaration.patch \
-> >>>>               file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch =
-\
-> >>>> +           file://0001-Allow-setting-platform-macro-settings-extern=
-ally-258.patch \
-> >>>>               "
-> >>>>
-> >>>>    PE =3D "1"
-> >>>> @@ -128,10 +129,29 @@ do_install:append:class-nativesdk() {
-> >>>>       EOF
-> >>>>    }
-> >>>>
-> >>>> +def rpm_isaname(d):
-> >>>> +    import re
-> >>>> +    arch =3D d.getVar('TARGET_ARCH')
-> >>>> +    if re.match("^i.86$", arch) or re.match("^x86.*64$", arch):
-> >>>> +        return "x86"
-> >>>> +    # Add more platform tweaks for ISANAME as needed
-> >>>> +    return arch
-> >>>> +
-> >>>> +# Add the custom BSP platform "macros" file
-> >>>> +do_install:prepend:class-target() {
-> >>>> +    export RPM_CUSTOM_ARCH=3D"${MACHINE_ARCH}"
-> >>>> +    export RPM_CUSTOM_ISANAME=3D"${@rpm_isaname(d)}"
-> >>>> +    export RPM_CUSTOM_ISABITS=3D"${SITEINFO_BITS}"
-> >>>> +    export RPM_CUSTOM_CANONARCH=3D"${TARGET_ARCH}"
-> >>>> +    # CANONCOLOR determines whether /usr/lib or /usr/lib64 is used =
-for a 64-bit platform
-> >>>> +    export RPM_CUSTOM_CANONCOLOR=3D"${@bb.utils.contains('DISTRO_FE=
-ATURES', 'multilib', '3', '0', d)}"
-> >>>> +}
-> >>>> +
-> >>>>    # Rpm's make install creates var/tmp which clashes with base-file=
-s packaging
-> >>>>    do_install:append:class-target() {
-> >>>>        rm -rf ${D}/var
-> >>>>    }
-> >>>> +
-> >>>>    do_install:append:class-nativesdk() {
-> >>>>        rm -rf ${D}${SDKPATHNATIVE}/var
-> >>>>        # Ensure find-debuginfo is located correctly inside SDK
-> >>>> --
-> >>>> 2.41.0
-> >>>>
-> >>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>>> Links: You receive all messages sent to this group.
-> >>>> View/Reply Online (#185245): https://lists.openembedded.org/g/openem=
-bedded-core/message/185245
-> >>>> Mute This Topic: https://lists.openembedded.org/mt/100483574/3617179
-> >>>> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
-b [alexandre.belloni@bootlin.com]
-> >>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>>>
->
 
