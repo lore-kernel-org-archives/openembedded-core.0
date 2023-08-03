@@ -1,656 +1,170 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897D4C04A94
-	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 14:04:48 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.15498.1691071480803557731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A69EB64DD
+	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 17:47:32 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.858.1691084847066575667
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Aug 2023 07:04:40 -0700
+ Thu, 03 Aug 2023 10:47:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=25OBO4ZK;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-687087d8ddaso860671b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 07:04:40 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=jVICLlxO;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.178, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-76c9334baedso82520285a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 10:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691071479; x=1691676279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0qIPm35JUU6y0T8URTY6s/NfhzjouvCjcr68qVTHNtU=;
-        b=25OBO4ZKhj666b2hb+hASGpjDC69yB8g987Sr2Ivscx28Eaiz1XyBwUA/PC605VbuZ
-         P1aXMR9nyVpUP7rde93eNww46JZgv5rfnsyswE8malLovlu7kAzY2ZbX3zx5i+UngNP5
-         NrpPNE++lFWszMm4FH/nElRtYotnv9mnFjMbsk7gagkpWmGo6qCXcTz8Yt3dl0zj8GjX
-         gNltykfPWCq69/uhGbNoOLqbDoso1gArw1LsCMNQV4ssQVhqCBbeCaKCzfoHSKLf4n4n
-         KXTLe1iIb8Ax7RwlUUsoFJvVn8H0P3FVgjAHn97IY64s7eGv98pYd6YVAAQYB3d2kOW8
-         NNLw==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1691084845; x=1691689645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GaNewZqIuv3iI2jq2IrnZ9kXur4mnQOfuCz/yHgifiQ=;
+        b=jVICLlxOyQ9EMspfSgMuf3S7YTuki+uBkpc0EZXpV2ef8De55Fovhs4maEYEJZfIc5
+         Pm+9HviGd8KccE9eUAuFw0BQmKZhMRk7KvJSxp32ryx2WMEcRgRQ7xeMiOTZsj1OSWTg
+         dmQMusx4RWId+pcrYexw98BAr5U/pLSPe6q+GJlIW+pZH4l65EIPdS14thmr/ZAxvMOp
+         WSA2q6WIbvOb6JcgxX4lQyz6Vi1N1Ql0p+Xy6FsPPSWD89U1YYHj5bLsJnhWRMr26s8A
+         yOSQjflgxitNYvdIpTwVFnXLud4EotQbVGHJc3Rw8snjSXszpqtLzTjavns2uUkGonib
+         eqLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691071479; x=1691676279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0qIPm35JUU6y0T8URTY6s/NfhzjouvCjcr68qVTHNtU=;
-        b=NKmuX7qd69VeH2rBmUzF52TF47vzNW6QEsf+mh+aMmS3v3YwlMWLD6uojSJm+9t0BH
-         fVQR/SzznDIIei66wTPO5rSzNLrjEytOUbeik5dJgS7BwHTPlboNylVmd/yYeYxSAqIf
-         +dqiiee+A8OHj5eulG2/KQcfzRim/DDUUwxGa4zB8daP36CKUYjLONyIyHklmrHwx2rZ
-         iJWg6Vy4zlea+Edxapv7X5464wmbDjShZezuQ6lVOyZrnkm529G25cBVL5j3KxQ6CGBz
-         zIJhr3KE48RMYPin5Zf21WBhK0dnkNgGFQ0ns4QoUNpqGRU23nmKXFdgOQQa8fU78OBa
-         LPtA==
-X-Gm-Message-State: ABy/qLb7WYSxqQ3nPjtFxCcknAspwVwpMzHvcV2shi/Qe+4v/raZNFUS
-	bU2kEhzemjCepbBCMSmt+e8kNw8eiYYThnQ2hGk=
-X-Google-Smtp-Source: APBJJlHMaVJPB7ugjSYuFQ74ZfmrSboIM4cUBbXljMy48DnZaiUe2xOBbRQnuKxtO9iS56JFHIe5vQ==
-X-Received: by 2002:a05:6a20:9681:b0:134:dc23:2994 with SMTP id hp1-20020a056a20968100b00134dc232994mr17103891pzc.31.1691071478956;
-        Thu, 03 Aug 2023 07:04:38 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id j8-20020aa78d08000000b006828e49c04csm12866242pfe.75.2023.08.03.07.04.37
+        d=1e100.net; s=20221208; t=1691084845; x=1691689645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GaNewZqIuv3iI2jq2IrnZ9kXur4mnQOfuCz/yHgifiQ=;
+        b=YW5po4eXrWdqxb4XLJ/NxKGe2G/9zbopL6/mR81EIRuoqJ+0Qg/T7gvDuYJOhLhmXs
+         bRMv1ERw75robnjuSKf07bPOWRaECh0yRc1/7HHkR/9ufsLdsdqdQYd20L3N+cYC8D+m
+         m0/VfkePzo2vBo8pAwTZat7X6ChfnjRuj0RMXdjTzExh4fLWbR+7AVVfYA4HVfFsmiu3
+         5ACinu9fiKQLomJdaAbhBetamzAU4/5UzMvqPwIH9XnNE8RJAEnFf05sW971KKnhVXtL
+         FjlQBQC+9BHn69Ze85vZWna/tTVpAgndBEghuouL68rBFLIMxHcciF62cvk7IOkuChln
+         Pd0g==
+X-Gm-Message-State: ABy/qLbg4OJE7o0ALDEJMyYD/fD1Ft02NzJ8k6UiXNqvsKSX7nLf9it0
+	qs4fBf+UOqTgJtJXjJlheIUS4O9AByJZJvHrUuk=
+X-Google-Smtp-Source: APBJJlFgwgbAgnwbSyrA6RIHbZP+PCoaVu5V4PQlEBfPfKTN4wT3WeLmYgutyZs/4/jrc6RjOwrBzQ==
+X-Received: by 2002:a05:620a:1a06:b0:76c:d4be:7c93 with SMTP id bk6-20020a05620a1a0600b0076cd4be7c93mr5526560qkb.20.1691084845274;
+        Thu, 03 Aug 2023 10:47:25 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id y4-20020a37e304000000b0076827ce13f6sm74167qki.10.2023.08.03.10.47.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 07:04:38 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Thu, 03 Aug 2023 10:47:25 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/10] gcc : upgrade to v11.4
-Date: Thu,  3 Aug 2023 04:04:13 -1000
-Message-Id: <4fd7e5951c42336729f12cde71450ec298f2078b.1691071255.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1691071255.git.steve@sakoman.com>
-References: <cover.1691071255.git.steve@sakoman.com>
+Subject: [OE-core][PATCH] python3: add additional timing-related test skips
+Date: Thu,  3 Aug 2023 13:47:24 -0400
+Message-ID: <20230803174724.1107094-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 14:04:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185488
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 17:47:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185490
 
-From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+The following tests have been seen failing intermittently on the
+autobuilder:
 
-gcc stable version upgraded from v11.3 to v11.4
+test.test_multiprocessing_forkserver.WithManagerTestBarrier.test_timeout
+test.test_time.TimeTestCase.test_thread_time
 
-For changes in v11.4 see - https://gcc.gnu.org/gcc-11/changes.html
+Since these could be affected by AB systems under heavy load, disable
+them. New test outputs:
 
-Below is the bug fix list for v11.4
-https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&order=short_desc%2Cbug_status%2Cpriority%2Cassigned_to%2Cbug_id&query_format=advanced&resolution=FIXED&target_milestone=11.4
+test_timeout (test.test_multiprocessing_fork.WithProcessesTestBarrier.test_timeout)
+SKIP: Test wait(timeout) 'timing related test, dependent on load'
+...
+SKIP: test_thread_time (test.test_time.TimeTestCase.test_thread_time) 'timing related test, dependent on load'
 
-There are a total 115 bugs are fixed in this release, below is the list of bugs fixed excluding the regression fixes.
+[YOCTO # 15131]
+[YOCTO # 15177]
 
-ID	Product	Comp	    Resolution	Summary▲
-108199	gcc	tree-opt	FIXE	Bitfields, unions and SRA and storage_order_attribute
-107801	gcc	libstdc+	FIXE	Building cross compiler for H8 family fails in libstdc++ (c++17/memory_resource.cc)
-108265	gcc	libstdc+	FIXE	chrono::hh_mm_ss can't be constructed from unsigned durations
-104443	gcc	libstdc+	FIXE	common_iterator<I, S>::operator-> is not correctly implemented
-98056	gcc	c++		FIXE	coroutines: ICE tree check: expected record_type or union_type or qual_union_type, have array_type since r11-2183-g0f66b8486cea8668
-107061	gcc	target		FIXE	ENCODEKEY128 clobbers xmm4-xmm6
-105433	gcc	testsuit	FIXE	FAIL: gcc.target/i386/iamcu/test_3_element_struct_and_unions.c
-105095	gcc	testsuit	FIXE	gcc.dg/vect/complex/fast-math-complex-* tests are not executed
-100474	gcc	c++		FIXE	ICE: in diagnose_trait_expr, at cp/constraint.cc:3706
-105854	gcc	target		FIXE	ICE: in extract_constrain_insn, at recog.cc:2692 (insn does not satisfy its constraints: sse2_lshrv1ti3)
-104462	gcc	target		FIXE	ICE: in extract_constrain_insn_cached, at recog.cc:2682 with -mavx512fp16 -mno-xsave
-106045	gcc	libgomp		FIXE	Incorrect testcase in libgomp.c/target-31.c at -O0
-56189	gcc	c++		FIXE	Infinite recursion with noexcept when instantiating function template
-100295	gcc	c++		FIXE	Internal compiler error from generic lambda capturing parameter pack and expanding it in if constexpr
-100613	gcc	jit		FIXE	libgccjit should produce dylib on macOS
-104875	gcc	libstdc+	FIXE	libstdc++-v3/src/c++11/codecvt.cc:312:24: warning: left shift count >= width of type
-107471	gcc	libstdc+	FIXE	mismatching constraints in common_iterator
-105284	gcc	libstdc+	FIXE	missing syncstream and spanstream forward decl. in <iosfwd>
-98821	gcc	c++		FIXE	modules : c++tools configures with CC but code fragments assume CXX.
-109846	gcc	fortran		FIXE	Pointer-valued function reference rejected as actual argument
-101324	gcc	target		FIXE	powerpc64le: hashst appears before mflr at -O1 or higher
-102479	gcc	c++		FIXE	segfault when deducing class template arguments for tuple with libc++-14
-105128	gcc	libstdc+	FIXE	source_location compile error for latest clang 15
-106183	gcc	libstdc+	FIXE	std::atomic::wait might fail to be unblocked by notify_one/all on platforms without platform_wait()
-102994	gcc	libstdc+	FIXE	std::atomic<ptr>::wait is not marked const
-105324	gcc	libstdc+	FIXE	std::from_chars() assertion at floating_from_chars.cc:78 when parsing 1.11111111....
-105375	gcc	libstdc+	FIXE	std::packaged_task has no deduction guide.
-104602	gcc	libstdc+	FIXE	std::source_location::current uses cast from void*
-106808	gcc	libstdc+	FIXE	std::string_view range concept requirement causes compile error with Boost.Filesystem
-105725	gcc	c++		FIXE	[ICE] segfault with `-Wmismatched-tags`
-105920	gcc	target		FIXE	__builtin_cpu_supports ("f16c") should check AVX
-
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/distro/include/maintainers.inc      |   2 +-
- .../gcc/{gcc-11.3.inc => gcc-11.4.inc}        |   6 +-
- ...ian_11.3.bb => gcc-cross-canadian_11.4.bb} |   0
- .../{gcc-cross_11.3.bb => gcc-cross_11.4.bb}  |   0
- ...-crosssdk_11.3.bb => gcc-crosssdk_11.4.bb} |   0
- ...cc-runtime_11.3.bb => gcc-runtime_11.4.bb} |   0
- ...itizers_11.3.bb => gcc-sanitizers_11.4.bb} |   0
- ...{gcc-source_11.3.bb => gcc-source_11.4.bb} |   0
- ...rch64-Update-Neoverse-N2-core-defini.patch |  20 ++--
- ...rm-add-armv9-a-architecture-to-march.patch |  54 +++++-----
- ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 102 +++++++++---------
- ...s-fix-v4bx-to-linker-to-support-EABI.patch |   6 +-
- .../gcc/{gcc_11.3.bb => gcc_11.4.bb}          |   0
- ...initial_11.3.bb => libgcc-initial_11.4.bb} |   0
- .../gcc/{libgcc_11.3.bb => libgcc_11.4.bb}    |   0
- ...ibgfortran_11.3.bb => libgfortran_11.4.bb} |   0
- 16 files changed, 93 insertions(+), 97 deletions(-)
- rename meta/recipes-devtools/gcc/{gcc-11.3.inc => gcc-11.4.inc} (97%)
- rename meta/recipes-devtools/gcc/{gcc-cross-canadian_11.3.bb => gcc-cross-canadian_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross_11.3.bb => gcc-cross_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-crosssdk_11.3.bb => gcc-crosssdk_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-runtime_11.3.bb => gcc-runtime_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-sanitizers_11.3.bb => gcc-sanitizers_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-source_11.3.bb => gcc-source_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc_11.3.bb => gcc_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc-initial_11.3.bb => libgcc-initial_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc_11.3.bb => libgcc_11.4.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgfortran_11.3.bb => libgfortran_11.4.bb} (100%)
+ ...sts-due-to-load-variability-on-YP-AB.patch | 43 +++++++++++++++----
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 1d5e070223..bfc14951fe 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -189,7 +189,7 @@ RECIPE_MAINTAINER:pn-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <r
- RECIPE_MAINTAINER:pn-gcc-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gcc-runtime = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gcc-sanitizers = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-gcc-source-11.3.0 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-gcc-source-11.4.0 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gconf = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-gcr = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-gdb = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.4.inc
-similarity index 97%
-rename from meta/recipes-devtools/gcc/gcc-11.3.inc
-rename to meta/recipes-devtools/gcc/gcc-11.4.inc
-index ab2ece3cce..a907661df4 100644
---- a/meta/recipes-devtools/gcc/gcc-11.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.4.inc
-@@ -2,11 +2,11 @@ require gcc-common.inc
+diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+index 61dd4a5bc0..a7d37266ef 100644
+--- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
++++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+@@ -1,4 +1,4 @@
+-From 01e02fb4720ecbbc44c694ee1b7fb6d5d95b5fe2 Mon Sep 17 00:00:00 2001
++From 0c8002d12149fdfbbcd9a9215876d474f157eb9c Mon Sep 17 00:00:00 2001
+ From: Yi Fan Yu <yifan.yu@windriver.com>
+ Date: Thu, 1 Apr 2021 13:08:37 -0700
+ Subject: [PATCH] Skip failing tests due to load variability on YP AB
+@@ -11,16 +11,22 @@ Upstream-Status: Inappropriate [OE-Specific]
  
- # Third digit in PV should be incremented after a minor release
+ Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
  
--PV = "11.3.0"
-+PV = "11.4.0"
- 
- # BINV should be incremented to a revision after a minor gcc release
- 
--BINV = "11.3.0"
-+BINV = "11.4.0"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
- 
-@@ -70,7 +70,7 @@ SRC_URI = "\
- 	   file://0004-arm-add-armv9-a-architecture-to-march.patch \
- "
- 
--SRC_URI[sha256sum] = "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
-+SRC_URI[sha256sum] = "3f2db222b007e8a4a23cd5ba56726ef08e8b1f1eb2055ee72c1402cea73a8dd9"
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_11.3.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross-canadian_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-cross-canadian_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-cross_11.3.bb b/meta/recipes-devtools/gcc/gcc-cross_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-cross_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_11.3.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-crosssdk_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-crosssdk_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb b/meta/recipes-devtools/gcc/gcc-runtime_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-runtime_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-runtime_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_11.3.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-sanitizers_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-sanitizers_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-source_11.3.bb b/meta/recipes-devtools/gcc/gcc-source_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-source_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc-source_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-defini.patch b/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-defini.patch
-index 8429242348..a0c9db72e1 100644
---- a/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-defini.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0001-aarch64-Update-Neoverse-N2-core-defini.patch
-@@ -19,24 +19,20 @@ diff --git a/gcc/config/aarch64/aarch64-cores.def b/gcc/config/aarch64/aarch64-c
- index 4643e0e27..3478e567a 100644
- --- a/gcc/config/aarch64/aarch64-cores.def
- +++ b/gcc/config/aarch64/aarch64-cores.def
--@@ -145,9 +145,6 @@ AARCH64_CORE("neoverse-512tvb", neoverse512tvb, cortexa57, 8_4A,  AARCH64_FL_FOR
-- /* Qualcomm ('Q') cores. */
-- AARCH64_CORE("saphira",     saphira,    saphira,    8_4A,  AARCH64_FL_FOR_ARCH8_4 | AARCH64_FL_CRYPTO | AARCH64_FL_RCPC, saphira,   0x51, 0xC01, -1)
-- 
---/* Armv8.5-A Architecture Processors.  */
-+@@ -147,7 +147,6 @@
-+ AARCH64_CORE("saphira",     saphira,    saphira,    8_4A,  AARCH64_FL_FOR_ARCH8_4 | AARCH64_FL_CRYPTO, saphira,   0x51, 0xC01, -1)
++Skip two additional tests due to suspected load variability failures.
 +
-+ /* Armv8.5-A Architecture Processors.  */
- -AARCH64_CORE("neoverse-n2", neoversen2, cortexa57, 8_5A, AARCH64_FL_FOR_ARCH8_5 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_F16 | AARCH64_FL_SVE | AARCH64_FL_SVE2 | AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARCH64_FL_MEMTAG, neoversen2, 0x41, 0xd49, -1)
---
-+ AARCH64_CORE("neoverse-v2", neoversev2, cortexa57, 8_5A, AARCH64_FL_FOR_ARCH8_5 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_F16 | AARCH64_FL_SVE | AARCH64_FL_SVE2 | AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARCH64_FL_MEMTAG, neoverse512tvb, 0x41, 0xd4f, -1)
++[YOCTO #15131]
++[YOCTO #15177]
 +
-  /* ARMv8-A big.LITTLE implementations.  */
-- 
-- AARCH64_CORE("cortex-a57.cortex-a53",  cortexa57cortexa53, cortexa53, 8A,  AARCH64_FL_FOR_ARCH8 | AARCH64_FL_CRC, cortexa57, 0x41, AARCH64_BIG_LITTLE (0xd07, 0xd03), -1)
--@@ -163,4 +160,7 @@ AARCH64_CORE("cortex-a76.cortex-a55",  cortexa76cortexa55, cortexa53, 8_2A,  AAR
-+@@ -165,4 +164,7 @@
-  /* Armv8-R Architecture Processors.  */
-  AARCH64_CORE("cortex-r82", cortexr82, cortexa53, 8R, AARCH64_FL_FOR_ARCH8_R, cortexa53, 0x41, 0xd15, -1)
-- 
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+ ---
+- Lib/test/_test_multiprocessing.py | 2 ++
+- Lib/test/test_time.py             | 1 +
+- 2 files changed, 3 insertions(+)
++ Lib/test/_test_multiprocessing.py | 3 +++
++ Lib/test/test_time.py             | 2 ++
++ 2 files changed, 5 insertions(+)
+ 
+ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
+-index 599c3f2..23328be 100644
++index b50a154320..b8b2c4204d 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -618,6 +618,7 @@ class _TestProcess(BaseTestCase):
++@@ -618,6 +618,7 @@ def test_close(self):
+  
+          close_queue(q)
+  
+@@ -28,7 +34,15 @@ index 599c3f2..23328be 100644
+      def test_many_processes(self):
+          if self.TYPE == 'threads':
+              self.skipTest('test not appropriate for {}'.format(self.TYPE))
+-@@ -4890,6 +4891,7 @@ class TestWait(unittest.TestCase):
++@@ -2003,6 +2004,7 @@ def _test_timeout_f(cls, barrier, results):
++         except threading.BrokenBarrierError:
++             results.append(True)
++ 
+++    @unittest.skip('timing related test, dependent on load')
++     def test_timeout(self):
++         """
++         Test wait(timeout)
++@@ -4890,6 +4892,7 @@ def signal_and_sleep(cls, sem, period):
+          sem.release()
+          time.sleep(period)
+  
+@@ -37,10 +51,10 @@ index 599c3f2..23328be 100644
+          from multiprocessing.connection import wait
+  
+ diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
+-index 884b142..542e980 100644
++index 884b14231f..8f0638c0d7 100644
+ --- a/Lib/test/test_time.py
+ +++ b/Lib/test/test_time.py
+-@@ -492,6 +492,7 @@ class TimeTestCase(unittest.TestCase):
++@@ -492,6 +492,7 @@ def test_perf_counter(self):
+      @unittest.skipIf(
+          support.is_wasi, "process_time not available on WASI"
+      )
+@@ -48,3 +62,14 @@ index 884b142..542e980 100644
+      def test_process_time(self):
+          # process_time() should not include time spend during a sleep
+          start = time.process_time()
++@@ -505,6 +506,7 @@ def test_process_time(self):
++         self.assertTrue(info.monotonic)
++         self.assertFalse(info.adjustable)
++ 
+++    @unittest.skip('timing related test, dependent on load')
++     def test_thread_time(self):
++         if not hasattr(time, 'thread_time'):
++             if sys.platform.startswith(('linux', 'win')):
++-- 
++2.41.0
 +
- +/* Armv9-A Architecture Processors. */
- +AARCH64_CORE("neoverse-n2", neoversen2, cortexa57, 9A, AARCH64_FL_FOR_ARCH9 | AARCH64_FL_I8MM | AARCH64_FL_BF16 | AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARCH64_FL_MEMTAG | AARCH64_FL_PROFILE, neoversen2, 0x41, 0xd49, -1)
- +
-  #undef AARCH64_CORE
---- 
--2.32.0
- 
-diff --git a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
-index 864c8b3017..b9b0988d5a 100644
---- a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
-@@ -43,10 +43,10 @@ Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
-  gcc/testsuite/lib/target-supports.exp     |  3 ++-
-  9 files changed, 79 insertions(+), 8 deletions(-)
- 
--Index: gcc-11.3.0/gcc/config/arm/arm-cpus.in
-+Index: gcc/gcc/config/arm/arm-cpus.in
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/arm-cpus.in
--+++ gcc-11.3.0/gcc/config/arm/arm-cpus.in
-+--- a/gcc/config/arm/arm-cpus.in
-++++ b/gcc/config/arm/arm-cpus.in
- @@ -132,6 +132,9 @@ define feature cmse
-  # Architecture rel 8.1-M.
-  define feature armv8_1m_main
-@@ -87,10 +87,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm-cpus.in
-  begin arch iwmmxt
-   tune for iwmmxt
-   tune flags LDSCHED STRONG XSCALE
--Index: gcc-11.3.0/gcc/config/arm/arm-tables.opt
-+Index: gcc/gcc/config/arm/arm-tables.opt
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/arm-tables.opt
--+++ gcc-11.3.0/gcc/config/arm/arm-tables.opt
-+--- a/gcc/config/arm/arm-tables.opt
-++++ b/gcc/config/arm/arm-tables.opt
- @@ -380,10 +380,13 @@ EnumValue
-  Enum(arm_arch) String(armv8.1-m.main) Value(30)
-  
-@@ -107,10 +107,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm-tables.opt
-  
-  Enum
-  Name(arm_fpu) Type(enum fpu_type)
--Index: gcc-11.3.0/gcc/config/arm/arm.h
-+Index: gcc/gcc/config/arm/arm.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/arm.h
--+++ gcc-11.3.0/gcc/config/arm/arm.h
-+--- a/gcc/config/arm/arm.h
-++++ b/gcc/config/arm/arm.h
- @@ -456,7 +456,8 @@ enum base_architecture
-    BASE_ARCH_8A = 8,
-    BASE_ARCH_8M_BASE = 8,
-@@ -121,10 +121,10 @@ Index: gcc-11.3.0/gcc/config/arm/arm.h
-  };
-  
-  /* The major revision number of the ARM Architecture implemented by the target.  */
--Index: gcc-11.3.0/gcc/config/arm/t-aprofile
-+Index: gcc/gcc/config/arm/t-aprofile
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/t-aprofile
--+++ gcc-11.3.0/gcc/config/arm/t-aprofile
-+--- a/gcc/config/arm/t-aprofile
-++++ b/gcc/config/arm/t-aprofile
- @@ -26,8 +26,8 @@
-  
-  # Arch and FPU variants to build libraries with
-@@ -180,10 +180,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-aprofile
- -			     $(foreach ARCH, armv7-a armv8-a, \
- +			     $(foreach ARCH, armv7-a armv8-a armv9-a, \
-  			       mthumb/march.$(ARCH)/mfloat-abi.soft=m$(MODE)/march.$(ARCH)/mfloat-abi.softfp))
--Index: gcc-11.3.0/gcc/config/arm/t-arm-elf
-+Index: gcc/gcc/config/arm/t-arm-elf
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/t-arm-elf
--+++ gcc-11.3.0/gcc/config/arm/t-arm-elf
-+--- a/gcc/config/arm/t-arm-elf
-++++ b/gcc/config/arm/t-arm-elf
- @@ -38,6 +38,8 @@ v7ve_fps	:= vfpv3-d16 vfpv3 vfpv3-d16-fp
-  # it seems to work ok.
-  v8_fps		:= simd fp16 crypto fp16+crypto dotprod fp16fml
-@@ -214,10 +214,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-arm-elf
-  MULTILIB_MATCHES     += $(foreach ARCH, armv7e-m armv8-m.mainline, \
-  			  march?armv7+fp=march?$(ARCH)+fp.dp)
-  
--Index: gcc-11.3.0/gcc/config/arm/t-multilib
-+Index: gcc/gcc/config/arm/t-multilib
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/t-multilib
--+++ gcc-11.3.0/gcc/config/arm/t-multilib
-+--- a/gcc/config/arm/t-multilib
-++++ b/gcc/config/arm/t-multilib
- @@ -78,6 +78,8 @@ v8_4_a_simd_variants	:= $(call all_feat_
-  v8_5_a_simd_variants	:= $(call all_feat_combs, simd fp16 crypto i8mm bf16)
-  v8_6_a_simd_variants	:= $(call all_feat_combs, simd fp16 crypto i8mm bf16)
-@@ -244,10 +244,10 @@ Index: gcc-11.3.0/gcc/config/arm/t-multilib
-  endif		# Not APROFILE.
-  
-  # Use Thumb libraries for everything.
--Index: gcc-11.3.0/gcc/doc/invoke.texi
-+Index: gcc/gcc/doc/invoke.texi
- ===================================================================
----- gcc-11.3.0.orig/gcc/doc/invoke.texi
--+++ gcc-11.3.0/gcc/doc/invoke.texi
-+--- a/gcc/doc/invoke.texi
-++++ b/gcc/doc/invoke.texi
- @@ -19701,6 +19701,7 @@ Permissible names are:
-  @samp{armv7-m}, @samp{armv7e-m},
-  @samp{armv8-m.base}, @samp{armv8-m.main},
-@@ -256,10 +256,10 @@ Index: gcc-11.3.0/gcc/doc/invoke.texi
-  @samp{iwmmxt} and @samp{iwmmxt2}.
-  
-  Additionally, the following architectures, which lack support for the
--Index: gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
-+Index: gcc/gcc/testsuite/gcc.target/arm/multilib.exp
- ===================================================================
----- gcc-11.3.0.orig/gcc/testsuite/gcc.target/arm/multilib.exp
--+++ gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
-+--- a/gcc/testsuite/gcc.target/arm/multilib.exp
-++++ b/gcc/testsuite/gcc.target/arm/multilib.exp
- @@ -135,6 +135,14 @@ if {[multilib_config "aprofile"] } {
-  	{-march=armv8.6-a+simd+fp16 -mfloat-abi=softfp} "thumb/v8-a+simd/softfp"
-  	{-march=armv8.6-a+simd+fp16+nofp -mfloat-abi=softfp} "thumb/v8-a/nofp"
-@@ -275,10 +275,10 @@ Index: gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
-  	{-mcpu=cortex-a53+crypto -mfloat-abi=hard} "thumb/v8-a+simd/hard"
-  	{-mcpu=cortex-a53+nofp -mfloat-abi=softfp} "thumb/v8-a/nofp"
-  	{-march=armv8-a+crc -mfloat-abi=hard -mfpu=vfp} "thumb/v8-a+simd/hard"
--Index: gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
-+Index: gcc/gcc/testsuite/lib/target-supports.exp
- ===================================================================
----- gcc-11.3.0.orig/gcc/testsuite/lib/target-supports.exp
--+++ gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
-+--- a/gcc/testsuite/lib/target-supports.exp
-++++ b/gcc/testsuite/lib/target-supports.exp
- @@ -4820,7 +4820,8 @@ foreach { armfunc armflag armdefs } {
-  	v8m_base "-march=armv8-m.base -mthumb -mfloat-abi=soft"
-  		__ARM_ARCH_8M_BASE__
-diff --git a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-index b3515c9734..ece5873258 100644
---- a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-@@ -39,10 +39,10 @@ Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
-  gcc/config/sparc/linux64.h         |  4 ++--
-  17 files changed, 53 insertions(+), 58 deletions(-)
- 
--Index: gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
-+Index: gcc/gcc/config/aarch64/aarch64-linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/aarch64/aarch64-linux.h
--+++ gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
-+--- a/gcc/config/aarch64/aarch64-linux.h
-++++ b/gcc/config/aarch64/aarch64-linux.h
- @@ -21,10 +21,10 @@
-  #ifndef GCC_AARCH64_LINUX_H
-  #define GCC_AARCH64_LINUX_H
-@@ -56,10 +56,10 @@ Index: gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
-  
-  #undef  ASAN_CC1_SPEC
-  #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
--Index: gcc-11.3.0/gcc/config/alpha/linux-elf.h
-+Index: gcc/gcc/config/alpha/linux-elf.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/alpha/linux-elf.h
--+++ gcc-11.3.0/gcc/config/alpha/linux-elf.h
-+--- a/gcc/config/alpha/linux-elf.h
-++++ b/gcc/config/alpha/linux-elf.h
- @@ -23,8 +23,8 @@ along with GCC; see the file COPYING3.
-  #define EXTRA_SPECS \
-  { "elf_dynamic_linker", ELF_DYNAMIC_LINKER },
-@@ -71,10 +71,10 @@ Index: gcc-11.3.0/gcc/config/alpha/linux-elf.h
-  #if DEFAULT_LIBC == LIBC_UCLIBC
-  #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
-  #elif DEFAULT_LIBC == LIBC_GLIBC
--Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
-+Index: gcc/gcc/config/arm/linux-eabi.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
--+++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
-+--- a/gcc/config/arm/linux-eabi.h
-++++ b/gcc/config/arm/linux-eabi.h
- @@ -65,8 +65,8 @@
-     GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
-  
-@@ -95,10 +95,10 @@ Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
-  
-  /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
-     use the GNU/Linux version, not the generic BPABI version.  */
--Index: gcc-11.3.0/gcc/config/arm/linux-elf.h
-+Index: gcc/gcc/config/arm/linux-elf.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/linux-elf.h
--+++ gcc-11.3.0/gcc/config/arm/linux-elf.h
-+--- a/gcc/config/arm/linux-elf.h
-++++ b/gcc/config/arm/linux-elf.h
- @@ -60,7 +60,7 @@
-  
-  #define LIBGCC_SPEC "%{mfloat-abi=soft*:-lfloat} -lgcc"
-@@ -108,10 +108,10 @@ Index: gcc-11.3.0/gcc/config/arm/linux-elf.h
-  
-  #define LINUX_TARGET_LINK_SPEC  "%{h*} \
-     %{static:-Bstatic} \
--Index: gcc-11.3.0/gcc/config/i386/linux.h
-+Index: gcc/gcc/config/i386/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/i386/linux.h
--+++ gcc-11.3.0/gcc/config/i386/linux.h
-+--- a/gcc/config/i386/linux.h
-++++ b/gcc/config/i386/linux.h
- @@ -20,7 +20,7 @@ along with GCC; see the file COPYING3.
-  <http://www.gnu.org/licenses/>.  */
-  
-@@ -122,10 +122,10 @@ Index: gcc-11.3.0/gcc/config/i386/linux.h
-  #undef MUSL_DYNAMIC_LINKER
- -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
- +#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-i386.so.1"
--Index: gcc-11.3.0/gcc/config/i386/linux64.h
-+Index: gcc/gcc/config/i386/linux64.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/i386/linux64.h
--+++ gcc-11.3.0/gcc/config/i386/linux64.h
-+--- a/gcc/config/i386/linux64.h
-++++ b/gcc/config/i386/linux64.h
- @@ -27,13 +27,13 @@ see the files COPYING3 and COPYING.RUNTI
-  #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
-  #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
-@@ -146,10 +146,10 @@ Index: gcc-11.3.0/gcc/config/i386/linux64.h
-  #undef MUSL_DYNAMIC_LINKERX32
- -#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
- +#define MUSL_DYNAMIC_LINKERX32 SYSTEMLIBS_DIR "ld-musl-x32.so.1"
--Index: gcc-11.3.0/gcc/config/linux.h
-+Index: gcc/gcc/config/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/linux.h
--+++ gcc-11.3.0/gcc/config/linux.h
-+--- a/gcc/config/linux.h
-++++ b/gcc/config/linux.h
- @@ -94,10 +94,10 @@ see the files COPYING3 and COPYING.RUNTI
-     GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
-     GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
-@@ -165,10 +165,10 @@ Index: gcc-11.3.0/gcc/config/linux.h
-  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
-  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
-  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
--Index: gcc-11.3.0/gcc/config/microblaze/linux.h
-+Index: gcc/gcc/config/microblaze/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/microblaze/linux.h
--+++ gcc-11.3.0/gcc/config/microblaze/linux.h
-+--- a/gcc/config/microblaze/linux.h
-++++ b/gcc/config/microblaze/linux.h
- @@ -28,7 +28,7 @@
-  #undef TLS_NEEDS_GOT
-  #define TLS_NEEDS_GOT 1
-@@ -187,10 +187,10 @@ Index: gcc-11.3.0/gcc/config/microblaze/linux.h
-  
-  #undef  SUBTARGET_EXTRA_SPECS
-  #define SUBTARGET_EXTRA_SPECS \
--Index: gcc-11.3.0/gcc/config/mips/linux.h
-+Index: gcc/gcc/config/mips/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/mips/linux.h
--+++ gcc-11.3.0/gcc/config/mips/linux.h
-+--- a/gcc/config/mips/linux.h
-++++ b/gcc/config/mips/linux.h
- @@ -22,29 +22,29 @@ along with GCC; see the file COPYING3.
-  #define GNU_USER_LINK_EMULATIONN32 "elf32%{EB:b}%{EL:l}tsmipn32"
-  
-@@ -230,10 +230,10 @@ Index: gcc-11.3.0/gcc/config/mips/linux.h
-  
-  #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
-  #define GNU_USER_DYNAMIC_LINKERN32 \
--Index: gcc-11.3.0/gcc/config/nios2/linux.h
-+Index: gcc/gcc/config/nios2/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/nios2/linux.h
--+++ gcc-11.3.0/gcc/config/nios2/linux.h
-+--- a/gcc/config/nios2/linux.h
-++++ b/gcc/config/nios2/linux.h
- @@ -29,7 +29,7 @@
-  #undef CPP_SPEC
-  #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
-@@ -243,10 +243,10 @@ Index: gcc-11.3.0/gcc/config/nios2/linux.h
-  
-  #undef LINK_SPEC
-  #define LINK_SPEC LINK_SPEC_ENDIAN \
--Index: gcc-11.3.0/gcc/config/riscv/linux.h
-+Index: gcc/gcc/config/riscv/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/riscv/linux.h
--+++ gcc-11.3.0/gcc/config/riscv/linux.h
-+--- a/gcc/config/riscv/linux.h
-++++ b/gcc/config/riscv/linux.h
- @@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.
-      GNU_USER_TARGET_OS_CPP_BUILTINS();				\
-    } while (0)
-@@ -265,10 +265,10 @@ Index: gcc-11.3.0/gcc/config/riscv/linux.h
-  
-  /* Because RISC-V only has word-sized atomics, it requries libatomic where
-     others do not.  So link libatomic by default, as needed.  */
--Index: gcc-11.3.0/gcc/config/rs6000/linux64.h
-+Index: gcc/gcc/config/rs6000/linux64.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/rs6000/linux64.h
--+++ gcc-11.3.0/gcc/config/rs6000/linux64.h
-+--- a/gcc/config/rs6000/linux64.h
-++++ b/gcc/config/rs6000/linux64.h
- @@ -336,24 +336,19 @@ extern int dot_symbols;
-  #undef	LINK_OS_DEFAULT_SPEC
-  #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
-@@ -299,10 +299,10 @@ Index: gcc-11.3.0/gcc/config/rs6000/linux64.h
-  
-  #undef  DEFAULT_ASM_ENDIAN
-  #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
--Index: gcc-11.3.0/gcc/config/rs6000/sysv4.h
-+Index: gcc/gcc/config/rs6000/sysv4.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/rs6000/sysv4.h
--+++ gcc-11.3.0/gcc/config/rs6000/sysv4.h
-+--- a/gcc/config/rs6000/sysv4.h
-++++ b/gcc/config/rs6000/sysv4.h
- @@ -780,10 +780,10 @@ GNU_USER_TARGET_CC1_SPEC
-  
-  #define MUSL_DYNAMIC_LINKER_E ENDIAN_SELECT("","le","")
-@@ -316,10 +316,10 @@ Index: gcc-11.3.0/gcc/config/rs6000/sysv4.h
-  
-  #ifndef GNU_USER_DYNAMIC_LINKER
-  #define GNU_USER_DYNAMIC_LINKER GLIBC_DYNAMIC_LINKER
--Index: gcc-11.3.0/gcc/config/s390/linux.h
-+Index: gcc/gcc/config/s390/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/s390/linux.h
--+++ gcc-11.3.0/gcc/config/s390/linux.h
-+--- a/gcc/config/s390/linux.h
-++++ b/gcc/config/s390/linux.h
- @@ -72,13 +72,13 @@ along with GCC; see the file COPYING3.
-  #define MULTILIB_DEFAULTS { "m31" }
-  #endif
-@@ -338,10 +338,10 @@ Index: gcc-11.3.0/gcc/config/s390/linux.h
-  
-  #undef  LINK_SPEC
-  #define LINK_SPEC \
--Index: gcc-11.3.0/gcc/config/sh/linux.h
-+Index: gcc/gcc/config/sh/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/sh/linux.h
--+++ gcc-11.3.0/gcc/config/sh/linux.h
-+--- a/gcc/config/sh/linux.h
-++++ b/gcc/config/sh/linux.h
- @@ -61,10 +61,10 @@ along with GCC; see the file COPYING3.
-  
-  #undef MUSL_DYNAMIC_LINKER
-@@ -355,10 +355,10 @@ Index: gcc-11.3.0/gcc/config/sh/linux.h
-  
-  #undef SUBTARGET_LINK_EMUL_SUFFIX
-  #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
--Index: gcc-11.3.0/gcc/config/sparc/linux.h
-+Index: gcc/gcc/config/sparc/linux.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/sparc/linux.h
--+++ gcc-11.3.0/gcc/config/sparc/linux.h
-+--- a/gcc/config/sparc/linux.h
-++++ b/gcc/config/sparc/linux.h
- @@ -78,7 +78,7 @@ extern const char *host_detect_local_cpu
-     When the -shared link option is used a final link is not being
-     done.  */
-@@ -368,10 +368,10 @@ Index: gcc-11.3.0/gcc/config/sparc/linux.h
-  
-  #undef  LINK_SPEC
-  #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
--Index: gcc-11.3.0/gcc/config/sparc/linux64.h
-+Index: gcc/gcc/config/sparc/linux64.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/sparc/linux64.h
--+++ gcc-11.3.0/gcc/config/sparc/linux64.h
-+--- a/gcc/config/sparc/linux64.h
-++++ b/gcc/config/sparc/linux64.h
- @@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.
-     When the -shared link option is used a final link is not being
-     done.  */
-diff --git a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-index 0f94936140..1ec942e977 100644
---- a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-@@ -18,10 +18,10 @@ Upstream-Status: Pending
-  gcc/config/arm/linux-eabi.h | 6 +++++-
-  1 file changed, 5 insertions(+), 1 deletion(-)
- 
--Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
-+Index: gcc/gcc/config/arm/linux-eabi.h
- ===================================================================
----- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
--+++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
-+--- a/gcc/config/arm/linux-eabi.h
-++++ b/gcc/config/arm/linux-eabi.h
- @@ -91,10 +91,14 @@
-  #define MUSL_DYNAMIC_LINKER \
-    SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
-diff --git a/meta/recipes-devtools/gcc/gcc_11.3.bb b/meta/recipes-devtools/gcc/gcc_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc_11.3.bb
-rename to meta/recipes-devtools/gcc/gcc_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc-initial_11.3.bb b/meta/recipes-devtools/gcc/libgcc-initial_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc-initial_11.3.bb
-rename to meta/recipes-devtools/gcc/libgcc-initial_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc_11.3.bb b/meta/recipes-devtools/gcc/libgcc_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc_11.3.bb
-rename to meta/recipes-devtools/gcc/libgcc_11.4.bb
-diff --git a/meta/recipes-devtools/gcc/libgfortran_11.3.bb b/meta/recipes-devtools/gcc/libgfortran_11.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgfortran_11.3.bb
-rename to meta/recipes-devtools/gcc/libgfortran_11.4.bb
 -- 
-2.34.1
+2.41.0
 
 
