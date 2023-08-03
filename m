@@ -1,328 +1,130 @@
-Return-Path: <luca.boccassi@microsoft.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49195C001DF
-	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 09:24:47 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.133])
- by mx.groups.io with SMTP id smtpd.web11.10327.1691054686123713296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 768D0C0015E
+	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 10:00:47 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.49])
+ by mx.groups.io with SMTP id smtpd.web10.10672.1691056843312850392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Aug 2023 02:24:46 -0700
+ Thu, 03 Aug 2023 03:00:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@microsoft.com header.s=selector2 header.b=MS9hydOm;
- spf=pass (domain: microsoft.com, ip: 40.107.22.133, mailfrom: luca.boccassi@microsoft.com)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=iWmsLoop;
+ spf=pass (domain: siemens.com, ip: 40.107.8.49, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S7gHUI4isRpLMod5gmxQT2sS0m2toFBP2yG16uxjOeVj84/tV+BHj0AXEY7XQEO2ftNmaUeHq4jcmnW2VRbMJKxDpdP8BSaZIutMIv+qzUpDAI6PbY6Fh6yoqQK3rKWVhyYvhYJ4Wa6itbjOkMrkUTciElhcR/SB5/1lq6SoVSlBK89OSTS4uvWotoOEXXsDSD4dHdrfabJTjjPOt0IierVomOU53xJeo9HDpgSIe+R7BngYC2iDancpNQ2mf4Ja5KXUc8JXuzaArxmFYM4mDc6090OkeXs8JD6HNvR2bZJDpJ5DLRv5NJoq9z0s0IzB5M37MgZg7qFZb3APIJ4Umg==
+ b=W5tBzDSL6Pz2jvt4fd74fDixaNDx+9SfF0XqzbqVHC1/SykoughUB1GeD2D+yeJCKI/R52JCjZ8h7W/ZkDWRu4Ulmoo0Aqdn8daJ0OCLI7TNI+ACqaXCUFDu4OJ+jqjOzBCRpgZU8tiSkj1rr1RgmAdJJ8BGS1hNk98l9wRQF9TLgS4Q6Y1Cn1Q/P81CRyoupmdXnHqi1n5tEhmWjw70JQ7RMPLCwf2e6aSlaXiZfDVX3qDqki3frY36ewvqDMiRUla6aH/wcTyzTuBx4/rsKmdKqikij9HmgQyaJtKebF1VchkWNYTp+5n+ZjLomthjpquX51DIx/SQTGN7hKwsPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eR/2eHyT998FXIxtH6H2sA9Y0Z3sWGTYPYYbaqV4iMc=;
- b=n25L/hue1Kf98dNtrTLf0ZS8OYwkuX3pJvyGuBzEcla5wCaACq5WEeMzqQlKurv1t0zXC4fuiy1lgSLXy5hd7wBMNyb/3GOMRvC0crRXWRN3CjmdzuyiSMYjgA1v2o/71WJ3aUcru2+EZAuDk77ReCobOorhPpDFm9TB4ozWzfpL2nT5Fl4VSrLdQd1G2stPnXmMphuqDOpGtc0x2UevTkQzV0EUDoT6zjRsu5MWv2syvwKq1UsL7WAl7sBUEqxomFKepqAnXZUdi1s61LVSVxZ56bciH3dtVVU41McoW4wdnBcGl5Rw9DOcz5oJSI4nZU1R5mVfP/RWIY1ibxTZbg==
+ bh=3zetbGI7gX0Nq6bmzesm16cb5Vs54d7Q4oCgkJuR3Rg=;
+ b=QBYziWGZFmoroHClq01rw4affzzAFODTYF3spOwcgbvAyJ2suHvLxh9UlmFdXXJzymKFBKUbTidV3P1pJJsbd9+Luz6+MDe9+Zg7jmSXZ0d62YnQX9V5vBPZkpiPTgVCLlHmpahyQK1dt0qrqe3ctJ5J3xXq4QPmlmjhyZPNrm7GfXs6E6qRJe+hYG4gNwIi5jicVllMuTHgK4sFWmElaDMY2emvRUqBpvd99gYr2RFUy7xsQQ1APxY6F9KiZbpQX28XYKGTX+G7ScshcwggGmPiqbxyC9m/bAhoyzia04wm0IIvjg3M757BFb5Jzd0/7yysgaYP2F0Z7eseOqafag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eR/2eHyT998FXIxtH6H2sA9Y0Z3sWGTYPYYbaqV4iMc=;
- b=MS9hydOmtvx+gpO9M/4GtMDmhHxzbjZRdD8E9/4GYNPYoHvkUtnRuAid27AqXgtcwtfeXGUdPtn/QHFRzGR11xs/WjGy+qA6DonPlP6wHKHJYt8SV0BeXbCIHYBFdY7UjB24cRmlwKvUay757xQAtPkXOZgd5LpTGd19Zy3YgXw=
-Received: from AM6PR83MB0247.EURPRD83.prod.outlook.com (2603:10a6:209:69::26)
- by PR3PR83MB0458.EURPRD83.prod.outlook.com (2603:10a6:102:7a::9) with
+ bh=3zetbGI7gX0Nq6bmzesm16cb5Vs54d7Q4oCgkJuR3Rg=;
+ b=iWmsLoop7z9Ld+PratI7OaJ+eqAQJGIwiKsvW91O6w5Omm+9iewR57Kd5dxqyL1cZES5A917rGXf6a92hCEZ4zpoQae5cs+cUq5mdvUvOo2fAObg3DvWK5Xgsuj5GvE8TlslHaHkNhK6gqOXb5E+yOBj+CuFHElG8YlgZoGpGDZw5lywfWfEx90xs62w1gcNiNBbEpP2to42oY8XxMzUvvv0EtCzlTNKWLhGXvn/CwIh6Tu1pWu2CZYBLo8SLTnomGPauQrS8DlQ8HFHwSwd+RA+6iDeAtlGV0NNHTO+M037uFjhkILtg6LOO+gQ2Qx1KoMlgX4w0GeX68aATF3ZJQ==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by AS1PR10MB5413.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4af::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.7; Thu, 3 Aug
- 2023 09:24:42 +0000
-Received: from AM6PR83MB0247.EURPRD83.prod.outlook.com
- ([fe80::53f3:ebdb:22de:2166]) by AM6PR83MB0247.EURPRD83.prod.outlook.com
- ([fe80::53f3:ebdb:22de:2166%8]) with mapi id 15.20.6678.009; Thu, 3 Aug 2023
- 09:24:42 +0000
-From: Luca Boccassi <Luca.Boccassi@microsoft.com>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
+ 2023 10:00:39 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::252f:e0b5:470c:b374]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::252f:e0b5:470c:b374%3]) with mapi id 15.20.6631.046; Thu, 3 Aug 2023
+ 10:00:39 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "archana.polampalli@windriver.com" <archana.polampalli@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Point to  target binary paths for loadkeys and
- setfont
-Thread-Topic: [PATCH] systemd: Point to  target binary paths for loadkeys and
- setfont
-Thread-Index: AQHZxcSJrcy2q2cwlEyTq16S7g10/K/YTM+6
-Date: Thu, 3 Aug 2023 09:24:41 +0000
+Subject: RE: [oe-core][kirkstone][PATCH 1/1] libpcre2: fix CVE-2022-41409
+Thread-Topic: [oe-core][kirkstone][PATCH 1/1] libpcre2: fix CVE-2022-41409
+Thread-Index: AQHZxeYMPm20MPvJpUCWIG8TrsCLka/YVnNg
+Date: Thu, 3 Aug 2023 10:00:39 +0000
 Message-ID: 
- <AM6PR83MB0247FF4C6C72194368C091F7F108A@AM6PR83MB0247.EURPRD83.prod.outlook.com>
-References: <20230803043937.45082-1-raj.khem@gmail.com>
-In-Reply-To: <20230803043937.45082-1-raj.khem@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
+ <AS1PR10MB5697729E99733D324F7615DAFD08A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20230803083910.1288886-1-archana.polampalli@windriver.com>
+In-Reply-To: <20230803083910.1288886-1-archana.polampalli@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-08-03T09:24:40.858Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=0fd8de64-9933-433a-93eb-f44508c3e5f3;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-08-03T09:58:59Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM6PR83MB0247:EE_|PR3PR83MB0458:EE_
-x-ms-office365-filtering-correlation-id: 235390d6-55cc-49c5-706d-08db940377e3
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS1PR10MB5413:EE_
+x-ms-office365-filtering-correlation-id: db7362cb-ae0c-4967-8925-08db94087dc6
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- Pm+7Hs91FhlH7c/TFi4z+lNrrdNKsWJ662QJxwuFbTXoRG3gJISgKHmkN1iHQn3/X6awmnPUBW5+rPKkL5D1KmnX/7I2GglidK+FbAh2i0nR2ZtnoNaSugp0WcHxxkLDZE4q7FiNAUaNSpaailmt4fq9Sy9LNwPluQK0NOKVBu7a0UB27t4e6r+rCBproSAEYc0AxRlP2DWSVTQv4OWdi1BeeYIuBASG9K7CLz4MlUascrSdWbi0c/R/ZTFuaDuh+bXaD6EqEU90W+d2fF25C19275M+ti+MA5QCJ6oWNI+yuMSuO5Yet8jsNP53luuf+trBHUYYyxTCWMJKlPeZPPmjzSw5hkjkzvPps+2sKEoal2Ih94xuD+bCH8d2XiH8RNeaW8r3sZGtY/Fd91vBdX9gK5P0HBthEhxEWprY4iqPgQA9XTX7g+/ZYP9/xnH5orjCjASDh9FtxoeRpiwfKMaRBBYyT5HhLi0ANifwzfYwK6+FssHpnAfqCCyKqX5mbUrKondwOc9pWzwLXA1WR85h7lHfahaV67H8S/dylnmwKzYTnN8t0hG+z5h0FqPyabIrrPMd/flm19LpvkGI9LqrmlUWV2/ae39WpMYB7duilWglv0uIsjWT8LuQViHNJLRkWDrFzfNxFeD9ZpRv4ET47RMHyjfeGdDbtizhSpY=
+ ZnC/W3hoCme1ZNEX3v7my5hRxaa+2sM0xOMkZv7hueL+DZNN2P20lTcs/o5BwMcWTxJtk7J3cz3u+/a0ZFzQDN4ACTN59DREU9sAGg9tuRdnjY3R35+ArrnZPIm6/7MJvxF9pR2YPpvyirH5crD19YZXVld0PTScz2QK5gz162ooKjAIivrTRyfpns6LKYfZQLfZmEPfQ7r0EJuWH1i3C7Tf4EfsT//jrAQux4iW/rEs4/xRReLXL384kMXQzRo7aZtDRAmNTWNrxh1TJwWl+m7rMNBu04fCKJRlut6WcKEuaTEXTe7iQtLcpg3L3/91KyESK+zeH4qbF5HBpOsBJIRSUcnRZPfzU/M/9+RPcDj5tzY2KZWiCIkiSFLuKWXl8/hqGYjPzx5L/3mFmuF5LL70VwgxX5p7ZT9kLVtjWjbdCS6luyUu10Jf2vlOP2O+SiGoICRQ4hxgnu8QE+Ld3PRdPFLHMZzRwAEx6DK86UiMtNnT6cxAT+++w4umkQEI49Ra9+828aWmFGn5D2+XwF2Pmi03bMO8avxouHB8mOq2+JSuJ24htISCKv0S7An8+r9vVazJI+OeAAgsJAzqTdYe9pwM8t4oZS98Vsz9dVE=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR83MB0247.EURPRD83.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(346002)(366004)(136003)(376002)(396003)(451199021)(55016003)(186003)(966005)(9686003)(166002)(316002)(86362001)(66446008)(478600001)(122000001)(38100700002)(110136005)(786003)(1015004)(66476007)(66556008)(91956017)(10290500003)(33656002)(7696005)(66946007)(82950400001)(76116006)(82960400001)(71200400001)(64756008)(53546011)(6506007)(41300700001)(8990500004)(19627405001)(52536014)(5660300002)(8676002)(8936002)(2906002)(38070700005)(83380400001);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(136003)(39860400002)(396003)(346002)(451199021)(53546011)(55236004)(83380400001)(6506007)(26005)(186003)(41300700001)(4744005)(52536014)(2906002)(66946007)(76116006)(64756008)(66446008)(66476007)(66556008)(5660300002)(316002)(8676002)(8936002)(7696005)(71200400001)(966005)(9686003)(478600001)(110136005)(55016003)(38100700002)(122000001)(82960400001)(33656002)(86362001)(38070700005);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?d7+PQ93gGbCy+bVod+g0sdgy8wGb6Y03lWG1+/gFKUc+XZm+9uvUWTMapN?=
- =?iso-8859-1?Q?LTUNdetWOtIdtlJOH/J5HCdUI6ejjbU/04mrr9djCwblVYxnzYtdkbWqd4?=
- =?iso-8859-1?Q?xQdjvS5HmGtT3Ok13v9eC1trblzolV6tVJSyqykn+iyjmq1Uypwm/FFo7O?=
- =?iso-8859-1?Q?y87Bg52GiltbOM2Baw6TPgKcYvVmCW6/iVJSiqOfohQAdgZiMgBxraS0Ii?=
- =?iso-8859-1?Q?v6klG6qZGtV1g+OEiKVgn5/8O2paxqaHXrOvkDF25tK01FUpFcCGHVlcWq?=
- =?iso-8859-1?Q?r9rnGQ+XtPFB/t8OXd8rgxUetAExS/6o21ZdnVOpqIBkEjWtZDPkVz2kRu?=
- =?iso-8859-1?Q?MGiKYsLyrsargkanOq8RoFI3x6+SSZS0Js9+PJ+KuQicCdZRBKBgLKzEit?=
- =?iso-8859-1?Q?RT8XBLNcwQNqL2Se9k7F0vYwHRVb5veJOQjM3ypZcleR2oUGjKbMXQqaMK?=
- =?iso-8859-1?Q?GvZLh0yfamBt4UUHT6QNwAw46J0cZ2MtzpLpgcVdi06gUfcwQpzKkvLMGc?=
- =?iso-8859-1?Q?I4NMB6grmdV2sDC2FxIWtPtLC7Y0TMECJqtnNYn3lY+DcO5c8VETJIpB6T?=
- =?iso-8859-1?Q?AZmU4outwO4hCHd+9kgpOxsKc0eJnIeZ7wA+8HuBlkWZmdp7kf6S1qq8yC?=
- =?iso-8859-1?Q?CvcvAIfhZBlakD3Sf79YY8OzQEWfPDt1m5S7T+ccwP24eBvjQ2XWyddbuH?=
- =?iso-8859-1?Q?+gzc+V+KhA8+oRdKZ4zHghPEgIKpqjsXbYgi1JkO+diVfztp8AS01IojTP?=
- =?iso-8859-1?Q?sgJ0TwTSaMxZGmeKPCFXqLByMs4qVK3xDjl7KT16PThfZnzUwctD4vpJuA?=
- =?iso-8859-1?Q?mserplgf8h4D91Xd4ph1KAA5JkwtzimfP2ui2KxdxA6BWSqayOmn2qjPqG?=
- =?iso-8859-1?Q?UNpxbipzSs8na6rV9HVB4fel2bVoPB5mWIlMGvL47HMJ2LqD/k8RIFxCt9?=
- =?iso-8859-1?Q?27kgLg9SLhuxLEdWXe10XjE2g9M600VQdqASF6O859HFMtr4qNMV4Leaol?=
- =?iso-8859-1?Q?bL7TuWkmBKTbr/4W759IKs0DRiryFi3cS+m8jJ3E68N4J6JI1exaS1LUsy?=
- =?iso-8859-1?Q?YOUW7q5zWrj0hMHx5Y+1pXAxpsGROAuFjK5xfCCbfm6J/stuGLwzz2pq/C?=
- =?iso-8859-1?Q?qGeZFn3lTK2lp38thZ9f412GMfZ5TNe2bsUEi/6dgBqt/UdqsaoJhQwJNn?=
- =?iso-8859-1?Q?F9zC/qoIpOH8HUtt//p6z4Q0htSo9A6PgXlO9a8lYtVfeYqCISA6aKE5Vq?=
- =?iso-8859-1?Q?Jz60NkdmKyjoFQccX8ghhBIzDCSeF/v6l+lR8rBXYIy2exi4sJgonsuG2B?=
- =?iso-8859-1?Q?gQypIlicxLlWD4En0YxDZAok1IE0ASYvUpKlRGMhdTfq7WDVhNxH4ErtCh?=
- =?iso-8859-1?Q?WaWDeTnrUEymd91wbuJuor5n11HXq9BCofQoLC6Aa3mwcLE6llG7DE4khB?=
- =?iso-8859-1?Q?oFR8C8b8CNdw6GT2w4OEleJookbZUfmRG307X3s8ZPp3FXtA7hKmuilMYG?=
- =?iso-8859-1?Q?Azx8aCKe6epAkmtMbe/NT2kWuuQvuYd1bckB04d99zCiz0vJv850KhseAO?=
- =?iso-8859-1?Q?rUCE4agz/s7DL73ZQFdLQ5S3z3o6b9X++gthgTCpy1wz7vHgIbADEEY0B1?=
- =?iso-8859-1?Q?vBXS+6MP+9NmmcJX1cBRMCsbi30L+0bo5cWXfuNxPy5V2KjUqbQGiuCSLI?=
- =?iso-8859-1?Q?Jwx05Du2CEm/z32hLXVPS052oPF8HWaZpPwHpQeN?=
-Content-Type: multipart/alternative;
-	boundary="_000_AM6PR83MB0247FF4C6C72194368C091F7F108AAM6PR83MB0247EURP_"
+ =?us-ascii?Q?joTbGe6WHSMK0QWFDTG904I18rvbT57IvnZULMWEbtZDdN8yePt6VuJao6hh?=
+ =?us-ascii?Q?tlrOMSklhYOSm5evnUUhhbn5iKsLDZ2VFLyZ4Qwu7Yep7/NG7AWFTa2dvXCH?=
+ =?us-ascii?Q?sYp7XYNufS+RHk54nh+iiC+Tcxv6E4RCTGfUtL8AH1moAGjh6HBmcUQkZv4T?=
+ =?us-ascii?Q?v0odW574fshEq1MWfr8QYEOFXT3K7zChAeYyyN4cweMzjKrLEuvcvf5zZZsY?=
+ =?us-ascii?Q?ZsXTA3/Bv5pliPT7giLEFVmiEX9Da9ovvFf3O+oRzmx70PmDYJuT0DXV8FIB?=
+ =?us-ascii?Q?2mUF6x7etixGj0NP4Xguq4YW4EF5LrROYHSSLhlQkzJcFQ0B8SrIg4o0g7hT?=
+ =?us-ascii?Q?RIv6cSZ0j2kKBekUPVoL04i9hiCikRfq4iqu1d4nC2FYFv9XKWlpN5wqjA2L?=
+ =?us-ascii?Q?TwyPT07d/ojwHfNp4EpANQtCBmpsLjFxB5md9CY2RRBr2KcP5agkTMpD6/Ek?=
+ =?us-ascii?Q?K6iRZ5y5vZ9k0uI788jAmFdCvwcOysaEo91l/Jw3JXl9FIN7c0R2z/XWQEP/?=
+ =?us-ascii?Q?lR/xmZwWdTLy0LjOhuFTNuPKTWrbQeyQoAJIHTNzl/221pGJzC3v5gCgg5ov?=
+ =?us-ascii?Q?0gP7zdb1cUlH9vauYJsaLa+KJkiH0L2h8DADIkMX1GXv/SHt/T+VuyE3HRcL?=
+ =?us-ascii?Q?MPt6ZLTwpPBH2og0y8yw6gla6j83Qd+rUtQA+yqceDeXyyG1u4ktDEU4bYQP?=
+ =?us-ascii?Q?gvuJ/ccbBR7BcMrONWTWZUsRcDCptkQHeycNGpr8p1zMf+cx6sqXVtxS5RlK?=
+ =?us-ascii?Q?dF4joh2+52pdihGIZn21DjUUP1aEUQMKcgd1BpqaZKrE2HMXpVG8SMQprXZm?=
+ =?us-ascii?Q?72kBLukYLW2Fte2KyGZwoi4BZQNsi9b4+gkZj6vzP08gp8AldT2cBDq1maFU?=
+ =?us-ascii?Q?G2ULj/fKWT0BgmW5SKSfZ0Ejfk15CPjgooSZtzuQVPYTMYV3txCVDCOIRPke?=
+ =?us-ascii?Q?xePLgH0owZXPTWdeXluId2k+33bILG6TNi/8y22jP7tEQEnBLnjLkn/5kRp2?=
+ =?us-ascii?Q?zbS3Xpfdi0XNudyjSwUKdfdfMIT2wzfh6AfHp/aD4CCIgYGD+QAJYsZuCRAb?=
+ =?us-ascii?Q?OJ0U9lb9oVLh3xcHZB0aiCje1kvLMHb8YYU/q/OYhox5BJmBa2ISLgUHxwPO?=
+ =?us-ascii?Q?9gtl2HQSpx/OSNs6PQLUI/Vq0HyCiWwNQt6eSHt6okS1KBMt9t39kt4wYrHu?=
+ =?us-ascii?Q?KcpZ9CLYL/bgcw+A3wbK8zdZkr27noLfDFJi/Jngylc8Fj7KiSLCVhq4e0XS?=
+ =?us-ascii?Q?3OTW4vLGcEEGxOa2OJ66memLc8lVrSwsx0DS+SP0alUmN7c8ni1W/6i7U9/k?=
+ =?us-ascii?Q?xfzWjBKS8LFIo3wJatq3MCON6iyf2e8OOUXK7x35frXq67lh2ruWOaSm1V0g?=
+ =?us-ascii?Q?jKf9ixzBX4POdV2k+xi8W6BHlCAG2hvn8S1xBnP/p+lSqAJeZZvQscMaan1d?=
+ =?us-ascii?Q?EwoTENsEDde/VgLoA3D8YzzDoJqApTIR9Z2ElBecfSPoNVq8yaUdvL9ip596?=
+ =?us-ascii?Q?ZqHYLgH7vLQc0YgGSLcxDmvxZBUF8g6/lmpjYFs/NU08ovcWmRgUQb6veOC3?=
+ =?us-ascii?Q?uJJkquH5/WYohdxyeLu5YfG68sfeNpMF4VTgQpGa?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR83MB0247.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 235390d6-55cc-49c5-706d-08db940377e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Aug 2023 09:24:41.9645
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: db7362cb-ae0c-4967-8925-08db94087dc6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Aug 2023 10:00:39.3750
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gf2uV3FGwNMTlmlwINiXMIAVSXYgJZgoFr01Ol9gv/2liTj7O9FaxgPxgoEBjU5BpC3NrSMifgbNwsMHAaNoIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR83MB0458
+X-MS-Exchange-CrossTenant-userprincipalname: H6A93YBY73j8qDVoMLFv4W1PpfAV9z3nikLUCTmJlEKZIjN8W/C+HaPWlFfcTfeNbH1o1cCYF7H/nRDFjCbk9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5413
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 09:24:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185468
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 10:00:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185469
 
---_000_AM6PR83MB0247FF4C6C72194368C091F7F108AAM6PR83MB0247EURP_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+This is already fixed, see
+https://lists.openembedded.org/g/openembedded-core/message/185053
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dstable/k=
+irkstone-nut&id=3D410cdbc70cfba709ec5bef508e772f52514ba28a
 
-Acked-by: Luca Boccassi <bluca@debian.org>
+Peter
 
-(please don't send to my microsoft email account, it's absolutely rubbish f=
-or mailing lists and can't use plain text mode)
-
-________________________________
-From: Khem Raj <raj.khem@gmail.com>
-Sent: 03 August 2023 05:39
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>; Luca Boccassi <Luca.Boccassi@microsoft.c=
-om>
-Subject: [PATCH] systemd: Point to target binary paths for loadkeys and set=
-font
-
-[You don't often get email from raj.khem@gmail.com. Learn why this is impor=
-tant at https://aka.ms/LearnAboutSenderIdentification ]
-
-with newer systemd, if not specified, these paths are searched on build
-host /usr dir
-
-log.do_configure.2373278:Program /usr/sbin/loadkeys found: YES (/usr/sbin/l=
-oadkeys)
-log.do_configure.2373278:Program /usr/sbin/setfont found: YES (/usr/sbin/se=
-tfont)
-
-and if build host happens to have kbd installed then it
-uses those locations, this would work fine if the assumption between OE
-distro and host distro matches but fail otherwise e.g. on archlinux
-these binaries are in /usr/sbin but in OE they are in ${base_bindir}
-
-This results in
-qemux86-64 systemd-vconsole-setup[211]: /usr/sbin/loadkeys failed with exit=
- status 1.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-core/systemd/systemd_254.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/s=
-ystemd/systemd_254.bb
-index a4cfc7b1f44..653fd6910d3 100644
---- a/meta/recipes-core/systemd/systemd_254.bb
-+++ b/meta/recipes-core/systemd/systemd_254.bb
-@@ -241,7 +241,9 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
-                   -Dsystem-gid-max=3D999 \
-                   "
-
--# Hardcode target binary paths to avoid using paths from sysroot
-+# Hardcode target binary paths to avoid using paths from sysroot or worse
-+# it pokes for these binaries on build host and encodes that distro assump=
-tion
-+# into target
- EXTRA_OEMESON +=3D "-Dkexec-path=3D${sbindir}/kexec \
-                   -Dkmod-path=3D${base_bindir}/kmod \
-                   -Dmount-path=3D${base_bindir}/mount \
-@@ -249,7 +251,9 @@ EXTRA_OEMESON +=3D "-Dkexec-path=3D${sbindir}/kexec \
-                   -Dquotaon-path=3D${sbindir}/quotaon \
-                   -Dsulogin-path=3D${base_sbindir}/sulogin \
-                   -Dnologin-path=3D${base_sbindir}/nologin \
--                  -Dumount-path=3D${base_bindir}/umount"
-+                  -Dumount-path=3D${base_bindir}/umount \
-+                  -Dloadkeys-path=3D${base_bindir}/loadkeys \
-+                  -Dsetfont-path=3D${base_bindir}/setfont"
-
- # The 60 seconds is watchdog's default vaule.
- WATCHDOG_TIMEOUT ??=3D "60"
---
-2.41.0
-
-
---_000_AM6PR83MB0247FF4C6C72194368C091F7F108AAM6PR83MB0247EURP_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Acked-by: Luca Boccassi &lt;bluca@debian.org&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-(please don't send to my microsoft email account, it's absolutely rubbish f=
-or mailing lists and can't use plain text mode)</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size: 11pt; color: rgb(0, 0, 0);"><b>From:</b> Khem Raj &lt;raj=
-.khem@gmail.com&gt;<br>
-<b>Sent:</b> 03 August 2023 05:39<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc:</b> Khem Raj &lt;raj.khem@gmail.com&gt;; Luca Boccassi &lt;Luca.Bocc=
-assi@microsoft.com&gt;<br>
-<b>Subject:</b> [PATCH] systemd: Point to target binary paths for loadkeys =
-and setfont</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
->
-<div class=3D"PlainText">[You don't often get email from raj.khem@gmail.com=
-. Learn why this is important at
-<a href=3D"https://aka.ms/LearnAboutSenderIdentification" data-auth=3D"NotA=
-pplicable" id=3D"OWA304a3144-2f20-e4ba-7fe2-82712eeff83d" class=3D"OWAAutoL=
-ink">
-https://aka.ms/LearnAboutSenderIdentification</a> ]<br>
-<br>
-with newer systemd, if not specified, these paths are searched on build<br>
-host /usr dir<br>
-<br>
-log.do_configure.2373278:Program /usr/sbin/loadkeys found: YES (/usr/sbin/l=
-oadkeys)<br>
-log.do_configure.2373278:Program /usr/sbin/setfont found: YES (/usr/sbin/se=
-tfont)<br>
-<br>
-and if build host happens to have kbd installed then it<br>
-uses those locations, this would work fine if the assumption between OE<br>
-distro and host distro matches but fail otherwise e.g. on archlinux<br>
-these binaries are in /usr/sbin but in OE they are in ${base_bindir}<br>
-<br>
-This results in<br>
-qemux86-64 systemd-vconsole-setup[211]: /usr/sbin/loadkeys failed with exit=
- status 1.<br>
-<br>
-Signed-off-by: Khem Raj &lt;raj.khem@gmail.com&gt;<br>
-Cc: Luca Boccassi &lt;luca.boccassi@microsoft.com&gt;<br>
----<br>
-&nbsp;meta/recipes-core/systemd/systemd_254.bb | 8 ++++++--<br>
-&nbsp;1 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/s=
-ystemd/systemd_254.bb<br>
-index a4cfc7b1f44..653fd6910d3 100644<br>
---- a/meta/recipes-core/systemd/systemd_254.bb<br>
-+++ b/meta/recipes-core/systemd/systemd_254.bb<br>
-@@ -241,7 +241,9 @@ EXTRA_OEMESON +=3D &quot;-Dnobody-user=3Dnobody \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dsystem-gid-max=3D999 \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<br>
-<br>
--# Hardcode target binary paths to avoid using paths from sysroot<br>
-+# Hardcode target binary paths to avoid using paths from sysroot or worse<=
-br>
-+# it pokes for these binaries on build host and encodes that distro assump=
-tion<br>
-+# into target<br>
-&nbsp;EXTRA_OEMESON +=3D &quot;-Dkexec-path=3D${sbindir}/kexec \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dkmod-path=3D${base_bindir}/kmod \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dmount-path=3D${base_bindir}/mount \<br>
-@@ -249,7 +251,9 @@ EXTRA_OEMESON +=3D &quot;-Dkexec-path=3D${sbindir}/kexe=
-c \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dquotaon-path=3D${sbindir}/quotaon \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dsulogin-path=3D${base_sbindir}/sulogin =
-\<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dnologin-path=3D${base_sbindir}/nologin =
-\<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dumount-path=3D${base_bindir}/umount&quot;<br=
->
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dumount-path=3D${base_bindir}/umount \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dloadkeys-path=3D${base_bindir}/loadkeys \<br=
->
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; -Dsetfont-path=3D${base_bindir}/setfont&quot;<=
-br>
-<br>
-&nbsp;# The 60 seconds is watchdog's default vaule.<br>
-&nbsp;WATCHDOG_TIMEOUT ??=3D &quot;60&quot;<br>
---<br>
-2.41.0<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_AM6PR83MB0247FF4C6C72194368C091F7F108AAM6PR83MB0247EURP_--
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Polampalli, Archana via lists.openembedded.org
+Sent: Thursday, August 3, 2023 10:39
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][kirkstone][PATCH 1/1] libpcre2: fix CVE-2022-41409
 
