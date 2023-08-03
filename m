@@ -1,178 +1,113 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C223C04A94
-	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 03:30:45 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web10.6586.1691033439939546118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2219CEB64DD
+	for <webhook@archiver.kernel.org>; Thu,  3 Aug 2023 04:39:46 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.7316.1691037582606359674
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Aug 2023 20:30:40 -0700
+ Wed, 02 Aug 2023 21:39:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=bvc6gSNJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-583a8596e2aso4639587b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 20:30:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=eLlQ05bp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3a3fbfb616dso386613b6e.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Aug 2023 21:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691033439; x=1691638239;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbZRUM/NYihfzFbsbH8jDbtjhrJ9Vh8XNfMxXPOzGEg=;
-        b=bvc6gSNJC91jRPONcRjzlQ319kD8IjRg6/g95kIug0tqIod13ejZnLRw2AEfOv99Qo
-         8FCN7+WxcQFagB6r7dDIx6F6uLZWqWN+stoEKstramkXq8DrfUA+nAk3x3NSDq3O2PCL
-         07eG2rt72EMhj+7G6N4xTQYlyvDMFj25NOhORVsW9lkFl7lPjfPZLXSHu2gtNGh5ftmd
-         lQatxYD33uSiykrmUFkZzWThbl8ha7sU9YivY1I7ETGV+hKkgF9AkrK5z4NXsloMErEA
-         fWTboSrjK2vA/MDQVMdkmq9DdQ/eyQSEmti0n7sy+m9TPZvFIpAKe3QKRpqy14eyCg8L
-         ySmQ==
+        d=gmail.com; s=20221208; t=1691037582; x=1691642382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O1GrURNqeEdvPwyabI9D470WkRuL4UH01cSYJmB+w48=;
+        b=eLlQ05bpeWHETiDajWTnJDxdbTgfRvjbjvsht3Jp7P7QKy4OFDpXNkRc7OT+9dmrhk
+         oDFdrswxodL2+E7erS8PuD3zAk/jY9gv/OfkakqiHufnyjtdpfQRwKWgsPwEPNwTkx2w
+         OxFCFXuYdHEhWxIycu7xUUmvy1Wnbc8XRJiVc79PYUdH3V+gucOoAAaw5n6EgbjE+1kb
+         areLZMCMHjuTon3Qn5eQB4rPAiwenwBg3q1mSZ+cooybh3+7WVeY26O1Ibgj9Dn8aBND
+         j7CDKvR4w3hxCJdiX0BSfZWtF/QRd1lLZDodokVe3GwoMFZKYnaNvczkIZI/kboiJFiX
+         O59A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691033439; x=1691638239;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1691037582; x=1691642382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YbZRUM/NYihfzFbsbH8jDbtjhrJ9Vh8XNfMxXPOzGEg=;
-        b=g9bIRMYzVx+Rz9FGE6EyzA/qZnemLMaS6BbQ/AmtyRMKmRxTueIae++NcSHquLKUaB
-         dnWSXLJgLaFxeeDLMaLuDsgUreJ3FA6VfygVj1yygCw1WbxJBrC6YB3LqzkBAPu+a3Ea
-         lYJdUvNQG0mJPHTlu+81gjnuzrgpeHA/if4c0xYf/XE+oWeBSMTSuM4d6urAtDFUola2
-         hweka7ZjXpey7/WHkWrru6jBNT7exsXVIk2sqIg6NU5EwfZPltXeW3y5KwMJVkyxegst
-         iYdTr0Ruay9cttodkWWwvmug0Vgan5zsQx1+MrfUUo3YheSL/ELNJrFVZE9pc0aRSgla
-         MEOQ==
-X-Gm-Message-State: ABy/qLbA5X+gHs4+CX7JjrzhiBfbJLhHCZGbSm1UE+OTe0bbD81jftDX
-	UG2D/x/VsC8piDUKwqpuebmRuqwsLcDblL0x6oUfSOK0
-X-Google-Smtp-Source: APBJJlH8iNUgs7JPAYW4uKWyoybWw0e7qOdw6GrsLZL7keNW5O4jTp+GtO3oSN0+pbnfIWhUF3SS5afrEGMpPuHtb5A=
-X-Received: by 2002:a0d:e691:0:b0:576:9d2e:ef2b with SMTP id
- p139-20020a0de691000000b005769d2eef2bmr14723807ywe.10.1691033438930; Wed, 02
- Aug 2023 20:30:38 -0700 (PDT)
+        bh=O1GrURNqeEdvPwyabI9D470WkRuL4UH01cSYJmB+w48=;
+        b=OdryOIFUdzhE889FGkaQKDb3IyUnpUHg5vZIYS0rRMJnF/qajSi2XDhWBbv7yIuh0I
+         7hGpPqSqnPnm0nTB0e2k+2Yl7GaMurZj+SgBtqpw2QvRI2q6qHjsQ/e4Cg/bxOumPlqP
+         npxMTbb7eZhA66JRaGFaKJvneY0WJX1FsiOQoTXP3NL32LBhBW8uWBXxEc6rAK14b9zx
+         MrcMJ900vpbZ6Rc+Z+ybiATkhGxbMaKtyPmcpa8dTkER9ax/qjkauk1b6zsr6y1uw+mv
+         QrA/gJTvT1dQO/GXcwIOzouLahfUEErNb/GL9J1SlbGroQbxvEcyTsNoWndumkxEDoT2
+         jZkA==
+X-Gm-Message-State: ABy/qLa+82BUECQTYl777b4t4/L2t9avTJI6cdgwhYTau3q9LAVoCxkg
+	bzQACaqAT+rb935cEAj/EdgBmES8ckRqUw==
+X-Google-Smtp-Source: APBJJlEwsVEkaR5gWfryYvOGavRlC9+iurXyo30Ec5E6pba1nSEB4JnXtfa1yN5gHiijrgdJrZH1Aw==
+X-Received: by 2002:a05:6808:f14:b0:3a4:947:c97b with SMTP id m20-20020a0568080f1400b003a40947c97bmr22411530oiw.0.1691037581463;
+        Wed, 02 Aug 2023 21:39:41 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::94c8])
+        by smtp.gmail.com with ESMTPSA id x13-20020aa793ad000000b006871bea2eeesm8409268pff.34.2023.08.02.21.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 21:39:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Luca Boccassi <luca.boccassi@microsoft.com>
+Subject: [PATCH] systemd: Point to  target binary paths for loadkeys and setfont
+Date: Wed,  2 Aug 2023 21:39:37 -0700
+Message-ID: <20230803043937.45082-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230802072436.1020900-1-alex@linutronix.de> <20230802072436.1020900-2-alex@linutronix.de>
-In-Reply-To: <20230802072436.1020900-2-alex@linutronix.de>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 2 Aug 2023 20:30:28 -0700
-Message-ID: <CANx9H-D_XcDa7xoWV9MS=aQBQFXMbfad3ieYkGwOrkM6qjbJrQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] scripts/lib/scriptutils.py: add recipe_qa
- artifacts to exclusion list in filter_src_subdirs()
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006e4c5b0601fc67b3"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 03:30:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185451
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Aug 2023 04:39:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185452
 
---0000000000006e4c5b0601fc67b3
-Content-Type: text/plain; charset="UTF-8"
+with newer systemd, if not specified, these paths are searched on build
+host /usr dir
 
-On Wed, Aug 2, 2023 at 12:24 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+log.do_configure.2373278:Program /usr/sbin/loadkeys found: YES (/usr/sbin/loadkeys)
+log.do_configure.2373278:Program /usr/sbin/setfont found: YES (/usr/sbin/setfont)
 
-> With newly added recipe_qa task, the function needs to filter out its
-> output as well.
->
-> The issue wouldn't appear in selftest because it's triggered by
-> buildhistory and
-> selftest disables that.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+and if build host happens to have kbd installed then it
+uses those locations, this would work fine if the assumption between OE
+distro and host distro matches but fail otherwise e.g. on archlinux
+these binaries are in /usr/sbin but in OE they are in ${base_bindir}
 
+This results in
+qemux86-64 systemd-vconsole-setup[211]: /usr/sbin/loadkeys failed with exit status 1.
 
-Tested-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/systemd/systemd_254.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
->
-> ---
->  scripts/lib/scriptutils.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-> index f7c1bd9e4e2..f433106c9a8 100644
-> --- a/scripts/lib/scriptutils.py
-> +++ b/scripts/lib/scriptutils.py
-> @@ -277,6 +277,6 @@ def filter_src_subdirs(pth):
->      Used by devtool and recipetool.
->      """
->      dirlist = os.listdir(pth)
-> -    filterout = ['git.indirectionsymlink', 'source-date-epoch']
-> +    filterout = ['git.indirectionsymlink', 'source-date-epoch',
-> 'sstate-install-recipe_qa']
->      dirlist = [x for x in dirlist if x not in filterout]
->      return dirlist
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185379):
-> https://lists.openembedded.org/g/openembedded-core/message/185379
-> Mute This Topic: https://lists.openembedded.org/mt/100500738/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
+index a4cfc7b1f44..653fd6910d3 100644
+--- a/meta/recipes-core/systemd/systemd_254.bb
++++ b/meta/recipes-core/systemd/systemd_254.bb
+@@ -241,7 +241,9 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
+                   -Dsystem-gid-max=999 \
+                   "
+ 
+-# Hardcode target binary paths to avoid using paths from sysroot
++# Hardcode target binary paths to avoid using paths from sysroot or worse
++# it pokes for these binaries on build host and encodes that distro assumption
++# into target
+ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+                   -Dkmod-path=${base_bindir}/kmod \
+                   -Dmount-path=${base_bindir}/mount \
+@@ -249,7 +251,9 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+                   -Dquotaon-path=${sbindir}/quotaon \
+                   -Dsulogin-path=${base_sbindir}/sulogin \
+                   -Dnologin-path=${base_sbindir}/nologin \
+-                  -Dumount-path=${base_bindir}/umount"
++                  -Dumount-path=${base_bindir}/umount \
++                  -Dloadkeys-path=${base_bindir}/loadkeys \
++                  -Dsetfont-path=${base_bindir}/setfont"
+ 
+ # The 60 seconds is watchdog's default vaule.
+ WATCHDOG_TIMEOUT ??= "60"
+-- 
+2.41.0
 
---0000000000006e4c5b0601fc67b3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Aug 2, 2023 at 12:24 AM Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">With newly added recipe_qa task, th=
-e function needs to filter out its output as well.<br>
-<br>
-The issue wouldn&#39;t appear in selftest because it&#39;s triggered by bui=
-ldhistory and<br>
-selftest disables that.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;</blockquote><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Tested-by: Tim Orling &lt;<a href=3D"mailto:tim=
-.orling@konsulko.com">tim.orling@konsulko.com</a>&gt;<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex" dir=3D"auto"><br>
----<br>
-=C2=A0scripts/lib/scriptutils.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py<br>
-index f7c1bd9e4e2..f433106c9a8 100644<br>
---- a/scripts/lib/scriptutils.py<br>
-+++ b/scripts/lib/scriptutils.py<br>
-@@ -277,6 +277,6 @@ def filter_src_subdirs(pth):<br>
-=C2=A0 =C2=A0 =C2=A0Used by devtool and recipetool.<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0dirlist =3D os.listdir(pth)<br>
--=C2=A0 =C2=A0 filterout =3D [&#39;git.indirectionsymlink&#39;, &#39;source=
--date-epoch&#39;]<br>
-+=C2=A0 =C2=A0 filterout =3D [&#39;git.indirectionsymlink&#39;, &#39;source=
--date-epoch&#39;, &#39;sstate-install-recipe_qa&#39;]<br>
-=C2=A0 =C2=A0 =C2=A0dirlist =3D [x for x in dirlist if x not in filterout]<=
-br>
-=C2=A0 =C2=A0 =C2=A0return dirlist<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#185379): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/185379" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/185379</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100500738/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/100500738/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000006e4c5b0601fc67b3--
 
