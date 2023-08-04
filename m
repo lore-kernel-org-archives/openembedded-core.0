@@ -1,134 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60895C001DF
-	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 14:47:39 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.12993.1691160454408033475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 842FAC001DB
+	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 15:27:27 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.74])
+ by mx.groups.io with SMTP id smtpd.web10.200.1691162841019975979
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Aug 2023 07:47:34 -0700
+ Fri, 04 Aug 2023 08:27:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Bxnjfb3O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe1d462762so20632005e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 07:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691160453; x=1691765253;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QRVbCj4EAJQWA2FcQQ//ibG2qEs98PWOgvK4ztpNNuI=;
-        b=Bxnjfb3Of+QR6mvhXi5NCr4yMgp5jzeNTBGFGvqDTnkzF5UvOv0XSOHcb/xVjU+iXs
-         7eLwbwKBUYYcAvwGNpeoxRpapCHUShwHPXBXCz8TKEIh9+KJU+uENVT6vxaIwmq+spgC
-         MlKi2/74piu6teCV1OG2bMIepSUA7TnluNyRw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691160453; x=1691765253;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QRVbCj4EAJQWA2FcQQ//ibG2qEs98PWOgvK4ztpNNuI=;
-        b=HG9wTLkdM2AN7CnjcyTy9iBq8+mVI7WTS34q3XvDaEuG8GDyV6G9UH6eTSzk9gGRPT
-         S/iL2MWlnxdO5+UWBwy3s5ipqQ2rI2uL2WME3m8gl3tBjQzC1QBZ2YlATef8u78bkgIR
-         1YEslj9oX8Qy7cR4MfMJPjAHlfz5U4vDe69Wng89TD//FhZKaJNgUWZqVP5xRadoyIEG
-         bisdYshOIHtmhp6r/jjQtlhXprdc/o2aKzz9RILJJpphGa071qUR/Zq1AV9ktIM8c3/M
-         hE3TYPQ6aDiIxXyCCI0uoetQEWcTuTWVo0YlN1uTWHh4AKvQKuyhq86cx1atvusWVQfc
-         v+5g==
-X-Gm-Message-State: AOJu0YwDs4yvLRNUG8+8MBtLZcVMxw4o/QT9wk7vKtbv6Yw8dWsi6UPi
-	DximBil2STMThpmIvkWqZbz2JA==
-X-Google-Smtp-Source: AGHT+IHXwxwfhFZQkFaRwwe79OwxjA/U0khmnG4SOGGdj+kMFTE6SLuC1HxXbiVDNxrdj5E6yoyS0A==
-X-Received: by 2002:a7b:cbd6:0:b0:3fc:5a3:367c with SMTP id n22-20020a7bcbd6000000b003fc05a3367cmr1683126wmi.32.1691160452739;
-        Fri, 04 Aug 2023 07:47:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a3d5:6a38:64fe:7f6c? ([2001:8b0:aba:5f3c:a3d5:6a38:64fe:7f6c])
-        by smtp.gmail.com with ESMTPSA id x12-20020adfec0c000000b0031274a184d5sm2678919wrn.109.2023.08.04.07.47.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 07:47:32 -0700 (PDT)
-Message-ID: <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Suti <peter.suti@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 04 Aug 2023 15:47:31 +0100
-In-Reply-To: <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
-	 <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
-	 <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
-	 <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
-	 <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
-	 <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
-	 <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=iQ4q9Ej/;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=iQ4q9Ej/;
+ spf=pass (domain: arm.com, ip: 40.107.13.74, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CcMO7n/GZzfUd5aTZD/+ylVKDFsCtANOMCUD0d8PfEQ=;
+ b=iQ4q9Ej/MoKrxoCCoNlHhsX7wgMyZhWMzCfW6pJ6tZ/wf9fdIY8C7+2SN44LRl4KCKXucGmE6o3GuZiV52RscKeo6vkHk7e6WDhh2ZpMe7lwa513PCH5QxonNbdEMAL4yhfWk0LRmAV7NcuT3FU7BMBBvYQeLRO2EtP4FwO5BZk=
+Received: from DB9PR05CA0008.eurprd05.prod.outlook.com (2603:10a6:10:1da::13)
+ by PAWPR08MB9613.eurprd08.prod.outlook.com (2603:10a6:102:2e4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20; Fri, 4 Aug
+ 2023 15:27:15 +0000
+Received: from DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1da:cafe::68) by DB9PR05CA0008.outlook.office365.com
+ (2603:10a6:10:1da::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21 via Frontend
+ Transport; Fri, 4 Aug 2023 15:27:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT009.mail.protection.outlook.com (100.127.143.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6631.48 via Frontend Transport; Fri, 4 Aug 2023 15:27:13 +0000
+Received: ("Tessian outbound 95df046a2e2c:v145"); Fri, 04 Aug 2023 15:27:13 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: b54204e741a8e4ff
+X-CR-MTA-TID: 64aa7808
+Received: from ada0b7a8ce31.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id D4B0C62A-184F-4831-90A6-83FC3A08738C.1;
+	Fri, 04 Aug 2023 15:27:07 +0000
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ada0b7a8ce31.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 04 Aug 2023 15:27:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gACh4Aq5yO7Q/JTvHxUG/6mg2X2wSbi691gjEshZPRccCz0hnQaXd9zaV8jR11rdal0DrvYmvfcOvJqcVtQvanz6hGCqIKRf/OMA7xz2L3jy3YSv/1w0TMoYsefzFZ+ogpXJQxKNOBrcrutHCFiKDOBxqJFOkCD+5PCgs0yAYhZObbtqPGyGras1XdNpPg1JOIGp9lzp1DhN1+jBfCRUYrYodnbEHO84zaoK6pK0I5Smt151Vrhpd0uVh6kqYQkZPcK68G8QCHRKNYnBDoARNgbFzFVmK0vjyf3uyyZangarT1mMrl6Tj2Pbbd+OCT3ifLIVoSdNqh6+fnXbp+SMtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CcMO7n/GZzfUd5aTZD/+ylVKDFsCtANOMCUD0d8PfEQ=;
+ b=msCiUn+Zy+gV2gS0F/9HrZk4g42aP8KgRvo7XN5F/uDnqEdOEx6VPmBG7RC+eOxh5Q3zshz/KRxCK4COlnlvuulQCG/BPrmtbb9SBUms8obXDWJKqikGWqx/Zg6LVndiMXHkF8Ip15jZ3ftXSwE2gpVX4D6a+rp4kL6DbOKOzqWUTjx0M6kp/9LpVbj832aOuukmsZHfjNHTlrRk2zAFl6fpjAEqiKo0d7ZO0+bCx2/wxw30BPQnIvJiiD9R22xzQI9yoroiMVnEB1n2bLyZIvjW9SAnKp1BDq3O7cdVZvAPDy2h2w9n7sTBAIqDFB9gCTcLlo1gI6V4xFGBB6IJcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CcMO7n/GZzfUd5aTZD/+ylVKDFsCtANOMCUD0d8PfEQ=;
+ b=iQ4q9Ej/MoKrxoCCoNlHhsX7wgMyZhWMzCfW6pJ6tZ/wf9fdIY8C7+2SN44LRl4KCKXucGmE6o3GuZiV52RscKeo6vkHk7e6WDhh2ZpMe7lwa513PCH5QxonNbdEMAL4yhfWk0LRmAV7NcuT3FU7BMBBvYQeLRO2EtP4FwO5BZk=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM8PR08MB5825.eurprd08.prod.outlook.com (2603:10a6:20b:1d6::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20; Fri, 4 Aug
+ 2023 15:27:05 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 15:27:05 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>, Luca Boccassi
+	<luca.boccassi@microsoft.com>
+Subject: Re: [OE-core] [PATCH] systemd: Point to target binary paths for
+ loadkeys and setfont
+Thread-Topic: [OE-core] [PATCH] systemd: Point to target binary paths for
+ loadkeys and setfont
+Thread-Index: AQHZxccZLcVyBXKu4Eqjl8iYahL7mK/aRKKA
+Date: Fri, 4 Aug 2023 15:27:05 +0000
+Message-ID: <7496D22A-5DE7-44D7-8F2A-F2EFAA5354CA@arm.com>
+References: <20230803043937.45082-1-raj.khem@gmail.com>
+In-Reply-To: <20230803043937.45082-1-raj.khem@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.700.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AM8PR08MB5825:EE_|DBAEUR03FT009:EE_|PAWPR08MB9613:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab8a71c3-cd5d-48f9-484c-08db94ff4738
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ s5w+7dvptJuEXbbBbdYzYACvtBya8xAy1GLUUMcRAJW3xTLT1BEY5r1pi5W5IJp3vgYwZDedGNS4nIlZdO333RegRACxzKLNgswmvf2rpmTMN9TkVYVDAiLDFh4m1BEclJ9aejKltYJ6I8KEQ8Cdb9ZrejdJQ76/OfmCVF36GAQgcCvhbWnmyDhd+7iair/cQMwgV7HC+L+Vb+Mu/2jxQdIwuH/+VJOdYDl24wi3D5v15VrY+LXCXMqz9bpGnu4w70Of+8G2as0jWyzUzx+07C0hMtHqggB5j8gQN8nRjTxKUW/Mk36XWvckLnNXREV/GgXWOExHvV6eF3nDM6cM0Ft/DHwjUpUagt+tvx02dKXSfdeVX2NSBDhPsw50GGXAicmBn6VBh6awhg0L4Al1TD33CJR+gakvSpAwo5E53Zo2hlAt2Wz5VFl45QgOqmZUv5ux1gAwxRdFW2EOX91iQbKspJRLrUcKrtVyOFpx5q+P6HbBoIv+stK1/fK8GbWAIkH5q3utO4+j3B+xramyF6QFAWGVPoz/h2P1T9fYJiDMxO++GUsoCF7ZXI1RQIqjW38al/9oq/han5L07gUjxGd3l0bGA5TJvb9ZLJjR2ieGNbA71gMjmm5jlDhOkx2EYAAMEH6n/hcw88R+34rseA==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(136003)(39860400002)(396003)(346002)(186006)(1800799003)(451199021)(2616005)(53546011)(6506007)(26005)(4744005)(6916009)(4326008)(71200400001)(66476007)(66446008)(66946007)(2906002)(76116006)(91956017)(316002)(64756008)(66556008)(5660300002)(8676002)(8936002)(41300700001)(6486002)(6512007)(54906003)(478600001)(122000001)(38100700002)(86362001)(36756003)(33656002)(38070700005)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B36C5ED0D1A83449A2757C4D7FC129C2@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5825
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	fba4c478-a8f9-4d47-3372-08db94ff4289
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	mIUm8OJkCinMrlfJ7b79OgoA/hZlge3q6ja9TwEuBPofNDVqMgR1Or/A+ZP7FDDJNRXJbc+5Q+YR/f6qAxT747szbouytU6zbOwaJIzejm78w8a+XI02u6R440K8EYlcOJZflOfC2dmZhRbKrsQRSsR+7x01spPBESrTCexmNDqZ5xoQzliJscs1wT5XEwHu3Ta8S6B+R153wEsDcwf0WB6PdTk6sB+m5UtqdZKphWK85KeEVw7HnyNSp1vY414oaJ4Zp/qZl1AmWe226o0ARufL+rX8Twc4MTHIlQ+4bnOrBUknL7NuYKwgLcWag/KE5Cubyde41uo1Ybv79byJgySzXtEdgsHh50YYlmbM/otqDdPBrwAOyxPY7aALuYEO2mXExTIwYpeynu01DQAZc/6jKx1j673E93AkIZYN9ICGVdNC9rU6VJYZPZge0bFoVnEg0fblTMDS7r9GbPi5myJMM+5DrOhN2qNFUIMQ6CrRc25SUlELCoqiZtNt1KIuO2HN32b/trtXegTJjhyM1ScIuYRkGBnK+oW9h+y5Tuf7NKXfRaJxBJlnUCdiyHMHq93DAovjB0PvNlB/r3SNtGNFu0rp52lqZ0mCVrDdAcSuAQVOspOJmrbSZVxcnFkRI0SNpqrV6T0lXIroWkgplpC4C5bbr/P8kLccNuYsRD4hOwwPdaPWJg7Q2kyci2W3Q4LbJUPTitWpi8SzsJrXcuVFBahXXPiPo/T1x7IVCdl/PkurkFeXPpJRjHM1LoaY
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(376002)(346002)(451199021)(82310400008)(1800799003)(186006)(40470700004)(46966006)(36840700001)(41300700001)(40460700003)(8936002)(6862004)(8676002)(47076005)(36860700001)(53546011)(6506007)(336012)(107886003)(86362001)(26005)(2616005)(81166007)(356005)(82740400003)(316002)(6512007)(478600001)(40480700001)(70586007)(54906003)(6486002)(33656002)(4326008)(36756003)(70206006)(4744005)(2906002)(5660300002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 15:27:13.5343
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab8a71c3-cd5d-48f9-484c-08db94ff4738
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9613
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 14:47:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185524
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 15:27:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185525
 
-On Wed, 2023-08-02 at 11:26 +0200, Peter Suti wrote:
-> On Mon, Jul 31, 2023 at 2:33=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > I did look at the bug and it sounds like if you clean a recipe, builds
-> > of other recipes which depend upon it then fail?
->=20
-> Well not just in this case specifically, it is reproducible when doing
-> a clean build.
-> But this is the easiest most convenient way to reproduce because most
-> of the sstate can be reused.
-
-Do you have a way to reproduce this using recipes in OE-Core?
-
-For example, I tried adding this to the cairo recipe:
-
-EXTERNALSRC =3D "/xxx/cairo-1.16.0"
-inherit externalsrc
-
-and then building cairo, cleaning cairo, building pango (which depends
-on cairo). I couldn't see any failure.
-
-> > We need to understand what is happening with both the sstate manifests
-> > and the stamp files to fully understand this bug.
-> >=20
-> > do_prepare_recipe_sysroot of this recipe that depends on the
-> > externalsrc one should trigger it's do_populate_sysroot. The question
-> > is whether the do_clean removed the do_populate_sysroot stamp file for
-> > that recipe or not? It sounds like it did remove the sstate manifest.
->=20
-> I have checked the manifest and stamp creation and as far as I can
-> tell that part is correct.
->=20
-> > The more I look at this, the more I think changing the deltask is just
-> > masking the issue and there is some other problem at play here which we
-> > need to address directly.
->=20
-> I agree, I have dug a bit further and the issue seems to come from runque=
-ue.py.
-> It seems that the current implementation depends heavily on the
-> presence of _setscene tasks to build the dependency graph. Altering
-> this behavior would indeed require significant effort and potentially
-> lead to unforeseen consequences.
->=20
-> > Unfortunately it took me half an hour just to be able to read through
-> > the pieces of this and get far enough I could write a coherent answer
-> > to your question. It is a struggle to reply to everything in this level
-> > of detail, much as I'd like to :/.
->=20
-> I'd like to thank you for the time you have invested in this issue! I
-> appreciate the help.
-> I understand that my proposed solution might not be ideal, but fixing
-> the underlying issue in runqueue would be a real challenge.
-> If upstream is not interested in this patch, I can also understand that.
-
-It isn't that we're not interested, we just need to make sure something
-else doesn't break. A test case to reproduce the issue you're seeing
-would help a lot. Ultimately we should perhaps add something to the
-tests in meta/lib/oeqa/ to cover the issue.
-
-Cheers,
-
-Richard
-
+T24gMyBBdWcgMjAyMywgYXQgMDU6MzksIEtoZW0gUmFqIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+
+ICsgICAgICAgICAgICAgICAgICAtRGxvYWRrZXlzLXBhdGg9JHtiYXNlX2JpbmRpcn0vbG9hZGtl
+eXMgXA0KPiArICAgICAgICAgICAgICAgICAgLURzZXRmb250LXBhdGg9JHtiYXNlX2JpbmRpcn0v
+c2V0Zm9udOKAnQ0KDQoNCkZyb20gc3lzdGVtY3RsIHN0YXR1cyBzeXN0ZW1kLXZjb25zb2xlLXNl
+dHVwOg0KDQpBdWcgMDQgMTU6MTI6MjEgcWVtdS1nZW5lcmljLWFybTY0IHN5c3RlbWQtdmNvbnNv
+bGUtc2V0dXBbMjkwXTogL2Jpbi9sb2Fka2V5cyBmYWlsZWQgd2l0aCBleGl0IHN0YXR1cyAxLg0K
+DQpyb290QHFlbXUtZ2VuZXJpYy1hcm02NDp+IyB3aGljaCBsb2Fka2V5cw0KL3Vzci9iaW4vbG9h
+ZGtleXMNCg0KJCBvZS1wa2dkYXRhLXV0aWwgZmluZC1wYXRoICovbG9hZGtleXMNCmtiZDogL3Vz
+ci9iaW4vbG9hZGtleXMNCg0KUGF0Y2ggaW5jb21pbmcuDQoNClJvc3M=
 
