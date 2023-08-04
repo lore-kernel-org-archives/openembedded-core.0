@@ -1,112 +1,134 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCFFC001DF
-	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 14:19:49 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.12234.1691158784046199536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60895C001DF
+	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 14:47:39 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.12993.1691160454408033475
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Aug 2023 07:19:44 -0700
+ Fri, 04 Aug 2023 07:47:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=nzJtaxnQ;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6bcd455fc88so645021a34.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 07:19:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Bxnjfb3O;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe1d462762so20632005e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 07:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691158783; x=1691763583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6bb1n0uu6V9wDc5+qWXk/kMXV5G7+Jyo85IOb6Nj9Bg=;
-        b=nzJtaxnQ1G+p4EOfaQIwd55BB+2kjkb5VDcCH77tdaOhe2N1MaRgUtnlmjBQmc5TI4
-         nNrRB5PHJEUSJetlt5zifPPZcUFqmLamaRBpPIf01YB2CFO0Xpk2/RANta0KrxOJTpX0
-         SuQx3jfBzmjnn+5lIhzQPqcfXiyplHtfA7m4t2ZiDly+BG2XPRbgj3MTKeybfwrqy30M
-         x9iymxi/4nZL61dW1Z1nBrU+6HaOEhVyZdhp1muDXl4Xih653hDbq0aPTxDYVaupObX0
-         VJw2X7NFG2lXwGdD2Ejj3Tyi+PtNObB+XZhIMc3u39GqccS4s6YNjPVewHt9CUjQGLL7
-         r2Dg==
+        d=linuxfoundation.org; s=google; t=1691160453; x=1691765253;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QRVbCj4EAJQWA2FcQQ//ibG2qEs98PWOgvK4ztpNNuI=;
+        b=Bxnjfb3Of+QR6mvhXi5NCr4yMgp5jzeNTBGFGvqDTnkzF5UvOv0XSOHcb/xVjU+iXs
+         7eLwbwKBUYYcAvwGNpeoxRpapCHUShwHPXBXCz8TKEIh9+KJU+uENVT6vxaIwmq+spgC
+         MlKi2/74piu6teCV1OG2bMIepSUA7TnluNyRw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691158783; x=1691763583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6bb1n0uu6V9wDc5+qWXk/kMXV5G7+Jyo85IOb6Nj9Bg=;
-        b=DpQxLo6O7FV+NEGxtVnELb1AndLIWWGUgm4z2ckpgpbhosrJZnbDjXrGumf42PL9ai
-         0915k8+RnyM0hn1hVcRjnDKCQbZeZAn9bYBvhOsbKJRcgc/w3+5D6uo6MOoWVQVrAWQc
-         JrknokI1ohA20iBGqazmAt/tDfEBhFfOXfhi2SPY49IYFV7PK5j9UMvBnRILvLF2NkF9
-         ew0rh/muWmdx4ESVBDWSvJAJ2TOS7xGZwzPZhrOiBQ9aM7Hnvnn+qRIavEeWtNJ8LmOn
-         bUHT5QNTW/cPm3J+WFGLtC0wy0FgaL2NBnM/oG9WfRTp42qG8wByzLUAbcFxvD4fLT+S
-         KCiw==
-X-Gm-Message-State: AOJu0Yycqdsw3PbiwREz8/bMklP9yv9oaIfLdWR/A92EnznSDjHFp2qN
-	7SSLI9qfD4+wT2EZ0cfYFoaGoKGwjamIqURbKrT6m/VEhJA=
-X-Google-Smtp-Source: AGHT+IF99b0cpKuQBmbcbk/IYDdKqJTIyhggZ9/jArP9t/krw4QC+yKPOxlsbuCInTM10qrMWOEqJ+2U7KvldLB17I0=
-X-Received: by 2002:a05:6871:814:b0:1b7:5ede:ddd6 with SMTP id
- q20-20020a056871081400b001b75ededdd6mr1957355oap.25.1691158783157; Fri, 04
- Aug 2023 07:19:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230725035626.984709-1-raj.khem@gmail.com> <20230725035626.984709-2-raj.khem@gmail.com>
- <EAAEAFD4-C39B-4812-B021-2E7157BD9D9F@arm.com>
-In-Reply-To: <EAAEAFD4-C39B-4812-B021-2E7157BD9D9F@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 4 Aug 2023 07:19:16 -0700
-Message-ID: <CAMKF1spcYc7UDA79Y0OioqBP5Pwaf57gnSAYh_b19rEpTNwwZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] glibc: Enable mathvec when sve is available
- as tune feature
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1691160453; x=1691765253;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QRVbCj4EAJQWA2FcQQ//ibG2qEs98PWOgvK4ztpNNuI=;
+        b=HG9wTLkdM2AN7CnjcyTy9iBq8+mVI7WTS34q3XvDaEuG8GDyV6G9UH6eTSzk9gGRPT
+         S/iL2MWlnxdO5+UWBwy3s5ipqQ2rI2uL2WME3m8gl3tBjQzC1QBZ2YlATef8u78bkgIR
+         1YEslj9oX8Qy7cR4MfMJPjAHlfz5U4vDe69Wng89TD//FhZKaJNgUWZqVP5xRadoyIEG
+         bisdYshOIHtmhp6r/jjQtlhXprdc/o2aKzz9RILJJpphGa071qUR/Zq1AV9ktIM8c3/M
+         hE3TYPQ6aDiIxXyCCI0uoetQEWcTuTWVo0YlN1uTWHh4AKvQKuyhq86cx1atvusWVQfc
+         v+5g==
+X-Gm-Message-State: AOJu0YwDs4yvLRNUG8+8MBtLZcVMxw4o/QT9wk7vKtbv6Yw8dWsi6UPi
+	DximBil2STMThpmIvkWqZbz2JA==
+X-Google-Smtp-Source: AGHT+IHXwxwfhFZQkFaRwwe79OwxjA/U0khmnG4SOGGdj+kMFTE6SLuC1HxXbiVDNxrdj5E6yoyS0A==
+X-Received: by 2002:a7b:cbd6:0:b0:3fc:5a3:367c with SMTP id n22-20020a7bcbd6000000b003fc05a3367cmr1683126wmi.32.1691160452739;
+        Fri, 04 Aug 2023 07:47:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a3d5:6a38:64fe:7f6c? ([2001:8b0:aba:5f3c:a3d5:6a38:64fe:7f6c])
+        by smtp.gmail.com with ESMTPSA id x12-20020adfec0c000000b0031274a184d5sm2678919wrn.109.2023.08.04.07.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 07:47:32 -0700 (PDT)
+Message-ID: <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Suti <peter.suti@streamunlimited.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 04 Aug 2023 15:47:31 +0100
+In-Reply-To: <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
+References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
+	 <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
+	 <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
+	 <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
+	 <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
+	 <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
+	 <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 14:19:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185523
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 14:47:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185524
 
-On Fri, Aug 4, 2023 at 4:40=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
-ote:
->
-> On 25 Jul 2023, at 04:56, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > meta/recipes-core/glibc/glibc_2.37.bb | 3 ++-
-> > 1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc_2.37.bb b/meta/recipes-core/=
-glibc/glibc_2.37.bb
-> > index 8ff9801ed4b..4290f3e6e4f 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.37.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.37.bb
-> > @@ -85,7 +85,8 @@ EXTRA_OECONF +=3D "${@get_libc_fpu_setting(bb, d)}"
-> > EXTRA_OECONF:append:x86 =3D " ${@bb.utils.contains_any('TUNE_FEATURES',=
- 'i586 c3', '--disable-cet', '--enable-cet', d)}"
-> > EXTRA_OECONF:append:x86-64 =3D " --enable-cet"
-> >
-> > -PACKAGECONFIG ??=3D "nscd memory-tagging"
-> > +PACKAGECONFIG ??=3D "nscd memory-tagging ${@bb.utils.filter('TUNE_FEAT=
-URES', 'sve', d)}"
-> > +
-> > PACKAGECONFIG[nscd] =3D "--enable-nscd,--disable-nscd"
-> > PACKAGECONFIG[memory-tagging] =3D "--enable-memory-tagging,--disable-me=
-mory-tagging"
-> > PACKAGECONFIG[sve] =3D "--enable-mathvec,--disable-mathvec"
->
-> This is the wrong thing to do, imho.
->
-> mathvec has existed since glibc 2.22 for x86-64 and only with 2.38 did it=
- gain aarch64 support, where it has both NEON and SVE (optional in 8.2+) im=
-plementations.
->
-> Fedora 38 and Debian 11 both have a libmvec.so, so it looks like we shoul=
-d be turning it on by default for the relevant architectures (x86-64 for <2=
-.38, x86-64 and aarch64 for 2.38+).
+On Wed, 2023-08-02 at 11:26 +0200, Peter Suti wrote:
+> On Mon, Jul 31, 2023 at 2:33=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > I did look at the bug and it sounds like if you clean a recipe, builds
+> > of other recipes which depend upon it then fail?
+>=20
+> Well not just in this case specifically, it is reproducible when doing
+> a clean build.
+> But this is the easiest most convenient way to reproduce because most
+> of the sstate can be reused.
 
-these distros do not specify -mcpu like OE does and it lets glibc
-override these options which it does when detecting SVE
-but it fails for OE due to compiler flags because it inserts itself on
-top of glibc defaults
+Do you have a way to reproduce this using recipes in OE-Core?
 
->
-> Ross
+For example, I tried adding this to the cairo recipe:
+
+EXTERNALSRC =3D "/xxx/cairo-1.16.0"
+inherit externalsrc
+
+and then building cairo, cleaning cairo, building pango (which depends
+on cairo). I couldn't see any failure.
+
+> > We need to understand what is happening with both the sstate manifests
+> > and the stamp files to fully understand this bug.
+> >=20
+> > do_prepare_recipe_sysroot of this recipe that depends on the
+> > externalsrc one should trigger it's do_populate_sysroot. The question
+> > is whether the do_clean removed the do_populate_sysroot stamp file for
+> > that recipe or not? It sounds like it did remove the sstate manifest.
+>=20
+> I have checked the manifest and stamp creation and as far as I can
+> tell that part is correct.
+>=20
+> > The more I look at this, the more I think changing the deltask is just
+> > masking the issue and there is some other problem at play here which we
+> > need to address directly.
+>=20
+> I agree, I have dug a bit further and the issue seems to come from runque=
+ue.py.
+> It seems that the current implementation depends heavily on the
+> presence of _setscene tasks to build the dependency graph. Altering
+> this behavior would indeed require significant effort and potentially
+> lead to unforeseen consequences.
+>=20
+> > Unfortunately it took me half an hour just to be able to read through
+> > the pieces of this and get far enough I could write a coherent answer
+> > to your question. It is a struggle to reply to everything in this level
+> > of detail, much as I'd like to :/.
+>=20
+> I'd like to thank you for the time you have invested in this issue! I
+> appreciate the help.
+> I understand that my proposed solution might not be ideal, but fixing
+> the underlying issue in runqueue would be a real challenge.
+> If upstream is not interested in this patch, I can also understand that.
+
+It isn't that we're not interested, we just need to make sure something
+else doesn't break. A test case to reproduce the issue you're seeing
+would help a lot. Ultimately we should perhaps add something to the
+tests in meta/lib/oeqa/ to cover the issue.
+
+Cheers,
+
+Richard
+
 
